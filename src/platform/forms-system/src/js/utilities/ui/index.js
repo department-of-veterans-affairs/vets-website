@@ -18,6 +18,19 @@ export function focusElement(selectorOrElement, options) {
   }
 }
 
+// Focus on review row _after_ the content has been updated
+export function focusOnChange(name) {
+  setTimeout(() => {
+    const el = document.querySelector(`[name="${name}ScrollElement"]`);
+    // nextElementSibling = page form
+    const targets = el?.nextElementSibling?.querySelectorAll('.review-row');
+    if (targets) {
+      targets.forEach(target => target.setAttribute('tabindex', '0'));
+      focusElement(targets[0]);
+    }
+  });
+}
+
 export function setGlobalScroll() {
   window.Forms = window.Forms || {
     scroll: {

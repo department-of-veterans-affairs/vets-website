@@ -5,7 +5,7 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusElement } from '../utilities/ui';
+import { focusElement, focusOnChange } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
@@ -201,6 +201,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     ) : (
                       <ProgressButton
                         submitButton
+                        onButtonClick={() => {
+                          focusOnChange(
+                            `${page.pageKey}${
+                              typeof page.index === 'number' ? page.index : ''
+                            }`,
+                          );
+                        }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
                       />
