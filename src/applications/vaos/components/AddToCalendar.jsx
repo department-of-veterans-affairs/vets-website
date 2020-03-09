@@ -47,7 +47,7 @@ export default function AddToCalendar({
     <a
       href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
       download={filename}
-      aria-label={`Add to calendar on ${formattedDate}`}
+      aria-label={`Add ${formattedDate} appointment to your calendar`}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
     >
       Add to calendar
