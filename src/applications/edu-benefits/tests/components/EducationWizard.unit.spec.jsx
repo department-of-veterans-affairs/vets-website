@@ -124,4 +124,98 @@ describe('<EducationWizard>', () => {
       .true;
     expect(tree.subTree('.usa-alert-warning')).not.be.be.false;
   });
+  it('should record user events for newBenefit', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, 'newBenefit', 'yes');
+    expect(global.window.dataLayer.length).to.equal(1);
+    expect(global.window.dataLayer[0].event).to.equal(
+      'edu-howToApply-formChange',
+    );
+    expect(global.window.dataLayer[0]['edu-form-field']).to.equal(
+      'benefitUpdate',
+    );
+    expect(global.window.dataLayer[0]['edu-form-value']).to.equal('new');
+    answerQuestion(tree, 'newBenefit', 'no');
+    expect(global.window.dataLayer.length).to.equal(2);
+    expect(global.window.dataLayer[1].event).to.equal(
+      'edu-howToApply-formChange',
+    );
+    expect(global.window.dataLayer[1]['edu-form-field']).to.equal(
+      'benefitUpdate',
+    );
+    expect(global.window.dataLayer[1]['edu-form-value']).to.equal('update');
+  });
+
+  it('should record user events for STEM section links', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, 'newBenefit', 'extend');
+    expect(global.window.dataLayer.length).to.equal(1);
+    const edithNourseLink = tree.subTree('a', {
+      href: 'https://benefits.va.gov/gibill/fgib/stem.asp',
+    });
+    const remainingBenefitsLink = tree.subTree('a', {
+      href: '../gi-bill/post-9-11/ch-33-benefit/',
+    });
+    const approvedBenefitsLink = tree.subTree('a', {
+      href: 'https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf',
+    });
+
+    edithNourseLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(2);
+    expect(global.window.dataLayer[1].event).to.equal('edu-navigation');
+    expect(global.window.dataLayer[1]['edu-action']).to.equal(
+      'stem-scholarship',
+    );
+
+    remainingBenefitsLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(3);
+    expect(global.window.dataLayer.length).to.equal(3);
+    expect(global.window.dataLayer[2].event).to.equal('edu-navigation');
+    expect(global.window.dataLayer[2]['edu-action']).to.equal(
+      'check-remaining-benefits',
+    );
+
+    approvedBenefitsLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(4);
+    expect(global.window.dataLayer[3].event).to.equal('edu-navigation');
+    expect(global.window.dataLayer[3]['edu-action']).to.equal(
+      'see-approved-stem-programs',
+    );
+  });
+
+  it('should record user events on application submission', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, 'newBenefit', 'extend');
+    expect(global.window.dataLayer.length).to.equal(1);
+
+    answerQuestion(tree, 'applyForScholarship', 'yes');
+    const applyNowLink = tree.subTree('#apply-now-link');
+    applyNowLink.props.onClick();
+
+    expect(global.window.dataLayer[1].event).to.equal(
+      'edu-howToApply-applyNow',
+    );
+    expect(global.window.dataLayer[1]['edu-benefitUpdate']).to.equal(
+      'stem-scholarship',
+    );
+    expect(global.window.dataLayer[1]['edu-isBenefitClaimForSelf']).to.equal(
+      null,
+    );
+    expect(
+      global.window.dataLayer[1]['edu-isNationalCallToServiceBenefit'],
+    ).to.equal(null);
+    expect(global.window.dataLayer[1]['edu-isVetTec']).to.equal(null);
+    expect(
+      global.window.dataLayer[1]['edu-hasSponsorTransferredBenefits'],
+    ).to.equal(null);
+    expect(
+      global.window.dataLayer[1]['edu-isReceivingSponsorBenefits'],
+    ).to.equal(null);
+    expect(global.window.dataLayer[1]['edu-isSponsorReachable']).to.equal(null);
+    expect(global.window.dataLayer[1]['edu-stemApplicant']).to.equal('yes');
+    expect(global.window.dataLayer.length).to.equal(2);
+  });
 });
