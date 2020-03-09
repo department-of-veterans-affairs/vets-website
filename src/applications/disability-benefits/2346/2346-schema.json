@@ -316,21 +316,38 @@
     "supplies": {
       "type": "object",
       "properties": {
-        "deviceName": { "type": "string" },
-        "productName": { "type": "string" },
-        "productGroup": { "type": "string" },
-        "productId": { "type": "number" },
-        "availableForReorder": { "type": "boolean" },
-        "lastOrderDate": {
+        "device_name": { "type": "string" },
+        "product_name": { "type": "string" },
+        "product_group": { "type": "string" },
+        "product_id": { "type": "number" },
+        "available_for_reorder": { "type": "boolean" },
+        "last_order_date": {
           "type": "string",
           "format": "date"
         },
-        "nextAvailabilityDate": {
+        "next_availability_date": {
           "type": "string",
           "format": "date"
         },
-        "leftEar": { "type": "boolean" },
-        "rightEar": { "type": "boolean" },
+        "quantity": { "type": "number" },
+        "size": { "type": "string" }
+      }
+    },
+    "accessories": {
+      "type": "object",
+      "properties": {
+        "product_name": { "type": "string" },
+        "product_group": { "type": "string" },
+        "product_id": { "type": "number" },
+        "available_for_reorder": { "type": "boolean" },
+        "last_order_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "next_availability_date": {
+          "type": "string",
+          "format": "date"
+        },
         "quantity": { "type": "number" }
       }
     },
