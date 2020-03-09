@@ -105,7 +105,7 @@ class SubmitController extends React.Component {
             formData={form.data}
             preSubmitInfo={preSubmit}
             showError={showPreSubmitError}
-            termsAccepted={value =>
+            sectionCompleted={value =>
               this.props.setPreSubmit(preSubmit.field, value)
             }
           />
