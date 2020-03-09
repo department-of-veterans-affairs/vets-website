@@ -54,13 +54,19 @@ export default function ConfirmedAppointmentListItem({
   );
 
   return (
-    <li aria-labelledby={`card-${index}`} className={itemClasses}>
-      <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+    <li
+      aria-labelledby={`card-${index}-type card-${index}-state`}
+      className={itemClasses}
+    >
+      <div
+        id={`card-${index}-type`}
+        className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
+      >
         {getAppointmentTypeHeader(appointment)}
       </div>
-      <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
+      <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         {getAppointmentDateTime(appointment)}
-      </h2>
+      </h3>
       <div className="vads-u-margin-top--2">
         {canceled ? (
           <i className="fas fa-exclamation-circle" />
@@ -68,11 +74,10 @@ export default function ConfirmedAppointmentListItem({
           <i className="fas fa-check-circle" />
         )}
         <span
-          id={`card-${index}`}
+          id={`card-${index}-state`}
           className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block"
         >
           {canceled ? 'Canceled' : 'Confirmed'}
-          <span className="sr-only"> appointment</span>
         </span>
       </div>
 

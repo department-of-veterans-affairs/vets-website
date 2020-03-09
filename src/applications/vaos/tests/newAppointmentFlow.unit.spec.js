@@ -460,6 +460,25 @@ describe('VAOS newAppointmentFlow', () => {
         const nextState = newAppointmentFlow.vaFacility.previous(state);
         expect(nextState).to.equal('typeOfCare');
       });
+      it('should be typeOfSleepCare page when back button selected along sleep care flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'SLEEP',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
+            },
+            hasCCEnabledSystems: false,
+            isCCEligible: true,
+          },
+        };
+
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).to.equal('typeOfSleepCare');
+      });
       // testing eyecare flow
       it('should be typeOfEyeCare page when back button selected along Ophthalmology flow', () => {
         const state = {
