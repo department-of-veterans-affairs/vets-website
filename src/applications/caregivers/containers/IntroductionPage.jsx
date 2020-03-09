@@ -126,7 +126,11 @@ const IntroductionPage = ({ route, router }) => {
               <p>
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim. {''}
-                <a href="/disability-benefits/apply/help/index.html">
+                <a
+                  href="https://www.caregiver.va.gov/help_landing.asp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Get help filing your claim.
                 </a>
               </p>
