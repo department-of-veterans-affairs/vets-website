@@ -125,11 +125,13 @@ export default class Vet360EditModal extends React.Component {
         <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
           <h3>Edit {title.toLowerCase()}</h3>
           {error && (
-            <Vet360EditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
+            <div className="vads-u-margin-bottom--1">
+              <Vet360EditModalErrorMessage
+                title={title}
+                error={error}
+                clearErrors={clearErrors}
+              />
+            </div>
           )}
           {isFormReady && render(actionButtons, this.onSubmitSchemaForm)}
         </Modal>

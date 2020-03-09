@@ -189,10 +189,9 @@ export const letterContent = {
       insurance requirements under the Affordable Care Act (ACA). To prove that
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
-      plan. If you’ve lost your IRS Form 1095-B, please call 877-222-VETS (
-      <a href="tel:+18772228387">877-222-8387</a>
-      ), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET to request
-      another copy.
+      plan. If you’ve lost your IRS Form 1095-B, please call{' '}
+      <a href="tel:+18772228387">877-222-8387</a>, Monday &#8211; Friday, 8:00
+      a.m. &#8211; 8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,

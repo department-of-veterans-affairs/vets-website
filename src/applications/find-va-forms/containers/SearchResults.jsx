@@ -40,7 +40,7 @@ export class SearchResults extends Component {
         // Original form data key-value pairs.
         formName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.number.isRequired,
+        lastRevisionOn: PropTypes.number,
         pages: PropTypes.number.isRequired,
         sha256: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
