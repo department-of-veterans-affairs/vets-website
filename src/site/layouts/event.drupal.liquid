@@ -214,7 +214,7 @@ Ultimately, we will allow check to use user timezone.
                                 <p class="vads-u-margin--0"><a
                                             href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
                                               {% if fieldEventCta %}
-                                                {{ fieldEventCta | listValue | capitalize }}
+                                                {{ fieldEventCta | removeUnderscores | capitalize }}
                                               {% else %}
                                                 More details
                                               {% endif %}
@@ -348,7 +348,7 @@ Ultimately, we will allow check to use user timezone.
                               <p class="vads-u-margin--0"><a
                                           href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
                                             {% if fieldEventCta %}
-                                              {{ fieldEventCta | listValue | capitalize }}
+                                              {{ fieldEventCta | removeUnderscores | capitalize }}
                                             {% else %}
                                               More details
                                             {% endif %}

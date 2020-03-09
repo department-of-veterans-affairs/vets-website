@@ -89,7 +89,7 @@ module.exports = function registerFilters() {
 
   liquid.filters.genericModulo = (i, n) => i % n;
 
-  liquid.filters.listValue = data => {
+  liquid.filters.removeUnderscores = data => {
     const string = data && data.length ? data.replace('_', ' ') : data;
     return string;
   };
