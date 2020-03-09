@@ -114,7 +114,7 @@ export const toolUrl = appId => {
 
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
+        url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,
         redirect: false,
       };
 
@@ -233,10 +233,10 @@ export const serviceDescription = appId => {
       return 'view your lab and test results';
 
     case widgetTypes.VIEW_APPOINTMENTS:
-      return 'view your appointments';
+      return 'view, schedule, or cancel your appointment online';
 
     case widgetTypes.SCHEDULE_APPOINTMENTS:
-      return 'schedule, reschedule, or cancel a VA appointment online';
+      return 'view, schedule, or cancel your appointment online';
 
     case widgetTypes.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';

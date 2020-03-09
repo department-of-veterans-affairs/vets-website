@@ -248,6 +248,17 @@ export const validateAddress = (
     // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
 
+    // push data to dataLayer for analytics
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'update-button',
+      'profile-section': analyticsSectionName,
+      'profile-addressValidationAlertShown': showModal ? 'yes' : 'no',
+      'profile-addressSuggestionProvided': confirmedSuggestions.length
+        ? 'yes'
+        : 'no',
+    });
+
     // show the modal if the API doesn't find a single solid match for the address
     if (showModal) {
       return dispatch({
@@ -272,6 +283,12 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
+    recordEvent({
+      event: 'profile-edit-failure',
+      'profile-action': 'address-suggestion-failure',
+      'profile-section': analyticsSectionName,
+    });
+
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationError: true,
