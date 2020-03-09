@@ -49,6 +49,10 @@ class DowntimeNotification extends React.Component {
     render: PropTypes.func,
   };
 
+  static defaultProps = {
+    dependencies: [],
+  };
+
   componentDidMount() {
     this.props.getGlobalDowntime();
     if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
@@ -134,7 +138,7 @@ export const mapStateToProps = (state, ownProps) => {
   );
 
   const downtime = isReady
-    ? getSoonestDowntime(serviceMap, ownProps.dependencies)
+    ? getSoonestDowntime(serviceMap, ownProps.dependencies || [])
     : null;
 
   return {
