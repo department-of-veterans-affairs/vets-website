@@ -31,7 +31,7 @@ RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest
 RUN chmod +x /cc-test-reporter
 
 # Install vale for plain language linting
-RUN curl -sfL https://install.goreleaser.com/github.com/ValeLint/vale.sh | sh -s latest \
+RUN curl -sfL https://install.goreleaser.com/github.com/ValeLint/vale.sh | sh -s v1.7.1 \
   && export PATH="./bin:$PATH" \
   && vale -v
 

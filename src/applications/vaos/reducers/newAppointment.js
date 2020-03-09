@@ -21,9 +21,10 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -46,11 +47,14 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
-  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../actions/newAppointment';
+
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from '../actions/sitewide';
 
 import {
   FLOW_TYPES,
@@ -186,7 +190,7 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_CLOSED_CONFIRMATION_PAGE: {
+    case STARTED_NEW_APPOINTMENT_FLOW: {
       return {
         ...initialState,
         parentFacilities: state.parentFacilities,
@@ -495,13 +499,13 @@ export default function formReducer(state = initialState, action) {
           [action.facilityId]: action.facilityDetails,
         },
       };
-    case FORM_FETCH_AVAILABLE_APPOINTMENTS: {
+    case FORM_CALENDAR_FETCH_SLOTS: {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.loading,
       };
     }
-    case FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED: {
+    case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -510,10 +514,19 @@ export default function formReducer(state = initialState, action) {
         appointmentLength: action.appointmentLength,
       };
     }
-    case FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED: {
+    case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_CALENDAR_DATA_CHANGED: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          calendarData: action.calendarData,
+        },
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
@@ -659,7 +672,10 @@ export default function formReducer(state = initialState, action) {
 
       return {
         ...state,
-        data,
+        data: {
+          ...data,
+          calendarData: {},
+        },
         pages: {
           ...state.pages,
           [action.page]: schema,

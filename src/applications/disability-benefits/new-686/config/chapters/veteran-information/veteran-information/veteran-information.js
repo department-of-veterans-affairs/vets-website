@@ -6,18 +6,17 @@ import _ from 'lodash/fp';
 
 export const schema = {
   type: 'object',
-  required: ['first', 'last', 'ssn', 'birthDate'],
   properties: {
-    first: genericSchemas.genericTextinput,
-    middle: genericSchemas.genericTextinput,
-    last: genericSchemas.genericTextinput,
+    first: genericSchemas.genericTextInput,
+    middle: genericSchemas.genericTextInput,
+    last: genericSchemas.genericTextInput,
     suffix: {
       type: 'string',
       enum: suffixes,
     },
-    ssn: genericSchemas.genericNumberInput,
-    vaFileNumber: genericSchemas.genericNumberInput,
-    serviceNumber: genericSchemas.genericNumberInput,
+    ssn: genericSchemas.genericNumberAndDashInput,
+    vaFileNumber: genericSchemas.genericNumberAndDashInput,
+    serviceNumber: genericSchemas.genericNumberAndDashInput,
     birthDate: genericSchemas.date,
   },
 };
@@ -25,12 +24,14 @@ export const schema = {
 export const uiSchema = {
   first: {
     'ui:title': 'Your first Name',
+    'ui:required': () => true,
   },
   middle: {
     'ui:title': 'Your middle Name',
   },
   last: {
     'ui:title': 'Your last Name',
+    'ui:required': () => true,
   },
   suffix: {
     'ui:options': {
@@ -39,6 +40,7 @@ export const uiSchema = {
   },
   ssn: _.merge(_.unset('ui:title', ssnUI), {
     'ui:title': 'Your Social Security number',
+    'ui:required': () => true,
   }),
   vaFileNumber: {
     'ui:title': 'Your VA file number',
@@ -58,5 +60,7 @@ export const uiSchema = {
       widgetClassNames: 'usa-input-medium',
     },
   },
-  birthDate: currentOrPastDateUI('Your date of birth'),
+  birthDate: _.merge(currentOrPastDateUI('Your date of birth'), {
+    'ui:required': () => true,
+  }),
 };

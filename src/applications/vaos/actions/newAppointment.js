@@ -42,6 +42,11 @@ import {
 
 import { captureError } from '../utils/error';
 
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from './sitewide';
+
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
 export const FORM_RESET = 'newAppointment/FORM_RESET';
@@ -62,12 +67,6 @@ export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED';
 export const FORM_FETCH_CHILD_FACILITIES_FAILED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
@@ -89,6 +88,14 @@ export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
   'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
+export const FORM_CALENDAR_FETCH_SLOTS =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS';
+export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
+export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
+export const FORM_CALENDAR_DATA_CHANGED =
+  'newAppointment/FORM_CALENDAR_DATA_CHANGED';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -104,12 +111,9 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
-export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
-export const FORM_CLOSED_CONFIRMATION_PAGE =
-  'newAppointment/FORM_CLOSED_CONFIRMATION_PAGE';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -120,9 +124,12 @@ export function openFormPage(page, uiSchema, schema) {
   };
 }
 
-export function closeConfirmationPage() {
+export function startNewAppointmentFlow() {
+  recordEvent({
+    event: `${GA_PREFIX}-schedule-new-appointment-started`,
+  });
   return {
-    type: FORM_CLOSED_CONFIRMATION_PAGE,
+    type: STARTED_NEW_APPOINTMENT_FLOW,
   };
 }
 
@@ -252,7 +259,9 @@ export function openFacilityPage(page, uiSchema, schema) {
         parentId = parentFacilities[0].institutionCode;
       }
 
-      const systemId = getSystemFromParent(getState(), parentId);
+      const systemId = parentFacilities?.find(
+        parent => parent.institutionCode === parentId,
+      )?.rootStationCode;
       facilities =
         newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
 
@@ -445,7 +454,7 @@ export function getAppointmentSlots(startDate, endDate) {
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
       let appointmentLength = null;
-      dispatch({ type: FORM_FETCH_AVAILABLE_APPOINTMENTS });
+      dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
         const startDateString = !fetchedStartMonth
@@ -489,6 +498,8 @@ export function getAppointmentSlots(startDate, endDate) {
           return acc;
         }, []);
 
+        // Keep track of which months we've fetched already so we don't
+        // make duplicate calls
         if (!fetchedStartMonth) {
           fetchedAppointmentSlotMonths.push(startDateMonth);
         }
@@ -502,7 +513,7 @@ export function getAppointmentSlots(startDate, endDate) {
         );
 
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+          type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
           appointmentLength,
@@ -510,10 +521,25 @@ export function getAppointmentSlots(startDate, endDate) {
       } catch (e) {
         captureError(e);
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+          type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
         });
       }
     }
+  };
+}
+
+export function onCalendarChange({
+  currentlySelectedDate,
+  currentRowIndex,
+  selectedDates,
+}) {
+  return {
+    type: FORM_CALENDAR_DATA_CHANGED,
+    calendarData: {
+      currentlySelectedDate,
+      selectedDates,
+      currentRowIndex,
+    },
   };
 }
 

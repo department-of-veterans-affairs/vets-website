@@ -9,6 +9,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { TYPES_OF_SLEEP_CARE } from '../utils/constants';
 
 const initialSchema = {
@@ -65,6 +66,7 @@ export class TypeOfSleepCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   goBack = () => {
