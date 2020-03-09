@@ -2,15 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
-export function PreSubmitSection({
-  onChange,
-  showError,
-  preSubmitInfo,
-  checked,
-  formData,
-}) {
+/*
+*  PrivacyAgreementTemplate - default component provided when preSubmitInfo hook is populated in the form config
+*  preSubmitInfo - props provided from object being passed into `preSubmitInfo` hook in the form config
+*  preSubmitInfo.customComponent - property that can be added to `preSubmitInfo` object that overwrites `PrivacyAgreementTemplate`
+*/
+
+export function PreSubmitSection(props) {
+  const { onChange, showError, preSubmitInfo, checked } = props;
   const PrivacyAgreementTemplate = () => (
-    <div>
+    <>
       {preSubmitInfo.notice}
       {preSubmitInfo.required && (
         <ErrorableCheckbox
@@ -26,19 +27,13 @@ export function PreSubmitSection({
           label={preSubmitInfo.label}
         />
       )}
-    </div>
+    </>
   );
 
   return (
     <div>
       {preSubmitInfo.customComponent ? (
-        preSubmitInfo.customComponent({
-          onChange,
-          showError,
-          preSubmitInfo,
-          checked,
-          formData,
-        })
+        preSubmitInfo.customComponent(props)
       ) : (
         <PrivacyAgreementTemplate />
       )}
