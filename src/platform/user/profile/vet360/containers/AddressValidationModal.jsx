@@ -60,7 +60,7 @@ class AddressValidationModal extends React.Component {
         method,
         addressValidationType,
         payload,
-        this.props.analyticsSectionName,
+        analyticsSectionName,
       );
     } else {
       this.props.createTransaction(
@@ -68,7 +68,7 @@ class AddressValidationModal extends React.Component {
         method,
         addressValidationType,
         payload,
-        this.props.analyticsSectionName,
+        analyticsSectionName,
       );
     }
   };
