@@ -57,13 +57,20 @@ const IntroductionPage = ({ route, router }) => {
 
       <span>
         Answer a few questions to find out if you meet the criteria for this
-        program. <a href="/#">Find out if you qualify</a>
+        program.{' '}
+        <a
+          href="https://www.va.gov/health-care/family-caregiver-benefits/comprehensive-assistance/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Find out if you qualify
+        </a>
       </span>
     </div>
   );
 
   const Benifits = () => (
-    <div>
+    <>
       <h4>What benefits can I get with this program?</h4>
       <p>
         The Veteran can appoint 1 primary (main) caregiver and up to 2 secondary
@@ -93,11 +100,11 @@ const IntroductionPage = ({ route, router }) => {
         </ul>
         <CHAMPVAInfo />
       </div>
-    </div>
+    </>
   );
 
   const ProcessTimeline = () => (
-    <div>
+    <>
       <h4>Follow the steps below to apply for Caregiver benefits</h4>
       <div className="process schemaform-process">
         <ol>
@@ -142,7 +149,14 @@ const IntroductionPage = ({ route, router }) => {
             <ul>
               <li>Call us at 877-222-VETS (877-222-8387)</li>
               <li>
-                Find a <a href="/#">Caregiver Support Coordinator</a>
+                Find a{' '}
+                <a
+                  href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Caregiver Support Coordinator
+                </a>
               </li>
               <li>Contact the Nation Caregiver Support line at 855-260-3274</li>
               <li>Contact a Veterans Service Organization</li>
@@ -178,7 +192,7 @@ const IntroductionPage = ({ route, router }) => {
           </div>
         </ol>
       </div>
-    </div>
+    </>
   );
 
   return (

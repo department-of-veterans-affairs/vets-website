@@ -123,7 +123,11 @@ export const RepresentativeInfo = () => (
       <li>Call us at 877-222-VETS (877-222-8387)</li>
       <li>
         Find a{' '}
-        <a href="https://www.caregiver.va.gov/support/New_CSC_Page.asp">
+        <a
+          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Caregiver Support Coordinator
         </a>
       </li>
