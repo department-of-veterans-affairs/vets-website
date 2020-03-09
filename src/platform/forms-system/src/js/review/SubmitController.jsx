@@ -78,9 +78,9 @@ class SubmitController extends React.Component {
   };
 
   /*
-*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection which is default or a custom override
-*  PreSubmitSection - Default component that renders if no customComponent is provided
-*  preSubmitInfo.customComponent - property that can be added to `preSubmitInfo` object that overwrites `PrivacyAgreementTemplate`
+*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection, which is default, or a custom override
+*  PreSubmitSection - Default component that renders if no CustomComponent is provided
+*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
 */
 
   RenderPreSubmitSection = () => {
@@ -92,19 +92,22 @@ class SubmitController extends React.Component {
       <>
         {CustomComponent ? (
           <CustomComponent
-            preSubmitInfo={preSubmit}
-            onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
-            checked={form.data[preSubmit.field] || false}
-            showError={showPreSubmitError}
             formData={form.data}
+            preSubmitInfo={preSubmit}
+            showError={showPreSubmitError}
+            sectionCompleted={value =>
+              this.props.setPreSubmit(preSubmit.field, value)
+            }
           />
         ) : (
           <PreSubmitSection
-            preSubmitInfo={preSubmit}
-            onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
             checked={form.data[preSubmit.field] || false}
-            showError={showPreSubmitError}
             formData={form.data}
+            preSubmitInfo={preSubmit}
+            showError={showPreSubmitError}
+            termsAccepted={value =>
+              this.props.setPreSubmit(preSubmit.field, value)
+            }
           />
         )}
       </>

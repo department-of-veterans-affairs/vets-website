@@ -41,7 +41,7 @@ const SignatureCheckbox = ({
 };
 
 const PreSubmitCheckboxes = ({
-  onChange,
+  sectionCompleted,
   showError,
   preSubmitInfo,
   checked,
@@ -62,7 +62,7 @@ const PreSubmitCheckboxes = ({
         obj => Boolean(obj) === false,
       ).length;
 
-      if (!unSignedLength) onChange(true);
+      if (!unSignedLength) sectionCompleted(true);
 
       const hasSecondaryOne =
         formData?.secondaryOneFullName?.first &&
@@ -77,7 +77,7 @@ const PreSubmitCheckboxes = ({
         hasSecondaryTwo,
       });
     },
-    [checked, formData, onChange, preSubmitInfo, showError, signatures],
+    [checked, formData, sectionCompleted, preSubmitInfo, showError, signatures],
   );
 
   const CaregiverCopy = ({ label }) => {
