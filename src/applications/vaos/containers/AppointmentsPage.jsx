@@ -18,16 +18,33 @@ import {
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
-import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
+import {
+  getCancelInfo,
+  vaosCancel,
+  vaosRequests,
+  isWelcomeModalDismissed,
+} from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import NeedHelp from '../components/NeedHelp';
 
 const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
-    scrollAndFocus();
+    if (this.props.isWelcomeModalDismissed) {
+      scrollAndFocus();
+    }
     this.props.fetchFutureAppointments();
     document.title = `${pageTitle} | Veterans Affairs`;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.isWelcomeModalDismissed &&
+      !prevProps.isWelcomeModalDismissed
+    ) {
+      scrollAndFocus();
+    }
   }
 
   render() {
@@ -193,6 +210,7 @@ export class AppointmentsPage extends Component {
               Upcoming appointments
             </h2>
             {content}
+            <NeedHelp />
           </div>
         </div>
         <CancelAppointmentModal
@@ -215,6 +233,7 @@ function mapStateToProps(state) {
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
+    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };
 }
 

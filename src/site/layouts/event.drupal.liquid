@@ -212,7 +212,13 @@ Ultimately, we will allow check to use user timezone.
                         {% else %}
                             {% if fieldLink %}
                                 <p class="vads-u-margin--0"><a
-                                            href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
+                                            href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
+                                              {% if fieldEventCta %}
+                                                {{ fieldEventCta | removeUnderscores | capitalize }}
+                                              {% else %}
+                                                More details
+                                              {% endif %}
+                                            </button></a>
                                 </p>
                             {% endif %}
                             {% if fieldAdditionalInformationAbo %}
@@ -340,7 +346,13 @@ Ultimately, we will allow check to use user timezone.
                       {% else %}
                           {% if fieldLink %}
                               <p class="vads-u-margin--0"><a
-                                          href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
+                                          href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">
+                                            {% if fieldEventCta %}
+                                              {{ fieldEventCta | removeUnderscores | capitalize }}
+                                            {% else %}
+                                              More details
+                                            {% endif %}
+                                          </button></a>
                               </p>
                           {% endif %}
                           {% if fieldAdditionalInformationAbo %}
