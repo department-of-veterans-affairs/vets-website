@@ -107,6 +107,7 @@ const entityAssemblerFactory = contentDir => {
       ancestors,
       parentFieldName,
       contentDir,
+      assembleEntityTree,
     });
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
