@@ -11,5 +11,10 @@ src/applications/find-va-forms @department-of-veterans-affairs/vsa-frontend
 src/platform/site-wide @department-of-veterans-affairs/vsa-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-frontend
 
+# VSA-eBenefits
+src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/vsa-ebenefits
+src/applications/personalization/rated-disabilities @department-of-veterans-affairs/vsa-ebenefits
+src/applications/personalization/view-dependents @department-of-veterans-affairs/vsa-ebenefits
+
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
