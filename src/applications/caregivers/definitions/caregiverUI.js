@@ -6,6 +6,16 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 
 import { primaryCaregiverFields, vetFields } from './constants';
+import {
+  medicalCenterLabels,
+  medicalCentersByState,
+} from 'applications/hca/helpers';
+import _ from 'lodash/fp';
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import { states } from 'platform/forms/address';
+
+const emptyFacilityList = [];
+const stateLabels = createUSAStateLabels(states);
 
 export default {
   'ui:title': fullSchema.title,
@@ -97,6 +107,37 @@ export default {
       'ui:title': 'Social Security number or Tax Identification number',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+      },
+    },
+    'view:preferredFacility': {
+      'ui:title':
+        'Name of VA medical center or clinic where you receive or plan to receive health care services:y',
+      'view:facilityState': {
+        'ui:title': 'Facility State',
+        'ui:options': {
+          labels: stateLabels,
+        },
+      },
+      vaMedicalFacility: {
+        'ui:title': 'Preferred Clinic or Hospital',
+        'ui:options': {
+          labels: medicalCenterLabels,
+          updateSchema: form => {
+            const state = _.get(
+              'view:preferredFacility.view:facilityState',
+              form,
+            );
+            if (state) {
+              return {
+                enum: medicalCentersByState[state] || emptyFacilityList,
+              };
+            }
+
+            return {
+              enum: emptyFacilityList,
+            };
+          },
+        },
       },
     },
   },
