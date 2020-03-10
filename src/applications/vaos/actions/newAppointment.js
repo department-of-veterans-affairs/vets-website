@@ -27,7 +27,12 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  GA_FLOWS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -38,6 +43,7 @@ import {
 import {
   getEligibilityData,
   getEligibleFacilities,
+  recordEligibilityGAEvents,
 } from '../utils/eligibility';
 
 import { captureError } from '../utils/error';
@@ -289,6 +295,8 @@ export function openFacilityPage(page, uiSchema, schema) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
       }
 
       dispatch({
@@ -381,6 +389,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
 
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
@@ -592,16 +602,25 @@ async function buildPreferencesDataAndUpdate(newAppointment) {
 
 export function submitAppointmentOrRequest(router) {
   return async (dispatch, getState) => {
-    const newAppointment = getState().newAppointment;
+    const state = getState();
+    const newAppointment = getNewAppointment(state);
+    const typeOfCare = getTypeOfCare(getFormData(state))?.name;
 
     dispatch({
       type: FORM_SUBMIT,
     });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      const additionalEventData = {
+        typeOfCare,
+        flow: GA_FLOWS.DIRECT,
+      };
+
       recordEvent({
         event: `${GA_PREFIX}-direct-submission`,
+        ...additionalEventData,
       });
+
       try {
         const appointmentBody = transformFormToAppointment(getState());
         await submitAppointment(appointmentBody);
@@ -620,6 +639,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-successful`,
+          ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
@@ -629,15 +649,21 @@ export function submitAppointmentOrRequest(router) {
         });
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
+          ...additionalEventData,
         });
       }
     } else {
       const isCommunityCare =
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
+      const additionalEventData = {
+        typeOfCare,
+        flow: isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST,
+      };
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
+        ...additionalEventData,
       });
 
       try {
@@ -670,6 +696,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-successful`,
+          ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
@@ -679,6 +706,7 @@ export function submitAppointmentOrRequest(router) {
         });
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-failed`,
+          ...additionalEventData,
         });
       }
     }

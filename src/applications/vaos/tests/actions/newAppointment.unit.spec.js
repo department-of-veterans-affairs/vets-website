@@ -974,6 +974,16 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(global.window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-request-submission',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-successful',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.true;
     });
 
@@ -1108,6 +1118,11 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-failed',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.false;
     });
 
