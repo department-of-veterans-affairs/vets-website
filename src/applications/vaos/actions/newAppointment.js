@@ -647,6 +647,9 @@ export function submitAppointmentOrRequest(router) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+
+        dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
+
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
           ...additionalEventData,
@@ -704,6 +707,15 @@ export function submitAppointmentOrRequest(router) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+
+        dispatch(
+          fetchFacilityDetails(
+            isCommunityCare
+              ? newAppointment.data.communityCareSystemId
+              : newAppointment.data.vaFacility,
+          ),
+        );
+
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-failed`,
           ...additionalEventData,
