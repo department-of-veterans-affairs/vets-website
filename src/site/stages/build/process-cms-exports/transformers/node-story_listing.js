@@ -1,6 +1,4 @@
-const {
-  findMatchingEntities,
-} = require('../findMatchingEntities');
+const findMatchingEntities = require('../findMatchingEntities');
 const {
   getDrupalValue,
   createMetaTagArray,
