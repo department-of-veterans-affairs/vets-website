@@ -45,7 +45,15 @@ class Vet360ProfileField extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.transaction && !this.props.transaction) {
+    const { transaction, showValidationModal, isEditing } = prevProps;
+    const modalOpenInPrevProps =
+      transaction || showValidationModal || isEditing;
+    const modalIsClosed =
+      !this.props.transaction ||
+      !this.props.showValidationModal ||
+      !this.props.isEditing;
+
+    if (modalOpenInPrevProps && modalIsClosed) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
     }
     if (!prevProps.transaction && this.props.transaction) {
