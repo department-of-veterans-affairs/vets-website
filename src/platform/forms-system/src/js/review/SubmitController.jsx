@@ -30,7 +30,6 @@ class SubmitController extends React.Component {
     field: 'AGREED',
     label: 'I agree to the terms and conditions.',
     error: 'You must accept the agreement before submitting.',
-    CustomComponent: false,
     ...formConfig.preSubmitInfo,
   });
 
