@@ -133,7 +133,6 @@ const formConfig = {
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:options': {
-                classNames: 'order-background',
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
               },
@@ -141,31 +140,49 @@ const formConfig = {
                 'ui:title': '  ',
                 'ui:field': deviceNameField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_name: {
                 'ui:title': '  ',
                 'ui:field': productNameField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               quantity: {
                 'ui:title': '  ',
                 'ui:field': quantityField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_id: {
                 'ui:title': '  ',
                 'ui:field': productIdField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               last_order_date: {
                 'ui:title': '  ',
                 'ui:field': lastOrderDateField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               size: {
                 'ui:title': '  ',
                 'ui:field': sizeField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_group: {
                 'ui:title': '  ',
@@ -216,7 +233,6 @@ const formConfig = {
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:options': {
-                classNames: 'order-background',
                 expandUnder: 'view:addAccessories',
                 expandUnderCondition: 'yes',
               },
@@ -224,21 +240,33 @@ const formConfig = {
                 'ui:title': '  ',
                 'ui:field': productNameField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               quantity: {
                 'ui:title': '  ',
                 'ui:field': quantityField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_id: {
                 'ui:title': '  ',
                 'ui:field': productIdField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               last_order_date: {
                 'ui:title': '  ',
                 'ui:field': lastOrderDateField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_group: {
                 'ui:title': '  ',
