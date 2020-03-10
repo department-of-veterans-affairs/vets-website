@@ -1,4 +1,5 @@
 import React from 'react';
+import captureEvents from '../analytics-functions';
 
 export const rogersStemScholarshipInfo = (
   <div>
@@ -8,6 +9,7 @@ export const rogersStemScholarshipInfo = (
         href="https://benefits.va.gov/gibill/fgib/stem.asp"
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => captureEvents.navigateStemScholarship()}
       >
         Edith Nourse Rogers STEM Scholarship
       </a>{' '}
@@ -29,6 +31,7 @@ export const rogersStemScholarshipInfo = (
           href="/education/gi-bill/post-9-11/ch-33-benefit/"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => captureEvents.checkRemainingBenefits()}
         >
           Check your remaining benefits
         </a>
@@ -41,6 +44,7 @@ export const rogersStemScholarshipInfo = (
           href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => captureEvents.seeApprovedStemPrograms()}
         >
           See approved STEM programs
         </a>
