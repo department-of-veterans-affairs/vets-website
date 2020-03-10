@@ -31,7 +31,12 @@ label {
   margin-top: 0.1rem !important;
 }
 
-input[type="checkbox"]:checked {
+[type="checkbox"]:checked + label::before {
   background: #fff !important;
   color: #0071bb !important;
+  content: "\2713";
+}
+
+[type="checkbox"]:focus + label::before {
+  outline: none;
 }
