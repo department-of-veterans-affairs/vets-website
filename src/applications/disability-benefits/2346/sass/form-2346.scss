@@ -9,4 +9,24 @@
 
 .order-background {
   background-color: #f1f1f1;
+  padding-left: 2em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.mdot-alert-body {
+  padding-left: 1rem;
+}
+
+.button-dimensions {
+  margin-top: 2rem;
+  width: 267px;
+  height: 42px;
+  line-height: 36px;
+  padding-left: 15px;
+}
+
+label {
+  margin-top: 0.1rem !important;
 }
