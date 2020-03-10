@@ -20,6 +20,7 @@ export default class Vet360Transaction extends React.Component {
 
   render() {
     const {
+      id,
       children,
       refreshTransaction,
       title,
@@ -37,11 +38,13 @@ export default class Vet360Transaction extends React.Component {
       <div className={classes}>
         {hasError && <Vet360TransactionInlineErrorMessage {...this.props} />}
         {transaction && isPendingTransaction(transaction) ? (
-          <Vet360TransactionPending
-            title={title}
-            refreshTransaction={refreshTransaction}
-            method={method}
-          />
+          <div id={id}>
+            <Vet360TransactionPending
+              title={title}
+              refreshTransaction={refreshTransaction}
+              method={method}
+            />
+          </div>
         ) : (
           children
         )}

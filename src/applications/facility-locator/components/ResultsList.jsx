@@ -15,7 +15,6 @@ import { updateSearchQuery, searchWithBounds } from '../actions';
 
 import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
-import recordEvent from '../../../platform/monitoring/record-event';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -25,10 +24,6 @@ class ResultsList extends Component {
     this.searchResultTitle = React.createRef();
   }
   shouldComponentUpdate(nextProps) {
-    // Record event
-    if (nextProps.results.length > 0) {
-      recordEvent({ event: 'fl-search-results' });
-    }
     return (
       nextProps.results !== this.props.results ||
       nextProps.inProgress !== this.props.inProgress

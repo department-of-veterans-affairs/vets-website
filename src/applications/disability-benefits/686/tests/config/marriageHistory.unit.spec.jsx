@@ -76,9 +76,10 @@ describe('686 marriage history', () => {
     const pageTitle = marriageHistory.title;
     it('uses word for index', () => {
       expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('First marriage');
-    });
-    it('uses number when at index ten or greater', () => {
-      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Marriage 11');
+      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal(
+        'Eleventh marriage',
+      );
+      expect(pageTitle({}, { pagePerItemIndex: 49 })).to.equal('50th marriage');
     });
   });
 

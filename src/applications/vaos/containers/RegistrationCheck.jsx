@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import { FETCH_STATUS } from '../utils/constants';
 import { checkRegistration } from '../actions/registration';
 import NoRegistrationMessage from '../components/NoRegistrationMessage';
+import ErrorMessage from '../components/ErrorMessage';
 
 export class RegistrationCheck extends React.Component {
   componentDidMount() {
@@ -29,12 +29,7 @@ export class RegistrationCheck extends React.Component {
 
     let errorMessage;
     if (status === FETCH_STATUS.failed) {
-      errorMessage = (
-        <AlertBox status="error" headline="Sorry, something went wrong">
-          We’re sorry, we ran into an error when trying to find your VA medical
-          facility registrations. Please try again later.
-        </AlertBox>
-      );
+      errorMessage = <ErrorMessage />;
     } else {
       errorMessage = <NoRegistrationMessage />;
     }

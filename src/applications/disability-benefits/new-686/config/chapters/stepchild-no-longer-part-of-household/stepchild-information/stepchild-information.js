@@ -1,5 +1,6 @@
 import { genericSchemas } from '../../../generic-schema';
-import { stepchildTitle } from './helpers';
+import { StepchildTitle } from './helpers';
+import { StepchildInfo } from '../stepchildren/helpers';
 import { isChapterFieldRequired } from '../../../helpers';
 
 export const schema = {
@@ -7,12 +8,13 @@ export const schema = {
   properties: {
     stepChildren: {
       type: 'array',
+      minItems: 1,
       items: {
         type: 'object',
         properties: {
           stillSupportingStepchild: {
             type: 'boolean',
-            default: true,
+            default: false,
           },
           stepchildLivingExpensesPaid: {
             type: 'string',
@@ -47,8 +49,12 @@ export const schema = {
 
 export const uiSchema = {
   stepChildren: {
+    'ui:options': {
+      itemName: 'Stepchild',
+      viewField: StepchildInfo,
+    },
     items: {
-      'ui:title': stepchildTitle,
+      'ui:title': StepchildTitle,
       stillSupportingStepchild: {
         'ui:widget': 'yesNo',
         'ui:title': 'Are you still supporting this stepchild?',
@@ -56,6 +62,11 @@ export const uiSchema = {
       stepchildLivingExpensesPaid: {
         'ui:widget': 'radio',
         'ui:title': "How much of this stepchild's living expenses do you pay?",
+        'ui:options': {
+          expandUnder: 'stillSupportingStepchild',
+          expandUnderCondition: true,
+          keepInPageOnReview: true,
+        },
       },
       whoDoesTheStepchildLiveWith: {
         'ui:title': 'Who does this stepchild live with?',
@@ -98,8 +109,6 @@ export const uiSchema = {
         },
         state: {
           'ui:title': 'State',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         postal: {
           'ui:options': {
