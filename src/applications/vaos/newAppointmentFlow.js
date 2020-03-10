@@ -1,4 +1,6 @@
 import * as Sentry from '@sentry/browser';
+import { captureError } from './utils/error';
+
 import {
   getFormData,
   getNewAppointment,
@@ -6,6 +8,7 @@ import {
   vaosCommunityCare,
   getCCEType,
   getClinicsForChosenFacility,
+  getTypeOfCare,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -22,9 +25,11 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
+import { recordVaosError } from './utils/events';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
 
 function isCCAudiology(state) {
@@ -53,6 +58,10 @@ function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
 
+function isEyeCare(state) {
+  return getFormData(state).typeOfCareId === EYE_CARE;
+}
+
 function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
@@ -75,7 +84,10 @@ export default {
       const communityCareEnabled = vaosCommunityCare(state);
 
       if (isSleepCare(state)) {
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         nextState = 'typeOfSleepCare';
+      } else if (isEyeCare(state)) {
+        nextState = 'typeOfEyeCare';
       } else if (isCommunityCare(state)) {
         try {
           if (communityCareEnabled) {
@@ -113,7 +125,7 @@ export default {
           dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
           return 'vaFacility';
         } catch (e) {
-          Sentry.captureException(e);
+          captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
@@ -122,7 +134,6 @@ export default {
         }
       }
 
-      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return nextState;
     },
     previous: 'home',
@@ -140,11 +151,60 @@ export default {
 
       return 'vaFacility';
     },
-    previous: 'typeOfCare',
+    previous(state) {
+      //  check for eye care flow
+      if (isEyeCare(state)) {
+        return 'typeOfEyeCare';
+      }
+
+      return 'typeOfCare';
+    },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
     next: 'vaFacility',
+    previous: 'typeOfCare',
+  },
+  typeOfEyeCare: {
+    url: '/new-appointment/choose-eye-care',
+    async next(state, dispatch) {
+      const data = getFormData(state);
+      const communityCareEnabled = vaosCommunityCare(state);
+
+      // check that the result does have a ccId
+      if (getTypeOfCare(data)?.ccId !== undefined) {
+        try {
+          if (communityCareEnabled) {
+            // Check if user registered systems support community care...
+            const userSystemIds = await getSystemIdentifiers();
+            const ccSites = await getSitesSupportingVAR(userSystemIds);
+            const ccEnabledSystems = userSystemIds.filter(id =>
+              ccSites.some(site => site.id === id),
+            );
+            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+
+            // Reroute to VA facility page if none of the user's registered systems support community care.
+            if (ccEnabledSystems.length) {
+              const response = await getCommunityCare(getCCEType(state));
+
+              dispatch(updateCCEligibility(response.eligible));
+
+              if (response.eligible) {
+                return 'typeOfFacility';
+              }
+            }
+          }
+        } catch (e) {
+          captureError(e);
+          Sentry.captureMessage(
+            'Community Care eligibility check failed with errors',
+          );
+        }
+      }
+
+      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+      return 'vaFacility';
+    },
     previous: 'typeOfCare',
   },
   audiologyCareType: {
@@ -165,15 +225,8 @@ export default {
       if (eligibilityStatus.direct) {
         let appointments = null;
 
-        // If we can't get the history, then continue anyway
-        // and we'll show the full clinic list
         try {
           appointments = await getLongTermAppointmentHistory();
-        } catch (error) {
-          Sentry.captureException(error);
-        }
-
-        if (appointments) {
           const clinics = getClinicsForChosenFacility(state);
           const hasMatchingClinics = clinics.some(
             clinic =>
@@ -188,9 +241,10 @@ export default {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
-        } else {
-          dispatch(startDirectScheduleFlow(appointments));
-          return 'clinicChoice';
+          recordVaosError('direct-no-matching-past-clinics-failure');
+        } catch (error) {
+          recordVaosError('direct-no-matching-past-clinics-error');
+          captureError(error);
         }
       }
 
@@ -205,12 +259,16 @@ export default {
       let nextState = 'typeOfCare';
       const communityCareEnabled = vaosCommunityCare(state);
 
-      if (
+      if (isSleepCare(state)) {
+        nextState = 'typeOfSleepCare';
+      } else if (
         communityCareEnabled &&
         isCCEligible(state) &&
-        isCommunityCare(state)
+        getTypeOfCare(getFormData(state))?.ccId !== undefined
       ) {
         nextState = 'typeOfFacility';
+      } else if (isEyeCare(state)) {
+        nextState = 'typeOfEyeCare';
       }
 
       return nextState;

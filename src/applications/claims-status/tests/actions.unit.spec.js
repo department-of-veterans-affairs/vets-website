@@ -10,6 +10,8 @@ import {
   changePage,
   CLEAR_NOTIFICATION,
   clearNotification,
+  CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  clearAdditionalEvidenceNotification,
   FETCH_APPEALS,
   GET_CLAIM_DETAIL,
   getAppeals,
@@ -29,9 +31,11 @@ import {
   SET_FIELDS_DIRTY,
   SET_LAST_PAGE,
   SET_NOTIFICATION,
+  SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
   setFieldsDirty,
   setLastPage,
   setNotification,
+  setAdditionalEvidenceNotification,
   setUnavailable,
   SHOW_CONSOLIDATED_MODAL,
   SHOW_MAIL_OR_FAX,
@@ -63,6 +67,16 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: SET_NOTIFICATION,
+        message: 'Testing',
+      });
+    });
+  });
+  describe('setAdditionalEvidenceNotification', () => {
+    it('should return the correct action object', () => {
+      const action = setAdditionalEvidenceNotification('Testing');
+
+      expect(action).to.eql({
+        type: SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
         message: 'Testing',
       });
     });
@@ -121,6 +135,15 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: CLEAR_NOTIFICATION,
+      });
+    });
+  });
+  describe('clearAdditionalEvidenceNotification', () => {
+    it('should return the correct action object', () => {
+      const action = clearAdditionalEvidenceNotification();
+
+      expect(action).to.eql({
+        type: CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
       });
     });
   });

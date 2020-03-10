@@ -116,6 +116,7 @@ export const validateIdString = (urlObj, urlPrefixString) => {
  */
 export const formatOperatingHours = operatingHours => {
   if (!operatingHours) return operatingHours;
+
   // Remove all whitespace.
   const sanitizedOperatingHours = replace(operatingHours, ' ', '');
 
@@ -145,19 +146,24 @@ export const formatOperatingHours = operatingHours => {
 
   // Attempt to format the hours based on 'h:mmA' if theere's a colon.
   if (includes(openingHour, ':')) {
-    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mma');
+    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mm a');
   }
   if (includes(closingHour, ':')) {
-    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mma');
+    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mm a');
+  }
+
+  // Return original string if invalid date.
+  if (formattedOpeningHour.search(/Invalid date/i) === 0) {
+    formattedOpeningHour = operatingHours;
+  }
+
+  // Return original string if invalid date.
+  if (formattedClosingHour.search(/Invalid date/i) === 0) {
+    formattedClosingHour = closingHour;
   }
 
   // Derive the formatted operating hours.
   const formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
-
-  // Return original string if invalid date.
-  if (formattedOperatingHours.search(/Invalid date/i) === 0) {
-    return operatingHours;
-  }
 
   // Return the formatted operating hours.
   return formattedOperatingHours;

@@ -1,8 +1,11 @@
 import {
-  states50AndDC,
-  textOnlyPattern,
-  numberOnlyPattern,
   datePattern,
+  numberAndDashPattern,
+  states50AndDC,
+  suffixes,
+  textOnlyPattern,
+  countries,
+  phonePattern,
 } from './constants';
 
 export const genericSchemas = {
@@ -22,20 +25,23 @@ export const genericSchemas = {
       },
     },
   },
-  genericTextinput: {
+  genericTextInput: {
     type: 'string',
     maxLength: 50,
-    pattern: textOnlyPattern,
   },
-  genericNumberInput: {
+  genericNumberAndDashInput: {
     type: 'string',
     maxLength: 50,
-    pattern: numberOnlyPattern,
+    pattern: numberAndDashPattern,
   },
-  genericUSACountryDropdown: {
+  genericUSAStateDropdown: {
     type: 'string',
     enum: states50AndDC.map(state => state.value),
     default: states50AndDC.map(state => state.label),
+  },
+  countryDropdown: {
+    type: 'string',
+    enum: countries.map(country => country.label),
   },
   fullName: {
     type: 'object',
@@ -57,6 +63,10 @@ export const genericSchemas = {
         maxLength: 30,
         pattern: textOnlyPattern,
       },
+      suffix: {
+        type: 'string',
+        enum: suffixes,
+      },
     },
     required: ['first', 'last'],
   },
@@ -64,21 +74,12 @@ export const genericSchemas = {
     type: 'string',
     pattern: datePattern,
   },
-};
-
-export const genericTextinput = {
-  type: 'string',
-  maxLength: 50,
-  pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
-};
-
-export const genericNumberInput = {
-  type: 'string',
-  maxLength: 50,
-  pattern: '^[0-9]{9}$',
-};
-
-export const genericDateInput = {
-  pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-  type: 'string',
+  emailInput: {
+    type: 'string',
+    format: 'email',
+  },
+  phoneInput: {
+    type: 'string',
+    pattern: phonePattern,
+  },
 };

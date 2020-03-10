@@ -65,7 +65,7 @@ export class SearchForm extends Component {
           <div className="vads-u-margin-right--2 vads-u-flex--1">
             <input
               className="usa-input vads-u-max-width--100 vads-u-width--full"
-              name="va-form-query"
+              id="va-form-query"
               onChange={onQueryChange}
               type="text"
               value={query}

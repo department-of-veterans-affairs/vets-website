@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import environment from 'platform/utilities/environment';
-
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 const levels = [
@@ -41,14 +41,23 @@ export default class EducationWizard extends React.Component {
         id="apply-now-link"
         href={url}
         className="usa-button va-button-primary"
+        onClick={() => this.recordWizardValues()}
       >
-        Apply Now
+        Apply now
       </a>
     );
   }
 
   answerQuestion = (field, answer) => {
     const newState = Object.assign({}, { [field]: answer });
+
+    if (field === 'newBenefit') {
+      recordEvent({
+        event: 'edu-howToApply-formChange',
+        'edu-form-field': 'benefitUpdate',
+        'edu-form-value': this.eduFormChange(answer),
+      });
+    }
 
     // drop all the levels until we see the current question, then reset
     // everything at that level and beyond, so we don't see questions from
@@ -63,6 +72,51 @@ export default class EducationWizard extends React.Component {
     });
 
     this.setState(newState);
+  };
+
+  eduFormChange = input => {
+    const formChangeMap = {
+      yes: 'new',
+      no: 'update',
+      extend: 'stem-scholarship',
+    };
+    return formChangeMap[input] || null;
+  };
+
+  isReceivingSponsorBenefits = input => {
+    const formChangeMap = {
+      own: 'no',
+      transferred: 'yes',
+      fry: 'no with scholarship',
+    };
+    return formChangeMap[input] || null;
+  };
+
+  isBenefitClaimForSelf = input => {
+    const formChangeMap = {
+      own: 'yes',
+      other: 'no',
+    };
+    return formChangeMap[input] || null;
+  };
+
+  recordWizardValues = () => {
+    recordEvent({
+      event: 'edu-howToApply-applyNow',
+      'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
+      'edu-isBenefitClaimForSelf': this.isBenefitClaimForSelf(
+        this.state.serviceBenefitBasedOn,
+      ),
+      'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
+      'edu-isVetTec': this.state.vetTecBenefit,
+      'edu-hasSponsorTransferredBenefits': this.state
+        .sponsorTransferredBenefits,
+      'edu-isReceivingSponsorBenefits': this.isReceivingSponsorBenefits(
+        this.state.transferredEduBenefits,
+      ),
+      'edu-isSponsorReachable': this.state.sponsorDeceasedDisabledMIA,
+      'edu-stemApplicant': this.state.applyForScholarship,
+    });
   };
 
   render() {
@@ -104,12 +158,20 @@ export default class EducationWizard extends React.Component {
       : [
           { label: 'Applying for a new benefit', value: 'yes' },
           {
-            label: 'Updating my program of study or place of training',
+            label: (
+              <span className="radioText">
+                Updating my program of study or place of training
+              </span>
+            ),
             value: 'no',
           },
           {
-            label:
-              'Applying to extend my Post-9/11 or Fry Scholarship benefits using the Edith Nourse Rogers STEM Scholarship',
+            label: (
+              <span className="radioText">
+                Applying to extend my Post-9/11 or Fry Scholarship benefits
+                using the Edith Nourse Rogers STEM Scholarship
+              </span>
+            ),
             value: 'extend',
           },
         ];
@@ -165,8 +227,11 @@ export default class EducationWizard extends React.Component {
                     value: 'transferred',
                   },
                   {
-                    label:
-                      'No, I’m using the Fry Scholarship or DEA (Chapter 35)',
+                    label: (
+                      <span className="radioText">
+                        No, I’m using the Fry Scholarship or DEA (Chapter 35)
+                      </span>
+                    ),
                     value: 'fry',
                   },
                 ]}
@@ -302,16 +367,24 @@ export default class EducationWizard extends React.Component {
             {newBenefit === 'extend' &&
             // Prod flag for 5134
             !environment.isProduction() ? (
-              <div className="vads-u-margin-right--8">
+              <div className="wizard-edith-nourse-content">
                 <br />
                 <strong>
                   To be eligible for the{' '}
-                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                  <a
+                    href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                    onClick={() =>
+                      recordEvent({
+                        event: 'edu-navigation',
+                        'edu-action': 'stem-scholarship',
+                      })
+                    }
+                  >
                     Edith Nourse Rogers STEM Scholarship
                   </a>
                   , you must meet all the requirements below. You:
                 </strong>
-                <ul className="vads-u-margin-right--8">
+                <ul className="wizard-edith-nourse-content">
                   <li>
                     Are using or recently used Post-9/11 GI Bill or Fry
                     Scholarship benefits
@@ -319,16 +392,33 @@ export default class EducationWizard extends React.Component {
                   <li>
                     Have used all your education benefits or are within 6 months
                     of doing so.{' '}
-                    <a href="../gi-bill/post-9-11/ch-33-benefit/">
+                    <a
+                      className="checkBenefitsLink"
+                      href="../gi-bill/post-9-11/ch-33-benefit/"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'check-remaining-benefits',
+                        })
+                      }
+                    >
                       Check remaining benefits
                     </a>
                   </li>
                   <li>
                     Are enrolled in an undergraduate degree program for science,
-                    technology, engineering or math (STEM), or have already
-                    earned a STEM degree and are pursuing a teaching
-                    certification.{' '}
-                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
+                    technology, engineering or math (STEM), <strong>or</strong>{' '}
+                    have already earned a STEM degree and are pursuing a
+                    teaching certification.{' '}
+                    <a
+                      href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'see-approved-stem-programs',
+                        })
+                      }
+                    >
                       See approved STEM programs
                     </a>
                   </li>
@@ -354,7 +444,7 @@ export default class EducationWizard extends React.Component {
                       <p>
                         Learn what other education benefits you may be eligible
                         for on the{' '}
-                        <a href="../eligibility/">GI Bill eligibility page.</a>
+                        <a href="../eligibility/">GI Bill eligibility page</a>.
                       </p>
                     ))}
                 </div>
