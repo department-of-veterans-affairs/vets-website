@@ -6,6 +6,7 @@ import {
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
+  ADDRESS_VALIDATION_UPDATE,
 } from '../../actions';
 
 describe('vet360 reducer', () => {
@@ -465,6 +466,26 @@ describe('vet360 reducer', () => {
         fieldTransactionMap: {
           mailingAddress: { isPending: true },
         },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('ADDRESS_VALIDATION_UPDATE action', () => {
+    it('sets inProgress to true', () => {
+      const expectedState = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: true },
+        },
+      };
+      const state = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: false },
+        },
+      };
+      const action = {
+        type: ADDRESS_VALIDATION_UPDATE,
+        fieldName: 'mailingAddress',
       };
       expect(vet360(state, action)).to.eql(expectedState);
     });
