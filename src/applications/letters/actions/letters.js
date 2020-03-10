@@ -1,23 +1,10 @@
 import * as Sentry from '@sentry/browser';
-import { isEqual } from 'lodash';
 
 import recordEvent from '../../../platform/monitoring/record-event';
+import { apiRequest, getStatus } from '../utils/helpers.jsx';
 import {
-  apiRequest,
-  stripEmpties,
-  toGenericAddress,
-  getStatus,
-} from '../utils/helpers.jsx';
-import {
-  ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  GET_ADDRESS_COUNTRIES_FAILURE,
-  GET_ADDRESS_COUNTRIES_SUCCESS,
-  GET_ADDRESS_FAILURE,
-  GET_ADDRESS_SUCCESS,
-  GET_ADDRESS_STATES_FAILURE,
-  GET_ADDRESS_STATES_SUCCESS,
   GET_BENEFIT_SUMMARY_OPTIONS_FAILURE,
   GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
   GET_LETTER_PDF_DOWNLOADING,
@@ -27,22 +14,9 @@ import {
   GET_LETTERS_SUCCESS,
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
-  UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
-  SAVE_ADDRESS_PENDING,
-  SAVE_ADDRESS_FAILURE,
-  SAVE_ADDRESS_SUCCESS,
+  UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
   INVALID_ADDRESS_PROPERTY,
-  START_EDITING_ADDRESS,
-  CANCEL_EDITING_ADDRESS,
 } from '../utils/constants';
-
-export function editAddress() {
-  return dispatch => dispatch({ type: START_EDITING_ADDRESS });
-}
-
-export function cancelEditingAddress() {
-  return dispatch => dispatch({ type: CANCEL_EDITING_ADDRESS });
-}
 
 export function getLetterList(dispatch) {
   return apiRequest('/v0/letters')
@@ -106,38 +80,6 @@ export function getLetterListAndBSLOptions() {
     getLetterList(dispatch)
       .then(() => getBenefitSummaryOptions(dispatch))
       .catch(() => {});
-}
-
-export function getAddressFailure() {
-  recordEvent({ event: 'letter-get-address-failure' });
-  return { type: GET_ADDRESS_FAILURE };
-}
-
-export function getMailingAddress() {
-  return dispatch =>
-    apiRequest('/v0/address')
-      .then(response => {
-        recordEvent({ event: 'letter-get-address-success' });
-        const responseCopy = Object.assign({}, response);
-        // translate military address properties to generic properties for use in front end
-        responseCopy.data.attributes.address = toGenericAddress(
-          response.data.attributes.address,
-        );
-        return dispatch({
-          type: GET_ADDRESS_SUCCESS,
-          data: responseCopy,
-        });
-      })
-      .catch(response => {
-        const status = getStatus(response);
-        Sentry.withScope(scope => {
-          scope.setFingerprint(['{{ default }}', status]);
-          Sentry.captureException(
-            new Error(`vets_letters_error_getMailingAddress ${status}`),
-          );
-        });
-        return dispatch(getAddressFailure());
-      });
 }
 
 export function getLetterPdfFailure(letterType) {
@@ -238,117 +180,8 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
 
 export function updateBenefitSummaryRequestOption(propertyPath, value) {
   return {
-    type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+    type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
     propertyPath,
     value,
   };
-}
-
-export function saveAddressPending() {
-  return {
-    type: SAVE_ADDRESS_PENDING,
-  };
-}
-
-export function saveAddressSuccess(address) {
-  recordEvent({ event: 'letter-update-address-success' });
-  return {
-    type: SAVE_ADDRESS_SUCCESS,
-    address,
-  };
-}
-
-export function saveAddressFailure() {
-  recordEvent({ event: 'letter-update-address-failed' });
-  return { type: SAVE_ADDRESS_FAILURE };
-}
-
-export function saveAddress(address) {
-  const transformedAddress = Object.assign({}, address);
-  if (transformedAddress.type === ADDRESS_TYPES.military) {
-    transformedAddress.militaryPostOfficeTypeCode = transformedAddress.city;
-    transformedAddress.militaryStateCode = transformedAddress.stateCode;
-    delete transformedAddress.city;
-    delete transformedAddress.stateCode;
-    delete transformedAddress.countryName;
-  }
-
-  const settings = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(transformedAddress),
-  };
-  recordEvent({ event: 'letter-update-address-submit' });
-  return dispatch => {
-    dispatch(saveAddressPending());
-    return apiRequest('/v0/address', settings)
-      .then(response => {
-        // translate military address properties back to front end address
-        const responseAddress = toGenericAddress(
-          response.data.attributes.address,
-        );
-        if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
-          Sentry.captureException(
-            new Error("letters-address-update addresses don't match"),
-          );
-        }
-        return dispatch(saveAddressSuccess(responseAddress));
-      })
-      .catch(response => {
-        const status = getStatus(response);
-        Sentry.withScope(scope => {
-          scope.setFingerprint(['{{ default }}', status]);
-          Sentry.captureException(
-            new Error(`vets_letters_error_saveAddress ${status}`),
-          );
-        });
-        return dispatch(saveAddressFailure());
-      });
-  };
-}
-
-export function getAddressCountries() {
-  return dispatch =>
-    apiRequest('/v0/address/countries')
-      .then(response => {
-        recordEvent({ event: 'letter-get-address-countries-success' });
-        return dispatch({
-          type: GET_ADDRESS_COUNTRIES_SUCCESS,
-          countries: response,
-        });
-      })
-      .catch(response => {
-        const status = getStatus(response);
-        recordEvent({ event: 'letter-get-address-countries-failure' });
-        Sentry.withScope(scope => {
-          scope.setFingerprint(['{{ default }}', status]);
-          Sentry.captureException(
-            new Error(`vets_letters_error_getAddressCountries ${status}`),
-          );
-        });
-        return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
-      });
-}
-
-export function getAddressStates() {
-  return dispatch =>
-    apiRequest('/v0/address/states')
-      .then(response => {
-        recordEvent({ event: 'letter-get-address-states-success' });
-        return dispatch({
-          type: GET_ADDRESS_STATES_SUCCESS,
-          states: response,
-        });
-      })
-      .catch(response => {
-        const status = getStatus(response);
-        recordEvent({ event: 'letter-get-address-states-success' });
-        Sentry.withScope(scope => {
-          scope.setFingerprint(['{{ default }}', status]);
-          Sentry.captureException(
-            new Error(`vets_letters_error_getAddressStates ${status}`),
-          );
-        });
-        return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
-      });
 }

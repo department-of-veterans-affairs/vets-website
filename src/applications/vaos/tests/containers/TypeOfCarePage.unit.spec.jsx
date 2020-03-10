@@ -22,7 +22,6 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
 
     expect(form.find('fieldset').length).to.equal(1);
-    expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 
@@ -102,7 +101,6 @@ describe('VAOS <TypeOfCarePage>', () => {
         data={{}}
       />,
     );
-    expect(form.find('label').length).to.equal(12);
     expect(
       form
         .find('label')

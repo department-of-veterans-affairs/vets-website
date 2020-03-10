@@ -8,16 +8,14 @@ import {
   getAvailableClinics,
 } from '../api';
 
-function handleDirectError(data) {
-  captureError(data);
+import { recordVaosError } from './events';
 
-  return { directFailed: true };
-}
-
-function handleRequestError(data) {
-  captureError(data);
-
-  return { requestFailed: true };
+function createErrorHandler(directOrRequest, errorKey) {
+  return data => {
+    captureError(data);
+    recordVaosError(errorKey);
+    return { [`${directOrRequest}Failed`]: true };
+  };
 }
 
 /*
@@ -40,25 +38,34 @@ export async function getEligibilityData(
   const facilityId = facility.institutionCode;
   const eligibilityChecks = [
     checkPastVisits(systemId, facilityId, typeOfCareId, 'request').catch(
-      handleRequestError,
+      createErrorHandler('request', 'request-check-past-visits-error'),
     ),
-    getRequestLimits(facilityId, typeOfCareId).catch(handleRequestError),
+    getRequestLimits(facilityId, typeOfCareId).catch(
+      createErrorHandler(
+        'request',
+        'request-exceeded-outstanding-requests-error',
+      ),
+    ),
   ];
 
   if (facility.directSchedulingSupported && isDirectScheduleEnabled) {
     eligibilityChecks.push(
       checkPastVisits(systemId, facilityId, typeOfCareId, 'direct').catch(
-        handleDirectError,
+        createErrorHandler('direct', 'direct-check-past-visits-error'),
       ),
     );
     eligibilityChecks.push(
       getAvailableClinics(facilityId, typeOfCareId, systemId).catch(
-        handleDirectError,
+        createErrorHandler('direct', 'direct-available-clinics-error'),
       ),
     );
 
     if (typeOfCareId === PRIMARY_CARE) {
-      eligibilityChecks.push(getPacTeam(systemId).catch(handleDirectError));
+      eligibilityChecks.push(
+        getPacTeam(systemId).catch(
+          createErrorHandler('direct', 'direct-pac-team-error'),
+        ),
+      );
     }
   }
 
@@ -100,9 +107,9 @@ function hasVisitedInPastMonthsDirect(eligibilityData) {
 
 function hasVisitedInPastMonthsRequest(eligibilityData) {
   return (
-    eligibilityData.requestPastVisit.durationInMonths ===
+    eligibilityData.requestPastVisit?.durationInMonths ===
       DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestPastVisit.hasVisitedInPastMonths
+    eligibilityData.requestPastVisit?.hasVisitedInPastMonths
   );
 }
 
@@ -115,10 +122,22 @@ function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) {
 
 function isUnderRequestLimit(eligibilityData) {
   return (
-    eligibilityData.requestLimits.requestLimit === DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestLimits.numberOfRequests <
-      eligibilityData.requestLimits.requestLimit
+    eligibilityData.requestLimits?.requestLimit === DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestLimits?.numberOfRequests <
+      eligibilityData.requestLimits?.requestLimit
   );
+}
+
+function isDirectSchedulingEnabled(eligibilityData) {
+  return typeof eligibilityData.directPastVisit !== 'undefined';
+}
+
+function hasRequestFailed(eligibilityData) {
+  return Object.values(eligibilityData).some(result => result?.requestFailed);
+}
+
+function hasDirectFailed(eligibilityData) {
+  return Object.values(eligibilityData).some(result => result?.directFailed);
 }
 
 /*
@@ -131,18 +150,13 @@ function isUnderRequestLimit(eligibilityData) {
 export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
   // If we're missing this property, it means no DS checks were made
   // because it's disabled
-  const directSchedulingEnabled =
-    typeof eligibilityData.directPastVisit !== 'undefined';
+  const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
 
   let eligibilityChecks = {
     requestSupported: eligibilityData.requestSupported,
-    requestFailed: Object.values(eligibilityData).some(
-      result => result.requestFailed,
-    ),
+    requestFailed: hasRequestFailed(eligibilityData),
     directSupported: eligibilityData.directSupported,
-    directFailed: Object.values(eligibilityData).some(
-      result => result.directFailed,
-    ),
+    directFailed: hasDirectFailed(eligibilityData),
   };
 
   if (!eligibilityChecks.requestFailed) {
@@ -211,4 +225,45 @@ export function getEligibleFacilities(facilities) {
   return facilities.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
+}
+
+/**
+ * Record Google Analytics events based on results of eligibility checks.
+ * Error keys ending with 'error' represent a failure in fetching info for the check,
+ * while keys ending with 'failure' signify that the user didn't meet the condition
+ * of the check.
+ */
+export function recordEligibilityGAEvents(
+  eligibilityData,
+  typeOfCareId,
+  systemId,
+) {
+  if (!hasRequestFailed(eligibilityData)) {
+    if (!isUnderRequestLimit(eligibilityData)) {
+      recordVaosError('request-exceeded-outstanding-requests-failure');
+    }
+
+    if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
+      recordVaosError('request-past-visits-failure');
+    }
+  }
+
+  const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
+
+  if (directSchedulingEnabled && !hasRequestFailed(eligibilityData)) {
+    if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
+      recordVaosError('direct-check-past-visits-failure');
+    }
+
+    if (!eligibilityData.clinics?.length) {
+      recordVaosError('direct-available-clinics-failure');
+    }
+
+    if (
+      typeOfCareId === PRIMARY_CARE &&
+      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId)
+    ) {
+      recordVaosError('direct-pac-team-failure');
+    }
+  }
 }

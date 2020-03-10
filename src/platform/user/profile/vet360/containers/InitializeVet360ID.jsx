@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AddressValidationModal from './AddressValidationModal';
-import environment from 'platform/utilities/environment';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
@@ -64,12 +62,7 @@ class InitializeVet360ID extends React.Component {
   render() {
     switch (this.props.status) {
       case VET360_INITIALIZATION_STATUS.INITIALIZED:
-        return (
-          <div>
-            {!environment.isProduction() && <AddressValidationModal />}
-            {this.props.children}
-          </div>
-        );
+        return <>{this.props.children}</>;
 
       case VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
         return (

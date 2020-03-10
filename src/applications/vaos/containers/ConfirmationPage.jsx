@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   getAppointmentLength,
   getFormData,
@@ -12,10 +13,10 @@ import {
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
-  closeConfirmationPage,
+  startNewAppointmentFlow,
   fetchFacilityDetails,
 } from '../actions/newAppointment';
-import { FLOW_TYPES, FACILITY_TYPES } from '../utils/constants';
+import { FLOW_TYPES, FACILITY_TYPES, GA_PREFIX } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
@@ -43,9 +44,6 @@ export class ConfirmationPage extends React.Component {
     scrollAndFocus();
   }
 
-  componentWillUnmount() {
-    this.props.closeConfirmationPage();
-  }
   render() {
     const {
       data,
@@ -80,7 +78,16 @@ export class ConfirmationPage extends React.Component {
           <Link to="/" className="usa-button vads-u-padding-right--2">
             View your appointments
           </Link>
-          <Link to="new-appointment" className="usa-button">
+          <Link
+            to="new-appointment"
+            className="usa-button"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+              });
+              this.props.startNewAppointmentFlow();
+            }}
+          >
             New appointment
           </Link>
         </div>
@@ -109,7 +116,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  closeConfirmationPage,
+  startNewAppointmentFlow,
   fetchFacilityDetails,
 };
 
