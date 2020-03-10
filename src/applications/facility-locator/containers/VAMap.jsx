@@ -513,9 +513,9 @@ class VAMap extends Component {
     } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const showDialogUrgCare =
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES ||
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare')
+        currentQuery.serviceType === 'NonVAUrgentCare') ||
+      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
         ? urgentCareDialogLink
         : null;
     return (
@@ -622,9 +622,9 @@ class VAMap extends Component {
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const showDialogUrgCare =
-      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES ||
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
-        currentQuery.serviceType === 'NonVAUrgentCare')
+        currentQuery.serviceType === 'NonVAUrgentCare') ||
+      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
         ? urgentCareDialogLink
         : null;
 
