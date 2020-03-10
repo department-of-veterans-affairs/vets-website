@@ -285,4 +285,10 @@ export const CALENDAR_INDICATOR_TYPES = {
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
+
 export const GA_PREFIX = 'vaos';
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+  VA_REQUEST: 'va-request',
+  CC_REQUEST: 'cc-request',
+};

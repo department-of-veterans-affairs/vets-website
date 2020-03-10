@@ -25,6 +25,7 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
+import { recordVaosError } from './utils/events';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -240,7 +241,9 @@ export default {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
+          recordVaosError('direct-no-matching-past-clinics-failure');
         } catch (error) {
+          recordVaosError('direct-no-matching-past-clinics-error');
           captureError(error);
         }
       }
