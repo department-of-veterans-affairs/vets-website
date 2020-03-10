@@ -8,9 +8,8 @@ const {
   unescapeUnicode,
   createMetaTagArray,
   usePartialSchema,
+  findMatchingEntities,
 } = require('../transformers/helpers');
-
-const findMatchingEntities = require('../findMatchingEntities');
 
 describe('CMS export transformer helpers', () => {
   describe('getWysiwygString', () => {
