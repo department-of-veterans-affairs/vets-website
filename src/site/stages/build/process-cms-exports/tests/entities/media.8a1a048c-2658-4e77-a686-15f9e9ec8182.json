@@ -1,0 +1,120 @@
+{
+    "mid": [
+        {
+            "value": 68
+        }
+    ],
+    "uuid": [
+        {
+            "value": "8a1a048c-2658-4e77-a686-15f9e9ec8182"
+        }
+    ],
+    "vid": [
+        {
+            "value": 68
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "bundle": [
+        {
+            "target_id": "image",
+            "target_type": "media_type",
+            "target_uuid": "92f64a34-81e5-4094-82a9-4fe61d7f2227"
+        }
+    ],
+    "revision_created": [
+        {
+            "value": "2019-05-14T17:26:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35"
+        }
+    ],
+    "name": [
+        {
+            "value": "Friends_main.jpg"
+        }
+    ],
+    "thumbnail": [
+        {
+            "alt": "Photo of three middle aged women, multicultural, laughing together",
+            "title": null,
+            "width": 480,
+            "height": 330,
+            "target_type": "file",
+            "target_uuid": "78bf6ef9-5f4d-414e-8cc5-498dc1c571d2"
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-05-14T17:25:41+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-05-14T17:25:41+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "| Veterans Affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "| Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "| Veterans Affairs"
+        }
+    },
+    "path": [
+        {
+            "alias": null,
+            "pid": null,
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_media_in_library": [
+        {
+            "value": true
+        }
+    ],
+    "field_media_submission_guideline": [],
+    "field_owner": [],
+    "image": [
+        {
+            "alt": "Photo of three middle aged women, multicultural, laughing together",
+            "title": "",
+            "width": 480,
+            "height": 330,
+            "target_type": "file",
+            "target_uuid": "78bf6ef9-5f4d-414e-8cc5-498dc1c571d2"
+        }
+    ]
+}

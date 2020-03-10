@@ -1,0 +1,152 @@
+{
+    "nid": [
+        {
+            "value": 387
+        }
+    ],
+    "uuid": [
+        {
+            "value": "4a0e05bc-1d9d-4cc6-a99b-01936bf970e3"
+        }
+    ],
+    "vid": [
+        {
+            "value": 9447
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "person_profile",
+            "target_type": "node_type",
+            "target_uuid": "89b07673-7fd5-4292-8fba-58cc10c4e3ec"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2019-08-27T17:50:13+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+        }
+    ],
+    "revision_log": [
+        {
+            "value": "Bulk operation publish revision"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35"
+        }
+    ],
+    "title": [
+        {
+            "value": "Marlena Regus"
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-05-14T17:20:03+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-08-27T17:50:13+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": false
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "moderation_state": [
+        {
+            "value": "published"
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "Marlena Regus | VA Pittsburgh health care | Veterans Affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "Marlena Regus | VA Pittsburgh health care | Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "Marlena Regus | VA Pittsburgh health care | Veterans Affairs"
+        }
+    },
+    "path": [
+        {
+            "alias": "\/pittsburgh-health-care\/staff-profiles\/marlena-regus",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_administration": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
+        }
+    ],
+    "field_body": [],
+    "field_complete_biography": [],
+    "field_description": [],
+    "field_email_address": [],
+    "field_intro_text": [],
+    "field_last_name": [
+        {
+            "value": "Regus"
+        }
+    ],
+    "field_media": [],
+    "field_meta_tags": [],
+    "field_name_first": [
+        {
+            "value": "Marlena"
+        }
+    ],
+    "field_office": [
+        {
+            "target_type": "node",
+            "target_uuid": "2bddb1a7-6fb1-4503-838d-9c2fcb51c46a"
+        }
+    ],
+    "field_phone_number": [],
+    "field_photo_allow_hires_download": [
+        {
+            "value": false
+        }
+    ],
+    "field_suffix": []
+}

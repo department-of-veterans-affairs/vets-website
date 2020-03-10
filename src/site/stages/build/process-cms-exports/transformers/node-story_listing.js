@@ -1,12 +1,12 @@
-const findMatchingEntities = require('../findMatchingEntities');
 const {
   getDrupalValue,
   createMetaTagArray,
+  findMatchingEntities,
   utcToEpochTime,
   isPublished,
 } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, { contentDir, assembleEntityTree }) => ({
   entityType: 'node',
   entityBundle: 'story_listing',
   title: getDrupalValue(entity.title),
@@ -18,8 +18,11 @@ const transform = entity => ({
     path: entity.path[0].alias,
   },
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: findMatchingEntities(entity.fieldOffice[0]),
+  fieldOffice: findMatchingEntities('node', contentDir, assembleEntityTree, {
+    subType: 'news_story',
+  }),
 });
+
 module.exports = {
   filter: [
     'title',

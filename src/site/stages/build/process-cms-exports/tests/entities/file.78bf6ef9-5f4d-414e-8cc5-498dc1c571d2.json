@@ -1,0 +1,60 @@
+{
+    "fid": [
+        {
+            "value": 93
+        }
+    ],
+    "uuid": [
+        {
+            "value": "78bf6ef9-5f4d-414e-8cc5-498dc1c571d2"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35"
+        }
+    ],
+    "filename": [
+        {
+            "value": "Friends_main.jpg"
+        }
+    ],
+    "uri": [
+        {
+            "value": "public:\/\/2019-05\/Friends_main.jpg"
+        }
+    ],
+    "filemime": [
+        {
+            "value": "image\/jpeg"
+        }
+    ],
+    "filesize": [
+        {
+            "value": 60778
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-05-14T17:25:41+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-05-14T17:26:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ]
+}

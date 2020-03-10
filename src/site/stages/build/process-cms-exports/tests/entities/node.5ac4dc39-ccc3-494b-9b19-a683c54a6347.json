@@ -1,0 +1,165 @@
+{
+    "nid": [
+        {
+            "value": 389
+        }
+    ],
+    "uuid": [
+        {
+            "value": "5ac4dc39-ccc3-494b-9b19-a683c54a6347"
+        }
+    ],
+    "vid": [
+        {
+            "value": 10860
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "news_story",
+            "target_type": "node_type",
+            "target_uuid": "6cd5ac14-3c82-479e-88d9-47f92c4ad850"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2019-09-09T22:24:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35"
+        }
+    ],
+    "title": [
+        {
+            "value": "Great reasons to connect with friends"
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-05-14T17:17:02+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-09-09T22:24:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": false
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "moderation_state": [
+        {
+            "value": "published"
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "VA Pittsburgh health care | Great reasons to connect with friends | Veterans Affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_description": "Socializing can provide many benefits to your physical and mental health.",
+            "description": "Socializing can provide many benefits to your physical and mental health.",
+            "twitter_cards_title": "Great reasons to connect with friends | VA Pittsburgh health care | Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "image_src": "http:\/\/default\/sites\/default\/files\/2019-05\/Friends_main.jpg",
+            "og_title": "Great reasons to connect with friends | VA Pittsburgh health care | Veterans Affairs",
+            "og_description": "Socializing can provide many benefits to your physical and mental health.",
+            "twitter_cards_image": "http:\/\/default\/sites\/default\/files\/2019-05\/Friends_main.jpg",
+            "og_image_0": "http:\/\/default\/sites\/default\/files\/2019-05\/Friends_main.jpg"
+        }
+    },
+    "path": [
+        {
+            "alias": "\/pittsburgh-health-care\/stories\/great-reasons-to-connect-with-friends",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_administration": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
+        }
+    ],
+    "field_author": [
+        {
+            "target_type": "node",
+            "target_uuid": "4a0e05bc-1d9d-4cc6-a99b-01936bf970e3"
+        }
+    ],
+    "field_featured": [
+        {
+            "value": true
+        }
+    ],
+    "field_full_story": [
+        {
+            "value": "<p>Socializing can provide many benefits to your physical and mental health. According to recent research:<\/p>\r\n\r\n<ul>\r\n\t<li>Connecting with friends may also boost your brain health and lower your risk of dementia.<\/li>\r\n\t<li>People who regularly connect with others generally perform better on tests of memory and other cognitive skills.<\/li>\r\n\t<li>In the long run, people with active social lives are less likely to develop dementia than those who are more socially isolated.<\/li>\r\n\t<li>People with more social support also tend to live longer, and this is true even after accounting for overall health.<\/li>\r\n\t<li>Social engagement is associated with a stronger immune system, especially for older adults. This means you are better able to fight off colds, the flu and even some types of cancer.<\/li>\r\n\t<li>Interacting with others boosts feelings of well-being and decreases feelings of depression.<\/li>\r\n<\/ul>\r\n\r\n<p>Ways to boost your social engagement:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Sign up for activities at your local recreation center, library or event center.<\/li>\r\n\t<li>Join a choir or musical group.<\/li>\r\n\t<li>Volunteer at your favorite charity organization.<\/li>\r\n\t<li>Visit a museum with a friend and chat about what you see.<\/li>\r\n\t<li>Participate in a neighborhood or community group.<\/li>\r\n\t<li>Play a group sport like lawn bowling, golf or croquet.<\/li>\r\n\t<li>Have a friend or family member over for coffee or tea.<\/li>\r\n\t<li>Play cards or board games with others.<\/li>\r\n\t<li>Exercise with a friend by walking, swimming or going to the gym together.<\/li>\r\n\t<li>Take a class to meet new friends.<\/li>\r\n<\/ul>\r\n\r\n<p>VA Pittsburgh's Recreation Services offers many opportunities for connecting with fellow Veterans and the community. Contact&nbsp;<a href=\"mailto:marlena.regus@va.gov\">Marlena Regus<\/a>&nbsp;at 412-360-3756 for scheduled events.<\/p>\r\n",
+            "format": "rich_text"
+        }
+    ],
+    "field_image_caption": [
+        {
+            "value": "Photo of three middle aged women, laughing together."
+        }
+    ],
+    "field_intro_text": [
+        {
+            "value": "Socializing can provide many benefits to your physical and mental health. "
+        }
+    ],
+    "field_media": [
+        {
+            "target_type": "media",
+            "target_uuid": "8a1a048c-2658-4e77-a686-15f9e9ec8182"
+        }
+    ],
+    "field_meta_tags": [],
+    "field_office": [
+        {
+            "target_type": "node",
+            "target_uuid": "2bddb1a7-6fb1-4503-838d-9c2fcb51c46a"
+        }
+    ],
+    "field_order": []
+}
