@@ -112,10 +112,18 @@ function completeStemEnrollmentSelection(client) {
 
 function completeExhaustionOfBenefits(client) {
   client.waitForElementVisible(
-    'label[for="root_view:exhaustionOfBenefitsYes"]',
+    'label[for="root_view:exhaustionOfBenefitsNo"]',
     Timeouts.verySlow,
   );
-  client.click('input[id="root_view:exhaustionOfBenefitsYes"]');
+  client.click('input[id="root_view:exhaustionOfBenefitsNo"]');
+}
+
+function completeStillApplyForStem(client) {
+  client.waitForElementVisible(
+    'label[for="root_determineEligibilityYes"]',
+    Timeouts.verySlow,
+  );
+  client.click('input[id="root_determineEligibilityYes"]');
 }
 
 function completeActiveDutySelection(client) {
@@ -131,5 +139,6 @@ module.exports = {
   completeStemSelectionFor1995s,
   completeStemEnrollmentSelection,
   completeExhaustionOfBenefits,
+  completeStillApplyForStem,
   completeActiveDutySelection,
 };
