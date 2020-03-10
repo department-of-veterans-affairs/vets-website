@@ -61,7 +61,7 @@ const urgentCareDialogLink = (
         // Record event
         recordEvent({ event: 'cta-primary-button-click' });
         window.open(
-          'https://www.va.gov/COMMUNITYCARE/programs/veterans/UrgentCareInstructions.asp',
+          'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
           '_blank',
         );
       }}
@@ -728,6 +728,13 @@ class VAMap extends Component {
             Find one of VA's more than 2,000 health care, counseling, benefits,
             and cemeteries facilities, plus VA's nationwide network of community
             health care providers.
+          </p>
+          <p>
+            <strong>Need same-day care for a minor illness or injury?</strong>{' '}
+            Under facility type, select Urgent care, then select VA or community
+            care providers under service type. To find a pharmacy where you can
+            fill an urgent care prescription, select Urgent care pharmacies
+            under facility type.
           </p>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
