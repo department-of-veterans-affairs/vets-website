@@ -6,6 +6,7 @@ export const isChapter33 = form =>
   form.benefit === 'chapter33' || form.benefit === 'fryScholarship';
 
 const isEligibleForEdithNourseRogersScholarship = form =>
+  (isChapter33(form) || form.benefit === undefined) &&
   isEdithNourseRogersScholarship(form) &&
   (form['view:exhaustionOfBenefits'] ||
     form['view:exhaustionOfBenefitsAfterPursuingTeachingCert']) &&
