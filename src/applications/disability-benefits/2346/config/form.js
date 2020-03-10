@@ -4,13 +4,13 @@ import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
-import deviceNameField from '../components/customFields/deviceNameField';
-import productNameField from '../components/customFields/productNameField';
-import quantityField from '../components/customFields/quantityField';
-import productIdField from '../components/customFields/productIdField';
-import lastOrderDateField from '../components/customFields/lastOrderDateField';
-import sizeField from '../components/customFields/sizeField';
-import emptyField from '../components/customFields/emptyField';
+import deviceNameField from '../components/supplyCustomFields/deviceNameField';
+import productNameField from '../components/supplyCustomFields/productNameField';
+import quantityField from '../components/supplyCustomFields/quantityField';
+import productIdField from '../components/supplyCustomFields/productIdField';
+import lastOrderDateField from '../components/supplyCustomFields/lastOrderDateField';
+import sizeField from '../components/supplyCustomFields/sizeField';
+import emptyField from '../components/emptyField';
 import SuppliesReview from '../components/suppliesReview';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -133,7 +133,6 @@ const formConfig = {
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:options': {
-                classNames: 'order-background',
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
               },
@@ -141,31 +140,49 @@ const formConfig = {
                 'ui:title': '  ',
                 'ui:field': deviceNameField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_name: {
                 'ui:title': '  ',
                 'ui:field': productNameField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               quantity: {
                 'ui:title': '  ',
                 'ui:field': quantityField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_id: {
                 'ui:title': '  ',
                 'ui:field': productIdField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               last_order_date: {
                 'ui:title': '  ',
                 'ui:field': lastOrderDateField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               size: {
                 'ui:title': '  ',
                 'ui:field': sizeField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_group: {
                 'ui:title': '  ',
@@ -216,7 +233,6 @@ const formConfig = {
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:options': {
-                classNames: 'order-background',
                 expandUnder: 'view:addAccessories',
                 expandUnderCondition: 'yes',
               },
@@ -224,21 +240,33 @@ const formConfig = {
                 'ui:title': '  ',
                 'ui:field': productNameField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               quantity: {
                 'ui:title': '  ',
                 'ui:field': quantityField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_id: {
                 'ui:title': '  ',
                 'ui:field': productIdField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               last_order_date: {
                 'ui:title': '  ',
                 'ui:field': lastOrderDateField,
                 'ui:reviewField': SuppliesReview,
+                'ui:options': {
+                  classNames: 'order-background',
+                },
               },
               product_group: {
                 'ui:title': '  ',
