@@ -53,8 +53,7 @@ class CopyMailingAddress extends React.Component {
   }
 }
 
-export function mapStateToProps(state, ownProps) {
-  const { convertNextValueToCleanData, useNewAddressForm } = ownProps;
+export function mapStateToProps(state) {
   const mailingAddress = selectVet360Field(state, FIELD_NAMES.MAILING_ADDRESS);
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
@@ -67,14 +66,8 @@ export function mapStateToProps(state, ownProps) {
     if (hasEmptyMailingAddress) {
       return false;
     }
-    if (useNewAddressForm) {
-      return isEqual(
-        pickBy(pick(mailingAddress, ADDRESS_PROPS), e => !!e),
-        pick(residentialAddress, ADDRESS_PROPS),
-      );
-    }
     return isEqual(
-      pick(convertNextValueToCleanData(mailingAddress), ADDRESS_PROPS),
+      pickBy(pick(mailingAddress, ADDRESS_PROPS), e => !!e),
       pick(residentialAddress, ADDRESS_PROPS),
     );
   };

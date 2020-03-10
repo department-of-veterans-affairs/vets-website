@@ -13,7 +13,6 @@ import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
-  updateFormField,
   updateFormFieldWithSchema,
   openModal,
   validateAddress,
@@ -61,17 +60,6 @@ class Vet360ProfileField extends React.Component {
   onCancel = () => {
     this.captureEvent('cancel-button');
     this.closeModal();
-  };
-
-  onChange = (value, property, skipValidation) => {
-    this.props.updateFormField(
-      this.props.fieldName,
-      this.props.convertNextValueToCleanData,
-      this.props.validateCleanData,
-      value,
-      property,
-      skipValidation,
-    );
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
@@ -197,7 +185,6 @@ class Vet360ProfileField extends React.Component {
       clearErrors: this.clearErrors,
       onAdd: this.onAdd,
       onEdit: this.onEdit,
-      onChange: this.onChange,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
       onDelete: this.onDelete,
       onCancel: this.onCancel,
@@ -276,7 +263,6 @@ const mapDispatchToProps = {
   refreshTransaction,
   openModal,
   createTransaction,
-  updateFormField,
   updateFormFieldWithSchema,
   validateAddress,
 };
@@ -289,7 +275,6 @@ const mapDispatchToProps = {
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the Vet360 field.
  * @property {func} convertNextValueToCleanData A function called to derive or make changes to form values after form values are changed in the edit-modal. Called prior to validation.
- * @property {func} validateCleanData A function called to determine validation errors. Called after convertNextValueToCleanData.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in Vet360.
  */
 const Vet360ProfileFieldContainer = connect(
@@ -304,8 +289,6 @@ Vet360ProfileFieldContainer.propTypes = {
   ValidationModal: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
-  convertNextValueToCleanData: PropTypes.func.isRequired,
-  validateCleanData: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func,
 };
 
