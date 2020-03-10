@@ -1,4 +1,8 @@
 import { expect } from 'chai';
+import * as Sentry from '@sentry/browser';
+import sentryTestkit from 'sentry-testkit';
+
+const { testkit, sentryTransport } = sentryTestkit();
 
 import {
   resetFetch,
@@ -319,6 +323,42 @@ describe('VAOS scheduling eligibility logic', () => {
       );
 
       expect(global.window.dataLayer.length).to.equal(0);
+    });
+
+    it('should record Sentry message when clinics with no PACT', () => {
+      Sentry.init({
+        dsn: 'http://one@fake/dsn',
+        transport: sentryTransport,
+      });
+      testkit.reset();
+
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [],
+          clinics: [{}],
+          directSupported: true,
+          requestSupported: true,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: true,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+            hasVisitedInPastMonths: true,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 0,
+          },
+        },
+        '323',
+        '983',
+      );
+
+      expect(testkit.reports()[0].message).to.equal(
+        'vaos_clinics_with_no_pact',
+      );
+      testkit.reset();
     });
   });
 });

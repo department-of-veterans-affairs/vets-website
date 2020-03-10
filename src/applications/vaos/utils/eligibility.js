@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
 import { captureError } from '../utils/error';
 
@@ -264,6 +265,14 @@ export function recordEligibilityGAEvents(
       !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId)
     ) {
       recordVaosError('direct-pac-team-failure');
+    }
+
+    if (
+      typeOfCareId === PRIMARY_CARE &&
+      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) &&
+      eligibilityData.clinics?.length
+    ) {
+      Sentry.captureMessage('vaos_clinics_with_no_pact');
     }
   }
 }
