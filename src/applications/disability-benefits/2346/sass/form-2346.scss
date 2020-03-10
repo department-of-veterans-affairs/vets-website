@@ -30,3 +30,8 @@
 label {
   margin-top: 0.1rem !important;
 }
+
+input[type="checkbox"]:checked {
+  background: #fff !important;
+  color: #0071bb !important;
+}
