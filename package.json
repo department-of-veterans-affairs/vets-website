@@ -296,7 +296,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
-    "**/lodash": "^4.17.15",
+    "**/lodash": "4.17.15",
     "**/js-yaml": "^3.13.1"
   }
 }
