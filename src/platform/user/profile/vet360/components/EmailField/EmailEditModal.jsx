@@ -1,15 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+
+import { profileUseSchemaForms } from 'vet360/selectors';
 
 import Vet360EditModal from '../base/Vet360EditModal';
 
 import ContactInfoForm from '../ContactInfoForm';
 
-import environment from 'platform/utilities/environment';
-
-const useNewForm = !environment.isProduction();
-
-export default class EmailEditModal extends React.Component {
+class EmailEditModal extends React.Component {
   onChange = ({ value: emailAddress, dirty }) => {
     const newFieldValue = { ...this.props.field.value, emailAddress };
     this.props.onChange(newFieldValue, dirty);
@@ -30,7 +30,7 @@ export default class EmailEditModal extends React.Component {
 
   renderForm = (formButtons, onSubmit) => (
     <>
-      {useNewForm && (
+      {this.props.useSchemaForm && (
         <ContactInfoForm
           formData={this.props.field.value}
           formSchema={this.props.field.formSchema}
@@ -41,7 +41,7 @@ export default class EmailEditModal extends React.Component {
           {formButtons}
         </ContactInfoForm>
       )}
-      {!useNewForm && (
+      {!this.props.useSchemaForm && (
         <ErrorableTextInput
           autoFocus
           label="Email Address"
@@ -60,10 +60,16 @@ export default class EmailEditModal extends React.Component {
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
-        onBlur={useNewForm ? null : this.onBlur}
-        useSchemaForm={useNewForm}
+        onBlur={this.props.useSchemaForm ? null : this.onBlur}
+        useSchemaForm={this.props.useSchemaForm}
         {...this.props}
       />
     );
   }
 }
+
+const mapStateToProps = state => ({
+  useSchemaForm: profileUseSchemaForms(state),
+});
+
+export default connect(mapStateToProps)(EmailEditModal);

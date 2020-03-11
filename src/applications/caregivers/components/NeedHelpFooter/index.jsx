@@ -11,12 +11,14 @@ const NeedHelpFooter = () => (
       <span>
         TTY: <a href="tel:18008778339">1-800-877-8339</a>
       </span>
-      <span>Monday — Friday, 8:00am — 8:00pm (ET)</span>
+      <span>Monday through Friday, 8:00a.m. — 8:00p.m. ET.</span>
     </section>
 
     <section>
       <span>A Caregiver Support Coordinator locator is available at: </span>
-      <a href="http://www.caregiver.va.gov/">http://www.caregiver.va.gov/</a>
+      <a href="https://www.caregiver.va.gov/" rel="noopener noreferrer">
+        http://www.caregiver.va.gov/
+      </a>
     </section>
 
     <section>
@@ -33,7 +35,7 @@ const NeedHelpFooter = () => (
       </span>
       <a href="tel:18555747286">1-855-574-7286</a>
       <a href="tel:18008778339">TTY: 1-800-877-8339</a>
-      <span>Monday — Friday, 8:00am — 7:00pm (ET)</span>
+      <span>Monday through Friday, 8:00a.m. — 7:00p.m. ET.</span>
     </section>
   </footer>
 );

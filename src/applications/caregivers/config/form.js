@@ -17,7 +17,7 @@ import {
   vetFields,
 } from 'applications/caregivers/definitions/constants';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
-import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfto';
+import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import { medicalCentersByState } from 'applications/hca/helpers';
 import definitions from '../definitions/caregiverUI';
 

@@ -7,36 +7,34 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
     value: '',
     dirty: false,
   });
-
   const [hasError, setError] = useState(false);
   const firstAndLast =
-    fullName?.first && fullName?.last && `${fullName.first} ${fullName.last}`;
-  const signatureMatchesFullName = firstAndLast === signature.value;
+    signature.value.startsWith(fullName.first) &&
+    signature.value.endsWith(fullName.last);
 
   useEffect(
     () => {
       const isDirty = signature.dirty;
       const activeElementId = document.activeElement.id;
       const inputId = inputRef.current.inputId;
-      setIsSigned(signatureMatchesFullName);
+      setIsSigned(firstAndLast);
 
-      if (isDirty && activeElementId !== inputId && !signatureMatchesFullName) {
+      if (isDirty && activeElementId !== inputId && !firstAndLast) {
         setError(true);
       }
 
-      if (signatureMatchesFullName) {
+      if (firstAndLast) {
         setError(false);
       }
     },
-    [setIsSigned, signature, signatureMatchesFullName],
+    [setIsSigned, signature, firstAndLast],
   );
 
-  useEffect(() => {}, []);
   return (
-    <div>
+    <>
       <label htmlFor="vet-signature-input">
         {label}
-        's full name
+        &apos;s full name
       </label>
       <ErrorableTextInput
         ref={inputRef}
@@ -49,7 +47,7 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
           'Your signature must match your first and last name as previously entered.'
         }
       />
-    </div>
+    </>
   );
 };
 

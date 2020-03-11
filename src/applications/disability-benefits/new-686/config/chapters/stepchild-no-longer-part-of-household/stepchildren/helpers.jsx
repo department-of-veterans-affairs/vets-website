@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function stepchildInfo({ formData }) {
+export function StepchildInfo({ formData }) {
   return (
     <div className="vads-u-padding--2">
       <strong>

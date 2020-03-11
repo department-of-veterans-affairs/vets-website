@@ -76,24 +76,49 @@ class SubmitController extends React.Component {
     this.props.submitForm(formConfig, form);
   };
 
-  render() {
-    const {
-      form,
-      formConfig,
-      showPreSubmitError,
-      renderErrorMessage,
-    } = this.props;
+  /*
+*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection, which is default, or a custom override
+*  PreSubmitSection - Default component that renders if no CustomComponent is provided
+*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
+*/
+
+  RenderPreSubmitSection = () => {
+    const { form, formConfig, showPreSubmitError } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
+    const { CustomComponent } = preSubmit;
+
+    return (
+      <>
+        {CustomComponent ? (
+          <CustomComponent
+            formData={form.data}
+            preSubmitInfo={preSubmit}
+            showError={showPreSubmitError}
+            sectionCompleted={value =>
+              this.props.setPreSubmit(preSubmit.field, value)
+            }
+          />
+        ) : (
+          <PreSubmitSection
+            checked={form.data[preSubmit.field] || false}
+            formData={form.data}
+            preSubmitInfo={preSubmit}
+            showError={showPreSubmitError}
+            sectionCompleted={value =>
+              this.props.setPreSubmit(preSubmit.field, value)
+            }
+          />
+        )}
+      </>
+    );
+  };
+
+  render() {
+    const { form, renderErrorMessage } = this.props;
 
     return (
       <div>
-        <PreSubmitSection
-          preSubmitInfo={preSubmit}
-          onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
-          checked={form.data[preSubmit.field] || false}
-          showError={showPreSubmitError}
-          formData={form.data}
-        />
+        {this.RenderPreSubmitSection()}
         <SubmitButtons
           onBack={this.goBack}
           onSubmit={this.handleSubmit}
