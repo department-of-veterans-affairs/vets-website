@@ -91,7 +91,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     form.unmount();
   });
 
-  it('should render alert message with aria label', () => {
+  it('should render alert message', () => {
     const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
 
@@ -102,7 +102,6 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
         data={{}}
       />,
     );
-    expect(form.find('[aria-atomic="true"]').exists()).to.be.true;
     expect(form.text()).to.contain(
       'If you have an urgent medical need, please',
     );
