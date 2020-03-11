@@ -79,8 +79,5 @@ export function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-)(CopyMailingAddress);
+export default connect(mapStateToProps)(CopyMailingAddress);
 export { CopyMailingAddress };

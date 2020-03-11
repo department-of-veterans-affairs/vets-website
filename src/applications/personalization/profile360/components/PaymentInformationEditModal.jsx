@@ -55,7 +55,6 @@ const uiSchema = {
 
 class PaymentInformationEditModal extends React.Component {
   static propTypes = {
-    fields: PropTypes.object,
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,

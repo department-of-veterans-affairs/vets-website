@@ -250,7 +250,6 @@ class PaymentInformation extends React.Component {
             }
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
-            fields={this.props.paymentInformationUiState.editModalForm}
             editModalFieldChanged={this.props.editModalFieldChanged}
             responseError={this.props.paymentInformationUiState.responseError}
           />
