@@ -3,20 +3,19 @@ import React from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 export function PreSubmitSection({
-  onChange,
+  sectionCompleted,
   showError,
   preSubmitInfo,
   checked,
-  formData,
 }) {
-  const PrivacyAgreementTemplate = () => (
+  return (
     <div>
       {preSubmitInfo.notice}
       {preSubmitInfo.required && (
         <ErrorableCheckbox
           required
           checked={checked}
-          onValueChange={onChange}
+          onValueChange={sectionCompleted}
           name={preSubmitInfo.field}
           errorMessage={
             showError && !checked
@@ -28,27 +27,10 @@ export function PreSubmitSection({
       )}
     </div>
   );
-
-  return (
-    <div>
-      {preSubmitInfo.customComponent ? (
-        preSubmitInfo.customComponent({
-          onChange,
-          showError,
-          preSubmitInfo,
-          checked,
-          formData,
-        })
-      ) : (
-        <PrivacyAgreementTemplate />
-      )}
-    </div>
-  );
 }
 
 PreSubmitSection.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  sectionCompleted: PropTypes.func.isRequired,
   preSubmitInfo: PropTypes.object.isRequired,
   showError: PropTypes.bool,
-  customComponent: PropTypes.func,
 };

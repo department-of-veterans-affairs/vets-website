@@ -17,6 +17,7 @@ import fullSchema10007 from 'applications/pre-need/config/form';
 import fullSchema686 from 'applications/disability-benefits/686/config/form';
 import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
 import fullSchema1010CG from 'applications/caregivers/config/form';
+import fullSchemaMDOT from 'applications/disability-benefits/2346/config/form';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -41,7 +42,8 @@ const mappedIds = [
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.VIC,
-  VA_FORM_IDS.FORM_10_10CG,
+  fullSchema1010CG,
+  VA_FORM_IDS.FORM_VA_2346A,
 ];
 
 const configs = [
@@ -65,6 +67,7 @@ const configs = [
   fullSchemaFeedbackTool,
   fullSchemaVIC,
   fullSchema1010CG,
+  fullSchemaMDOT,
 ];
 
 // These forms do not have formConfig but are found in vets-json-schema/dist/schemas
@@ -72,12 +75,12 @@ const excludedForms = new Set([
   '28-1900',
   '28-8832',
   '24-0296',
+  '10-10CG-example',
   VA_FORM_IDS.FORM_21_526EZ, // old
   VA_FORM_IDS.FORM_22_1995S,
   'definitions',
   'constants',
   'vaMedicalFacilities',
-  '10-10CG-example',
 ]);
 
 describe('form:', () => {
@@ -93,7 +96,10 @@ describe('form:', () => {
       mappedIdsSet.size,
       'a schema may have been removed from vets-json-schema/dist/schemas',
     );
-
+    expect(includedSchemaIdsSet.size).to.not.greaterThan(
+      mappedIdsSet.size,
+      'a schema may have been added to vets-json-schema/dist/schemas',
+    );
     expect(includedSchemaIds).to.have.same.members(
       includedFormIds,
       'possible missing formId property in a formConfig',

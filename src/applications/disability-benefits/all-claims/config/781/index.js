@@ -30,19 +30,8 @@ import {
   wantsHelpWithPrivateRecordsSecondary,
   wantsHelpRequestingStatementsSecondary,
 } from '../../utils';
-
-const numberToWords = {
-  0: 'First',
-  1: 'Second',
-  2: 'Third',
-  3: 'Fourth',
-  4: 'Fifth',
-  5: 'Sixth',
-  6: 'Seventh',
-  7: 'Eighth',
-  8: 'Ninth',
-  9: 'Tenth',
-};
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import titleCase from 'platform/utilities/data/titleCase';
 
 const REVIEW_TITLE_TOKEN = '[index]';
 
@@ -50,10 +39,13 @@ const REVIEW_TITLE_TOKEN = '[index]';
  * This removes "First " from the title if there is only one incident.
  *
  * @param {string} [title] Displayed as the section summary header.
- * If contains REVIEW_TITLE_TOKEN and there is more than one incident, replaces REVIEW_TITLE_TOKEN with numberToWords[index].toLowerCase().
- * If does not contain REVIEW_TITLE_TOKEN appends numberToWords[index] to front of title.
+ * If contains REVIEW_TITLE_TOKEN and there is more than one incident, replaces
+ *   REVIEW_TITLE_TOKEN with numberToWords(index).
+ * If does not contain REVIEW_TITLE_TOKEN appends a capitalized
+ *   numberToWords(index + 1) to front of title.
  * @param {int} index Index of numberToWords
- * @param {string} formType Indicates what type of form is calling function; 781, 781a
+ * @param {string} formType Indicates what type of form is calling function;
+ *   781, 781a
  * @returns {object} title
  */
 const setReviewTitle = (title, index, formType) => formData => {
@@ -68,14 +60,16 @@ const setReviewTitle = (title, index, formType) => formData => {
     if (title.search(REVIEW_TITLE_TOKEN) > 0) {
       formattedTitle = title.replace(
         REVIEW_TITLE_TOKEN,
-        ` ${numberToWords[index].toLowerCase()} `,
+        ` ${numberToWords(index + 1)} `,
       );
     } else {
-      // If does not contain REVIEW_TITLE_TOKEN put numberToWords[index] at start of title
-      formattedTitle = `${numberToWords[index]} ${title}`;
+      // If does not contain REVIEW_TITLE_TOKEN put numberToWords(index + 1) at
+      // start of title
+      formattedTitle = `${titleCase(numberToWords(index + 1))} ${title}`;
     }
   } else {
-    formattedTitle = title.replace(REVIEW_TITLE_TOKEN, ' '); // can do this without a search check
+    // can do this without a search check
+    formattedTitle = title.replace(REVIEW_TITLE_TOKEN, ' ');
   }
 
   return formattedTitle;
@@ -316,9 +310,9 @@ export function createFormConfig781a(iterations) {
       },
       // 9. SUPPORTING DOCUMENTS UPLOAD
       [`secondaryUploadSourcesChoice${index}`]: {
-        title: `${
-          numberToWords[index]
-        } 781a PTSD Upload Supporting Sources Choice`,
+        title: `${titleCase(
+          numberToWords(index + 1),
+        )} 781a PTSD Upload Supporting Sources Choice`,
         path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryUploadSourcesChoice.uiSchema(index),

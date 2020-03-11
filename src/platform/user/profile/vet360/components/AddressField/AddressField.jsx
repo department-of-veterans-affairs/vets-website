@@ -14,6 +14,7 @@ import {
 import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
 import AddressEditModal from './AddressEditModal';
+import AddressValidationModal from '../../containers/AddressValidationModal';
 import AddressView from './AddressView';
 
 import { getFormSchema, getUiSchema } from './address-schemas';
@@ -164,6 +165,7 @@ export default class AddressField extends React.Component {
         deleteDisabled={this.props.deleteDisabled}
         Content={AddressView}
         EditModal={AddressEditModal}
+        ValidationModal={AddressValidationModal}
         formSchema={getFormSchema(this.props.fieldName)}
         uiSchema={getUiSchema(this.props.fieldName)}
       />

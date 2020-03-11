@@ -1,7 +1,8 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS } from '../utils/constants';
-import { getMomentConfirmedDate } from '../utils/appointment';
+import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+import { getMomentConfirmedDate, isCommunityCare } from '../utils/appointment';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   getConfirmedAppointments,
@@ -13,6 +14,9 @@ import {
   getFacilitiesInfo,
   getClinicInstitutions,
 } from '../api';
+
+import { captureError } from '../utils/error';
+import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -49,7 +53,7 @@ export function fetchRequestMessages(requestId) {
         messages,
       });
     } catch (error) {
-      Sentry.captureException(error);
+      captureError(error);
       dispatch({
         type: FETCH_REQUEST_MESSAGES_FAILED,
         error,
@@ -205,10 +209,10 @@ export function fetchFutureAppointments() {
             });
           }
         } catch (error) {
-          Sentry.captureException(error);
+          captureError(error);
         }
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_FAILED,
           error,
@@ -232,14 +236,25 @@ const SUBMITTED_REQUEST = 'Submitted';
 const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
+    const appointment = getState().appointments.appointmentToCancel;
+    const isPendingRequest = appointment.status === SUBMITTED_REQUEST;
+    const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
+    const additionalEventdata = {
+      appointmentType: isPendingRequest ? 'pending' : 'confirmed',
+      facilityType: isCommunityCare(appointment) ? 'cc' : 'va',
+    };
+
     try {
+      recordEvent({
+        event: eventPrefix,
+        ...additionalEventdata,
+      });
+
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      const appointment = getState().appointments.appointmentToCancel;
-
-      if (appointment.status === SUBMITTED_REQUEST) {
+      if (isPendingRequest) {
         await updateRequest({
           ...appointment,
           status: CANCELLED_REQUEST,
@@ -284,10 +299,20 @@ export function confirmCancelAppointment() {
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
+
+      recordEvent({
+        event: `${eventPrefix}-successful`,
+        ...additionalEventdata,
+      });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+      });
+
+      recordEvent({
+        event: `${eventPrefix}-failed`,
+        ...additionalEventdata,
       });
     }
   };
@@ -296,5 +321,11 @@ export function confirmCancelAppointment() {
 export function closeCancelAppointment() {
   return {
     type: CANCEL_APPOINTMENT_CLOSED,
+  };
+}
+
+export function startNewAppointmentFlow() {
+  return {
+    type: STARTED_NEW_APPOINTMENT_FLOW,
   };
 }

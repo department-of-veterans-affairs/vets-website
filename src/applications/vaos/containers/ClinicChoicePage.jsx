@@ -50,6 +50,7 @@ const pageKey = 'clinicChoice';
 export class ClinicChoicePage extends React.Component {
   componentDidMount() {
     this.props.openClinicPage(pageKey, uiSchema, initialSchema);
+    scrollAndFocus();
   }
 
   componentDidUpdate(oldProps) {

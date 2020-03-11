@@ -77,6 +77,7 @@ class PhoneEditModal extends React.Component {
           this.props.data.phoneNumber
         }`,
         extension: this.props.data.extension || '',
+        isTextPermitted: this.props.data.isTextPermitted || false,
         'view:showSMSCheckbox': this.props.showSMSCheckbox,
       };
     } else {

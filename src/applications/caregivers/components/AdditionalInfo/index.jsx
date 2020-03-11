@@ -2,15 +2,13 @@ import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 export const InjuredLineOfDutyInto = () => (
-  <div>
-    <AdditionalInfo triggerText="Learn more about injured in the Line of Duty">
-      An injury incurred or aggravated during active military service, unless
-      the injury resulted from the Veteran's or Servicemember's willful
-      misconduct or abuse of alcohol or drugs, or it occurred while that
-      individual was avoiding duty by desertion, or absent without leave which
-      materially interfered with the performance of military duty.
-    </AdditionalInfo>
-  </div>
+  <AdditionalInfo triggerText="Learn more about injured in the Line of Duty">
+    An injury incurred or aggravated during active military service, unless the
+    injury resulted from the Veteran's or Servicemember's willful misconduct or
+    abuse of alcohol or drugs, or it occurred while that individual was avoiding
+    duty by desertion, or absent without leave which materially interfered with
+    the performance of military duty.
+  </AdditionalInfo>
 );
 
 export const PrimaryCaregiverInfo = () => (
@@ -82,7 +80,11 @@ export const CHAMPVAInfo = () => (
       CHAMPVA is a cost-sharing program that covers the price of some health
       care services and supplies.
     </p>
-    <a href="" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://www.va.gov/health-care/family-caregiver-benefits/champva/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Learn more about CHAMPVA
     </a>
   </AdditionalInfo>
@@ -93,7 +95,11 @@ export const CaregiverSupportInfo = () => (
     Caregiver Support Coordinators (CSC) connect caregivers with VA and
     community resources. They are located at every VA medical center and
     specialize in caregiving issues.
-    <a href="" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Find a caregiver support coordinator near you.
     </a>
   </AdditionalInfo>
@@ -105,6 +111,7 @@ export const PowerOfAttorneyInfo = () => (
     service member when completing this form.
   </AdditionalInfo>
 );
+
 export const RepresentativeInfo = () => (
   <AdditionalInfo triggerText="Learn more about Representative">
     Refers to a Veteran's or Servicemember's court-appointed legal guardian or
@@ -115,7 +122,14 @@ export const RepresentativeInfo = () => (
     <ol>
       <li>Call us at 877-222-VETS (877-222-8387)</li>
       <li>
-        Find a <a href="">Caregiver Support Coordinator</a>
+        Find a{' '}
+        <a
+          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Caregiver Support Coordinator
+        </a>
       </li>
       <li>Contact the National Caregiver Support line at 855-260-3274</li>
       <li>Contact a Veterans Service Orginazation</li>

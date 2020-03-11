@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Breadcrumbs from './Breadcrumbs';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 
 export default class NewAppointmentLayout extends React.Component {
@@ -10,12 +9,15 @@ export default class NewAppointmentLayout extends React.Component {
       window.History.scrollRestoration = 'manual';
     }
 
-    scrollAndFocus();
     window.addEventListener('beforeunload', this.onBeforeUnload);
 
     // We don't want people to start in the middle of the form, so redirect them when they jump
-    // in the middle
-    if (!this.props.location.pathname.endsWith('new-appointment')) {
+    // in the middle. We make an exception for the confirmation page in case someone is going back
+    // after submitting.
+    if (
+      !this.props.location.pathname.endsWith('new-appointment') &&
+      !this.props.location.pathname.endsWith('confirmation')
+    ) {
       this.props.router.replace('/new-appointment');
     }
   }
@@ -24,8 +26,6 @@ export default class NewAppointmentLayout extends React.Component {
     if (this.props.location.pathname.endsWith('confirmation')) {
       this.removeBeforeUnloadHook();
     }
-
-    scrollAndFocus();
   }
 
   componentWillUnmount() {

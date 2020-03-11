@@ -1,20 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import { FETCH_STATUS } from '../utils/constants';
 import { checkRegistration } from '../actions/registration';
-import NoEnrollmentMessage from '../components/NoEnrollmentMessage';
 import NoRegistrationMessage from '../components/NoRegistrationMessage';
+import ErrorMessage from '../components/ErrorMessage';
 
 export class RegistrationCheck extends React.Component {
   componentDidMount() {
     this.props.checkRegistration();
   }
   render() {
-    const { status, isEnrolled, hasRegisteredSystems, children } = this.props;
+    const { status, hasRegisteredSystems, children } = this.props;
 
     if (status === FETCH_STATUS.loading || status === FETCH_STATUS.notStarted) {
       return (
@@ -24,24 +23,13 @@ export class RegistrationCheck extends React.Component {
       );
     }
 
-    if (
-      status === FETCH_STATUS.succeeded &&
-      isEnrolled &&
-      hasRegisteredSystems
-    ) {
+    if (status === FETCH_STATUS.succeeded && hasRegisteredSystems) {
       return children;
     }
 
     let errorMessage;
     if (status === FETCH_STATUS.failed) {
-      errorMessage = (
-        <AlertBox status="error" headline="Sorry, something went wrong">
-          We're sorry, we ran into an error when trying to find your VA medical
-          facility registrations. Please try again later.
-        </AlertBox>
-      );
-    } else if (!isEnrolled) {
-      errorMessage = <NoEnrollmentMessage />;
+      errorMessage = <ErrorMessage />;
     } else {
       errorMessage = <NoRegistrationMessage />;
     }

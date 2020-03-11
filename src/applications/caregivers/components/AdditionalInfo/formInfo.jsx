@@ -15,11 +15,11 @@ export const VetInfo = () => (
 
 export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
   <article>
-    <span>
+    <p>
       Complete the following information about the Caregiver or Family member
       who is helping the Veteran or Service member. You can also include
       information about up to two Secondary Family Caregivers.
-    </span>
+    </p>
 
     {additionalInfo && (
       <section>

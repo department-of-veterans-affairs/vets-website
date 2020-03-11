@@ -1,18 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { scrollToTop } from 'applications/claims-status/utils/page';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -26,7 +17,7 @@ export class ConfirmationPage extends React.Component {
     const name = data.veteranFullName;
 
     return (
-      <div>
+      <section>
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We usually process claims within <strong>a week</strong>.
@@ -54,15 +45,13 @@ export class ConfirmationPage extends React.Component {
             </ul>
           )}
         </div>
-      </div>
+      </section>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+const mapStateToProps = state => ({
+  form: state.form,
+});
 
 export default connect(mapStateToProps)(ConfirmationPage);
