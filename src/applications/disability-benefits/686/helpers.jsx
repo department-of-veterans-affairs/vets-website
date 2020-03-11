@@ -3,6 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 // import { apiRequest } from '../../../platform/utilities/api';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import titleCase from 'platform/utilities/data/titleCase';
 
 export const childRelationshipStatusLabels = {
   biological: 'Biological',
@@ -14,19 +16,6 @@ export const separationReasons = {
   DEATH: 'Death',
   DIVORCE: 'Divorce',
   OTHER: 'Other',
-};
-
-const numberToWords = {
-  0: 'First',
-  1: 'Second',
-  2: 'Third',
-  3: 'Fourth',
-  4: 'Fifth',
-  5: 'Sixth',
-  6: 'Seventh',
-  7: 'Eighth',
-  8: 'Ninth',
-  9: 'Tenth',
 };
 
 const militaryStates = [
@@ -117,11 +106,8 @@ export function isNotLivingWithParent(form, index) {
 }
 
 export function getMarriageTitle(index) {
-  const marriageNumber = numberToWords[index];
-
-  return marriageNumber
-    ? `${marriageNumber} marriage`
-    : `Marriage ${index + 1}`;
+  const marriageNumber = numberToWords(index + 1);
+  return `${titleCase(marriageNumber)} marriage`;
 }
 
 export function getMarriageTitleWithCurrent(form, index) {
@@ -132,11 +118,8 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 export function getSpouseMarriageTitle(index) {
-  const marriageNumber = numberToWords[index];
-
-  return marriageNumber
-    ? `Spouse’s ${marriageNumber.toLowerCase()} marriage`
-    : `Spouse marriage ${index + 1}`;
+  const marriageNumber = numberToWords(index + 1);
+  return `Spouse’s ${marriageNumber} marriage`;
 }
 
 export function calculateChildAge(form, index) {

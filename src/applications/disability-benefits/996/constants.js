@@ -23,6 +23,7 @@ export const errorMessages = {
   informalConferenceContactPhone: 'Please provide a number',
   informalConferenceTimesMin: 'You can choose up to two time periods',
   informalConferenceTimesMax: 'You can choose up to two time periods',
+  contestedIssue: 'Please select a contested issue',
   contestedIssueCommentLength:
     'Please enter no more than 400 characters in this field',
 };

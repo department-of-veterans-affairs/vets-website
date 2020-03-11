@@ -62,19 +62,19 @@ export default class AppointmentRequestListItem extends React.Component {
 
     return (
       <li
-        aria-labelledby={`card-${index}`}
+        aria-labelledby={`card-${index} card-${index}-status`}
         data-request-id={appointment.id}
         className={itemClasses}
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {getAppointmentTypeHeader(appointment)}
         </div>
-        <h2
+        <h3
           id={`card-${index}`}
           className="vads-u-font-size--h3 vads-u-margin-y--0"
         >
           {sentenceCase(appointment.appointmentType)} appointment
-        </h2>
+        </h3>
         <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
           <div className="vads-u-margin-right--1">
             {canceled ? (
@@ -86,10 +86,10 @@ export default class AppointmentRequestListItem extends React.Component {
           <span className="vads-u-font-weight--bold vads-u-flex--1">
             <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
               {canceled ? (
-                'Canceled'
+                <span id={`card-${index}-status`}>Canceled</span>
               ) : (
                 <>
-                  <strong>Pending</strong>{' '}
+                  <strong id={`card-${index}-status`}>Pending</strong>{' '}
                   <div className="vads-u-font-weight--normal">
                     The time and date of this appointment are still to be
                     determined.

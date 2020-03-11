@@ -8,6 +8,7 @@ import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
+  TYPES_OF_EYE_CARE,
   FETCH_STATUS,
 } from './constants';
 
@@ -37,9 +38,14 @@ export function getFormPageInfo(state, pageKey) {
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const EYE_CARE = 'EYE';
 export function getTypeOfCare(data) {
   if (data.typeOfCareId === SLEEP_CARE) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
+  }
+
+  if (data.typeOfCareId === EYE_CARE) {
+    return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
   }
 
   if (
@@ -57,7 +63,12 @@ export function getTypeOfCare(data) {
 export function getCCEType(state) {
   const data = getFormData(state);
 
-  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+  let typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+  if (typeOfCare.id === 'EYE') {
+    typeOfCare = TYPES_OF_EYE_CARE.find(
+      care => care.id === data.typeOfEyeCareId,
+    );
+  }
 
   return typeOfCare?.cceType;
 }
@@ -99,8 +110,12 @@ export function getParentOfChosenFacility(state) {
 
 export function getChosenFacilityDetails(state) {
   const data = getFormData(state);
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
-  return facilityDetails[data.vaFacility] || null;
+
+  return isCommunityCare
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
