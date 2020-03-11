@@ -36,6 +36,8 @@ import {
   STATE_VALUES,
 } from '../constants';
 
+import { validateMilitaryCity, validateMilitaryState } from '../validations';
+
 const {
   // forwardingAddress,
   phoneAndEmail,
@@ -103,24 +105,22 @@ export const uiSchema = {
     country: {
       'ui:title': 'Country',
       'ui:options': {
-        updateSchema: formData => {
+        updateSchema: (formData, schema, uiSchemaCountry) => {
+          const uiSchemaDisabled = uiSchemaCountry;
+
           if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+            const formDataMailingAddress = formData.mailingAddress;
+            formDataMailingAddress.country = USA;
+
+            uiSchemaDisabled['ui:disabled'] = true;
+
             return {
               enum: [USA],
             };
           }
+          uiSchemaDisabled['ui:disabled'] = false;
           return {
             enum: countryEnum,
-          };
-        },
-        updateUiSchema: formData => {
-          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
-            return {
-              'ui:disabled': true,
-            };
-          }
-          return {
-            'ui:disabled': false,
           };
         },
       },
@@ -159,25 +159,42 @@ export const uiSchema = {
           );
         },
       },
+      'ui:validations': [
+        {
+          options: { addressPath: 'mailingAddress' },
+          // pathWithIndex is called in validateMilitaryCity
+          validator: validateMilitaryCity,
+        },
+      ],
     },
     state: {
       'ui:title': 'State',
       'ui:options': {
         hideIf: formData => formData.mailingAddress.country !== USA,
         updateSchema: formData => {
-          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+          if (
+            formData.mailingAddress['view:livesOnMilitaryBase'] ||
+            MILITARY_CITIES.includes(formData.mailingAddress.city)
+          ) {
             return {
               enum: MILITARY_STATE_VALUES,
               enumNames: MILITARY_STATE_LABELS,
             };
           }
           return {
-            enum: STATE_LABELS,
-            enumNames: STATE_VALUES,
+            enum: STATE_VALUES,
+            enumNames: STATE_LABELS,
           };
         },
       },
       'ui:required': formData => formData.mailingAddress.country === USA,
+      'ui:validations': [
+        {
+          options: { addressPath: 'mailingAddress' },
+          // pathWithIndex is called in validateMilitaryState
+          validator: validateMilitaryState,
+        },
+      ],
       'ui:errorMessages': {
         pattern: 'Please enter a valid state',
         required: 'Please enter a state',

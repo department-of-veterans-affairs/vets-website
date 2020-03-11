@@ -39,8 +39,8 @@ describe('Disability benefits 526EZ contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(6);
+    // street 1, 2, 3, city, phone, email, and overseas address checkbox
+    expect(form.find('input').length).to.equal(7);
     form.unmount();
   });
 
@@ -62,8 +62,8 @@ describe('Disability benefits 526EZ contact information', () => {
 
     // country, state
     expect(form.find('select').length).to.equal(2);
-    // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(7);
+    // street 1, 2, 3, city, zip, phone, email, and overseas address checkbox
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 
@@ -85,8 +85,8 @@ describe('Disability benefits 526EZ contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(6);
+    // street 1, 2, 3, city, phone, email, and overseas address checkbox
+    expect(form.find('input').length).to.equal(7);
     form.unmount();
   });
 
