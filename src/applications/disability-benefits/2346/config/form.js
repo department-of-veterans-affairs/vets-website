@@ -2,7 +2,7 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
-import { vetFields } from '../constants';
+import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';
 import UIDefinitions from '../definitions/2346UI';
@@ -16,7 +16,7 @@ const {
   yesOrNo,
 } = fullSchemaMDOT.definitions;
 
-const { addressField, emailField, yesOrNoField, suppliesField } = vetFields;
+const { addressField, emailField, yesOrNoField, suppliesField } = schemaFields;
 
 const { veteranAddress } = fullSchemaMDOT.properties;
 
