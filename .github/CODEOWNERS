@@ -13,3 +13,5 @@ src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-frontend
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
+# Facilities team
+src/applications/facility-locator/ @department-of-veterans-affairs/facility-locator-frontend
