@@ -49,10 +49,16 @@ module.exports = `
     fieldOffice {
       targetId
       entity {
-        reverseFieldOfficeNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}]}, sort: {field: "changed", direction: DESC}) {
+        ...on NodeHealthCareRegionPage {
+          entityLabel
+          title
+          fieldNicknameForThisFacility
+        }
+        reverseFieldOfficeNode(limit: 500, filter: {conditions: [{field: "type", value: "event"}, {field: "status", value: "1", operator: EQUAL}]}, sort: {field: "changed", direction: DESC}) {
             entities {
               ... on NodeEvent {
                 title
+                fieldFeatured
                 entityUrl {
                   path
                 }
