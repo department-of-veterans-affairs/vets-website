@@ -59,15 +59,15 @@ Example data:
         <article class="usa-content">
             <h1 id="article-heading">{{ title }}</h1>
             <div class="vads-l-grid-container--full">
-            {% if fieldIntroText %}
               <div class="va-introtext">
+                {% if fieldIntroText %}
                 <p class="events-show" id="office-events-description">
                   {{ fieldIntroText }}
                 </p>
+                {% endif %}
               </div>
-            {% endif %}
           {% if paginator.prev == null %}
-          {% for storyFeature in newsStoryTeasers.entities %}
+          {% for storyFeature in allNewsStoryTeasers.entities %}
             {% if forloop.first == true %}
               {% include "src/site/teasers/news_story_page_feature.drupal.liquid" with node = storyFeature %}
             {% endif %}
@@ -78,6 +78,11 @@ Example data:
               {% include "src/site/teasers/news_story_page.drupal.liquid" with node = story %}
             {% endif %}
           {% endfor %}
+
+          {% if pagedItems == false %}
+          <div>No stories at this time.</div>
+          {% endif %}
+
           {% include "src/site/includes/pagination.drupal.liquid" %}
         </article>
       </div>
