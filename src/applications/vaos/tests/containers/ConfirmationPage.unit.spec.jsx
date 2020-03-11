@@ -73,4 +73,30 @@ describe('VAOS <ConfirmationPage>', () => {
 
     tree.unmount();
   });
+
+  it('should render view/schedule appointment buttons and fire GA event on click', () => {
+    const flowType = FLOW_TYPES.DIRECT;
+    const closeConfirmationPage = sinon.spy();
+    const data = {};
+    const fetchFacilityDetails = sinon.spy();
+    const startNewAppointmentFlow = sinon.spy();
+
+    const tree = shallow(
+      <ConfirmationPage
+        fetchFacilityDetails={fetchFacilityDetails}
+        closeConfirmationPage={closeConfirmationPage}
+        flowType={flowType}
+        data={data}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    const LinkButtons = tree.find('Link');
+    expect(LinkButtons.length).to.equal(2);
+    LinkButtons.at(1).simulate('click');
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-schedule-another-appointment-button-clicked',
+    );
+    tree.unmount();
+  });
 });

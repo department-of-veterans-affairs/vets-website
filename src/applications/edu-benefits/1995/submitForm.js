@@ -6,7 +6,6 @@ const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
-
   const eventData = {
     benefitsUsedRecently: form.data.benefit,
     'edu-stemApplicant': form.data.isEdithNourseRogersScholarship
@@ -17,6 +16,9 @@ const submitForm = (form, formConfig) => {
     activeDuty: form.data.isActiveDuty ? 'Yes' : 'No',
     calledActiveDuty: form.data.isActiveDuty ? 'Yes' : 'No',
     preferredContactMethod: form.data.preferredContactMethod,
+    'edu-exhaustedAllBenefits': form.data['view:exhaustionOfBenefits']
+      ? 'Yes'
+      : 'No',
   };
 
   const submitUrl = display1995StemFlow(form.data)

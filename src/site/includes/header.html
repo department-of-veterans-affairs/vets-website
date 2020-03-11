@@ -82,7 +82,9 @@
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
   {% if path == '' or path == '/' %}
-  <div data-widget-type="homepage-banner"></div>
+  <div id="homepage-banner">
+    <!-- Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js -->
+  </div>
   {% endif %}
 
   <script async src="/js/incompatible-browser.js"></script>

@@ -1,6 +1,6 @@
 import { genericSchemas } from '../../../generic-schema';
 import { suffixes } from '../../../constants';
-import { stepchildInfo } from './helpers';
+import { StepchildInfo } from './helpers';
 import { isChapterFieldRequired } from '../../../helpers';
 
 export const schema = {
@@ -29,7 +29,7 @@ export const uiSchema = {
   stepChildren: {
     'ui:options': {
       itemName: 'Stepchild',
-      viewField: stepchildInfo,
+      viewField: StepchildInfo,
     },
     items: {
       first: {

@@ -246,4 +246,34 @@ describe('VAOS <AppointmentsPage>', () => {
     tree.unmount();
     div.remove();
   });
+
+  it('should fire a GA event when clicking schedule new appointment button', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        fetchFutureAppointments={fetchFutureAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    tree
+      .find('Link')
+      .at(0)
+      .simulate('click');
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-schedule-appointment-button-clicked',
+    );
+    tree.unmount();
+  });
 });

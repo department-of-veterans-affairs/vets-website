@@ -12,11 +12,18 @@ describe('Pensions SpouseMarriageTitle', () => {
 
     expect(tree.text()).to.contain('Spouse’s first marriage');
   });
-  it('should render marriage title with number value', () => {
+  it('should render eleventh marriage title', () => {
     const tree = SkinDeep.shallowRender(
       <SpouseMarriageTitle id="id" formContext={{ pagePerItemIndex: 10 }} />,
     );
 
-    expect(tree.text()).to.contain('Spouse marriage 11');
+    expect(tree.text()).to.contain('Spouse’s eleventh marriage');
+  });
+  it('should render 50th marriage title', () => {
+    const tree = SkinDeep.shallowRender(
+      <SpouseMarriageTitle id="id" formContext={{ pagePerItemIndex: 49 }} />,
+    );
+
+    expect(tree.text()).to.contain('Spouse’s 50th marriage');
   });
 });

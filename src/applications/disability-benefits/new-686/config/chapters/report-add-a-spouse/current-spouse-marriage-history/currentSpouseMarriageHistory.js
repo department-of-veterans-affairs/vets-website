@@ -49,7 +49,7 @@ export const uiSchema = {
         first: {
           'ui:title': 'Former spouse’s first name',
           'ui:errorMessages': { required: 'Please enter a first name' },
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
         },
         middle: {
           'ui:title': 'Former spouse’s middle name',
@@ -57,7 +57,7 @@ export const uiSchema = {
         last: {
           'ui:title': 'Former spouse’s last name',
           'ui:errorMessages': { required: 'Please enter a last name' },
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
         },
         suffix: {
           'ui:title': 'Former spouse’s suffix',

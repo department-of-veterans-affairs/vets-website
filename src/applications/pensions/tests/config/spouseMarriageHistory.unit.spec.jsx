@@ -64,10 +64,11 @@ describe('Pensions spouse marriage history', () => {
       expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal(
         'Spouse’s first marriage',
       );
-    });
-    it('uses number when at index ten or greater', () => {
       expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal(
-        'Spouse marriage 11',
+        'Spouse’s eleventh marriage',
+      );
+      expect(pageTitle({}, { pagePerItemIndex: 49 })).to.equal(
+        'Spouse’s 50th marriage',
       );
     });
   });
