@@ -98,14 +98,21 @@ export function fetchConstants(version) {
   const url = `${api.url}/calculator_constants${queryString}`;
 
   return dispatch => {
-    dispatch({ type: FETCH_CONSTANTS_STARTED });
-    return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload =>
-          withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload }),
-        err => dispatch({ type: FETCH_CONSTANTS_FAILED, err }),
-      );
+    fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload =>
+        withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload }),
+      )
+      .catch(err => {
+        dispatch({ type: FETCH_CONSTANTS_FAILED, err });
+      });
   };
 }
 
