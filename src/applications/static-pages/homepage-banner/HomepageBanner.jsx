@@ -80,7 +80,7 @@ export default class HomepageBanner extends React.Component {
 
     const dismissed =
       localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) ===
-      `${title}:${content}`;
+      this.prepareHomepageBannerID({ title, content });
 
     const banner = {
       visible: bannerConfig.visible,
@@ -92,10 +92,12 @@ export default class HomepageBanner extends React.Component {
     this.setState({ banner, dismissed });
   }
 
+  prepareHomepageBannerID = banner => `${banner.title}:${banner.content}`;
+
   dismiss = () => {
     localStorage.setItem(
       HOMEPAGE_BANNER_LOCALSTORAGE,
-      `${this.state.banner.title}:${this.state.banner.content}`,
+      this.prepareHomepageBannerID(this.state.banner),
     );
     this.setState({
       dismissed: true,
