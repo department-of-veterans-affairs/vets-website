@@ -2,16 +2,6 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
-import orderSupplyPageContent from '../components/oderSupplyPageContent';
-import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
-import deviceNameField from '../components/supplyCustomFields/deviceNameField';
-import productNameField from '../components/supplyCustomFields/productNameField';
-import quantityField from '../components/supplyCustomFields/quantityField';
-import productIdField from '../components/supplyCustomFields/productIdField';
-import lastOrderDateField from '../components/supplyCustomFields/lastOrderDateField';
-import sizeField from '../components/supplyCustomFields/sizeField';
-import emptyField from '../components/emptyField';
-import SuppliesReview from '../components/suppliesReview';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -23,12 +13,21 @@ const {
   gender,
   address,
   supplies,
-  accessories,
+  yesOrNo,
 } = fullSchemaMDOT.definitions;
+
+const { addressField, emailField, yesOrNoField, suppliesField } = vetFields;
 
 const { veteranAddress } = fullSchemaMDOT.properties;
 
-const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
+const {
+  emailUI,
+  addressUI,
+  addBatteriesUI,
+  addAccessoriesUI,
+  batteriesUI,
+  accessoriesUI,
+} = UIDefinitions.sharedUISchemas;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
@@ -38,8 +37,8 @@ const formChapters = {
 const formPages = {
   personalDetails: 'Personal Details',
   confirmAddress: 'Shipping Address',
-  orderSuppliesPage: 'Add batteries to your order',
-  orderAccessoriesPage: 'Add accessories to your order',
+  addBatteriesPage: 'Add batteries to your order',
+  addAccessoriesPage: 'Add accessories to your order',
 };
 
 const formConfig = {
@@ -65,10 +64,10 @@ const formConfig = {
     address,
     gender,
     supplies,
-    accessories,
+    yesOrNo,
   },
   chapters: {
-    VeteranInformationChapter: {
+    veteranInformationChapter: {
       title: formChapters.veteranInformation,
       pages: {
         [formPages.personalDetails]: {
@@ -86,8 +85,8 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPages.confirmAddress,
           uiSchema: {
-            [vetFields.address]: addressUI,
-            [vetFields.email]: emailUI,
+            [addressField]: addressUI,
+            [emailField]: emailUI,
           },
           schema: {
             type: 'object',
@@ -99,191 +98,37 @@ const formConfig = {
         },
       },
     },
-    OrderSuppliesChapter: {
+    orderSuppliesChapter: {
       title: formChapters.orderSupplies,
       pages: {
-        [formPages.orderSuppliesPage]: {
+        [formPages.addBatteriesPage]: {
           path: 'supplies',
-          title: formPages.orderSuppliesPage,
+          title: formPages.addBatteriesPage,
           schema: {
             type: 'object',
             properties: {
-              'view:addBatteries': {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
+              yesOrNo,
               supplies,
             },
           },
           uiSchema: {
-            'view:addBatteries': {
-              'ui:title': 'Add batteries to your order',
-              'ui:description': orderSupplyPageContent,
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes, I need to order hearing aid batteries.',
-                  no: "No, I don't need to order hearing aid batteries.",
-                },
-              },
-              'ui:reviewField': SuppliesReview,
-            },
-            supplies: {
-              'ui:title': 'Which hearing aid do you need batteries for?',
-              'ui:description':
-                'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:options': {
-                expandUnder: 'view:addBatteries',
-                expandUnderCondition: 'yes',
-              },
-              device_name: {
-                'ui:title': '  ',
-                'ui:field': deviceNameField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_name: {
-                'ui:title': '  ',
-                'ui:field': productNameField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              quantity: {
-                'ui:title': '  ',
-                'ui:field': quantityField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_id: {
-                'ui:title': '  ',
-                'ui:field': productIdField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              last_order_date: {
-                'ui:title': '  ',
-                'ui:field': lastOrderDateField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              size: {
-                'ui:title': '  ',
-                'ui:field': sizeField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_group: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-              available_for_reorder: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-              next_availability_date: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-            },
+            [yesOrNoField]: addBatteriesUI,
+            [suppliesField]: batteriesUI,
           },
         },
-        [formPages.orderAccessoriesPage]: {
+        [formPages.addAccessoriesPage]: {
           path: 'accessories',
-          title: formPages.orderAccessoriesPage,
+          title: formPages.addAccessoriesPage,
           schema: {
             type: 'object',
             properties: {
-              'view:addAccessories': {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
-              accessories,
+              yesOrNo,
+              supplies,
             },
           },
           uiSchema: {
-            'view:addAccessories': {
-              'ui:title': 'Add hearing aid accessories to your order',
-              'ui:description': orderAccessoriesPageContent,
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes, I need to order hearing aid accessories.',
-                  no: "No, I don't need to order hearing aid accessories.",
-                },
-              },
-              'ui:reviewField': SuppliesReview,
-            },
-            accessories: {
-              'ui:title': 'Which hearing aid do you need batteries for?',
-              'ui:description':
-                'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:options': {
-                expandUnder: 'view:addAccessories',
-                expandUnderCondition: 'yes',
-              },
-              product_name: {
-                'ui:title': '  ',
-                'ui:field': productNameField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              quantity: {
-                'ui:title': '  ',
-                'ui:field': quantityField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_id: {
-                'ui:title': '  ',
-                'ui:field': productIdField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              last_order_date: {
-                'ui:title': '  ',
-                'ui:field': lastOrderDateField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_group: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-              available_for_reorder: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-              next_availability_date: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-            },
+            [yesOrNoField]: addAccessoriesUI,
+            [suppliesField]: accessoriesUI,
           },
         },
       },
