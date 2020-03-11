@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import { DISABLED_LIMIT_VALUE } from '../utils/constants';
 import { captureError } from '../utils/error';
 
@@ -199,11 +198,7 @@ export function getEligibleFacilities(facilities) {
  * while keys ending with 'failure' signify that the user didn't meet the condition
  * of the check.
  */
-export function recordEligibilityGAEvents(
-  eligibilityData,
-  typeOfCareId,
-  systemId,
-) {
+export function recordEligibilityGAEvents(eligibilityData) {
   if (!hasRequestFailed(eligibilityData)) {
     if (!isUnderRequestLimit(eligibilityData)) {
       recordVaosError('request-exceeded-outstanding-requests-failure');
@@ -223,21 +218,6 @@ export function recordEligibilityGAEvents(
 
     if (!eligibilityData.clinics?.length) {
       recordVaosError('direct-available-clinics-failure');
-    }
-
-    if (
-      typeOfCareId === PRIMARY_CARE &&
-      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId)
-    ) {
-      recordVaosError('direct-pac-team-failure');
-    }
-
-    if (
-      typeOfCareId === PRIMARY_CARE &&
-      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) &&
-      eligibilityData.clinics?.length
-    ) {
-      Sentry.captureMessage('vaos_clinics_with_no_pact');
     }
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
@@ -229,9 +230,23 @@ export class VAFacilityPage extends React.Component {
           {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
+            continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
+          {(loadingEligibility || pageChangeInProgress) && (
+            <div aria-atomic="true" aria-live="assertive">
+              <AlertBox
+                status="warning"
+                headline="We're checking if we're able to create appointment for you at this facility"
+              >
+                <p>
+                  This process could take up to 30 seconds, thank you for your
+                  patience.
+                </p>
+              </AlertBox>
+            </div>
+          )}
         </SchemaForm>
       </div>
     );
