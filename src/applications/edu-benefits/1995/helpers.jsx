@@ -1,6 +1,4 @@
 // 1995-STEM related
-import environment from 'platform/utilities/environment';
-
 const isEdithNourseRogersScholarship = form =>
   form.isEdithNourseRogersScholarship;
 
@@ -22,8 +20,6 @@ export const determineEligibilityFor1995Stem = form =>
   form['view:determineEligibility']['view:determineEligibility'];
 
 export const display1995StemFlow = form =>
-  environment.isProduction()
-    ? isEdithNourseRogersScholarship(form)
-    : isEdithNourseRogersScholarship(form) &&
-      (isEligibleForEdithNourseRogersScholarship(form) ||
-        determineEligibilityFor1995Stem(form));
+  isEdithNourseRogersScholarship(form) &&
+  (isEligibleForEdithNourseRogersScholarship(form) ||
+    determineEligibilityFor1995Stem(form));
