@@ -79,7 +79,8 @@ export default class HomepageBanner extends React.Component {
     });
 
     const dismissed =
-      localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) === bannerConfig.title;
+      localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) ===
+      `${bannerConfig.title}:${bannerConfig.content}`;
 
     const banner = {
       visible: bannerConfig.visible,
@@ -92,7 +93,10 @@ export default class HomepageBanner extends React.Component {
   }
 
   dismiss = () => {
-    localStorage.setItem(HOMEPAGE_BANNER_LOCALSTORAGE, this.state.banner.title);
+    localStorage.setItem(
+      HOMEPAGE_BANNER_LOCALSTORAGE,
+      `${this.state.banner.title}:${this.state.banner.content}`,
+    );
     this.setState({
       dismissed: true,
     });
