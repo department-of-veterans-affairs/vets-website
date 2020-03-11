@@ -354,11 +354,10 @@ export default {
     url: '/new-appointment/contact-info',
     next: 'review',
     previous(state) {
-      if (isCCFacility(state)) {
-        return 'ccPreferences';
-      }
-
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+      if (
+        isCCFacility(state) ||
+        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
+      ) {
         return 'reasonForAppointment';
       }
 

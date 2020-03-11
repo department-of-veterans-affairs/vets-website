@@ -19,6 +19,11 @@ const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
 const bioPage = require('./bioPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
+const storyListingPage = require('./storyListingPage.graphql');
+const leadershipListingPage = require('./leadershipListingPage.graphql');
+const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
+const healthServicesListingPage = require('./healthServicesListingPage.graphql');
+const locationListingPage = require('./locationsListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
@@ -59,6 +64,11 @@ const buildQuery = ({ useTomeSync }) => {
   ${bioPage}
   ${benefitListingPage}
   ${eventListingPage}
+  ${storyListingPage}
+  ${leadershipListingPage}
+  ${healthServicesListingPage}
+  ${pressReleasesListingPage}
+  ${locationListingPage}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -85,6 +95,11 @@ const buildQuery = ({ useTomeSync }) => {
         ... bioPage
         ... benefitListingPage
         ... eventListingPage
+        ... storyListingPage
+        ... leadershipListingPage
+        ... pressReleasesListingPage
+        ... healthServicesListingPage
+        ... locationListingPage
       }
     }`;
 
