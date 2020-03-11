@@ -237,7 +237,7 @@ export class VAFacilityPage extends React.Component {
           {(loadingEligibility || pageChangeInProgress) && (
             <div aria-atomic="true" aria-live="assertive">
               <AlertBox isVisible status="info" headline="Please wait">
-                We are checking if we can create an appointment for you at this
+                We’re checking if we can create an appointment for you at this
                 facility. This may take up to a minute. Thank you for your
                 patience.
               </AlertBox>
