@@ -80,7 +80,7 @@ export default class HomepageBanner extends React.Component {
 
     const dismissed =
       localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) ===
-      `${bannerConfig.title}:${bannerConfig.content}`;
+      `${title}:${content}`;
 
     const banner = {
       visible: bannerConfig.visible,
