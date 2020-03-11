@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
@@ -141,40 +140,26 @@ export default class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
-    // Prod flag for 5134
-    const newBenefitOptions = environment.isProduction()
-      ? [
-          { label: 'Applying for a new benefit', value: 'yes' },
-          {
-            label: 'Updating my current education benefits',
-            value: 'no',
-          },
-          {
-            label:
-              'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
-            value: 'extend',
-          },
-        ]
-      : [
-          { label: 'Applying for a new benefit', value: 'yes' },
-          {
-            label: (
-              <span className="radioText">
-                Updating my program of study or place of training
-              </span>
-            ),
-            value: 'no',
-          },
-          {
-            label: (
-              <span className="radioText">
-                Applying to extend my Post-9/11 or Fry Scholarship benefits
-                using the Edith Nourse Rogers STEM Scholarship
-              </span>
-            ),
-            value: 'extend',
-          },
-        ];
+    const newBenefitOptions = [
+      { label: 'Applying for a new benefit', value: 'yes' },
+      {
+        label: (
+          <span className="radioText">
+            Updating my program of study or place of training
+          </span>
+        ),
+        value: 'no',
+      },
+      {
+        label: (
+          <span className="radioText">
+            Applying to extend my Post-9/11 or Fry Scholarship benefits using
+            the Edith Nourse Rogers STEM Scholarship
+          </span>
+        ),
+        value: 'extend',
+      },
+    ];
 
     return (
       <div className="wizard-container">
@@ -364,9 +349,7 @@ export default class EducationWizard extends React.Component {
                   {this.getButton('1990N')}
                 </div>
               )}
-            {newBenefit === 'extend' &&
-            // Prod flag for 5134
-            !environment.isProduction() ? (
+            {newBenefit === 'extend' && (
               <div className="wizard-edith-nourse-content">
                 <br />
                 <strong>
@@ -449,8 +432,6 @@ export default class EducationWizard extends React.Component {
                     ))}
                 </div>
               </div>
-            ) : (
-              newBenefit === 'extend' && this.getButton('1995')
             )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
