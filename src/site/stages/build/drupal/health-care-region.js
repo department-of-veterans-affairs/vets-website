@@ -10,6 +10,20 @@ const {
 const _ = require('lodash');
 const moment = require('moment');
 
+/**
+ * Sort services.
+ *
+ * @param sortItem The services array.
+ * @return []
+ */
+function sortServices(sortItem) {
+  return _(sortItem)
+    .sortBy('fieldServiceNameAndDescripti.entity.weight')
+    .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
+    .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
+    .value();
+}
+
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
@@ -63,11 +77,9 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
   if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
-      .sortBy('fieldServiceNameAndDescripti.entity.weight')
-      .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
-      .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
-      .value();
+    const clinicalHealthServices = sortServices(
+      page.fieldClinicalHealthServices.entities,
+    );
 
     const hsEntityUrl = createEntityUrlObj(drupalPagePath);
     const hsObj = {
@@ -176,7 +188,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   pastEventTeasers.entities = _.orderBy(
     pastEventTeasers.entities,
     ['fieldDate.startDate'],
-    ['desc'],
+    ['asc'],
   );
 
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
@@ -198,7 +210,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     eventPage,
     files,
     'allEventTeasers',
-    'events_page.drupal.liquid',
+    'event_listing.drupal.liquid',
     'events',
   );
 
@@ -227,7 +239,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     pastEventsPage,
     files,
     'allEventTeasers',
-    'events_page.drupal.liquid',
+    'event_listing.drupal.liquid',
     'past-events',
   );
 
@@ -256,7 +268,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     bioListingPage,
     files,
     'allStaffProfiles',
-    'bios_page.drupal.liquid',
+    'leadership_listing.drupal.liquid',
     'bio',
   );
 }
@@ -285,4 +297,28 @@ function addGetUpdatesFields(page, pages) {
   }
 }
 
-module.exports = { createHealthCareRegionListPages, addGetUpdatesFields };
+/**
+ * Add pagers to cms content listing pages.
+ *
+ * @param {page} page The page object.
+ * @param {files} files The generated file.
+ * @param {field} field The target field.
+ * @param {template} template The template for output formatting.
+ * @param {files} files The acessibility aria.
+ * @return nothing
+ */
+function addPager(page, files, field, template, aria) {
+  // Add our pager to the Drupal page.
+  const pagingObject = paginatePages(page, files, field, template, aria);
+  if (pagingObject[0]) {
+    page.pagedItems = pagingObject[0].pagedItems;
+    page.paginator = pagingObject[0].paginator;
+  }
+}
+
+module.exports = {
+  createHealthCareRegionListPages,
+  addGetUpdatesFields,
+  addPager,
+  sortServices,
+};
