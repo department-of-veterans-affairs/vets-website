@@ -489,7 +489,7 @@ class VAMap extends Component {
       selectedResult,
       showCommunityCares,
       results,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const externalLink =
@@ -595,7 +595,7 @@ class VAMap extends Component {
       currentQuery,
       showCommunityCares,
       results,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { currentPage, totalPages },
     } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
