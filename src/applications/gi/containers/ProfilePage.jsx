@@ -9,6 +9,8 @@ import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 
+import { RenderBackendErrorMessage } from '../utils/render';
+
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class ProfilePage extends React.Component {
@@ -57,8 +59,10 @@ export class ProfilePage extends React.Component {
 
     let content;
 
-    if (profile.inProgress || _.isEmpty(profile.attributes)) {
+    if (profile.inProgress) {
       content = <LoadingIndicator message="Loading your profile..." />;
+    } else if (_.isEmpty(profile.attributes)) {
+      content = RenderBackendErrorMessage;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 

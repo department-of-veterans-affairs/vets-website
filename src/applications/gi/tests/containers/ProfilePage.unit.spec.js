@@ -44,4 +44,20 @@ describe('<ProfilePage>', () => {
     expect(vdom).to.not.be.undefined;
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
+
+  it('should show system down message for backend service error', () => {
+    const vetTecProps = {
+      ...defaultProps,
+      showModal: () => {},
+      profile: {
+        ...defaultProps.profile,
+        attributes: {},
+      },
+      params: {
+        preSelectedProgram: '',
+      },
+    };
+    const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
+    expect(tree.subTree('#backendErrorMessage')).to.be.ok;
+  });
 });
