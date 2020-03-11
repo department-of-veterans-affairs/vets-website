@@ -49,8 +49,8 @@ class Vet360ProfileField extends React.Component {
     const modalOpenInPrevProps =
       transaction || showValidationModal || isEditing;
     const modalIsClosed =
-      !this.props.transaction ||
-      !this.props.showValidationModal ||
+      !this.props.transaction &&
+      !this.props.showValidationModal &&
       !this.props.isEditing;
 
     if (modalOpenInPrevProps && modalIsClosed) {
