@@ -8,9 +8,15 @@ export const FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE =
   'disability-benefits/2346/FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE';
 
 export const vetFields = {
-  address: 'veteranAddress',
-  dateOfBirth: 'veteranDateOfBirth',
-  email: 'veteranEmail',
-  fullName: 'veteranFullName',
-  gender: 'veteranGender',
+  addressField: 'veteranAddress',
+  dateOfBirthField: 'veteranDateOfBirth',
+  emailField: 'veteranEmail',
+  fullNameField: 'veteranFullName',
+  genderField: 'veteranGender',
+  suppliesField: 'supplies',
+  addBatteriesField: 'view:addBatteries',
+  addAccessoriesField: 'view:addAccessories',
+  batteriesField: 'batteries',
+  accessoriesField: 'accessories',
+  yesOrNoField: 'yesOrNo',
 };
