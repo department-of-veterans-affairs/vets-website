@@ -231,7 +231,6 @@ describe('VAOS reducer: newAppointment', () => {
           requestPastVisit: {},
           directPastVisit: {},
           requestLimits: {},
-          pacTeam: [],
         },
       };
 
@@ -417,7 +416,6 @@ describe('VAOS reducer: newAppointment', () => {
           directPastVisit: {},
           requestPastVisit: {},
           requestLimits: {},
-          pacTeam: [],
         },
       };
       const state = {

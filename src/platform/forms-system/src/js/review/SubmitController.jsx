@@ -81,7 +81,6 @@ class SubmitController extends React.Component {
 *  PreSubmitSection - Default component that renders if no CustomComponent is provided
 *  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
 */
-
   RenderPreSubmitSection = () => {
     const { form, formConfig, showPreSubmitError } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
@@ -115,6 +114,8 @@ class SubmitController extends React.Component {
 
   render() {
     const { form, renderErrorMessage } = this.props;
+    // Render inside SubmitButtons so the alert is _above_ the submit button;
+    // helps with accessibility
 
     return (
       <div>
@@ -124,6 +125,7 @@ class SubmitController extends React.Component {
           onSubmit={this.handleSubmit}
           submission={form.submission}
           renderErrorMessage={renderErrorMessage}
+          preSubmitBlock={this.RenderPreSubmitSection}
         />
       </div>
     );

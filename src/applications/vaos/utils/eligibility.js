@@ -1,13 +1,7 @@
-import * as Sentry from '@sentry/browser';
-import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
+import { DISABLED_LIMIT_VALUE } from '../utils/constants';
 import { captureError } from '../utils/error';
 
-import {
-  checkPastVisits,
-  getRequestLimits,
-  getPacTeam,
-  getAvailableClinics,
-} from '../api';
+import { checkPastVisits, getRequestLimits, getAvailableClinics } from '../api';
 
 import { recordVaosError } from './events';
 
@@ -60,14 +54,6 @@ export async function getEligibilityData(
         createErrorHandler('direct', 'direct-available-clinics-error'),
       ),
     );
-
-    if (typeOfCareId === PRIMARY_CARE) {
-      eligibilityChecks.push(
-        getPacTeam(systemId).catch(
-          createErrorHandler('direct', 'direct-pac-team-error'),
-        ),
-      );
-    }
   }
 
   const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
@@ -81,19 +67,12 @@ export async function getEligibilityData(
   };
 
   if (directData?.length) {
-    const [directPastVisit, clinics, ...pacTeam] = directData;
+    const [directPastVisit, clinics] = directData;
     eligibility = {
       ...eligibility,
       directPastVisit,
       clinics,
     };
-
-    if (pacTeam.length) {
-      eligibility = {
-        ...eligibility,
-        pacTeam: pacTeam[0],
-      };
-    }
   }
 
   return eligibility;
@@ -111,13 +90,6 @@ function hasVisitedInPastMonthsRequest(eligibilityData) {
     eligibilityData.requestPastVisit?.durationInMonths ===
       DISABLED_LIMIT_VALUE ||
     eligibilityData.requestPastVisit?.hasVisitedInPastMonths
-  );
-}
-
-function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) {
-  return (
-    typeOfCareId !== PRIMARY_CARE ||
-    eligibilityData.pacTeam.some(provider => provider.facilityId === systemId)
   );
 }
 
@@ -179,9 +151,6 @@ export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
       directPastVisitValue:
         directSchedulingEnabled &&
         eligibilityData.directPastVisit.durationInMonths,
-      directPACT:
-        directSchedulingEnabled &&
-        hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId),
       directClinics:
         directSchedulingEnabled && !!eligibilityData.clinics.length,
     };
@@ -203,7 +172,6 @@ export function isEligible(eligibilityChecks) {
     directSupported,
     directPastVisit,
     directClinics,
-    directPACT,
     requestFailed,
     requestSupported,
     requestLimit,
@@ -212,11 +180,7 @@ export function isEligible(eligibilityChecks) {
 
   return {
     direct:
-      !directFailed &&
-      directSupported &&
-      directPastVisit &&
-      directPACT &&
-      directClinics,
+      !directFailed && directSupported && directPastVisit && directClinics,
     request:
       !requestFailed && requestSupported && requestLimit && requestPastVisit,
   };
@@ -234,11 +198,7 @@ export function getEligibleFacilities(facilities) {
  * while keys ending with 'failure' signify that the user didn't meet the condition
  * of the check.
  */
-export function recordEligibilityGAEvents(
-  eligibilityData,
-  typeOfCareId,
-  systemId,
-) {
+export function recordEligibilityGAEvents(eligibilityData) {
   if (!hasRequestFailed(eligibilityData)) {
     if (!isUnderRequestLimit(eligibilityData)) {
       recordVaosError('request-exceeded-outstanding-requests-failure');
@@ -258,21 +218,6 @@ export function recordEligibilityGAEvents(
 
     if (!eligibilityData.clinics?.length) {
       recordVaosError('direct-available-clinics-failure');
-    }
-
-    if (
-      typeOfCareId === PRIMARY_CARE &&
-      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId)
-    ) {
-      recordVaosError('direct-pac-team-failure');
-    }
-
-    if (
-      typeOfCareId === PRIMARY_CARE &&
-      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) &&
-      eligibilityData.clinics?.length
-    ) {
-      Sentry.captureMessage('vaos_clinics_with_no_pact');
     }
   }
 }
