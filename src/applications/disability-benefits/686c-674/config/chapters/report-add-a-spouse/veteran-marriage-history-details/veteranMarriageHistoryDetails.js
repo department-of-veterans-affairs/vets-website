@@ -12,7 +12,7 @@ const reasonMarriageEndedSchema = {
 };
 
 const reasonMarriageEndedUISchema = {
-  'ui:required': formData => formData.spouseWasMarriedBefore === true,
+  'ui:required': formData => formData.veteranWasMarriedBefore,
   'ui:title': 'Why did marriage end?',
   'ui:widget': 'radio',
 };
@@ -20,7 +20,7 @@ const reasonMarriageEndedUISchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spouseMarriageHistory: {
+    veteranMarriageHistory: {
       type: 'array',
       items: {
         type: 'object',
@@ -38,30 +38,30 @@ export const schema = {
 };
 
 export const uiSchema = {
-  spouseMarriageHistory: {
+  veteranMarriageHistory: {
     items: {
       'ui:title': SpouseTitle,
       marriageStartDate: {
         ...currentOrPastDateUI('Date of marriage'),
         ...{
-          'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:required': formData => formData.veteranWasMarriedBefore,
         },
       },
       marriageStartLocation: {
         'ui:title': 'Where did this marriage take place?',
         state: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:required': formData => formData.veteranWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
         },
         city: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:required': formData => formData.veteranWasMarriedBefore,
           'ui:title': 'City or county',
         },
       },
       reasonMarriageEnded: reasonMarriageEndedUISchema,
       reasonMarriageEndedOther: {
         'ui:required': (formData, index) =>
-          formData.spouseMarriageHistory[`${index}`].reasonMarriageEnded ===
+          formData.veteranMarriageHistory[`${index}`].reasonMarriageEnded ===
           'OTHER',
         'ui:title': 'Please give a brief explanation',
         'ui:options': {
@@ -74,17 +74,17 @@ export const uiSchema = {
       marriageEndDate: {
         ...currentOrPastDateUI('When did marriage end?'),
         ...{
-          'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:required': formData => formData.veteranWasMarriedBefore,
         },
       },
       marriageEndLocation: {
         'ui:title': 'Where did this marriage end?',
         state: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:required': formData => formData.veteranWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
         },
         city: {
-          'ui:required': formData => formData.spouseWasMarriedBefore,
+          'ui:required': formData => formData.veteranWasMarriedBefore,
           'ui:title': 'City or county',
         },
       },

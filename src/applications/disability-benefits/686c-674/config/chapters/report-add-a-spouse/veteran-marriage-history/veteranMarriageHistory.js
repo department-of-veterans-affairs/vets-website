@@ -8,10 +8,10 @@ const { fullName } = genericSchemas;
 export const schema = {
   type: 'object',
   properties: {
-    spouseWasMarriedBefore: {
+    veteranWasMarriedBefore: {
       type: 'boolean',
     },
-    spouseMarriageHistory: {
+    veteranMarriageHistory: {
       type: 'array',
       items: {
         type: 'object',
@@ -24,27 +24,24 @@ export const schema = {
 };
 
 export const uiSchema = {
-  spouseWasMarriedBefore: {
-    'ui:title': 'Was your spouse married before?',
+  veteranWasMarriedBefore: {
+    'ui:title': 'Were you married before?',
     'ui:widget': 'yesNo',
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },
-  spouseMarriageHistory: {
+  veteranMarriageHistory: {
     'ui:options': {
       viewField: SpouseViewField,
-      expandUnder: 'spouseWasMarriedBefore',
+      expandUnder: 'veteranWasMarriedBefore',
       expandUnderCondition: true,
       keepInPageOnReview: true,
-      // ui:required doesn't play well with expandUnder, possibly because the markup isn't added to the dom until the expandUnder condition is met.
-      // Because of this, a user can progress past the below fields, even if they're technically mandatory.
-      // Using updateSchema and ensuring at least one item needs to be in the array causes the validations to fire properly.
       updateSchema: () => ({
         minItems: 1,
       }),
     },
     items: {
+      'ui:title': 'Your former spouse(s)',
       formerSpouseName: {
-        'ui:title': 'Former spouse’s information',
         'ui:validations': [validateName],
         first: {
           'ui:title': 'Former spouse’s first name',
