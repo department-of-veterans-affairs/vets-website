@@ -1,9 +1,11 @@
 import {
   resetAddressValidation,
   validateAddress,
+  updateValidationKeyAndSave,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_RESET,
+  ADDRESS_VALIDATION_UPDATE,
 } from '../../actions/transactions';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -113,6 +115,23 @@ describe('validateAddress', () => {
           id: 123,
         },
       ]);
+    });
+  });
+});
+
+describe('updateValidationKeyAndSave', () => {
+  it('verify return data', () => {
+    const dispatch = sinon.spy();
+    return updateValidationKeyAndSave(
+      route,
+      method,
+      fieldName,
+      payload,
+      analyticsSectionName,
+    )(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        ADDRESS_VALIDATION_UPDATE,
+      );
     });
   });
 });
