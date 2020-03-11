@@ -63,7 +63,6 @@ import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import pacTeam from '../../api/pact.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -606,7 +605,6 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
-      setFetchJSONResponse(global.fetch.onCall(4), pacTeam);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,

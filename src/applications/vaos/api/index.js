@@ -85,6 +85,7 @@ export const getLongTermAppointmentHistory = (() => {
   const MAX_HISTORY = 24;
   const MONTH_CHUNK = 6;
   let promise = null;
+
   return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];

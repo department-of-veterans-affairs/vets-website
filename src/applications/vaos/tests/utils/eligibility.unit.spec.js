@@ -1,8 +1,4 @@
 import { expect } from 'chai';
-import * as Sentry from '@sentry/browser';
-import sentryTestkit from 'sentry-testkit';
-
-const { testkit, sentryTransport } = sentryTestkit();
 
 import {
   resetFetch,
@@ -53,7 +49,6 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestSupported',
         'directPastVisit',
         'clinics',
-        'pacTeam',
       ]);
     });
     it('should skip pact if not primary care', async () => {
@@ -103,7 +98,6 @@ describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityChecks', () => {
     it('should calculate failing statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
-        pacTeam: [],
         clinics: [],
         directSupported: true,
         requestSupported: true,
@@ -126,7 +120,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: false,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
         requestPastVisit: false,
         requestPastVisitValue: 24,
@@ -139,7 +132,6 @@ describe('VAOS scheduling eligibility logic', () => {
 
     it('should calculate successful statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
-        pacTeam: [{ facilityId: '983' }],
         clinics: [{}],
         directSupported: true,
         requestSupported: true,
@@ -162,7 +154,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: false,
         directPastVisit: true,
         directPastVisitValue: 12,
-        directPACT: true,
         directClinics: true,
         directSupported: true,
         requestSupported: true,
@@ -228,7 +219,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: true,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
       });
     });
@@ -238,7 +228,6 @@ describe('VAOS scheduling eligibility logic', () => {
       const { direct, request } = isEligible({
         directPastVisit: false,
         directClinics: true,
-        directPACT: true,
         directSupported: true,
         requestSupported: true,
         requestPastVisit: true,
@@ -268,7 +257,7 @@ describe('VAOS scheduling eligibility logic', () => {
         '983',
         true,
       );
-      expect(global.window.dataLayer.length).to.equal(5);
+      expect(global.window.dataLayer.length).to.equal(4);
       resetFetch();
     });
 
@@ -295,7 +284,7 @@ describe('VAOS scheduling eligibility logic', () => {
         '983',
       );
 
-      expect(global.window.dataLayer.length).to.equal(5);
+      expect(global.window.dataLayer.length).to.equal(4);
     });
 
     it('should not record failure events when ineligible', () => {
@@ -323,42 +312,6 @@ describe('VAOS scheduling eligibility logic', () => {
       );
 
       expect(global.window.dataLayer.length).to.equal(0);
-    });
-
-    it('should record Sentry message when clinics with no PACT', () => {
-      Sentry.init({
-        dsn: 'http://one@fake/dsn',
-        transport: sentryTransport,
-      });
-      testkit.reset();
-
-      recordEligibilityGAEvents(
-        {
-          pacTeam: [],
-          clinics: [{}],
-          directSupported: true,
-          requestSupported: true,
-          directPastVisit: {
-            durationInMonths: 12,
-            hasVisitedInPastMonths: true,
-          },
-          requestPastVisit: {
-            requestFailed: false,
-            hasVisitedInPastMonths: true,
-          },
-          requestLimits: {
-            requestLimit: 1,
-            numberOfRequests: 0,
-          },
-        },
-        '323',
-        '983',
-      );
-
-      expect(testkit.reports()[0].message).to.equal(
-        'vaos_clinics_with_no_pact',
-      );
-      testkit.reset();
     });
   });
 });
