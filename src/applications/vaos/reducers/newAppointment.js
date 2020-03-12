@@ -314,11 +314,14 @@ export default function formReducer(state = initialState, action) {
           ...state.eligibility,
           [`${data.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
         };
-        clinics = {
-          ...state.clinics,
-          [`${data.vaFacility}_${action.typeOfCareId}`]: action.eligibilityData
-            .clinics,
-        };
+
+        if (!action.eligibilityData.clinics?.directFailed) {
+          clinics = {
+            ...state.clinics,
+            [`${data.vaFacility}_${action.typeOfCareId}`]: action
+              .eligibilityData.clinics,
+          };
+        }
       }
 
       return {
@@ -445,14 +448,19 @@ export default function formReducer(state = initialState, action) {
         action.typeOfCareId,
         action.eligibilityData,
       );
+      let clinics = state.clinics;
 
-      return {
-        ...state,
-        clinics: {
+      if (!action.eligibilityData.clinics?.directFailed) {
+        clinics = {
           ...state.clinics,
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
             .eligibilityData.clinics,
-        },
+        };
+      }
+
+      return {
+        ...state,
+        clinics,
         eligibility: {
           ...state.eligibility,
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
