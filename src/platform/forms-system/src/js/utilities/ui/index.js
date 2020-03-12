@@ -1,10 +1,10 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
-export function focusElement(selectorOrElement, options) {
+export function focusElement(selectorOrElement, options, testDom) {
   const el =
     typeof selectorOrElement === 'string'
-      ? document.querySelector(selectorOrElement)
+      ? (testDom || document).querySelector(selectorOrElement)
       : selectorOrElement;
 
   if (el) {
@@ -19,9 +19,10 @@ export function focusElement(selectorOrElement, options) {
 }
 
 // Focus on review row _after_ the content has been updated
-export function focusOnChange(name) {
+export function focusOnChange(name, testDom) {
   setTimeout(() => {
-    const el = document.querySelector(`[name="${name}ScrollElement"]`);
+    const selector = `[name="${name}ScrollElement"]`;
+    const el = (testDom || document).querySelector(selector);
     // nextElementSibling = page form
     const targets = el?.nextElementSibling?.querySelectorAll('.review-row');
     if (targets) {
