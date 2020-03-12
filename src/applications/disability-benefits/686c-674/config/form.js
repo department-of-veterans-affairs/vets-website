@@ -13,7 +13,7 @@ import {
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
-import { children } from './chapters/add-a-child';
+import { children, childPlaceOfBirth } from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
@@ -109,13 +109,19 @@ const formConfig = {
     addChild: {
       title: 'Information needed to add your child',
       pages: {
-        childInformation: {
+        addChildInformation: {
           title: 'Information needed to add your child',
           path: 'add-child',
-          showPagePerItem: true,
-          arrayPath: 'children',
           uiSchema: children.uiSchema,
           schema: children.schema,
+        },
+        addChildPlaceOfBirth: {
+          title: 'Information needed to add your child',
+          path: 'add-child/:index',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: childPlaceOfBirth.uiSchema,
+          schema: childPlaceOfBirth.schema,
         },
       },
     },
@@ -153,7 +159,6 @@ const formConfig = {
         },
       },
     },
-
     reportChildStoppedAttendingSchool: {
       title:
         'Information needed to report a child 18-23 years old stopped attending school',
