@@ -1,3 +1,5 @@
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+
 function completeMilitaryService(client) {
   client.click('input#root_view\\:hasServiceBefore1978Yes');
 }
@@ -93,15 +95,35 @@ function completeStemSelection(client) {
 }
 
 function completeStemSelectionFor1995s(client) {
+  client.waitForElementVisible(
+    'label[for="root_isEdithNourseRogersScholarshipYes"',
+    Timeouts.slow,
+  );
   client.click('input[id="root_isEdithNourseRogersScholarshipYes"]');
 }
 
 function completeStemEnrollmentSelection(client) {
-  client.click('input[id="root_isEnrolledStemNo"]');
+  client.waitForElementVisible(
+    'label[for="root_isEnrolledStemYes"]',
+    Timeouts.slow,
+  );
+  client.click('input[id="root_isEnrolledStemYes"]');
 }
 
-function completePursuingTeachingCertSelection(client) {
-  client.click('input[id="root_isPursuingTeachingCertNo"]');
+function completeExhaustionOfBenefits(client) {
+  client.waitForElementVisible(
+    'label[for="root_view:exhaustionOfBenefitsNo"]',
+    Timeouts.verySlow,
+  );
+  client.click('input[id="root_view:exhaustionOfBenefitsNo"]');
+}
+
+function completeStillApplyForStem(client) {
+  client.waitForElementVisible(
+    'label[for="root_determineEligibilityYes"]',
+    Timeouts.verySlow,
+  );
+  client.click('input[id="root_determineEligibilityYes"]');
 }
 
 function completeActiveDutySelection(client) {
@@ -116,6 +138,7 @@ module.exports = {
   completeStemSelection,
   completeStemSelectionFor1995s,
   completeStemEnrollmentSelection,
-  completePursuingTeachingCertSelection,
+  completeExhaustionOfBenefits,
+  completeStillApplyForStem,
   completeActiveDutySelection,
 };
