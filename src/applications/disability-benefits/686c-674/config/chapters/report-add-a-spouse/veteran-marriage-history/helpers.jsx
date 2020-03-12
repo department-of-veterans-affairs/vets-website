@@ -5,6 +5,8 @@ export const SpouseItemHeader = formData => (
     className="schemaform-block-title schemaform-block-subtitle"
     id={formData.id}
   >
-    {formData.id.includes('0') ? 'Your former spouse(s)' : 'Next former spouse'}
+    {formData.id.includes('_0_')
+      ? 'Your former spouse(s)'
+      : 'Next former spouse'}
   </legend>
 );
