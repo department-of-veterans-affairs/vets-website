@@ -103,6 +103,11 @@ describe('<Vet360ProfileField/>', () => {
   it('renders the ValidationModal prop', () => {
     props.showValidationModal = true;
     props.ValidationModal = () => <ValidationModal />;
+    const expectedProps = {
+      title: props.title,
+      transactionRequest: props.transactionRequest,
+      clearErrors: props.clearErrors,
+    };
     sinon.spy(props, 'ValidationModal');
 
     component = enzyme.shallow(<Vet360ProfileField {...props} />);
@@ -119,7 +124,7 @@ describe('<Vet360ProfileField/>', () => {
     expect(
       args,
       'No props were passed to the ValidationModal constructor',
-    ).to.deep.equal({});
+    ).to.have.all.keys(expectedProps);
     component.unmount();
   });
 

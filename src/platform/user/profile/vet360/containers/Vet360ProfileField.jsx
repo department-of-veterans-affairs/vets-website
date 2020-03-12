@@ -43,8 +43,20 @@ class Vet360ProfileField extends React.Component {
     transactionRequest: PropTypes.object,
   };
 
+  static defaultProps = {
+    fieldName: '',
+  };
+
   componentDidUpdate(prevProps) {
-    if (prevProps.transaction && !this.props.transaction) {
+    const { transaction, showValidationModal, isEditing } = prevProps;
+    const modalOpenInPrevProps =
+      transaction || showValidationModal || isEditing;
+    const modalIsClosed =
+      !this.props.transaction &&
+      !this.props.showValidationModal &&
+      !this.props.isEditing;
+
+    if (modalOpenInPrevProps && modalIsClosed) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
     }
     if (!prevProps.transaction && this.props.transaction) {
@@ -94,7 +106,14 @@ class Vet360ProfileField extends React.Component {
   };
 
   onSubmit = () => {
-    this.captureEvent('update-button');
+    // The validateAddress thunk will handle its own dataLayer additions
+    if (this.props.useAddressValidation) {
+      if (!this.props.fieldName.toLowerCase().includes('address')) {
+        this.captureEvent('update-button');
+      }
+    } else {
+      this.captureEvent('update-button');
+    }
 
     let payload = this.props.field.value;
     if (this.props.convertCleanDataToPayload) {
@@ -200,7 +219,13 @@ class Vet360ProfileField extends React.Component {
           {title}
         </Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
-        {showValidationModal && <ValidationModal />}
+        {showValidationModal && (
+          <ValidationModal
+            title={title}
+            transactionRequest={transactionRequest}
+            clearErrors={this.clearErrors}
+          />
+        )}
         <Vet360Transaction
           id={`${fieldName}-transaction-status`}
           title={title}

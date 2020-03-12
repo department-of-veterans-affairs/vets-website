@@ -107,7 +107,9 @@ export default class CalendarWidget extends Component {
 
   isValid = date => {
     let isValid = true;
-    const { additionalOptions } = this.props.additionalOptions;
+    // Coding Error.
+    // const { additionalOptions } = this.props.additionalOptions;
+    const { additionalOptions } = this.props;
 
     if (additionalOptions) {
       if (

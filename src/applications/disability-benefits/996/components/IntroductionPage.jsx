@@ -10,17 +10,8 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { focusElement } from 'platform/utilities/ui';
 
-import { BASE_URL } from '../constants';
-
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    if (
-      !this.hasSavedForm() &&
-      !window.location.pathname.endsWith('/introduction')
-    ) {
-      window.location.replace(`${BASE_URL}/introduction`);
-    }
-
     focusElement('.va-nav-breadcrumbs-list');
   }
 
