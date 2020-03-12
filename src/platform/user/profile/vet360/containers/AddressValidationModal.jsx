@@ -20,6 +20,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
 
+import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
+
 class AddressValidationModal extends React.Component {
   componentWillUnmount() {
     focusElement(`#${this.props.addressValidationType}-edit-link`);
@@ -197,6 +199,9 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       resetAddressValidation,
       confirmedSuggestions,
+      transactionRequest,
+      title,
+      clearErrors,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
@@ -216,6 +221,8 @@ class AddressValidationModal extends React.Component {
 
     const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
+    const error = transactionRequest?.error;
+
     return (
       <Modal
         title={
@@ -227,6 +234,15 @@ class AddressValidationModal extends React.Component {
         onClose={resetDataAndCloseModal}
         visible
       >
+        {error && (
+          <div className="vads-u-margin-bottom--1">
+            <Vet360EditModalErrorMessage
+              title={title}
+              error={error}
+              clearErrors={clearErrors}
+            />
+          </div>
+        )}
         <AlertBox
           className="vads-u-margin-bottom--1"
           status="warning"
