@@ -44,6 +44,10 @@ class Vet360ProfileField extends React.Component {
     transactionRequest: PropTypes.object,
   };
 
+  static defaultProps = {
+    fieldName: '',
+  };
+
   componentDidUpdate(prevProps) {
     const { transaction, showValidationModal, isEditing } = prevProps;
     const modalOpenInPrevProps =
@@ -114,7 +118,14 @@ class Vet360ProfileField extends React.Component {
   };
 
   onSubmit = () => {
-    this.captureEvent('update-button');
+    // The validateAddress thunk will handle its own dataLayer additions
+    if (this.props.useAddressValidation) {
+      if (!this.props.fieldName.toLowerCase().includes('address')) {
+        this.captureEvent('update-button');
+      }
+    } else {
+      this.captureEvent('update-button');
+    }
 
     let payload = this.props.field.value;
     if (this.props.convertCleanDataToPayload) {
