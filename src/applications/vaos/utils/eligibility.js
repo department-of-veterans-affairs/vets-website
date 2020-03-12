@@ -7,7 +7,7 @@ import { recordVaosError } from './events';
 
 function createErrorHandler(directOrRequest, errorKey) {
   return data => {
-    captureError(data);
+    captureError(data, true);
     recordVaosError(errorKey);
     return { [`${directOrRequest}Failed`]: true };
   };

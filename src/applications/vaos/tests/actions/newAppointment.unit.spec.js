@@ -1120,10 +1120,6 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
       expect(global.window.dataLayer[1]).to.deep.equal({
-        event: 'vaos-error',
-        'error-key': 'vaos_server_error',
-      });
-      expect(global.window.dataLayer[2]).to.deep.equal({
         event: 'vaos-request-submission-failed',
         flow: 'va-request',
         'health-TypeOfCare': 'Primary care',
