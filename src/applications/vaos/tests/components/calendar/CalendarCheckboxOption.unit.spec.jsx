@@ -22,7 +22,7 @@ describe('VAOS <CalendarCheckboxOption>', () => {
     expect(checkbox.props().checked).to.equal(true);
     expect(checkbox.props().value).to.equal('AM');
     expect(label.text()).to.equal('a.m.');
-    expect(srLabel.text()).to.equal('a.m. option selected');
+    expect(srLabel.text()).to.equal('a.m. appointment');
     tree.unmount();
   });
 });
