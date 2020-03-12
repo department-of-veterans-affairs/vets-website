@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 
 import CalendarRow from '../../../components/calendar/CalendarRow';
@@ -107,6 +107,46 @@ describe('VAOS <CalendarRow>', () => {
     expect(CalendarCells.at(2).props().disabled).to.be.false;
     expect(CalendarCells.at(3).props().disabled).to.be.true;
     expect(CalendarCells.at(4).props().disabled).to.be.false;
+    tree.unmount();
+  });
+
+  it('should disable dates after the max date', () => {
+    const cells = [
+      moment().format('YYYY-MM-DD'),
+      moment()
+        .add(1, 'd')
+        .format('YYYY-MM-DD'),
+      moment()
+        .add(2, 'd')
+        .format('YYYY-MM-DD'),
+      moment()
+        .add(3, 'd')
+        .format('YYYY-MM-DD'),
+      moment()
+        .add(4, 'd')
+        .format('YYYY-MM-DD'),
+    ];
+
+    // Set max date to tomorrow...
+    const tree = mount(
+      <CalendarRow
+        cells={cells}
+        maxDate={moment()
+          .add(1, 'd')
+          .format('YYYY-MM-DD')}
+        rowNumber="0"
+        selectedDates={selectedDates}
+        additionalOptions={{ getOptionsByDate }}
+      />,
+    );
+
+    // Find all disabled day cell buttons...
+    const buttons = tree.find(
+      '.vaos-calendar__calendar-day-button[disabled=true]',
+    );
+
+    expect(buttons.length).to.equal(3);
+
     tree.unmount();
   });
 });

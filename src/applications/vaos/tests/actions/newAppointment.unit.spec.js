@@ -11,7 +11,6 @@ import {
 
 import {
   openFormPage,
-  closeConfirmationPage,
   routeToPageInFlow,
   openFacilityPage,
   fetchFacilityDetails,
@@ -24,8 +23,8 @@ import {
   getAppointmentSlots,
   onCalendarChange,
   hideTypeOfCareUnavailableModal,
+  startNewAppointmentFlow,
   FORM_PAGE_OPENED,
-  FORM_CLOSED_CONFIRMATION_PAGE,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -47,7 +46,6 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -56,11 +54,15 @@ import {
   FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
+import {
+  FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../actions/sitewide';
+
 import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import pacTeam from '../../api/pact.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -103,11 +105,11 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should open close confirmation page', () => {
-    const action = closeConfirmationPage();
+  it('should start new appointment flow', () => {
+    const action = startNewAppointmentFlow();
 
     expect(action).to.deep.equal({
-      type: FORM_CLOSED_CONFIRMATION_PAGE,
+      type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });
 
@@ -178,8 +180,8 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('fetchFacilityDetails', () => {
-    mockFetch();
     it('should fetch facility details', async () => {
+      mockFetch();
       setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const thunk = fetchFacilityDetails('123');
@@ -192,7 +194,6 @@ describe('VAOS newAppointment actions', () => {
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
     });
-    resetFetch();
   });
 
   describe('openFacilityPage', () => {
@@ -604,7 +605,6 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
-      setFetchJSONResponse(global.fetch.onCall(4), pacTeam);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -971,6 +971,16 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(global.window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-request-submission',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-successful',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.true;
     });
 
@@ -1105,6 +1115,11 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-failed',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.false;
     });
 

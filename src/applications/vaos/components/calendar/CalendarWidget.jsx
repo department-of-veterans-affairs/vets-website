@@ -233,6 +233,14 @@ export default class CalendarWidget extends Component {
         >
           {month.format('MMMM YYYY')}
         </h2>
+        <div
+          className="sr-only"
+          id={`vaos-calendar-instructions-${month.month()}`}
+        >
+          Press the Enter key to expand the day you want to schedule an
+          appointment. Then press the Tab key or form shortcut key to select an
+          appointment time.
+        </div>
 
         {index === 0 && (
           <CalendarNavigation
@@ -242,7 +250,7 @@ export default class CalendarWidget extends Component {
             nextDisabled={nextDisabled}
           />
         )}
-        <hr className="vads-u-margin-y--1" />
+        <hr aria-hidden="true" className="vads-u-margin-y--1" />
         <CalendarWeekdayHeader />
         <div role="rowgroup">{this.renderWeeks(month)}</div>
       </>
@@ -285,7 +293,7 @@ export default class CalendarWidget extends Component {
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
-                  aria-describedby={`h2-${month.format('YYYY-MM')}`}
+                  aria-labelledby={`h2-${month.format('YYYY-MM')}`}
                   role="table"
                 >
                   {this.renderMonth(month, index)}

@@ -47,11 +47,14 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
-  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../actions/newAppointment';
+
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from '../actions/sitewide';
 
 import {
   FLOW_TYPES,
@@ -187,7 +190,7 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_CLOSED_CONFIRMATION_PAGE: {
+    case STARTED_NEW_APPOINTMENT_FLOW: {
       return {
         ...initialState,
         parentFacilities: state.parentFacilities,

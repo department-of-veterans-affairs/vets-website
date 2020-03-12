@@ -27,7 +27,12 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  GA_FLOWS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -38,9 +43,15 @@ import {
 import {
   getEligibilityData,
   getEligibleFacilities,
+  recordEligibilityGAEvents,
 } from '../utils/eligibility';
 
 import { captureError } from '../utils/error';
+
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from './sitewide';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -106,12 +117,9 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
-export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
-export const FORM_CLOSED_CONFIRMATION_PAGE =
-  'newAppointment/FORM_CLOSED_CONFIRMATION_PAGE';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -122,9 +130,12 @@ export function openFormPage(page, uiSchema, schema) {
   };
 }
 
-export function closeConfirmationPage() {
+export function startNewAppointmentFlow() {
+  recordEvent({
+    event: `${GA_PREFIX}-schedule-new-appointment-started`,
+  });
   return {
-    type: FORM_CLOSED_CONFIRMATION_PAGE,
+    type: STARTED_NEW_APPOINTMENT_FLOW,
   };
 }
 
@@ -284,6 +295,8 @@ export function openFacilityPage(page, uiSchema, schema) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
       }
 
       dispatch({
@@ -376,6 +389,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
 
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
@@ -582,16 +597,25 @@ async function buildPreferencesDataAndUpdate(newAppointment) {
 
 export function submitAppointmentOrRequest(router) {
   return async (dispatch, getState) => {
-    const newAppointment = getState().newAppointment;
+    const state = getState();
+    const newAppointment = getNewAppointment(state);
+    const typeOfCare = getTypeOfCare(getFormData(state))?.name;
 
     dispatch({
       type: FORM_SUBMIT,
     });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      const additionalEventData = {
+        typeOfCare,
+        flow: GA_FLOWS.DIRECT,
+      };
+
       recordEvent({
         event: `${GA_PREFIX}-direct-submission`,
+        ...additionalEventData,
       });
+
       try {
         const appointmentBody = transformFormToAppointment(getState());
         await submitAppointment(appointmentBody);
@@ -610,6 +634,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-successful`,
+          ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
@@ -617,17 +642,26 @@ export function submitAppointmentOrRequest(router) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+
+        dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
+
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
+          ...additionalEventData,
         });
       }
     } else {
       const isCommunityCare =
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
+      const additionalEventData = {
+        typeOfCare,
+        flow: isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST,
+      };
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
+        ...additionalEventData,
       });
 
       try {
@@ -660,6 +694,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-successful`,
+          ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
@@ -667,8 +702,18 @@ export function submitAppointmentOrRequest(router) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+
+        dispatch(
+          fetchFacilityDetails(
+            isCommunityCare
+              ? newAppointment.data.communityCareSystemId
+              : newAppointment.data.vaFacility,
+          ),
+        );
+
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-failed`,
+          ...additionalEventData,
         });
       }
     }

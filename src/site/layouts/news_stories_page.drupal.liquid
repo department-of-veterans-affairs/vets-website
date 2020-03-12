@@ -57,10 +57,15 @@ Example data:
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
         <article class="usa-content">
-          <h1>Stories</h1>
-          <div class="va-introtext vads-u-margin-bottom--4">
-            {{ fieldIntroTextNewsStories.processed }}
-          </div>
+            <h1 id="article-heading">{{ title }}</h1>
+            <div class="vads-l-grid-container--full">
+            {% if fieldIntroText %}
+              <div class="va-introtext">
+                <p class="events-show" id="office-events-description">
+                  {{ fieldIntroText }}
+                </p>
+              </div>
+            {% endif %}
           {% if paginator.prev == null %}
           {% for storyFeature in newsStoryTeasers.entities %}
             {% if forloop.first == true %}

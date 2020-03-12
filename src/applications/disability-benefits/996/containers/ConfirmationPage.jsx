@@ -67,7 +67,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           When your review is complete, VA will mail you a decision packet that
           includes details about the decision on your case.{' '}
-          <a href="https://www.va.gov/decision-reviews/after-you-request-review/">
+          <a href="/decision-reviews/after-you-request-review/">
             Learn more about what happens after you request a review
           </a>
           .

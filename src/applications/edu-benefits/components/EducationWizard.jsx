@@ -1,8 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
-
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 const levels = [
@@ -41,6 +40,7 @@ export default class EducationWizard extends React.Component {
         id="apply-now-link"
         href={url}
         className="usa-button va-button-primary"
+        onClick={() => this.recordWizardValues()}
       >
         Apply now
       </a>
@@ -49,6 +49,14 @@ export default class EducationWizard extends React.Component {
 
   answerQuestion = (field, answer) => {
     const newState = Object.assign({}, { [field]: answer });
+
+    if (field === 'newBenefit') {
+      recordEvent({
+        event: 'edu-howToApply-formChange',
+        'edu-form-field': 'benefitUpdate',
+        'edu-form-value': this.eduFormChange(answer),
+      });
+    }
 
     // drop all the levels until we see the current question, then reset
     // everything at that level and beyond, so we don't see questions from
@@ -63,6 +71,51 @@ export default class EducationWizard extends React.Component {
     });
 
     this.setState(newState);
+  };
+
+  eduFormChange = input => {
+    const formChangeMap = {
+      yes: 'new',
+      no: 'update',
+      extend: 'stem-scholarship',
+    };
+    return formChangeMap[input] || null;
+  };
+
+  isReceivingSponsorBenefits = input => {
+    const formChangeMap = {
+      own: 'no',
+      transferred: 'yes',
+      fry: 'no with scholarship',
+    };
+    return formChangeMap[input] || null;
+  };
+
+  isBenefitClaimForSelf = input => {
+    const formChangeMap = {
+      own: 'yes',
+      other: 'no',
+    };
+    return formChangeMap[input] || null;
+  };
+
+  recordWizardValues = () => {
+    recordEvent({
+      event: 'edu-howToApply-applyNow',
+      'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
+      'edu-isBenefitClaimForSelf': this.isBenefitClaimForSelf(
+        this.state.serviceBenefitBasedOn,
+      ),
+      'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
+      'edu-isVetTec': this.state.vetTecBenefit,
+      'edu-hasSponsorTransferredBenefits': this.state
+        .sponsorTransferredBenefits,
+      'edu-isReceivingSponsorBenefits': this.isReceivingSponsorBenefits(
+        this.state.transferredEduBenefits,
+      ),
+      'edu-isSponsorReachable': this.state.sponsorDeceasedDisabledMIA,
+      'edu-stemApplicant': this.state.applyForScholarship,
+    });
   };
 
   render() {
@@ -87,40 +140,26 @@ export default class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
-    // Prod flag for 5134
-    const newBenefitOptions = environment.isProduction()
-      ? [
-          { label: 'Applying for a new benefit', value: 'yes' },
-          {
-            label: 'Updating my current education benefits',
-            value: 'no',
-          },
-          {
-            label:
-              'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
-            value: 'extend',
-          },
-        ]
-      : [
-          { label: 'Applying for a new benefit', value: 'yes' },
-          {
-            label: (
-              <span className="radioText">
-                Updating my program of study or place of training
-              </span>
-            ),
-            value: 'no',
-          },
-          {
-            label: (
-              <span className="radioText">
-                Applying to extend my Post-9/11 or Fry Scholarship benefits
-                using the Edith Nourse Rogers STEM Scholarship
-              </span>
-            ),
-            value: 'extend',
-          },
-        ];
+    const newBenefitOptions = [
+      { label: 'Applying for a new benefit', value: 'yes' },
+      {
+        label: (
+          <span className="radioText">
+            Updating my program of study or place of training
+          </span>
+        ),
+        value: 'no',
+      },
+      {
+        label: (
+          <span className="radioText">
+            Applying to extend my Post-9/11 or Fry Scholarship benefits using
+            the Edith Nourse Rogers STEM Scholarship
+          </span>
+        ),
+        value: 'extend',
+      },
+    ];
 
     return (
       <div className="wizard-container">
@@ -310,14 +349,20 @@ export default class EducationWizard extends React.Component {
                   {this.getButton('1990N')}
                 </div>
               )}
-            {newBenefit === 'extend' &&
-            // Prod flag for 5134
-            !environment.isProduction() ? (
+            {newBenefit === 'extend' && (
               <div className="wizard-edith-nourse-content">
                 <br />
                 <strong>
                   To be eligible for the{' '}
-                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                  <a
+                    href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                    onClick={() =>
+                      recordEvent({
+                        event: 'edu-navigation',
+                        'edu-action': 'stem-scholarship',
+                      })
+                    }
+                  >
                     Edith Nourse Rogers STEM Scholarship
                   </a>
                   , you must meet all the requirements below. You:
@@ -333,6 +378,12 @@ export default class EducationWizard extends React.Component {
                     <a
                       className="checkBenefitsLink"
                       href="../gi-bill/post-9-11/ch-33-benefit/"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'check-remaining-benefits',
+                        })
+                      }
                     >
                       Check remaining benefits
                     </a>
@@ -342,7 +393,15 @@ export default class EducationWizard extends React.Component {
                     technology, engineering or math (STEM), <strong>or</strong>{' '}
                     have already earned a STEM degree and are pursuing a
                     teaching certification.{' '}
-                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
+                    <a
+                      href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'see-approved-stem-programs',
+                        })
+                      }
+                    >
                       See approved STEM programs
                     </a>
                   </li>
@@ -373,8 +432,6 @@ export default class EducationWizard extends React.Component {
                     ))}
                 </div>
               </div>
-            ) : (
-              newBenefit === 'extend' && this.getButton('1995')
             )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&

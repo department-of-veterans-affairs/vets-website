@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import set from 'platform/utilities/data/set';
 
@@ -9,8 +10,9 @@ import ErrorableSelect from '@department-of-veterans-affairs/formation-react/Err
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+
+import { profileUseSchemaForms } from 'vet360/selectors';
 
 import {
   getAccountNumberErrorMessage,
@@ -20,8 +22,6 @@ import {
 import { ACCOUNT_TYPES_OPTIONS } from '../constants';
 
 import PaymentInformationEditModalError from './PaymentInformationEditModalError';
-
-const useNewForm = !environment.isProduction();
 
 const schema = {
   type: 'object',
@@ -201,7 +201,7 @@ class PaymentInformationEditModal extends React.Component {
           alt="On a personal check, find your bank's 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
         />
 
-        {!useNewForm && (
+        {!this.props.useSchemaForm && (
           <form onSubmit={this.onSubmit}>
             <ErrorableTextInput
               label="Routing number (Your 9-digit routing number will update your bank’s name)"
@@ -253,7 +253,7 @@ class PaymentInformationEditModal extends React.Component {
           </form>
         )}
 
-        {useNewForm && (
+        {this.props.useSchemaForm && (
           <SchemaForm
             name="Direct Deposit Information"
             title="Direct Deposit Information"
@@ -286,4 +286,10 @@ class PaymentInformationEditModal extends React.Component {
   }
 }
 
-export default PaymentInformationEditModal;
+const mapStateToProps = state => ({
+  useSchemaForm: profileUseSchemaForms(state),
+});
+
+export { PaymentInformationEditModal };
+
+export default connect(mapStateToProps)(PaymentInformationEditModal);

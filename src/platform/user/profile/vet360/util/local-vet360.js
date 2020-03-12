@@ -160,6 +160,21 @@ export default {
       },
     });
   },
+  createTransactionFailure() {
+    return asyncReturn(
+      {
+        errors: [
+          {
+            title: 'Service unavailable',
+            detail: 'Backend Service Outage',
+            code: '503',
+            status: '503',
+          },
+        ],
+      },
+      1000,
+    );
+  },
   updateTransactionRandom(...args) {
     return asyncReturn(
       Math.random() > 0.5

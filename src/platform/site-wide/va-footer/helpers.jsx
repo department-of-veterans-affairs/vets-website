@@ -28,7 +28,12 @@ const renderInnerTag = (link, captureEvent) => (
       <span className="va-footer-link-label">{link.label}</span>
     ) : null}
     {link.href ? (
-      <a href={link.href} onClick={captureEvent} target={link.target}>
+      <a
+        href={link.href}
+        onClick={captureEvent}
+        target={link.target}
+        rel={link.rel}
+      >
         {link.title}
       </a>
     ) : (
@@ -59,7 +64,12 @@ function generateSuperLinks(groupedList) {
     <ul>
       {orderBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
         <li key={`${link.order}`}>
-          <a href={link.href} onClick={captureEvent} target={link.target}>
+          <a
+            href={link.href}
+            onClick={captureEvent}
+            target={link.target}
+            rel={link.rel}
+          >
             {link.title}
           </a>
         </li>
