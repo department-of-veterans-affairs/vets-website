@@ -296,13 +296,8 @@ describe('Schemaform review: SubmitController', () => {
 
     tree
       .find('[type="checkbox"]')
-      .simulate('change 1', { target: { checked: true } });
-    console.log('tree 1', tree);
+      .simulate('change', { target: { checked: true } });
     expect(setPreSubmit.calledWith('yep', true)).to.be.true;
-    console.log(
-      'expect',
-      expect(setPreSubmit.calledWith('yep', true)).to.be.true,
-    );
     tree.unmount();
   });
   it('should render a custom component', () => {
