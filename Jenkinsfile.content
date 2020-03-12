@@ -17,7 +17,7 @@ node('vetsgov-general-purpose') {
 
     currentBuild.result = 'FAILURE'
     return
-  } elseif ("${refStatusState}" != "SUCCESS" || "${refStatusState}" != "ERROR") {
+  } elseif ("${refStatusState}" != "SUCCESS" && "${refStatusState}" != "ERROR") {
     $message = "Web content refresh on ${params.env} status: ${ref} : ${refStatusState}\nWaiting 120s"
     echo "${message}"
     slackSend(
