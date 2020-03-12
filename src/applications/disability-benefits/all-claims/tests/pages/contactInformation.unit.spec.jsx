@@ -204,6 +204,33 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
+  it('disables the country dropdown when overseas address is checked', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          mailingAddress: {
+            'view:livesOnMilitaryBase': true,
+            country: 'USA',
+          },
+          phoneAndEmail: {},
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    // country
+    expect(
+      form
+        .find('select')
+        .at(0)
+        .prop('disabled'),
+    ).to.be.true;
+    form.unmount();
+  });
+
   // it('expands forwarding address fields when forwarding address checked', () => {
   //   const form = mount(
   //     <DefinitionTester
