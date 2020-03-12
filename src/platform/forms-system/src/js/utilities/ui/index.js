@@ -18,16 +18,15 @@ export function focusElement(selectorOrElement, options, testDom) {
   }
 }
 
-// Focus on review row _after_ the content has been updated
+// Retrun focus to edit button _after_ the content has been updated
 export function focusOnChange(name, testDom) {
   setTimeout(() => {
     const selector = `[name="${name}ScrollElement"]`;
     const el = (testDom || document).querySelector(selector);
     // nextElementSibling = page form
-    const targets = el?.nextElementSibling?.querySelectorAll('.review-row');
-    if (targets) {
-      targets.forEach(target => target.setAttribute('tabindex', '0'));
-      focusElement(targets[0]);
+    const target = el?.nextElementSibling?.querySelector('.edit-btn');
+    if (target) {
+      focusElement(target);
     }
   });
 }

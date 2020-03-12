@@ -35,7 +35,7 @@ describe('focus on element', () => {
 });
 
 describe('focus on change', () => {
-  it('should focus on review row after updating a review form', done => {
+  it('should focus on edit button after updating a review form', done => {
     const pages = [
       {
         title: '',
@@ -49,10 +49,15 @@ describe('focus on change', () => {
         test: {
           title: '',
           schema: {
-            type: 'boolean',
+            type: 'object',
+            properties: {
+              test2: {
+                type: 'boolean',
+              },
+            },
           },
           uiSchema: {},
-          // editMode: true,
+          editMode: false,
         },
       },
       data: {},
@@ -70,7 +75,7 @@ describe('focus on change', () => {
     );
 
     const dom = findDOMNode(tree);
-    const focused = sinon.stub(dom.querySelector('.review-row'), 'focus');
+    const focused = sinon.stub(dom.querySelector('.edit-btn'), 'focus');
     focusOnChange('test', dom);
 
     // setTimeout used by focusOnChange function
