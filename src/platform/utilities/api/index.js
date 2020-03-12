@@ -1,65 +1,8 @@
 import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
-import ENVIRONMENTS from '../../../site/constants/environments';
 import localStorage from '../storage/localStorage';
-
-let sessionTimeoutMinutesLengthSSO = 0;
-const SSOeEndpoint = () => {
-  const environmentPrefixes = {
-    [ENVIRONMENTS.VAGOVSTAGING]: 'sqa.',
-    [ENVIRONMENTS.VAGOVDEV]: 'int',
-  };
-
-  const envPrefiix = environmentPrefixes[ENVIRONMENTS.BUILDTYPE] || '';
-
-  return `https://${envPrefiix}eauth.va.gov/keepalive`;
-};
-
-function checkAndUpdateSSOeSession() {
-  const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
-
-  if (sessionExpiration) {
-    const minutesUntilExpiration =
-      (sessionExpiration.getTime() - Date.now()) / (1000 * 60);
-
-    // We want to minimize external keepalive calls, so this functions as self-enforced rate limiting
-    const percentageOfTimeoutThreshold = 0.67;
-    if (
-      minutesUntilExpiration / sessionTimeoutMinutesLengthSSO <
-      percentageOfTimeoutThreshold
-    ) {
-      return;
-    }
-  }
-
-  fetch(SSOeEndpoint(), {
-    method: 'GET',
-    credentials: 'include',
-    cache: 'no-store',
-  })
-    .then(res => {
-      const hasSSOsession = res.headers.get('session-alive');
-
-      if (hasSSOsession === 'true') {
-        const sessionTimeout = res.headers.get('session-timeout');
-        sessionTimeoutMinutesLengthSSO = sessionTimeout / 60;
-
-        // sessionTimeout is in seconds, convert to milliseconds and add from current time
-        const expirationTime = new Date();
-        expirationTime.setTime(
-          expirationTime.getTime() + sessionTimeout * 1000,
-        );
-        localStorage.setItem('sessionExpirationSSO', expirationTime);
-      }
-    })
-    .catch(err => {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', err);
-        Sentry.captureMessage(`SSOe error: ${err.message}`);
-      });
-    });
-}
+import { checkAndUpdateSSOeSession } from './SSOhelpers';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
