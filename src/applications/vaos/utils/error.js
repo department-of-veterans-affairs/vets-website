@@ -1,19 +1,25 @@
 import * as Sentry from '@sentry/browser';
 import { recordVaosError } from './events';
 
-export function captureError(err) {
+export function captureError(err, skipRecordEvent) {
+  let eventErrorKey;
+
   if (err instanceof Error) {
     Sentry.captureException(err);
-    recordVaosError(err.message);
+    eventErrorKey = err.message;
   } else {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
       const message = `vaos_server_error${
         err?.[0]?.title ? `: ${err?.[0]?.title}` : ''
       }`;
-      recordVaosError(message);
+      eventErrorKey = message;
       // the apiRequest helper returns the errors array, instead of an exception
       Sentry.captureMessage(message);
     });
+  }
+
+  if (!skipRecordEvent) {
+    recordVaosError(eventErrorKey);
   }
 }

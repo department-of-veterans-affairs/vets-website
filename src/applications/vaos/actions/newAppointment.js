@@ -131,9 +131,6 @@ export function openFormPage(page, uiSchema, schema) {
 }
 
 export function startNewAppointmentFlow() {
-  recordEvent({
-    event: `${GA_PREFIX}-schedule-new-appointment-started`,
-  });
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
   };
@@ -647,7 +644,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        captureError(error);
+        captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
@@ -693,11 +690,6 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          recordEvent({
-            event: `${GA_PREFIX}-${eventType}-submission-failed`,
-            flow,
-            ...additionalEventData,
-          });
           captureError(error);
         }
 
@@ -712,7 +704,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        captureError(error);
+        captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
