@@ -75,8 +75,9 @@ describe('focus on change', () => {
     );
 
     const dom = findDOMNode(tree);
-    const focused = sinon.stub(dom.querySelector('.edit-btn'), 'focus');
-    focusOnChange('test', dom);
+    const target = '.edit-btn';
+    const focused = sinon.stub(dom.querySelector(target), 'focus');
+    focusOnChange('test', target, dom);
 
     // setTimeout used by focusOnChange function
     setTimeout(() => {

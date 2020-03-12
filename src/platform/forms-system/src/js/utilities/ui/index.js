@@ -17,15 +17,15 @@ export function focusElement(selectorOrElement, options, testDom) {
   }
 }
 
-// Retrun focus to edit button _after_ the content has been updated
-export function focusOnChange(name, testDom) {
+// Set focus on target _after_ the content has been updated
+export function focusOnChange(name, target = '.edit-btn', testDom) {
   setTimeout(() => {
     const selector = `[name="${name}ScrollElement"]`;
     const el = (testDom || document).querySelector(selector);
     // nextElementSibling = page form
-    const target = el?.nextElementSibling?.querySelector('.edit-btn');
-    if (target) {
-      focusElement(target);
+    const focusTarget = el?.nextElementSibling?.querySelector(target);
+    if (focusTarget) {
+      focusElement(focusTarget);
     }
   });
 }
