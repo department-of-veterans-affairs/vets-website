@@ -67,6 +67,18 @@ export const uiSchema = {
       },
       childStatus: {
         'ui:title': 'Your child\'s status (check all that apply)',
+        biological: {
+          'ui:title': 'Biological',
+        },
+        adopted: {
+          'ui:title': 'Adopted',
+        },
+        notCapable: {
+          'ui:title': 'Not capable of self-support',
+        },
+        stepchild: {
+          'ui:title': 'Stepchild',
+        },
         dateBecameDependent: _.merge(currentOrPastDateUI('Date stepchild became dependent'), {
           'ui:options': {
             expandUnder: 'stepchild',
