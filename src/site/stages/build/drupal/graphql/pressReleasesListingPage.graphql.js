@@ -16,6 +16,9 @@ module.exports = `
             ... on NodePressRelease {
               entityId
               title
+              fieldReleaseDate {
+                value
+              }
               entityUrl {
                 path
               }
