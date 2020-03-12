@@ -1,6 +1,7 @@
 import { isChapterFieldRequired } from '../../../helpers';
 import { genericSchemas } from '../../../generic-schema';
 import { validateName } from '../../../utilities';
+import { SpouseItemHeader } from './helpers';
 import SpouseViewField from '../../../../components/SpouseViewField';
 
 const { fullName } = genericSchemas;
@@ -40,7 +41,7 @@ export const uiSchema = {
       }),
     },
     items: {
-      'ui:title': 'Your former spouse(s)',
+      'ui:title': SpouseItemHeader,
       formerSpouseName: {
         'ui:validations': [validateName],
         first: {
