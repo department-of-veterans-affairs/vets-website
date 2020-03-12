@@ -296,8 +296,53 @@ describe('Schemaform review: SubmitController', () => {
 
     tree
       .find('[type="checkbox"]')
-      .simulate('change', { target: { checked: true } });
+      .simulate('change 1', { target: { checked: true } });
+    console.log('tree 1', tree);
     expect(setPreSubmit.calledWith('yep', true)).to.be.true;
+    console.log(
+      'expect',
+      expect(setPreSubmit.calledWith('yep', true)).to.be.true,
+    );
+    tree.unmount();
+  });
+  it('should render a custom component', () => {
+    const CustomPreSubmitInfo = () => (
+      <>
+        <h1 className="custom-preSubmitInfo">Hello from CustomComponent!</h1>
+      </>
+    );
+
+    const formConfig = createFormConfig({
+      preSubmitInfo: {
+        required: true,
+        CustomComponent: CustomPreSubmitInfo,
+      },
+    });
+    const pagesByChapter = createPagesByChapter();
+    const form = createForm();
+    const pageList = createPageList();
+    const setPreSubmit = sinon.spy();
+    const submission = {
+      hasAttemptedSubmit: false,
+    };
+
+    const tree = mount(
+      <SubmitController
+        submitForm={f => f}
+        setPreSubmit={setPreSubmit}
+        formConfig={formConfig}
+        form={form}
+        pagesByChapter={pagesByChapter}
+        pageList={pageList}
+        submission={submission}
+        route={{ formConfig, pageList }}
+      />,
+    );
+
+    const customComponent = tree.find('h1');
+    console.log('tree: ', tree);
+    console.log('customComponent: ', customComponent);
+    expect(customComponent).to.be.true;
     tree.unmount();
   });
   it('should go back', () => {
