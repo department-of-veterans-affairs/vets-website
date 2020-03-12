@@ -165,8 +165,8 @@ export class DateTimeSelectPage extends React.Component {
             this.validate(newData);
             this.props.onCalendarChange(newData);
           }}
-          onClickNext={getAppointmentSlots}
-          onClickPrev={getAppointmentSlots}
+          onClickNext={this.props.getAppointmentSlots}
+          onClickPrev={this.props.getAppointmentSlots}
           minDate={moment()
             .add(1, 'days')
             .format('YYYY-MM-DD')}

@@ -16,6 +16,7 @@ import {
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
+  ADDRESS_VALIDATION_UPDATE,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -271,6 +272,15 @@ export default function vet360(state = initialState, action) {
       return {
         ...state,
         addressValidation: { ...initialAddressValidationState },
+      };
+
+    case ADDRESS_VALIDATION_UPDATE:
+      return {
+        ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: { isPending: true },
+        },
       };
 
     case UPDATE_SELECTED_ADDRESS:

@@ -10,13 +10,11 @@ import Vet360EditModal from '../base/Vet360EditModal';
 import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'applications/hca/selectors';
 
 import { FIELD_NAMES } from 'vet360/constants';
+import { profileUseSchemaForms } from 'vet360/selectors';
 
 import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 import ContactInfoForm from '../ContactInfoForm';
-import environment from 'platform/utilities/environment';
-
-const useNewForm = !environment.isProduction();
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
@@ -137,7 +135,7 @@ class PhoneEditModal extends React.Component {
   );
 
   renderForm = (formButtons, onSubmit) => {
-    if (!useNewForm) {
+    if (!this.props.useSchemaForm) {
       return this.renderOldForm();
     }
     return (
@@ -158,8 +156,8 @@ class PhoneEditModal extends React.Component {
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
-        onBlur={useNewForm ? null : this.onBlur}
-        useSchemaForm={useNewForm}
+        onBlur={this.props.useSchemaForm ? null : this.onBlur}
+        useSchemaForm={this.props.useSchemaForm}
         {...this.props}
       />
     );
@@ -179,6 +177,7 @@ export function mapStateToProps(state, ownProps) {
     showReceiveTextNotifications,
     isEnrolledInVAHealthCare,
     showSMSCheckbox,
+    useSchemaForm: profileUseSchemaForms(state),
   };
 }
 

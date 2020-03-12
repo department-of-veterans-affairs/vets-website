@@ -8,6 +8,7 @@ import {
   vaosCommunityCare,
   getCCEType,
   getClinicsForChosenFacility,
+  getTypeOfCare,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -24,9 +25,11 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
+import { recordVaosError } from './utils/events';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
 
 function isCCAudiology(state) {
@@ -55,6 +58,10 @@ function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
 
+function isEyeCare(state) {
+  return getFormData(state).typeOfCareId === EYE_CARE;
+}
+
 function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
@@ -73,11 +80,13 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      let nextState = 'vaFacility';
       const communityCareEnabled = vaosCommunityCare(state);
 
       if (isSleepCare(state)) {
-        nextState = 'typeOfSleepCare';
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        return 'typeOfSleepCare';
+      } else if (isEyeCare(state)) {
+        return 'typeOfEyeCare';
       } else if (isCommunityCare(state)) {
         try {
           if (communityCareEnabled) {
@@ -111,21 +120,16 @@ export default {
             dispatch(showTypeOfCareUnavailableModal());
             return 'typeOfCare';
           }
-
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          return 'vaFacility';
         } catch (e) {
           captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          return 'vaFacility';
         }
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return nextState;
+      return 'vaFacility';
     },
     previous: 'home',
   },
@@ -142,11 +146,60 @@ export default {
 
       return 'vaFacility';
     },
-    previous: 'typeOfCare',
+    previous(state) {
+      //  check for eye care flow
+      if (isEyeCare(state)) {
+        return 'typeOfEyeCare';
+      }
+
+      return 'typeOfCare';
+    },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
     next: 'vaFacility',
+    previous: 'typeOfCare',
+  },
+  typeOfEyeCare: {
+    url: '/new-appointment/choose-eye-care',
+    async next(state, dispatch) {
+      const data = getFormData(state);
+      const communityCareEnabled = vaosCommunityCare(state);
+
+      // check that the result does have a ccId
+      if (getTypeOfCare(data)?.ccId !== undefined) {
+        try {
+          if (communityCareEnabled) {
+            // Check if user registered systems support community care...
+            const userSystemIds = await getSystemIdentifiers();
+            const ccSites = await getSitesSupportingVAR(userSystemIds);
+            const ccEnabledSystems = userSystemIds.filter(id =>
+              ccSites.some(site => site.id === id),
+            );
+            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+
+            // Reroute to VA facility page if none of the user's registered systems support community care.
+            if (ccEnabledSystems.length) {
+              const response = await getCommunityCare(getCCEType(state));
+
+              dispatch(updateCCEligibility(response.eligible));
+
+              if (response.eligible) {
+                return 'typeOfFacility';
+              }
+            }
+          }
+        } catch (e) {
+          captureError(e);
+          Sentry.captureMessage(
+            'Community Care eligibility check failed with errors',
+          );
+        }
+      }
+
+      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+      return 'vaFacility';
+    },
     previous: 'typeOfCare',
   },
   audiologyCareType: {
@@ -183,7 +236,9 @@ export default {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
+          recordVaosError('direct-no-matching-past-clinics-failure');
         } catch (error) {
+          recordVaosError('direct-no-matching-past-clinics-error');
           captureError(error);
         }
       }
@@ -199,12 +254,16 @@ export default {
       let nextState = 'typeOfCare';
       const communityCareEnabled = vaosCommunityCare(state);
 
-      if (
+      if (isSleepCare(state)) {
+        nextState = 'typeOfSleepCare';
+      } else if (
         communityCareEnabled &&
         isCCEligible(state) &&
-        isCommunityCare(state)
+        getTypeOfCare(getFormData(state))?.ccId !== undefined
       ) {
         nextState = 'typeOfFacility';
+      } else if (isEyeCare(state)) {
+        nextState = 'typeOfEyeCare';
       }
 
       return nextState;
@@ -295,11 +354,10 @@ export default {
     url: '/new-appointment/contact-info',
     next: 'review',
     previous(state) {
-      if (isCCFacility(state)) {
-        return 'ccPreferences';
-      }
-
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+      if (
+        isCCFacility(state) ||
+        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
+      ) {
         return 'reasonForAppointment';
       }
 
