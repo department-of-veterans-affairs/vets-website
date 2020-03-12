@@ -221,7 +221,13 @@ class Vet360ProfileField extends React.Component {
           {title}
         </Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
-        {showValidationModal && <ValidationModal />}
+        {showValidationModal && (
+          <ValidationModal
+            title={title}
+            transactionRequest={transactionRequest}
+            clearErrors={this.clearErrors}
+          />
+        )}
         <Vet360Transaction
           id={`${fieldName}-transaction-status`}
           title={title}
