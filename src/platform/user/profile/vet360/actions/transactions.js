@@ -11,6 +11,7 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
+import { vaProfileUseAddressValidation } from '../selectors';
 import { FIELD_NAMES, ADDRESS_POU } from 'vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
@@ -144,7 +145,7 @@ export function createTransaction(
   payload,
   analyticsSectionName,
 ) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const options = {
       body: JSON.stringify(payload),
       method,
@@ -152,7 +153,7 @@ export function createTransaction(
         'Content-Type': 'application/json',
       },
     };
-
+    const state = getState();
     try {
       dispatch({
         type: VET360_TRANSACTION_REQUESTED,
@@ -165,7 +166,14 @@ export function createTransaction(
         : await localVet360.createTransaction();
 
       // We want the validateAddreses method handling dataLayer events for saving / updating addresses.
-      if (!fieldName.toLowerCase().includes('address')) {
+      if (vaProfileUseAddressValidation(state)) {
+        if (!fieldName.toLowerCase().includes('address')) {
+          recordEvent({
+            event:
+              method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+            'profile-section': analyticsSectionName,
+          });
+        }
         recordEvent({
           event:
             method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
