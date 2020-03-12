@@ -334,10 +334,8 @@ describe('Schemaform review: SubmitController', () => {
       />,
     );
 
-    const customComponent = tree.find('h1');
-    console.log('tree: ', tree);
-    console.log('customComponent: ', customComponent);
-    expect(customComponent).to.be.true;
+    const customComponent = tree.find('.custom-preSubmitInfo');
+    expect(customComponent.length).to.equal(1);
     tree.unmount();
   });
   it('should go back', () => {
