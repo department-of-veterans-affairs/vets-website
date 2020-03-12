@@ -164,10 +164,14 @@ export function createTransaction(
         ? await apiRequest(route, options)
         : await localVet360.createTransaction();
 
-      recordEvent({
-        event: method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
-        'profile-section': analyticsSectionName,
-      });
+      // We want the validateAddreses method handling dataLayer events for saving / updating addresses.
+      if (!fieldName.toLowerCase().includes('address')) {
+        recordEvent({
+          event:
+            method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+          'profile-section': analyticsSectionName,
+        });
+      }
 
       dispatch({
         type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -255,9 +259,8 @@ export const validateAddress = (
       'profile-action': 'update-button',
       'profile-section': analyticsSectionName,
       'profile-addressValidationAlertShown': showModal ? 'yes' : 'no',
-      'profile-addressSuggestionProvided': confirmedSuggestions.length
-        ? 'yes'
-        : 'no',
+      'profile-addressSuggestionProvided':
+        showModal && confirmedSuggestions.length ? 'yes' : 'no',
     });
 
     // show the modal if the API doesn't find a single solid match for the address

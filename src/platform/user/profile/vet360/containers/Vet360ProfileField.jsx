@@ -106,7 +106,10 @@ class Vet360ProfileField extends React.Component {
   };
 
   onSubmit = () => {
-    this.captureEvent('update-button');
+    // The validateAddress thunk will handle its own dataLayer additions
+    if (!this.props.fieldName.toLowerCase().includes('address')) {
+      this.captureEvent('update-button');
+    }
 
     let payload = this.props.field.value;
     if (this.props.convertCleanDataToPayload) {
