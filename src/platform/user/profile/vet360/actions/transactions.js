@@ -173,13 +173,13 @@ export function createTransaction(
               method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
             'profile-section': analyticsSectionName,
           });
-        } else {
-          recordEvent({
-            event:
-              method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
-            'profile-section': analyticsSectionName,
-          });
         }
+      } else {
+        recordEvent({
+          event:
+            method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+          'profile-section': analyticsSectionName,
+        });
       }
 
       dispatch({

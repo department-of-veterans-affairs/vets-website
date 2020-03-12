@@ -114,9 +114,9 @@ class Vet360ProfileField extends React.Component {
     if (this.props.useAddressValidation) {
       if (!this.props.fieldName.toLowerCase().includes('address')) {
         this.captureEvent('update-button');
-      } else {
-        this.captureEvent('update-button');
       }
+    } else {
+      this.captureEvent('update-button');
     }
 
     let payload = this.props.field.value;
