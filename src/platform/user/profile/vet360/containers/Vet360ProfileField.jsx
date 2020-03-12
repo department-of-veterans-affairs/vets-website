@@ -117,7 +117,6 @@ class Vet360ProfileField extends React.Component {
       } else {
         this.captureEvent('update-button');
       }
-      return;
     }
 
     let payload = this.props.field.value;

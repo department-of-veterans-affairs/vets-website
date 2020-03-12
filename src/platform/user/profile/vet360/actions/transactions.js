@@ -180,7 +180,6 @@ export function createTransaction(
             'profile-section': analyticsSectionName,
           });
         }
-        return;
       }
 
       dispatch({
