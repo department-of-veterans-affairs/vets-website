@@ -610,15 +610,19 @@ export function submitAppointmentOrRequest(router) {
       type: FORM_SUBMIT,
     });
 
-    if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
-      const additionalEventData = {
-        typeOfCare,
-        flow: GA_FLOWS.DIRECT,
-      };
+    const additionalEventData = {
+      typeOfCare,
+      'health-TypeOfCare': typeOfCare,
+      'health-ReasonForAppointment': newAppointment?.data?.reasonForAppointment,
+      'health-ReasonAdditionalInfo': newAppointment?.data?.reasonAdditionalInfo,
+    };
 
+    if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       recordEvent({
         event: `${GA_PREFIX}-direct-submission`,
         ...additionalEventData,
+        'health-flow': GA_FLOWS.DIRECT,
+        flow: GA_FLOWS.DIRECT,
       });
 
       try {
@@ -659,13 +663,10 @@ export function submitAppointmentOrRequest(router) {
       const isCommunityCare =
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
-      const additionalEventData = {
-        typeOfCare,
-        flow: isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST,
-      };
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
+        flow: isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST,
         ...additionalEventData,
       });
 
