@@ -44,6 +44,10 @@ class Vet360ProfileField extends React.Component {
     transactionRequest: PropTypes.object,
   };
 
+  static defaultProps = {
+    fieldName: '',
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.transaction && !this.props.transaction) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
@@ -110,8 +114,10 @@ class Vet360ProfileField extends React.Component {
     if (this.props.useAddressValidation) {
       if (!this.props.fieldName.toLowerCase().includes('address')) {
         this.captureEvent('update-button');
+      } else {
+        this.captureEvent('update-button');
       }
-      this.captureEvent('update-button');
+      return;
     }
 
     let payload = this.props.field.value;
