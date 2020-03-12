@@ -65,7 +65,10 @@ export class DateTimeRequestPage extends React.Component {
     const { data, router } = this.props;
     const { calendarData } = data || {};
     this.validate(calendarData);
-    if (this.userSelectedSlot(calendarData)) {
+    if (
+      this.userSelectedSlot(calendarData) &&
+      !this.exceededMaxSelections(calendarData)
+    ) {
       this.props.routeToNextAppointmentPage(router, pageKey);
     } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
@@ -122,9 +125,7 @@ export class DateTimeRequestPage extends React.Component {
           maxSelections={maxSelections}
           onChange={newData => {
             this.validate(newData);
-            if (!this.exceededMaxSelections(newData)) {
-              this.props.onCalendarChange(newData);
-            }
+            this.props.onCalendarChange(newData);
           }}
           minDate={moment()
             .add(5, 'days')

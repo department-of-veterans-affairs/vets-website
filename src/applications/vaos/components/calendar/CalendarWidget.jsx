@@ -277,7 +277,7 @@ export default class CalendarWidget extends Component {
     }
 
     return (
-      <div className="vaos-calendar, vads-u-margin-top--4 vads-u-display--flex">
+      <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
         {loadingStatus === FETCH_STATUS.loading && (
           <div className="vaos-calendar__loading-overlay">
             <LoadingIndicator message="Finding appointment availability..." />
@@ -285,7 +285,12 @@ export default class CalendarWidget extends Component {
         )}
         <div className={calendarCss}>
           {showError && (
-            <span className="usa-input-error-message">{validationError}</span>
+            <span
+              className="vaos-calendar__validation-msg usa-input-error-message"
+              role="alert"
+            >
+              {validationError}
+            </span>
           )}
           {months.map(
             (month, index) =>

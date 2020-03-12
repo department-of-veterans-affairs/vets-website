@@ -11,6 +11,7 @@ const CalendarCheckboxOption = ({
   value,
 }) => {
   const divClasses = classNames('vaos-calendar__option', {
+    'vads-u-border-color--gray-light': disabled,
     disabled,
   });
 
@@ -19,7 +20,7 @@ const CalendarCheckboxOption = ({
     'vads-u-font-weight--bold',
     {
       'vads-u-color--primary': !disabled,
-      'vads-u-color--gray-lighter': disabled,
+      'vads-u-color--gray-medium': disabled,
     },
   );
 
@@ -37,7 +38,7 @@ const CalendarCheckboxOption = ({
       <label className={labelClasses} htmlFor={`checkbox-${id}`}>
         <span aria-hidden="true">{label}</span>
         <span className="vads-u-visibility--screen-reader">
-          {label} option selected
+          {label} appointment
         </span>
       </label>
     </div>
