@@ -604,6 +604,7 @@ export function submitAppointmentOrRequest(router) {
   return async (dispatch, getState) => {
     const state = getState();
     const newAppointment = getNewAppointment(state);
+    const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
 
     dispatch({
@@ -611,18 +612,16 @@ export function submitAppointmentOrRequest(router) {
     });
 
     const additionalEventData = {
-      typeOfCare,
       'health-TypeOfCare': typeOfCare,
-      'health-ReasonForAppointment': newAppointment?.data?.reasonForAppointment,
-      'health-ReasonAdditionalInfo': newAppointment?.data?.reasonAdditionalInfo,
+      'health-ReasonForAppointment': data?.reasonForAppointment,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      const flow = GA_FLOWS.DIRECT;
       recordEvent({
         event: `${GA_PREFIX}-direct-submission`,
+        flow,
         ...additionalEventData,
-        'health-flow': GA_FLOWS.DIRECT,
-        flow: GA_FLOWS.DIRECT,
       });
 
       try {
@@ -643,6 +642,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-successful`,
+          flow,
           ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
@@ -656,6 +656,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
+          flow,
           ...additionalEventData,
         });
       }
@@ -663,10 +664,11 @@ export function submitAppointmentOrRequest(router) {
       const isCommunityCare =
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
+      const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
-        flow: isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST,
+        flow,
         ...additionalEventData,
       });
 
@@ -691,6 +693,11 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
+          recordEvent({
+            event: `${GA_PREFIX}-${eventType}-submission-failed`,
+            flow,
+            ...additionalEventData,
+          });
           captureError(error);
         }
 
@@ -700,6 +707,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-successful`,
+          flow,
           ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
@@ -719,6 +727,7 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-failed`,
+          flow,
           ...additionalEventData,
         });
       }
