@@ -30,6 +30,22 @@ export const schema = {
             type: 'object',
             properties: {},
           },
+          childPreviouslyMarried: {
+            type: 'string',
+            enum: ['Yes', 'No'],
+            default: 'No',
+          },
+          childPreviousMarriageDetails: {
+            type: 'object',
+            properties: {
+            dateMarriageEnded: genericSchemas.date,
+            reasonMarriageEnded: {
+              type: 'string',
+              enum: ['Divorce', 'Death', 'Annulment', 'Other'],
+              default: 'Divorce',
+            },
+          },
+          },
         },
       },
     },
@@ -61,6 +77,18 @@ export const uiSchema = {
       },
       'view:marriageTypeInformation': {
         'ui:description': childStatusDescription,
+      },
+      childPreviouslyMarried: {
+        'ui:widget': 'radio',
+        'ui:title': "Was this child previously married?",
+      },
+      childPreviousMarriageDetails: {
+        'ui:options': {
+          expandUnder: 'childPreviouslyMarried',
+          expandUnderCondition: 'Yes',
+          keepInPageOnReview: true,
+        },
+        dateMarriageEnded:  currentOrPastDateUI('When did the marriage end'), 
       },
     },
   },
