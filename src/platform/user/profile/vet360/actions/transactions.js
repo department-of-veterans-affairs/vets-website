@@ -11,10 +11,7 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
-import {
-  vaProfileUseAddressValidation,
-  getSelectedAddressId,
-} from '../selectors';
+import { vaProfileUseAddressValidation } from '../selectors';
 import { FIELD_NAMES, ADDRESS_POU } from 'vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
@@ -206,7 +203,7 @@ export const validateAddress = (
   fieldName,
   payload,
   analyticsSectionName,
-) => async (dispatch, getState) => {
+) => async dispatch => {
   const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
   dispatch({
     type: ADDRESS_VALIDATION_INITIALIZE,
@@ -288,11 +285,10 @@ export const validateAddress = (
         confirmedSuggestions,
       });
     }
-    const suggestedAddressSelected = getSelectedAddressId(getState());
     recordEvent({
       event: 'profile-transaction',
       'profile-section': analyticsSectionName,
-      'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
+      'profile-addressSuggestionUsed': 'no',
     });
     // otherwise just send the first suggestion to the API
     return dispatch(
