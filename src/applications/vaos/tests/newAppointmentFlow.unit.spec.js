@@ -738,7 +738,7 @@ describe('VAOS newAppointmentFlow', () => {
           'visitType',
         );
       });
-      it('should be visitType if in direct schedule flow', () => {
+      it('should be reasonForAppointment if in direct schedule flow', () => {
         const state = {
           newAppointment: {
             data: {},
@@ -749,7 +749,7 @@ describe('VAOS newAppointmentFlow', () => {
           'reasonForAppointment',
         );
       });
-      it('should be ccPreferences if in CC flow', () => {
+      it('should be reasonForAppointment if in CC flow', () => {
         const state = {
           newAppointment: {
             data: {
@@ -758,7 +758,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
         expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
-          'ccPreferences',
+          'reasonForAppointment',
         );
       });
     });

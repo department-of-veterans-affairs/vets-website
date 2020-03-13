@@ -58,19 +58,19 @@ export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
 export const DECEASED_ERROR_CODES = new Set(['VET360_MVI300']);
 
 export function isPendingTransaction(transaction) {
-  return PENDING_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return PENDING_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 export function isSuccessfulTransaction(transaction) {
-  return SUCCESS_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return SUCCESS_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 export function isFailedTransaction(transaction) {
-  return FAILURE_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return FAILURE_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 function matchErrorCode(codeSet, transaction) {
-  const { metadata } = transaction.data.attributes;
+  const { metadata } = transaction?.data.attributes;
   return metadata && metadata.some(error => codeSet.has(error.code));
 }
 
