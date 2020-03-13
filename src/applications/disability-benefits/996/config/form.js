@@ -12,7 +12,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-import FormFooter from '../components/FormFooter';
+import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -27,7 +27,6 @@ import contestedIssueFollowup from '../pages/contestedIssueFollowup';
 import officeForReview from '../pages/officeForReview';
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
 import informalConference from '../pages/informalConference';
-import optOutOfOldAppeals from '../pages/optOutOfOldAppeals';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
@@ -37,7 +36,6 @@ import { hasSelectedIssues } from '../helpers';
 const {
   name,
   fullName,
-  legacyOptInApproved,
   address,
   phone,
   date,
@@ -79,7 +77,6 @@ const formConfig = {
   defaultDefinitions: {
     name,
     fullName,
-    legacyOptInApproved,
     address,
     phone,
     date,
@@ -99,16 +96,6 @@ const formConfig = {
     step1: {
       title: 'Veteran details',
       pages: {
-        // Added this as the first step of the form, but the progress bar & step
-        // 1 of 4 header are hidden using CSS; also the footer is placed. Done
-        // to match the design.
-        optOutOfOldAppeals: {
-          title: ' ',
-          path: 'opt-out-of-old-appeals',
-          uiSchema: optOutOfOldAppeals.uiSchema,
-          schema: optOutOfOldAppeals.schema,
-          initialData,
-        },
         confirmVeteranDetails: {
           title: 'Confirm Veteran details',
           path: 'veteran-details',
