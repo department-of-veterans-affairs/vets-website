@@ -1,7 +1,5 @@
 import React from 'react';
 
-import CallToActionWidget from 'platform/site-wide/cta-widget';
-
 export default function IntroPageSummary() {
   return (
     <div itemScope itemType="http://schema.org/FAQPage">
@@ -18,11 +16,6 @@ export default function IntroPageSummary() {
           education benefits.
         </p>
       </div>
-      <CallToActionWidget appId="gi-bill-benefits" />
-      <p>
-        <strong>Note:</strong> This tool is available Sunday through Friday,
-        6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
-      </p>
       <div
         itemProp="mainEntity"
         itemScope
