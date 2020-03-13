@@ -93,7 +93,7 @@ class SubmitController extends React.Component {
             formData={form.data}
             preSubmitInfo={preSubmit}
             showError={showPreSubmitError}
-            sectionCompleted={value =>
+            onSectionCompleted={value =>
               this.props.setPreSubmit(preSubmit.field, value)
             }
           />
@@ -103,7 +103,7 @@ class SubmitController extends React.Component {
             formData={form.data}
             preSubmitInfo={preSubmit}
             showError={showPreSubmitError}
-            sectionCompleted={value =>
+            onSectionCompleted={value =>
               this.props.setPreSubmit(preSubmit.field, value)
             }
           />
@@ -114,7 +114,7 @@ class SubmitController extends React.Component {
 
   render() {
     const { form, renderErrorMessage } = this.props;
-    // Render inside SubmitButtons by using `preSubmitBlock` so the alert is _above_ the submit button;
+    // Render inside SubmitButtons by using `preSubmitSection` so the alert is _above_ the submit button;
     // helps with accessibility
 
     return (
@@ -123,7 +123,7 @@ class SubmitController extends React.Component {
         onSubmit={this.handleSubmit}
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
-        preSubmitBlock={this.RenderPreSubmitSection()}
+        preSubmitSection={this.RenderPreSubmitSection()}
       />
     );
   }
