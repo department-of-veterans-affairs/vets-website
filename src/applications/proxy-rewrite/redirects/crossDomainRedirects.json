@@ -526,11 +526,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/rates-index.asp",
-    "dest": "/disability/compensation-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/resources-rates-read-compAndSMC.asp",
     "dest": "/disability/compensation-rates/"
   },
@@ -543,11 +538,6 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/resources_comp01.asp",
     "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp02.asp",
-    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
   },
   {
     "domain": "www.benefits.va.gov",
