@@ -243,25 +243,9 @@ export function getAppointmentTimezoneAbbreviation(appt) {
 }
 
 export function getAppointmentTimezoneDescription(appt) {
-  const type = getAppointmentType(appt);
+  const abbr = getAppointmentTimezoneAbbreviation(appt);
 
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment: {
-      const tzAbbr = appt?.timeZone?.split(' ')?.[1] || appt?.timeZone;
-      return getTimezoneDescFromAbbr(stripDST(tzAbbr));
-    }
-    case APPOINTMENT_TYPES.ccRequest:
-    case APPOINTMENT_TYPES.request:
-      return getTimezoneDescFromAbbr(
-        getTimezoneAbbrBySystemId(appt?.facility?.facilityCode),
-      );
-    case APPOINTMENT_TYPES.vaAppointment:
-      return getTimezoneDescFromAbbr(
-        getTimezoneAbbrBySystemId(appt?.facilityId),
-      );
-    default:
-      return '';
-  }
+  return getTimezoneDescFromAbbr(abbr);
 }
 
 export function getAppointmentDate(appt) {
