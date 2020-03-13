@@ -93,7 +93,7 @@ class SubmitController extends React.Component {
             formData={form.data}
             preSubmitInfo={preSubmit}
             showError={showPreSubmitError}
-            onSectionCompleted={value =>
+            onSectionComplete={value =>
               this.props.setPreSubmit(preSubmit.field, value)
             }
           />
@@ -103,7 +103,7 @@ class SubmitController extends React.Component {
             formData={form.data}
             preSubmitInfo={preSubmit}
             showError={showPreSubmitError}
-            onSectionCompleted={value =>
+            onSectionComplete={value =>
               this.props.setPreSubmit(preSubmit.field, value)
             }
           />
