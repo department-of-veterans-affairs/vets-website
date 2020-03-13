@@ -6,7 +6,9 @@
   "definitions": {
     "privacyAgreementAccepted": {
       "type": "boolean",
-      "enum": [true]
+      "enum": [
+        true
+      ]
     },
     "fullName": {
       "type": "object",
@@ -26,10 +28,19 @@
         },
         "suffix": {
           "type": "string",
-          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
         }
       },
-      "required": ["first", "last"]
+      "required": [
+        "first",
+        "last"
+      ]
     },
     "address": {
       "type": "object",
@@ -38,7 +49,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["CAN"]
+              "enum": [
+                "CAN"
+              ]
             },
             "state": {
               "type": "string",
@@ -68,7 +81,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["MEX"]
+              "enum": [
+                "MEX"
+              ]
             },
             "state": {
               "type": "string",
@@ -117,7 +132,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["USA"]
+              "enum": [
+                "USA"
+              ]
             },
             "state": {
               "type": "string",
@@ -197,7 +214,11 @@
             "country": {
               "not": {
                 "type": "string",
-                "enum": ["CAN", "MEX", "USA"]
+                "enum": [
+                  "CAN",
+                  "MEX",
+                  "USA"
+                ]
               }
             },
             "state": {
@@ -226,130 +247,70 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 51
-        },
-        "country": {
-          "type": "string",
-          "default": "USA"
-        },
-        "state": {
-          "type": "string",
-          "enum": [
-            "AL",
-            "AK",
-            "AS",
-            "AZ",
-            "AR",
-            "AA",
-            "AE",
-            "AP",
-            "CA",
-            "CO",
-            "CT",
-            "DE",
-            "DC",
-            "FM",
-            "FL",
-            "GA",
-            "GU",
-            "HI",
-            "ID",
-            "IL",
-            "IN",
-            "IA",
-            "KS",
-            "KY",
-            "LA",
-            "ME",
-            "MH",
-            "MD",
-            "MA",
-            "MI",
-            "MN",
-            "MS",
-            "MO",
-            "MT",
-            "NE",
-            "NV",
-            "NH",
-            "NJ",
-            "NM",
-            "NY",
-            "NC",
-            "ND",
-            "MP",
-            "OH",
-            "OK",
-            "OR",
-            "PW",
-            "PA",
-            "PR",
-            "RI",
-            "SC",
-            "SD",
-            "TN",
-            "TX",
-            "UT",
-            "VT",
-            "VI",
-            "VA",
-            "WA",
-            "WV",
-            "WI",
-            "WY"
-          ]
-        },
-        "postalCode": {
-          "type": "string",
-          "maxLength": 51
         }
       },
-      "required": ["street", "city", "state", "country", "postalCode"]
+      "required": [
+        "street",
+        "city",
+        "state",
+        "country",
+        "postalCode"
+      ]
+    },
+    "email": {
+      "type": "string"
+    },
+    "yesOrNo": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "supplies": {
+      "type": "object",
+      "properties": {
+        "deviceName": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productGroup": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "number"
+        },
+        "availableForReorder": {
+          "type": "boolean"
+        },
+        "lastOrderDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "nextAvailabilityDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "size": {
+          "type": "string"
+        }
+      }
     },
     "gender": {
       "type": "string",
-      "enum": ["F", "M"]
+      "enum": [
+        "F",
+        "M"
+      ]
     },
-    "addBatteries": {
-      "type": "string",
-      "enum": ["yes", "no"]
-    },
-    "supplies": {
-      "type": "array",
-      "maxItems": 10,
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "properties": {
-          "order_batteries": { "type": "boolean" },
-          "device_name": { "type": "string" }
-        }
-      }
-    },
-    "accessories": {
-      "type": "object",
-      "properties": {
-        "product_name": { "type": "string" },
-        "product_group": { "type": "string" },
-        "product_id": { "type": "number" },
-        "available_for_reorder": { "type": "boolean" },
-        "last_order_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "next_availability_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "quantity": { "type": "number" }
-      }
-    },
-    "dateOfBirth": {
-      "type": "string",
-      "format": "date"
-    },
-    "email": {
-      "type": "string",
-      "format": "email"
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
     }
   },
   "properties": {
@@ -371,8 +332,8 @@
     "gender": {
       "$ref": "#/definitions/gender"
     },
-    "addBatteries": {
-      "$ref": "#/definitions/addBatteries"
+    "yesOrNo": {
+      "$ref": "#/definitions/yesOrNo"
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
@@ -380,10 +341,10 @@
   },
   "required": [
     "privacyAgreementAccepted",
+    "fullName",
+    "address",
     "gender",
     "email",
-    "dateOfBirth",
-    "veteranFullName",
-    "veteranAddress"
+    "dateOfBirth"
   ]
 }

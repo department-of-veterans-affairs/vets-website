@@ -9,7 +9,7 @@ export const FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE =
 
 export const schemaFields = {
   addressField: 'veteranAddress',
-  emailField: 'veteranEmail',
+  emailField: 'email',
   suppliesField: 'supplies',
   yesOrNoField: 'yesOrNo',
 };

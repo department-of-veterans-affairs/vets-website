@@ -28,6 +28,12 @@ const addressUIDescription = (
   </>
 );
 
+const emailUITitle = (
+  <>
+    <p className="vads-u-font-weight--bold">Email Address</p>
+  </>
+);
+
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
@@ -42,8 +48,18 @@ export default {
       'ui:field': addressFields,
     },
     emailUI: {
-      'ui:title': 'Confirm your email address',
+      'ui:title': emailUITitle,
+      'ui:description':
+        'We will send an order confirmation email with a tracking number to this email address.',
       'ui:widget': 'email',
+      'ui:errorMessages': {
+        pattern: 'Please enter an email address using this format: X@X.com',
+        required: 'Please enter an email address',
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-large',
+        inputType: 'email',
+      },
     },
     genderUI: {
       'ui:title': 'Gender',
