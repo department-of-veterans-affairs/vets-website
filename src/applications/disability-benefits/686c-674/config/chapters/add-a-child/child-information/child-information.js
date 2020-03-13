@@ -27,7 +27,7 @@ export const schema = {
       },
     },
   },
-}
+};
 
 export const uiSchema = {
   childrenToAdd: {
@@ -38,16 +38,14 @@ export const uiSchema = {
     items: {
       first: {
         'ui:title': 'Child’s first name',
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
       middle: {
         'ui:title': 'Child’s middle name',
       },
       last: {
         'ui:title': 'Child’s last name',
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
       suffix: {
         'ui:title': 'Child’s suffix',
@@ -60,13 +58,11 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
         },
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
-      birthDate: _.merge(currentOrPastDateUI('Child\'s date of birth'), {
-        'ui:required': formData =>
-        isChapterFieldRequired(formData, 'addChild'),
+      birthDate: _.merge(currentOrPastDateUI("Child's date of birth"), {
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       }),
-    }
+    },
   },
-}
+};

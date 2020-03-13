@@ -38,19 +38,19 @@ export const schema = {
           childPreviousMarriageDetails: {
             type: 'object',
             properties: {
-            dateMarriageEnded: genericSchemas.date,
-            reasonMarriageEnded: {
-              type: 'string',
-              enum: ['Divorce', 'Death', 'Annulment', 'Other'],
-              default: 'Divorce',
+              dateMarriageEnded: genericSchemas.date,
+              reasonMarriageEnded: {
+                type: 'string',
+                enum: ['Divorce', 'Death', 'Annulment', 'Other'],
+                default: 'Divorce',
+              },
             },
-          },
           },
         },
       },
     },
   },
-}
+};
 
 export const uiSchema = {
   childrenToAdd: {
@@ -58,18 +58,17 @@ export const uiSchema = {
       itemName: 'Child',
       viewField: childInfo,
     },
-    'ui:title': 'Child\'s place of birth',
+    'ui:title': "Child's place of birth",
     items: {
       state: {
         'ui:title': 'State (or country if outside the USA)',
-        'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
       city: {
         'ui:title': 'City or county',
       },
       childStatus: {
-        'ui:title': 'Your child\'s status (check all that apply)',
+        'ui:title': "Your child's status (check all that apply)",
         biological: {
           'ui:title': 'Biological',
         },
@@ -82,20 +81,23 @@ export const uiSchema = {
         stepchild: {
           'ui:title': 'Stepchild',
         },
-        dateBecameDependent: _.merge(currentOrPastDateUI('Date stepchild became dependent'), {
-          'ui:options': {
-            expandUnder: 'stepchild',
-            expandUnderCondition: true,
-            keepInPageOnReview: true,
+        dateBecameDependent: _.merge(
+          currentOrPastDateUI('Date stepchild became dependent'),
+          {
+            'ui:options': {
+              expandUnder: 'stepchild',
+              expandUnderCondition: true,
+              keepInPageOnReview: true,
+            },
           },
-        }),
+        ),
       },
       'view:marriageTypeInformation': {
         'ui:description': childStatusDescription,
       },
       childPreviouslyMarried: {
         'ui:widget': 'radio',
-        'ui:title': "Was this child previously married?",
+        'ui:title': 'Was this child previously married?',
       },
       childPreviousMarriageDetails: {
         'ui:options': {
@@ -103,13 +105,12 @@ export const uiSchema = {
           expandUnderCondition: 'Yes',
           keepInPageOnReview: true,
         },
-        dateMarriageEnded:  currentOrPastDateUI('When did the marriage end'),
+        dateMarriageEnded: currentOrPastDateUI('When did the marriage end'),
         reasonMarriageEnded: {
           'ui:widget': 'radio',
         },
-        birthDate: currentOrPastDateUI('Your date of birth'), 
+        birthDate: currentOrPastDateUI('Your date of birth'),
       },
     },
   },
-}
-
+};

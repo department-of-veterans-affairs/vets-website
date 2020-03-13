@@ -1,4 +1,4 @@
-import {genericSchemas} from '../../../generic-schema';
+import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 import { childInfo } from '../child-information/helpers';
 
@@ -40,7 +40,7 @@ export const schema = {
                 },
               },
             },
-          }
+          },
         },
       },
     },
@@ -56,7 +56,7 @@ export const uiSchema = {
     items: {
       doesChildLiveWithYou: {
         'ui:widget': 'radio',
-        'ui:title': "Does this child live with you?",
+        'ui:title': 'Does this child live with you?',
       },
       childAddressInfo: {
         'ui:options': {
@@ -69,7 +69,7 @@ export const uiSchema = {
           first: {
             'ui:title': 'First name',
             'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+              isChapterFieldRequired(formData, 'addChild'),
           },
           middle: {
             'ui:title': 'Middle name',
@@ -77,20 +77,20 @@ export const uiSchema = {
           last: {
             'ui:title': 'Last name',
             'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+              isChapterFieldRequired(formData, 'addChild'),
           },
         },
         childAddress: {
-          'ui:title': 'Child\'s address',
+          'ui:title': "Child's address",
           country: {
             'ui:title': 'Country',
             'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+              isChapterFieldRequired(formData, 'addChild'),
           },
           street: {
             'ui:title': 'Street',
             'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+              isChapterFieldRequired(formData, 'addChild'),
           },
           line2: {
             'ui:title': 'Line 2',
@@ -101,7 +101,7 @@ export const uiSchema = {
           city: {
             'ui:title': 'City',
             'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+              isChapterFieldRequired(formData, 'addChild'),
           },
           state: {
             'ui:title': 'State or county',
@@ -111,7 +111,7 @@ export const uiSchema = {
               widgetClassNames: 'usa-input-medium',
             },
             'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+              isChapterFieldRequired(formData, 'addChild'),
             'ui:title': 'Postal Code',
           },
         },

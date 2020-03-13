@@ -15,17 +15,15 @@ export const childStatusDescription = (
       additional evidence to establish a dependent.
     </p>
     <AdditionalInfo triggerText="What are some examples of additional evidence?">
+      <p>What are some examples of additional evidence?</p>
       <p>
-      What are some examples of additional evidence?
+        You’ll need to provide a copy of your stepchild’s birth certificate,
+        showing the names of both parents if you don’t live in the U.S. or a
+        territory of the U.S.
       </p>
       <p>
-      You’ll need to provide a copy of your stepchild’s birth certificate,
-      showing the names of both parents if you don’t live in the U.S. or a
-      territory of the U.S.
-      </p>
-      <p>
-      A claim for additional benefits for an adopted child must include a copy
-      of one of the following:
+        A claim for additional benefits for an adopted child must include a copy
+        of one of the following:
       </p>
       <ul>
         <li>The final decree of adoption</li>
@@ -34,16 +32,16 @@ export const childStatusDescription = (
         <li>The revised birth certificate</li>
       </ul>
       <p>
-      To claim a child not capable of self-support, you’ll need to provide:
+        To claim a child not capable of self-support, you’ll need to provide:
       </p>
       <ul>
         <li>
-        Medical evidence showing a permanent mental or physical disability
-        existed before his/her 18th birthday, and
+          Medical evidence showing a permanent mental or physical disability
+          existed before his/her 18th birthday, and
         </li>
         <li>
-        A statement from an attending physician showing the nature and
-        extent of the child’s physical or mental impairment
+          A statement from an attending physician showing the nature and extent
+          of the child’s physical or mental impairment
         </li>
       </ul>
     </AdditionalInfo>

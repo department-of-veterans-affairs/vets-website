@@ -13,7 +13,11 @@ import {
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
-import { children, childPlaceOfBirth, childAdditionalInformation } from './chapters/add-a-child';
+import {
+  children,
+  childPlaceOfBirth,
+  childAdditionalInformation,
+} from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
@@ -96,7 +100,7 @@ const formConfig = {
         },
       },
     },
-    /*
+
     addSpouse: {
       title: 'Information needed to add your spouse',
       pages: {
@@ -134,7 +138,6 @@ const formConfig = {
         },
       },
     },
-    */
     reportDivorce: {
       title: 'Information needed to report a divorce',
       pages: {
