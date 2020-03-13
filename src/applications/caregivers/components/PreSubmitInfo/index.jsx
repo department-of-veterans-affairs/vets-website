@@ -18,7 +18,7 @@ const SignatureCheckbox = ({
       signSignature({ ...signatures, [label]: isSignatureComplete });
     },
 
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [signSignature, label, isSignatureComplete],
   );
 
@@ -124,9 +124,9 @@ const PreSubmitCheckboxes = ({
   };
 
   /*
-    - Vet name must match and be checked
-    - Primary name must match and be checked
-    - if hasSecondary one || two, name must match and be checked to submit
+    - Vet first && last name must match, and be checked
+    - PrimaryCaregiver first && last name must match, and be checked
+    - if hasSecondary one || two, first & last name must match, and be checked to submit
    */
 
   return (
