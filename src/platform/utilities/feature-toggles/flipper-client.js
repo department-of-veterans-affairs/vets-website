@@ -1,11 +1,12 @@
 /* This file is must run in both NodeJS and browser environments */
 
 const FEATURE_FLAG_NAMES = require('./featureFlagNames');
+const FLIPPER_ID = require('./flipperID');
 
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
   ',',
-)}`;
+)}&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
