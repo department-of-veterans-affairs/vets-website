@@ -9,6 +9,7 @@ import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 import {
   getTimezoneBySystemId,
   getTimezoneAbbrBySystemId,
+  getTimezoneDescFromAbbr,
   stripDST,
 } from './timezone';
 
@@ -241,6 +242,28 @@ export function getAppointmentTimezoneAbbreviation(appt) {
   }
 }
 
+export function getAppointmentTimezoneDescription(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment: {
+      const tzAbbr = appt?.timeZone?.split(' ')?.[1] || appt?.timeZone;
+      return getTimezoneDescFromAbbr(stripDST(tzAbbr));
+    }
+    case APPOINTMENT_TYPES.ccRequest:
+    case APPOINTMENT_TYPES.request:
+      return getTimezoneDescFromAbbr(
+        getTimezoneAbbrBySystemId(appt?.facility?.facilityCode),
+      );
+    case APPOINTMENT_TYPES.vaAppointment:
+      return getTimezoneDescFromAbbr(
+        getTimezoneAbbrBySystemId(appt?.facilityId),
+      );
+    default:
+      return '';
+  }
+}
+
 export function getAppointmentDate(appt) {
   const parsedDate = getMomentConfirmedDate(appt);
 
@@ -265,7 +288,7 @@ export function getAppointmentDateTime(appt) {
         {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
       </span>
       <span className="sr-only">
-        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
+        {parsedDate.format('a')} {getAppointmentTimezoneDescription(appt)}
       </span>
     </>
   );
