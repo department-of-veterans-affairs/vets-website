@@ -32,11 +32,11 @@ export function PreSubmitSection({
 PreSubmitSection.propTypes = {
   sectionCompleted: PropTypes.func.isRequired,
   preSubmitInfo: PropTypes.shape({
-    CustomComponent: PropTypes.func || PropTypes.element,
+    CustomComponent: PropTypes.func,
     error: PropTypes.string,
     field: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    notice: PropTypes.element || PropTypes.string,
+    notice: PropTypes.element,
     required: PropTypes.bool,
   }).isRequired,
   showError: PropTypes.bool,
