@@ -66,7 +66,7 @@ const uiOrder = [
   'state',
   'zipCode',
 ];
-// livesOnMilitaryBase is automatically being dropped on
+// livesOnMilitaryBaseInfo is automatically being dropped on
 // the review page so this adjusts ui:order appropriately
 if (window.location.href.includes('review-and-submit')) {
   uiOrder.splice(uiOrder.indexOf('view:livesOnMilitaryBaseInfo'), 1);
