@@ -76,24 +76,46 @@ class SubmitController extends React.Component {
     this.props.submitForm(formConfig, form);
   };
 
-  render() {
-    const {
-      form,
-      formConfig,
-      showPreSubmitError,
-      renderErrorMessage,
-    } = this.props;
+  /*
+*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection, which is default, or a custom override
+*  PreSubmitSection - Default component that renders if no CustomComponent is provided
+*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
+*/
+  RenderPreSubmitSection = () => {
+    const { form, formConfig, showPreSubmitError } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
-    // Render inside SubmitButtons so the alert is _above_ the submit button;
-    // helps with accessibility
-    const PreSubmitBlock = (
-      <PreSubmitSection
-        preSubmitInfo={preSubmit}
-        onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
-        checked={form.data[preSubmit.field] || false}
-        showError={showPreSubmitError}
-      />
+    const { CustomComponent } = preSubmit;
+
+    return (
+      <>
+        {CustomComponent ? (
+          <CustomComponent
+            formData={form.data}
+            preSubmitInfo={preSubmit}
+            showError={showPreSubmitError}
+            onSectionComplete={value =>
+              this.props.setPreSubmit(preSubmit.field, value)
+            }
+          />
+        ) : (
+          <PreSubmitSection
+            checked={form.data[preSubmit.field] || false}
+            formData={form.data}
+            preSubmitInfo={preSubmit}
+            showError={showPreSubmitError}
+            onSectionComplete={value =>
+              this.props.setPreSubmit(preSubmit.field, value)
+            }
+          />
+        )}
+      </>
     );
+  };
+
+  render() {
+    const { form, renderErrorMessage } = this.props;
+    // Render inside SubmitButtons by using `preSubmitSection` so the alert is _above_ the submit button;
+    // helps with accessibility
 
     return (
       <SubmitButtons
@@ -101,7 +123,7 @@ class SubmitController extends React.Component {
         onSubmit={this.handleSubmit}
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
-        preSubmitBlock={PreSubmitBlock}
+        preSubmitSection={this.RenderPreSubmitSection()}
       />
     );
   }
