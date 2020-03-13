@@ -509,7 +509,7 @@ class VAMap extends Component {
       selectedResult,
       showCommunityCares,
       results,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const showDialogUrgCare =
@@ -529,7 +529,8 @@ class VAMap extends Component {
             isMobile
           />
           <div>{showDialogUrgCare}</div>
-          <div ref={this.searchResultTitle}>
+
+          {/* <div ref={this.searchResultTitle}>
             {results.length > 0 ? (
               <p className="search-result-title">
                 <strong>{totalEntries} results</strong>
@@ -543,7 +544,8 @@ class VAMap extends Component {
             ) : (
               <br />
             )}
-          </div>
+          </div> */}
+          <br />
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -616,7 +618,7 @@ class VAMap extends Component {
       currentQuery,
       showCommunityCares,
       results,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { currentPage, totalPages },
     } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
@@ -639,7 +641,7 @@ class VAMap extends Component {
           />
         </div>
         <div>{showDialogUrgCare}</div>
-        <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
+        {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
           {results.length > 0 ? (
             <p className="search-result-title">
               <strong>{totalEntries} results</strong>
@@ -651,9 +653,10 @@ class VAMap extends Component {
               <strong>“{this.props.currentQuery.context}”</strong>
             </p>
           ) : (
-            <br />
+            <br >
           )}
-        </div>
+        </div> */}
+        <br />
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"

@@ -231,7 +231,6 @@ describe('VAOS reducer: newAppointment', () => {
           requestPastVisit: {},
           directPastVisit: {},
           requestLimits: {},
-          pacTeam: [],
         },
       };
 
@@ -250,6 +249,24 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.clinics['983_323']).to.equal(
         action.eligibilityData.clinics,
       );
+    });
+
+    it('should not set clinics when it failed', () => {
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
+        facilities: facilities983Parsed.slice(0, 1),
+        eligibilityData: {
+          clinics: { directFailed: true },
+          requestPastVisit: {},
+          directPastVisit: {},
+          requestLimits: {},
+        },
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.clinics).to.be.undefined;
     });
 
     it('should set error when failed', () => {
@@ -417,7 +434,6 @@ describe('VAOS reducer: newAppointment', () => {
           directPastVisit: {},
           requestPastVisit: {},
           requestLimits: {},
-          pacTeam: [],
         },
       };
       const state = {
@@ -437,6 +453,33 @@ describe('VAOS reducer: newAppointment', () => {
         action.eligibilityData.clinics,
       );
       expect(newState.eligibility['983_323']).to.not.be.undefined;
+    });
+
+    it('should not set clinic info if failed', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId: '323',
+        eligibilityData: {
+          clinics: { directFailed: true },
+          directPastVisit: {},
+          requestPastVisit: {},
+          requestLimits: {},
+        },
+      };
+      const state = {
+        ...defaultState,
+        facilities: {
+          '323_983': facilities983Parsed,
+        },
+        parentFacilities: parentFacilitiesParsed,
+        data: {
+          ...defaultState.data,
+          vaFacility: '983',
+        },
+      };
+
+      const newState = newAppointmentReducer(state, action);
+      expect(newState.clinics).to.be.undefined;
     });
 
     it('should set error state', () => {

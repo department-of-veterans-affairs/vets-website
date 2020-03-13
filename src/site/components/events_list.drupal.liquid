@@ -24,7 +24,8 @@
               <span>{{ event.fieldDate.startDate | timeZone: timezone, "h:mm A"}}
                 {% if event.fieldDate.endDate %}
                   –
-                  {{ event.fieldDate.endDate | timeZone: timezone, "h:mm A" }} ET</span>
+                  {{ event.fieldDate.endDate | timeZone: timezone, "h:mm A" }}
+                  ET</span>
               {% endif %}
             </div>
           </div>

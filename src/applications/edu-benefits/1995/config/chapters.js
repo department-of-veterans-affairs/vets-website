@@ -18,7 +18,6 @@ import { display1995StemFlow, displayStemEligibility } from '../helpers';
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import environment from 'platform/utilities/environment';
 
 const {
   civilianBenefitsAssistance,
@@ -55,22 +54,17 @@ export const chapters = {
       },
       // related to 1995-STEM
       stem: {
-        title: environment.isProduction()
-          ? 'The Rogers STEM Scholarship'
-          : 'Rogers STEM Scholarship',
+        title: 'Rogers STEM Scholarship',
         path: 'benefits/stem',
-        uiSchema: environment.isProduction()
-          ? stem.prodUiSchema
-          : stem.uiSchema,
-        schema: environment.isProduction() ? stem.prodSchema : stem.schema,
+        uiSchema: stem.uiSchema,
+        schema: stem.schema,
       },
       // related to 1995-STEM
       stemEligibility: {
         title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
         pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
-        depends: form =>
-          displayStemEligibility(form) && !environment.isProduction(), // 1995-STEM related
+        depends: form => displayStemEligibility(form), // 1995-STEM related
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
       },
