@@ -55,7 +55,7 @@ const mailingAddress = merge(fullSchema.definitions.address, {
   },
 });
 
-let uiOrder = [
+const uiOrder = [
   'view:livesOnMilitaryBase',
   'view:livesOnMilitaryBaseInfo',
   'country',
@@ -69,16 +69,7 @@ let uiOrder = [
 // livesOnMilitaryBase is automatically being dropped on
 // the review page so this adjusts ui:order appropriately
 if (window.location.href.includes('review-and-submit')) {
-  uiOrder = [
-    'view:livesOnMilitaryBase',
-    'country',
-    'addressLine1',
-    'addressLine2',
-    'addressLine3',
-    'city',
-    'state',
-    'zipCode',
-  ];
+  uiOrder.splice(uiOrder.indexOf('view:livesOnMilitaryBaseInfo'), 1);
 }
 
 const countryEnum = fullSchema.definitions.country.enum;
