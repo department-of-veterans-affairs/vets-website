@@ -2,17 +2,14 @@ const Cookies = require('js-cookie');
 
 // Read Google Analytics ID if available. Otherwise use a random string as a token.
 function newToken() {
-  const randomString =
-    Math.random()
-      .toString(36)
-      .substring(2, 15) +
-    Math.random()
-      .toString(36)
-      .substring(2, 15);
-
   return Cookies.get('_vagovRollup_gid')
     ? Cookies.get('_vagovRollup_gid')
-    : randomString;
+    : Math.random()
+        .toString(36)
+        .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
 }
 
 // Create cookie containing token
