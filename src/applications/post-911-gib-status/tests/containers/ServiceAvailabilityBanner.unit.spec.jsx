@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { IntroPage } from '../../containers/IntroPage';
+import { ServiceAvailabilityBanner } from '../../containers/ServiceAvailabilityBanner';
 import { SERVICE_AVAILABILITY_STATES } from '../../utils/constants';
 
-describe('<IntroPage/>', () => {
+describe('<ServiceAvailabilityBanner/>', () => {
   const getServiceAvailability = sinon.spy();
 
   beforeEach(() => {
@@ -19,14 +19,14 @@ describe('<IntroPage/>', () => {
   };
 
   it('should call getServiceAvailability()', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps} />);
+    const wrapper = shallow(<ServiceAvailabilityBanner {...defaultProps} />);
     expect(getServiceAvailability.callCount).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render a LoadingIndicator', () => {
     const wrapper = shallow(
-      <IntroPage
+      <ServiceAvailabilityBanner
         {...defaultProps}
         serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}
       />,
@@ -35,28 +35,35 @@ describe('<IntroPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should render a success Alert when downtime is not scheduled to start soon', () => {
+  it('should render a CTA widget when downtime is not scheduled to start soon', () => {
     const oneHourAsSeconds = 60 * 60;
     const wrapper = shallow(
-      <IntroPage {...defaultProps} uptimeRemaining={oneHourAsSeconds} />,
+      <ServiceAvailabilityBanner
+        {...defaultProps}
+        uptimeRemaining={oneHourAsSeconds}
+      />,
       { store: {} },
     );
-    expect(wrapper.find('AlertBox[status="success"]').length).to.equal(1);
+
+    expect(wrapper.find('span[data-unit-status="success"]').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render a warning Alert when downtime is scheduled to start soon', () => {
+  it('should render a warning when downtime is scheduled to start soon', () => {
     const halfHourAsSeconds = 30 * 60;
     const wrapper = shallow(
-      <IntroPage {...defaultProps} uptimeRemaining={halfHourAsSeconds} />,
+      <ServiceAvailabilityBanner
+        {...defaultProps}
+        uptimeRemaining={halfHourAsSeconds}
+      />,
     );
-    expect(wrapper.find('AlertBox[status="warning"]').length).to.equal(1);
+    expect(wrapper.find('span[data-unit-status="warning"]').length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render an error Alert when GIBS status down', () => {
     const wrapper = shallow(
-      <IntroPage
+      <ServiceAvailabilityBanner
         {...defaultProps}
         serviceAvailability={SERVICE_AVAILABILITY_STATES.down}
       />,

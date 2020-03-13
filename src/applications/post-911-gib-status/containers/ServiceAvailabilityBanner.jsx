@@ -42,12 +42,18 @@ export class ServiceAvailabilityBanner extends React.Component {
           this.props.uptimeRemaining &&
           this.props.uptimeRemaining <= DOWNTIME_SOON_CUTOFF
         ) {
-          footNote = `${downtimeSoonAlertHeadline}. ${downtimeSoonAlertContent}`;
+          footNote = (
+            <span data-unit-status="warning">
+              {downtimeSoonAlertHeadline}. {downtimeSoonAlertContent}
+            </span>
+          );
         } else if (
           !this.props.uptimeRemaining ||
           this.props.uptimeRemaining > DOWNTIME_SOON_CUTOFF
         ) {
-          footNote = systemUpAlertContent;
+          footNote = (
+            <span data-unit-status="success">{systemUpAlertContent}</span>
+          );
         }
 
         content = (
