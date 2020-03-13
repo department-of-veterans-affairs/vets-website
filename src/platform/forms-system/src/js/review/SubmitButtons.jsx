@@ -180,7 +180,7 @@ export default function SubmitButtons(props) {
 SubmitButtons.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  preSubmitBlock: PropTypes.object,
+  preSubmitBlock: PropTypes.element,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
 };
