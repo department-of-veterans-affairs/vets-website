@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';

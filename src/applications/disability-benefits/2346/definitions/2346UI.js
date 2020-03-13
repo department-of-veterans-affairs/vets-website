@@ -1,6 +1,6 @@
-import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import React from 'react';
 import fullSchema from '../2346-schema.json';
 import deviceNameField from '../components/accessoriesCustomFields/deviceNameField';
 import lastOrderDateField from '../components/accessoriesCustomFields/lastOrderDateField';
@@ -9,8 +9,24 @@ import productNameField from '../components/accessoriesCustomFields/productNameF
 import quantityField from '../components/accessoriesCustomFields/quantityField';
 import sizeField from '../components/accessoriesCustomFields/sizeField';
 import emptyField from '../components/emptyField';
+import addressFields from '../components/fields/addressFields';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import SuppliesReview from '../components/suppliesReview';
+// import * as address from 'platform/forms-system/src/js/definitions/address';
+
+const addressUIDescription = (
+  <>
+    <p>
+      Your order will ship to this address. Orders typically arrive with 7-10
+      business days.
+    </p>
+    <br />
+    <p className="vads-u-font-weight--bold">
+      Select the address you would like us to send your order to:{' '}
+      <span className="red vads-u-font-weight--normal">*(Required)</span>
+    </p>
+  </>
+);
 
 export default {
   'ui:title': fullSchema.title,
@@ -20,7 +36,11 @@ export default {
   sharedUISchemas: {
     dateOfBirthUI: currentOrPastDateUI('Date of Birth'),
     fullNameUI,
-    addressUI: address.uiSchema('Confirm your address', false),
+    addressUI: {
+      'ui:title': 'Shipping Address',
+      'ui:description': addressUIDescription,
+      'ui:field': addressFields,
+    },
     emailUI: {
       'ui:title': 'Confirm your email address',
       'ui:widget': 'email',

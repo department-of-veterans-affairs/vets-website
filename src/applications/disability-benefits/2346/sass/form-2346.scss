@@ -25,6 +25,7 @@
   height: 42px;
   line-height: 36px;
   padding-left: 15px;
+  border-radius: 4px;
 }
 
 label {
@@ -39,4 +40,16 @@ label {
 
 [type="checkbox"]:focus + label::before {
   outline: none;
+}
+
+.schemaform-field-container.schemaform-block {
+  margin-top: 0;
+}
+
+.red {
+  color: red
+}
+
+[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
+   background-color: #fff;
 }
