@@ -10,11 +10,11 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('686 spouse former partner names', () => {
+describe('686 veteran former partner names', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.addSpouse.pages.spouseMarriageHistory;
+  } = formConfig.chapters.addSpouse.pages.veteranMarriageHistory;
 
   const formData = {
     'view:selectable686Options': {
@@ -35,7 +35,7 @@ describe('686 spouse former partner names', () => {
     form.unmount();
   });
 
-  it('should submit when a spouse has not been married before', () => {
+  it('should submit when a veteran has not been married before', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -46,14 +46,14 @@ describe('686 spouse former partner names', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_spouseWasMarriedBefore', 'N');
+    selectRadio(form, 'root_veteranWasMarriedBefore', 'N');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
-  it('should not submit without required fields when a spouse has been married before', () => {
+  it('should not submit without required fields when a veteran has been married before', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -64,14 +64,14 @@ describe('686 spouse former partner names', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_spouseWasMarriedBefore', 'Y');
+    selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should submit with all required fields when a spouse has been married before', () => {
+  it('should submit with all required fields when a veteran has been married before', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -82,15 +82,15 @@ describe('686 spouse former partner names', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_spouseWasMarriedBefore', 'Y');
+    selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
     fillData(
       form,
-      'input#root_spouseMarriageHistory_0_formerSpouseName_first',
+      'input#root_veteranMarriageHistory_0_formerSpouseName_first',
       'jane',
     );
     fillData(
       form,
-      'input#root_spouseMarriageHistory_0_formerSpouseName_last',
+      'input#root_veteranMarriageHistory_0_formerSpouseName_last',
       'doe',
     );
     form.find('form').simulate('submit');
