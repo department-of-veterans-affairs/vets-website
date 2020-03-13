@@ -19,7 +19,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Pages
-import veteranDetailsDescription from '../pages/confirmVeteranDetails';
+import veteranInformationDescription from '../pages/veteranInformation';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
@@ -86,7 +86,7 @@ const formConfig = {
     contactRepresentativeChoice,
     representative,
     scheduleTimes,
-    veteranDetailsDescription,
+    veteranInformationDescription,
   },
   preSubmitInfo,
   downtime: {
@@ -94,13 +94,13 @@ const formConfig = {
   },
   chapters: {
     step1: {
-      title: 'Veteran details',
+      title: 'Veteran information',
       pages: {
-        confirmVeteranDetails: {
-          title: 'Confirm Veteran details',
-          path: 'veteran-details',
+        veteranInformation: {
+          title: 'Veteran information',
+          path: 'veteran-information',
           uiSchema: {
-            'ui:description': veteranDetailsDescription,
+            'ui:description': veteranInformationDescription,
           },
           schema: {
             type: 'object',
