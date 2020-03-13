@@ -123,7 +123,7 @@ class SubmitController extends React.Component {
         onSubmit={this.handleSubmit}
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
-        preSubmitBlock={this.RenderPreSubmitSection}
+        preSubmitBlock={this.RenderPreSubmitSection()}
       />
     );
   }
