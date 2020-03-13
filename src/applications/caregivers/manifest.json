@@ -3,5 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "caregivers",
   "rootUrl": "/caregivers",
-  "production": true
+  "production": false
 }
