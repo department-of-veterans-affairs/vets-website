@@ -141,7 +141,7 @@ export default function SubmitButtons(props) {
         <div className="row">
           <div className="small-12 medium-12 columns">{submitMessage}</div>
         </div>
-        {preSubmitBlock()}
+        {preSubmitBlock}
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
@@ -158,7 +158,7 @@ export default function SubmitButtons(props) {
       <div className="row">
         <div className="columns">{submitMessage}</div>
       </div>
-      {preSubmitBlock()}
+      {preSubmitBlock}
       <div className="row form-progress-buttons">
         <div className="small-6 medium-5 columns">
           <ProgressButton
@@ -180,7 +180,7 @@ export default function SubmitButtons(props) {
 SubmitButtons.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  preSubmitBlock: PropTypes.func,
+  preSubmitBlock: PropTypes.object,
   renderErrorMessage: PropTypes.func,
   submission: PropTypes.object,
 };

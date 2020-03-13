@@ -35,7 +35,7 @@ PreSubmitSection.propTypes = {
     CustomComponent: PropTypes.func,
     error: PropTypes.string,
     field: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     notice: PropTypes.element,
     required: PropTypes.bool,
   }).isRequired,
