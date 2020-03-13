@@ -1,7 +1,7 @@
 const Cookies = require('js-cookie');
 
-// Read GA Id if available otherwise use a randomString as a token
-function getToken() {
+// Read Google Analytics ID if available. Otherwise use a random string as a token.
+function newToken() {
   const randomString =
     Math.random()
       .toString(36)
@@ -16,13 +16,14 @@ function getToken() {
 }
 
 // Create cookie containing token
-function setFlipperCookie() {
+function setFlipperCookie(token) {
   if (!Cookies.get('FLIPPER_ID')) {
-    Cookies.set('FLIPPER_ID', getToken(), { expires: 30 });
+    Cookies.set('FLIPPER_ID', token, { expires: 30 });
+    return token;
   }
-  return getToken();
+  return Cookies.get('FLIPPER_ID');
 }
 
-const FLIPPER_ID = setFlipperCookie();
+const FLIPPER_ID = setFlipperCookie(newToken());
 
 module.exports = FLIPPER_ID;
