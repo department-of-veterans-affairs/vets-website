@@ -1,18 +1,12 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import ErrorMessage from './ErrorMessage';
 
 export default function VAFacilityInfoMessage({ facility, eligibility }) {
   let message;
 
   if (eligibility.requestFailed) {
-    return (
-      <div aria-atomic="true" aria-live="assertive">
-        <AlertBox status="error" headline="Sorry, something went wrong">
-          Sorry, we’re having trouble verifying that you can make an appointment
-          at a facility.
-        </AlertBox>
-      </div>
-    );
+    return <ErrorMessage />;
   }
 
   if (!eligibility.requestPastVisit) {
@@ -38,14 +32,7 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
       </>
     );
   } else {
-    return (
-      <div aria-atomic="true" aria-live="assertive">
-        <AlertBox status="error" headline="Sorry, something went wrong">
-          Sorry, we’re having trouble verifying that you can make an appointment
-          at a facility.
-        </AlertBox>
-      </div>
-    );
+    return <ErrorMessage />;
   }
 
   return (

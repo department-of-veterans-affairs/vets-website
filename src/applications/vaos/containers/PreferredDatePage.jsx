@@ -10,6 +10,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getPreferredDate } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 const initialSchema = {
@@ -38,6 +39,7 @@ export class PreferredDatePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle}  | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   goBack = () => {

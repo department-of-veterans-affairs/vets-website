@@ -40,6 +40,7 @@
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "./script/run-coverage.sh",
+    "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",
     "test:puppeteer:docker": "IN_DOCKER=true jest -c=config/jest-puppeteer.config.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
@@ -291,7 +292,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#53c351b16a1130c959bb54e3d52df290dc9aa64f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e5a89baa54cde250d9ab7c553ebf398de9cba5af",
     "whatwg-fetch": "^2.0.3"
   }
 }

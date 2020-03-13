@@ -274,9 +274,10 @@ export const validateAddress = (
   } catch (error) {
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
-      addressValidationType: fieldName,
       addressValidationError: true,
       addressFromUser: { ...payload },
+      fieldName,
+      error,
     });
   }
 };

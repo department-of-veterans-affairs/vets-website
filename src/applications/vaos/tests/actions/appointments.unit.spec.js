@@ -14,6 +14,7 @@ import {
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
+  startNewAppointmentFlow,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
@@ -27,6 +28,8 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
+
+import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
 
 import facilityData from '../../api/facility_data.json';
 import clinicData from '../../api/clinics.json';
@@ -348,6 +351,13 @@ describe('VAOS actions: appointments', () => {
       expect(action).to.deep.equal({
         type: CANCEL_APPOINTMENT_CLOSED,
       });
+    });
+  });
+  it('should start new appointment flow', () => {
+    const action = startNewAppointmentFlow();
+
+    expect(action).to.deep.equal({
+      type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });
 });

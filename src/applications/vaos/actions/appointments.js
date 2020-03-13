@@ -15,6 +15,7 @@ import {
 } from '../api';
 
 import { captureError } from '../utils/error';
+import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -298,5 +299,11 @@ export function confirmCancelAppointment() {
 export function closeCancelAppointment() {
   return {
     type: CANCEL_APPOINTMENT_CLOSED,
+  };
+}
+
+export function startNewAppointmentFlow() {
+  return {
+    type: STARTED_NEW_APPOINTMENT_FLOW,
   };
 }

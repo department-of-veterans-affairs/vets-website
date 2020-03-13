@@ -4,6 +4,12 @@
   "type": "object",
   "additionalProperties": false,
   "definitions": {
+    "privacyAgreementAccepted": {
+      "type": "boolean",
+      "enum": [
+        true
+      ]
+    },
     "fullName": {
       "type": "object",
       "properties": {
@@ -242,13 +248,62 @@
           "minLength": 1,
           "maxLength": 51
         }
-      }
+      },
+      "required": [
+        "street",
+        "city",
+        "state",
+        "country",
+        "postalCode"
+      ]
     },
     "email": {
       "type": "string",
-      "minLength": 6,
-      "maxLength": 80,
-      "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+      "enum": [
+        "F",
+        "M"
+      ]
+    },
+    "yesOrNo": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "supplies": {
+      "type": "object",
+      "properties": {
+        "deviceName": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productGroup": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "number"
+        },
+        "availableForReorder": {
+          "type": "boolean"
+        },
+        "lastOrderDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "nextAvailabilityDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "size": {
+          "type": "string"
+        }
+      }
     },
     "gender": {
       "type": "string",
@@ -260,12 +315,6 @@
     "date": {
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
-    },
-    "privacyAgreementAccepted": {
-      "type": "boolean",
-      "enum": [
-        true
-      ]
     }
   },
   "properties": {
@@ -286,6 +335,12 @@
     },
     "gender": {
       "$ref": "#/definitions/gender"
+    },
+    "yesOrNo": {
+      "$ref": "#/definitions/yesOrNo"
+    },
+    "supplies": {
+      "$ref": "#/definitions/supplies"
     }
   },
   "required": [

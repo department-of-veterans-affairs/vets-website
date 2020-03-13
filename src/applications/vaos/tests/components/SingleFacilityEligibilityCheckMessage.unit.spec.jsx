@@ -60,7 +60,7 @@ describe('VAOS <SingleFacilityEligibilityCheckMessage>', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('trouble verifying');
+    expect(tree.text()).to.contain('Something went wrong');
     expect(tree.find('AlertBox').props().status).to.equal('error');
     expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
@@ -102,7 +102,7 @@ describe('VAOS <SingleFacilityEligibilityCheckMessage>', () => {
       />,
     );
 
-    expect(tree.text()).to.contain('trouble verifying');
+    expect(tree.text()).to.contain('Something went wrong');
     expect(tree.find('AlertBox').props().status).to.equal('error');
     expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();

@@ -1,22 +1,43 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from 'vets-json-schema/dist/MDOT-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
-import { vetFields } from '../constants';
+import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import UIDefinitions from '../definitions/2346UI';
 
-const { email, date, fullName, address, gender } = fullSchemaMDOT.definitions;
+const {
+  email,
+  dateOfBirth,
+  gender,
+  address,
+  supplies,
+  yesOrNo,
+} = fullSchemaMDOT.definitions;
 
-const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
+const { addressField, emailField, yesOrNoField, suppliesField } = schemaFields;
+
+// const { veteranAddress } = fullSchemaMDOT.properties;
+
+const {
+  emailUI,
+  addressUI,
+  addBatteriesUI,
+  addAccessoriesUI,
+  batteriesUI,
+  accessoriesUI,
+} = UIDefinitions.sharedUISchemas;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
+  orderSupplies: 'Order your supplies',
 };
 
 const formPages = {
   personalDetails: 'Personal Details',
-  confirmAddress: 'Confirm Address',
+  confirmAddress: 'Shipping Address',
+  addBatteriesPage: 'Add batteries to your order',
+  addAccessoriesPage: 'Add accessories to your order',
 };
 
 const formConfig = {
@@ -30,7 +51,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
-  title: 'Reorder Hearing Aid Batteries and Accessories',
+  title: 'Order Hearing Aid Batteries and Accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
@@ -38,13 +59,14 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    date,
-    fullName,
+    dateOfBirth,
     address,
     gender,
+    supplies,
+    yesOrNo,
   },
   chapters: {
-    VeteranInformationChapter: {
+    veteranInformationChapter: {
       title: formChapters.veteranInformation,
       pages: {
         [formPages.personalDetails]: {
@@ -62,8 +84,8 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPages.confirmAddress,
           uiSchema: {
-            [vetFields.address]: addressUI,
-            [vetFields.email]: emailUI,
+            [addressField]: addressUI,
+            [emailField]: emailUI,
           },
           schema: {
             type: 'object',
@@ -71,6 +93,41 @@ const formConfig = {
               address,
               email,
             },
+          },
+        },
+      },
+    },
+    orderSuppliesChapter: {
+      title: formChapters.orderSupplies,
+      pages: {
+        [formPages.addBatteriesPage]: {
+          path: 'supplies',
+          title: formPages.addBatteriesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              yesOrNo,
+              supplies,
+            },
+          },
+          uiSchema: {
+            [yesOrNoField]: addBatteriesUI,
+            [suppliesField]: batteriesUI,
+          },
+        },
+        [formPages.addAccessoriesPage]: {
+          path: 'accessories',
+          title: formPages.addAccessoriesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              yesOrNo,
+              supplies,
+            },
+          },
+          uiSchema: {
+            [yesOrNoField]: addAccessoriesUI,
+            [suppliesField]: accessoriesUI,
           },
         },
       },

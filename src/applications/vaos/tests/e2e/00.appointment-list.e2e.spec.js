@@ -9,6 +9,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
   VAOSHelpers.initAppointmentListMock(token);
   E2eHelpers.overrideVetsGovApi(client);
 
+  // init announcements
+  client.execute(() => {
+    // window.localStorage.clear();
+    window.localStorage.setItem(
+      'DISMISSED_ANNOUNCEMENTS',
+      '["welcome-to-new-vaos"]',
+    );
+  });
+
   Auth.logIn(
     token,
     client,
