@@ -117,7 +117,7 @@ export class DateTimeRequestPage extends React.Component {
             .add(5, 'days')
             .format('YYYY-MM-DD')}
           maxDate={moment()
-            .add(395, 'days')
+            .add(120, 'days')
             .format('YYYY-MM-DD')}
           currentlySelectedDate={currentlySelectedDate}
           selectedDates={selectedDates}
