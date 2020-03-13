@@ -1,5 +1,7 @@
 // Dependencies
-import { concat, filter, pick } from 'lodash';
+import concat from 'lodash/concat';
+import filter from 'lodash/filter';
+import pick from 'lodash/pick';
 // Relative imports.
 import {
   ADD_SCHOOL_TO_COMPARE,

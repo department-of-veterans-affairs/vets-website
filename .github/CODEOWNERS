@@ -10,6 +10,9 @@ src/applications/proxy-rewrite/redirects/crossDomainRedirects.json @department-o
 src/applications/find-va-forms @department-of-veterans-affairs/vsa-frontend
 src/platform/site-wide @department-of-veterans-affairs/vsa-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-frontend
+src/applications/personalization @department-of-veterans-affairs/vsa-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/vsa-frontend
+src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-frontend
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
