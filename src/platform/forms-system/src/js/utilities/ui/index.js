@@ -1,9 +1,9 @@
 import Scroll from 'react-scroll';
 
-export function focusElement(selectorOrElement, options, testDom) {
+export function focusElement(selectorOrElement, options) {
   const el =
     typeof selectorOrElement === 'string'
-      ? (testDom || document).querySelector(selectorOrElement)
+      ? (window.Forms.document || document).querySelector(selectorOrElement)
       : selectorOrElement;
 
   if (el) {
@@ -18,15 +18,13 @@ export function focusElement(selectorOrElement, options, testDom) {
 }
 
 // Set focus on target _after_ the content has been updated
-export function focusOnChange(name, target = '.edit-btn', testDom) {
+export function focusOnChange(name, target = '.edit-btn') {
   setTimeout(() => {
     const selector = `[name="${name}ScrollElement"]`;
-    const el = (testDom || document).querySelector(selector);
+    const el = (window.Forms.document || document).querySelector(selector);
     // nextElementSibling = page form
     const focusTarget = el?.nextElementSibling?.querySelector(target);
-    if (focusTarget) {
-      focusElement(focusTarget);
-    }
+    focusElement(focusTarget);
   });
 }
 
