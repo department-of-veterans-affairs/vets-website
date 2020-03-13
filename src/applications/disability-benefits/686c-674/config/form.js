@@ -13,7 +13,7 @@ import {
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
-import { children, childPlaceOfBirth } from './chapters/add-a-child';
+import { children, childPlaceOfBirth, childAdditionalInformation } from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
@@ -122,6 +122,14 @@ const formConfig = {
           arrayPath: 'childrenToAdd',
           uiSchema: childPlaceOfBirth.uiSchema,
           schema: childPlaceOfBirth.schema,
+        },
+        addChildAdditionalInformation: {
+          title: 'Information needed to add your child',
+          path: 'add-child/:index/additional-information',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: childAdditionalInformation.uiSchema,
+          schema: childAdditionalInformation.schema,
         },
       },
     },

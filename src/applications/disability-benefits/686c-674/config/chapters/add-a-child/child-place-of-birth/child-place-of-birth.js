@@ -1,7 +1,6 @@
 import { genericSchemas } from '../../../generic-schema';
 import { childInfo } from '../child-information/helpers';
-import { isChapterFieldRequired } from '../../../helpers';
-import { childStatusDescription } from './childStatusField';
+import { childStatusDescription } from './childStatusDescription';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import _ from 'lodash/fp';
 
@@ -14,7 +13,7 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          state: genericSchemas.genericUSAStateDropdown,
+          state: genericSchemas.genericTextInput,
           city: genericSchemas.genericTextInput,
           childStatus: {
             type: 'object',
@@ -100,7 +99,11 @@ export const uiSchema = {
           expandUnderCondition: 'Yes',
           keepInPageOnReview: true,
         },
-        dateMarriageEnded:  currentOrPastDateUI('When did the marriage end'), 
+        dateMarriageEnded:  currentOrPastDateUI('When did the marriage end'),
+        reasonMarriageEnded: {
+          'ui:widget': 'radio',
+        },
+        birthDate: currentOrPastDateUI('Your date of birth'), 
       },
     },
   },
