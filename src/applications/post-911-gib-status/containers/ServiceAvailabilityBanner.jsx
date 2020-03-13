@@ -16,9 +16,7 @@ const downtimeSoonAlertHeadline = `The Post-9/11 GI Bill Benefits tool will be d
 const downtimeSoonAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
 
 export class ServiceAvailabilityBanner extends React.Component {
-  constructor(props) {
-    super(props);
-    // Make the api request
+  componentDidMount() {
     this.props.getServiceAvailability();
   }
 
