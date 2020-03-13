@@ -1,5 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullSchemaMDOT from 'vets-json-schema/dist/MDOT-schema.json';
+import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -17,7 +17,7 @@ const {
 
 const { addressField, emailField, yesOrNoField, suppliesField } = schemaFields;
 
-// const { veteranAddress } = fullSchemaMDOT.properties;
+const { veteranAddress } = fullSchemaMDOT.properties;
 
 const {
   emailUI,
@@ -90,7 +90,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              address,
+              veteranAddress,
               email,
             },
           },

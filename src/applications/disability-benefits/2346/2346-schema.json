@@ -258,11 +258,7 @@
       ]
     },
     "email": {
-      "type": "string",
-      "enum": [
-        "F",
-        "M"
-      ]
+      "type": "string"
     },
     "yesOrNo": {
       "type": "string",
