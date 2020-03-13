@@ -1,6 +1,7 @@
 import { genericSchemas } from '../../../generic-schema';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
+import { isChapterFieldRequired } from '../../../helpers';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import _ from 'lodash/fp';
 
@@ -57,9 +58,12 @@ export const uiSchema = {
       itemName: 'Child',
       viewField: childInfo,
     },
+    'ui:title': 'Child\'s place of birth',
     items: {
       state: {
         'ui:title': 'State (or country if outside the USA)',
+        'ui:required': formData =>
+            isChapterFieldRequired(formData, 'addChild'),
       },
       city: {
         'ui:title': 'City or county',

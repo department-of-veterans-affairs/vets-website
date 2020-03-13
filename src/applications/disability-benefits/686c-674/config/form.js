@@ -69,6 +69,34 @@ const formConfig = {
         },
       },
     },
+    addChild: {
+      title: 'Information needed to add your child',
+      pages: {
+        addChildInformation: {
+          title: 'Information needed to add your child',
+          path: 'add-child',
+          uiSchema: children.uiSchema,
+          schema: children.schema,
+        },
+        addChildPlaceOfBirth: {
+          title: 'Information needed to add your child',
+          path: 'add-child/:index',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: childPlaceOfBirth.uiSchema,
+          schema: childPlaceOfBirth.schema,
+        },
+        addChildAdditionalInformation: {
+          title: 'Information needed to add your child',
+          path: 'add-child/:index/additional-information',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: childAdditionalInformation.uiSchema,
+          schema: childAdditionalInformation.schema,
+        },
+      },
+    },
+    /*
     addSpouse: {
       title: 'Information needed to add your spouse',
       pages: {
@@ -106,33 +134,7 @@ const formConfig = {
         },
       },
     },
-    addChild: {
-      title: 'Information needed to add your child',
-      pages: {
-        addChildInformation: {
-          title: 'Information needed to add your child',
-          path: 'add-child',
-          uiSchema: children.uiSchema,
-          schema: children.schema,
-        },
-        addChildPlaceOfBirth: {
-          title: 'Information needed to add your child',
-          path: 'add-child/:index',
-          showPagePerItem: true,
-          arrayPath: 'childrenToAdd',
-          uiSchema: childPlaceOfBirth.uiSchema,
-          schema: childPlaceOfBirth.schema,
-        },
-        addChildAdditionalInformation: {
-          title: 'Information needed to add your child',
-          path: 'add-child/:index/additional-information',
-          showPagePerItem: true,
-          arrayPath: 'childrenToAdd',
-          uiSchema: childAdditionalInformation.uiSchema,
-          schema: childAdditionalInformation.schema,
-        },
-      },
-    },
+    */
     reportDivorce: {
       title: 'Information needed to report a divorce',
       pages: {

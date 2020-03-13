@@ -7,38 +7,44 @@ export const childStatusDescription = (
       Additional evidence needed
     </p>
     <p>
-      If you select a marriage type other than{' '}
+      If you select a option other than{' '}
       <span className="vads-u-color--gray-dark vads-u-font-weight--bold">
-        Ceremonial
+        Biological
       </span>{' '}
       or if you don't live in the U.S. or a territory of the U.S., we require
-      additional evidence to establish a spouse.
+      additional evidence to establish a dependent.
     </p>
     <AdditionalInfo triggerText="What are some examples of additional evidence?">
       <p>
-        Examples of additional information includes a copy of the public record,
-        or a copy of the church record that shows:
+      What are some examples of additional evidence?
+      </p>
+      <p>
+      You’ll need to provide a copy of your stepchild’s birth certificate,
+      showing the names of both parents if you don’t live in the U.S. or a
+      territory of the U.S.
+      </p>
+      <p>
+      A claim for additional benefits for an adopted child must include a copy
+      of one of the following:
       </p>
       <ul>
-        <li>The identities of the people involved.</li>
-        <li>The date and place of the marriage.</li>
-        <li>The number of prior marriages for both parties.</li>
+        <li>The final decree of adoption</li>
+        <li>The adoptive placement agreement</li>
+        <li>The interlocutory decree of adoptions, or</li>
+        <li>The revised birth certificate</li>
       </ul>
       <p>
-        If an official record is not available, you should submit at least one
-        of the following documents:
+      To claim a child not capable of self-support, you’ll need to provide:
       </p>
       <ul>
         <li>
-          The official report from your branch of service showing a marriage
-          happened while you were in service.
+        Medical evidence showing a permanent mental or physical disability
+        existed before his/her 18th birthday, and
         </li>
-        <li>A certified copy of the original marriage certificate.</li>
         <li>
-          An affidavit of the clergyman or magistrate who conducted the marriage
-          ceremony.
+        A statement from an attending physician showing the nature and
+        extent of the child’s physical or mental impairment
         </li>
-        <li>Other evidence that may be considered.</li>
       </ul>
     </AdditionalInfo>
   </div>
