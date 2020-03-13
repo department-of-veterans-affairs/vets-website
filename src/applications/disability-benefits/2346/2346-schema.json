@@ -6,9 +6,7 @@
   "definitions": {
     "privacyAgreementAccepted": {
       "type": "boolean",
-      "enum": [
-        true
-      ]
+      "enum": [true]
     },
     "fullName": {
       "type": "object",
@@ -28,19 +26,10 @@
         },
         "suffix": {
           "type": "string",
-          "enum": [
-            "Jr.",
-            "Sr.",
-            "II",
-            "III",
-            "IV"
-          ]
+          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
         }
       },
-      "required": [
-        "first",
-        "last"
-      ]
+      "required": ["first", "last"]
     },
     "address": {
       "type": "object",
@@ -49,9 +38,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "CAN"
-              ]
+              "enum": ["CAN"]
             },
             "state": {
               "type": "string",
@@ -81,9 +68,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "MEX"
-              ]
+              "enum": ["MEX"]
             },
             "state": {
               "type": "string",
@@ -132,9 +117,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "USA"
-              ]
+              "enum": ["USA"]
             },
             "state": {
               "type": "string",
@@ -214,11 +197,7 @@
             "country": {
               "not": {
                 "type": "string",
-                "enum": [
-                  "CAN",
-                  "MEX",
-                  "USA"
-                ]
+                "enum": ["CAN", "MEX", "USA"]
               }
             },
             "state": {
@@ -324,60 +303,44 @@
           "maxLength": 51
         }
       },
-      "required": [
-        "street",
-        "city",
-        "state",
-        "country",
-        "postalCode"
-      ]
+      "required": ["street", "city", "state", "country", "postalCode"]
     },
     "gender": {
       "type": "string",
-      "enum": [
-        "F",
-        "M"
-      ]
+      "enum": ["F", "M"]
     },
-    "yesOrNo": {
+    "addBatteries": {
       "type": "string",
-      "enum": [
-        "yes",
-        "no"
-      ]
+      "enum": ["yes", "no"]
     },
     "supplies": {
+      "type": "array",
+      "maxItems": 10,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "order_batteries": { "type": "boolean" },
+          "device_name": { "type": "string" }
+        }
+      }
+    },
+    "accessories": {
       "type": "object",
       "properties": {
-        "deviceName": {
-          "type": "string"
-        },
-        "productName": {
-          "type": "string"
-        },
-        "productGroup": {
-          "type": "string"
-        },
-        "productId": {
-          "type": "number"
-        },
-        "availableForReorder": {
-          "type": "boolean"
-        },
-        "lastOrderDate": {
+        "product_name": { "type": "string" },
+        "product_group": { "type": "string" },
+        "product_id": { "type": "number" },
+        "available_for_reorder": { "type": "boolean" },
+        "last_order_date": {
           "type": "string",
           "format": "date"
         },
-        "nextAvailabilityDate": {
+        "next_availability_date": {
           "type": "string",
           "format": "date"
         },
-        "quantity": {
-          "type": "number"
-        },
-        "size": {
-          "type": "string"
-        }
+        "quantity": { "type": "number" }
       }
     },
     "dateOfBirth": {
@@ -408,8 +371,8 @@
     "gender": {
       "$ref": "#/definitions/gender"
     },
-    "yesOrNo": {
-      "$ref": "#/definitions/yesOrNo"
+    "addBatteries": {
+      "$ref": "#/definitions/addBatteries"
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
