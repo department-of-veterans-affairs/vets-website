@@ -20,22 +20,17 @@ const printCoverage = coverageResults => {
   });
 
   // Add each app coverage result to the table
-  Object.keys(coverageResults).forEach(key => {
-    if (key !== 'total') {
-      const appLocation = `${coverageResults[key].path.substr(
-        0,
-        coverageResults[key].path.lastIndexOf('/'),
-      )}`;
+  Object.values(coverageResults).forEach(cov => {
+    const appLocation = `${cov.path.substr(0, cov.path.lastIndexOf('/'))}`;
 
-      coverageTable.push({
-        [appLocation]: [
-          `${coverageResults[key].lines.pct}%`,
-          `${coverageResults[key].functions.pct}%`,
-          `${coverageResults[key].statements.pct}%`,
-          `${coverageResults[key].branches.pct}%`,
-        ],
-      });
-    }
+    coverageTable.push({
+      [appLocation]: [
+        `${cov.lines.pct}%`,
+        `${cov.functions.pct}%`,
+        `${cov.statements.pct}%`,
+        `${cov.branches.pct}%`,
+      ],
+    });
   });
 
   console.log(coverageTable.toString());
@@ -53,54 +48,43 @@ const generateCoverage = (rootDir, coverageSummary) => {
         path: manifests
           .find(obj => obj.entryName === entryName)
           .entryFile.replace(rootDir, ''),
-        lines: { total: 0, covered: 0, skipped: 0, pct: 0 },
-        statements: { total: 0, covered: 0, skipped: 0, pct: 0 },
-        functions: { total: 0, covered: 0, skipped: 0, pct: 0 },
-        branches: { total: 0, covered: 0, skipped: 0, pct: 0 },
+        lines: { total: 0, covered: 0, pct: 0 },
+        statements: { total: 0, covered: 0, pct: 0 },
+        functions: { total: 0, covered: 0, pct: 0 },
+        branches: { total: 0, covered: 0, pct: 0 },
       },
     })),
   );
 
-  return Object.keys(coverageSummary).reduce((acc, coverageResult) => {
-    const appName = coverageResult.replace(rootDir, '').split(path.sep)[0];
-
-    if (appName) {
+  // Iterate through coverages that are under src/applications
+  return Object.keys(coverageSummary)
+    .filter(fullPath => fullPath.replace(rootDir, '').split(path.sep)[0])
+    .reduce((acc, fullCoveragePath) => {
       // Find coverage if it exists by checking if the path of the coverage result file
       // includes an application path, e.g. 'vre/chapter36/'
-      const resultFilePath = coverageResult.replace(rootDir, '');
       const coverageItem = Object.values(acc).find(appCov =>
-        resultFilePath.includes(
-          `${appCov.path.substring(0, appCov.path.lastIndexOf('/'))}/`,
-        ),
+        fullCoveragePath
+          .replace(rootDir, '')
+          .includes(
+            `${appCov.path.substring(0, appCov.path.lastIndexOf('/'))}/`,
+          ),
       );
 
-      // Get key of coverageItem
-      const coverageKey = Object.keys(acc).find(
-        key => acc[key] === coverageItem,
-      );
-
-      // Update coverage
-      if (acc[coverageKey]) {
-        // Average coverageResult with respective acc segment if present
-        // Each 'seg' represents coverage by line, function, statement, and branch
-        Object.keys(acc[coverageKey]).forEach(seg => {
-          if (seg !== 'path') {
-            acc[coverageKey][seg].total +=
-              coverageSummary[coverageResult][seg].total;
-            acc[coverageKey][seg].covered +=
-              coverageSummary[coverageResult][seg].covered;
-            acc[coverageKey][seg].skipped +=
-              coverageSummary[coverageResult][seg].skipped;
-            acc[coverageKey][seg].pct = (
-              (acc[coverageKey][seg].covered / acc[coverageKey][seg].total) *
-                100 || 0
-            ).toFixed(2);
-          }
-        });
-      }
-    }
-    return acc;
-  }, initialCoverage);
+      // Average coverageResult with respective coverageItem segment if present
+      // Each 'seg' represents coverage by line, function, statement, and branch
+      Object.keys(coverageItem || {}).forEach(seg => {
+        if (seg !== 'path') {
+          coverageItem[seg].total +=
+            coverageSummary[fullCoveragePath][seg].total;
+          coverageItem[seg].covered +=
+            coverageSummary[fullCoveragePath][seg].covered;
+          coverageItem[seg].pct = (
+            (coverageItem[seg].covered / coverageItem[seg].total) * 100 || 0
+          ).toFixed(2);
+        }
+      });
+      return acc;
+    }, initialCoverage);
 };
 
 // Root directory of application folders
