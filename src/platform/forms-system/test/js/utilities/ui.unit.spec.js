@@ -15,7 +15,7 @@ describe('focus on element', () => {
       </div>,
     );
     const dom = findDOMNode(tree);
-    window.Forms.document = dom;
+    global.document = dom;
     const focused = sinon.stub(dom.querySelector('button'), 'focus');
     focusElement('button', {});
     expect(focused.calledOnce).to.be.true;
@@ -76,7 +76,7 @@ describe('focus on change', () => {
     );
 
     const dom = findDOMNode(tree);
-    window.Forms.document = dom;
+    global.document = dom;
     const target = '.edit-btn';
     const focused = sinon.stub(dom.querySelector(target), 'focus');
     focusOnChange('test', target);
