@@ -59,10 +59,15 @@ export class ProfilePage extends React.Component {
 
     let content;
 
-    if (profile.inProgress) {
+    if (profile.responseCode === '503') {
+      return (
+        <ScrollElement name="profilePage" className="profile-page">
+          {RenderBackendErrorMessage}
+        </ScrollElement>
+      );
+    }
+    if (profile.inProgress || _.isEmpty(profile.attributes)) {
       content = <LoadingIndicator message="Loading your profile..." />;
-    } else if (_.isEmpty(profile.attributes)) {
-      content = RenderBackendErrorMessage;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 

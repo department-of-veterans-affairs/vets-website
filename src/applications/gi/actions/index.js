@@ -34,6 +34,7 @@ export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const FETCH_RESPONSE_CODE = 'FETCH_RESPONSE_CODE';
 
 export function updateRoute(location) {
   return { type: UPDATE_ROUTE, location };
@@ -74,6 +75,10 @@ export function exitPreviewMode() {
   return {
     type: EXIT_PREVIEW_MODE,
   };
+}
+
+function setResponse(dispatch, res) {
+  dispatch({ type: FETCH_RESPONSE_CODE, payload: res });
 }
 
 function withPreview(dispatch, action) {
@@ -250,8 +255,8 @@ export function fetchProfile(facilityCode, version) {
         if (res.ok) {
           return res.json();
         }
-
         return res.json().then(errors => {
+          setResponse(dispatch, res);
           throw new Error(errors);
         });
       })
@@ -267,7 +272,7 @@ export function fetchProfile(facilityCode, version) {
         });
       })
       .catch(err => {
-        dispatch({ type: FETCH_PROFILE_FAILED, err });
+        dispatch({ type: FETCH_CONSTANTS_FAILED, err });
       });
   };
 }
