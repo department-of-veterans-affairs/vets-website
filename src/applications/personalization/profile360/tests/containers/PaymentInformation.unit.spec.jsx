@@ -18,7 +18,7 @@ describe('<PaymentInformation/>', () => {
     financialInstitutionRoutingNumber: '123456789',
   };
   const defaultProps = {
-    directDepositIsSetUp: true,
+    isDirectDepositSetUp: true,
     multifactorEnabled: true,
     isLoading: false,
     isEvssAvailable: true,
@@ -71,8 +71,8 @@ describe('<PaymentInformation/>', () => {
       // `false` because the GET payment_information endpoint will not populate
       // the account number when the controlInformation indicates that they are
       // blocked from accessing the direct deposit feature
-      directDepositIsSetUp: false,
-      shouldShowDirectDeposit: true,
+      isDirectDepositSetUp: false,
+      shouldShowDirectDeposit: false,
       directDepositIsBlocked: true,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
@@ -84,7 +84,7 @@ describe('<PaymentInformation/>', () => {
   it('renders the correct content if the user is eligible for direct deposit but has not yet set it up', () => {
     const props = {
       ...defaultProps,
-      directDepositIsSetUp: false,
+      isDirectDepositSetUp: false,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
 
