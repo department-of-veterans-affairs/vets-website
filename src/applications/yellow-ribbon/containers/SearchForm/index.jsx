@@ -40,8 +40,8 @@ export class SearchForm extends Component {
     const { country, city, name, state } = this.state;
 
     // Fetch the results with their name if it's on the URL.
-    if (city || country || name || state) {
-      this.props.fetchResultsThunk({ city, country, name, state });
+    if (country || city || name || state) {
+      this.props.fetchResultsThunk({ country, city, name, state });
     }
   }
 
@@ -57,7 +57,7 @@ export class SearchForm extends Component {
 
   render() {
     const { onStateChange, onSubmitHandler } = this;
-    const { city, name, state } = this.state;
+    const { country, city, name, state } = this.state;
 
     return (
       <form
@@ -80,6 +80,29 @@ export class SearchForm extends Component {
             type="text"
             value={name}
           />
+        </div>
+
+        {/* Country Field */}
+        <label htmlFor="yr-search-country" className="vads-u-margin-top--3">
+          Country
+        </label>
+        <div className="vads-u-flex--1">
+          <select
+            className="vads-u-width--auto"
+            name="yr-search-country"
+            onChange={onStateChange('country')}
+            value={country}
+          >
+            <option value="">- Select -</option>
+            {map(
+              [{ label: 'United States of America', value: 'USA' }],
+              countryOption => (
+                <option key={countryOption?.value} value={countryOption?.value}>
+                  {countryOption?.label}
+                </option>
+              ),
+            )}
+          </select>
         </div>
 
         {/* State Field */}
