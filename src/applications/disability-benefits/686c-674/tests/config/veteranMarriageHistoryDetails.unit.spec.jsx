@@ -11,19 +11,19 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('686 spouse marriage history details', () => {
+describe('686 veteran marriage history details', () => {
   const {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.addSpouse.pages.spouseMarriageHistoryDetails;
+  } = formConfig.chapters.addSpouse.pages.veteranMarriageHistoryDetails;
 
   const formData = {
     'view:selectable686Options': {
       addSpouse: true,
     },
-    spouseWasMarriedBefore: true,
-    spouseMarriageHistory: [
+    veteranWasMarriedBefore: true,
+    veteranMarriageHistory: [
       {
         formerSpouseName: {
           first: 'Jane',

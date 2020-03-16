@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { includes } from 'lodash';
+import includes from 'lodash/includes';
 // Relative imports.
 import { capitalize } from '../../helpers';
 import {

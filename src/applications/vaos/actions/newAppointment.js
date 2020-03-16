@@ -14,6 +14,7 @@ import {
   getNewAppointment,
   getFormData,
   getSystemFromParent,
+  getSystemFromChosenFacility,
 } from '../utils/selectors';
 import {
   getSystemIdentifiers,
@@ -445,7 +446,9 @@ export function openClinicPage(page, uiSchema, schema) {
 
 export function getAppointmentSlots(startDate, endDate) {
   return async (dispatch, getState) => {
-    const newAppointment = getNewAppointment(getState());
+    const state = getState();
+    const systemId = getSystemFromChosenFacility(state);
+    const newAppointment = getNewAppointment(state);
     const availableSlots = newAppointment.availableSlots || [];
     const { data } = newAppointment;
 
@@ -479,7 +482,7 @@ export function getAppointmentSlots(startDate, endDate) {
               .format('YYYY-MM-DD');
 
         const response = await getAvailableSlots(
-          data.vaFacility,
+          systemId,
           data.typeOfCareId,
           data.clinicId,
           startDateString,
