@@ -71,7 +71,7 @@ export default function ConfirmationRequestInfo({
           </span>
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-break-word">
             <dl className="vads-u-margin--0">
               {isCommunityCare &&
                 !data.hasCommunityCareProvider && (
@@ -129,7 +129,7 @@ export default function ConfirmationRequestInfo({
                 )}
             </dl>
           </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 Preferred date and time
@@ -157,8 +157,8 @@ export default function ConfirmationRequestInfo({
             onClick={() => toggleAdditionalInfo(!isAdditionalInfoOpen)}
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-              <div className="vaos_appts__message vads-u-flex--1">
-                <dl className="vads-u-margin--0">
+              <div className="vaos_appts__message vads-u-flex--1 vaos-break-word">
+                <dl className="vads-u-margin--0 vads-u-margin-right--1">
                   <dt className="vads-u-font-weight--bold">
                     {
                       PURPOSE_TEXT.find(
@@ -169,7 +169,7 @@ export default function ConfirmationRequestInfo({
                   <dd>{data.reasonAdditionalInfo}</dd>
                 </dl>
               </div>
-              <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+              <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-break-word">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold vads-u-display--block">
                     Your contact details

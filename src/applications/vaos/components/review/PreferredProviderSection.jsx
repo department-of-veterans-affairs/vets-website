@@ -23,7 +23,7 @@ export default function PreferredProviderSection(props) {
               </div>
             </div>
           </div>
-          <span>
+          <span className="vaos-break-word">
             {!!props.data.communityCareProvider.practiceName && (
               <>
                 {props.data.communityCareProvider.practiceName}

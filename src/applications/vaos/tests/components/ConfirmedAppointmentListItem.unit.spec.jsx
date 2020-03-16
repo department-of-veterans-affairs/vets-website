@@ -292,4 +292,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
   it('should not show booking note', () => {
     expect(tree.text()).not.to.contain('Booking note');
   });
+
+  it('contain class that breaks long comments', () => {
+    expect(tree.find('.vaos-word-break'));
+  });
 });

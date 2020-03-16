@@ -39,6 +39,8 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
 
     expect(tree.find('h1').text()).to.equal(pageTitle);
 
+    expect(tree.find('.vaos-word-break'));
+
     tree.unmount();
   });
 });

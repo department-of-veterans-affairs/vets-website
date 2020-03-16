@@ -21,6 +21,8 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('textarea').length).to.equal(1);
+    expect(form.find('.vaos-word-break'));
+
     form.unmount();
   });
 
@@ -123,6 +125,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
+
     form.unmount();
   });
 });

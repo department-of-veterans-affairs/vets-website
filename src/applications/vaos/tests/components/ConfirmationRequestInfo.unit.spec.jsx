@@ -267,7 +267,7 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     const text = tree.text();
 
     expect(text).to.contain('Anytime during the day');
-
+    expect(tree.find('.vaos-word-break'));
     tree.unmount();
   });
 });

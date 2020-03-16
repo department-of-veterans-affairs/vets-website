@@ -50,7 +50,7 @@ export default function ConfirmationDirectScheduleInfo({
         </div>
 
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
@@ -66,7 +66,7 @@ export default function ConfirmationDirectScheduleInfo({
               </dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {
