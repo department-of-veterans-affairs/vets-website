@@ -20,3 +20,7 @@ export function setCookie(cookieName, token) {
   }
   return Cookies.get(cookieName);
 }
+
+export function getFlipperId() {
+  return setCookie('FLIPPER_ID', createTokenFromCookie('_vagovRollup_gid'));
+}
