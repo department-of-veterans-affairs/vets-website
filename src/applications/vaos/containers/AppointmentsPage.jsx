@@ -23,6 +23,7 @@ import {
   getCancelInfo,
   vaosCancel,
   vaosRequests,
+  vaosPastAppts,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -60,6 +61,7 @@ export class AppointmentsPage extends Component {
       cancelInfo,
       showCancelButton,
       showScheduleButton,
+      showPastAppointments,
     } = this.props;
     const {
       future,
@@ -222,6 +224,23 @@ export class AppointmentsPage extends Component {
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
               Upcoming appointments
             </h2>
+            {!showPastAppointments && (
+              <p>
+                To view past appointments you’ve made through My HealtheVet, go
+                to the{' '}
+                <a
+                  href="https://veteran.mobile.va.gov/var/v4/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    recordEvent({ event: 'vaos-return-to-legacy-link-clicked' })
+                  }
+                >
+                  old appointments tool
+                </a>
+                .
+              </p>
+            )}
             {content}
             <NeedHelp />
           </div>
@@ -245,6 +264,7 @@ function mapStateToProps(state) {
     appointments: state.appointments,
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
+    showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };
