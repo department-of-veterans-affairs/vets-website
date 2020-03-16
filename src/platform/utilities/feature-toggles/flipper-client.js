@@ -4,7 +4,6 @@ const FEATURE_FLAG_NAMES = require('./featureFlagNames');
 const { getFlipperId } = require('./helpers');
 
 const FLIPPER_ID = getFlipperId();
-
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
   ',',
