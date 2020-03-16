@@ -381,7 +381,7 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('requestDateTime');
       });
     });
-
+    // previous state
     describe('previous page', () => {
       it('should be typeOfCare page if no user systems are CC eligibile', () => {
         const state = {
@@ -459,6 +459,66 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
         expect(nextState).to.equal('typeOfCare');
+      });
+      it('should be typeOfSleepCare page when back button selected along sleep care flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'SLEEP',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
+            },
+            hasCCEnabledSystems: false,
+            isCCEligible: true,
+          },
+        };
+
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).to.equal('typeOfSleepCare');
+      });
+      // testing eyecare flow
+      it('should be typeOfEyeCare page when back button selected along Ophthalmology flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'EYE',
+              typeOfEyeCareId: '407',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
+            },
+            hasCCEnabledSystems: false,
+            isCCEligible: true,
+          },
+        };
+
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).to.equal('typeOfEyeCare');
+      });
+      it('should be typeOfFacility page when back button selected along optometry flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'EYE',
+              typeOfEyeCareId: '408',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
+            },
+            hasCCEnabledSystems: true,
+            isCCEligible: true,
+          },
+        };
+
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).to.equal('typeOfFacility');
       });
     });
   });
@@ -678,7 +738,7 @@ describe('VAOS newAppointmentFlow', () => {
           'visitType',
         );
       });
-      it('should be visitType if in direct schedule flow', () => {
+      it('should be reasonForAppointment if in direct schedule flow', () => {
         const state = {
           newAppointment: {
             data: {},
@@ -689,7 +749,7 @@ describe('VAOS newAppointmentFlow', () => {
           'reasonForAppointment',
         );
       });
-      it('should be ccPreferences if in CC flow', () => {
+      it('should be reasonForAppointment if in CC flow', () => {
         const state = {
           newAppointment: {
             data: {
@@ -698,9 +758,93 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
         expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
-          'ccPreferences',
+          'reasonForAppointment',
         );
       });
+    });
+  });
+
+  describe('eye care page', () => {
+    it('should choose eye care page', async () => {
+      const dispatch = sinon.spy();
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+          },
+        },
+      };
+      const nextState = await newAppointmentFlow.typeOfCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('typeOfEyeCare');
+    });
+
+    it('should be typeOfFacility page when optometry selected', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: { eligible: true },
+        },
+      });
+      const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+            typeOfEyeCareId: '408',
+          },
+        },
+      };
+
+      const dispatch = sinon.spy();
+      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('typeOfFacility');
+
+      resetFetch();
+    });
+
+    it('should be vaFacility page when Ophthalmology selected', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: { eligible: true },
+        },
+      });
+      const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+            typeOfEyeCareId: '407',
+          },
+        },
+      };
+
+      const dispatch = sinon.spy();
+      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('vaFacility');
+
+      resetFetch();
     });
   });
 });

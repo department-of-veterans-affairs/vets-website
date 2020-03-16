@@ -1,0 +1,69 @@
+{% comment %}
+Example data:
+"entityPublished": true,
+"fieldNameFirst": "Sheila",
+"fieldLastName": "Tunney",
+"fieldSuffix": null,
+"fieldDescription": "Public Affairs Specialist",
+"fieldOffice": {
+"entity": {
+"entityLabel": "Pittsburgh Health Care System",
+"entityType": "node"
+}
+},
+"fieldIntroText": null,
+"fieldPhotoAllowHiresDownload": false,
+"fieldMedia": {
+"entity": {
+"image": {
+"alt": "Robert L Wilkie",
+"title": "",
+"derivative": {
+"url":
+"http://dev.va.agile6.com/sites/default/files/styles/1_1_square_medium_thumbnail/public/2019-03/Robert_L_Wilkie_8x10.jpg?h=59bf76d8&itok=Q-x_2QaJ",
+"width": 240,
+"height": 240
+}
+}
+}
+},
+"fieldBody": null,
+"changed": 1552424311,
+"entityUrl": {
+"path": "/pittsburgh-health-care/sheila-tunney"
+}
+}
+{% endcomment %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div class="interior" id="content">
+    <main class="va-l-detail-page va-facility-page">
+        <div class="usa-grid usa-grid-full">
+
+            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+
+            <div class="usa-width-three-fourths">
+                {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+                <article class="usa-content">
+                    <h1 class="vads-u-margin-bottom--3">{{ title }}</h1>
+                        {% if fieldIntroText %}
+                        <div class="va-introtext vads-u-margin-bottom--0">
+                            {{ fieldIntroText }}
+                        </div>
+                        {% endif %}
+                        {% assign iterator = fieldLeadership %}
+                        {% if pagedItems %}
+                        {% assign iterator = pagedItemd%}
+                        {% endif %}
+                        {% for bio in iterator %}
+                        {% include "src/site/teasers/bio.drupal.liquid" with node = bio.entity %}
+                        {% endfor %}
+                </article>
+            </div>
+        </div>
+    </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

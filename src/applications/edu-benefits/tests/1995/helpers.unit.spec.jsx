@@ -38,6 +38,20 @@ describe('helpers', () => {
     it('is not displayed', () => {
       expect(displayStemEligibility(defaultForm)).to.equal(false);
     });
+    it('when benefit is not chapter33', () => {
+      const form = {
+        ...defaultForm,
+        benefit: 'chapter30',
+      };
+      expect(displayStemEligibility(form)).to.equal(true);
+    });
+    it('when benefit is not selected', () => {
+      const form = {
+        ...defaultForm,
+        benefit: undefined,
+      };
+      expect(displayStemEligibility(form)).to.equal(false);
+    });
     it('when either exhaustionOfBenefitses are false', () => {
       const form = {
         ...defaultForm,

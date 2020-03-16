@@ -26,9 +26,9 @@
 - [x] Destination or component that opens when the "See all your contested
       issues" link is used.
 
-### Confirm Veteran Details (Step 1)
+### Veteran Information (Step 1)
 
-- [x] Build form `confirmVeteranDetails` in `config/form.js`
+- [x] Build form `veteranInformation` in `config/form.js`
 - [ ] Get last 4 of SSN? Look for API entry.
 - [x] Auto-fill contact info review (collapsed with edit button? - talk to design)
 - [x] Add unit tests

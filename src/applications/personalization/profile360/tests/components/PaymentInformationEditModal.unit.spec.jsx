@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
 
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
-import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
+import { PaymentInformationEditModal } from '../../components/PaymentInformationEditModal';
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {
@@ -36,6 +36,7 @@ describe('<PaymentInformationEditModal/>', () => {
     onSubmit() {},
     editModalFieldChanged() {},
     responseError: null,
+    useSchemaForm: true,
   };
 
   it('renders', () => {

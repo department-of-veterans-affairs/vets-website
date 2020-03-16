@@ -86,7 +86,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     it('should have an aria label', () => {
       expect(link.props()['aria-label']).to.equal(
-        `Add to calendar on January 2, 2020`,
+        `Add January 2, 2020 appointment to your calendar`,
       );
     });
 
@@ -122,7 +122,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     it('should have an aria label', () => {
       expect(link.props()['aria-label']).to.equal(
-        `Add to calendar on January 2, 2020`,
+        `Add January 2, 2020 appointment to your calendar`,
       );
     });
 
@@ -190,7 +190,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     it('should have an aria label', () => {
       expect(link.props()['aria-label']).to.equal(
-        `Add to calendar on March 12, 2020`,
+        `Add March 12, 2020 appointment to your calendar`,
       );
     });
   });
@@ -231,7 +231,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     it('should have an aria label', () => {
       expect(button.props()['aria-label']).to.equal(
-        `Add to calendar on January 2, 2020`,
+        `Add January 2, 2020 appointment to your calendar`,
       );
     });
 

@@ -1,16 +1,44 @@
 [
-  {
-    "name": "Webinar on February 26 – Office Hours – For State Approving Agencies (SAAs)",
-    "url": "https://events-na1.adobeconnect.com/content/connect/c1/2372973515/en/events/catalog.html?folder-id=3265872203&from-origin=vbatraining.adobeconnect.com&OWASP_CSRFTOKEN=e0aa41eedf33d5abc9cfdde6fb11ee0366c590ed0c2dea833b4f65bce78656da",
-    "date": "2020-02-24",
-    "displayStartDate": "2020-02-24",
-    "displayEndDate": "2020-02-27"
+  {    
+    "name": "Webinar on March 19 – Office Hours – For State Certifying Officials (SCOs) to Discuss COVID-19 Impact",
+    "url": "https://www.benefits.va.gov/gibill/#202003132",
+    "date": "2020-03-13",
+    "displayStartDate": "2020-03-13",
+    "displayEndDate": "2020-04-13"
   },
   {
-    "name": "Webinar on February 27 – Office Hours – For School Certifying Officials (SCOs)",
-    "url": "https://events-na1.adobeconnect.com/content/connect/c1/2372973515/en/events/catalog.html?folder-id=3305575518&from-origin=vbatraining.adobeconnect.com&OWASP_CSRFTOKEN=f545f0b14cf6f2c6c4309dccda350cc299bb379da140011dee3d5a8e3858c899",
-    "date": "2020-02-24",
-    "displayStartDate": "2020-02-24",
-    "displayEndDate": "2020-02-28"
+    "name": "Webinar Slides Are Available for the VBA Education February SCO/SAA Office Hours",
+    "url": "https://www.benefits.va.gov/gibill/#20200313",
+    "date": "2020-03-13",
+    "displayStartDate": "2020-03-13",
+    "displayEndDate": "2020-04-13"
+  },
+  {
+    "name": "COVID-19 Virus Concerns and How It Affects Your Benefits",
+    "url": "https://www.benefits.va.gov/gibill/#20200312",
+    "date": "2020-03-12",
+    "displayStartDate": "2020-03-12",
+    "displayEndDate": "2020-04-12"
+  },
+  {
+    "name": "Recertification for Schools Impacted by Colmery Act, Section 107",
+    "url": "https://www.benefits.va.gov/gibill/#20200310",
+    "date": "2020-03-10",
+    "displayStartDate": "2020-03-10",
+    "displayEndDate": "2020-04-10"
+  },
+  {
+    "name": "COVID-19 Virus Concerns and How It Affects Your Benefits",
+    "url": "https://www.benefits.va.gov/gibill/#20200312",
+    "date": "2020-03-12",
+    "displayStartDate": "2020-03-12",
+    "displayEndDate": "2020-04-12"
+  },
+  {
+    "name": "Suspension of VA Benefits to Five Schools for Deceptive Practices",
+    "url": "https://www.benefits.va.gov/gibill/#20200309",
+    "date": "2020-03-09",
+    "displayStartDate": "2020-03-09",
+    "displayEndDate": "2020-04-09"
   }
 ]

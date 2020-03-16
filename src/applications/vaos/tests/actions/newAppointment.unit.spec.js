@@ -63,7 +63,6 @@ import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import pacTeam from '../../api/pact.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -606,7 +605,6 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
-      setFetchJSONResponse(global.fetch.onCall(4), pacTeam);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -770,8 +768,15 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           data: {
             preferredDate: '2019-01-01',
+            vaFacility: '983GC',
+            vaParent: '983A6',
+            typeOfCareId: '323',
+            clinicId: '1234',
           },
           fetchedAppointmentSlotMonths: [],
+          facilities: {
+            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+          },
         },
       };
       const getState = () => state;
@@ -814,8 +819,15 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           data: {
             preferredDate: '2019-01-01',
+            vaFacility: '983GC',
+            vaParent: '983A6',
+            typeOfCareId: '323',
+            clinicId: '1234',
           },
           fetchedAppointmentSlotMonths: [],
+          facilities: {
+            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+          },
         },
       };
       const getState = () => state;
@@ -832,6 +844,9 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=1234',
+      );
       expect(dispatch.firstCall.args[0].type).to.equal(
         FORM_CALENDAR_FETCH_SLOTS,
       );
@@ -974,6 +989,16 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(global.window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-request-submission',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-successful',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.true;
     });
 
@@ -1108,6 +1133,11 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-failed',
+        typeOfCare: 'Primary care',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.false;
     });
 
