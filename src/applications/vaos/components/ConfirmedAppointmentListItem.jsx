@@ -69,9 +69,9 @@ export default function ConfirmedAppointmentListItem({
       </h3>
       <div className="vads-u-margin-top--2">
         {canceled ? (
-          <i className="fas fa-exclamation-circle" />
+          <i aria-hidden="true" className="fas fa-exclamation-circle" />
         ) : (
-          <i className="fas fa-check-circle" />
+          <i aria-hidden="true" className="fas fa-check-circle" />
         )}
         <span
           id={`card-${index}-state`}

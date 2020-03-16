@@ -55,6 +55,23 @@ const mailingAddress = merge(fullSchema.definitions.address, {
   },
 });
 
+const uiOrder = [
+  'view:livesOnMilitaryBase',
+  'view:livesOnMilitaryBaseInfo',
+  'country',
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'city',
+  'state',
+  'zipCode',
+];
+// livesOnMilitaryBaseInfo is automatically being dropped on
+// the review page so this adjusts ui:order appropriately
+if (window.location.href.includes('review-and-submit')) {
+  uiOrder.splice(uiOrder.indexOf('view:livesOnMilitaryBaseInfo'), 1);
+}
+
 const countryEnum = fullSchema.definitions.country.enum;
 const citySchema = fullSchema.definitions.address.properties.city;
 
@@ -72,17 +89,7 @@ export const uiSchema = {
   },
   mailingAddress: {
     ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
-    'ui:order': [
-      'view:livesOnMilitaryBase',
-      'view:livesOnMilitaryBaseInfo',
-      'country',
-      'addressLine1',
-      'addressLine2',
-      'addressLine3',
-      'city',
-      'state',
-      'zipCode',
-    ],
+    'ui:order': uiOrder,
     'view:livesOnMilitaryBase': {
       'ui:title':
         'I live on a United States military base outside of the United States',
