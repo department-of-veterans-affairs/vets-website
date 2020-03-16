@@ -1,5 +1,4 @@
 import React from 'react';
-
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
@@ -16,9 +15,27 @@ export default function ReviewFieldTemplate(props) {
     return children;
   }
 
-  return uiSchema?.['ui:reviewField'] ? (
-    uiSchema['ui:reviewField'](props)
-  ) : (
+  // `hideEmptyValueInReview` option is ignored if a 'ui:reviewField' is defined
+  // The custom reviewField should handle empty values
+  if (uiSchema?.['ui:reviewField']) {
+    return uiSchema['ui:reviewField'](props);
+  }
+
+  if (uiSchema?.['ui:options']?.hideEmptyValueInReview) {
+    let value = children;
+    if (typeof children !== 'undefined') {
+      if ('props' in children) {
+        value = children.props.formData;
+      } else if ('value' in children) {
+        value = children.value;
+      }
+    }
+    if (typeof value === 'undefined' || value === null || value === '') {
+      return null;
+    }
+  }
+
+  return (
     <div className="review-row">
       <dt>
         {label}
