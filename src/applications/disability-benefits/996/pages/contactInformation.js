@@ -12,11 +12,11 @@ import {
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import AddressViewField from '../containers/AddressViewField';
+import { phoneEmailViewField } from '../../all-claims/content/contactInformation';
 import {
   contactInfoDescription,
-  phoneEmailViewField,
-} from '../../all-claims/content/contactInformation';
-import { contactInfoProfileLink } from '../content/contactInformation';
+  contactInfoProfileLink,
+} from '../content/contactInformation';
 
 /*
 import { errorMessages } from '../constants';
@@ -41,10 +41,7 @@ const {
 const contactInfo = {
   uiSchema: {
     'ui:title': 'Contact Information',
-    'ui:description': () =>
-      contactInfoDescription({
-        formName: 'Higher-Level Review',
-      }),
+    'ui:description': contactInfoDescription,
     phoneEmailCard: {
       'ui:title': 'Phone & email',
       'ui:field': ReviewCardField,
