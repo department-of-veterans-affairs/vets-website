@@ -21,7 +21,7 @@ const printCoverage = coverageResults => {
 
   // Add each app coverage result to the table
   Object.values(coverageResults).forEach(cov => {
-    const appLocation = `${cov.path.substr(0, cov.path.lastIndexOf('/'))}`;
+    const appLocation = cov.path.substr(0, cov.path.lastIndexOf('/'));
 
     coverageTable.push({
       [appLocation]: [
