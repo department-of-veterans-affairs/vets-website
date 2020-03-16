@@ -1,46 +1,35 @@
 import { expect } from 'chai';
 
 const {
-  setCookie,
   createTokenFromCookie,
   getFlipperId,
 } = require('../../feature-toggles/helpers');
 
 describe('feature toogles', () => {
-  describe('setCookie', () => {
-    it('should return the cookie if it already exists', () => {
-      const token = 't68mzm0skza1zqwinl4byt';
-      document.cookie = `newcookieName=${token}`;
-      expect(setCookie('newcookieName', 'differentToken')).to.deep.equal(
-        document.cookie.replace(
-          /(?:(?:^|.*;\s*)newcookieName=\s*([^;]*).*$)|^.*$/,
-          '$1',
-        ),
-      );
-    });
+  let oldCookie;
 
-    it('should set a new cookie if one does not already exist', () => {
-      const token = 't68mzm0skza1zqwinl4byt';
-      expect(setCookie('cookieName', token)).to.deep.equal(token);
-    });
+  before(() => {
+    oldCookie = document.cookie;
+    document.cookie = '';
   });
 
   describe('createTokenFromCookie', () => {
     it('should return the cookie if it already exists', () => {
       const token = 'g84k9d0skza1zqwinl4byt';
-      document.cookie = `newcookieName=${token}`;
-      expect(createTokenFromCookie('newcookieName')).to.deep.equal(
+      document.cookie = `GACookie=${token}`;
+      expect(createTokenFromCookie('GACookie')).to.equal(
         document.cookie.replace(
-          /(?:(?:^|.*;\s*)newcookieName=\s*([^;]*).*$)|^.*$/,
+          /(?:(?:^|.*;\s*)GACookie=\s*([^;]*).*$)|^.*$/,
           '$1',
         ),
       );
     });
 
     it('should return a random string if the cookie does not already exist', () => {
-      expect(createTokenFromCookie('newcookieName')).to.not.deep.equal(
+      document.cookie = '';
+      expect(createTokenFromCookie('GACookie')).to.not.equal(
         document.cookie.replace(
-          /(?:(?:^|.*;\s*)newcookieName=\s*([^;]*).*$)|^.*$/,
+          /(?:(?:^|.*;\s*)GACookie=\s*([^;]*).*$)|^.*$/,
           '$1',
         ),
       );
@@ -61,5 +50,11 @@ describe('feature toogles', () => {
     it('should not be empty', () => {
       expect(FLIPPER_ID).to.not.be.empty;
     });
+  });
+
+  // Restore previous cookie set
+
+  before(() => {
+    document.cookie = oldCookie;
   });
 });
