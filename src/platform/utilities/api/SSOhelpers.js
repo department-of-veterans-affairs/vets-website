@@ -4,16 +4,16 @@ import ENVIRONMENTS from '../../../site/constants/environments';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
 
-let ssoSessionLength = 9000;
+let ssoSessionLength = 9000; // milliseconds
 const ssoKeepAliveEndpoint = () => {
   const environmentPrefixes = {
     [ENVIRONMENTS.VAGOVSTAGING]: 'sqa.',
     [ENVIRONMENTS.VAGOVDEV]: 'int.',
   };
 
-  const envPrefiix = environmentPrefixes[ENVIRONMENTS.BUILDTYPE] || '';
+  const envPrefix = environmentPrefixes[ENVIRONMENTS.BUILDTYPE] || '';
 
-  return `https://${envPrefiix}eauth.va.gov/keepalive`;
+  return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
 export function ssoKeepAliveSession() {
