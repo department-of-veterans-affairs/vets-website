@@ -1,3 +1,5 @@
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
 /**
  * Enum for the type attribute of a Facility/Provider search result
  */
@@ -43,15 +45,29 @@ export const PinNames = {
 /**
  * Defines the options available for the Location Type Dropdown
  */
-export const LOCATION_OPTIONS = [
-  LocationType.HEALTH,
-  LocationType.URGENT_CARE,
-  LocationType.URGENT_CARE_FARMACIES,
-  LocationType.CC_PROVIDER,
-  LocationType.BENEFITS,
-  LocationType.CEMETARY,
-  LocationType.VET_CENTER,
-];
+let locOptions;
+
+if (FEATURE_FLAG_NAMES.facilitiesPpmsSuppressPharmacies) {
+  locOptions = [
+    LocationType.HEALTH,
+    LocationType.URGENT_CARE,
+    LocationType.CC_PROVIDER,
+    LocationType.BENEFITS,
+    LocationType.CEMETARY,
+    LocationType.VET_CENTER,
+  ];
+} else {
+  locOptions = [
+    LocationType.HEALTH,
+    LocationType.URGENT_CARE,
+    LocationType.URGENT_CARE_FARMACIES,
+    LocationType.CC_PROVIDER,
+    LocationType.BENEFITS,
+    LocationType.CEMETARY,
+    LocationType.VET_CENTER,
+  ];
+}
+export const LOCATION_OPTIONS = locOptions;
 
 /**
  * Defines the ± change in bounding box size for the map when changing zoom
