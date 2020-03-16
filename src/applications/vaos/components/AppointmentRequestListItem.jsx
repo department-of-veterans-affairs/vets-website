@@ -78,9 +78,9 @@ export default class AppointmentRequestListItem extends React.Component {
         <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
           <div className="vads-u-margin-right--1">
             {canceled ? (
-              <i className="fas fa-exclamation-circle" />
+              <i aria-hidden="true" className="fas fa-exclamation-circle" />
             ) : (
-              <i className="fas fa-exclamation-triangle" />
+              <i aria-hidden="true" className="fas fa-exclamation-triangle" />
             )}
           </div>
           <span className="vads-u-font-weight--bold vads-u-flex--1">

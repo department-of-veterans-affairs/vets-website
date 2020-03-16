@@ -42,7 +42,7 @@ export default function ConfirmationDirectScheduleInfo({
           {` ${getTimezoneAbbrBySystemId(systemId)}`}
         </h2>
         <div className="vads-u-margin-top--2">
-          <i className="fas fa-check-circle" />
+          <i aria-hidden="true" className="fas fa-check-circle" />
           <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
             Confirmed
             <span className="sr-only"> appointment</span>

@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { times } from 'lodash';
+import times from 'lodash/times';
 // Relative imports.
 import {
   SearchResults,
