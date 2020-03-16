@@ -1,9 +1,17 @@
 import { expect } from 'chai';
 
-const FLIPPER_ID = require('../../feature-toggles/flipperID');
+const {
+  createTokenFromCookie,
+  setCookie,
+} = require('../../feature-toggles/helpers');
 
 describe('feature-toogles', () => {
   describe('Generate unique ID', () => {
+    const FLIPPER_ID = setCookie(
+      'FLIPPER_ID',
+      createTokenFromCookie('_vagovRollup_gid'),
+    );
+
     it('should be a string', () => {
       expect(FLIPPER_ID).to.be.a('string');
     });

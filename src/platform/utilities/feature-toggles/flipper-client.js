@@ -1,7 +1,12 @@
 /* This file is must run in both NodeJS and browser environments */
 
 const FEATURE_FLAG_NAMES = require('./featureFlagNames');
-const FLIPPER_ID = require('./flipperID');
+const { createTokenFromCookie, setCookie } = require('./helpers');
+
+const FLIPPER_ID = setCookie(
+  'FLIPPER_ID',
+  createTokenFromCookie('_vagovRollup_gid'),
+);
 
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
