@@ -233,7 +233,9 @@ export class AppointmentsPage extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() =>
-                    recordEvent({ event: 'vaos-return-to-legacy-link-clicked' })
+                    recordEvent({
+                      event: 'vaos-past-appointments-legacy-link-clicked',
+                    })
                   }
                 >
                   old appointments tool
