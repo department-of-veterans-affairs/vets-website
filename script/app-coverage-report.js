@@ -39,15 +39,12 @@ const printCoverage = coverageResults => {
 const generateCoverage = (rootDir, coverageSummary) => {
   // Get application manifests & entry names
   const manifests = getAppManifests(path.join(__dirname, '../'));
-  const entryNames = manifests.map(manifest => manifest.entryName);
 
   // Set initial coverage object
   const initialCoverage = Object.assign(
-    ...entryNames.map(entryName => ({
+    ...manifests.map(({ entryName, entryFile }) => ({
       [entryName]: {
-        path: manifests
-          .find(obj => obj.entryName === entryName)
-          .entryFile.replace(rootDir, ''),
+        path: entryFile.replace(rootDir, ''),
         lines: { total: 0, covered: 0, pct: 0 },
         statements: { total: 0, covered: 0, pct: 0 },
         functions: { total: 0, covered: 0, pct: 0 },
@@ -58,16 +55,14 @@ const generateCoverage = (rootDir, coverageSummary) => {
 
   // Iterate through coverages that are under src/applications
   return Object.keys(coverageSummary)
-    .filter(fullPath => fullPath.replace(rootDir, '').split(path.sep)[0])
+    .filter(fullPath => fullPath.includes('src/applications'))
     .reduce((acc, fullCoveragePath) => {
       // Find coverage if it exists by checking if the path of the coverage result file
       // includes an application path, e.g. 'vre/chapter36/'
       const coverageItem = Object.values(acc).find(appCov =>
-        fullCoveragePath
-          .replace(rootDir, '')
-          .includes(
-            `${appCov.path.substring(0, appCov.path.lastIndexOf('/'))}/`,
-          ),
+        fullCoveragePath.includes(
+          `${appCov.path.substring(0, appCov.path.lastIndexOf('/'))}/`,
+        ),
       );
 
       // Average coverageResult with respective coverageItem segment if present
