@@ -57,28 +57,39 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
   const history = options?.history || window.history;
   const location = options?.location || window.location;
-  const name = options?.name || '';
+  const city = options?.city || null;
+  const country = options?.country || null;
+  const name = options?.name || null;
   const page = options?.page || 1;
   const perPage = options?.perPage || 10;
   const hideFetchingState = options?.hideFetchingState;
-  const state = options?.state || '';
+  const state = options?.state || null;
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction({ name, hideFetchingState, state }));
+  dispatch(fetchResultsAction({ country, name, hideFetchingState, state }));
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);
 
   // Update the query params in our URL.
-  queryParams.set('name', name);
-  queryParams.set('state', state);
+  if (country) queryParams.set('country', country);
+  if (city) queryParams.set('city', city);
+  if (name) queryParams.set('name', name);
+  if (state) queryParams.set('state', state);
 
   // Update the URL with the new query params.
   history.replaceState({}, '', `${location.pathname}?${queryParams}`);
 
   try {
     // Attempt to make the API request to retreive results.
-    const response = await fetchResultsApi({ name, state, page, perPage });
+    const response = await fetchResultsApi({
+      city,
+      country,
+      name,
+      state,
+      page,
+      perPage,
+    });
 
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));

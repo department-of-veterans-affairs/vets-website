@@ -23,21 +23,25 @@ export class SearchForm extends Component {
     const queryParams = new URLSearchParams(window.location.search);
 
     // Derive the state values from our query params.
+    const city = queryParams.get('city') || '';
+    const country = queryParams.get('country') || '';
     const name = queryParams.get('name') || '';
     const state = queryParams.get('state') || '';
 
     this.state = {
+      city,
+      country,
       name,
       state,
     };
   }
 
   componentDidMount() {
-    const { name, state } = this.state;
+    const { country, city, name, state } = this.state;
 
     // Fetch the results with their name if it's on the URL.
-    if (name || state) {
-      this.props.fetchResultsThunk({ name, state });
+    if (country || city || name || state) {
+      this.props.fetchResultsThunk({ country, city, name, state });
     }
   }
 
@@ -46,14 +50,14 @@ export class SearchForm extends Component {
   };
 
   onSubmitHandler = event => {
-    const { name, state } = this.state;
+    const { country, city, name, state } = this.state;
     event.preventDefault();
-    this.props.fetchResultsThunk({ name, state });
+    this.props.fetchResultsThunk({ country, city, name, state });
   };
 
   render() {
     const { onStateChange, onSubmitHandler } = this;
-    const { name, state } = this.state;
+    const { country, city, name, state } = this.state;
 
     return (
       <form
@@ -70,7 +74,7 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            className="usa-input"
+            className="usa-input vads-u-width--auto"
             name="yr-search-name"
             onChange={onStateChange('name')}
             type="text"
@@ -78,23 +82,64 @@ export class SearchForm extends Component {
           />
         </div>
 
-        {/* State Field */}
-        <label htmlFor="yr-search-name" className="vads-u-margin-top--3">
-          State, territory, or overseas campus
+        {/* Country Field */}
+        <label htmlFor="yr-search-country" className="vads-u-margin-top--3">
+          Country
         </label>
         <div className="vads-u-flex--1">
           <select
-            name="yr-search-name"
+            className="vads-u-width--auto"
+            name="yr-search-country"
+            onChange={onStateChange('country')}
+            value={country}
+          >
+            <option value="">- Select -</option>
+            {map(
+              [{ label: 'United States of America', value: 'USA' }],
+              countryOption => (
+                <option key={countryOption?.value} value={countryOption?.value}>
+                  {countryOption?.label}
+                </option>
+              ),
+            )}
+          </select>
+        </div>
+
+        {/* State Field */}
+        <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
+          State or Territory
+        </label>
+        <div className="vads-u-flex--1">
+          <select
+            className="vads-u-width--auto"
+            name="yr-search-state"
             onChange={onStateChange('state')}
             value={state}
           >
-            <option value="" />
+            <option value="">- Select -</option>
             {map(STATES, provincialState => (
               <option key={provincialState?.code} value={provincialState?.code}>
                 {provincialState?.label}
               </option>
             ))}
           </select>
+        </div>
+
+        {/* City Field */}
+        <label
+          htmlFor="yr-search-city"
+          className="vads-u-margin-top--1 vads-u-margin--0"
+        >
+          City
+        </label>
+        <div className="vads-u-flex--1">
+          <input
+            className="usa-input vads-u-width--auto"
+            name="yr-search-city"
+            onChange={onStateChange('city')}
+            type="text"
+            value={city}
+          />
         </div>
 
         {/* Submit Button */}

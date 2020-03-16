@@ -8,19 +8,27 @@ import { normalizeResponse } from '../helpers';
 
 export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
+  const city = options?.city;
+  const country = options?.country;
   const mockRequest = options?.mockRequest;
-  const school_name_in_yr_database = options?.name;
   const page = options?.page;
   const per_page = options?.perPage;
+  const school_name_in_yr_database = options?.name;
   const state = options?.state;
 
   // Construct the URL and stub the response.
-  const RESULTS_URL = appendQuery('/gi/yellow_ribbon_programs', {
-    school_name_in_yr_database,
-    page,
-    per_page,
-    state,
-  });
+  const RESULTS_URL = appendQuery(
+    '/gi/yellow_ribbon_programs',
+    {
+      city,
+      country,
+      school_name_in_yr_database,
+      page,
+      per_page,
+      state,
+    },
+    { removeNull: true },
+  );
 
   // Make the request for the results and update `response` with its repsonse.
   let response = {};
