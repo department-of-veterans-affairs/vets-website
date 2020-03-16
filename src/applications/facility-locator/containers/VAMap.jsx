@@ -734,10 +734,8 @@ class VAMap extends Component {
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
-            Under facility type, select Urgent care, then select VA or community
-            care providers under service type. To find a pharmacy where you can
-            fill an urgent care prescription, select Urgent care pharmacies
-            under facility type.
+            Select Urgent care under facility type, then select either VA or
+            community providers as the service type.
           </p>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
