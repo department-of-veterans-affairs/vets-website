@@ -3,11 +3,13 @@ import {
   FETCH_CONSTANTS_STARTED,
   FETCH_CONSTANTS_FAILED,
   FETCH_CONSTANTS_SUCCEEDED,
+  FETCH_RESPONSE_CODE,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
+  responseCode: {},
   version: {},
 };
 
@@ -17,6 +19,12 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         inProgress: true,
+      };
+    case FETCH_RESPONSE_CODE:
+      const responseCode = action.payload.status.toString();
+      return {
+        responseCode,
+        inProgress: false,
       };
     case FETCH_CONSTANTS_FAILED:
       return {

@@ -212,15 +212,24 @@ export function fetchInstitutionSearchResults(query = {}) {
     dispatch({ type: SEARCH_STARTED, query });
 
     return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload =>
-          withPreview(dispatch, {
-            type: INSTITUTION_SEARCH_SUCCEEDED,
-            payload,
-          }),
-        err => dispatch({ type: SEARCH_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return res.json().then(errors => {
+          setResponse(dispatch, res);
+          throw new Error(errors);
+        });
+      })
+      .then(payload =>
+        withPreview(dispatch, {
+          type: INSTITUTION_SEARCH_SUCCEEDED,
+          payload,
+        }),
+      )
+      .catch(err => {
+        dispatch({ type: SEARCH_FAILED, err });
+      });
   };
 }
 

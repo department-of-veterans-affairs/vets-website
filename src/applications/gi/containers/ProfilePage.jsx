@@ -59,7 +59,7 @@ export class ProfilePage extends React.Component {
 
     let content;
 
-    if (profile.responseCode === '503') {
+    if (profile.responseCode === '503' || '504') {
       return (
         <ScrollElement name="profilePage" className="profile-page">
           {RenderBackendErrorMessage}
