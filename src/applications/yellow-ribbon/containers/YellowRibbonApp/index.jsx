@@ -47,16 +47,12 @@ export const YellowRibbonApp = ({ results }) => (
                 you get varies by school, degree type, and the program
                 you&apos;re enrolled in.
               </p>
-              <a
-                href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
-                rel="noopener noreferrer"
-              >
-                Find out if you qualify for the Yellow Ribbon Program.
-              </a>
               <p>
-                If you don&apos;t already have Post-9/11 GI Bill benefits, you
-                can:
+                <a href="" rel="noopener noreferrer">
+                  Find out if you qualify for the Yellow Ribbon Program.
+                </a>
               </p>
+              <p />
               <ul>
                 <li>
                   <a href="/education/eligibility/" rel="noreferrer noopener">
