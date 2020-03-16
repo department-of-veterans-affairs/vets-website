@@ -39,8 +39,19 @@ export const YellowRibbonApp = ({ results }) => (
           {!results && (
             <>
               <p>
-                You may be eligible for Yellow Ribbon program funding if you:
+                Find out if your school participates in the Yellow Ribbon
+                program. If you already have Post-9/11 GI Bill benefits, the
+                Yellow Ribbon program can help pay for higher out-of-state,
+                private school, or graduate school tuition. The amount of money
+                you get varies by school, degree type, and the program
+                you&apos;re enrolled in.
               </p>
+              <p>
+                <a href="" rel="noopener noreferrer">
+                  Find out if you qualify for the Yellow Ribbon Program.
+                </a>
+              </p>
+              <p />
               <ul>
                 <li>
                   Are receiving Post 9-11 GI Bill benefits, <strong>and</strong>
