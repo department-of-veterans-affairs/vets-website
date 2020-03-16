@@ -25,9 +25,9 @@ export default function ReasonForAppointmentSection(props) {
               Edit
             </Link>
           </div>
-          <div className="vaos-break-word">
+          <span className="vaos-break-word">
             {props.data.reasonAdditionalInfo}
-          </div>
+          </span>
         </div>
       </div>
     </>
