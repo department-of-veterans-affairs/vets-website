@@ -13,8 +13,7 @@ describe('feature toogles', () => {
       document.cookie = `newcookieName=${token}`;
       expect(setCookie('newcookieName', 'differentToken')).to.deep.equal(
         document.cookie.replace(
-          // eslint-disable-next-line no-useless-escape
-          /(?:(?:^|.*;\s*)newcookieName\s*\=\s*([^;]*).*$)|^.*$/,
+          /(?:(?:^|.*;\s*)newcookieName=\s*([^;]*).*$)|^.*$/,
           '$1',
         ),
       );
@@ -32,8 +31,7 @@ describe('feature toogles', () => {
       document.cookie = `newcookieName=${token}`;
       expect(createTokenFromCookie('newcookieName')).to.deep.equal(
         document.cookie.replace(
-          // eslint-disable-next-line no-useless-escape
-          /(?:(?:^|.*;\s*)newcookieName\s*\=\s*([^;]*).*$)|^.*$/,
+          /(?:(?:^|.*;\s*)newcookieName=\s*([^;]*).*$)|^.*$/,
           '$1',
         ),
       );
@@ -42,8 +40,7 @@ describe('feature toogles', () => {
     it('should return a random string if the cookie does not already exist', () => {
       expect(createTokenFromCookie('newcookieName')).to.not.deep.equal(
         document.cookie.replace(
-          // eslint-disable-next-line no-useless-escape
-          /(?:(?:^|.*;\s*)newcookieName\s*\=\s*([^;]*).*$)|^.*$/,
+          /(?:(?:^|.*;\s*)newcookieName=\s*([^;]*).*$)|^.*$/,
           '$1',
         ),
       );
