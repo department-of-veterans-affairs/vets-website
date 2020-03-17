@@ -294,6 +294,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
   });
 
   it('contain class that breaks long comments', () => {
-    expect(tree.find('.vaos-word-break'));
+    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
   });
 });

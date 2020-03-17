@@ -76,7 +76,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     expect(messageTree.find('dt').text()).to.equal('Follow-up/Routine');
     expect(messageTree.find('dd').text()).to.equal('Some message');
 
-    expect(tree.find('.vaos-word-break'));
+    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
 
     tree.unmount();
   });
@@ -191,7 +191,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       'Thu, May 23, 2019 in the morning',
     );
 
-    expect(tree.find('.vaos-word-break'));
+    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
 
     tree.unmount();
   });
