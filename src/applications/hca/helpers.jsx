@@ -94,7 +94,7 @@ export function transform(formConfig, form) {
 
   return JSON.stringify({
     gaClientId,
-    asyncCompatible: true,
+    asyncAll: true,
     form: formData,
   });
 }

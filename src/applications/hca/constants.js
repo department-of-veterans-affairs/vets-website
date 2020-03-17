@@ -27,3 +27,14 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedScWrongEntry: 'rejected_sc_wrongentry',
   rejectedRightEntry: 'rejected_rightentry',
 });
+
+export const submissionStatuses = {
+  // Statuses returned by the API
+  pending: 'try', // Submitted to EVSS, waiting response
+  retry: 'retryable_error',
+  succeeded: 'success', // Submitted to EVSS, received response
+  exhausted: 'exhausted', // EVSS is down or something; ran out of retries
+  failed: 'non_retryable_error', // EVSS responded with some error
+  // When the api serves a failure
+  apiFailure: 'apiFailure',
+};
