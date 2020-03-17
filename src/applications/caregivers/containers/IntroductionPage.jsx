@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { withRouter } from 'react-router';
 import {
-  InjuredLineOfDutyInto,
   PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
   CHAMPVAInfo,
@@ -46,7 +45,7 @@ const IntroductionPage = ({ route, router }) => {
           or mental disorder incurred or aggravated in the line of duty. This
           includes traumatic brain injury, psychological trauma or another
           mental disorder.
-          <InjuredLineOfDutyInto />
+          {/* TODO: Re-add <InjuredLineOfDutyInto /> */}
         </li>
         <li>
           The Veteran needs personal care services because they can’t perform
@@ -152,16 +151,8 @@ const IntroductionPage = ({ route, router }) => {
             <span>You can Also:</span>
             <ul>
               <li>Call us at 877-222-VETS (877-222-8387)</li>
-              <li>
-                Find a{' '}
-                <a
-                  href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Caregiver Support Coordinator
-                </a>
-              </li>
+              {/* TODO: re-add below */}
+              {/* <li>Find a{' '}<a href="https://www.caregiver.va.gov/support/New_CSC_Page.asp" target="_blank" rel="noopener noreferrer">Caregiver Support Coordinator</a></li> */}
               <li>Contact the Nation Caregiver Support line at 855-260-3274</li>
               <li>Contact a Veterans Service Organization</li>
             </ul>
