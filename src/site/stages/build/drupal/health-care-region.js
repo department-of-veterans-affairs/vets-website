@@ -168,9 +168,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const pastEventTeasers = {
     entities: [],
   };
-  const currentEventTeasers = {
-    entities: [],
-  };
 
   // separate current events from past events;
   _.forEach(allEvents.entities, value => {
@@ -179,8 +176,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     const isPast = moment().diff(startDate, 'days');
     if (isPast >= 1) {
       pastEventTeasers.entities.push(eventTeaser);
-    } else {
-      currentEventTeasers.entities.push(eventTeaser);
     }
   });
 
@@ -189,29 +184,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     pastEventTeasers.entities,
     ['fieldDate.startDate'],
     ['asc'],
-  );
-
-  const eventEntityUrl = createEntityUrlObj(drupalPagePath);
-  const eventObj = Object.assign(
-    { allEventTeasers: currentEventTeasers },
-    { eventTeasers: page.eventTeasers },
-    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
-    { facilitySidebar: sidebar },
-    { entityUrl: eventEntityUrl },
-    { title: page.title },
-    { alert: page.alert },
-  );
-  const eventPage = updateEntityUrlObj(eventObj, drupalPagePath, 'Events');
-  const eventPagePath = eventPage.entityUrl.path;
-  eventPage.regionOrOffice = page.title;
-  eventPage.entityUrl = generateBreadCrumbs(eventPagePath);
-
-  paginatePages(
-    eventPage,
-    files,
-    'allEventTeasers',
-    'event_listing.drupal.liquid',
-    'events',
   );
 
   // Past Events listing page
@@ -298,6 +270,40 @@ function addGetUpdatesFields(page, pages) {
 }
 
 /**
+ * Sorts items from oldest to newest, removing expired items.
+ *
+ * @param {items} items The items object.
+ * @return Filtered array of sorted items.
+ */
+function itemSorter(items) {
+  const dateFiltered = [];
+  const sorted =
+    items !== null
+      ? items.entities.sort((a, b) => {
+          const aTime = Math.floor(
+            new Date(a.fieldDate.value).getTime() / 1000,
+          );
+          const bTime = Math.floor(
+            new Date(b.fieldDate.value).getTime() / 1000,
+          );
+          // Sort order needs to be oldest first.
+          const sorter = aTime - bTime;
+          return sorter;
+        })
+      : '';
+  // Remove expired items.
+  sorted.forEach(element => {
+    if (
+      element.fieldDate &&
+      new Date(element.fieldDate.value).valueOf() > new Date().valueOf()
+    ) {
+      dateFiltered.push(element);
+    }
+  });
+  return dateFiltered;
+}
+
+/**
  * Add pagers to cms content listing pages.
  *
  * @param {page} page The page object.
@@ -308,8 +314,13 @@ function addGetUpdatesFields(page, pages) {
  * @return nothing
  */
 function addPager(page, files, field, template, aria) {
-  // Add our pager to the Drupal page.
+  // Sort and filter items that need date handling.
+  if (page.allEventTeasers) {
+    page.allEventTeasers.entities = itemSorter(page.allEventTeasers);
+  }
+  // Add our pager to page output.
   const pagingObject = paginatePages(page, files, field, template, aria);
+
   if (pagingObject[0]) {
     page.pagedItems = pagingObject[0].pagedItems;
     page.paginator = pagingObject[0].paginator;
