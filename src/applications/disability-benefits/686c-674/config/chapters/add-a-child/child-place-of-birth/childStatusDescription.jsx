@@ -22,8 +22,8 @@ export const childStatusDescription = (
         territory of the U.S.
       </p>
       <p>
-        A claim for additional benefits for an adopted child must include a copy
-        of one of the following:
+        A claim for additional benefits for an <strong>adopted child</strong>{' '}
+        must include a copy of one of the following:
       </p>
       <ul>
         <li>The final decree of adoption</li>
