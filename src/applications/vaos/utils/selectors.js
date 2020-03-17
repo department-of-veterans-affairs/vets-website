@@ -258,10 +258,16 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     facilityData,
+    systemClinicToFacilityMap,
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel) {
+  if (appointmentToCancel?.clinicId) {
+    facility =
+      systemClinicToFacilityMap[
+        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+      ];
+  } else if (appointmentToCancel) {
     facility =
       facilityData[
         getRealFacilityId(appointmentToCancel.facility?.facilityCode)
