@@ -563,7 +563,7 @@
       "$ref": "#/definitions/email"
     },
     "dateOfBirth": {
-      "$ref": "#/definitions/dateOfBirth"
+      "$ref": "#/definitions/date"
     },
     "privacyAgreementAccepted": {
       "$ref": "#/definitions/privacyAgreementAccepted"
