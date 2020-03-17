@@ -12,6 +12,7 @@ import {
   CaregiverSupportInfo,
   PowerOfAttorneyInfo,
   RepresentativeInfo,
+  InjuredLineOfDutyInto,
 } from 'applications/caregivers/components/AdditionalInfo';
 
 const IntroductionPage = ({ route, router }) => {
@@ -45,6 +46,8 @@ const IntroductionPage = ({ route, router }) => {
           or mental disorder incurred or aggravated in the line of duty. This
           includes traumatic brain injury, psychological trauma or another
           mental disorder.
+          {/* TODO: check for failure in CI */}
+          <InjuredLineOfDutyInto />
         </li>
         <li>
           The Veteran needs personal care services because they can’t perform
@@ -52,7 +55,6 @@ const IntroductionPage = ({ route, router }) => {
           protection because they have lasting neurological damage or injury.
         </li>
       </ul>
-      {/* TODO: Re-add <InjuredLineOfDutyInto /> */}
 
       <span>
         Answer a few questions to find out if you meet the criteria for this
@@ -109,7 +111,7 @@ const IntroductionPage = ({ route, router }) => {
       <div className="process schemaform-process">
         <div>
           {/* prepare */}
-          <div className="process-step list-one">
+          <section className="process-step list-one">
             <h5>Prepare</h5>
             <h6>
               To fill out this application, you'll need the Veteran and
@@ -139,9 +141,10 @@ const IntroductionPage = ({ route, router }) => {
 
               <CaregiverSupportInfo />
             </div>
-          </div>
+          </section>
+
           {/* Apply */}
-          <div className="process-step list-two">
+          <section className="process-step list-two">
             <h5>Apply</h5>
             <p>
               Complete this Caregiver benefits form or have a Power of
@@ -154,14 +157,24 @@ const IntroductionPage = ({ route, router }) => {
             <span>You can Also:</span>
             <ul>
               <li>Call us at 877-222-VETS (877-222-8387)</li>
-              {/* TODO: re-add below */}
-              {/* <li>Find a{' '}<a href="https://www.caregiver.va.gov/support/New_CSC_Page.asp" target="_blank" rel="noopener noreferrer">Caregiver Support Coordinator</a></li> */}
+              {/* TODO: check */}
+              <li>
+                Find a{' '}
+                <a
+                  href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Caregiver Support Coordinator
+                </a>
+              </li>
               <li>Contact the Nation Caregiver Support line at 855-260-3274</li>
               <li>Contact a Veterans Service Organization</li>
             </ul>
-          </div>
+          </section>
+
           {/* Review */}
-          <div className="process-step list-three">
+          <section className="process-step list-three">
             <h5>VA Review</h5>
             <p>
               Once the form has been received at a medical center, the Caregiver
@@ -182,7 +195,7 @@ const IntroductionPage = ({ route, router }) => {
               <li>Caregiver training</li>
               <li>A home visit</li>
             </ul>
-          </div>
+          </section>
           {/* Decision */}
           <div className="process-step list-four">
             <h5>Decision</h5>
