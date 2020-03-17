@@ -1,6 +1,5 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { Link } from 'react-router';
 
 export const renderSchoolClosingAlert = result => {
   const { schoolClosing } = result;
@@ -68,13 +67,12 @@ export const renderVetTecLogo = classNames => (
 );
 
 export const RenderBackendErrorMessage = (
-  <div id="backendErrorMessage">
-    <h3>
-      We’re sorry. Something went wrong on our end. Please try again or check
+  <div className="backenderror">
+    <h3 className="backend-error-bold"> We’ve run into a problem </h3>
+
+    <div className="backend-error vads-u-padding-bottom--2">
+      We're sorry. Something went wrong on our end. Please try again or check
       back soon.
-    </h3>
-    <Link className="usa-button usa-button-primary" to="/">
-      Back to GI Bill® Comparison Tool
-    </Link>
+    </div>
   </div>
 );

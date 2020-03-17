@@ -3,7 +3,6 @@ import {
   FETCH_PROFILE_STARTED,
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
-  FETCH_RESPONSE_CODE,
 } from '../actions';
 import { normalizedInstitutionAttributes } from './utility';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
@@ -26,12 +25,6 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         ...action.err,
-        inProgress: false,
-      };
-    case FETCH_RESPONSE_CODE:
-      const responseCode = action.payload.status.toString();
-      return {
-        responseCode,
         inProgress: false,
       };
     case FETCH_PROFILE_SUCCEEDED:

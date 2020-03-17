@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { RenderBackendErrorMessage } from '../utils/render';
 
 import {
   clearAutocompleteSuggestions,
@@ -168,15 +167,6 @@ export class SearchPage extends React.Component {
 
     let searchResults;
 
-    if (search.responseCode === ('500' || '503' || '504')) {
-      return (
-        <div className="usa-grid">
-          <div className="usa-width-one-half vads-u-margin-x--neg1">
-            {RenderBackendErrorMessage}
-          </div>
-        </div>
-      );
-    }
     // Filter button on mobile.
     const filterButton = (
       <button
@@ -238,15 +228,12 @@ export class SearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search =>
-    search.responseCode !== ('503' || '504' || '500') ? (
-      <h1 tabIndex={-1}>
-        {!search.inProgress &&
-          `${(search.count || 0).toLocaleString()} Search Results`}
-      </h1>
-    ) : (
-      ''
-    );
+  renderSearchResultsHeader = search => (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} Search Results`}
+    </h1>
+  );
 
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>

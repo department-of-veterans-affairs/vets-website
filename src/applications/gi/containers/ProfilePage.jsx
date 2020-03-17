@@ -9,8 +9,6 @@ import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 
-import { RenderBackendErrorMessage } from '../utils/render';
-
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class ProfilePage extends React.Component {
@@ -59,13 +57,6 @@ export class ProfilePage extends React.Component {
 
     let content;
 
-    if (profile.responseCode === '503' || '504') {
-      return (
-        <ScrollElement name="profilePage" className="profile-page">
-          {RenderBackendErrorMessage}
-        </ScrollElement>
-      );
-    }
     if (profile.inProgress || _.isEmpty(profile.attributes)) {
       content = <LoadingIndicator message="Loading your profile..." />;
     } else {

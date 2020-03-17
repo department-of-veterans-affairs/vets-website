@@ -265,7 +265,6 @@ export function fetchProfile(facilityCode, version) {
           return res.json();
         }
         return res.json().then(errors => {
-          setResponse(dispatch, res);
           throw new Error(errors);
         });
       })
@@ -281,7 +280,7 @@ export function fetchProfile(facilityCode, version) {
         });
       })
       .catch(err => {
-        dispatch({ type: FETCH_CONSTANTS_FAILED, err });
+        dispatch({ type: FETCH_PROFILE_FAILED, err });
       });
   };
 }
