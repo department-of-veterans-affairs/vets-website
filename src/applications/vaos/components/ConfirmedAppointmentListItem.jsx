@@ -82,7 +82,7 @@ export default function ConfirmedAppointmentListItem({
       </div>
 
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <div className="vads-u-flex--1 vads-u-margin-top--2">
+        <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           {isVideoVisit(appointment) ? (
             <VideoVisitSection appointment={appointment} />
           ) : (
@@ -95,7 +95,7 @@ export default function ConfirmedAppointmentListItem({
           )}
         </div>
         {hasInstructions(appointment) && (
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {getAppointmentInstructionsHeader(appointment)}

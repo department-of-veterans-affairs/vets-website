@@ -20,9 +20,8 @@ export default function WelcomeVAOSModal({ dismiss }) {
         appointments in one place on VA.gov.
       </p>
       <p>
-        To view your past appointments, you can go back to the old appointments
-        tool. You’ll find a link to it at the bottom of the page in the new
-        tool.
+        If you want to go back to the old appointments tool, you’ll find a link
+        to that scheduling tool at the bottom of the page in the new tool.
       </p>
       <button type="button" onClick={dismiss}>
         Continue to your VA appointments

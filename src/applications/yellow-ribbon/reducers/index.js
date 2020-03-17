@@ -14,6 +14,7 @@ import {
 
 const initialState = {
   city: '',
+  country: '',
   error: '',
   fetching: false,
   name: '',
@@ -43,6 +44,7 @@ export const yellowRibbonReducer = (state = initialState, action) => {
       return {
         ...state,
         city: action?.options?.city || '',
+        country: action?.options?.country || '',
         error: '',
         fetching: !action?.options?.hideFetchingState,
         name: action?.options?.name || '',
