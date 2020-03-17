@@ -109,6 +109,7 @@ export function fetchConstants(version) {
           return res.json();
         }
         return res.json().then(({ errors }) => {
+          setResponse(dispatch, res);
           throw new Error(errors[0].title);
         });
       })
@@ -265,6 +266,7 @@ export function fetchProfile(facilityCode, version) {
           return res.json();
         }
         return res.json().then(errors => {
+          setResponse(dispatch, res);
           throw new Error(errors);
         });
       })
