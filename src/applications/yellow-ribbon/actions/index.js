@@ -66,7 +66,9 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   const state = options?.state || null;
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction({ country, name, hideFetchingState, state }));
+  dispatch(
+    fetchResultsAction({ country, city, name, hideFetchingState, state }),
+  );
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);

@@ -14,9 +14,11 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
     // Expect there to be:
     expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
     expect(text).to.include('Find a Yellow Ribbon school');
-    expect(text).to.include('Learn more about the Yellow Ribbon Program.');
     expect(text).to.include(
-      'You may be eligible for Yellow Ribbon program funding if you:',
+      'Find out if your school participates in the Yellow Ribbon program.',
+    );
+    expect(text).to.include(
+      'Search for schools by one or all of the terms below.',
     );
 
     tree.unmount();
