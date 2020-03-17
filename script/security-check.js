@@ -71,11 +71,11 @@ function runAudit() {
   child.stdout.setEncoding('utf8');
 
   child.stdout.on('data', data => {
-    auditOutput += data;
+    auditOutput += data.toString();
   });
 
   child.stderr.on('data', data => {
-    console.error(data);
+    console.error(data.toString());
   });
 
   child.on('close', () => {
