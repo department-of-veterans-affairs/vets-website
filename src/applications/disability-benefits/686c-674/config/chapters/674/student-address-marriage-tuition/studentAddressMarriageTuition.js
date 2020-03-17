@@ -4,29 +4,14 @@ import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 
 import { StudentNameHeader } from '../helpers';
+import { addressSchema, addressUISchema } from '../../../address-schema';
 
-const {
-  countryDropdown,
-  date,
-  genericTextInput,
-  genericNumberAndDashInput: numberAndDashInput,
-} = genericSchemas;
+const { date, genericTextInput } = genericSchemas;
 
 export const schema = {
   type: 'object',
   properties: {
-    studentAddress: {
-      type: 'object',
-      properties: {
-        country: countryDropdown,
-        street: genericTextInput,
-        line2: genericTextInput,
-        line3: genericTextInput,
-        city: genericTextInput,
-        state: genericTextInput,
-        postalCode: numberAndDashInput,
-      },
-    },
+    studentAddress: addressSchema,
     studentWasMarried: {
       type: 'boolean',
     },
@@ -41,43 +26,7 @@ export const schema = {
 
 export const uiSchema = {
   'ui:title': StudentNameHeader,
-  studentAddress: {
-    'ui:title': 'Student’s address',
-    country: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-      'ui:title': 'Country',
-      'ui:errorMessages': { required: 'Please select a country' },
-    },
-    street: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-      'ui:title': 'Street',
-      'ui:errorMessages': { required: 'Please enter a street address' },
-    },
-    line2: {
-      'ui:title': 'Line 2',
-    },
-    line3: {
-      'ui:title': 'Line 3',
-    },
-    city: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-      'ui:title': 'City',
-      'ui:errorMessages': { required: 'Please enter a city' },
-    },
-    state: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-      'ui:title': 'State',
-      'ui:errorMessages': { required: 'Please enter a state' },
-    },
-    postalCode: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
-      'ui:title': 'Postal code',
-      'ui:errorMessages': { required: 'Please enter a postal code' },
-    },
-  },
+  studentAddress: addressUISchema('studentAddress', 'report674'),
   studentWasMarried: {
     'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
     'ui:title': 'Was the student ever married?',
