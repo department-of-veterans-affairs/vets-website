@@ -106,11 +106,13 @@ describe('Yellow Ribbon actions', () => {
     it('updates search params', async () => {
       const dispatch = () => {};
       const thunk = fetchResultsThunk({
+        city: 'boulder',
+        country: 'usa',
         hideFetchingState: false,
         history: mockedHistory,
         location: mockedLocation,
         mockRequest: true,
-        name: 'boulder',
+        name: 'university',
         page: 1,
         perPage: 10,
         state: 'CO',
@@ -122,30 +124,37 @@ describe('Yellow Ribbon actions', () => {
 
       expect(replaceStateStub.calledOnce).to.be.true;
       expect(replaceStateStub.firstCall.args[2]).to.be.equal(
-        '?name=boulder&state=CO',
+        '?country=usa&city=boulder&name=university&state=CO',
       );
     });
 
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const thunk = fetchResultsThunk({
+        city: 'boulder',
+        country: 'usa',
+        hideFetchingState: false,
         history: mockedHistory,
         location: mockedLocation,
         mockRequest: true,
-        hideFetchingState: false,
-        name: 'boulder',
-        state: 'CO',
+        name: 'university',
         page: 1,
         perPage: 10,
+        state: 'CO',
       });
 
       await thunk(dispatch);
 
+      // eslint-disable-next-line
+      debugger;
+
       expect(
         dispatch.firstCall.calledWith({
           options: {
+            city: 'boulder',
+            country: 'usa',
             hideFetchingState: false,
-            name: 'boulder',
+            name: 'university',
             state: 'CO',
           },
           type: FETCH_RESULTS,

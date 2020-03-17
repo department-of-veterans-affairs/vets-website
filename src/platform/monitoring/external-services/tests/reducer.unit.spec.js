@@ -21,21 +21,8 @@ describe('External service statuses reducer', () => {
   });
 
   it('should handle failed requests for backend statuses', () => {
-    const inactiveDowntimeState = reducer(undefined, {
-      type: FETCH_BACKEND_STATUSES_FAILURE,
-      globalDowntimeActive: false,
-    });
-    expect(inactiveDowntimeState.loading).to.be.false;
-    expect(inactiveDowntimeState.statuses).to.eql([]);
-
-    const activeDowntimeState = reducer(undefined, {
-      type: FETCH_BACKEND_STATUSES_FAILURE,
-      globalDowntimeActive: true,
-    });
-    expect(activeDowntimeState.loading).to.be.false;
-    expect(activeDowntimeState.statuses).to.eql([
-      { service: 'Global', serviceId: 'global', status: 'maintenance' },
-    ]);
+    const state = reducer(undefined, { type: FETCH_BACKEND_STATUSES_FAILURE });
+    expect(state.loading).to.be.false;
   });
 
   it('should handle successful requests for backend statuses', () => {
