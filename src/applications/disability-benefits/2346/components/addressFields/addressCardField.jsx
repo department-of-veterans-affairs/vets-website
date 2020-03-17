@@ -1,4 +1,3 @@
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import {
   getDefaultFormState,
   getDefaultRegistry,
@@ -10,15 +9,10 @@ import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-import {
-  permAddressIsSelected,
-  permAddressMilitaryBaseChecker,
-  tempAddressIsSelected,
-  tempAddressMilitaryBaseChecker,
-} from '../../actions';
 
-/*
+/**
+ * Displays a review card if the information inside is valid.
+ *
  * For use on a schema of type 'object' or 'array'.
  * Intended to wrap objects or arrays to avoid duplicate functionality here.
  *
@@ -35,7 +29,7 @@ import {
  *   itemName      - The name of the set of data in the card. This shows up on the "New X" button if
  *                   volatileData is set to true.
  */
-class addressCardField extends React.Component {
+export default class addressCardField extends React.Component {
   static defaultProps = {
     uiSchema: {},
     errorSchema: {},
@@ -44,14 +38,11 @@ class addressCardField extends React.Component {
     required: false,
     disabled: false,
     readonly: false,
-    permAddressIsSelected: true,
-    tempAddressIsSelected: false,
-    permAddressMilitaryBaseChecker: false,
-    tempAddressMilitaryBaseChecker: false,
   };
 
   constructor(props) {
     super(props);
+
     // Throw an error if there’s no viewComponent (should be React component)
     if (
       typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
@@ -90,7 +81,7 @@ class addressCardField extends React.Component {
       // Set initial state based on whether all the data is valid
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
-      oldData: this.props.formData,
+      oldData: undefined,
     };
   }
 
@@ -154,144 +145,22 @@ class addressCardField extends React.Component {
       registry,
       required,
       schema,
-      permAddressIsAMilitaryBase,
-      tempAddressIsAMilitaryBase,
     } = this.props;
     const { SchemaField } = registry.fields;
+    // We've already used the ui:field and ui:title
     const uiSchema = omit(
       ['ui:field', 'ui:title', 'ui:description'],
       this.props.uiSchema,
     );
-    // We've already used the ui:field and ui:title
-    // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
 
-    if (this.props.name === 'permanentAddress') {
-      if (permAddressIsAMilitaryBase) {
-        uiSchema.country['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          true,
-        );
-        uiSchema.city['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          true,
-        );
-      } else {
-        uiSchema.country['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          false,
-        );
-        uiSchema.city['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          false,
-        );
-      }
-    }
-
-    if (this.props.name === 'temporaryAddress') {
-      if (tempAddressIsAMilitaryBase) {
-        uiSchema.country['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          true,
-        );
-        uiSchema.city['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          true,
-        );
-      } else {
-        uiSchema.country['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          false,
-        );
-        uiSchema.city['ui:options'].updateSchema(
-          formData,
-          schema,
-          uiSchema,
-          false,
-        );
-      }
-    }
-
-    const { editTitle } = this.props.uiSchema['ui:options'];
+    const { volatileData, editTitle } = this.props.uiSchema['ui:options'];
     const title = editTitle || this.getTitle();
     const subtitle = this.getSubtitle();
-    const editingAddressTitle = `Edit ${title.toLowerCase()}`;
-    const addTempAddressTitle = `Add a ${title.toLowerCase()}`;
 
-    let tempAddressObj;
-    let isTempAddressEmpty;
-
-    if (title === 'Temporary address') {
-      tempAddressObj = this.props.formData;
-      isTempAddressEmpty = this.isObjectEmpty(tempAddressObj);
-    }
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          {title === 'Permanent address' && (
-            <h4 className="review-card--title">{editingAddressTitle}</h4>
-          )}
-          {isTempAddressEmpty &&
-            title === 'Temporary address' && (
-              <h4 className="review-card--title">{addTempAddressTitle}</h4>
-            )}
-          {!isTempAddressEmpty &&
-            title === 'Temporary address' && (
-              <h4 className="review-card--title">{editingAddressTitle}</h4>
-            )}
-          {title === 'Permanent address' && (
-            <>
-              <input
-                type="checkbox"
-                name="perm-address-military-base"
-                id="permAddressMilitaryBase"
-                onChange={e =>
-                  this.props.permAddressMilitaryBaseChecker(e.target.checked)
-                }
-                checked={permAddressIsAMilitaryBase}
-              />
-              <label htmlFor="permAddressMilitaryBase">
-                I live on a United States military base outside of the United
-                States
-              </label>
-            </>
-          )}
-          {title === 'Temporary address' && (
-            <>
-              <input
-                type="checkbox"
-                name="temp-address-military-base"
-                id="tempAddressMilitaryBase"
-                onChange={e =>
-                  this.props.tempAddressMilitaryBaseChecker(e.target.checked)
-                }
-                checked={tempAddressIsAMilitaryBase}
-              />
-              <label htmlFor="tempAddressMilitaryBase">
-                I live on a United States military base outside of the United
-                States
-              </label>
-            </>
-          )}
-          <AdditionalInfo triggerText="Learn more about military base addresses">
-            <p>
-              The United States is automatically chosen as your country if you
-              live on a military base outside of the country.
-            </p>
-          </AdditionalInfo>
+          <h4 className="review-card--title">{title}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           <SchemaField
             name={idSchema.$id}
@@ -311,14 +180,17 @@ class addressCardField extends React.Component {
             className="usa-button-primary update-button"
             onClick={this.update}
           >
-            Save {title.toLowerCase()}
+            {volatileData ? 'Save' : 'Done'}
           </button>
-          <button
-            className="usa-button-secondary cancel-button"
-            onClick={this.cancelUpdate}
-          >
-            Cancel
-          </button>
+          {volatileData &&
+            this.state.canCancel && (
+              <button
+                className="usa-button-secondary cancel-button"
+                onClick={this.cancelUpdate}
+              >
+                Cancel
+              </button>
+            )}
         </div>
       </div>
     );
@@ -352,111 +224,15 @@ class addressCardField extends React.Component {
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
-    const { permAddressSelected, tempAddressSelected } = this.props;
-    let tempAddressObj;
-    let isTempAddressEmpty;
-
-    if (title === 'Temporary address') {
-      tempAddressObj = this.props.formData;
-      isTempAddressEmpty = this.isObjectEmpty(tempAddressObj);
-    }
-
     return (
       <div className="review-card gray-color">
         <div className="review-card--body">
           <h4 className="review-card--title">{title}</h4>
           <ViewComponent formData={this.props.formData} />
-          {isTempAddressEmpty &&
-            title === 'Permanent address' && (
-              <a
-                onClick={this.startEditing}
-                aria-label="Edit permanent address"
-              >
-                Edit permanent address
-              </a>
-            )}
-          {isTempAddressEmpty &&
-            title === 'Temporary address' && (
-              <a
-                onClick={this.startEditing}
-                aria-label="Add a temporary address"
-              >
-                Add a temporary address
-              </a>
-            )}
-          {!isTempAddressEmpty && (
-            <a onClick={this.startEditing} aria-label={`Edit ${title}`}>
-              Edit {title.toLowerCase()}
-            </a>
-          )}
-
-          {!isTempAddressEmpty &&
-            title === 'Permanent address' && (
-              <div
-                className={
-                  !permAddressSelected
-                    ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
-                    : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
-                }
-              >
-                <input
-                  name="permanent-address"
-                  id="permAddress"
-                  type="radio"
-                  onChange={e => this.props.permAddressIsSelected(e)}
-                  checked={permAddressSelected}
-                />
-                <label htmlFor="permAddress" className="main">
-                  Send to this address
-                </label>
-              </div>
-            )}
-
-          {isTempAddressEmpty &&
-            title === 'Permanent address' && (
-              <div
-                className={
-                  !permAddressSelected
-                    ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
-                    : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
-                }
-              >
-                <input
-                  name="permanent-address"
-                  id="permAddress"
-                  type="radio"
-                  onChange={e => this.props.permAddressIsSelected(e)}
-                  checked={permAddressSelected}
-                />
-                <label htmlFor="permAddress" className="main">
-                  Send to this address
-                </label>
-              </div>
-            )}
-
-          {!isTempAddressEmpty &&
-            title === 'Temporary address' && (
-              <div
-                className={
-                  !tempAddressSelected
-                    ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
-                    : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
-                }
-              >
-                <input
-                  name="temporary-address"
-                  id="tempAddress"
-                  type="radio"
-                  onChange={e => this.props.tempAddressIsSelected(e)}
-                  checked={tempAddressSelected}
-                />
-                <label htmlFor="tempAddress" className="main">
-                  Send to this address
-                </label>
-              </div>
-            )}
+          <a onClick={this.startEditing} aria-label={`Edit ${title}`}>
+            Edit {title.toLowerCase()}
+          </a>
         </div>
-
         {volatileData && (
           <button
             className="usa-button-primary edit-button"
@@ -470,13 +246,10 @@ class addressCardField extends React.Component {
     );
   };
 
-  isObjectEmpty = obj => Object.keys(obj).length === 0;
-
   startEditing = () => {
     const newState = { editing: true };
     // If the data is volatile, cache the original data before clearing it out so we
     //  have the option to cancel later
-
     if (this.props.uiSchema['ui:options'].volatileData) {
       newState.oldData = this.props.formData;
       this.resetFormData();
@@ -513,7 +286,6 @@ class addressCardField extends React.Component {
 
   isRequired = name => {
     const { schema } = this.props;
-
     const schemaRequired =
       Array.isArray(schema.required) && schema.required.indexOf(name) !== -1;
 
@@ -544,45 +316,14 @@ class addressCardField extends React.Component {
     const viewOrEditCard = this.state.editing
       ? this.getEditView()
       : this.getReviewView();
-
     return (
       <>
-        {/* do conditional rendering for permanent address */}
-        {this.props.uiSchema['ui:title'] === 'Permanent address' ? (
-          <>
-            <h4 className="vads-u-font-weight--bold">Shipping Address</h4>
-            <p>
-              Your order will ship to this address. Orders typically arrive
-              within 7-10 business days.
-            </p>
-            <p className="vads-u-font-weight--bold">
-              Select the address you would like your order sent to:
-              <span className="schemaform-required-span vads-u-font-weight--normal">
-                (*Required)
-              </span>
-            </p>
-          </>
-        ) : null}
         {description}
         {viewOrEditCard}
       </>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  permAddressSelected: state.form2346Reducer?.permAddressIsSelected,
-  tempAddressSelected: state.form2346Reducer?.tempAddressIsSelected,
-  permAddressIsAMilitaryBase: state.form2346Reducer?.permAddressIsAMilitaryBase,
-  tempAddressIsAMilitaryBase: state.form2346Reducer?.tempAddressIsAMilitaryBase,
-});
-
-const mapDispatchToProps = {
-  permAddressMilitaryBaseChecker,
-  tempAddressMilitaryBaseChecker,
-  permAddressIsSelected,
-  tempAddressIsSelected,
-};
 
 addressCardField.propTypes = {
   uiSchema: PropTypes.shape({
@@ -608,8 +349,3 @@ addressCardField.propTypes = {
     onError: PropTypes.func.isRequired,
   }).isRequired,
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(addressCardField);
