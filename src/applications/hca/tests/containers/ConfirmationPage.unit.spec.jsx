@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
+import { ConfirmationPage } from '../../components/ConfirmationPage';
 
 describe('hca <ConfirmationPage>', () => {
   it('should render', () => {

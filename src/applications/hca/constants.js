@@ -38,3 +38,10 @@ export const submissionStatuses = {
   // When the api serves a failure
   apiFailure: 'apiFailure',
 };
+
+export const terminalStatuses = new Set([
+  submissionStatuses.succeeded,
+  submissionStatuses.exhausted,
+  submissionStatuses.retry,
+  submissionStatuses.failed,
+]);

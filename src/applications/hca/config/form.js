@@ -58,7 +58,7 @@ import {
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPage from '../components/ConfirmationPage';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';

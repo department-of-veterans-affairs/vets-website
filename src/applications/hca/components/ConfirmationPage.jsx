@@ -10,7 +10,6 @@ import {
   successfulSubmitContent,
   submitErrorContent,
 } from '../content/confirmation-page';
-import { connect } from 'react-redux';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -21,7 +20,12 @@ const scrollToTop = () => {
   });
 };
 
-class ConfirmationPage extends React.Component {
+export default class ConfirmationPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isExpanded: false };
+  }
+
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
@@ -43,22 +47,13 @@ class ConfirmationPage extends React.Component {
 
 ConfirmationPage.propTypes = {
   submissionStatus: PropTypes.oneOf(Object.values(submissionStatuses)),
-  fullName: PropTypes.shape({
+  name: PropTypes.shape({
     first: PropTypes.string,
     last: PropTypes.string,
     middle: PropTypes.string,
     suffix: PropTypes.string,
   }).isRequired,
-  disabilities: PropTypes.array.isRequired,
   submittedAt: PropTypes.string.isRequired,
-  claimId: PropTypes.string,
   jobId: PropTypes.string,
+  response: PropTypes.shape,
 };
-
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
