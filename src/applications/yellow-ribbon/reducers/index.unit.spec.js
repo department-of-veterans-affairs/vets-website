@@ -11,6 +11,7 @@ describe('Yellow Ribbon reducer', () => {
 
     expect(result).to.be.deep.equal({
       city: '',
+      country: '',
       error: '',
       fetching: false,
       name: '',
@@ -29,6 +30,7 @@ describe('Yellow Ribbon reducer', () => {
       type: FETCH_RESULTS,
       options: {
         city: 'boulder',
+        country: 'usa',
         hideFetchingState: true,
         name: 'university',
         state: 'CO',
@@ -38,6 +40,7 @@ describe('Yellow Ribbon reducer', () => {
 
     expect(state).to.be.deep.equal({
       city: 'boulder',
+      country: 'usa',
       error: '',
       fetching: false,
       name: 'university',
