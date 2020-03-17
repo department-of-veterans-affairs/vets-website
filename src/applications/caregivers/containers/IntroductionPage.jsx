@@ -45,7 +45,6 @@ const IntroductionPage = ({ route, router }) => {
           or mental disorder incurred or aggravated in the line of duty. This
           includes traumatic brain injury, psychological trauma or another
           mental disorder.
-          {/* TODO: Re-add <InjuredLineOfDutyInto /> */}
         </li>
         <li>
           The Veteran needs personal care services because they can’t perform
@@ -53,6 +52,7 @@ const IntroductionPage = ({ route, router }) => {
           protection because they have lasting neurological damage or injury.
         </li>
       </ul>
+      {/* TODO: Re-add <InjuredLineOfDutyInto /> */}
 
       <span>
         Answer a few questions to find out if you meet the criteria for this
@@ -105,21 +105,24 @@ const IntroductionPage = ({ route, router }) => {
   const ProcessTimeline = () => (
     <>
       <h4>Follow the steps below to apply for Caregiver benefits</h4>
+      {/* TODO: figure out this <ol> later */}
       <div className="process schemaform-process">
-        <ol>
+        <div>
           {/* prepare */}
-          <li className="process-step list-one">
+          <div className="process-step list-one">
             <h5>Prepare</h5>
             <h6>
               To fill out this application, you'll need the Veteran and
               Caregiver(s):
             </h6>
+
             <ul>
               <li>Social Security number or Tax Identification Number.</li>
               <li>
                 Basic information about Veteran and Caregiver health insurance.
               </li>
             </ul>
+
             <div>
               <h5>What if I need help filling out my application?</h5>
               <p>
@@ -136,9 +139,9 @@ const IntroductionPage = ({ route, router }) => {
 
               <CaregiverSupportInfo />
             </div>
-          </li>
+          </div>
           {/* Apply */}
-          <li className="process-step list-two">
+          <div className="process-step list-two">
             <h5>Apply</h5>
             <p>
               Complete this Caregiver benefits form or have a Power of
@@ -156,9 +159,9 @@ const IntroductionPage = ({ route, router }) => {
               <li>Contact the Nation Caregiver Support line at 855-260-3274</li>
               <li>Contact a Veterans Service Organization</li>
             </ul>
-          </li>
+          </div>
           {/* Review */}
-          <li className="process-step list-three">
+          <div className="process-step list-three">
             <h5>VA Review</h5>
             <p>
               Once the form has been received at a medical center, the Caregiver
@@ -179,13 +182,13 @@ const IntroductionPage = ({ route, router }) => {
               <li>Caregiver training</li>
               <li>A home visit</li>
             </ul>
-          </li>
+          </div>
           {/* Decision */}
           <div className="process-step list-four">
             <h5>Decision</h5>
             <p>You’ll get a notice in the mail with our decision.</p>
           </div>
-        </ol>
+        </div>
       </div>
     </>
   );
