@@ -126,7 +126,6 @@ export const uiSchema = {
             keepInPageOnReview: true,
           },
         },
-        birthDate: currentOrPastDateUI('Your date of birth'),
       },
     },
   },
