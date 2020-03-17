@@ -4,16 +4,10 @@ export const BASE_URL =
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf';
 
-export const selectors = {
-  optOutStepVisible: 'view:optOutStep',
-};
-
 export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Higher-Level Review',
   savedFormNoAuth:
     'Please sign in again to continue your request for Higher-Level Review',
-  optOutCheckbox:
-    'You need to opt out of the old appeals process to continue with your request',
   forwardStartDate: 'Please select a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
