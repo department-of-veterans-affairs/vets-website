@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { systemDownMessage } from '../../../platform/static-data/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
-import { recordsNotFound } from '../utils/helpers';
+import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
 
 import { getLetterListAndBSLOptions } from '../actions/letters';
 
@@ -19,7 +19,9 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    this.props.getLetterListAndBSLOptions();
+    if (!this.props.emptyAddress) {
+      this.props.getLetterListAndBSLOptions();
+    }
   }
 
   appAvailability(lettersAvailability) {
@@ -67,6 +69,7 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo,
     },
     optionsAvailable: letterState.optionsAvailable,
+    emptyAddress: isAddressEmpty(state.user.profile.vet360.mailingAddress),
   };
 }
 

@@ -80,14 +80,13 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      let nextState = 'vaFacility';
       const communityCareEnabled = vaosCommunityCare(state);
 
       if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-        nextState = 'typeOfSleepCare';
+        return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {
-        nextState = 'typeOfEyeCare';
+        return 'typeOfEyeCare';
       } else if (isCommunityCare(state)) {
         try {
           if (communityCareEnabled) {
@@ -121,20 +120,16 @@ export default {
             dispatch(showTypeOfCareUnavailableModal());
             return 'typeOfCare';
           }
-
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          return 'vaFacility';
         } catch (e) {
           captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          return 'vaFacility';
         }
       }
 
-      return nextState;
+      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+      return 'vaFacility';
     },
     previous: 'home',
   },
@@ -359,11 +354,10 @@ export default {
     url: '/new-appointment/contact-info',
     next: 'review',
     previous(state) {
-      if (isCCFacility(state)) {
-        return 'ccPreferences';
-      }
-
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+      if (
+        isCCFacility(state) ||
+        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
+      ) {
         return 'reasonForAppointment';
       }
 

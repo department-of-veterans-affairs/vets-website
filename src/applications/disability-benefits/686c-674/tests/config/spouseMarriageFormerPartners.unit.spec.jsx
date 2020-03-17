@@ -85,12 +85,12 @@ describe('686 spouse former partner names', () => {
     selectRadio(form, 'root_spouseWasMarriedBefore', 'Y');
     fillData(
       form,
-      'input#root_spouseMarriageHistory_0_spouseFormerPartnerName_first',
+      'input#root_spouseMarriageHistory_0_formerSpouseName_first',
       'jane',
     );
     fillData(
       form,
-      'input#root_spouseMarriageHistory_0_spouseFormerPartnerName_last',
+      'input#root_spouseMarriageHistory_0_formerSpouseName_last',
       'doe',
     );
     form.find('form').simulate('submit');
