@@ -23,6 +23,7 @@ class VetTecProgramSearchResult extends React.Component {
       dodBah,
       schoolClosing,
       cautionFlag,
+      cautionFlags,
     } = result;
 
     const tuition = isPresent(tuitionAmount)
@@ -64,7 +65,10 @@ class VetTecProgramSearchResult extends React.Component {
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing })}
-                  {renderCautionAlert({ cautionFlag })}
+                  {renderCautionAlert({
+                    cautionFlag,
+                    cautionFlags,
+                  })}
                 </div>
               </div>
             )}

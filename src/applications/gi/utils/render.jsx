@@ -3,24 +3,45 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const renderSchoolClosingAlert = result => {
   const { schoolClosing } = result;
+
   if (!schoolClosing) return null;
   return (
     <AlertBox
-      content={<p>Upcoming campus closure</p>}
-      headline="School closure"
+      content={<li>Upcoming campus closure</li>}
+      headline="A campus is closing soon"
       isVisible={!!schoolClosing}
       status="warning"
     />
   );
 };
 
+const renderReasons = cautionFlags => {
+  const flags = [];
+  cautionFlags
+    .sort((a, b) => {
+      if (a.reason.toLowerCase() < b.reason.toLowerCase()) return -1;
+      if (a.reason.toLowerCase() > b.reason.toLowerCase()) return 1;
+      return 0;
+    })
+    .forEach(flag => {
+      flags.push(<li key={flag.id}>{flag.reason}</li>);
+    });
+
+  return flags;
+};
+
 export const renderCautionAlert = result => {
-  const { cautionFlag } = result;
+  const { cautionFlag, cautionFlags } = result;
+
   if (!cautionFlag) return null;
   return (
     <AlertBox
-      content={<p>This school has cautionary warnings</p>}
-      headline="Caution"
+      content={renderReasons(cautionFlags)}
+      headline={
+        cautionFlags.length > 1
+          ? 'This school has cautionary warnings'
+          : 'This school has a cautionary warning'
+      }
       isVisible={!!cautionFlag}
       status="warning"
     />
