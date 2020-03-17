@@ -5,34 +5,45 @@ node('vetsgov-general-purpose') {
   branch = params.branch || "master"
   env = params.environment
   slackChannel = params.slackChannel || "cms-notifications"
-  ref = params.ref || getLatestGitRef(repo, branch: branch)
-  refStatusState = params.refStatusState || getGithubCommitState(repo, ref)
+  ref = (!params.ref?.trim()) ? getLatestGitRef(repo, branch: branch) : params.ref
+  refStatusState = (!params.refStatusState?.trim()) ? getGithubCommitState(repo, ref) : params.refStatusState
+
+  echo "refStatusState = ${refStatusState}"
 
   message = "Web content refresh on ${env} status: "
   url = "https://github.com/department-of-veterans-affairs/vets-website/commit/${ref}"
 
   if ("${refStatusState}" == "ERROR") {
     message += "Aborted due to '${refStatusState}' status on ${repo}#${ref} (${url})"
-    color = "warning"
+    echo "${message}"
+    slackSend(
+      message: "${message}",
+      color: "warning",
+      channel: "${slackChannel}"
+    )
     currentBuild.result = 'FAILURE'
     return
   } else if ("${refStatusState}" != "SUCCESS" && "${refStatusState}" != "ERROR") {
     message += "Pended due to '${refStatusState}' status on ${repo}#${ref} (${url})\nWaiting 120s"
-    color = "warning"
+    echo "${message}"
+    slackSend(
+      message: "${message}",
+      color: "warning",
+      channel: "${slackChannel}"
+    )
     sleep(120)
     return
   } else {
     message += "Failed due to '${refStatusState}' status on ${repo}#${ref} (${url})"
+    echo "${message}"
+    slackSend(
+      message: "${message}",
+      color: "warning",
+      channel: "${slackChannel}"
+    )
     currentBuild.result = 'FAILURE'
     return
   }
-
-  echo "${message}"
-  slackSend(
-    message: "${message}",
-    color: "${color}",
-    channel: "${slackChannel}"
-  )
 
   dir("vets-website") {
     checkout scm: [$class: 'GitSCM', branches: [[name: ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
