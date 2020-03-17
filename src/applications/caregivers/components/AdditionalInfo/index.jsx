@@ -122,8 +122,14 @@ export const RepresentativeInfo = () => (
     <ol>
       <li>Call us at 877-222-VETS (877-222-8387)</li>
       <li>
-        Find a {/* TODO: Readd */}
-        {/* <a href="https://www.caregiver.va.gov/support/New_CSC_Page.asp" target="_blank" rel="noopener noreferrer">Caregiver Support Coordinator</a> */}
+        Find a
+        <a
+          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Caregiver Support Coordinator
+        </a>
       </li>
       <li>Contact the National Caregiver Support line at 855-260-3274</li>
       <li>Contact a Veterans Service Orginazation</li>
