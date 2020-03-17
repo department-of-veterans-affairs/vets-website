@@ -14,22 +14,20 @@ node('vetsgov-general-purpose') {
   if ("${refStatusState}" == "ERROR") {
     message += "Aborted due to '${refStatusState}' status on ${repo}#${ref} (${url})"
     color = "warning"
-    echo "${message}"
     currentBuild.result = 'FAILURE'
     return
   } else if ("${refStatusState}" != "SUCCESS" && "${refStatusState}" != "ERROR") {
     message += "Pended due to '${refStatusState}' status on ${repo}#${ref} (${url})\nWaiting 120s"
     color = "warning"
-    echo "${message}"
     sleep(120)
     return
   } else {
     message += "Failed due to '${refStatusState}' status on ${repo}#${ref} (${url})"
-    echo "${message}"
     currentBuild.result = 'FAILURE'
     return
   }
 
+  echo "${message}"
   slackSend(
     message: "${message}",
     color: "${color}",
