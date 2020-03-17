@@ -46,7 +46,6 @@ const IntroductionPage = ({ route, router }) => {
           or mental disorder incurred or aggravated in the line of duty. This
           includes traumatic brain injury, psychological trauma or another
           mental disorder.
-          {/* TODO: check for failure in CI */}
           <InjuredLineOfDutyInto />
         </li>
         <li>
@@ -107,8 +106,7 @@ const IntroductionPage = ({ route, router }) => {
   const ProcessTimeline = () => (
     <>
       <h4>Follow the steps below to apply for Caregiver benefits</h4>
-      {/* TODO: figure out this <ol> later */}
-      <div className="process schemaform-process">
+      <article className="process schemaform-process">
         <div>
           {/* prepare */}
           <section className="process-step list-one">
@@ -157,7 +155,6 @@ const IntroductionPage = ({ route, router }) => {
             <span>You can Also:</span>
             <ul>
               <li>Call us at 877-222-VETS (877-222-8387)</li>
-              {/* TODO: check */}
               <li>
                 Find a{' '}
                 <a
@@ -202,7 +199,7 @@ const IntroductionPage = ({ route, router }) => {
             <p>You’ll get a notice in the mail with our decision.</p>
           </div>
         </div>
-      </div>
+      </article>
     </>
   );
 
