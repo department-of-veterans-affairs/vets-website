@@ -33,41 +33,55 @@ export const YellowRibbonApp = ({ results }) => (
         <div
           className={classnames({
             'vads-l-col--3': !!results,
-            'vads-l-col--4': !results,
+            'vads-l-col--6': !results,
           })}
         >
+          {/* Pre-form content */}
           {!results && (
             <>
               <p>
-                You may be eligible for Yellow Ribbon program funding if you:
+                Find out if your school participates in the Yellow Ribbon
+                program. If you already have Post-9/11 GI Bill benefits, the
+                Yellow Ribbon program can help pay for higher out-of-state,
+                private school, or graduate school tuition. The amount of money
+                you get varies by school, degree type, and the program
+                you&apos;re enrolled in.
+              </p>
+              <a
+                href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+                rel="noopener noreferrer"
+              >
+                Find out if you qualify for the Yellow Ribbon Program.
+              </a>
+              <p>
+                If you don&apos;t already have Post-9/11 GI Bill benefits, you
+                can:
               </p>
               <ul>
                 <li>
-                  Are receiving Post 9-11 GI Bill benefits, <strong>and</strong>
+                  <a href="/education/eligibility/" rel="noreferrer noopener">
+                    Find out if you&apos;re eligible for the Post-9/11 GI Bill
+                  </a>
                 </li>
-                <li>Attend a participating Yellow Ribbon program school</li>
+                <li>
+                  <a href="/education/how-to-apply/" rel="noreferrer noopener">
+                    Apply for Post-9/11 GI Bill benefits
+                  </a>
+                </li>
               </ul>
-              <p>
-                The Yellow Ribbon program benefit varies by school, the degree
-                you&apos;re working toward, and the program or division
-                you&apos;re studying in.
-              </p>
-              <p>Search Yellow Ribbon program schools.</p>
+              <p>Search for schools by one or all of the terms below.</p>
             </>
           )}
+
+          {/* Search Form */}
           <SearchForm />
-          {!results && (
-            <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
-              Learn more about the Yellow Ribbon Program.
-            </a>
-          )}
         </div>
 
         {/* Search Results */}
         <div
           className={classnames({
             'vads-l-col--9': !!results,
-            'vads-l-col--8': !results,
+            'vads-l-col--6': !results,
             'vads-u-padding-left--4': true,
           })}
         >

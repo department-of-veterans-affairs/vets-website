@@ -4,7 +4,7 @@ import moment from 'moment';
 import MaskedNumber from '../components/MaskedNumber';
 import { genderLabels } from 'platform/static-data/labels';
 
-const veteranDetailsDescription = data => {
+const veteranInformationDescription = data => {
   const {
     fullName,
     last4SSN,
@@ -51,4 +51,4 @@ const veteranDetailsDescription = data => {
   );
 };
 
-export default veteranDetailsDescription;
+export default veteranInformationDescription;

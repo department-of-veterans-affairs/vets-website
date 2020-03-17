@@ -58,7 +58,7 @@ export default function ConfirmationRequestInfo({
         </h2>
         <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
           <div className="vads-u-margin-right--1">
-            <i className="fas fa-exclamation-triangle" />
+            <i aria-hidden="true" className="fas fa-exclamation-triangle" />
           </div>
           <span className="vads-u-font-weight--bold vads-u-flex--1">
             <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">

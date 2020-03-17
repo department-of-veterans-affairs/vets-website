@@ -1,7 +1,7 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { genericSchemas } from '../../../generic-schema';
-import { SpouseTitle } from './helpers';
+import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
 
 const { date, genericLocation, genericTextInput } = genericSchemas;
 

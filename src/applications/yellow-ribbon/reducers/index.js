@@ -1,5 +1,7 @@
 // Dependencies
-import { concat, filter, pick } from 'lodash';
+import concat from 'lodash/concat';
+import filter from 'lodash/filter';
+import pick from 'lodash/pick';
 // Relative imports.
 import {
   ADD_SCHOOL_TO_COMPARE,
@@ -12,6 +14,7 @@ import {
 
 const initialState = {
   city: '',
+  country: '',
   error: '',
   fetching: false,
   name: '',
@@ -41,6 +44,7 @@ export const yellowRibbonReducer = (state = initialState, action) => {
       return {
         ...state,
         city: action?.options?.city || '',
+        country: action?.options?.country || '',
         error: '',
         fetching: !action?.options?.hideFetchingState,
         name: action?.options?.name || '',
