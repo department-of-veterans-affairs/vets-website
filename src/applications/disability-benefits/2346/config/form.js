@@ -8,7 +8,7 @@ import UIDefinitions from '../definitions/2346UI';
 
 const {
   email,
-  dateOfBirth,
+  date,
   gender,
   permAddress,
   tempAddress,
@@ -67,7 +67,7 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    dateOfBirth,
+    date,
     permAddress,
     tempAddress,
     gender,

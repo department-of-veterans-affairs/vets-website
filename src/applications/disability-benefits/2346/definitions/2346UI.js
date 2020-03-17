@@ -9,9 +9,9 @@ import productIdField from '../components/accessoriesCustomFields/productIdField
 import productNameField from '../components/accessoriesCustomFields/productNameField';
 import quantityField from '../components/accessoriesCustomFields/quantityField';
 import sizeField from '../components/accessoriesCustomFields/sizeField';
+import addressCardField from '../components/addressFields/addressCardField';
+import { AddressViewField } from '../components/addressFields/addressViewField.jsx';
 import emptyField from '../components/emptyField';
-import addressCardField from '../components/fields/addressCardField';
-import { AddressViewField } from '../components/fields/addressViewField.jsx';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import SuppliesReview from '../components/suppliesReview';
 import {
@@ -28,6 +28,9 @@ import {
   validateMilitaryState,
   validateZIP,
 } from '../helpers';
+
+// FIXME: Console error: Failed prop type: The prop `title` is marked as required in `SchemaForm`, but its value is `undefined`. -@maharielrosario at 3/17/2020, 4:45:54 PM
+//
 
 // import * as address from 'platform/forms-system/src/js/definitions/address';
 
