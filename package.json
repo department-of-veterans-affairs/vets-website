@@ -64,6 +64,7 @@
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node --max-old-space-size=4096 script/build.js --watch",
     "watch-webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/standalone-webpack.config.js --env.watch=true",
+    "watch:review": "node ./script/run-review-instance-api.js",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build.js --watch --local-css-sourcemaps",
     "watch:static": "npm run watch -- --entry static-pages"
   },
