@@ -1,5 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import _ from 'platform/utilities/data';
 import React from 'react';
 import fullSchema from '../2346-schema.json';
 import deviceNameField from '../components/accessoriesCustomFields/deviceNameField';
@@ -9,30 +10,176 @@ import productNameField from '../components/accessoriesCustomFields/productNameF
 import quantityField from '../components/accessoriesCustomFields/quantityField';
 import sizeField from '../components/accessoriesCustomFields/sizeField';
 import emptyField from '../components/emptyField';
-import addressFields from '../components/fields/addressFields';
+import addressCardField from '../components/fields/addressCardField';
+import { AddressViewField } from '../components/fields/addressViewField.jsx';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import SuppliesReview from '../components/suppliesReview';
+import {
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  STATE_LABELS,
+  STATE_VALUES,
+  USA,
+} from '../constants';
+import {
+  pathWithIndex,
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from '../helpers';
+
 // import * as address from 'platform/forms-system/src/js/definitions/address';
 
-const addressUIDescription = (
-  <>
-    <p>
-      Your order will ship to this address. Orders typically arrive with 7-10
-      business days.
-    </p>
-    <br />
-    <p className="vads-u-font-weight--bold">
-      Select the address you would like us to send your order to:{' '}
-      <span className="red vads-u-font-weight--normal">*(Required)</span>
-    </p>
-  </>
-);
+// const addressUIDescription = (
+//   <>
+//     <p>
+//       Your order will ship to this address. Orders typically arrive with 7-10
+//       business days.
+//     </p>
+//     <br />
+//     <p className="vads-u-font-weight--bold">
+//       Select the address you would like us to send your order to:{' '}
+//       <span className="red vads-u-font-weight--normal">*(Required)</span>
+//     </p>
+//   </>
+// );
 
 const emailUITitle = (
   <>
     <p className="vads-u-font-weight--bold">Email Address</p>
   </>
 );
+
+/**
+ * Returns the uiSchema for addresses that use the non-common address schema as found
+ *  in the 526EZ-all-claims schema.
+ * @param {string} addressPath - The path to the address in the formData
+ * @param {string} [title] - Displayed as the card title in the card's header
+ * @param {boolean} reviewCard - Whether to display the information in a addressCardField or not
+ * @param {boolean} fieldsAreRequired - Whether the typical fields should be required or not
+ * @returns {object} - UI schema for an address card's content
+ */
+const addressUISchema = (
+  addressPath,
+  title,
+  reviewCard,
+  fieldsAreRequired = true,
+) => {
+  const updateStates = (formData, currentSchema, uiSchema, index) => {
+    // Could use path (updateSchema callback param after index), but it points to `state`,
+    //  so using `addressPath` is easier
+    const currentCity = _.get(
+      `${pathWithIndex(addressPath, index)}.city`,
+      formData,
+      '',
+    )
+      .trim()
+      .toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        enum: MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS,
+      };
+    }
+
+    return {
+      enum: STATE_VALUES,
+      enumNames: STATE_LABELS,
+    };
+  };
+
+  return {
+    'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
+    'ui:title': title,
+    'ui:field': reviewCard && addressCardField,
+    'ui:options': {
+      viewComponent: AddressViewField,
+    },
+    country: {
+      'ui:title': 'Country',
+      'ui:required': () => true,
+    },
+    street: {
+      'ui:title': 'Street address',
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+        required: 'Please enter a street address',
+      },
+    },
+    street2: {
+      'ui:title': 'Street address 2',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:required': () => true,
+      'ui:validations': [
+        {
+          options: { addressPath },
+          // pathWithIndex is called in validateMilitaryCity
+          validator: validateMilitaryCity,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid city',
+        required: 'Please enter a city',
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': (formData, index) =>
+        fieldsAreRequired &&
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+          USA,
+      'ui:options': {
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
+        updateSchema: updateStates,
+      },
+      'ui:validations': [
+        {
+          options: { addressPath },
+          // pathWithIndex is called in validateMilitaryState
+          validator: validateMilitaryState,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid state',
+        required: 'Please enter a state',
+      },
+    },
+    postalCode: {
+      'ui:title': 'Postal code',
+      'ui:validations': [validateZIP],
+      'ui:required': (formData, index) =>
+        fieldsAreRequired &&
+        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
+          USA,
+      'ui:errorMessages': {
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: (formData, index) =>
+          _.get(
+            `${pathWithIndex(addressPath, index)}.country`,
+            formData,
+            '',
+          ) !== USA,
+      },
+    },
+  };
+};
 
 export default {
   'ui:title': fullSchema.title,
@@ -42,11 +189,8 @@ export default {
   sharedUISchemas: {
     dateOfBirthUI: currentOrPastDateUI('Date of Birth'),
     fullNameUI,
-    addressUI: {
-      'ui:title': 'Shipping Address',
-      'ui:description': addressUIDescription,
-      'ui:field': addressFields,
-    },
+    permAddressUI: addressUISchema('veteranAddress', 'Permanent address', true),
+    tempAddressUI: addressUISchema('veteranAddress', 'Temporary address', true),
     emailUI: {
       'ui:title': emailUITitle,
       'ui:description':
