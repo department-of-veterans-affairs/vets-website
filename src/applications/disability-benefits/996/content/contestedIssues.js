@@ -21,7 +21,9 @@ export const disabilityOption = ({ name, description, ratingPercentage }) => {
 
   return (
     <div className="widget-content">
-      <h4>{typeof name === 'string' ? name : NULL_CONDITION_STRING}</h4>
+      <h4 className="vads-u-margin-top--0">
+        {typeof name === 'string' ? name : NULL_CONDITION_STRING}
+      </h4>
       <span>{description}</span>
       {showRatingPercentage && (
         <p>
