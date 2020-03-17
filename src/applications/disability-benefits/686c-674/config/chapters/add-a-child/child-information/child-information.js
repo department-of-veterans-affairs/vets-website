@@ -3,7 +3,7 @@ import { suffixes } from '../../../constants';
 import { childInfo } from './helpers';
 import { isChapterFieldRequired } from '../../../helpers';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import _ from 'lodash/fp';
+import { merge } from 'lodash/fp';
 
 export const schema = {
   type: 'object',
@@ -60,7 +60,7 @@ export const uiSchema = {
         },
         'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
-      birthDate: _.merge(currentOrPastDateUI("Child's date of birth"), {
+      birthDate: merge(currentOrPastDateUI("Child's date of birth"), {
         'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       }),
     },

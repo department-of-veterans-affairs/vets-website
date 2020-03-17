@@ -12,9 +12,8 @@ export const schema = {
         type: 'object',
         properties: {
           doesChildLiveWithYou: {
-            type: 'string',
-            enum: ['Yes', 'No'],
-            default: 'Yes',
+            type: 'boolean',
+            default: true,
           },
           childAddressInfo: {
             type: 'object',
@@ -55,13 +54,13 @@ export const uiSchema = {
     },
     items: {
       doesChildLiveWithYou: {
-        'ui:widget': 'radio',
+        'ui:widget': 'yesNo',
         'ui:title': 'Does this child live with you?',
       },
       childAddressInfo: {
         'ui:options': {
           expandUnder: 'doesChildLiveWithYou',
-          expandUnderCondition: 'No',
+          expandUnderCondition: false,
           keepInPageOnReview: true,
         },
         personChildLivesWith: {

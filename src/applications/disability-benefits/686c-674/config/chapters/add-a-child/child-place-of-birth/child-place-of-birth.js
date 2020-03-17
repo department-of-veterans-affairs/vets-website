@@ -3,7 +3,7 @@ import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
 import { isChapterFieldRequired } from '../../../helpers';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import _ from 'lodash/fp';
+import { merge } from 'lodash/fp';
 
 export const schema = {
   type: 'object',
@@ -44,6 +44,7 @@ export const schema = {
                 enum: ['Divorce', 'Death', 'Annulment', 'Other'],
                 default: 'Divorce',
               },
+              otherReasonMarriageEnded: genericSchemas.genericTextInput,
             },
           },
         },
@@ -81,7 +82,7 @@ export const uiSchema = {
         stepchild: {
           'ui:title': 'Stepchild',
         },
-        dateBecameDependent: _.merge(
+        dateBecameDependent: merge(
           currentOrPastDateUI('Date stepchild became dependent'),
           {
             'ui:options': {
@@ -105,9 +106,25 @@ export const uiSchema = {
           expandUnderCondition: 'Yes',
           keepInPageOnReview: true,
         },
-        dateMarriageEnded: currentOrPastDateUI('When did the marriage end'),
+        dateMarriageEnded: merge(
+          currentOrPastDateUI('When did the marriage end'),
+          {
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].childPreviouslyMarried ===
+              'Yes',
+          },
+        ),
         reasonMarriageEnded: {
           'ui:widget': 'radio',
+          'ui:title': 'Reason marriage ended',
+        },
+        otherReasonMarriageEnded: {
+          'ui:title': 'Reason marriage ended',
+          'ui:options': {
+            expandUnder: 'reasonMarriageEnded',
+            expandUnderCondition: 'Other',
+            keepInPageOnReview: true,
+          },
         },
         birthDate: currentOrPastDateUI('Your date of birth'),
       },

@@ -32,7 +32,8 @@ export const childStatusDescription = (
         <li>The revised birth certificate</li>
       </ul>
       <p>
-        To claim a child not capable of self-support, you’ll need to provide:
+        To claim a <strong>child not capable of self-support</strong>, you’ll
+        need to provide:
       </p>
       <ul>
         <li>
@@ -40,8 +41,9 @@ export const childStatusDescription = (
           existed before his/her 18th birthday, and
         </li>
         <li>
-          A statement from an attending physician showing the nature and extent
-          of the child’s physical or mental impairment
+          A statement from an attending physician showing the{' '}
+          <strong>nature and extent</strong> of the child’s physical or mental
+          impairment
         </li>
       </ul>
     </AdditionalInfo>
