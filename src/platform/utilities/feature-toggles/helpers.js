@@ -1,7 +1,7 @@
 const Cookies = require('js-cookie');
 
 // Reads Google Analytics ID if available. Otherwise use a random string as a token.
-export function createTokenFromCookie(cookieName) {
+function createTokenFromCookie(cookieName) {
   return Cookies.get(cookieName)
     ? Cookies.get(cookieName)
     : Math.random()
@@ -13,7 +13,7 @@ export function createTokenFromCookie(cookieName) {
 }
 
 // Gets and sets the cookie and then returns the flipper ID as a string
-export function getFlipperId() {
+function getFlipperId() {
   const cookieName = 'FLIPPER_ID';
 
   // Create a Flipper cookie if it doesn't exist
@@ -24,3 +24,5 @@ export function getFlipperId() {
   }
   return Cookies.get(cookieName);
 }
+
+module.exports = { createTokenFromCookie, getFlipperId };
