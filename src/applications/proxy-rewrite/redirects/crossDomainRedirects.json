@@ -541,16 +541,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/special_Benefit_Allowances_2018.asp",
-    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2018.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
   },
