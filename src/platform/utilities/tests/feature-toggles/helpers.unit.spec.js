@@ -27,12 +27,9 @@ describe('feature toogles', () => {
 
     it('should return a random string if the cookie does not already exist', () => {
       document.cookie = '';
-      expect(createTokenFromCookie('GACookie')).to.not.equal(
-        document.cookie.replace(
-          /(?:(?:^|.*;\s*)GACookie=\s*([^;]*).*$)|^.*$/,
-          '$1',
-        ),
-      );
+      const token = createTokenFromCookie('GACookie');
+      expect(token).to.be.a('string');
+      expect(token.length > 0).to.be.true;
     });
   });
 
@@ -50,11 +47,41 @@ describe('feature toogles', () => {
     it('should not be empty', () => {
       expect(FLIPPER_ID).to.not.be.empty;
     });
+
+    it('should be a string from the FLIPPER_ID', () => {
+      getFlipperId();
+      expect(
+        document.cookie.replace(
+          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
+          '$1',
+        ),
+      ).to.be.a('string');
+    });
+
+    it('should not be null from the FLIPPER_ID', () => {
+      getFlipperId();
+      expect(
+        document.cookie.replace(
+          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
+          '$1',
+        ),
+      ).to.not.be.null;
+    });
+
+    it('should not be empty from the FLIPPER_ID', () => {
+      getFlipperId();
+      expect(
+        document.cookie.replace(
+          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
+          '$1',
+        ),
+      ).to.not.be.empty;
+    });
   });
 
   // Restore previous cookie set
 
-  before(() => {
+  after(() => {
     document.cookie = oldCookie;
   });
 });
