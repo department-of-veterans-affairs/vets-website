@@ -145,9 +145,6 @@ describe('Yellow Ribbon actions', () => {
 
       await thunk(dispatch);
 
-      // eslint-disable-next-line
-      debugger;
-
       expect(
         dispatch.firstCall.calledWith({
           options: {
