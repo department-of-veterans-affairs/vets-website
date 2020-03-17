@@ -40,8 +40,8 @@ export class SearchForm extends Component {
     const { country, city, name, state } = this.state;
 
     // Fetch the results with their name if it's on the URL.
-    if (country || city || name || state) {
-      this.props.fetchResultsThunk({ country, city, name, state });
+    if (city || country || name || state) {
+      this.props.fetchResultsThunk({ city, country, name, state });
     }
   }
 
