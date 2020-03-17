@@ -1,33 +1,40 @@
 @Library('va.gov-devops-jenkins-lib') _
 
 node('vetsgov-general-purpose') {
-  refStatusState = ""
-  ref = params.ref
-  if (ref == "") {
-    ref = getLatestGitRef("vets-website", branch: "master")
-  }
+  repo = params.repo || "vets-website"
+  branch = params.branch || "master"
+  env = params.environment
+  slackChannel = params.slackChannel || "cms-notifications"
+  ref = params.ref || getLatestGitRef(repo, branch: branch)
+  refStatusState = params.refStatusState || getGithubCommitState(repo, ref)
 
-  refStatusState = getGithubCommitState("vets-website", ref)
+  message = "Web content refresh on ${env} status: "
+  url = "https://github.com/department-of-veterans-affairs/vets-website/commit/${ref}"
+
   if ("${refStatusState}" == "ERROR") {
-    message = "Web content refresh on ${params.env} aborted due to '${refStatusState}' status on vets-website commit ${ref}."
+    message += "Aborted due to '${refStatusState}' status on ${repo}#${ref} (${url})"
+    color = "warning"
     echo "${message}"
-    slackSend(message: "${message}",
-              color: "warning",
-              channel: "cms-notifications")
-
     currentBuild.result = 'FAILURE'
     return
-  } elseif ("${refStatusState}" != "SUCCESS" && "${refStatusState}" != "ERROR") {
-    $message = "Web content refresh on ${params.env} status: ${ref} : ${refStatusState}\nWaiting 120s"
+  } else if ("${refStatusState}" != "SUCCESS" && "${refStatusState}" != "ERROR") {
+    message += "Pended due to '${refStatusState}' status on ${repo}#${ref} (${url})\nWaiting 120s"
+    color = "warning"
     echo "${message}"
-    slackSend(
-      message: "${message}",
-      color: "warning",
-      channel: "cms-notifications"
-    )
     sleep(120)
-    return false
+    return
+  } else {
+    message += "Failed due to '${refStatusState}' status on ${repo}#${ref} (${url})"
+    echo "${message}"
+    currentBuild.result = 'FAILURE'
+    return
   }
+
+  slackSend(
+    message: "${message}",
+    color: "${color}",
+    channel: "${slackChannel}"
+  )
 
   dir("vets-website") {
     checkout scm: [$class: 'GitSCM', branches: [[name: ref]], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vets-website.git']]]
