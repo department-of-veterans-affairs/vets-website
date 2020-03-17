@@ -69,13 +69,14 @@ function runAudit() {
   let auditOutput = '';
 
   child.stdout.setEncoding('utf8');
+  child.stderr.setEncoding('utf8');
 
   child.stdout.on('data', data => {
-    auditOutput += data.toString();
+    auditOutput += data;
   });
 
   child.stderr.on('data', data => {
-    console.error(data.toString());
+    console.error(data);
   });
 
   child.on('close', () => {
