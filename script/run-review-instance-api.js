@@ -13,7 +13,7 @@ const getCommitHash = async () =>
     .toString()
     .trim();
 
-// Get the review instance deployment data for the current upstream commit.
+// Get the review instance deployment data for the latest upstream commit.
 const getDeploymentData = commitHash => {
   const baseUrl =
     'https://api.github.com/repos/department-of-veterans-affairs/vets-website/deployments';
@@ -24,7 +24,7 @@ const getDeploymentData = commitHash => {
     .then(response => response.json())
     .then(data => {
       if (!data.length) {
-        throw new Error('No deployments found.');
+        throw new Error('No deployments found. Build is probably in progress.');
       }
 
       // There should be two deployments; one for the review instance and one
@@ -34,7 +34,9 @@ const getDeploymentData = commitHash => {
       );
 
       if (!reviewInstanceDeployment) {
-        throw new Error('No review instance deployment found.');
+        throw new Error(
+          "No review instance deployment activity found. Deploy probably hasn't kicked off yet.",
+        );
       }
 
       return reviewInstanceDeployment;
@@ -56,7 +58,9 @@ const getSuccessfulDeployment = deploymentData => {
     .then(response => response.json())
     .then(data => {
       if (!data.length) {
-        throw new Error('No review instance deployment statuses found.');
+        throw new Error(
+          "No review instance deployment statuses found. Deploy probably hasn't kicked off yet.",
+        );
       }
 
       // Response should be an array of statuses representing the activity for
@@ -68,7 +72,7 @@ const getSuccessfulDeployment = deploymentData => {
 
       if (!successfulDeployment) {
         throw new Error(
-          'No successful review instance deployment found. Review instance might not be ready.',
+          'No successful review instance deployment found. Review instance might still be getting ready.',
         );
       }
 
@@ -83,7 +87,7 @@ const getEnvironmentUrl = successfulDeployment => {
 
   if (!environment_url) {
     throw new Error(
-      'No environment_url found. The property might no longer be included with the GitHub preview API.',
+      "Couldn't find the review instance URL. The environment_url property might no longer be included with the GitHub preview API, or it might not have been specified with the deploy.",
     );
   }
 
