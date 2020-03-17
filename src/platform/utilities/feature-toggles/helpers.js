@@ -1,28 +1,25 @@
 const Cookies = require('js-cookie');
 
-// Reads Google Analytics ID if available. Otherwise use a random string as a token.
-function createTokenFromCookie(cookieName) {
-  return Cookies.get(cookieName)
-    ? Cookies.get(cookieName)
-    : Math.random()
-        .toString(36)
-        .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15);
+const cookieName = 'FLIPPER_ID';
+
+// Generates a random string as a token.
+function generateToken() {
+  return (
+    Math.random()
+      .toString(36)
+      .substring(2, 15) +
+    Math.random()
+      .toString(36)
+      .substring(2, 15)
+  );
 }
 
 // Gets and sets the cookie and then returns the flipper ID as a string
-function getFlipperId() {
-  const cookieName = 'FLIPPER_ID';
+function getFlipperId(_cookieName = cookieName) {
+  const cookieValue = Cookies.get(_cookieName) || generateToken();
+  Cookies.set(_cookieName, cookieValue, { expires: 30 }); // Expires in 30 days
 
-  // Create a Flipper cookie if it doesn't exist
-  if (!Cookies.get(cookieName)) {
-    const token = createTokenFromCookie('_vagovRollup_gid');
-    Cookies.set(cookieName, token, { expires: 30 }); // Expires in 30 days
-    return token;
-  }
-  return Cookies.get(cookieName);
+  return cookieValue;
 }
 
-module.exports = { createTokenFromCookie, getFlipperId };
+module.exports = { generateToken, getFlipperId };
