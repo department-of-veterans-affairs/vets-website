@@ -10,18 +10,26 @@ const {
   email,
   dateOfBirth,
   gender,
-  address,
+  permAddress,
+  tempAddress,
   supplies,
   yesOrNo,
 } = fullSchemaMDOT.definitions;
 
-const { addressField, emailField, yesOrNoField, suppliesField } = schemaFields;
+const {
+  permAddressField,
+  tempAddressField,
+  emailField,
+  yesOrNoField,
+  suppliesField,
+} = schemaFields;
 
 const { veteranAddress } = fullSchemaMDOT.properties;
 
 const {
   emailUI,
-  addressUI,
+  permAddressUI,
+  tempAddressUI,
   addBatteriesUI,
   addAccessoriesUI,
   batteriesUI,
@@ -35,7 +43,7 @@ const formChapters = {
 
 const formPages = {
   personalDetails: 'Personal Details',
-  confirmAddress: 'Shipping Address',
+  address: 'Shipping Address',
   addBatteriesPage: 'Add batteries to your order',
   addAccessoriesPage: 'Add accessories to your order',
 };
@@ -60,7 +68,8 @@ const formConfig = {
   defaultDefinitions: {
     email,
     dateOfBirth,
-    address,
+    permAddress,
+    tempAddress,
     gender,
     supplies,
     yesOrNo,
@@ -84,13 +93,15 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPages.confirmAddress,
           uiSchema: {
-            [addressField]: addressUI,
+            [permAddressField]: permAddressUI,
+            [tempAddressField]: tempAddressUI,
             [emailField]: emailUI,
           },
           schema: {
             type: 'object',
             properties: {
               veteranAddress,
+              tempAddress,
               email,
             },
           },
