@@ -529,7 +529,6 @@ class VAMap extends Component {
             isMobile
           />
           <div>{showDialogUrgCare}</div>
-
           {/* <div ref={this.searchResultTitle}>
             {results.length > 0 ? (
               <p className="search-result-title">
