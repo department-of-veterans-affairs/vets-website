@@ -589,7 +589,8 @@
   },
   "required": [
     "privacyAgreementAccepted",
-    "fullName",
+    "veteranAddress",
+    "tempAddress",
     "address",
     "gender",
     "email",

@@ -225,7 +225,7 @@ export default class addressCardField extends React.Component {
     const title = reviewTitle || this.getTitle();
 
     return (
-      <div className="review-card">
+      <div className="review-card gray-color">
         <div className="review-card--body">
           <h4 className="review-card--title">{title}</h4>
           <ViewComponent formData={this.props.formData} />
@@ -316,7 +316,6 @@ export default class addressCardField extends React.Component {
     const viewOrEditCard = this.state.editing
       ? this.getEditView()
       : this.getReviewView();
-
     return (
       <>
         {description}
