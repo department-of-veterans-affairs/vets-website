@@ -69,6 +69,7 @@ function runAudit() {
   let auditOutput = '';
 
   child.stdout.setEncoding('utf8');
+  child.stderr.setEncoding('utf8');
 
   child.stdout.on('data', data => {
     auditOutput += data;
