@@ -136,7 +136,3 @@ export function selectVet360InitializationStatus(state) {
 export function vaProfileUseAddressValidation(state) {
   return toggleValues(state)[FEATURE_FLAG_NAMES.vaProfileAddressValidation];
 }
-
-export function profileUseSchemaForms(state) {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.profileSchemaForms];
-}
