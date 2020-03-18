@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Get the list of subdirectories that contain apps and
 # extract substrings from the paths for the following regex.
