@@ -1,7 +1,7 @@
 /* This file is must run in both NodeJS and browser environments */
 
-const FEATURE_FLAG_NAMES = import('./featureFlagNames');
-const { getFlipperId } = import('./helpers');
+const FEATURE_FLAG_NAMES = require('./featureFlagNames');
+const { getFlipperId } = require('./helpers');
 
 const FLIPPER_ID = getFlipperId();
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
