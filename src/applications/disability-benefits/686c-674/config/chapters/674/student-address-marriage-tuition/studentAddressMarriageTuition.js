@@ -26,7 +26,7 @@ export const schema = {
 
 export const uiSchema = {
   'ui:title': StudentNameHeader,
-  studentAddress: addressUISchema('studentAddress', 'report674'),
+  studentAddress: addressUISchema(true, 'studentAddress', 'report674'),
   studentWasMarried: {
     'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
     'ui:title': 'Was the student ever married?',

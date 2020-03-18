@@ -34,5 +34,5 @@ export const uiSchema = {
       'ui:title': 'Kind of training or educational program',
     },
   },
-  schoolAddress: addressUISchema('schoolAddress', 'report674'),
+  schoolAddress: addressUISchema(false, 'schoolAddress', 'report674'),
 };

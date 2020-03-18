@@ -93,17 +93,28 @@ export const addressSchema = {
 };
 
 /*
-This method is resusable with the 686c-674, but could probably be extended for resuse elsewhere. 
-chapterKey is used uniquely inside the 686c to check for workflow requirements on individual fields.
-schemaKey is the corresponding schema property name for address. 
+* This method is resusable with the 686c-674, but could probably be extended for resuse elsewhere. 
+* chapterKey is used uniquely inside the 686c to check for workflow requirements on individual fields.
+* schemaKey is the corresponding schema property name for address. 
+* isMilitaryBase toggles the militaryBase checkbox if the specific address doesn't need it.
 */
-export const addressUISchema = (schemaKey, chapterKey) => ({
+export const addressUISchema = (
+  isMilitaryBase = false,
+  schemaKey,
+  chapterKey,
+) => ({
   'view:livesOnMilitaryBase': {
     'ui:title':
       'I live on a United States military base outside of the United States',
+    'ui:options': {
+      hideIf: () => !isMilitaryBase,
+    },
   },
   'view:livesOnMilitaryBaseInfo': {
     'ui:description': militaryBaseInfo,
+    'ui:options': {
+      hideIf: () => !isMilitaryBase,
+    },
   },
   countryName: {
     'ui:required': formData => isChapterFieldRequired(formData, chapterKey),
@@ -112,7 +123,10 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
       updateSchema: (formData, schema, uiSchema) => {
         const countryUI = uiSchema;
         const countryFormData = formData[`${schemaKey}`];
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase']
+        ) {
           countryUI['ui:disabled'] = true;
           countryFormData.countryName = USA.name;
           return {
@@ -150,7 +164,10 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
     },
     'ui:options': {
       replaceSchema: formData => {
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase'] === true) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase'] === true
+        ) {
           return {
             type: 'string',
             title: 'APO/FPO/DPO',
@@ -180,13 +197,19 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
         // Because we have to update countryName manually in formData above,
         // We have to check this when a user selects a non-US country and then selects
         // the military base checkbox.
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase']
+        ) {
           return false;
         }
         return formData[`${schemaKey}`].countryName !== USA.name;
       },
       updateSchema: formData => {
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase']
+        ) {
           return {
             enum: Object.keys(MILITARY_STATES),
             enumNames: Object.values(MILITARY_STATES),
@@ -203,7 +226,10 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
     'ui:title': 'State/Province/Region',
     'ui:options': {
       hideIf: formData => {
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase']
+        ) {
           return true;
         }
         return formData[`${schemaKey}`].countryName === USA.name;
@@ -213,7 +239,7 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
   zipCode: {
     'ui:required': formData =>
       formData[`${schemaKey}`].countryName === USA.name ||
-      formData[`${schemaKey}`]['view:livesOnMilitaryBase'],
+      (isMilitaryBase && formData[`${schemaKey}`]['view:livesOnMilitaryBase']),
     'ui:title': 'Zip Code',
     'ui:errorMessages': {
       required: 'Zip code is required',
@@ -225,7 +251,10 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
         // Because we have to update countryName manually in formData above,
         // We have to check this when a user selects a non-US country and then selects
         // the military base checkbox.
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase']
+        ) {
           return false;
         }
         return formData[`${schemaKey}`].countryName !== USA.name;
@@ -242,7 +271,10 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => {
-        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+        if (
+          isMilitaryBase &&
+          formData[`${schemaKey}`]['view:livesOnMilitaryBase']
+        ) {
           return true;
         }
         return formData[`${schemaKey}`].countryName === USA.name;
