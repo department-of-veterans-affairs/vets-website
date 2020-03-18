@@ -642,7 +642,7 @@ class VAMap extends Component {
           />
         </div>
         <div>{showDialogUrgCare}</div>
-        {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
+        {/* //<div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
           {results.length > 0 ? (
             <p className="search-result-title">
               <strong>{totalEntries} results</strong>
