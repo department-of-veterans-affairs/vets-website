@@ -6,7 +6,9 @@ const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
-
+  const exhaustedAllBenefits =
+    form.data['view:exhaustionOfBenefits'] === true ||
+    form.data['view:exhaustionOfBenefitsAfterPursuingTeachingCert'] === true;
   const eventData = {
     benefitsUsedRecently: form.data.benefit,
     'edu-stemApplicant': form.data.isEdithNourseRogersScholarship
@@ -17,6 +19,7 @@ const submitForm = (form, formConfig) => {
     activeDuty: form.data.isActiveDuty ? 'Yes' : 'No',
     calledActiveDuty: form.data.isActiveDuty ? 'Yes' : 'No',
     preferredContactMethod: form.data.preferredContactMethod,
+    'edu-exhaustedAllBenefits': exhaustedAllBenefits ? 'Yes' : 'No',
   };
 
   const submitUrl = display1995StemFlow(form.data)

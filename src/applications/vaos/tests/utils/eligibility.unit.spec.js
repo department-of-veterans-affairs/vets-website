@@ -49,7 +49,6 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestSupported',
         'directPastVisit',
         'clinics',
-        'pacTeam',
       ]);
     });
     it('should skip pact if not primary care', async () => {
@@ -99,7 +98,6 @@ describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityChecks', () => {
     it('should calculate failing statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
-        pacTeam: [],
         clinics: [],
         directSupported: true,
         requestSupported: true,
@@ -122,7 +120,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: false,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
         requestPastVisit: false,
         requestPastVisitValue: 24,
@@ -135,7 +132,6 @@ describe('VAOS scheduling eligibility logic', () => {
 
     it('should calculate successful statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
-        pacTeam: [{ facilityId: '983' }],
         clinics: [{}],
         directSupported: true,
         requestSupported: true,
@@ -158,7 +154,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: false,
         directPastVisit: true,
         directPastVisitValue: 12,
-        directPACT: true,
         directClinics: true,
         directSupported: true,
         requestSupported: true,
@@ -224,7 +219,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: true,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
       });
     });
@@ -234,7 +228,6 @@ describe('VAOS scheduling eligibility logic', () => {
       const { direct, request } = isEligible({
         directPastVisit: false,
         directClinics: true,
-        directPACT: true,
         directSupported: true,
         requestSupported: true,
         requestPastVisit: true,
@@ -264,7 +257,7 @@ describe('VAOS scheduling eligibility logic', () => {
         '983',
         true,
       );
-      expect(global.window.dataLayer.length).to.equal(5);
+      expect(global.window.dataLayer.length).to.equal(4);
       resetFetch();
     });
 
@@ -291,7 +284,7 @@ describe('VAOS scheduling eligibility logic', () => {
         '983',
       );
 
-      expect(global.window.dataLayer.length).to.equal(5);
+      expect(global.window.dataLayer.length).to.equal(4);
     });
 
     it('should not record failure events when ineligible', () => {

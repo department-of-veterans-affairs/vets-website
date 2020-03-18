@@ -97,13 +97,13 @@ Ultimately, we will allow check to use user timezone.
 {% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
 
 {% if fieldDate.value != empty and fieldDate.endValue == empty %}
-{% assign date_type = "start_date_only" %}
+  {% assign date_type = "start_date_only" %}
 {% else %}
-{% if start_date_no_time == end_date_no_time %}
-{% assign date_type = "same_day" %}
-{% else %}
-{% assign date_type = "all_dates" %}
-{% endif %}
+  {% if start_date_no_time == end_date_no_time %}
+    {% assign date_type = "same_day" %}
+  {% else %}
+    {% assign date_type = "all_dates" %}
+  {% endif %}
 {% endif %}
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
@@ -122,78 +122,84 @@ Ultimately, we will allow check to use user timezone.
         <div class="usa-width-three-fourths">
           {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
           {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
+            <div class="usa-alert usa-alert-info">
+              <div class="usa-alert-body">
+                <p class="usa-alert-text">You are viewing a draft.</p>
+              </div>
             </div>
-          </div>
           {% endif %}
 
-          <article aria-labelledby="article-heading" role="region"class="usa-content">
+          <article aria-labelledby="article-heading" class="usa-content" role="region">
             <div class="usa-grid usa-grid-full">
-              <h1 id="article-heading" class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">{{ title }}</h1>
+              <h1 id="article-heading" class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">
+                {{ title }}</h1>
               {% if fieldMedia %}
-                  <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}"
-                    src="{{fieldMedia.entity.image.derivative.url}}" />
+                <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}" src="{{fieldMedia.entity.image.derivative.url}}"/>
               {% endif %}
               <div class="va-introtext">
-                <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">{{ fieldDescription }}</p>
+                <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">
+                  {{ fieldDescription }}</p>
               </div>
 
               <div class="usa-width-one-half vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--0">
                 {% assign facility = fieldFacilityLocation.entity %}
                 <dl class="va-c-event-info">
-                  <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">When</dt>
+                  <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
+                    When</dt>
                   <dd>
                     {% if date_type == "start_date_only" %}
-                    <span>{{ start_date_no_time }}</span><br>
-                    <span>{{ start_time }}</span>
+                      <span>{{ start_date_no_time }}</span><br>
+                      <span>{{ start_time }}</span>
                     {% else %}
-                    {% if date_type == "same_day" %}
-                    <span>{{ start_date_no_time }}</span><br>
-                    <span>{{ start_time }}
-                      –
-                      {{ end_time }}</span>
-                    {% else %}
-                    <span>{{ start_date_full }}
-                      –</span><br>
-                    <span>{{ end_date_full }}</span>
+                      {% if date_type == "same_day" %}
+                        <span>{{ start_date_no_time }}</span><br>
+                        <span>{{ start_time }}
+                          –
+                          {{ end_time }}</span>
+                      {% else %}
+                        <span>{{ start_date_full }}
+                          –</span><br>
+                        <span>{{ end_date_full }}</span>
+                      {% endif %}
                     {% endif %}
-                    {% endif %}
-                    <span> ET</span>
+                    <span>
+                      ET</span>
                   </dd>
                 </dl>
 
                 {% if fieldFacilityLocation or fieldAddress.addressLine1 %}
-                <dl class="va-c-event-info">
-                  <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">Where</dt>
-                  <dd>
-                    {% if facility %}
-                    <p class="vads-u-margin--0">
-                      <a
-                        href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
-                    </p>
-                    <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
-                    </p>
-                    {% else %}
+                  <dl class="va-c-event-info">
+                    <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
+                      Where</dt>
+                    <dd>
+                      {% if facility %}
+                        <p class="vads-u-margin--0">
+                          <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
+                        </p>
+                        <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
+                        </p>
+                      {% else %}
                         {% if fieldAddress.addressLine1 %}
-                          <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
+                          <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}
+                          </p>
                         {% endif %}
                         {% if fieldAddress.addressLine2 %}
-                          <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}</p>
+                          <p class="vads-u-margin--0">{{ fieldAddress.addressLine2 }}
+                          </p>
                         {% endif %}
                         <p class="vads-u-margin--0">
                           {% if fieldAddress.locality %}
-                              {{ fieldAddress.locality }}
+                            {{ fieldAddress.locality }}
                           {% endif %}
                           {% if fieldAddress.administrativeArea %}
-                          , {{ fieldAddress.administrativeArea }}
+                            ,
+                            {{ fieldAddress.administrativeArea }}
                           {% endif %}
                         </p>
-                    {% endif %}
-                  </dd>
+                      {% endif %}
+                    </dd>
 
-                </dl>
+                  </dl>
                 {% endif %}
 
                   {% if fieldEventCost %}
@@ -229,87 +235,91 @@ Ultimately, we will allow check to use user timezone.
                   {% endif %}
               </div>
 
-                  <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
-                      {% include "src/site/includes/social-share.drupal.liquid" %}
-                  </div>
+              <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
+                {% include "src/site/includes/social-share.drupal.liquid" %}
               </div>
+            </div>
 
             <div class="usa-grid usa-grid-full vads-u-margin-top--2">
               <div class="event-description">
                 {{ fieldBody.processed }}
               </div>
             </div>
-              {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all events</a>
+            {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
+            <a onclick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See
+                          all events</a>
           </article>
 
           <div class="last-updated usa-content">
             Last updated:
-            <time
-              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+            <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
           </div>
         </div>
       </div>
 
-    {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
+      {% comment %} On non-prod environments, do not show the SideNav.
+    {% endcomment %}
     {% else %}
       <div class="usa-grid usa-grid-full">
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
         {% if !entityPublished %}
-        <div class="usa-alert usa-alert-info">
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">You are viewing a draft.</p>
+          <div class="usa-alert usa-alert-info">
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">You are viewing a draft.</p>
+            </div>
           </div>
-        </div>
         {% endif %}
 
-        <article aria-labelledby="article-heading" role="region"class="usa-content">
+        <article aria-labelledby="article-heading" class="usa-content" role="region">
           <div class="usa-grid usa-grid-full">
-            <h1 id="article-heading" class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">{{ title }}</h1>
+            <h1 id="article-heading" class="{% if fieldMedia %}vads-u-margin-bottom--4{% else %}vads-u-margin-bottom--2{% endif %}">
+              {{ title }}</h1>
             {% if fieldMedia %}
-                <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}"
-                  src="{{fieldMedia.entity.image.derivative.url}}" />
+              <img class="event-detail-img vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" alt="{{fieldMedia.entity.image.alt}}" src="{{fieldMedia.entity.image.derivative.url}}"/>
             {% endif %}
             <div class="va-introtext">
-              <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">{{ fieldDescription }}</p>
+              <p class="vads-u-margin-top--0 vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--4">
+                {{ fieldDescription }}</p>
             </div>
 
             <div class="usa-width-one-half vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--0">
               {% assign facility = fieldFacilityLocation.entity %}
               <dl class="va-c-event-info">
-                <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">When</dt>
+                <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
+                  When</dt>
                 <dd>
                   {% if date_type == "start_date_only" %}
-                  <span>{{ start_date_no_time }}</span><br>
-                  <span>{{ start_time }}</span>
+                    <span>{{ start_date_no_time }}</span><br>
+                    <span>{{ start_time }}</span>
                   {% else %}
-                  {% if date_type == "same_day" %}
-                  <span>{{ start_date_no_time }}</span><br>
-                  <span>{{ start_time }}
-                    –
-                    {{ end_time }}</span>
-                  {% else %}
-                  <span>{{ start_date_full }}
-                    –</span><br>
-                  <span>{{ end_date_full }}</span>
+                    {% if date_type == "same_day" %}
+                      <span>{{ start_date_no_time }}</span><br>
+                      <span>{{ start_time }}
+                        –
+                        {{ end_time }}</span>
+                    {% else %}
+                      <span>{{ start_date_full }}
+                        –</span><br>
+                      <span>{{ end_date_full }}</span>
+                    {% endif %}
                   {% endif %}
-                  {% endif %}
-                  <span> ET</span>
+                  <span>
+                    ET</span>
                 </dd>
               </dl>
 
               {% if fieldFacilityLocation or fieldAddress.addressLine1 %}
-              <dl class="va-c-event-info">
-                <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">Where</dt>
-                <dd>
-                  {% if facility %}
-                  <p class="vads-u-margin--0">
-                    <a
-                      href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
-                  </p>
-                  <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
-                  </p>
-                  {% else %}
+                <dl class="va-c-event-info">
+                  <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">
+                    Where</dt>
+                  <dd>
+                    {% if facility %}
+                      <p class="vads-u-margin--0">
+                        <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a>
+                      </p>
+                      <p class="vads-u-margin--0">{{ fieldLocationHumanreadable }}
+                      </p>
+                    {% else %}
                       {% if fieldAddress.addressLine1 %}
                         <p class="vads-u-margin--0">{{ fieldAddress.addressLine1 }}</p>
                       {% endif %}
@@ -318,16 +328,17 @@ Ultimately, we will allow check to use user timezone.
                       {% endif %}
                       <p class="vads-u-margin--0">
                         {% if fieldAddress.locality %}
-                            {{ fieldAddress.locality }}
+                          {{ fieldAddress.locality }}
                         {% endif %}
                         {% if fieldAddress.administrativeArea %}
-                        , {{ fieldAddress.administrativeArea }}
+                          ,
+                          {{ fieldAddress.administrativeArea }}
                         {% endif %}
                       </p>
-                  {% endif %}
-                </dd>
+                    {% endif %}
+                  </dd>
 
-              </dl>
+                </dl>
               {% endif %}
 
                 {% if fieldEventCost %}
@@ -363,9 +374,9 @@ Ultimately, we will allow check to use user timezone.
                 {% endif %}
             </div>
 
-                <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
-                    {% include "src/site/includes/social-share.drupal.liquid" %}
-                </div>
+            <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
+              {% include "src/site/includes/social-share.drupal.liquid" %}
+            </div>
           </div>
 
           <div class="usa-grid usa-grid-full vads-u-margin-top--2">
@@ -373,14 +384,14 @@ Ultimately, we will allow check to use user timezone.
               {{ fieldBody.processed }}
             </div>
           </div>
-            {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-          <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all events</a>
+          {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
+          <a onclick="recordEvent({ event: 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See
+                      all events</a>
         </article>
 
         <div class="last-updated usa-content">
           Last updated:
-          <time
-            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+          <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>
       </div>
     {% endif %}

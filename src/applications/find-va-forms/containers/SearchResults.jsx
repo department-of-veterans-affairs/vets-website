@@ -6,7 +6,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { connect } from 'react-redux';
-import { orderBy, slice } from 'lodash';
+import orderBy from 'lodash/orderBy';
+import slice from 'lodash/slice';
 // Relative imports.
 import { updatePaginationAction, updateResultsAction } from '../actions';
 

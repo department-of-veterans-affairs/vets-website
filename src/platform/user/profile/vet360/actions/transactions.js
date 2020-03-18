@@ -11,6 +11,7 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
+import { vaProfileUseAddressValidation } from '../selectors';
 import { FIELD_NAMES, ADDRESS_POU } from 'vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
@@ -34,6 +35,7 @@ export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
 export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
+export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
 
 export function clearTransactionStatus() {
   return {
@@ -143,7 +145,7 @@ export function createTransaction(
   payload,
   analyticsSectionName,
 ) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const options = {
       body: JSON.stringify(payload),
       method,
@@ -151,7 +153,7 @@ export function createTransaction(
         'Content-Type': 'application/json',
       },
     };
-
+    const state = getState();
     try {
       dispatch({
         type: VET360_TRANSACTION_REQUESTED,
@@ -163,10 +165,22 @@ export function createTransaction(
         ? await apiRequest(route, options)
         : await localVet360.createTransaction();
 
-      recordEvent({
-        event: method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
-        'profile-section': analyticsSectionName,
-      });
+      // We want the validateAddreses method handling dataLayer events for saving / updating addresses.
+      if (vaProfileUseAddressValidation(state)) {
+        if (!fieldName.toLowerCase().includes('address')) {
+          recordEvent({
+            event:
+              method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+            'profile-section': analyticsSectionName,
+          });
+        }
+      } else {
+        recordEvent({
+          event:
+            method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+          'profile-section': analyticsSectionName,
+        });
+      }
 
       dispatch({
         type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -254,9 +268,8 @@ export const validateAddress = (
       'profile-action': 'update-button',
       'profile-section': analyticsSectionName,
       'profile-addressValidationAlertShown': showModal ? 'yes' : 'no',
-      'profile-addressSuggestionProvided': confirmedSuggestions.length
-        ? 'yes'
-        : 'no',
+      'profile-addressSuggestionProvided':
+        showModal && confirmedSuggestions.length ? 'yes' : 'no',
     });
 
     // show the modal if the API doesn't find a single solid match for the address
@@ -272,6 +285,11 @@ export const validateAddress = (
         confirmedSuggestions,
       });
     }
+    recordEvent({
+      event: 'profile-transaction',
+      'profile-section': analyticsSectionName,
+      'profile-addressSuggestionUsed': 'no',
+    });
     // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(
@@ -306,6 +324,10 @@ export const updateValidationKeyAndSave = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
+  dispatch({
+    type: ADDRESS_VALIDATION_UPDATE,
+    fieldName,
+  });
   try {
     const addressPayload = { address: addCountryCodeIso3ToAddress(payload) };
     const options = {

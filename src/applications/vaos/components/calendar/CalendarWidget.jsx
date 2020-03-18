@@ -11,7 +11,6 @@ import {
   getCalendarWeeks,
   isDateInSelectedArray,
   isDateOptionPairInSelectedArray,
-  removeDateFromSelectedArray,
   removeDateOptionPairFromSelectedArray,
 } from '../../utils/calendar';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -49,7 +48,6 @@ export default class CalendarWidget extends Component {
       currentDate,
       months: [currentDate],
       maxMonth: getMaxMonth(maxDate, startMonth),
-      optionsError: null,
     };
     this.currentDate = currentDate;
   }
@@ -105,85 +103,27 @@ export default class CalendarWidget extends Component {
     this.setState({ months: updatedMonths });
   };
 
-  isValid = date => {
-    let isValid = true;
-    const { additionalOptions } = this.props.additionalOptions;
-
-    if (additionalOptions) {
-      if (
-        additionalOptions.required &&
-        isDateInSelectedArray(date, this.state.selectedDates)
-      ) {
-        isValid = false;
-        document.getElementById(`date-cell-${date}`).focus();
-        this.setState({ optionsError: additionalOptions.validationMessage });
-      } else {
-        this.setState({ optionsError: null });
-      }
-    }
-
-    return isValid;
-  };
-
-  handleMultiSelect = (date, currentRowIndex) => {
-    const { maxSelections, currentlySelectedDate, onChange } = this.props;
-    let selectedDates = this.props.selectedDates
+  handleMultiSelect = date => {
+    const { onChange } = this.props;
+    const selectedDates = this.props.selectedDates
       ? [...this.props.selectedDates]
       : [];
+
     const isInSelectedArray = isDateInSelectedArray(date, selectedDates);
-
-    if (isInSelectedArray) {
-      if (currentlySelectedDate === date) {
-        // If already in array, "unselect" and remove from map
-        selectedDates = removeDateFromSelectedArray(date, selectedDates);
-        this.setState({
-          currentRowIndex: null,
-          optionsError: null,
-        });
-
-        onChange({
-          currentlySelectedDate: null,
-          selectedDates,
-          currentRowIndex,
-        });
-      } else if (
-        !currentlySelectedDate ||
-        (currentlySelectedDate && this.isValid(currentlySelectedDate))
-      ) {
-        this.setState({
-          currentRowIndex,
-        });
-
-        onChange({
-          currentlySelectedDate: date,
-          selectedDates,
-          currentRowIndex,
-        });
-      }
-    } else if (
-      selectedDates.length < maxSelections &&
-      (!currentlySelectedDate ||
-        (currentlySelectedDate && this.isValid(currentlySelectedDate)))
-    ) {
-      if (!this.props.additionalOptions?.required) {
-        selectedDates.push({ date });
-      }
-
-      this.setState({
-        currentlySelectedDate: date,
-        selectedDates,
-        currentRowIndex,
-      });
-
-      onChange({
-        currentlySelectedDate: date,
-        selectedDates,
-        currentRowIndex,
-      });
+    // If an option selection is required, don't add this date to selectedDates
+    // array until an option is selected as well
+    if (!isInSelectedArray && !this.props.additionalOptions?.required) {
+      selectedDates.push({ date });
     }
+
+    onChange({
+      currentlySelectedDate:
+        this.props.currentlySelectedDate === date ? null : date,
+      selectedDates,
+    });
   };
 
-  handleSelectDate = (date, currentRowIndex) => {
+  handleSelectDate = date => {
     let selectedDates = this.props.selectedDates
       ? [...this.props.selectedDates]
       : [];
@@ -192,7 +132,7 @@ export default class CalendarWidget extends Component {
     const { maxSelections, additionalOptions, onChange } = this.props;
 
     if (maxSelections > 1) {
-      this.handleMultiSelect(date, currentRowIndex);
+      this.handleMultiSelect(date);
     } else {
       if (date !== currentlySelectedDate) {
         if (!additionalOptions?.required) {
@@ -203,29 +143,17 @@ export default class CalendarWidget extends Component {
         selectedDates = selectedDates.filter(d => d.date !== date);
         currentlySelectedDate = null;
       }
-      this.setState(
-        {
-          currentRowIndex,
-        },
-        () =>
-          onChange({
-            currentlySelectedDate,
-            selectedDates,
-            currentRowIndex,
-          }),
-      );
+      onChange({
+        currentlySelectedDate,
+        selectedDates,
+      });
     }
   };
 
   handleSelectOption = dateObj => {
     let selectedDates = [...this.props.selectedDates];
 
-    const {
-      maxSelections,
-      additionalOptions,
-      onChange,
-      currentlySelectedDate,
-    } = this.props;
+    const { additionalOptions, onChange, currentlySelectedDate } = this.props;
 
     const maxOptionSelections = additionalOptions.maxSelections;
     const fieldName = additionalOptions.fieldName;
@@ -241,19 +169,16 @@ export default class CalendarWidget extends Component {
           selectedDates,
           fieldName,
         );
-      } else if (selectedDates.length < maxSelections) {
+      } else {
         selectedDates.push(dateObj);
       }
     } else {
       selectedDates = [dateObj];
     }
-    this.setState({ optionsError: null }, () =>
-      onChange({
-        currentlySelectedDate,
-        selectedDates,
-        currentRowIndex: this.state.currentRowIndex,
-      }),
-    );
+    onChange({
+      currentlySelectedDate,
+      selectedDates,
+    });
   };
 
   renderWeeks = month => {
@@ -262,6 +187,7 @@ export default class CalendarWidget extends Component {
       availableDates,
       currentlySelectedDate,
       maxDate,
+      maxSelections,
       minDate,
       selectedDates,
       selectedIndicatorType,
@@ -279,6 +205,7 @@ export default class CalendarWidget extends Component {
         hasError={validationError?.length > 0}
         key={`row-${index}`}
         maxDate={maxDate}
+        maxSelections={maxSelections}
         minDate={minDate}
         rowNumber={index}
         selectedDates={selectedDates || []}
@@ -350,7 +277,7 @@ export default class CalendarWidget extends Component {
     }
 
     return (
-      <div className="vaos-calendar, vads-u-margin-top--4 vads-u-display--flex">
+      <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
         {loadingStatus === FETCH_STATUS.loading && (
           <div className="vaos-calendar__loading-overlay">
             <LoadingIndicator message="Finding appointment availability..." />
@@ -358,7 +285,12 @@ export default class CalendarWidget extends Component {
         )}
         <div className={calendarCss}>
           {showError && (
-            <span className="usa-input-error-message">{validationError}</span>
+            <span
+              className="vaos-calendar__validation-msg usa-input-error-message"
+              role="alert"
+            >
+              {validationError}
+            </span>
           )}
           {months.map(
             (month, index) =>

@@ -13,7 +13,10 @@ const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
   addGetUpdatesFields,
+  addPager,
+  sortServices,
 } = require('./health-care-region');
+
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
 
@@ -84,6 +87,56 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         break;
       case 'health_care_region_detail_page':
         addGetUpdatesFields(pageCompiled, pages);
+        break;
+      case 'event_listing':
+        pageCompiled.allEventTeasers = pageCompiled.fieldOffice.entity
+          .reverseFieldOfficeNode.entities.length
+          ? pageCompiled.fieldOffice.entity.reverseFieldOfficeNode
+          : pageCompiled.reverseFieldOfficeNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allEventTeasers,
+          'event_listing.drupal.liquid',
+          'event',
+        );
+        break;
+      case 'story_listing':
+        pageCompiled.allNewsStoryTeasers =
+          page.fieldOffice.entity.reverseFieldOfficeNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allNewsStoryTeasers,
+          'story_listing.drupal.liquid',
+          'story',
+        );
+        break;
+      case 'press_releases_listing':
+        pageCompiled.allPressReleaseTeasers =
+          page.fieldOffice.entity.reverseFieldOfficeNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allPressReleaseTeasers,
+          'press_releases_listing.drupal.liquid',
+          'press_release',
+        );
+        break;
+      case 'health_services_listing':
+        pageCompiled.clinicalHealthServices = sortServices(
+          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
+        );
+        break;
+      case 'leaderships_listing':
+        pageCompiled.allStaffProfiles = page.fieldLeadership;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allStaffProfiles,
+          'leadership_listing.drupal.liquid',
+          'bio',
+        );
         break;
       case 'page':
         addHubIconField(pageCompiled, pages);

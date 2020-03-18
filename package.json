@@ -30,6 +30,7 @@
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "install-repos": "./script/install-repos.sh",
     "postinstall": "npm rebuild node-sass",
+    "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
     "test": "npm run test:unit && npm run test:e2e",
@@ -111,6 +112,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@department-of-veterans-affairs/generator-vets-website": "^3.3.1",
+    "@octokit/rest": "^16.43.1",
     "@sentry/browser": "^5.4.0",
     "ajv": "^6.10.2",
     "append-query": "2.0.1",
@@ -252,6 +254,7 @@
     "history": "3",
     "ics-js": "^0.10.2",
     "ismobilejs": "^0.4.0",
+    "js-cookie": "^2.2.1",
     "js-yaml": "^3.13.1",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.5.1",
@@ -292,10 +295,11 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#53c351b16a1130c959bb54e3d52df290dc9aa64f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e5a89baa54cde250d9ab7c553ebf398de9cba5af",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
-    "**/lodash": "^4.17.15"
+    "**/lodash": "4.17.15",
+    "**/js-yaml": "^3.13.1"
   }
 }
