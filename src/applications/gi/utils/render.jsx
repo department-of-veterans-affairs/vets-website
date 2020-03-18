@@ -33,7 +33,7 @@ const renderReasons = cautionFlags => {
 export const renderCautionAlert = result => {
   const { cautionFlags } = result;
 
-  if (cautionFlags.length > 0) return null;
+  if (cautionFlags.length === 0) return null;
   return (
     <AlertBox
       content={renderReasons(cautionFlags)}
