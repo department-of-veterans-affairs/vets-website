@@ -221,7 +221,15 @@ export const addressUISchema = (schemaKey, chapterKey) => ({
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
-      hideIf: formData => formData[`${schemaKey}`].countryName !== USA.name,
+      hideIf: formData => {
+        // Because we have to update countryName manually in formData above,
+        // We have to check this when a user selects a non-US country and then selects
+        // the military base checkbox.
+        if (formData[`${schemaKey}`]['view:livesOnMilitaryBase']) {
+          return false;
+        }
+        return formData[`${schemaKey}`].countryName !== USA.name;
+      },
     },
   },
   internationalPostalCode: {
