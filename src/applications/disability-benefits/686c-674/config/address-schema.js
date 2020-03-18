@@ -92,6 +92,11 @@ export const addressSchema = {
   },
 };
 
+/*
+This method is resusable with the 686c-674, but could probably be extended for resuse elsewhere. 
+chapterKey is used uniquely inside the 686c to check for workflow requirements on individual fields.
+schemaKey is the corresponding schema property name for address. 
+*/
 export const addressUISchema = (schemaKey, chapterKey) => ({
   'view:livesOnMilitaryBase': {
     'ui:title':
