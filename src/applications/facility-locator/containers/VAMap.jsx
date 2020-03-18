@@ -615,6 +615,7 @@ class VAMap extends Component {
     // defaults to White House coordinates initially
     const {
       currentQuery,
+      // eslint-disable-next-line no-unused-vars
       showCommunityCares,
       results,
       pagination: { currentPage, totalPages },
@@ -636,7 +637,8 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
-            showCommunityCares={showCommunityCares}
+            // eslint-disable-next-line
+            showCommunityCares={true}
           />
         </div>
         <div>{showDialogUrgCare}</div>
