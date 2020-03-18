@@ -42,7 +42,7 @@ export const renderCautionAlert = result => {
           ? 'This school has cautionary warnings'
           : 'This school has a cautionary warning'
       }
-      isVisible={!!cautionFlags.length}
+      isVisible={cautionFlags.length > 0}
       status="warning"
     />
   );
