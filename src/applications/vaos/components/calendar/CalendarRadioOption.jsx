@@ -21,7 +21,10 @@ const CalendarRadioOption = ({
       className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
       htmlFor={`radio-${id}`}
     >
-      {label}
+      <span aria-hidden="true">{label}</span>
+      <span className="vads-u-visibility--screen-reader">
+        {label} option selected
+      </span>
     </label>
   </div>
 );

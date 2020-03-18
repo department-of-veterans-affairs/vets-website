@@ -1,9 +1,13 @@
-const FEATURE_FLAG_NAMES = import('./featureFlagNames');
+/* This file is must run in both NodeJS and browser environments */
 
+import FEATURE_FLAG_NAMES from './featureFlagNames';
+import { getFlipperId } from './helpers';
+
+const FLIPPER_ID = getFlipperId();
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
   ',',
-)}`;
+)}&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
@@ -105,12 +109,8 @@ function FlipperClient({
   };
 }
 
-function makeFlipperClient(options) {
+export default function makeFlipperClient(options) {
   flipperClientInstance = flipperClientInstance || new FlipperClient(options);
 
   return flipperClientInstance;
 }
-
-module.exports = {
-  FlipperClient: makeFlipperClient,
-};

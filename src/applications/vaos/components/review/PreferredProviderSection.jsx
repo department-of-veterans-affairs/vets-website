@@ -7,55 +7,68 @@ export default function PreferredProviderSection(props) {
   return (
     <>
       {props.data.hasCommunityCareProvider && (
-        <>
-          <div className="vads-l-grid-container vads-u-padding--0">
-            <div className="vads-l-row">
-              <div className="vads-l-col--6">
-                <h3 className="vaos-appts__block-label">Preferred provider</h3>
-              </div>
-              <div className="vads-l-col--6 vads-u-text-align--right">
-                <Link
-                  to={newAppointmentFlow.ccPreferences.url}
-                  aria-label="Edit provider preference"
-                >
-                  Edit
-                </Link>
-              </div>
+        <div className="vads-l-grid-container vads-u-padding--0">
+          <div className="vads-l-row vads-u-justify-content--space-between">
+            <div className="vads-u-flex--1 vads-u-padding-right--1">
+              <h3 className="vaos-appts__block-label">Preferred provider</h3>
+              <span className="vaos-u-word-break--break-word">
+                {!!props.data.communityCareProvider.practiceName && (
+                  <>
+                    {props.data.communityCareProvider.practiceName}
+                    <br />
+                  </>
+                )}
+                {props.data.communityCareProvider.firstName} &nbsp;
+                {props.data.communityCareProvider.lastName}
+                <br />
+                {props.data.communityCareProvider.address.street}
+                <br />
+                {props.data.communityCareProvider.address.street2}
+                <br />
+                {props.data.communityCareProvider.address.city}, &nbsp;
+                {props.data.communityCareProvider.address.state} &nbsp;
+                {props.data.communityCareProvider.address.postalCode}
+                <br />
+                <br />
+                {props.vaCityState && (
+                  <>Closest VA health system: {props.vaCityState}</>
+                )}
+              </span>
+            </div>
+            <div>
+              <Link
+                to={newAppointmentFlow.ccPreferences.url}
+                aria-label="Edit provider preference"
+              >
+                Edit
+              </Link>
             </div>
           </div>
-          <span className="vaos-u-word-break--break-word">
-            {!!props.data.communityCareProvider.practiceName && (
-              <>
-                {props.data.communityCareProvider.practiceName}
-                <br />
-              </>
-            )}
-            {props.data.communityCareProvider.firstName} &nbsp;
-            {props.data.communityCareProvider.lastName}
-            <br />
-            {props.data.communityCareProvider.address.street}
-            <br />
-            {props.data.communityCareProvider.address.street2}
-            <br />
-            {props.data.communityCareProvider.address.city}, &nbsp;
-            {props.data.communityCareProvider.address.state} &nbsp;
-            {props.data.communityCareProvider.address.postalCode}
-            <br />
-            <br />
-            {props.vaCityState && (
-              <>Closest VA health system: {props.vaCityState}</>
-            )}
-          </span>
-        </>
+        </div>
       )}
       {!props.data.hasCommunityCareProvider && (
         <>
           <div className="vads-l-grid-container vads-u-padding--0">
-            <div className="vads-l-row">
-              <div className="vads-l-col--6">
+            <div className="vads-l-row vads-u-justify-content--space-between">
+              <div className="vads-u-flex--1 vads-u-padding-right--1">
                 <h3 className="vaos-appts__block-label">Preferred provider</h3>
+                <span>
+                  Provider not specified
+                  <br />
+                  <br />
+                  Prefers provider to speak{' '}
+                  {
+                    LANGUAGES.find(
+                      language => language.id === props.data.preferredLanguage,
+                    )?.value
+                  }
+                  <br />
+                  {props.vaCityState && (
+                    <>Closest VA health system: {props.vaCityState}</>
+                  )}
+                </span>
               </div>
-              <div className="vads-l-col--6 vads-u-text-align--right">
+              <div>
                 <Link
                   to={newAppointmentFlow.ccPreferences.url}
                   aria-label="Edit provider preference"
@@ -65,21 +78,6 @@ export default function PreferredProviderSection(props) {
               </div>
             </div>
           </div>
-          <span>
-            Provider not specified
-            <br />
-            <br />
-            Prefers provider to speak{' '}
-            {
-              LANGUAGES.find(
-                language => language.id === props.data.preferredLanguage,
-              )?.value
-            }
-            <br />
-            {props.vaCityState && (
-              <>Closest VA health system: {props.vaCityState}</>
-            )}
-          </span>
         </>
       )}
     </>

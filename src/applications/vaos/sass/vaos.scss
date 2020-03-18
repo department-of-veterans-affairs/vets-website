@@ -73,6 +73,10 @@
   z-index: 10000;
 }
 
+.vaos-calendar__validation-msg:focus {
+  outline: 0;
+}
+
 .vaos-calendar__weekday {
   width: 20%;
 }
@@ -225,6 +229,20 @@
   input[type="checkbox"] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    label {
+      cursor: not-allowed;
+    }
+
+    input[type="checkbox"], input[type="checkbox"] + label::before {
+      box-shadow: 0 0 0 1px $color-gray-light;
+      background: $color-gray-lightest;
+      cursor: not-allowed;
+    }
   }
 }
 
