@@ -31,9 +31,9 @@ const renderReasons = cautionFlags => {
 };
 
 export const renderCautionAlert = result => {
-  const { cautionFlag, cautionFlags } = result;
+  const { cautionFlags } = result;
 
-  if (!cautionFlag) return null;
+  if (!cautionFlags.length) return null;
   return (
     <AlertBox
       content={renderReasons(cautionFlags)}
@@ -42,7 +42,7 @@ export const renderCautionAlert = result => {
           ? 'This school has cautionary warnings'
           : 'This school has a cautionary warning'
       }
-      isVisible={!!cautionFlag}
+      isVisible={!!cautionFlags.length}
       status="warning"
     />
   );
