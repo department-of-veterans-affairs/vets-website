@@ -15,7 +15,6 @@ import { transform } from '../submit-transformer';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import migrations from '../migrations';
 import captureEvents from '../analytics-functions';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
   applicantInformation,
@@ -55,9 +54,6 @@ const formConfig = {
   errorText: ErrorText,
   defaultDefinitions: {
     ...fullSchema.definitions,
-  },
-  downtime: {
-    dependencies: [externalServices.global],
   },
   chapters: {
     // Chapter - Benefits eligibility

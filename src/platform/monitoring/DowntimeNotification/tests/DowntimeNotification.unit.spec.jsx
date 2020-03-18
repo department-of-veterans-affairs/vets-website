@@ -11,25 +11,21 @@ import {
   mapStateToProps,
 } from '../containers/DowntimeNotification';
 
-let old;
-
 const innerText = 'This is the inner text';
-function getComponent(
-  dependencies = [],
-  getScheduledDowntime = () => {},
-  otherProps = {},
-) {
-  return enzyme.shallow(
-    <DowntimeNotification
-      dependencies={dependencies}
-      getScheduledDowntime={getScheduledDowntime}
-      {...otherProps}
-      shouldSendRequest
-    >
+
+const defaultProps = {
+  dependencies: [],
+  getGlobalDowntime: () => {},
+  getScheduledDowntime: () => {},
+  shouldSendRequest: true,
+};
+
+const getComponent = props =>
+  enzyme.shallow(
+    <DowntimeNotification {...defaultProps} {...props}>
       <span>{innerText}</span>
     </DowntimeNotification>,
   );
-}
 
 describe('mapStateToProps', () => {
   it('should set shouldSendRequest to true when scheduled downtime is not ready and a request is not pending', () => {
@@ -86,19 +82,26 @@ describe('mapStateToProps', () => {
 });
 
 describe('<DowntimeNotification/>', () => {
+  let oldSessionStorage;
+
   beforeEach(() => {
-    old = { sessionStorage: window.sessionStorage };
+    oldSessionStorage = window.sessionStorage;
     window.sessionStorage = {};
   });
 
   afterEach(() => {
-    window.sessionStorage = old.sessionStorage;
+    window.sessionStorage = oldSessionStorage;
   });
 
-  it('calls getScheduledDowntime when rendered', () => {
-    const getScheduledDowntime = sinon.spy();
-    getComponent([], getScheduledDowntime);
-    expect(getScheduledDowntime.calledOnce).to.be.true;
+  it('calls getGlobalDowntime and getScheduledDowntime when rendered', () => {
+    const props = {
+      dependencies: [],
+      getScheduledDowntime: sinon.spy(),
+      getGlobalDowntime: sinon.spy(),
+    };
+    getComponent(props);
+    // expect(props.getGlobalDowntime.calledOnce).to.be.true;
+    expect(props.getScheduledDowntime.calledOnce).to.be.true;
   });
 
   describe('No impending downtime', () => {
@@ -117,7 +120,7 @@ describe('<DowntimeNotification/>', () => {
 
   describe('Approaching downtime', () => {
     it('should render the children and a Modal when downtime is approaching', () => {
-      const wrapper = getComponent([externalServices.mhv]);
+      const wrapper = getComponent({ dependencies: [externalServices.mhv] });
       wrapper.setProps({
         isReady: true,
         initializeDowntimeWarnings() {},
@@ -149,7 +152,8 @@ describe('<DowntimeNotification/>', () => {
 
   describe('In downtime', () => {
     xit('should not render the children when we are in downtime and instead show an AlertBox', () => {
-      const wrapper = getComponent([externalServices.mhv]);
+      const wrapper = getComponent({ dependencies: [externalServices.mhv] });
+
       wrapper.setProps({ isReady: true, status: externalServiceStatus.down });
 
       const down = wrapper.find('Down').dive();
@@ -178,9 +182,9 @@ describe('<DowntimeNotification/>', () => {
         </div>
       );
 
-      const wrapper = getComponent([externalServices.mhv], () => {}, {
-        render,
-      });
+      const props = { dependencies: [externalServices.mhv], render };
+
+      const wrapper = getComponent(props);
       wrapper.setProps({ isReady: true, status: externalServiceStatus.down });
 
       const text = wrapper.text();

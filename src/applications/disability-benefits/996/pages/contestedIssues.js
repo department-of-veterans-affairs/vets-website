@@ -1,9 +1,8 @@
 import fullSchema from '../20-0996-schema.json';
-import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
 
 import {
   contestedIssuesTitle,
-  contestedIssuesDescription,
   disabilityOption,
   disabilitiesExplanation,
   contestedIssuesAlert,
@@ -18,7 +17,6 @@ const contestedIssuesPage = {
     'ui:title': contestedIssuesTitle,
     contestedIssues: {
       'ui:title': ' ',
-      'ui:description': contestedIssuesDescription,
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsWidget,
       'ui:options': {

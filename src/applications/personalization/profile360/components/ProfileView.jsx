@@ -15,6 +15,7 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
+import PaymentInformationBlocked from './PaymentInformationBlocked';
 import PaymentInformation from '../containers/PaymentInformation';
 import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
@@ -24,7 +25,7 @@ import MVIError from './MVIError';
 import {
   directDepositIsSetUp,
   directDepositAddressIsSetUp,
-  directDepositIsBlocked,
+  directDepositIsBlocked as directDepositIsBlockedSelector,
   profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
 
@@ -90,6 +91,7 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
+      directDepositIsBlocked,
       showDirectDepositLink,
       showReceiveTextNotifications,
     } = this.props;
@@ -111,6 +113,7 @@ class ProfileView extends React.Component {
           >
             <div>
               <Vet360TransactionReporter />
+              {directDepositIsBlocked && <PaymentInformationBlocked />}
               <Hero
                 fetchHero={fetchHero}
                 hero={hero}
@@ -190,10 +193,11 @@ class ProfileView extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const directDepositIsAllowed = !directDepositIsBlocked(state);
+  const directDepositIsBlocked = directDepositIsBlockedSelector(state);
   return {
+    directDepositIsBlocked,
     showDirectDepositLink:
-      directDepositIsAllowed &&
+      !directDepositIsBlocked &&
       (directDepositIsSetUp(state) || directDepositAddressIsSetUp(state)),
     showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };

@@ -17,11 +17,12 @@ export default function VAAppointmentSection({ data, facility }) {
       <ReasonForAppointmentSection data={data} />
       <hr className="vads-u-margin-y--2" />
       <div className="vads-l-grid-container vads-u-padding--0">
-        <div className="vads-l-row">
-          <div className="vads-l-col--6">
+        <div className="vads-l-row vads-u-justify-content--space-between">
+          <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">How to be seen</h3>
+            {TYPE_OF_VISIT.find(visit => visit.id === data.visitType)?.name}
           </div>
-          <div className="vads-l-col--6 vads-u-text-align--right">
+          <div>
             <Link
               to={newAppointmentFlow.visitType.url}
               aria-label="Edit how to be seen"
@@ -31,7 +32,6 @@ export default function VAAppointmentSection({ data, facility }) {
           </div>
         </div>
       </div>
-      {TYPE_OF_VISIT.find(visit => visit.id === data.visitType)?.name}
       <hr className="vads-u-margin-y--2" />
       <ContactDetailSection data={data} />
     </>
