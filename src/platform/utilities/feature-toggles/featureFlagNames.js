@@ -1,4 +1,4 @@
-const FEATURE_FLAG_NAMES = Object.freeze({
+export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
   profileSchemaForms: 'profileSchemaForms',
@@ -11,5 +11,3 @@ const FEATURE_FLAG_NAMES = Object.freeze({
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaProfileAddressValidation: 'vaProfileAddressValidation',
 });
-
-module.exports = FEATURE_FLAG_NAMES;
