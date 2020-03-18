@@ -4,7 +4,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import _ from 'lodash/fp';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
@@ -13,6 +12,7 @@ import {
 } from 'applications/caregivers/helpers';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
+import get from 'platform/utilities/data/get';
 
 const emptyFacilityList = [];
 const stateLabels = createUSAStateLabels(states);
@@ -102,7 +102,7 @@ export default {
         'ui:options': {
           labels: medicalCenterLabels,
           updateSchema: form => {
-            const state = _.get(
+            const state = get(
               `${[vetFields.preferredFacilityView]}.${[
                 vetFields.preferredFacilityStateView,
               ]}`,

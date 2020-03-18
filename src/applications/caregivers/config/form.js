@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import _ from 'lodash/fp';
 import * as getAddressSchema from 'platform/forms-system/src/js/definitions/address';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
@@ -162,9 +161,13 @@ const formConfig = {
                       state => !!medicalCentersByState[state],
                     ),
                   },
-                  [vetFields.plannedClinic]: _.assign(vaMedicalFacility, {
-                    enum: [],
-                  }),
+                  [vetFields.plannedClinic]: Object.assign(
+                    {},
+                    vaMedicalFacility,
+                    {
+                      enum: [],
+                    },
+                  ),
                 },
               },
             },
