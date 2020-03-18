@@ -221,18 +221,6 @@ article[data-location="opt-out-of-old-appeals"] {
   }
 }
 
-/* Step 2c */
-article[data-location^="contested-issues/"] {
-  /* Add space above AdditionalInfo block */
-  .form-expanding-group {
-    margin-top: 2em;
-  }
-
-  .usa-input-error label {
-    font-weight: bold;
-  }
-}
-
 /* Step 3 */
 /* Informal conference */
 article[data-location="request-informal-conference"] {
@@ -274,6 +262,18 @@ article[data-location="review-and-submit"] {
   /* checkbox group "Required" lable (added to */
   #root_scheduleTimes-label {
     display: none;
+  }
+
+  /* tweak second entry */
+  .scheduled-time + .scheduled-time {
+    padding-top: 0;
+    margin-top: -0.5rem;
+    border-top-width: 0;
+
+    /* hide duplicate label */
+    .time-contact {
+      display: none;
+    }
   }
 }
 
