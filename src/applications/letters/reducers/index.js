@@ -119,13 +119,9 @@ function letters(state = initialState, action) {
       };
     }
     case GET_BENEFIT_SUMMARY_OPTIONS_FAILURE:
-      return _.set('optionsAvailable', false, state);
+      return set('optionsAvailable', false, state);
     case UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION:
-      return _.set(
-        ['requestOptions', action.propertyPath],
-        action.value,
-        state,
-      );
+      return set(['requestOptions', action.propertyPath], action.value, state);
     case GET_LETTER_PDF_DOWNLOADING:
       return set(
         ['letterDownloadStatus', action.data],
