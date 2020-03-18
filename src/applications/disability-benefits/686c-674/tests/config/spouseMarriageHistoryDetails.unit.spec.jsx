@@ -25,7 +25,7 @@ describe('686 spouse marriage history details', () => {
     spouseWasMarriedBefore: true,
     spouseMarriageHistory: [
       {
-        spouseFormerPartnerName: {
+        formerSpouseName: {
           first: 'Jane',
           last: 'Doe',
         },

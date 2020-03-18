@@ -17,7 +17,6 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
@@ -107,9 +106,6 @@ const formConfig = {
     address,
     phone,
     serviceBefore1977,
-  },
-  downtime: {
-    dependencies: [externalServices.global],
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
