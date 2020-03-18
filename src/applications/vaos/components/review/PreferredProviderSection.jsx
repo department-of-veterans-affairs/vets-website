@@ -11,7 +11,7 @@ export default function PreferredProviderSection(props) {
           <div className="vads-l-row vads-u-justify-content--space-between">
             <div className="vads-u-flex--1 vads-u-padding-right--1">
               <h3 className="vaos-appts__block-label">Preferred provider</h3>
-              <span>
+              <span className="vaos-u-word-break--break-word">
                 {!!props.data.communityCareProvider.practiceName && (
                   <>
                     {props.data.communityCareProvider.practiceName}

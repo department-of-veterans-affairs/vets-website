@@ -462,7 +462,7 @@
             "status": { "description": "F", "code": "FUTURE" },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
             "type": "REGULAR",
-            "bookingNotes": "Follow-up/Routine: asfdasdfasdfasf",
+            "bookingNotes": "Follow-up/Routine: asfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasf",
             "instructionsOther": false,
             "patients": [
               {

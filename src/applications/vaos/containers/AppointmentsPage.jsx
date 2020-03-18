@@ -23,6 +23,7 @@ import {
   getCancelInfo,
   vaosCancel,
   vaosRequests,
+  vaosPastAppts,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -245,6 +246,7 @@ function mapStateToProps(state) {
     appointments: state.appointments,
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
+    showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };

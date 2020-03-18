@@ -16,7 +16,7 @@ export default function ReasonForAppointmentSection(props) {
                 )?.short
               }
             </h3>
-            <span className="vaos-u-word-break--break-all">
+            <span className="vaos-u-word-break--break-word">
               {props.data.reasonAdditionalInfo}
             </span>
           </div>
@@ -28,6 +28,9 @@ export default function ReasonForAppointmentSection(props) {
               Edit
             </Link>
           </div>
+          <span className="vaos-u-word-break--break-word">
+            {props.data.reasonAdditionalInfo}
+          </span>
         </div>
       </div>
     </>
