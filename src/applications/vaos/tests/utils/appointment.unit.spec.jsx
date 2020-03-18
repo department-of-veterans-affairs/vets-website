@@ -14,6 +14,7 @@ import {
   getAppointmentInstructionsHeader,
   getAppointmentLocation,
   getAppointmentTimezoneAbbreviation,
+  getAppointmentTimezoneDescription,
   getAppointmentTitle,
   getAppointmentType,
   getAppointmentTypeHeader,
@@ -498,6 +499,17 @@ describe('VAOS appointment helpers', () => {
 
     it('should return empty string for invalid appointment', () => {
       expect(getAppointmentTimezoneAbbreviation({})).to.equal('');
+    });
+  });
+
+  describe('getAppointmentTimezoneDescription', () => {
+    it('should return the timezone', () => {
+      expect(
+        getAppointmentTimezoneDescription({
+          ...communityCareAppointment,
+          timeZone: '-04:00 EDT',
+        }),
+      ).to.equal('Eastern time');
     });
   });
 

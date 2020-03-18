@@ -3,9 +3,6 @@
   "title": "Higher-Level Review (20-0996)",
   "type": "object",
   "definitions": {
-    "legacyOptInApproved": {
-      "type": "boolean"
-    },
     "address": {
       "type": "object",
       "required": [

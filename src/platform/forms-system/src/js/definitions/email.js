@@ -11,7 +11,6 @@ export default function uiSchema(title = 'Email address') {
       required: 'Please enter an email address',
     },
     'ui:options': {
-      widgetClassNames: 'va-input-medium-large',
       inputType: 'email',
     },
   };
