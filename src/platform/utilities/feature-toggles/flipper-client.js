@@ -1,6 +1,6 @@
 /* This file is must run in both NodeJS and browser environments */
 
-const FEATURE_FLAG_NAMES = require('./featureFlagNames');
+const FEATURE_FLAG_NAMES = import('./featureFlagNames');
 const { getFlipperId } = require('./helpers');
 
 const FLIPPER_ID = getFlipperId();
