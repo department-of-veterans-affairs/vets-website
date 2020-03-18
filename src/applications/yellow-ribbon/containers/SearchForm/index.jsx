@@ -74,7 +74,7 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            className="usa-input vads-u-width--auto"
+            className="usa-input"
             name="yr-search-name"
             onChange={onStateChange('name')}
             type="text"
@@ -88,7 +88,6 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <select
-            className="vads-u-width--auto"
             name="yr-search-country"
             onChange={onStateChange('country')}
             value={country}
@@ -111,7 +110,6 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <select
-            className="vads-u-width--auto"
             name="yr-search-state"
             onChange={onStateChange('state')}
             value={state}
@@ -134,7 +132,7 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            className="usa-input vads-u-width--auto"
+            className="usa-input"
             name="yr-search-city"
             onChange={onStateChange('city')}
             type="text"
@@ -144,7 +142,7 @@ export class SearchForm extends Component {
 
         {/* Submit Button */}
         <button
-          className="usa-button-primary va-button-primary vads-u-width--auto"
+          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5"
           type="submit"
         >
           Search
