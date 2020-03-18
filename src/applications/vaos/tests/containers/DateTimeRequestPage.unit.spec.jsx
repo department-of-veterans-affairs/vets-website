@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import moment from 'moment';
 
 import {
   DateTimeRequestPage,
@@ -47,8 +48,12 @@ describe('VAOS <DateTimeRequestPage>', () => {
   it('should not submit form with validation error', () => {
     const onCalendarChange = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
+    const thirtyDaysFromNow = moment()
+      .add(30, 'day')
+      .format('YYYY-MM-DD');
+
     const data = {
-      calendarData: { currentlySelectedDate: '2020-12-20', error: 'test' },
+      calendarData: { currentlySelectedDate: thirtyDaysFromNow, error: 'test' },
     };
 
     const form = mount(
