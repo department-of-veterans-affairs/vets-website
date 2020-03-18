@@ -1,5 +1,5 @@
 // import React, { useState, useEffect } from 'react';
-import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
+import FlipperClient from 'platform/utilities/feature-toggles/flipper-client';
 import {
   TOGGLE_VALUES_SET,
   FETCH_TOGGLE_VALUES_STARTED,
@@ -7,7 +7,7 @@ import {
 } from 'platform/site-wide/feature-toggles/actionTypes';
 import environments from 'platform/utilities/environment';
 
-const { fetchToggleValues } = new FlipperClient({ host: environments.API_URL });
+const { fetchToggleValues } = FlipperClient({ host: environments.API_URL });
 
 function makeEnvironmentToggleValues(env = environments) {
   return {
