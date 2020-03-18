@@ -106,7 +106,10 @@ const buildReviewInstanceApiUrl = environmentUrl =>
 
 // Run the watch task with the build pointing to the review instance API.
 const runWatch = apiUrl =>
-  execSync(`yarn watch --api=${apiUrl}`, { stdio: 'inherit' });
+  execSync(
+    `yarn watch --api=${apiUrl} --buildtype=vagovdev --host 0.0.0.0 --public 127.0.0.1:3001`,
+    { stdio: 'inherit' },
+  );
 
 const logError = error => {
   console.error(error);
