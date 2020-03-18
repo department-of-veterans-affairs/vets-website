@@ -8,17 +8,18 @@ node('vetsgov-general-purpose') {
   }
 
   def jobFailed = false
+  def refStatusState
   while({
+    echo "checking build status..."
     refStatusState = getGithubCommitState("vets-website", ref)
     if ("${refStatusState}" == "SUCCESS") {
       return false
-    } else if ("${refStatusStatue}" == "PENDING") {
+    } else if ("${refStatusState}" == "PENDING") {
       sleep 60
       return true
-    } else {
-      jobFailed = true
-      return false
     }
+    jobFailed = true
+    return false
   }()) continue
 
   if (jobFailed) {
