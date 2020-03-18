@@ -24,7 +24,7 @@ describe('feature toggles', () => {
   describe('getFlipperId', () => {
     it('should set the FLIPPER_ID cookie to a non-empty string', () => {
       document.cookie = '';
-      expect(getFlipperId()).to.be.a('string');
+      expect(getFlipperId()).to.be.a('string').and.not.empty;
     });
 
     it('should set the FLIPPER_ID cookie to not be null', () => {
