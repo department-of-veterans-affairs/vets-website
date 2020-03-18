@@ -5,7 +5,7 @@ const {
   getFlipperId,
 } = require('../../feature-toggles/helpers');
 
-describe('feature toogles', () => {
+describe('feature toggles', () => {
   let oldCookie;
 
   before(() => {
@@ -15,23 +15,14 @@ describe('feature toogles', () => {
 
   describe('generateToken', () => {
     it('should return a string', () => {
-      document.cookie = '';
-      expect(generateToken()).to.be.a('string');
-    });
-
-    it('should return a not-null value', () => {
-      document.cookie = '';
-      expect(generateToken()).to.not.be.null;
-    });
-
-    it('should return a not-empty value', () => {
-      document.cookie = '';
-      expect(generateToken()).to.not.be.empty;
+      const token = generateToken();
+      expect(token).to.be.a('string');
+      expect(token).to.not.be.empty;
     });
   });
 
   describe('getFlipperId', () => {
-    it('should set the FLIPPER_ID cookie to a string', () => {
+    it('should set the FLIPPER_ID cookie to a non-empty string', () => {
       document.cookie = '';
       expect(getFlipperId()).to.be.a('string');
     });
@@ -49,29 +40,23 @@ describe('feature toogles', () => {
     it('should set the FLIPPER_ID cookie to a non-empty string', () => {
       document.cookie = '';
       getFlipperId();
-      expect(
-        document.cookie.replace(
-          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
-          '$1',
-        ),
-      ).to.be.a('string');
-      expect(
-        document.cookie.replace(
-          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
-          '$1',
-        ),
-      ).to.not.be.null;
-      expect(
-        document.cookie.replace(
-          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
-          '$1',
-        ),
-      ).to.not.be.empty;
+      const cookie = document.cookie.replace(
+        /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
+        '$1',
+      );
+      expect(cookie).to.be.a('string');
+      expect(cookie).to.not.be.empty;
     });
 
     it('should not change an existing FLIPPER_ID', () => {
-      document.cookie = '';
-      expect(getFlipperId()).to.be.equal(getFlipperId());
+      document.cookie = 'FLIPPER_ID=something';
+      getFlipperId();
+      expect(
+        document.cookie.replace(
+          /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
+          '$1',
+        ),
+      ).to.be.equal('something');
     });
   });
 
