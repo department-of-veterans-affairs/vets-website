@@ -21,13 +21,6 @@ export const schema = {
   },
 };
 
-/*
-Address requirments - label for state should be State/Province/Region for non USA country.
-State/Province/Region should be optional for non USA country.
-State/Province/Region should be a text input for non USA country.
-Postal Code should be converted to International Postal Code for non USA country.
-*/
-
 export const uiSchema = {
   'ui:title': StudentNameHeader,
   schoolInformation: {
