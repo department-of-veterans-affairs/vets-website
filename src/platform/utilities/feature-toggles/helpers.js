@@ -1,9 +1,9 @@
-const Cookies = require('js-cookie');
+import Cookies from 'js-cookie';
 
 const cookieName = 'FLIPPER_ID';
 
 // Generates a random string as a token.
-function generateToken() {
+export function generateToken() {
   return (
     Math.random()
       .toString(36)
@@ -15,11 +15,9 @@ function generateToken() {
 }
 
 // Gets and sets the cookie and then returns the flipper ID as a string
-function getFlipperId(_cookieName = cookieName) {
+export function getFlipperId(_cookieName = cookieName) {
   const cookieValue = Cookies.get(_cookieName) || generateToken();
   Cookies.set(_cookieName, cookieValue, { expires: 30 }); // Expires in 30 days
 
   return cookieValue;
 }
-
-module.exports = { generateToken, getFlipperId };
