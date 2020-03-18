@@ -7,11 +7,21 @@ export default function ContactDetailSection(props) {
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
-        <div className="vads-l-row">
-          <div className="vads-l-col--6">
+        <div className="vads-l-row vads-u-justify-content--space-between">
+          <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">Your contact details</h3>
+            <span>
+              {props.data.email}
+              <br />
+              {props.data.phoneNumber}
+              <br />
+              <i>
+                Call{' '}
+                {formatBestTimeToCall(props.data.bestTimeToCall).toLowerCase()}
+              </i>
+            </span>
           </div>
-          <div className="vads-l-col--6 vads-u-text-align--right">
+          <div>
             <Link
               to={newAppointmentFlow.contactInfo.url}
               aria-label="Edit call back time"
@@ -21,15 +31,6 @@ export default function ContactDetailSection(props) {
           </div>
         </div>
       </div>
-      <span className="vads-u-padding-right--1">
-        {props.data.email}
-        <br />
-        {props.data.phoneNumber}
-        <br />
-        <i>
-          Call {formatBestTimeToCall(props.data.bestTimeToCall).toLowerCase()}
-        </i>
-      </span>
     </>
   );
 }
