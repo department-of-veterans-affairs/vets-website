@@ -23,7 +23,6 @@ export class SearchResult extends React.Component {
     const {
       version,
       schoolClosing,
-      cautionFlag,
       cautionFlags,
       estimated,
       facilityCode,
