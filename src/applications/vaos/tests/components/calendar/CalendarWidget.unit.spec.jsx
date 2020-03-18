@@ -254,7 +254,7 @@ describe('VAOS <CalendarWidget>', () => {
 
       // Select a few dates...
       buttons.at(0).simulate('click');
-      buttons.at(10).simulate('click');
+      buttons.at(1).simulate('click');
 
       expect(tree.prop('selectedDates').length).to.be.equal(2);
     });
