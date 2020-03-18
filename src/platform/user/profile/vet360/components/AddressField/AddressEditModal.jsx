@@ -8,7 +8,6 @@ import { ADDRESS_POU, ADDRESS_TYPES, FIELD_NAMES, USA } from 'vet360/constants';
 import Vet360EditModal from '../base/Vet360EditModal';
 
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
-import { profileUseSchemaForms } from 'vet360/selectors';
 
 import ContactInfoForm from '../ContactInfoForm';
 
@@ -129,7 +128,6 @@ class AddressEditModal extends React.Component {
 
 const mapStateToProps = state => ({
   modalData: state.vet360?.modalData,
-  useSchemaForm: profileUseSchemaForms(state),
 });
 
 export default connect(mapStateToProps)(AddressEditModal);
