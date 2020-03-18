@@ -159,10 +159,6 @@ class SignInModal extends React.Component {
                   One site. A lifetime of benefits and services at your
                   fingertips.
                 </div>
-                <p>
-                  You spoke. We listened. VA.gov is the direct result of what
-                  you said you wanted most—one easy-to-use place to:
-                </p>
                 <ul>
                   <li>Check your disability claim and appeal status</li>
                   <li>
@@ -175,6 +171,10 @@ class SignInModal extends React.Component {
                   </li>
                   <li>...and more</li>
                 </ul>
+                <p>
+                  Use your existing DS Logon, My HealtheVet, or ID.me account to
+                  sign in to access and manage your VA benefits and health care.
+                </p>
                 <p>
                   <strong>A secure account powered by ID.me</strong>
                   <br />
