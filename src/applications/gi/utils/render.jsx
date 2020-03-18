@@ -7,7 +7,7 @@ export const renderSchoolClosingAlert = result => {
   if (!schoolClosing) return null;
   return (
     <AlertBox
-      content={<li>Upcoming campus closure</li>}
+      content={<p>Upcoming campus closure</p>}
       headline="A campus is closing soon"
       isVisible={!!schoolClosing}
       status="warning"
@@ -17,6 +17,10 @@ export const renderSchoolClosingAlert = result => {
 
 const renderReasons = cautionFlags => {
   const flags = [];
+
+  if (cautionFlags.length === 1) {
+    return <p>{cautionFlags[0].reason}</p>;
+  }
   cautionFlags
     .sort((a, b) => {
       if (a.reason.toLowerCase() < b.reason.toLowerCase()) return -1;
@@ -27,7 +31,7 @@ const renderReasons = cautionFlags => {
       flags.push(<li key={flag.id}>{flag.reason}</li>);
     });
 
-  return flags;
+  return <ul>{flags}</ul>;
 };
 
 export const renderCautionAlert = result => {
