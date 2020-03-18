@@ -17,7 +17,7 @@ export function generateToken() {
 // Gets and sets the cookie and then returns the flipper ID as a string
 export function getFlipperId(_cookieName = cookieName) {
   const cookieValue = Cookies.get(_cookieName) || generateToken();
-  Cookies.set(_cookieName, cookieValue, { expires: 30 }); // Expires in 30 days
+  Cookies.set(_cookieName, cookieValue, { expires: 31 }); // Expires in 30 days
 
   return cookieValue;
 }
