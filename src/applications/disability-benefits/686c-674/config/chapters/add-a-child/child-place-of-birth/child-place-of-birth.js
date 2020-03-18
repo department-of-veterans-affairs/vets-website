@@ -14,8 +14,13 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          state: genericSchemas.genericTextInput,
-          city: genericSchemas.genericTextInput,
+          childPlaceOfBirth: {
+            type: 'object',
+            properties: {
+              state: genericSchemas.genericTextInput,
+              city: genericSchemas.genericTextInput,
+            },
+          },
           childStatus: {
             type: 'object',
             properties: {
@@ -59,14 +64,17 @@ export const uiSchema = {
       itemName: 'Child',
       viewField: childInfo,
     },
-    'ui:title': "Child's place of birth",
     items: {
-      state: {
-        'ui:title': 'State (or country if outside the USA)',
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
-      },
-      city: {
-        'ui:title': 'City or county',
+      childPlaceOfBirth: {
+        'ui:title': "Child's place of birth",
+        state: {
+          'ui:title': 'State (or country if outside the USA)',
+          'ui:required': formData =>
+            isChapterFieldRequired(formData, 'addChild'),
+        },
+        city: {
+          'ui:title': 'City or county',
+        },
       },
       childStatus: {
         'ui:title': "Your child's status (check all that apply)",
