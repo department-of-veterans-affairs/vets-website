@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
+import { checkAndUpdateSSOeSession } from './ssoHelpers';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
@@ -18,6 +19,8 @@ export function fetchAndUpdateSessionExpiration(...args) {
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
+        // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+        checkAndUpdateSSOeSession();
       }
       return response;
     });
