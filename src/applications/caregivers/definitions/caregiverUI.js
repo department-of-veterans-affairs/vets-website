@@ -4,13 +4,13 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import _ from 'lodash/fp';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
-} from 'applications/hca/helpers';
-import _ from 'lodash/fp';
+} from 'applications/caregivers/helpers';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 
@@ -63,16 +63,6 @@ export default {
         },
       },
     },
-    facilityTypeUI: {
-      'ui:title': 'Type of facility where you last received medical treatment:',
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          hospital: 'Hospital',
-          clinic: 'Clinic',
-        },
-      },
-    },
     vetRelationshipUI: {
       'ui:title':
         'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
@@ -91,17 +81,6 @@ export default {
     },
   },
   vetUI: {
-    vaEnrolledUI: {
-      'ui:title': 'Enrolled in VA Health Care?',
-      'ui:widget': 'yesNo',
-    },
-    plannedClinicUI: {
-      'ui:title':
-        'Name of VA medical center or clinic where you receive or plan to receive health care services:',
-      'ui:options': {
-        expandUnder: vetFields.vaEnrolled,
-      },
-    },
     ssnUI: {
       ...ssnUI,
       'ui:title': 'Social Security number or Tax Identification number',
@@ -109,22 +88,24 @@ export default {
         widgetClassNames: 'usa-input-medium',
       },
     },
-    'view:preferredFacility': {
+    [vetFields.preferredFacilityView]: {
       'ui:title':
-        'Name of VA medical center or clinic where you receive or plan to receive health care services:y',
-      'view:facilityState': {
+        'Name of VA medical center or clinic where you receive or plan to receive health care services:',
+      [vetFields.preferredFacilityStateView]: {
         'ui:title': 'Facility State',
         'ui:options': {
           labels: stateLabels,
         },
       },
-      vaMedicalFacility: {
+      [vetFields.plannedClinic]: {
         'ui:title': 'Preferred Clinic or Hospital',
         'ui:options': {
           labels: medicalCenterLabels,
           updateSchema: form => {
             const state = _.get(
-              'view:preferredFacility.view:facilityState',
+              `${[vetFields.preferredFacilityView]}.${[
+                vetFields.preferredFacilityStateView,
+              ]}`,
               form,
             );
             if (state) {
@@ -149,18 +130,22 @@ export default {
         widgetClassNames: 'usa-input-medium',
       },
     },
-
-    medicaidEnrolledUI: {
-      'ui:title': 'Enrolled in Medicaid?',
-    },
-    medicareEnrolledUI: {
-      'ui:title': 'Enrolled in Medicare?',
-    },
-    tricareEnrolledUI: {
-      'ui:title': 'Enrolled in Tricare?',
-    },
-    champvaEnrolledUI: {
-      'ui:title': 'Enrolled in CHAMPVA?',
+    'view:primaryHealthCareEnrollment': {
+      'ui:title':
+        'Check all that the Primary Caregiver is currently enrolled in',
+      'ui:description': '',
+      [primaryCaregiverFields.medicaidEnrolled]: {
+        'ui:title': 'Enrolled in Medicaid?',
+      },
+      [primaryCaregiverFields.medicareEnrolled]: {
+        'ui:title': 'Enrolled in Medicare?',
+      },
+      [primaryCaregiverFields.tricareEnrolled]: {
+        'ui:title': 'Enrolled in Tricare?',
+      },
+      [primaryCaregiverFields.champvaEnrolled]: {
+        'ui:title': 'Enrolled in CHAMPVA?',
+      },
     },
     otherHealthInsuranceUI: {
       'ui:title': 'Other Health Insurance?',
