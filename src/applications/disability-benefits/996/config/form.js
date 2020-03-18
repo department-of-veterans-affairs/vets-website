@@ -10,7 +10,6 @@ import fullSchema from '../20-0996-schema.json';
 // import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
@@ -89,9 +88,6 @@ const formConfig = {
     veteranInformationDescription,
   },
   preSubmitInfo,
-  downtime: {
-    dependencies: [externalServices.global],
-  },
   chapters: {
     step1: {
       title: 'Veteran information',

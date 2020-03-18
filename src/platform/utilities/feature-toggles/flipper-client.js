@@ -1,6 +1,4 @@
-/* This file is must run in both NodeJS and browser environments */
-
-const FEATURE_FLAG_NAMES = require('./featureFlagNames');
+import FEATURE_FLAG_NAMES from './featureFlagNames';
 
 const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
@@ -107,12 +105,8 @@ function FlipperClient({
   };
 }
 
-function makeFlipperClient(options) {
+export default function makeFlipperClient(options) {
   flipperClientInstance = flipperClientInstance || new FlipperClient(options);
 
   return flipperClientInstance;
 }
-
-module.exports = {
-  FlipperClient: makeFlipperClient,
-};
