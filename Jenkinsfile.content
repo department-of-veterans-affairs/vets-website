@@ -1,10 +1,10 @@
 @Library('va.gov-devops-jenkins-lib') _
 
 node('vetsgov-general-purpose') {
-  repo = params.repo || "vets-website"
-  branch = params.branch || "master"
-  env = params.environment
-  slackChannel = params.slackChannel || "cms-notifications"
+  repo = (!params.repo?.trim()) ? "vets-website" : params.repo
+  branch = (!params.branch?.trim()) ? "master" : params.branch
+  env = (!params.environment?.trim()) ? "" : params.environment
+  slackChannel = (!params.slackChannel?.trim()) ? "cms-notifications" : params.slackChannel
   ref = (!params.ref?.trim()) ? getLatestGitRef(repo, branch: branch) : params.ref
   refStatusState = (!params.refStatusState?.trim()) ? getGithubCommitState(repo, ref) : params.refStatusState
 
