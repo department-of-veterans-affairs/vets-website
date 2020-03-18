@@ -63,7 +63,7 @@ export function getScheduledDowntime() {
     let data;
 
     try {
-      const response = await apiRequest('/maintenance_windows');
+      const response = await apiRequest('/maintenance_windows/');
       data = response.data;
     } catch (error) {
       // Probably in a test environment and the route isn't mocked.
