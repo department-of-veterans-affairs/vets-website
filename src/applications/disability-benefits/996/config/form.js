@@ -82,7 +82,6 @@ const formConfig = {
     contactRepresentativeChoice,
     representative,
     scheduleTimes,
-    veteranInformationDescription,
   },
   preSubmitInfo,
   chapters: {
