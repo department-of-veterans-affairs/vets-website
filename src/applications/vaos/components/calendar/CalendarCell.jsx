@@ -14,6 +14,7 @@ const CalendarCell = ({
   hasError,
   index,
   inSelectedArray,
+  maxSelections,
   onClick,
   selectedDates,
   selectedIndicatorType,
@@ -116,6 +117,7 @@ const CalendarCell = ({
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
           hasError={hasError}
+          maxSelections={maxSelections}
           optionsHeightRef={optionsHeightRef}
           selectedCellIndex={index}
           selectedDates={selectedDates}
