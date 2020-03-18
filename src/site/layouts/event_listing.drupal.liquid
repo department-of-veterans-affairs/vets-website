@@ -55,11 +55,11 @@
 
               {% assign numItems = pagedItems | size %}
               {% if numItems < 1 %}
-                <div>No events at this time.</div>
+                <div class="clearfix-text">No events at this time.</div>
               {% endif %}
               {% for event in pagedItems %}
                 {% if featuredUrl != event.entityUrl.path %}
-                  <div class="usa-width-two-thirds">
+                  <div class="clearfix-text">
                     {% include "src/site/teasers/event.drupal.liquid" with node = event %}
                   </div>
                 {% endif %}
