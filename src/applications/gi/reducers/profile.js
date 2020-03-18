@@ -32,6 +32,7 @@ export default function(state = INITIAL_STATE, action) {
       const responseCode = action.payload.status.toString();
       return {
         responseCode,
+        ...action.err,
         inProgress: false,
       };
     case FETCH_PROFILE_SUCCEEDED:

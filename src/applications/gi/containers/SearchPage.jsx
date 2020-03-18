@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { RenderBackendErrorMessage } from '../utils/render';
+// import { RenderBackendErrorMessage } from '../utils/render';
 
 import {
   clearAutocompleteSuggestions,
@@ -168,6 +168,10 @@ export class SearchPage extends React.Component {
 
     let searchResults;
 
+    // if (search.responseCode === ('503' || '504' || '500')) {
+    //   return RenderBackendErrorMessage;
+    // }
+
     // Filter button on mobile.
     const filterButton = (
       <button
@@ -178,9 +182,6 @@ export class SearchPage extends React.Component {
       </button>
     );
 
-    if (search.responseCode === ('503' || '504' || '500')) {
-      return RenderBackendErrorMessage;
-    }
     if (search.inProgress) {
       searchResults = (
         <div className={resultsClass}>

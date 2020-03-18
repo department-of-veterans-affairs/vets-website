@@ -33,7 +33,7 @@ const INITIAL_STATE = {
   results: [],
   count: null,
   version: {},
-  responseCode: {},
+  // responseCode: {},
   query: null,
   pagination: {
     currentPage: 1,
