@@ -272,35 +272,34 @@ function addGetUpdatesFields(page, pages) {
 /**
  * Sorts items from oldest to newest, removing expired items.
  *
- * @param {items} items The items object.
+ * @param {items} object The items object.
+ * @param {field} string The target date field.
+ * @param {reverse} bool Sorting order set to default false.
+ * @param {stale} bool Remove expired date items set to default false.
  * @return Filtered array of sorted items.
  */
-function itemSorter(items) {
+function itemSorter(items, field, reverse = false, stale = true) {
   const dateFiltered = [];
   const sorted =
     items !== null
       ? items.entities.sort((a, b) => {
-          const aTime = Math.floor(
-            new Date(a.fieldDate.value).getTime() / 1000,
-          );
-          const bTime = Math.floor(
-            new Date(b.fieldDate.value).getTime() / 1000,
-          );
-          // Sort order needs to be oldest first.
-          const sorter = aTime - bTime;
+          const aTime = Math.floor(new Date(a[field].value).getTime() / 1000);
+          const bTime = Math.floor(new Date(b[field].value).getTime() / 1000);
+          // Sort order.
+          const sorter = reverse ? bTime - aTime : aTime - bTime;
           return sorter;
         })
       : '';
   // Remove expired items.
   sorted.forEach(element => {
     if (
-      element.fieldDate &&
-      new Date(element.fieldDate.value).valueOf() > new Date().valueOf()
+      element[field] &&
+      new Date(element[field].value).valueOf() > new Date().valueOf()
     ) {
       dateFiltered.push(element);
     }
   });
-  return dateFiltered;
+  return stale ? dateFiltered : sorted;
 }
 
 /**
@@ -314,9 +313,21 @@ function itemSorter(items) {
  * @return nothing
  */
 function addPager(page, files, field, template, aria) {
-  // Sort and filter items that need date handling.
+  // Sort events and remove stale items.
   if (page.allEventTeasers) {
-    page.allEventTeasers.entities = itemSorter(page.allEventTeasers);
+    page.allEventTeasers.entities = itemSorter(
+      page.allEventTeasers,
+      'fieldDate',
+    );
+  }
+  // Sort news teasers.
+  if (page.allPressReleaseTeasers) {
+    page.allPressReleaseTeasers.entities = itemSorter(
+      page.allPressReleaseTeasers,
+      'fieldReleaseDate',
+      true,
+      false,
+    );
   }
   // Add our pager to page output.
   const pagingObject = paginatePages(page, files, field, template, aria);
