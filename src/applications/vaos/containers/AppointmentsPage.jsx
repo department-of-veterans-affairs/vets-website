@@ -227,7 +227,7 @@ export class AppointmentsPage extends Component {
             </h2>
             {!showPastAppointments && (
               <p>
-                To view past appointments you've made,{' '}
+                To view past appointments you’ve made,{' '}
                 <a
                   href={`https://${
                     !environment.isProduction() ? 'mhv-syst' : 'www'
