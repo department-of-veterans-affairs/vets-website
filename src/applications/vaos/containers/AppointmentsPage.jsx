@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -61,6 +62,7 @@ export class AppointmentsPage extends Component {
       cancelInfo,
       showCancelButton,
       showScheduleButton,
+      showPastAppointments,
     } = this.props;
     const {
       future,
@@ -223,6 +225,26 @@ export class AppointmentsPage extends Component {
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
               Upcoming appointments
             </h2>
+            {!showPastAppointments && (
+              <p>
+                To view past appointments you've made,{' '}
+                <a
+                  href={`https://${
+                    !environment.isProduction() ? 'mhv-syst' : 'www'
+                  }.myhealth.va.gov/mhv-portal-web/appointments`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'vaos-past-appointments-legacy-link-clicked',
+                    })
+                  }
+                >
+                  go to My HealtheVet
+                </a>
+                .
+              </p>
+            )}
             {content}
             <NeedHelp />
           </div>
