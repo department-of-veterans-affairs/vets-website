@@ -40,6 +40,7 @@ const NavItem = ({
 
       {/* Child Items */}
       {expanded && hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
+
       {/* Ending Line */}
       {isFirstLevel && !isLastNavItem && <div className="line" />}
     </li>
