@@ -28,38 +28,6 @@ describe('<SearchPage>', () => {
     tree.unmount();
   });
 
-  it('should render LoadingIndicator', () => {
-    const props = {
-      ...defaultProps,
-      search: {
-        ...defaultProps.search,
-        inProgress: true,
-      },
-    };
-
-    const store = {
-      ...defaultStore,
-      state: {
-        ...defaultProps,
-        search: {
-          ...defaultProps.search,
-          inProgress: true,
-        },
-      },
-    };
-
-    const tree = mount(
-      <Provider store={store}>
-        <SearchPage {...props} />
-      </Provider>,
-    );
-
-    expect(tree.find('LoadingIndicator').text()).to.equal(
-      'Loading search results...',
-    );
-    tree.unmount();
-  });
-
   it('should render error message', () => {
     const props = {
       ...defaultProps,
