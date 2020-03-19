@@ -6,6 +6,8 @@ import {
 } from '../../authentication/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
+import { ssoKeepAliveSession } from 'platform/utilities/api/ssoHelpers';
+
 import {
   ADDRESS_VALIDATION_TYPES,
   BAD_UNIT_NUMBER,
@@ -126,11 +128,14 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
+export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
+
 export function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
   const loginType = (signIn && signIn.serviceName) || null;
 
   localStorage.setItem('hasSession', true);
+  ssoKeepAliveSession();
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
@@ -143,7 +148,13 @@ export function setupProfileSession(userProfile) {
 export function teardownProfileSession() {
   // Legacy keys (entryTime, userToken) can be removed
   // after session cookie is fully in place.
-  const sessionKeys = ['hasSession', 'userFirstName', 'sessionExpiration'];
+  const sessionKeys = [
+    'hasSession',
+    'userFirstName',
+    'sessionExpiration',
+    'hasSessionSSO',
+    'sessionExpirationSSO',
+  ];
   for (const key of sessionKeys) localStorage.removeItem(key);
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearSentryLoginType();

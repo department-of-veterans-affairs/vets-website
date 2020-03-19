@@ -1,4 +1,3 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
 export function focusElement(selectorOrElement, options) {
@@ -16,6 +15,17 @@ export function focusElement(selectorOrElement, options) {
     }
     el.focus(options);
   }
+}
+
+// Set focus on target _after_ the content has been updated
+export function focusOnChange(name, target = '.edit-btn') {
+  setTimeout(() => {
+    const selector = `[name="${name}ScrollElement"]`;
+    const el = document.querySelector(selector);
+    // nextElementSibling = page form
+    const focusTarget = el?.nextElementSibling?.querySelector(target);
+    focusElement(focusTarget);
+  });
 }
 
 export function setGlobalScroll() {
@@ -36,7 +46,7 @@ export function getScrollOptions(additionalOptions) {
     delay: 0,
     smooth: true,
   };
-  return _.merge({}, defaults, globals.scroll, additionalOptions);
+  return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }
 
 export function scrollToFirstError() {

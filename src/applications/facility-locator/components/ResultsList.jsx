@@ -84,15 +84,8 @@ class ResultsList extends Component {
               </p>
               <p>
                 If you need care right away for a minor illness or injury, you
-                can search for your nearest VA health facility. Or find
-                <a
-                  href="https://vaurgentcarelocator.triwest.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  VA-approved urgent care locations and pharmacies{' '}
-                </a>{' '}
-                near you.
+                can search for your nearest VA health facility, VA-approved
+                urgent care location or pharmacy.
               </p>
               <p>
                 If you have a medical emergency, please go to your nearest

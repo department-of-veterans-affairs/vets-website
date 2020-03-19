@@ -12,6 +12,8 @@ import {
   spouseInformation,
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
+  veteranMarriageHistory,
+  veteranMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
 import { wizard } from './chapters/taskWizard';
 import {
@@ -102,6 +104,20 @@ const formConfig = {
           arrayPath: 'spouseMarriageHistory',
           uiSchema: spouseMarriageHistoryDetails.uiSchema,
           schema: spouseMarriageHistoryDetails.schema,
+        },
+        veteranMarriageHistory: {
+          title: 'Information about your former marriage(s)',
+          path: 'veteran-marriage-history',
+          uiSchema: veteranMarriageHistory.uiSchema,
+          schema: veteranMarriageHistory.schema,
+        },
+        veteranMarriageHistoryDetails: {
+          title: 'Information about your former marriage(s)',
+          path: 'veteran-marriage-history/:index',
+          showPagePerItem: true,
+          arrayPath: 'veteranMarriageHistory',
+          uiSchema: veteranMarriageHistoryDetails.uiSchema,
+          schema: veteranMarriageHistoryDetails.schema,
         },
       },
     },

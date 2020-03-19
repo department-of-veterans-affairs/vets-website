@@ -1,6 +1,6 @@
 // Dependencies.
 import appendQuery from 'append-query';
-import { orderBy } from 'lodash';
+import sortBy from 'lodash/sortBy';
 // Relative imports.
 import STUBBED_RESPONSE from '../constants/STUBBED_RESPONSE';
 import { apiRequest } from '../../../platform/utilities/api';
@@ -30,7 +30,7 @@ export const fetchFormsApi = async (query, options = {}) => {
   const normalizedForms = normalizeFormsForTable(forms);
 
   // Sort the forms by 'id' and 'asc' by default.
-  const sortedForms = orderBy(normalizedForms, 'id', 'asc');
+  const sortedForms = sortBy(normalizedForms, 'id');
 
   return sortedForms;
 };

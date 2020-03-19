@@ -5,7 +5,7 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusElement } from '../utilities/ui';
+import { focusOnChange, getScrollOptions } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
@@ -35,8 +35,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   focusOnPage(key) {
-    const pageDiv = document.querySelector(`#${key.replace(/:/g, '\\:')}`);
-    focusElement(pageDiv);
+    const name = `${key.replace(/:/g, '\\:')}`;
+    // legend & label target array type form elements
+    focusOnChange(name, 'p, legend, label');
   }
 
   handleEdit(key, editing, index = null) {
@@ -57,14 +58,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   };
 
   scrollToPage(key) {
-    scroller.scrollTo(
-      `${key}ScrollElement`,
-      window.Forms.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
-    );
+    scroller.scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: -40 }));
   }
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
@@ -201,6 +195,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     ) : (
                       <ProgressButton
                         submitButton
+                        onButtonClick={() => {
+                          focusOnChange(
+                            `${page.pageKey}${
+                              typeof page.index === 'number' ? page.index : ''
+                            }`,
+                          );
+                        }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
                       />

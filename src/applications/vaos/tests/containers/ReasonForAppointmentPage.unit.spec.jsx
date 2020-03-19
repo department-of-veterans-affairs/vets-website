@@ -88,6 +88,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
+
     form.unmount();
   });
 
@@ -123,6 +124,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
+
     form.unmount();
   });
 });

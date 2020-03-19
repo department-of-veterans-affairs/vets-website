@@ -16,7 +16,7 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          spouseFormerPartnerName: fullName,
+          formerSpouseName: fullName,
         },
       },
     },
@@ -43,7 +43,7 @@ export const uiSchema = {
       }),
     },
     items: {
-      spouseFormerPartnerName: {
+      formerSpouseName: {
         'ui:title': 'Former spouse’s information',
         'ui:validations': [validateName],
         first: {

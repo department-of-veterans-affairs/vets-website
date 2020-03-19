@@ -5,7 +5,6 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -63,9 +62,6 @@ const formConfig = {
     ssn,
     fullName,
     date,
-  },
-  downtime: {
-    dependencies: [externalServices.global],
   },
   preSubmitInfo,
   chapters: {
