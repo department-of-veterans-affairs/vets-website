@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { RenderBackendErrorMessage } from '../utils/render';
+import { renderBackendErrorMessage } from '../utils/render';
 
 import {
   clearAutocompleteSuggestions,
@@ -168,10 +168,6 @@ export class SearchPage extends React.Component {
 
     let searchResults;
 
-    if (search.statusCode === (503 || 504 || 500)) {
-      return RenderBackendErrorMessage;
-    }
-
     // Filter button on mobile.
     const filterButton = (
       <button
@@ -189,6 +185,9 @@ export class SearchPage extends React.Component {
           <LoadingIndicator message="Loading search results..." />
         </div>
       );
+    }
+    if (search.statusCode === (503 || 504 || 500)) {
+      searchResults = renderBackendErrorMessage;
     } else {
       searchResults = (
         <div className={resultsClass}>
@@ -230,6 +229,10 @@ export class SearchPage extends React.Component {
       );
     }
 
+    if (search.statusCode === (503 || 504 || 500)) {
+      searchResults = renderBackendErrorMessage;
+    }
+
     return searchResults;
   };
 
@@ -261,6 +264,7 @@ export class SearchPage extends React.Component {
         showModal={this.props.showModal}
         eligibilityChange={this.props.eligibilityChange}
       />
+      )
     </div>
   );
 
@@ -281,8 +285,8 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {search.statusCode === (500 || 503 || 504)
-          ? RenderBackendErrorMessage
+        {search.statusCode === (503 || 504 || 500)
+          ? renderBackendErrorMessage
           : this.renderInstitutionSearchForm(searchResults, filtersClass)}
       </ScrollElement>
     );

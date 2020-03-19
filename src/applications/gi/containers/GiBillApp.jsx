@@ -11,7 +11,7 @@ import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
-import { RenderBackendErrorMessage } from '../utils/render';
+import { renderBackendErrorMessage } from '../utils/render';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -88,7 +88,7 @@ export class GiBillApp extends React.Component {
     } else {
       content =
         constants.statusCode === (503 || 500 || 504)
-          ? RenderBackendErrorMessage
+          ? renderBackendErrorMessage
           : this.props.children;
     }
 
