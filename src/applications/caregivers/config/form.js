@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import _ from 'lodash/fp';
 import * as getAddressSchema from 'platform/forms-system/src/js/definitions/address';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
@@ -18,10 +17,9 @@ import {
 } from 'applications/caregivers/definitions/constants';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { medicalCentersByState } from 'applications/hca/helpers';
+import { medicalCentersByState } from 'applications/caregivers/helpers';
 import definitions from '../definitions/caregiverUI';
 
-const emptyFacilityList = [];
 const vaMedicalFacility =
   fullSchema.properties.veteran.properties.plannedClinic;
 
@@ -52,11 +50,9 @@ const {
   alternativePhoneNumberUI,
   dateOfBirthUI,
   emailUI,
-  facilityTypeUI,
   genderUI,
   hasSecondaryOneCaregiverUI,
   hasSecondaryTwoCaregiverUI,
-  // previousTreatmentFacilityUI,
   primaryPhoneNumberUI,
   vetRelationshipUI,
 } = definitions.sharedItems;
@@ -72,11 +68,10 @@ const hasSecondaryTwoCaregiver = formData =>
   ] === true;
 
 /* Chapters
-* 1 - Vet/Service Member (required)
-* 2 - Primary Family Caregiver (required)
-* 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
-*/
-
+ * 1 - Vet/Service Member (required)
+ * 2 -m Primary Family Caregiver (required)
+ * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
+ */
 const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
@@ -140,11 +135,8 @@ const formConfig = {
             [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [vetFields.email]: emailUI,
-            [vetFields.vaEnrolled]: vetUI.vaEnrolledUI,
-            [vetFields.plannedClinic]: vetUI.plannedClinicUI,
-            [vetFields.facilityType]: facilityTypeUI,
-            'view:preferredFacility': {
-              ...vetUI['view:preferredFacility'],
+            [vetFields.preferredFacilityView]: {
+              ...vetUI[vetFields.preferredFacilityView],
             },
           },
           schema: {
@@ -155,22 +147,27 @@ const formConfig = {
               [vetFields.primaryPhoneNumber]: phone,
               [vetFields.alternativePhoneNumber]: phone,
               [vetFields.email]: veteranProps.email,
-              [vetFields.vaEnrolled]: veteranProps.vaEnrolled,
-              [vetFields.plannedClinic]: veteranProps.plannedClinic,
               // dynamic properties for filtering facilities dropDown
-              'view:preferredFacility': {
+              [vetFields.preferredFacilityView]: {
                 type: 'object',
-                required: ['view:facilityState', 'vaMedicalFacility'],
+                required: [
+                  vetFields.preferredFacilityStateView,
+                  vetFields.plannedClinic,
+                ],
                 properties: {
-                  'view:facilityState': {
+                  [vetFields.preferredFacilityStateView]: {
                     type: 'string',
                     enum: states.USA.map(state => state.value).filter(
                       state => !!medicalCentersByState[state],
                     ),
                   },
-                  vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    enum: emptyFacilityList,
-                  }),
+                  [vetFields.plannedClinic]: Object.assign(
+                    {},
+                    vaMedicalFacility,
+                    {
+                      enum: [],
+                    },
+                  ),
                 },
               },
             },
@@ -217,14 +214,9 @@ const formConfig = {
             [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [primaryCaregiverFields.email]: emailUI,
             [primaryCaregiverFields.vetRelationship]: vetRelationshipUI,
-            [primaryCaregiverFields.medicaidEnrolled]:
-              primaryCaregiverUI.medicaidEnrolledUI,
-            [primaryCaregiverFields.medicareEnrolled]:
-              primaryCaregiverUI.medicareEnrolledUI,
-            [primaryCaregiverFields.tricareEnrolled]:
-              primaryCaregiverUI.tricareEnrolledUI,
-            [primaryCaregiverFields.champvaEnrolled]:
-              primaryCaregiverUI.champvaEnrolledUI,
+            'view:primaryHealthCareEnrollment': {
+              ...primaryCaregiverUI['view:primaryHealthCareEnrollment'],
+            },
             [primaryCaregiverFields.otherHealthInsurance]:
               primaryCaregiverUI.otherHealthInsuranceUI,
             [primaryCaregiverFields.otherHealthInsuranceName]:
@@ -246,14 +238,19 @@ const formConfig = {
               [primaryCaregiverFields.email]: primaryCaregiverProps.email,
               [primaryCaregiverFields.vetRelationship]:
                 primaryCaregiverProps.vetRelationship,
-              [primaryCaregiverFields.medicaidEnrolled]:
-                primaryCaregiverProps.medicaidEnrolled,
-              [primaryCaregiverFields.medicareEnrolled]:
-                primaryCaregiverProps.medicareEnrolled,
-              [primaryCaregiverFields.tricareEnrolled]:
-                primaryCaregiverProps.tricareEnrolled,
-              [primaryCaregiverFields.champvaEnrolled]:
-                primaryCaregiverProps.champvaEnrolled,
+              [primaryCaregiverFields.primaryHealthCareEnrollmentView]: {
+                type: 'object',
+                properties: {
+                  [primaryCaregiverFields.medicaidEnrolled]:
+                    primaryCaregiverProps.medicaidEnrolled,
+                  [primaryCaregiverFields.medicareEnrolled]:
+                    primaryCaregiverProps.medicareEnrolled,
+                  [primaryCaregiverFields.tricareEnrolled]:
+                    primaryCaregiverProps.tricareEnrolled,
+                  [primaryCaregiverFields.champvaEnrolled]:
+                    primaryCaregiverProps.champvaEnrolled,
+                },
+              },
               [primaryCaregiverFields.otherHealthInsurance]: {
                 type: 'boolean',
               },
@@ -276,6 +273,7 @@ const formConfig = {
           depends: formData => hasSecondaryOneCaregiver(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
+            // secondaryOne UI
             [secondaryCaregiverFields.secondaryOne.fullName]:
               secondaryCaregiverUI.secondaryOne.fullNameUI,
             [secondaryCaregiverFields.secondaryOne.ssn]:
@@ -297,6 +295,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              // secondaryOne properties
               [secondaryCaregiverFields.secondaryOne.fullName]:
                 secondaryOneCaregiverProps.fullName,
               [secondaryCaregiverFields.secondaryOne.ssn]:
@@ -328,8 +327,7 @@ const formConfig = {
           depends: formData => hasSecondaryTwoCaregiver(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
-
-            // separator for secondaryTwo
+            // secondaryTwo UI
             [secondaryCaregiverFields.secondaryTwo.fullName]:
               secondaryCaregiverUI.secondaryTwo.fullNameUI,
             [secondaryCaregiverFields.secondaryTwo.ssn]:
@@ -352,7 +350,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              // separator for secondaryTwo
+              // secondaryTwo properties
               [secondaryCaregiverFields.secondaryTwo.fullName]:
                 secondaryTwoCaregiverProps.fullName,
               [secondaryCaregiverFields.secondaryTwo.ssn]:
