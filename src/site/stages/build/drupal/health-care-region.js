@@ -272,36 +272,29 @@ function addGetUpdatesFields(page, pages) {
 /**
  * Sorts items from oldest to newest, removing expired items.
  *
- * @param {items} object The items object.
+ * @param {items} array The items array.
  * @param {field} string The target date field.
  * @param {reverse} bool Sorting order set to default false.
  * @param {stale} bool Remove expired date items set to default false.
  * @return Filtered array of sorted items.
  */
-function itemSorter(items, field, reverse = false, stale = true) {
-  const dateFiltered = [];
-  const sorted =
-    items !== null
-      ? items.entities.sort((a, b) => {
-          const aTime = Math.floor(new Date(a[field].value).getTime() / 1000);
-          const bTime = Math.floor(new Date(b[field].value).getTime() / 1000);
-          // Sort order.
-          const sorter = reverse ? bTime - aTime : aTime - bTime;
-          return sorter;
-        })
-      : '';
-  // Remove expired items.
-  sorted.forEach(element => {
-    if (
-      element[field] &&
-      new Date(element[field].value).valueOf() > new Date().valueOf()
-    ) {
-      dateFiltered.push(element);
-    }
+function itemSorter(items = [], field, reverse = false, stale = true) {
+  let sorted = items.entities.sort((a, b) => {
+    const start1 = moment(a[field].value);
+    const start2 = moment(b[field].value);
+    return start1.isAfter(start2);
   });
-  return stale ? dateFiltered : sorted;
-}
 
+  if (reverse) {
+    sorted = sorted.reverse();
+  }
+
+  if (stale) {
+    sorted = sorted.filter(item => moment(item[field].value).isAfter(moment()));
+  }
+
+  return sorted;
+}
 /**
  * Add pagers to cms content listing pages.
  *

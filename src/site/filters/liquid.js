@@ -238,19 +238,12 @@ module.exports = function registerFilters() {
 
   liquid.filters.eventSorter = item => {
     const sorted =
-      item !== null
-        ? item.sort((a, b) => {
-            const aTime = Math.floor(
-              new Date(a.fieldDate.startDate).getTime() / 1000,
-            );
-            const bTime = Math.floor(
-              new Date(b.fieldDate.startDate).getTime() / 1000,
-            );
-            // Sort order needs to be oldest first.
-            const sorter = aTime - bTime;
-            return sorter;
-          })
-        : '';
+      item &&
+      item.sort((a, b) => {
+        const start1 = moment(a.fieldDate.startDate);
+        const start2 = moment(b.fieldDate.startDate);
+        return start1.isAfter(start2);
+      });
     return sorted;
   };
 
