@@ -80,7 +80,7 @@ export class ReviewPage extends React.Component {
             content={
               <>
                 <p>
-                  We’re sorry. Something went wrong when we tried to submit your{' '}
+                  Something went wrong when we tried to submit your{' '}
                   {isDirectSchedule ? 'appointment' : 'request'} and you’ll need
                   to start over. We suggest you wait a day to try again or you
                   can call your medical center to help with your{' '}
