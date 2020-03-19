@@ -10,8 +10,10 @@ describe('Yellow Ribbon container <SearchForm>', () => {
   it('should render', () => {
     const tree = shallow(<SearchForm />);
     const input = tree.find('input');
+    const select = tree.find('select');
 
-    expect(input.length).to.be.equal(1);
+    expect(input.length).to.be.equal(2);
+    expect(select.length).to.be.equal(1);
     tree.unmount();
   });
 
@@ -20,7 +22,7 @@ describe('Yellow Ribbon container <SearchForm>', () => {
 
     global.window = {
       location: {
-        search: '?name=boulder',
+        search: '?city=boulder&country=usa&name=university&state=co',
       },
     };
 
@@ -28,9 +30,15 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     const tree = shallow(<SearchForm fetchResultsThunk={fetchResultsThunk} />);
 
     expect(fetchResultsThunk.calledOnce).to.be.true;
-    expect(fetchResultsThunk.calledWith({ name: 'boulder', state: '' })).to.be
-      .true;
-    expect(tree.state().name).to.be.equal('boulder');
+    expect(
+      fetchResultsThunk.firstCall.calledWith({
+        city: 'boulder',
+        country: 'usa',
+        name: 'university',
+        state: 'co',
+      }),
+    ).to.be.true;
+    expect(tree.state().name).to.be.equal('university');
 
     tree.unmount();
 
@@ -39,7 +47,7 @@ describe('Yellow Ribbon container <SearchForm>', () => {
 
   it('updates the name in state', () => {
     const tree = shallow(<SearchForm />);
-    const input = tree.find('input');
+    const input = tree.find('input[name="yr-search-name"]');
 
     input.simulate('change', { target: { value: 'new value' } });
 

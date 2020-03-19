@@ -14,6 +14,8 @@ import {
   getNewAppointment,
   getFormData,
   getSystemFromParent,
+  getSystemFromChosenFacility,
+  vaosCommunityCare,
 } from '../utils/selectors';
 import {
   getSystemIdentifiers,
@@ -190,6 +192,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
     const email = selectVet360EmailAddress(state);
     const homePhone = selectVet360HomePhoneString(state);
     const mobilePhone = selectVet360MobilePhoneString(state);
+    const showCommunityCare = vaosCommunityCare(state);
 
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
@@ -199,6 +202,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
       schema,
       email,
       phoneNumber,
+      showCommunityCare,
     });
   };
 }
@@ -442,7 +446,9 @@ export function openClinicPage(page, uiSchema, schema) {
 
 export function getAppointmentSlots(startDate, endDate) {
   return async (dispatch, getState) => {
-    const newAppointment = getNewAppointment(getState());
+    const state = getState();
+    const systemId = getSystemFromChosenFacility(state);
+    const newAppointment = getNewAppointment(state);
     const availableSlots = newAppointment.availableSlots || [];
     const { data } = newAppointment;
 
@@ -476,7 +482,7 @@ export function getAppointmentSlots(startDate, endDate) {
               .format('YYYY-MM-DD');
 
         const response = await getAvailableSlots(
-          data.vaFacility,
+          systemId,
           data.typeOfCareId,
           data.clinicId,
           startDateString,
@@ -535,17 +541,12 @@ export function getAppointmentSlots(startDate, endDate) {
   };
 }
 
-export function onCalendarChange({
-  currentlySelectedDate,
-  currentRowIndex,
-  selectedDates,
-}) {
+export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     calendarData: {
       currentlySelectedDate,
       selectedDates,
-      currentRowIndex,
     },
   };
 }

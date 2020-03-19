@@ -119,8 +119,8 @@ class ReceiveTextMessages extends React.Component {
 export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
   const { transaction } = selectVet360Transaction(state, fieldName);
-  const hasError = !!(transaction && isFailedTransaction(transaction));
-  const isPending = !!(transaction && isPendingTransaction(transaction));
+  const hasError = !!isFailedTransaction(transaction);
+  const isPending = !!isPendingTransaction(transaction);
   const showReceiveTextNotifications = profileShowReceiveTextNotifications(
     state,
   );

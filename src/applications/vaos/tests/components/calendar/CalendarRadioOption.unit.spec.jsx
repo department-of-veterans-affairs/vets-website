@@ -16,11 +16,13 @@ describe('VAOS <CalendarRadioOption>', () => {
       />,
     );
     const radioButton = tree.find('input#radio-0');
-    const label = tree.find('label');
+    const label = tree.find('label span').at(0);
+    const srLabel = tree.find('label span').at(1);
     expect(radioButton.length).to.equal(1);
     expect(radioButton.props().checked).to.equal(true);
     expect(radioButton.props().value).to.equal('2019-10-24T10:00:00-07:00');
     expect(label.text()).to.equal('10:00 a.m.');
+    expect(srLabel.text()).to.equal('10:00 a.m. option selected');
     tree.unmount();
   });
 });
