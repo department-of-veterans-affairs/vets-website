@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 // Relative
-import LineLabel from './LineLabel';
+import DuplicateLineLabel from './DuplicateLineLabel';
 import NavItemRow from './NavItemRow';
 import { NavItemPropTypes } from '../prop-types';
 
@@ -36,11 +36,10 @@ const NavItem = ({
       />
 
       {/* Duplicate Line + Label when Expanded */}
-      <LineLabel depth={depth} item={item} />
+      <DuplicateLineLabel depth={depth} item={item} />
 
       {/* Child Items */}
       {expanded && hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
-
       {/* Ending Line */}
       {isFirstLevel && !isLastNavItem && <div className="line" />}
     </li>
