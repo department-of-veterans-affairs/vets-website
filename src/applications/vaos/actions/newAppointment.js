@@ -15,6 +15,7 @@ import {
   getFormData,
   getSystemFromParent,
   getSystemFromChosenFacility,
+  vaosCommunityCare,
 } from '../utils/selectors';
 import {
   getSystemIdentifiers,
@@ -194,6 +195,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
     const email = selectVet360EmailAddress(state);
     const homePhone = selectVet360HomePhoneString(state);
     const mobilePhone = selectVet360MobilePhoneString(state);
+    const showCommunityCare = vaosCommunityCare(state);
 
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
@@ -203,6 +205,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
       schema,
       email,
       phoneNumber,
+      showCommunityCare,
     });
   };
 }

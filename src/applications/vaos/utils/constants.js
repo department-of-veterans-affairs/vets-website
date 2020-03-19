@@ -52,6 +52,7 @@ export const REASON_ADDITIONAL_INFO_TITLES = {
     'Please provide any additional details you’d like to share with your provider about this appointment.',
 };
 
+export const PODIATRY_ID = 'tbd-podiatry';
 export const TYPES_OF_CARE = [
   {
     id: '323',
@@ -101,7 +102,7 @@ export const TYPES_OF_CARE = [
     cceType: 'Nutrition',
   },
   {
-    id: 'tbd-podiatry',
+    id: PODIATRY_ID,
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
