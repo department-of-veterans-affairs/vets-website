@@ -96,16 +96,24 @@ function withPreview(dispatch, action) {
 export function fetchConstants(version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/calculator_constants${queryString}`;
-
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
     return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload =>
-          withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload }),
-        err => dispatch({ type: FETCH_CONSTANTS_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
+      .then(payload => {
+        withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload });
+      })
+      .catch(err => {
+        dispatch({
+          type: FETCH_CONSTANTS_FAILED,
+          payload: err.message,
+        });
+      });
   };
 }
 
@@ -243,10 +251,7 @@ export function fetchProfile(facilityCode, version) {
         if (res.ok) {
           return res.json();
         }
-
-        return res.json().then(errors => {
-          throw new Error(errors);
-        });
+        throw new Error(res.statusText);
       })
       .then(institution => {
         const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
@@ -260,7 +265,10 @@ export function fetchProfile(facilityCode, version) {
         });
       })
       .catch(err => {
-        dispatch({ type: FETCH_PROFILE_FAILED, err });
+        dispatch({
+          type: FETCH_PROFILE_FAILED,
+          payload: err.message,
+        });
       });
   };
 }

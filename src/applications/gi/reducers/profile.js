@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   attributes: {},
   version: {},
   inProgress: false,
+  error: null,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -25,6 +26,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         ...action.err,
         inProgress: false,
+        error: action.payload,
       };
     case FETCH_PROFILE_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
