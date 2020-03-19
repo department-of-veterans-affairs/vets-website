@@ -13,6 +13,14 @@ import {
   stripDST,
 } from './timezone';
 
+export function getRealFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('983', '442').replace('984', '552');
+  }
+
+  return facilityId;
+}
+
 export function getAppointmentType(appt) {
   if (appt.typeOfCareId?.startsWith('CC')) {
     return APPOINTMENT_TYPES.ccRequest;
@@ -367,14 +375,6 @@ export function sortFutureRequests(a, b) {
 
 export function sortMessages(a, b) {
   return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
-}
-
-export function getRealFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('983', '442').replace('984', '552');
-  }
-
-  return facilityId;
 }
 
 export function getAppointmentInstructions(appt) {
