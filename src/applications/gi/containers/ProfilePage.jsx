@@ -61,7 +61,10 @@ export class ProfilePage extends React.Component {
 
     if (profile.statusCode === (503 || 504 || 500)) {
       return (
-        <ScrollElement name="profilePage" className="profile-page">
+        <ScrollElement
+          name="profilePage"
+          className="profile-page vads-u-padding-top--3"
+        >
           {renderBackendErrorMessage}
         </ScrollElement>
       );
