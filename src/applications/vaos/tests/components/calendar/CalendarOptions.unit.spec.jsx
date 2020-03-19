@@ -50,4 +50,38 @@ describe('VAOS <CalendarOptions>', () => {
     expect(checks.length).to.equal(2);
     tree.unmount();
   });
+
+  it('should not disable checkboxes if selectedDates length < maxSelections', () => {
+    const tree = mount(
+      <CalendarOptions
+        currentlySelectedDate="2019-10-18"
+        selectedDates={selectedDates}
+        maxSelections={3}
+        additionalOptions={{ maxSelections: 2, getOptionsByDate }}
+      />,
+    );
+
+    const checks = tree.find('CalendarCheckboxOption');
+    expect(checks.length).to.equal(2);
+    expect(checks.at(0).props().disabled).to.be.false;
+    expect(checks.at(1).props().disabled).to.be.false;
+    tree.unmount();
+  });
+
+  it('should disable checkboxes if selectedDates length === maxSelections', () => {
+    const tree = mount(
+      <CalendarOptions
+        currentlySelectedDate="2019-10-18"
+        selectedDates={selectedDates}
+        maxSelections={1}
+        additionalOptions={{ maxSelections: 2, getOptionsByDate }}
+      />,
+    );
+
+    const checks = tree.find('CalendarCheckboxOption');
+    expect(checks.length).to.equal(2);
+    expect(checks.at(0).props().disabled).to.be.true;
+    expect(checks.at(1).props().disabled).to.be.true;
+    tree.unmount();
+  });
 });

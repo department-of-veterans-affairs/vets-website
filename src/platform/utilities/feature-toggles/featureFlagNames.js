@@ -1,7 +1,6 @@
 export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
-  profileSchemaForms: 'profileSchemaForms',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',

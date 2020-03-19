@@ -23,9 +23,6 @@ export const hasForwardingAddress = formData =>
 export const forwardingCountryIsUSA = formData =>
   formData?.forwardingAddress?.country === USA;
 
-export const hasSelectedIssues = formData =>
-  formData?.contestedIssues?.some(entry => entry['view:selected']);
-
 // For testing
 export const isValidDate = date => date instanceof Date && isFinite(date);
 
