@@ -58,7 +58,7 @@ import {
 import migrations from './migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../components/ConfirmationPage';
+import ConfirmationPoll from '../containers/ConfirmationPoll';
 import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
@@ -212,7 +212,7 @@ const formConfig = {
       depends: () => !hasSession(),
     },
   ],
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPoll,
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',

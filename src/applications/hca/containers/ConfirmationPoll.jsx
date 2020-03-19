@@ -43,7 +43,7 @@ export class ConfirmationPoll extends React.Component {
       return;
     }
 
-    apiRequest(`/v0/health_care_applications/${this.props.jobId}`)
+    apiRequest(`/health_care_applications/${this.props.id}`)
       .then(response => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
@@ -91,13 +91,13 @@ export class ConfirmationPoll extends React.Component {
       return pendingMessage(this.state.longWait);
     }
 
-    const { name, submittedAt, jobId, response, email } = this.props;
+    const { name, submittedAt, id, response, email } = this.props;
 
     return (
       <ConfirmationPage
         submissionStatus={submissionStatus}
         claimId={claimId}
-        jobId={jobId}
+        id={id}
         name={name}
         submittedAt={submittedAt}
         response={response}
@@ -110,7 +110,7 @@ export class ConfirmationPoll extends React.Component {
 function mapStateToProps(state) {
   return {
     submittedAt: state.form.submission.submittedAt,
-    jobId: state.form.submission.response.attributes.jobId,
+    id: state.form.submission.response.id,
     email: state.form.data.email,
     name: state.form.data.veteranFullName,
     response: state.form.submission.response,

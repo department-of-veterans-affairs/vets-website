@@ -2,11 +2,10 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
 
-export const successMessage = claimId => (
+export const successMessage = () => (
   <div>
     <p>Thank you for filing a claim for increased disability compensation.</p>
     <strong>Claim ID number</strong>
-    <div>{claimId}</div>
     <p>
       You can check the status of your claim online. Please allow 24 hours for
       your increased disability claim to show up there.

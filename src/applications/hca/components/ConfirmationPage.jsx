@@ -21,6 +21,18 @@ const scrollToTop = () => {
 };
 
 export default class ConfirmationPage extends React.Component {
+  static defaultProps = {
+    submissionStatus: '',
+    name: {
+      first: '',
+      last: '',
+      middle: '',
+      suffix: '',
+    },
+    submittedAt: '',
+    id: '',
+    response: {},
+  };
   constructor(props) {
     super(props);
     this.state = { isExpanded: false };
@@ -34,7 +46,7 @@ export default class ConfirmationPage extends React.Component {
   render() {
     switch (this.props.submissionStatus) {
       case submissionStatuses.succeeded:
-        return successfulSubmitContent(this.props);
+        return successfulSubmitContent();
       case submissionStatuses.retry:
       case submissionStatuses.exhausted:
       case submissionStatuses.apiFailure:
@@ -54,6 +66,6 @@ ConfirmationPage.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   submittedAt: PropTypes.string.isRequired,
-  jobId: PropTypes.string,
-  response: PropTypes.shape,
+  id: PropTypes.string,
+  response: PropTypes.instanceOf(Object),
 };

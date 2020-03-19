@@ -161,7 +161,7 @@ export const retryableErrorContent = props =>
     props,
     'Your claim has been submitted.',
     'We process applications in the order we receive them. We may contact you if we have questions or need more information. You can print this page for your records.',
-    checkLaterMessage(props.jobId),
+    checkLaterMessage(props.id),
   );
 
 export const successfulSubmitContent = props =>
@@ -169,7 +169,7 @@ export const successfulSubmitContent = props =>
     props,
     'Your claim has successfully been submitted.',
     'We process applications in the order we receive them. We may contact you if we have questions or need more information. You can print this page for your records.',
-    successMessage(props.claimId),
+    successMessage(),
   );
 
 export const submitErrorContent = props =>
