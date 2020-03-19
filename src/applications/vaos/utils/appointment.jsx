@@ -47,14 +47,6 @@ export function getVideoVisitLink(appt) {
   return appt.vvsAppointments[0]?.patients?.[0]?.virtualMeetingRoom?.url;
 }
 
-export function getStagingId(facilityId) {
-  if (!environment.isProduction() && facilityId?.startsWith('983')) {
-    return facilityId.replace('983', '442');
-  }
-
-  return facilityId;
-}
-
 export function titleCase(str) {
   return str
     .toLowerCase()
@@ -186,7 +178,7 @@ export function getAppointmentLocation(appt, facility) {
 
   return (
     <a
-      href={`/find-locations/facility/vha_${getStagingId(facilityId)}`}
+      href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
       rel="noopener noreferrer"
       target="_blank"
     >

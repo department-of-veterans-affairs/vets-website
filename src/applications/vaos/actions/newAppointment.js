@@ -726,6 +726,13 @@ export function submitAppointmentOrRequest(router) {
   };
 }
 
+export function requestAppointmentDateChoice(router) {
+  return dispatch => {
+    dispatch(startRequestAppointmentFlow());
+    router.replace('/new-appointment/request-date');
+  };
+}
+
 export function routeToPageInFlow(flow, router, current, action) {
   return async (dispatch, getState) => {
     dispatch({
