@@ -6,8 +6,8 @@
   "template": {
     "title": "Caregiver Application for Benefits",
     "vagovprod": false,
-    "vagovstaging": false,
-    "vagovdev": false,
-    "localhost": false
+    "vagovstaging": true,
+    "vagovdev": true,
+    "localhost": true
   }
 }
