@@ -48,7 +48,7 @@ class StatusPage extends React.Component {
     }
 
     return (
-      <>
+      <div className="gib-info">
         <FormTitle title="Post-9/11 GI Bill Statement of Benefits" />
         {introText}
         {printButton}
@@ -78,7 +78,7 @@ class StatusPage extends React.Component {
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
