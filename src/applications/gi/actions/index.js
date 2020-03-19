@@ -208,15 +208,25 @@ export function fetchInstitutionSearchResults(query = {}) {
     dispatch({ type: SEARCH_STARTED, query });
 
     return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload =>
-          withPreview(dispatch, {
-            type: INSTITUTION_SEARCH_SUCCEEDED,
-            payload,
-          }),
-        err => dispatch({ type: SEARCH_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        throw new Error(res.statusText);
+      })
+      .then(payload =>
+        withPreview(dispatch, {
+          type: INSTITUTION_SEARCH_SUCCEEDED,
+          payload,
+        }),
+      )
+      .catch(err => {
+        dispatch({
+          type: FETCH_PROFILE_FAILED,
+          payload: err.message,
+        });
+      });
   };
 }
 
@@ -230,12 +240,25 @@ export function fetchProgramSearchResults(query = {}) {
     dispatch({ type: SEARCH_STARTED, query });
 
     return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload =>
-          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload }),
-        err => dispatch({ type: SEARCH_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        throw new Error(res.statusText);
+      })
+      .then(payload =>
+        withPreview(dispatch, {
+          type: PROGRAM_SEARCH_SUCCEEDED,
+          payload,
+        }),
+      )
+      .catch(err => {
+        dispatch({
+          type: SEARCH_FAILED,
+          payload: err.message,
+        });
+      });
   };
 }
 

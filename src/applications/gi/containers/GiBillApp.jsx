@@ -12,6 +12,7 @@ import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 import ErrorMessage from '../components/ErrorMessage';
+import environment from 'platform/utilities/environment';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -106,7 +107,11 @@ export class GiBillApp extends React.Component {
             />
 
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-              {constants.error ? <ErrorMessage /> : content}
+              {constants.error && !environment.isProduction() ? (
+                <ErrorMessage />
+              ) : (
+                content
+              )}
             </DowntimeNotification>
             <AboutThisTool />
             <Disclaimer />

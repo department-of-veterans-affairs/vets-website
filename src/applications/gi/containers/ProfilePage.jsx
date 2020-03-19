@@ -9,6 +9,7 @@ import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ErrorMessage from '../components/ErrorMessage';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -91,7 +92,11 @@ export class ProfilePage extends React.Component {
         name="profilePage"
         className="profile-page vads-u-padding-top--3"
       >
-        {profile.error ? <ErrorMessage /> : content}
+        {profile.error && !environment.isProduction() ? (
+          <ErrorMessage />
+        ) : (
+          content
+        )}
       </ScrollElement>
     );
   }
