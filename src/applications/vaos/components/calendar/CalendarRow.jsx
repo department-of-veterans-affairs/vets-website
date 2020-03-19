@@ -12,8 +12,9 @@ export default class CalendarRow extends Component {
     getSelectedDateOptions: PropTypes.func,
     handleSelectDate: PropTypes.func.isRequired,
     handleSelectOption: PropTypes.func,
-    minDate: PropTypes.string,
     maxDate: PropTypes.string,
+    maxSelections: PropTypes.number,
+    minDate: PropTypes.string,
     rowNumber: PropTypes.number.isRequired,
     selectedDates: PropTypes.array,
   };
@@ -60,6 +61,7 @@ export default class CalendarRow extends Component {
       handleSelectDate,
       handleSelectOption,
       hasError,
+      maxSelections,
       rowNumber,
       selectedDates,
       selectedIndicatorType,
@@ -82,6 +84,7 @@ export default class CalendarRow extends Component {
               index={index}
               inSelectedArray={isDateInSelectedArray(date, selectedDates)}
               key={`row-${rowNumber}-cell-${index}`}
+              maxSelections={maxSelections}
               onClick={() => handleSelectDate(date, rowNumber)}
               selectedDates={selectedDates}
               selectedIndicatorType={selectedIndicatorType}

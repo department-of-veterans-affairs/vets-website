@@ -9,6 +9,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { formatDowntime } from 'platform/utilities/date';
 
 import {
+  getGlobalDowntime,
   getScheduledDowntime,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
@@ -19,12 +20,7 @@ import DowntimeApproaching from '../components/DowntimeApproaching';
 
 import externalServices from '../config/externalServices';
 import externalServiceStatus from '../config/externalServiceStatus';
-import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
-
-import {
-  getSoonestDowntime,
-  isGlobalDowntimeInProgress,
-} from '../util/helpers';
+import { getSoonestDowntime } from '../util/helpers';
 
 /**
  * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
@@ -46,13 +42,19 @@ class DowntimeNotification extends React.Component {
     dependencies: PropTypes.arrayOf(
       PropTypes.oneOf(Object.values(externalServices)),
     ).isRequired,
+    getGlobalDowntime: PropTypes.func.isRequired,
     getScheduledDowntime: PropTypes.func.isRequired,
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
     render: PropTypes.func,
   };
 
+  static defaultProps = {
+    dependencies: [],
+  };
+
   componentDidMount() {
+    // this.props.getGlobalDowntime();
     if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
   }
 
@@ -61,7 +63,7 @@ class DowntimeNotification extends React.Component {
       ? 'form'
       : 'tool';
 
-    const downtimeEnd = formatDowntime(scheduledDowntimeWindow.downtimeEnd);
+    const endTime = formatDowntime(this.props.globalDowntime.endTIme);
 
     return (
       <AlertBox
@@ -72,7 +74,7 @@ class DowntimeNotification extends React.Component {
       >
         <p>
           We’re making some updates to this {appType}. We’re sorry it’s not
-          working right now and we hope to be finished by {downtimeEnd}. Please
+          working right now and we hope to be finished by {endTime}. Please
           check back soon.
         </p>
       </AlertBox>
@@ -80,7 +82,7 @@ class DowntimeNotification extends React.Component {
   };
 
   render() {
-    if (isGlobalDowntimeInProgress()) {
+    if (this.props.globalDowntime) {
       return this.renderGlobalDowntimeOverride();
     }
 
@@ -122,30 +124,35 @@ class DowntimeNotification extends React.Component {
 
 // exported for unit tests
 export const mapStateToProps = (state, ownProps) => {
-  const scheduledDowntime = state.scheduledDowntime;
-  const shouldSendRequest =
-    !scheduledDowntime.isReady && !scheduledDowntime.isPending;
-  const isDowntimeWarningDismissed = scheduledDowntime.dismissedDowntimeWarnings.includes(
+  const {
+    dismissedDowntimeWarnings,
+    globalDowntime,
+    isPending,
+    isReady,
+    serviceMap,
+  } = state.scheduledDowntime;
+
+  const shouldSendRequest = !isReady && !isPending;
+  const isDowntimeWarningDismissed = dismissedDowntimeWarnings.includes(
     ownProps.appTitle,
   );
 
-  let downtime = null;
-  if (scheduledDowntime.isReady) {
-    downtime = getSoonestDowntime(
-      scheduledDowntime.serviceMap,
-      ownProps.dependencies,
-    );
-  }
+  const downtime = isReady
+    ? getSoonestDowntime(serviceMap, ownProps.dependencies || [])
+    : null;
 
   return {
-    shouldSendRequest,
+    globalDowntime,
     isDowntimeWarningDismissed,
-    ...scheduledDowntime,
+    isPending,
+    isReady,
+    shouldSendRequest,
     ...downtime,
   };
 };
 
 const mapDispatchToProps = {
+  getGlobalDowntime,
   getScheduledDowntime,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,

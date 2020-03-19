@@ -6,37 +6,16 @@ import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
 
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
-import { PaymentInformationEditModal } from '../../components/PaymentInformationEditModal';
+import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {
-    fields: {
-      financialInstitutionRoutingNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountType: {
-        value: {
-          value: ACCOUNT_TYPES_OPTIONS.checking,
-          dirty: false,
-        },
-      },
-    },
     isEditing: true,
     isSaving: false,
     onClose() {},
     onSubmit() {},
     editModalFieldChanged() {},
     responseError: null,
-    useSchemaForm: true,
   };
 
   it('renders', () => {

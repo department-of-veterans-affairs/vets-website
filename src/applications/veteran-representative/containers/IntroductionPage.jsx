@@ -19,7 +19,6 @@ class IntroductionPage extends React.Component {
           as Claimant's Representative).
         </p>
         <SaveInProgressIntro
-          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -61,7 +60,6 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
-          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
