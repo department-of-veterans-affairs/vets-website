@@ -84,8 +84,10 @@ export default class CancelAppointmentModal extends React.Component {
           onClose={onClose}
           title="We couldn’t cancel your appointment"
         >
-          <p>Something went wrong when we tried to cancel this appointment.</p>
-          <p>You can contact the medical center to cancel:</p>
+          <p>
+            Something went wrong when we tried to cancel this appointment.
+            Please contact your medical center to cancel:
+          </p>
           <p>
             {clinicName ? (
               <>
