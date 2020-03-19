@@ -19,7 +19,7 @@ const defaultProps = {
     state: 'IL',
     tuitionAmount: 10000,
     schoolClosing: false,
-    cautionFlag: false,
+    cautionFlags: [],
   },
   constants: {
     AVGDODBAH: 1000,
@@ -90,7 +90,7 @@ it('should display school closing and caution alerts', () => {
     result: {
       ...defaultProps.result,
       schoolClosing: true,
-      cautionFlag: true,
+      cautionFlags: [{ reason: 'reason for caution', id: '1' }],
     },
   };
   const wrapper = mount(<VetTecProgramSearchResult {...props} />);
