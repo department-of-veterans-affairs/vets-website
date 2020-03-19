@@ -64,7 +64,7 @@ describe('Report 674 term information', () => {
     form.unmount();
   });
 
-  it('should submit with a valid term dates and full-time enrollment', () => {
+  it('should submit with valid term dates and full-time enrollment', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -107,7 +107,7 @@ describe('Report 674 term information', () => {
     form.unmount();
   });
 
-  it('should submit with a valid term dates and program information', () => {
+  it('should submit with valid term dates and program information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
