@@ -12,7 +12,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from '../content/GetFormHelp';
+import GetFormHelp from '../components/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
