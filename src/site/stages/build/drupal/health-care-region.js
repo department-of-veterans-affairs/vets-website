@@ -282,12 +282,8 @@ function itemSorter(items = [], field, reverse = false, stale = true) {
   let sorted = items.entities.sort((a, b) => {
     const start1 = moment(a[field].value);
     const start2 = moment(b[field].value);
-    return start1.isAfter(start2);
+    return reverse ? start2 - start1 : start1 - start2;
   });
-
-  if (reverse) {
-    sorted = sorted.reverse();
-  }
 
   if (stale) {
     sorted = sorted.filter(item => moment(item[field].value).isAfter(moment()));
