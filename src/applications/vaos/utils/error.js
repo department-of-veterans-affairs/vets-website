@@ -10,9 +10,8 @@ export function captureError(err, skipRecordEvent) {
   } else {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
-      const message = `vaos_server_error${
-        err?.[0]?.title ? `: ${err?.[0]?.title}` : ''
-      }`;
+      const errorTitle = err?.[0]?.title;
+      const message = `vaos_server_error${errorTitle ? `: ${errorTitle}` : ''}`;
       eventErrorKey = message;
       // the apiRequest helper returns the errors array, instead of an exception
       Sentry.captureMessage(message);

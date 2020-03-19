@@ -3,12 +3,12 @@ import { captureError } from '../utils/error';
 
 import { checkPastVisits, getRequestLimits, getAvailableClinics } from '../api';
 
-import { recordVaosError } from './events';
+import { recordVaosError, recordEligibilityFailure } from './events';
 
 function createErrorHandler(directOrRequest, errorKey) {
   return data => {
     captureError(data, true);
-    recordVaosError(errorKey);
+    recordVaosError(`eligibility-${errorKey}`);
     return { [`${directOrRequest}Failed`]: true };
   };
 }
@@ -191,7 +191,6 @@ export function getEligibleFacilities(facilities) {
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
 }
-
 /**
  * Record Google Analytics events based on results of eligibility checks.
  * Error keys ending with 'error' represent a failure in fetching info for the check,
@@ -201,11 +200,11 @@ export function getEligibleFacilities(facilities) {
 export function recordEligibilityGAEvents(eligibilityData) {
   if (!hasRequestFailed(eligibilityData)) {
     if (!isUnderRequestLimit(eligibilityData)) {
-      recordVaosError('request-exceeded-outstanding-requests-failure');
+      recordEligibilityFailure('request-exceeded-outstanding-requests');
     }
 
     if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
-      recordVaosError('request-past-visits-failure');
+      recordEligibilityFailure('request-past-visits');
     }
   }
 
@@ -213,11 +212,11 @@ export function recordEligibilityGAEvents(eligibilityData) {
 
   if (directSchedulingEnabled && !hasRequestFailed(eligibilityData)) {
     if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
-      recordVaosError('direct-check-past-visits-failure');
+      recordEligibilityFailure('direct-check-past-visits');
     }
 
     if (!eligibilityData.clinics?.length) {
-      recordVaosError('direct-available-clinics-failure');
+      recordEligibilityFailure('direct-available-clinics');
     }
   }
 }

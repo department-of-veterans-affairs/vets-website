@@ -25,7 +25,7 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
-import { recordVaosError } from './utils/events';
+import { recordVaosError, recordEligibilityFailure } from './utils/events';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -217,6 +217,10 @@ export default {
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
 
+      if (!eligibilityStatus.direct && !eligibilityStatus.request) {
+        recordEligibilityFailure();
+      }
+
       if (eligibilityStatus.direct) {
         let appointments = null;
 
@@ -236,9 +240,9 @@ export default {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
-          recordVaosError('direct-no-matching-past-clinics-failure');
+          recordEligibilityFailure('direct-no-matching-past-clinics');
         } catch (error) {
-          recordVaosError('direct-no-matching-past-clinics-error');
+          recordVaosError('eligbility-direct-no-matching-past-clinics-error');
           captureError(error);
         }
       }
