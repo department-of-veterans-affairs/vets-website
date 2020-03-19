@@ -45,19 +45,7 @@ describe('<ServiceAvailabilityBanner/>', () => {
       { store: {} },
     );
 
-    expect(wrapper.find('span[data-unit-status="success"]').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render a warning when downtime is scheduled to start soon', () => {
-    const halfHourAsSeconds = 30 * 60;
-    const wrapper = shallow(
-      <ServiceAvailabilityBanner
-        {...defaultProps}
-        uptimeRemaining={halfHourAsSeconds}
-      />,
-    );
-    expect(wrapper.find('span[data-unit-status="warning"]').length).to.equal(1);
+    expect(wrapper.find('[appId="gi-bill-benefits"]').length).to.equal(1);
     wrapper.unmount();
   });
 
