@@ -6,7 +6,10 @@ import { withRouter } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { selectProfile } from 'platform/user/selectors';
+import {
+  selectProfile,
+  selectPatientFacilities,
+} from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { focusElement } from 'platform/utilities/ui';
@@ -19,6 +22,7 @@ import {
 } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
+import { COVID19Alert, eligibleHealthSystems } from '../covid-19';
 
 import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
@@ -299,6 +303,7 @@ class DashboardApp extends React.Component {
       profile,
       showManageYourVAHealthCare,
       showServerError,
+      showCOVID19Alert,
     } = this.props;
     const availableWidgetsCount = [
       canAccessClaims,
@@ -318,6 +323,8 @@ class DashboardApp extends React.Component {
             your VA benefits and communications.
           </p>
         </div>
+
+        {showCOVID19Alert && <COVID19Alert />}
 
         {showServerError && <ESRError errorType={ESR_ERROR_TYPES.generic} />}
 
@@ -353,7 +360,7 @@ class DashboardApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   const profileState = selectProfile(state);
   const canAccessRx = profileState.services.includes(backendServices.RX);
   const canAccessMessaging = profileState.services.includes(
@@ -366,6 +373,10 @@ const mapStateToProps = state => {
     backendServices.EVSS_CLAIMS,
   );
   const showServerError = hasESRServerError(state);
+  const facilities = selectPatientFacilities(state) || [];
+  const showCOVID19Alert = facilities.some(facility =>
+    eligibleHealthSystems.has(facility.facilityId),
+  );
 
   return {
     canAccessRx,
@@ -376,6 +387,7 @@ const mapStateToProps = state => {
     showManageYourVAHealthCare:
       isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
     showServerError,
+    showCOVID19Alert,
   };
 };
 

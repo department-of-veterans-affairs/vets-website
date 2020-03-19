@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import localStorage from 'platform/utilities/storage/localStorage';
-import { DashboardApp } from '../../containers/DashboardApp';
+import { DashboardApp, mapStateToProps } from '../../containers/DashboardApp';
 
 const defaultProps = {
   profile: {
@@ -110,5 +110,38 @@ describe('<DashboardApp>', () => {
     expect(tree.toString()).to.not.contain(
       'Verify your identity to access more VA.gov tools and features',
     );
+  });
+});
+
+describe('mapStateToProps', () => {
+  describe('showNewAlert', () => {
+    it('is set to true when user is a patient in an eligible health care system', () => {
+      const props = mapStateToProps({
+        hcaEnrollmentStatus: {},
+        user: {
+          profile: {
+            services: [],
+            facilities: [
+              { facilityId: 'abc' },
+              { facilityId: '123' },
+              { facilityId: '672' },
+            ],
+          },
+        },
+      });
+      expect(props.showNewAlert).to.be.true;
+    });
+    it('is set to false when user is not a patient in an eligible health care system', () => {
+      const props = mapStateToProps({
+        hcaEnrollmentStatus: {},
+        user: {
+          profile: {
+            services: [],
+            facilities: [{ facilityId: 'abc' }],
+          },
+        },
+      });
+      expect(props.showNewAlert).to.be.false;
+    });
   });
 });
