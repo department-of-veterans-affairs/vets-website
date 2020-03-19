@@ -17,7 +17,7 @@ export const schema = {
           type: 'boolean',
           default: false,
         },
-        requestApprovalOfSchoolAttendanceOfChild18OrOlder: {
+        report674: {
           type: 'boolean',
           default: false,
         },
@@ -54,7 +54,7 @@ export const uiSchema = {
       'ui:title':
         'Report that a child 18 or older has stopped attending school',
     },
-    requestApprovalOfSchoolAttendanceOfChild18OrOlder: {
+    report674: {
       'ui:title': 'Request approval of school attendance for child 18 or older',
     },
   },
