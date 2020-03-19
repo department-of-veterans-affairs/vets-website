@@ -122,6 +122,10 @@ export class DateTimeSelectPage extends React.Component {
     }
   };
 
+  startRequestFlow = () => {
+    this.props.requestAppointmentDateChoice(this.props.router);
+  };
+
   validate = data => {
     if (this.userSelectedSlot(data)) {
       this.setState({ validationError: null });
@@ -193,7 +197,7 @@ export class DateTimeSelectPage extends React.Component {
           loadingErrorMessage={
             <ErrorMessage
               facilityId={facilityId}
-              startRequestFlow={this.props.requestAppointmentDateChoice}
+              startRequestFlow={this.startRequestFlow}
             />
           }
           onChange={newData => {

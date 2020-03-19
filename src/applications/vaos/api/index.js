@@ -403,16 +403,15 @@ export function getAvailableSlots(
   let promise;
 
   if (USE_MOCK_DATA) {
-    promise = Promise.reject();
-    // promise = new Promise(resolve => {
-    //   setTimeout(() => {
-    //     import('./slots.json').then(module => {
-    //       const response = module.default ? module.default : module;
-    //       response.data[0].attributes.appointmentTimeSlot = generateMockSlots();
-    //       resolve(response);
-    //     });
-    //   }, 500);
-    // });
+    promise = new Promise(resolve => {
+      setTimeout(() => {
+        import('./slots.json').then(module => {
+          const response = module.default ? module.default : module;
+          response.data[0].attributes.appointmentTimeSlot = generateMockSlots();
+          resolve(response);
+        });
+      }, 500);
+    });
   } else {
     promise = apiRequest(
       `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
