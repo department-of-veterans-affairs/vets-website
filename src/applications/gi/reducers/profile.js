@@ -3,14 +3,14 @@ import {
   FETCH_PROFILE_STARTED,
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
-  FETCH_RESPONSE_CODE,
+  GET_PROFILE_ERROR_CODE,
 } from '../actions';
 import { normalizedInstitutionAttributes } from './utility';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   attributes: {},
-  responseCode: {},
+  statusCode: null,
   version: {},
   inProgress: false,
 };
@@ -28,11 +28,10 @@ export default function(state = INITIAL_STATE, action) {
         ...action.err,
         inProgress: false,
       };
-    case FETCH_RESPONSE_CODE:
-      const responseCode = action.payload.status.toString();
+    case GET_PROFILE_ERROR_CODE:
+      const code = action.code;
       return {
-        responseCode,
-        ...action.err,
+        statusCode: code,
         inProgress: false,
       };
     case FETCH_PROFILE_SUCCEEDED:

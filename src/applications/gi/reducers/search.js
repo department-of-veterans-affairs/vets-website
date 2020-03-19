@@ -5,7 +5,7 @@ import {
   SEARCH_FAILED,
   INSTITUTION_SEARCH_SUCCEEDED,
   PROGRAM_SEARCH_SUCCEEDED,
-  FETCH_RESPONSE_CODE,
+  GET_SEARCH_ERROR_CODE,
 } from '../actions';
 
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
@@ -16,6 +16,7 @@ import {
 } from './utility';
 
 const INITIAL_STATE = {
+  statusCode: null,
   facets: {
     category: {},
     type: {},
@@ -33,7 +34,6 @@ const INITIAL_STATE = {
   results: [],
   count: null,
   version: {},
-  // responseCode: {},
   query: null,
   pagination: {
     currentPage: 1,
@@ -101,34 +101,12 @@ export default function(state = INITIAL_STATE, action) {
         version: camelPayload.meta.version,
         inProgress: false,
       };
-    case FETCH_RESPONSE_CODE:
-      const responseCode = action.payload.status.toString();
+    case GET_SEARCH_ERROR_CODE:
+      const statusCode = action.code;
       return {
-        facets: {
-          category: {},
-          type: {},
-          state: {},
-          country: [],
-          cautionFlag: {},
-          studentVetGroup: {},
-          yellowRibbonScholarship: {},
-          principlesOfExcellence: {},
-          eightKeysToVeteranSuccess: {},
-          stem: {},
-          provider: [],
-        },
-        links: {},
-        results: [],
-        count: null,
-        version: {},
-        responseCode,
-        query: null,
-        pagination: {
-          currentPage: 1,
-          totalPages: 1,
-        },
+        ...state,
+        statusCode,
         inProgress: false,
-        filterOpened: false,
       };
     case PROGRAM_SEARCH_SUCCEEDED:
       const programCamelPayload = camelCaseKeysRecursive(action.payload);

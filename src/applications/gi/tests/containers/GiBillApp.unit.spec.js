@@ -43,3 +43,18 @@ describe('<GiBillApp>', () => {
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 });
+
+it('should render errormessage', () => {
+  const props = {
+    ...defaultProps,
+    constants: {
+      ...defaultProps.constants,
+      statusCode: 503,
+      inProgress: true,
+    },
+  };
+  const tree = SkinDeep.shallowRender(
+    <GiBillApp {...props} location={location} params={params} />,
+  );
+  expect(tree.subTree('div')).to.be.ok;
+});

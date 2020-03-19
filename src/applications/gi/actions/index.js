@@ -35,6 +35,9 @@ export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const FETCH_RESPONSE_CODE = 'FETCH_RESPONSE_CODE';
+export const GET_PROFILE_ERROR_CODE = 'GET_PROFILE_ERROR_CODE';
+export const GET_SEARCH_ERROR_CODE = 'GET_SEARCH_ERROR_CODE';
+export const GET_CONSTANTS_ERROR_CODE = 'GET_CONSTANTS_ERROR_CODE';
 
 export function updateRoute(location) {
   return { type: UPDATE_ROUTE, location };
@@ -76,11 +79,6 @@ export function exitPreviewMode() {
     type: EXIT_PREVIEW_MODE,
   };
 }
-
-function setResponse(dispatch, res) {
-  dispatch({ type: FETCH_RESPONSE_CODE, payload: res });
-}
-
 function withPreview(dispatch, action) {
   const version = action.payload.meta.version;
   if (version.preview) {
@@ -109,6 +107,7 @@ export function fetchConstants(version) {
           return res.json();
         }
         return res.json().then(({ errors }) => {
+          dispatch({ type: GET_CONSTANTS_ERROR_CODE, code: res.status });
           throw new Error(errors[0].title);
         });
       })
@@ -217,7 +216,7 @@ export function fetchInstitutionSearchResults(query = {}) {
           return res.json();
         }
         return res.json().then(errors => {
-          setResponse(dispatch, res);
+          dispatch({ type: GET_SEARCH_ERROR_CODE, code: res.status });
           throw new Error(errors);
         });
       })
@@ -243,12 +242,23 @@ export function fetchProgramSearchResults(query = {}) {
     dispatch({ type: SEARCH_STARTED, query });
 
     return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload =>
-          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload }),
-        err => dispatch({ type: SEARCH_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return res.json().then(errors => {
+          throw new Error(errors);
+        });
+      })
+      .then(payload =>
+        withPreview(dispatch, {
+          type: PROGRAM_SEARCH_SUCCEEDED,
+          payload,
+        }),
+      )
+      .catch(err => {
+        dispatch({ type: SEARCH_FAILED, err });
+      });
   };
 }
 
@@ -265,7 +275,7 @@ export function fetchProfile(facilityCode, version) {
           return res.json();
         }
         return res.json().then(errors => {
-          setResponse(dispatch, res);
+          dispatch({ type: GET_PROFILE_ERROR_CODE, code: res.status });
           throw new Error(errors);
         });
       })

@@ -87,7 +87,7 @@ export class GiBillApp extends React.Component {
       content = <LoadingIndicator message="Loading..." />;
     } else {
       content =
-        constants.responseCode === ('503' || '500' || '504')
+        constants.statusCode === (503 || 500 || 504)
           ? RenderBackendErrorMessage
           : this.props.children;
     }

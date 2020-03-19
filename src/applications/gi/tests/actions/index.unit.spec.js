@@ -14,8 +14,8 @@ import {
   FETCH_BAH_SUCCEEDED,
   fetchProfile,
   FETCH_PROFILE_STARTED,
-  FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
+  GET_PROFILE_ERROR_CODE,
   fetchInstitutionAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
   AUTOCOMPLETE_SUCCEEDED,
@@ -177,8 +177,8 @@ describe('fetchProfile', () => {
 
     setTimeout(() => {
       const { type, err } = dispatch.secondCall.args[0];
-      expect(type).to.eql(FETCH_PROFILE_FAILED);
-      expect(err instanceof Error).to.be.true;
+      expect(type).to.eql(GET_PROFILE_ERROR_CODE);
+      expect(err instanceof Error).to.be.false;
       done();
     }, 0);
   });

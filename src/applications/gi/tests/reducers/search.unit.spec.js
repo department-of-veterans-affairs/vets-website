@@ -85,6 +85,18 @@ describe('search reducer', () => {
     expect(state.pagination.perPage).to.eql(10);
   });
 
+  it('should handle get search error code', () => {
+    const state = searchReducer(
+      { inProgress: true },
+      {
+        type: 'GET_SEARCH_ERROR_CODE',
+        code: 503,
+      },
+    );
+
+    expect(state.statusCode).to.eql(503);
+  });
+
   it('should set correct state on program search success', () => {
     const state = searchReducer(
       { inProgress: true },

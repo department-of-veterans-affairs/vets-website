@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-// import { RenderBackendErrorMessage } from '../utils/render';
+import { RenderBackendErrorMessage } from '../utils/render';
 
 import {
   clearAutocompleteSuggestions,
@@ -168,9 +168,9 @@ export class SearchPage extends React.Component {
 
     let searchResults;
 
-    // if (search.responseCode === ('503' || '504' || '500')) {
-    //   return RenderBackendErrorMessage;
-    // }
+    if (search.statusCode === (503 || 504 || 500)) {
+      return RenderBackendErrorMessage;
+    }
 
     // Filter button on mobile.
     const filterButton = (
@@ -281,7 +281,9 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {this.renderInstitutionSearchForm(searchResults, filtersClass)}
+        {search.statusCode === (500 || 503 || 504)
+          ? RenderBackendErrorMessage
+          : this.renderInstitutionSearchForm(searchResults, filtersClass)}
       </ScrollElement>
     );
   }

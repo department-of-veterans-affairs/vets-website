@@ -31,6 +31,18 @@ describe('constants reducer', () => {
     expect(state.errorMessage).to.eql('error');
   });
 
+  it('should handle get constants error code', () => {
+    const state = constantsReducer(
+      { inProgress: true },
+      {
+        type: 'GET_CONSTANTS_ERROR_CODE',
+        code: 503,
+      },
+    );
+
+    expect(state.statusCode).to.eql(503);
+  });
+
   it('should handle fetch succeeded', () => {
     const state = constantsReducer(
       { inProgress: true },

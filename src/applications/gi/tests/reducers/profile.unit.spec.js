@@ -55,4 +55,13 @@ describe('profile reducer', () => {
     expect(state.attributes.name).to.eql('NAME');
     expect(state.version).to.eql(1);
   });
+
+  it('should handle get profile error code', () => {
+    const state = profileReducer(initialState, {
+      type: 'GET_PROFILE_ERROR_CODE',
+      code: 503,
+    });
+
+    expect(state.statusCode).to.eql(503);
+  });
 });

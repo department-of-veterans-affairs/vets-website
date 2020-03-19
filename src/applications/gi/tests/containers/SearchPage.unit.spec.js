@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
+import SkinDeep from 'skin-deep';
 
 import createCommonStore from '../../../../platform/startup/store';
 import { SearchPage } from '../../containers/SearchPage';
@@ -57,6 +58,20 @@ describe('<SearchPage>', () => {
       'Loading search results...',
     );
     tree.unmount();
+  });
+
+  it('should render error message', () => {
+    const props = {
+      ...defaultProps,
+      search: {
+        ...defaultProps.search,
+        statusCode: 503,
+        inProgress: true,
+      },
+    };
+
+    const tree = SkinDeep.shallowRender(<SearchPage {...props} />);
+    expect(tree.subTree('div')).to.be.ok;
   });
 
   it('should call expected actions when mounted', () => {

@@ -51,6 +51,7 @@ describe('<ProfilePage>', () => {
       showModal: () => {},
       profile: {
         ...defaultProps.profile,
+        statusCode: 503,
         attributes: {},
       },
       params: {
@@ -58,6 +59,6 @@ describe('<ProfilePage>', () => {
       },
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
-    expect(tree.subTree('#backendErrorMessage')).to.be.ok;
+    expect(tree.subTree('div')).to.be.ok;
   });
 });
