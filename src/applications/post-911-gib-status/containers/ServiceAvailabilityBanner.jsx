@@ -8,13 +8,6 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
-const DOWNTIME_SOON_CUTOFF = 60 * 30; // 30 minutes
-const systemUpAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.`;
-const downtimeAlertHeadline = `The Post-9/11 GI Bill Benefits tool is down for maintenance`;
-const downtimeAlertContent = `We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
-const downtimeSoonAlertHeadline = `The Post-9/11 GI Bill Benefits tool will be down soon for maintenance`;
-const downtimeSoonAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
-
 export class ServiceAvailabilityBanner extends React.Component {
   componentDidMount() {
     this.props.getServiceAvailability();
@@ -25,8 +18,7 @@ export class ServiceAvailabilityBanner extends React.Component {
 
     switch (this.props.serviceAvailability) {
       case SERVICE_AVAILABILITY_STATES.unrequested: {
-        // This is never actually even seen
-        content = <div />;
+        content = null;
         break;
       }
       case SERVICE_AVAILABILITY_STATES.pending: {
@@ -36,33 +28,15 @@ export class ServiceAvailabilityBanner extends React.Component {
         break;
       }
       case SERVICE_AVAILABILITY_STATES.up: {
-        let footNote = null;
-
-        if (
-          this.props.uptimeRemaining &&
-          this.props.uptimeRemaining <= DOWNTIME_SOON_CUTOFF
-        ) {
-          footNote = (
-            <span data-unit-status="warning">
-              {downtimeSoonAlertHeadline}. {downtimeSoonAlertContent}
-            </span>
-          );
-        } else if (
-          !this.props.uptimeRemaining ||
-          this.props.uptimeRemaining > DOWNTIME_SOON_CUTOFF
-        ) {
-          footNote = (
-            <span data-unit-status="success">{systemUpAlertContent}</span>
-          );
-        }
-
         content = (
-          <div>
+          <>
             <CallToActionWidget appId="gi-bill-benefits" />
             <p>
-              <strong>Note:</strong> {footNote}
+              <strong>Note:</strong> The tool is available Sunday through
+              Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00
+              p.m. ET.
             </p>
-          </div>
+          </>
         );
         break;
       }
@@ -70,8 +44,8 @@ export class ServiceAvailabilityBanner extends React.Component {
       default: {
         content = (
           <AlertBox
-            headline={downtimeAlertHeadline}
-            content={downtimeAlertContent}
+            headline="The Post-9/11 GI Bill Benefits tool is down for maintenance"
+            content="We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time."
             isVisible
             status="error"
           />
