@@ -13,19 +13,19 @@ export const schema = {
       properties: {
         earningsFromAllEmployment: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         annualSocialSecurityPayments: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         otherAnnuitiesIncome: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         allOtherIncome: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
       },
     },
@@ -37,19 +37,19 @@ export const schema = {
       properties: {
         earningsFromAllEmployment: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         annualSocialSecurityPayments: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         otherAnnuitiesIncome: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         allOtherIncome: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
       },
     },

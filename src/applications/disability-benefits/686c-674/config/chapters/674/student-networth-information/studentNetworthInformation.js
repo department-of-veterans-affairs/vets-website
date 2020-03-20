@@ -13,19 +13,19 @@ export const schema = {
       properties: {
         savings: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         securities: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         realEstate: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         otherAssets: {
           type: 'string',
-          pattern: '^\\d{6}',
+          pattern: '^\\d{1,6}',
         },
         remarks: {
           type: 'string',
@@ -67,7 +67,7 @@ export const uiSchema = {
       },
     },
     realEstate: {
-      'ui:title': 'Value of student’s real estate.',
+      'ui:title': 'Value of student’s real estate',
       'ui:required': formData => formData.studentDoesHaveNetworth,
       'ui:errorMessages': {
         required: 'Please enter a value',
@@ -75,7 +75,7 @@ export const uiSchema = {
       },
     },
     otherAssets: {
-      'ui:title': 'All of student’s assets.',
+      'ui:title': 'All of student’s other assets',
       'ui:required': formData => formData.studentDoesHaveNetworth,
       'ui:errorMessages': {
         required: 'Please enter a value',
@@ -83,8 +83,8 @@ export const uiSchema = {
       },
     },
     remarks: {
-      'ui:title': 'All of student’s assets.',
-      'ui:widget': 'textrea',
+      'ui:title': 'Remarks about student’s networth',
+      'ui:widget': 'textarea',
     },
   },
 };

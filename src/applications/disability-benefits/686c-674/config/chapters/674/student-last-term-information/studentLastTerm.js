@@ -28,10 +28,10 @@ export const schema = {
     lastTermSchoolAddress: addressSchemaObj,
     dateTermBegan: date,
     dateTermEnded: date,
-    classesPerWeek: {
+    lastTermClassesPerWeek: {
       type: 'number',
     },
-    hoursPerWeek: {
+    lastTermHoursPerWeek: {
       type: 'number',
     },
   },
@@ -159,7 +159,7 @@ export const uiSchema = {
       },
     },
   },
-  classesPerWeek: {
+  lastTermClassesPerWeek: {
     'ui:required': formData => formData.studentDidAttendSchoolLastTerm === true,
     'ui:title': 'Number of classes a week',
     'ui:errorMessages': { required: 'Please enter a number' },
@@ -168,7 +168,7 @@ export const uiSchema = {
       expandUnderCondition: true,
     },
   },
-  hoursPerWeek: {
+  lastTermHoursPerWeek: {
     'ui:required': formData => formData.studentDidAttendSchoolLastTerm === true,
     'ui:title': 'Hours a week',
     'ui:errorMessages': { required: 'Please enter a number' },
