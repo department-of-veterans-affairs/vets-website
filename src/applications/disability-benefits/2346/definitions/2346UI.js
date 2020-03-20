@@ -29,25 +29,6 @@ import {
   validateZIP,
 } from '../helpers';
 
-// FIXME: Console error: Failed prop type: The prop `title` is marked as required in `SchemaForm`, but its value is `undefined`. -@maharielrosario at 3/17/2020, 4:45:54 PM
-//
-
-// import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// const addressUIDescription = (
-//   <>
-//     <p>
-//       Your order will ship to this address. Orders typically arrive with 7-10
-//       business days.
-//     </p>
-//     <br />
-//     <p className="vads-u-font-weight--bold">
-//       Select the address you would like us to send your order to:{' '}
-//       <span className="red vads-u-font-weight--normal">*(Required)</span>
-//     </p>
-//   </>
-// );
-
 const emailUITitle = (
   <>
     <p className="vads-u-font-weight--bold">Email Address</p>
@@ -192,8 +173,16 @@ export default {
   sharedUISchemas: {
     dateOfBirthUI: currentOrPastDateUI('Date of Birth'),
     fullNameUI,
-    permAddressUI: addressUISchema('veteranAddress', 'Permanent address', true),
-    tempAddressUI: addressUISchema('veteranAddress', 'Temporary address', true),
+    permAddressUI: addressUISchema(
+      'permanentAddress',
+      'Permanent address',
+      true,
+    ),
+    tempAddressUI: addressUISchema(
+      'temporaryAddress',
+      'Temporary address',
+      true,
+    ),
     emailUI: {
       'ui:title': emailUITitle,
       'ui:description':

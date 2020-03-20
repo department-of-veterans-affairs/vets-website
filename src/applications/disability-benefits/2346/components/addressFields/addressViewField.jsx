@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export const AddressViewField = ({ formData }) => {
@@ -21,4 +22,22 @@ export const AddressViewField = ({ formData }) => {
       {country}
     </p>
   );
+};
+
+AddressViewField.propTypes = {
+  street: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired,
+  postalCode: PropTypes.string.isRequired,
+};
+
+AddressViewField.defaultProps = {
+  formData: {},
+  street: '',
+  street2: '',
+  city: '',
+  state: '',
+  country: '',
+  postalCode: '',
 };

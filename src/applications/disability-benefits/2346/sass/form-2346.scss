@@ -49,8 +49,9 @@ label {
   margin-top: 0;
 }
 
-.red {
-  color: red
+.required {
+  color: red;
+  font-weight: normal;
 }
 
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
