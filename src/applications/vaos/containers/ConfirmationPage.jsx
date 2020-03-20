@@ -75,7 +75,15 @@ export class ConfirmationPage extends React.Component {
           />
         )}
         <div className="vads-u-margin-y--2">
-          <Link to="/" className="usa-button vads-u-padding-right--2">
+          <Link
+            to="/"
+            className="usa-button vads-u-padding-right--2"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+              });
+            }}
+          >
             View your appointments
           </Link>
           <Link

@@ -305,7 +305,7 @@ export function confirmCancelAppointment() {
         ...additionalEventdata,
       });
     } catch (e) {
-      captureError(e);
+      captureError(e, true);
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });

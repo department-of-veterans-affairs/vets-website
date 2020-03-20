@@ -60,7 +60,10 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
-            disabled={submitStatus === FETCH_STATUS.succeeded}
+            disabled={
+              submitStatus === FETCH_STATUS.succeeded ||
+              submitStatus === FETCH_STATUS.failed
+            }
             isLoading={submitStatus === FETCH_STATUS.loading}
             onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
@@ -77,7 +80,7 @@ export class ReviewPage extends React.Component {
             content={
               <>
                 <p>
-                  We’re sorry. Something went wrong when we tried to submit your{' '}
+                  Something went wrong when we tried to submit your{' '}
                   {isDirectSchedule ? 'appointment' : 'request'} and you’ll need
                   to start over. We suggest you wait a day to try again or you
                   can call your medical center to help with your{' '}
