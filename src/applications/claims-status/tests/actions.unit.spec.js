@@ -445,12 +445,6 @@ describe('Actions', () => {
   });
 
   describe('pollClaimStatus', () => {
-    it('should call apiRequest', () => {
-      const apiRequestSpy = sinon.spy();
-
-      pollRequest({ request: apiRequestSpy });
-      expect(apiRequestSpy.calledOnce).to.be.true;
-    });
     describe('apiRequest response handler', () => {
       it('should call onSuccess when shouldSucceed returns true', () => {
         const apiRequestSpy = sinon.spy();
