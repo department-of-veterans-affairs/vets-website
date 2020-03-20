@@ -18,17 +18,15 @@ describe('constants reducer', () => {
 
   it('should handle fetch failed', () => {
     const state = constantsReducer(
-      { inProgress: true },
+      { inProgress: true, error: 'Status Unavailible' },
       {
         type: 'FETCH_CONSTANTS_FAILED',
-        err: {
-          errorMessage: 'error',
-        },
+        payload: 'Status Unavailible',
       },
     );
 
     expect(state.inProgress).to.eql(false);
-    expect(state.errorMessage).to.eql('error');
+    expect(state.error).to.eql('Status Unavailible');
   });
 
   it('should handle fetch succeeded', () => {
