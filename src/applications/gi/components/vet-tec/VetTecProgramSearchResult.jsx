@@ -60,13 +60,15 @@ class VetTecProgramSearchResult extends React.Component {
                 {renderPreferredProviderFlag(this.props.result)}
               </div>
             </div>
-            {(schoolClosing || cautionFlags.length > 0) && (
+            {(schoolClosing || cautionFlags) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing })}
-                  {renderCautionAlert({
-                    cautionFlags,
-                  })}
+                  {cautionFlags &&
+                    cautionFlags.length > 0 &&
+                    renderCautionAlert({
+                      cautionFlags,
+                    })}
                 </div>
               </div>
             )}
