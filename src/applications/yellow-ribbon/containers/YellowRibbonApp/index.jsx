@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import ComparisonBanner from '../../components/ComparisonBanner';
 import SearchForm from '../SearchForm';
 import SearchResults from '../SearchResults';
+import manifest from '../../manifest.json';
 
 export const YellowRibbonApp = ({ results }) => (
   <>
@@ -14,9 +15,7 @@ export const YellowRibbonApp = ({ results }) => (
     <Breadcrumbs className="vads-u-padding--0">
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
-      <a href="/education/yellow-ribbon-participating-schools">
-        Find a Yellow Ribbon school
-      </a>
+      <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>
       {results && <a href={window.location.href}>Search results</a>}
     </Breadcrumbs>
 
