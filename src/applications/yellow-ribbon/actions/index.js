@@ -55,29 +55,48 @@ export const updatePageAction = page => ({
 // ============
 export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
+  const city = options?.city || null;
+  const contributionAmount = options?.contributionAmount || null;
+  const country = options?.country || null;
+  const hideFetchingState = options?.hideFetchingState;
   const history = options?.history || window.history;
   const location = options?.location || window.location;
-  const city = options?.city || null;
-  const country = options?.country || null;
   const name = options?.name || null;
+  const numberOfStudents = options?.numberOfStudents || null;
   const page = options?.page || 1;
   const perPage = options?.perPage || 10;
-  const hideFetchingState = options?.hideFetchingState;
   const state = options?.state || null;
 
+  const fetchOptions = {
+    city,
+    contributionAmount,
+    country,
+    hideFetchingState,
+    name,
+    numberOfStudents,
+    state,
+  };
+
   // Change the `fetching` state in our store.
-  dispatch(
-    fetchResultsAction({ country, city, name, hideFetchingState, state }),
-  );
+  dispatch(fetchResultsAction(fetchOptions));
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);
 
-  // Update the query params in our URL.
-  if (country) queryParams.set('country', country);
-  if (city) queryParams.set('city', city);
-  if (name) queryParams.set('name', name);
-  if (state) queryParams.set('state', state);
+  // Set/Delete query params.
+  Object.keys(fetchOptions).forEach(key => {
+    // Derive the value.
+    const value = fetchOptions[key];
+
+    // Set the query param.
+    if (value) {
+      queryParams.set(key, value);
+      return;
+    }
+
+    // Remove the query param.
+    queryParams.delete(key);
+  });
 
   // Update the URL with the new query params.
   history.replaceState({}, '', `${location.pathname}?${queryParams}`);
@@ -86,11 +105,13 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     // Attempt to make the API request to retreive results.
     const response = await fetchResultsApi({
       city,
+      contributionAmount,
       country,
       name,
-      state,
+      numberOfStudents,
       page,
       perPage,
+      state,
     });
 
     // If we are here, the API request succeeded.
