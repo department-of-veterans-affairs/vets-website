@@ -223,7 +223,7 @@ export function fetchInstitutionSearchResults(query = {}) {
       )
       .catch(err => {
         dispatch({
-          type: FETCH_PROFILE_FAILED,
+          type: SEARCH_FAILED,
           payload: err.message,
         });
       });
