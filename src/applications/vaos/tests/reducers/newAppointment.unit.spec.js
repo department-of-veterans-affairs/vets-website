@@ -757,7 +757,6 @@ describe('VAOS reducer: newAppointment', () => {
             datetime: '2020-03-11T09:40:00',
           },
         ],
-        currentRowIndex: 1,
         error: null,
       };
 
@@ -1002,6 +1001,7 @@ describe('VAOS reducer: newAppointment', () => {
       uiSchema: {},
       phoneNumber: '123456789',
       email: 'test@va.gov',
+      showCommunityCare: true,
     };
 
     const newState = newAppointmentReducer(currentState, action);
@@ -1009,6 +1009,40 @@ describe('VAOS reducer: newAppointment', () => {
     expect(newState.pages.test).not.to.be.undefined;
     expect(newState.data.phoneNumber).to.equal(action.phoneNumber);
     expect(newState.data.email).to.equal(action.email);
+    expect(
+      newState.pages.test.properties.typeOfCareId.enumNames.some(label =>
+        label.toLowerCase().includes('podiatry'),
+      ),
+    ).to.be.true;
+    expect(newState.pages.test.properties.typeOfCareId.enumNames[0]).to.contain(
+      'Amputation care',
+    );
+  });
+
+  it('should hide podiatry from care list if community care is disabled', () => {
+    const currentState = {
+      data: {},
+      pages: {},
+    };
+    const action = {
+      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
+      page: 'test',
+      schema: {
+        type: 'object',
+        properties: {},
+      },
+      uiSchema: {},
+      phoneNumber: '123456789',
+      email: 'test@va.gov',
+      showCommunityCare: false,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+    expect(
+      newState.pages.test.properties.typeOfCareId.enumNames.some(label =>
+        label.toLowerCase().includes('podiatry'),
+      ),
+    ).to.be.false;
   });
 
   it('should set ToC modal to show', () => {

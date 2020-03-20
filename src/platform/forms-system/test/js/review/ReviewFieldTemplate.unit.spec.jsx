@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import ReviewFieldTemplate from '../../../src/js/review/ReviewFieldTemplate';
+import StringField from '../../../src/js/review/StringField';
 
 describe('Schemaform ReviewFieldTemplate', () => {
   it('should render review row', () => {
@@ -104,5 +105,82 @@ describe('Schemaform ReviewFieldTemplate', () => {
 
     expect(tree.everySubTree('.review-row')).to.be.empty;
     expect(tree.everySubTree('.test-child').length).to.equal(1);
+  });
+
+  const hideEmptyUiSchema = {
+    'ui:title': 'Label',
+    'ui:reviewWidget': () => <span />,
+    'ui:options': {
+      hideEmptyValueInReview: true,
+    },
+  };
+  it('should render children with content when hideEmptyValueInReview is set', () => {
+    const schema = { type: 'string' };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
+        <StringField
+          schema={schema}
+          uiSchema={hideEmptyUiSchema}
+          formData={'1234'}
+        />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(tree.everySubTree('.review-row')).to.not.be.empty;
+    expect(tree.subTree('dt').text()).to.equal('Label');
+    expect(tree.dive(['StringField']).props.formData).to.equal('1234');
+  });
+  it('should hide review row with empty value & hideEmptyValueInReview is set', () => {
+    const schema = { type: 'string' };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
+        <StringField
+          schema={schema}
+          uiSchema={hideEmptyUiSchema}
+          formData={''}
+        />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(tree.everySubTree('.review-row')).to.be.empty;
+  });
+  it('should hide review row with empty value & hideEmptyValueInReview is set', () => {
+    const schema = { type: 'string' };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
+        <StringField
+          schema={schema}
+          uiSchema={hideEmptyUiSchema}
+          formData={null}
+        />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(tree.everySubTree('.review-row')).to.be.empty;
+  });
+  it('should render reviewWidget with empty value & hideEmptyValueInReview is set', () => {
+    const schema = { type: 'string' };
+    const uiSchema = {
+      'ui:title': 'Label',
+      'ui:reviewWidget': () => <span />,
+      'ui:reviewField': () => (
+        <dl className="review-row">
+          <dt>Test</dt>
+          <dd>123</dd>
+        </dl>
+      ),
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate schema={schema} uiSchema={uiSchema}>
+        <StringField schema={schema} uiSchema={uiSchema} formData={''} />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(tree.everySubTree('.review-row')).to.not.be.empty;
+    expect(tree.subTree('dt').text()).to.equal('Test');
+    expect(tree.subTree('dd').text()).to.equal('123'); // ignore formData
   });
 });
