@@ -18,6 +18,7 @@ module.exports = {
       client,
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
+      VAOSHelpers.getUserData(),
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
     // .axeCheck('.main');
   },

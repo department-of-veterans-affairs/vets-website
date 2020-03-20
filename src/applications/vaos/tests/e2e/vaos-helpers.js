@@ -2,6 +2,7 @@
 const moment = require('moment');
 const mock = require('../../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const Auth = require('../../../../platform/testing/e2e/auth');
 
 const confirmedVA = require('../../api/confirmed_va.json');
 const confirmedCC = require('../../api/confirmed_cc.json');
@@ -376,6 +377,25 @@ function initAppointmentListMock(token) {
   });
 }
 
+function getUserData() {
+  const response = Auth.getDefaultUserResponse(3);
+
+  /* eslint-disable camelcase */
+  response.data.attributes.va_profile.facilities = [
+    {
+      facility_id: '983',
+      isCerner: false,
+    },
+    {
+      facility_id: '984',
+      isCerner: false,
+    },
+  ];
+  /* eslint-enable camelcase */
+
+  return response;
+}
+
 module.exports = {
   initAppointmentListMock,
   newAppointmentTest,
@@ -385,4 +405,5 @@ module.exports = {
   contactInformationTest,
   reviewAppointmentTest,
   appointmentSubmittedTest,
+  getUserData,
 };
