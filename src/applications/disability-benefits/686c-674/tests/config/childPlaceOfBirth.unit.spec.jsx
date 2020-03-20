@@ -9,7 +9,7 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('686 add child - child information', () => {
+describe('686 add child - child place of birth', () => {
   const {
     schema,
     uiSchema,
