@@ -78,8 +78,9 @@ export default class addressCardField extends React.Component {
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
       oldData: this.props.formData,
-      tempAddressIsSelected: false,
-      permAddressIsSelected: true,
+      // tempAddressIsSelected: false,
+      // permAddressIsSelected: true,
+      addressIsSelected: 'permanent-address',
       tempAddressIsAMilitaryBase: false,
       permAddressIsAMilitaryBase: false,
     };
@@ -313,7 +314,7 @@ export default class addressCardField extends React.Component {
             title === 'Permanent address' && (
               <div
                 className={
-                  !this.state.permAddressIsSelected
+                  !this.state.addressIsSelected === 'permanent-address'
                     ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
                     : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
                 }
@@ -322,8 +323,8 @@ export default class addressCardField extends React.Component {
                   name="permanent-address"
                   id="permAddress"
                   type="radio"
-                  onChange={e => this.handleClick(e)}
-                  checked={this.state.permAddressIsSelected}
+                  onChange={this.handleClick}
+                  checked={this.state.addressIsSelected === 'permanent-address'}
                 />
                 <label htmlFor="permAddress" className="main">
                   Send to this address
@@ -335,7 +336,7 @@ export default class addressCardField extends React.Component {
             title === 'Permanent address' && (
               <div
                 className={
-                  !this.state.permAddressIsSelected
+                  !this.state.addressIsSelected === 'permanent-address'
                     ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
                     : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
                 }
@@ -344,11 +345,11 @@ export default class addressCardField extends React.Component {
                   name="permanent-address"
                   id="permAddress"
                   type="radio"
-                  onChange={e => this.handleClick(e)}
-                  checked={this.state.permAddressIsSelected}
+                  onChange={this.handleClick}
+                  checked={this.state.addressIsSelected === 'permanent-address'}
                 />
                 <label htmlFor="permAddress" className="main">
-                  Send to this address
+                  Send to this address123
                 </label>
               </div>
             )}
@@ -357,20 +358,20 @@ export default class addressCardField extends React.Component {
             title === 'Temporary address' && (
               <div
                 className={
-                  !this.state.tempAddressIsSelected
+                  this.state.addressIsSelected === 'temporary-address'
                     ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
                     : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
                 }
               >
                 <input
-                  name="temp-address"
+                  name="temporary-address"
                   id="tempAddress"
                   type="radio"
-                  onChange={e => this.handleClick(e)}
-                  checked={this.state.tempAddressIsSelected}
+                  onChange={this.handleClick}
+                  checked={this.state.addressIsSelected === 'temporary-address'}
                 />
                 <label htmlFor="tempAddress" className="main">
-                  Send to this address
+                  Send to this temp address
                 </label>
               </div>
             )}
@@ -394,15 +395,10 @@ export default class addressCardField extends React.Component {
   handleClick = e => {
     if (e.target.type === 'radio') {
       // FIXME: state isn't updating for the radio buttons for some reason -@maharielrosario at 3/19/2020, 7:53:09 PM
-      const radioStatus = ({
-        tempAddressIsSelected,
-        permAddressIsSelected,
-      }) => ({
-        tempAddressIsSelected: !tempAddressIsSelected,
-        permAddressIsSelected: !permAddressIsSelected,
-      });
 
-      this.setState(radioStatus);
+      this.setState({
+        addressIsSelected: e.target.name,
+      });
     } else if (e.target.type === 'checkbox') {
       if (this.props.uiSchema['ui:title'] === 'Permanent address') {
         const isPermAddressAMilitaryBase = ({
