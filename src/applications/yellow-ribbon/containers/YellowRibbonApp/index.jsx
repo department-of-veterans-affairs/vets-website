@@ -14,7 +14,7 @@ export const YellowRibbonApp = ({ results }) => (
     <Breadcrumbs className="vads-u-padding--0">
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
-      <a href="/yellow-ribbon-participating-schools/">
+      <a href="/education/yellow-ribbon-participating-schools">
         Find a Yellow Ribbon school
       </a>
       {results && <a href={window.location.href}>Search results</a>}

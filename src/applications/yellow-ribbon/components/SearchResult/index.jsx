@@ -64,7 +64,7 @@ const deriveEligibleStudentsLabel = (school = {}) => {
   }
 
   // Escape early if the data indicates all eligible students.
-  if (school?.numberOfStudents > 100) {
+  if (school?.numberOfStudents >= 99999) {
     return 'All eligible students';
   }
 
@@ -145,7 +145,7 @@ export const SearchResult = ({ school, schoolIDs }) => (
 SearchResult.propTypes = {
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
-    insturl: PropTypes.number.isRequired,
+    insturl: PropTypes.number,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
