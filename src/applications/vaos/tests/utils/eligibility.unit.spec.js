@@ -257,7 +257,13 @@ describe('VAOS scheduling eligibility logic', () => {
         '983',
         true,
       );
-      expect(global.window.dataLayer.length).to.equal(4);
+      expect(
+        global.window.dataLayer.filter(
+          e =>
+            e.event === 'vaos-error' &&
+            e['error-key'].startsWith('eligibility-'),
+        ).length,
+      ).to.equal(4);
       resetFetch();
     });
 
@@ -283,8 +289,11 @@ describe('VAOS scheduling eligibility logic', () => {
         '323',
         '983',
       );
-
-      expect(global.window.dataLayer.length).to.equal(4);
+      expect(
+        global.window.dataLayer.filter(e =>
+          e.event.startsWith('vaos-eligibility-'),
+        ).length,
+      ).to.equal(4);
     });
 
     it('should not record failure events when ineligible', () => {

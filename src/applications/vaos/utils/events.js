@@ -6,3 +6,9 @@ export function recordVaosError(errorKey) {
     'error-key': errorKey,
   });
 }
+
+export function recordEligibilityFailure(errorKey) {
+  recordEvent({
+    event: `vaos-eligibility${errorKey ? `-${errorKey}` : ''}-failed`,
+  });
+}
