@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -9,6 +8,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
+import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
 const loginHandler = loginType => () => {
@@ -23,7 +23,7 @@ const handleIdMe = loginHandler('idme');
 
 const vaGovFullDomain = environment.BASE_URL;
 
-class SignInModal extends React.Component {
+class SignInPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,11 +59,13 @@ class SignInModal extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
+    const loggedOut = this.props.location.query.auth === 'logged_out';
 
     return (
       <main className="login">
         <div className="container">
           <div className="row">
+            {loggedOut && <LogoutAlert />}
             <div className="columns small-12">
               <h1 className="medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5">
                 Sign in
@@ -237,9 +239,4 @@ class SignInModal extends React.Component {
   }
 }
 
-SignInModal.propTypes = {
-  onClose: PropTypes.func,
-  visible: PropTypes.bool,
-};
-
-export default SignInModal;
+export default SignInPage;
