@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
+import { SkinDeep } from 'skin-deep';
 
 import createCommonStore from '../../../../platform/startup/store';
 import { SearchPage } from '../../containers/SearchPage';
@@ -70,6 +71,24 @@ describe('<SearchPage>', () => {
     expect(defaultProps.setPageTitle.called).to.be.true;
     tree.unmount();
   });
+});
+
+it('should render error message', () => {
+  const props = {
+    ...defaultProps,
+    search: {
+      ...defaultProps.search,
+      inProgress: true,
+      error: 'Service Unavailable',
+    },
+  };
+  const tree = mount(
+    <Provider store={defaultStore}>
+      <SearchPage {...props} />
+    </Provider>,
+  );
+
+  expect(tree.find('ErrorMessage')).to.be.ok;
 });
 
 describe('<SearchPage> functions', () => {
