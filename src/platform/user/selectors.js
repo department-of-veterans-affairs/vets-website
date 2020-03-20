@@ -34,3 +34,5 @@ export const selectVet360ResidentialAddress = state =>
 export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);
 }
+
+export const selectFacilities = state => selectProfile(state).facilities;

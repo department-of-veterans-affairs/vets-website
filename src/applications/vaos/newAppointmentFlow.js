@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { captureError } from './utils/error';
 
+import { selectFacilities } from 'platform/user/selectors';
 import {
   getFormData,
   getNewAppointment,
@@ -13,7 +14,6 @@ import {
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
   getCommunityCare,
-  getSystemIdentifiers,
   getLongTermAppointmentHistory,
   getSitesSupportingVAR,
 } from './api';
@@ -91,7 +91,9 @@ export default {
         try {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
-            const userSystemIds = await getSystemIdentifiers();
+            const userSystemIds = selectFacilities(state).map(
+              f => f.facilityId,
+            );
             const ccSites = await getSitesSupportingVAR(userSystemIds);
             const ccEnabledSystems = userSystemIds.filter(id =>
               ccSites.some(site => site.id === id),
@@ -171,7 +173,9 @@ export default {
         try {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
-            const userSystemIds = await getSystemIdentifiers();
+            const userSystemIds = selectFacilities(state).map(
+              f => f.facilityId,
+            );
             const ccSites = await getSitesSupportingVAR(userSystemIds);
             const ccEnabledSystems = userSystemIds.filter(id =>
               ccSites.some(site => site.id === id),

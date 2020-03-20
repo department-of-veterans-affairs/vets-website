@@ -108,6 +108,8 @@ export function mapRawUserDataToState(json) {
     userState.status = getErrorStatusDesc(errorStatus);
   } else {
     userState.status = vaProfile.status;
+    userState.isCernerPatient = vaProfile.isCernerPatient;
+    userState.facilities = vaProfile.facilities;
   }
 
   // This one is checking userState because there's no extra mapping and it's
