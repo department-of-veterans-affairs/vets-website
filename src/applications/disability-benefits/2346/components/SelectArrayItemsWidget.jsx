@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
 // TODO: Safety checks for `selected` callback and `label` element
 
 const SelectArrayItemsWidget = () => {
@@ -48,4 +51,38 @@ const SelectArrayItemsWidget = () => {
   );
 };
 
-export default SelectArrayItemsWidget;
+SelectArrayItemsWidget.propTypes = {
+  supplies: PropTypes.arrayOf(
+    PropTypes.shape({
+      deviceName: PropTypes.string,
+      productName: PropTypes.string,
+      productGroup: PropTypes.string.isRequired,
+      producId: PropTypes.string.isRequired,
+      availableForReorder: PropTypes.bool,
+      lastOrderDate: PropTypes.string.isRequired,
+      nextAvailabilityDate: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
+      size: PropTypes.string,
+    }),
+  ),
+};
+``;
+const mapStateToProps = state => ({
+  supplies: state.form?.data?.supplies,
+  deviceName: state.form?.data?.supplies?.deviceName,
+  productName: state.form?.data?.supplies?.productGroup,
+  productId: state.form?.data?.supplies?.productId,
+  availableForReorder: state.form?.data?.supplies?.availableForReorder,
+  lastOrderDate: state.form?.data?.supplies?.lastOrderDate,
+  nextAvailabilityDate: state.form?.data?.supplies?.nextAvailabilityDate,
+  quantity: state.form?.data?.supplies?.quantity,
+  size: state.form?.data?.supplies?.size,
+});
+const mapDispatchToProps = {
+  getReOrderBatteryAndAccessoriesInformationData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SelectArrayItemsWidget);

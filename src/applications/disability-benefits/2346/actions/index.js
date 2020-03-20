@@ -49,11 +49,7 @@ export const getVeteranInformationData = data => async dispatch => {
 export const getReOrderBatteryAndAccessoriesInformationData = data => async dispatch => {
   try {
     const batteryAndAccessoriesInformation = {
-      veteranFullName: data.formData.veteranFullName,
-      gender: data.formData.gender,
-      dateOfBirth: data.formData.dateOfBirth,
-      veteranAddress: data.formData.veteranAddress,
-      email: data.formData.email,
+      supplies: data.formData.supplies,
     };
     dispatch(
       fetchReOrderBatteryAndAccessoriesInformation(
