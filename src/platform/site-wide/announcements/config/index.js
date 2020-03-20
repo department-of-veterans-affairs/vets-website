@@ -68,7 +68,7 @@ const config = {
     },
     {
       name: 'single-sign-on-intro',
-      paths: /^\/$/,
+      paths: /(.)/,
       component: SingleSignOnInfoModal,
     },
     {
