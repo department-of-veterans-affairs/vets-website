@@ -46,7 +46,7 @@ export const uiSchema = {
       isChapterFieldRequired(formData, TASK_KEYS.report674),
   },
   lastTermSchoolName: {
-    'ui:required': formData => formData.studentDidAttendSchoolLastTerm === true,
+    'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
     'ui:title': 'Last term school’s name',
     'ui:options': {
       expandUnder: 'studentDidAttendSchoolLastTerm',
@@ -60,13 +60,11 @@ export const uiSchema = {
       expandUnderCondition: true,
     },
     countryName: {
-      'ui:required': formData =>
-        formData.studentDidAttendSchoolLastTerm === true,
+      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Country',
     },
     addressLine1: {
-      'ui:required': formData =>
-        formData.studentDidAttendSchoolLastTerm === true,
+      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Street',
       'ui:errorMessages': {
         required: 'Street address is required',
@@ -80,8 +78,7 @@ export const uiSchema = {
       'ui:title': 'Line 3',
     },
     city: {
-      'ui:required': formData =>
-        formData.studentDidAttendSchoolLastTerm === true,
+      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:errorMessages': {
         required: 'City is required',
         pattern: 'City must be under 100 characters',
@@ -140,8 +137,7 @@ export const uiSchema = {
   dateTermBegan: {
     ...currentOrPastDateUI('Date term began'),
     ...{
-      'ui:required': formData =>
-        formData.studentDidAttendSchoolLastTerm === true,
+      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:options': {
         expandUnder: 'studentDidAttendSchoolLastTerm',
         expandUnderCondition: true,
@@ -151,8 +147,7 @@ export const uiSchema = {
   dateTermEnded: {
     ...currentOrPastDateUI('Date term ended'),
     ...{
-      'ui:required': formData =>
-        formData.studentDidAttendSchoolLastTerm === true,
+      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:options': {
         expandUnder: 'studentDidAttendSchoolLastTerm',
         expandUnderCondition: true,
@@ -160,7 +155,7 @@ export const uiSchema = {
     },
   },
   lastTermClassesPerWeek: {
-    'ui:required': formData => formData.studentDidAttendSchoolLastTerm === true,
+    'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
     'ui:title': 'Number of classes a week',
     'ui:errorMessages': { required: 'Please enter a number' },
     'ui:options': {
@@ -169,7 +164,7 @@ export const uiSchema = {
     },
   },
   lastTermHoursPerWeek: {
-    'ui:required': formData => formData.studentDidAttendSchoolLastTerm === true,
+    'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
     'ui:title': 'Hours a week',
     'ui:errorMessages': { required: 'Please enter a number' },
     'ui:options': {
