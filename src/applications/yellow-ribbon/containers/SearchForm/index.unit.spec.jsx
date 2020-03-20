@@ -12,8 +12,8 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     const input = tree.find('input');
     const select = tree.find('select');
 
-    expect(input.length).to.be.equal(2);
-    expect(select.length).to.be.equal(2);
+    expect(input.length).to.be.equal(1);
+    expect(select.length).to.be.equal(1);
     tree.unmount();
   });
 
