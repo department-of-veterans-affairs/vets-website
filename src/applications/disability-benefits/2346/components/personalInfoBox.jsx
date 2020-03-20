@@ -51,8 +51,8 @@ personalInfoBox.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  first: state.form?.data?.veteranFullName?.first,
-  last: state.form?.data?.veteranFullName?.last,
+  first: state.form?.data?.fullName?.first,
+  last: state.form?.data?.fullName?.last,
   gender: state.form?.data?.gender,
   dateOfBirth: state.form?.data?.dateOfBirth,
 });

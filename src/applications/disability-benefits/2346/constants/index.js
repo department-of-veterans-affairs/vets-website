@@ -8,8 +8,8 @@ export const FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE =
   'disability-benefits/2346/FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE';
 
 export const schemaFields = {
-  permAddressField: 'veteranAddress',
-  tempAddressField: 'tempAddress',
+  permAddressField: 'permanentAddress',
+  tempAddressField: 'temporaryAddress',
   emailField: 'email',
   suppliesField: 'supplies',
   yesOrNoField: 'yesOrNo',
