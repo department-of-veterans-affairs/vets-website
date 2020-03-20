@@ -3,8 +3,8 @@ import React from 'react';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import { getAppointmentType } from '../utils/appointment';
+import FacilityAddress from './FacilityAddress';
+import { FETCH_STATUS } from '../utils/constants';
 
 export default class CancelAppointmentModal extends React.Component {
   render() {
@@ -72,7 +72,10 @@ export default class CancelAppointmentModal extends React.Component {
     }
 
     if (cancelAppointmentStatus === FETCH_STATUS.failed) {
-      const appointmentType = getAppointmentType(appointmentToCancel);
+      const clinicName =
+        appointmentToCancel.clinicFriendlyName ||
+        appointmentToCancel.vdsAppointments?.[0]?.clinic.name;
+
       return (
         <Modal
           id="cancelAppt"
@@ -81,38 +84,26 @@ export default class CancelAppointmentModal extends React.Component {
           onClose={onClose}
           title="We couldn’t cancel your appointment"
         >
-          We’re sorry. Something went wrong when we tried to cancel this
-          appointment.
-          <h4>You can:</h4>
-          <ul>
-            <li>
-              Try to{' '}
-              <button onClick={onConfirm} className="va-button-link">
-                cancel this appointment again
-              </button>
-              , <strong>or</strong>
-            </li>
-            {(appointmentType === APPOINTMENT_TYPES.request ||
-              appointmentType === APPOINTMENT_TYPES.ccRequest) && (
-              <li>
-                Call the medical center to cancel
+          <p>
+            Something went wrong when we tried to cancel this appointment.
+            Please contact your medical center to cancel:
+          </p>
+          <p>
+            {clinicName ? (
+              <>
+                {clinicName}
                 <br />
-                {appointmentToCancel.facility.name}
+              </>
+            ) : null}
+            {facility ? (
+              <>
+                <strong>{facility.name}</strong>
                 <br />
-                {!!facility?.phone?.main && (
-                  <a href={`tel:${facility.phone.main.replace(/-/g, '')}`}>
-                    {facility.phone.main}
-                  </a>
-                )}
-              </li>
-            )}
-            {appointmentType === APPOINTMENT_TYPES.vaAppointment && (
-              <li>
-                Call the medical center to cancel
-                <br />
-                {appointmentToCancel.clinicFriendlyName ||
-                  appointmentToCancel.vdsAppointments[0].clinic.name}
-                <br />
+              </>
+            ) : null}
+            {!!facility && <FacilityAddress facility={facility} />}
+            {!facility && (
+              <>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -120,9 +111,9 @@ export default class CancelAppointmentModal extends React.Component {
                 >
                   Find facility contact information
                 </a>
-              </li>
+              </>
             )}
-          </ul>
+          </p>
         </Modal>
       );
     }
