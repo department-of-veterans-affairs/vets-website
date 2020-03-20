@@ -35,7 +35,7 @@ describe('686 add child - child information', () => {
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
-  
+
   it('should not progress without the required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -52,7 +52,7 @@ describe('686 add child - child information', () => {
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
-  
+
   it('should progress with the required fields filled', () => {
     const onSubmit = sinon.spy();
     const form = mount(
