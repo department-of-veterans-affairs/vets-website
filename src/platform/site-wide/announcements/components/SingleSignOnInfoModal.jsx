@@ -11,7 +11,7 @@ export default function SingleSignOnInfoModal({ dismiss, isLoggedIn }) {
         Sign in once to access the VA sites you use most
       </h1>
       <p>
-        Now when you sign into VA.gov, we'll also sign you into MyHealtheVet ,
+        Now when you sign into VA.gov, we’ll also sign you into MyHealtheVet,
         eBenefits, and other VA sites.
       </p>
       <p>
@@ -30,10 +30,6 @@ export default function SingleSignOnInfoModal({ dismiss, isLoggedIn }) {
       <button type="button" onClick={dismiss}>
         Continue to VA.gov
       </button>
-      <p>
-        Get answers to{' '}
-        <a href="/sign-in-faq">frequently asked questions about singing in</a>.
-      </p>
     </Modal>
   );
 }
