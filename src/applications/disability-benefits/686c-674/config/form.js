@@ -24,6 +24,12 @@ import {
   stepchildren,
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
+import {
+  studentNameAndSSN,
+  studentAddressMarriageTuition,
+  studentSchoolAddress,
+  studentTermDates,
+} from './chapters/674';
 
 const formConfig = {
   urlPrefix: '/',
@@ -188,6 +194,40 @@ const formConfig = {
           arrayPath: 'stepChildren',
           uiSchema: stepchildInformation.uiSchema,
           schema: stepchildInformation.schema,
+        },
+      },
+    },
+    report674: {
+      title:
+        'Information needed to add a student 18 to 23 years old (VA 21-674)',
+      pages: {
+        studentNameAndSSN: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674',
+          uiSchema: studentNameAndSSN.uiSchema,
+          schema: studentNameAndSSN.schema,
+        },
+        studentAddressMarriageTuition: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-address',
+          uiSchema: studentAddressMarriageTuition.uiSchema,
+          schema: studentAddressMarriageTuition.schema,
+        },
+        studentSchoolAddress: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-school-address',
+          uiSchema: studentSchoolAddress.uiSchema,
+          schema: studentSchoolAddress.schema,
+        },
+        studentTermDates: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-school-term-dates',
+          uiSchema: studentTermDates.uiSchema,
+          schema: studentTermDates.schema,
         },
       },
     },

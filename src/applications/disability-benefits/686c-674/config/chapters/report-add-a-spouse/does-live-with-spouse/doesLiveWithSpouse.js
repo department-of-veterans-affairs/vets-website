@@ -60,7 +60,7 @@ export const uiSchema = {
     currentSpouseStreet: {
       'ui:title': 'Street',
       'ui:required': doesLiveTogether,
-      'ui:errorMessages': { required: 'Please enter a street' },
+      'ui:errorMessages': { required: 'Please enter a street address' },
     },
     currentSpouseLine2: {
       'ui:title': 'Line 2',

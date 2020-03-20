@@ -290,4 +290,6 @@ export const states50AndDC = [
   { label: 'Wyoming', value: 'WY' },
 ];
 
+export const militaryCities = ['APO', 'FPO', 'DPO'];
+
 export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
