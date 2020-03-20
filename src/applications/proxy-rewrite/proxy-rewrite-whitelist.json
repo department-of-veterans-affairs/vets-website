@@ -76,7 +76,7 @@
         "cookieOnly": false
     },
     {
-        "hostname": "www.publichealth.va.gov/",
+        "hostname": "www.publichealth.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true
     }
