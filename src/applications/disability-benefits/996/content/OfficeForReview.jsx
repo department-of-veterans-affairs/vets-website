@@ -23,13 +23,14 @@ export const OfficeForReviewAlert = (
 );
 
 export const OfficeForReviewTitle = (
-  <>
-    <strong>
-      If possible, I would like to have a different office conduct this review.
-    </strong>
-    <p>
-      You have the right to request another office (different from the office
-      that issued your prior decision) to conduct the review.
-    </p>
-  </>
+  <strong>
+    If possible, I would like to have a different office conduct this review.
+  </strong>
+);
+
+export const OfficeForReviewDescription = (
+  <p className="vads-u-margin-left--3">
+    You have the right to request another office (different from the office that
+    issued your prior decision) to conduct the review.
+  </p>
 );

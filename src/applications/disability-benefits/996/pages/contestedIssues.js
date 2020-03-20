@@ -9,6 +9,7 @@ import {
 } from '../content/contestedIssues';
 import {
   OfficeForReviewTitle,
+  OfficeForReviewDescription,
   OfficeForReviewAlert,
 } from '../content/officeForReview';
 
@@ -48,10 +49,15 @@ const contestedIssuesPage = {
     },
     sameOffice: {
       'ui:title': OfficeForReviewTitle,
+      // including a description here would add it _above_ the checkbox
       'ui:widget': 'checkbox',
       'ui:options': {
         hideLabelText: true,
       },
+    },
+    'view:sameOfficeDescription': {
+      'ui:title': '',
+      'ui:description': OfficeForReviewDescription,
     },
     sameOfficeAlert: {
       'ui:title': OfficeForReviewAlert,
@@ -75,6 +81,10 @@ const contestedIssuesPage = {
       },
       sameOffice: {
         type: 'boolean',
+      },
+      'view:sameOfficeDescription': {
+        type: 'object',
+        properties: {},
       },
       sameOfficeAlert: {
         type: 'object',
