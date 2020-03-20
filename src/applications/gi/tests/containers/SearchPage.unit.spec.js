@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
-import { SkinDeep } from 'skin-deep';
 
 import createCommonStore from '../../../../platform/startup/store';
 import { SearchPage } from '../../containers/SearchPage';
@@ -89,6 +88,7 @@ it('should render error message', () => {
   );
 
   expect(tree.find('ErrorMessage')).to.be.ok;
+  tree.unmount();
 });
 
 describe('<SearchPage> functions', () => {

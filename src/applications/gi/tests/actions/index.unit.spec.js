@@ -176,7 +176,7 @@ describe('fetchProfile', () => {
     ).to.be.true;
 
     setTimeout(() => {
-      const { type, payload } = dispatch.secondCall.args[0];
+      const { type } = dispatch.secondCall.args[0];
       expect(type).to.eql(FETCH_PROFILE_FAILED);
       done();
     }, 0);
