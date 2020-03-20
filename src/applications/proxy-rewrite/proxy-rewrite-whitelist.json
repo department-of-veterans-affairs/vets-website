@@ -74,6 +74,11 @@
         "hostname": "www.cem.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": false
+    },
+    {
+        "hostname": "www.publichealth.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
     }
   ]
 }

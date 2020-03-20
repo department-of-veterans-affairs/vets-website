@@ -990,12 +990,14 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
       expect(global.window.dataLayer[0]).to.deep.equal({
         event: 'vaos-request-submission',
-        typeOfCare: 'Primary care',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
       });
       expect(global.window.dataLayer[1]).to.deep.equal({
         event: 'vaos-request-submission-successful',
-        typeOfCare: 'Primary care',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
       });
       expect(router.push.called).to.be.true;
@@ -1110,6 +1112,7 @@ describe('VAOS newAppointment actions', () => {
               selectedDates: [],
             },
             reasonForAppointment: 'routine-follow-up',
+            reasonAdditionalInfo: 'test',
             bestTimeToCall: [],
           },
           facilities: {
@@ -1134,8 +1137,9 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
       expect(global.window.dataLayer[1]).to.deep.equal({
         event: 'vaos-request-submission-failed',
-        typeOfCare: 'Primary care',
         flow: 'va-request',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
       });
       expect(router.push.called).to.be.false;
     });
