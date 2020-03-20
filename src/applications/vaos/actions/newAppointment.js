@@ -6,7 +6,6 @@ import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
   selectVet360MobilePhoneString,
-  selectFacilities,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -17,6 +16,7 @@ import {
   getSystemFromParent,
   getSystemFromChosenFacility,
   vaosCommunityCare,
+  selectSystemIds,
 } from '../utils/selectors';
 import {
   getParentFacilities,
@@ -247,7 +247,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const directSchedulingEnabled = vaosDirectScheduling(initialState);
     const newAppointment = initialState.newAppointment;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    const userSystemIds = selectFacilities(initialState).map(f => f.facilityId);
+    const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;

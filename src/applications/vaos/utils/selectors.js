@@ -1,4 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { selectProfile } from 'platform/user/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
@@ -307,3 +308,6 @@ export const isWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );
+
+export const selectSystemIds = state =>
+  selectProfile(state)?.facilities?.map(f => f.facilityId);
