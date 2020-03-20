@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 // Relative imports.
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import STATES from '../../constants/STATES.json';
 import { fetchResultsThunk } from '../../actions';
 
@@ -24,40 +25,101 @@ export class SearchForm extends Component {
 
     // Derive the state values from our query params.
     const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
     const country = queryParams.get('country') || '';
     const name = queryParams.get('name') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
     const state = queryParams.get('state') || '';
 
     this.state = {
       city,
+      contributionAmount,
       country,
       name,
+      numberOfStudents,
       state,
     };
   }
 
   componentDidMount() {
-    const { country, city, name, state } = this.state;
+    const {
+      city,
+      contributionAmount,
+      country,
+      name,
+      numberOfStudents,
+      state,
+    } = this.state;
 
     // Fetch the results with their name if it's on the URL.
-    if (city || country || name || state) {
-      this.props.fetchResultsThunk({ city, country, name, state });
+    if (
+      city ||
+      contributionAmount ||
+      country ||
+      name ||
+      numberOfStudents ||
+      state
+    ) {
+      this.props.fetchResultsThunk({
+        city,
+        contributionAmount,
+        country,
+        name,
+        numberOfStudents,
+        state,
+      });
     }
   }
+
+  onCheckboxChange = key => () => {
+    // Uncheck the checkbox.
+    if (this.state[key]) {
+      this.setState({ [key]: '' });
+      return;
+    }
+
+    // Check the checkbox.
+    this.setState({ [key]: 'unlimited' });
+  };
 
   onStateChange = key => event => {
     this.setState({ [key]: event.target.value });
   };
 
   onSubmitHandler = event => {
-    const { country, city, name, state } = this.state;
+    const {
+      city,
+      contributionAmount,
+      country,
+      name,
+      numberOfStudents,
+      state,
+    } = this.state;
+
+    // Prevent default browser behavior.
     event.preventDefault();
-    this.props.fetchResultsThunk({ country, city, name, state });
+
+    // Attempt to fetch results.
+    this.props.fetchResultsThunk({
+      city,
+      contributionAmount,
+      country,
+      name,
+      numberOfStudents,
+      state,
+    });
   };
 
   render() {
-    const { onStateChange, onSubmitHandler } = this;
-    const { city, name, state } = this.state;
+    const { onCheckboxChange, onStateChange, onSubmitHandler } = this;
+    const {
+      city,
+      contributionAmount,
+      country,
+      name,
+      numberOfStudents,
+      state,
+    } = this.state;
 
     return (
       <form
@@ -74,12 +136,34 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            className="usa-input vads-u-width--auto"
+            className="usa-input"
             name="yr-search-name"
             onChange={onStateChange('name')}
             type="text"
             value={name}
           />
+        </div>
+
+        {/* Country Field */}
+        <label htmlFor="yr-search-country" className="vads-u-margin-top--3">
+          Country
+        </label>
+        <div className="vads-u-flex--1">
+          <select
+            name="yr-search-country"
+            onChange={onStateChange('country')}
+            value={country}
+          >
+            <option value="">- Select -</option>
+            {map(
+              [{ label: 'United States of America', value: 'USA' }],
+              countryOption => (
+                <option key={countryOption?.value} value={countryOption?.value}>
+                  {countryOption?.label}
+                </option>
+              ),
+            )}
+          </select>
         </div>
 
         {/* State Field */}
@@ -88,7 +172,6 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <select
-            className="vads-u-width--auto"
             name="yr-search-state"
             onChange={onStateChange('state')}
             value={state}
@@ -111,7 +194,7 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            className="usa-input vads-u-width--auto"
+            className="usa-input"
             name="yr-search-city"
             onChange={onStateChange('city')}
             type="text"
@@ -119,9 +202,25 @@ export class SearchForm extends Component {
           />
         </div>
 
+        {/* Unlimited Contribution Amount */}
+        <ErrorableCheckbox
+          checked={contributionAmount === 'unlimited'}
+          label="Only show schools that fund all tuition and fees not covered by Post-9/11 GI Bill Benefits"
+          onValueChange={onCheckboxChange('contributionAmount')}
+          required={false}
+        />
+
+        {/* Unlimited Number of Students */}
+        <ErrorableCheckbox
+          checked={numberOfStudents === 'unlimited'}
+          label="Only show schools that provide funding to all eligible students"
+          onValueChange={onCheckboxChange('numberOfStudents')}
+          required={false}
+        />
+
         {/* Submit Button */}
         <button
-          className="usa-button-primary va-button-primary vads-u-width--auto"
+          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5"
           type="submit"
         >
           Search

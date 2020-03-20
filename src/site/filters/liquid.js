@@ -237,26 +237,14 @@ module.exports = function registerFilters() {
     item ? item.sort((a, b) => a.entityId - b.entityId) : undefined;
 
   liquid.filters.eventSorter = item => {
-    const sorted = item.sort((a, b) => {
-      const aTime = Math.floor(
-        new Date(a.fieldDate.startDate).getTime() / 1000,
-      );
-      const bTime = Math.floor(
-        new Date(b.fieldDate.startDate).getTime() / 1000,
-      );
-      // Sort order needs to be oldest first.
-      const sorter = aTime - bTime;
-      return sorter;
-    });
+    const sorted =
+      item &&
+      item.sort((a, b) => {
+        const start1 = moment(a.fieldDate.startDate);
+        const start2 = moment(b.fieldDate.startDate);
+        return start1.isAfter(start2);
+      });
     return sorted;
-  };
-
-  liquid.filters.pastPresent = (items, url) => {
-    const isPast = value =>
-      moment().diff(value.fieldDate.startDate, 'days') >= 1;
-    const isCurrent = value => !isPast(value);
-    const filter = url.split('/').includes('past-events') ? isPast : isCurrent;
-    return items.filter(filter);
   };
 
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
