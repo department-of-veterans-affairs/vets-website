@@ -55,6 +55,6 @@ describe('<GiBillApp>', () => {
     const tree = SkinDeep.shallowRender(
       <GiBillApp {...errorProps} location={location} params={params} />,
     );
-    expect(tree.subTree('ErrorMessage')).to.be.ok;
+    expect(tree.subTree('ServiceError')).to.be.ok;
   });
 });

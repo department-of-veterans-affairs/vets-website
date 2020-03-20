@@ -87,7 +87,7 @@ it('should render error message', () => {
     </Provider>,
   );
 
-  expect(tree.find('ErrorMessage')).to.be.ok;
+  expect(tree.find('ServiceError')).to.be.ok;
   tree.unmount();
 });
 

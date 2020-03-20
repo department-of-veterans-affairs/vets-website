@@ -11,7 +11,7 @@ import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
-import ErrorMessage from '../components/ErrorMessage';
+import ServiceError from '../components/ServiceError';
 import environment from 'platform/utilities/environment';
 
 const Disclaimer = () => (
@@ -108,7 +108,7 @@ export class GiBillApp extends React.Component {
 
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
               {constants.error && !environment.isProduction() ? (
-                <ErrorMessage />
+                <ServiceError />
               ) : (
                 content
               )}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ErrorMessage = () => (
+export const ServiceError = () => (
   <div className="backenderror">
     <h3 className="backend-error-bold"> We’ve run into a problem. </h3>
 
@@ -11,4 +11,4 @@ export const ErrorMessage = () => (
   </div>
 );
 
-export default ErrorMessage;
+export default ServiceError;

@@ -51,6 +51,6 @@ describe('<ProfilePage>', () => {
       profile: { inProgress: true, error: 'Service Unavailable' },
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...errorProps} />);
-    expect(tree.subTree('ErrorMessage')).to.be.ok;
+    expect(tree.subTree('ServiceError')).to.be.ok;
   });
 });

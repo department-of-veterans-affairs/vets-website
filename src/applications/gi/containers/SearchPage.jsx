@@ -25,7 +25,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
-import ErrorMessage from '../components/ErrorMessage';
+import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -279,7 +279,7 @@ export class SearchPage extends React.Component {
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
         {search.error && !environment.isProduction() ? (
-          <ErrorMessage />
+          <ServiceError />
         ) : (
           this.renderInstitutionSearchForm(searchResults, filtersClass)
         )}
