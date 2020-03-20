@@ -9,10 +9,10 @@ import { normalizeResponse } from '../helpers';
 export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
   const city = options?.city;
-  const contributionAmount = options?.contributionAmount;
+  const contribution_amount = options?.contributionAmount;
   const country = options?.country;
   const mockRequest = options?.mockRequest;
-  const numberOfStudents = options?.numberOfStudents;
+  const number_of_students = options?.numberOfStudents;
   const page = options?.page;
   const per_page = options?.perPage;
   const school_name_in_yr_database = options?.name;
@@ -23,9 +23,9 @@ export const fetchResultsApi = async (options = {}) => {
     '/gi/yellow_ribbon_programs',
     {
       city,
-      contributionAmount,
+      contribution_amount,
       country,
-      numberOfStudents,
+      number_of_students,
       page,
       per_page,
       school_name_in_yr_database,
