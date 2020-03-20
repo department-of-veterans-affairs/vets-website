@@ -99,6 +99,7 @@ export default function(state = INITIAL_STATE, action) {
         count: camelPayload.meta.count,
         version: camelPayload.meta.version,
         inProgress: false,
+        error: null,
       };
     case PROGRAM_SEARCH_SUCCEEDED:
       const programCamelPayload = camelCaseKeysRecursive(action.payload);

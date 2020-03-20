@@ -44,6 +44,7 @@ export default function(state = INITIAL_STATE, action) {
         attributes,
         version,
         inProgress: false,
+        error: null,
       };
     default:
       return state;

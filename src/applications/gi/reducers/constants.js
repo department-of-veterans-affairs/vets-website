@@ -37,6 +37,7 @@ export default function(state = INITIAL_STATE, action) {
         constants,
         version: camelPayload.meta.version,
         inProgress: false,
+        error: null,
       };
     default:
       return state;

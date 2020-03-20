@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
