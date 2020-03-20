@@ -154,10 +154,8 @@ export function pollRequest({
   shouldSucceed,
   target,
 }) {
-  return request(
-    target,
-    null,
-    response => {
+  return request(target)
+    .then(response => {
       if (shouldSucceed(response)) {
         onSuccess(response);
         return;
@@ -177,9 +175,8 @@ export function pollRequest({
         shouldSucceed,
         target,
       });
-    },
-    error => onError(error),
-  );
+    })
+    .catch(error => onError(error));
 }
 
 export function getSyncStatus(claimsAsyncResponse) {
