@@ -7,6 +7,10 @@ import {
   disabilitiesExplanation,
   contestedIssuesAlert,
 } from '../content/contestedIssues';
+import {
+  OfficeForReviewTitle,
+  OfficeForReviewAlert,
+} from '../content/officeForReview';
 
 import { requireRatedDisability } from '../validations';
 
@@ -42,6 +46,19 @@ const contestedIssuesPage = {
     'view:disabilitiesExplanation': {
       'ui:description': disabilitiesExplanation,
     },
+    sameOffice: {
+      'ui:title': OfficeForReviewTitle,
+      'ui:widget': 'checkbox',
+      'ui:options': {
+        hideLabelText: true,
+      },
+    },
+    sameOfficeAlert: {
+      'ui:title': OfficeForReviewAlert,
+      'ui:options': {
+        hideIf: formData => formData?.sameOffice !== true,
+      },
+    },
   },
 
   schema: {
@@ -53,6 +70,13 @@ const contestedIssuesPage = {
         properties: {},
       },
       'view:disabilitiesExplanation': {
+        type: 'object',
+        properties: {},
+      },
+      sameOffice: {
+        type: 'boolean',
+      },
+      sameOfficeAlert: {
         type: 'object',
         properties: {},
       },
