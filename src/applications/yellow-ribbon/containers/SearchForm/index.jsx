@@ -162,7 +162,7 @@ export class SearchForm extends Component {
             >
               <option value="">- Select -</option>
               {map(
-                [{ label: 'United States of America', value: 'USA' }],
+                [{ label: 'United States', value: 'USA' }],
                 countryOption => (
                   <option
                     key={countryOption?.value}
