@@ -19,14 +19,14 @@ describe('profile reducer', () => {
 
   it('should handle profile fetch failure', () => {
     const state = profileReducer(
-      { inProgress: true, error: 'Status Unavailible' },
+      { inProgress: true },
       {
         type: 'FETCH_PROFILE_FAILED',
-        payload: 'Status Unavailible',
+        payload: 'Service Unavailible',
       },
     );
 
-    expect(state.error).to.eql('Status Unavailible');
+    expect(state.error).to.eql('Service Unavailible');
     expect(state.inProgress).to.eql(false);
   });
 

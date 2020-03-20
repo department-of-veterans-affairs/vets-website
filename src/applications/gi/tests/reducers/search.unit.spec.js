@@ -27,7 +27,7 @@ describe('search reducer', () => {
 
   it('should set correct state on failure', () => {
     const state = searchReducer(
-      { inProgress: true, error: 'Service Unavailible' },
+      { inProgress: true },
       {
         type: 'SEARCH_FAILED',
         payload: 'Service Unavailible',
