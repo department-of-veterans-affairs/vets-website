@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
+import classNames from 'classnames';
 import map from 'lodash/map';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
@@ -144,70 +145,79 @@ export class SearchForm extends Component {
           />
         </div>
 
-        {/* Country Field */}
-        <label htmlFor="yr-search-country" className="vads-u-margin-top--3">
-          Country
-        </label>
-        <div className="vads-u-flex--1">
-          <select
-            name="yr-search-country"
-            onChange={onStateChange('country')}
-            value={country}
-          >
-            <option value="">- Select -</option>
-            {map(
-              [{ label: 'United States of America', value: 'USA' }],
-              countryOption => (
-                <option key={countryOption?.value} value={countryOption?.value}>
-                  {countryOption?.label}
-                </option>
-              ),
-            )}
-          </select>
-        </div>
-
-        {country && (
-          <>
-            {/* State Field */}
-            <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
-              State or Territory
-            </label>
-            <div className="vads-u-flex--1">
-              <select
-                name="yr-search-state"
-                onChange={onStateChange('state')}
-                value={state}
-              >
-                <option value="">- Select -</option>
-                {map(STATES, provincialState => (
-                  <option
-                    key={provincialState?.code}
-                    value={provincialState?.code}
-                  >
-                    {provincialState?.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* City Field */}
-            <label
-              htmlFor="yr-search-city"
-              className="vads-u-margin-top--3 vads-u-margin--0"
+        <div
+          className={classNames('form-expanding-group', {
+            'form-expanding-group-open': country,
+          })}
+        >
+          {/* Country Field */}
+          <label htmlFor="yr-search-country" className="vads-u-margin-top--3">
+            Country
+          </label>
+          <div className="vads-u-flex--1">
+            <select
+              name="yr-search-country"
+              onChange={onStateChange('country')}
+              value={country}
             >
-              City
-            </label>
-            <div className="vads-u-flex--1">
-              <input
-                className="usa-input"
-                name="yr-search-city"
-                onChange={onStateChange('city')}
-                type="text"
-                value={city}
-              />
-            </div>
-          </>
-        )}
+              <option value="">- Select -</option>
+              {map(
+                [{ label: 'United States of America', value: 'USA' }],
+                countryOption => (
+                  <option
+                    key={countryOption?.value}
+                    value={countryOption?.value}
+                  >
+                    {countryOption?.label}
+                  </option>
+                ),
+              )}
+            </select>
+          </div>
+
+          {country && (
+            <>
+              {/* State Field */}
+              <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
+                State or Territory
+              </label>
+              <div className="vads-u-flex--1">
+                <select
+                  name="yr-search-state"
+                  onChange={onStateChange('state')}
+                  value={state}
+                >
+                  <option value="">- Select -</option>
+                  {map(STATES, provincialState => (
+                    <option
+                      key={provincialState?.code}
+                      value={provincialState?.code}
+                    >
+                      {provincialState?.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* City Field */}
+              <label
+                htmlFor="yr-search-city"
+                className="vads-u-margin-top--3 vads-u-margin--0"
+              >
+                City
+              </label>
+              <div className="vads-u-flex--1">
+                <input
+                  className="usa-input"
+                  name="yr-search-city"
+                  onChange={onStateChange('city')}
+                  type="text"
+                  value={city}
+                />
+              </div>
+            </>
+          )}
+        </div>
 
         {/* Unlimited Contribution Amount */}
         <ErrorableCheckbox
