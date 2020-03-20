@@ -29,6 +29,9 @@ export const genericSchemas = {
     type: 'string',
     maxLength: 50,
   },
+  genericTrueFalse: {
+    type: 'boolean',
+  },
   genericNumberAndDashInput: {
     type: 'string',
     maxLength: 50,
