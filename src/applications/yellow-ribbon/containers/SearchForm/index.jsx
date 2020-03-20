@@ -166,41 +166,48 @@ export class SearchForm extends Component {
           </select>
         </div>
 
-        {/* State Field */}
-        <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
-          State or Territory
-        </label>
-        <div className="vads-u-flex--1">
-          <select
-            name="yr-search-state"
-            onChange={onStateChange('state')}
-            value={state}
-          >
-            <option value="">- Select -</option>
-            {map(STATES, provincialState => (
-              <option key={provincialState?.code} value={provincialState?.code}>
-                {provincialState?.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        {country && (
+          <>
+            {/* State Field */}
+            <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
+              State or Territory
+            </label>
+            <div className="vads-u-flex--1">
+              <select
+                name="yr-search-state"
+                onChange={onStateChange('state')}
+                value={state}
+              >
+                <option value="">- Select -</option>
+                {map(STATES, provincialState => (
+                  <option
+                    key={provincialState?.code}
+                    value={provincialState?.code}
+                  >
+                    {provincialState?.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        {/* City Field */}
-        <label
-          htmlFor="yr-search-city"
-          className="vads-u-margin-top--1 vads-u-margin--0"
-        >
-          City
-        </label>
-        <div className="vads-u-flex--1">
-          <input
-            className="usa-input"
-            name="yr-search-city"
-            onChange={onStateChange('city')}
-            type="text"
-            value={city}
-          />
-        </div>
+            {/* City Field */}
+            <label
+              htmlFor="yr-search-city"
+              className="vads-u-margin-top--3 vads-u-margin--0"
+            >
+              City
+            </label>
+            <div className="vads-u-flex--1">
+              <input
+                className="usa-input"
+                name="yr-search-city"
+                onChange={onStateChange('city')}
+                type="text"
+                value={city}
+              />
+            </div>
+          </>
+        )}
 
         {/* Unlimited Contribution Amount */}
         <ErrorableCheckbox
