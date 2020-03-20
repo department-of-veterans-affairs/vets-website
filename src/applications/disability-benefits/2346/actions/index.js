@@ -29,7 +29,7 @@ export const fetchReOrderBatteryAndAccessoriesInformationFailure = error => ({
 export const getVeteranInformationData = data => async dispatch => {
   try {
     const veteranInformation = {
-      veteranFullName: data.formData.veteranFullName,
+      fullName: data.formData.fullName,
       gender: data.formData.gender,
       dateOfBirth: data.formData.dateOfBirth,
       veteranAddress: data.formData.veteranAddress,
