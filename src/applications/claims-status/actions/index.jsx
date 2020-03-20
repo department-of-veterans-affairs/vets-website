@@ -149,12 +149,11 @@ export function pollRequest({
   onError,
   onSuccess,
   pollingInterval,
-  request = apiRequest,
   shouldFail,
   shouldSucceed,
   target,
 }) {
-  return request(target)
+  return apiRequest(target)
     .then(response => {
       if (shouldSucceed(response)) {
         onSuccess(response);
@@ -170,7 +169,7 @@ export function pollRequest({
         onError,
         onSuccess,
         pollingInterval,
-        request,
+        apiRequest,
         shouldFail,
         shouldSucceed,
         target,
