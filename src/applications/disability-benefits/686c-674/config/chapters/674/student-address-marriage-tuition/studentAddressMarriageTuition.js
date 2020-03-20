@@ -4,9 +4,15 @@ import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 
 import { StudentNameHeader } from '../helpers';
-import { addressSchema, addressUISchema } from '../../../address-schema';
+import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 
 const { date, genericTextInput } = genericSchemas;
+
+const TASK_KEY = {
+  report674: 'report674',
+};
+
+const addressSchema = buildAddressSchema(true);
 
 export const schema = {
   type: 'object',
@@ -26,7 +32,12 @@ export const schema = {
 
 export const uiSchema = {
   'ui:title': StudentNameHeader,
-  studentAddress: addressUISchema(true, 'studentAddress', 'report674'),
+  studentAddress: addressUISchema(
+    true,
+    'studentAddress',
+    'studentAddress[view:livesOnMilitaryBase]',
+    formData => isChapterFieldRequired(formData, TASK_KEY.report674),
+  ),
   studentWasMarried: {
     'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
     'ui:title': 'Was the student ever married?',

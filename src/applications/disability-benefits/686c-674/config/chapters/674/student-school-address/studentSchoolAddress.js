@@ -1,11 +1,13 @@
 import { genericSchemas } from '../../../generic-schema';
 
 import { isChapterFieldRequired } from '../../../helpers';
-import { addressSchema, addressUISchema } from '../../../address-schema';
+import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 
 import { StudentNameHeader } from '../helpers';
 
 const { genericTextInput } = genericSchemas;
+
+const addressSchema = buildAddressSchema(false);
 
 export const schema = {
   type: 'object',
