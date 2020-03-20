@@ -377,7 +377,7 @@ function initAppointmentListMock(token) {
   });
 }
 
-function getUserData() {
+function getUserDataWithFacilities() {
   const response = Auth.getDefaultUserResponse(3);
 
   /* eslint-disable camelcase */
@@ -405,5 +405,5 @@ module.exports = {
   contactInformationTest,
   reviewAppointmentTest,
   appointmentSubmittedTest,
-  getUserData,
+  getUserDataWithFacilities,
 };
