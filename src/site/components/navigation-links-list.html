@@ -29,7 +29,7 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 
 <div class="row">
   <div class="usa-content columns">
-    <aside class="va-nav-linkslist {% if isRelated %}va-nav-linkslist--related{% endif %}">
+    <div class="va-nav-linkslist {% if isRelated %}va-nav-linkslist--related{% endif %}">
     {% for group in linklist %}
 
       {% comment %}
@@ -66,6 +66,6 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
     {% if link.heading != empty %}
       </section>
     {% endif %}
-    </aside>
+    </div>
   </div>
 </div>
