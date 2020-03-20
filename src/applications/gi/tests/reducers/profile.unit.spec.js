@@ -22,11 +22,11 @@ describe('profile reducer', () => {
       { inProgress: true },
       {
         type: 'FETCH_PROFILE_FAILED',
-        payload: 'Service Unavailible',
+        payload: 'Service Unavailable',
       },
     );
 
-    expect(state.error).to.eql('Service Unavailible');
+    expect(state.error).to.eql('Service Unavailable');
     expect(state.inProgress).to.eql(false);
   });
 

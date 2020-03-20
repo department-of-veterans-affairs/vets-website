@@ -30,12 +30,12 @@ describe('search reducer', () => {
       { inProgress: true },
       {
         type: 'SEARCH_FAILED',
-        payload: 'Service Unavailible',
+        payload: 'Service Unavailable',
       },
     );
 
     expect(state.inProgress).to.eql(false);
-    expect(state.error).to.eql('Service Unavailible');
+    expect(state.error).to.eql('Service Unavailable');
   });
 
   it('should set correct state on institution search success', () => {
