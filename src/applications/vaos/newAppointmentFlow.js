@@ -114,17 +114,17 @@ export default {
               }
             }
           }
-
-          // If no CC enabled systems and toc is podiatry, show modal
-          if (isPodiatry(state)) {
-            dispatch(showTypeOfCareUnavailableModal());
-            return 'typeOfCare';
-          }
         } catch (e) {
           captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
+        }
+
+        // If no CC enabled systems and toc is podiatry, show modal
+        if (isPodiatry(state)) {
+          dispatch(showTypeOfCareUnavailableModal());
+          return 'typeOfCare';
         }
       }
 

@@ -60,7 +60,6 @@ import {
 } from '../../actions/sitewide';
 
 import parentFacilities from '../../api/facilities.json';
-import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
 import {
@@ -92,6 +91,23 @@ const parentFacilitiesParsed = parentFacilities.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
+
+const userState = {
+  user: {
+    profile: {
+      facilities: [
+        {
+          facilityId: '983',
+          isCerner: false,
+        },
+        {
+          facilityId: '984',
+          isCerner: false,
+        },
+      ],
+    },
+  },
+};
 
 describe('VAOS newAppointment actions', () => {
   it('should open form page', () => {
@@ -211,6 +227,7 @@ describe('VAOS newAppointment actions', () => {
       },
     };
     const defaultState = {
+      ...userState,
       featureToggles: {
         loading: false,
         vaOnlineSchedulingDirect: true,
@@ -229,7 +246,6 @@ describe('VAOS newAppointment actions', () => {
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
     });
 
     afterEach(() => {
@@ -237,8 +253,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch parentFacilities', async () => {
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
-      setFetchJSONResponse(global.fetch.onCall(1), parentFacilities);
+      setFetchJSONResponse(global.fetch, parentFacilities);
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
@@ -264,13 +279,12 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch parentFacilities and child facilities if single parent', async () => {
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
-      setFetchJSONResponse(global.fetch.onCall(1), {
+      setFetchJSONResponse(global.fetch, {
         data: parentFacilities.data.filter(
           parent => parent.attributes.institutionCode === '983',
         ),
       });
-      setFetchJSONResponse(global.fetch.onCall(2), facilities983);
+      setFetchJSONResponse(global.fetch.onCall(1), facilities983);
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
@@ -289,7 +303,7 @@ describe('VAOS newAppointment actions', () => {
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
-      expect(global.fetch.thirdCall.args[0]).to.contain('/systems/983/');
+      expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
     });
 
     it('should send fail action if a fetch fails', async () => {
@@ -409,6 +423,7 @@ describe('VAOS newAppointment actions', () => {
 
   describe('updateFacilityPageData', () => {
     const defaultState = {
+      userState,
       featureToggles: {
         loading: false,
         vaOnlineSchedulingDirect: true,
@@ -427,7 +442,6 @@ describe('VAOS newAppointment actions', () => {
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
     });
 
     afterEach(() => {

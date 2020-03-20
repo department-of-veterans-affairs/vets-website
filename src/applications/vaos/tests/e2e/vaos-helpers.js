@@ -7,7 +7,6 @@ const confirmedVA = require('../../api/confirmed_va.json');
 const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
-const systems = require('../../api/systems.json');
 const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
@@ -180,11 +179,6 @@ function initAppointmentListMock(token) {
         ],
       },
     },
-  });
-  mock(token, {
-    path: '/v0/vaos/systems',
-    verb: 'get',
-    value: systems,
   });
   mock(token, {
     path: '/v0/vaos/community_care/supported_sites',
