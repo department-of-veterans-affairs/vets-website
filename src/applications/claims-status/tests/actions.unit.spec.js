@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import {
   ADD_FILE,
@@ -446,28 +447,27 @@ describe('Actions', () => {
 
   describe('pollClaimStatus', () => {
     describe('apiRequest response handler', () => {
-      it('should call onSuccess when shouldSucceed returns true', () => {
-        const apiRequestSpy = sinon.spy();
+      beforeEach(() => mockApiRequest({}));
+      afterEach(resetFetch);
+      it('should call onSuccess when shouldSucceed returns true', async () => {
         const mockResponse = {};
         const onSuccessSpy = sinon.spy();
         const onErrorSpy = sinon.spy();
         const shouldSucceedStub = sinon.stub();
         shouldSucceedStub.returns(true);
 
-        pollRequest({
+        await pollRequest({
           onError: onErrorSpy,
           onSuccess: onSuccessSpy,
-          request: apiRequestSpy,
           shouldSucceed: shouldSucceedStub,
+          target: '/test',
         });
-        apiRequestSpy.firstCall.args[2](mockResponse);
 
         expect(onSuccessSpy.calledOnce).to.be.true;
         expect(onErrorSpy.called).to.be.false;
         expect(shouldSucceedStub.firstCall.args[0]).to.eql(mockResponse);
       });
-      it('should call onError when shouldSuccess return false shouldFail returns true', () => {
-        const apiRequestSpy = sinon.spy();
+      it('should call onError when shouldSuccess return false and shouldFail returns true', async () => {
         const mockResponse = {};
         const onErrorSpy = sinon.spy();
         const onSuccessSpy = sinon.spy();
@@ -476,14 +476,13 @@ describe('Actions', () => {
         shouldSucceedStub.returns(false);
         shouldFailStub.returns(true);
 
-        pollRequest({
+        await pollRequest({
           onError: onErrorSpy,
           onSuccess: onSuccessSpy,
-          request: apiRequestSpy,
           shouldFail: shouldFailStub,
           shouldSucceed: shouldSucceedStub,
+          target: '/test',
         });
-        apiRequestSpy.firstCall.args[2](mockResponse);
 
         expect(onSuccessSpy.calledOnce).to.be.false;
         expect(onErrorSpy.calledOnce).to.be.true;
