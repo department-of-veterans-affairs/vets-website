@@ -114,7 +114,7 @@ describe('<DashboardApp>', () => {
 });
 
 describe('mapStateToProps', () => {
-  describe('showNewAlert', () => {
+  describe('showCOVID19Alert', () => {
     it('is set to true when user is a patient in an eligible health care system', () => {
       const props = mapStateToProps({
         hcaEnrollmentStatus: {},
@@ -129,7 +129,7 @@ describe('mapStateToProps', () => {
           },
         },
       });
-      expect(props.showNewAlert).to.be.true;
+      expect(props.showCOVID19Alert).to.be.true;
     });
     it('is set to false when user is not a patient in an eligible health care system', () => {
       const props = mapStateToProps({
@@ -141,7 +141,7 @@ describe('mapStateToProps', () => {
           },
         },
       });
-      expect(props.showNewAlert).to.be.false;
+      expect(props.showCOVID19Alert).to.be.false;
     });
   });
 });
