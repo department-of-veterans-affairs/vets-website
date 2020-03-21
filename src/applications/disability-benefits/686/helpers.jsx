@@ -37,12 +37,9 @@ export function fetchDisabilityRating({ onDone }) {
   // const fetchUrl = '/dependents_applications/disability_rating';
 
   Promise.resolve(onDone({ has30Percent: true }));
-  // return apiRequest(
-  //   fetchUrl,
-  //   null,
-  //   payload => onDone(payload),
-  //   error => onError(error)
-  // );
+  // return apiRequest(fetchUrl)
+  //   .then(payload => onDone(payload))
+  //   .catch(error => onError(error));
 }
 
 export function isMarried(form = {}) {
