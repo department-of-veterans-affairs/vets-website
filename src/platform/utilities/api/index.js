@@ -42,27 +42,10 @@ function isJson(response) {
  * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
  * the fetch request. Will be mixed with, and potentially override, the
  * defaultSettings
- * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
- * the initial fetch request.
- * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
-export function apiRequest(resource, optionalSettings = {}, success, error) {
+export function apiRequest(resource, optionalSettings = {}) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
-
-  if (success) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'the "success" callback has been deprecated, please use a promise chain instead',
-    );
-  }
-
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'the "error" callback has been deprecated, please use a promise chain instead',
-    );
-  }
 
   const defaultSettings = {
     method: 'GET',
@@ -114,7 +97,5 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       }
 
       return data.then(Promise.reject.bind(Promise));
-    })
-    .then(success)
-    .catch(error);
+    });
 }
