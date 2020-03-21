@@ -16,20 +16,18 @@ import {
 
 export function getEnrollmentData() {
   return dispatch =>
-    apiRequest(
-      '/post911_gi_bill_status',
-      null,
-      response => {
+    apiRequest('/post911_gi_bill_status')
+      .then(response => {
         recordEvent({ event: 'post911-status-success' });
         return dispatch({
           type: GET_ENROLLMENT_DATA_SUCCESS,
           data: response.data.attributes,
         });
-      },
-      response => {
+      })
+      .catch(response => {
         recordEvent({ event: 'post911-status-failure' });
         const error =
-          response.errors.length > 0 ? response.errors[0] : undefined;
+          response?.errors?.length > 0 ? response.errors[0] : undefined;
         if (error) {
           if (error.status === '503' || error.status === '504') {
             // Either EVSS or a partner service is down or EVSS times out
@@ -43,24 +41,18 @@ export function getEnrollmentData() {
             // EVSS partner service has no record of this user
             return dispatch({ type: NO_CHAPTER33_RECORD_AVAILABLE });
           }
-          return Promise.reject(
-            new Error(
-              `post-911-gib-status getEnrollmentData() received unexpected error: ${
-                error.status
-              }: ${error.title}: ${error.detail}`,
-            ),
+          Sentry.captureException(
+            `post-911-gib-status getEnrollmentData() received unexpected error: ${
+              error.status
+            }: ${error.title}: ${error.detail}`,
+          );
+        } else {
+          Sentry.captureException(
+            'post-911-gib-status getEnrollmentData() received unexpected error (no status code available)',
           );
         }
-        return Promise.reject(
-          new Error(
-            'post-911-gib-status getEnrollmentData() received unexpected error (no status code available)',
-          ),
-        );
-      },
-    ).catch(error => {
-      Sentry.captureException(error);
-      return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
-    });
+        return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
+      });
 }
 
 export function getServiceAvailability() {
