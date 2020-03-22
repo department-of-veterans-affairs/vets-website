@@ -36,8 +36,6 @@ const emailUITitle = (
 );
 
 /**
- * Returns the uiSchema for addresses that use the non-common address schema as found
- *  in the 526EZ-all-claims schema.
  * @param {string} addressPath - The path to the address in the formData
  * @param {string} [title] - Displayed as the card title in the card's header
  * @param {boolean} reviewCard - Whether to display the information in a addressCardField or not
@@ -76,10 +74,11 @@ const addressUISchema = (
   return {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
     'ui:title': title,
-    'ui:field': reviewCard && addressCardField,
+    'ui:field': addressCardField,
     'ui:options': {
       viewComponent: AddressViewField,
     },
+    'ui:reviewField': AddressViewField,
     country: {
       'ui:title': 'Country',
       'ui:required': () => true,
