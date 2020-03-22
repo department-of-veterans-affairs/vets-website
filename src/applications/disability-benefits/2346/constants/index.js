@@ -7,6 +7,18 @@ export const FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION =
 export const FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE =
   'disability-benefits/2346/FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE';
 
+export const PERM_ADDRESS_SELECTED_SUCCESSFUL =
+  'disability-benefits/2346/PERM_ADDRESS_SELECTED_SUCCESSFUL';
+
+export const PERM_ADDRESS_SELECTED_FAILURE =
+  'disability-benefits/2346/PERM_ADDRESS_SELECTED_FAILURE';
+
+export const TEMP_ADDRESS_SELECTED_SUCCESSFUL =
+  'disability-benefits/2346/TEMP_ADDRESS_SELECTED_SUCCESSFUL';
+
+export const TEMP_ADDRESS_SELECTED_FAILURE =
+  'disability-benefits/2346/TEMP_ADDRESS_SELECTED_FAILURE';
+
 export const schemaFields = {
   permAddressField: 'permanentAddress',
   tempAddressField: 'temporaryAddress',

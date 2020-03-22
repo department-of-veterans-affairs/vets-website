@@ -9,6 +9,11 @@ import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import {
+  permAddressActionCreator,
+  tempAddressActionCreator,
+} from '../../actions';
 /*
  * For use on a schema of type 'object' or 'array'.
  * Intended to wrap objects or arrays to avoid duplicate functionality here.
@@ -26,7 +31,7 @@ import React from 'react';
  *   itemName      - The name of the set of data in the card. This shows up on the "New X" button if
  *                   volatileData is set to true.
  */
-export default class addressCardField extends React.Component {
+class addressCardField extends React.Component {
   static defaultProps = {
     uiSchema: {},
     errorSchema: {},
@@ -35,6 +40,8 @@ export default class addressCardField extends React.Component {
     required: false,
     disabled: false,
     readonly: false,
+    permAddressIsSelected: true,
+    tempAddressIsSelected: false,
   };
 
   constructor(props) {
@@ -78,11 +85,8 @@ export default class addressCardField extends React.Component {
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
       oldData: this.props.formData,
-      // tempAddressIsSelected: false,
-      // permAddressIsSelected: true,
-      addressIsSelected: 'permanent-address',
-      tempAddressIsAMilitaryBase: false,
-      permAddressIsAMilitaryBase: false,
+      IsTempAddressAMilitaryBase: false,
+      IsPermAddressAMilitaryBase: false,
     };
   }
 
@@ -281,6 +285,8 @@ export default class addressCardField extends React.Component {
       isTempAddressEmpty = this.isObjectEmpty(tempAddressObj);
     }
 
+    const { permAddressIsSelected, tempAddressIsSelected } = this.props;
+
     return (
       <div className="review-card gray-color">
         <div className="review-card--body">
@@ -314,7 +320,7 @@ export default class addressCardField extends React.Component {
             title === 'Permanent address' && (
               <div
                 className={
-                  !this.state.addressIsSelected === 'permanent-address'
+                  !permAddressIsSelected
                     ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
                     : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
                 }
@@ -323,8 +329,8 @@ export default class addressCardField extends React.Component {
                   name="permanent-address"
                   id="permAddress"
                   type="radio"
-                  onChange={this.handleClick}
-                  checked={this.state.addressIsSelected === 'permanent-address'}
+                  onChange={e => this.props.permAddressActionCreator(e)}
+                  checked={permAddressIsSelected}
                 />
                 <label htmlFor="permAddress" className="main">
                   Send to this address
@@ -336,7 +342,7 @@ export default class addressCardField extends React.Component {
             title === 'Permanent address' && (
               <div
                 className={
-                  !this.state.addressIsSelected === 'permanent-address'
+                  !permAddressIsSelected
                     ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
                     : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
                 }
@@ -345,11 +351,11 @@ export default class addressCardField extends React.Component {
                   name="permanent-address"
                   id="permAddress"
                   type="radio"
-                  onChange={this.handleClick}
-                  checked={this.state.addressIsSelected === 'permanent-address'}
+                  onChange={e => this.props.permAddressActionCreator(e)}
+                  checked={permAddressIsSelected}
                 />
                 <label htmlFor="permAddress" className="main">
-                  Send to this address123
+                  Send to this address
                 </label>
               </div>
             )}
@@ -358,7 +364,7 @@ export default class addressCardField extends React.Component {
             title === 'Temporary address' && (
               <div
                 className={
-                  this.state.addressIsSelected === 'temporary-address'
+                  !tempAddressIsSelected
                     ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
                     : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
                 }
@@ -367,11 +373,11 @@ export default class addressCardField extends React.Component {
                   name="temporary-address"
                   id="tempAddress"
                   type="radio"
-                  onChange={this.handleClick}
-                  checked={this.state.addressIsSelected === 'temporary-address'}
+                  onChange={e => this.props.tempAddressActionCreator(e)}
+                  checked={tempAddressIsSelected}
                 />
                 <label htmlFor="tempAddress" className="main">
-                  Send to this temp address
+                  Send to this address
                 </label>
               </div>
             )}
@@ -394,7 +400,7 @@ export default class addressCardField extends React.Component {
 
   handleClick = e => {
     if (e.target.type === 'radio') {
-      // FIXME: state isn't updating for the radio buttons for some reason -@maharielrosario at 3/19/2020, 7:53:09 PM
+      // FIXME: state isn't updating for the radio buttons, new states are created for each field -@maharielrosario at 3/19/2020, 7:53:09 PM
 
       this.setState({
         addressIsSelected: e.target.name,
@@ -516,6 +522,16 @@ export default class addressCardField extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  permAddressIsSelected: state.form2346Reducer?.permAddressSelected,
+  tempAddressIsSelected: state.form2346Reducer?.tempAddressSelected,
+});
+
+const mapDispatchToProps = {
+  permAddressActionCreator,
+  tempAddressActionCreator,
+};
+
 addressCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
@@ -539,4 +555,11 @@ addressCardField.propTypes = {
   formContext: PropTypes.shape({
     onError: PropTypes.func.isRequired,
   }).isRequired,
+  permAddressActionCreator: PropTypes.func.isRequired,
+  tempAddressActionCreator: PropTypes.func.isRequired,
 };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(addressCardField);
