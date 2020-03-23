@@ -5,9 +5,10 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import CancelVideoAppointmentModal from './CancelVideoAppointmentModal';
 import CancelCommunityCareAppointmentModal from './CancelCommunityCareAppointmentModal';
-import FacilityAddress from './FacilityAddress';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import { isVideoVisit, getAppointmentType } from '../utils/appointment';
+import CancelAppointmentFailedModal from './CancelAppointmentFailedModal';
+import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
+import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
+import { isVideoVisit, getAppointmentType } from '../../utils/appointment';
 
 export default class CancelAppointmentModal extends React.Component {
   render() {
@@ -42,6 +43,20 @@ export default class CancelAppointmentModal extends React.Component {
       );
     }
 
+    if (cancelAppointmentStatus === FETCH_STATUS.failed) {
+      return (
+        <CancelAppointmentFailedModal
+          appointment={appointmentToCancel}
+          facility={facility}
+          onClose={onClose}
+        />
+      );
+    }
+
+    if (cancelAppointmentStatus === FETCH_STATUS.succeeded) {
+      return <CancelAppointmentSucceededModal onClose={onClose} />;
+    }
+
     if (
       cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelAppointmentStatus === FETCH_STATUS.loading
@@ -70,70 +85,6 @@ export default class CancelAppointmentModal extends React.Component {
             >
               No, take me back
             </button>
-          </p>
-        </Modal>
-      );
-    }
-
-    if (cancelAppointmentStatus === FETCH_STATUS.succeeded) {
-      return (
-        <Modal
-          id="cancelAppt"
-          status="success"
-          visible
-          onClose={onClose}
-          title="Your appointment has been canceled"
-        >
-          We’ve let your provider know you canceled this appointment.
-          <p className="vads-u-margin-top--2">
-            <button onClick={this.props.onClose}>Continue</button>
-          </p>
-        </Modal>
-      );
-    }
-
-    if (cancelAppointmentStatus === FETCH_STATUS.failed) {
-      const clinicName =
-        appointmentToCancel.clinicFriendlyName ||
-        appointmentToCancel.vdsAppointments?.[0]?.clinic.name;
-
-      return (
-        <Modal
-          id="cancelAppt"
-          status="error"
-          visible
-          onClose={onClose}
-          title="We couldn’t cancel your appointment"
-        >
-          <p>
-            Something went wrong when we tried to cancel this appointment.
-            Please contact your medical center to cancel:
-          </p>
-          <p>
-            {clinicName ? (
-              <>
-                {clinicName}
-                <br />
-              </>
-            ) : null}
-            {facility ? (
-              <>
-                <strong>{facility.name}</strong>
-                <br />
-              </>
-            ) : null}
-            {!!facility && <FacilityAddress facility={facility} />}
-            {!facility && (
-              <>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="/find-locations"
-                >
-                  Find facility contact information
-                </a>
-              </>
-            )}
           </p>
         </Modal>
       );
