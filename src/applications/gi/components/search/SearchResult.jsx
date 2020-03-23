@@ -23,6 +23,7 @@ export class SearchResult extends React.Component {
     const {
       version,
       schoolClosing,
+      schoolClosingOn,
       cautionFlag,
       estimated,
       facilityCode,
@@ -61,7 +62,7 @@ export class SearchResult extends React.Component {
             {(schoolClosing || cautionFlag) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
-                  {renderSchoolClosingAlert({ schoolClosing })}
+                  {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
                   {renderCautionAlert({ cautionFlag })}
                 </div>
               </div>
