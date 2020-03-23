@@ -12,7 +12,7 @@ export default function CancelAppointmentSucceededModal({ onClose }) {
     >
       We’ve let your provider know you canceled this appointment.
       <p className="vads-u-margin-top--2">
-        <button onClick={this.props.onClose}>Continue</button>
+        <button onClick={onClose}>Continue</button>
       </p>
     </Modal>
   );
