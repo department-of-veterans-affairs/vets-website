@@ -1,4 +1,5 @@
 export default Object.freeze({
+  dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
   vaOnlineScheduling: 'vaOnlineScheduling',
