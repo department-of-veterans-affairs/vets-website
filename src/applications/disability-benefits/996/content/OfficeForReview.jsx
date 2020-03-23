@@ -23,7 +23,7 @@ export const OfficeForReviewAlert = (
 );
 
 export const OfficeForReviewTitle = (
-  <strong>
+  <strong className="normal-weight-in-review">
     If possible, I would like to have a different office conduct this review.
   </strong>
 );
