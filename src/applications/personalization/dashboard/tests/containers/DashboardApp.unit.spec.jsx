@@ -114,34 +114,52 @@ describe('<DashboardApp>', () => {
 });
 
 describe('mapStateToProps', () => {
+  const defaultState = () => ({
+    featureToggles: {
+      dashboardShowCovid19Alert: true,
+    },
+    hcaEnrollmentStatus: {},
+    user: {
+      profile: {
+        services: [],
+        facilities: [],
+      },
+    },
+  });
   describe('showCOVID19Alert', () => {
-    it('is set to true when user is a patient in an eligible health care system', () => {
-      const props = mapStateToProps({
-        hcaEnrollmentStatus: {},
-        user: {
-          profile: {
-            services: [],
-            facilities: [
-              { facilityId: 'abc' },
-              { facilityId: '123' },
-              { facilityId: '672' },
-            ],
-          },
-        },
-      });
+    it('is set to true when the user is a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '672' }, // this facility is eligible for health chat
+      ];
+      const props = mapStateToProps(state);
       expect(props.showCOVID19Alert).to.be.true;
     });
-    it('is set to false when user is not a patient in an eligible health care system', () => {
-      const props = mapStateToProps({
-        hcaEnrollmentStatus: {},
-        user: {
-          profile: {
-            services: [],
-            facilities: [{ facilityId: 'abc' }],
-          },
-        },
-      });
+    it('is set to false when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
       expect(props.showCOVID19Alert).to.be.false;
+    });
+  });
+  describe('vaHealthChatEligibleFacilityId', () => {
+    it("is set to the facilityId of the facility that's eligible for VA health chat", () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '672' }, // this facility is eligible for health chat
+      ];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.equal('672');
+    });
+    it('is set to null when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.be.null;
     });
   });
 });

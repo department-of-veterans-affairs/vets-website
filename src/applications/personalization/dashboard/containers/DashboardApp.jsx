@@ -22,7 +22,11 @@ import {
 } from 'applications/hca/selectors';
 
 import { recordDashboardClick } from '../helpers';
-import { COVID19Alert, eligibleHealthSystems } from '../covid-19';
+import {
+  COVID19Alert,
+  eligibleHealthSystems,
+  showCOVID19AlertSelector,
+} from '../covid-19';
 
 import YourApplications from './YourApplications';
 import ManageYourVAHealthCare from '../components/ManageYourVAHealthCare';
@@ -304,6 +308,7 @@ class DashboardApp extends React.Component {
       showManageYourVAHealthCare,
       showServerError,
       showCOVID19Alert,
+      vaHealthChatEligibleSystemId,
     } = this.props;
     const availableWidgetsCount = [
       canAccessClaims,
@@ -324,7 +329,9 @@ class DashboardApp extends React.Component {
           </p>
         </div>
 
-        {showCOVID19Alert && <COVID19Alert />}
+        {showCOVID19Alert && (
+          <COVID19Alert facilityId={vaHealthChatEligibleSystemId} />
+        )}
 
         {showServerError && <ESRError errorType={ESR_ERROR_TYPES.generic} />}
 
@@ -373,10 +380,18 @@ export const mapStateToProps = state => {
     backendServices.EVSS_CLAIMS,
   );
   const showServerError = hasESRServerError(state);
-  const facilities = selectPatientFacilities(state) || [];
-  const showCOVID19Alert = facilities.some(facility =>
-    eligibleHealthSystems.has(facility.facilityId),
-  );
+  // Just the patient's facilities that are eligible for VA Health Chat:
+  const eligibleFacilities =
+    selectPatientFacilities(state)?.filter(facility =>
+      eligibleHealthSystems.has(facility.facilityId),
+    ) || [];
+  // The system ID of the first eligible facility
+  const vaHealthChatEligibleSystemId = eligibleFacilities.length
+    ? eligibleFacilities[0].facilityId
+    : null;
+
+  const showCOVID19Alert =
+    !!showCOVID19AlertSelector(state) && !!vaHealthChatEligibleSystemId;
 
   return {
     canAccessRx,
@@ -388,6 +403,7 @@ export const mapStateToProps = state => {
       isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
     showServerError,
     showCOVID19Alert,
+    vaHealthChatEligibleSystemId,
   };
 };
 
