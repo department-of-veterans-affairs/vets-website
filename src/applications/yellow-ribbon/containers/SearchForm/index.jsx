@@ -83,8 +83,13 @@ export class SearchForm extends Component {
     this.setState({ [key]: 'unlimited' });
   };
 
-  onStateChange = key => event => {
+  onReactStateChange = key => event => {
     this.setState({ [key]: event.target.value });
+  };
+
+  onCountryChange = event => {
+    // Clear `state` + `city` when `country` field is changed.
+    this.setState({ country: event.target.value, city: '', state: '' });
   };
 
   onSubmitHandler = event => {
@@ -112,7 +117,12 @@ export class SearchForm extends Component {
   };
 
   render() {
-    const { onCheckboxChange, onStateChange, onSubmitHandler } = this;
+    const {
+      onCountryChange,
+      onCheckboxChange,
+      onReactStateChange,
+      onSubmitHandler,
+    } = this;
     const {
       city,
       contributionAmount,
@@ -139,7 +149,7 @@ export class SearchForm extends Component {
           <input
             className="usa-input"
             name="yr-search-name"
-            onChange={onStateChange('name')}
+            onChange={onReactStateChange('name')}
             type="text"
             value={name}
           />
@@ -157,7 +167,7 @@ export class SearchForm extends Component {
           <div className="vads-u-flex--1">
             <select
               name="yr-search-country"
-              onChange={onStateChange('country')}
+              onChange={onCountryChange}
               value={country}
             >
               <option value="">- Select -</option>
@@ -184,7 +194,7 @@ export class SearchForm extends Component {
               <div className="vads-u-flex--1">
                 <select
                   name="yr-search-state"
-                  onChange={onStateChange('state')}
+                  onChange={onReactStateChange('state')}
                   value={state}
                 >
                   <option value="">- Select -</option>
@@ -210,7 +220,7 @@ export class SearchForm extends Component {
                 <input
                   className="usa-input"
                   name="yr-search-city"
-                  onChange={onStateChange('city')}
+                  onChange={onReactStateChange('city')}
                   type="text"
                   value={city}
                 />
