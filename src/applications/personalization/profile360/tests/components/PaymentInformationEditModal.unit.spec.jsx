@@ -10,26 +10,6 @@ import PaymentInformationEditModal from '../../components/PaymentInformationEdit
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {
-    fields: {
-      financialInstitutionRoutingNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountType: {
-        value: {
-          value: ACCOUNT_TYPES_OPTIONS.checking,
-          dirty: false,
-        },
-      },
-    },
     isEditing: true,
     isSaving: false,
     onClose() {},

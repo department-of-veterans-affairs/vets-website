@@ -18,7 +18,7 @@ describe('<Vet360EditModal/>', () => {
       isEmpty() {},
       onBlur() {},
       onCancel() {},
-      onChange() {},
+      onChangeFormDataAndSchemas() {},
       onDelete() {},
       onSubmit() {},
       render: () => <div>Rendered output</div>,
@@ -31,12 +31,12 @@ describe('<Vet360EditModal/>', () => {
     const initialFormValues = { someField: 'someFieldValue' };
 
     sinon.stub(props, 'getInitialFormValues').returns(initialFormValues);
-    sinon.stub(props, 'onChange');
+    sinon.stub(props, 'onChangeFormDataAndSchemas');
 
     component = enzyme.shallow(<Vet360EditModal {...props} />);
 
     expect(
-      props.onChange.calledWith(initialFormValues),
+      props.onChangeFormDataAndSchemas.calledWith(initialFormValues),
       'onChange was called to initialize the modal with the result of getInitialFormValues',
     ).to.be.true;
     expect(

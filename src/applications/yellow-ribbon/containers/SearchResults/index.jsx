@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -19,9 +19,9 @@ export class SearchResults extends Component {
     results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
-        name: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
         city: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        schoolNameInYrDatabase: PropTypes.string.isRequired,
         state: PropTypes.string.isRequired,
       }).isRequired,
     ),
@@ -37,14 +37,28 @@ export class SearchResults extends Component {
     const queryParams = new URLSearchParams(window.location.search);
 
     // Derive the state values from our query params.
+    const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
+    const country = queryParams.get('country') || '';
     const name = queryParams.get('name') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
     const state = queryParams.get('state') || '';
 
     // Update the page.
     updatePage(page);
 
     // Refetch results.
-    fetchResults({ page, perPage, name, hideFetchingState: true, state });
+    fetchResults({
+      city,
+      contributionAmount,
+      country,
+      hideFetchingState: true,
+      name,
+      numberOfStudents,
+      page,
+      perPage,
+      state,
+    });
 
     // Scroll to top.
     scrollToTop();

@@ -16,8 +16,11 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import recordEvent from 'platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
+
+import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
 class AddressValidationModal extends React.Component {
   componentWillUnmount() {
@@ -35,6 +38,7 @@ class AddressValidationModal extends React.Component {
       addressValidationType,
       selectedAddress,
       selectedAddressId,
+      analyticsSectionName,
     } = this.props;
 
     const payload = {
@@ -42,15 +46,23 @@ class AddressValidationModal extends React.Component {
       validationKey,
     };
 
+    const suggestedAddressSelected = selectedAddressId !== 'userEntered';
+
     const method = payload.id ? 'PUT' : 'POST';
 
-    if (selectedAddressId !== 'userEntered') {
+    recordEvent({
+      event: 'profile-transaction',
+      'profile-section': analyticsSectionName,
+      'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
+    });
+
+    if (suggestedAddressSelected) {
       this.props.updateValidationKeyAndSave(
         VET360.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
         payload,
-        this.props.analyticsSectionName,
+        analyticsSectionName,
       );
     } else {
       this.props.createTransaction(
@@ -58,18 +70,30 @@ class AddressValidationModal extends React.Component {
         method,
         addressValidationType,
         payload,
-        this.props.analyticsSectionName,
+        analyticsSectionName,
       );
     }
+  };
+
+  onEditClick = () => {
+    const {
+      addressValidationType,
+      addressFromUser,
+      analyticsSectionName,
+    } = this.props;
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'edit-link',
+      'profile-section': analyticsSectionName,
+    });
+    this.props.openModal(addressValidationType, addressFromUser);
   };
 
   renderPrimaryButton = () => {
     const {
       addressValidationError,
-      addressValidationType,
       validationKey,
       isLoading,
-      addressFromUser,
       confirmedSuggestions,
     } = this.props;
 
@@ -88,12 +112,7 @@ class AddressValidationModal extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button
-          className="usa-button-primary"
-          onClick={() =>
-            this.props.openModal(addressValidationType, addressFromUser)
-          }
-        >
+        <button className="usa-button-primary" onClick={this.onEditClick}>
           Edit Address
         </button>
       );
@@ -110,8 +129,6 @@ class AddressValidationModal extends React.Component {
     const {
       validationKey,
       addressValidationError,
-      addressValidationType,
-      addressFromUser,
       selectedAddressId,
       confirmedSuggestions,
     } = this.props;
@@ -163,12 +180,7 @@ class AddressValidationModal extends React.Component {
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
-                <button
-                  className="va-button-link"
-                  onClick={() =>
-                    this.props.openModal(addressValidationType, addressFromUser)
-                  }
-                >
+                <button className="va-button-link" onClick={this.onEditClick}>
                   Edit Address
                 </button>
               )}
@@ -187,6 +199,9 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       resetAddressValidation,
       confirmedSuggestions,
+      transactionRequest,
+      title,
+      clearErrors,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
@@ -206,6 +221,8 @@ class AddressValidationModal extends React.Component {
 
     const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
+    const error = transactionRequest?.error;
+
     return (
       <Modal
         title={
@@ -217,16 +234,21 @@ class AddressValidationModal extends React.Component {
         onClose={resetDataAndCloseModal}
         visible
       >
+        {error && (
+          <div className="vads-u-margin-bottom--1">
+            <Vet360EditModalErrorMessage
+              title={title}
+              error={error}
+              clearErrors={clearErrors}
+            />
+          </div>
+        )}
         <AlertBox
           className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
         >
-          <addressValidationMessage.ModalText
-            editFunction={() =>
-              this.props.openModal(addressValidationType, addressFromUser)
-            }
-          />
+          <addressValidationMessage.ModalText editFunction={this.onEditClick} />
         </AlertBox>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>

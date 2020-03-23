@@ -10,34 +10,28 @@ import fullSchema from '../20-0996-schema.json';
 // import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-import FormFooter from '../components/FormFooter';
+import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Pages
-import veteranDetailsDescription from '../pages/confirmVeteranDetails';
+import veteranInformationDescription from '../pages/veteranInformation';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
-import contestedIssueFollowup from '../pages/contestedIssueFollowup';
 import officeForReview from '../pages/officeForReview';
-import { contestedIssuesNotesStart } from '../content/contestedIssues';
 import informalConference from '../pages/informalConference';
-import optOutOfOldAppeals from '../pages/optOutOfOldAppeals';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
-import { hasSelectedIssues } from '../helpers';
 
 const {
   name,
   fullName,
-  legacyOptInApproved,
   address,
   phone,
   date,
@@ -79,7 +73,6 @@ const formConfig = {
   defaultDefinitions: {
     name,
     fullName,
-    legacyOptInApproved,
     address,
     phone,
     date,
@@ -89,31 +82,17 @@ const formConfig = {
     contactRepresentativeChoice,
     representative,
     scheduleTimes,
-    veteranDetailsDescription,
   },
   preSubmitInfo,
-  downtime: {
-    dependencies: [externalServices.global],
-  },
   chapters: {
     step1: {
-      title: 'Veteran details',
+      title: 'Veteran information',
       pages: {
-        // Added this as the first step of the form, but the progress bar & step
-        // 1 of 4 header are hidden using CSS; also the footer is placed. Done
-        // to match the design.
-        optOutOfOldAppeals: {
-          title: ' ',
-          path: 'opt-out-of-old-appeals',
-          uiSchema: optOutOfOldAppeals.uiSchema,
-          schema: optOutOfOldAppeals.schema,
-          initialData,
-        },
-        confirmVeteranDetails: {
-          title: 'Confirm Veteran details',
-          path: 'veteran-details',
+        veteranInformation: {
+          title: 'Veteran information',
+          path: 'veteran-information',
           uiSchema: {
-            'ui:description': veteranDetailsDescription,
+            'ui:description': veteranInformationDescription,
           },
           schema: {
             type: 'object',
@@ -138,28 +117,6 @@ const formConfig = {
           path: 'contested-issues',
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
-          initialData,
-        },
-        'view:contestedIssueFollowupStart': {
-          title: ' ',
-          path: 'contested-issues/start',
-          uiSchema: {
-            'ui:description': contestedIssuesNotesStart,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
-        'view:contestedIssueFollowup': {
-          title: item => item?.name,
-          path: 'contested-issues/:index',
-          depends: () => hasSelectedIssues,
-          showPagePerItem: true,
-          itemFilter: item => item?.['view:selected'],
-          arrayPath: 'contestedIssues',
-          uiSchema: contestedIssueFollowup.uiSchema,
-          schema: contestedIssueFollowup.schema,
           initialData,
         },
       },

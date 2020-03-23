@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { times } from 'lodash';
+import times from 'lodash/times';
 // Relative imports.
 import { YellowRibbonApp } from './index';
 
@@ -14,9 +14,11 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
     // Expect there to be:
     expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
     expect(text).to.include('Find a Yellow Ribbon school');
-    expect(text).to.include('Learn more about the Yellow Ribbon Program.');
     expect(text).to.include(
-      'You may be eligible for Yellow Ribbon program funding if you:',
+      'Find out if your school participates in the Yellow Ribbon program.',
+    );
+    expect(text).to.include(
+      'Search for schools by one or all of the terms below.',
     );
 
     tree.unmount();
@@ -74,9 +76,10 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
 
     // Expect there to be:
     expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
-    expect(text).to.include('Find a Yellow Ribbon school');
+    expect(text).to.include('Yellow Ribbon school search results');
 
     // Expect there NOT to be:
+    expect(text).to.not.include('Find a Yellow Ribbon school');
     expect(text).to.not.include('Learn more about the Yellow Ribbon Program.');
     expect(text).to.not.include(
       'You may be eligible for Yellow Ribbon program funding if you:',

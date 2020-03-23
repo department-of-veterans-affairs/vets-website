@@ -24,6 +24,7 @@ import {
   onCalendarChange,
   hideTypeOfCareUnavailableModal,
   startNewAppointmentFlow,
+  requestAppointmentDateChoice,
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
@@ -53,6 +54,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  START_REQUEST_APPOINTMENT_FLOW,
 } from '../../actions/newAppointment';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -60,10 +62,8 @@ import {
 } from '../../actions/sitewide';
 
 import parentFacilities from '../../api/facilities.json';
-import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import pacTeam from '../../api/pact.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -93,6 +93,23 @@ const parentFacilitiesParsed = parentFacilities.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
+
+const userState = {
+  user: {
+    profile: {
+      facilities: [
+        {
+          facilityId: '983',
+          isCerner: false,
+        },
+        {
+          facilityId: '984',
+          isCerner: false,
+        },
+      ],
+    },
+  },
+};
 
 describe('VAOS newAppointment actions', () => {
   it('should open form page', () => {
@@ -212,6 +229,7 @@ describe('VAOS newAppointment actions', () => {
       },
     };
     const defaultState = {
+      ...userState,
       featureToggles: {
         loading: false,
         vaOnlineSchedulingDirect: true,
@@ -230,7 +248,6 @@ describe('VAOS newAppointment actions', () => {
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
     });
 
     afterEach(() => {
@@ -238,8 +255,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch parentFacilities', async () => {
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
-      setFetchJSONResponse(global.fetch.onCall(1), parentFacilities);
+      setFetchJSONResponse(global.fetch, parentFacilities);
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
@@ -265,13 +281,12 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch parentFacilities and child facilities if single parent', async () => {
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
-      setFetchJSONResponse(global.fetch.onCall(1), {
+      setFetchJSONResponse(global.fetch, {
         data: parentFacilities.data.filter(
           parent => parent.attributes.institutionCode === '983',
         ),
       });
-      setFetchJSONResponse(global.fetch.onCall(2), facilities983);
+      setFetchJSONResponse(global.fetch.onCall(1), facilities983);
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
@@ -290,7 +305,7 @@ describe('VAOS newAppointment actions', () => {
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
-      expect(global.fetch.thirdCall.args[0]).to.contain('/systems/983/');
+      expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
     });
 
     it('should send fail action if a fetch fails', async () => {
@@ -410,6 +425,7 @@ describe('VAOS newAppointment actions', () => {
 
   describe('updateFacilityPageData', () => {
     const defaultState = {
+      userState,
       featureToggles: {
         loading: false,
         vaOnlineSchedulingDirect: true,
@@ -428,7 +444,6 @@ describe('VAOS newAppointment actions', () => {
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systemIdentifiers);
     });
 
     afterEach(() => {
@@ -606,7 +621,6 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
-      setFetchJSONResponse(global.fetch.onCall(4), pacTeam);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -770,8 +784,15 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           data: {
             preferredDate: '2019-01-01',
+            vaFacility: '983GC',
+            vaParent: '983A6',
+            typeOfCareId: '323',
+            clinicId: '1234',
           },
           fetchedAppointmentSlotMonths: [],
+          facilities: {
+            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+          },
         },
       };
       const getState = () => state;
@@ -814,8 +835,15 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           data: {
             preferredDate: '2019-01-01',
+            vaFacility: '983GC',
+            vaParent: '983A6',
+            typeOfCareId: '323',
+            clinicId: '1234',
           },
           fetchedAppointmentSlotMonths: [],
+          facilities: {
+            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+          },
         },
       };
       const getState = () => state;
@@ -832,6 +860,9 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=1234',
+      );
       expect(dispatch.firstCall.args[0].type).to.equal(
         FORM_CALENDAR_FETCH_SLOTS,
       );
@@ -847,7 +878,6 @@ describe('VAOS newAppointment actions', () => {
       expect(
         onCalendarChange({
           currentlySelectedDate: '2020-12-11',
-          currentRowIndex: 1,
           selectedDates: [{}, {}],
         }).type,
       ).to.equal(FORM_CALENDAR_DATA_CHANGED);
@@ -974,6 +1004,18 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(global.window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-request-submission',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
+        flow: 'va-request',
+      });
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-successful',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
+        flow: 'va-request',
+      });
       expect(router.push.called).to.be.true;
     });
 
@@ -1086,6 +1128,7 @@ describe('VAOS newAppointment actions', () => {
               selectedDates: [],
             },
             reasonForAppointment: 'routine-follow-up',
+            reasonAdditionalInfo: 'test',
             bestTimeToCall: [],
           },
           facilities: {
@@ -1108,6 +1151,12 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-failed',
+        flow: 'va-request',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
+      });
       expect(router.push.called).to.be.false;
     });
 
@@ -1163,33 +1212,50 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should open type of care page and pull contact info to prefill', () => {
-    const state = {
-      user: {
-        profile: {
-          vet360: {
-            email: {
-              emailAddress: 'test@va.gov',
-            },
-            homePhone: {
-              areaCode: '503',
-              extension: '0000',
-              phoneNumber: '2222222',
+  describe('openTypeOfCarePage', () => {
+    it('should open type of care page and pull contact info to prefill', () => {
+      const state = {
+        user: {
+          profile: {
+            vet360: {
+              email: {
+                emailAddress: 'test@va.gov',
+              },
+              homePhone: {
+                areaCode: '503',
+                extension: '0000',
+                phoneNumber: '2222222',
+              },
             },
           },
         },
-      },
-    };
-    const getState = () => state;
-    const dispatch = sinon.spy();
+      };
+      const getState = () => state;
+      const dispatch = sinon.spy();
 
-    const thunk = openTypeOfCarePage('typeOfCare', {}, {});
-    thunk(dispatch, getState);
+      const thunk = openTypeOfCarePage('typeOfCare', {}, {});
+      thunk(dispatch, getState);
 
-    expect(dispatch.firstCall.args[0].type).to.equal(
-      FORM_TYPE_OF_CARE_PAGE_OPENED,
-    );
-    expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
-    expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_TYPE_OF_CARE_PAGE_OPENED,
+      );
+      expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
+      expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
+    });
+  });
+  describe('requestAppointmentDateChoice', () => {
+    it('should start request flow and route to request date page', () => {
+      const router = {
+        replace: sinon.spy(),
+      };
+      const dispatch = sinon.spy();
+
+      requestAppointmentDateChoice(router)(dispatch);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: START_REQUEST_APPOINTMENT_FLOW,
+      });
+      expect(router.replace.called).to.be.true;
+    });
   });
 });

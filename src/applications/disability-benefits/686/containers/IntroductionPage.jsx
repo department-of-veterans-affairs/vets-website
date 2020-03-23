@@ -40,7 +40,6 @@ class IntroductionPage extends React.Component {
         </p>
         <AuthorizationComponent
           formConfig={this.props.route.formConfig}
-          downtime={this.props.route.formConfig.downtime}
           isVisible
         >
           <SaveInProgressIntro

@@ -85,6 +85,7 @@ export const getLongTermAppointmentHistory = (() => {
   const MAX_HISTORY = 24;
   const MONTH_CHUNK = 6;
   let promise = null;
+
   return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];
@@ -123,36 +124,6 @@ export const getLongTermAppointmentHistory = (() => {
     return promise;
   };
 })();
-
-export const getUserIdentifiers = (() => {
-  let promise = null;
-
-  return () => {
-    if (promise && navigator.userAgent !== 'node.js') {
-      return promise;
-    }
-
-    if (USE_MOCK_DATA) {
-      promise = import('./systems.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else {
-      promise = apiRequest('/vaos/systems');
-    }
-
-    promise = promise.then(json => json.data.map(item => item.attributes));
-
-    return promise;
-  };
-})();
-
-export function getSystemIdentifiers() {
-  return getUserIdentifiers().then(data =>
-    data
-      .filter(id => id.assigningAuthority.startsWith('dfn-'))
-      .map(id => id.assigningCode),
-  );
-}
 
 export function getParentFacilities(systemIds) {
   let promise;

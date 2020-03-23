@@ -197,6 +197,17 @@ describe('VAOS selectors', () => {
   });
 
   describe('getTypeOfCare', () => {
+    it('get eye type of care', () => {
+      const data = {
+        typeOfCareId: 'EYE',
+        typeOfEyeCareId: '408',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('408');
+      expect(typeOfCare.name).to.equal('Optometry');
+    });
+
     it('get sleep type of care', () => {
       const data = {
         typeOfCareId: 'SLEEP',
@@ -389,9 +400,28 @@ describe('VAOS selectors', () => {
         state.appointments.facilityData['123'],
       );
     });
+    it('should fetch facility from clinic map', () => {
+      const state = {
+        appointments: {
+          appointmentToCancel: {
+            facilityId: '123',
+            clinicId: '456',
+          },
+          systemClinicToFacilityMap: {
+            '123_456': {},
+          },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.systemClinicToFacilityMap['123_456'],
+      );
+    });
   });
   describe('getCCEType', () => {
-    it('should return cce type', () => {
+    it('should return cce type for Audiology', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -402,6 +432,19 @@ describe('VAOS selectors', () => {
       };
       const cceType = getCCEType(state);
       expect(cceType).to.equal('Audiology');
+    });
+    it('should return cce type for Optometry', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+            typeOfEyeCareId: '408',
+          },
+        },
+      };
+      const cceType = getCCEType(state);
+      expect(cceType).to.equal('Optometry');
     });
   });
   describe('isWelcomeModalDismissed', () => {

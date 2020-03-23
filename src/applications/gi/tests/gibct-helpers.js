@@ -25,6 +25,7 @@ const schools = {
         locale_type: null,
         student_count: 0,
         caution_flag: false,
+        caution_flags: [],
         caution_flag_reason: null,
         created_at: '2017-03-22T17:05:04.440Z',
         updated_at: '2017-03-22T17:05:04.440Z',

@@ -14,6 +14,7 @@ import {
   getAppointmentInstructionsHeader,
   getAppointmentLocation,
   getAppointmentTimezoneAbbreviation,
+  getAppointmentTimezoneDescription,
   getAppointmentTitle,
   getAppointmentType,
   getAppointmentTypeHeader,
@@ -24,7 +25,6 @@ import {
   getRealFacilityId,
   getRequestDateOptions,
   getRequestTimeToCall,
-  getStagingId,
   getVideoVisitLink,
   hasInstructions,
   isCommunityCare,
@@ -140,13 +140,6 @@ describe('VAOS appointment helpers', () => {
     };
     it('should be true', () => {
       expect(getVideoVisitLink(appt)).to.equal('https://va.gov');
-    });
-  });
-
-  describe('getStagingId', () => {
-    it('should return the staging id for not production environemnts', () => {
-      expect(getStagingId('983')).to.equal('442');
-      expect(getStagingId('984')).to.equal('984');
     });
   });
 
@@ -498,6 +491,17 @@ describe('VAOS appointment helpers', () => {
 
     it('should return empty string for invalid appointment', () => {
       expect(getAppointmentTimezoneAbbreviation({})).to.equal('');
+    });
+  });
+
+  describe('getAppointmentTimezoneDescription', () => {
+    it('should return the timezone', () => {
+      expect(
+        getAppointmentTimezoneDescription({
+          ...communityCareAppointment,
+          timeZone: '-04:00 EDT',
+        }),
+      ).to.equal('Eastern time');
     });
   });
 

@@ -11,7 +11,7 @@ import {
   InformalConferenceDescription,
   InformalConferenceChoiceTitle,
   informalConferenceLabels,
-  ContactYouDescription,
+  // sContactYouDescription,
   ContactRepresentativeDescription,
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
@@ -83,14 +83,14 @@ const informalConference = {
         'ui:title': () => InformalConferenceTimes({ isRep: true }),
       },
     },
-    'view:ContactYouInfo': {
-      'ui:title': '',
-      'ui:description': ContactYouDescription,
-      'ui:options': {
-        hideIf: formData => formData?.informalConferenceChoice !== 'me',
-        expandUnder: 'informalConferenceChoice',
-      },
-    },
+    // 'view:ContactYouInfo': {
+    //   'ui:title': '',
+    //   'ui:description': ContactYouDescription,
+    //   'ui:options': {
+    //     hideIf: formData => formData?.informalConferenceChoice !== 'me',
+    //     expandUnder: 'informalConferenceChoice',
+    //   },
+    // },
     // Time selection message you vs rep
     'view:TimesForYou': {
       'ui:title': InformalConferenceTimes,

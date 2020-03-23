@@ -62,34 +62,34 @@ export default class AppointmentRequestListItem extends React.Component {
 
     return (
       <li
-        aria-labelledby={`card-${index}`}
+        aria-labelledby={`card-${index} card-${index}-status`}
         data-request-id={appointment.id}
         className={itemClasses}
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {getAppointmentTypeHeader(appointment)}
         </div>
-        <h2
+        <h3
           id={`card-${index}`}
           className="vads-u-font-size--h3 vads-u-margin-y--0"
         >
           {sentenceCase(appointment.appointmentType)} appointment
-        </h2>
+        </h3>
         <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
           <div className="vads-u-margin-right--1">
             {canceled ? (
-              <i className="fas fa-exclamation-circle" />
+              <i aria-hidden="true" className="fas fa-exclamation-circle" />
             ) : (
-              <i className="fas fa-exclamation-triangle" />
+              <i aria-hidden="true" className="fas fa-exclamation-triangle" />
             )}
           </div>
           <span className="vads-u-font-weight--bold vads-u-flex--1">
             <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
               {canceled ? (
-                'Canceled'
+                <span id={`card-${index}-status`}>Canceled</span>
               ) : (
                 <>
-                  <strong>Pending</strong>{' '}
+                  <strong id={`card-${index}-status`}>Pending</strong>{' '}
                   <div className="vads-u-font-weight--normal">
                     The time and date of this appointment are still to be
                     determined.
@@ -100,7 +100,7 @@ export default class AppointmentRequestListItem extends React.Component {
           </span>
         </div>
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {getLocationHeader(appointment)}
@@ -108,7 +108,7 @@ export default class AppointmentRequestListItem extends React.Component {
               <dd>{getAppointmentLocation(appointment, facility)}</dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 Preferred date and time
@@ -127,7 +127,7 @@ export default class AppointmentRequestListItem extends React.Component {
             onClick={this.toggleShowMore}
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-              <div className="vaos_appts__message vads-u-flex--1">
+              <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold">
                     {getPurposeOfVisit(appointment)}
@@ -135,7 +135,7 @@ export default class AppointmentRequestListItem extends React.Component {
                   <dd>{firstMessage}</dd>
                 </dl>
               </div>
-              <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+              <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold vads-u-display--block">
                     Your contact details

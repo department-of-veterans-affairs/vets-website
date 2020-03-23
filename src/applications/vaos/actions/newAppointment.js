@@ -14,9 +14,11 @@ import {
   getNewAppointment,
   getFormData,
   getSystemFromParent,
+  getSystemFromChosenFacility,
+  vaosCommunityCare,
+  selectSystemIds,
 } from '../utils/selectors';
 import {
-  getSystemIdentifiers,
   getParentFacilities,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
@@ -27,7 +29,12 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  GA_FLOWS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -38,6 +45,7 @@ import {
 import {
   getEligibilityData,
   getEligibleFacilities,
+  recordEligibilityGAEvents,
 } from '../utils/eligibility';
 
 import { captureError } from '../utils/error';
@@ -125,9 +133,6 @@ export function openFormPage(page, uiSchema, schema) {
 }
 
 export function startNewAppointmentFlow() {
-  recordEvent({
-    event: `${GA_PREFIX}-schedule-new-appointment-started`,
-  });
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
   };
@@ -187,6 +192,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
     const email = selectVet360EmailAddress(state);
     const homePhone = selectVet360HomePhoneString(state);
     const mobilePhone = selectVet360MobilePhoneString(state);
+    const showCommunityCare = vaosCommunityCare(state);
 
     const phoneNumber = mobilePhone || homePhone;
     dispatch({
@@ -196,6 +202,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
       schema,
       email,
       phoneNumber,
+      showCommunityCare,
     });
   };
 }
@@ -236,9 +243,11 @@ export function fetchFacilityDetails(facilityId) {
 */
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
-    const directSchedulingEnabled = vaosDirectScheduling(getState());
-    const newAppointment = getState().newAppointment;
+    const initialState = getState();
+    const directSchedulingEnabled = vaosDirectScheduling(initialState);
+    const newAppointment = initialState.newAppointment;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+    const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;
@@ -249,7 +258,6 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        const userSystemIds = await getSystemIdentifiers();
         parentFacilities = await getParentFacilities(userSystemIds);
       }
 
@@ -289,6 +297,8 @@ export function openFacilityPage(page, uiSchema, schema) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
       }
 
       dispatch({
@@ -382,6 +392,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
           directSchedulingEnabled,
         );
 
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
+
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
           typeOfCareId,
@@ -435,7 +447,9 @@ export function openClinicPage(page, uiSchema, schema) {
 
 export function getAppointmentSlots(startDate, endDate) {
   return async (dispatch, getState) => {
-    const newAppointment = getNewAppointment(getState());
+    const state = getState();
+    const systemId = getSystemFromChosenFacility(state);
+    const newAppointment = getNewAppointment(state);
     const availableSlots = newAppointment.availableSlots || [];
     const { data } = newAppointment;
 
@@ -469,7 +483,7 @@ export function getAppointmentSlots(startDate, endDate) {
               .format('YYYY-MM-DD');
 
         const response = await getAvailableSlots(
-          data.vaFacility,
+          systemId,
           data.typeOfCareId,
           data.clinicId,
           startDateString,
@@ -528,17 +542,12 @@ export function getAppointmentSlots(startDate, endDate) {
   };
 }
 
-export function onCalendarChange({
-  currentlySelectedDate,
-  currentRowIndex,
-  selectedDates,
-}) {
+export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     calendarData: {
       currentlySelectedDate,
       selectedDates,
-      currentRowIndex,
     },
   };
 }
@@ -592,16 +601,28 @@ async function buildPreferencesDataAndUpdate(newAppointment) {
 
 export function submitAppointmentOrRequest(router) {
   return async (dispatch, getState) => {
-    const newAppointment = getState().newAppointment;
+    const state = getState();
+    const newAppointment = getNewAppointment(state);
+    const data = newAppointment?.data;
+    const typeOfCare = getTypeOfCare(getFormData(state))?.name;
 
     dispatch({
       type: FORM_SUBMIT,
     });
 
+    const additionalEventData = {
+      'health-TypeOfCare': typeOfCare,
+      'health-ReasonForAppointment': data?.reasonForAppointment,
+    };
+
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      const flow = GA_FLOWS.DIRECT;
       recordEvent({
         event: `${GA_PREFIX}-direct-submission`,
+        flow,
+        ...additionalEventData,
       });
+
       try {
         const appointmentBody = transformFormToAppointment(getState());
         await submitAppointment(appointmentBody);
@@ -620,24 +641,34 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-successful`,
+          flow,
+          ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        captureError(error);
+        captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+
+        dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
+
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
+          flow,
+          ...additionalEventData,
         });
       }
     } else {
       const isCommunityCare =
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
+      const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
+        flow,
+        ...additionalEventData,
       });
 
       try {
@@ -670,18 +701,38 @@ export function submitAppointmentOrRequest(router) {
 
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-successful`,
+          flow,
+          ...additionalEventData,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        captureError(error);
+        captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+
+        dispatch(
+          fetchFacilityDetails(
+            isCommunityCare
+              ? newAppointment.data.communityCareSystemId
+              : newAppointment.data.vaFacility,
+          ),
+        );
+
         recordEvent({
           event: `${GA_PREFIX}-${eventType}-submission-failed`,
+          flow,
+          ...additionalEventData,
         });
       }
     }
+  };
+}
+
+export function requestAppointmentDateChoice(router) {
+  return dispatch => {
+    dispatch(startRequestAppointmentFlow());
+    router.replace('/new-appointment/request-date');
   };
 }
 

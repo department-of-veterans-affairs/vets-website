@@ -523,5 +523,30 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/careerscope.asp",
     "dest": "/careers-employment/careerscope-skills-assessment/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-compAndSMC.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/read_rates.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp01.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claimexam.asp",
+    "dest": "/disability/va-claim-exam/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/add-dependents.asp",
+    "dest": "/disability/add-remove-dependent/"
   }
 ]

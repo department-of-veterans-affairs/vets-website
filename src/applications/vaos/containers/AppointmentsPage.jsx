@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -16,12 +18,13 @@ import {
   startNewAppointmentFlow,
 } from '../actions/appointments';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import {
   getCancelInfo,
   vaosCancel,
   vaosRequests,
+  vaosPastAppts,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -47,12 +50,19 @@ export class AppointmentsPage extends Component {
     }
   }
 
+  recordStartEvent() {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+  }
+
   render() {
     const {
       appointments,
       cancelInfo,
       showCancelButton,
       showScheduleButton,
+      showPastAppointments,
     } = this.props;
     const {
       future,
@@ -148,7 +158,7 @@ export class AppointmentsPage extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  VA Medical center
+                  VA medical center
                 </a>{' '}
                 to schedule an appointment.
               </p>
@@ -156,7 +166,10 @@ export class AppointmentsPage extends Component {
                 id="new-appointment"
                 className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
                 to="/new-appointment"
-                onClick={this.props.startNewAppointmentFlow}
+                onClick={() => {
+                  this.recordStartEvent();
+                  this.props.startNewAppointmentFlow();
+                }}
               >
                 Schedule an appointment
               </Link>
@@ -200,7 +213,10 @@ export class AppointmentsPage extends Component {
                   id="new-appointment"
                   className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
                   to="/new-appointment"
-                  onClick={this.props.startNewAppointmentFlow}
+                  onClick={() => {
+                    this.recordStartEvent();
+                    this.props.startNewAppointmentFlow();
+                  }}
                 >
                   Schedule an appointment
                 </Link>
@@ -209,6 +225,26 @@ export class AppointmentsPage extends Component {
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
               Upcoming appointments
             </h2>
+            {!showPastAppointments && (
+              <p>
+                To view past appointments you’ve made,{' '}
+                <a
+                  href={`https://${
+                    !environment.isProduction() ? 'mhv-syst' : 'www'
+                  }.myhealth.va.gov/mhv-portal-web/appointments`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'vaos-past-appointments-legacy-link-clicked',
+                    })
+                  }
+                >
+                  go to My HealtheVet
+                </a>
+                .
+              </p>
+            )}
             {content}
             <NeedHelp />
           </div>
@@ -232,6 +268,7 @@ function mapStateToProps(state) {
     appointments: state.appointments,
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
+    showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };

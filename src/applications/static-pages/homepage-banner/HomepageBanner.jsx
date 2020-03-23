@@ -1,9 +1,12 @@
-import React from 'react';
+// Node modules.
+import React, { Component } from 'react';
 import * as Sentry from '@sentry/browser';
-import classnames from 'classnames';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import classnames from 'classnames';
 import sanitizeHtml from 'sanitize-html';
 import yaml from 'js-yaml';
+// Relative imports.
+import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 const VAGOV_CONTENT =
@@ -33,7 +36,7 @@ const ACCEPTABLE_CONTENT_TAGS = [
 
 const HOMEPAGE_BANNER_LOCALSTORAGE = 'HOMEPAGE_BANNER';
 
-export default class HomepageBanner extends React.Component {
+class HomepageBanner extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,7 +82,8 @@ export default class HomepageBanner extends React.Component {
     });
 
     const dismissed =
-      localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) === bannerConfig.title;
+      localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) ===
+      this.prepareHomepageBannerID({ title, content });
 
     const banner = {
       visible: bannerConfig.visible,
@@ -91,38 +95,53 @@ export default class HomepageBanner extends React.Component {
     this.setState({ banner, dismissed });
   }
 
+  prepareHomepageBannerID = banner => `${banner.title}:${banner.content}`;
+
   dismiss = () => {
-    localStorage.setItem(HOMEPAGE_BANNER_LOCALSTORAGE, this.state.banner.title);
+    localStorage.setItem(
+      HOMEPAGE_BANNER_LOCALSTORAGE,
+      this.prepareHomepageBannerID(this.state.banner),
+    );
     this.setState({
       dismissed: true,
     });
   };
 
   render() {
-    if (!this.state.banner?.visible || this.state.dismissed) {
+    const { banner, dismissed } = this.state;
+
+    // Derive banner properties.
+    const content = banner?.content;
+    const title = banner?.title;
+    const type = banner?.type;
+    const visible = banner?.visible;
+
+    // Escape early if the banner isn't visible or is dismissed.
+    if (!visible || dismissed) {
       return null;
     }
 
-    const fullWidthBannerClass = classnames(
-      'usa-alert-full-width',
-      `usa-alert-full-width-${this.state.banner?.type}`,
-    );
-
-    const wysiwygDiv = (
-      // eslint-disable-next-line react/no-danger
-      <div dangerouslySetInnerHTML={{ __html: this.state.banner?.content }} />
-    );
+    // Derive onCloseAlert depending on the environment.
+    const onCloseAlert = !environment.isProduction() && this.dismiss;
 
     return (
-      <div className={fullWidthBannerClass}>
+      <div
+        className={classnames(
+          'usa-alert-full-width',
+          `usa-alert-full-width-${type}`,
+        )}
+      >
         <AlertBox
+          // eslint-disable-next-line react/no-danger
+          content={<div dangerouslySetInnerHTML={{ __html: content }} />}
+          headline={title}
           isVisible
-          onCloseAlert={this.dismiss}
-          status={this.state.banner?.type}
-          headline={this.state.banner?.title}
-          content={wysiwygDiv}
+          onCloseAlert={onCloseAlert}
+          status={type}
         />
       </div>
     );
   }
 }
+
+export default HomepageBanner;

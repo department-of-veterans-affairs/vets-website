@@ -54,30 +54,35 @@ export default function ConfirmedAppointmentListItem({
   );
 
   return (
-    <li aria-labelledby={`card-${index}`} className={itemClasses}>
-      <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+    <li
+      aria-labelledby={`card-${index}-type card-${index}-state`}
+      className={itemClasses}
+    >
+      <div
+        id={`card-${index}-type`}
+        className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans"
+      >
         {getAppointmentTypeHeader(appointment)}
       </div>
-      <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
+      <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         {getAppointmentDateTime(appointment)}
-      </h2>
+      </h3>
       <div className="vads-u-margin-top--2">
         {canceled ? (
-          <i className="fas fa-exclamation-circle" />
+          <i aria-hidden="true" className="fas fa-exclamation-circle" />
         ) : (
-          <i className="fas fa-check-circle" />
+          <i aria-hidden="true" className="fas fa-check-circle" />
         )}
         <span
-          id={`card-${index}`}
+          id={`card-${index}-state`}
           className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block"
         >
           {canceled ? 'Canceled' : 'Confirmed'}
-          <span className="sr-only"> appointment</span>
         </span>
       </div>
 
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <div className="vads-u-flex--1 vads-u-margin-top--2">
+        <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           {isVideoVisit(appointment) ? (
             <VideoVisitSection appointment={appointment} />
           ) : (
@@ -90,7 +95,7 @@ export default function ConfirmedAppointmentListItem({
           )}
         </div>
         {hasInstructions(appointment) && (
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {getAppointmentInstructionsHeader(appointment)}

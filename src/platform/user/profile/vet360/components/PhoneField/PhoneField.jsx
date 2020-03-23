@@ -5,7 +5,6 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 
-import { isValidPhone } from 'platform/forms/validations';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
@@ -111,16 +110,7 @@ export default class PhoneField extends React.Component {
     };
   }
 
-  validateCleanData({ inputPhoneNumber }) {
-    return {
-      inputPhoneNumber:
-        inputPhoneNumber && isValidPhone(inputPhoneNumber)
-          ? ''
-          : 'Please enter a valid phone.',
-    };
-  }
-
-  convertCleanDataToPayload(data, fieldName) {
+  convertCleanDataToPayload = (data, fieldName) => {
     let cleanData = data;
     if (data.inputPhoneNumber) {
       cleanData = this.convertNextValueToCleanData(data);
@@ -139,7 +129,7 @@ export default class PhoneField extends React.Component {
       },
       e => !!e,
     );
-  }
+  };
 
   render() {
     return (
@@ -147,8 +137,6 @@ export default class PhoneField extends React.Component {
         title={this.props.title}
         fieldName={this.props.fieldName}
         apiRoute={API_ROUTES.TELEPHONES}
-        convertNextValueToCleanData={this.convertNextValueToCleanData}
-        validateCleanData={this.validateCleanData}
         convertCleanDataToPayload={this.convertCleanDataToPayload}
         Content={PhoneView}
         EditModal={PhoneEditModal}
