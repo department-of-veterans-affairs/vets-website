@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  mockApiRequest,
   mockFetch,
   resetFetch,
   setFetchJSONFailure as setFetchFailure,
@@ -334,20 +333,24 @@ describe('institution search', () => {
   beforeEach(() => mockFetch());
 
   it('should dispatch a failure action', done => {
-    const payload = 'Service Unavailable';
-    setFetchFailure(global.fetch.onFirstCall(), payload);
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
 
     const dispatch = sinon.spy();
 
-    mockApiRequest(payload, false);
-    fetchInstitutionSearchResults()(dispatch)
-      .then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(SEARCH_STARTED);
-        expect(dispatch.secondCall.args[0].type).to.equal(SEARCH_FAILED);
-        expect(payload).to.eql('Service Unavailable');
-        done();
-      })
-      .catch(done);
+    fetchInstitutionSearchResults('@@', {})(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(SEARCH_STARTED);
+
+    setTimeout(() => {
+      const { payload } = dispatch.secondCall.args[0];
+
+      expect(dispatch.secondCall.args[0]).to.eql({
+        type: SEARCH_FAILED,
+        payload: payload,
+      });
+      done();
+    }, 0);
   });
 });
 
@@ -355,24 +358,23 @@ describe('constants', () => {
   beforeEach(() => mockFetch());
 
   it('should dispatch a failure action', done => {
-    const payload = 'Service Unavailable';
-    setFetchFailure(global.fetch.onFirstCall(), payload);
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
 
     const dispatch = sinon.spy();
 
-    mockApiRequest(payload, false);
+    fetchConstants('test')(dispatch);
 
-    fetchConstants()(dispatch)
-      .then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          FETCH_CONSTANTS_STARTED,
-        );
-        expect(dispatch.secondCall.args[0].type).to.equal(
-          FETCH_CONSTANTS_FAILED,
-        );
-        expect(payload).to.eql('Service Unavailable');
-        done();
-      })
-      .catch(done);
+    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CONSTANTS_STARTED);
+
+    setTimeout(() => {
+      const { payload } = dispatch.secondCall.args[0];
+
+      expect(dispatch.secondCall.args[0]).to.eql({
+        type: FETCH_CONSTANTS_FAILED,
+        payload: payload,
+      });
+      done();
+    }, 0);
   });
 });
