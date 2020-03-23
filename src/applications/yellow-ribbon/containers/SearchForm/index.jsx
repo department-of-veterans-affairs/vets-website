@@ -83,7 +83,7 @@ export class SearchForm extends Component {
     this.setState({ [key]: 'unlimited' });
   };
 
-  onStateChange = key => event => {
+  onReactStateChange = key => event => {
     this.setState({ [key]: event.target.value });
   };
 
@@ -128,7 +128,7 @@ export class SearchForm extends Component {
     const {
       onCountryChange,
       onCheckboxChange,
-      onStateChange,
+      onReactStateChange,
       onSubmitHandler,
     } = this;
     const {
@@ -157,7 +157,7 @@ export class SearchForm extends Component {
           <input
             className="usa-input"
             name="yr-search-name"
-            onChange={onStateChange('name')}
+            onChange={onReactStateChange('name')}
             type="text"
             value={name}
           />
@@ -202,7 +202,7 @@ export class SearchForm extends Component {
               <div className="vads-u-flex--1">
                 <select
                   name="yr-search-state"
-                  onChange={onStateChange('state')}
+                  onChange={onReactStateChange('state')}
                   value={state}
                 >
                   <option value="">- Select -</option>
@@ -228,7 +228,7 @@ export class SearchForm extends Component {
                 <input
                   className="usa-input"
                   name="yr-search-city"
-                  onChange={onStateChange('city')}
+                  onChange={onReactStateChange('city')}
                   type="text"
                   value={city}
                 />
