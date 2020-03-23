@@ -16,9 +16,9 @@ import {
   getSystemFromParent,
   getSystemFromChosenFacility,
   vaosCommunityCare,
+  selectSystemIds,
 } from '../utils/selectors';
 import {
-  getSystemIdentifiers,
   getParentFacilities,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
@@ -243,9 +243,11 @@ export function fetchFacilityDetails(facilityId) {
 */
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
-    const directSchedulingEnabled = vaosDirectScheduling(getState());
-    const newAppointment = getState().newAppointment;
+    const initialState = getState();
+    const directSchedulingEnabled = vaosDirectScheduling(initialState);
+    const newAppointment = initialState.newAppointment;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+    const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;
@@ -256,7 +258,6 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        const userSystemIds = await getSystemIdentifiers();
         parentFacilities = await getParentFacilities(userSystemIds);
       }
 
