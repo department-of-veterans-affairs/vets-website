@@ -8,6 +8,7 @@
     "vagovprod": false,
     "layout": "page-react.html",
     "includeBreadcrumbs": false,
-    "noHeader": true
+    "noNavOrLogin": true,
+    "noMegamenu": true
   }
 }

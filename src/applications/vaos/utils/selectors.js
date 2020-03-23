@@ -1,5 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { selectProfile } from 'platform/user/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
@@ -259,10 +259,16 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     facilityData,
+    systemClinicToFacilityMap,
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel) {
+  if (appointmentToCancel?.clinicId) {
+    facility =
+      systemClinicToFacilityMap[
+        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+      ];
+  } else if (appointmentToCancel) {
     facility =
       facilityData[
         getRealFacilityId(appointmentToCancel.facility?.facilityCode)
@@ -310,4 +316,4 @@ export const isWelcomeModalDismissed = state =>
   );
 
 export const selectSystemIds = state =>
-  selectProfile(state)?.facilities?.map(f => f.facilityId);
+  selectPatientFacilities(state)?.map(f => f.facilityId) || null;

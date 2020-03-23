@@ -400,6 +400,25 @@ describe('VAOS selectors', () => {
         state.appointments.facilityData['123'],
       );
     });
+    it('should fetch facility from clinic map', () => {
+      const state = {
+        appointments: {
+          appointmentToCancel: {
+            facilityId: '123',
+            clinicId: '456',
+          },
+          systemClinicToFacilityMap: {
+            '123_456': {},
+          },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.systemClinicToFacilityMap['123_456'],
+      );
+    });
   });
   describe('getCCEType', () => {
     it('should return cce type for Audiology', () => {

@@ -15,11 +15,13 @@
     {% assign ulClass = "va-nav-linkslist-list" %}
 {% endif %}
 <section class="{{ entity.parentFieldName }}">
-    <{{ header }}
-        {% if entity.fieldTitle != empty %}id="{{ entity.fieldTitle | hashReference }}"{% endif %}
-        class="{{ headerClass }}">
-        {{ entity.fieldTitle }}
-    </{{ header }}>
+    {% if entity.fieldTitle != empty %}
+      <{{ header }}
+          id="{{ entity.fieldTitle | hashReference }}"
+          class="{{ headerClass }}">
+          {{ entity.fieldTitle }}
+      </{{ header }}>
+    {% endif %}
     <ul class="{{ ulClass }}">
         {% for linkTeaser in entity.fieldVaParagraphs %}
             {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity parentFieldName = parentFieldName boldTitle = boldTitle %}

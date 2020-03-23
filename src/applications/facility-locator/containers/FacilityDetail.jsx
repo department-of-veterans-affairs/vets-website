@@ -71,7 +71,7 @@ class FacilityDetail extends Component {
           phone.main && (
             <p className="p1">
               Planning to visit? Please call first as information on this page
-              change.
+              may change.
             </p>
           )}
       </div>
