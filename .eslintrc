@@ -74,6 +74,8 @@
     "sonarjs/prefer-object-literal": 2,
     "sonarjs/prefer-single-boolean-return": 2,
     "sonarjs/prefer-while": 2,
+    // Testing
+    "sonarjs/no-extra-arguments": 2,
 
     /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
