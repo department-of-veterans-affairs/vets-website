@@ -1,10 +1,13 @@
 import React from 'react';
-
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+
+import CancelVideoAppointmentModal from './CancelVideoAppointmentModal';
+import CancelCommunityCareAppointmentModal from './CancelCommunityCareAppointmentModal';
 import FacilityAddress from './FacilityAddress';
-import { FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { isVideoVisit, getAppointmentType } from '../utils/appointment';
 
 export default class CancelAppointmentModal extends React.Component {
   render() {
@@ -19,6 +22,24 @@ export default class CancelAppointmentModal extends React.Component {
 
     if (!showCancelModal) {
       return null;
+    }
+
+    if (isVideoVisit(appointmentToCancel)) {
+      return (
+        <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
+      );
+    }
+
+    if (
+      getAppointmentType(appointmentToCancel) ===
+      APPOINTMENT_TYPES.ccAppointment
+    ) {
+      return (
+        <CancelCommunityCareAppointmentModal
+          onClose={onClose}
+          appointment={appointmentToCancel}
+        />
+      );
     }
 
     if (

@@ -36,14 +36,6 @@ export default function ConfirmedAppointmentListItem({
     );
   }
 
-  const allowCancel =
-    showCancelButton &&
-    !canceled &&
-    type !== APPOINTMENT_TYPES.ccAppointment &&
-    !isVideoVisit(appointment);
-
-  const showAddToCal = allowCancel || (!allowCancel && !canceled);
-
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
     {
@@ -106,25 +98,23 @@ export default function ConfirmedAppointmentListItem({
         )}
       </div>
 
-      {(showAddToCal || allowCancel) && (
+      {!canceled && (
         <div className="vads-u-margin-top--2">
-          {showAddToCal && (
-            <AddToCalendar
-              summary={getAppointmentTypeHeader(appointment)}
-              description={
-                hasInstructions(appointment)
-                  ? `${getAppointmentInstructionsHeader(
-                      appointment,
-                    )}. ${getAppointmentInstructions(appointment)}`
-                  : ''
-              }
-              location={getAppointmentAddress(appointment, facility)}
-              duration={getAppointmentDuration(appointment)}
-              startDateTime={getMomentConfirmedDate(appointment).toDate()}
-              endDateTime={getMomentConfirmedDate(appointment)}
-            />
-          )}
-          {allowCancel && (
+          <AddToCalendar
+            summary={getAppointmentTypeHeader(appointment)}
+            description={
+              hasInstructions(appointment)
+                ? `${getAppointmentInstructionsHeader(
+                    appointment,
+                  )}. ${getAppointmentInstructions(appointment)}`
+                : ''
+            }
+            location={getAppointmentAddress(appointment, facility)}
+            duration={getAppointmentDuration(appointment)}
+            startDateTime={getMomentConfirmedDate(appointment).toDate()}
+            endDateTime={getMomentConfirmedDate(appointment)}
+          />
+          {showCancelButton && (
             <button
               onClick={() => cancelAppointment(appointment)}
               aria-label="Cancel appointment"

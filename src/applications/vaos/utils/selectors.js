@@ -263,15 +263,20 @@ export function getCancelInfo(state) {
 
   let facility = null;
   if (appointmentToCancel?.clinicId) {
+    // Confirmed in person VA appts
     facility =
       systemClinicToFacilityMap[
         `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
       ];
-  } else if (appointmentToCancel) {
+  } else if (appointmentToCancel?.facility) {
+    // Requests
     facility =
       facilityData[
-        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+        getRealFacilityId(appointmentToCancel.facility.facilityCode)
       ];
+  } else if (appointmentToCancel) {
+    // Video visits
+    facility = facilityData[getRealFacilityId(appointmentToCancel.facilityId)];
   }
 
   return {
