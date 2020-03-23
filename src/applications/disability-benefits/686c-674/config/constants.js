@@ -4,6 +4,7 @@ export const datePattern =
   '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$';
 
 export const phonePattern = '^[0-9]{10}$';
+export const currencyAmountPattern = '^\\d+(\\.\\d{1,2})?$';
 
 export const TASK_KEYS = {
   addChild: 'addChild',

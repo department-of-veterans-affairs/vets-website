@@ -1,6 +1,9 @@
 import { TASK_KEYS } from '../../../constants';
+import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 import { StudentNameHeader } from '../helpers';
+
+const { currencyInput } = genericSchemas;
 
 export const schema = {
   type: 'object',
@@ -11,22 +14,10 @@ export const schema = {
     networthInformation: {
       type: 'object',
       properties: {
-        savings: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        securities: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        realEstate: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        otherAssets: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
+        savings: currencyInput,
+        securities: currencyInput,
+        realEstate: currencyInput,
+        otherAssets: currencyInput,
         remarks: {
           type: 'string',
           maxLength: 500,

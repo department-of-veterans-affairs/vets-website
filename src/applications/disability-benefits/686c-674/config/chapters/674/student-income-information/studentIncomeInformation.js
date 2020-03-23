@@ -1,6 +1,9 @@
 import { TASK_KEYS } from '../../../constants';
+import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 import { StudentNameHeader } from '../helpers';
+
+const { currencyInput } = genericSchemas;
 
 export const schema = {
   type: 'object',
@@ -11,22 +14,10 @@ export const schema = {
     studentEarningsFromSchoolYear: {
       type: 'object',
       properties: {
-        earningsFromAllEmployment: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        annualSocialSecurityPayments: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        otherAnnuitiesIncome: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        allOtherIncome: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
+        earningsFromAllEmployment: currencyInput,
+        annualSocialSecurityPayments: currencyInput,
+        otherAnnuitiesIncome: currencyInput,
+        allOtherIncome: currencyInput,
       },
     },
     studentWillEarnIncomeNextYear: {
@@ -35,22 +26,10 @@ export const schema = {
     studentExpectedEarningsNextYear: {
       type: 'object',
       properties: {
-        earningsFromAllEmployment: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        annualSocialSecurityPayments: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        otherAnnuitiesIncome: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
-        allOtherIncome: {
-          type: 'string',
-          pattern: '^\\d{1,6}',
-        },
+        earningsFromAllEmployment: currencyInput,
+        annualSocialSecurityPayments: currencyInput,
+        otherAnnuitiesIncome: currencyInput,
+        allOtherIncome: currencyInput,
       },
     },
   },
