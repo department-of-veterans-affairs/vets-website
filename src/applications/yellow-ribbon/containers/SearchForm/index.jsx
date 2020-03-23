@@ -88,16 +88,8 @@ export class SearchForm extends Component {
   };
 
   onCountryChange = event => {
-    const { value } = event.target;
-    const { country } = this.state;
-
-    // Escape early if value has not changed.
-    if (value === country) {
-      return;
-    }
-
     // Clear `state` + `city` when `country` field is changed.
-    this.setState({ country: value, city: '', state: '' });
+    this.setState({ country: event.target.value, city: '', state: '' });
   };
 
   onSubmitHandler = event => {
