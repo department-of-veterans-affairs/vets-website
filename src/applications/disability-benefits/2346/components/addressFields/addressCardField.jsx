@@ -1,3 +1,4 @@
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import {
   getDefaultFormState,
   getDefaultRegistry,
@@ -216,7 +217,12 @@ class addressCardField extends React.Component {
               </label>
             </>
           )}
-
+          <AdditionalInfo triggerText="Learn more about military base addresses">
+            <p>
+              The United States is automatically chosen as your country if you
+              live on a military base outside of the country.
+            </p>
+          </AdditionalInfo>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           <SchemaField
             name={idSchema.$id}
@@ -399,13 +405,7 @@ class addressCardField extends React.Component {
   isObjectEmpty = obj => Object.keys(obj).length === 0;
 
   handleClick = e => {
-    if (e.target.type === 'radio') {
-      // FIXME: state isn't updating for the radio buttons, new states are created for each field -@maharielrosario at 3/19/2020, 7:53:09 PM
-
-      this.setState({
-        addressIsSelected: e.target.name,
-      });
-    } else if (e.target.type === 'checkbox') {
+    if (e.target.type === 'checkbox') {
       if (this.props.uiSchema['ui:title'] === 'Permanent address') {
         const isPermAddressAMilitaryBase = ({
           permAddressIsAMilitaryBase,
