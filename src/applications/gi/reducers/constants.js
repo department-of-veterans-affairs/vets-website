@@ -8,6 +8,7 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
+  error: null,
   version: {},
 };
 
@@ -23,6 +24,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         ...action.err,
         inProgress: false,
+        error: action.payload,
       };
     case FETCH_CONSTANTS_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
@@ -35,6 +37,7 @@ export default function(state = INITIAL_STATE, action) {
         constants,
         version: camelPayload.meta.version,
         inProgress: false,
+        error: null,
       };
     default:
       return state;
