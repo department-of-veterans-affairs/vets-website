@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import {
+  mockApiRequest,
   mockFetch,
   resetFetch,
   setFetchJSONFailure as setFetchFailure,
@@ -18,8 +20,14 @@ import {
   FETCH_PROFILE_SUCCEEDED,
   fetchInstitutionAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
+  fetchConstants,
+  fetchInstitutionSearchResults,
   AUTOCOMPLETE_SUCCEEDED,
   AUTOCOMPLETE_FAILED,
+  FETCH_CONSTANTS_STARTED,
+  FETCH_CONSTANTS_FAILED,
+  SEARCH_STARTED,
+  SEARCH_FAILED,
 } from '../../actions/index';
 
 describe('beneficiaryZIPCodeChanged', () => {
@@ -319,5 +327,52 @@ describe('institution program autocomplete', () => {
       expect(err instanceof Error).to.be.true;
       done();
     }, 0);
+  });
+});
+
+describe('institution search', () => {
+  beforeEach(() => mockFetch());
+
+  it('should dispatch a failure action', done => {
+    const payload = 'Service Unavailable';
+    setFetchFailure(global.fetch.onFirstCall(), payload);
+
+    const dispatch = sinon.spy();
+
+    mockApiRequest(payload, false);
+    fetchInstitutionSearchResults()(dispatch)
+      .then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(SEARCH_STARTED);
+        expect(dispatch.secondCall.args[0].type).to.equal(SEARCH_FAILED);
+        expect(payload).to.eql('Service Unavailable');
+        done();
+      })
+      .catch(done);
+  });
+});
+
+describe('constants', () => {
+  beforeEach(() => mockFetch());
+
+  it('should dispatch a failure action', done => {
+    const payload = 'Service Unavailable';
+    setFetchFailure(global.fetch.onFirstCall(), payload);
+
+    const dispatch = sinon.spy();
+
+    mockApiRequest(payload, false);
+
+    fetchConstants()(dispatch)
+      .then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          FETCH_CONSTANTS_STARTED,
+        );
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          FETCH_CONSTANTS_FAILED,
+        );
+        expect(payload).to.eql('Service Unavailable');
+        done();
+      })
+      .catch(done);
   });
 });
