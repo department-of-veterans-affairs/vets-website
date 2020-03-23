@@ -9,11 +9,11 @@ import {
   getCCEType,
   getClinicsForChosenFacility,
   getTypeOfCare,
+  selectSystemIds,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
   getCommunityCare,
-  getSystemIdentifiers,
   getLongTermAppointmentHistory,
   getSitesSupportingVAR,
 } from './api';
@@ -91,7 +91,7 @@ export default {
         try {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
-            const userSystemIds = await getSystemIdentifiers();
+            const userSystemIds = selectSystemIds(state);
             const ccSites = await getSitesSupportingVAR(userSystemIds);
             const ccEnabledSystems = userSystemIds.filter(id =>
               ccSites.some(site => site.id === id),
@@ -114,17 +114,17 @@ export default {
               }
             }
           }
-
-          // If no CC enabled systems and toc is podiatry, show modal
-          if (isPodiatry(state)) {
-            dispatch(showTypeOfCareUnavailableModal());
-            return 'typeOfCare';
-          }
         } catch (e) {
           captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
+        }
+
+        // If no CC enabled systems and toc is podiatry, show modal
+        if (isPodiatry(state)) {
+          dispatch(showTypeOfCareUnavailableModal());
+          return 'typeOfCare';
         }
       }
 
@@ -171,7 +171,7 @@ export default {
         try {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
-            const userSystemIds = await getSystemIdentifiers();
+            const userSystemIds = selectSystemIds(state);
             const ccSites = await getSitesSupportingVAR(userSystemIds);
             const ccEnabledSystems = userSystemIds.filter(id =>
               ccSites.some(site => site.id === id),

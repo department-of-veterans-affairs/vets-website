@@ -258,7 +258,7 @@ export default class CalendarWidget extends Component {
   };
 
   render() {
-    const { loadingStatus, validationError } = this.props;
+    const { loadingStatus, validationError, loadingErrorMessage } = this.props;
     const { maxMonth, months } = this.state;
     const showError = validationError?.length > 0;
 
@@ -268,12 +268,7 @@ export default class CalendarWidget extends Component {
     });
 
     if (loadingStatus === FETCH_STATUS.failed) {
-      return (
-        <p>
-          There was a problem loading appointment availability. Please try again
-          later.
-        </p>
-      );
+      return loadingErrorMessage;
     }
 
     return (

@@ -9,11 +9,27 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import past from '../api/past.json';
-import systems from '../api/systems.json';
 import supportedSites from '../api/sites-supporting-var.json';
 
 import newAppointmentFlow from '../newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../utils/constants';
+
+const userState = {
+  user: {
+    profile: {
+      facilities: [
+        {
+          facilityId: '983',
+          isCerner: false,
+        },
+        {
+          facilityId: '984',
+          isCerner: false,
+        },
+      ],
+    },
+  },
+};
 
 describe('VAOS newAppointmentFlow', () => {
   describe('typeOfCare page', () => {
@@ -48,10 +64,10 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be vaFacility page if CC check has an error', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, systems);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONFailure(global.fetch.onCall(2), {});
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONFailure(global.fetch.onCall(1), {});
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -59,7 +75,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: '323',
             },
           },
         };
@@ -73,12 +89,12 @@ describe('VAOS newAppointmentFlow', () => {
         resetFetch();
       });
 
-      it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
+      it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, {
-          data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
-        });
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONFailure(global.fetch.onCall(1), {});
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -100,16 +116,43 @@ describe('VAOS newAppointmentFlow', () => {
         resetFetch();
       });
 
+      it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
+        const state = {
+          user: {
+            profile: {
+              facilities: [{ facilityId: '000' }],
+            },
+          },
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingCommunityCare: true,
+          },
+          newAppointment: {
+            data: {
+              typeOfCareId: 'tbd-podiatry',
+            },
+          },
+        };
+
+        const dispatch = sinon.spy();
+        const nextState = await newAppointmentFlow.typeOfCare.next(
+          state,
+          dispatch,
+        );
+        expect(nextState).to.equal('typeOfCare');
+      });
+
       it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, systems);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(1), {
           data: {
             attributes: { eligible: true },
           },
         });
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -155,14 +198,14 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, systems);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(1), {
           data: {
             attributes: { eligible: true },
           },
         });
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -788,14 +831,14 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
-      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(2), {
+      setFetchJSONResponse(global.fetch, supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(1), {
         data: {
           attributes: { eligible: true },
         },
       });
       const state = {
+        ...userState,
         featureToggles: {
           loading: false,
           vaOnlineSchedulingDirect: true,
@@ -821,14 +864,14 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be vaFacility page when Ophthalmology selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
-      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(2), {
+      setFetchJSONResponse(global.fetch, supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(1), {
         data: {
           attributes: { eligible: true },
         },
       });
       const state = {
+        ...userState,
         featureToggles: {
           loading: false,
           vaOnlineSchedulingDirect: true,
