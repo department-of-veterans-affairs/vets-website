@@ -1,5 +1,4 @@
 import { genericSchemas } from '../../../generic-schema';
-import { isChapterFieldRequired } from '../../../helpers';
 import { childInfo } from '../child-information/helpers';
 
 export const schema = {
@@ -67,29 +66,29 @@ export const uiSchema = {
           'ui:title': 'Person your child lives with',
           first: {
             'ui:title': 'First name',
-            'ui:required': formData =>
-              isChapterFieldRequired(formData, 'addChild'),
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
           },
           middle: {
             'ui:title': 'Middle name',
           },
           last: {
             'ui:title': 'Last name',
-            'ui:required': formData =>
-              isChapterFieldRequired(formData, 'addChild'),
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
           },
         },
         childAddress: {
           'ui:title': "Child's address",
           country: {
             'ui:title': 'Country',
-            'ui:required': formData =>
-              isChapterFieldRequired(formData, 'addChild'),
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
           },
           street: {
             'ui:title': 'Street',
-            'ui:required': formData =>
-              isChapterFieldRequired(formData, 'addChild'),
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
           },
           line2: {
             'ui:title': 'Line 2',
@@ -99,8 +98,8 @@ export const uiSchema = {
           },
           city: {
             'ui:title': 'City',
-            'ui:required': formData =>
-              isChapterFieldRequired(formData, 'addChild'),
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
           },
           state: {
             'ui:title': 'State or county',
@@ -109,8 +108,8 @@ export const uiSchema = {
             'ui:options': {
               widgetClassNames: 'usa-input-medium',
             },
-            'ui:required': formData =>
-              isChapterFieldRequired(formData, 'addChild'),
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
             'ui:title': 'Postal Code',
           },
         },
