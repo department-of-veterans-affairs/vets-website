@@ -11,7 +11,7 @@ import {
   getChosenFacilityDetails,
 } from '../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
-import { getStagingId } from '../utils/appointment';
+import { getRealFacilityId } from '../utils/appointment';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
@@ -91,7 +91,7 @@ export class ReviewPage extends React.Component {
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`/find-locations/facility/vha_${getStagingId(
+                      href={`/find-locations/facility/vha_${getRealFacilityId(
                         data.vaFacility || data.communityCareSystemId,
                       )}`}
                     >

@@ -1,11 +1,12 @@
 import {
+  countries,
+  currencyAmountPattern,
   datePattern,
   numberAndDashPattern,
+  phonePattern,
   states50AndDC,
   suffixes,
   textOnlyPattern,
-  countries,
-  phonePattern,
 } from './constants';
 
 export const genericSchemas = {
@@ -84,5 +85,9 @@ export const genericSchemas = {
   phoneInput: {
     type: 'string',
     pattern: phonePattern,
+  },
+  currencyInput: {
+    type: 'string',
+    pattern: currencyAmountPattern,
   },
 };
