@@ -71,11 +71,14 @@ describe('VAOS <CalendarWidget>', () => {
     const tree = shallow(
       <CalendarWidget
         monthsToShowAtOnce={2}
+        loadingErrorMessage={
+          <div>There was a problem loading appointment availability</div>
+        }
         loadingStatus={FETCH_STATUS.failed}
       />,
     );
     expect(tree.text()).to.contain(
-      'There was a problem loading appointment availability. Please try again later.',
+      'There was a problem loading appointment availability',
     );
     tree.unmount();
   });
