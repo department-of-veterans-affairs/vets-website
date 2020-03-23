@@ -67,11 +67,6 @@ const config = {
       component: WelcomeToNewVAModal,
     },
     {
-      name: 'single-sign-on-intro',
-      paths: /(.)/,
-      component: SingleSignOnInfoModal,
-    },
-    {
       name: 'welcome-to-new-vaos',
       paths: /^\/health-care\/schedule-view-va-appointments\/appointments\/$/,
       component: WelcomeVAOSModal,
@@ -98,6 +93,11 @@ const config = {
       name: 'personalization',
       paths: /(.)/,
       component: PersonalizationBanner,
+    },
+    {
+      name: 'single-sign-on-intro',
+      paths: /(.)/,
+      component: SingleSignOnInfoModal,
     },
   ],
 };
