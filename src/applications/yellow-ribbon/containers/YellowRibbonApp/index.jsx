@@ -63,14 +63,16 @@ export const YellowRibbonApp = ({ results }) => (
             </>
           ) : (
             <>
-              <p>
-                Find out if your school participates in the Yellow Ribbon
-                program. If you already have Post-9/11 GI Bill benefits, the
-                Yellow Ribbon program can help pay for higher out-of-state,
-                private school, or graduate school tuition. The amount of money
-                you get varies by school, degree type, and the program
-                you&apos;re enrolled in.
-              </p>
+              <div className="vads-l-col--7">
+                <p>
+                  Find out if your school participates in the Yellow Ribbon
+                  program. If you already have Post-9/11 GI Bill benefits, the
+                  Yellow Ribbon program can help pay for higher out-of-state,
+                  private school, or graduate school tuition. The amount of
+                  money you get varies by school, degree type, and the program
+                  you&apos;re enrolled in.
+                </p>
+              </div>
               <a
                 href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
                 rel="noopener noreferrer"
