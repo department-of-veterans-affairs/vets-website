@@ -31,7 +31,17 @@ import {
 
 const emailUITitle = (
   <>
-    <p className="vads-u-font-weight--bold">Email Address</p>
+    <h4>Email address</h4>
+  </>
+);
+
+const emailUIDescription = (
+  <>
+    <p>
+      We will send an order confirmation email with a tracking number to this
+      email address.
+    </p>
+    <p>Email address</p>
   </>
 );
 
@@ -184,8 +194,7 @@ export default {
     ),
     emailUI: {
       'ui:title': emailUITitle,
-      'ui:description':
-        'We will send an order confirmation email with a tracking number to this email address.',
+      'ui:description': emailUIDescription,
       'ui:widget': 'email',
       'ui:errorMessages': {
         pattern: 'Please enter an email address using this format: X@X.com',
