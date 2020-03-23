@@ -30,7 +30,9 @@ export default function CancelCommunityCareAppointmentModal({
               <strong>Main phone:</strong>
             </dt>{' '}
             <dd className="vads-u-display--inline">
-              <a href={`tel:${appointment.providerPhone.replace(/()-/g, '')}`}>
+              <a
+                href={`tel:${appointment.providerPhone.replace(/[^0-9]/g, '')}`}
+              >
                 {appointment.providerPhone}
               </a>
             </dd>

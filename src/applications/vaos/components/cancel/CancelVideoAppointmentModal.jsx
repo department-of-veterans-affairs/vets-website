@@ -25,7 +25,7 @@ export default function CancelVideoAppointmentModal({ onClose, facility }) {
               <strong>Main phone:</strong>
             </dt>{' '}
             <dd className="vads-u-display--inline">
-              <a href={`tel:${facility.phone.main.replace(/-/g, '')}`}>
+              <a href={`tel:${facility.phone.main.replace(/[^0-9]/g, '')}`}>
                 {facility.phone.main}
               </a>
             </dd>
