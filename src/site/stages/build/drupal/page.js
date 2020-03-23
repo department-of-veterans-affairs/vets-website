@@ -77,7 +77,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     pagedPage.pagedItems = pagedEntities[pageNum];
     const innerPages = [];
 
-    if (pagedEntities.length > 1) {
+    if (pagedEntities.length > 0) {
       // add page numbers
       const numPageLinks = 3;
       let start;

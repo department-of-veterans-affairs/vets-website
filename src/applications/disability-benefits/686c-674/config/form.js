@@ -34,6 +34,9 @@ import {
   studentAddressMarriageTuition,
   studentSchoolAddress,
   studentTermDates,
+  studentLastTerm,
+  studentIncomeInformation,
+  studentNetworthInformation,
 } from './chapters/674';
 
 const formConfig = {
@@ -260,6 +263,27 @@ const formConfig = {
           path: 'report-674-student-school-term-dates',
           uiSchema: studentTermDates.uiSchema,
           schema: studentTermDates.schema,
+        },
+        studentLastTerm: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-last-term-information',
+          uiSchema: studentLastTerm.uiSchema,
+          schema: studentLastTerm.schema,
+        },
+        studentIncomeInformation: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-income-information',
+          uiSchema: studentIncomeInformation.uiSchema,
+          schema: studentIncomeInformation.schema,
+        },
+        studentNetworthInformation: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-networth-information',
+          uiSchema: studentNetworthInformation.uiSchema,
+          schema: studentNetworthInformation.schema,
         },
       },
     },

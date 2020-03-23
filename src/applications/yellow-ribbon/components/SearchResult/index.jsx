@@ -10,7 +10,7 @@ import { capitalize } from '../../helpers';
 const deriveNameLabel = school => {
   // Show unknown if there's no name.
   if (!school?.schoolNameInYrDatabase) {
-    return 'Unknown';
+    return 'Not provided';
   }
 
   // Show the name.
@@ -20,7 +20,7 @@ const deriveNameLabel = school => {
 const deriveLocationLabel = (school = {}) => {
   // Show unknown if there's no city or state.
   if (!school?.city && !school?.state) {
-    return 'Unknown';
+    return 'Not provided';
   }
 
   // Only show state if there's no city.
@@ -40,7 +40,7 @@ const deriveLocationLabel = (school = {}) => {
 const deriveMaxAmountLabel = (school = {}) => {
   // Show unknown if there's no contributionAmount.
   if (!school?.contributionAmount) {
-    return 'Unknown';
+    return 'Not provided';
   }
 
   // Derive the contribution amount number.
@@ -60,7 +60,7 @@ const deriveMaxAmountLabel = (school = {}) => {
 const deriveEligibleStudentsLabel = (school = {}) => {
   // Show unknown if there's no numberOfStudents.
   if (!school?.numberOfStudents) {
-    return 'Unknown';
+    return 'Not provided';
   }
 
   // Escape early if the data indicates all eligible students.
@@ -75,7 +75,7 @@ const deriveEligibleStudentsLabel = (school = {}) => {
 const deriveInstURLLabel = (school = {}) => {
   // Show unknown if there's no insturl.
   if (!school?.insturl) {
-    return 'Unknown';
+    return 'Not provided';
   }
 
   // Show the school's website URL.
@@ -134,7 +134,7 @@ export const SearchResult = ({ school, schoolIDs }) => (
       <div className="vads-l-col--6 vads-u-padding-left--2">
         {/* School Website */}
         <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
-          School Website
+          School website
         </h4>
         <p className="vads-u-margin--0">{deriveInstURLLabel(school)}</p>
       </div>
