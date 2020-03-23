@@ -347,7 +347,7 @@ describe('institution search', () => {
 
       expect(dispatch.secondCall.args[0]).to.eql({
         type: SEARCH_FAILED,
-        payload: payload,
+        payload,
       });
       done();
     }, 0);
@@ -372,7 +372,7 @@ describe('constants', () => {
 
       expect(dispatch.secondCall.args[0]).to.eql({
         type: FETCH_CONSTANTS_FAILED,
-        payload: payload,
+        payload,
       });
       done();
     }, 0);
