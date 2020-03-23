@@ -74,10 +74,10 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     ).to.contain('Confirmed');
   });
 
-  it('should have an h2 with date', () => {
+  it('should have an h3 with date', () => {
     expect(
       tree
-        .find('h2')
+        .find('h3')
         .text()
         .trim(),
     ).to.contain('December 11, 2019');
@@ -140,10 +140,10 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
     ).to.contain('Confirmed');
   });
 
-  it('should have an h2 with date', () => {
+  it('should have an h3 with date', () => {
     expect(
       tree
-        .find('h2')
+        .find('h3')
         .text()
         .trim(),
     ).to.contain('May 22, 2019 at 10:00 a.m.');
@@ -267,10 +267,10 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
     ).to.contain('Canceled');
   });
 
-  it('should have an h2 with date', () => {
+  it('should have an h3 with date', () => {
     expect(
       tree
-        .find('h2')
+        .find('h3')
         .text()
         .trim(),
     ).to.contain('December 11, 2019');
@@ -291,5 +291,9 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
 
   it('should not show booking note', () => {
     expect(tree.text()).not.to.contain('Booking note');
+  });
+
+  it('contain class that breaks long comments', () => {
+    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
   });
 });

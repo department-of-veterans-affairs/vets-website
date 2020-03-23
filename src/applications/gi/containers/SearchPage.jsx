@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -24,6 +25,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
+import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -104,6 +106,16 @@ export class SearchPage extends React.Component {
     this.props.fetchInstitutionSearchResults(query);
   };
 
+  autocomplete = (value, version) => {
+    if (value) {
+      this.props.fetchInstitutionAutocompleteSuggestions(
+        value,
+        _.omit(this.props.search.query, 'name'),
+        version,
+      );
+    }
+  };
+
   handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
@@ -125,6 +137,7 @@ export class SearchPage extends React.Component {
     ) {
       return;
     }
+    this.props.clearAutocompleteSuggestions();
 
     // Reset to the first page upon a filter change.
     delete query.page;
@@ -189,7 +202,7 @@ export class SearchPage extends React.Component {
                 state={result.state}
                 zip={result.zip}
                 country={result.country}
-                cautionFlag={result.cautionFlag}
+                cautionFlags={result.cautionFlags}
                 studentCount={result.studentCount}
                 bah={result.bah}
                 dodBah={result.dodBah}
@@ -235,9 +248,7 @@ export class SearchPage extends React.Component {
         autocomplete={this.props.autocomplete}
         location={this.props.location}
         clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={
-          this.props.fetchInstitutionAutocompleteSuggestions
-        }
+        fetchAutocompleteSuggestions={this.autocomplete}
         handleFilterChange={this.handleFilterChange}
         updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
         filters={this.props.filters}
@@ -267,7 +278,11 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {this.renderInstitutionSearchForm(searchResults, filtersClass)}
+        {search.error && !environment.isProduction() ? (
+          <ServiceError />
+        ) : (
+          this.renderInstitutionSearchForm(searchResults, filtersClass)
+        )}
       </ScrollElement>
     );
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
-import { TYPES_OF_CARE } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
@@ -16,19 +16,12 @@ import {
 } from '../actions/newAppointment.js';
 import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
 
-const sortedCare = TYPES_OF_CARE.sort(
-  (careA, careB) =>
-    careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
-);
-
 const initialSchema = {
   type: 'object',
   required: ['typeOfCareId'],
   properties: {
     typeOfCareId: {
       type: 'string',
-      enum: sortedCare.map(care => care.id || care.ccId),
-      enumNames: sortedCare.map(care => care.label || care.name),
     },
   },
 };
@@ -47,6 +40,7 @@ export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   onChange = newData => {
@@ -75,13 +69,17 @@ export class TypeOfCarePage extends React.Component {
       showToCUnavailableModal,
     } = this.props;
 
+    if (!schema) {
+      return null;
+    }
+
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Type of care"
           title="Type of care"
-          schema={schema || initialSchema}
+          schema={schema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={this.onChange}

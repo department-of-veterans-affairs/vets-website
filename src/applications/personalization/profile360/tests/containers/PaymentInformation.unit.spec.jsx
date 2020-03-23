@@ -18,10 +18,10 @@ describe('<PaymentInformation/>', () => {
     financialInstitutionRoutingNumber: '123456789',
   };
   const defaultProps = {
-    directDepositIsSetUp: true,
+    isDirectDepositSetUp: true,
     multifactorEnabled: true,
     isLoading: false,
-    isEligible: true,
+    isEvssAvailable: true,
     isEligibleToSignUp: true,
     fetchPaymentInformation() {},
     savePaymentInformation() {},
@@ -40,6 +40,7 @@ describe('<PaymentInformation/>', () => {
       ],
     },
     shouldShowDirectDeposit: true,
+    directDepositIsBlocked: false,
   };
 
   it('renders', () => {
@@ -53,7 +54,7 @@ describe('<PaymentInformation/>', () => {
     const props = {
       ...defaultProps,
       fetchPaymentInformation,
-      isEligible: false,
+      isEvssAvailable: false,
       shouldShowDirectDeposit: false,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
@@ -62,10 +63,28 @@ describe('<PaymentInformation/>', () => {
     wrapper.unmount();
   });
 
+  it('does not render if the user is blocked from accessing direct deposit', () => {
+    const fetchPaymentInformation = sinon.spy();
+    const props = {
+      ...defaultProps,
+      fetchPaymentInformation,
+      // `false` because the GET payment_information endpoint will not populate
+      // the account number when the controlInformation indicates that they are
+      // blocked from accessing the direct deposit feature
+      isDirectDepositSetUp: false,
+      shouldShowDirectDeposit: false,
+      directDepositIsBlocked: true,
+    };
+    const wrapper = shallow(<PaymentInformation {...props} />);
+    expect(fetchPaymentInformation.called).to.be.true;
+    expect(wrapper.text()).to.be.empty;
+    wrapper.unmount();
+  });
+
   it('renders the correct content if the user is eligible for direct deposit but has not yet set it up', () => {
     const props = {
       ...defaultProps,
-      directDepositIsSetUp: false,
+      isDirectDepositSetUp: false,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
 
@@ -83,8 +102,14 @@ describe('<PaymentInformation/>', () => {
   });
 
   it('renders a prompt to enable 2FA is the user does not have it enabled already', () => {
-    const props = { ...defaultProps, multifactorEnabled: false };
+    const fetchPaymentInformation = sinon.spy();
+    const props = {
+      ...defaultProps,
+      fetchPaymentInformation,
+      multifactorEnabled: false,
+    };
     const wrapper = shallow(<PaymentInformation {...props} />);
+    expect(fetchPaymentInformation.called).to.be.false;
     expect(wrapper.find('PaymentInformation2FARequired')).to.have.lengthOf(1);
     wrapper.unmount();
   });

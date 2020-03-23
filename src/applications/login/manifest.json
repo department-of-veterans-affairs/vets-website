@@ -2,12 +2,13 @@
   "appName": "Login Page",
   "entryFile": "./app-entry.jsx",
   "entryName": "login-page",
-  "rootUrl": "/login",
+  "rootUrl": "/sign-in",
   "production": false,
   "template": {
     "vagovprod": false,
     "layout": "page-react.html",
     "includeBreadcrumbs": false,
-    "noHeader": true
+    "noNavOrLogin": true,
+    "noMegamenu": true
   }
 }

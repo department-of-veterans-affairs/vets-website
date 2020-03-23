@@ -1,5 +1,7 @@
 // Dependencies
-import { concat, filter, pick } from 'lodash';
+import concat from 'lodash/concat';
+import filter from 'lodash/filter';
+import pick from 'lodash/pick';
 // Relative imports.
 import {
   ADD_SCHOOL_TO_COMPARE,
@@ -12,9 +14,12 @@ import {
 
 const initialState = {
   city: '',
+  contributionAmount: '',
+  country: '',
   error: '',
   fetching: false,
   name: '',
+  numberOfStudents: '',
   page: 1,
   perPage: 10,
   results: undefined,
@@ -41,9 +46,12 @@ export const yellowRibbonReducer = (state = initialState, action) => {
       return {
         ...state,
         city: action?.options?.city || '',
+        contributionAmount: action?.options?.contributionAmount || '',
+        country: action?.options?.country || '',
         error: '',
         fetching: !action?.options?.hideFetchingState,
         name: action?.options?.name || '',
+        numberOfStudents: action?.options?.numberOfStudents || '',
         state: action?.options?.state || '',
       };
     }

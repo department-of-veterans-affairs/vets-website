@@ -52,6 +52,7 @@ export const REASON_ADDITIONAL_INFO_TITLES = {
     'Please provide any additional details you’d like to share with your provider about this appointment.',
 };
 
+export const PODIATRY_ID = 'tbd-podiatry';
 export const TYPES_OF_CARE = [
   {
     id: '323',
@@ -101,19 +102,7 @@ export const TYPES_OF_CARE = [
     cceType: 'Nutrition',
   },
   {
-    id: '407',
-    name: 'Ophthalmology',
-    group: 'specialty',
-  },
-  {
-    id: '408',
-    name: 'Optometry',
-    group: 'specialty',
-    ccId: 'CCOPT',
-    cceType: 'Optometry',
-  },
-  {
-    id: 'tbd-podiatry',
+    id: PODIATRY_ID,
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
@@ -123,6 +112,11 @@ export const TYPES_OF_CARE = [
   {
     id: 'SLEEP',
     name: 'Sleep medicine',
+    group: 'specialty',
+  },
+  {
+    id: 'EYE',
+    name: 'Eye care',
     group: 'specialty',
   },
 ];
@@ -135,6 +129,19 @@ export const TYPES_OF_SLEEP_CARE = [
   {
     id: '143',
     name: 'Sleep medicine and home sleep testing',
+  },
+];
+
+export const TYPES_OF_EYE_CARE = [
+  {
+    id: '408',
+    name: 'Optometry',
+    ccId: 'CCOPT',
+    cceType: 'Optometry',
+  },
+  {
+    id: '407',
+    name: 'Ophthalmology',
   },
 ];
 
@@ -279,4 +286,10 @@ export const CALENDAR_INDICATOR_TYPES = {
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
+
 export const GA_PREFIX = 'vaos';
+export const GA_FLOWS = {
+  DIRECT: 'direct',
+  VA_REQUEST: 'va-request',
+  CC_REQUEST: 'cc-request',
+};

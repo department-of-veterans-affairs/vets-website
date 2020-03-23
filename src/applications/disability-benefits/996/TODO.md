@@ -26,9 +26,9 @@
 - [x] Destination or component that opens when the "See all your contested
       issues" link is used.
 
-### Confirm Veteran Details (Step 1)
+### Veteran Information (Step 1)
 
-- [x] Build form `confirmVeteranDetails` in `config/form.js`
+- [x] Build form `veteranInformation` in `config/form.js`
 - [ ] Get last 4 of SSN? Look for API entry.
 - [x] Auto-fill contact info review (collapsed with edit button? - talk to design)
 - [x] Add unit tests
@@ -48,6 +48,7 @@
 - [x] Add note for relevant evidence
 - [x] Add unit tests
 - [ ] Add e2e tests
+- [x] Remove "add notes" from contested issues
 
 ### Office of review (Step 3)
 
@@ -84,6 +85,7 @@
 - [x] ~Opt out page should only be visible if user has a legacy appeal~ - N/A, always visible now
 - [x] Consider updating JSON form schema library to accept an option to add an
       opt out/in page after the introduction page
+- [x] Remove opt out page!
 
 ### Before Production
 - [ ] Check for, and remove, all console logs.

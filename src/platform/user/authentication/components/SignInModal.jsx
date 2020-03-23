@@ -4,14 +4,14 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+// import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
+import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
-
-import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -26,14 +26,15 @@ const vaGovFullDomain = environment.BASE_URL;
 const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 class SignInModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      globalDowntime: false,
-    };
+  state = { globalDowntime: null };
 
-    this.setGlobalDowntimeState = this.setGlobalDowntimeState.bind(this);
+  /*
+  componentDidMount() {
+    getCurrentGlobalDowntime().then(globalDowntime => {
+      this.setState(globalDowntime);
+    });
   }
+  */
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
@@ -41,10 +42,6 @@ class SignInModal extends React.Component {
     } else if (prevProps.visible && !this.props.visible) {
       recordEvent({ event: 'login-modal-closed' });
     }
-  }
-
-  setGlobalDowntimeState() {
-    this.setState({ globalDowntime: true });
   }
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
@@ -62,30 +59,30 @@ class SignInModal extends React.Component {
     </ExternalServicesError>
   );
 
-  renderModalContent = ({ globalDowntime }) => (
-    <main className="login">
-      <div className="row">
-        <div className="columns">
-          <div className="logo">
-            <a href="/">
-              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="columns small-12">
-            <h1>Sign in to VA.gov</h1>
-          </div>
-        </div>
-        <div className="row medium-screen:vads-u-display--none mobile-explanation">
-          <div className="columns small-12">
-            <h2>
-              One site. A lifetime of benefits and services at your fingertips.
-            </h2>
-          </div>
-        </div>
+  renderGlobalDowntime = () => (
+    <div className="vads-u-margin-bottom--4">
+      <AlertBox
+        headline="You may have trouble signing in or using some tools or services"
+        status="warning"
+        isVisible
+      >
+        <p>
+          We’re doing some work on VA.gov right now. We hope to finish our work
+          by {formatDowntime(this.state.globalDowntime.endTIme)}. If you have
+          trouble signing in or using any tool or services, check back after
+          then.
+        </p>
+      </AlertBox>
+    </div>
+  );
+
+  renderDowntimeBanners = () => {
+    if (this.state.globalDowntime) {
+      return this.renderGlobalDowntime();
+    }
+
+    return (
+      <>
         {this.downtimeBanner(
           [EXTERNAL_SERVICES.idme],
           'Our sign in process isn’t working right now',
@@ -126,16 +123,35 @@ class SignInModal extends React.Component {
           'warning',
           'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
         )}
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.global],
-          'You may have trouble signing in or using some tools or services',
-          'warning',
-          `We’re doing some work on VA.gov right now. We hope to finish our work by ${
-            scheduledDowntimeWindow.downtimeEnd
-          }. If you have trouble signing in or using any tools or services, please check back after then.`,
-          this.setGlobalDowntimeState,
-        )}
+      </>
+    );
+  };
 
+  renderModalContent = ({ globalDowntime }) => (
+    <main className="login">
+      <div className="row">
+        <div className="columns">
+          <div className="logo">
+            <a href="/">
+              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <div className="row">
+          <div className="columns small-12">
+            <h1>Sign in to VA.gov</h1>
+          </div>
+        </div>
+        <div className="row medium-screen:vads-u-display--none mobile-explanation">
+          <div className="columns small-12">
+            <h2>
+              One site. A lifetime of benefits and services at your fingertips.
+            </h2>
+          </div>
+        </div>
+        {this.renderDowntimeBanners()}
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">

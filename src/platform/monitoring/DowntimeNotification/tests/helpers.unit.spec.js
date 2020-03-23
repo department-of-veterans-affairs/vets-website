@@ -1,5 +1,13 @@
 import { expect } from 'chai';
 import moment from 'moment';
+
+import {
+  mockFetch,
+  setFetchJSONResponse,
+  setFetchJSONFailure,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
+
 import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
 import * as downtimeHelpers from '../util/helpers';
@@ -202,5 +210,66 @@ describe('getMostUrgentDowntime', () => {
     ]);
     expect(appeals.status).to.equal(externalServiceStatus.downtimeApproaching);
     expect(appeals.externalService).to.equal('appeals');
+  });
+});
+
+describe('getCurrentGlobalDowntime', () => {
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
+
+  it('returns downtime when in the middle of a downtime', async () => {
+    const response = [
+      {
+        startTime: pastDowntime.attributes.startTime,
+        endTime: pastDowntime.attributes.endTime,
+      },
+      {
+        startTime: activeDowntime.attributes.startTime,
+        endTime: activeDowntime.attributes.endTime,
+      },
+      {
+        startTime: distantFutureDowntime.attributes.startTime,
+        endTime: distantFutureDowntime.attributes.endTime,
+      },
+    ];
+
+    setFetchJSONResponse(global.fetch, response);
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+    expect(downtime.startTime).to.equal(response[1].startTime);
+    expect(downtime.endTime).to.equal(response[1].endTime);
+  });
+
+  it('returns null when not within any downtimes', async () => {
+    const response = [
+      {
+        startTime: pastDowntime.attributes.startTime,
+        endTime: pastDowntime.attributes.endTime,
+      },
+      {
+        startTime: distantFutureDowntime.attributes.startTime,
+        endTime: distantFutureDowntime.attributes.endTime,
+      },
+    ];
+
+    setFetchJSONResponse(global.fetch, response);
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+    expect(downtime).to.be.null;
+  });
+
+  it('returns null when there are no downtimes', async () => {
+    setFetchJSONResponse(global.fetch, []);
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+    expect(downtime).to.be.null;
+  });
+
+  it('returns null when failing to get downtimes', async () => {
+    setFetchJSONFailure(global.fetch, null);
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+    expect(downtime).to.be.null;
   });
 });

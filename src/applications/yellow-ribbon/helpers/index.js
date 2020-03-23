@@ -1,5 +1,7 @@
 // Node modules.
-import { map, startCase, toLower } from 'lodash';
+import map from 'lodash/map';
+import startCase from 'lodash/startCase';
+import toLower from 'lodash/toLower';
 
 export const capitalize = str => startCase(toLower(str));
 

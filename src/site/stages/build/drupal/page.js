@@ -49,7 +49,20 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     ariaLabel = ` of ${ariaLabel}`;
   }
 
-  const pagedEntities = _.chunk(page[field].entities, perPage);
+  /* eslint-disable camelcase */
+  // Map the page.entityBundle value to a property value we want for page
+  const bundleToField = {
+    event_listing: 'allEventTeasers',
+    story_listing: 'allNewsStoryTeasers',
+    leadership_listing: 'fieldLeadership',
+    press_releases_listing: 'allPressReleaseTeasers',
+  };
+
+  /* eslint-enable camelcase */
+  const pageField = _.get(bundleToField, page.entityBundle, field);
+  const pagedEntities = _.chunk(page[pageField].entities, perPage);
+
+  const pageReturn = [];
   for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
     let pagedPage = Object.assign({}, page);
 
@@ -64,7 +77,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     pagedPage.pagedItems = pagedEntities[pageNum];
     const innerPages = [];
 
-    if (pagedEntities.length > 1) {
+    if (pagedEntities.length > 0) {
       // add page numbers
       const numPageLinks = 3;
       let start;
@@ -104,12 +117,14 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
             ? `${page.entityUrl.path}${paginationPath(pageNum + 1)}`
             : null,
       };
+      pageReturn.push(pagedPage);
     }
 
     const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
 
     files[fileName] = createFileObj(pagedPage, layout);
   }
+  return pageReturn;
 }
 
 // Return page object with path, breadcrumb and title set.
@@ -289,7 +304,12 @@ function compilePage(page, contentData) {
   switch (entityBundle) {
     case 'office':
     case 'publication_listing':
+    case 'locations_listing':
     case 'event_listing':
+    case 'leadership_listing':
+    case 'story_listing':
+    case 'press_releases_listing':
+    case 'health_services_listing':
       pageCompiled = Object.assign(
         {},
         page,

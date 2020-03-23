@@ -21,6 +21,10 @@
       },
       {
         "path": "pension/how-to-apply/",
+        "name": "How to apply"
+      },
+      {
+        "path": "pension/application/527EZ",
         "name": "Apply for Veterans Pension"
       }
     ]

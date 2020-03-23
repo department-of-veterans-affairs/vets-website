@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import recordEvent from 'platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
 
 import { isPendingTransaction } from '../util/transactions';
-import environment from 'platform/utilities/environment';
 
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
-  updateFormField,
   updateFormFieldWithSchema,
   openModal,
   validateAddress,
@@ -24,6 +23,7 @@ import {
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
+  vaProfileUseAddressValidation,
 } from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
@@ -43,6 +43,27 @@ class Vet360ProfileField extends React.Component {
     transactionRequest: PropTypes.object,
   };
 
+  static defaultProps = {
+    fieldName: '',
+  };
+
+  componentDidUpdate(prevProps) {
+    const { transaction, showValidationModal, isEditing } = prevProps;
+    const modalOpenInPrevProps =
+      transaction || showValidationModal || isEditing;
+    const modalIsClosed =
+      !this.props.transaction &&
+      !this.props.showValidationModal &&
+      !this.props.isEditing;
+
+    if (modalOpenInPrevProps && modalIsClosed) {
+      focusElement(`button#${this.props.fieldName}-edit-link`);
+    }
+    if (!prevProps.transaction && this.props.transaction) {
+      focusElement(`div#${this.props.fieldName}-transaction-status`);
+    }
+  }
+
   onAdd = () => {
     this.captureEvent('add-link');
     this.openEditModal();
@@ -51,17 +72,6 @@ class Vet360ProfileField extends React.Component {
   onCancel = () => {
     this.captureEvent('cancel-button');
     this.closeModal();
-  };
-
-  onChange = (value, property, skipValidation) => {
-    this.props.updateFormField(
-      this.props.fieldName,
-      this.props.convertNextValueToCleanData,
-      this.props.validateCleanData,
-      value,
-      property,
-      skipValidation,
-    );
   };
 
   onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
@@ -96,7 +106,14 @@ class Vet360ProfileField extends React.Component {
   };
 
   onSubmit = () => {
-    this.captureEvent('update-button');
+    // The validateAddress thunk will handle its own dataLayer additions
+    if (this.props.useAddressValidation) {
+      if (!this.props.fieldName.toLowerCase().includes('address')) {
+        this.captureEvent('update-button');
+      }
+    } else {
+      this.captureEvent('update-button');
+    }
 
     let payload = this.props.field.value;
     if (this.props.convertCleanDataToPayload) {
@@ -110,7 +127,7 @@ class Vet360ProfileField extends React.Component {
 
     if (
       this.props.fieldName.toLowerCase().includes('address') &&
-      !environment.isProduction()
+      this.props.useAddressValidation
     ) {
       this.props.validateAddress(
         this.props.apiRoute,
@@ -174,6 +191,8 @@ class Vet360ProfileField extends React.Component {
       isEmpty,
       Content,
       EditModal,
+      ValidationModal,
+      showValidationModal,
       title,
       transaction,
       transactionRequest,
@@ -185,7 +204,6 @@ class Vet360ProfileField extends React.Component {
       clearErrors: this.clearErrors,
       onAdd: this.onAdd,
       onEdit: this.onEdit,
-      onChange: this.onChange,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
       onDelete: this.onDelete,
       onCancel: this.onCancel,
@@ -193,19 +211,23 @@ class Vet360ProfileField extends React.Component {
     };
 
     return (
-      <div
-        className="vet360-profile-field"
-        aria-atomic="false"
-        aria-live="polite"
-        data-field-name={fieldName}
-      >
+      <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading
           onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
+          fieldName={fieldName}
         >
           {title}
         </Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
+        {showValidationModal && (
+          <ValidationModal
+            title={title}
+            transactionRequest={transactionRequest}
+            clearErrors={this.clearErrors}
+          />
+        )}
         <Vet360Transaction
+          id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
@@ -230,7 +252,7 @@ class Vet360ProfileField extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
   const { transaction, transactionRequest } = selectVet360Transaction(
     state,
@@ -238,6 +260,14 @@ const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
+  const useAddressValidation = vaProfileUseAddressValidation(state);
+  const addressValidationType =
+    state.vet360.addressValidation.addressValidationType;
+  const showValidationModal =
+    useAddressValidation &&
+    ownProps.ValidationModal &&
+    addressValidationType === fieldName &&
+    selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
@@ -245,9 +275,11 @@ const mapStateToProps = (state, ownProps) => {
     fieldName,
     field: selectEditedFormField(state, fieldName),
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
+    showValidationModal: !!showValidationModal,
     isEmpty,
     transaction,
     transactionRequest,
+    useAddressValidation,
   };
 };
 
@@ -256,7 +288,6 @@ const mapDispatchToProps = {
   refreshTransaction,
   openModal,
   createTransaction,
-  updateFormField,
   updateFormFieldWithSchema,
   validateAddress,
 };
@@ -269,7 +300,6 @@ const mapDispatchToProps = {
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the Vet360 field.
  * @property {func} convertNextValueToCleanData A function called to derive or make changes to form values after form values are changed in the edit-modal. Called prior to validation.
- * @property {func} validateCleanData A function called to determine validation errors. Called after convertNextValueToCleanData.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in Vet360.
  */
 const Vet360ProfileFieldContainer = connect(
@@ -281,10 +311,9 @@ Vet360ProfileFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
   EditModal: PropTypes.func.isRequired,
+  ValidationModal: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
-  convertNextValueToCleanData: PropTypes.func.isRequired,
-  validateCleanData: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func,
 };
 

@@ -6,7 +6,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { connect } from 'react-redux';
-import { orderBy, slice } from 'lodash';
+import orderBy from 'lodash/orderBy';
+import slice from 'lodash/slice';
 // Relative imports.
 import { updatePaginationAction, updateResultsAction } from '../actions';
 
@@ -40,7 +41,7 @@ export class SearchResults extends Component {
         // Original form data key-value pairs.
         formName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.number.isRequired,
+        lastRevisionOn: PropTypes.number,
         pages: PropTypes.number.isRequired,
         sha256: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,

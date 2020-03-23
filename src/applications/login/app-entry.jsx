@@ -1,5 +1,4 @@
 import '../../platform/polyfills';
-import './sass/login-page.scss';
 
 import startApp from '../../platform/startup';
 

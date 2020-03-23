@@ -14,7 +14,7 @@ import {
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
 } from '../../actions/appointments';
 
-import { FORM_CLOSED_CONFIRMATION_PAGE } from '../../actions/newAppointment';
+import { FORM_SUBMIT_SUCCEEDED } from '../../actions/sitewide';
 
 import { FETCH_STATUS } from '../../utils/constants';
 
@@ -252,9 +252,9 @@ describe('VAOS reducer: appointments', () => {
       );
     });
   });
-  it('should reset future appt status after confirmation page is closed', () => {
+  it('should reset future appt status after form submission', () => {
     const action = {
-      type: FORM_CLOSED_CONFIRMATION_PAGE,
+      type: FORM_SUBMIT_SUCCEEDED,
     };
     const state = {
       ...initialState,

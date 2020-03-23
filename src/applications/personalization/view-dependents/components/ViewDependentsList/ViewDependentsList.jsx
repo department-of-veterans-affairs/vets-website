@@ -11,7 +11,7 @@ class ViewDependentsList extends Component {
       mainContent = (
         <LoadingIndicator message="Loading your dependents" setFocus />
       );
-    } else if (this.props.dependents) {
+    } else if (this.props.dependents && this.props.dependents.length > 0) {
       mainContent = this.props.dependents.map((dependent, index) => (
         <ViewDependentsListItem key={index} {...dependent} />
       ));
@@ -22,7 +22,13 @@ class ViewDependentsList extends Component {
     return (
       <>
         <h2>{this.props.header}</h2>
-        <p className="vads-u-padding-bottom--2">{this.props.subHeader}</p>
+        <p>{this.props.subHeader}</p>
+        <a
+          className="vads-u-display--block vads-u-margin-bottom--4"
+          href={this.props.link}
+        >
+          {this.props.linkText}
+        </a>
         {mainContent}
       </>
     );

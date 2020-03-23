@@ -1,92 +1,174 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-
-import IntroPageSummary from './IntroPageSummary';
+import ServiceAvailabilityBanner from './ServiceAvailabilityBanner';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
-import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
-
-const DOWNTIME_SOON_CUTOFF = 60 * 30; // 30 minutes
-const systemUpAlertHeadline = `The Post-9/11 GI Bill Benefits tool is available`;
-const systemUpAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.`;
-const downtimeAlertHeadline = `The Post-9/11 GI Bill Benefits tool is down for maintenance`;
-const downtimeAlertContent = `We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
-const downtimeSoonAlertHeadline = `The Post-9/11 GI Bill Benefits tool will be down soon for maintenance`;
-const downtimeSoonAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time.`;
 
 export class IntroPage extends React.Component {
-  constructor(props) {
-    super(props);
-    // Make the api request
-    this.props.getServiceAvailability();
-  }
-
-  getContent() {
-    let content;
-    switch (this.props.serviceAvailability) {
-      case SERVICE_AVAILABILITY_STATES.unrequested: {
-        // This is never actually even seen
-        content = <div />;
-        break;
-      }
-      case SERVICE_AVAILABILITY_STATES.pending: {
-        content = (
-          <LoadingIndicator message="Please wait while we check if the tool is available." />
-        );
-        break;
-      }
-      case SERVICE_AVAILABILITY_STATES.up: {
-        content = (
-          <div>
-            <AlertBox
-              headline={downtimeSoonAlertHeadline}
-              content={downtimeSoonAlertContent}
-              isVisible={
-                this.props.uptimeRemaining &&
-                this.props.uptimeRemaining <= DOWNTIME_SOON_CUTOFF
-              }
-              status="warning"
-            />
-            <AlertBox
-              headline={systemUpAlertHeadline}
-              content={systemUpAlertContent}
-              isVisible={
-                !this.props.uptimeRemaining ||
-                this.props.uptimeRemaining > DOWNTIME_SOON_CUTOFF
-              }
-              status="success"
-            />
-            <IntroPageSummary />
-          </div>
-        );
-        break;
-      }
-      case SERVICE_AVAILABILITY_STATES.down:
-      default: {
-        content = (
-          <AlertBox
-            headline={downtimeAlertHeadline}
-            content={downtimeAlertContent}
-            isVisible
-            status="error"
-          />
-        );
-      }
-    }
-
-    return content;
-  }
-
   render() {
-    const content = this.getContent();
-
     return (
-      <div>
+      <>
         <h1>Post-9/11 GI Bill Statement of Benefits</h1>
-        {content}
-      </div>
+        <div itemProp="description" className="va-introtext">
+          <p>
+            If you were awarded Post-9/11 GI Bill education benefits, your GI
+            Bill Statement of Benefits will show you how much of your benefits
+            you’ve used and how much you have left to use for your education or
+            training. These education benefits can help cover some or all of the
+            costs for school or training.
+          </p>
+          <p>
+            You’ll be able to view this benefit statement only if you were
+            awarded education benefits.
+          </p>
+        </div>
+        <ServiceAvailabilityBanner />
+        <div
+          itemProp="mainEntity"
+          itemScope
+          itemType="https://schema.org/Question"
+        >
+          <h2 itemProp="name">Am I eligible to use this tool?</h2>
+          <div
+            itemProp="acceptedAnswer"
+            itemScope
+            itemType="http://schema.org/Answer"
+          >
+            <div itemProp="text">
+              <p>
+                You can use this tool if you meet all of the requirements listed
+                below.
+              </p>
+              <p>
+                <strong>Both of these must be true. You:</strong>
+              </p>
+              <ul>
+                <li>
+                  Have applied for Post-9/11 GI Bill Benefits,{' '}
+                  <strong>and</strong>
+                </li>
+                <li>Received a decision from us on your application</li>
+              </ul>
+              <p>
+                <strong>Note:</strong> At this time, the GI Bill benefit
+                statement isn't available online to family members and
+                dependents. You'll need to request a new Certificate of
+                Eligibility letter to check your GI Bill benefit status. To
+                request a COE, please call the Education Call Center at
+                888-442-4551 (888-GI-BILL-1). We’re here Monday through Friday,
+                8:00 a.m. to 7:00 p.m. ET.
+              </p>
+              <p>
+                <a href="/education/how-to-apply/">
+                  Find out how to apply for Post-9/11 GI Bill benefits
+                </a>
+                .
+              </p>
+              <p>
+                <strong>And you must have one of these free accounts:</strong>
+              </p>
+              <ul>
+                <li>
+                  A premium <strong>My HealtheVet</strong> account,
+                  <strong>or</strong>
+                </li>
+                <li>
+                  A <strong>DS Logon</strong> account (used for eBenefits and
+                  milConnect), <strong>or</strong>
+                </li>
+                <li>
+                  A verified <strong>ID.me</strong> account that you can create
+                  here on VA.gov
+                </li>
+              </ul>
+              <p>
+                <strong>Note:</strong> If you use <strong>DS Logon</strong>,
+                you’ll need to verify your identity online as part of our
+                sign-in process.
+              </p>
+              <p>
+                Please see the blue sign-in module above to learn more about
+                signing in, creating or upgrading an account, and verifying your
+                identity.
+              </p>
+            </div>
+          </div>
+          <div itemScope itemType="https://schema.org/Question">
+            <h2 itemProp="name">
+              What benefits information will I be able to see?
+            </h2>
+            <div
+              itemProp="acceptedAnswer"
+              itemScope
+              itemType="http://schema.org/Answer"
+            >
+              <div itemProp="text">
+                <p>
+                  <strong>
+                    In your Post-9/11 GI Bill Statement of Benefits, you’ll see:
+                  </strong>
+                </p>
+                <ul>
+                  <li>If you have any Post-9/11 GI Bill benefits</li>
+                  <li>
+                    How much money you have left to use for your education or
+                    training
+                  </li>
+                  <li>How much time you have left to use these benefits</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div itemScope itemType="https://schema.org/Question">
+          <h2 itemProp="name">
+            What if I’m having trouble seeing my Statement of Benefits?
+          </h2>
+          <div
+            itemProp="acceptedAnswer"
+            itemScope
+            itemType="http://schema.org/Answer"
+          >
+            <div itemProp="text">
+              <p>
+                Your Post-9/11 GI Bill Statement of Benefits might not be
+                available if one of these is true:
+              </p>
+              <ul>
+                <li>
+                  The name on the account you’re signed in with doesn’t exactly
+                  match the name we have in our Post-9/11 GI Bill records.
+                </li>
+                <li>
+                  We’re still processing your education benefits application, so
+                  we haven’t created a record yet for you. We usually process
+                  applications within 30 days. If you applied less than 30 days
+                  ago, please check back soon.
+                </li>
+                <li>
+                  You haven’t applied yet for Post-9/11 GI Bill education
+                  benefits. <br />
+                  <a href="/education/how-to-apply/">
+                    Apply for education benefits
+                  </a>
+                  .
+                </li>
+                <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
+                <li>
+                  You’re trying to access the tool during its scheduled
+                  downtime. This tool is available Sunday through Friday, 6:00
+                  a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
+                </li>
+              </ul>
+              <p>
+                If none of the above situations applies to you, and you think
+                your Statement of Benefits should be here, please call the GI
+                Bill Hotline at <a href="tel:18884424551">888-442-4551</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }

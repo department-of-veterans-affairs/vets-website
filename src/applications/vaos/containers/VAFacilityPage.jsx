@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
@@ -84,9 +85,9 @@ const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
-    scrollAndFocus();
     this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   goBack = () => {
@@ -229,9 +230,19 @@ export class VAFacilityPage extends React.Component {
           {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
+            continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
+          {(loadingEligibility || pageChangeInProgress) && (
+            <div aria-atomic="true" aria-live="assertive">
+              <AlertBox isVisible status="info" headline="Please wait">
+                We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience.
+              </AlertBox>
+            </div>
+          )}
         </SchemaForm>
       </div>
     );

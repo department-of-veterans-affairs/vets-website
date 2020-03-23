@@ -2,12 +2,12 @@
 const moment = require('moment');
 const mock = require('../../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const Auth = require('../../../../platform/testing/e2e/auth');
 
 const confirmedVA = require('../../api/confirmed_va.json');
 const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
-const systems = require('../../api/systems.json');
 const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
@@ -91,7 +91,7 @@ function appointmentDateTimeTest(client, nextElement) {
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
     .axeCheck('.main')
-    .click('.rjsf [type="submit"]')
+    .click('.form-progress-buttons [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.slow);
 
   return client;
@@ -180,11 +180,6 @@ function initAppointmentListMock(token) {
         ],
       },
     },
-  });
-  mock(token, {
-    path: '/v0/vaos/systems',
-    verb: 'get',
-    value: systems,
   });
   mock(token, {
     path: '/v0/vaos/community_care/supported_sites',
@@ -382,6 +377,25 @@ function initAppointmentListMock(token) {
   });
 }
 
+function getUserDataWithFacilities() {
+  const response = Auth.getDefaultUserResponse(3);
+
+  /* eslint-disable camelcase */
+  response.data.attributes.va_profile.facilities = [
+    {
+      facility_id: '983',
+      isCerner: false,
+    },
+    {
+      facility_id: '984',
+      isCerner: false,
+    },
+  ];
+  /* eslint-enable camelcase */
+
+  return response;
+}
+
 module.exports = {
   initAppointmentListMock,
   newAppointmentTest,
@@ -391,4 +405,5 @@ module.exports = {
   contactInformationTest,
   reviewAppointmentTest,
   appointmentSubmittedTest,
+  getUserDataWithFacilities,
 };

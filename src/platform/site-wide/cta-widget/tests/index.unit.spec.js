@@ -658,36 +658,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should shown schedule appts message', () => {
-      const fetchMHVAccount = sinon.spy();
-      const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          isLoggedIn
-          appId="schedule-appointments"
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{}}
-          mviStatus="OK"
-          featureToggles={{
-            loading: false,
-            vaOnlineScheduling: true,
-          }}
-        />,
-      );
-
-      expect(fetchMHVAccount.called).to.be.false;
-      expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
-      expect(tree.text()).contains(
-        'schedule or cancel your appointments online',
-      );
-      tree.unmount();
-    });
-
-    it('should show view appointments message', () => {
+    it('should show appts message', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -710,7 +681,9 @@ describe('<CallToActionWidget>', () => {
 
       expect(fetchMHVAccount.called).to.be.false;
       expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
-      expect(tree.text()).contains('view your appointments online');
+      expect(tree.text()).contains(
+        'view, schedule, or cancel your appointment online',
+      );
       tree.unmount();
     });
 
