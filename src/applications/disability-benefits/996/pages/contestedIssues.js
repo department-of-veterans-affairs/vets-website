@@ -14,6 +14,7 @@ import {
 } from '../content/officeForReview';
 
 import { requireRatedDisability } from '../validations';
+import SameOfficeReviewField from '../containers/SameOfficeReviewField';
 
 const { contestedIssues } = fullSchema.properties;
 
@@ -51,6 +52,7 @@ const contestedIssuesPage = {
       'ui:title': OfficeForReviewTitle,
       // including a description here would add it _above_ the checkbox
       'ui:widget': 'checkbox',
+      'ui:reviewField': SameOfficeReviewField,
       'ui:options': {
         hideLabelText: true,
       },
