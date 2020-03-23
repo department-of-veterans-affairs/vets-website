@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import {
   getAppointmentSlots,
@@ -8,6 +9,7 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
+  requestAppointmentDateChoice,
 } from '../actions/newAppointment.js';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
@@ -15,6 +17,7 @@ import { getDateTimeSelect } from '../utils/selectors';
 import CalendarWidget from '../components/calendar/CalendarWidget';
 import WaitTimeAlert from '../components/WaitTimeAlert';
 import { FETCH_STATUS } from '../utils/constants';
+import { getRealFacilityId } from '../utils/appointment';
 
 const pageKey = 'selectDateTime';
 const pageTitle = 'Tell us the date and time you’d like your appointment';
@@ -42,6 +45,32 @@ export function getOptionsByDate(selectedDate, availableSlots = []) {
 
   return options;
 }
+
+function ErrorMessage({ facilityId, startRequestFlow }) {
+  return (
+    <div aria-atomic="true" aria-live="assertive">
+      <AlertBox
+        status="error"
+        headline="We’ve run into a problem when trying to find available appointment times"
+      >
+        To schedule this appointment, you can{' '}
+        <button onClick={startRequestFlow} className="va-button-link">
+          submit a request for a VA appointment
+        </button>{' '}
+        or{' '}
+        <a
+          href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          call your local VA medical center
+        </a>
+        .
+      </AlertBox>
+    </div>
+  );
+}
+
 export class DateTimeSelectPage extends React.Component {
   constructor(props) {
     super(props);
@@ -91,6 +120,10 @@ export class DateTimeSelectPage extends React.Component {
     } else {
       this.setState({ submitted: true });
     }
+  };
+
+  startRequestFlow = () => {
+    this.props.requestAppointmentDateChoice(this.props.router);
   };
 
   validate = data => {
@@ -161,6 +194,12 @@ export class DateTimeSelectPage extends React.Component {
               getOptionsByDate(selectedDate, availableSlots),
           }}
           loadingStatus={appointmentSlotsStatus}
+          loadingErrorMessage={
+            <ErrorMessage
+              facilityId={facilityId}
+              startRequestFlow={this.startRequestFlow}
+            />
+          }
           onChange={newData => {
             this.validate(newData);
             this.props.onCalendarChange(newData);
@@ -181,6 +220,7 @@ export class DateTimeSelectPage extends React.Component {
         <FormButtons
           onBack={this.goBack}
           onSubmit={this.goForward}
+          disabled={appointmentSlotsStatus === FETCH_STATUS.failed}
           pageChangeInProgress={pageChangeInProgress}
         />
       </div>
@@ -198,6 +238,7 @@ const mapDispatchToProps = {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
+  requestAppointmentDateChoice,
 };
 
 export default connect(

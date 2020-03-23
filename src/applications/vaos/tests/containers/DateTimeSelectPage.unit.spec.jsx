@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import moment from 'moment';
 
 import {
@@ -225,5 +225,39 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(options[1].label.props.children[4].props.children).to.equal(
       srMeridiem(dateTime1),
     );
+  });
+
+  it('should render error message if slots call fails', () => {
+    const getAppointmentSlots = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const requestAppointmentDateChoice = sinon.spy();
+
+    const form = mount(
+      <DateTimeSelectPage
+        availableDates={availableDates}
+        availableSlots={availableSlots}
+        data={{ calendarData: {} }}
+        facilityId="123"
+        getAppointmentSlots={getAppointmentSlots}
+        appointmentSlotsStatus={FETCH_STATUS.failed}
+        onCalendarChange={onCalendarChange}
+        requestAppointmentDateChoice={requestAppointmentDateChoice}
+      />,
+    );
+
+    const message = shallow(
+      form.find('CalendarWidget').props().loadingErrorMessage,
+    );
+    message
+      .find('button')
+      .props()
+      .onClick();
+
+    expect(message.find('AlertBox').exists()).to.be.true;
+    expect(message.find('a').props().href).to.contain('vha_123');
+    expect(requestAppointmentDateChoice.called).to.be.true;
+
+    form.unmount();
+    message.unmount();
   });
 });

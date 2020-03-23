@@ -3,20 +3,12 @@ import { connect } from 'react-redux';
 import pickBy from 'lodash/pickBy';
 import { focusElement } from 'platform/utilities/ui';
 
-import {
-  ADDRESS_FORM_VALUES,
-  ADDRESS_POU,
-  ADDRESS_TYPES,
-  FIELD_NAMES,
-  USA,
-} from 'vet360/constants';
+import { ADDRESS_POU, ADDRESS_TYPES, FIELD_NAMES, USA } from 'vet360/constants';
 
 import Vet360EditModal from '../base/Vet360EditModal';
 
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
-import { profileUseSchemaForms } from 'vet360/selectors';
 
-import AddressForm from './AddressForm';
 import ContactInfoForm from '../ContactInfoForm';
 
 class AddressEditModal extends React.Component {
@@ -24,19 +16,7 @@ class AddressEditModal extends React.Component {
     focusElement(`#${this.props.fieldName}-edit-link`);
   }
 
-  onBlur = field => {
-    this.props.onChange(this.props.field.value, field);
-  };
-
-  onInput = (field, value) => {
-    const newFieldValue = {
-      ...this.props.field.value,
-      [field]: value,
-    };
-    this.props.onChange(newFieldValue, field, true);
-  };
-
-  onInputV2 = (value, schema, uiSchema) => {
+  onInput = (value, schema, uiSchema) => {
     const newFieldValue = {
       ...value,
     };
@@ -51,9 +31,6 @@ class AddressEditModal extends React.Component {
     this.transformInitialFormValues(this.props.data) || {
       countryName: USA.COUNTRY_NAME,
     };
-
-  getIsMailingAddress = () =>
-    this.props.fieldName === FIELD_NAMES.MAILING_ADDRESS;
 
   /**
    * Returns a copy of the input object with keys removed for values that are
@@ -114,48 +91,27 @@ class AddressEditModal extends React.Component {
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
-    if (this.props.useSchemaForm) {
-      this.props.onChangeFormDataAndSchemas(
-        this.transformInitialFormValues(newAddressValue),
-        this.props.field.formSchema,
-        this.props.field.uiSchema,
-      );
-    } else {
-      this.props.onChange(newAddressValue, null, true);
-    }
+    this.props.onChangeFormDataAndSchemas(
+      this.transformInitialFormValues(newAddressValue),
+      this.props.field.formSchema,
+      this.props.field.uiSchema,
+    );
   };
 
   renderForm = (formButtons, onSubmit) => (
     <div>
       {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
-        <CopyMailingAddress
-          convertNextValueToCleanData={this.props.convertNextValueToCleanData}
-          copyMailingAddress={this.copyMailingAddress}
-          useNewAddressForm={this.props.useSchemaForm}
-        />
+        <CopyMailingAddress copyMailingAddress={this.copyMailingAddress} />
       )}
-      {this.props.useSchemaForm && (
-        <ContactInfoForm
-          formData={this.props.field.value}
-          formSchema={this.props.field.formSchema}
-          uiSchema={this.props.field.uiSchema}
-          onUpdateFormData={this.onInputV2}
-          onSubmit={onSubmit}
-        >
-          {formButtons}
-        </ContactInfoForm>
-      )}
-      {!this.props.useSchemaForm && (
-        <AddressForm
-          isMailingAddress={this.getIsMailingAddress()}
-          address={this.props.field.value}
-          onInput={this.onInput}
-          onBlur={this.onBlur}
-          errorMessages={this.props.field.validations}
-          states={ADDRESS_FORM_VALUES.STATES}
-          countries={ADDRESS_FORM_VALUES.COUNTRIES}
-        />
-      )}
+      <ContactInfoForm
+        formData={this.props.field.value}
+        formSchema={this.props.field.formSchema}
+        uiSchema={this.props.field.uiSchema}
+        onUpdateFormData={this.onInput}
+        onSubmit={onSubmit}
+      >
+        {formButtons}
+      </ContactInfoForm>
     </div>
   );
 
@@ -163,9 +119,7 @@ class AddressEditModal extends React.Component {
     return (
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
-        onBlur={this.props.useSchemaForm ? null : this.onBlur}
         render={this.renderForm}
-        useSchemaForm={this.props.useSchemaForm}
         {...this.props}
       />
     );
@@ -174,7 +128,6 @@ class AddressEditModal extends React.Component {
 
 const mapStateToProps = state => ({
   modalData: state.vet360?.modalData,
-  useSchemaForm: profileUseSchemaForms(state),
 });
 
 export default connect(mapStateToProps)(AddressEditModal);

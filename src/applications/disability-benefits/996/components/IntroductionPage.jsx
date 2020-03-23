@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -46,13 +45,25 @@ class IntroductionPage extends React.Component {
             Please complete the 20-0996 form to apply for Higher-Level Review.
           </SaveInProgressIntro>
         </CallToActionWidget>
+        <h3 className="vads-u-margin-top--0">What is a Higher-Level Review</h3>
         <p>
-          After you click the button to start the Higher-Level Review
-          application, you’ll need to opt out (withdraw) from the old appeals
-          process. This switch triggers us to formally withdraw your claim or
-          appeal from the old appeal system and process it under the new system.
-          Once you opt in to the new appeals process, the decision is permanent
-          and you can’t return to the old appeals process.
+          If a veteran or their representative wants to dispute a decision they
+          received on a claim, they can file a Higher-Level Review. When you
+          request a Higher-Level Review, you’re asking to have a more senior,
+          experience reviewer take a look at your case and the evidence you
+          already provided. This more senior person will determine whether the
+          decision can be changed based on a difference of opinion or a VA
+          error.
+        </p>
+        <h3>You cannot submit new evidence</h3>
+        <p>
+          The reviewer will only consider the evidence you have already provided
+          when reviewing your case. If you have new and relevant evidence, you
+          have the{' '}
+          <a href="/decision-reviews">
+            option to use a different Decision Review lane
+          </a>{' '}
+          in order to have that new evidence considered.
         </p>
         <aside className="process schemaform-process">
           <h4>Follow the steps below to Request a Higher-Level Review.</h4>
@@ -62,26 +73,23 @@ class IntroductionPage extends React.Component {
               <h5>Prepare</h5>
               <p>To fill out this application, you’ll need your:</p>
               <ul>
-                <li>
-                  Primary address (or forwarding address if you'll be moving
-                  soon)
-                </li>
+                <li>Primary address</li>
                 <li>
                   List of issues you disagree with and the VA decision date for
                   each
                 </li>
-                <li>Representative's contact information (optional)</li>
+                <li>Representative’s contact information (optional)</li>
               </ul>
               <p>
-                When you request a Higher-Level Review, you won't be able to
-                submit new evidence. If you have new evidence to submit, you'll
+                When you request a Higher-Level Review, you won’t be able to
+                submit new evidence. If you have new evidence to submit, you’ll
                 need to select another review option.
               </p>
               <p>
                 <a href="/decision-reviews">Learn more about review options</a>.
               </p>
               <p>
-                <strong>What if I need help filling out my application?</strong>
+                <strong>What if I need help with my application?</strong>
               </p>
               <p>
                 If you need help requesting a Higher-Level Review, you can

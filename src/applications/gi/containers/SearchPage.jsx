@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -24,6 +25,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
+import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -200,7 +202,7 @@ export class SearchPage extends React.Component {
                 state={result.state}
                 zip={result.zip}
                 country={result.country}
-                cautionFlag={result.cautionFlag}
+                cautionFlags={result.cautionFlags}
                 studentCount={result.studentCount}
                 bah={result.bah}
                 dodBah={result.dodBah}
@@ -276,7 +278,11 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {this.renderInstitutionSearchForm(searchResults, filtersClass)}
+        {search.error && !environment.isProduction() ? (
+          <ServiceError />
+        ) : (
+          this.renderInstitutionSearchForm(searchResults, filtersClass)
+        )}
       </ScrollElement>
     );
   }

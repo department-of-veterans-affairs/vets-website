@@ -101,7 +101,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       tree
         .find('Modal')
         .children()
-        .at(2)
+        .at(1)
         .text(),
     ).to.contain('Testing');
 

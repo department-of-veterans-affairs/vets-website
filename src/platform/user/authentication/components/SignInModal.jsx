@@ -4,7 +4,7 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
+// import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
@@ -28,11 +28,13 @@ const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 class SignInModal extends React.Component {
   state = { globalDowntime: null };
 
+  /*
   componentDidMount() {
     getCurrentGlobalDowntime().then(globalDowntime => {
       this.setState(globalDowntime);
     });
   }
+  */
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {

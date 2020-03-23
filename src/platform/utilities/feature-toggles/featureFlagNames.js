@@ -1,7 +1,7 @@
-const FEATURE_FLAG_NAMES = Object.freeze({
+export default Object.freeze({
+  dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
-  profileSchemaForms: 'profileSchemaForms',
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
@@ -11,5 +11,3 @@ const FEATURE_FLAG_NAMES = Object.freeze({
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaProfileAddressValidation: 'vaProfileAddressValidation',
 });
-
-module.exports = FEATURE_FLAG_NAMES;

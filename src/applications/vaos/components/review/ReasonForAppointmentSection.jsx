@@ -7,8 +7,8 @@ export default function ReasonForAppointmentSection(props) {
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
-        <div className="vads-l-row">
-          <div className="vads-l-col--6">
+        <div className="vads-l-row vads-u-justify-content--space-between">
+          <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">
               {
                 PURPOSE_TEXT.find(
@@ -16,8 +16,11 @@ export default function ReasonForAppointmentSection(props) {
                 )?.short
               }
             </h3>
+            <span className="vaos-u-word-break--break-word">
+              {props.data.reasonAdditionalInfo}
+            </span>
           </div>
-          <div className="vads-l-col--6 vads-u-text-align--right">
+          <div>
             <Link
               to={newAppointmentFlow.reasonForAppointment.url}
               aria-label="Edit purpose of appointment"
@@ -25,9 +28,6 @@ export default function ReasonForAppointmentSection(props) {
               Edit
             </Link>
           </div>
-          <span className="vaos-u-word-break--break-word">
-            {props.data.reasonAdditionalInfo}
-          </span>
         </div>
       </div>
     </>

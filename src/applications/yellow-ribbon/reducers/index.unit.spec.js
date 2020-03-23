@@ -11,10 +11,12 @@ describe('Yellow Ribbon reducer', () => {
 
     expect(result).to.be.deep.equal({
       city: '',
+      contributionAmount: '',
       country: '',
       error: '',
       fetching: false,
       name: '',
+      numberOfStudents: '',
       page: 1,
       perPage: 10,
       results: undefined,
@@ -40,10 +42,12 @@ describe('Yellow Ribbon reducer', () => {
 
     expect(state).to.be.deep.equal({
       city: 'boulder',
+      contributionAmount: '',
       country: 'usa',
       error: '',
       fetching: false,
       name: 'university',
+      numberOfStudents: '',
       page: 1,
       perPage: 10,
       results: undefined,

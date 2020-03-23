@@ -71,11 +71,14 @@ describe('VAOS <CalendarWidget>', () => {
     const tree = shallow(
       <CalendarWidget
         monthsToShowAtOnce={2}
+        loadingErrorMessage={
+          <div>There was a problem loading appointment availability</div>
+        }
         loadingStatus={FETCH_STATUS.failed}
       />,
     );
     expect(tree.text()).to.contain(
-      'There was a problem loading appointment availability. Please try again later.',
+      'There was a problem loading appointment availability',
     );
     tree.unmount();
   });
@@ -254,21 +257,7 @@ describe('VAOS <CalendarWidget>', () => {
 
       // Select a few dates...
       buttons.at(0).simulate('click');
-      buttons.at(10).simulate('click');
-
-      expect(tree.prop('selectedDates').length).to.be.equal(2);
-    });
-
-    it('should not allow the selection of dates over the max', () => {
-      // This causes dates to be saved
-      tree.setProps({
-        additionalOptions: { required: false, getOptionsByDate },
-      });
-
-      // Select a few dates...
-      buttons.at(0).simulate('click');
       buttons.at(1).simulate('click');
-      buttons.at(2).simulate('click');
 
       expect(tree.prop('selectedDates').length).to.be.equal(2);
     });
@@ -287,7 +276,7 @@ describe('VAOS <CalendarWidget>', () => {
       // Click the first button...
       button.simulate('click');
 
-      expect(tree.prop('selectedDates').length).to.be.equal(0);
+      expect(tree.prop('currentlySelectedDate')).to.equal(null);
     });
 
     it('should update currently selected date', () => {

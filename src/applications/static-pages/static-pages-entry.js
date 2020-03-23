@@ -24,6 +24,9 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-va-forms/createFindVaForms';
 import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createPost911GiBillStatusWidget, {
+  post911GIBillStatusReducer,
+} from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -52,6 +55,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
+  ...post911GIBillStatusReducer,
 });
 
 Sentry.withScope(scope => {
@@ -115,6 +119,10 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createPost911GiBillStatusWidget(
+  store,
+  widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
+);
 
 createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
 
