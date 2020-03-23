@@ -11,7 +11,7 @@ import {
   OfficeForReviewTitle,
   OfficeForReviewDescription,
   OfficeForReviewAlert,
-} from '../content/officeForReview';
+} from '../content/OfficeForReview';
 
 import { requireRatedDisability } from '../validations';
 import SameOfficeReviewField from '../containers/SameOfficeReviewField';
