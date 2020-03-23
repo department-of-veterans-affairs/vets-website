@@ -200,7 +200,7 @@ export class SearchPage extends React.Component {
                 state={result.state}
                 zip={result.zip}
                 country={result.country}
-                cautionFlag={result.cautionFlag}
+                cautionFlags={result.cautionFlags}
                 studentCount={result.studentCount}
                 bah={result.bah}
                 dodBah={result.dodBah}

@@ -247,8 +247,6 @@ export const validateAddress = (
       ...confirmedSuggestions[0],
     };
 
-    const selectedAddressId = confirmedSuggestions.length > 0 ? '0' : null;
-
     // always select first address as default if there are any
     let selectedAddress = confirmedSuggestions[0];
 
@@ -261,6 +259,11 @@ export const validateAddress = (
     // to show the modal because the only time we will skip the modal is if one
     // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
+
+    let selectedAddressId = null;
+    if (showModal) {
+      selectedAddressId = confirmedSuggestions.length > 0 ? '0' : 'userEntered';
+    }
 
     // push data to dataLayer for analytics
     recordEvent({

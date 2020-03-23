@@ -1,4 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
@@ -258,10 +259,16 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     facilityData,
+    systemClinicToFacilityMap,
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel) {
+  if (appointmentToCancel?.clinicId) {
+    facility =
+      systemClinicToFacilityMap[
+        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+      ];
+  } else if (appointmentToCancel) {
     facility =
       facilityData[
         getRealFacilityId(appointmentToCancel.facility?.facilityCode)
@@ -307,3 +314,6 @@ export const isWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );
+
+export const selectSystemIds = state =>
+  selectPatientFacilities(state)?.map(f => f.facilityId) || null;
