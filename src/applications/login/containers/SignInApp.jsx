@@ -14,7 +14,7 @@ import downtimeBanners from '../utilities/downtimeBanners';
 const loginHandler = loginType => () => {
   // TODO add separate login tracking for this page
   //   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1');
+  login(loginType, 'v1', 'cerner');
 };
 
 const handleDsLogon = loginHandler('dslogon');
