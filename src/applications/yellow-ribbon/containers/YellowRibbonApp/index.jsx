@@ -25,7 +25,11 @@ export const YellowRibbonApp = ({ results }) => (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--4">
       {/* Title */}
       <div className="vads-l-col">
-        <h1 className="vads-u-margin-bottom--0">Find a Yellow Ribbon school</h1>
+        <h1 className="vads-u-margin-bottom--0">
+          {results
+            ? 'Yellow Ribbon school search results'
+            : 'Find a Yellow Ribbon school'}
+        </h1>
       </div>
 
       <div className="vads-l-row">
