@@ -87,6 +87,19 @@ export class SearchForm extends Component {
     this.setState({ [key]: event.target.value });
   };
 
+  onCountryChange = event => {
+    const { value } = event.target;
+    const { country } = this.state;
+
+    // Escape early if value has not changed.
+    if (value === country) {
+      return;
+    }
+
+    // Clear `state` + `city` when `country` field is changed.
+    this.setState({ country: value, city: '', state: '' });
+  };
+
   onSubmitHandler = event => {
     const {
       city,
@@ -112,7 +125,12 @@ export class SearchForm extends Component {
   };
 
   render() {
-    const { onCheckboxChange, onStateChange, onSubmitHandler } = this;
+    const {
+      onCountryChange,
+      onCheckboxChange,
+      onStateChange,
+      onSubmitHandler,
+    } = this;
     const {
       city,
       contributionAmount,
@@ -157,7 +175,7 @@ export class SearchForm extends Component {
           <div className="vads-u-flex--1">
             <select
               name="yr-search-country"
-              onChange={onStateChange('country')}
+              onChange={onCountryChange}
               value={country}
             >
               <option value="">- Select -</option>
