@@ -441,7 +441,7 @@ export function getCancelReasons(systemId) {
 export function updateAppointment(appt) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.reject();
+    promise = Promise.resolve();
   } else {
     promise = apiRequest(`/vaos/appointments/cancel`, {
       method: 'PUT',
@@ -456,7 +456,7 @@ export function updateAppointment(appt) {
 export function updateRequest(req) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.reject();
+    promise = Promise.resolve();
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${req.id}`, {
       method: 'PUT',
