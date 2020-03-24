@@ -74,23 +74,35 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .allyEvaluateRadioButtons(
-      ['#radio-buttons-1-0', '#radio-buttons-1-1'],
+      [
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-0"]', 
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-1"]'
+      ],
       ARROW_DOWN,
     )
     .allyEvaluateRadioButtons(
-      ['#radio-buttons-1-0', '#radio-buttons-1-1'],
+      [
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-0"]', 
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-1"]'
+      ],
       ARROW_RIGHT,
     );
 
   // Evaluate the type of institution radio group with ARROW_UP and ARROW_LEFT in reverse order
   client
     .allyEvaluateRadioButtons(
-      ['#radio-buttons-1-0', '#radio-buttons-1-1'],
+      [
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-0"]',
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-1"]'
+      ],
       ARROW_UP,
       true,
     )
     .allyEvaluateRadioButtons(
-      ['#radio-buttons-1-0', '#radio-buttons-1-1'],
+      [
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-0"]',
+        '.form-radio-buttons  input[name="category"][id^="radio-buttons-"][id$="-1"]'
+      ],
       ARROW_LEFT,
       true,
     );
@@ -100,14 +112,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .repeatKeypress(TAB, 2)
     .allyEvaluateRadioButtons(
-      ['input#radio-buttons-2-1', 'input#radio-buttons-2-2'],
+      [
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]'
+      ],
       ARROW_DOWN,
     )
     .allyEvaluateRadioButtons(
       [
-        'input#radio-buttons-2-0',
-        'input#radio-buttons-2-1',
-        'input#radio-buttons-2-2',
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]'
       ],
       ARROW_RIGHT,
     );
@@ -116,18 +131,18 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .allyEvaluateRadioButtons(
       [
-        'input#radio-buttons-2-0',
-        'input#radio-buttons-2-1',
-        'input#radio-buttons-2-2',
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]'
       ],
       ARROW_UP,
       true,
     )
     .allyEvaluateRadioButtons(
       [
-        'input#radio-buttons-2-0',
-        'input#radio-buttons-2-1',
-        'input#radio-buttons-2-2',
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-0"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-1"]', 
+        '.form-radio-buttons  input[name="onlineClasses"][id^="radio-buttons-"][id$="-2"]'
       ],
       ARROW_LEFT,
       true,
