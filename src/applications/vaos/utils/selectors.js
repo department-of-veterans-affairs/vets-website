@@ -315,5 +315,9 @@ export const isWelcomeModalDismissed = state =>
     announcement => announcement === 'welcome-to-new-vaos',
   );
 
+export const selectFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => !f.facilityId.startsWith('742'),
+  ) || null;
 export const selectSystemIds = state =>
-  selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+  selectFacilities(state)?.map(f => f.facilityId) || null;
