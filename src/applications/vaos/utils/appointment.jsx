@@ -344,6 +344,15 @@ export function sortFutureConfirmedAppointments(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
+export function filterPastAppointments(appt, today) {
+  const apptDateTime = getMomentConfirmedDate(appt);
+  return apptDateTime.isValid() && apptDateTime.isBefore(today);
+}
+
+export function sortPastAppointments(a, b) {
+  return getMomentConfirmedDate(a).isAfter(getMomentConfirmedDate(b)) ? -1 : 1;
+}
+
 export function filterRequests(request, today) {
   const status = request?.status;
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');

@@ -28,6 +28,7 @@ export default function ConfirmedAppointmentListItem({
   cancelAppointment,
   showCancelButton,
   facility,
+  isPastAppointment,
 }) {
   let canceled = false;
   if (type === APPOINTMENT_TYPES.vaAppointment) {
@@ -44,6 +45,16 @@ export default function ConfirmedAppointmentListItem({
       'vads-u-border-color--secondary-dark': canceled,
     },
   );
+
+  let appointmentState;
+
+  if (canceled) {
+    appointmentState = 'Canceled';
+  } else if (isPastAppointment) {
+    appointmentState = 'Completed';
+  } else {
+    appointmentState = 'Confirmed';
+  }
 
   return (
     <li
@@ -69,7 +80,7 @@ export default function ConfirmedAppointmentListItem({
           id={`card-${index}-state`}
           className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block"
         >
-          {canceled ? 'Canceled' : 'Confirmed'}
+          {appointmentState}
         </span>
       </div>
 
@@ -86,49 +97,51 @@ export default function ConfirmedAppointmentListItem({
             </dl>
           )}
         </div>
-        {hasInstructions(appointment) && (
-          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {getAppointmentInstructionsHeader(appointment)}
-              </dt>
-              <dd>{getAppointmentInstructions(appointment)}</dd>
-            </dl>
-          </div>
-        )}
+        {hasInstructions(appointment) &&
+          !isPastAppointment && (
+            <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
+              <dl className="vads-u-margin--0">
+                <dt className="vads-u-font-weight--bold">
+                  {getAppointmentInstructionsHeader(appointment)}
+                </dt>
+                <dd>{getAppointmentInstructions(appointment)}</dd>
+              </dl>
+            </div>
+          )}
       </div>
 
-      {!canceled && (
-        <div className="vads-u-margin-top--2">
-          <AddToCalendar
-            summary={getAppointmentTypeHeader(appointment)}
-            description={
-              hasInstructions(appointment)
-                ? `${getAppointmentInstructionsHeader(
-                    appointment,
-                  )}. ${getAppointmentInstructions(appointment)}`
-                : ''
-            }
-            location={getAppointmentAddress(appointment, facility)}
-            duration={getAppointmentDuration(appointment)}
-            startDateTime={getMomentConfirmedDate(appointment).toDate()}
-            endDateTime={getMomentConfirmedDate(appointment)}
-          />
-          {showCancelButton && (
-            <button
-              onClick={() => cancelAppointment(appointment)}
-              aria-label="Cancel appointment"
-              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-            >
-              Cancel appointment
-              <span className="sr-only">
-                {' '}
-                on {getAppointmentDate(appointment)}
-              </span>
-            </button>
-          )}
-        </div>
-      )}
+      {!canceled &&
+        !isPastAppointment && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendar
+              summary={getAppointmentTypeHeader(appointment)}
+              description={
+                hasInstructions(appointment)
+                  ? `${getAppointmentInstructionsHeader(
+                      appointment,
+                    )}. ${getAppointmentInstructions(appointment)}`
+                  : ''
+              }
+              location={getAppointmentAddress(appointment, facility)}
+              duration={getAppointmentDuration(appointment)}
+              startDateTime={getMomentConfirmedDate(appointment).toDate()}
+              endDateTime={getMomentConfirmedDate(appointment)}
+            />
+            {showCancelButton && (
+              <button
+                onClick={() => cancelAppointment(appointment)}
+                aria-label="Cancel appointment"
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+              >
+                Cancel appointment
+                <span className="sr-only">
+                  {' '}
+                  on {getAppointmentDate(appointment)}
+                </span>
+              </button>
+            )}
+          </div>
+        )}
     </li>
   );
 }

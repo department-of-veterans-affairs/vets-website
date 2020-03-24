@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
+import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
 import {
-  fetchFutureAppointments,
   cancelAppointment,
-  confirmCancelAppointment,
   closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchFutureAppointments,
+  fetchPastAppointments,
   fetchRequestMessages,
   startNewAppointmentFlow,
 } from '../actions/appointments';
@@ -24,10 +26,11 @@ import {
   vaosCommunityCare,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
-import { GA_PREFIX } from '../utils/constants';
+import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import FutureAppointmentsList from '../components/FutureAppointmentsList';
+import PastAppointmentsList from '../components/PastAppointmentsList';
 
 const pageTitle = 'VA appointments';
 
@@ -39,6 +42,7 @@ export class AppointmentsPage extends Component {
       tabIndex: 0,
     };
   }
+
   componentDidMount() {
     if (this.props.isWelcomeModalDismissed) {
       scrollAndFocus();
@@ -56,18 +60,32 @@ export class AppointmentsPage extends Component {
     }
   }
 
+  onSelectTab = tabIndex => {
+    this.setState({ tabIndex });
+
+    if (tabIndex === 1) {
+      const { pastStatus } = this.props.appointments;
+      if (pastStatus === FETCH_STATUS.notStarted) {
+        this.props.fetchPastAppointments(
+          moment()
+            .add(-3, 'month')
+            .format('YYYY-MM-DD'),
+          moment().format('YYYY-MM-DD'),
+        );
+      }
+    }
+  };
+
   render() {
     const {
       appointments,
       cancelInfo,
       showCancelButton,
       showScheduleButton,
-      // showPastAppointments,
+      showPastAppointments,
       showCommunityCare,
       showDirectScheduling,
     } = this.props;
-
-    const showPastAppointments = false;
 
     const futureAppointments = (
       <FutureAppointmentsList
@@ -87,7 +105,7 @@ export class AppointmentsPage extends Component {
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
             <h1 className="vads-u-flex--1">{pageTitle}</h1>
             {showScheduleButton && (
-              <div className="vads-u-padding-y--3 vads-u-border-top--1px">
+              <div className="vads-u-padding-y--3">
                 <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
                   Create a new appointment
                 </h2>
@@ -137,7 +155,7 @@ export class AppointmentsPage extends Component {
               <Tabs
                 className="vaos-appts__tabs"
                 selectedIndex={this.state.tabIndex}
-                onSelect={tabIndex => this.setState({ tabIndex })}
+                onSelect={this.onSelectTab}
               >
                 <TabList>
                   <Tab className="small-4 vaos-appts__tab">
@@ -148,7 +166,12 @@ export class AppointmentsPage extends Component {
                   </Tab>
                 </TabList>
                 <TabPanel>{futureAppointments}</TabPanel>
-                <TabPanel>test 2</TabPanel>
+                <TabPanel>
+                  <PastAppointmentsList
+                    appointments={appointments}
+                    startNewAppointmentFlow={this.props.startNewAppointmentFlow}
+                  />
+                </TabPanel>
               </Tabs>
             )}
 
@@ -206,11 +229,12 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  fetchFutureAppointments,
-  fetchRequestMessages,
   cancelAppointment,
-  confirmCancelAppointment,
   closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchFutureAppointments,
+  fetchPastAppointments,
+  fetchRequestMessages,
   startNewAppointmentFlow,
 };
 
