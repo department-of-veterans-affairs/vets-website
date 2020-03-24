@@ -15,6 +15,11 @@ import {
   veteranMarriageHistory,
   veteranMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
+import {
+  children,
+  childPlaceOfBirth,
+  childAdditionalInformation,
+} from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
@@ -29,6 +34,9 @@ import {
   studentAddressMarriageTuition,
   studentSchoolAddress,
   studentTermDates,
+  studentLastTerm,
+  studentIncomeInformation,
+  studentNetworthInformation,
 } from './chapters/674';
 
 const formConfig = {
@@ -76,6 +84,34 @@ const formConfig = {
         },
       },
     },
+    addChild: {
+      title: 'Information needed to add your child',
+      pages: {
+        addChildInformation: {
+          title: 'Information needed to add your child',
+          path: 'add-child',
+          uiSchema: children.uiSchema,
+          schema: children.schema,
+        },
+        addChildPlaceOfBirth: {
+          title: 'Information needed to add your child',
+          path: 'add-child/:index',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: childPlaceOfBirth.uiSchema,
+          schema: childPlaceOfBirth.schema,
+        },
+        addChildAdditionalInformation: {
+          title: 'Information needed to add your child',
+          path: 'add-child/:index/additional-information',
+          showPagePerItem: true,
+          arrayPath: 'childrenToAdd',
+          uiSchema: childAdditionalInformation.uiSchema,
+          schema: childAdditionalInformation.schema,
+        },
+      },
+    },
+
     addSpouse: {
       title: 'Information needed to add your spouse',
       pages: {
@@ -161,7 +197,6 @@ const formConfig = {
         },
       },
     },
-
     reportChildStoppedAttendingSchool: {
       title:
         'Information needed to report a child 18-23 years old stopped attending school',
@@ -228,6 +263,27 @@ const formConfig = {
           path: 'report-674-student-school-term-dates',
           uiSchema: studentTermDates.uiSchema,
           schema: studentTermDates.schema,
+        },
+        studentLastTerm: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-last-term-information',
+          uiSchema: studentLastTerm.uiSchema,
+          schema: studentLastTerm.schema,
+        },
+        studentIncomeInformation: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-income-information',
+          uiSchema: studentIncomeInformation.uiSchema,
+          schema: studentIncomeInformation.schema,
+        },
+        studentNetworthInformation: {
+          title:
+            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          path: 'report-674-student-networth-information',
+          uiSchema: studentNetworthInformation.uiSchema,
+          schema: studentNetworthInformation.schema,
         },
       },
     },

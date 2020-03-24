@@ -19,7 +19,7 @@ export default class Vet360EditModal extends React.Component {
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChangeFormDataAndSchemas: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     render: PropTypes.func.isRequired,

@@ -12,7 +12,7 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     const input = tree.find('input');
     const select = tree.find('select');
 
-    expect(input.length).to.be.equal(2);
+    expect(input.length).to.be.equal(1);
     expect(select.length).to.be.equal(1);
     tree.unmount();
   });
@@ -22,7 +22,8 @@ describe('Yellow Ribbon container <SearchForm>', () => {
 
     global.window = {
       location: {
-        search: '?city=boulder&country=usa&name=university&state=co',
+        search:
+          '?contributionAmount=unlimited&city=boulder&country=usa&name=university&numberOfStudents=unlimited&state=co',
       },
     };
 
@@ -33,8 +34,10 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     expect(
       fetchResultsThunk.firstCall.calledWith({
         city: 'boulder',
+        contributionAmount: 'unlimited',
         country: 'usa',
         name: 'university',
+        numberOfStudents: 'unlimited',
         state: 'co',
       }),
     ).to.be.true;

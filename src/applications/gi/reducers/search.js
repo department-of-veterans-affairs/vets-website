@@ -37,6 +37,7 @@ const INITIAL_STATE = {
     totalPages: 1,
   },
   inProgress: false,
+  error: null,
   filterOpened: false,
 };
 
@@ -82,6 +83,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         ...action.err,
         inProgress: false,
+        error: action.payload,
       };
     case INSTITUTION_SEARCH_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
@@ -97,6 +99,7 @@ export default function(state = INITIAL_STATE, action) {
         count: camelPayload.meta.count,
         version: camelPayload.meta.version,
         inProgress: false,
+        error: null,
       };
     case PROGRAM_SEARCH_SUCCEEDED:
       const programCamelPayload = camelCaseKeysRecursive(action.payload);
