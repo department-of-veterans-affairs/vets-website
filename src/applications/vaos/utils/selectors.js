@@ -264,15 +264,20 @@ export function getCancelInfo(state) {
 
   let facility = null;
   if (appointmentToCancel?.clinicId) {
+    // Confirmed in person VA appts
     facility =
       systemClinicToFacilityMap[
         `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
       ];
-  } else if (appointmentToCancel) {
+  } else if (appointmentToCancel?.facility) {
+    // Requests
     facility =
       facilityData[
-        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+        getRealFacilityId(appointmentToCancel.facility.facilityCode)
       ];
+  } else if (appointmentToCancel) {
+    // Video visits
+    facility = facilityData[getRealFacilityId(appointmentToCancel.facilityId)];
   }
 
   return {
@@ -315,5 +320,9 @@ export const isWelcomeModalDismissed = state =>
     announcement => announcement === 'welcome-to-new-vaos',
   );
 
+export const selectFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => !f.facilityId.startsWith('742'),
+  ) || null;
 export const selectSystemIds = state =>
-  selectPatientFacilities(state)?.map(f => f.facilityId) || null;
+  selectFacilities(state)?.map(f => f.facilityId) || null;

@@ -19,12 +19,14 @@ import {
 } from '../actions/appointments';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
-import CancelAppointmentModal from '../components/CancelAppointmentModal';
+import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
   vaosCancel,
   vaosRequests,
   vaosPastAppts,
+  vaosDirectScheduling,
+  vaosCommunityCare,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -63,6 +65,8 @@ export class AppointmentsPage extends Component {
       showCancelButton,
       showScheduleButton,
       showPastAppointments,
+      showCommunityCare,
+      showDirectScheduling,
     } = this.props;
     const {
       future,
@@ -205,10 +209,33 @@ export class AppointmentsPage extends Component {
                 <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
                   Create a new appointment
                 </h2>
-                <p className="vads-u-margin-top--1">
-                  Schedule an appointment at a VA medical center, clinic, or
-                  Community Care facility.
-                </p>
+                {showCommunityCare &&
+                  showDirectScheduling && (
+                    <p className="vads-u-margin-top--1">
+                      Schedule an appointment at a VA medical center, clinic, or
+                      Community Care facility.
+                    </p>
+                  )}
+                {!showCommunityCare &&
+                  !showDirectScheduling && (
+                    <p className="vads-u-margin-top--1">
+                      Send a request to schedule an appointment at a VA medical
+                      center or clinic.
+                    </p>
+                  )}
+                {showCommunityCare &&
+                  !showDirectScheduling && (
+                    <p className="vads-u-margin-top--1">
+                      Send a request to schedule an appointment at a VA medical
+                      center, clinic, or Community Care facility.
+                    </p>
+                  )}
+                {!showCommunityCare &&
+                  showDirectScheduling && (
+                    <p className="vads-u-margin-top--1">
+                      Schedule an appointment at a VA medical center or clinic.
+                    </p>
+                  )}
                 <Link
                   id="new-appointment"
                   className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
@@ -270,6 +297,8 @@ function mapStateToProps(state) {
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
+    showCommunityCare: vaosCommunityCare(state),
+    showDirectScheduling: vaosDirectScheduling(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };
 }

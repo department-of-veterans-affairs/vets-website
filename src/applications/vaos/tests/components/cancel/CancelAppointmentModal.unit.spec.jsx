@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CancelAppointmentModal from '../../components/CancelAppointmentModal';
-import { FETCH_STATUS } from '../../utils/constants';
+import CancelAppointmentModal from '../../../components/cancel/CancelAppointmentModal';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 describe('VAOS <CancelAppointmentModal>', () => {
   it('should not render modal if showCancelModal is false', () => {
@@ -18,47 +18,45 @@ describe('VAOS <CancelAppointmentModal>', () => {
     const tree = shallow(
       <CancelAppointmentModal
         showCancelModal
+        appointmentToCancel={{}}
         cancelAppointmentStatus={FETCH_STATUS.notStarted}
       />,
     );
 
-    expect(tree.find('Modal').exists()).to.be.true;
-    expect(
-      tree
-        .find('Modal')
-        .find('LoadingButton')
-        .prop('children'),
-    ).to.equal('Yes, cancel this appointment');
-    expect(
-      tree
-        .find('Modal')
-        .find('button')
-        .prop('children'),
-    ).to.equal('No, take me back');
+    expect(tree.find('CancelAppointmentConfirmationModal').exists()).to.be.true;
 
     tree.unmount();
   });
 
-  it('should render loading state when cancelling', () => {
+  it('should render community care view', () => {
     const tree = shallow(
       <CancelAppointmentModal
         showCancelModal
-        cancelAppointmentStatus={FETCH_STATUS.loading}
+        appointmentToCancel={{
+          appointmentTime: '01/22/2020',
+        }}
+        cancelAppointmentStatus={FETCH_STATUS.succeeded}
       />,
     );
 
-    expect(
-      tree
-        .find('Modal')
-        .find('LoadingButton')
-        .props().isLoading,
-    ).to.be.true;
-    expect(
-      tree
-        .find('Modal')
-        .find('button')
-        .props().disabled,
-    ).to.be.true;
+    expect(tree.find('CancelCommunityCareAppointmentModal').exists()).to.be
+      .true;
+
+    tree.unmount();
+  });
+
+  it('should render video connect view', () => {
+    const tree = shallow(
+      <CancelAppointmentModal
+        showCancelModal
+        appointmentToCancel={{
+          vvsAppointments: [{}],
+        }}
+        cancelAppointmentStatus={FETCH_STATUS.succeeded}
+      />,
+    );
+
+    expect(tree.find('CancelVideoAppointmentModal').exists()).to.be.true;
 
     tree.unmount();
   });
@@ -67,17 +65,12 @@ describe('VAOS <CancelAppointmentModal>', () => {
     const tree = shallow(
       <CancelAppointmentModal
         showCancelModal
+        appointmentToCancel={{}}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}
       />,
     );
 
-    expect(tree.find('Modal').prop('status')).to.equal('success');
-    expect(
-      tree
-        .find('Modal')
-        .find('button')
-        .exists(),
-    ).to.be.true;
+    expect(tree.find('CancelAppointmentSucceededModal').exists()).to.be.true;
 
     tree.unmount();
   });
@@ -96,15 +89,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       />,
     );
 
-    expect(tree.find('Modal').prop('status')).to.equal('error');
-    expect(
-      tree
-        .find('Modal')
-        .children()
-        .at(1)
-        .text(),
-    ).to.contain('Testing');
-
+    expect(tree.find('CancelAppointmentFailedModal').exists()).to.be.true;
     tree.unmount();
   });
 });
