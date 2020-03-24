@@ -28,11 +28,7 @@ const DuplicateLineLabel = ({ depth, item }) => {
     return null;
   }
 
-  return (
-    <>
-      <div className="line" />
-    </>
-  );
+  return <div className="line" />;
 };
 
 DuplicateLineLabel.propTypes = {
