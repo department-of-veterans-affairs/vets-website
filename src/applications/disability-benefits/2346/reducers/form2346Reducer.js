@@ -1,8 +1,14 @@
 import {
   FETCH_VETERAN_INFORMATION,
   FETCH_VETERAN_INFORMATION_FAILURE,
+  PERM_ADDRESS_MILITARY_BASE_DESELECTED,
+  PERM_ADDRESS_MILITARY_BASE_SELECTED,
+  PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE,
   PERM_ADDRESS_SELECTED_FAILURE,
   PERM_ADDRESS_SELECTED_SUCCESSFUL,
+  TEMP_ADDRESS_MILITARY_BASE_DESELECTED,
+  TEMP_ADDRESS_MILITARY_BASE_SELECTED,
+  TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE,
   TEMP_ADDRESS_SELECTED_FAILURE,
   TEMP_ADDRESS_SELECTED_SUCCESSFUL,
 } from '../constants';
@@ -20,8 +26,10 @@ const initialState = {
     zip: '',
     email: '',
   },
-  permAddressSelected: true,
-  tempAddressSelected: false,
+  permAddressIsSelected: true,
+  tempAddressIsSelected: false,
+  permAddressIsAMilitaryBase: false,
+  tempAddressIsAMilitaryBase: false,
 };
 
 export default (state = initialState, action) => {
@@ -41,8 +49,8 @@ export default (state = initialState, action) => {
     case PERM_ADDRESS_SELECTED_SUCCESSFUL: {
       return {
         ...state,
-        permAddressSelected: true,
-        tempAddressSelected: false,
+        permAddressIsSelected: true,
+        tempAddressIsSelected: false,
       };
     }
 
@@ -56,12 +64,54 @@ export default (state = initialState, action) => {
     case TEMP_ADDRESS_SELECTED_SUCCESSFUL: {
       return {
         ...state,
-        permAddressSelected: false,
-        tempAddressSelected: true,
+        permAddressIsSelected: false,
+        tempAddressIsSelected: true,
       };
     }
 
     case TEMP_ADDRESS_SELECTED_FAILURE: {
+      return {
+        ...state,
+        error: action.error,
+      };
+    }
+
+    case PERM_ADDRESS_MILITARY_BASE_SELECTED: {
+      return {
+        ...state,
+        permAddressIsAMilitaryBase: true,
+      };
+    }
+
+    case PERM_ADDRESS_MILITARY_BASE_DESELECTED: {
+      return {
+        ...state,
+        permAddressIsAMilitaryBase: false,
+      };
+    }
+
+    case PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE: {
+      return {
+        ...state,
+        error: action.error,
+      };
+    }
+
+    case TEMP_ADDRESS_MILITARY_BASE_SELECTED: {
+      return {
+        ...state,
+        tempAddressIsAMilitaryBase: true,
+      };
+    }
+
+    case TEMP_ADDRESS_MILITARY_BASE_DESELECTED: {
+      return {
+        ...state,
+        tempAddressIsAMilitaryBase: false,
+      };
+    }
+
+    case TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE: {
       return {
         ...state,
         error: action.error,
