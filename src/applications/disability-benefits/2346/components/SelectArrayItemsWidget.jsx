@@ -3,53 +3,51 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
-import set from 'platform/utilities/data/set';
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsWidget extends React.Component {
+  state = {
+    isChecked: false,
+  };
   componentDidMount() {
     this.props.getReOrderBatteryAndAccessoriesInformationData();
   }
 
-  onChange = (index, checked) => {
-    const items = set(
-      `[${index}].${this.props.options.selectedPropName ||
-        this.defaultSelectedPropName}`,
-      checked,
-      this.props.value,
-    );
-    this.props.onChange(items);
+  handleChecked = () => {
+    this.setState({ isChecked: !this.state.isChecked });
   };
-
-  defaultSelectedPropName = 'view:selected';
 
   render() {
     const { supplies } = this.props;
-    return supplies.map((item, index) => (
-      <div key={item.productId} className="order-background">
+    const { isChecked } = this.state;
+
+    return supplies.map(supply => (
+      <div key={supply.productId} className="order-background">
         <p className="vads-u-font-size--md vads-u-font-weight--bold">
-          {item.deviceName}
+          {supply.productName}
         </p>
         <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
           <div className="usa-alert-body mdot-alert-body">
             <p className="vads-u-margin--1px">
-              <span className="vads-u-font-weight--bold">Battery:</span>
-              {item.productId}
+              <span className="vads-u-font-weight--bold">Battery: </span>
+              {supply.productId}
             </p>
             <p className="vads-u-margin--1px">
-              <span className="vads-u-font-weight--bold">Quantity:</span>
-              {item.quantity}
-              (Approximately 6 months supply)
+              <span className="vads-u-font-weight--bold">Quantity: </span>
+              {supply.quantity} <br />
+              Approximately {supply.quantity} months supply
             </p>
             <p className="vads-u-margin--1px">
-              <span className="vads-u-font-weight--bold">Last order date:</span>{' '}
-              {moment(item.lastOrderDate).format('MM/DD/YYYY')}
+              <span className="vads-u-font-weight--bold">
+                Last order date:{' '}
+              </span>{' '}
+              {moment(supply.lastOrderDate).format('MM/DD/YYYY')}
             </p>
           </div>
         </div>
         <div
           className={
-            !item.selected
+            !isChecked
               ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
               : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
           }
@@ -57,13 +55,9 @@ class SelectArrayItemsWidget extends React.Component {
           <input
             name="product-id-1"
             type="checkbox"
-            onClick={this.handleChange}
-            checked={
-              typeof itemIsSelected === 'undefined' ? false : item.selected
-            }
-            onChange={event => this.onChange(index, event.target.checked)}
+            onChange={this.handleChecked}
           />
-          <label htmlFor="product-id-1" className="main">
+          <label htmlFor={supply.productId} className="main">
             Order batteries for this device
           </label>
         </div>
