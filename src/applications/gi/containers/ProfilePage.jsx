@@ -8,7 +8,6 @@ import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
-import environment from 'platform/utilities/environment';
 import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -92,11 +91,7 @@ export class ProfilePage extends React.Component {
         name="profilePage"
         className="profile-page vads-u-padding-top--3"
       >
-        {profile.error && !environment.isProduction() ? (
-          <ServiceError />
-        ) : (
-          content
-        )}
+        {profile.error ? <ServiceError /> : content}
       </ScrollElement>
     );
   }

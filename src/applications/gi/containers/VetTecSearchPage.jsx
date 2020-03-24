@@ -23,7 +23,6 @@ import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { renderVetTecLogo } from '../utils/render';
-import environment from 'platform/utilities/environment';
 import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -250,7 +249,7 @@ export class VetTecSearchPage extends React.Component {
 
     return (
       <ScrollElement name="searchPage" className="search-page">
-        {search.error && !environment.isProduction() ? (
+        {search.error ? (
           <ServiceError />
         ) : (
           <div>
