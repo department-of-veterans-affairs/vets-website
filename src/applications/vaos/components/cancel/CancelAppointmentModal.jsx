@@ -1,12 +1,11 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import CancelVideoAppointmentModal from './CancelVideoAppointmentModal';
 import CancelCommunityCareAppointmentModal from './CancelCommunityCareAppointmentModal';
 import CancelAppointmentFailedModal from './CancelAppointmentFailedModal';
 import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
+import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
+
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 import { isVideoVisit, getAppointmentType } from '../../utils/appointment';
 
@@ -62,31 +61,11 @@ export default class CancelAppointmentModal extends React.Component {
       cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
       return (
-        <Modal
-          id="cancelAppt"
-          status="warning"
-          visible
+        <CancelAppointmentConfirmationModal
           onClose={onClose}
-          title="Do you want to cancel your appointment?"
-        >
-          If you want to reschedule this appointment, you’ll need to first
-          cancel this one and then create a new appointment.
-          <p className="vads-u-margin-top--2">
-            <LoadingButton
-              isLoading={cancelAppointmentStatus === FETCH_STATUS.loading}
-              onClick={onConfirm}
-            >
-              Yes, cancel this appointment
-            </LoadingButton>
-            <button
-              className="usa-button-secondary"
-              onClick={onClose}
-              disabled={cancelAppointmentStatus === FETCH_STATUS.loading}
-            >
-              No, take me back
-            </button>
-          </p>
-        </Modal>
+          onConfirm={onConfirm}
+          status={cancelAppointmentStatus}
+        />
       );
     }
 

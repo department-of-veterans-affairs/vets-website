@@ -23,44 +23,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       />,
     );
 
-    expect(tree.find('Modal').exists()).to.be.true;
-    expect(
-      tree
-        .find('Modal')
-        .find('LoadingButton')
-        .prop('children'),
-    ).to.equal('Yes, cancel this appointment');
-    expect(
-      tree
-        .find('Modal')
-        .find('button')
-        .prop('children'),
-    ).to.equal('No, take me back');
-
-    tree.unmount();
-  });
-
-  it('should render loading state when cancelling', () => {
-    const tree = shallow(
-      <CancelAppointmentModal
-        showCancelModal
-        appointmentToCancel={{}}
-        cancelAppointmentStatus={FETCH_STATUS.loading}
-      />,
-    );
-
-    expect(
-      tree
-        .find('Modal')
-        .find('LoadingButton')
-        .props().isLoading,
-    ).to.be.true;
-    expect(
-      tree
-        .find('Modal')
-        .find('button')
-        .props().disabled,
-    ).to.be.true;
+    expect(tree.find('CancelAppointmentConfirmationModal').exists()).to.be.true;
 
     tree.unmount();
   });
