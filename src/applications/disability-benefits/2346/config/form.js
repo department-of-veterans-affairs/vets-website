@@ -135,6 +135,11 @@ const formConfig = {
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
+              'ui:validations': [
+                {
+                  options: { selectedPropName: 'view:selected' },
+                },
+              ],
               'ui:options': {
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
