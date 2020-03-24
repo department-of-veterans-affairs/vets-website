@@ -119,11 +119,8 @@ const testingFacilities = [
   { name: 'zzzFakeTestFacility 2', id: '984' },
 ];
 
-const eligibleFacilities = [
-  ...visn8Facilities,
-  ...visn23Facilities,
-  ...testingFacilities,
-];
+// 2020-03-24: removed VISN8 facilities from eligibleFacilities
+const eligibleFacilities = [...visn23Facilities, ...testingFacilities];
 
 /**
  * This filters the list of VISN8 facilities and returns just a set of
