@@ -107,11 +107,15 @@ describe('VAOS <ReviewPage>', () => {
   it('return to new appt page when data is empty', () => {
     const flowType = FLOW_TYPES.REQUEST;
     const data = {};
+    const router = {
+      replace: sinon.spy(),
+    };
 
-    window.location.replace = sinon.spy();
+    const tree = mount(
+      <ReviewPage flowType={flowType} data={data} router={router} />,
+    );
 
-    const tree = mount(<ReviewPage flowType={flowType} data={data} />);
-    expect(window.location.replace.called).to.be.true;
+    expect(router.replace.called).to.be.true;
 
     tree.unmount();
   });
