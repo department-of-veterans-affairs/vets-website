@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 
 export const AddressViewField = ({ formData }) => {
@@ -11,13 +12,10 @@ export const AddressViewField = ({ formData }) => {
 
   return (
     <p className="blue-bar-block">
-      {street && street}
-      {street && <br />}
-      {street2 && street2}
-      {street2 && <br />}
-      {street3 && street3}
-      {street3 && <br />}
-      {city && city} {state && state} {postalString && postalString}
+      {street && [street, <br />]}
+      {street2 && [street2, <br />]}
+      {street3 && [street3, <br />]}
+      {city} {state} {postalString}
     </p>
   );
 };

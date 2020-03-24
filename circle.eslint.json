@@ -1,5 +1,6 @@
 {
   "rules": {
-    "sonarjs/no-extra-arguments": 2
+    "sonarjs/no-extra-arguments": 2,
+    "sonarjs/no-identical-expressions": 2
   }
 }
