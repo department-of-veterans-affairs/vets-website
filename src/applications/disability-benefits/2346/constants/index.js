@@ -19,6 +19,24 @@ export const TEMP_ADDRESS_SELECTED_SUCCESSFUL =
 export const TEMP_ADDRESS_SELECTED_FAILURE =
   'disability-benefits/2346/TEMP_ADDRESS_SELECTED_FAILURE';
 
+export const PERM_ADDRESS_MILITARY_BASE_SELECTED =
+  'disability-benefits/2346/PERM_ADDRESS_MILITARY_BASE_SELECTED';
+
+export const PERM_ADDRESS_MILITARY_BASE_DESELECTED =
+  'disability-benefits/2346/PERM_ADDRESS_MILITARY_BASE_DESELECTED';
+
+export const PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE =
+  'disability-benefits/2346/PERM_ADDRESS_MILITARY_BASE_FAILURE';
+
+export const TEMP_ADDRESS_MILITARY_BASE_SELECTED =
+  'disability-benefits/2346/TEMP_ADDRESS_MILITARY_BASE_SELECTED';
+
+export const TEMP_ADDRESS_MILITARY_BASE_DESELECTED =
+  'disability-benefits/2346/TEMP_ADDRESS_MILITARY_BASE_DESELECTED';
+
+export const TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE =
+  'disability-benefits/2346/TEMP_ADDRESS_MILITARY_BASE_FAILURE';
+
 export const schemaFields = {
   permAddressField: 'permanentAddress',
   tempAddressField: 'temporaryAddress',

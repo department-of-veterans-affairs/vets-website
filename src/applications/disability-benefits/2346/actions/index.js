@@ -4,8 +4,14 @@ import {
   FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE,
   FETCH_VETERAN_INFORMATION,
   FETCH_VETERAN_INFORMATION_FAILURE,
+  PERM_ADDRESS_MILITARY_BASE_DESELECTED,
+  PERM_ADDRESS_MILITARY_BASE_SELECTED,
+  PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE,
   PERM_ADDRESS_SELECTED_FAILURE,
   PERM_ADDRESS_SELECTED_SUCCESSFUL,
+  TEMP_ADDRESS_MILITARY_BASE_DESELECTED,
+  TEMP_ADDRESS_MILITARY_BASE_SELECTED,
+  TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE,
   TEMP_ADDRESS_SELECTED_FAILURE,
   TEMP_ADDRESS_SELECTED_SUCCESSFUL,
 } from '../constants';
@@ -94,7 +100,27 @@ export const tempAddressSelectedFailure = error => ({
   error,
 });
 
-export const permAddressActionCreator = data => dispatch => {
+export const permAddressMilitaryBaseStatusChange = (data, actionType) => ({
+  type: actionType,
+  data,
+});
+
+export const permAddressMilitaryBaseStatusChangeFailure = error => ({
+  type: PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE,
+  error,
+});
+
+export const tempAddressMilitaryBaseStatusChange = (data, actionType) => ({
+  type: actionType,
+  data,
+});
+
+export const tempAddressIsAMilitaryBaseStatusChangeFailure = error => ({
+  type: TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE,
+  error,
+});
+
+export const permAddressIsSelected = data => dispatch => {
   try {
     dispatch(permAddressSelectedSuccessful(data));
   } catch (error) {
@@ -105,13 +131,67 @@ export const permAddressActionCreator = data => dispatch => {
   }
 };
 
-export const tempAddressActionCreator = data => dispatch => {
+export const tempAddressIsSelected = data => dispatch => {
   try {
     dispatch(tempAddressSelectedSuccessful(data));
   } catch (error) {
     tempAddressSelectedFailure(
       error,
       Sentry.captureMessage('failed to select temporary address'),
+    );
+  }
+};
+
+export const permAddressMilitaryBaseChecker = data => dispatch => {
+  try {
+    if (data) {
+      dispatch(
+        permAddressMilitaryBaseStatusChange(
+          data,
+          PERM_ADDRESS_MILITARY_BASE_SELECTED,
+        ),
+      );
+    } else {
+      dispatch(
+        permAddressMilitaryBaseStatusChange(
+          data,
+          PERM_ADDRESS_MILITARY_BASE_DESELECTED,
+        ),
+      );
+    }
+  } catch (error) {
+    permAddressMilitaryBaseStatusChangeFailure(
+      error,
+      Sentry.captureMessage(
+        'failed to select/deselect permanent address military base',
+      ),
+    );
+  }
+};
+
+export const tempAddressMilitaryBaseChecker = data => dispatch => {
+  try {
+    if (data) {
+      dispatch(
+        tempAddressMilitaryBaseStatusChange(
+          data,
+          TEMP_ADDRESS_MILITARY_BASE_SELECTED,
+        ),
+      );
+    } else {
+      dispatch(
+        tempAddressMilitaryBaseStatusChange(
+          data,
+          TEMP_ADDRESS_MILITARY_BASE_DESELECTED,
+        ),
+      );
+    }
+  } catch (error) {
+    tempAddressIsAMilitaryBaseStatusChangeFailure(
+      error,
+      Sentry.captureMessage(
+        'failed to select/deselect temporary address military base',
+      ),
     );
   }
 };

@@ -92,6 +92,33 @@ const addressUISchema = (
     country: {
       'ui:title': 'Country',
       'ui:required': () => true,
+      'ui:options': {
+        // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
+        // updateSchema(formData, schema, uiSchema, index, pathToCurrentData) {
+        //   let newUISchema;
+        //   if (
+        //     formData.permanentAddress.country ||
+        //     formData.temporaryAddress.country
+        //   ) {
+        //     newUISchema = uiSchema;
+        //     newUISchema['ui:enumDisabled'] = ['CAN', 'MEX'];
+        //     newUISchema['ui:readonly'] = true;
+        //   }
+        //   if (newUISchema) {
+        //     return {
+        //       formData,
+        //       schema,
+        //       newUISchema,
+        //     };
+        //   }
+        //   return {
+        //     formData,
+        //     schema,
+        //     newUISchema,
+        //     c,
+        //   };
+        // },
+      },
     },
     street: {
       'ui:title': 'Street address',
@@ -120,6 +147,32 @@ const addressUISchema = (
       'ui:errorMessages': {
         pattern: 'Please enter a valid city',
         required: 'Please enter a city',
+      },
+      'ui:options': {
+        // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
+        //
+        // updateSchema(formData, schema, uiSchema, index, pathToCurrentData) {
+        //   let newUISchema;
+        //   if (
+        //     formData.permanentAddress.country ||
+        //     formData.temporaryAddress.country
+        //   ) {
+        //     newUISchema = uiSchema;
+        //     newUISchema['ui:title'] = 'APO / FPO / DPO';
+        //   }
+        //   if (newUISchema) {
+        //     return {
+        //       formData,
+        //       schema,
+        //       newUISchema,
+        //     };
+        //   }
+        //   return {
+        //     formData,
+        //     schema,
+        //     uiSchema,
+        //   };
+        // },
       },
     },
     state: {
