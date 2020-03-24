@@ -19,7 +19,7 @@ import {
 } from '../actions/appointments';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
-import CancelAppointmentModal from '../components/CancelAppointmentModal';
+import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
   vaosCancel,
