@@ -25,7 +25,8 @@ export default class SelectArrayItemsWidget extends React.Component {
     const { label: Label, selectedPropName, disabled, customTitle } = options;
     const { formContext } = registry;
 
-    // Review mode = true; review page view, not in edit mode
+    // inReviewMode = true (review page view, not in edit mode)
+    // inReviewMode = false (in edit mode)
     const inReviewMode = formContext.onReviewPage && formContext.reviewMode;
     const hasSelections = items?.reduce(
       (result, item) =>
@@ -33,9 +34,6 @@ export default class SelectArrayItemsWidget extends React.Component {
       false,
     );
 
-    // console.log('arrayitems widget', this.props, this.props.registry.formContext, hasSelections)
-
-    // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
         {customTitle && items && <h5 className="title">{customTitle}</h5>}
