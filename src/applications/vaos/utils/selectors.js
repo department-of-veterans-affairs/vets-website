@@ -1,4 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
@@ -318,3 +319,10 @@ export const isWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );
+
+export const selectFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => !f.facilityId.startsWith('742'),
+  ) || null;
+export const selectSystemIds = state =>
+  selectFacilities(state)?.map(f => f.facilityId) || null;

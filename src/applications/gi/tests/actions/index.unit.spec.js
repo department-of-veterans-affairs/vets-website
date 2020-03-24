@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import {
   mockFetch,
   resetFetch,
@@ -18,8 +19,14 @@ import {
   FETCH_PROFILE_SUCCEEDED,
   fetchInstitutionAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
+  fetchConstants,
+  fetchInstitutionSearchResults,
   AUTOCOMPLETE_SUCCEEDED,
   AUTOCOMPLETE_FAILED,
+  FETCH_CONSTANTS_STARTED,
+  FETCH_CONSTANTS_FAILED,
+  SEARCH_STARTED,
+  SEARCH_FAILED,
 } from '../../actions/index';
 
 describe('beneficiaryZIPCodeChanged', () => {
@@ -176,9 +183,8 @@ describe('fetchProfile', () => {
     ).to.be.true;
 
     setTimeout(() => {
-      const { type, err } = dispatch.secondCall.args[0];
+      const { type } = dispatch.secondCall.args[0];
       expect(type).to.eql(FETCH_PROFILE_FAILED);
-      expect(err instanceof Error).to.be.true;
       done();
     }, 0);
   });
@@ -318,6 +324,56 @@ describe('institution program autocomplete', () => {
       const { type, err } = dispatch.firstCall.args[0];
       expect(type).to.eql(AUTOCOMPLETE_FAILED);
       expect(err instanceof Error).to.be.true;
+      done();
+    }, 0);
+  });
+});
+
+describe('institution search', () => {
+  beforeEach(() => mockFetch());
+
+  it('should dispatch a failure action', done => {
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
+
+    const dispatch = sinon.spy();
+
+    fetchInstitutionSearchResults('@@', {})(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(SEARCH_STARTED);
+
+    setTimeout(() => {
+      const { payload } = dispatch.secondCall.args[0];
+
+      expect(dispatch.secondCall.args[0]).to.eql({
+        type: SEARCH_FAILED,
+        payload,
+      });
+      done();
+    }, 0);
+  });
+});
+
+describe('constants', () => {
+  beforeEach(() => mockFetch());
+
+  it('should dispatch a failure action', done => {
+    const error = { test: 'test' };
+    setFetchFailure(global.fetch.onFirstCall(), error);
+
+    const dispatch = sinon.spy();
+
+    fetchConstants('test')(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CONSTANTS_STARTED);
+
+    setTimeout(() => {
+      const { payload } = dispatch.secondCall.args[0];
+
+      expect(dispatch.secondCall.args[0]).to.eql({
+        type: FETCH_CONSTANTS_FAILED,
+        payload,
+      });
       done();
     }, 0);
   });

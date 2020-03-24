@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const formIds = new Set([VA_FORM_IDS.FORM_20_0996]);
 
+// Used to add HLR wizard to the Drupal content page
 export default function createHigherLevelReviewApplicationStatus(
   store,
   widgetType,
