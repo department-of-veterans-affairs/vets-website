@@ -1,5 +1,5 @@
 import { genericSchemas } from '../../../generic-schema';
-
+import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 
@@ -17,9 +17,9 @@ export const schema = {
       properties: {
         schoolName: genericTextInput,
         trainingProgram: genericTextInput,
+        schoolAddress: addressSchema,
       },
     },
-    schoolAddress: addressSchema,
   },
 };
 
@@ -35,6 +35,11 @@ export const uiSchema = {
     trainingProgram: {
       'ui:title': 'Kind of training or educational program',
     },
+    schoolAddress: {
+      ...{ 'ui:title': 'School’s address' },
+      ...addressUISchema(false, 'schoolInformation.schoolAddress', formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.report674),
+      ),
+    },
   },
-  schoolAddress: addressUISchema(false, 'schoolAddress', 'report674'),
 };
