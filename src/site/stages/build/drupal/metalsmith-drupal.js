@@ -102,8 +102,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       case 'story_listing':
-        pageCompiled.allNewsStoryTeasers =
-          page.fieldOffice.entity.reverseFieldOfficeNode;
+        pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
