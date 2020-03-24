@@ -1,4 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
@@ -258,14 +259,25 @@ export function getCancelInfo(state) {
     showCancelModal,
     cancelAppointmentStatus,
     facilityData,
+    systemClinicToFacilityMap,
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel) {
+  if (appointmentToCancel?.clinicId) {
+    // Confirmed in person VA appts
+    facility =
+      systemClinicToFacilityMap[
+        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+      ];
+  } else if (appointmentToCancel?.facility) {
+    // Requests
     facility =
       facilityData[
-        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+        getRealFacilityId(appointmentToCancel.facility.facilityCode)
       ];
+  } else if (appointmentToCancel) {
+    // Video visits
+    facility = facilityData[getRealFacilityId(appointmentToCancel.facilityId)];
   }
 
   return {
@@ -307,3 +319,10 @@ export const isWelcomeModalDismissed = state =>
   state.announcements.dismissed.some(
     announcement => announcement === 'welcome-to-new-vaos',
   );
+
+export const selectFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => !f.facilityId.startsWith('742'),
+  ) || null;
+export const selectSystemIds = state =>
+  selectFacilities(state)?.map(f => f.facilityId) || null;

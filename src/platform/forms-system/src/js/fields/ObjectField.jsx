@@ -270,7 +270,8 @@ class ObjectField extends React.Component {
             [objectFields[0], 'ui:options', 'expandUnder'],
             uiSchema,
           )
-            ? renderProp(objectFields[0], index)
+            ? // eslint-disable-next-line sonarjs/no-extra-arguments
+              renderProp(objectFields[0], index)
             : undefined;
         })}
       </div>

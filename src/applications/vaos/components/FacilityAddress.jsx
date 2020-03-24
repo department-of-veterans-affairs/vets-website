@@ -37,7 +37,7 @@ export default function FacilityAddress({
             <strong>Main phone:</strong>
           </dt>{' '}
           <dd className="vads-u-display--inline">
-            <a href={`tel:${phone.replace(/-/g, '')}`}>{phone}</a>
+            <a href={`tel:${phone.replace(/[^0-9]/g, '')}`}>{phone}</a>
           </dd>
         </dl>
       )}

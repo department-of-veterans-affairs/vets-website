@@ -2,29 +2,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import includes from 'lodash/includes';
+import toLower from 'lodash/toLower';
+import { connect } from 'react-redux';
 // Relative imports.
 import { capitalize } from '../../helpers';
-import {
-  addSchoolToCompareAction,
-  removeSchoolFromCompareAction,
-} from '../../actions';
 
 const deriveNameLabel = school => {
   // Show unknown if there's no name.
-  if (!school?.name) {
-    return 'Unknown';
+  if (!school?.schoolNameInYrDatabase) {
+    return 'Not provided';
   }
 
   // Show the name.
-  return capitalize(school?.name);
+  return capitalize(school?.schoolNameInYrDatabase);
 };
 
 const deriveLocationLabel = (school = {}) => {
   // Show unknown if there's no city or state.
   if (!school?.city && !school?.state) {
-    return 'Unknown';
+    return 'Not provided';
   }
 
   // Only show state if there's no city.
@@ -42,51 +39,60 @@ const deriveLocationLabel = (school = {}) => {
 };
 
 const deriveMaxAmountLabel = (school = {}) => {
-  // Show unknown if there's no tuitionOutOfState.
-  if (!school?.tuitionOutOfState) {
-    return 'Unknown';
+  // Show unknown if there's no contributionAmount.
+  if (!school?.contributionAmount) {
+    return 'Not provided';
   }
 
-  // Show formatted tuitionOutOfState.
-  return school?.tuitionOutOfState.toLocaleString('en-US', {
+  // Derive the contribution amount number.
+  const contributionAmountNum = parseFloat(school?.contributionAmount);
+
+  if (contributionAmountNum > 90000) {
+    return 'All tuition and fees not covered by Post-9/11 GI Bill';
+  }
+
+  // Show formatted contributionAmount.
+  return contributionAmountNum.toLocaleString('en-US', {
     currency: 'USD',
     style: 'currency',
   });
 };
 
 const deriveEligibleStudentsLabel = (school = {}) => {
-  // Show unknown if there's no studentCount.
-  if (!school?.studentCount) {
-    return 'Unknown';
+  // Show unknown if there's no numberOfStudents.
+  if (!school?.numberOfStudents) {
+    return 'Not provided';
   }
 
-  // Show studentCount.
-  return `${school?.studentCount} students`;
-};
-
-const deriveDegreeLevelLabel = (school = {}) => {
-  // Show unknown if there's no highestDegree.
-  if (!school?.highestDegree) {
-    return 'Unknown';
+  // Escape early if the data indicates all eligible students.
+  if (school?.numberOfStudents >= 99999) {
+    return 'All eligible students';
   }
 
-  // Show highest degree.
-  return school?.highestDegree;
+  // Show numberOfStudents.
+  return `${school?.numberOfStudents} students`;
 };
 
-const deriveProgramLabel = () => 'Unknown';
+const deriveInstURLLabel = (school = {}) => {
+  // Show unknown if there's no insturl.
+  if (!school?.insturl) {
+    return 'Not provided';
+  }
 
-export const SearchResult = ({
-  addSchoolToCompare,
-  removeSchoolFromCompare,
-  school,
-  schoolIDs,
-}) => (
+  // Show the school's website URL.
+  return (
+    <a href={school?.insturl} rel="noreferrer noopener">
+      {toLower(school?.insturl)}
+    </a>
+  );
+};
+
+export const SearchResult = ({ school, schoolIDs }) => (
   <div
     className={classNames(
       'medium-screen:vads-l-col',
       'vads-l-col',
-      'vads-u-margin-bottom--1',
+      'vads-u-margin-bottom--2',
       'vads-u-padding-x--3',
       'vads-u-padding-y--2',
       'vads-u-background-color--gray-light-alt',
@@ -107,57 +113,31 @@ export const SearchResult = ({
 
     <div className="vads-l-row vads-u-margin-top--2">
       <div className="vads-l-col--6 vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between">
-        {/* Max Benefit Amount */}
+        {/* Max Contribution Amount */}
         <div className="vads-u-col">
           <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
-            Maximum Yellow Ribbon benefit amount
+            Maximum Yellow Ribbon funding amount
+            <br />
+            (per student, per year)
           </h4>
           <p className="vads-u-margin--0">{deriveMaxAmountLabel(school)}</p>
         </div>
 
-        {/* Benefit available for x students */}
+        {/* Student Count */}
         <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
-          Benefit available for
+          Funding available for
         </h4>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
           {deriveEligibleStudentsLabel(school)}
         </p>
-
-        <div>
-          {/* Remove from Comparison. */}
-          {includes(schoolIDs, school?.id) ? (
-            <button
-              className="usa-button-secondary vads-u-background-color--primary vads-u-color--white vads-u-margin--0 vads-u-font-size--md"
-              onClick={() => removeSchoolFromCompare(school)}
-            >
-              <i className="fas fa-check vads-u-padding-right--1" />
-              Added
-            </button>
-          ) : (
-            // Add to Comparison.
-            <button
-              className="usa-button-secondary vads-u-background-color--white vads-u-margin--0 vads-u-font-size--md"
-              onClick={() => addSchoolToCompare(school)}
-            >
-              <i className="fas fa-plus vads-u-padding-right--1" />
-              Add to compare
-            </button>
-          )}
-        </div>
       </div>
 
       <div className="vads-l-col--6 vads-u-padding-left--2">
-        {/* Degree Level */}
+        {/* School Website */}
         <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
-          Degree level
+          School website
         </h4>
-        <p className="vads-u-margin--0">{deriveDegreeLevelLabel(school)}</p>
-
-        {/* School or Program */}
-        <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0 vads-u-margin-top--2">
-          School or program
-        </h4>
-        <p className="vads-u-margin--0">{deriveProgramLabel(school)}</p>
+        <p className="vads-u-margin--0">{deriveInstURLLabel(school)}</p>
       </div>
     </div>
   </div>
@@ -166,30 +146,22 @@ export const SearchResult = ({
 SearchResult.propTypes = {
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
-    highestDegree: PropTypes.number.isRequired,
+    insturl: PropTypes.number,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
-    studentCount: PropTypes.number.isRequired,
-    tuitionOutOfState: PropTypes.number.isRequired,
+    numberOfStudents: PropTypes.number.isRequired,
+    contributionAmount: PropTypes.number.isRequired,
   }).isRequired,
   // From mapStateToProps.
   schoolIDs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  // From mapDispatchToProps.
-  addSchoolToCompare: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   schoolIDs: state.yellowRibbonReducer.schoolIDs,
 });
 
-const mapDispatchToProps = dispatch => ({
-  addSchoolToCompare: school => dispatch(addSchoolToCompareAction(school)),
-  removeSchoolFromCompare: school =>
-    dispatch(removeSchoolFromCompareAction(school)),
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(SearchResult);
