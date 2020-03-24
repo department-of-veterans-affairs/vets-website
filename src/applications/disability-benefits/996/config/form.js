@@ -12,7 +12,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from '../content/GetFormHelp';
+import GetFormHelp from '../components/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -22,7 +22,6 @@ import veteranInformationDescription from '../pages/veteranInformation';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
-import officeForReview from '../pages/officeForReview';
 import informalConference from '../pages/informalConference';
 
 // TODO: Mock data - remove once API is connected
@@ -118,17 +117,6 @@ const formConfig = {
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
           initialData,
-        },
-      },
-    },
-    officeForReview: {
-      title: 'Office for review',
-      pages: {
-        sameOffice: {
-          title: ' ',
-          path: 'office-for-review',
-          uiSchema: officeForReview.uiSchema,
-          schema: officeForReview.schema,
         },
       },
     },
