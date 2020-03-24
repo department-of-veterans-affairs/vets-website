@@ -89,10 +89,10 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
-        pageCompiled.allEventTeasers = pageCompiled.fieldOffice.entity
-          .reverseFieldOfficeNode.entities.length
-          ? pageCompiled.fieldOffice.entity.reverseFieldOfficeNode
-          : pageCompiled.reverseFieldOfficeNode;
+        pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode
+          .entities.length
+          ? pageCompiled.reverseFieldListingNode
+          : '';
         addPager(
           pageCompiled,
           files,
