@@ -28,6 +28,7 @@ import {
   vaosDirectScheduling,
   vaosCommunityCare,
   isWelcomeModalDismissed,
+  selectIsCernerOnlyPatient,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
@@ -67,6 +68,7 @@ export class AppointmentsPage extends Component {
       showPastAppointments,
       showCommunityCare,
       showDirectScheduling,
+      isCernerOnlyPatient,
     } = this.props;
     const {
       future,
@@ -153,7 +155,7 @@ export class AppointmentsPage extends Component {
           <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
             You don’t have any appointments.
           </h2>
-          {showScheduleButton && (
+          {isCernerOnlyPatient && (
             <>
               <p>
                 You can schedule an appointment now, or you can call your{' '}
@@ -166,34 +168,65 @@ export class AppointmentsPage extends Component {
                 </a>{' '}
                 to schedule an appointment.
               </p>
-              <Link
+              <a
                 id="new-appointment"
                 className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
-                to="/new-appointment"
+                href="http://patientportalmyhealth.stagingiqhealth.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => {
-                  this.recordStartEvent();
-                  this.props.startNewAppointmentFlow();
+                  recordEvent({
+                    event: 'vaos-past-appointments-legacy-link-clicked',
+                  });
                 }}
               >
                 Schedule an appointment
-              </Link>
+              </a>
             </>
           )}
-          {!showScheduleButton && (
-            <>
-              <p>
-                To schedule an appointment, you can call your{' '}
-                <a
-                  href="/find-locations"
-                  target="_blank"
-                  rel="noopener noreferrer"
+          {showScheduleButton &&
+            !isCernerOnlyPatient && (
+              <>
+                <p>
+                  You can schedule an appointment now, or you can call your{' '}
+                  <a
+                    href="/find-locations"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    VA medical center
+                  </a>{' '}
+                  to schedule an appointment.
+                </p>
+                <Link
+                  id="new-appointment"
+                  className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
+                  to="/new-appointment"
+                  onClick={() => {
+                    this.recordStartEvent();
+                    this.props.startNewAppointmentFlow();
+                  }}
                 >
-                  VA Medical center
-                </a>
-                .
-              </p>
-            </>
-          )}
+                  Schedule an appointment
+                </Link>
+              </>
+            )}
+          {!showScheduleButton &&
+            !isCernerOnlyPatient && (
+              <>
+                <p>
+                  To schedule an appointment, you can call your{' '}
+                  <a
+                    href="/find-locations"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    VA Medical center
+                  </a>
+                  .
+                </p>
+              </>
+            )}
         </div>
       );
     }
@@ -236,17 +269,35 @@ export class AppointmentsPage extends Component {
                       Schedule an appointment at a VA medical center or clinic.
                     </p>
                   )}
-                <Link
-                  id="new-appointment"
-                  className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
-                  to="/new-appointment"
-                  onClick={() => {
-                    this.recordStartEvent();
-                    this.props.startNewAppointmentFlow();
-                  }}
-                >
-                  Schedule an appointment
-                </Link>
+                {isCernerOnlyPatient && (
+                  <a
+                    id="new-appointment"
+                    className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
+                    href="http://patientportalmyhealth.stagingiqhealth.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      recordEvent({
+                        event: 'vaos-past-appointments-legacy-link-clicked',
+                      });
+                    }}
+                  >
+                    Schedule an appointment
+                  </a>
+                )}
+                {!isCernerOnlyPatient && (
+                  <Link
+                    id="new-appointment"
+                    className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
+                    to="/new-appointment"
+                    onClick={() => {
+                      this.recordStartEvent();
+                      this.props.startNewAppointmentFlow();
+                    }}
+                  >
+                    Schedule an appointment
+                  </Link>
+                )}
               </div>
             )}
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
@@ -300,6 +351,7 @@ function mapStateToProps(state) {
     showCommunityCare: vaosCommunityCare(state),
     showDirectScheduling: vaosDirectScheduling(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
 
