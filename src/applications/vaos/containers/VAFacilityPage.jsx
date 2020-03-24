@@ -8,6 +8,7 @@ import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
 import ErrorMessage from '../components/ErrorMessage';
+import SystemsRadioWidget from '../components/SystemsRadioWidget';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 import {
@@ -39,7 +40,7 @@ const initialSchema = {
 
 const uiSchema = {
   vaParent: {
-    'ui:widget': 'radio',
+    'ui:widget': SystemsRadioWidget,
     'ui:title':
       'You’re registered at the following VA medical centers. Please let us know where you would like to have your appointment.',
   },
@@ -118,6 +119,7 @@ export class VAFacilityPage extends React.Component {
       hasDataFetchingError,
       hasEligibilityError,
       parentOfChosenFacility,
+      cernerFacilities,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -219,6 +221,7 @@ export class VAFacilityPage extends React.Component {
             typeOfCare,
             facilityDetailsStatus,
             parentDetails,
+            cernerFacilities,
           }}
           data={data}
         >
