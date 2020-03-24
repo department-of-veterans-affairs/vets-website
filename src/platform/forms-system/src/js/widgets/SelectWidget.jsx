@@ -42,10 +42,12 @@ function SelectWidget({
       disabled={disabled}
       readOnly={readonly}
       onBlur={event => {
+        // eslint-disable-next-line sonarjs/no-extra-arguments
         const newValue = getValue(event, multiple);
         onBlur(id, processValue(schema, newValue));
       }}
       onChange={event => {
+        // eslint-disable-next-line sonarjs/no-extra-arguments
         const newValue = getValue(event, multiple);
         onChange(processValue(schema, newValue));
       }}

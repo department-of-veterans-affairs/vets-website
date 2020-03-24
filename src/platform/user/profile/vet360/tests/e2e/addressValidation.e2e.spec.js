@@ -52,7 +52,7 @@ function begin(browser) {
         Timeouts.verySlow,
       );
 
-      beginTests(browser, token);
+      beginTests(browser);
       done();
     });
   });

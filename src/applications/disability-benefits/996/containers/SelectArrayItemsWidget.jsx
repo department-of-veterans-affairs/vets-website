@@ -39,67 +39,67 @@ export default class SelectArrayItemsWidget extends React.Component {
     return (
       <>
         {customTitle && items && <h5 className="title">{customTitle}</h5>}
-        {!inReviewMode || (inReviewMode && hasSelections)
-          ? items.map((item, index) => {
-              const itemIsSelected = !!get(
-                selectedPropName || this.defaultSelectedPropName,
-                item,
-              );
+        {!inReviewMode || (inReviewMode && hasSelections) ? (
+          items.map((item, index) => {
+            const itemIsSelected = !!get(
+              selectedPropName || this.defaultSelectedPropName,
+              item,
+            );
 
-              // Don't show unselected items
-              if (inReviewMode && !itemIsSelected) {
-                return null;
-              }
+            // Don't show unselected items
+            if (inReviewMode && !itemIsSelected) {
+              return null;
+            }
 
-              const itemIsDisabled =
-                typeof disabled === 'function' ? disabled(item) : false;
-              const elementId = `${id}_${index}`;
-              const labelWithData = (
-                <Label
-                  {...item}
-                  name={item.name || item.condition}
-                  for={elementId}
-                />
-              );
+            const itemIsDisabled =
+              typeof disabled === 'function' ? disabled(item) : false;
+            const elementId = `${id}_${index}`;
+            const labelWithData = (
+              <Label
+                {...item}
+                name={item.name || item.condition}
+                for={elementId}
+              />
+            );
 
-              const widgetClasses = inReviewMode
-                ? ''
-                : classNames('form-checkbox', options.widgetClassNames, {
-                    selected: itemIsSelected,
-                  });
+            const widgetClasses = inReviewMode
+              ? ''
+              : classNames('form-checkbox', options.widgetClassNames, {
+                  selected: itemIsSelected,
+                });
 
-              const input = inReviewMode ? null : (
-                <input
-                  type="checkbox"
-                  id={elementId}
-                  name={elementId}
-                  checked={
-                    typeof itemIsSelected === 'undefined'
-                      ? false
-                      : itemIsSelected
-                  }
-                  required={required}
-                  disabled={itemIsDisabled}
-                  onChange={event => this.onChange(index, event.target.checked)}
-                />
-              );
+            const input = inReviewMode ? null : (
+              <input
+                type="checkbox"
+                id={elementId}
+                name={elementId}
+                checked={
+                  typeof itemIsSelected === 'undefined' ? false : itemIsSelected
+                }
+                required={required}
+                disabled={itemIsDisabled}
+                onChange={event => this.onChange(index, event.target.checked)}
+              />
+            );
 
-              return (
-                <div key={elementId} className="review-row">
-                  <dt className={widgetClasses}>
-                    {input}
-                    <label
-                      className="schemaform-label vads-u-margin-top--0"
-                      htmlFor={elementId}
-                    >
-                      {labelWithData}
-                    </label>
-                  </dt>
-                  <dd />
-                </div>
-              );
-            })
-          : 'No selections have been made'}
+            return (
+              <div key={elementId} className="review-row">
+                <dt className={widgetClasses}>
+                  {input}
+                  <label
+                    className="schemaform-label vads-u-margin-top--0"
+                    htmlFor={elementId}
+                  >
+                    {labelWithData}
+                  </label>
+                </dt>
+                <dd />
+              </div>
+            );
+          })
+        ) : (
+          <p>No selections have been made</p>
+        )}
       </>
     );
   }

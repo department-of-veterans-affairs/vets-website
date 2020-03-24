@@ -2,8 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import includes from 'lodash/includes';
+import toLower from 'lodash/toLower';
+import { connect } from 'react-redux';
 // Relative imports.
 import { capitalize } from '../../helpers';
 
@@ -81,7 +82,7 @@ const deriveInstURLLabel = (school = {}) => {
   // Show the school's website URL.
   return (
     <a href={school?.insturl} rel="noreferrer noopener">
-      {school?.insturl}
+      {toLower(school?.insturl)}
     </a>
   );
 };
