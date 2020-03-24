@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 export default function LogoutAlert() {
   const content = (
     <>
-      <strong>Looking for other VA Benefits or services?</strong>
+      <strong>Looking for other VA benefits or services?</strong>
       <a
         href="/"
         className="vads-u-display--block vads-u-margin-y--1"
@@ -30,7 +30,7 @@ export default function LogoutAlert() {
   );
   return (
     <AlertBox
-      headline="You have successfully signed out"
+      headline="You have successfully signed out."
       content={content}
       status="success"
       className="vads-u-margin-bottom--6"
