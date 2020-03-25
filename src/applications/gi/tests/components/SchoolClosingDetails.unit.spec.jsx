@@ -18,10 +18,7 @@ describe('<SchoolClosingDetails>', () => {
       .format('YYYY-MM-DD');
 
     const wrapper = shallow(
-      <SchoolClosingDetails
-        schoolClosing
-        schoolClosingOn={tomorrow}
-      />,
+      <SchoolClosingDetails schoolClosing schoolClosingOn={tomorrow} />,
     );
     const html = wrapper.html();
     expect(html).to.contain('School will be closing soon');
