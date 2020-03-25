@@ -1,18 +1,20 @@
 import * as Sentry from '@sentry/browser';
 
 import ENVIRONMENTS from '../../../site/constants/environments';
+import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
 
 let ssoSessionLength = 9000; // milliseconds
 const ssoKeepAliveEndpoint = () => {
   const environmentPrefixes = {
-    [ENVIRONMENTS.VAGOVSTAGING]: 'sqa.',
+    [ENVIRONMENTS.LOCALHOST]: 'pint.',
     [ENVIRONMENTS.VAGOVDEV]: 'int.',
+    [ENVIRONMENTS.VAGOVSTAGING]: 'sqa.',
+    [ENVIRONMENTS.VAGOVPROD]: '',
   };
 
-  const envPrefix = environmentPrefixes[ENVIRONMENTS.BUILDTYPE] || '';
-
+  const envPrefix = environmentPrefixes[environment.BUILDTYPE];
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
