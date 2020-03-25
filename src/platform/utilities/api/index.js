@@ -97,6 +97,19 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         ? response.json()
         : Promise.resolve(response);
 
+      for (const value of response.headers.values()) {
+        // eslint-disable-next-line no-console
+        console.log(value);
+      }
+
+      // Get CSRF Token from header
+      const csrfToken = response.headers;
+      // eslint-disable-next-line no-console
+      console.log(csrfToken);
+      if (csrfToken) {
+        localStorage.setItem('csrfToken', csrfToken);
+      }
+
       if (response.ok || response.status === 304) {
         return data;
       }
