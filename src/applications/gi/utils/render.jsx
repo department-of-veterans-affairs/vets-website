@@ -9,6 +9,7 @@ export const renderSchoolClosingAlert = result => {
   if (!environment.isProduction()) {
     return (
       <AlertBox
+        className="vads-u-margin-top--0p5"
         content={<p>A campus at this school will be closing soon</p>}
         headline="A campus is closing soon"
         isVisible={!!schoolClosing}
