@@ -13,7 +13,9 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
         content={
           <div>
             {cautionFlags.map(flag => (
-              <div key={flag.id}>{flag.title}</div>
+              <div className="headingFlag" key={flag.id}>
+                {flag.title}
+              </div>
             ))}
             <p>
               <a href="#viewWarnings" onClick={onViewWarnings}>

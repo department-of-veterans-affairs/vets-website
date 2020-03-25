@@ -21,9 +21,11 @@ const SchoolClosingDetails = ({
         content={
           <div>
             <p>{content}</p>
-            <a href={schoolWebsite} target="_blank" rel="noopener noreferrer">
-              Visit the school's website to learn more
-            </a>
+            {schoolWebsite && (
+              <a href={schoolWebsite} target="_blank" rel="noopener noreferrer">
+                Visit the school's website to learn more
+              </a>
+            )}
           </div>
         }
         headline={headline}
