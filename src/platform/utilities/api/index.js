@@ -103,7 +103,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       }
 
       // Get CSRF Token from header
-      const csrfToken = response.headers;
+      const csrfToken = response.headers.get('X-CSRF-Token');
       // eslint-disable-next-line no-console
       console.log(csrfToken);
       if (csrfToken) {
