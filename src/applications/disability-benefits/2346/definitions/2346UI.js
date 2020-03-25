@@ -94,30 +94,24 @@ const addressUISchema = (
       'ui:required': () => true,
       'ui:options': {
         // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
-        // updateSchema(formData, schema, uiSchema, index, pathToCurrentData) {
-        //   let newUISchema;
-        //   if (
-        //     formData.permanentAddress.country ||
-        //     formData.temporaryAddress.country
-        //   ) {
-        //     newUISchema = uiSchema;
-        //     newUISchema['ui:enumDisabled'] = ['CAN', 'MEX'];
-        //     newUISchema['ui:readonly'] = true;
-        //   }
-        //   if (newUISchema) {
-        //     return {
-        //       formData,
-        //       schema,
-        //       newUISchema,
-        //     };
-        //   }
-        //   return {
-        //     formData,
-        //     schema,
-        //     newUISchema,
-        //     c,
-        //   };
-        // },
+        updateSchema(formData, schema, uiSchema, isMilitaryBaseChecked) {
+          const originalUISchema = uiSchema;
+          let updatedUISchema;
+          if (isMilitaryBaseChecked) {
+            updatedUISchema = originalUISchema;
+            updatedUISchema.country['ui:enumDisabled'] = ['CAN', 'MEX'];
+            updatedUISchema.country['ui:readonly'] = true;
+          } else {
+            updatedUISchema = originalUISchema;
+            updatedUISchema['ui:enumDisabled'] = [];
+            updatedUISchema['ui:readonly'] = false;
+          }
+          return {
+            formData,
+            schema,
+            updatedUISchema: updatedUISchema || originalUISchema,
+          };
+        },
       },
     },
     street: {
@@ -151,28 +145,22 @@ const addressUISchema = (
       'ui:options': {
         // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
         //
-        // updateSchema(formData, schema, uiSchema, index, pathToCurrentData) {
-        //   let newUISchema;
-        //   if (
-        //     formData.permanentAddress.country ||
-        //     formData.temporaryAddress.country
-        //   ) {
-        //     newUISchema = uiSchema;
-        //     newUISchema['ui:title'] = 'APO / FPO / DPO';
-        //   }
-        //   if (newUISchema) {
-        //     return {
-        //       formData,
-        //       schema,
-        //       newUISchema,
-        //     };
-        //   }
-        //   return {
-        //     formData,
-        //     schema,
-        //     uiSchema,
-        //   };
-        // },
+        updateSchema(formData, schema, uiSchema, isMilitaryBaseChecked) {
+          const originalUISchema = uiSchema;
+          let updatedUISchema;
+          if (isMilitaryBaseChecked) {
+            updatedUISchema = originalUISchema;
+            updatedUISchema.city['ui:title'] = 'APO / FPO / DPO';
+          } else {
+            updatedUISchema = originalUISchema;
+            updatedUISchema['ui:title'] = 'City';
+          }
+          return {
+            formData,
+            schema,
+            updatedUISchema: updatedUISchema || originalUISchema,
+          };
+        },
       },
     },
     state: {
