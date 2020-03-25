@@ -209,7 +209,7 @@ export class CautionaryInformation extends React.Component {
           </div>
         </div>
 
-        {it.complaints.mainCampusRollUp && (
+        {!!it.complaints.mainCampusRollUp && (
           <div>
             <div className="table">
               <table className="all-complaints">
