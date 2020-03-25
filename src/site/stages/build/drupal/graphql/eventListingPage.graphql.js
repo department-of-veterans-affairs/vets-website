@@ -27,6 +27,7 @@ module.exports = `
                 }
               }
             }
+            fieldFeatured
             fieldDate {
               startDate
               value
