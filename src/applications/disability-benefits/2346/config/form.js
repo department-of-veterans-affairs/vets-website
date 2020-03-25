@@ -127,8 +127,7 @@ const formConfig = {
               'ui:title': 'Which hearing aid do you need batteries for?',
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:field': 'StringField',
-              'ui:widget': SelectArrayItemsBatteriesWidget,
+              'ui:field': SelectArrayItemsBatteriesWidget,
               'ui:options': {
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
@@ -166,8 +165,7 @@ const formConfig = {
               'ui:title': 'Which hearing aid do you need batteries for?',
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:field': 'StringField',
-              'ui:widget': SelectArrayItemsAccessoriesWidget,
+              'ui:field': SelectArrayItemsAccessoriesWidget,
               'ui:options': {
                 expandUnder: 'view:addAccessories',
                 expandUnderCondition: 'yes',
