@@ -22,15 +22,15 @@ export const schema = {
             },
           },
           childStatus: {
-            type: 'object',
-            properties: {
-              biological: genericSchemas.genericTrueFalse,
-              adopted: genericSchemas.genericTrueFalse,
-              notCapable: genericSchemas.genericTrueFalse,
-              stepchild: genericSchemas.genericTrueFalse,
-              dateBecameDependent: genericSchemas.date,
-            },
+            type: 'string',
+            enum: [
+              'Biological',
+              'Adopted',
+              'Not capable of self-support',
+              'Stepchild',
+            ],
           },
+          dateBecameDependent: genericSchemas.date,
           'view:marriageTypeInformation': {
             type: 'object',
             properties: {},
@@ -74,39 +74,34 @@ export const uiSchema = {
         },
         city: {
           'ui:title': 'City or county',
+          'ui:required': formData =>
+            isChapterFieldRequired(formData, 'addChild'),
         },
       },
       childStatus: {
         'ui:title': "Your child's status (check all that apply)",
-        biological: {
-          'ui:title': 'Biological',
-        },
-        adopted: {
-          'ui:title': 'Adopted',
-        },
-        notCapable: {
-          'ui:title': 'Not capable of self-support',
-        },
-        stepchild: {
-          'ui:title': 'Stepchild',
-        },
-        dateBecameDependent: merge(
-          currentOrPastDateUI('Date stepchild became dependent'),
-          {
-            'ui:options': {
-              expandUnder: 'stepchild',
-              expandUnderCondition: true,
-              keepInPageOnReview: true,
-            },
-          },
-        ),
+        'ui:widget': 'radio',
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
+      dateBecameDependent: merge(
+        currentOrPastDateUI('Date stepchild became dependent'),
+        {
+          'ui:options': {
+            expandUnder: 'childStatus',
+            expandUnderCondition: 'Stepchild',
+            keepInPageOnReview: true,
+          },
+          'ui:required': (formData, index) =>
+            formData.childrenToAdd[`${index}`].childStatus === 'Stepchild',
+        },
+      ),
       'view:marriageTypeInformation': {
         'ui:description': childStatusDescription,
       },
       childPreviouslyMarried: {
         'ui:widget': 'radio',
         'ui:title': 'Was this child previously married?',
+        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
       },
       childPreviousMarriageDetails: {
         'ui:options': {
@@ -125,6 +120,8 @@ export const uiSchema = {
         reasonMarriageEnded: {
           'ui:widget': 'radio',
           'ui:title': 'Reason marriage ended',
+          'ui:required': (formData, index) =>
+            formData.childrenToAdd[`${index}`].childPreviouslyMarried === 'Yes',
         },
         otherReasonMarriageEnded: {
           'ui:title': 'Reason marriage ended',
@@ -133,6 +130,8 @@ export const uiSchema = {
             expandUnderCondition: 'Other',
             keepInPageOnReview: true,
           },
+          'ui:required': (formData, index) =>
+            formData.childrenToAdd[`${index}`].reasonMarriageEnded === 'Other',
         },
       },
     },
