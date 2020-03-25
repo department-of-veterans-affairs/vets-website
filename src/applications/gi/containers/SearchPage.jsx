@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -278,7 +277,7 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {search.error && !environment.isProduction() ? (
+        {search.error ? (
           <ServiceError />
         ) : (
           this.renderInstitutionSearchForm(searchResults, filtersClass)

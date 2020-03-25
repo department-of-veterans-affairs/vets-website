@@ -111,7 +111,6 @@ const formConfig = {
         },
       },
     },
-
     addSpouse: {
       title: 'Information needed to add your spouse',
       pages: {

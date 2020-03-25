@@ -25,6 +25,11 @@ export class ReviewPage extends React.Component {
   componentDidMount() {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    const { data, router } = this.props;
+    // Check formData for typeOfCareId. Reroute if empty
+    if (router && !data?.typeOfCareId) {
+      router.replace('/new-appointment');
+    }
   }
 
   render() {
