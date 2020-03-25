@@ -267,10 +267,10 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/scorecard/",
+    "href": "https://www.va.gov/performance-dashboard",
     "order": 9,
     "target": null,
-    "title": "VA.gov scorecard"
+    "title": "VA performance dashboard"
   },
   {
     "column": "bottom_rail",
