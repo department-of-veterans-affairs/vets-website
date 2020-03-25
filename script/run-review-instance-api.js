@@ -3,8 +3,19 @@
 
 require('isomorphic-fetch');
 
-const appendQuery = require('append-query');
+const { Octokit } = require('@octokit/rest');
 const { execSync } = require('child_process');
+
+// Use GitHub preview API so we can access the `environment_url` attribute,
+// which is the URL for the deployed instance.
+const octokit = new Octokit({
+  previews: ['ant-man-preview'],
+});
+
+const GITHUB_PARAMS = {
+  owner: 'department-of-veterans-affairs',
+  repo: 'vets-website',
+};
 
 // Get the upstream commit hash, which should represent the latest changes
 // that have been pushed to the remote branch.
@@ -14,15 +25,10 @@ const getCommitHash = async () =>
     .trim();
 
 // Get the review instance deployment data for the latest upstream commit.
-const getDeploymentData = commitHash => {
-  const baseUrl =
-    'https://api.github.com/repos/department-of-veterans-affairs/vets-website/deployments';
-
-  const url = appendQuery(baseUrl, { sha: commitHash });
-
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => {
+const getDeploymentData = commitHash =>
+  octokit.repos
+    .listDeployments({ ...GITHUB_PARAMS, sha: commitHash })
+    .then(({ data }) => {
       if (!data.length) {
         throw new Error('No deployments found. Build is probably in progress.');
       }
@@ -41,22 +47,13 @@ const getDeploymentData = commitHash => {
 
       return reviewInstanceDeployment;
     });
-};
 
-// Get the object repreesenting the successful review instance deployment.
+// Get the object representing the successful review instance deployment.
 // It won't exist yet if the Jenkins build is still in progress.
-const getSuccessfulDeployment = deploymentData => {
-  // Set this header to go through the GitHub preview API so we can access the
-  // `environment_url` attribute later.
-  const options = {
-    headers: {
-      Accept: 'application/vnd.github.ant-man-preview+json',
-    },
-  };
-
-  return fetch(deploymentData.statuses_url, options)
-    .then(response => response.json())
-    .then(data => {
+const getSuccessfulDeployment = ({ id: deployment_id }) =>
+  octokit.repos
+    .listDeploymentStatuses({ ...GITHUB_PARAMS, deployment_id })
+    .then(({ data }) => {
       if (!data.length) {
         throw new Error(
           "No review instance deployment statuses found. Deploy probably hasn't kicked off yet.",
@@ -78,7 +75,6 @@ const getSuccessfulDeployment = deploymentData => {
 
       return successfulDeployment;
     });
-};
 
 // Get the URL where the review instance was deployed.
 // This is the same URL as the 'View deployment' link in the PR.
