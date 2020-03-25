@@ -11,15 +11,11 @@ import environment from 'platform/utilities/environment';
 import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
-const loginHandler = loginType => () => {
+function loginHandler(loginType, application = null) {
   // TODO add separate login tracking for this page
   //   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1', 'cerner');
-};
-
-const handleDsLogon = loginHandler('dslogon');
-const handleMhv = loginHandler('mhv');
-const handleIdMe = loginHandler('idme');
+  login(loginType, 'v1', application);
+}
 
 const vaGovFullDomain = environment.BASE_URL;
 
@@ -59,7 +55,9 @@ class SignInPage extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
-    const loggedOut = this.props.location.query.auth === 'logged_out';
+    const { query } = this.props.location;
+    const loggedOut = query.auth === 'logged_out';
+    const application = query.application;
 
     return (
       <main className="login">
@@ -105,7 +103,7 @@ class SignInPage extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="dslogon"
-                      onClick={handleDsLogon}
+                      onClick={() => loginHandler('dslogon', application)}
                     >
                       <img
                         alt="DS Logon"
@@ -116,7 +114,7 @@ class SignInPage extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="mhv"
-                      onClick={handleMhv}
+                      onClick={() => loginHandler('mhv', application)}
                     >
                       <img
                         alt="My HealtheVet"
@@ -127,7 +125,7 @@ class SignInPage extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="usa-button-primary va-button-primary"
-                      onClick={handleIdMe}
+                      onClick={() => loginHandler('idme', application)}
                     >
                       <img
                         alt="ID.me"
