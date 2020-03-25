@@ -9,7 +9,7 @@ export const renderSchoolClosingAlert = result => {
   if (!environment.isProduction()) {
     return (
       <AlertBox
-        content={<p>Upcoming campus closure</p>}
+        content={<p>A campus at this school will be closing soon</p>}
         headline="A campus is closing soon"
         isVisible={!!schoolClosing}
         status="warning"
@@ -39,10 +39,17 @@ const renderReasons = cautionFlags => {
       return 0;
     })
     .forEach(flag => {
-      flags.push(<li key={flag.id}>{flag.reason}</li>);
+      flags.push(
+        <li
+          className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+          key={flag.id}
+        >
+          {flag.reason}
+        </li>,
+      );
     });
 
-  return <ul>{flags}</ul>;
+  return <ul className="vads-u-margin-top--0">{flags}</ul>;
 };
 
 export const renderCautionAlert = result => {
@@ -51,6 +58,7 @@ export const renderCautionAlert = result => {
   if (!environment.isProduction()) {
     return (
       <AlertBox
+        className="vads-u-margin-top--0p5"
         content={renderReasons(cautionFlags)}
         headline={
           cautionFlags.length > 1

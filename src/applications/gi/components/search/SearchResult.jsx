@@ -69,7 +69,7 @@ export class SearchResult extends React.Component {
               </div>
             )}
             <div className="row">
-              <div className="small-12 usa-width-seven-twelfths medium-7 columns">
+              <div className="small-12  medium-5 large-7 columns">
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality" id={`location-${facilityCode}`}>
                     {locationInfo(city, state, country)}
@@ -79,7 +79,7 @@ export class SearchResult extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
+              <div className="small-12  medium-7 large-5 columns estimated-benefits">
                 <h3>You may be eligible for up to:</h3>
                 <div className="row">
                   <div className="columns">
