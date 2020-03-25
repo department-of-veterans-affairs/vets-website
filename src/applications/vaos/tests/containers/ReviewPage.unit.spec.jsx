@@ -1,6 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { FLOW_TYPES, FETCH_STATUS } from '../../utils/constants';
 
 import { ReviewPage } from '../../containers/ReviewPage';
@@ -98,6 +100,22 @@ describe('VAOS <ReviewPage>', () => {
         .find('FacilityAddress')
         .exists(),
     ).to.be.true;
+
+    tree.unmount();
+  });
+
+  it('return to new appt page when data is empty', () => {
+    const flowType = FLOW_TYPES.REQUEST;
+    const data = {};
+    const router = {
+      replace: sinon.spy(),
+    };
+
+    const tree = mount(
+      <ReviewPage flowType={flowType} data={data} router={router} />,
+    );
+
+    expect(router.replace.called).to.be.true;
 
     tree.unmount();
   });

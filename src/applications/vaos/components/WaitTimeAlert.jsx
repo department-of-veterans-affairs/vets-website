@@ -4,7 +4,7 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router';
 import { MENTAL_HEALTH } from '../utils/constants';
-import { getStagingId } from '../utils/appointment';
+import { getRealFacilityId } from '../utils/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 
 export const WaitTimeAlert = ({
@@ -97,7 +97,7 @@ export const WaitTimeAlert = ({
                   </>
                 )}
                 <a
-                  href={`/find-locations/facility/vha_${getStagingId(
+                  href={`/find-locations/facility/vha_${getRealFacilityId(
                     facilityId,
                   )}`}
                   rel="noopener noreferrer"

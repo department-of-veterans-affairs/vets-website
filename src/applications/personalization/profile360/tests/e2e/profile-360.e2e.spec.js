@@ -106,7 +106,7 @@ function begin(browser) {
       // There's so much data loading async that it's easiest to just do a slow timeout
       // and not try to wait for all elements to finish loading.
       browser.pause(Timeouts.slow);
-      beginTests(browser, token);
+      beginTests(browser);
       done();
     });
   });

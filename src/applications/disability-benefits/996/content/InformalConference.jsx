@@ -23,7 +23,7 @@ export const InformalConferenceChoiceTitle =
 
 export const informalConferenceLabels = {
   no: 'No, I do not want an informal conference',
-  me: 'Yes, call me',
+  me: 'Yes, call me to schedule an informal conference',
   rep: 'Yes, call my representative',
 };
 
@@ -80,9 +80,9 @@ export const AttemptsInfoAlert = ({ isRep }) => {
       status="info"
       headline={`We’ll make two attempts to contact ${contact}`}
       content={`VA personnel will try to call ${contact} by phone two
-        times. If no one answers, they’ll leave a voice mail and a callback
-        number. If they are unable to leave a message or get in touch with
-        ${contact} after two attempts, they’ll proceed with their review and
+        times. If no one answers, we’ll leave a voice mail and a callback
+        number. If we are unable to leave a message or get in touch with
+        ${contact} after two attempts, we’ll proceed with our review and
         issue a decision.`}
     />
   );

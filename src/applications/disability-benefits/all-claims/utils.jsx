@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
@@ -310,12 +311,9 @@ export const AddressViewField = ({ formData }) => {
   }
   return (
     <p className="blue-bar-block">
-      {addressLine1 && addressLine1}
-      <br />
-      {addressLine2 && addressLine2}
-      {addressLine2 && <br />}
-      {addressLine3 && addressLine3}
-      {addressLine3 && <br />}
+      {addressLine1 && [addressLine1, <br />]}
+      {addressLine2 && [addressLine2, <br />]}
+      {addressLine3 && [addressLine3, <br />]}
       {lastLine}
     </p>
   );

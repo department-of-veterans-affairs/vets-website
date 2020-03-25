@@ -2,9 +2,9 @@
   "appName": "Post 9/11 GI Bill Status",
   "entryFile": "./post-911-gib-status-entry.jsx",
   "entryName": "post-911-gib-status",
-  "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit",
+  "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit/status",
   "template": {
-    "layout": "page-react-sidebar.html",
+    "layout": "page-react.html",
     "title": "Check Your Post-9/11 GI Bill Benefits Status",
     "heading": "Check your Post-9/11 GI Bill benefits status",
     "display_title": "Check Post-9/11 GI Bill benefits",
@@ -30,6 +30,10 @@
       {
         "path": "education/gi-bill/post-9-11/ch-33-benefit/",
         "name": "Check Post-9/11 GI Bill benefits"
+      },
+      {
+        "path": "education/gi-bill/post-9-11/ch-33-benefit/status",
+        "name": "Post-9/11 GI Bill Statement of Benefits"
       }
     ]
   }

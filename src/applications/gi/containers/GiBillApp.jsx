@@ -11,6 +11,7 @@ import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
+import ServiceError from '../components/ServiceError';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -103,8 +104,9 @@ export class GiBillApp extends React.Component {
               facilityCode={facilityCode}
               location={this.props.location}
             />
+
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
-              {content}
+              {constants.error ? <ServiceError /> : content}
             </DowntimeNotification>
             <AboutThisTool />
             <Disclaimer />
