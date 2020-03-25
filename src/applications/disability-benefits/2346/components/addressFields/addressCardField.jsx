@@ -438,20 +438,6 @@ class addressCardField extends React.Component {
 
   isObjectEmpty = obj => Object.keys(obj).length === 0;
 
-  // handleClick = e => {
-  //   if (e.target.type === 'checkbox') {
-  //     if (this.props.uiSchema['ui:title'] === 'Permanent address') {
-  //       this.setState(state => ({
-  //         isPermAddressAMilitaryBase: !state.isPermAddressAMilitaryBase,
-  //       }));
-  //     } else if (this.props.uiSchema['ui:title'] === 'Temporary address') {
-  //       this.setState(state => ({
-  //         isTempAddressAMilitaryBase: !state.isTempAddressAMilitaryBase,
-  //       }));
-  //     }
-  //   }
-  // };
-
   startEditing = () => {
     const newState = { editing: true };
     // If the data is volatile, cache the original data before clearing it out so we
