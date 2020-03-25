@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
-import App from './containers/App.jsx';
+import SignInApp from './containers/SignInApp';
 
-const routes = <Route path="/" component={App} />;
+const routes = <Route path="/" component={SignInApp} />;
 
 export default routes;
