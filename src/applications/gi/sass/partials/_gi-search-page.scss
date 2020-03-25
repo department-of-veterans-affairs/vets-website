@@ -35,6 +35,9 @@
     @include media-maxwidth($small-screen) {
       padding-bottom: 8rem;
     }
+    h2 {
+      margin-top: 0;
+    }
   }
 
   .filter-button,
