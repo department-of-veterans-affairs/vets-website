@@ -7,7 +7,6 @@ import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
 
 class SelectArrayItemsWidget extends React.Component {
   state = {
-    checkedSupplies: new Map(),
     selectedItems: [],
   };
   componentDidMount() {

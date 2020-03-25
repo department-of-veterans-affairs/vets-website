@@ -5,13 +5,6 @@ import personalInfoBox from '../components/personalInfoBox';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
-// import deviceNameField from '../components/supplyCustomFields/deviceNameField';
-import productNameField from '../components/supplyCustomFields/productNameField';
-import quantityField from '../components/supplyCustomFields/quantityField';
-import productIdField from '../components/supplyCustomFields/productIdField';
-import lastOrderDateField from '../components/supplyCustomFields/lastOrderDateField';
-// import sizeField from '../components/supplyCustomFields/sizeField';
-import emptyField from '../components/emptyField';
 import SuppliesReview from '../components/suppliesReview';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -181,53 +174,13 @@ const formConfig = {
                 expandUnder: 'view:addAccessories',
                 expandUnderCondition: 'yes',
               },
-              product_name: {
-                'ui:title': '  ',
-                'ui:field': productNameField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
+              'ui:field': 'StringField',
+              'ui:widget': SelectArrayItemsWidget,
+              'ui:validations': [
+                {
+                  options: { selectedPropName: 'view:selected' },
                 },
-              },
-              quantity: {
-                'ui:title': '  ',
-                'ui:field': quantityField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_id: {
-                'ui:title': '  ',
-                'ui:field': productIdField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              last_order_date: {
-                'ui:title': '  ',
-                'ui:field': lastOrderDateField,
-                'ui:reviewField': SuppliesReview,
-                'ui:options': {
-                  classNames: 'order-background',
-                },
-              },
-              product_group: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-              available_for_reorder: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
-              next_availability_date: {
-                'ui:title': '  ',
-                'ui:field': emptyField,
-                'ui:reviewField': SuppliesReview,
-              },
+              ],
             },
           },
         },
