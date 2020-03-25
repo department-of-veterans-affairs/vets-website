@@ -7,19 +7,29 @@ import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
 
 class SelectArrayItemsWidget extends React.Component {
   state = {
-    isChecked: false,
+    checkedSupplies: new Map(),
+    selectedItems: [],
   };
   componentDidMount() {
     this.props.getReOrderBatteryAndAccessoriesInformationData();
   }
 
-  handleChecked = () => {
-    this.setState({ isChecked: !this.state.isChecked });
+  handleChecked = e => {
+    e.persist();
+    if (e.target.checked) {
+      this.setState(prevState => ({
+        selectedItems: prevState.selectedItems.concat(e.target.name),
+      }));
+    } else {
+      this.setState(prevState => ({
+        selectedItems: prevState.selectedItems.filter(i => i !== e.target.name),
+      }));
+    }
   };
 
   render() {
     const { supplies } = this.props;
-    const { isChecked } = this.state;
+    const { selectedItems } = this.state;
 
     return supplies.map(supply => (
       <div key={supply.productId} className="order-background">
@@ -47,13 +57,13 @@ class SelectArrayItemsWidget extends React.Component {
         </div>
         <div
           className={
-            !isChecked
-              ? 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
-              : 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
+            selectedItems.includes(supply.productId)
+              ? 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
+              : 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
           }
         >
           <input
-            name="product-id-1"
+            name={supply.productId}
             type="checkbox"
             onChange={this.handleChecked}
           />
