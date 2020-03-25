@@ -76,7 +76,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
-  if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
+  if (page.fieldClinicalHealthServices) {
     const clinicalHealthServices = sortServices(
       page.fieldClinicalHealthServices.entities,
     );
