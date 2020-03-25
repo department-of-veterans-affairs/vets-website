@@ -17,7 +17,6 @@ export const schema = {
         properties: {
           doesChildLiveWithYou: {
             type: 'boolean',
-            default: true,
           },
           childAddressInfo: {
             type: 'object',
@@ -80,7 +79,7 @@ export const uiSchema = {
             false,
             'childrenToAdd[INDEX].childAddressInfo.childAddress',
             (formData, index) =>
-              !formData.childrenToAdd[`${index}`].doesChildLiveWithYou,
+              formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
           ),
         },
       },

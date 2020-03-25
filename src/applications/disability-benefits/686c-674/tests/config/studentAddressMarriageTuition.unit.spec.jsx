@@ -40,8 +40,8 @@ describe('Report 674 student address and marriage information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(11);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).to.equal(10);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 
@@ -57,7 +57,7 @@ describe('Report 674 student address and marriage information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
