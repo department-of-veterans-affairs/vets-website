@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 
 const AddressViewField = ({ formData }) => {
@@ -17,10 +18,8 @@ const AddressViewField = ({ formData }) => {
   }
   return (
     <p>
-      {street && street}
-      <br />
-      {street2 && street2}
-      {street2 && <br />}
+      {street && [street, <br />]}
+      {street2 && [street2, <br />]}
       {lastLine}
     </p>
   );
