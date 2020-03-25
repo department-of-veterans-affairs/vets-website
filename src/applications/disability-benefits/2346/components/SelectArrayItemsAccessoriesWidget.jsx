@@ -32,7 +32,8 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
 
     return supplies.map(
       supply =>
-        supply.productGroup === 'hearing aid accessories' ? (
+        supply.productGroup === 'hearing aid accessories' &&
+        supply.availableForReorder === true ? (
           <div key={supply.productId} className="order-background">
             <p className="vads-u-font-size--md vads-u-font-weight--bold">
               {supply.productName}
