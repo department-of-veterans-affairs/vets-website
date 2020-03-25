@@ -40,6 +40,12 @@
     }
   }
 
+  .filters-sidebar-inner-old {
+    @include media-maxwidth($small-screen) {
+      padding-bottom: 8rem;
+    }
+  }
+
   .filter-button,
   .results-button {
     display: none;
