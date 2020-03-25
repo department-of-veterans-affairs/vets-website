@@ -254,7 +254,11 @@ describe('Schemaform: ReviewCardField', () => {
     });
 
     it('should not allow canceling if starting in edit mode', () => {
-      const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
+      const props = set(
+        'uiSchema.ui:options.startInEdit',
+        true,
+        defaultVDProps,
+      );
       const tree = shallow(<ReviewCardField {...props} />);
       expect(tree.find('.cancel-button').length).to.equal(0);
       tree.unmount();

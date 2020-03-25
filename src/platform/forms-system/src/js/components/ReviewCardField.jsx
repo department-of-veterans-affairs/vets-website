@@ -7,6 +7,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 import set from 'platform/utilities/data/set';
@@ -84,7 +85,7 @@ export default class ReviewCardField extends React.Component {
       // Set initial state based on whether all the data is valid
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
-      oldData: undefined,
+      oldData: props.formData,
     };
   }
 
@@ -159,11 +160,21 @@ export default class ReviewCardField extends React.Component {
     const { volatileData, editTitle } = this.props.uiSchema['ui:options'];
     const title = editTitle || this.getTitle();
     const subtitle = this.getSubtitle();
+    const titleClasses = [
+      'review-card--title',
+      'vads-u-margin-top--1',
+      'vads-u-margin-bottom--2p5',
+      'vads-u-margin-x--0',
+    ].join(' ');
+
+    const buttonClasses = ['vads-u-margin-top--1', 'vads-u-width--auto'].join(
+      ' ',
+    );
 
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4 className="review-card--title">{title}</h4>
+          <h4 className={titleClasses}>{title}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           <SchemaField
             name={idSchema.$id}
@@ -179,21 +190,24 @@ export default class ReviewCardField extends React.Component {
             disabled={disabled}
             readonly={readonly}
           />
-          <button
-            className="usa-button-primary update-button"
-            onClick={this.update}
-          >
-            {volatileData ? 'Save' : 'Done'}
-          </button>
-          {volatileData &&
-            this.state.canCancel && (
+          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
+            <button
+              className={`update-button usa-button-primary ${buttonClasses} vads-u-margin-right--2p5`}
+              style={{ minWidth: '12rem' }}
+              onClick={this.update}
+            >
+              {volatileData ? 'Save' : 'Done'}
+            </button>
+            {((volatileData && this.state.canCancel) || !volatileData) && (
               <button
-                className="usa-button-secondary cancel-button"
+                className={`cancel-button usa-button-secondary ${buttonClasses}`}
+                style={{ minWidth: '12rem' }}
                 onClick={this.cancelUpdate}
               >
                 Cancel
               </button>
             )}
+          </div>
         </div>
       </div>
     );
@@ -224,16 +238,47 @@ export default class ReviewCardField extends React.Component {
       volatileData,
       reviewTitle,
       itemName,
+      itemNameAction,
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
+    const headerClasses = [
+      'review-card--header',
+      'vads-u-background-color--gray-lightest',
+      'vads-u-padding-y--0',
+      'vads-u-padding-x--1',
+      'vads-u-display--flex',
+      'vads-u-justify-content--space-between',
+      'vads-u-align-items--center',
+    ].join(' ');
+    const titleClasses = [
+      'review-card--title',
+      'vads-u-display--inline',
+      'vads-u-margin--0',
+    ].join(' ');
+    const bodyClasses = [
+      'review-card--body',
+      'vads-u-border-color--gray-lightest',
+      'vads-u-border--2px',
+      /* Remove the top border because it looks like it just extends the header */
+      'vads-u-border-top--0',
+      'vads-u-padding--1p5',
+      'vads-u-margin-bottom--1',
+    ].join(' ');
+    const editButton = [
+      'edit-button',
+      'vads-u-margin-top--1',
+      'vads-u-width--auto',
+    ].join(' ');
+
     return (
       <div className="review-card">
-        <div className="review-card--header">
-          <h4 className="review-card--title">{title}</h4>
+        <div className={headerClasses} style={{ minHeight: '5rem' }}>
+          <h4 className={titleClasses}>{title}</h4>
           {!volatileData && (
             <button
-              className="usa-button-secondary edit-button"
+              className={`usa-button-secondary ${editButton}`}
+              style={{ minWidth: '8rem' }}
               onClick={this.startEditing}
               aria-label={`Edit ${title}`}
             >
@@ -241,16 +286,17 @@ export default class ReviewCardField extends React.Component {
             </button>
           )}
         </div>
-        <div className="review-card--body">
+        <div className={bodyClasses}>
           <ViewComponent formData={this.props.formData} />
         </div>
         {volatileData && (
           <button
-            className="usa-button-primary edit-button"
+            className={`usa-button-primary ${editButton}`}
+            style={{ minWidth: '8rem' }}
             onClick={this.startEditing}
-            aria-label={`New ${itemName || title}`}
+            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
-            New {itemName || title}
+            {itemNameAction || 'New'} {itemName || title}
           </button>
         )}
       </div>
@@ -319,7 +365,14 @@ export default class ReviewCardField extends React.Component {
       // Show validation errors
       this.props.formContext.onError();
     } else {
-      this.setState({ editing: false, canCancel: true });
+      this.setState({
+        editing: false,
+        canCancel: true,
+        oldData: this.props.formData,
+      });
+      if (this.props.uiSchema.saveClickTrackEvent) {
+        recordEvent(this.props.uiSchema.saveClickTrackEvent);
+      }
     }
   };
 
@@ -346,6 +399,7 @@ ReviewCardField.propTypes = {
     }).isRequired,
     'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    saveClickTrackEvent: PropTypes.object,
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,
