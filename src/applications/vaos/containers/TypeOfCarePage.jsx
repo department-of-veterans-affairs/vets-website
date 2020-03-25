@@ -14,7 +14,11 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+import {
+  getFormPageInfo,
+  getNewAppointment,
+  selectIsCernerOnlyPatient,
+} from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -38,9 +42,13 @@ const pageTitle = 'Choose the type of care you need';
 
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
-    this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
+    if (this.props.isCernerOnlyPatient) {
+      this.props.router.replace('/');
+    } else {
+      this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    }
   }
 
   onChange = newData => {
@@ -106,6 +114,7 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
 
