@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import localStorage from 'platform/utilities/storage/localStorage';
-import { DashboardApp } from '../../containers/DashboardApp';
+import { DashboardApp, mapStateToProps } from '../../containers/DashboardApp';
 
 const defaultProps = {
   profile: {
@@ -110,5 +110,77 @@ describe('<DashboardApp>', () => {
     expect(tree.toString()).to.not.contain(
       'Verify your identity to access more VA.gov tools and features',
     );
+  });
+});
+
+describe('mapStateToProps', () => {
+  const defaultState = () => ({
+    featureToggles: {
+      dashboardShowCovid19Alert: true,
+    },
+    hcaEnrollmentStatus: {},
+    user: {
+      profile: {
+        services: [],
+        facilities: [],
+      },
+    },
+  });
+  describe('showCOVID19Alert', () => {
+    it('is set to true when the user is a patient in a VISN23 health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '656' }, // St. Cloud VA is in VISN23
+      ];
+      const props = mapStateToProps(state);
+      expect(props.showCOVID19Alert).to.be.true;
+    });
+    it('is set to false when the user is a patient in a VISN8 health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '548' }, // West Palm Beach is in VISN8
+      ];
+      const props = mapStateToProps(state);
+      expect(props.showCOVID19Alert).to.be.false;
+    });
+    it('is set to false when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.showCOVID19Alert).to.be.false;
+    });
+  });
+  describe('vaHealthChatEligibleFacilityId', () => {
+    it("is set to the facilityId of the facility that's eligible for VA health chat", () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '656' }, // St. Cloud VA is in VISN23
+      ];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.equal('656');
+    });
+    it('is set to null when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [
+        { facilityId: 'abc' },
+        { facilityId: '123' },
+        { facilityId: '548' }, // West Palm Beach is in VISN8
+      ];
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.be.null;
+    });
+    it('is set to null when the user is not a patient in an eligible health care system', () => {
+      const state = defaultState();
+      state.user.profile.facilities = [{ facilityId: 'abc' }];
+      const props = mapStateToProps(state);
+      expect(props.vaHealthChatEligibleSystemId).to.be.null;
+    });
   });
 });

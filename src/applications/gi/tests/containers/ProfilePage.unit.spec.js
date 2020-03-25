@@ -44,4 +44,13 @@ describe('<ProfilePage>', () => {
     expect(vdom).to.not.be.undefined;
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
+
+  it('should show error message when profile failed', () => {
+    const errorProps = {
+      ...defaultProps,
+      profile: { inProgress: true, error: 'Service Unavailable' },
+    };
+    const tree = SkinDeep.shallowRender(<ProfilePage {...errorProps} />);
+    expect(tree.subTree('ServiceError')).to.be.ok;
+  });
 });

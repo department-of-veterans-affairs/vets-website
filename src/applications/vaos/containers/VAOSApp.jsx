@@ -14,8 +14,9 @@ import { captureError } from '../utils/error';
 import {
   vaosApplication,
   selectFeatureToggleLoading,
+  selectFacilities,
 } from '../utils/selectors';
-import RegistrationCheck from './RegistrationCheck';
+import NoRegistrationMessage from '../components/NoRegistrationMessage';
 import AppUnavailable from '../components/AppUnavailable';
 import ErrorMessage from '../components/ErrorMessage';
 
@@ -41,7 +42,10 @@ export class VAOSApp extends React.Component {
       children,
       showApplication,
       loadingFeatureToggles,
+      sites,
     } = this.props;
+
+    const hasRegisteredSystems = sites?.length > 0;
 
     if (this.state.hasError) {
       return (
@@ -79,7 +83,16 @@ export class VAOSApp extends React.Component {
               appTitle="VA online scheduling"
               dependencies={[externalServices.mvi, externalServices.vaos]}
             >
-              <RegistrationCheck>{children}</RegistrationCheck>
+              {!hasRegisteredSystems && (
+                <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+                  <div className="vads-l-row">
+                    <div className="vads-l-col--12 vads-u-margin-bottom--4">
+                      <NoRegistrationMessage />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {hasRegisteredSystems && children}
             </DowntimeNotification>
           )}
         {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
@@ -93,6 +106,7 @@ function mapStateToProps(state) {
     user: selectUser(state),
     showApplication: vaosApplication(state),
     loadingFeatureToggles: selectFeatureToggleLoading(state),
+    sites: selectFacilities(state),
   };
 }
 

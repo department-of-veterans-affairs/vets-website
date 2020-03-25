@@ -124,7 +124,7 @@ describe('Yellow Ribbon actions', () => {
 
       expect(replaceStateStub.calledOnce).to.be.true;
       expect(replaceStateStub.firstCall.args[2]).to.be.equal(
-        '?country=usa&city=boulder&name=university&state=CO',
+        '?city=boulder&country=usa&name=university&state=CO',
       );
     });
 
@@ -132,12 +132,14 @@ describe('Yellow Ribbon actions', () => {
       const dispatch = sinon.stub();
       const thunk = fetchResultsThunk({
         city: 'boulder',
+        contributionAmount: 'unlimited',
         country: 'usa',
         hideFetchingState: false,
         history: mockedHistory,
         location: mockedLocation,
         mockRequest: true,
         name: 'university',
+        numberOfStudents: 'unlimited',
         page: 1,
         perPage: 10,
         state: 'CO',
@@ -149,9 +151,11 @@ describe('Yellow Ribbon actions', () => {
         dispatch.firstCall.calledWith({
           options: {
             city: 'boulder',
+            contributionAmount: 'unlimited',
             country: 'usa',
             hideFetchingState: false,
             name: 'university',
+            numberOfStudents: 'unlimited',
             state: 'CO',
           },
           type: FETCH_RESULTS,
