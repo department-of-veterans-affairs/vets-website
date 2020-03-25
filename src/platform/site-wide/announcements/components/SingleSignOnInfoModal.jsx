@@ -3,7 +3,7 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { hasSessionSSO } from 'platform/user/profile/utilities';
 
 export default function SingleSignOnInfoModal({ dismiss, isLoggedIn }) {
-  if (!isLoggedIn && !hasSessionSSO()) return null;
+  if (!isLoggedIn || !hasSessionSSO()) return null;
 
   return (
     <Modal visible onClose={dismiss} id="modal-announcment">

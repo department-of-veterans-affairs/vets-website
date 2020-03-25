@@ -131,7 +131,8 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
-export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
+export const hasSessionSSO = () =>
+  localStorage.getItem('hasSessionSSO') === 'true';
 
 export async function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
