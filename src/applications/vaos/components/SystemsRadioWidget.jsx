@@ -1,4 +1,5 @@
 import React from 'react';
+import { getCernerPortalLink } from '../utils/appointment';
 
 export default function SystemsRadioWidget({
   options,
@@ -14,7 +15,9 @@ export default function SystemsRadioWidget({
     <div>
       {enumOptions.map((option, i) => {
         const checked = option.value === value;
-        const isCerner = cernerFacilities.includes(option.value);
+        const isCerner = cernerFacilities.some(facilityId =>
+          option.value.startsWith(facilityId),
+        );
         const radioButton = (
           <div className="form-radio-buttons" key={option.value}>
             <input
@@ -33,7 +36,11 @@ export default function SystemsRadioWidget({
                   <br />
                   <strong>
                     To schedule a VA appointment at this location, go to{' '}
-                    <a href="" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={getCernerPortalLink()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       My VA Health
                     </a>
                   </strong>
