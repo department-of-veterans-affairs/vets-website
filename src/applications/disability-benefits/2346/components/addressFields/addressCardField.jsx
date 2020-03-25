@@ -158,23 +158,71 @@ class addressCardField extends React.Component {
       tempAddressIsAMilitaryBase,
     } = this.props;
     const { SchemaField } = registry.fields;
-    const uiSchema = omit(['ui:field', 'ui:description'], this.props.uiSchema);
+    const uiSchema = omit(
+      ['ui:field', 'ui:title', 'ui:description'],
+      this.props.uiSchema,
+    );
     // We've already used the ui:field and ui:title
     // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
 
-    if (permAddressIsAMilitaryBase || tempAddressIsAMilitaryBase) {
-      uiSchema.country['ui:options'].updateSchema(
-        formData,
-        schema,
-        uiSchema,
-        true,
-      );
-      uiSchema.city['ui:options'].updateSchema(
-        formData,
-        schema,
-        uiSchema,
-        true,
-      );
+    if (this.props.name === 'permanentAddress') {
+      if (permAddressIsAMilitaryBase) {
+        uiSchema.country['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          true,
+        );
+        uiSchema.city['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          true,
+        );
+      } else {
+        uiSchema.country['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          false,
+        );
+        uiSchema.city['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          false,
+        );
+      }
+    }
+
+    if (this.props.name === 'temporaryAddress') {
+      if (tempAddressIsAMilitaryBase) {
+        uiSchema.country['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          true,
+        );
+        uiSchema.city['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          true,
+        );
+      } else {
+        uiSchema.country['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          false,
+        );
+        uiSchema.city['ui:options'].updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          false,
+        );
+      }
     }
 
     const { editTitle } = this.props.uiSchema['ui:options'];

@@ -97,14 +97,14 @@ const addressUISchema = (
         updateSchema(formData, schema, uiSchema, isMilitaryBaseChecked) {
           const originalUISchema = uiSchema;
           let updatedUISchema;
-          if (isMilitaryBaseChecked) {
-            updatedUISchema = originalUISchema;
-            updatedUISchema.country['ui:enumDisabled'] = ['CAN', 'MEX'];
-            updatedUISchema.country['ui:readonly'] = true;
-          } else {
-            updatedUISchema = originalUISchema;
-            updatedUISchema['ui:enumDisabled'] = [];
-            updatedUISchema['ui:readonly'] = false;
+          if (originalUISchema.country) {
+            if (isMilitaryBaseChecked) {
+              updatedUISchema = originalUISchema;
+              updatedUISchema.country['ui:disabled'] = true;
+            } else {
+              updatedUISchema = originalUISchema;
+              updatedUISchema.country['ui:disabled'] = false;
+            }
           }
           return {
             formData,
@@ -148,12 +148,14 @@ const addressUISchema = (
         updateSchema(formData, schema, uiSchema, isMilitaryBaseChecked) {
           const originalUISchema = uiSchema;
           let updatedUISchema;
-          if (isMilitaryBaseChecked) {
-            updatedUISchema = originalUISchema;
-            updatedUISchema.city['ui:title'] = 'APO / FPO / DPO';
-          } else {
-            updatedUISchema = originalUISchema;
-            updatedUISchema['ui:title'] = 'City';
+          if (originalUISchema.city) {
+            if (isMilitaryBaseChecked) {
+              updatedUISchema = originalUISchema;
+              updatedUISchema.city['ui:title'] = 'APO / FPO / DPO';
+            } else {
+              updatedUISchema = originalUISchema;
+              updatedUISchema.city['ui:title'] = 'City';
+            }
           }
           return {
             formData,
