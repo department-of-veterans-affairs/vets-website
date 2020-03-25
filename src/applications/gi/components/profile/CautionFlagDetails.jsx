@@ -13,6 +13,7 @@ const CautionFlagDetails = ({ cautionFlags }) => {
             content={
               <div className="flagDetail">
                 <p>{flag.description}</p>
+                {flag.linkText && !flag.linkUrl && <p>{flag.linkText}</p>}
                 {flag.linkUrl &&
                   flag.linkText && <a href={flag.linkUrl}>{flag.linkText}</a>}
               </div>

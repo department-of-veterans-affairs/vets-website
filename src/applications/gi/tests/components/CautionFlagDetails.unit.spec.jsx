@@ -41,7 +41,7 @@ describe('<CautionFlagDetails>', () => {
     wrapper.unmount();
   });
 
-  it('does not display link when data does not exist', () => {
+  it('does not display link without link text and url', () => {
     const cautionFlags = [
       {
         title: 'Test flag a',
@@ -51,6 +51,19 @@ describe('<CautionFlagDetails>', () => {
 
     const wrapper = mount(<CautionFlagDetails cautionFlags={cautionFlags} />);
     expect(wrapper.find('a').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('displays link text without url as text', () => {
+    const cautionFlag = {
+      title: 'Test flag a',
+      linkText: 'LINK',
+      id: 1,
+    };
+
+    const wrapper = mount(<CautionFlagDetails cautionFlags={[cautionFlag]} />);
+    expect(wrapper.find('a').length).to.equal(0);
+    expect(wrapper.html()).to.contain(cautionFlag.linkText);
     wrapper.unmount();
   });
 });
