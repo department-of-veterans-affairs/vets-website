@@ -4,7 +4,8 @@ import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
-import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
+import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
 import SuppliesReview from '../components/suppliesReview';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -127,12 +128,7 @@ const formConfig = {
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:field': 'StringField',
-              'ui:widget': SelectArrayItemsWidget,
-              'ui:validations': [
-                {
-                  options: { selectedPropName: 'view:selected' },
-                },
-              ],
+              'ui:widget': SelectArrayItemsBatteriesWidget,
               'ui:options': {
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
@@ -170,17 +166,12 @@ const formConfig = {
               'ui:title': 'Which hearing aid do you need batteries for?',
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
+              'ui:field': 'StringField',
+              'ui:widget': SelectArrayItemsAccessoriesWidget,
               'ui:options': {
                 expandUnder: 'view:addAccessories',
                 expandUnderCondition: 'yes',
               },
-              'ui:field': 'StringField',
-              'ui:widget': SelectArrayItemsWidget,
-              'ui:validations': [
-                {
-                  options: { selectedPropName: 'view:selected' },
-                },
-              ],
             },
           },
         },

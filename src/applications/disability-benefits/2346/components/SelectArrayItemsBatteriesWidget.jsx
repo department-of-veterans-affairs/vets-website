@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
 // TODO: Safety checks for `selected` callback and `label` element
 
-class SelectArrayItemsWidget extends React.Component {
+class SelectArrayItemsBatteriesWidget extends React.Component {
   state = {
     selectedItems: [],
   };
@@ -75,7 +75,7 @@ class SelectArrayItemsWidget extends React.Component {
   }
 }
 
-SelectArrayItemsWidget.propTypes = {
+SelectArrayItemsBatteriesWidget.propTypes = {
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -101,4 +101,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SelectArrayItemsWidget);
+)(SelectArrayItemsBatteriesWidget);

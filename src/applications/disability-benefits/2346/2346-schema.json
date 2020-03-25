@@ -314,15 +314,21 @@
       "enum": ["yes", "no"]
     },
     "supplies": {
-      "type": "array",
-      "maxItems": 10,
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "properties": {
-          "order_batteries": { "type": "boolean" },
-          "device_name": { "type": "string" }
-        }
+      "type": "object",
+      "properties": {
+        "product_name": { "type": "string" },
+        "product_group": { "type": "string" },
+        "product_id": { "type": "number" },
+        "available_for_reorder": { "type": "boolean" },
+        "last_order_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "next_availability_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "quantity": { "type": "number" }
       }
     },
     "accessories": {
