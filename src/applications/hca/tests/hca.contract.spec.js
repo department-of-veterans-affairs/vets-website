@@ -8,7 +8,7 @@ describe('HCA API', () => {
 
   const provider = new Pact({
     port: 3000,
-    consumer: 'VA.gov',
+    consumer: 'HCA',
     provider: 'VA.gov API',
     spec: 2,
   });
@@ -80,7 +80,6 @@ describe('HCA API', () => {
       },
       willRespondWith: {
         status: 200,
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: EXPECTED_BODY,
       },
     },
