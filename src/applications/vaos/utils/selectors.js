@@ -219,9 +219,10 @@ export function getFacilityPageInfo(state) {
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerFacilities: selectFacilities(state)
-      .filter(f => f.isCerner)
-      .map(f => f.facilityId),
+    cernerFacilities:
+      selectFacilities(state)
+        ?.filter(f => f.isCerner)
+        .map(f => f.facilityId) || [],
   };
 }
 

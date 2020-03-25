@@ -1,6 +1,11 @@
 import React from 'react';
 import { getCernerPortalLink } from '../utils/appointment';
 
+/*
+ * This is a copy of the form system RadioWidget, but with custom
+ * code to disable certain options. This isn't currently supported by the
+ * form system.
+ */
 export default function SystemsRadioWidget({
   options,
   value,

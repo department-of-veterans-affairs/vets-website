@@ -83,6 +83,11 @@ describe('VAOS selectors', () => {
   describe('getFacilityPageInfo', () => {
     it('should return typeOfCare string and begin loading parentFacilities', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [],
+          },
+        },
         newAppointment: {
           pages: {},
           data: {
@@ -103,6 +108,11 @@ describe('VAOS selectors', () => {
     });
     it('should return eligibility error flag', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [],
+          },
+        },
         newAppointment: {
           pages: {},
           data: {
