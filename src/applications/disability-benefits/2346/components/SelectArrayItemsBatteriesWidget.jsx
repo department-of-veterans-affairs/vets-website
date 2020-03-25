@@ -30,48 +30,53 @@ class SelectArrayItemsBatteriesWidget extends React.Component {
     const { supplies } = this.props;
     const { selectedItems } = this.state;
 
-    return supplies.map(supply => (
-      <div key={supply.productId} className="order-background">
-        <p className="vads-u-font-size--md vads-u-font-weight--bold">
-          {supply.productName}
-        </p>
-        <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
-          <div className="usa-alert-body mdot-alert-body">
-            <p className="vads-u-margin--1px">
-              <span className="vads-u-font-weight--bold">Battery: </span>
-              {supply.productId}
+    return supplies.map(
+      supply =>
+        supply.productGroup === 'hearing aid batteries' ? (
+          <div key={supply.productId} className="order-background">
+            <p className="vads-u-font-size--md vads-u-font-weight--bold">
+              {supply.productName}
             </p>
-            <p className="vads-u-margin--1px">
-              <span className="vads-u-font-weight--bold">Quantity: </span>
-              {supply.quantity} <br />
-              Approximately {supply.quantity} months supply
-            </p>
-            <p className="vads-u-margin--1px">
-              <span className="vads-u-font-weight--bold">
-                Last order date:{' '}
-              </span>{' '}
-              {moment(supply.lastOrderDate).format('MM/DD/YYYY')}
-            </p>
+            <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
+              <div className="usa-alert-body mdot-alert-body">
+                <p className="vads-u-margin--1px">
+                  <span className="vads-u-font-weight--bold">Battery: </span>
+                  {supply.productId}
+                </p>
+                <p className="vads-u-margin--1px">
+                  <span className="vads-u-font-weight--bold">Quantity: </span>
+                  {supply.quantity} <br />
+                  Approximately {supply.quantity} months supply
+                </p>
+                <p className="vads-u-margin--1px">
+                  <span className="vads-u-font-weight--bold">
+                    Last order date:{' '}
+                  </span>{' '}
+                  {moment(supply.lastOrderDate).format('MM/DD/YYYY')}
+                </p>
+              </div>
+            </div>
+            <div
+              className={
+                selectedItems.includes(supply.productId)
+                  ? 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
+                  : 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
+              }
+            >
+              <input
+                name={supply.productId}
+                type="checkbox"
+                onChange={this.handleChecked}
+              />
+              <label htmlFor={supply.productId} className="main">
+                Order batteries for this device
+              </label>
+            </div>
           </div>
-        </div>
-        <div
-          className={
-            selectedItems.includes(supply.productId)
-              ? 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
-              : 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
-          }
-        >
-          <input
-            name={supply.productId}
-            type="checkbox"
-            onChange={this.handleChecked}
-          />
-          <label htmlFor={supply.productId} className="main">
-            Order batteries for this device
-          </label>
-        </div>
-      </div>
-    ));
+        ) : (
+          ''
+        ),
+    );
   }
 }
 
