@@ -35,6 +35,7 @@ import {
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   titleCase,
+  // getPastAppointmentDateRangeOptions,
 } from '../../utils/appointment';
 import { APPOINTMENT_TYPES } from '../../utils/constants';
 
@@ -575,6 +576,12 @@ describe('VAOS appointment helpers', () => {
 
     it('should return null', () => {
       expect(getRequestTimeToCall({ bestTimetoCall: [] })).to.be.null;
+    });
+  });
+
+  describe('getPastAppointmentDateRangeOptions', () => {
+    it('should return 4 correct date ranges for dropdown', () => {
+      // console.log(getPastAppointmentDateRangeOptions());
     });
   });
 

@@ -230,49 +230,49 @@ export function fetchFutureAppointments() {
 
 export function fetchPastAppointments(startDate, endDate) {
   return async (dispatch, getState) => {
-    if (getState().appointments.pastStatus === FETCH_STATUS.notStarted) {
+    dispatch({
+      type: FETCH_PAST_APPOINTMENTS,
+    });
+
+    try {
+      const data = await Promise.all([
+        getConfirmedAppointments(
+          'va',
+          moment(startDate).toISOString(),
+          moment(endDate).toISOString(),
+        ),
+        getConfirmedAppointments('cc', startDate, endDate),
+      ]);
+
       dispatch({
-        type: FETCH_PAST_APPOINTMENTS,
+        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+        data,
+        startDate,
+        endDate,
       });
 
       try {
-        const data = await Promise.all([
-          getConfirmedAppointments(
-            'va',
-            moment(startDate).toISOString(),
-            moment(endDate).toISOString(),
-          ),
-          getConfirmedAppointments('cc', startDate, endDate),
-        ]);
+        const {
+          clinicInstitutionList,
+          facilityData,
+        } = await getAdditionalFacilityInfo(getState().appointments.past);
 
-        dispatch({
-          type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-          data,
-        });
-
-        try {
-          const {
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
             clinicInstitutionList,
             facilityData,
-          } = await getAdditionalFacilityInfo(getState().appointments.past);
-
-          if (facilityData) {
-            dispatch({
-              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-              clinicInstitutionList,
-              facilityData,
-            });
-          }
-        } catch (error) {
-          captureError(error);
+          });
         }
       } catch (error) {
         captureError(error);
-        dispatch({
-          type: FETCH_PAST_APPOINTMENTS_FAILED,
-          error,
-        });
       }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_FAILED,
+        error,
+      });
     }
   };
 }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -26,6 +25,7 @@ import {
   vaosCommunityCare,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
+import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
@@ -34,6 +34,7 @@ import PastAppointmentsList from '../components/PastAppointmentsList';
 import PastAppointmentsDateDropdown from '../components/PastAppointmentsDateDropdown';
 
 const pageTitle = 'VA appointments';
+const pastAppointmentDateRangeOptions = getPastAppointmentDateRangeOptions();
 
 export class AppointmentsPage extends Component {
   constructor(props) {
@@ -41,6 +42,8 @@ export class AppointmentsPage extends Component {
 
     this.state = {
       tabIndex: 0,
+      selectedPastDateRangeIndex: 0,
+      selectedPastDateRange: pastAppointmentDateRangeOptions[0],
     };
   }
 
@@ -62,19 +65,33 @@ export class AppointmentsPage extends Component {
   }
 
   onSelectTab = tabIndex => {
+    const { selectedPastDateRange } = this.state;
     this.setState({ tabIndex });
 
     if (tabIndex === 1) {
       const { pastStatus } = this.props.appointments;
       if (pastStatus === FETCH_STATUS.notStarted) {
         this.props.fetchPastAppointments(
-          moment()
-            .add(-3, 'month')
-            .format('YYYY-MM-DD'),
-          moment().format('YYYY-MM-DD'),
+          selectedPastDateRange.startDate,
+          selectedPastDateRange.endDate,
         );
       }
     }
+  };
+
+  onPastAppointmentDateRangeChange = e => {
+    const index = Number(e.target.value);
+    const selectedPastDateRange = pastAppointmentDateRangeOptions[index];
+
+    this.setState({
+      selectedPastDateRangeIndex: index,
+      selectedPastDateRange,
+    });
+
+    this.props.fetchPastAppointments(
+      selectedPastDateRange.startDate,
+      selectedPastDateRange.endDate,
+    );
   };
 
   render() {
@@ -87,6 +104,8 @@ export class AppointmentsPage extends Component {
       showCommunityCare,
       showDirectScheduling,
     } = this.props;
+
+    const { selectedPastDateRangeIndex } = this.state;
 
     const futureAppointments = (
       <FutureAppointmentsList
@@ -166,11 +185,13 @@ export class AppointmentsPage extends Component {
                     Past appointments
                   </Tab>
                 </TabList>
+                <TabPanel>{futureAppointments}</TabPanel>
                 <TabPanel>
-                  <PastAppointmentsDateDropdown />
-                  {futureAppointments}
-                </TabPanel>
-                <TabPanel>
+                  <PastAppointmentsDateDropdown
+                    value={selectedPastDateRangeIndex}
+                    onChange={this.onPastAppointmentDateRangeChange}
+                    options={pastAppointmentDateRangeOptions}
+                  />
                   <PastAppointmentsList
                     appointments={appointments}
                     startNewAppointmentFlow={this.props.startNewAppointmentFlow}

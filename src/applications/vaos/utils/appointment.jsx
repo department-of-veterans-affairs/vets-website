@@ -325,6 +325,72 @@ export function getRequestTimeToCall(appt) {
   return null;
 }
 
+export function getPastAppointmentDateRangeOptions(today = moment()) {
+  const threeMonthsAgo = today.clone().subtract(3, 'months');
+  const isoDateFormat = 'YYYY-MM-DD';
+
+  // Past 3 months
+  const options = [
+    {
+      value: 0,
+      label: 'Past 3 months',
+      startDate: threeMonthsAgo.format(isoDateFormat),
+      endDate: today.format(isoDateFormat),
+    },
+  ];
+
+  // 3 month ranges going back ~1 year
+  let index = 1;
+  let monthsToSubtract = 3;
+
+  while (index < 4) {
+    const start = today
+      .clone()
+      .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
+      .startOf('month');
+    const end = today
+      .clone()
+      .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
+      .endOf('month');
+
+    options.push({
+      value: index,
+      label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
+      startDate: start.format(isoDateFormat),
+      endDate: end.format(isoDateFormat),
+    });
+
+    monthsToSubtract += 3;
+    index += 1;
+  }
+
+  // All of current year
+  options.push({
+    value: 4,
+    label: `Show all of ${today.format('YYYY')}`,
+    startDate: today
+      .clone()
+      .startOf('year')
+      .format(isoDateFormat),
+    endDate: today.format(isoDateFormat),
+  });
+
+  // All of last year
+  const lastYear = today.clone().subtract(1, 'years');
+
+  options.push({
+    value: 5,
+    label: `Show all of ${lastYear.format('YYYY')}`,
+    startDate: lastYear.startOf('year').format(isoDateFormat),
+    endDate: lastYear
+      .clone()
+      .endOf('year')
+      .format(isoDateFormat),
+  });
+
+  return options;
+}
+
 /**
  * Filter and sort methods
  */
@@ -344,9 +410,13 @@ export function sortFutureConfirmedAppointments(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
-export function filterPastAppointments(appt, today) {
+export function filterPastAppointments(appt, startDate, endDate) {
   const apptDateTime = getMomentConfirmedDate(appt);
-  return apptDateTime.isValid() && apptDateTime.isBefore(today);
+  return (
+    apptDateTime.isValid() &&
+    apptDateTime.isAfter(startDate) &&
+    apptDateTime.isBefore(endDate)
+  );
 }
 
 export function sortPastAppointments(a, b) {
