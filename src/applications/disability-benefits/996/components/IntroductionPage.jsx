@@ -45,7 +45,7 @@ class IntroductionPage extends React.Component {
             Please complete the 20-0996 form to apply for Higher-Level Review.
           </SaveInProgressIntro>
         </CallToActionWidget>
-        <h3 className="vads-u-margin-top--0">What is a Higher-Level Review</h3>
+        <h3>What is a Higher-Level Review</h3>
         <p>
           If a veteran or their representative wants to dispute a decision they
           received on a claim, they can file a Higher-Level Review. When you
