@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import _ from 'lodash/fp';
 
-import set from '../../../../../platform/utilities/data/set';
+import set from 'platform/utilities/data/set';
 
-import ReviewCardField from '../../components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
 const viewComponent = formData => (
   <div>
@@ -254,7 +254,11 @@ describe('Schemaform: ReviewCardField', () => {
     });
 
     it('should not allow canceling if starting in edit mode', () => {
-      const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
+      const props = set(
+        'uiSchema.ui:options.startInEdit',
+        true,
+        defaultVDProps,
+      );
       const tree = shallow(<ReviewCardField {...props} />);
       expect(tree.find('.cancel-button').length).to.equal(0);
       tree.unmount();

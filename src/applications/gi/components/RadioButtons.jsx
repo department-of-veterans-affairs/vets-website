@@ -5,6 +5,7 @@ import _ from 'lodash';
 import ToolTip from './ToolTip';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import environment from 'platform/utilities/environment';
 
 /**
  * A radio button group with a label.
@@ -139,7 +140,10 @@ class RadioButtons extends React.Component {
     if (this.props.required) {
       requiredSpan = <span className="form-required-span">*</span>;
     }
-
+    // prod flag for bah-7186
+    const gibctLegendStyle = environment.isProduction()
+      ? 'gibct-legend-old'
+      : 'gibct-legend';
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
@@ -149,7 +153,7 @@ class RadioButtons extends React.Component {
               className={
                 this.props.errorMessage
                   ? 'usa-input-error-label'
-                  : 'gibct-legend'
+                  : gibctLegendStyle
               }
             >
               {this.props.label}

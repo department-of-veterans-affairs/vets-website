@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 /**
  * A checkbox group with a label.
@@ -54,7 +55,13 @@ class CheckboxGroup extends React.Component {
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
           <div>
-            <span id={`${this.inputId}-legend`} className="gibct-legend">
+            {/*  prod flag for bah-7186 */}
+            <span
+              id={`${this.inputId}-legend`}
+              className={
+                environment.isProduction() ? 'gibct-legend-old' : 'gibct-legend'
+              }
+            >
               {this.props.label}
             </span>
             {this.renderOptions()}

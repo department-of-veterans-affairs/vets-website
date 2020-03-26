@@ -1,21 +1,44 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 
 export const renderSchoolClosingAlert = result => {
-  const { schoolClosing } = result;
+  const { schoolClosing, schoolClosingOn } = result;
 
   if (!schoolClosing) return null;
+  // Prod flag for 6803
+  // prod flag for bah-7020
   if (!environment.isProduction()) {
+    if (schoolClosingOn) {
+      const currentDate = new Date();
+      const schoolClosingDate = new Date(schoolClosingOn);
+      if (currentDate > schoolClosingDate) {
+        return (
+          <AlertBox
+            headline="This campus has closed"
+            content={
+              <p>
+                This campus has closed. Visit the school's website to learn
+                more.
+              </p>
+            }
+            isVisible={!!schoolClosing}
+            status="warning"
+          />
+        );
+      }
+    }
     return (
       <AlertBox
-        content={<p>Upcoming campus closure</p>}
+        className="vads-u-margin-top--0p5"
+        content={<p>A campus at this school will be closing soon</p>}
         headline="A campus is closing soon"
         isVisible={!!schoolClosing}
         status="warning"
       />
     );
   }
+
   return (
     <AlertBox
       content={<p>Upcoming campus closure</p>}
@@ -39,18 +62,27 @@ const renderReasons = cautionFlags => {
       return 0;
     })
     .forEach(flag => {
-      flags.push(<li key={flag.id}>{flag.reason}</li>);
+      flags.push(
+        <li
+          className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+          key={flag.id}
+        >
+          {flag.reason}
+        </li>,
+      );
     });
 
-  return <ul>{flags}</ul>;
+  return <ul className="vads-u-margin-top--0">{flags}</ul>;
 };
 
 export const renderCautionAlert = result => {
   const { cautionFlags } = result;
   if (cautionFlags.length === 0) return null;
+  // Prod flag for 6803
   if (!environment.isProduction()) {
     return (
       <AlertBox
+        className="vads-u-margin-top--0p5"
         content={renderReasons(cautionFlags)}
         headline={
           cautionFlags.length > 1
