@@ -17,6 +17,7 @@ const {
   gender,
   address,
   supplies,
+  accessories,
   yesOrNo,
 } = fullSchemaMDOT.definitions;
 
@@ -34,8 +35,8 @@ const formChapters = {
 const formPages = {
   personalDetails: 'Personal Details',
   address: 'Shipping Address',
-  addBatteriesPage: 'Add batteries to your order',
-  addAccessoriesPage: 'Add accessories to your order',
+  orderSuppliesPage: 'Add batteries to your order',
+  orderAccessoriesPage: 'Add accessories to your order',
 };
 
 const formConfig = {
@@ -56,6 +57,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   defaultDefinitions: {
+    accessories,
     email,
     date,
     address,
@@ -100,13 +102,16 @@ const formConfig = {
     orderSuppliesChapter: {
       title: formChapters.orderSupplies,
       pages: {
-        [formPages.addBatteriesPage]: {
+        [formPages.orderSuppliesPage]: {
           path: 'supplies',
-          title: formPages.addBatteriesPage,
+          title: formPages.orderSuppliesPage,
           schema: {
             type: 'object',
             properties: {
-              yesOrNo,
+              'view:addBatteries': {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
               supplies,
             },
           },
@@ -135,14 +140,17 @@ const formConfig = {
             },
           },
         },
-        [formPages.addAccessoriesPage]: {
+        [formPages.orderAccessoriesPage]: {
           path: 'accessories',
-          title: formPages.addAccessoriesPage,
+          title: formPages.orderAccessoriesPage,
           schema: {
             type: 'object',
             properties: {
-              yesOrNo,
-              supplies,
+              'view:addAccessories': {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+              accessories,
             },
           },
           uiSchema: {
