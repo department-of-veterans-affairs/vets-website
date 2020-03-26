@@ -101,7 +101,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
       // Get CSRF Token from API header
       const csrfToken = response.headers.get('X-CSRF-Token');
-      if (csrfToken) {
+
+      if (csrfToken && !csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
