@@ -14,6 +14,7 @@ import {
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
+  startNewAppointmentFlow,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
@@ -27,6 +28,8 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
+
+import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
 
 import facilityData from '../../api/facility_data.json';
 import clinicData from '../../api/clinics.json';
@@ -258,6 +261,18 @@ describe('VAOS actions: appointments', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
+
+      expect(global.window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-cancel-appointment-submission',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
+
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-cancel-appointment-submission-successful',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
       expect(
         JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
       ).to.equal('4');
@@ -288,6 +303,7 @@ describe('VAOS actions: appointments', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
+
       expect(
         JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
       ).to.equal('5');
@@ -340,6 +356,12 @@ describe('VAOS actions: appointments', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
+
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-cancel-appointment-submission-failed',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
     });
 
     it('should send close cancel action', () => {
@@ -348,6 +370,13 @@ describe('VAOS actions: appointments', () => {
       expect(action).to.deep.equal({
         type: CANCEL_APPOINTMENT_CLOSED,
       });
+    });
+  });
+  it('should start new appointment flow', () => {
+    const action = startNewAppointmentFlow();
+
+    expect(action).to.deep.equal({
+      type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });
 });

@@ -114,11 +114,8 @@ export function selectVet360InitializationStatus(state) {
 
   if (transactionRequest) {
     isPending =
-      transactionRequest.isPending ||
-      (transaction && isPendingTransaction(transaction));
-    isFailure =
-      transactionRequest.isFailed ||
-      (transaction && isFailedTransaction(transaction));
+      transactionRequest.isPending || isPendingTransaction(transaction);
+    isFailure = transactionRequest.isFailed || isFailedTransaction(transaction);
   }
 
   if (isReady) {

@@ -94,11 +94,11 @@ class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <div>
             <p className="confirmation-guidance-message">
-              If you have questions, please call 877-222-VETS (
+              If you have questions, please call{' '}
               <a className="help-phone-number-link" href="tel:1-877-222-8387">
                 877-222-8387
               </a>
-              ), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </div>
         </div>

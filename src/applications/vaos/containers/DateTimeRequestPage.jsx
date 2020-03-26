@@ -15,8 +15,13 @@ import { CALENDAR_INDICATOR_TYPES } from '../utils/constants';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose a day and time for your appointment';
+
+const maxSelections = 3;
+
 const missingDateError =
   'Please select at least one preferred date for your appointment. You can select up to three dates.';
+const maxSelectionsError =
+  'You can only choose up to 3 dates for your appointment.';
 
 export function getOptionsByDate() {
   return [
@@ -42,26 +47,28 @@ export class DateTimeRequestPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { validationError } = this.state;
     if (
-      this.state.validationError &&
-      !prevState.submitted &&
-      this.state.submitted
+      validationError &&
+      (this.isMaxSelectionsError() ||
+        (!prevState.submitted && this.state.submitted))
     ) {
       scrollAndFocus('.usa-input-error-message');
     }
   }
 
   goBack = () => {
-    if (!this.state.validationError) {
-      this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
-    }
+    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
     const { data, router } = this.props;
     const { calendarData } = data || {};
     this.validate(calendarData);
-    if (this.userSelectedSlot(calendarData)) {
+    if (
+      this.userSelectedSlot(calendarData) &&
+      !this.exceededMaxSelections(calendarData)
+    ) {
       this.props.routeToNextAppointmentPage(router, pageKey);
     } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
@@ -71,23 +78,30 @@ export class DateTimeRequestPage extends React.Component {
   };
 
   validate = data => {
-    if (this.userSelectedSlot(data)) {
-      this.setState({ validationError: null });
-    } else {
+    if (this.exceededMaxSelections(data)) {
+      this.setState({ validationError: maxSelectionsError });
+    } else if (!this.userSelectedSlot(data)) {
       this.setState({
         validationError: missingDateError,
       });
+    } else {
+      this.setState({ validationError: null });
     }
   };
 
-  userSelectedSlot(calendarData) {
-    return calendarData?.selectedDates?.length > 0;
-  }
+  userSelectedSlot = calendarData => calendarData?.selectedDates?.length > 0;
+
+  exceededMaxSelections = calendarData =>
+    calendarData?.selectedDates?.length > maxSelections;
+
+  isMaxSelectionsError = () =>
+    this.state.validationError === maxSelectionsError;
 
   render() {
     const { data, pageChangeInProgress } = this.props;
     const calendarData = data?.calendarData || {};
     const { currentlySelectedDate, selectedDates } = calendarData;
+    const { validationError } = this.state;
 
     const additionalOptions = {
       fieldName: 'optionTime',
@@ -108,7 +122,7 @@ export class DateTimeRequestPage extends React.Component {
         <CalendarWidget
           monthsToShowAtOnce={2}
           multiSelect
-          maxSelections={3}
+          maxSelections={maxSelections}
           onChange={newData => {
             this.validate(newData);
             this.props.onCalendarChange(newData);
@@ -117,14 +131,16 @@ export class DateTimeRequestPage extends React.Component {
             .add(5, 'days')
             .format('YYYY-MM-DD')}
           maxDate={moment()
-            .add(395, 'days')
+            .add(120, 'days')
             .format('YYYY-MM-DD')}
           currentlySelectedDate={currentlySelectedDate}
           selectedDates={selectedDates}
           selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
           additionalOptions={additionalOptions}
           validationError={
-            this.state.submitted ? this.state.validationError : null
+            this.state.submitted || this.isMaxSelectionsError()
+              ? validationError
+              : null
           }
         />
         <FormButtons

@@ -133,7 +133,14 @@ export class CallToActionWidget extends React.Component {
         return this.getMviErrorContent();
       }
 
-      return <VAOnlineScheduling appId={this.props.appId} />;
+      return (
+        <VAOnlineScheduling
+          appId={this.props.appId}
+          isCommunityCareEnabled={
+            this.props.featureToggles.vaOnlineSchedulingCommunityCare
+          }
+        />
+      );
     }
 
     return null;

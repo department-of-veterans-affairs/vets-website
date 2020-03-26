@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
 import ErrorMessage from '../components/ErrorMessage';
+import SystemsRadioWidget from '../components/SystemsRadioWidget';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 import {
@@ -38,7 +40,7 @@ const initialSchema = {
 
 const uiSchema = {
   vaParent: {
-    'ui:widget': 'radio',
+    'ui:widget': SystemsRadioWidget,
     'ui:title':
       'You’re registered at the following VA medical centers. Please let us know where you would like to have your appointment.',
   },
@@ -117,6 +119,7 @@ export class VAFacilityPage extends React.Component {
       hasDataFetchingError,
       hasEligibilityError,
       parentOfChosenFacility,
+      cernerFacilities,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -218,6 +221,7 @@ export class VAFacilityPage extends React.Component {
             typeOfCare,
             facilityDetailsStatus,
             parentDetails,
+            cernerFacilities,
           }}
           data={data}
         >
@@ -229,9 +233,19 @@ export class VAFacilityPage extends React.Component {
           {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
+            continueLabel=""
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
+          {(loadingEligibility || pageChangeInProgress) && (
+            <div aria-atomic="true" aria-live="assertive">
+              <AlertBox isVisible status="info" headline="Please wait">
+                We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience.
+              </AlertBox>
+            </div>
+          )}
         </SchemaForm>
       </div>
     );

@@ -7,8 +7,22 @@ node('vetsgov-general-purpose') {
     ref = getLatestGitRef("vets-website", branch: "master")
   }
 
-  refStatusState = getGithubCommitState("vets-website", ref)
-  if ("${refStatusState}" != "SUCCESS") {
+  def jobFailed = false
+  def refStatusState
+  while({
+    echo "checking build status..."
+    refStatusState = getGithubCommitState("vets-website", ref)
+    if ("${refStatusState}" == "SUCCESS") {
+      return false
+    } else if ("${refStatusState}" == "PENDING") {
+      sleep 60
+      return true
+    }
+    jobFailed = true
+    return false
+  }()) continue
+
+  if (jobFailed) {
     message = "Web content refresh on ${params.env} aborted due to '${refStatusState}' status on vets-website commit ${ref}."
     echo "${message}"
     slackSend(message: "${message}",

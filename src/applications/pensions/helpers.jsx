@@ -4,6 +4,8 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import titleCase from 'platform/utilities/data/titleCase';
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object
@@ -173,31 +175,14 @@ export function isMarried(form = {}) {
   return ['Married', 'Separated'].includes(form.maritalStatus);
 }
 
-const numberToWords = {
-  0: 'First',
-  1: 'Second',
-  2: 'Third',
-  3: 'Fourth',
-  4: 'Fifth',
-  5: 'Sixth',
-  6: 'Seventh',
-  7: 'Eighth',
-  8: 'Ninth',
-  9: 'Tenth',
-};
-
 export function getMarriageTitle(index) {
-  const desc = numberToWords[index];
-
-  return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
+  const desc = numberToWords(index + 1);
+  return `${titleCase(desc)} marriage`;
 }
 
 export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords[index];
-
-  return desc
-    ? `Spouse’s ${desc.toLowerCase()} marriage`
-    : `Spouse marriage ${index + 1}`;
+  const desc = numberToWords(index + 1);
+  return `Spouse’s ${desc} marriage`;
 }
 
 export function getMarriageTitleWithCurrent(form, index) {

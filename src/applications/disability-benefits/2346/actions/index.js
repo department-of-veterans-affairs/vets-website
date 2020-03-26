@@ -37,12 +37,9 @@ export const getVeteranInformationData = data => async dispatch => {
     };
     dispatch(fetchVeteranInformation(veteranInformation));
   } catch (error) {
-    dispatch(
-      fetchVeteranInformationFailure(
-        error,
-        Sentry.captureMessage('failed to retrieve data from the api'),
-      ),
-    );
+    // eslint-disable-next-line no-unused-expressions
+    Sentry.captureMessage('failed to retrieve data from the api');
+    dispatch(fetchVeteranInformationFailure(error));
   }
 };
 

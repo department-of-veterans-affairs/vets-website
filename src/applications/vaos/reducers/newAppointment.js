@@ -47,11 +47,14 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
-  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../actions/newAppointment';
+
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from '../actions/sitewide';
 
 import {
   FLOW_TYPES,
@@ -59,6 +62,8 @@ import {
   REASON_MAX_CHARS,
   FETCH_STATUS,
   PURPOSE_TEXT,
+  TYPES_OF_CARE,
+  PODIATRY_ID,
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -187,7 +192,7 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_CLOSED_CONFIRMATION_PAGE: {
+    case STARTED_NEW_APPOINTMENT_FLOW: {
       return {
         ...initialState,
         parentFacilities: state.parentFacilities,
@@ -217,9 +222,26 @@ export default function formReducer(state = initialState, action) {
         email: state.data.email || action.email,
       };
 
+      const sortedCare = TYPES_OF_CARE.filter(
+        typeOfCare => typeOfCare.id !== PODIATRY_ID || action.showCommunityCare,
+      ).sort(
+        (careA, careB) =>
+          careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
+      );
+      const initialSchema = {
+        ...action.schema,
+        properties: {
+          typeOfCareId: {
+            type: 'string',
+            enum: sortedCare.map(care => care.id || care.ccId),
+            enumNames: sortedCare.map(care => care.label || care.name),
+          },
+        },
+      };
+
       const { data, schema } = setupFormData(
         prefilledData,
-        action.schema,
+        initialSchema,
         action.uiSchema,
       );
 
@@ -311,11 +333,14 @@ export default function formReducer(state = initialState, action) {
           ...state.eligibility,
           [`${data.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
         };
-        clinics = {
-          ...state.clinics,
-          [`${data.vaFacility}_${action.typeOfCareId}`]: action.eligibilityData
-            .clinics,
-        };
+
+        if (!action.eligibilityData.clinics?.directFailed) {
+          clinics = {
+            ...state.clinics,
+            [`${data.vaFacility}_${action.typeOfCareId}`]: action
+              .eligibilityData.clinics,
+          };
+        }
       }
 
       return {
@@ -442,14 +467,19 @@ export default function formReducer(state = initialState, action) {
         action.typeOfCareId,
         action.eligibilityData,
       );
+      let clinics = state.clinics;
 
-      return {
-        ...state,
-        clinics: {
+      if (!action.eligibilityData.clinics?.directFailed) {
+        clinics = {
           ...state.clinics,
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
             .eligibilityData.clinics,
-        },
+        };
+      }
+
+      return {
+        ...state,
+        clinics,
         eligibility: {
           ...state.eligibility,
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,

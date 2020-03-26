@@ -22,7 +22,8 @@ class VetTecProgramSearchResult extends React.Component {
       lengthInHours,
       dodBah,
       schoolClosing,
-      cautionFlag,
+      schoolClosingOn,
+      cautionFlags,
     } = result;
 
     const tuition = isPresent(tuitionAmount)
@@ -60,11 +61,15 @@ class VetTecProgramSearchResult extends React.Component {
                 {renderPreferredProviderFlag(this.props.result)}
               </div>
             </div>
-            {(schoolClosing || cautionFlag) && (
+            {(schoolClosing || cautionFlags) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
-                  {renderSchoolClosingAlert({ schoolClosing })}
-                  {renderCautionAlert({ cautionFlag })}
+                  {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
+                  {cautionFlags &&
+                    cautionFlags.length > 0 &&
+                    renderCautionAlert({
+                      cautionFlags,
+                    })}
                 </div>
               </div>
             )}

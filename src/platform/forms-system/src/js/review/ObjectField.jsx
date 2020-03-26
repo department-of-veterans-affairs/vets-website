@@ -122,6 +122,7 @@ class ObjectField extends React.Component {
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields.filter(showField).map(renderField);
         }
+        // eslint-disable-next-line sonarjs/no-extra-arguments
         return showField(first) ? renderField(first, index) : null;
       },
     );

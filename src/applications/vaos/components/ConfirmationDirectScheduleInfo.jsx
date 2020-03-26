@@ -16,9 +16,10 @@ export default function ConfirmationDirectScheduleInfo({
   clinic,
   pageTitle,
   appointmentLength,
+  systemId,
 }) {
   const dateTime = data.calendarData.selectedDates[0].datetime;
-  const timezone = getTimezoneBySystemId(data.vaSystem);
+  const timezone = getTimezoneBySystemId(systemId);
   const momentDate = timezone
     ? moment(dateTime).tz(timezone.timezone, true)
     : moment(dateTime);
@@ -38,10 +39,10 @@ export default function ConfirmationDirectScheduleInfo({
         </div>
         <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
           {momentDate.format('MMMM D, YYYY [at] hh:mm a')}
-          {` ${getTimezoneAbbrBySystemId(data.vaSystem)}`}
+          {` ${getTimezoneAbbrBySystemId(systemId)}`}
         </h2>
         <div className="vads-u-margin-top--2">
-          <i className="fas fa-check-circle" />
+          <i aria-hidden="true" className="fas fa-check-circle" />
           <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
             Confirmed
             <span className="sr-only"> appointment</span>
@@ -49,7 +50,7 @@ export default function ConfirmationDirectScheduleInfo({
         </div>
 
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
@@ -65,7 +66,7 @@ export default function ConfirmationDirectScheduleInfo({
               </dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {

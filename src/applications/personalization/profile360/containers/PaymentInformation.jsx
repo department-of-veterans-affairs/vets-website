@@ -32,8 +32,8 @@ import {
   directDepositAccountInformation,
   directDepositAddressIsSetUp,
   directDepositInformation,
-  directDepositIsBlocked as directDepositIsBlockedSelector,
-  directDepositIsSetUp as directDepositIsSetUpSelector,
+  directDepositIsBlocked,
+  directDepositIsSetUp,
 } from '../selectors';
 
 const AdditionalInfos = props => (
@@ -161,13 +161,12 @@ class PaymentInformation extends React.Component {
 
   render() {
     const {
-      directDepositIsSetUp,
+      isDirectDepositSetUp,
       isLoading,
       multifactorEnabled,
       paymentInformation,
       paymentAccount,
       shouldShowDirectDeposit,
-      directDepositIsBlocked,
     } = this.props;
 
     let content = null;
@@ -180,10 +179,6 @@ class PaymentInformation extends React.Component {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation?.error) {
       content = <LoadFail information="payment" />;
-    } else if (directDepositIsBlocked) {
-      // TODO: soon we will show an alert telling the user that they are blocked
-      // from the direct deposit feature
-      return content;
     } else if (!shouldShowDirectDeposit) {
       return content;
     } else {
@@ -192,46 +187,46 @@ class PaymentInformation extends React.Component {
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                isDirectDepositSetUp &&
                 (() => this.handleLinkClick('edit', 'bank-name'))
               }
             >
               Bank name
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {isDirectDepositSetUp
               ? paymentAccount.financialInstitutionName
               : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                isDirectDepositSetUp &&
                 (() => this.handleLinkClick('edit', 'account-number'))
               }
             >
               Account number
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {isDirectDepositSetUp
               ? paymentAccount.accountNumber
               : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                isDirectDepositSetUp &&
                 (() => this.handleLinkClick('edit', 'account-type'))
               }
             >
               Account type
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {isDirectDepositSetUp
               ? paymentAccount.accountType
               : this.renderSetupButton(
                   'account type (checking or savings)',
                   'account-type',
                 )}
           </div>
-          {directDepositIsSetUp && (
+          {isDirectDepositSetUp && (
             <p>
               <strong>Note:</strong> If you think you’ve been the victim of bank
               fraud, please call us at{' '}
@@ -246,11 +241,10 @@ class PaymentInformation extends React.Component {
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
             onSubmit={data =>
-              this.handleDirectDepositUpdateSubmit(data, !directDepositIsSetUp)
+              this.handleDirectDepositUpdateSubmit(data, !isDirectDepositSetUp)
             }
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
-            fields={this.props.paymentInformationUiState.editModalForm}
             editModalFieldChanged={this.props.editModalFieldChanged}
             responseError={this.props.paymentInformationUiState.responseError}
           />
@@ -282,12 +276,13 @@ const isEvssAvailableSelector = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => {
-  const directDepositIsSetUp = directDepositIsSetUpSelector(state);
+  const isDirectDepositSetUp = directDepositIsSetUp(state);
+  const isDirectDepositBlocked = directDepositIsBlocked(state);
   const isEvssAvailable = isEvssAvailableSelector(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
 
   return {
-    directDepositIsSetUp,
+    isDirectDepositSetUp,
     isEvssAvailable,
     isEligibleToSignUp,
     isLoading:
@@ -298,9 +293,10 @@ const mapStateToProps = state => {
     paymentAccount: directDepositAccountInformation(state),
     paymentInformation: directDepositInformation(state),
     paymentInformationUiState: state.vaProfile.paymentInformationUiState,
-    directDepositIsBlocked: directDepositIsBlockedSelector(state),
     shouldShowDirectDeposit:
-      isEvssAvailable && (directDepositIsSetUp || isEligibleToSignUp),
+      isEvssAvailable &&
+      !isDirectDepositBlocked &&
+      (isDirectDepositSetUp || isEligibleToSignUp),
   };
 };
 

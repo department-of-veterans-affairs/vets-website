@@ -9,8 +9,17 @@ import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 import {
   getTimezoneBySystemId,
   getTimezoneAbbrBySystemId,
+  getTimezoneDescFromAbbr,
   stripDST,
 } from './timezone';
+
+export function getRealFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('983', '442').replace('984', '552');
+  }
+
+  return facilityId;
+}
 
 export function getAppointmentType(appt) {
   if (appt.typeOfCareId?.startsWith('CC')) {
@@ -44,14 +53,6 @@ export function isVideoVisit(appt) {
 
 export function getVideoVisitLink(appt) {
   return appt.vvsAppointments[0]?.patients?.[0]?.virtualMeetingRoom?.url;
-}
-
-export function getStagingId(facilityId) {
-  if (!environment.isProduction() && facilityId?.startsWith('983')) {
-    return facilityId.replace('983', '442');
-  }
-
-  return facilityId;
 }
 
 export function titleCase(str) {
@@ -185,7 +186,7 @@ export function getAppointmentLocation(appt, facility) {
 
   return (
     <a
-      href={`/find-locations/facility/vha_${getStagingId(facilityId)}`}
+      href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -241,6 +242,12 @@ export function getAppointmentTimezoneAbbreviation(appt) {
   }
 }
 
+export function getAppointmentTimezoneDescription(appt) {
+  const abbr = getAppointmentTimezoneAbbreviation(appt);
+
+  return getTimezoneDescFromAbbr(abbr);
+}
+
 export function getAppointmentDate(appt) {
   const parsedDate = getMomentConfirmedDate(appt);
 
@@ -265,7 +272,7 @@ export function getAppointmentDateTime(appt) {
         {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
       </span>
       <span className="sr-only">
-        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
+        {parsedDate.format('a')} {getAppointmentTimezoneDescription(appt)}
       </span>
     </>
   );
@@ -368,14 +375,6 @@ export function sortFutureRequests(a, b) {
 
 export function sortMessages(a, b) {
   return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
-}
-
-export function getRealFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('983', '442').replace('984', '552');
-  }
-
-  return facilityId;
 }
 
 export function getAppointmentInstructions(appt) {
@@ -570,4 +569,12 @@ DTSTART:${startDate}
 DTEND:${endDate}
 END:VEVENT
 END:VCALENDAR`;
+}
+
+export function getCernerPortalLink() {
+  if (environment.isProduction()) {
+    return 'http://patientportal.myhealth.va.gov/';
+  }
+
+  return 'http://ehrm-va-test.patientportal.us.healtheintent.com/';
 }

@@ -8,6 +8,7 @@ export default function CalendarOptions({
   currentlySelectedDate,
   additionalOptions,
   handleSelectOption,
+  maxSelections,
   selectedDates,
   selectedCellIndex,
   optionsHeightRef,
@@ -81,6 +82,9 @@ export default function CalendarOptions({
                       checked={checked}
                       onChange={() => handleSelectOption(dateObj)}
                       label={o.label}
+                      disabled={
+                        !checked && selectedDates?.length === maxSelections
+                      }
                     />
                   ) : (
                     <CalendarRadioOption

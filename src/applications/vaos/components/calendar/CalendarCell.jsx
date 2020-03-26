@@ -14,6 +14,7 @@ const CalendarCell = ({
   hasError,
   index,
   inSelectedArray,
+  maxSelections,
   onClick,
   selectedDates,
   selectedIndicatorType,
@@ -87,6 +88,7 @@ const CalendarCell = ({
         aria-controls={
           isCurrentlySelected ? `vaos-options-container-${date}` : undefined
         }
+        aria-describedby={`vaos-calendar-instructions-${momentDate.month()}`}
         className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
@@ -115,6 +117,7 @@ const CalendarCell = ({
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
           hasError={hasError}
+          maxSelections={maxSelections}
           optionsHeightRef={optionsHeightRef}
           selectedCellIndex={index}
           selectedDates={selectedDates}

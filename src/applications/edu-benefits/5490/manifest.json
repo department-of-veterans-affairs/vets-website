@@ -15,12 +15,16 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
-        "name": "Education",
+        "name": "Education and training",
         "path": "education/"
       },
       {
-        "name": "Apply for education benefits",
+        "name": "How to apply",
         "path": "education/how-to-apply/"
+      },
+      {
+        "name": "Apply for education benefits",
+        "path": "education/apply-for-education-benefits/application/5490"
       }
     ]
   }

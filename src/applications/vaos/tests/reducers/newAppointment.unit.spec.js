@@ -26,15 +26,17 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_CLOSED_CONFIRMATION_PAGE,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../actions/newAppointment';
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from '../../actions/sitewide';
 
 import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
@@ -229,7 +231,6 @@ describe('VAOS reducer: newAppointment', () => {
           requestPastVisit: {},
           directPastVisit: {},
           requestLimits: {},
-          pacTeam: [],
         },
       };
 
@@ -248,6 +249,24 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.clinics['983_323']).to.equal(
         action.eligibilityData.clinics,
       );
+    });
+
+    it('should not set clinics when it failed', () => {
+      const action = {
+        ...defaultOpenPageAction,
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
+        facilities: facilities983Parsed.slice(0, 1),
+        eligibilityData: {
+          clinics: { directFailed: true },
+          requestPastVisit: {},
+          directPastVisit: {},
+          requestLimits: {},
+        },
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.clinics).to.be.undefined;
     });
 
     it('should set error when failed', () => {
@@ -415,7 +434,6 @@ describe('VAOS reducer: newAppointment', () => {
           directPastVisit: {},
           requestPastVisit: {},
           requestLimits: {},
-          pacTeam: [],
         },
       };
       const state = {
@@ -435,6 +453,33 @@ describe('VAOS reducer: newAppointment', () => {
         action.eligibilityData.clinics,
       );
       expect(newState.eligibility['983_323']).to.not.be.undefined;
+    });
+
+    it('should not set clinic info if failed', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId: '323',
+        eligibilityData: {
+          clinics: { directFailed: true },
+          directPastVisit: {},
+          requestPastVisit: {},
+          requestLimits: {},
+        },
+      };
+      const state = {
+        ...defaultState,
+        facilities: {
+          '323_983': facilities983Parsed,
+        },
+        parentFacilities: parentFacilitiesParsed,
+        data: {
+          ...defaultState.data,
+          vaFacility: '983',
+        },
+      };
+
+      const newState = newAppointmentReducer(state, action);
+      expect(newState.clinics).to.be.undefined;
     });
 
     it('should set error state', () => {
@@ -712,7 +757,6 @@ describe('VAOS reducer: newAppointment', () => {
             datetime: '2020-03-11T09:40:00',
           },
         ],
-        currentRowIndex: 1,
         error: null,
       };
 
@@ -957,6 +1001,7 @@ describe('VAOS reducer: newAppointment', () => {
       uiSchema: {},
       phoneNumber: '123456789',
       email: 'test@va.gov',
+      showCommunityCare: true,
     };
 
     const newState = newAppointmentReducer(currentState, action);
@@ -964,6 +1009,40 @@ describe('VAOS reducer: newAppointment', () => {
     expect(newState.pages.test).not.to.be.undefined;
     expect(newState.data.phoneNumber).to.equal(action.phoneNumber);
     expect(newState.data.email).to.equal(action.email);
+    expect(
+      newState.pages.test.properties.typeOfCareId.enumNames.some(label =>
+        label.toLowerCase().includes('podiatry'),
+      ),
+    ).to.be.true;
+    expect(newState.pages.test.properties.typeOfCareId.enumNames[0]).to.contain(
+      'Amputation care',
+    );
+  });
+
+  it('should hide podiatry from care list if community care is disabled', () => {
+    const currentState = {
+      data: {},
+      pages: {},
+    };
+    const action = {
+      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
+      page: 'test',
+      schema: {
+        type: 'object',
+        properties: {},
+      },
+      uiSchema: {},
+      phoneNumber: '123456789',
+      email: 'test@va.gov',
+      showCommunityCare: false,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+    expect(
+      newState.pages.test.properties.typeOfCareId.enumNames.some(label =>
+        label.toLowerCase().includes('podiatry'),
+      ),
+    ).to.be.false;
   });
 
   it('should set ToC modal to show', () => {
@@ -994,14 +1073,14 @@ describe('VAOS reducer: newAppointment', () => {
     expect(newState.showTypeOfCareUnavailableModal).to.be.false;
   });
 
-  it('should reset form when confirmation page is closed', () => {
+  it('should reset form when new appointment button is clicked', () => {
     const currentState = {
       data: { test: 'blah' },
       parentFacilitiesStatus: FETCH_STATUS.succeeded,
       eligibilityStatus: FETCH_STATUS.succeeded,
     };
     const action = {
-      type: FORM_CLOSED_CONFIRMATION_PAGE,
+      type: STARTED_NEW_APPOINTMENT_FLOW,
     };
 
     const newState = newAppointmentReducer(currentState, action);

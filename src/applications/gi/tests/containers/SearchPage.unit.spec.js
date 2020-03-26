@@ -72,6 +72,25 @@ describe('<SearchPage>', () => {
   });
 });
 
+it('should render error message', () => {
+  const props = {
+    ...defaultProps,
+    search: {
+      ...defaultProps.search,
+      inProgress: true,
+      error: 'Service Unavailable',
+    },
+  };
+  const tree = mount(
+    <Provider store={defaultStore}>
+      <SearchPage {...props} />
+    </Provider>,
+  );
+
+  expect(tree.find('ServiceError')).to.be.ok;
+  tree.unmount();
+});
+
 describe('<SearchPage> functions', () => {
   it('updateSearchResults should set store correctly', () => {
     const booleanFilterParams = [
