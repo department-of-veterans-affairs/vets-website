@@ -42,7 +42,8 @@ export const schemaFields = {
   tempAddressField: 'temporaryAddress',
   emailField: 'email',
   suppliesField: 'supplies',
-  yesOrNoField: 'yesOrNo',
+  viewAddBatteriesField: 'view:AddBatteries',
+  viewAddAccessoriesField: 'view:AddAccessories',
 };
 
 export const MILITARY_STATE_LABELS = [

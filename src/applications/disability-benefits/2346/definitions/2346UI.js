@@ -3,21 +3,18 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import _ from 'platform/utilities/data';
 import React from 'react';
 import fullSchema from '../2346-schema.json';
-import deviceNameField from '../components/accessoriesCustomFields/deviceNameField';
-import lastOrderDateField from '../components/accessoriesCustomFields/lastOrderDateField';
-import productIdField from '../components/accessoriesCustomFields/productIdField';
-import productNameField from '../components/accessoriesCustomFields/productNameField';
-import quantityField from '../components/accessoriesCustomFields/quantityField';
-import sizeField from '../components/accessoriesCustomFields/sizeField';
 import addressCardField from '../components/addressFields/addressCardField';
 import { AddressViewField } from '../components/addressFields/addressViewField.jsx';
-import emptyField from '../components/emptyField';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
+import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
+import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
+import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
 import SuppliesReview from '../components/suppliesReview';
 import {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
+  schemaFields,
   STATE_LABELS,
   STATE_VALUES,
   USA,
@@ -28,6 +25,8 @@ import {
   validateMilitaryState,
   validateZIP,
 } from '../helpers';
+
+const { viewAddAccessoriesField, viewAddBatteriesField } = schemaFields;
 
 const emailUITitle = (
   <>
@@ -271,8 +270,8 @@ export default {
       'ui:reviewField': SuppliesReview,
     },
     addAccessoriesUI: {
-      'ui:title': 'Add accessories to your order',
-      'ui:description': orderSupplyPageContent,
+      'ui:title': 'Add hearing aid accessories to your order',
+      'ui:description': orderAccessoriesPageContent,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -286,144 +285,20 @@ export default {
       'ui:title': 'Which hearing aid do you need batteries for?',
       'ui:description':
         'You will be sent a 6 month supply of batteries for each device you select below.',
+      'ui:field': SelectArrayItemsBatteriesWidget,
       'ui:options': {
-        expandUnder: 'yesOrNo',
+        expandUnder: viewAddBatteriesField,
         expandUnderCondition: 'yes',
-      },
-      deviceName: {
-        'ui:title': '  ',
-        'ui:field': deviceNameField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      productName: {
-        'ui:title': '  ',
-        'ui:field': productNameField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      quantity: {
-        'ui:title': '  ',
-        'ui:field': quantityField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      productId: {
-        'ui:title': '  ',
-        'ui:field': productIdField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      lastOrderDate: {
-        'ui:title': '  ',
-        'ui:field': lastOrderDateField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      size: {
-        'ui:title': '  ',
-        'ui:field': sizeField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      productGroup: {
-        'ui:title': '  ',
-        'ui:field': emptyField,
-        'ui:reviewField': SuppliesReview,
-      },
-      availableForReorder: {
-        'ui:title': '  ',
-        'ui:field': emptyField,
-        'ui:reviewField': SuppliesReview,
-      },
-      nextAvailabilityDate: {
-        'ui:title': '  ',
-        'ui:field': emptyField,
-        'ui:reviewField': SuppliesReview,
       },
     },
     accessoriesUI: {
       'ui:title': 'Which hearing aid do you need batteries for?',
       'ui:description':
         'You will be sent a 6 month supply of batteries for each device you select below.',
+      'ui:field': SelectArrayItemsAccessoriesWidget,
       'ui:options': {
-        expandUnder: 'yesOrNo',
+        expandUnder: viewAddAccessoriesField,
         expandUnderCondition: 'yes',
-      },
-      deviceName: {
-        'ui:title': '  ',
-        'ui:field': deviceNameField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      productName: {
-        'ui:title': '  ',
-        'ui:field': productNameField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      quantity: {
-        'ui:title': '  ',
-        'ui:field': quantityField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      productId: {
-        'ui:title': '  ',
-        'ui:field': productIdField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      lastOrderDate: {
-        'ui:title': '  ',
-        'ui:field': lastOrderDateField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
-      },
-      productGroup: {
-        'ui:title': '  ',
-        'ui:field': emptyField,
-        'ui:reviewField': SuppliesReview,
-      },
-      availableForReorder: {
-        'ui:title': '  ',
-        'ui:field': emptyField,
-        'ui:reviewField': SuppliesReview,
-      },
-      nextAvailabilityDate: {
-        'ui:title': '  ',
-        'ui:field': emptyField,
-        'ui:reviewField': SuppliesReview,
-      },
-      size: {
-        'ui:title': '  ',
-        'ui:field': sizeField,
-        'ui:reviewField': SuppliesReview,
-        'ui:options': {
-          classNames: 'order-background',
-        },
       },
     },
   },
