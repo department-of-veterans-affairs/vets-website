@@ -10,7 +10,8 @@ import ExternalServicesError from 'platform/monitoring/external-services/Externa
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { login, signup, ssoe } from 'platform/user/authentication/utilities';
+import { ssoe } from 'platform/user/authentication/selectors';
+import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
 
