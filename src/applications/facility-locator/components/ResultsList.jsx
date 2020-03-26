@@ -103,9 +103,9 @@ class ResultsList extends Component {
         >
           <p>We’re sorry. We couldn’t complete your request.</p>
           <p>
-            Please try again in a few minutes. Or, if you need care right away
-            for a minor illness or injury, search for your nearest VA health
-            facility.
+            If you need care right away for a minor illness or injury, select
+            Urgent care under facility type, then select either VA or community
+            providers as the service type.
           </p>
           <p>
             If you have a medical emergency, please go to your nearest emergency
