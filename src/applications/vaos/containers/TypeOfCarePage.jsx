@@ -42,13 +42,9 @@ const pageTitle = 'Choose the type of care you need';
 
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
-    if (this.props.isCernerOnlyPatient) {
-      this.props.router.replace('/');
-    } else {
-      this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus();
-    }
+    this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   onChange = newData => {
