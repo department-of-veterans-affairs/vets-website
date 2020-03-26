@@ -7,7 +7,7 @@ import dateUI from 'platform/forms-system/src/js/definitions/date';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import ReviewCardField from '../../all-claims/components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { ForwardingAddressViewField } from '../helpers';
 
 import {
