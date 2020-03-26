@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
@@ -7,23 +6,25 @@ import orderAccessoriesPageContent from '../components/orderAccessoriesPageConte
 import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
 import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
 import SuppliesReview from '../components/suppliesReview';
-import { vetFields } from '../constants';
+import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import UIDefinitions from '../definitions/2346UI';
 
 const {
   email,
-  dateOfBirth,
+  date,
   gender,
   address,
   supplies,
-  accessories,
+  yesOrNo,
 } = fullSchemaMDOT.definitions;
 
-const { veteranAddress } = fullSchemaMDOT.properties;
+const { permAddressField, tempAddressField, emailField } = schemaFields;
 
-const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
+const { permanentAddress, temporaryAddress } = fullSchemaMDOT.properties;
+
+const { emailUI, permAddressUI, tempAddressUI } = UIDefinitions.sharedUISchemas;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
@@ -32,9 +33,9 @@ const formChapters = {
 
 const formPages = {
   personalDetails: 'Personal Details',
-  confirmAddress: 'Shipping Address',
-  orderSuppliesPage: 'Add batteries to your order',
-  orderAccessoriesPage: 'Add accessories to your order',
+  address: 'Shipping Address',
+  addBatteriesPage: 'Add batteries to your order',
+  addAccessoriesPage: 'Add accessories to your order',
 };
 
 const formConfig = {
@@ -56,14 +57,14 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    dateOfBirth,
+    date,
     address,
     gender,
     supplies,
-    accessories,
+    yesOrNo,
   },
   chapters: {
-    VeteranInformationChapter: {
+    veteranInformationChapter: {
       title: formChapters.veteranInformation,
       pages: {
         [formPages.personalDetails]: {
@@ -79,34 +80,33 @@ const formConfig = {
         },
         [formPages.address]: {
           path: 'veteran-information/addresses',
-          title: formPages.confirmAddress,
+          title: formPages.address,
           uiSchema: {
-            [vetFields.address]: addressUI,
-            [vetFields.email]: emailUI,
+            [permAddressField]: permAddressUI,
+            [tempAddressField]: tempAddressUI,
+            [emailField]: emailUI,
           },
           schema: {
             type: 'object',
             properties: {
-              veteranAddress,
+              permanentAddress,
+              temporaryAddress,
               email,
             },
           },
         },
       },
     },
-    OrderSuppliesChapter: {
+    orderSuppliesChapter: {
       title: formChapters.orderSupplies,
       pages: {
-        [formPages.orderSuppliesPage]: {
+        [formPages.addBatteriesPage]: {
           path: 'supplies',
-          title: formPages.orderSuppliesPage,
+          title: formPages.addBatteriesPage,
           schema: {
             type: 'object',
             properties: {
-              'view:addBatteries': {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
+              yesOrNo,
               supplies,
             },
           },
@@ -135,17 +135,14 @@ const formConfig = {
             },
           },
         },
-        [formPages.orderAccessoriesPage]: {
+        [formPages.addAccessoriesPage]: {
           path: 'accessories',
-          title: formPages.orderAccessoriesPage,
+          title: formPages.addAccessoriesPage,
           schema: {
             type: 'object',
             properties: {
-              'view:addAccessories': {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
-              accessories,
+              yesOrNo,
+              supplies,
             },
           },
           uiSchema: {
