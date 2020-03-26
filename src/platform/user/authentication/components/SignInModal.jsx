@@ -39,8 +39,7 @@ class SignInModal extends React.Component {
 
   loginHandler = loginType => () => {
     const { useSSOe } = this.props;
-    const evt = `login-attempted${useSSOe ? '-ssoe' : ''}-${loginType}`;
-    recordEvent({ event: evt });
+    recordEvent({ event: `login-attempted-${loginType}` });
     login(loginType, useSSOe ? 'v1' : 'v0');
   };
 
