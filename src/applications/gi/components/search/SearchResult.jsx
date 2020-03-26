@@ -46,10 +46,10 @@ export class SearchResult extends React.Component {
     // Prod flags for 7183
     const searchResultContentClassnamesLeft = environment.isProduction()
       ? 'small-12 usa-width-seven-twelfths medium-7 columns'
-      : 'small-12  medium-5 large-7 columns';
+      : 'small-12  medium-6 large-7 columns';
     const searchResultContentClassnamesRight = environment.isProduction()
       ? 'small-12 usa-width-five-twelfths medium-5 columns estimated-benefits'
-      : 'small-12 medium-7 large-5 columns estimated-benefits';
+      : 'small-12 medium-6 large-5 columns estimated-benefits';
 
     return (
       <div className="search-result">
