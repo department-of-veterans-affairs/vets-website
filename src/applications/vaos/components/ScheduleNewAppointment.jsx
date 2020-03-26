@@ -16,7 +16,7 @@ export default function ScheduleNewAppointment({
             Need to schedule an appointment?
           </h2>
           <p className="vads-u-margin-top--1">
-            Use your "My VA Health" portal to schedule a VA appointment.
+            You can schedule a VA appointment through My VA Health.
           </p>
           <a
             id="new-appointment"

@@ -10,22 +10,12 @@ export default function NoAppointments({
   return (
     <>
       <h3 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        You don’t have any appointments.
+        You don’t have any appointments
       </h3>
       {showScheduleButton &&
         isCernerOnlyPatient && (
           <>
-            <p>
-              You can schedule an appointment now, or you can call your{' '}
-              <a
-                href="/find-locations"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                VA medical center
-              </a>{' '}
-              to schedule an appointment.
-            </p>
+            <p>If you need to schedule a VA appointment, go to My VA Health.</p>
             <a
               className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
               href={getCernerPortalLink()}

@@ -9,7 +9,7 @@ describe('VAOS <NoAppointments>', () => {
   it('should render without schedule button', () => {
     const tree = shallow(<NoAppointments />);
 
-    expect(tree.find('h3').text()).to.equal('You don’t have any appointments.');
+    expect(tree.find('h3').text()).to.equal('You don’t have any appointments');
     expect(tree.find('a').props().href).to.contain('find-locations');
     expect(tree.find('Link').exists()).to.be.false;
     tree.unmount();
@@ -51,12 +51,6 @@ describe('VAOS <NoAppointments>', () => {
       tree
         .find('a')
         .at(0)
-        .props().href,
-    ).to.contain('find-locations');
-    expect(
-      tree
-        .find('a')
-        .at(1)
         .props().href,
     ).to.contain('patientportal');
     expect(tree.find('Link').exists()).to.be.false;
