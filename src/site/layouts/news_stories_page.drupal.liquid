@@ -68,7 +68,7 @@ Example data:
             {% endif %}
           {% if paginator.prev == null %}
           {% for storyFeature in newsStoryTeasers.entities %}
-            {% if forloop.first == true %}
+            {% if storyFeature.fieldFeatured == true %}
               {% include "src/site/teasers/news_story_page_feature.drupal.liquid" with node = storyFeature %}
             {% endif %}
           {% endfor %}

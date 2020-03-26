@@ -48,11 +48,7 @@ class Post911GIBStatusApp extends React.Component {
           dependencies={[externalServices.evss]}
         >
           <AppContent>
-            <div className="row">
-              <div className="small-12 columns">
-                <Main>{this.props.children}</Main>
-              </div>
-            </div>
+            <Main>{this.props.children}</Main>
           </AppContent>
         </DowntimeNotification>
       </RequiredLoginView>
