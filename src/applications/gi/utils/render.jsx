@@ -1,13 +1,33 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 
 export const renderSchoolClosingAlert = result => {
-  const { schoolClosing } = result;
+  const { schoolClosing, schoolClosingOn } = result;
 
   if (!schoolClosing) return null;
   // Prod flag for 6803
+  // prod flag for bah-7020
   if (!environment.isProduction()) {
+    if (schoolClosingOn) {
+      const currentDate = new Date();
+      const schoolClosingDate = new Date(schoolClosingOn);
+      if (currentDate > schoolClosingDate) {
+        return (
+          <AlertBox
+            headline="This campus has closed"
+            content={
+              <p>
+                This campus has closed. Visit the school's website to learn
+                more.
+              </p>
+            }
+            isVisible={!!schoolClosing}
+            status="warning"
+          />
+        );
+      }
+    }
     return (
       <AlertBox
         className="vads-u-margin-top--0p5"
@@ -18,6 +38,7 @@ export const renderSchoolClosingAlert = result => {
       />
     );
   }
+
   return (
     <AlertBox
       content={<p>Upcoming campus closure</p>}
