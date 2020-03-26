@@ -14,7 +14,11 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+import {
+  getFormPageInfo,
+  getNewAppointment,
+  selectIsCernerOnlyPatient,
+} from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -106,6 +110,7 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
 
