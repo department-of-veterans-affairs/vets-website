@@ -31,6 +31,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import FutureAppointmentsList from '../components/FutureAppointmentsList';
 import PastAppointmentsList from '../components/PastAppointmentsList';
+import PastAppointmentsDateDropdown from '../components/PastAppointmentsDateDropdown';
 
 const pageTitle = 'VA appointments';
 
@@ -165,7 +166,10 @@ export class AppointmentsPage extends Component {
                     Past appointments
                   </Tab>
                 </TabList>
-                <TabPanel>{futureAppointments}</TabPanel>
+                <TabPanel>
+                  <PastAppointmentsDateDropdown />
+                  {futureAppointments}
+                </TabPanel>
                 <TabPanel>
                   <PastAppointmentsList
                     appointments={appointments}

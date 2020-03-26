@@ -68,7 +68,7 @@ const PastAppointmentsList = ({
   return (
     <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
       <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        You don’t have any past appointments.
+        You don’t have any past appointments in the selected date range.
       </h2>
       {showScheduleButton && (
         <>
