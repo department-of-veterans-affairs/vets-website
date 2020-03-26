@@ -1,13 +1,14 @@
 import React from 'react';
 // import _ from '../../../../platform/utilities/data';
 import merge from 'lodash/merge';
+import omit from '../../../../platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateUI from 'platform/forms-system/src/js/definitions/date';
 // import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import {
@@ -36,41 +37,31 @@ import {
   STATE_VALUES,
 } from '../constants';
 
-import { validateMilitaryCity, validateMilitaryState } from '../validations';
+import {
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from '../validations';
 
 const {
   // forwardingAddress,
   phoneAndEmail,
 } = fullSchema.properties;
 
-const mailingAddress = merge(fullSchema.definitions.address, {
-  properties: {
-    'view:livesOnMilitaryBase': {
-      type: 'boolean',
-    },
-    'view:livesOnMilitaryBaseInfo': {
-      type: 'object',
-      properties: {},
+const mailingAddress = merge(
+  {
+    properties: {
+      'view:livesOnMilitaryBase': {
+        type: 'boolean',
+      },
+      'view:livesOnMilitaryBaseInfo': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
-});
-
-const uiOrder = [
-  'view:livesOnMilitaryBase',
-  'view:livesOnMilitaryBaseInfo',
-  'country',
-  'addressLine1',
-  'addressLine2',
-  'addressLine3',
-  'city',
-  'state',
-  'zipCode',
-];
-// livesOnMilitaryBaseInfo is automatically being dropped on
-// the review page so this adjusts ui:order appropriately
-if (window.location.href.includes('review-and-submit')) {
-  uiOrder.splice(uiOrder.indexOf('view:livesOnMilitaryBaseInfo'), 1);
-}
+  fullSchema.definitions.address,
+);
 
 const countryEnum = fullSchema.definitions.country.enum;
 const citySchema = fullSchema.definitions.address.properties.city;
@@ -88,8 +79,10 @@ export const uiSchema = {
     emailAddress: emailUI(),
   },
   mailingAddress: {
-    ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
-    'ui:order': uiOrder,
+    ...omit(
+      ['ui:order'],
+      addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
+    ),
     'view:livesOnMilitaryBase': {
       'ui:title':
         'I live on a United States military base outside of the United States',
@@ -177,7 +170,9 @@ export const uiSchema = {
     state: {
       'ui:title': 'State',
       'ui:options': {
-        hideIf: formData => formData.mailingAddress.country !== USA,
+        hideIf: formData =>
+          !formData.mailingAddress['view:livesOnMilitaryBase'] &&
+          formData.mailingAddress.country !== USA,
         updateSchema: formData => {
           if (
             formData.mailingAddress['view:livesOnMilitaryBase'] ||
@@ -194,7 +189,9 @@ export const uiSchema = {
           };
         },
       },
-      'ui:required': formData => formData.mailingAddress.country === USA,
+      'ui:required': formData =>
+        formData.mailingAddress['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress.country === USA,
       'ui:validations': [
         {
           options: { addressPath: 'mailingAddress' },
@@ -205,6 +202,24 @@ export const uiSchema = {
       'ui:errorMessages': {
         pattern: 'Please enter a valid state',
         required: 'Please enter a state',
+      },
+    },
+    zipCode: {
+      'ui:title': 'Postal code',
+      'ui:validations': [validateZIP],
+      'ui:required': formData =>
+        formData.mailingAddress['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress.country === USA,
+      'ui:errorMessages': {
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: formData =>
+          !formData.mailingAddress['view:livesOnMilitaryBase'] &&
+          formData.mailingAddress.country !== USA,
       },
     },
   },

@@ -649,3 +649,11 @@ DTEND:${endDate}
 END:VEVENT
 END:VCALENDAR`;
 }
+
+export function getCernerPortalLink() {
+  if (environment.isProduction()) {
+    return 'http://patientportal.myhealth.va.gov/';
+  }
+
+  return 'http://ehrm-va-test.patientportal.us.healtheintent.com/';
+}

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
@@ -6,9 +7,9 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
-import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import _ from '../../../platform/utilities/data';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
@@ -17,7 +18,7 @@ import {
   validateMilitaryState,
   validateZIP,
 } from './validations';
-import ReviewCardField from './components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
 import {
   DATA_PATHS,
@@ -310,12 +311,9 @@ export const AddressViewField = ({ formData }) => {
   }
   return (
     <p className="blue-bar-block">
-      {addressLine1 && addressLine1}
-      <br />
-      {addressLine2 && addressLine2}
-      {addressLine2 && <br />}
-      {addressLine3 && addressLine3}
-      {addressLine3 && <br />}
+      {addressLine1 && [addressLine1, <br />]}
+      {addressLine2 && [addressLine2, <br />]}
+      {addressLine3 && [addressLine3, <br />]}
       {lastLine}
     </p>
   );

@@ -48,34 +48,39 @@ class StatusPage extends React.Component {
     }
 
     return (
-      <div className="gib-info">
-        <FormTitle title="Post-9/11 GI Bill Statement of Benefits" />
-        {introText}
-        {printButton}
-        <UserInfoSection enrollmentData={enrollmentData} />
-        <h4>How can I see my Post-9/11 GI Bill benefit payments?</h4>
-        <div>
-          If you've received education benefit payments through this program,{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
-            onClick={() =>
-              recordEvent({
-                event: 'nav-ebenefits-click',
-              })
-            }
-          >
-            you can see your payment history on eBenefits
-          </a>
-          .
-        </div>
-        <EnrollmentHistory enrollmentData={enrollmentData} />
-        <div className="feature help-desk">
-          <h2>Need help?</h2>
-          <div>
-            Call 888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
-            ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
+      <div className="gib-info vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-row">
+          <div className="medium-screen:vads-l-col--9">
+            <FormTitle title="Post-9/11 GI Bill Statement of Benefits" />
+            {introText}
+            {printButton}
+            <UserInfoSection enrollmentData={enrollmentData} />
+            <h4>How can I see my Post-9/11 GI Bill benefit payments?</h4>
+            <div>
+              If you've received education benefit payments through this
+              program,{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-ebenefits-click',
+                  })
+                }
+              >
+                you can see your payment history on eBenefits
+              </a>
+              .
+            </div>
+            <EnrollmentHistory enrollmentData={enrollmentData} />
+            <div className="feature help-desk">
+              <h2>Need help?</h2>
+              <div>
+                Call 888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
+                ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
+              </div>
+            </div>
           </div>
         </div>
       </div>
