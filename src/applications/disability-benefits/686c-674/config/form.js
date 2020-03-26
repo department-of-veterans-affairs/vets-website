@@ -1,3 +1,6 @@
+import { TASK_KEYS } from './constants';
+import { isChapterFieldRequired } from './helpers';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -88,12 +91,16 @@ const formConfig = {
       title: 'Information needed to add your child',
       pages: {
         addChildInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
           title: 'Information needed to add your child',
           path: 'add-child',
           uiSchema: children.uiSchema,
           schema: children.schema,
         },
         addChildPlaceOfBirth: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
           title: 'Information needed to add your child',
           path: 'add-child/:index',
           showPagePerItem: true,
@@ -102,6 +109,8 @@ const formConfig = {
           schema: childPlaceOfBirth.schema,
         },
         addChildAdditionalInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
           title: 'Information needed to add your child',
           path: 'add-child/:index/additional-information',
           showPagePerItem: true,
@@ -115,30 +124,40 @@ const formConfig = {
       title: 'Information needed to add your spouse',
       pages: {
         spouseNameInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse',
           path: 'add-spouse',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
         },
         currentMarriageInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse',
           path: 'current-marriage-information',
           uiSchema: currentMarriageInformation.uiSchema,
           schema: currentMarriageInformation.schema,
         },
         doesLiveWithSpouse: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse',
           path: 'current-marriage-address',
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
         },
         spouseMarriageHistory: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse',
           path: 'current-spouse-marriage-history',
           uiSchema: spouseMarriageHistory.uiSchema,
           schema: spouseMarriageHistory.schema,
         },
         spouseMarriageHistoryDetails: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse',
           path: 'current-spouse-marriage-history/:index',
           showPagePerItem: true,
@@ -147,12 +166,16 @@ const formConfig = {
           schema: spouseMarriageHistoryDetails.schema,
         },
         veteranMarriageHistory: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information about your former marriage(s)',
           path: 'veteran-marriage-history',
           uiSchema: veteranMarriageHistory.uiSchema,
           schema: veteranMarriageHistory.schema,
         },
         veteranMarriageHistoryDetails: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information about your former marriage(s)',
           path: 'veteran-marriage-history/:index',
           showPagePerItem: true,
@@ -166,6 +189,12 @@ const formConfig = {
       title: 'Information needed to report a divorce',
       pages: {
         formerSpouseDetails: {
+          depends: formData =>
+            // if addSpouse is selected, divorce should not appear since the information is the same.
+            // otherwise, show reportDivorce.
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse)
+              ? false
+              : isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
           title: 'Information needed to report a divorce',
           path: 'report-a-divorce',
           uiSchema: formerSpouseInformation.uiSchema,
@@ -177,6 +206,8 @@ const formConfig = {
       title: 'Report the death of a dependent',
       pages: {
         dependentInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
           title: 'Report the death of a dependent',
           path: '686-report-dependent-death',
           uiSchema: deceasedDependentInformation.uiSchema,
@@ -188,6 +219,11 @@ const formConfig = {
       title: 'Information needed to report the marriage of a child under 18',
       pages: {
         childInformation: {
+          depends: formData =>
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportMarriageOfChildUnder18,
+            ),
           title:
             'Information needed to report the marriage of a child under 18',
           path: '686-report-marriage-of-child',
@@ -201,6 +237,11 @@ const formConfig = {
         'Information needed to report a child 18-23 years old stopped attending school',
       pages: {
         childNoLongerInSchool: {
+          depends: formData =>
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportChild18orOlderIsNotAttendingSchool,
+            ),
           title:
             'Information needed to report a child 18-23 years old stopped attending school',
           path: 'report-child-stopped-attending-school',
@@ -214,6 +255,11 @@ const formConfig = {
         'Information needed to report a stepchild is no longer part of your household',
       pages: {
         stepchildren: {
+          depends: formData =>
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportStepchildNotInHousehold,
+            ),
           title:
             'Information needed to report a stepchild is no longer part of your household',
           path: '686-stepchild-no-longer-part-of-household',
@@ -221,6 +267,11 @@ const formConfig = {
           schema: stepchildren.schema,
         },
         stepchildInformation: {
+          depends: formData =>
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportStepchildNotInHousehold,
+            ),
           title:
             'Information needed to report a stepchild is no longer part of your household',
           path: '686-stepchild-no-longer-part-of-household/:index',
@@ -236,6 +287,8 @@ const formConfig = {
         'Information needed to add a student 18 to 23 years old (VA 21-674)',
       pages: {
         studentNameAndSSN: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674',
@@ -243,6 +296,8 @@ const formConfig = {
           schema: studentNameAndSSN.schema,
         },
         studentAddressMarriageTuition: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674-student-address',
@@ -250,6 +305,8 @@ const formConfig = {
           schema: studentAddressMarriageTuition.schema,
         },
         studentSchoolAddress: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674-student-school-address',
@@ -257,6 +314,8 @@ const formConfig = {
           schema: studentSchoolAddress.schema,
         },
         studentTermDates: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674-student-school-term-dates',
@@ -264,6 +323,8 @@ const formConfig = {
           schema: studentTermDates.schema,
         },
         studentLastTerm: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674-student-last-term-information',
@@ -271,6 +332,8 @@ const formConfig = {
           schema: studentLastTerm.schema,
         },
         studentIncomeInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674-student-income-information',
@@ -278,6 +341,8 @@ const formConfig = {
           schema: studentIncomeInformation.schema,
         },
         studentNetworthInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
           title:
             'Information needed to add a student 18 to 23 years old (VA 21-674)',
           path: 'report-674-student-networth-information',
