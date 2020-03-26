@@ -206,6 +206,7 @@ export class SearchPage extends React.Component {
                 bah={result.bah}
                 dodBah={result.dodBah}
                 schoolClosing={result.schoolClosing}
+                schoolClosingOn={result.schoolClosingOn}
                 tuitionInState={result.tuitionInState}
                 tuitionOutOfState={result.tuitionOutOfState}
                 books={result.books}
