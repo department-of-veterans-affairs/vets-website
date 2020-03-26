@@ -119,7 +119,14 @@ export const formatOperatingHours = operatingHours => {
   // Remove all whitespace.
   const sanitizedOperatingHours = operatingHours.replace(/ /g, '');
 
-  if (sanitizedOperatingHours.search(/Sunrise-Sunset/i) === 0) {
+  if (sanitizedOperatingHours.search(/AM-PM/i) === 0) {
+    return operatingHours;
+  }
+
+  if (
+    sanitizedOperatingHours.search(/Sunrise-Sunset/i) === 0 ||
+    sanitizedOperatingHours.search(/Sunrise-Sundown/i) === 0
+  ) {
     return operatingHours;
   }
 
@@ -127,7 +134,19 @@ export const formatOperatingHours = operatingHours => {
     return sanitizedOperatingHours;
   }
 
-  if (sanitizedOperatingHours.search(/ByAppointmentOnly/i) === 0) {
+  if (
+    sanitizedOperatingHours.search(/ByAppointmentOnly/i) === 0 ||
+    sanitizedOperatingHours.search(/AppointmentsOnly/i) === 0 ||
+    sanitizedOperatingHours.search(/PleaseCallforHours/i) === 0 ||
+    sanitizedOperatingHours.search(
+      /3rdThursdayeverymonth,pleasecallforhours./i,
+    ) === 0 ||
+    sanitizedOperatingHours.search(/2ndand4thWeds.eachmonth.Callforhours./i) ===
+      0 ||
+    sanitizedOperatingHours.search(
+      /LastMondayeverymonth,pleasecallforhours./i,
+    ) === 0
+  ) {
     return operatingHours;
   }
 
