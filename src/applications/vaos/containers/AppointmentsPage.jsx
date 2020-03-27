@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
+import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
 import {
   cancelAppointment,
   closeCancelAppointment,
@@ -24,14 +24,14 @@ import {
   vaosDirectScheduling,
   vaosCommunityCare,
   isWelcomeModalDismissed,
+  selectIsCernerOnlyPatient,
 } from '../utils/selectors';
 import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
-import { GA_PREFIX, FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 import FutureAppointmentsList from '../components/FutureAppointmentsList';
 import PastAppointmentsList from '../components/PastAppointmentsList';
-import PastAppointmentsDateDropdown from '../components/PastAppointmentsDateDropdown';
 
 const pageTitle = 'VA appointments';
 const pastAppointmentDateRangeOptions = getPastAppointmentDateRangeOptions();
@@ -94,6 +94,13 @@ export class AppointmentsPage extends Component {
     );
   };
 
+  startNewAppointmentFlow = () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    this.props.startNewAppointmentFlow();
+  };
+
   render() {
     const {
       appointments,
@@ -103,6 +110,7 @@ export class AppointmentsPage extends Component {
       showPastAppointments,
       showCommunityCare,
       showDirectScheduling,
+      isCernerOnlyPatient,
     } = this.props;
 
     const { selectedPastDateRangeIndex } = this.state;
@@ -114,7 +122,7 @@ export class AppointmentsPage extends Component {
         fetchRequestMessages={this.props.fetchRequestMessages}
         showCancelButton={showCancelButton}
         showScheduleButton={showScheduleButton}
-        startNewAppointmentFlow={this.props.startNewAppointmentFlow}
+        startNewAppointmentFlow={this.startNewAppointmentFlow}
       />
     );
 
@@ -125,51 +133,12 @@ export class AppointmentsPage extends Component {
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
             <h1 className="vads-u-flex--1">{pageTitle}</h1>
             {showScheduleButton && (
-              <div className="vads-u-padding-y--3">
-                <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-                  Create a new appointment
-                </h2>
-                {showCommunityCare &&
-                  showDirectScheduling && (
-                    <p className="vads-u-margin-top--1">
-                      Schedule an appointment at a VA medical center, clinic, or
-                      Community Care facility.
-                    </p>
-                  )}
-                {!showCommunityCare &&
-                  !showDirectScheduling && (
-                    <p className="vads-u-margin-top--1">
-                      Send a request to schedule an appointment at a VA medical
-                      center or clinic.
-                    </p>
-                  )}
-                {showCommunityCare &&
-                  !showDirectScheduling && (
-                    <p className="vads-u-margin-top--1">
-                      Send a request to schedule an appointment at a VA medical
-                      center, clinic, or Community Care facility.
-                    </p>
-                  )}
-                {!showCommunityCare &&
-                  showDirectScheduling && (
-                    <p className="vads-u-margin-top--1">
-                      Schedule an appointment at a VA medical center or clinic.
-                    </p>
-                  )}
-                <Link
-                  id="new-appointment"
-                  className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
-                  to="/new-appointment"
-                  onClick={() => {
-                    recordEvent({
-                      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-                    });
-                    this.props.startNewAppointmentFlow();
-                  }}
-                >
-                  Schedule an appointment
-                </Link>
-              </div>
+              <ScheduleNewAppointment
+                isCernerOnlyPatient={isCernerOnlyPatient}
+                showCommunityCare={showCommunityCare}
+                showDirectScheduling={showDirectScheduling}
+                startNewAppointmentFlow={this.startNewAppointmentFlow}
+              />
             )}
             {showPastAppointments && (
               <Tabs
@@ -187,13 +156,12 @@ export class AppointmentsPage extends Component {
                 </TabList>
                 <TabPanel>{futureAppointments}</TabPanel>
                 <TabPanel>
-                  <PastAppointmentsDateDropdown
-                    value={selectedPastDateRangeIndex}
-                    onChange={this.onPastAppointmentDateRangeChange}
-                    options={pastAppointmentDateRangeOptions}
-                  />
                   <PastAppointmentsList
                     appointments={appointments}
+                    dateRangeOptions={pastAppointmentDateRangeOptions}
+                    isCernerOnlyPatient
+                    onDateRangeChange={this.onPastAppointmentDateRangeChange}
+                    selectedDateRangeIndex={selectedPastDateRangeIndex}
                     startNewAppointmentFlow={this.props.startNewAppointmentFlow}
                   />
                 </TabPanel>
@@ -250,6 +218,7 @@ function mapStateToProps(state) {
     showCommunityCare: vaosCommunityCare(state),
     showDirectScheduling: vaosDirectScheduling(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
 
