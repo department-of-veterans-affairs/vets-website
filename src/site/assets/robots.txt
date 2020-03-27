@@ -93,7 +93,6 @@ Disallow: /
 User-Agent: *
 Disallow: /analytics-opt-out.html
 Disallow: /cgi-bin/
-Disallow: /scorecard
 Disallow: /drupal
 
 # sitemap index
