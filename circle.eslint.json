@@ -1,6 +1,8 @@
 {
   "rules": {
     "sonarjs/no-extra-arguments": 2,
-    "sonarjs/no-identical-expressions": 2
+    "sonarjs/no-identical-expressions": 2,
+    "sonarjs/max-switch-cases": [2, 40],
+    "sonarjs/no-duplicated-branches": 2
   }
 }
