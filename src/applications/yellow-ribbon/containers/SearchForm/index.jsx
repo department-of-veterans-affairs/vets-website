@@ -6,7 +6,7 @@ import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import STATES from '../../../../platform/static-data/STATES.json';
+import STATES from 'platform/static-data/STATES.json';
 import { fetchResultsThunk } from '../../actions';
 
 export class SearchForm extends Component {
