@@ -105,6 +105,8 @@ export class SearchResults extends Component {
 
     // Update the page and the new start index.
     updatePagination(page, startIndex);
+
+    focusElement('[data-forms-focus]');
   };
 
   sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
