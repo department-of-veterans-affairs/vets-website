@@ -5,8 +5,8 @@
   "scripts": {
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
-    "build": "node --max-old-space-size=4096 script/build.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
+    "build:content": "node --max-old-space-size=4096 script/build.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/standalone-webpack.config.js",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
