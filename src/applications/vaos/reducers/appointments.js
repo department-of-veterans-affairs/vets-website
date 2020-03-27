@@ -70,8 +70,8 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS_FAILED:
       return {
         ...state,
-        pastStatus: FETCH_STATUS.failed,
-        past: null,
+        futureStatus: FETCH_STATUS.failed,
+        future: null,
       };
     case FETCH_PAST_APPOINTMENTS:
       return {
