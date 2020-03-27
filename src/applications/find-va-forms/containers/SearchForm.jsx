@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
 import { fetchFormsThunk } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 
 export class SearchForm extends Component {
   static propTypes = {
@@ -46,6 +47,8 @@ export class SearchForm extends Component {
   onSubmitHandler = event => {
     event.preventDefault();
     this.props.fetchFormsThunk(this.state.query);
+
+    focusElement('form[name="find-va-form"] button[type="submit"]');
   };
 
   render() {
