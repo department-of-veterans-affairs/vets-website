@@ -14,7 +14,7 @@ import Vet360TransactionReporter from 'vet360/containers/Vet360TransactionReport
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
-import MilitaryInformation from './MilitaryInformation';
+import MilitaryInformation from './MilitaryInformation2';
 import PaymentInformationBlocked from './PaymentInformationBlocked';
 import PaymentInformation from '../containers/PaymentInformation';
 import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
@@ -95,7 +95,6 @@ class ProfileView extends React.Component {
       showDirectDepositLink,
       showReceiveTextNotifications,
     } = this.props;
-
     let content;
 
     if (user.profile.verified) {

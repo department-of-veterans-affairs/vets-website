@@ -16,12 +16,13 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
-    // this.props.fetchMilitaryInformation();
+    this.props.fetchMilitaryInformation();
   }
   renderContent = () => {
     const {
       serviceHistory: { serviceHistory, error },
     } = this.props.militaryInformation;
+
     if (error) {
       if (some(error.errors, ['code', '403'])) {
         return (
@@ -78,23 +79,41 @@ class MilitaryInformationContent extends React.Component {
     }
 
     return (
-      <div data-field-name="serviceHistory">
-        {serviceHistory.map((service, index) => (
-          <div key={index}>
-            <h3>{service.branchOfService}</h3>
-            <div>
-              {moment(service.beginDate).format('MMM D, YYYY')} &ndash;{' '}
-              {moment(service.endDate).format('MMM D, YYYY')}
-            </div>
-          </div>
-        ))}
-      </div>
+      <table className="militaryInformation" data-field-name="serviceHistory">
+        <thead>
+          <tr>
+            <th colSpan="2">
+              <h3>Period of Service</h3>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {serviceHistory.map((service, index) => (
+            <tr key={index}>
+              <td>
+                <span>
+                  <h4>{service.branchOfService}</h4>
+                </span>
+                <span>
+                  {moment(service.beginDate).format('MMM D, YYYY')} &ndash;{' '}
+                  {moment(service.endDate).format('MMM D, YYYY')}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     );
   };
 
   render() {
     return (
       <div>
+        <LoadingSection
+          isLoading={!this.props.militaryInformation}
+          message="Loading military information..."
+          render={this.renderContent}
+        />
         <AdditionalInfo
           triggerText="What if my military service information doesn't look right?"
           onClick={() => {
@@ -123,20 +142,15 @@ class MilitaryInformationContent extends React.Component {
             hearing loss, call TTY: 1-866-363-2883.
           </p>
         </AdditionalInfo>
-        <LoadingSection
-          isLoading={!this.props.militaryInformation}
-          message="Loading military information..."
-          render={this.renderContent}
-        />
       </div>
     );
   }
 }
 
 export default function MilitaryInformation(props) {
-  if (!props.veteranStatus.servedInMilitary) {
-    return <div />;
-  }
+  // if (!props.veteranStatus.servedInMilitary) {
+  //   return <div />;
+  // }
 
   return (
     <div>
