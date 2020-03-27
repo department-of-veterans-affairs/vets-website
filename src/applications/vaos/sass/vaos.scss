@@ -9,24 +9,32 @@
   }
 
   .vaos-appts__tab {
+    width: 50%;
+    font-size:14px;
     border-color: $color-gray-light;
-    text-align: center;
-    background: $color-gray-light-alt;
     border: solid 1px $color-gray-light;
     border-radius: 0 !important;
-    margin: 0;
-    display: inline-block;
     bottom: -1px;
     position: relative;
     list-style: none;
-    padding: 6px 12px;
+    padding: 6px 9px;
     cursor: pointer;
 
     &.react-tabs__tab--selected {
       border-top: solid 3px $color-primary;
-      background: $color-white;
+      background: $color-white !important;
       border-bottom: solid 1px $color-white;
     }
+
+    @include media($medium-screen) {
+      padding: 6px 12px;  
+      width: 200px;
+      font-size: 16px;
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    
   }
 }
 

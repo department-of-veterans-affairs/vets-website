@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
@@ -126,6 +127,14 @@ export class AppointmentsPage extends Component {
       />
     );
 
+    const tabClasses = classNames(
+      'vaos-appts__tab',
+      'vads-u-background-color--gray-light-alt',
+      'vads-u-margin--0',
+      'vads-u-display--inline-block',
+      'vads-u-text-align--center',
+    );
+
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         <Breadcrumbs />
@@ -147,12 +156,8 @@ export class AppointmentsPage extends Component {
                 onSelect={this.onSelectTab}
               >
                 <TabList>
-                  <Tab className="small-4 vaos-appts__tab">
-                    Upcoming appointments
-                  </Tab>
-                  <Tab className="small-4 vaos-appts__tab">
-                    Past appointments
-                  </Tab>
+                  <Tab className={tabClasses}>Upcoming appointments</Tab>
+                  <Tab className={tabClasses}>Past appointments</Tab>
                 </TabList>
                 <TabPanel>{futureAppointments}</TabPanel>
                 <TabPanel>
