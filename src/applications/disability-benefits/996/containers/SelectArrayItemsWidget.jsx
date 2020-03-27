@@ -80,8 +80,12 @@ export default class SelectArrayItemsWidget extends React.Component {
               />
             );
 
+            // Fix axe issue on page, but not mess up review & submit page
+            // a <dl class="review"> wraps this content on review & submit page
+            const Tag = inReviewMode ? 'div' : 'dl';
+
             return (
-              <div key={elementId} className="review-row">
+              <Tag key={elementId} className="review-row">
                 <dt className={widgetClasses}>
                   {input}
                   <label
@@ -92,7 +96,7 @@ export default class SelectArrayItemsWidget extends React.Component {
                   </label>
                 </dt>
                 <dd />
-              </div>
+              </Tag>
             );
           })
         ) : (
