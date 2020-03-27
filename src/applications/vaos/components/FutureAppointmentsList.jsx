@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import recordEvent from 'platform/monitoring/record-event';
-
+import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
-import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
-import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
+import NoAppointments from '../components/NoAppointments';
 
 const FutureAppointmentsList = ({
   appointments,
   cancelAppointment,
   fetchRequestMessages,
+  isCernerOnlyPatient,
   showCancelButton,
   showScheduleButton,
   startNewAppointmentFlow,
@@ -98,44 +97,11 @@ const FutureAppointmentsList = ({
   }
   return (
     <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-      <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        You don’t have any appointments.
-      </h2>
-      {showScheduleButton && (
-        <>
-          <p>
-            You can schedule an appointment now, or you can call your{' '}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              VA medical center
-            </a>{' '}
-            to schedule an appointment.
-          </p>
-          <Link
-            id="new-appointment"
-            className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
-            to="/new-appointment"
-            onClick={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-              });
-              startNewAppointmentFlow();
-            }}
-          >
-            Schedule an appointment
-          </Link>
-        </>
-      )}
-      {!showScheduleButton && (
-        <>
-          <p>
-            To schedule an appointment, you can call your{' '}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              VA Medical center
-            </a>
-            .
-          </p>
-        </>
-      )}
+      <NoAppointments
+        showScheduleButton={showScheduleButton}
+        isCernerOnlyPatient={isCernerOnlyPatient}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />
     </div>
   );
 };

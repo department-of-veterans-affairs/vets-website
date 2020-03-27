@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const PastAppointmentsDateDropdown = ({ value, onChange, options }) => (
-  <div>
-    <label htmlFor="options">Go to:</label>
+  <div className="vads-u-margin-bottom--3">
+    <label
+      className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-right--2"
+      htmlFor="options"
+    >
+      Go to:
+    </label>
     <select
-      className="usa-select"
+      className="usa-select usa-select vads-u-display--inline-block vads-u-width--auto"
       name="options"
       id="options"
       value={value}
