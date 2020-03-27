@@ -83,9 +83,9 @@ class ResultsList extends Component {
                 Please try again later.
               </p>
               <p>
-                If you need care right away for a minor illness or injury, you
-                can search for your nearest VA health facility, VA-approved
-                urgent care location or pharmacy.
+                If you need care right away for a minor illness or injury,
+                select Urgent care under facility type, then select either VA or
+                community providers as the service type.
               </p>
               <p>
                 If you have a medical emergency, please go to your nearest
@@ -103,17 +103,9 @@ class ResultsList extends Component {
         >
           <p>We’re sorry. We couldn’t complete your request.</p>
           <p>
-            Please try again in a few minutes. Or, if you need care right away
-            for a minor illness or injury, search for your nearest VA health
-            facility or find{' '}
-            <a
-              href="https://vaurgentcarelocator.triwest.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              VA-approved urgent care locations and pharmacies
-            </a>{' '}
-            near you.
+            If you need care right away for a minor illness or injury, select
+            Urgent care under facility type, then select either VA or community
+            providers as the service type.
           </p>
           <p>
             If you have a medical emergency, please go to your nearest emergency

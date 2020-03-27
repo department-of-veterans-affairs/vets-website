@@ -10,7 +10,7 @@ import {
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 
-import ReviewCardField from '../../all-claims/components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from '../containers/AddressViewField';
 import { phoneEmailViewField } from '../../all-claims/content/contactInformation';
 import {
