@@ -15,7 +15,7 @@ export const renderSchoolClosingAlert = result => {
       if (currentDate > schoolClosingDate) {
         return (
           <AlertBox
-            className="vads-u-margin-top--0p5"
+            className="vads-u-margin-top--1"
             headline="School closed"
             content={<p>School has closed.</p>}
             isVisible={!!schoolClosing}
@@ -26,7 +26,7 @@ export const renderSchoolClosingAlert = result => {
     }
     return (
       <AlertBox
-        className="vads-u-margin-top--0p5"
+        className="vads-u-margin-top--1"
         content={<p>A campus at this school will be closing soon</p>}
         headline="A campus is closing soon"
         isVisible={!!schoolClosing}
@@ -37,7 +37,7 @@ export const renderSchoolClosingAlert = result => {
 
   return (
     <AlertBox
-      className="vads-u-margin-top--0p5"
+      className="vads-u-margin-top--1"
       content={<p>Upcoming campus closure</p>}
       headline="School closure"
       isVisible={!!schoolClosing}
@@ -79,7 +79,7 @@ export const renderCautionAlert = result => {
   if (!environment.isProduction()) {
     return (
       <AlertBox
-        className="vads-u-margin-top--1 "
+        className="vads-u-margin-top--1"
         content={renderReasons(cautionFlags)}
         headline={
           cautionFlags.length > 1
