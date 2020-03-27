@@ -3,7 +3,7 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
-// import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
@@ -12,8 +12,7 @@ import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
 function loginHandler(loginType, application = null) {
-  // TODO add separate login tracking for this page
-  //   recordEvent({ event: `login-attempted-${loginType}` });
+  recordEvent({ event: `login-attempted-${loginType}` });
   login(loginType, 'v1', application);
 }
 
