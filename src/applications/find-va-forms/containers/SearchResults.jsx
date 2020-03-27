@@ -196,8 +196,8 @@ export class SearchResults extends Component {
     return (
       <>
         <h2
-          data-forms-focus
           className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
         >
           Displaying {startLabel} - {lastLabel} out of {results.length} results
           for "<strong>{query}</strong>"
