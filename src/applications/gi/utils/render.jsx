@@ -17,7 +17,7 @@ export const renderSchoolClosingAlert = result => {
           <AlertBox
             className="vads-u-margin-top--1"
             headline="School closed"
-            content={<p>School has closed.</p>}
+            content={<p>School has closed</p>}
             isVisible={!!schoolClosing}
             status="warning"
           />
