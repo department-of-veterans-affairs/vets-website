@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export function PastAppointmentsDateDropdown({ value, onChange, options }) {
+export default function PastAppointmentsDateDropdown({
+  value,
+  onChange,
+  options,
+}) {
   return (
     <div className="vads-u-margin-bottom--3">
       <label
