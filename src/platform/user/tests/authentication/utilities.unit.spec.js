@@ -48,9 +48,19 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/sessions/idme/new');
   });
 
+  it('should redirect for login v1', () => {
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
   it('should redirect for logout', () => {
     logout();
     expect(global.window.location).to.include('/sessions/slo/new');
+  });
+
+  it('should redirect for logout v1', () => {
+    logout();
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
   it('should redirect for MFA', () => {

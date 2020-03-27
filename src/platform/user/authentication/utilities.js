@@ -20,7 +20,6 @@ function sessionTypeUrl(type, version = 'v0') {
 const SIGNUP_URL = sessionTypeUrl('signup');
 const MFA_URL = sessionTypeUrl('mfa');
 const VERIFY_URL = sessionTypeUrl('verify');
-const LOGOUT_URL = sessionTypeUrl('slo');
 
 const loginUrl = (policy, version) => {
   switch (policy) {
@@ -94,9 +93,9 @@ export function verify() {
   return redirect(VERIFY_URL, 'verify-link-clicked');
 }
 
-export function logout() {
+export function logout(version = 'v0') {
   clearSentryLoginType();
-  return redirect(LOGOUT_URL, 'logout-link-clicked');
+  return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
 }
 
 export function signup() {
