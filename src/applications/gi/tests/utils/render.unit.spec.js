@@ -21,9 +21,7 @@ describe('renderSchoolClosingAlert', () => {
         schoolClosingOn: '2019-05-06',
       }),
     );
-    expect(tree.find('.usa-alert-text').text()).to.equal(
-      "This campus has closed. Visit the school's website to learn more.",
-    );
+    expect(tree.find('.usa-alert-text').text()).to.equal('School has closed.');
     tree.unmount();
   });
   it('should not render an alert', () => {

@@ -15,13 +15,9 @@ export const renderSchoolClosingAlert = result => {
       if (currentDate > schoolClosingDate) {
         return (
           <AlertBox
-            headline="This campus has closed"
-            content={
-              <p>
-                This campus has closed. Visit the school's website to learn
-                more.
-              </p>
-            }
+            className="vads-u-margin-top--0p5"
+            headline="School closed"
+            content={<p>School has closed.</p>}
             isVisible={!!schoolClosing}
             status="warning"
           />
@@ -41,6 +37,7 @@ export const renderSchoolClosingAlert = result => {
 
   return (
     <AlertBox
+      className="vads-u-margin-top--0p5"
       content={<p>Upcoming campus closure</p>}
       headline="School closure"
       isVisible={!!schoolClosing}
