@@ -8,7 +8,7 @@ import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentList
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
 import NoAppointments from '../components/NoAppointments';
 
-const FutureAppointmentsList = ({
+export default function FutureAppointmentsList({
   appointments,
   cancelAppointment,
   fetchRequestMessages,
@@ -16,7 +16,7 @@ const FutureAppointmentsList = ({
   showCancelButton,
   showScheduleButton,
   startNewAppointmentFlow,
-}) => {
+}) {
   const {
     future,
     futureStatus,
@@ -95,6 +95,7 @@ const FutureAppointmentsList = ({
       </AlertBox>
     );
   }
+
   return (
     <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
       <NoAppointments
@@ -104,15 +105,13 @@ const FutureAppointmentsList = ({
       />
     </div>
   );
-};
+}
 
 FutureAppointmentsList.propTypes = {
   appointments: PropTypes.object.isRequired,
   cancelAppointment: PropTypes.func.isRequired,
   fetchRequestMessages: PropTypes.func.isRequired,
-  showCancelButton: PropTypes.bool.isRequired,
-  showScheduleButton: PropTypes.bool.isRequired,
+  showCancelButton: PropTypes.bool,
+  showScheduleButton: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func.isRequired,
 };
-
-export default FutureAppointmentsList;

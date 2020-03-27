@@ -372,7 +372,10 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
       .clone()
       .startOf('year')
       .format(isoDateFormat),
-    endDate: today.format(isoDateFormat),
+    endDate: today
+      .clone()
+      .endOf('year')
+      .format(isoDateFormat),
   });
 
   // All of last year

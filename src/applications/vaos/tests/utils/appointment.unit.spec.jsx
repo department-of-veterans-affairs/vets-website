@@ -35,6 +35,7 @@ import {
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   titleCase,
+  getPastAppointmentDateRangeOptions,
   // getPastAppointmentDateRangeOptions,
 } from '../../utils/appointment';
 import { APPOINTMENT_TYPES } from '../../utils/constants';
@@ -580,8 +581,45 @@ describe('VAOS appointment helpers', () => {
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {
-    it('should return 4 correct date ranges for dropdown', () => {
-      // console.log(getPastAppointmentDateRangeOptions());
+    const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
+    it('should return 6 correct date ranges for dropdown', () => {
+      expect(ranges.length).to.equal(6);
+      expect(ranges[0]).to.deep.equal({
+        value: 0,
+        label: 'Past 3 months',
+        startDate: '2019-11-02',
+        endDate: '2020-02-02',
+      });
+      expect(ranges[1]).to.deep.equal({
+        value: 1,
+        label: 'Sept. 2019 – Nov. 2019',
+        startDate: '2019-09-01',
+        endDate: '2019-11-30',
+      });
+      expect(ranges[2]).to.deep.equal({
+        value: 2,
+        label: 'June 2019 – Aug. 2019',
+        startDate: '2019-06-01',
+        endDate: '2019-08-31',
+      });
+      expect(ranges[3]).to.deep.equal({
+        value: 3,
+        label: 'March 2019 – May 2019',
+        startDate: '2019-03-01',
+        endDate: '2019-05-31',
+      });
+      expect(ranges[4]).to.deep.equal({
+        value: 4,
+        label: 'Show all of 2020',
+        startDate: '2020-01-01',
+        endDate: '2020-12-31',
+      });
+      expect(ranges[5]).to.deep.equal({
+        value: 5,
+        label: 'Show all of 2019',
+        startDate: '2019-01-01',
+        endDate: '2019-12-31',
+      });
     });
   });
 

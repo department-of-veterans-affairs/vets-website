@@ -7,12 +7,12 @@ import { getAppointmentType } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
-const PastAppointmentsList = ({
+export default function PastAppointmentsList({
   appointments,
   onDateRangeChange,
   dateRangeOptions,
   selectedDateRangeIndex,
-}) => {
+}) {
   const { past, pastStatus, systemClinicToFacilityMap } = appointments;
   const loading = pastStatus === FETCH_STATUS.loading;
   const hasAppointments =
@@ -84,7 +84,7 @@ const PastAppointmentsList = ({
       {content}
     </>
   );
-};
+}
 
 PastAppointmentsList.propTypes = {
   appointments: PropTypes.object.isRequired,
@@ -92,5 +92,3 @@ PastAppointmentsList.propTypes = {
   selectedDateRangeIndex: PropTypes.number.isRequired,
   onDateRangeChange: PropTypes.func.isRequired,
 };
-
-export default PastAppointmentsList;
