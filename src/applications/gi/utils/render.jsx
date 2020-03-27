@@ -79,7 +79,7 @@ export const renderCautionAlert = result => {
   if (!environment.isProduction()) {
     return (
       <AlertBox
-        className="vads-u-margin-top--0p5"
+        className="vads-u-margin-top--1 "
         content={renderReasons(cautionFlags)}
         headline={
           cautionFlags.length > 1
@@ -93,6 +93,7 @@ export const renderCautionAlert = result => {
   }
   return (
     <AlertBox
+      className="vads-u-margin-top--1"
       content={<p>This school has cautionary warnings</p>}
       headline="Caution"
       isVisible={cautionFlags.length > 0}
