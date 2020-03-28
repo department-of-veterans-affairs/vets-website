@@ -37,10 +37,13 @@ class SignInModal extends React.Component {
     }
   }
 
+  authVersion() {
+    return this.props.useSSOe ? 'v1' : 'v0';
+  }
+
   loginHandler = loginType => () => {
-    const { useSSOe } = this.props;
     recordEvent({ event: `login-attempted-${loginType}` });
-    login(loginType, useSSOe ? 'v1' : 'v0');
+    login(loginType, this.authVersion());
   };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
@@ -209,7 +212,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="idme-create usa-button usa-button-secondary"
-                      onClick={signup}
+                      onClick={signup(this.authVersion())}
                     >
                       <img
                         alt="ID.me"

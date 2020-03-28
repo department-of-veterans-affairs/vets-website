@@ -19,7 +19,6 @@ function sessionTypeUrl(type = '', version = 'v0', application = null) {
   }`;
 }
 
-const SIGNUP_URL = sessionTypeUrl('signup');
 const MFA_URL = sessionTypeUrl('mfa');
 const VERIFY_URL = sessionTypeUrl('verify');
 
@@ -103,6 +102,6 @@ export function logout(version = 'v0') {
   return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
 }
 
-export function signup() {
-  return redirect(SIGNUP_URL, 'register-link-clicked');
+export function signup(version = 'v0') {
+  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
 }
