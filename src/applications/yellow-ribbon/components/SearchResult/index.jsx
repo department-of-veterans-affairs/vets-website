@@ -48,12 +48,14 @@ const deriveMaxAmountLabel = (school = {}) => {
   const contributionAmountNum = parseFloat(school?.contributionAmount);
 
   if (contributionAmountNum > 90000) {
-    return 'All tuition and fees not covered by Post-9/11 GI Bill';
+    return 'All tuition and fees not covered by Post-9/11 GI Bill benefits';
   }
 
   // Show formatted contributionAmount.
   return contributionAmountNum.toLocaleString('en-US', {
     currency: 'USD',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
     style: 'currency',
   });
 };

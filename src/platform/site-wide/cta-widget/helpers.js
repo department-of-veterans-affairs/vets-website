@@ -107,11 +107,6 @@ export const toolUrl = appId => {
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
-      return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,
-        redirect: false,
-      };
-
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,

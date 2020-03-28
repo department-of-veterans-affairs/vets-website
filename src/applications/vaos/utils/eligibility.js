@@ -187,7 +187,7 @@ export function isEligible(eligibilityChecks) {
 }
 
 export function getEligibleFacilities(facilities) {
-  return facilities.filter(
+  return facilities?.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
 }
