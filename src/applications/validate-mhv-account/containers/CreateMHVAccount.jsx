@@ -8,6 +8,10 @@ import MessageTemplate from './../components/MessageTemplate';
 import { createAndUpgradeMHVAccount } from '../../../platform/user/profile/actions';
 
 class CreateMHVAccount extends React.Component {
+  logoutHandler = () => {
+    logout(this.props.useSSOe ? 'v1' : 'v0');
+  };
+
   render() {
     const content = {
       heading: `Please create a My HealtheVet account to access health tools  `,
@@ -31,7 +35,7 @@ class CreateMHVAccount extends React.Component {
           </button>
           <button
             className="va-button-link vads-u-margin-left--2"
-            onClick={logout(this.props.useSSOe ? 'v1' : 'v0')}
+            onClick={this.logoutHandler}
           >
             Sign out of VA.gov
           </button>

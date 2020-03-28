@@ -46,6 +46,10 @@ class SignInModal extends React.Component {
     login(loginType, this.authVersion());
   };
 
+  signupHandler = () => {
+    signup(this.authVersion());
+  };
+
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
     <ExternalServicesError dependencies={dependencies} onRender={onRender}>
       <div className="downtime-notification row">
@@ -212,7 +216,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="idme-create usa-button usa-button-secondary"
-                      onClick={signup(this.authVersion())}
+                      onClick={this.signupHandler}
                     >
                       <img
                         alt="ID.me"
