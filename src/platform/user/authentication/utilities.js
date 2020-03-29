@@ -102,6 +102,9 @@ export function logout(version = 'v0') {
   return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
 }
 
-export function signup(version = 'v0') {
-  return redirect(sessionTypeUrl('signup', version), 'register-link-clicked');
+export function signup(version = 'v0', application = null) {
+  return redirect(
+    sessionTypeUrl('signup', version, application),
+    'register-link-clicked',
+  );
 }
