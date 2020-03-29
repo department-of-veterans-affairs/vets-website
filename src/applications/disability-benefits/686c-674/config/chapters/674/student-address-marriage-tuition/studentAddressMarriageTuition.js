@@ -1,12 +1,15 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { genericSchemas } from '../../../generic-schema';
+import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 
 import { StudentNameHeader } from '../helpers';
-import { addressSchema, addressUISchema } from '../../../address-schema';
+import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 
 const { date, genericTextInput } = genericSchemas;
+
+const addressSchema = buildAddressSchema(true);
 
 export const schema = {
   type: 'object',
@@ -26,7 +29,12 @@ export const schema = {
 
 export const uiSchema = {
   'ui:title': StudentNameHeader,
-  studentAddress: addressUISchema(true, 'studentAddress', 'report674'),
+  studentAddress: {
+    ...{ 'ui:title': 'Student’s Address' },
+    ...addressUISchema(true, 'studentAddress', formData =>
+      isChapterFieldRequired(formData, TASK_KEYS.report674),
+    ),
+  },
   studentWasMarried: {
     'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
     'ui:title': 'Was the student ever married?',

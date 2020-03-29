@@ -24,7 +24,7 @@ const renderPhoneNumber = (
       {!isCCProvider && phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
       <br />
       {from === 'FacilityDetail' && <i className="fa fa-fw" />}
-      {subTitle && subTitle}
+      {subTitle}
       {isCCProvider &&
         ` ${phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}`}
       {from === 'FacilityDetail' ? (

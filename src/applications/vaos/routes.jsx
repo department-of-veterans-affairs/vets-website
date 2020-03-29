@@ -61,7 +61,7 @@ export default function createRoutesWithStore(store) {
         path="new-appointment"
         component={asyncLoader(() =>
           Promise.all([
-            import(/* webpackChunkName: "vaos-form" */ './components/NewAppointmentLayout'),
+            import(/* webpackChunkName: "vaos-form" */ './containers/NewAppointmentLayout'),
             import(/* webpackChunkName: "vaos-form" */ './reducers/newAppointment'),
           ]).then(([component, reducer]) => {
             store.injectReducer('newAppointment', reducer.default);

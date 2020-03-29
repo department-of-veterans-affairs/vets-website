@@ -187,7 +187,6 @@ describe('VAOS <AppointmentsPage>', () => {
         .props().facility,
     ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
     expect(tree.find('AppointmentRequestListItem').length).to.equal(1);
-    expect(tree.find('.usa-button').length).to.equal(1);
 
     tree.unmount();
   });
@@ -268,9 +267,9 @@ describe('VAOS <AppointmentsPage>', () => {
     );
 
     tree
-      .find('Link')
-      .at(0)
-      .simulate('click');
+      .find('ScheduleNewAppointment')
+      .props()
+      .startNewAppointmentFlow();
     expect(global.window.dataLayer[0].event).to.equal(
       'vaos-schedule-appointment-button-clicked',
     );

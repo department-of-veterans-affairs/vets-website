@@ -1,6 +1,6 @@
 // Dependencies
 import moment from 'moment';
-import { first, includes, last, replace, split, toLower } from 'lodash';
+import { first, includes, last, split, toLower } from 'lodash';
 
 export const setFocus = selector => {
   const el =
@@ -116,13 +116,38 @@ export const validateIdString = (urlObj, urlPrefixString) => {
  */
 export const formatOperatingHours = operatingHours => {
   if (!operatingHours) return operatingHours;
-
   // Remove all whitespace.
-  const sanitizedOperatingHours = replace(operatingHours, ' ', '');
+  const sanitizedOperatingHours = operatingHours.replace(/ /g, '');
 
-  // Escape early if it is 'Sunrise - Sunset'.
-  if (toLower(sanitizedOperatingHours) === 'sunrise-sunset') {
-    return 'All Day';
+  if (sanitizedOperatingHours.search(/AM-PM/i) === 0) {
+    return operatingHours;
+  }
+
+  if (
+    sanitizedOperatingHours.search(/Sunrise-Sunset/i) === 0 ||
+    sanitizedOperatingHours.search(/Sunrise-Sundown/i) === 0
+  ) {
+    return operatingHours;
+  }
+
+  if (sanitizedOperatingHours.search(/24\/7/i) === 0) {
+    return sanitizedOperatingHours;
+  }
+
+  if (
+    sanitizedOperatingHours.search(/ByAppointmentOnly/i) === 0 ||
+    sanitizedOperatingHours.search(/AppointmentsOnly/i) === 0 ||
+    sanitizedOperatingHours.search(/PleaseCallforHours/i) === 0 ||
+    sanitizedOperatingHours.search(
+      /3rdThursdayeverymonth,pleasecallforhours./i,
+    ) === 0 ||
+    sanitizedOperatingHours.search(/2ndand4thWeds.eachmonth.Callforhours./i) ===
+      0 ||
+    sanitizedOperatingHours.search(
+      /LastMondayeverymonth,pleasecallforhours./i,
+    ) === 0
+  ) {
+    return operatingHours;
   }
 
   // Derive if the hours are closed.
@@ -141,8 +166,8 @@ export const formatOperatingHours = operatingHours => {
   const closingHour = last(hours);
 
   // Format the hours based on 'hmmA' format.
-  let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mma');
-  let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mma');
+  let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mm a');
+  let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mm a');
 
   // Attempt to format the hours based on 'h:mmA' if theere's a colon.
   if (includes(openingHour, ':')) {
@@ -151,7 +176,6 @@ export const formatOperatingHours = operatingHours => {
   if (includes(closingHour, ':')) {
     formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mm a');
   }
-
   // Return original string if invalid date.
   if (formattedOpeningHour.search(/Invalid date/i) === 0) {
     formattedOpeningHour = operatingHours;
@@ -162,8 +186,20 @@ export const formatOperatingHours = operatingHours => {
     formattedClosingHour = closingHour;
   }
 
+  let formattedOperatingHours;
+
   // Derive the formatted operating hours.
-  const formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
+  // TODO this will be handled by the backend later for now this should work
+  if (
+    (formattedOpeningHour.search(/Invalid date/i) !== 0 &&
+      formattedClosingHour.search(/Invalid date/i) !== 0) ||
+    (formattedOpeningHour.search(/Invalid date/i) !== 0 &&
+      formattedClosingHour.search(/Invalid date/i) === 0) ||
+    (formattedOpeningHour.search(/Invalid date/i) === 0 &&
+      formattedClosingHour.search(/Invalid date/i) !== 0)
+  ) {
+    formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
+  }
 
   // Return the formatted operating hours.
   return formattedOperatingHours;

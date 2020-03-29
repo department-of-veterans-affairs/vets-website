@@ -8,6 +8,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
+import { changeDropdown } from '../helpers';
 
 describe('686 add child - child additional information', () => {
   const {
@@ -48,7 +49,7 @@ describe('686 add child - child additional information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(10);
     form.unmount();
   });
 
@@ -66,7 +67,7 @@ describe('686 add child - child additional information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -94,14 +95,14 @@ describe('686 add child - child additional information', () => {
       'input#root_childAddressInfo_personChildLivesWith_last',
       'Bob',
     );
-    fillData(
+    changeDropdown(
       form,
-      'input#root_childAddressInfo_childAddress_country',
+      'select#root_childAddressInfo_childAddress_countryName',
       'United States',
     );
     fillData(
       form,
-      'input#root_childAddressInfo_childAddress_street',
+      'input#root_childAddressInfo_childAddress_addressLine1',
       'Sunny Road',
     );
     fillData(
@@ -109,7 +110,12 @@ describe('686 add child - child additional information', () => {
       'input#root_childAddressInfo_childAddress_city',
       'Someplace',
     );
-    fillData(form, 'input#root_childAddressInfo_childAddress_postal', '12345');
+    changeDropdown(
+      form,
+      'select#root_childAddressInfo_childAddress_stateCode',
+      'DC',
+    );
+    fillData(form, 'input#root_childAddressInfo_childAddress_zipCode', '12345');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

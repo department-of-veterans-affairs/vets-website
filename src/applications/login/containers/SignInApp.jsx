@@ -1,29 +1,24 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
-// import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
+import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
-const loginHandler = loginType => () => {
-  // TODO add separate login tracking for this page
-  //   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1');
-};
-
-const handleDsLogon = loginHandler('dslogon');
-const handleMhv = loginHandler('mhv');
-const handleIdMe = loginHandler('idme');
+function loginHandler(loginType, application = null) {
+  recordEvent({ event: `login-attempted-${loginType}` });
+  login(loginType, 'v1', application);
+}
 
 const vaGovFullDomain = environment.BASE_URL;
 
-class SignInModal extends React.Component {
+class SignInPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,11 +54,15 @@ class SignInModal extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
+    const { query } = this.props.location;
+    const loggedOut = query.auth === 'logged_out';
+    const application = query.application;
 
     return (
       <main className="login">
         <div className="container">
           <div className="row">
+            {loggedOut && <LogoutAlert />}
             <div className="columns small-12">
               <h1 className="medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5">
                 Sign in
@@ -103,7 +102,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="dslogon"
-                      onClick={handleDsLogon}
+                      onClick={() => loginHandler('dslogon', application)}
                     >
                       <img
                         alt="DS Logon"
@@ -114,7 +113,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="mhv"
-                      onClick={handleMhv}
+                      onClick={() => loginHandler('mhv', application)}
                     >
                       <img
                         alt="My HealtheVet"
@@ -125,7 +124,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="usa-button-primary va-button-primary"
-                      onClick={handleIdMe}
+                      onClick={() => loginHandler('idme', application)}
                     >
                       <img
                         alt="ID.me"
@@ -237,9 +236,4 @@ class SignInModal extends React.Component {
   }
 }
 
-SignInModal.propTypes = {
-  onClose: PropTypes.func,
-  visible: PropTypes.bool,
-};
-
-export default SignInModal;
+export default SignInPage;

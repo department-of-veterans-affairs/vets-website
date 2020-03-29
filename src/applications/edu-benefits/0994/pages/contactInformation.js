@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import ReviewCardField from '../../components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { AddressViewField } from '../components/AddressViewField';

@@ -18,4 +18,7 @@ src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-frontend
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
 # Facilities team
-src/applications/facility-locator/ @department-of-veterans-affairs/facility-locator-frontend
+src/applications/facility-locator @department-of-veterans-affairs/facility-locator-frontend
+# Booz Allen Team
+src/applications/gi @department-of-veterans-affairs/bah-code-reviewers
+src/applications/edu-benefits/1995 @department-of-veterans-affairs/bah-code-reviewers
