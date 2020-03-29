@@ -67,6 +67,22 @@ class InstitutionFilterForm extends React.Component {
     );
   };
 
+  renderCautionaryWarningsFilter = () => {
+    const { filters } = this.props;
+
+    return (
+      <div>
+        <p>Cautionary Warnings</p>
+        <Checkbox
+          checked={filters.cautionFlag}
+          name="cautionFlag"
+          label="Exclude institutions with warnings"
+          onChange={this.handleCheckboxChange}
+        />
+      </div>
+    );
+  };
+
   renderProgramFilters = () => {
     const { filters } = this.props;
 
@@ -148,6 +164,7 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
+        {this.renderCautionaryWarningsFilter()}
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
@@ -170,6 +187,7 @@ InstitutionFilterForm.propTypes = {
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
+    cautionFlags: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -186,6 +204,7 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
+    cautionFlag: PropTypes,
   }),
 };
 
