@@ -35,8 +35,7 @@ if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
     # yarn build:webpack "${args}"
 else
-    echo "Fetching application assets"
-    # TODO: Actually fetch them
+    echo "Will fetch application assets from the content build script"
 fi
 
 # Always build the content
