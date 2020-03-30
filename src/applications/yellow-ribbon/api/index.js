@@ -10,7 +10,6 @@ export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
   const city = options?.city;
   const contribution_amount = options?.contributionAmount;
-  const country = options?.country;
   const mockRequest = options?.mockRequest;
   const number_of_students = options?.numberOfStudents;
   const page = options?.page;
@@ -24,7 +23,6 @@ export const fetchResultsApi = async (options = {}) => {
     {
       city,
       contribution_amount,
-      country,
       number_of_students,
       page,
       per_page,
