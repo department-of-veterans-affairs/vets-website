@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { recordVaosError } from './events';
+import environment from 'platform/utilities/environment';
 
 export function captureError(err, skipRecordEvent) {
   let eventErrorKey;
@@ -20,5 +21,10 @@ export function captureError(err, skipRecordEvent) {
 
   if (!skipRecordEvent) {
     recordVaosError(eventErrorKey);
+  }
+
+  if (!environment.isProduction()) {
+    // eslint-disable-next-line no-console
+    console.error(err);
   }
 }
