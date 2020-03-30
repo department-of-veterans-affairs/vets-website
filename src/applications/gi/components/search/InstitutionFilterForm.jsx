@@ -3,6 +3,8 @@ import React from 'react';
 
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
+// import { renderLearnMoreLabel } from '../../utils/render';
+// import { ariaLabels } from '../../constants';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
 import {
   addAllOption,
@@ -20,6 +22,15 @@ class InstitutionFilterForm extends React.Component {
     const { name: field, checked: value } = e.target;
     this.props.handleFilterChange(field, value);
   };
+
+  // renderProfileCautionFlagModals = () => {
+  //   renderLearnMoreLabel({
+  //     modal: 'cautionaryWarnings',
+  //     showModal: this.props.showModal,
+  //     ariaLabel: ariaLabels.learnMore.cautionaryWarning,
+  //     component: this,
+  //   });
+  // };
 
   renderCategoryFilter = () => (
     <SearchResultTypeOfInstitutionFilter
@@ -72,7 +83,10 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <div>
-        <p>Cautionary Warnings</p>
+        <p>
+          Cautionary Warnings
+          {/* {renderProfileCautionFlagModals()} */}
+        </p>
         <Checkbox
           checked={filters.cautionFlag}
           name="cautionFlag"
