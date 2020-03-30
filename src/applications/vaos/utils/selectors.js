@@ -336,4 +336,4 @@ export const selectIsCernerOnlyPatient = state =>
   !!selectFacilities(state)?.every(f => f.isCerner);
 
 export const selectAtleastOneCernerFacility = state =>
-  selectFacilities(state)?.filter(facility => facility.isCerner).length > 0;
+  selectFacilities(state)?.some(f => f.isCerner);
