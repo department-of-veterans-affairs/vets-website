@@ -2,7 +2,6 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import DependentViewField from '../../../../components/DependentViewField';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { genericSchemas } from '../../../generic-schema';
 
 export const schema = {
@@ -65,11 +64,6 @@ export const uiSchema = {
           showFieldLabel: true,
           keepInPageOnReview: true,
         },
-        'ui:validations': [
-          {
-            validator: validateBooleanGroup,
-          },
-        ],
         'ui:errorMessages': {
           atLeastOne: 'You must choose at least one option',
         },
