@@ -44,8 +44,6 @@ class RatedDisabilitiesApp extends React.Component {
         <RequiredLoginView
           serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}
         >
           <DowntimeNotification
             appTitle="Rated Disabilities"
