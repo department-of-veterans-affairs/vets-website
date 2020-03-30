@@ -264,6 +264,7 @@ Example data:
           </div>
 
           <!-- Stories -->
+          {% if newsStoryTeasers.entities.length %}
           <section>
             <h2
               class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">
@@ -278,8 +279,10 @@ Example data:
                 class="fa fa-chevron-right va-l-font-size--12px"></i>
             </a>
           </section>
+          {% endif %}
 
           <!-- Events -->
+          {% if eventTeasers.entities.length %}
           <section>
             <h2
               class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
@@ -299,6 +302,7 @@ Example data:
                 class="fa fa-chevron-right va-l-font-size--12px"></i>
             </a>
           </section>
+          {% endif %}
 
           <!-- Social Links -->
           {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}

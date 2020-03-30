@@ -9,12 +9,12 @@
  *
  * @method isActiveElement
  * @param {string} selector The selector (CSS / Xpath) used to locate the element.
- * @param {string} [message] Optional log message to display in the output. If missing, one is displayed by default.
+ * @param {string} [message] Optional log message to override "Testing if element that matches ${selector} is active".
  * @api assertions
  */
-exports.assertion = function isActiveElement(selector, msg) {
+exports.assertion = function isActiveElement(selector, message) {
   this.message =
-    msg || `Testing if element that matches ${selector} is focused.`;
+    message || `Testing if element that matches ${selector} is focused.`;
   this.expected = true;
   this.pass = value => value === this.expected;
   this.failure = result => result === false;
