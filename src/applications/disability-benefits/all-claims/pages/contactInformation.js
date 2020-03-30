@@ -8,7 +8,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import {

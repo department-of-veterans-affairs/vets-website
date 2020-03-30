@@ -396,6 +396,48 @@ describe('VAOS newAppointment actions', () => {
       expect(firstAction.eligibilityData).to.not.be.null;
     });
 
+    it('should fetch eligibility info if only one supported facility', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: '983',
+          },
+          facilities: {
+            '323_983': [
+              {
+                institutionCode: '983',
+                rootStationCode: '983',
+                parentStationCode: '983',
+                requestSupported: false,
+                directSchedulingSupported: false,
+              },
+              {
+                institutionCode: '983GC',
+                rootStationCode: '983',
+                parentStationCode: '983',
+                requestSupported: true,
+                directSchedulingSupported: false,
+              },
+            ],
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+
+      expect(firstAction.eligibilityData).to.not.be.null;
+    });
+
     it('should skip eligibility request and succeed if facility list is empty', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
       const dispatch = sinon.spy();
