@@ -15,7 +15,7 @@ import {
   disabilityActionTypes,
 } from './constants';
 
-import { disabilityIsSelected } from './utils';
+import { disabilityIsSelected, hasGuardOrReservePeriod } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -219,6 +219,19 @@ export function transform(formConfig, form) {
       : formData;
 
   const filterRatedViewFields = formData => filterViewFields(formData);
+
+  const filterServicePeriods = formData => {
+    const { serviceInformation } = formData;
+    if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
+      return formData;
+    }
+    // remove `reservesNationalGuardService` since no associated
+    // Reserve or National guard service periods have been provided
+    // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
+    const clonedData = _.cloneDeep(formData);
+    delete clonedData.serviceInformation.reservesNationalGuardService;
+    return clonedData;
+  };
 
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
@@ -530,6 +543,7 @@ export function transform(formConfig, form) {
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
+    filterServicePeriods,
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,
