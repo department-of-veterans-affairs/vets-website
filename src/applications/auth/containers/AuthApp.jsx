@@ -113,12 +113,12 @@ export class AuthApp extends React.Component {
     this.setState({ error: true });
   };
 
-  handleAuthSuccess = payload => {
+  handleAuthSuccess = async payload => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const { type } = this.props.location.query;
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
-    setupProfileSession(authMetrics.userProfile);
+    await setupProfileSession(authMetrics.userProfile);
     this.redirect();
   };
 
