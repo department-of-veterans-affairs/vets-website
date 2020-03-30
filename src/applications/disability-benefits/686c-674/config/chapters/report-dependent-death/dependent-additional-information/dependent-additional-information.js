@@ -56,8 +56,6 @@ export const uiSchema = {
       },
       childStatus: {
         'ui:title': "Child's status (Check all that apply)",
-        'ui:required': (formData, index) =>
-          formData.deaths[`${index}`].dependentType === 'CHILD',
         'ui:options': {
           expandUnder: 'dependentType',
           expandUnderCondition: 'CHILD',
