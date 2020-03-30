@@ -1,0 +1,15 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../../platform/forms/sass/m-schemaform";
+
+nav.profile-side-nav {
+  li {
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+  }
+  a.is-active {
+    font-weight: bold;
+    color: $color-black;
+  }
+}
