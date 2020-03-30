@@ -17,8 +17,6 @@ import {
   getCancelInfo,
   getCCEType,
   isWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
-  selectAtleastOneCernerFacility,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -503,66 +501,6 @@ describe('VAOS selectors', () => {
         },
       };
       expect(isWelcomeModalDismissed(state)).to.be.false;
-    });
-  });
-  describe('selectIsCernerOnlyPatient', () => {
-    it('should return true if Cerner only', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
-          },
-        },
-      };
-      expect(selectIsCernerOnlyPatient(state)).to.be.true;
-    });
-    it('should return false if not Cerner only', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '123', isCerner: true },
-              { facilityId: '124', isCerner: false },
-            ],
-          },
-        },
-      };
-      expect(selectIsCernerOnlyPatient(state)).to.be.false;
-    });
-  });
-  describe('selectAtleastOneCernerFacility', () => {
-    it('should return true if single cerner response', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
-          },
-        },
-      };
-      expect(selectAtleastOneCernerFacility(state)).to.be.true;
-    });
-    it('should return true if atleast 1 cerner facility', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '123', isCerner: true },
-              { facilityId: '124', isCerner: false },
-            ],
-          },
-        },
-      };
-      expect(selectAtleastOneCernerFacility(state)).to.be.true;
-    });
-    it('should return false if no cerner facilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [{ facilityId: '124', isCerner: false }],
-          },
-        },
-      };
-      expect(selectAtleastOneCernerFacility(state)).to.be.false;
     });
   });
 });

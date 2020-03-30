@@ -1,5 +1,7 @@
 // TODO: perhaps make these selectors fail gracefully if state.user, or any of
 // the properties on the user object are not defined
+import { selectFacilities } from '../../applications/vaos/utils/selectors';
+
 export const selectUser = state => state.user;
 export const isLoggedIn = state => selectUser(state).login.currentlyLoggedIn;
 export const selectProfile = state => selectUser(state).profile;
@@ -35,3 +37,9 @@ export const selectVet360ResidentialAddress = state =>
 export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);
 }
+
+export const selectIsCernerOnlyPatient = state =>
+  !!selectFacilities(state)?.every(f => f.isCerner);
+
+export const selectIsCernerPatient = state =>
+  selectFacilities(state)?.some(f => f.isCerner);

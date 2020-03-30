@@ -25,8 +25,8 @@ import {
   vaosDirectScheduling,
   vaosCommunityCare,
   isWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
 } from '../utils/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';

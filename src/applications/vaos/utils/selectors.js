@@ -331,9 +331,3 @@ export const isWelcomeModalDismissed = state =>
 
 export const selectSystemIds = state =>
   selectFacilities(state)?.map(f => f.facilityId) || null;
-
-export const selectIsCernerOnlyPatient = state =>
-  !!selectFacilities(state)?.every(f => f.isCerner);
-
-export const selectAtleastOneCernerFacility = state =>
-  selectFacilities(state)?.some(f => f.isCerner);
