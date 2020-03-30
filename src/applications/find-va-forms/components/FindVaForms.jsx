@@ -8,8 +8,8 @@ export default function() {
     <>
       <div className="vads-u-padding--4 vads-u-background-color--gray-lightest">
         <SearchForm />
-        <SearchResults />
       </div>
+      <SearchResults />
       <TopTasks />
     </>
   );

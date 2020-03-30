@@ -10,7 +10,7 @@ export const fetchFormsApi = async (query, options = {}) => {
   // Derive options properties.
   const mockRequest = options?.mockRequest || false;
 
-  let FORMS_URL = '/forms';
+  let FORMS_URL = 'https://dev-api.va.gov/v0/forms';
   let response = STUBBED_RESPONSE;
 
   // Add the `query` query param if provided.
@@ -22,6 +22,8 @@ export const fetchFormsApi = async (query, options = {}) => {
   if (!mockRequest) {
     response = await apiRequest(FORMS_URL);
   }
+
+  return response?.data;
 
   // Derive the forms.
   const forms = response?.data;

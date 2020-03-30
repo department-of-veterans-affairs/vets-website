@@ -14,6 +14,8 @@ import { focusElement } from 'platform/utilities/ui';
 // Relative imports.
 import { updatePaginationAction, updateResultsAction } from '../actions';
 
+import SearchResult from '../components/SearchResult';
+
 const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
 const FIELD_LABELS = [
@@ -195,24 +197,18 @@ export class SearchResults extends Component {
     // Derive the total number of pages.
     const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
+    const searchResults = results
+      .slice(startIndex, lastIndex)
+      .map(form => <SearchResult key={form.id} form={form} />);
+
     return (
       <>
-        <h2
-          className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
-          data-forms-focus
-        >
-          Displaying {startLabel} &ndash; {lastLabel} out of {results.length}{' '}
-          results for "<strong>{query}</strong>"
-        </h2>
+        <p className="vads-u-margin-y--1p5" data-forms-focus>
+          Showing {startLabel} &ndash; {lastLabel} of {results.length} results
+          for "<strong>{query}</strong>"
+        </p>
 
-        {/* Table of Forms */}
-        <SortableTable
-          className="find-va-forms-table vads-u-margin--0"
-          currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
-          data={slice(results, startIndex, lastIndex)}
-          fields={FIELD_LABELS}
-          onHeaderClick={onHeaderClick}
-        />
+        <dl className="vads-l-grid-container--full">{searchResults}</dl>
 
         {/* Pagination Row */}
         {results.length > MAX_PAGE_LIST_LENGTH && (
