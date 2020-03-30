@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -29,6 +30,58 @@ const ListRow = ({ description, value }) => {
         <p className="number">{bold ? <strong>{value}</strong> : value}</p>
       </div>
     </div>
+  );
+};
+
+const schoolWebsiteLink = website =>
+  website ? (
+    <a href={website} target="_blank" rel="noopener noreferrer">
+      Visit the school's website to learn more
+    </a>
+  ) : (
+    <p>Visit the school's website to learn more</p>
+  );
+
+const schoolClosingAlert = institutioon => {
+  const { schoolClosing, schoolClosingOn, website } = institutioon;
+  // prod flag for bah-7263
+  if (environment.isProduction() || !schoolClosing) {
+    return null;
+  }
+
+  if (schoolClosingOn) {
+    const currentDate = new Date();
+    const schoolClosingDate = new Date(schoolClosingOn);
+    if (currentDate > schoolClosingDate) {
+      return (
+        <AlertBox
+          className="vads-u-margin-top--1"
+          headline="School closed"
+          content={
+            <div>
+              <p>School has closed.</p>
+              {schoolWebsiteLink(website)}
+            </div>
+          }
+          isVisible={!!schoolClosing}
+          status="warning"
+        />
+      );
+    }
+  }
+  return (
+    <AlertBox
+      className="vads-u-margin-top--1"
+      content={
+        <div>
+          <p>This school will be closing soon.</p>
+          {schoolWebsiteLink(website)}
+        </div>
+      }
+      headline="School will be closing soon"
+      isVisible={!!schoolClosing}
+      status="warning"
+    />
   );
 };
 
@@ -123,6 +176,7 @@ export class CautionaryInformation extends React.Component {
 
     return (
       <div className="cautionary-information">
+        {schoolClosingAlert(it)}
         <div className="caution-flag">
           <AlertBox
             content={flagContent}

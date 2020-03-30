@@ -6,6 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber, locationInfo } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
+import environment from 'platform/utilities/environment';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -15,6 +16,60 @@ const IconWithInfo = ({ icon, children, present }) => {
       &nbsp;
       {children}
     </p>
+  );
+};
+
+// prod flag for bah-7263. During prod flag removal, remove this function
+// and use  renderSchoolClosingAlert() in src/applications/gi/utils/render.jsx for rendering school closing alerts.
+const schoolClosingAlert = institution => {
+  const { schoolClosing, schoolClosingOn } = institution;
+
+  if (!schoolClosing) return null;
+  // Prod flag for 6803
+  // prod flag for bah-7020
+  if (!environment.isProduction()) {
+    if (schoolClosingOn) {
+      const currentDate = new Date();
+      const schoolClosingDate = new Date(schoolClosingOn);
+      if (currentDate > schoolClosingDate) {
+        return (
+          <AlertBox
+            headline="School closed"
+            content={<p>School has closed</p>}
+            isVisible={!!schoolClosing}
+            status="warning"
+          />
+        );
+      }
+    }
+    return (
+      <AlertBox
+        content={<p>School will be closing soon.</p>}
+        headline="School closing"
+        isVisible={!!schoolClosing}
+        status="warning"
+      />
+    );
+  }
+
+  return (
+    <AlertBox
+      content={
+        <p>
+          Are you enrolled in this school?{' '}
+          <a
+            href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Find out if you qualify to have your benefits restored.
+          </a>
+        </p>
+      }
+      headline="This school is closing soon"
+      isVisible={!!schoolClosing}
+      status="warning"
+    />
   );
 };
 
@@ -39,23 +94,7 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1 tabIndex={-1}>{it.name}</h1>
-          <AlertBox
-            content={
-              <p>
-                Are you enrolled in this school?{' '}
-                <a
-                  href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Find out if you qualify to have your benefits restored.
-                </a>
-              </p>
-            }
-            headline="This school is closing soon"
-            isVisible={!!it.schoolClosing}
-            status="warning"
-          />
+          {schoolClosingAlert(it)}
           <div className="caution-flag">
             <AlertBox
               content={
