@@ -94,6 +94,7 @@ User-Agent: *
 Disallow: /analytics-opt-out.html
 Disallow: /cgi-bin/
 Disallow: /drupal
+Disallow: /performance-dashboard
 
 # sitemap index
 Sitemap: https://www.va.gov/sitemap.xml
