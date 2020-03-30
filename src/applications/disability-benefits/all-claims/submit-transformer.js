@@ -192,6 +192,19 @@ export function getPtsdChangeText(changeFields = {}) {
     .map(key => PTSD_CHANGE_LABELS[key]);
 }
 
+export function filterServicePeriods(formData) {
+  const { serviceInformation } = formData;
+  if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
+    return formData;
+  }
+  // remove `reservesNationalGuardService` since no associated
+  // Reserve or National guard service periods have been provided
+  // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
+  const clonedData = _.cloneDeep(formData);
+  delete clonedData.serviceInformation.reservesNationalGuardService;
+  return clonedData;
+}
+
 export function transform(formConfig, form) {
   // Grab ratedDisabilities before they're deleted in case the page is inactive
   // We need to send all of these to vets-api even if the veteran doesn't apply
@@ -219,19 +232,6 @@ export function transform(formConfig, form) {
       : formData;
 
   const filterRatedViewFields = formData => filterViewFields(formData);
-
-  const filterServicePeriods = formData => {
-    const { serviceInformation } = formData;
-    if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
-      return formData;
-    }
-    // remove `reservesNationalGuardService` since no associated
-    // Reserve or National guard service periods have been provided
-    // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
-    const clonedData = _.cloneDeep(formData);
-    delete clonedData.serviceInformation.reservesNationalGuardService;
-    return clonedData;
-  };
 
   const addPOWSpecialIssues = formData => {
     if (!formData.newDisabilities) {
