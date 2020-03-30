@@ -63,6 +63,7 @@ export async function getEligibilityData(
     requestPastVisit,
     requestLimits,
     directSupported: facility.directSchedulingSupported,
+    directEnabled: isDirectScheduleEnabled,
     requestSupported: facility.requestSupported,
   };
 
@@ -198,7 +199,7 @@ export function getEligibleFacilities(facilities) {
  * of the check.
  */
 export function recordEligibilityGAEvents(eligibilityData) {
-  if (!hasRequestFailed(eligibilityData)) {
+  if (eligibilityData.requestSupported && !hasRequestFailed(eligibilityData)) {
     if (!isUnderRequestLimit(eligibilityData)) {
       recordEligibilityFailure('request-exceeded-outstanding-requests');
     }
@@ -208,9 +209,15 @@ export function recordEligibilityGAEvents(eligibilityData) {
     }
   }
 
-  const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
+  if (!eligibilityData.requestSupported) {
+    recordEligibilityFailure('request-supported');
+  }
 
-  if (directSchedulingEnabled && !hasRequestFailed(eligibilityData)) {
+  if (
+    eligibilityData.directEnabled &&
+    eligibilityData.directSupported &&
+    !hasDirectFailed(eligibilityData)
+  ) {
     if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
       recordEligibilityFailure('direct-check-past-visits');
     }
@@ -218,5 +225,9 @@ export function recordEligibilityGAEvents(eligibilityData) {
     if (!eligibilityData.clinics?.length) {
       recordEligibilityFailure('direct-available-clinics');
     }
+  }
+
+  if (eligibilityData.directEnabled && !eligibilityData.directSupported) {
+    recordEligibilityFailure('direct-supported');
   }
 }
