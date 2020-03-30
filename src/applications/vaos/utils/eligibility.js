@@ -81,8 +81,9 @@ export async function getEligibilityData(
 
 function hasVisitedInPastMonthsDirect(eligibilityData) {
   return (
-    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
-    eligibilityData.directPastVisit.hasVisitedInPastMonths
+    eligibilityData.directPastVisit?.durationInMonths ===
+      DISABLED_LIMIT_VALUE ||
+    eligibilityData.directPastVisit?.hasVisitedInPastMonths
   );
 }
 
