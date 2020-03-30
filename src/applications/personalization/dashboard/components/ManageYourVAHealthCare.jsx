@@ -13,7 +13,7 @@ import {
   renderWidgetDowntimeNotification,
 } from '../helpers';
 
-import { selectIsCernerOnlyPatient } from 'applications/vaos/utils/selectors';
+import { selectAtleastOneCernerFacility } from 'applications/vaos/utils/selectors';
 
 // import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
@@ -156,7 +156,7 @@ const mapStateToProps = state => {
   const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
   const showServerError = hasESRServerError(state);
-  const isCernerOnlyPatient = selectIsCernerOnlyPatient(state);
+  const isCernerOnlyPatient = selectAtleastOneCernerFacility(state);
   const {
     applicationDate,
     enrollmentDate,
