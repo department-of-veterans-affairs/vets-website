@@ -1,4 +1,5 @@
 import assign from 'lodash/assign';
+import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { marriageTypeInformation } from '../current-marriage-information/helpers';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
@@ -26,7 +27,7 @@ export const uiSchema = {
   },
   supportingDocuments: fileUploadUI('Additional Evidence needed', {
     buttonText: 'Upload supporting documents',
-    fileUploadUrl: '',
+    fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
     showFieldLabel: false,
     fileTypes: [
       'pdf',

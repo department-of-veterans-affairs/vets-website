@@ -197,7 +197,8 @@ const formConfig = {
         },
         marriageAdditionalEvidence: {
           depends: formData =>
-            formData?.marriageType !== MARRIAGE_TYPES.ceremonial,
+            formData.marriageType &&
+            formData.marriageType !== MARRIAGE_TYPES.ceremonial,
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
           uiSchema: marriageAdditionalEvidence.uiSchema,
