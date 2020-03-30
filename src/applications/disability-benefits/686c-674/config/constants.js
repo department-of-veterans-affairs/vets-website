@@ -18,6 +18,14 @@ export const TASK_KEYS = {
   report674: 'report674',
 };
 
+export const MARRIAGE_TYPES = {
+  ceremonial: 'CEREMONIAL',
+  commonLaw: 'COMMON-LAW',
+  tribal: 'TRIBAL',
+  proxy: 'PROXY',
+  other: 'OTHER',
+};
+
 export const countries = [
   { value: 'USA', label: 'United States' },
   { value: 'AFG', label: 'Afghanistan' },

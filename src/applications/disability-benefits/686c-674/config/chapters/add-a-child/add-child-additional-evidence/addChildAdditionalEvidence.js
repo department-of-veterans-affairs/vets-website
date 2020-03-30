@@ -1,6 +1,6 @@
 import assign from 'lodash/assign';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { marriageTypeInformation } from '../current-marriage-information/helpers';
+import { childStatusDescription } from '../child-place-of-birth/childStatusDescription';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
 
 const fileSchema = {
@@ -29,9 +29,9 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:title': 'Additional evidence needed to add spouse',
+  'ui:title': 'Additional evidence needed to add child',
   'view:additionalEvidenceDescription': {
-    'ui:description': AdditionalEvidence(marriageTypeInformation),
+    'ui:description': AdditionalEvidence(childStatusDescription),
   },
   supportingDocuments: fileUploadUI('Additional Evidence needed', {
     buttonText: 'Upload supporting documents',
