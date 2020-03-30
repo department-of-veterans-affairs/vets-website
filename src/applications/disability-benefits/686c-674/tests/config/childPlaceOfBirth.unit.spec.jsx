@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-  selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
@@ -80,7 +80,7 @@ describe('686 add child - child place of birth', () => {
     );
     fillData(form, 'input#root_childPlaceOfBirth_state', 'California');
     fillData(form, 'input#root_childPlaceOfBirth_city', 'Someplace');
-    selectRadio(form, 'root_childStatus', 'Biological');
+    selectCheckbox(form, 'root_childStatus_biological', true);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
