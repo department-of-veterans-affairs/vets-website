@@ -199,7 +199,7 @@ export function getEligibleFacilities(facilities) {
  * of the check.
  */
 export function recordEligibilityGAEvents(eligibilityData) {
-  if (eligibilityData.requestSupported && !hasRequestFailed(eligibilityData)) {
+  if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
     if (!isUnderRequestLimit(eligibilityData)) {
       recordEligibilityFailure('request-exceeded-outstanding-requests');
     }
@@ -216,7 +216,7 @@ export function recordEligibilityGAEvents(eligibilityData) {
   if (
     eligibilityData.directEnabled &&
     eligibilityData.directSupported &&
-    !hasDirectFailed(eligibilityData)
+    !eligibilityData.directFailed
   ) {
     if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
       recordEligibilityFailure('direct-check-past-visits');
