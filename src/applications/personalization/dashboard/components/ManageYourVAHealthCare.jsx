@@ -13,7 +13,7 @@ import {
   renderWidgetDowntimeNotification,
 } from '../helpers';
 
-import { selectIsCernerOnlyPatient } from '../../../vaos/utils/selectors';
+import { selectIsCernerOnlyPatient } from 'applications/vaos/utils/selectors';
 
 // import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
@@ -47,12 +47,12 @@ const ScheduleAnAppointmentWidget = () => (
 const ScheduleAnAppointmentCernerWidget = () => (
   <AlertBox
     status="warning"
-    headline="Our records show that you're registered at Charlmers P. Wylie Ambulatory Care Center.  Starting April 10, 2020, providers at this center are using My VA Health to manage appointments."
+    headline="Our records show that you’re registered at Chalmers P. Wylie Ambulatory Care Center.  Starting April 10, 2020, providers at this center are using My VA Health to manage appointments."
   >
     <p>
       You may need to sign in again to use VA health appointment tools. If you
       do, sign in with the same account you used to sign in on VA.gov. You may
-      need to disable your browser's pop-up block so these tools can open.
+      need to disable your browser’s pop-up block so these tools can open.
     </p>
     <h4>Manage appointments with Chalmers P. Wylie provider</h4>
     <a
@@ -63,6 +63,8 @@ const ScheduleAnAppointmentCernerWidget = () => (
       }
       type="button"
       className="usa-button-primary"
+      rel="noopener noreferrer"
+      target="_blank"
     >
       Go to My VA Health
     </a>
