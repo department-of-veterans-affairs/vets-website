@@ -3,6 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
+import { HEARING_AID_BATTERIES } from '../constants';
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsBatteriesWidget extends React.Component {
@@ -32,7 +33,7 @@ class SelectArrayItemsBatteriesWidget extends React.Component {
 
     return supplies.map(
       supply =>
-        supply.productGroup === 'hearing aid batteries' ? (
+        supply.productGroup === HEARING_AID_BATTERIES ? (
           <div key={supply.productId} className="order-background">
             <p className="vads-u-font-size--md vads-u-font-weight--bold">
               {supply.productName}

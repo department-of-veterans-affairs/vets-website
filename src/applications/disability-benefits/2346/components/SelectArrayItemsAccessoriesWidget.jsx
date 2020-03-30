@@ -3,6 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
+import { HEARING_AID_ACCESSORIES } from '../constants';
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsAccessoriesWidget extends React.Component {
@@ -32,7 +33,7 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
 
     return supplies.map(
       supply =>
-        supply.productGroup === 'hearing aid accessories' &&
+        supply.productGroup === HEARING_AID_ACCESSORIES &&
         supply.availableForReorder === true ? (
           <div key={supply.productId} className="order-background">
             <p className="vads-u-font-size--md vads-u-font-weight--bold">
@@ -70,7 +71,7 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
                 onChange={this.handleChecked}
               />
               <label htmlFor={supply.productId} className="main">
-                Order batteries for this device
+                Order accessoires for this device
               </label>
             </div>
           </div>

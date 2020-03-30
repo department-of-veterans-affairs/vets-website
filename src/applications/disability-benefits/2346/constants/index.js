@@ -123,3 +123,6 @@ export const STATE_VALUES = PCIU_STATES.map(state => state.value);
 export const STATE_LABELS = PCIU_STATES.map(state => state.label);
 
 export const USA = 'USA';
+
+export const HEARING_AID_ACCESSORIES = 'hearing aid accessories';
+export const HEARING_AID_BATTERIES = 'hearing aid batteries';
