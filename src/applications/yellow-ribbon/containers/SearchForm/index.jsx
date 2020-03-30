@@ -132,7 +132,7 @@ export class SearchForm extends Component {
 
         {/* State Field */}
         <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
-          State or Territory
+          State or territory
         </label>
         <div className="vads-u-flex--1">
           <select
