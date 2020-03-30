@@ -50,6 +50,7 @@ export class SearchForm extends Component {
 
   render() {
     const { onSubmitHandler, onQueryChange } = this;
+    const { fetching } = this.props;
     const { query } = this.state;
 
     return (
@@ -75,6 +76,7 @@ export class SearchForm extends Component {
             <button
               className="usa-button vads-u-margin--0 vads-u-margin-y--1"
               type="submit"
+              disabled={fetching}
             >
               Search
             </button>
