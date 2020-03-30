@@ -22,6 +22,7 @@
  * @param {number} [timeoutNum] Value in milliseconds to wait for a selector. Default is 2000.
  * @api commands
  */
+
 module.exports.command = function allyevaluateSelectMenu(
   selectMenu,
   optionText,
