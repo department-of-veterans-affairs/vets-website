@@ -9,25 +9,6 @@ module.exports = `
     ${entityElementsFromPages}
     promote
     created
-    fieldOffice {
-      entity {
-        ... on NodeHealthCareRegionPage {
-          entityLabel
-          entityUrl {
-            ... on EntityCanonicalUrl {
-              breadcrumb {
-                url {
-                  path
-                  routed
-                }
-                text
-              }
-              path
-            }
-          }
-        }
-      }
-    }
     fieldAuthor {
       entity {
         ...on NodePersonProfile {
@@ -50,6 +31,13 @@ module.exports = `
               height
             }
           }
+        }
+      }
+    }
+    fieldListing {
+      entity {
+        entityUrl {
+          path
         }
       }
     }
