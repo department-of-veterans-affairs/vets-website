@@ -11,6 +11,9 @@ const permalinks = require('metalsmith-permalinks');
 
 const silverSmith = require('./silversmith');
 const getOptions = require('./options');
+
+const assetSources = require('../../constants/assetSources');
+
 const registerLiquidFilters = require('../../filters/liquid');
 const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
@@ -20,7 +23,7 @@ const applyFragments = require('./plugins/apply-fragments');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
-const configureAssets = require('./plugins/configure-assets');
+const downloadAssets = require('./plugins/download-assets');
 const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
@@ -175,7 +178,11 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 
-  configureAssets(smith, BUILD_OPTIONS);
+  // Download the pre-built application assets if needed
+  // If the asset-source === 'local', the script/build.sh will run Webpack
+  if (BUILD_OPTIONS['asset-source'] !== assetSources.LOCAL) {
+    smith.use(downloadAssets(BUILD_OPTIONS), 'Download assets');
+  }
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
