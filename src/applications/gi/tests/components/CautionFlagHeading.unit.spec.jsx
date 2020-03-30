@@ -63,9 +63,7 @@ describe('<CautionFlagHeading>', () => {
       />,
     );
     expect(wrapper.html()).to.contain('cautionary information');
-    expect(wrapper.find('li.headingFlag').length).to.equal(
-      cautionFlags.length,
-    );
+    expect(wrapper.find('li.headingFlag').length).to.equal(cautionFlags.length);
     wrapper.unmount();
   });
 });
