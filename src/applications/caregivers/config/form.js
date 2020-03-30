@@ -241,11 +241,12 @@ const formConfig = {
             required: [
               primaryCaregiverFields.address,
               primaryCaregiverFields.vetRelationship,
+              primaryCaregiverFields.otherHealthInsurance,
             ],
             properties: {
               [primaryCaregiverFields.address]: getAddressSchema.schema(
                 fullSchema,
-                false,
+                true,
               ),
               [primaryCaregiverFields.primaryPhoneNumber]:
                 primaryCaregiverProps.primaryPhoneNumber,
@@ -378,7 +379,7 @@ const formConfig = {
             properties: {
               // secondaryOne properties
               [secondaryCaregiverFields.secondaryOne
-                .address]: getAddressSchema.schema(fullSchema, false),
+                .address]: getAddressSchema.schema(fullSchema, true),
               [secondaryCaregiverFields.secondaryOne.primaryPhoneNumber]:
                 secondaryOneCaregiverProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryOne.alternativePhoneNumber]:
@@ -460,7 +461,7 @@ const formConfig = {
             properties: {
               // secondaryTwo properties
               [secondaryCaregiverFields.secondaryTwo
-                .address]: getAddressSchema.schema(fullSchema, false),
+                .address]: getAddressSchema.schema(fullSchema, true),
               [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
                 secondaryTwoCaregiverProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
