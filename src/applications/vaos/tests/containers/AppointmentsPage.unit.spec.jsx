@@ -17,10 +17,12 @@ describe('VAOS <AppointmentsPage>', () => {
     };
 
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
 
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         {...defaultProps}
       />,
     );
@@ -39,10 +41,12 @@ describe('VAOS <AppointmentsPage>', () => {
     };
 
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
 
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         showPastAppointments
         {...defaultProps}
       />,
@@ -61,17 +65,22 @@ describe('VAOS <AppointmentsPage>', () => {
         futureStatus: FETCH_STATUS.loading,
         facilityData: {},
       },
+      location: { query: { view: 'past' } },
     };
 
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
 
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         {...defaultProps}
       />,
     );
 
+    expect(fetchFutureAppointments.called).to.be.true;
+    expect(fetchPastAppointments.called).to.be.false;
     expect(tree.find('Tabs').exists()).to.be.false;
     tree.unmount();
   });
@@ -86,14 +95,16 @@ describe('VAOS <AppointmentsPage>', () => {
     };
 
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
     const pageTitle = 'VA appointments';
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         {...defaultProps}
       />,
     );
-    expect(fetchFutureAppointments.called).to.be.true;
     expect(tree.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
     tree.unmount();
@@ -110,12 +121,14 @@ describe('VAOS <AppointmentsPage>', () => {
     };
 
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
     const div = document.createElement('div');
     document.body.appendChild(div);
 
     const tree = mount(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         {...defaultProps}
       />,
       {
@@ -142,11 +155,14 @@ describe('VAOS <AppointmentsPage>', () => {
 
     const startNewAppointmentFlow = sinon.spy();
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
     const tree = shallow(
       <AppointmentsPage
         {...defaultProps}
         showScheduleButton
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         startNewAppointmentFlow={startNewAppointmentFlow}
       />,
     );
@@ -172,11 +188,14 @@ describe('VAOS <AppointmentsPage>', () => {
 
     const startNewAppointmentFlow = sinon.spy();
     const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
     const tree = shallow(
       <AppointmentsPage
         {...defaultProps}
         showScheduleButton
         fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
         startNewAppointmentFlow={startNewAppointmentFlow}
       />,
     );
@@ -188,6 +207,76 @@ describe('VAOS <AppointmentsPage>', () => {
     expect(global.window.dataLayer[0].event).to.equal(
       'vaos-past-appointments-legacy-link-clicked',
     );
+    tree.unmount();
+  });
+
+  it('should load future tab if no "view" query is provided', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.notStarted,
+        facilityData: {},
+      },
+      location: {
+        query: undefined,
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        showPastAppointments
+        fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    expect(fetchFutureAppointments.called).to.be.true;
+    expect(fetchPastAppointments.called).to.be.false;
+    expect(tree.find('FutureAppointmentsList').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should load past tab if "view" query is provided', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.notStarted,
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        facilityData: {},
+      },
+      location: {
+        query: {
+          view: 'past',
+        },
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        showPastAppointments
+        fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    expect(fetchFutureAppointments.called).to.be.false;
+    expect(fetchPastAppointments.called).to.be.true;
+    expect(tree.find('PastAppointmentsList').exists()).to.be.true;
     tree.unmount();
   });
 });
