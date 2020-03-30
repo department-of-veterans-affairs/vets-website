@@ -1111,16 +1111,6 @@ export function getAlertContent(
       break;
 
     case HCA_ENROLLMENT_STATUSES.pendingOther:
-      blocks.push(
-        <p key="explanation">
-          We’re in the process of verifying your military service. We’ll contact
-          you by mail if we need you to submit supporting documents (like your
-          DD214 or other discharge papers or separation documents).
-        </p>,
-        whatShouldIDo1,
-      );
-      break;
-
     case HCA_ENROLLMENT_STATUSES.pendingUnverified:
       blocks.push(
         <p key="explanation">

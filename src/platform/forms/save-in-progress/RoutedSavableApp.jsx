@@ -236,9 +236,10 @@ class RoutedSavableApp extends React.Component {
       trimmedPathname.endsWith('resume') ||
       loadedStatus === LOAD_STATUSES.pending;
     if (
-      !formConfig.disableSave &&
-      loadingForm &&
-      this.props.prefillStatus === PREFILL_STATUSES.pending
+      (!formConfig.disableSave &&
+        loadingForm &&
+        this.props.prefillStatus === PREFILL_STATUSES.pending) ||
+      (!formConfig.disableSave && this.shouldRedirectOrLoad)
     ) {
       content = (
         <LoadingIndicator message="Retrieving your profile information..." />
@@ -250,10 +251,6 @@ class RoutedSavableApp extends React.Component {
       this.props.savedStatus === SAVE_STATUSES.pending
     ) {
       content = <LoadingIndicator message="Saving your form..." />;
-    } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
-      content = (
-        <LoadingIndicator message="Retrieving your profile information..." />
-      );
     } else {
       content = (
         <FormApp formConfig={formConfig} currentLocation={currentLocation}>

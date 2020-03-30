@@ -360,7 +360,8 @@ export default function formReducer(state = initialState, action) {
         clinics,
       };
     }
-    case FORM_PAGE_FACILITY_OPEN_FAILED: {
+    case FORM_PAGE_FACILITY_OPEN_FAILED:
+    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED: {
       return {
         ...state,
         parentFacilitiesStatus: FETCH_STATUS.failed,
@@ -756,12 +757,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
-      };
-    }
-    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED: {
-      return {
-        ...state,
-        parentFacilitiesStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_SUBMIT:
