@@ -18,11 +18,11 @@ module.exports = `
             entity {
               ...on File {
                 filename
-                url         
+                url
               }
             }
           }
-        }      
+        }
       }
     }
     fieldAddress {
@@ -53,34 +53,24 @@ module.exports = `
             entity {
               ...on File {
                 filename
-                url          
+                url
               }
             }
           }
-        }   
-        
-        ...on MediaImage {        
-          image {          
+        }
+
+        ...on MediaImage {
+          image {
             alt
             url
           }
         }
-        
+
         ...on MediaVideo {
-          fieldMediaVideoEmbedField        
+          fieldMediaVideoEmbedField
         }
-        
+
       }
     }
-    fieldOffice {
-      entity {
-        ...on NodeHealthCareRegionPage {
-          entityLabel
-          fieldPressReleaseBlurb {
-            processed
-          }
-        }
-      }
-    }  
   }
 `;
