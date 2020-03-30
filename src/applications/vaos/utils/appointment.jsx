@@ -326,16 +326,16 @@ export function getRequestTimeToCall(appt) {
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
-  const threeMonthsAgo = today.clone().subtract(3, 'months');
-  const isoDateFormat = 'YYYY-MM-DD';
-
   // Past 3 months
   const options = [
     {
       value: 0,
       label: 'Past 3 months',
-      startDate: threeMonthsAgo.format(isoDateFormat),
-      endDate: today.format(isoDateFormat),
+      startDate: today
+        .clone()
+        .subtract(3, 'months')
+        .format(),
+      endDate: today.format(),
     },
   ];
 
@@ -356,8 +356,8 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
     options.push({
       value: index,
       label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
-      startDate: start.format(isoDateFormat),
-      endDate: end.format(isoDateFormat),
+      startDate: start.format(),
+      endDate: end.format(),
     });
 
     monthsToSubtract += 3;
@@ -371,11 +371,8 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
     startDate: today
       .clone()
       .startOf('year')
-      .format(isoDateFormat),
-    endDate: today
-      .clone()
-      .endOf('year')
-      .format(isoDateFormat),
+      .format(),
+    endDate: today.format(),
   });
 
   // All of last year
@@ -384,11 +381,11 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   options.push({
     value: 5,
     label: `Show all of ${lastYear.format('YYYY')}`,
-    startDate: lastYear.startOf('year').format(isoDateFormat),
+    startDate: lastYear.startOf('year').format(),
     endDate: lastYear
       .clone()
       .endOf('year')
-      .format(isoDateFormat),
+      .format(),
   });
 
   return options;
