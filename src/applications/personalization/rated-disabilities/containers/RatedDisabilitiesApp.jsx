@@ -42,7 +42,6 @@ class RatedDisabilitiesApp extends React.Component {
           </Breadcrumbs>
         </div>
         <RequiredLoginView
-          authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}
           loginUrl={this.props.loginUrl}
