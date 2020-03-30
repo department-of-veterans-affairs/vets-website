@@ -19,14 +19,24 @@ export const schema = {
             enumNames: ['Spouse', 'Dependent Parent', 'Child'],
           },
           childStatus: {
-            type: 'string',
-            enum: [
-              'Child Under 18',
-              'Stepchild',
-              'Adopted',
-              'Child Incapable of self-support',
-              'Child 18-23 and in school',
-            ],
+            type: 'object',
+            properties: {
+              childUnder18: {
+                type: 'boolean',
+              },
+              stepChild: {
+                type: 'boolean',
+              },
+              adopted: {
+                type: 'boolean',
+              },
+              disabled: {
+                type: 'boolean',
+              },
+              childOver18InSchool: {
+                type: 'boolean',
+              },
+            },
           },
           deceasedDateOfDeath: genericSchemas.date,
           deceasedLocationOfDeath: genericSchemas.genericLocation,
@@ -54,7 +64,21 @@ export const uiSchema = {
           showFieldLabel: true,
           keepInPageOnReview: true,
         },
-        'ui:widget': 'radio',
+        childUnder18: {
+          'ui:title': 'Child under 18',
+        },
+        stepChild: {
+          'ui:title': 'Stepchild',
+        },
+        adopted: {
+          'ui:title': 'Adopted',
+        },
+        disabled: {
+          'ui:title': 'Disabled',
+        },
+        childOver18InSchool: {
+          'ui:title': 'Child over 18 in school',
+        },
       },
       deceasedDateOfDeath: currentOrPastDateUI('Dependent’s date of death'),
       deceasedLocationOfDeath: {
