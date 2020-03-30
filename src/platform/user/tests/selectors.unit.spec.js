@@ -295,7 +295,7 @@ describe('user selectors', () => {
       expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
     });
   });
-  describe('selectAtleastOneCernerFacility', () => {
+  describe('selectIsCernerPatient', () => {
     it('should return true if single cerner response', () => {
       const state = {
         user: {
