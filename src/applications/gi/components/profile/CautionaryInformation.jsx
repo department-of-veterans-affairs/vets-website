@@ -232,10 +232,7 @@ export class CautionaryInformation extends React.Component {
                 <thead>
                   <tr>
                     <th>
-                      {// #6805 prod flag
-                      environment.isProduction()
-                        ? 'Complaints by type '
-                        : 'Complaint type '}
+                      Complaints by type{' '}
                       <span>(Each complaint can have multiple types)</span>
                     </th>
                     <th>This campus</th>
