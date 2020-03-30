@@ -2,8 +2,10 @@ import { genericSchemas } from '../../../generic-schema';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
 import { isChapterFieldRequired } from '../../../helpers';
+import { TASK_KEYS } from '../../../constants';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { merge } from 'lodash/fp';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 export const schema = {
   type: 'object',
@@ -22,15 +24,15 @@ export const schema = {
             },
           },
           childStatus: {
-            type: 'string',
-            enum: [
-              'Biological',
-              'Adopted',
-              'Not capable of self-support',
-              'Stepchild',
-            ],
+            type: 'object',
+            properties: {
+              biological: genericSchemas.genericTrueFalse,
+              adopted: genericSchemas.genericTrueFalse,
+              notCapable: genericSchemas.genericTrueFalse,
+              stepchild: genericSchemas.genericTrueFalse,
+              dateBecameDependent: genericSchemas.date,
+            },
           },
-          dateBecameDependent: genericSchemas.date,
           'view:marriageTypeInformation': {
             type: 'object',
             properties: {},
@@ -70,38 +72,61 @@ export const uiSchema = {
         state: {
           'ui:title': 'State (or country if outside the USA)',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
         city: {
           'ui:title': 'City or county',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
       },
       childStatus: {
-        'ui:title': "Your child's status (check all that apply)",
-        'ui:widget': 'radio',
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
-      },
-      dateBecameDependent: merge(
-        currentOrPastDateUI('Date stepchild became dependent'),
-        {
-          'ui:options': {
-            expandUnder: 'childStatus',
-            expandUnderCondition: 'Stepchild',
-            keepInPageOnReview: true,
+        'ui:title': "Your child's status (Check all that apply)",
+        'ui:validations': [
+          {
+            validator: validateBooleanGroup,
           },
-          'ui:required': (formData, index) =>
-            formData.childrenToAdd[`${index}`].childStatus === 'Stepchild',
+        ],
+        'ui:errorMessages': {
+          atLeastOne: 'You must choose at least one option',
         },
-      ),
+        'ui:required': () => true,
+        'ui:options': {
+          showFieldLabel: true,
+        },
+        biological: {
+          'ui:title': 'Biological',
+        },
+        adopted: {
+          'ui:title': 'Adopted',
+        },
+        notCapable: {
+          'ui:title': 'Not capable of self-support',
+        },
+        stepchild: {
+          'ui:title': 'Stepchild',
+        },
+        dateBecameDependent: merge(
+          currentOrPastDateUI('Date stepchild became dependent'),
+          {
+            'ui:options': {
+              expandUnder: 'stepchild',
+              expandUnderCondition: true,
+              keepInPageOnReview: true,
+            },
+            'ui:required': (formData, index) =>
+              formData.childrenToAdd[`${index}`].childStatus === 'Stepchild',
+          },
+        ),
+      },
       'view:marriageTypeInformation': {
         'ui:description': childStatusDescription,
       },
       childPreviouslyMarried: {
         'ui:widget': 'radio',
         'ui:title': 'Was this child previously married?',
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.addChild),
       },
       childPreviousMarriageDetails: {
         'ui:options': {
