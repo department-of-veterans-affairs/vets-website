@@ -13,7 +13,7 @@ const generateWebpackDevConfig = require('./webpack.dev.config.js');
 const {
   getAppManifests,
   getWebpackEntryPoints,
-} = require('../src/site/stages/build/webpack/manifest-helpers');
+} = require('./manifest-helpers');
 
 require('@babel/polyfill');
 
