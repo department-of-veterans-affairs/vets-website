@@ -64,9 +64,6 @@ export const uiSchema = {
           showFieldLabel: true,
           keepInPageOnReview: true,
         },
-        'ui:errorMessages': {
-          atLeastOne: 'You must choose at least one option',
-        },
         childUnder18: {
           'ui:title': 'Child under 18',
         },
