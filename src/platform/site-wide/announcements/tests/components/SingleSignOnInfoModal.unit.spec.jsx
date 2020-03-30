@@ -8,7 +8,6 @@ import SingleSignOnInfoModal from '../../components/SingleSignOnInfoModal';
 
 describe('Announcements <SingleSignOnInfoModal>', () => {
   it('does not render for users that are logged in but without SSO', () => {
-    localStorage.setItem('hasSessionSSO', false);
     const tree = mount(<SingleSignOnInfoModal isLoggedIn />);
 
     expect(tree.html()).to.equal(null);
