@@ -24,6 +24,7 @@ const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const downloadAssets = require('./plugins/download-assets');
+const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
 const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
@@ -178,10 +179,16 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 
-  // Download the pre-built application assets if needed
-  // If the asset-source === 'local', the script/build.sh will run Webpack
   if (BUILD_OPTIONS['asset-source'] !== assetSources.LOCAL) {
-    smith.use(downloadAssets(BUILD_OPTIONS), 'Download assets');
+    // Download the pre-built application assets if needed
+    smith.use(downloadAssets(BUILD_OPTIONS), 'Download application assets');
+  } else {
+    // If the asset-source === 'local', the script/build.sh will run Webpack
+    // Load the resulting files from disk
+    smith.use(
+      readAssetsFromDisk(BUILD_OPTIONS),
+      'Read application assets from disk',
+    );
   }
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
