@@ -35,6 +35,15 @@
     @include media-maxwidth($small-screen) {
       padding-bottom: 8rem;
     }
+    h2 {
+      margin-top: 0;
+    }
+  }
+
+  .filters-sidebar-inner-old {
+    @include media-maxwidth($small-screen) {
+      padding-bottom: 8rem;
+    }
   }
 
   .filter-button,

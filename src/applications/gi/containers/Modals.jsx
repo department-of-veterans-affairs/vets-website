@@ -659,7 +659,7 @@ export class Modals extends React.Component {
         {!environment.isProduction() && (
           <p>
             <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#phoenix"
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#suspension"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -19,7 +19,7 @@ const ssoKeepAliveEndpoint = () => {
 };
 
 export function ssoKeepAliveSession() {
-  fetch(ssoKeepAliveEndpoint(), {
+  return fetch(ssoKeepAliveEndpoint(), {
     method: 'GET',
     credentials: 'include',
     cache: 'no-store',

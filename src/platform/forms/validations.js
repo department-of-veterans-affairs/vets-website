@@ -264,13 +264,13 @@ function isValidFullNameField(field) {
 // A value with 3 digits, an optional -, 2 digits, an optional -, and 4 digits is a valid SSN
 // 9 of the same digits (e.g., '111111111') is not a valid SSN
 function isValidSSN(value) {
-  if (value === '123456789' || value === '123-45-6789') {
-    return false;
-  } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
-    return false;
-  } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
-    return false;
-  } else if (/^\d{3}-?\d{2}-?0{4}$/.test(value)) {
+  if (
+    value === '123456789' ||
+    value === '123-45-6789' ||
+    /^0{3}-?\d{2}-?\d{4}$/.test(value) ||
+    /^\d{3}-?0{2}-?\d{4}$/.test(value) ||
+    /^\d{3}-?\d{2}-?0{4}$/.test(value)
+  ) {
     return false;
   }
 
