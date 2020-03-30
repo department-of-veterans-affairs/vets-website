@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
@@ -37,12 +39,17 @@ import PastAppointmentsList from '../components/PastAppointmentsList';
 const pageTitle = 'VA appointments';
 const pastAppointmentDateRangeOptions = getPastAppointmentDateRangeOptions();
 
+const TABS = {
+  FUTURE: 0,
+  PAST: 1,
+};
+
 export class AppointmentsPage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      tabIndex: 0,
+      tabIndex:
+        this.props.location?.query?.view === 'past' ? TABS.PAST : TABS.FUTURE,
       selectedPastDateRangeIndex: 0,
       selectedPastDateRange: pastAppointmentDateRangeOptions[0],
     };
@@ -52,7 +59,13 @@ export class AppointmentsPage extends Component {
     if (this.props.isWelcomeModalDismissed) {
       scrollAndFocus();
     }
-    this.props.fetchFutureAppointments();
+
+    if (this.props.showPastAppointments && this.state.tabIndex === TABS.PAST) {
+      this.fetchPastAppointments();
+    } else {
+      this.props.fetchFutureAppointments();
+    }
+
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
@@ -66,18 +79,24 @@ export class AppointmentsPage extends Component {
   }
 
   onSelectTab = tabIndex => {
-    const { selectedPastDateRange } = this.state;
+    const { futureStatus, pastStatus } = this.props.appointments;
     this.setState({ tabIndex });
 
-    if (tabIndex === 1) {
-      const { pastStatus } = this.props.appointments;
-      if (pastStatus === FETCH_STATUS.notStarted) {
-        this.props.fetchPastAppointments(
-          selectedPastDateRange.startDate,
-          selectedPastDateRange.endDate,
-        );
+    let path = '/health-care/schedule-view-va-appointments/appointments/';
+
+    if (tabIndex === 0) {
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        this.props.fetchFutureAppointments();
       }
+    } else if (tabIndex === 1) {
+      if (pastStatus === FETCH_STATUS.notStarted) {
+        this.fetchPastAppointments();
+      }
+
+      path = appendQuery(path, { view: 'past' });
     }
+
+    browserHistory.push(path);
   };
 
   onPastAppointmentDateRangeChange = e => {
@@ -101,6 +120,12 @@ export class AppointmentsPage extends Component {
     });
     this.props.startNewAppointmentFlow();
   };
+
+  fetchPastAppointments = () =>
+    this.props.fetchPastAppointments(
+      this.state.selectedPastDateRange.startDate,
+      this.state.selectedPastDateRange.endDate,
+    );
 
   render() {
     const {
