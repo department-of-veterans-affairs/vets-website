@@ -42,6 +42,11 @@ export const selectFacilities = state =>
     f => !f.facilityId.startsWith('742'),
   ) || null;
 
+export const selectCernerFacilities = state =>
+  selectFacilities(state)
+    ?.filter(f => f.isCerner)
+    .map(f => f.facilityId) || [];
+
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
@@ -219,10 +224,7 @@ export function getFacilityPageInfo(state) {
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerFacilities:
-      selectFacilities(state)
-        ?.filter(f => f.isCerner)
-        .map(f => f.facilityId) || [],
+    cernerFacilities: selectCernerFacilities(state),
   };
 }
 
