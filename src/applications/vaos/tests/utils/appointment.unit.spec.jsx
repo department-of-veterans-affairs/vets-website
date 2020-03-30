@@ -584,42 +584,36 @@ describe('VAOS appointment helpers', () => {
     const ranges = getPastAppointmentDateRangeOptions(moment('2020-02-02'));
     it('should return 6 correct date ranges for dropdown', () => {
       expect(ranges.length).to.equal(6);
-      expect(ranges[0]).to.deep.equal({
-        value: 0,
-        label: 'Past 3 months',
-        startDate: '2019-11-02',
-        endDate: '2020-02-02',
-      });
-      expect(ranges[1]).to.deep.equal({
-        value: 1,
-        label: 'Sept. 2019 – Nov. 2019',
-        startDate: '2019-09-01',
-        endDate: '2019-11-30',
-      });
-      expect(ranges[2]).to.deep.equal({
-        value: 2,
-        label: 'June 2019 – Aug. 2019',
-        startDate: '2019-06-01',
-        endDate: '2019-08-31',
-      });
-      expect(ranges[3]).to.deep.equal({
-        value: 3,
-        label: 'March 2019 – May 2019',
-        startDate: '2019-03-01',
-        endDate: '2019-05-31',
-      });
-      expect(ranges[4]).to.deep.equal({
-        value: 4,
-        label: 'Show all of 2020',
-        startDate: '2020-01-01',
-        endDate: '2020-12-31',
-      });
-      expect(ranges[5]).to.deep.equal({
-        value: 5,
-        label: 'Show all of 2019',
-        startDate: '2019-01-01',
-        endDate: '2019-12-31',
-      });
+
+      expect(ranges[0].value).to.equal(0);
+      expect(ranges[0].label).to.equal('Past 3 months');
+      expect(ranges[0].startDate).to.include('2019-11-02T00:00:00');
+      expect(ranges[0].endDate).to.include('2020-02-02T00:00:00');
+
+      expect(ranges[1].value).to.equal(1);
+      expect(ranges[1].label).to.equal('Sept. 2019 – Nov. 2019');
+      expect(ranges[1].startDate).to.include('2019-09-01T00:00:00');
+      expect(ranges[1].endDate).to.include('2019-11-30T23:59:59');
+
+      expect(ranges[2].value).to.equal(2);
+      expect(ranges[2].label).to.equal('June 2019 – Aug. 2019');
+      expect(ranges[2].startDate).to.include('2019-06-01T00:00:00');
+      expect(ranges[2].endDate).to.include('2019-08-31T23:59:59');
+
+      expect(ranges[3].value).to.equal(3);
+      expect(ranges[3].label).to.equal('March 2019 – May 2019');
+      expect(ranges[3].startDate).to.include('2019-03-01T00:00:00');
+      expect(ranges[3].endDate).to.include('2019-05-31T23:59:59');
+
+      expect(ranges[4].value).to.equal(4);
+      expect(ranges[4].label).to.equal('Show all of 2020');
+      expect(ranges[4].startDate).to.include('2020-01-01T00:00:00');
+      expect(ranges[4].endDate).to.include('2020-02-02T00:00:00');
+
+      expect(ranges[5].value).to.equal(5);
+      expect(ranges[5].label).to.equal('Show all of 2019');
+      expect(ranges[5].startDate).to.include('2019-01-01T00:00:00');
+      expect(ranges[5].endDate).to.include('2019-12-31T23:59:59');
     });
   });
 
