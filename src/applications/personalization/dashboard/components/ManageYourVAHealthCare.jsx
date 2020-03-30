@@ -63,7 +63,6 @@ const ScheduleAnAppointmentCernerWidget = () => (
       }
       type="button"
       className="usa-button-primary"
-      onClick={() => null}
     >
       Go to My VA Health
     </a>
@@ -72,7 +71,6 @@ const ScheduleAnAppointmentCernerWidget = () => (
       href="/health-care/schedule-view-va-appointments/"
       type="button"
       className="usa-button-secondary"
-      onClick={() => null}
     >
       Go to VA appointments
     </a>
