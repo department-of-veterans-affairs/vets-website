@@ -12,11 +12,13 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
       <AlertBox
         content={
           <div>
-            {cautionFlags.map(flag => (
-              <div className="headingFlag" key={flag.id}>
-                {flag.title}
-              </div>
-            ))}
+            <ul>
+              {cautionFlags.map(flag => (
+                <li className="headingFlag" key={flag.id}>
+                  <div>{flag.title}</div>
+                </li>
+              ))}
+            </ul>
             <p>
               <a href="#viewWarnings" onClick={onViewWarnings}>
                 View cautionary information about this school
