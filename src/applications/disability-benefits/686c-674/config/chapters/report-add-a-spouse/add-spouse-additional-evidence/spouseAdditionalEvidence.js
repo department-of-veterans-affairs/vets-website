@@ -2,18 +2,9 @@ import assign from 'lodash/assign';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { marriageTypeInformation } from '../current-marriage-information/helpers';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
+import { genericSchemas } from '../../../generic-schema';
 
-const fileSchema = {
-  type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      name: { type: 'string' },
-      size: { type: 'integer' },
-      confirmationCode: { type: 'string' },
-    },
-  },
-};
+const { fileSchema } = genericSchemas;
 
 export const schema = {
   type: 'object',
