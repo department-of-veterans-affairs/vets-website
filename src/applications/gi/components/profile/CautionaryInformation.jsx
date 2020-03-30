@@ -55,7 +55,6 @@ const schoolClosingAlert = institutioon => {
     if (currentDate > schoolClosingDate) {
       return (
         <AlertBox
-          className="vads-u-margin-top--1"
           headline="School closed"
           content={
             <div>
@@ -71,7 +70,6 @@ const schoolClosingAlert = institutioon => {
   }
   return (
     <AlertBox
-      className="vads-u-margin-top--1"
       content={
         <div>
           <p>This school will be closing soon.</p>
@@ -176,8 +174,8 @@ export class CautionaryInformation extends React.Component {
 
     return (
       <div className="cautionary-information">
-        {schoolClosingAlert(it)}
-        <div className="caution-flag">
+        <div>
+          {schoolClosingAlert(it)}
           <AlertBox
             content={flagContent}
             isVisible={!!it.cautionFlag}
