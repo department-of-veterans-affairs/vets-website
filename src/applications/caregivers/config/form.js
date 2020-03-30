@@ -20,8 +20,7 @@ import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
 import definitions from '../definitions/caregiverUI';
 
-const vaMedicalFacility =
-  fullSchema.properties.veteran.properties.plannedClinic;
+const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 
 const {
   veteran,
@@ -69,7 +68,7 @@ const hasSecondaryTwoCaregiver = formData =>
 
 /* Chapters
  * 1 - Vet/Service Member (required)
- * 2 -m Primary Family Caregiver (required)
+ * 2 - Primary Family Caregiver (required)
  * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
  */
 const formConfig = {
@@ -117,7 +116,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [vetFields.fullName, vetFields.dateOfBirth],
+            required: [
+              vetFields.dateOfBirth,
+              vetFields.fullName,
+              vetFields.ssn,
+            ],
             properties: {
               [vetFields.fullName]: veteranProps.fullName,
               [vetFields.ssn]: veteranProps.ssnOrTin,
@@ -135,9 +138,6 @@ const formConfig = {
             [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [vetFields.email]: emailUI,
-            [vetFields.preferredFacilityView]: {
-              ...vetUI[vetFields.preferredFacilityView],
-            },
           },
           schema: {
             type: 'object',
@@ -147,6 +147,22 @@ const formConfig = {
               [vetFields.primaryPhoneNumber]: phone,
               [vetFields.alternativePhoneNumber]: phone,
               [vetFields.email]: veteranProps.email,
+            },
+          },
+        },
+        veteranInfoThree: {
+          path: 'service-member-3',
+          title: 'Veteran Information',
+          uiSchema: {
+            'ui:description': VetInfo,
+            [vetFields.preferredFacilityView]: {
+              ...vetUI[vetFields.preferredFacilityView],
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {
               // dynamic properties for filtering facilities dropDown
               [vetFields.preferredFacilityView]: {
                 type: 'object',
@@ -161,13 +177,9 @@ const formConfig = {
                       state => !!medicalCentersByState[state],
                     ),
                   },
-                  [vetFields.plannedClinic]: Object.assign(
-                    {},
-                    vaMedicalFacility,
-                    {
-                      enum: [],
-                    },
-                  ),
+                  [vetFields.plannedClinic]: Object.assign({}, plannedClinic, {
+                    enum: [],
+                  }),
                 },
               },
             },
@@ -179,7 +191,7 @@ const formConfig = {
       title: 'PRIMARY FAMILY CAREGIVER',
       pages: {
         primaryCaregiverInfoOne: {
-          path: 'primary-caregiver-page1',
+          path: 'primary-caregiver-1',
           title: 'Primary Caregiver Information',
           uiSchema: {
             'ui:description': () =>
@@ -205,7 +217,7 @@ const formConfig = {
           },
         },
         primaryCaregiverInfoTwo: {
-          path: 'primary-caregiver-page2',
+          path: 'primary-caregiver-2',
           title: 'Primary Caregiver Information (Continued)',
           uiSchema: {
             'ui:description': PrimaryCaregiverInfo,
@@ -238,6 +250,27 @@ const formConfig = {
               [primaryCaregiverFields.email]: primaryCaregiverProps.email,
               [primaryCaregiverFields.vetRelationship]:
                 primaryCaregiverProps.vetRelationship,
+            },
+          },
+        },
+        primaryCaregiverInfoThree: {
+          path: 'primary-caregiver-3',
+          title: 'Primary Caregiver Information (Continued)',
+          uiSchema: {
+            'ui:description': PrimaryCaregiverInfo,
+            'view:primaryHealthCareEnrollment': {
+              ...primaryCaregiverUI['view:primaryHealthCareEnrollment'],
+            },
+            [primaryCaregiverFields.otherHealthInsurance]:
+              primaryCaregiverUI.otherHealthInsuranceUI,
+            [primaryCaregiverFields.otherHealthInsuranceName]:
+              primaryCaregiverUI.otherHealthInsuranceNameUI,
+            [primaryCaregiverFields.hasSecondaryOneCaregiverView]: hasSecondaryOneCaregiverUI,
+          },
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {
               [primaryCaregiverFields.primaryHealthCareEnrollmentView]: {
                 type: 'object',
                 properties: {
