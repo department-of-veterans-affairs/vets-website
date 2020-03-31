@@ -11,9 +11,7 @@ export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state).services;
 export const selectPatientFacilities = state =>
-  selectProfile(state)?.facilities?.filter(
-    f => !f.facilityId.startsWith('742') || null,
-  );
+  selectProfile(state)?.facilities;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
   selectVet360(state)?.email?.emailAddress;
@@ -40,8 +38,13 @@ export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);
 }
 
+export const selectFilteredPatientFacilities = state =>
+  selectPatientFacilities(state)?.filter(
+    f => !f.facilityId.startsWith('742'),
+  ) || null;
+
 export const selectIsCernerOnlyPatient = state =>
-  !!selectPatientFacilities(state)?.every(f => f.isCerner);
+  !!selectFilteredPatientFacilities(state)?.every(f => f.isCerner);
 
 export const selectIsCernerPatient = state =>
-  selectPatientFacilities(state)?.some(f => f.isCerner);
+  selectFilteredPatientFacilities(state)?.some(f => f.isCerner);
