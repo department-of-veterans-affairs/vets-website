@@ -49,6 +49,8 @@ import {
   recordEligibilityGAEvents,
 } from '../utils/eligibility';
 
+import { recordEligibilityFailure } from '../utils/events';
+
 import { captureError } from '../utils/error';
 
 import {
@@ -290,6 +292,10 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId = eligibleFacilities[0].institutionCode;
       }
 
+      if (!eligibleFacilities?.length) {
+        recordEligibilityFailure('supported-facilities');
+      }
+
       const eligibilityChecks =
         newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
@@ -365,6 +371,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         // If no available facilities, fetch system details to display contact info
         if (!availableFacilities?.length) {
           dispatch(fetchFacilityDetails(data.vaParent));
+          recordEligibilityFailure('supported-facilities');
         }
 
         dispatch({
