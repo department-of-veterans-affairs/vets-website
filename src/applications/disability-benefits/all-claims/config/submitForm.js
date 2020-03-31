@@ -1,6 +1,7 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig, { mode } = {}) {

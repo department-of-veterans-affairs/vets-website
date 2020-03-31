@@ -6,6 +6,7 @@ import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object
