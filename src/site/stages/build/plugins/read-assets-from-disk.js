@@ -6,7 +6,7 @@ function readAssetsFromDisk(buildOptions) {
   // For each file in there, read it from disk and load it into files
   const webpackOutput = path.join(
     __dirname,
-    '../../../../build/',
+    '../../../../../build/',
     buildOptions.buildtype,
     'generated',
   );
