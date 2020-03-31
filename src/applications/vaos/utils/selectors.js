@@ -37,11 +37,6 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
-export const selectFacilities = state =>
-  selectPatientFacilities(state)?.filter(
-    f => !f.facilityId.startsWith('742'),
-  ) || null;
-
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
@@ -220,7 +215,7 @@ export function getFacilityPageInfo(state) {
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities:
-      selectFacilities(state)
+      selectPatientFacilities(state)
         ?.filter(f => f.isCerner)
         .map(f => f.facilityId) || [],
   };
@@ -330,4 +325,4 @@ export const isWelcomeModalDismissed = state =>
   );
 
 export const selectSystemIds = state =>
-  selectFacilities(state)?.map(f => f.facilityId) || null;
+  selectPatientFacilities(state)?.map(f => f.facilityId) || null;
