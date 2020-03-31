@@ -16,6 +16,10 @@ function loginHandler(loginType, application = null) {
   login(loginType, 'v1', application);
 }
 
+function signupHandler(application = null) {
+  signup('v1', application);
+}
+
 const vaGovFullDomain = environment.BASE_URL;
 
 class SignInPage extends React.Component {
@@ -138,7 +142,7 @@ class SignInPage extends React.Component {
                       <button
                         disabled={globalDowntime}
                         className="idme-create usa-button usa-button-secondary"
-                        onClick={signup}
+                        onClick={() => signupHandler(application)}
                       >
                         <img
                           alt="ID.me"
