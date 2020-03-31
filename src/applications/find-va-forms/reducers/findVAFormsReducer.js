@@ -4,7 +4,6 @@ import {
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   UPDATE_PAGINATION,
-  UPDATE_RESULTS,
 } from '../constants';
 
 const initialState = {
@@ -29,9 +28,6 @@ export default (state = initialState, action) => {
     }
     case UPDATE_PAGINATION: {
       return { ...state, page: action.page, startIndex: action.startIndex };
-    }
-    case UPDATE_RESULTS: {
-      return { ...state, results: action.results };
     }
     default: {
       return { ...state };
