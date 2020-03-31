@@ -11,7 +11,9 @@ export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state).services;
 export const selectPatientFacilities = state =>
-  selectProfile(state).facilities.filter(f => !f.facilityId.startsWith('742'));
+  selectProfile(state)?.facilities?.filter(
+    f => !f.facilityId.startsWith('742'),
+  );
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
   selectVet360(state)?.email?.emailAddress;
