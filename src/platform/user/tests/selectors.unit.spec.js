@@ -267,7 +267,7 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectPatientFacilities(state)).to.be.undefined;
+      expect(selectors.selectPatientFacilities(state)).to.be.null;
     });
   });
   describe('selectIsCernerOnlyPatient', () => {
