@@ -1,4 +1,3 @@
-import assign from 'lodash/assign';
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { marriageTypeInformation } from '../current-marriage-information/helpers';
@@ -14,9 +13,7 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    supportingDocuments: assign(fileSchema, {
-      minItems: 1,
-    }),
+    supportingDocuments: fileSchema,
   },
 };
 
@@ -29,16 +26,6 @@ export const uiSchema = {
     buttonText: 'Upload supporting documents',
     fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
     showFieldLabel: false,
-    fileTypes: [
-      'pdf',
-      'gif',
-      'tif',
-      'tiff',
-      'jpeg',
-      'jpg',
-      'png',
-      'bmp',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
   }),
 };
