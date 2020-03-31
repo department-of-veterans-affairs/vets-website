@@ -3,7 +3,11 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
-import { HEARING_AID_ACCESSORIES } from '../constants';
+import {
+  HEARING_AID_ACCESSORIES,
+  BLUE_BACKGROUND,
+  WHITE_BACKGROUND,
+} from '../constants';
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsAccessoriesWidget extends React.Component {
@@ -61,8 +65,8 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
             <div
               className={
                 selectedItems.includes(supply.productId)
-                  ? 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
-                  : 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
+                  ? BLUE_BACKGROUND
+                  : WHITE_BACKGROUND
               }
             >
               <input
