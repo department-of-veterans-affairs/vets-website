@@ -66,3 +66,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(PersonalizationDropdown);
+
+export { PersonalizationDropdown };
