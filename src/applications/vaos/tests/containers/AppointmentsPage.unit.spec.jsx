@@ -317,4 +317,75 @@ describe('VAOS <AppointmentsPage>', () => {
     expect(fetchPastAppointments.called).to.be.true;
     tree.unmount();
   });
+
+  it('should fetch past appointments with selected date range startDate and endDate', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.notStarted,
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        facilityData: {},
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        showPastAppointments
+        fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    const instance = tree.instance();
+    instance.onPastAppointmentDateRangeChange({ target: { value: 1 } });
+    expect(tree.state('selectedPastDateRangeIndex')).to.equal(1);
+    expect(fetchPastAppointments.called).to.be.true;
+    tree.unmount();
+  });
+
+  it('should fetch past appointments with selected date range startDate and endDate', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.notStarted,
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        facilityData: {},
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        showPastAppointments
+        fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    const instance = tree.instance();
+    instance.fetchPastAppointments();
+    expect(fetchPastAppointments.called).to.be.true;
+    expect(fetchPastAppointments.firstCall.args[0]).to.equal(
+      tree.state('selectedPastDateRange').startDate,
+    );
+    expect(fetchPastAppointments.firstCall.args[1]).to.equal(
+      tree.state('selectedPastDateRange').endDate,
+    );
+    tree.unmount();
+  });
 });
