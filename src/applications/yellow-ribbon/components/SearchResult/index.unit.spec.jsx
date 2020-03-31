@@ -11,7 +11,6 @@ describe('Yellow Ribbon <SearchResult>', () => {
       school: {
         city: 'Los Angeles',
         contributionAmount: '500',
-        country: 'USA',
         degreeLevel: 'All',
         divisionProfessionalSchool: 'All',
         facilityCode: '21115805',
