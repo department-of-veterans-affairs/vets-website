@@ -1,7 +1,7 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
-import orderSupplyPageContent from '../components/oderSupplyPageContent';
+import orderSupplyPageContent from '../components/orderSupplyPageContent';
 import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
 import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
 import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
@@ -126,7 +126,7 @@ const formConfig = {
                   no: "No, I don't need to order hearing aid batteries.",
                 },
               },
-              'ui:reviewField': SuppliesReview,
+              hideOnReview: true,
             },
             supplies: {
               'ui:title': 'Which hearing aid do you need batteries for?',
@@ -164,7 +164,7 @@ const formConfig = {
                   no: "No, I don't need to order hearing aid accessories.",
                 },
               },
-              'ui:reviewField': SuppliesReview,
+              hideOnReview: true,
             },
             accessories: {
               'ui:title': 'Which hearing aid do you need batteries for?',
