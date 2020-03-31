@@ -4,6 +4,10 @@ import moment from 'moment';
 import * as customPropTypes from '../prop-types';
 
 export default function SearchResult({ form }) {
+  if (!form?.attributes) {
+    return null;
+  }
+
   const pdf = form.attributes.url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevisionOn = form.attributes.lastRevisionOn
     ? moment(form.attributes.lastRevisionOn).format('MM-DD-YYYY')
