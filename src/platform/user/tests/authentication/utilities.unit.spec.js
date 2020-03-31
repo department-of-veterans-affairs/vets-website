@@ -43,6 +43,11 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/sessions/signup/new');
   });
 
+  it('should redirect for signup', () => {
+    signup('v1');
+    expect(global.window.location).to.include('/v1/sessions/signup/new');
+  });
+
   it('should redirect for login', () => {
     login('idme');
     expect(global.window.location).to.include('/sessions/idme/new');
@@ -71,10 +76,5 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify', () => {
     verify();
     expect(global.window.location).to.include('/sessions/verify/new');
-  });
-
-  it('should redirect for SSO', () => {
-    login('idme', 'v1');
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });
