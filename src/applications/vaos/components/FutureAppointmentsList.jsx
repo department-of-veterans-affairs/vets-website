@@ -38,7 +38,6 @@ export default function FutureAppointmentsList({
   } else if (hasAppointments) {
     return (
       <>
-        <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
         <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
             const type = getAppointmentType(appt);

@@ -139,14 +139,39 @@ export class AppointmentsPage extends Component {
     const { selectedPastDateRangeIndex } = this.state;
 
     const futureAppointments = (
-      <FutureAppointmentsList
-        appointments={appointments}
-        cancelAppointment={this.props.cancelAppointment}
-        fetchRequestMessages={this.props.fetchRequestMessages}
-        showCancelButton={showCancelButton}
-        showScheduleButton={showScheduleButton}
-        startNewAppointmentFlow={this.startNewAppointmentFlow}
-      />
+      <>
+        <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+        {!showPastAppointments && (
+          <>
+            <p>
+              To view past appointments you’ve made,{' '}
+              <a
+                href={`https://${
+                  !environment.isProduction() ? 'mhv-syst' : 'www'
+                }.myhealth.va.gov/mhv-portal-web/appointments`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  recordEvent({
+                    event: 'vaos-past-appointments-legacy-link-clicked',
+                  })
+                }
+              >
+                go to My HealtheVet
+              </a>
+              .
+            </p>
+          </>
+        )}
+        <FutureAppointmentsList
+          appointments={appointments}
+          cancelAppointment={this.props.cancelAppointment}
+          fetchRequestMessages={this.props.fetchRequestMessages}
+          showCancelButton={showCancelButton}
+          showScheduleButton={showScheduleButton}
+          startNewAppointmentFlow={this.startNewAppointmentFlow}
+        />
+      </>
     );
 
     const tabClasses = classNames(
@@ -171,7 +196,7 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
-            {showPastAppointments && (
+            {showPastAppointments ? (
               <Tabs
                 className="vaos-appts__tabs"
                 selectedIndex={this.state.tabIndex}
@@ -183,6 +208,9 @@ export class AppointmentsPage extends Component {
                 </TabList>
                 <TabPanel>{futureAppointments}</TabPanel>
                 <TabPanel>
+                  <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
+                    Past appointments
+                  </h3>
                   <PastAppointmentsList
                     appointments={appointments}
                     dateRangeOptions={pastAppointmentDateRangeOptions}
@@ -193,31 +221,10 @@ export class AppointmentsPage extends Component {
                   />
                 </TabPanel>
               </Tabs>
+            ) : (
+              futureAppointments
             )}
 
-            {!showPastAppointments && (
-              <>
-                <p>
-                  To view past appointments you’ve made,{' '}
-                  <a
-                    href={`https://${
-                      !environment.isProduction() ? 'mhv-syst' : 'www'
-                    }.myhealth.va.gov/mhv-portal-web/appointments`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() =>
-                      recordEvent({
-                        event: 'vaos-past-appointments-legacy-link-clicked',
-                      })
-                    }
-                  >
-                    go to My HealtheVet
-                  </a>
-                  .
-                </p>
-                {futureAppointments}
-              </>
-            )}
             <NeedHelp />
           </div>
         </div>

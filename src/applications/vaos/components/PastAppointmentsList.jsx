@@ -73,9 +73,6 @@ export default function PastAppointmentsList({
 
   return (
     <>
-      <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
-        Past appointments
-      </h3>
       <PastAppointmentsDateDropdown
         value={selectedDateRangeIndex}
         onChange={onDateRangeChange}
