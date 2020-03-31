@@ -12,7 +12,7 @@
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
-    "prebuild": "node script/prebuild-content.js",
+    "prebuild": "node script/prebuild.js",
     "preview": "node script/preview.js",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "lint": "npm run lint:js && npm run lint:sass",
