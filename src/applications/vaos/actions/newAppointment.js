@@ -327,7 +327,8 @@ export function openFacilityPage(page, uiSchema, schema) {
         try {
           const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
-            dispatch(fetchFacilityDetails(facilityId));
+            const thunk = fetchFacilityDetails(facilityId);
+            await thunk(dispatch, getState);
           }
         } catch (e) {
           captureError(e);
@@ -426,7 +427,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
         try {
           const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
-            dispatch(fetchFacilityDetails(data.vaFacility));
+            const thunk = fetchFacilityDetails(data.vaFacility);
+            await thunk(dispatch, getState);
           }
         } catch (e) {
           captureError(e);
