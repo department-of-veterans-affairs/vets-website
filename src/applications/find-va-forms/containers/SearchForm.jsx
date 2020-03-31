@@ -55,7 +55,7 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0"
+        className="vads-l-grid-container vads-u-padding--2 medium-screen:vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
         name="find-va-form"
         onSubmit={onSubmitHandler}
       >
@@ -63,7 +63,7 @@ export class SearchForm extends Component {
           Keyword, form name, or number
         </label>
         <div className="vads-l-row">
-          <div className="vads-u-margin-right--2 vads-u-flex--1">
+          <div className="vads-l-col--12 medium-screen:vads-u-margin-right--2 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <input
               className="usa-input vads-u-max-width--100 vads-u-width--full"
               id="va-form-query"
@@ -72,9 +72,9 @@ export class SearchForm extends Component {
               value={query}
             />
           </div>
-          <div>
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
             <button
-              className="usa-button vads-u-margin--0 vads-u-margin-y--1"
+              className="usa-button vads-u-margin--0 vads-u-margin-y--1 vads-u-width--full medium-screen:vads-u-width--auto"
               type="submit"
               disabled={fetching}
             >

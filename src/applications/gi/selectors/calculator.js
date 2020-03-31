@@ -278,7 +278,7 @@ const getDerivedValues = createSelector(
     );
 
     // Determine kicker benefit level - getKickerBenefit
-    if (!(inputs.kickerEligible === 'yes')) {
+    if (inputs.kickerEligible !== 'yes') {
       kickerBenefit = 0;
     } else {
       kickerBenefit = +inputs.kickerAmount;

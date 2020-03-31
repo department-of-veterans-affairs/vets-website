@@ -4,6 +4,9 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PAST_APPOINTMENTS,
+  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+  FETCH_PAST_APPOINTMENTS_FAILED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
@@ -17,11 +20,13 @@ import { FORM_SUBMIT_SUCCEEDED } from '../actions/sitewide';
 
 import {
   filterFutureConfirmedAppointments,
+  filterPastAppointments,
   filterRequests,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   sortMessages,
   getRealFacilityId,
+  sortPastAppointments,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
 
@@ -67,6 +72,31 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         futureStatus: FETCH_STATUS.failed,
         future: null,
+      };
+    case FETCH_PAST_APPOINTMENTS:
+      return {
+        ...state,
+        pastStatus: FETCH_STATUS.loading,
+      };
+    case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
+      const { data, startDate, endDate } = action;
+      const [vaAppointments, ccAppointments] = data;
+
+      const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
+        .filter(appt => filterPastAppointments(appt, startDate, endDate))
+        .sort(sortPastAppointments);
+
+      return {
+        ...state,
+        past: confirmedFilteredAndSorted,
+        pastStatus: FETCH_STATUS.succeeded,
+      };
+    }
+    case FETCH_PAST_APPOINTMENTS_FAILED:
+      return {
+        ...state,
+        pastStatus: FETCH_STATUS.failed,
+        past: null,
       };
     case FETCH_FACILITY_LIST_DATA_SUCCEEDED: {
       const facilityData = action.facilityData.reduce(
