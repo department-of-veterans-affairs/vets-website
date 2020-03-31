@@ -14,7 +14,7 @@ export const VetInfo = () => (
 );
 
 export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
-  <article>
+  <div>
     <p>
       Complete the following information about the Caregiver or Family member
       who is helping the Veteran or Service member. You can also include
@@ -27,7 +27,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
         <SecondaryAdditional />
       </section>
     )}
-  </article>
+  </div>
 );
 
 PrimaryCaregiverInfo.propTypes = {
@@ -39,9 +39,9 @@ PrimaryCaregiverInfo.defaultProps = {
 };
 
 export const SecondaryCaregiverInfo = () => (
-  <span>
+  <p>
     Complete the following information about the Secondary Caregiver or Family
     member who is helping the Veteran or Service member. You can include
     information about up to two Secondary Family Caregivers.
-  </span>
+  </p>
 );

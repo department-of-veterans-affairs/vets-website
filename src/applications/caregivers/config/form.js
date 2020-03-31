@@ -227,21 +227,12 @@ const formConfig = {
             [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [primaryCaregiverFields.email]: emailUI,
             [primaryCaregiverFields.vetRelationship]: vetRelationshipUI,
-            'view:primaryHealthCareEnrollment': {
-              ...primaryCaregiverUI['view:primaryHealthCareEnrollment'],
-            },
-            [primaryCaregiverFields.otherHealthInsurance]:
-              primaryCaregiverUI.otherHealthInsuranceUI,
-            [primaryCaregiverFields.otherHealthInsuranceName]:
-              primaryCaregiverUI.otherHealthInsuranceNameUI,
-            [primaryCaregiverFields.hasSecondaryOneCaregiverView]: hasSecondaryOneCaregiverUI,
           },
           schema: {
             type: 'object',
             required: [
               primaryCaregiverFields.address,
               primaryCaregiverFields.vetRelationship,
-              primaryCaregiverFields.otherHealthInsurance,
             ],
             properties: {
               [primaryCaregiverFields.address]: getAddressSchema.schema(
@@ -273,7 +264,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [],
+            required: [primaryCaregiverFields.otherHealthInsurance],
             properties: {
               [primaryCaregiverFields.primaryHealthCareEnrollmentView]: {
                 type: 'object',
