@@ -43,14 +43,29 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/sessions/signup/new');
   });
 
+  it('should redirect for signup v1', () => {
+    signup('v1');
+    expect(global.window.location).to.include('/v1/sessions/signup/new');
+  });
+
   it('should redirect for login', () => {
     login('idme');
     expect(global.window.location).to.include('/sessions/idme/new');
   });
 
+  it('should redirect for login v1', () => {
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
   it('should redirect for logout', () => {
     logout();
     expect(global.window.location).to.include('/sessions/slo/new');
+  });
+
+  it('should redirect for logout v1', () => {
+    logout('v1');
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
   it('should redirect for MFA', () => {
@@ -61,10 +76,5 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify', () => {
     verify();
     expect(global.window.location).to.include('/sessions/verify/new');
-  });
-
-  it('should redirect for SSO', () => {
-    login('idme', 'v1');
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });

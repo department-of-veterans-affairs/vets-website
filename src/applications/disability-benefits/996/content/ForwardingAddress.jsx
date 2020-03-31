@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddressViewField } from '../../all-claims/utils';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { EffectiveDateViewField } from '../helpers';
 
 export const forwardingAddressCheckboxLabel =
