@@ -23,10 +23,10 @@ const veteranInformationDescription = data => {
         <p>
           <strong>{`${fullName?.first || ''} ${fullName?.last || ''}`}</strong>
         </p>
-        <p>
+        <p className="ssn">
           Social Security number: {mask} {last4SSN.slice(-4)}
         </p>
-        <p>
+        <p className="vafn">
           VA file number: {mask} {last4VAFile.slice(-4)}
         </p>
         <p>
