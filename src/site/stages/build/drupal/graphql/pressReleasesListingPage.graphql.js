@@ -33,25 +33,6 @@ module.exports = `
               }
               promote
               created
-              fieldOffice {
-                entity {
-                  ... on NodeHealthCareRegionPage {
-                    entityLabel
-                    entityUrl {
-                      ... on EntityCanonicalUrl {
-                        breadcrumb {
-                          url {
-                            path
-                            routed
-                          }
-                          text
-                        }
-                        path
-                      }
-                    }
-                  }
-                }
-              }
               fieldIntroText
             }
           }

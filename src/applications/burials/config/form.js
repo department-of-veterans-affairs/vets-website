@@ -441,7 +441,7 @@ const formConfig = {
                   ) {
                     return true;
                   }
-                  return !(formData.burialAllowanceRequested === 'nonService');
+                  return formData.burialAllowanceRequested !== 'nonService';
                 },
               },
             },

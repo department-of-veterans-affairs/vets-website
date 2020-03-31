@@ -19,6 +19,7 @@ import {
   validateZIP,
 } from './validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 
 import {
   DATA_PATHS,
@@ -285,39 +286,6 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankRoutingNumber',
     'view:bankAccount.bankName',
   ]);
-
-export const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    country,
-    state,
-    zipCode,
-  } = formData;
-  let zipString;
-  if (zipCode) {
-    const firstFive = zipCode.slice(0, 5);
-    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
-  }
-
-  let lastLine;
-  if (country === USA) {
-    lastLine = `${city}, ${state} ${zipString}`;
-  } else {
-    lastLine = `${city}, ${country}`;
-  }
-  return (
-    <p className="blue-bar-block">
-      {addressLine1 && [addressLine1, <br />]}
-      {addressLine2 && [addressLine2, <br />]}
-      {addressLine3 && [addressLine3, <br />]}
-      {lastLine}
-    </p>
-  );
-};
 
 /**
  * Returns the path with any ':index' substituted with the actual index.
