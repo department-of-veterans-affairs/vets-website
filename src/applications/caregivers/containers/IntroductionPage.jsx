@@ -77,7 +77,7 @@ const IntroductionPage = ({ route, router }) => {
   const ProcessTimeline = () => (
     <>
       <h4>Follow the steps below to apply for Caregiver benefits</h4>
-      <article className="process schemaform-process">
+      <article className="schemaform-process vads-u-padding-bottom--2p5">
         <div>
           {/* prepare */}
           <section className="process-step list-one">
@@ -152,7 +152,7 @@ const IntroductionPage = ({ route, router }) => {
             </ul>
           </section>
           {/* Decision */}
-          <div className="process-step list-four">
+          <div className="process-step list-four vads-u-padding-bottom--0">
             <h5>Decision</h5>
             <p>
               Once we’ve reviewed your application, you’ll get a notice in the
@@ -160,10 +160,6 @@ const IntroductionPage = ({ route, router }) => {
             </p>
           </div>
         </div>
-
-        <button className="vads-u-margin-bottom--2p5" onClick={startForm}>
-          Start your Application
-        </button>
       </article>
     </>
   );
@@ -178,6 +174,10 @@ const IntroductionPage = ({ route, router }) => {
       <IntoHighlight />
 
       <ProcessTimeline />
+
+      <button className="vads-u-margin-bottom--5" onClick={startForm}>
+        Start your Application
+      </button>
 
       <div className="omb-info--container vads-u-padding-left--0">
         <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2018" />
