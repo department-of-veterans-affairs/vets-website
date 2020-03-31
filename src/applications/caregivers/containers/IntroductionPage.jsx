@@ -24,7 +24,7 @@ const IntroductionPage = ({ route, router }) => {
   };
 
   const IntoHighlight = () => (
-    <div className="info-highlight">
+    <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-x--5 vads-u-padding-bottom--5 vads-u-padding-top--2p5 vads-u-margin-y--5">
       <h4>
         Can I get benefits through the Program of Comprehensive Assistance for
         Family Caregivers?
@@ -160,6 +160,10 @@ const IntroductionPage = ({ route, router }) => {
             </p>
           </div>
         </div>
+
+        <button className="vads-u-margin-bottom--2p5" onClick={startForm}>
+          Start your Application
+        </button>
       </article>
     </>
   );
@@ -174,10 +178,6 @@ const IntroductionPage = ({ route, router }) => {
       <IntoHighlight />
 
       <ProcessTimeline />
-
-      <button className="vads-u-margin-bottom--2p5" onClick={startForm}>
-        Start your Application
-      </button>
 
       <div className="omb-info--container vads-u-padding-left--0">
         <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2018" />
