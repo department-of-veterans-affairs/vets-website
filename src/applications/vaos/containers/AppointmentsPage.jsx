@@ -197,7 +197,6 @@ export class AppointmentsPage extends Component {
 
             {!showPastAppointments && (
               <>
-                {futureAppointments}
                 <p>
                   To view past appointments you’ve made,{' '}
                   <a
@@ -216,6 +215,7 @@ export class AppointmentsPage extends Component {
                   </a>
                   .
                 </p>
+                {futureAppointments}
               </>
             )}
             <NeedHelp />
