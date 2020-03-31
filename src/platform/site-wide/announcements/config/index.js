@@ -90,14 +90,14 @@ const config = {
       relatedAnnouncements: ['personalization'],
     },
     {
-      name: 'personalization',
-      paths: /(.)/,
-      component: PersonalizationBanner,
-    },
-    {
       name: 'single-sign-on-intro',
       paths: /(.)/,
       component: SingleSignOnInfoModal,
+    },
+    {
+      name: 'personalization',
+      paths: /(.)/,
+      component: PersonalizationBanner,
     },
   ],
 };
