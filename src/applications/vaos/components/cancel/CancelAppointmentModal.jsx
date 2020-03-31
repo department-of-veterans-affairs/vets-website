@@ -45,7 +45,7 @@ export default class CancelAppointmentModal extends React.Component {
       );
     }
 
-    const isCerner = cernerFacilities.some(facilityId =>
+    const isCerner = cernerFacilities?.some(facilityId =>
       this.props.appointmentToCancel.facilityId.startsWith(facilityId),
     );
 
