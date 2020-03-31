@@ -18,7 +18,7 @@ const getOptionsByDate = () => [
   },
   {
     date: '2020-03-05',
-    datetime: '2020-03-05-24T09:00:00-05:00',
+    datetime: '2020-03-05T09:00:00-05:00',
   },
 ];
 
@@ -158,6 +158,7 @@ describe('VAOS <CalendarWidget>', () => {
     beforeEach(() => {
       tree = mount(
         <CalendarWidget
+          monthsToShowAtOnce={2}
           minDate={moment().format('YYYY-MM-DD')}
           onChange={state => {
             tree.setProps(state);
@@ -221,6 +222,7 @@ describe('VAOS <CalendarWidget>', () => {
       tree = mount(
         // No weekend dates and date must be equal or after current date!
         <CalendarWidget
+          monthsToShowAtOnce={2}
           minDate={moment().format('YYYY-MM-DD')}
           onChange={state => {
             tree.setProps(state);
@@ -345,6 +347,7 @@ describe('VAOS <CalendarWidget>', () => {
       tree = mount(
         // No weekend dates and date must be equal or after current date!
         <CalendarWidget
+          monthsToShowAtOnce={2}
           minDate={moment().format('YYYY-MM-DD')}
           onChange={state => {
             tree.setProps(state);

@@ -217,10 +217,6 @@ export default {
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
 
-      if (!eligibilityStatus.direct && !eligibilityStatus.request) {
-        recordEligibilityFailure();
-      }
-
       if (eligibilityStatus.direct) {
         let appointments = null;
 

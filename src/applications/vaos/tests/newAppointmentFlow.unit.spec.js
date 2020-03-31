@@ -392,11 +392,6 @@ describe('VAOS newAppointmentFlow', () => {
           // Should throw an error above
           expect(false).to.be.true;
         } catch (e) {
-          expect(
-            global.window.dataLayer.filter(
-              event => event.event === 'vaos-eligibility-failed',
-            ).length,
-          ).to.equal(1);
           expect(e.message).to.equal(
             'Veteran not eligible for direct scheduling or requests',
           );
