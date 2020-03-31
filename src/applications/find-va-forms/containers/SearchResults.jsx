@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 // Relative imports.
+import * as customPropTypes from '../prop-types';
 import { updatePaginationAction, updateResultsAction } from '../actions';
 import SearchResult from '../components/SearchResult';
 
@@ -21,23 +22,7 @@ export class SearchResults extends Component {
     fetching: PropTypes.bool.isRequired,
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
-    results: PropTypes.arrayOf(
-      PropTypes.shape({
-        // Original form data key-value pairs.
-        formName: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.number,
-        pages: PropTypes.number.isRequired,
-        sha256: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-        // Table field labels that can be JSX.
-        idLabel: PropTypes.node.isRequired,
-        titleLabel: PropTypes.node.isRequired,
-        lastRevisionOnLabel: PropTypes.node.isRequired,
-      }),
-    ),
+    results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
