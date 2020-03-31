@@ -17,6 +17,7 @@ import {
   getSystemFromChosenFacility,
   vaosCommunityCare,
   selectSystemIds,
+  getEligibilityStatus,
 } from '../utils/selectors';
 import {
   getParentFacilities,
@@ -315,6 +316,17 @@ export function openFacilityPage(page, uiSchema, schema) {
         typeOfCareId,
         eligibilityData,
       });
+
+      if (facilityId) {
+        try {
+          const eligibility = getEligibilityStatus(getState());
+          if (!eligibility.direct && !eligibility.request) {
+            dispatch(fetchFacilityDetails(facilityId));
+          }
+        } catch (e) {
+          captureError(e);
+        }
+      }
     } catch (e) {
       captureError(e);
       dispatch({
@@ -403,6 +415,15 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
           eligibilityData,
         });
+
+        try {
+          const eligibility = getEligibilityStatus(getState());
+          if (!eligibility.direct && !eligibility.request) {
+            dispatch(fetchFacilityDetails(data.vaFacility));
+          }
+        } catch (e) {
+          captureError(e);
+        }
       } catch (e) {
         captureError(e);
         dispatch({
