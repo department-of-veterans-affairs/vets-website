@@ -4,21 +4,13 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
 import { fileHelp, submit } from '../helpers.jsx';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import {
   mockFetch,
   resetFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
-
-function mockStorage() {
-  const storage = {};
-  return {
-    getItem(key) {
-      return storage[key];
-    },
-  };
-}
 
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
@@ -58,9 +50,8 @@ describe('Pensions helpers', () => {
     });
   });
   describe('submit', () => {
-    const originalLocalStorage = global.localStorage;
     before(() => {
-      global.localStorage = mockStorage();
+      sinon.stub(localStorage, 'getItem');
     });
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
@@ -168,7 +159,7 @@ describe('Pensions helpers', () => {
       delete window.URL;
     });
     after(() => {
-      global.localStorage = originalLocalStorage;
+      localStorage.getItem.restore();
     });
   });
 });
