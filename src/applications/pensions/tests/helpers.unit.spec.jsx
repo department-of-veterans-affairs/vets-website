@@ -14,6 +14,15 @@ import {
 
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
+
+  before(() => {
+    sinon.stub(localStorage, 'getItem');
+  });
+
+  after(() => {
+    localStorage.getItem.restore();
+  });
+
   describe('fileHelp', () => {
     it('should render', () => {
       const formData = {
@@ -50,9 +59,6 @@ describe('Pensions helpers', () => {
     });
   });
   describe('submit', () => {
-    before(() => {
-      sinon.stub(localStorage, 'getItem');
-    });
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
@@ -157,9 +163,6 @@ describe('Pensions helpers', () => {
     afterEach(() => {
       resetFetch();
       delete window.URL;
-    });
-    after(() => {
-      localStorage.getItem.restore();
     });
   });
 });
