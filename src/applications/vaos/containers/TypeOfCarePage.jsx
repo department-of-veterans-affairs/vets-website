@@ -17,9 +17,10 @@ import {
 import {
   getFormPageInfo,
   getNewAppointment,
-  selectIsCernerOnlyPatient,
   vaosDirectScheduling,
 } from '../utils/selectors';
+
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
