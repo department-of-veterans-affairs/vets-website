@@ -14,7 +14,7 @@ const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 const recordAccountEvent = recordNavUserEvent('account');
 
-class PersonalizationDropdown extends React.Component {
+export class PersonalizationDropdown extends React.Component {
   signOut = () => {
     // Prevent double clicking of "Sign Out"
     if (!this.signOutDisabled) {
@@ -66,5 +66,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(PersonalizationDropdown);
-
-export { PersonalizationDropdown };
