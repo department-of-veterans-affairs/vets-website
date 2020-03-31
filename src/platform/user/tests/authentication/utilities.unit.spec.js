@@ -59,7 +59,7 @@ describe('authentication URL helpers', () => {
   });
 
   it('should redirect for logout v1', () => {
-    logout();
+    logout('v1');
     expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
