@@ -112,10 +112,13 @@ function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
+  // This item should have been set in any previous API calls
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
     'Source-App-Name': window.appName,
+    'X-CSRF-Token': csrfTokenStored,
   };
 
   const body = transform(formConfig, form);
