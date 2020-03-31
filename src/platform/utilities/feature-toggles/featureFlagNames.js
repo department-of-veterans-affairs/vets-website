@@ -11,4 +11,5 @@ export default Object.freeze({
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaProfileAddressValidation: 'vaProfileAddressValidation',
   ssoe: 'ssoe',
+  eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
 });
