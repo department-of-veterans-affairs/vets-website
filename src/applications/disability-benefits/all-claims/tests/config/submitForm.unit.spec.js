@@ -2,14 +2,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import formConfig from '../../config/form';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 describe('Form 526 submit reject timer', () => {
   let xhr;
   let requests = [];
-  const oldLocalStorage = global.localStorage;
 
   before(() => {
-    global.localStorage = { getItem: sinon.stub() };
+    sinon.stub(localStorage, 'getItem');
   });
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('Form 526 submit reject timer', () => {
   });
 
   after(() => {
-    global.localStorage = oldLocalStorage;
+    localStorage.getItem.restore();
   });
 
   it('should trigger reject timer', async () => {
