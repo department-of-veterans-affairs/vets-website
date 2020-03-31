@@ -4,13 +4,13 @@ import sortBy from 'lodash/sortBy';
 // Relative imports.
 import STUBBED_RESPONSE from '../constants/STUBBED_RESPONSE';
 import { apiRequest } from '../../../platform/utilities/api';
-import { normalizeFormsForTable } from '../helpers';
 
 export const fetchFormsApi = async (query, options = {}) => {
   // Derive options properties.
   const mockRequest = options?.mockRequest || false;
 
-  let FORMS_URL = 'https://dev-api.va.gov/v0/forms';
+  // Change to https://dev-api.va.gov/v0/forms for quick local config
+  let FORMS_URL = '/forms';
   let response = STUBBED_RESPONSE;
 
   // Add the `query` query param if provided.
@@ -23,16 +23,8 @@ export const fetchFormsApi = async (query, options = {}) => {
     response = await apiRequest(FORMS_URL);
   }
 
-  return response?.data;
-
-  // Derive the forms.
   const forms = response?.data;
-
-  // Give back the normalized forms data.
-  const normalizedForms = normalizeFormsForTable(forms);
-
-  // Sort the forms by 'id' and 'asc' by default.
-  const sortedForms = sortBy(normalizedForms, 'id');
+  const sortedForms = sortBy(forms, 'id');
 
   return sortedForms;
 };
