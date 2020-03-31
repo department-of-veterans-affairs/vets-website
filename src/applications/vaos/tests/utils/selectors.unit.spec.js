@@ -18,6 +18,7 @@ import {
   getCCEType,
   isWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
+  selectCernerFacilities,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -527,6 +528,37 @@ describe('VAOS selectors', () => {
         },
       };
       expect(selectIsCernerOnlyPatient(state)).to.be.false;
+    });
+  });
+  describe('selectCernerFacilities', () => {
+    it('should return collection of cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectCernerFacilities(state).length).to.be.equal(1);
+    });
+
+    it('should return empty collection of cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: false },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectCernerFacilities(state).length).to.be.equal(0);
     });
   });
 });
