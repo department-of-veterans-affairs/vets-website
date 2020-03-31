@@ -1,9 +1,9 @@
 // Dependencies.
 import appendQuery from 'append-query';
 import sortBy from 'lodash/sortBy';
+import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
 import STUBBED_RESPONSE from '../constants/STUBBED_RESPONSE';
-import { apiRequest } from '../../../platform/utilities/api';
 
 export const fetchFormsApi = async (query, options = {}) => {
   // Derive options properties.
