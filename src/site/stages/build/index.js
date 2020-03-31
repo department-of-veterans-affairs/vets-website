@@ -1,4 +1,7 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const fs = require('fs-extra');
+const path = require('path');
+
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -43,6 +46,32 @@ const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const updateExternalLinks = require('./plugins/update-external-links');
 const updateRobots = require('./plugins/update-robots');
 
+/**
+ * Immediately copies the Webpack build output to a directory outside of
+ * Metalsmith's build destination, then returns a function for use as a
+ * Metalsmith plugin. This plugin copies the files back to their expected
+ * location.
+ *
+ * This is needed because script/build.sh runs Webpack before the content build,
+ * and Metalsmith's build method removes everything in the destination, which
+ * wipes out the output of the Webpack build.
+ *
+ * This can be removed when we move the content build to a new repository and
+ * this script no longer interacts with the Webpack output at all.
+ */
+function preserveWebpackOutput(metalsmithDestination) {
+  const webpackBuildDirName = 'generated';
+  const tempDir = path.join(__dirname, '../../../../tmp/', webpackBuildDirName);
+  const webpackDir = path.join(metalsmithDestination, webpackBuildDirName);
+
+  // Immediately copy the Webpack output to a new directory
+  fs.moveSync(webpackDir, tempDir);
+
+  return () => {
+    fs.moveSync(tempDir, webpackDir);
+  };
+}
+
 function defaultBuild(BUILD_OPTIONS) {
   const smith = silverSmith();
 
@@ -60,6 +89,11 @@ function defaultBuild(BUILD_OPTIONS) {
     hostUrl: BUILD_OPTIONS.hostUrl,
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
+
+  smith.use(
+    preserveWebpackOutput(BUILD_OPTIONS.destination),
+    'Preserving Webpack build output',
+  );
 
   smith.use(createReactPages(BUILD_OPTIONS), 'Create React pages');
   smith.use(getDrupalContent(BUILD_OPTIONS), 'Get Drupal content');
