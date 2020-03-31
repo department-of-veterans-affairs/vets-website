@@ -2,25 +2,27 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import _ from 'platform/utilities/data';
 import React from 'react';
+import { createSelector } from 'reselect';
 import fullSchema from '../2346-schema.json';
-import addressCardField from '../components/addressFields/addressCardField';
-import { AddressViewField } from '../components/addressFields/addressViewField.jsx';
+import AddressCardField from '../components/addressFields/AddressCardField';
+import { AddressViewField } from '../components/addressFields/AddressViewField';
 import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
 import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
 import SuppliesReview from '../components/suppliesReview';
 import {
-  MILITARY_CITIES,
-  MILITARY_STATE_LABELS,
-  MILITARY_STATE_VALUES,
+  canLabels,
+  canProvinces,
+  mexLabels,
+  mexStates,
+  militaryLabels,
+  militaryStates,
   schemaFields,
-  STATE_LABELS,
-  STATE_VALUES,
-  USA,
+  usaLabels,
+  usaStates,
 } from '../constants';
 import {
-  pathWithIndex,
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
@@ -47,70 +49,249 @@ const emailUIDescription = (
 /**
  * @param {string} addressPath - The path to the address in the formData
  * @param {string} [title] - Displayed as the card title in the card's header
- * @param {boolean} reviewCard - Whether to display the information in a addressCardField or not
+ * @param {boolean} reviewCard - Whether to display the information in a AddressCardField or not
  * @param {boolean} fieldsAreRequired - Whether the typical fields should be required or not
  * @returns {object} - UI schema for an address card's content
  */
+
 const addressUISchema = (
   addressPath,
   title,
   reviewCard,
-  fieldsAreRequired = true,
+  useStreet3 = false,
+  isRequired = null,
+  ignoreRequired = false,
 ) => {
-  const updateStates = (formData, currentSchema, uiSchema, index) => {
-    // Could use path (updateSchema callback param after index), but it points to `state`,
-    //  so using `addressPath` is easier
-    const currentCity = _.get(
-      `${pathWithIndex(addressPath, index)}.city`,
-      formData,
-      '',
-    )
-      .trim()
-      .toUpperCase();
-    if (MILITARY_CITIES.includes(currentCity)) {
-      return {
-        enum: MILITARY_STATE_VALUES,
-        enumNames: MILITARY_STATE_LABELS,
-      };
-    }
+  let fieldOrder = [
+    'country',
+    'street',
+    'street2',
+    'street3',
+    'city',
+    'state',
+    'postalCode',
+  ];
+  const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
 
-    return {
-      enum: STATE_VALUES,
-      enumNames: STATE_LABELS,
-    };
-  };
+  if (!useStreet3) {
+    fieldOrder = fieldOrder.filter(field => field !== 'street3');
+  }
+  const addressDefinition = fullSchema.definitions.address;
+
+  const addressChangeSelector = createSelector(
+    ({ formData, updatedPath }) =>
+      _.get(updatedPath.concat('country'), formData),
+    ({ formData, updatedPath }) => _.get(updatedPath.concat('city'), formData),
+    (currentCountry, city) => {
+      const schemaUpdate = {
+        definition: addressDefinition,
+        required: addressDefinition.required,
+      };
+      const country =
+        currentCountry || addressDefinition.properties.country.default;
+      const required = addressDefinition.required.length > 0;
+
+      let stateList;
+      let labelList;
+      if (country === 'USA') {
+        stateList = usaStates;
+        labelList = usaLabels;
+      } else if (country === 'CAN') {
+        stateList = canProvinces;
+        labelList = canLabels;
+      } else if (country === 'MEX') {
+        stateList = mexStates;
+        labelList = mexLabels;
+      }
+
+      if (stateList) {
+        // We have a list and it’s different, so we need to make schema updates
+        if (addressDefinition.properties.state.enum !== stateList) {
+          const withEnum = _.set(
+            'state.enum',
+            stateList,
+            schemaUpdate.definition.properties,
+          );
+          schemaUpdate.definition.properties = _.set(
+            'state.enumNames',
+            labelList,
+            withEnum,
+          );
+
+          // all the countries with state lists require the state field, so add that if necessary
+          if (
+            !ignoreRequired &&
+            required &&
+            !addressDefinition.required.some(field => field === 'state')
+          ) {
+            schemaUpdate.required = addressDefinition.required.concat('state');
+          }
+        }
+        // We don’t have a state list for the current country, but there’s an enum in the schema
+        // so we need to update it
+      } else if (addressDefinition.properties.state.enum) {
+        const withoutEnum = _.unset(
+          'state.enum',
+          schemaUpdate.definition.properties,
+        );
+        schemaUpdate.definition.properties = _.unset(
+          'state.enumNames',
+          withoutEnum,
+        );
+        if (!ignoreRequired && required) {
+          schemaUpdate.required = addressDefinition.properties.required.filter(
+            field => field !== 'state',
+          );
+        }
+      }
+
+      // Canada has a different title than others, so set that when necessary
+      if (
+        country === 'CAN' &&
+        addressDefinition.properties.state.title !== 'Province'
+      ) {
+        schemaUpdate.definition.properties = _.set(
+          'state.title',
+          'Province',
+          schemaUpdate.definition.properties,
+        );
+      } else if (
+        country !== 'CAN' &&
+        addressDefinition.properties.state.title !== 'State'
+      ) {
+        schemaUpdate.definition.properties = _.set(
+          'state.title',
+          'State',
+          schemaUpdate.definition.properties,
+        );
+      }
+      function isMilitaryCity(militaryCity = '') {
+        const lowerCity = militaryCity.toLowerCase().trim();
+
+        return (
+          lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo'
+        );
+      }
+
+      // We constrain the state list when someone picks a city that’s a military base
+      if (
+        country === 'USA' &&
+        isMilitaryCity(city) &&
+        addressDefinition.properties.state.enum !== militaryStates
+      ) {
+        const withEnum = _.set(
+          'state.enum',
+          militaryStates,
+          schemaUpdate.definition.properties,
+        );
+        schemaUpdate.definition.properties = _.set(
+          'state.enumNames',
+          militaryLabels,
+          withEnum,
+        );
+      }
+
+      return schemaUpdate;
+    },
+  );
 
   return {
-    'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
+    'ui:order': fieldOrder,
     'ui:title': title,
-    'ui:field': addressCardField,
+    'ui:field': AddressCardField,
     'ui:options': {
       viewComponent: AddressViewField,
+      updateSchema: (formData, schema, uiSchema, index, path) => {
+        let updatedSchema = schema;
+        if (isRequired) {
+          const required = isRequired(formData, index);
+          if (required && updatedSchema.required.length === 0) {
+            updatedSchema = _.set('required', requiredFields, updatedSchema);
+          } else if (!required && updatedSchema.required.length > 0) {
+            updatedSchema = _.set('required', [], updatedSchema);
+          }
+        }
+        let updatedPath = path;
+        if (uiSchema['ui:title'] === 'Permanent address') {
+          updatedPath = ['permanentAddress'];
+        } else if (uiSchema['ui:title'] === 'Temporary address') {
+          updatedPath = ['temporaryAddress'];
+        }
+        return addressChangeSelector({
+          formData,
+          updatedSchema,
+          updatedPath,
+        });
+      },
     },
-    'ui:reviewField': AddressViewField,
+    'ui:reviewWidget': AddressViewField,
+    'ui:reviewField': ({ children, uiSchema }) => (
+      <div className="review-row">
+        <dt>
+          {uiSchema['ui:title']}
+          {uiSchema['ui:description']}
+          this is a test
+        </dt>
+        <dd>{children}</dd>
+      </div>
+    ),
+
     country: {
       'ui:title': 'Country',
       'ui:required': () => true,
       'ui:options': {
         // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
-        updateSchema(formData, schema, uiSchema, isMilitaryBaseChecked) {
-          const originalUISchema = uiSchema;
-          let updatedUISchema;
-          if (originalUISchema.country) {
+        updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          index,
+          pathToCurrentData,
+          isMilitaryBaseChecked,
+          currentAddressField,
+        ) {
+          const updatedUISchema = uiSchema;
+          const originalFormData = formData;
+          const updatedFormData = originalFormData;
+          const originalCountryEnum =
+            schema.enum || schema.properties.country.enum;
+          let updatedCountryEnum;
+
+          if (currentAddressField === 'permanentAddress') {
             if (isMilitaryBaseChecked) {
-              updatedUISchema = originalUISchema;
               updatedUISchema.country['ui:disabled'] = true;
+              updatedFormData.country = 'USA';
+              updatedCountryEnum = ['USA'];
             } else {
-              updatedUISchema = originalUISchema;
+              const originalCountry = originalFormData.country;
               updatedUISchema.country['ui:disabled'] = false;
+              updatedFormData.country = originalCountry;
+              updatedCountryEnum = originalCountryEnum;
+            }
+          } else if (currentAddressField === 'temporaryAddress') {
+            if (isMilitaryBaseChecked) {
+              updatedUISchema.country['ui:disabled'] = true;
+              updatedFormData.country = 'USA';
+              updatedCountryEnum = ['USA'];
+            } else {
+              const originalCountry = originalFormData.country;
+              updatedUISchema.country['ui:disabled'] = false;
+              updatedFormData.country = originalCountry;
+              updatedCountryEnum = originalCountryEnum;
             }
           }
+
           return {
-            formData,
-            schema,
-            updatedUISchema: updatedUISchema || originalUISchema,
+            enum: updatedCountryEnum || originalCountryEnum,
+            default: 'USA',
+            updatedUISchema,
+            isMilitaryBaseChecked,
           };
         },
+      },
+      'ui:errorMessages': {
+        pattern: 'Please select a country',
+        required: 'Please select a country',
       },
     },
     street: {
@@ -122,7 +303,7 @@ const addressUISchema = (
       },
     },
     street2: {
-      'ui:title': 'Street address 2',
+      'ui:title': 'Line 2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
@@ -144,40 +325,54 @@ const addressUISchema = (
       'ui:options': {
         // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
         //
-        updateSchema(formData, schema, uiSchema, isMilitaryBaseChecked) {
+        updateSchema(
+          formData,
+          schema,
+          uiSchema,
+          index,
+          pathToCurrentData,
+          isMilitaryBaseChecked,
+          currentAddressField,
+        ) {
           const originalUISchema = uiSchema;
-          let updatedUISchema;
-          if (originalUISchema.city) {
+          const originalFormData = formData;
+          const updatedFormData = originalFormData;
+          const updatedUISchema = originalUISchema;
+          if (currentAddressField === 'Permanent address') {
             if (isMilitaryBaseChecked) {
-              updatedUISchema = originalUISchema;
               updatedUISchema.city['ui:title'] = 'APO / FPO / DPO';
             } else {
-              updatedUISchema = originalUISchema;
+              updatedUISchema.city['ui:title'] = 'City';
+            }
+          } else if (currentAddressField === 'Temporary address') {
+            if (isMilitaryBaseChecked) {
+              updatedUISchema.city['ui:title'] = 'APO / FPO / DPO';
+            } else {
               updatedUISchema.city['ui:title'] = 'City';
             }
           }
           return {
-            formData,
+            updatedFormData,
             schema,
-            updatedUISchema: updatedUISchema || originalUISchema,
+            updatedUISchema,
+            index,
+            pathToCurrentData,
+            isMilitaryBaseChecked,
+            currentAddressField,
           };
         },
       },
     },
     state: {
       'ui:title': 'State',
-      'ui:required': (formData, index) =>
-        fieldsAreRequired &&
-        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
-          USA,
+      'ui:required': () => true,
       'ui:options': {
-        hideIf: (formData, index) =>
-          _.get(
-            `${pathWithIndex(addressPath, index)}.country`,
-            formData,
-            '',
-          ) !== USA,
-        updateSchema: updateStates,
+        // hideIf: (formData, index) =>
+        //   _.get(
+        //     `${pathWithIndex(addressPath, index)}.country`,
+        //     formData,
+        //     '',
+        //   ) !== USA,
       },
       'ui:validations': [
         {
@@ -187,17 +382,14 @@ const addressUISchema = (
         },
       ],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid state',
-        required: 'Please enter a state',
+        pattern: 'Please select a state',
+        required: 'Please select a state',
       },
     },
     postalCode: {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
-      'ui:required': (formData, index) =>
-        fieldsAreRequired &&
-        _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
-          USA,
+      'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
@@ -205,12 +397,12 @@ const addressUISchema = (
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: (formData, index) =>
-          _.get(
-            `${pathWithIndex(addressPath, index)}.country`,
-            formData,
-            '',
-          ) !== USA,
+        // hideIf: (formData, index) =>
+        //   _.get(
+        //     `${pathWithIndex(addressPath, index)}.country`,
+        //     formData,
+        //     '',
+        //   ) !== USA,
       },
     },
   };

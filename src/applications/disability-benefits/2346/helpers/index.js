@@ -1,5 +1,5 @@
 import _ from 'platform/utilities/data';
-import { MILITARY_CITIES, MILITARY_STATE_VALUES } from '../constants';
+import { militaryCities, militaryStates } from '../constants';
 
 /**
  * Returns the path with any ':index' substituted with the actual index.
@@ -21,14 +21,14 @@ export function validateMilitaryCity(
   options,
   arrayIndex,
 ) {
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+  const isMilitaryState = militaryStates.includes(
     _.get(
       `${pathWithIndex(options.addressPath, arrayIndex)}.state`,
       formData,
       '',
     ),
   );
-  const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
+  const isMilitaryCity = militaryCities.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
     errors.addError(
       'City must match APO, DPO, or FPO when using a military state code',
@@ -44,7 +44,7 @@ export function validateMilitaryState(
   options,
   arrayIndex,
 ) {
-  const isMilitaryCity = MILITARY_CITIES.includes(
+  const isMilitaryCity = militaryCities.includes(
     _.get(
       `${pathWithIndex(options.addressPath, arrayIndex)}.city`,
       formData,
@@ -53,7 +53,7 @@ export function validateMilitaryState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = militaryStates.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }

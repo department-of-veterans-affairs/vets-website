@@ -35,7 +35,7 @@ import {
  *   itemName      - The name of the set of data in the card. This shows up on the "New X" button if
  *                   volatileData is set to true.
  */
-class addressCardField extends React.Component {
+export class AddressCardField extends React.Component {
   static defaultProps = {
     uiSchema: {},
     errorSchema: {},
@@ -52,12 +52,13 @@ class addressCardField extends React.Component {
 
   constructor(props) {
     super(props);
+
     // Throw an error if there’s no viewComponent (should be React component)
     if (
       typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
     ) {
       throw new Error(
-        `No viewComponent found in uiSchema for addressCardField ${
+        `No viewComponent found in uiSchema for AddressCardField ${
           this.props.idSchema.$id
         }.`,
       );
@@ -66,7 +67,7 @@ class addressCardField extends React.Component {
     const acceptedTypes = ['object', 'array'];
     if (!acceptedTypes.includes(this.props.schema.type)) {
       throw new Error(
-        `Unknown schema type in addressCardField. Expected one of [${acceptedTypes.join(
+        `Unknown schema type in AddressCardField. Expected one of [${acceptedTypes.join(
           ', ',
         )}], but got ${this.props.schema.type}.`,
       );
@@ -148,6 +149,8 @@ class addressCardField extends React.Component {
       errorSchema,
       formData,
       idSchema,
+      pathToCurrentData,
+      index,
       onBlur,
       onChange,
       readonly,
@@ -163,7 +166,12 @@ class addressCardField extends React.Component {
       this.props.uiSchema,
     );
     // We've already used the ui:field and ui:title
-    // TODO: Set up UI changes when military base is checked -@maharielrosario at 3/24/2020, 6:45:14 PM
+
+    // BUG: When military checkboxes are checked, they should immediately
+    // disable the country dropdown -@maharielrosario at 3/27/2020, 11:54:53 AM
+
+    // let permUpdatedUISchema;
+    // let tempUpdatedUISchema;
 
     if (this.props.name === 'permanentAddress') {
       if (permAddressIsAMilitaryBase) {
@@ -171,26 +179,39 @@ class addressCardField extends React.Component {
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           true,
+          this.props.name,
         );
+
         uiSchema.city['ui:options'].updateSchema(
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           true,
+          this.props.name,
         );
       } else {
         uiSchema.country['ui:options'].updateSchema(
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           false,
+          this.props.name,
         );
         uiSchema.city['ui:options'].updateSchema(
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           false,
+          this.props.name,
         );
       }
     }
@@ -201,26 +222,38 @@ class addressCardField extends React.Component {
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           true,
+          this.props.name,
         );
         uiSchema.city['ui:options'].updateSchema(
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           true,
+          this.props.name,
         );
       } else {
         uiSchema.country['ui:options'].updateSchema(
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           false,
+          this.props.name,
         );
         uiSchema.city['ui:options'].updateSchema(
           formData,
           schema,
           uiSchema,
+          index,
+          pathToCurrentData,
           false,
+          this.props.name,
         );
       }
     }
@@ -339,16 +372,15 @@ class addressCardField extends React.Component {
       // Not having the right type should have been caught in the constructor, but...
       Sentry.withScope(scope => {
         scope.setExtra('message', `Expected object or array, got ${dataType}`);
-        Sentry.captureMessage('addressCardField-bad-type-on-review');
+        Sentry.captureMessage('AddressCardField-bad-type-on-review');
       });
       // Fall back to the ViewComponent
     }
 
     const {
       viewComponent: ViewComponent,
-      volatileData,
       reviewTitle,
-      itemName,
+      // itemName,
     } = this.props.uiSchema['ui:options'];
     const title = reviewTitle || this.getTitle();
 
@@ -456,16 +488,6 @@ class addressCardField extends React.Component {
               </div>
             )}
         </div>
-
-        {volatileData && (
-          <button
-            className="usa-button-primary edit-button"
-            onClick={this.startEditing}
-            aria-label={`New ${itemName || title}`}
-          >
-            New {itemName || title}
-          </button>
-        )}
       </div>
     );
   };
@@ -476,11 +498,6 @@ class addressCardField extends React.Component {
     const newState = { editing: true };
     // If the data is volatile, cache the original data before clearing it out so we
     //  have the option to cancel later
-
-    if (this.props.uiSchema['ui:options'].volatileData) {
-      newState.oldData = this.props.formData;
-      this.resetFormData();
-    }
 
     this.setState(newState);
   };
@@ -544,7 +561,8 @@ class addressCardField extends React.Component {
     const viewOrEditCard = this.state.editing
       ? this.getEditView()
       : this.getReviewView();
-
+    /* eslint-disable no-debugger */
+    debugger;
     return (
       <>
         {/* do conditional rendering for permanent address */}
@@ -584,7 +602,7 @@ const mapDispatchToProps = {
   tempAddressIsSelected,
 };
 
-addressCardField.propTypes = {
+AddressCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
@@ -612,4 +630,4 @@ addressCardField.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(addressCardField);
+)(AddressCardField);
