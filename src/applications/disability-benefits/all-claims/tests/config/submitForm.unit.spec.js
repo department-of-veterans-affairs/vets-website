@@ -3,9 +3,23 @@ import sinon from 'sinon';
 
 import formConfig from '../../config/form';
 
+function mockStorage() {
+  const storage = {};
+  return {
+    getItem(key) {
+      return storage[key];
+    },
+  };
+}
+
 describe('Form 526 submit reject timer', () => {
   let xhr;
   let requests = [];
+  const originalLocalStorage = global.localStorage;
+
+  before(() => {
+    global.localStorage = mockStorage();
+  });
 
   beforeEach(() => {
     xhr = sinon.useFakeXMLHttpRequest();
@@ -18,6 +32,10 @@ describe('Form 526 submit reject timer', () => {
     global.XMLHttpRequest = window.XMLHttpRequest;
     xhr.restore();
     requests = [];
+  });
+
+  after(() => {
+    global.localStorage = originalLocalStorage;
   });
 
   it('should trigger reject timer', async () => {

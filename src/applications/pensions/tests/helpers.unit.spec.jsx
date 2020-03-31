@@ -11,6 +11,15 @@ import {
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
+function mockStorage() {
+  const storage = {};
+  return {
+    getItem(key) {
+      return storage[key];
+    },
+  };
+}
+
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
   describe('fileHelp', () => {
@@ -49,6 +58,10 @@ describe('Pensions helpers', () => {
     });
   });
   describe('submit', () => {
+    const originalLocalStorage = global.localStorage;
+    before(() => {
+      global.localStorage = mockStorage();
+    });
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
@@ -153,6 +166,9 @@ describe('Pensions helpers', () => {
     afterEach(() => {
       resetFetch();
       delete window.URL;
+    });
+    after(() => {
+      global.localStorage = originalLocalStorage;
     });
   });
 });
