@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
@@ -82,8 +80,7 @@ export class AppointmentsPage extends Component {
     const { futureStatus, pastStatus } = this.props.appointments;
     this.setState({ tabIndex });
 
-    let path = '/health-care/schedule-view-va-appointments/appointments/';
-
+    let path = '';
     if (tabIndex === 0) {
       if (futureStatus === FETCH_STATUS.notStarted) {
         this.props.fetchFutureAppointments();
@@ -93,10 +90,10 @@ export class AppointmentsPage extends Component {
         this.fetchPastAppointments();
       }
 
-      path = appendQuery(path, { view: 'past' });
+      path = '?view=past';
     }
 
-    browserHistory.push(path);
+    this.props.router.push(path);
   };
 
   onPastAppointmentDateRangeChange = e => {

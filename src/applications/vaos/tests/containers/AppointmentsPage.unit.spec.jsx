@@ -351,6 +351,91 @@ describe('VAOS <AppointmentsPage>', () => {
     tree.unmount();
   });
 
+  it('should fetch past and push route on change tab to past', () => {
+    const push = sinon.spy();
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.notStarted,
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        facilityData: {},
+      },
+      router: {
+        push,
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        showPastAppointments
+        fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    const instance = tree.instance();
+    expect(tree.state('tabIndex')).to.equal(0);
+    instance.onSelectTab(1);
+    expect(fetchPastAppointments.called).to.be.true;
+    expect(push.called).to.be.true;
+    expect(push.firstCall.args[0]).to.equal('?view=past');
+    expect(tree.state('tabIndex')).to.equal(1);
+    tree.unmount();
+  });
+
+  it('should fetch future and push route on change tab to future', () => {
+    const push = sinon.spy();
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.notStarted,
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        facilityData: {},
+      },
+      router: {
+        push,
+      },
+      location: {
+        query: {
+          view: 'past',
+        },
+      },
+    };
+
+    const startNewAppointmentFlow = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <AppointmentsPage
+        {...defaultProps}
+        showScheduleButton
+        showPastAppointments
+        fetchFutureAppointments={fetchFutureAppointments}
+        fetchPastAppointments={fetchPastAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
+      />,
+    );
+
+    const instance = tree.instance();
+    expect(tree.state('tabIndex')).to.equal(1);
+    instance.onSelectTab(0);
+    expect(fetchFutureAppointments.called).to.be.true;
+    expect(push.called).to.be.true;
+    expect(push.firstCall.args[0]).to.equal('');
+    expect(tree.state('tabIndex')).to.equal(0);
+    tree.unmount();
+  });
+
   it('should fetch past appointments with selected date range startDate and endDate', () => {
     const defaultProps = {
       appointments: {
