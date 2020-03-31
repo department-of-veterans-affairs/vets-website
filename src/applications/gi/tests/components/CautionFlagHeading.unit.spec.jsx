@@ -13,15 +13,15 @@ describe('<CautionFlagHeading>', () => {
 
   it('does not display if flags do not exist', () => {
     const wrapper = shallow(<CautionFlagHeading cautionFlags={[]} />);
-    expect(wrapper.html()).to.not.contain('cautionary information');
+    expect(wrapper.find('a').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('displays if flags exist', () => {
-    const wrapper = shallow(
+    const wrapper = mount(
       <CautionFlagHeading cautionFlags={[{ title: 'Test flag', id: 1 }]} />,
     );
-    expect(wrapper.html()).to.contain('cautionary information');
+    expect(wrapper.find('a').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -62,7 +62,6 @@ describe('<CautionFlagHeading>', () => {
         onViewWarnings={() => {}}
       />,
     );
-    expect(wrapper.html()).to.contain('cautionary information');
     expect(wrapper.find('li.headingFlag').length).to.equal(cautionFlags.length);
     wrapper.unmount();
   });

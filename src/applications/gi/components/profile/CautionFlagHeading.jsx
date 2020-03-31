@@ -21,7 +21,7 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
             </ul>
             <p>
               <a href="#viewWarnings" onClick={onViewWarnings}>
-                View cautionary information about this school
+                View details below
               </a>
             </p>
           </div>
