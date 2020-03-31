@@ -1,23 +1,28 @@
 import React from 'react';
+import moment from 'moment';
 
 export default function SearchResult({ form }) {
+  const pdf = form.attributes.url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
+  const lastRevisionOn = form.attributes.lastRevisionOn
+    ? moment(form.attributes.lastRevisionOn).format('MM-DD-YYYY')
+    : 'N/A';
+
   return (
-    <div className="vads-u-padding--1 vads-u-border-top--1px vads-u-border-color--gray-lighter">
-      <dt className="vads-l-row">
-        <dfn className="vads-u-display--block medium-screen:vads-l-col--2">{form.id}</dfn> <div className="medium-screen:vads-l-col--10">{form.attributes.title}</div>
+    <>
+      <dt className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold vads-u-color--link-default">
+        <dfn>{form.id}</dfn> {form.attributes.title}
       </dt>
 
-      <dd className="vads-l-row medium-screen:vads-u-justify-content--flex-end">
-        <div className="medium-screen:vads-l-col--10">
-          <dfn>Revision date:</dfn> {form.attributes.lastRevisionOn}
-        </div>
+      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+        <dfn className="vads-u-font-weight--bold">Revision date:</dfn>{' '}
+        {lastRevisionOn}
       </dd>
 
-      <dd className="vads-l-row medium-screen:vads-u-justify-content--flex-end">
-        <div className="medium-screen:vads-l-col--10">
-          Download VA form {form.id} (PDF)
-        </div>
+      <dd className="vads-u-padding-bottom--3">
+        <a href={form.attributes.url} rel="noopener noreferrer" target="_blank">
+          Download VA form {form.id} {pdf}
+        </a>
       </dd>
-    </div>
-  )
+    </>
+  );
 }

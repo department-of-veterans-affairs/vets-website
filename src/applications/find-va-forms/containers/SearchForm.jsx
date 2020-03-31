@@ -55,7 +55,7 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0"
+        className="vads-l-grid-container vads-u-padding--2 medium-screen:vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
         name="find-va-form"
         onSubmit={onSubmitHandler}
       >

@@ -6,9 +6,7 @@ import TopTasks from './TopTasks';
 export default function() {
   return (
     <>
-      <div className="vads-u-padding--4 vads-u-background-color--gray-lightest">
-        <SearchForm />
-      </div>
+      <SearchForm />
       <SearchResults />
       <TopTasks />
     </>
