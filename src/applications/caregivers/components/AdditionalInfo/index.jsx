@@ -12,7 +12,7 @@ export const InjuredLineOfDutyInto = () => (
 );
 
 export const PrimaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="What is a Primary Caregiver">
+  <AdditionalInfo triggerText="What is a primary family caregiver">
     <p>
       A Family Member (defined herein), who is designated as a "primary provider
       of personal care services" under
@@ -43,7 +43,7 @@ export const PrimaryCaregiverInfo = () => (
 );
 
 export const SecondaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="What is a Secondary Caregiver">
+  <AdditionalInfo triggerText="What is a secondary family caregiver">
     <p>
       An individual approved as a "provider of personal care services" for the
       eligible Veteran under{' '}

@@ -4,6 +4,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo/formInfo';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
@@ -36,7 +37,6 @@ export default {
       'ui:title': 'Email Address',
       'ui:widget': 'email',
     },
-
     genderUI: {
       'ui:title': 'Gender',
       'ui:widget': 'radio',
@@ -120,6 +120,10 @@ export default {
           },
         },
       },
+    },
+    preferredFacilityInfo: {
+      'ui:title': ' ',
+      'ui:widget': FacilityInfo,
     },
   },
   primaryCaregiverUI: {

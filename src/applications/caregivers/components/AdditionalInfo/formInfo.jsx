@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  PrimaryCaregiverInfo as PrimaryAdditional,
-  SecondaryCaregiverInfo as SecondaryAdditional,
-} from 'applications/caregivers/components/AdditionalInfo/index';
+import { PrimaryCaregiverInfo as PrimaryAdditional } from 'applications/caregivers/components/AdditionalInfo/index';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 export const VetInfo = () => (
   <p>
@@ -24,7 +22,6 @@ export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
     {additionalInfo && (
       <section>
         <PrimaryAdditional />
-        <SecondaryAdditional />
       </section>
     )}
   </div>
@@ -44,4 +41,23 @@ export const SecondaryCaregiverInfo = () => (
     member who is helping the Veteran or Service member. You can include
     information about up to two Secondary Family Caregivers.
   </p>
+);
+
+export const FacilityInfo = () => (
+  <>
+    <div className="vads-u-margin-bottom--4">
+      <AdditionalInfo triggerText="Can't find your clinic">
+        We only include certain facilities. You should pick the medical center
+        or clinic closest to your home.
+      </AdditionalInfo>
+    </div>
+
+    <a
+      href="https://www.va.gov/find-locations"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Find locations with the VA facility locator
+    </a>
+  </>
 );

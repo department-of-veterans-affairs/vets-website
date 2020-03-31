@@ -159,6 +159,7 @@ const formConfig = {
             [vetFields.preferredFacilityView]: {
               ...vetUI[vetFields.preferredFacilityView],
             },
+            [vetFields.preferredFacilityInfoView]: vetUI.preferredFacilityInfo,
           },
           schema: {
             type: 'object',
@@ -181,6 +182,10 @@ const formConfig = {
                     enum: [],
                   }),
                 },
+              },
+              // facility additional info section - noop property
+              [vetFields.preferredFacilityInfoView]: {
+                type: 'string',
               },
             },
           },
@@ -221,7 +226,7 @@ const formConfig = {
           path: 'primary-caregiver-2',
           title: 'Primary Caregiver Information (Continued)',
           uiSchema: {
-            'ui:description': PrimaryCaregiverInfo,
+            'ui:description': PrimaryCaregiverInfo({ additionalInfo: true }),
             [primaryCaregiverFields.address]: addressUI,
             [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
