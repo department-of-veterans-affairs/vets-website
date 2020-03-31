@@ -5,19 +5,14 @@ import formConfig from '../../config/form';
 
 describe('Form 526 submit reject timer', () => {
   let xhr;
-  let requests = [];
 
   beforeEach(() => {
     xhr = sinon.useFakeXMLHttpRequest();
-    xhr.onCreate = req => {
-      requests.push(req);
-    };
   });
 
   afterEach(() => {
     global.XMLHttpRequest = window.XMLHttpRequest;
     xhr.restore();
-    requests = [];
   });
 
   it('should trigger reject timer', async () => {
