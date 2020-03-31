@@ -2,7 +2,9 @@
 const find = require('find');
 const path = require('path');
 
-function getAppManifests(root) {
+const root = path.join(__dirname, '..');
+
+function getAppManifests() {
   return find
     .fileSync(/manifest\.(json|js)$/, path.join(root, './src/applications'))
     .map(file => {
@@ -28,7 +30,6 @@ function getWebpackEntryPoints(manifests) {
 }
 
 function displayApplications() {
-  const root = path.join(__dirname, '../..');
   getAppManifests(root).forEach(manifest => {
     console.log(manifest.appName);
     console.log(path.relative(root, manifest.filePath));
