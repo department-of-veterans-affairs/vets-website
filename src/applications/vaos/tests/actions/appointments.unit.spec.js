@@ -10,6 +10,7 @@ import {
 
 import {
   fetchFutureAppointments,
+  fetchPastAppointments,
   fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
@@ -18,6 +19,9 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_PAST_APPOINTMENTS,
+  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+  FETCH_PAST_APPOINTMENTS_FAILED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_REQUEST_MESSAGES,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
@@ -90,6 +94,51 @@ describe('VAOS actions: appointments', () => {
     );
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS_FAILED,
+    );
+  });
+
+  it('should fetch past appointments', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
+    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
+    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31');
+    const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        pastStatus: 'notStarted',
+        past: [{ facilityId: '442' }],
+      },
+    });
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+      FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+    );
+    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+    );
+    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+  });
+
+  it('should dispatch fail action when fetching past appointments', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONFailure(global.fetch, data);
+    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31');
+    const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        pastStatus: 'notStarted',
+        past: [{ facilityId: '442' }],
+      },
+    });
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+      FETCH_PAST_APPOINTMENTS_FAILED,
     );
   });
 

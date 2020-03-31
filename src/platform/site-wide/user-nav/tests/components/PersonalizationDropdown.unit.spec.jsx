@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import PersonalizationDropdown from '../../components/PersonalizationDropdown';
+import { PersonalizationDropdown } from '../../components/PersonalizationDropdown';
 
 describe('<PersonalizationDropdown>', () => {
   const oldWindow = global.window;

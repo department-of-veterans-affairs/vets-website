@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import CautionFlagDetails from './CautionFlagDetails';
+import SchoolClosingDetails from './SchoolClosingDetails';
+import environment from 'platform/utilities/environment';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -33,6 +36,45 @@ const ListRow = ({ description, value }) => {
 };
 
 export class CautionaryInformation extends React.Component {
+  renderNewCautionFlags = () => {
+    const it = this.props.institution;
+    if (!it.schoolClosing && it.cautionFlags.length === 0) {
+      return null;
+    }
+
+    return (
+      <div>
+        <h3>Alerts from VA and other federal agencies</h3>
+        <SchoolClosingDetails
+          schoolClosing={it.schoolClosing}
+          schoolClosingOn={it.schoolClosingOn}
+          schoolWebsite={it.website}
+        />
+        <CautionFlagDetails cautionFlags={it.cautionFlags} />
+        <div className="vads-u-margin-bottom--5">
+          <p>
+            Before enrolling in a program at this institution, VA recommends
+            that potential students consider these cautionary warnings. Caution
+            flags indicate that VA or other federal agencies like the Department
+            of Defense (DoD) or Department of Education (ED) have applied
+            increased regulatory or legal scrutiny to this program.
+          </p>
+          <p>
+            To learn more about Caution Flags,{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit the About this Tool Page
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const it = this.props.institution;
     if (!it.complaints) {
@@ -123,15 +165,23 @@ export class CautionaryInformation extends React.Component {
 
     return (
       <div className="cautionary-information">
-        <div className="caution-flag">
-          <AlertBox
-            content={flagContent}
-            isVisible={!!it.cautionFlag}
-            status="warning"
-          />
-        </div>
+        {// #6805 prod flag
+        environment.isProduction() ? (
+          <div className="caution-flag">
+            <AlertBox
+              content={flagContent}
+              isVisible={!!it.cautionFlag}
+              status="warning"
+            />
+          </div>
+        ) : (
+          this.renderNewCautionFlags()
+        )}
 
         <div className="student-complaints">
+          {// #6805 prod flag
+          !environment.isProduction() && <h3>Student feedback</h3>}
+
           <div className="link-header">
             <h3>
               {+it.complaints.mainCampusRollUp}

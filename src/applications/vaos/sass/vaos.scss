@@ -1,6 +1,36 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-schemaform";
 
+.vaos-appts__tabs ul.react-tabs__tab-list {
+  padding: 0;
+  border-bottom: 1px solid $color-gray-light;
+}
+
+.vaos-appts__tab {
+  width: 50%;
+  font-size: 14px;
+  border-color: $color-gray-light;
+  border: solid 1px $color-gray-light;
+  border-radius: 0 !important;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 9px;
+  cursor: pointer;
+
+  &.react-tabs__tab--selected {
+    border-top: solid 3px $color-primary;
+    background: $color-white !important;
+    border-bottom: solid 1px $color-white;
+  }
+
+  @include media($medium-screen) {
+    padding: 6px 12px;  
+    width: 200px;
+    font-size: 16px;
+  }
+}
+
 .vaos-option-list__icon {
   display: inline-block;
   font-size: 19px;
