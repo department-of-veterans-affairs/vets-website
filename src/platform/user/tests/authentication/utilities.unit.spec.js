@@ -43,7 +43,7 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/sessions/signup/new');
   });
 
-  it('should redirect for signup', () => {
+  it('should redirect for signup v1', () => {
     signup('v1');
     expect(global.window.location).to.include('/v1/sessions/signup/new');
   });
