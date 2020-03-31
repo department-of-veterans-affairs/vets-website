@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import * as customPropTypes from '../prop-types';
+
 export default function SearchResult({ form }) {
   const pdf = form.attributes.url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevisionOn = form.attributes.lastRevisionOn
@@ -26,3 +28,7 @@ export default function SearchResult({ form }) {
     </>
   );
 }
+
+SearchResult.propTypes = {
+  form: customPropTypes.Form.isRequired,
+};

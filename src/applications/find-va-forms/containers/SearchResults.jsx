@@ -10,7 +10,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 // Relative imports.
 import * as customPropTypes from '../prop-types';
-import { updatePaginationAction, updateResultsAction } from '../actions';
+import { updatePaginationAction } from '../actions';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -26,7 +26,6 @@ export class SearchResults extends Component {
     startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
-    updateResults: PropTypes.func.isRequired,
   };
 
   componentDidUpdate(previousProps) {
@@ -153,7 +152,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updatePagination: (page, startIndex) =>
     dispatch(updatePaginationAction(page, startIndex)),
-  updateResults: results => dispatch(updateResultsAction(results)),
 });
 
 export default connect(
