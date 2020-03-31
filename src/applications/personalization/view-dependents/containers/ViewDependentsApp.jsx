@@ -13,11 +13,8 @@ class ViewDependentsApp extends Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={1}
         serviceRequired={backendServices.USER_PROFILE}
         user={this.props.user}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}
       >
         <ViewDependentsLayout
           loading={this.props.loading}

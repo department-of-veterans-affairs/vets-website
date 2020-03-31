@@ -22,6 +22,7 @@ class VetTecProgramSearchResult extends React.Component {
       lengthInHours,
       dodBah,
       schoolClosing,
+      schoolClosingOn,
       cautionFlags,
     } = result;
 
@@ -63,7 +64,7 @@ class VetTecProgramSearchResult extends React.Component {
             {(schoolClosing || cautionFlags) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
-                  {renderSchoolClosingAlert({ schoolClosing })}
+                  {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
                   {cautionFlags &&
                     cautionFlags.length > 0 &&
                     renderCautionAlert({

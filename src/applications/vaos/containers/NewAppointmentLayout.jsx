@@ -1,10 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Breadcrumbs from './Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
+import { selectIsCernerOnlyPatient } from '../utils/selectors';
 
-export default class NewAppointmentLayout extends React.Component {
+export class NewAppointmentLayout extends React.Component {
   componentDidMount() {
+    if (this.props.isCernerOnlyPatient) {
+      this.props.router.replace('/');
+    }
+
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
@@ -66,3 +72,11 @@ export default class NewAppointmentLayout extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+  };
+}
+
+export default connect(mapStateToProps)(NewAppointmentLayout);

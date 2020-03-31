@@ -89,8 +89,19 @@
   }
 }
 
-.gibct-legend {
+.gibct-legend-old {
   margin-top: 3rem;
+  display: block;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  max-width: 46rem;
+  padding-bottom: 0;
+}
+
+.gibct-legend {
+  margin-top: 1rem;
   display: block;
   font-weight: inherit;
   font-size: inherit;
