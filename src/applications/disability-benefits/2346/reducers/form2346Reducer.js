@@ -41,6 +41,10 @@ export default (state = initialState, action) => {
       };
 
     case FETCH_VETERAN_INFORMATION_FAILURE:
+    case PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE:
+    case PERM_ADDRESS_SELECTED_FAILURE:
+    case TEMP_ADDRESS_SELECTED_FAILURE:
+    case TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE:
       return {
         ...state,
         error: action.error,
@@ -54,25 +58,11 @@ export default (state = initialState, action) => {
       };
     }
 
-    case PERM_ADDRESS_SELECTED_FAILURE: {
-      return {
-        ...state,
-        error: action.error,
-      };
-    }
-
     case TEMP_ADDRESS_SELECTED_SUCCESSFUL: {
       return {
         ...state,
         permAddressIsSelected: false,
         tempAddressIsSelected: true,
-      };
-    }
-
-    case TEMP_ADDRESS_SELECTED_FAILURE: {
-      return {
-        ...state,
-        error: action.error,
       };
     }
 
@@ -90,13 +80,6 @@ export default (state = initialState, action) => {
       };
     }
 
-    case PERM_ADDRESS_MILITARY_BASE_SELECTION_FAILURE: {
-      return {
-        ...state,
-        error: action.error,
-      };
-    }
-
     case TEMP_ADDRESS_MILITARY_BASE_SELECTED: {
       return {
         ...state,
@@ -108,13 +91,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tempAddressIsAMilitaryBase: false,
-      };
-    }
-
-    case TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE: {
-      return {
-        ...state,
-        error: action.error,
       };
     }
 

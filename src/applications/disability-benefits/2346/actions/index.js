@@ -31,9 +31,13 @@ export const fetchReOrderBatteryAndAccessoriesInformation = data => ({
   data,
 });
 
-export const fetchReOrderBatteryAndAccessoriesInformationFailure = error => ({
+export const fetchReOrderBatteryAndAccessoriesInformationFailure = (
+  error,
+  message,
+) => ({
   type: FETCH_REORDER_BATTERY_AND_ACCESSORIES_INFORMATION_FAILURE,
   error,
+  message,
 });
 
 export const permAddressSelectedSuccessful = data => ({

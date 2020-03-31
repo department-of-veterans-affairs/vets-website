@@ -124,8 +124,8 @@ const formConfig = {
                   yes: 'Yes, I need to order hearing aid batteries.',
                   no: "No, I don't need to order hearing aid batteries.",
                 },
+                hideOnReview: true,
               },
-              hideOnReview: true,
             },
             supplies: {
               'ui:title': 'Which hearing aid do you need batteries for?',
@@ -162,8 +162,8 @@ const formConfig = {
                   yes: 'Yes, I need to order hearing aid accessories.',
                   no: "No, I don't need to order hearing aid accessories.",
                 },
+                hideOnReview: true,
               },
-              hideOnReview: true,
             },
             accessories: {
               'ui:title': 'Which hearing aid do you need batteries for?',

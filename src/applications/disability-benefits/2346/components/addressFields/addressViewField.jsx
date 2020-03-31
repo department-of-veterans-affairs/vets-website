@@ -12,9 +12,7 @@ export const AddressViewField = ({ formData }) => {
 
   return (
     <p className="blue-bar-block">
-      {street && street}
-      <br />
-      {street2 && street2}
+      {street && <br />}
       {street2 && <br />}
       {city}
       {','} {state} {zipString}
