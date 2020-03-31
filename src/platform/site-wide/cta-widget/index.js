@@ -7,6 +7,7 @@ import URLSearchParams from 'url-search-params';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { ssoe } from 'platform/user/authentication/selectors';
+
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -124,7 +125,7 @@ export class CallToActionWidget extends React.Component {
       return (
         <Verify
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={verify}
+          primaryButtonHandler={this.verifyHandler}
         />
       );
     }
@@ -225,7 +226,7 @@ export class CallToActionWidget extends React.Component {
         return (
           <Verify
             serviceDescription={this._serviceDescription}
-            primaryButtonHandler={verify}
+            primaryButtonHandler={this.verifyHandler}
           />
         );
 
@@ -384,6 +385,10 @@ export class CallToActionWidget extends React.Component {
   mfaHandler = () => {
     recordEvent({ event: 'multifactor-link-clicked' });
     mfa(this.authVersion());
+  };
+
+  verifyHandler = () => {
+    verify(this.authVersion());
   };
 
   render() {

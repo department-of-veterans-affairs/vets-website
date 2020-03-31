@@ -5,6 +5,8 @@ import URLSearchParams from 'url-search-params';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
+
+import { ssoe } from '../../../platform/user/authentication/selectors';
 import { verify } from '../../../platform/user/authentication/utilities';
 import { hasSession } from '../../../platform/user/profile/utilities';
 import SubmitSignInForm from '../../../platform/static-data/SubmitSignInForm';
@@ -46,6 +48,10 @@ export class VerifyApp extends React.Component {
     }
   }
 
+  verifyHandler() {
+    verify(this.props.useSSOe ? 'v1' : 'v0');
+  }
+
   render() {
     const { profile } = this.props;
 
@@ -79,7 +85,7 @@ export class VerifyApp extends React.Component {
                 </p>
                 <button
                   className="usa-button-primary va-button-primary"
-                  onClick={verify}
+                  onClick={this.verifyHandler}
                 >
                   <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
                   <strong> Verify with ID.me</strong>
@@ -119,6 +125,7 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
+    useSSOe: ssoe(state),
   };
 };
 
