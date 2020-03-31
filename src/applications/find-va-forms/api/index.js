@@ -10,7 +10,7 @@ export const fetchFormsApi = async (query, options = {}) => {
   const mockRequest = options?.mockRequest || false;
 
   // Change to https://dev-api.va.gov/v0/forms for quick local config
-  let FORMS_URL = '/forms';
+  let FORMS_URL = 'https://dev-api.va.gov/v0/forms';
   let response = STUBBED_RESPONSE;
 
   // Add the `query` query param if provided.
