@@ -174,7 +174,7 @@ export class CallToActionWidget extends React.Component {
         return (
           <MFA
             serviceDescription={this._serviceDescription}
-            primaryButtonHandler={mfa}
+            primaryButtonHandler={this.mfaHandler}
           />
         );
       }
@@ -372,9 +372,18 @@ export class CallToActionWidget extends React.Component {
     }
   };
 
+  authVersion() {
+    return this.props.useSSOe ? 'v1' : 'v0';
+  }
+
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
-    logout(this.props.useSSOe ? 'v1' : 'v0');
+    logout(this.authVersion());
+  };
+
+  mfaHandler = () => {
+    recordEvent({ event: 'multifactor-link-clicked' });
+    mfa(this.authVersion());
   };
 
   render() {
