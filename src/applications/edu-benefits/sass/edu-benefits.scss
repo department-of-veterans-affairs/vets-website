@@ -124,47 +124,6 @@
   }
 }
 
-// ReviewCardField styles
-.review-card {
-  .review-card--header {
-    background-color: $color-gray-lightest;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 5rem;
-
-    .review-card--title {
-      margin: 0;
-      display: inline-block;
-    }
-  }
-
-  .review-card--body {
-    padding: 1.5rem;
-    border: 2px solid $color-gray-lightest;
-    // Remove the top border because it looks like it just extends the header
-    border-top: none;
-    margin-bottom: 1em;
-
-    .review-card--title {
-      margin: 1.5rem 0 2.5rem;
-    }
-
-    .update-button,
-    .cancel-button {
-      width: auto;
-      margin: 0;
-    }
-  }
-
-  .edit-button {
-    width: auto;
-    min-width: 8rem;
-    margin-right: 0;
-  }
-}
-
 .stem-eligibility-ul {
   // This needed for on the Review Page of the form
   list-style-type: none !important;

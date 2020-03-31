@@ -19,7 +19,7 @@ const ssoKeepAliveEndpoint = () => {
 };
 
 export function ssoKeepAliveSession() {
-  fetch(ssoKeepAliveEndpoint(), {
+  return fetch(ssoKeepAliveEndpoint(), {
     method: 'GET',
     credentials: 'include',
     cache: 'no-store',
@@ -36,7 +36,7 @@ export function ssoKeepAliveSession() {
         localStorage.setItem('sessionExpirationSSO', expirationTime);
         localStorage.setItem('hasSessionSSO', true);
       } else {
-        localStorage.setItem('hasSessionSSO', false);
+        localStorage.removeItem('hasSessionSSO');
       }
     })
     .catch(err => {

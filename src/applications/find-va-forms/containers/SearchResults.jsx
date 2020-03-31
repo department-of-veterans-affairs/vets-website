@@ -8,6 +8,9 @@ import SortableTable from '@department-of-veterans-affairs/formation-react/Sorta
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
 import slice from 'lodash/slice';
+
+import { focusElement } from 'platform/utilities/ui';
+
 // Relative imports.
 import { updatePaginationAction, updateResultsAction } from '../actions';
 
@@ -67,6 +70,14 @@ export class SearchResults extends Component {
     };
   }
 
+  componentDidUpdate(previousProps) {
+    const justRefreshed = previousProps.fetching && !this.props.fetching;
+
+    if (justRefreshed) {
+      focusElement('[data-forms-focus]');
+    }
+  }
+
   onHeaderClick = (fieldLabel, order) => {
     const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
@@ -94,6 +105,8 @@ export class SearchResults extends Component {
 
     // Update the page and the new start index.
     updatePagination(page, startIndex);
+
+    focusElement('[data-forms-focus]');
   };
 
   sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
@@ -129,7 +142,7 @@ export class SearchResults extends Component {
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading search results..." />;
+      return <LoadingIndicator setFocus message="Loading search results..." />;
     }
 
     // Show the error alert box if there was an error.
@@ -154,6 +167,7 @@ export class SearchResults extends Component {
         <h2
           className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
         vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
         >
           No results were found for "<strong>{query}</strong>
           ." Try using fewer words or broadening your search. If you&apos;re
@@ -183,9 +197,12 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Displaying {startLabel} - {lastLabel} out of {results.length} results
-          for "<strong>{query}</strong>"
+        <h2
+          className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
+        >
+          Displaying {startLabel} &ndash; {lastLabel} out of {results.length}{' '}
+          results for "<strong>{query}</strong>"
         </h2>
 
         {/* Table of Forms */}

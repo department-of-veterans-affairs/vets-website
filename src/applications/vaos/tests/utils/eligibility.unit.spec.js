@@ -46,6 +46,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
@@ -67,6 +68,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
@@ -89,6 +91,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
@@ -272,6 +275,7 @@ describe('VAOS scheduling eligibility logic', () => {
         {
           pacTeam: [],
           clinics: [],
+          directEnabled: true,
           directSupported: true,
           requestSupported: true,
           directPastVisit: {
@@ -294,6 +298,36 @@ describe('VAOS scheduling eligibility logic', () => {
           e.event.startsWith('vaos-eligibility-'),
         ).length,
       ).to.equal(4);
+    });
+
+    it('should record only supported failure events', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [],
+          clinics: [],
+          directEnabled: true,
+          directSupported: false,
+          requestSupported: false,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: false,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 1,
+          },
+        },
+        '323',
+        '983',
+      );
+      expect(
+        global.window.dataLayer.filter(e =>
+          e.event.startsWith('vaos-eligibility-'),
+        ).length,
+      ).to.equal(2);
     });
 
     it('should not record failure events when ineligible', () => {

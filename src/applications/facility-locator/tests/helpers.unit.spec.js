@@ -172,7 +172,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
   it('formatOperatingHours should convert API hour (without colon) to a human readable hour', () => {
     const operatingHours = '800 AM - 430 PM';
-    const expected = '8:00a.m. - 4:30p.m.';
+    const expected = '8:00 a.m. - 4:30 p.m.';
 
     const result = formatOperatingHours(operatingHours);
 
@@ -209,6 +209,33 @@ describe('Validate ID Strings for Breadcrumb', () => {
   it('formatOperatingHours should return "Closed" if format is "Closed"', () => {
     const operatingHours = 'Closed';
     const expected = 'Closed';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should return "By Appointment Only" if format is "By Appointment Only"', () => {
+    const operatingHours = 'By Appointment Only';
+    const expected = 'By Appointment Only';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should return "24/7" if format is "24/7"', () => {
+    const operatingHours = '24/7';
+    const expected = '24/7';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should return "Sunrise - Sunset" if format is "Sunrise - Sunset"', () => {
+    const operatingHours = 'Sunrise - Sunset';
+    const expected = 'Sunrise - Sunset';
 
     const result = formatOperatingHours(operatingHours);
 

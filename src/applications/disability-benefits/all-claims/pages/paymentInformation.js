@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { bankFieldsHaveInput } from '../utils';
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import PaymentView from '../components/PaymentView';
 
 const {

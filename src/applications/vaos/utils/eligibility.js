@@ -63,6 +63,7 @@ export async function getEligibilityData(
     requestPastVisit,
     requestLimits,
     directSupported: facility.directSchedulingSupported,
+    directEnabled: isDirectScheduleEnabled,
     requestSupported: facility.requestSupported,
   };
 
@@ -80,8 +81,9 @@ export async function getEligibilityData(
 
 function hasVisitedInPastMonthsDirect(eligibilityData) {
   return (
-    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
-    eligibilityData.directPastVisit.hasVisitedInPastMonths
+    eligibilityData.directPastVisit?.durationInMonths ===
+      DISABLED_LIMIT_VALUE ||
+    eligibilityData.directPastVisit?.hasVisitedInPastMonths
   );
 }
 
@@ -187,7 +189,7 @@ export function isEligible(eligibilityChecks) {
 }
 
 export function getEligibleFacilities(facilities) {
-  return facilities.filter(
+  return facilities?.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
 }
@@ -198,7 +200,7 @@ export function getEligibleFacilities(facilities) {
  * of the check.
  */
 export function recordEligibilityGAEvents(eligibilityData) {
-  if (!hasRequestFailed(eligibilityData)) {
+  if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
     if (!isUnderRequestLimit(eligibilityData)) {
       recordEligibilityFailure('request-exceeded-outstanding-requests');
     }
@@ -208,9 +210,15 @@ export function recordEligibilityGAEvents(eligibilityData) {
     }
   }
 
-  const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
+  if (!eligibilityData.requestSupported) {
+    recordEligibilityFailure('request-supported');
+  }
 
-  if (directSchedulingEnabled && !hasRequestFailed(eligibilityData)) {
+  if (
+    eligibilityData.directEnabled &&
+    eligibilityData.directSupported &&
+    !eligibilityData.directFailed
+  ) {
     if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
       recordEligibilityFailure('direct-check-past-visits');
     }
@@ -218,5 +226,9 @@ export function recordEligibilityGAEvents(eligibilityData) {
     if (!eligibilityData.clinics?.length) {
       recordEligibilityFailure('direct-available-clinics');
     }
+  }
+
+  if (eligibilityData.directEnabled && !eligibilityData.directSupported) {
+    recordEligibilityFailure('direct-supported');
   }
 }
