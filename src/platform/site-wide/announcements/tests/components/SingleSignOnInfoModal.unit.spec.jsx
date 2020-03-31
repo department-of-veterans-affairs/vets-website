@@ -7,15 +7,16 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import SingleSignOnInfoModal from '../../components/SingleSignOnInfoModal';
 
 describe('Announcements <SingleSignOnInfoModal>', () => {
+  afterEach(() => {
+    localStorage.clear();
+  });
+
   it('does not render for users that are logged in but without SSO', () => {
     const tree = mount(<SingleSignOnInfoModal isLoggedIn />);
 
     expect(tree.html()).to.equal(null);
 
     tree.unmount();
-  });
-  afterEach(() => {
-    localStorage.clear();
   });
 
   it('renders for logged in SSO users', () => {
