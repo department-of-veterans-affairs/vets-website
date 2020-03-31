@@ -5,7 +5,6 @@ import orderSupplyPageContent from '../components/orderSupplyPageContent';
 import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
 import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
 import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
-import SuppliesReview from '../components/suppliesReview';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
