@@ -3,7 +3,7 @@ import React from 'react';
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 import IconUser from '@department-of-veterans-affairs/formation-react/IconUser';
 
-import PersonalizationDropdown from './PersonalizationDropdown';
+import { PersonalizationDropdown } from './PersonalizationDropdown';
 
 class SignInProfileMenu extends React.Component {
   render() {
