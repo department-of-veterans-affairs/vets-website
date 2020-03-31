@@ -7,9 +7,9 @@ import { ssoe } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 
 export class NotAuthorized extends React.Component {
-  verifyHandler() {
+  verifyHandler = () => {
     verify(this.props.useSSOe ? 'v1' : 'v0');
-  }
+  };
 
   render() {
     const content = {

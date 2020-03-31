@@ -48,9 +48,9 @@ export class VerifyApp extends React.Component {
     }
   }
 
-  verifyHandler() {
+  verifyHandler = () => {
     verify(this.props.useSSOe ? 'v1' : 'v0');
-  }
+  };
 
   render() {
     const { profile } = this.props;

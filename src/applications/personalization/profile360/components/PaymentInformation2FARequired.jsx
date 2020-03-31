@@ -8,10 +8,10 @@ import { mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
 export class PaymentInformation2FARequired extends React.Component {
-  mfaHandler() {
+  mfaHandler = () => {
     recordEvent({ event: 'multifactor-link-clicked' });
     mfa(this.props.useSSOe ? 'v1' : 'v0');
-  }
+  };
 
   render() {
     return (
