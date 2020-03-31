@@ -46,7 +46,6 @@ describe('Find VA Forms <SearchResults>', () => {
 
   it('renders a table and pagination', () => {
     const results = times(MAX_PAGE_LIST_LENGTH + 1, () => ({
-      firstIssuedOn: '2020-12-22',
       id: 'VA10192',
       attributes: {
         formName: 'VA10192',
