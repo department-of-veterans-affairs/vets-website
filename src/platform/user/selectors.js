@@ -12,7 +12,7 @@ export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state).services;
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.filter(
-    f => !f.facilityId.startsWith('742'),
+    f => !f.facilityId.startsWith('742') || null,
   );
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
