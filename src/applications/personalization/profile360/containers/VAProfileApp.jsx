@@ -21,11 +21,8 @@ class VAProfileApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}
         >
           <ProfileView
             profile={this.props.profile}
