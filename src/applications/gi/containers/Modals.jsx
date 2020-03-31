@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import environment from 'platform/utilities/environment';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -656,17 +655,16 @@ export class Modals extends React.Component {
           or legal scrutiny to this program. VA will display other categories of
           caution flags in future versions of the GI Bill Comparison Tool.
         </p>
-        {!environment.isProduction() && (
-          <p>
-            <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#phoenix"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Suspension of VA Benefits to Five Schools for Deceptive Practices
-            </a>
-          </p>
-        )}
+        <p>
+          <a
+            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#suspension"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Suspension of VA Benefits to Five Schools for Deceptive Practices
+          </a>
+        </p>
+
         <p>
           <a
             href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"

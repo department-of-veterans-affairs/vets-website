@@ -57,7 +57,6 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
   const city = options?.city || null;
   const contributionAmount = options?.contributionAmount || null;
-  const country = options?.country || null;
   const hideFetchingState = options?.hideFetchingState;
   const history = options?.history || window.history;
   const location = options?.location || window.location;
@@ -70,7 +69,6 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   const fetchOptions = {
     city,
     contributionAmount,
-    country,
     hideFetchingState,
     name,
     numberOfStudents,
@@ -106,7 +104,6 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     const response = await fetchResultsApi({
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       page,

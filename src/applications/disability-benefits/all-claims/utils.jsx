@@ -90,7 +90,7 @@ export const hasGuardOrReservePeriod = formData => {
   return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
     // For a new service period, service branch defaults to undefined
     if (!serviceBranch) {
-      return false;
+      return isGuardReserve;
     }
     const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
     return (

@@ -313,17 +313,6 @@ function compilePage(page, contentData) {
     case 'story_listing':
     case 'press_releases_listing':
     case 'health_services_listing':
-      pageCompiled = Object.assign(
-        {},
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-
     case 'health_care_region_detail_page':
       pageCompiled = Object.assign(
         {},
@@ -347,6 +336,8 @@ function compilePage(page, contentData) {
       );
       break;
     case 'health_care_region_page':
+    case 'press_release':
+    case 'person_profile':
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -365,30 +356,9 @@ function compilePage(page, contentData) {
         pageId,
       );
       break;
-    case 'press_release':
-      pageCompiled = Object.assign(
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-    case 'event': {
+    case 'event':
       // eslint-disable-next-line no-param-reassign
       page.entityUrl = generateBreadCrumbs(entityUrl.path);
-      pageCompiled = Object.assign(
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-    }
-    case 'person_profile':
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
