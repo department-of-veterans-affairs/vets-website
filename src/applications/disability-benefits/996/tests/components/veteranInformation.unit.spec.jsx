@@ -31,10 +31,11 @@ describe('Confirm Veteran Details', () => {
     const dataName = `${veteran.fullName.first} ${veteran.fullName.last}`;
     expect(fullName).to.equal(dataName);
 
-    const maskedLast4 = tree.find('MaskedNumber');
-    expect(maskedLast4.length).to.equal(2);
-    expect(maskedLast4.first().props().number).to.equal(veteran.last4SSN);
-    expect(maskedLast4.last().props().number).to.equal(veteran.last4VAFile);
+    const ssn = tree.find('.ssn').text();
+    expect(ssn).to.include(veteran.last4SSN);
+
+    const vafn = tree.find('.vafn').text();
+    expect(vafn).to.include(veteran.last4VAFile);
 
     const dob = tree.find('.dob').text();
     expect(dob).to.equal(moment(veteran.dateOfBirth).format('L'));
