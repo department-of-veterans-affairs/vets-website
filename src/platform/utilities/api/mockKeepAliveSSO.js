@@ -1,3 +1,9 @@
+// import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
+
+/**
+ * we're gonna need to implement so
+ */
+
 export default function keepAlive() {
   const headers = new Headers();
 

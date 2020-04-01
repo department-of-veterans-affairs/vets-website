@@ -133,11 +133,11 @@ export const hasSession = () => localStorage.getItem('hasSession');
 
 export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
 
-export async function setupProfileSession(userProfile) {
+export function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
   const loginType = (signIn && signIn.serviceName) || null;
   localStorage.setItem('hasSession', true);
-  await ssoKeepAliveSession();
+  ssoKeepAliveSession();
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.

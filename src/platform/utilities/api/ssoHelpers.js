@@ -1,33 +1,14 @@
-// import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 
+import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
-// // import mockKeepAlive from './mockKeepAliveSSO';
-import keepAlive from './keepAliveSSO';
+import mockKeepAlive from './mockKeepAliveSSO';
+import liveKeepAlive from './keepAliveSSO';
 
+const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
+// const keepAlive = liveKeepAlive;
 let ssoSessionLength = 9000; // milliseconds
-
-// export function ssoKeepAliveSession() {
-//   return fetch(ssoKeepAliveEndpoint(), {
-//     method: 'GET',
-//     credentials: 'include',
-//     cache: 'no-store',
-//   }).then(res => {
-//     const hasSSOsession = res.headers.get('session-alive');
-
-//     if (hasSSOsession === 'true') {
-//       // 'session-timeout' is in seconds, convert to milliseconds
-//       ssoSessionLength = res.headers.get('session-timeout') * 1000;
-
-//       const expirationTime = new Date();
-//       expirationTime.setTime(expirationTime.getTime() + ssoSessionLength);
-//       localStorage.setItem('sessionExpirationSSO', expirationTime);
-//       localStorage.setItem('hasSessionSSO', true);
-//     } else {
-//       localStorage.removeItem('hasSessionSSO');
-//     }
-//   });
-// }
 
 export async function ssoKeepAliveSession() {
   const res = await keepAlive();
@@ -45,8 +26,11 @@ export async function ssoKeepAliveSession() {
     } else {
       localStorage.removeItem('hasSessionSSO');
     }
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', err);
+      Sentry.captureMessage(`SSOe error: ${err.message}`);
+    });
   }
 }
 export function checkAndUpdateSSOeSession() {

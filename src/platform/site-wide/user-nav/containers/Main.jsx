@@ -11,8 +11,10 @@ import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
-import { hasSession } from 'platform/user/profile/utilities';
+import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
+import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
+import { ssoKeepAliveSession } from 'platform/utilities/api/ssoHelpers';
 import environment from 'platform/utilities/environment';
 
 import {
@@ -70,8 +72,17 @@ export class Main extends React.Component {
   }
 
   checkLoggedInStatus = () => {
+    ssoKeepAliveSession();
+
     if (hasSession()) {
+      // probably gonna need to flag this out of localhost to
+      // keep local development working properly
+      if (!hasSessionSSO()) {
+        autoLogout();
+      }
       this.props.initializeProfile();
+    } else if (hasSessionSSO()) {
+      autoLogin();
     } else {
       this.props.updateLoggedInStatus(false);
       if (this.getNextParameter()) this.openLoginModal();
