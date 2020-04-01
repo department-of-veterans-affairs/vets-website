@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
-import { checkAndUpdateSSOeSession } from './ssoHelpers';
+import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing

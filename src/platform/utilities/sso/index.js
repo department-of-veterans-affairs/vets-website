@@ -7,7 +7,6 @@ import mockKeepAlive from './mockKeepAliveSSO';
 import liveKeepAlive from './keepAliveSSO';
 
 const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
-// const keepAlive = liveKeepAlive;
 let ssoSessionLength = 9000; // milliseconds
 
 export async function ssoKeepAliveSession() {
