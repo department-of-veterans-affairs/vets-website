@@ -16,12 +16,13 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
-    // this.props.fetchMilitaryInformation();
+    this.props.fetchMilitaryInformation();
   }
   renderContent = () => {
     const {
       serviceHistory: { serviceHistory, error },
     } = this.props.militaryInformation;
+
     if (error) {
       if (some(error.errors, ['code', '403'])) {
         return (
