@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { some } from 'lodash';
+import { connect } from 'react-redux';
+import { fetchMilitaryInformation } from '../../profile360/actions';
 
 import DowntimeNotification, {
   externalServices,
@@ -18,6 +20,7 @@ class MilitaryInformationContent extends React.Component {
   componentDidMount() {
     this.props.fetchMilitaryInformation();
   }
+
   renderContent = () => {
     const {
       serviceHistory: { serviceHistory, error },
@@ -147,22 +150,33 @@ class MilitaryInformationContent extends React.Component {
   }
 }
 
-export default function MilitaryInformation(props) {
-  // if (!props.veteranStatus.servedInMilitary) {
-  //   return <div />;
-  // }
-
-  return (
-    <div>
-      <h2 className="va-profile-heading" tabIndex="-1">
-        Military service
-      </h2>
-      <DowntimeNotification
-        render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.emis]}
-      >
-        <MilitaryInformationContent {...props} />
-      </DowntimeNotification>
-    </div>
-  );
+class MilitaryInformation extends Component {
+  render() {
+    return (
+      <div>
+        <h2 className="va-profile-heading" tabIndex="-1">
+          Military Information
+        </h2>
+        <DowntimeNotification
+          render={handleDowntimeForSection('military service')}
+          dependencies={[externalServices.emis]}
+        >
+          <MilitaryInformationContent {...this.props} />
+        </DowntimeNotification>
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = state => ({
+  militaryInformation: state.vaProfile.militaryInformation,
+});
+
+const mapDispatchToProps = {
+  fetchMilitaryInformation,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MilitaryInformation);
