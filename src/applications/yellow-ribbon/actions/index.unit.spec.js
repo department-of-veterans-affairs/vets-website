@@ -107,7 +107,6 @@ describe('Yellow Ribbon actions', () => {
       const dispatch = () => {};
       const thunk = fetchResultsThunk({
         city: 'boulder',
-        country: 'usa',
         hideFetchingState: false,
         history: mockedHistory,
         location: mockedLocation,
@@ -154,6 +153,7 @@ describe('Yellow Ribbon actions', () => {
             hideFetchingState: false,
             name: 'university',
             numberOfStudents: 'unlimited',
+            page: 1,
             state: 'CO',
           },
           type: FETCH_RESULTS,

@@ -39,7 +39,7 @@
           "city": "Bigcity",
           "state": "AK"
         },
-        "treatedDisabilityNames": ["Diabetes mellitus0", "De-selected", "knee replacement"]
+        "treatedDisabilityNames": ["knee replacement"]
       }
     ],
     "ratedDisabilities": [

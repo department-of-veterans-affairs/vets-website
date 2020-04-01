@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import { ssoe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -12,12 +14,12 @@ const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 const recordAccountEvent = recordNavUserEvent('account');
 
-class PersonalizationDropdown extends React.Component {
+export class PersonalizationDropdown extends React.Component {
   signOut = () => {
     // Prevent double clicking of "Sign Out"
     if (!this.signOutDisabled) {
       this.signOutDisabled = true;
-      logout();
+      logout(this.props.useSSOe ? 'v1' : 'v0');
     }
   };
 
@@ -57,4 +59,10 @@ class PersonalizationDropdown extends React.Component {
   }
 }
 
-export default PersonalizationDropdown;
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+
+export default connect(mapStateToProps)(PersonalizationDropdown);

@@ -93,6 +93,7 @@ export class SearchForm extends Component {
       contributionAmount,
       name,
       numberOfStudents,
+      page: 1,
       state,
     });
   };
