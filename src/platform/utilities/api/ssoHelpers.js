@@ -36,7 +36,7 @@ export function ssoKeepAliveSession() {
         localStorage.setItem('sessionExpirationSSO', expirationTime);
         localStorage.setItem('hasSessionSSO', true);
       } else {
-        localStorage.setItem('hasSessionSSO', false);
+        localStorage.removeItem('hasSessionSSO');
       }
     })
     .catch(err => {

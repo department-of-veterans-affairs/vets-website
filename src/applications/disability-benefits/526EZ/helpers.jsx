@@ -20,7 +20,8 @@ import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
-import { AddressViewField, capitalizeEachWord } from '../all-claims/utils';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import { capitalizeEachWord } from '../all-claims/utils';
 
 import {
   VA_FORM4142_URL,

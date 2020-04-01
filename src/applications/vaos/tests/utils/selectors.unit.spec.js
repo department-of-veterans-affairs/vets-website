@@ -17,9 +17,10 @@ import {
   getCancelInfo,
   getCCEType,
   isWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
   selectCernerFacilities,
 } from '../../utils/selectors';
+
+import { selectIsCernerOnlyPatient } from '../../../../platform/user/selectors';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {

@@ -59,6 +59,7 @@ export default function FieldTemplate(props) {
 
   const containerClassNames = classNames(
     'schemaform-field-template',
+    errorClass,
     _.get(['ui:options', 'classNames'], uiSchema),
   );
   const labelClassNames = classNames({
@@ -96,7 +97,7 @@ export default function FieldTemplate(props) {
   );
 
   const content = (
-    <div className={errorClass}>
+    <>
       {!hideLabelText && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
@@ -106,7 +107,7 @@ export default function FieldTemplate(props) {
       {errorSpan}
       {<div className={inputWrapperClassNames}>{children}</div>}
       {help}
-    </div>
+    </>
   );
 
   if (useFieldsetLegend) {

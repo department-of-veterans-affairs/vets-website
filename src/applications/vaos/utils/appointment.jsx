@@ -325,6 +325,72 @@ export function getRequestTimeToCall(appt) {
   return null;
 }
 
+export function getPastAppointmentDateRangeOptions(today = moment()) {
+  // Past 3 months
+  const options = [
+    {
+      value: 0,
+      label: 'Past 3 months',
+      startDate: today
+        .clone()
+        .subtract(3, 'months')
+        .format(),
+      endDate: today.format(),
+    },
+  ];
+
+  // 3 month ranges going back ~1 year
+  let index = 1;
+  let monthsToSubtract = 3;
+
+  while (index < 4) {
+    const start = today
+      .clone()
+      .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
+      .startOf('month');
+    const end = today
+      .clone()
+      .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
+      .endOf('month');
+
+    options.push({
+      value: index,
+      label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
+      startDate: start.format(),
+      endDate: end.format(),
+    });
+
+    monthsToSubtract += 3;
+    index += 1;
+  }
+
+  // All of current year
+  options.push({
+    value: 4,
+    label: `Show all of ${today.format('YYYY')}`,
+    startDate: today
+      .clone()
+      .startOf('year')
+      .format(),
+    endDate: today.format(),
+  });
+
+  // All of last year
+  const lastYear = today.clone().subtract(1, 'years');
+
+  options.push({
+    value: 5,
+    label: `Show all of ${lastYear.format('YYYY')}`,
+    startDate: lastYear.startOf('year').format(),
+    endDate: lastYear
+      .clone()
+      .endOf('year')
+      .format(),
+  });
+
+  return options;
+}
+
 /**
  * Filter and sort methods
  */
@@ -342,6 +408,19 @@ export function filterFutureConfirmedAppointments(appt, today) {
 
 export function sortFutureConfirmedAppointments(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
+}
+
+export function filterPastAppointments(appt, startDate, endDate) {
+  const apptDateTime = getMomentConfirmedDate(appt);
+  return (
+    apptDateTime.isValid() &&
+    apptDateTime.isAfter(startDate) &&
+    apptDateTime.isBefore(endDate)
+  );
+}
+
+export function sortPastAppointments(a, b) {
+  return getMomentConfirmedDate(a).isAfter(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
 export function filterRequests(request, today) {
