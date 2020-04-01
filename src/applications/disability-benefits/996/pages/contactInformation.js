@@ -1,4 +1,3 @@
-import React from 'react';
 // import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import fullSchema from '../20-0996-schema.json';
 
@@ -52,7 +51,7 @@ const contactInfo = {
       emailAddress: emailUI(),
     },
     mailingAddress: {
-      ...addressUISchema('Mailing address', false, () => true),
+      ...addressUISchema('Mailing address', true, () => true),
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
@@ -65,15 +64,16 @@ const contactInfo = {
         },
       },
       street2: {
-        'ui:title': 'Street address',
-        'ui:reviewField': ({ children, uiSchema }) =>
-          // Don't render undefined entries
-          !children?.props.formData ? null : (
-            <div className="review-row">
-              <dt>{uiSchema?.['ui:title'] || ''}</dt>
-              <dd>{children}</dd>
-            </div>
-          ),
+        'ui:title': 'Line 2',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
+      },
+      street3: {
+        'ui:title': 'Line 3',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
     },
     /*

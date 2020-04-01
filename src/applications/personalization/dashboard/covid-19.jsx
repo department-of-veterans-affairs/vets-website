@@ -101,6 +101,8 @@ const visn23Facilities = [
   { name: 'Brainerd VA Clinic', id: '656GA' },
   { name: 'Fort Snelling VA Clinic', id: '618QA' },
   { name: 'Hayward VA Clinic', id: '618GH' },
+  { name: 'Maplewood VA Clinic', id: '618GD' },
+  { name: 'Max J. Beilke VA Outpatient Clinic', id: '656GC' },
   { name: 'Minneapolis VA Medical Center', id: '618' },
   { name: 'Montevideo VA Clinic', id: '656GB' },
   { name: 'Northwest Metro VA Clinic', id: '618GI' },
