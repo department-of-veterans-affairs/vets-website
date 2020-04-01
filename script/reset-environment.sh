@@ -26,7 +26,9 @@ fi
 echo "Removing Babel cache..."
 rm -rf ./.babelcache
 if [ $? -eq 0 ]; then
-    echo "Successfully cleaned out the .babelcache folder."
+    echo "Successfully cleaned out .babelcache."
+else
+    echo "Please manually remove your .babelcache folder."
 fi
 
 echo "Removing the node modules folder..."
@@ -40,5 +42,5 @@ if [ $? -eq 0 ]; then
         echo "Please manually re-run yarn install from the command line."
     fi
 else
-    echo "Please manually try check your ./node_modules folder for issues."
+    echo "Please manually check your ./node_modules folder for issues."
 fi
