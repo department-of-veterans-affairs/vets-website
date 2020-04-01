@@ -21,12 +21,20 @@ export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
     if (type === 'va') {
-      promise = import('./confirmed_va.json').then(
-        module => (module.default ? module.default : module),
+      promise = new Promise(resolve =>
+        setTimeout(() => {
+          import('./confirmed_va.json').then(module => {
+            resolve(module.default ? module.default : module);
+          });
+        }, 500),
       );
     } else {
-      promise = import('./confirmed_cc.json').then(
-        module => (module.default ? module.default : module),
+      promise = new Promise(resolve =>
+        setTimeout(() => {
+          import('./confirmed_cc.json').then(module => {
+            resolve(module.default ? module.default : module);
+          });
+        }, 500),
       );
     }
   } else {

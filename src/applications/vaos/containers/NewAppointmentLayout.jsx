@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
-import { selectIsCernerOnlyPatient } from '../utils/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 
 export class NewAppointmentLayout extends React.Component {
   componentDidMount() {

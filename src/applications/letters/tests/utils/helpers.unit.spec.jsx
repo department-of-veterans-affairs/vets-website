@@ -196,7 +196,6 @@ describe('Letters helpers: ', () => {
 
   // Check empty address parameters
   describe('isAddressEmpty', () => {
-    expect(isAddressEmpty()).to.be.true;
     expect(isAddressEmpty({})).to.be.true;
     // type & countryName are ignored
     expect(isAddressEmpty({ type: 'foo', countryName: 'bar' })).to.be.true;
