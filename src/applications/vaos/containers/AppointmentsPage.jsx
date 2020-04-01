@@ -31,7 +31,6 @@ import {
   vaosCommunityCare,
   isWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectCernerFacilities,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
@@ -208,7 +207,6 @@ export class AppointmentsPage extends Component {
         </div>
         <CancelAppointmentModal
           {...cancelInfo}
-          cernerFacilities={this.props.cernerFacilities}
           onCernerConfirm={this.props.closeCancelCernerAppointment}
           onConfirm={this.props.confirmCancelAppointment}
           onClose={this.props.closeCancelAppointment}
@@ -233,7 +231,6 @@ function mapStateToProps(state) {
     showDirectScheduling: vaosDirectScheduling(state),
     isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    cernerFacilities: selectCernerFacilities(state),
   };
 }
 

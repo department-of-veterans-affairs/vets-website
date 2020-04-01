@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { FETCH_STATUS } from '../../utils/constants';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export default function CancelCernerAppointmentModal({
   onClose,
@@ -18,12 +17,7 @@ export default function CancelCernerAppointmentModal({
     >
       To cancel this appointment, sign in on My VA health.
       <p className="vads-u-margin-top--2">
-        <LoadingButton
-          isLoading={status === FETCH_STATUS.loading}
-          onClick={onConfirm}
-        >
-          Yes, go to My VA Health
-        </LoadingButton>
+        <button onClick={onConfirm}>Yes, go to My VA Health</button>
         <button
           className="usa-button-secondary"
           onClick={onClose}
