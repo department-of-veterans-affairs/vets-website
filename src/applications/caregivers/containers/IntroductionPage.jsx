@@ -9,7 +9,6 @@ import {
   CaregiverSupportInfo,
   PowerOfAttorneyInfo,
   RepresentativeInfo,
-  InjuredLineOfDutyInto,
 } from 'applications/caregivers/components/AdditionalInfo';
 
 const IntroductionPage = ({ route, router }) => {
@@ -23,40 +22,7 @@ const IntroductionPage = ({ route, router }) => {
     return router.push(pageList[1].path);
   };
 
-  const IntoHighlight = () => (
-    <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-x--5 vads-u-padding-bottom--5 vads-u-padding-top--2p5 vads-u-margin-y--5">
-      <h4>
-        Can I get benefits through the Program of Comprehensive Assistance for
-        Family Caregivers?
-      </h4>
-
-      <p>
-        A caregiver of a Veteran qualifies for this program based on the
-        Veteran's qualifications. The caregiver may be eligible if the Veteran
-        meets both of these requirements:
-      </p>
-
-      <ul>
-        <li>
-          The Veteran requires ongoing supervision or assistance with
-          performance basic functions of everyday life due to a serious injury
-          or mental disorder incurred or aggravated in the line of duty. This
-          includes traumatic brain injury, psychological trauma or another
-          mental disorder.
-          <InjuredLineOfDutyInto />
-        </li>
-        <li>
-          The Veteran needs personal care services because they can’t perform
-          one or more activities of daily living and/or they need supervision or
-          protection because they have lasting neurological damage or injury.
-        </li>
-      </ul>
-
-      <button onClick={startForm}>Start your Application</button>
-    </div>
-  );
-
-  const FamilyBenifits = () => (
+  const FamilyBenefits = () => (
     <>
       <p>
         If you’re a family member caring for a Veteran with disabilities, we
@@ -169,9 +135,11 @@ const IntroductionPage = ({ route, router }) => {
       <FormTitle title="Apply for Caregiver Benefits" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
 
-      <FamilyBenifits />
+      <FamilyBenefits />
 
-      <IntoHighlight />
+      <button className="vads-u-margin-top--5" onClick={startForm}>
+        Start your Application
+      </button>
 
       <ProcessTimeline />
 

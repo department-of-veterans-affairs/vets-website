@@ -89,8 +89,6 @@ export default {
       },
     },
     [vetFields.preferredFacilityView]: {
-      'ui:title':
-        'Name of VA medical center or clinic where you receive or plan to receive health care services:',
       [vetFields.preferredFacilityStateView]: {
         'ui:title': 'Facility State',
         'ui:options': {

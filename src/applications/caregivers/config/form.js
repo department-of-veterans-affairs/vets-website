@@ -89,7 +89,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for caregiver benefits.',
   },
-  title: fullSchema.title,
+  title: 'Apply for family caregiver benefits',
+  subTitle: 'Form 10-10CG',
   defaultDefinitions: {
     address,
     date,
