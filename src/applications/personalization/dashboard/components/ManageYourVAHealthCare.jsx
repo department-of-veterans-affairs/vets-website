@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 
 import {
   DowntimeNotification,
@@ -11,6 +12,8 @@ import {
   recordDashboardClick,
   renderWidgetDowntimeNotification,
 } from '../helpers';
+
+import { selectIsCernerPatient } from 'platform/user/selectors';
 
 // import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
@@ -41,12 +44,48 @@ const ScheduleAnAppointmentWidget = () => (
   </div>
 );
 
+const ScheduleAnAppointmentCernerWidget = () => (
+  <AlertBox
+    status="warning"
+    headline="Our records show that you’re registered at Chalmers P. Wylie Ambulatory Care Center.  Starting April 10, 2020, providers at this center are using My VA Health to manage appointments."
+  >
+    <p>
+      You may need to sign in again to use VA health appointment tools. If you
+      do, sign in with the same account you used to sign in on VA.gov. You may
+      need to disable your browser’s pop-up block so these tools can open.
+    </p>
+    <h4>Manage appointments with Chalmers P. Wylie provider</h4>
+    <a
+      href={
+        environment.isProduction()
+          ? 'https://patientportal.myhealth.va.gov/'
+          : 'https://ehrm-va-test.patientportal.us.healtheintent.com/'
+      }
+      type="button"
+      className="usa-button-primary"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Go to My VA Health
+    </a>
+    <h4>Manage appointments at all other VA Medical center</h4>
+    <a
+      href="/health-care/schedule-view-va-appointments/"
+      type="button"
+      className="usa-button-secondary"
+    >
+      Go to VA appointments
+    </a>
+  </AlertBox>
+);
+
 const ManageYourVAHealthCare = ({
   applicationDate,
   enrollmentDate,
   isEnrolledInHealthCare,
   preferredFacility,
   showServerError,
+  isCernerPatient,
 }) => (
   <>
     <h2>Manage your VA health care</h2>
@@ -106,7 +145,10 @@ const ManageYourVAHealthCare = ({
     >
       <PrescriptionsWidget />
     </DowntimeNotification>
-    {isEnrolledInHealthCare && <ScheduleAnAppointmentWidget />}
+    {isEnrolledInHealthCare &&
+      !isCernerPatient && <ScheduleAnAppointmentWidget />}
+    {isEnrolledInHealthCare &&
+      isCernerPatient && <ScheduleAnAppointmentCernerWidget />}
   </>
 );
 
@@ -114,6 +156,7 @@ const mapStateToProps = state => {
   const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
   const showServerError = hasESRServerError(state);
+  const isCernerPatient = selectIsCernerPatient(state);
   const {
     applicationDate,
     enrollmentDate,
@@ -126,6 +169,7 @@ const mapStateToProps = state => {
     isEnrolledInHealthCare,
     preferredFacility,
     showServerError,
+    isCernerPatient,
   };
 };
 

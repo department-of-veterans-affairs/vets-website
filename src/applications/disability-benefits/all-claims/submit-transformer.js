@@ -75,9 +75,13 @@ export function transformProviderFacilities(providerFacilities) {
  * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
-function getDisabilities(formData) {
+function getDisabilities(formData, includeDisabilityActionTypeNone = true) {
   // Assumes we have only selected conditions at this point
-  const claimedConditions = formData.ratedDisabilities || [];
+  const claimedConditions = (formData.ratedDisabilities || []).filter(
+    ratedDisability =>
+      includeDisabilityActionTypeNone ||
+      ratedDisability.disabilityActionType !== disabilityActionTypes.NONE,
+  );
 
   // Depending on where this is called in the transformation flow, we have to use different key names.
   // This assumes newDisabilities is removed after it's split out into its primary and secondary counterparts.
@@ -99,9 +103,12 @@ function getDisabilityName(disability) {
   return name && name.trim();
 }
 
-function getClaimedConditionNames(formData) {
-  return getDisabilities(formData).map(disability =>
-    getDisabilityName(disability),
+function getClaimedConditionNames(
+  formData,
+  includeDisabilityActionTypeNone = true,
+) {
+  return getDisabilities(formData, includeDisabilityActionTypeNone).map(
+    disability => getDisabilityName(disability),
   );
 }
 
@@ -380,7 +387,7 @@ export function transform(formConfig, form) {
         'treatedDisabilityNames',
         transformRelatedDisabilities(
           facility.treatedDisabilityNames,
-          getClaimedConditionNames(formData),
+          getClaimedConditionNames(formData, false),
         ),
         facility,
       ),

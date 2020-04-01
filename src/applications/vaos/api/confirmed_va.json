@@ -186,7 +186,7 @@
       "id": "f183c1079a800aa475a6752261284bf0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2020-11-12T17:00:00Z",
+        "startDate": "2019-11-12T17:00:00Z",
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
@@ -195,7 +195,7 @@
           {
             "bookingNote": "TEST MORRISON X",
             "appointmentLength": "30",
-            "appointmentTime": "2020-11-12T17:00:00Z",
+            "appointmentTime": "2019-11-12T17:00:00Z",
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
@@ -458,6 +458,78 @@
             "appointmentKind": "MOBILE_GFE",
             "sourceSystem": "SM",
             "dateTime": "2020-11-22T13:35:00Z",
+            "duration": 20,
+            "status": { "description": "F", "code": "FUTURE" },
+            "schedulingRequestType": "NEXT_AVAILABLE_APPT",
+            "type": "REGULAR",
+            "bookingNotes": "Follow-up/Routine: asfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasf",
+            "instructionsOther": false,
+            "patients": [
+              {
+                "name": { "firstName": "JUDY", "lastName": "MORRISON" },
+                "contactInformation": {
+                  "mobile": "7036520000",
+                  "preferredEmail": "samatha.girla@va.gov"
+                },
+                "location": {
+                  "type": "NonVA",
+                  "facility": {
+                    "name": "CHEYENNE VAMC",
+                    "siteCode": "983",
+                    "timeZone": "10"
+                  }
+                },
+                "patientAppointment": true,
+                "virtualMeetingRoom": {
+                  "conference": "VVC1012210",
+                  "pin": "4790493668#",
+                  "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#"
+                }
+              }
+            ],
+            "providers": [
+              {
+                "name": { "firstName": "Vilasini", "lastName": "Reddy" },
+                "contactInformation": {
+                  "mobile": "6767676767",
+                  "preferredEmail": "vilasini.reddy@va.gov",
+                  "timeZone": "10"
+                },
+                "location": {
+                  "type": "VA",
+                  "facility": {
+                    "name": "CHEYENNE VAMC",
+                    "siteCode": "983",
+                    "timeZone": "10"
+                  }
+                },
+                "virtualMeetingRoom": {
+                  "conference": "VVC1012210",
+                  "pin": "3527890#",
+                  "url": "https://care2.evn.va.gov/vvc-app/?name=Reddy%2CVilasini&join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=3527890#"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "9effc41f1dc18b33fe3a6014d1b9aea1",
+      "type": "va_appointments",
+      "attributes": {
+        "startDate": "2019-11-22T13:35:00Z",
+        "clinicId": null,
+        "clinicFriendlyName": null,
+        "facilityId": "983",
+        "communityCare": false,
+        "vdsAppointments": [],
+        "vvsAppointments": [
+          {
+            "id": "250afc0b-8551-4a79-bbc9-cf5cdd6575c2",
+            "appointmentKind": "MOBILE_GFE",
+            "sourceSystem": "SM",
+            "dateTime": "2019-11-22T13:35:00Z",
             "duration": 20,
             "status": { "description": "F", "code": "FUTURE" },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",

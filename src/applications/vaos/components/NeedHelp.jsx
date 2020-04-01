@@ -7,7 +7,10 @@ export default function NeedHelp() {
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
         Need help?
       </h2>
-      <hr className="vads-u-margin-y--1p5 vads-u-border-color--primary" />
+      <hr
+        aria-hidden="true"
+        className="vads-u-margin-y--1p5 vads-u-border-color--primary"
+      />
       <p className="vads-u-margin-top--0">
         For help scheduling a VA or Community Care appointment, please call{' '}
         <a href="tel:8774705947">877-470-5947</a> (if you have hearing loss,

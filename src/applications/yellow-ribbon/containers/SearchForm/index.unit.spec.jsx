@@ -23,7 +23,7 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     global.window = {
       location: {
         search:
-          '?contributionAmount=unlimited&city=boulder&country=usa&name=university&numberOfStudents=unlimited&state=co',
+          '?contributionAmount=unlimited&city=boulder&name=university&numberOfStudents=unlimited&state=co',
       },
     };
 

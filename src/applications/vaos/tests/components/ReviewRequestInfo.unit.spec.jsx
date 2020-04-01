@@ -206,4 +206,28 @@ describe('VAOS <ReviewRequestInfo>', () => {
       expect(text).to.contain('Cheyenne, WY');
     });
   });
+
+  describe('Accessibility', () => {
+    const data = {
+      ...defaultData,
+      facilityType: 'communityCare',
+      hasCommunityCareProvider: false,
+      preferredLanguage: 'english',
+    };
+    const vaCityState = 'Cheyenne, WY';
+
+    let tree;
+
+    beforeEach(() => {
+      tree = mount(<ReviewRequestInfo data={data} vaCityState={vaCityState} />);
+    });
+
+    afterEach(() => {
+      tree.unmount();
+    });
+
+    it('should have aria labels for HR to hide from screen reader', () => {
+      expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
+    });
+  });
 });

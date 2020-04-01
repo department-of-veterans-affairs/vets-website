@@ -7,7 +7,6 @@ import {
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   UPDATE_PAGINATION,
-  UPDATE_RESULTS,
 } from '../constants';
 
 // ============
@@ -35,14 +34,6 @@ export const updatePaginationAction = (page = 1, startIndex = 0) => ({
   page,
   startIndex,
   type: UPDATE_PAGINATION,
-});
-
-// ============
-// Update Results (no API)
-// ============
-export const updateResultsAction = results => ({
-  results,
-  type: UPDATE_RESULTS,
 });
 
 // ============

@@ -4,32 +4,15 @@ import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { connect } from 'react-redux';
-import orderBy from 'lodash/orderBy';
-import slice from 'lodash/slice';
 
 import { focusElement } from 'platform/utilities/ui';
 
 // Relative imports.
-import { updatePaginationAction, updateResultsAction } from '../actions';
+import * as customPropTypes from '../prop-types';
+import { updatePaginationAction } from '../actions';
+import SearchResult from '../components/SearchResult';
 
-const ASCENDING = 'ASC';
-const DESCENDING = 'DESC';
-const FIELD_LABELS = [
-  {
-    label: 'Form number',
-    value: 'idLabel',
-  },
-  {
-    label: 'Form name',
-    value: 'titleLabel',
-  },
-  {
-    label: 'Revision date',
-    value: 'lastRevisionOnLabel',
-  },
-];
 export const MAX_PAGE_LIST_LENGTH = 10;
 
 export class SearchResults extends Component {
@@ -39,36 +22,11 @@ export class SearchResults extends Component {
     fetching: PropTypes.bool.isRequired,
     page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
-    results: PropTypes.arrayOf(
-      PropTypes.shape({
-        // Original form data key-value pairs.
-        formName: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.number,
-        pages: PropTypes.number.isRequired,
-        sha256: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-        // Table field labels that can be JSX.
-        idLabel: PropTypes.node.isRequired,
-        titleLabel: PropTypes.node.isRequired,
-        lastRevisionOnLabel: PropTypes.node.isRequired,
-      }).isRequired,
-    ),
+    results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
     startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
-    updateResults: PropTypes.func.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedFieldLabel: 'idLabel',
-      selectedFieldOrder: ASCENDING,
-    };
-  }
 
   componentDidUpdate(previousProps) {
     const justRefreshed = previousProps.fetching && !this.props.fetching;
@@ -77,20 +35,6 @@ export class SearchResults extends Component {
       focusElement('[data-forms-focus]');
     }
   }
-
-  onHeaderClick = (fieldLabel, order) => {
-    const { selectedFieldLabel, selectedFieldOrder } = this.state;
-
-    // Derive the opposite sort order.
-    const oppositeFieldOrder =
-      selectedFieldOrder === ASCENDING ? DESCENDING : ASCENDING;
-
-    // Sort the results.
-    this.sortResults(
-      fieldLabel,
-      fieldLabel === selectedFieldLabel ? oppositeFieldOrder : order,
-    );
-  };
 
   onPageSelect = page => {
     const { results, updatePagination } = this.props;
@@ -109,36 +53,9 @@ export class SearchResults extends Component {
     focusElement('[data-forms-focus]');
   };
 
-  sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
-    const { results, updatePagination, updateResults } = this.props;
-
-    // Update local state for SortableTable.
-    this.setState({
-      selectedFieldLabel: fieldLabel,
-      selectedFieldOrder,
-    });
-
-    // Reset pagination values.
-    updatePagination();
-
-    // Derive the original field (not the JSX label).
-    const field = fieldLabel.replace('Label', '');
-
-    // Derive the sorted results.
-    const sortedResults = orderBy(
-      results,
-      field,
-      selectedFieldOrder.toLowerCase(),
-    );
-
-    // Sort the results and update them in our store.
-    updateResults(sortedResults);
-  };
-
   render() {
-    const { onHeaderClick, onPageSelect } = this;
+    const { onPageSelect } = this;
     const { error, fetching, page, query, results, startIndex } = this.props;
-    const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -195,24 +112,18 @@ export class SearchResults extends Component {
     // Derive the total number of pages.
     const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
+    const searchResults = results
+      .slice(startIndex, lastIndex)
+      .map(form => <SearchResult key={form.id} form={form} />);
+
     return (
       <>
-        <h2
-          className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
-          data-forms-focus
-        >
-          Displaying {startLabel} &ndash; {lastLabel} out of {results.length}{' '}
-          results for "<strong>{query}</strong>"
-        </h2>
+        <p className="vads-u-margin-y--1p5" data-forms-focus>
+          Showing {startLabel} &ndash; {lastLabel} of {results.length} results
+          for "<strong>{query}</strong>"
+        </p>
 
-        {/* Table of Forms */}
-        <SortableTable
-          className="find-va-forms-table vads-u-margin--0"
-          currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
-          data={slice(results, startIndex, lastIndex)}
-          fields={FIELD_LABELS}
-          onHeaderClick={onHeaderClick}
-        />
+        <dl className="vads-l-grid-container--full">{searchResults}</dl>
 
         {/* Pagination Row */}
         {results.length > MAX_PAGE_LIST_LENGTH && (
@@ -241,7 +152,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updatePagination: (page, startIndex) =>
     dispatch(updatePaginationAction(page, startIndex)),
-  updateResults: results => dispatch(updateResultsAction(results)),
 });
 
 export default connect(
