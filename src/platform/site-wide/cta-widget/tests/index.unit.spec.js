@@ -286,7 +286,6 @@ describe('<CallToActionWidget>', () => {
         <CallToActionWidget
           fetchMHVAccount={d => d}
           isLoggedIn
-          useSSOe
           appId="rx"
           profile={{
             loading: false,
