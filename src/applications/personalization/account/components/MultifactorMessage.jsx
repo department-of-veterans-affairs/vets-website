@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ssoe } from '../../../../platform/user/authentication/selectors';
-import { mfa } from '../../../../platform/user/authentication/utilities';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import { ssoe } from 'platform/user/authentication/selectors';
+import { mfa } from 'platform/user/authentication/utilities';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class MultifactorMessage extends React.Component {
   mfaHandler = () => {

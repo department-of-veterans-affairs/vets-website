@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 
 import MessageTemplate from './../components/MessageTemplate';
 
-import { ssoe } from '../../../platform/user/authentication/selectors';
-import { verify } from '../../../platform/user/authentication/utilities';
+import { ssoe } from 'platform/user/authentication/selectors';
+import { verify } from 'platform/user/authentication/utilities';
 
 export class VerifyIdentity extends React.Component {
-  verifyHandler = () => {
-    verify(this.props.useSSOe ? 'v1' : 'v0');
-  };
-
   render() {
+    const authVersion = this.props.useSSOe ? 'v1' : 'v0';
+
     const content = {
       heading: 'Verify your identity to access health tools',
       body: (
@@ -22,7 +20,7 @@ export class VerifyIdentity extends React.Component {
             give you access to your personal health information.
           </p>
           <button
-            onClick={this.verifyHandler}
+            onClick={() => verify(authVersion)}
             className="usa-button-primary va-button-primary"
           >
             Verify your identity
