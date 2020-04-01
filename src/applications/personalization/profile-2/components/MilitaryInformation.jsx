@@ -95,7 +95,9 @@ class MilitaryInformationContent extends React.Component {
             <tr key={index}>
               <td>
                 <span>
-                  <h4>{service.branchOfService}</h4>
+                  <h4 className="vads-u-font-family--sans .vads-u-font-size--base .vads-u-font-weight--bold">
+                    {service.branchOfService}
+                  </h4>
                 </span>
                 <span>
                   {moment(service.beginDate).format('MMM D, YYYY')} &ndash;{' '}
@@ -118,7 +120,7 @@ class MilitaryInformationContent extends React.Component {
           render={this.renderContent}
         />
         <AdditionalInfo
-          triggerText="What if my military service information doesn't look right?"
+          triggerText="What if my military service information doesn’t look right?"
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
@@ -140,9 +142,17 @@ class MilitaryInformationContent extends React.Component {
             work with you to update your information in DEERS.
           </p>
           <p>
-            To reach the DMDC, call 1-800-538-9552, Monday through Friday
-            (except federal holidays), 8:00 a.m. to 8:00 p.m. ET. If you have
-            hearing loss, call TTY: 1-866-363-2883.
+            To reach the DMDC, call{' '}
+            <a
+              href="tel:1-800-538-9552"
+              aria-label="8 0 0. 5 3 8. 9 5 5 2."
+              title="Dial the telephone number 800-538-9552"
+              className="no-wrap"
+            >
+              1-800-538-9552
+            </a>
+            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
+            p.m. ET. If you have hearing loss, call TTY: 1-866-363-2883.
           </p>
         </AdditionalInfo>
       </div>

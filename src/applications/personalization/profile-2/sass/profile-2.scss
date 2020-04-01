@@ -42,10 +42,10 @@ nav.profile-side-nav {
 
   th,
   td {
-    border: 1px solid #D6D7D9;
+    border: 1px solid $color-gray-lighter;
     text-align: left;
     display: flex;
-    padding: 10px 30px;
+    padding: units(1.5) units(4);
   }
 
   td {
@@ -62,15 +62,12 @@ nav.profile-side-nav {
   }
 
   h3 {
-    color: #112e51;
+    color: $color-primary-darkest;
     margin: unset;
   }
 
   h4 {
-    color: #323a45;
-    font-family: "Source Sans Pro";
-    font-weight: bold;
-    font-size: 16px;
+    color: $color-gray-dark;
     margin: unset;
   }
 }
