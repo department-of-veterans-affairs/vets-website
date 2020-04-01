@@ -100,7 +100,10 @@ export default class SelectArrayItemsWidget extends React.Component {
             );
           })
         ) : (
-          <p>No selections have been made</p>
+          <div className="review-row" role="presentation">
+            <dt>No selections have been made</dt>
+            <dd />
+          </div>
         )}
       </>
     );
