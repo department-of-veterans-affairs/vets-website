@@ -11,7 +11,7 @@ describe('VAOS <CancelCernerAppointmentModal>', () => {
 
     expect(tree.find('Modal').props().status).to.equal('warning');
     expect(tree.text()).to.contain(
-      'To cancel this appointment, sign in on My VA health.',
+      'To cancel this appointment, please go to My VA Health.',
     );
 
     tree.unmount();
