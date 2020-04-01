@@ -70,6 +70,7 @@ label {
   }
 }
 
+
 // ReviewCardField styles
 .review-card {
   .review-card--header {
@@ -95,6 +96,10 @@ label {
 
     .review-card--title {
       margin: 1.5rem 0 2.5rem;
+    }
+
+    input[type="text"]:disabled {
+      background-color: #f1f1f1;
     }
 
     .update-button,

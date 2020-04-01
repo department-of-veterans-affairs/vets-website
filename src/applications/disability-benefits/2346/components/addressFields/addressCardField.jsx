@@ -167,12 +167,6 @@ export class AddressCardField extends React.Component {
     );
     // We've already used the ui:field and ui:title
 
-    // BUG: When military checkboxes are checked, they should immediately
-    // disable the country dropdown -@maharielrosario at 3/27/2020, 11:54:53 AM
-
-    // let permUpdatedUISchema;
-    // let tempUpdatedUISchema;
-
     if (this.props.name === 'permanentAddress') {
       if (permAddressIsAMilitaryBase) {
         uiSchema.country['ui:options'].updateSchema(
@@ -561,11 +555,9 @@ export class AddressCardField extends React.Component {
     const viewOrEditCard = this.state.editing
       ? this.getEditView()
       : this.getReviewView();
-    /* eslint-disable no-debugger */
-    debugger;
+
     return (
       <>
-        {/* do conditional rendering for permanent address */}
         {this.props.uiSchema['ui:title'] === 'Permanent address' ? (
           <>
             <h4 className="vads-u-font-weight--bold">Shipping Address</h4>
