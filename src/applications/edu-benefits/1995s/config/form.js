@@ -29,9 +29,9 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
-  formId: VA_FORM_IDS.FORM_22_1995,
+  formId: VA_FORM_IDS.FORM_22_1995S,
   version: 1,
-  migrations: [urlMigration('/1995')],
+  migrations: [urlMigration('/1995S')],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
