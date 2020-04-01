@@ -21,24 +21,6 @@ export const schema = {
   },
 };
 
-/*
-        updateUiSchema: formData => {
-          console.log(formData)
-          if (formData['view:selectable686Options']['reportDeath'] === true) {
-            return {
-              'ui:validations': validateBooleanGroup,
-              'ui:errorMessages': {
-                atLeastOne: 'You must have expenses for at least one benefit.',
-              },
-              'ui:required': () => true,
-              'ui:title': "Child's status (Check all that apply) *(required)",
-            };
-          } else {
-            
-          }
-        },
-*/
-
 export const uiSchema = {
   deaths: {
     'ui:options': { viewField: DependentViewField },
