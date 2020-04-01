@@ -419,9 +419,15 @@ describe('VAOS selectors', () => {
       });
     });
   });
+
   describe('getCancelInfo', () => {
     it('should fetch facility in info', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
         appointments: {
           appointmentToCancel: {
             facility: {
@@ -442,6 +448,11 @@ describe('VAOS selectors', () => {
     });
     it('should fetch facility from clinic map', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
         appointments: {
           appointmentToCancel: {
             facilityId: '123',
@@ -460,6 +471,7 @@ describe('VAOS selectors', () => {
       );
     });
   });
+
   describe('getCCEType', () => {
     it('should return cce type for Audiology', () => {
       const state = {
@@ -487,6 +499,7 @@ describe('VAOS selectors', () => {
       expect(cceType).to.equal('Optometry');
     });
   });
+
   describe('isWelcomeModalDismissed', () => {
     it('should return dismissed if key is in list', () => {
       const state = {
@@ -505,6 +518,7 @@ describe('VAOS selectors', () => {
       expect(isWelcomeModalDismissed(state)).to.be.false;
     });
   });
+
   describe('selectIsCernerOnlyPatient', () => {
     it('should return true if Cerner only', () => {
       const state = {
@@ -530,6 +544,7 @@ describe('VAOS selectors', () => {
       expect(selectIsCernerOnlyPatient(state)).to.be.false;
     });
   });
+
   describe('selectCernerFacilities', () => {
     it('should return collection of cerner facilities', () => {
       const state = {
