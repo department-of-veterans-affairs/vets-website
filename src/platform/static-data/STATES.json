@@ -8,12 +8,28 @@
     "label": "Alaska"
   },
   {
+    "code": "AS",
+    "label": "American Samoa"
+  },
+  {
     "code": "AZ",
     "label": "Arizona"
   },
   {
     "code": "AR",
     "label": "Arkansas"
+  },
+  {
+    "code": "AA",
+    "label": "Armed Forces Americas (AA)"
+  },
+  {
+    "code": "AE",
+    "label": "Armed Forces Europe (AE)"
+  },
+  {
+    "code": "AP",
+    "label": "Armed Forces Pacific (AP)"
   },
   {
     "code": "CA",
@@ -42,6 +58,10 @@
   {
     "code": "GA",
     "label": "Georgia"
+  },
+  {
+    "code": "GU",
+    "label": "Guam"
   },
   {
     "code": "HI",
@@ -80,6 +100,10 @@
     "label": "Maine"
   },
   {
+    "code": "MH",
+    "label": "Marshall Islands"
+  },
+  {
     "code": "MD",
     "label": "Maryland"
   },
@@ -90,6 +114,10 @@
   {
     "code": "MI",
     "label": "Michigan"
+  },
+  {
+    "code": "FM",
+    "label": "Micronesia"
   },
   {
     "code": "MN",
@@ -140,6 +168,10 @@
     "label": "North Dakota"
   },
   {
+    "code": "MP",
+    "label": "Northern Mariana Islands"
+  },
+  {
     "code": "OH",
     "label": "Ohio"
   },
@@ -152,8 +184,16 @@
     "label": "Oregon"
   },
   {
+    "code": "PW",
+    "label": "Palau"
+  },
+  {
     "code": "PA",
     "label": "Pennsylvania"
+  },
+  {
+    "code": "PR",
+    "label": "Puerto Rico"
   },
   {
     "code": "RI",
@@ -174,6 +214,10 @@
   {
     "code": "TX",
     "label": "Texas"
+  },
+  {
+    "code": "VI",
+    "label": "U.S. Virgin Islands"
   },
   {
     "code": "UT",
@@ -202,49 +246,5 @@
   {
     "code": "WY",
     "label": "Wyoming"
-  },
-  {
-    "code": "AS",
-    "label": "American Samoa"
-  },
-  {
-    "code": "GU",
-    "label": "Guam"
-  },
-  {
-    "code": "MP",
-    "label": "Northern Mariana Islands"
-  },
-  {
-    "code": "PR",
-    "label": "Puerto Rico"
-  },
-  {
-    "code": "VI",
-    "label": "U.S. Virgin Islands"
-  },
-  {
-    "code": "FM",
-    "label": "Micronesia"
-  },
-  {
-    "code": "MH",
-    "label": "Marshall Islands"
-  },
-  {
-    "code": "PW",
-    "label": "Palau"
-  },
-  {
-    "code": "AA",
-    "label": "U.S. Armed Forces - Americas"
-  },
-  {
-    "code": "AE",
-    "label": "U.S. Armed Forces - Europe"
-  },
-  {
-    "code": "AP",
-    "label": "U.S. Armed Forces - Pacific"
   }
 ]
