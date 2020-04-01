@@ -32,8 +32,6 @@ import {
  *                   This is useful for bank account information.
  *   reviewTitle   - The title shown on the review card. Defaults to ui:title
  *   editTitle     - The title shown on the edit card. Defaults to ui:title
- *   itemName      - The name of the set of data in the card. This shows up on the "New X" button if
- *                   volatileData is set to true.
  */
 export class AddressCardField extends React.Component {
   static defaultProps = {
@@ -371,11 +369,9 @@ export class AddressCardField extends React.Component {
       // Fall back to the ViewComponent
     }
 
-    const {
-      viewComponent: ViewComponent,
-      reviewTitle,
-      // itemName,
-    } = this.props.uiSchema['ui:options'];
+    const { viewComponent: ViewComponent, reviewTitle } = this.props.uiSchema[
+      'ui:options'
+    ];
     const title = reviewTitle || this.getTitle();
 
     const { permAddressSelected, tempAddressSelected } = this.props;
