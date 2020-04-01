@@ -1,7 +1,8 @@
 // import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
 
 /**
- * we're gonna need to implement so
+ * we're gonna need to implement some kind of mechanism
+ * that avoids the auto-login/auto-logout stuff locally
  */
 
 export default function keepAlive() {
