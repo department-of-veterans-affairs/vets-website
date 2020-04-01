@@ -115,7 +115,8 @@ export const uiSchema = {
               keepInPageOnReview: true,
             },
             'ui:required': (formData, index) =>
-              formData.childrenToAdd[`${index}`].childStatus === 'Stepchild',
+              formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+              true,
           },
         ),
       },
@@ -156,7 +157,8 @@ export const uiSchema = {
             keepInPageOnReview: true,
           },
           'ui:required': (formData, index) =>
-            formData.childrenToAdd[`${index}`].reasonMarriageEnded === 'Other',
+            formData?.childrenToAdd[`${index}`]?.childPreviousMarriageDetails
+              ?.reasonMarriageEnded === 'Other',
         },
       },
     },
