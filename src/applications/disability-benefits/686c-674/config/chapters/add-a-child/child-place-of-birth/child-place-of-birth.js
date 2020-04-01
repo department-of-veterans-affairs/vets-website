@@ -33,7 +33,7 @@ export const schema = {
               dateBecameDependent: genericSchemas.date,
             },
           },
-          'view:marriageTypeInformation': {
+          'view:childStatusInformation': {
             type: 'object',
             properties: {},
           },
@@ -120,7 +120,8 @@ export const uiSchema = {
           },
         ),
       },
-      'view:marriageTypeInformation': {
+      'view:childStatusInformation': {
+        'ui:title': 'Additional evidence needed',
         'ui:description': childStatusDescription,
       },
       childPreviouslyMarried: {
