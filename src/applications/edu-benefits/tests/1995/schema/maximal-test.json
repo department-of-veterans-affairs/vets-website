@@ -21,7 +21,7 @@
       "mobilePhone": "4445551213"
     },
     "newSchoolName": "Test",
-    "educationType": "correspondence",    
+    "educationType": "correspondence",
     "newSchoolAddress": {
       "street": "123 Test St",
       "street2": "Below ground",
@@ -46,7 +46,6 @@
     },
     "trainingEndDate": "2018-03-02",
     "reasonForChange": "Stop reason",
-    "isActiveDuty": true,
     "view:housingPaymentInfo": {},
     "isEdithNourseRogersScholarship": false,
     "isEnrolledStem": true,
