@@ -1044,19 +1044,28 @@ describe('VAOS newAppointment actions', () => {
       });
       await thunk(dispatch, getState);
 
+      const dataLayer = global.window.dataLayer;
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(global.window.dataLayer[0]).to.deep.equal({
+      expect(dataLayer[0]).to.deep.equal({
         event: 'vaos-request-submission',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
       });
-      expect(global.window.dataLayer[1]).to.deep.equal({
+      expect(dataLayer[1]).to.deep.equal({
         event: 'vaos-request-submission-successful',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
+      });
+      expect(dataLayer[2]).to.deep.equal({
+        flow: undefined,
+        'health-TypeOfCare': undefined,
+        'health-ReasonForAppointment': undefined,
+        'error-key': undefined,
+        appointmentType: undefined,
+        facilityType: undefined,
       });
       expect(router.push.called).to.be.true;
     });
@@ -1198,6 +1207,14 @@ describe('VAOS newAppointment actions', () => {
         flow: 'va-request',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
+      });
+      expect(global.window.dataLayer[2]).to.deep.equal({
+        flow: undefined,
+        'health-TypeOfCare': undefined,
+        'health-ReasonForAppointment': undefined,
+        'error-key': undefined,
+        appointmentType: undefined,
+        facilityType: undefined,
       });
       expect(router.push.called).to.be.false;
     });
