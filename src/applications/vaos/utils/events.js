@@ -12,3 +12,14 @@ export function recordEligibilityFailure(errorKey) {
     event: `vaos-eligibility${errorKey ? `-${errorKey}` : ''}-failed`,
   });
 }
+
+export function resetDataLayer() {
+  recordEvent({
+    flow: undefined,
+    'health-TypeOfCare': undefined,
+    'health-ReasonForAppointment': undefined,
+    'error-key': undefined,
+    appointmentType: undefined,
+    facilityType: undefined,
+  });
+}
