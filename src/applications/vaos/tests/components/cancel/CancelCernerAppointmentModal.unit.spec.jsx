@@ -32,20 +32,4 @@ describe('VAOS <CancelCernerAppointmentModal>', () => {
 
     tree.unmount();
   });
-
-  it('should open my healthvet website in new tab', () => {
-    const onConfirm = sinon.spy();
-    const tree = mount(<CancelCernerAppointmentModal onConfirm={onConfirm} />);
-
-    // Click the go to My VA Health button
-    tree
-      .find('button')
-      .at(1)
-      .props()
-      .onClick();
-
-    expect(onConfirm.called).to.be.true;
-
-    tree.unmount();
-  });
 });

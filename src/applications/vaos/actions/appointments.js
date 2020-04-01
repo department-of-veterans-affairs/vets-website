@@ -1,11 +1,7 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import {
-  getMomentConfirmedDate,
-  isCommunityCare,
-  getCernerPortalLink,
-} from '../utils/appointment';
+import { getMomentConfirmedDate, isCommunityCare } from '../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
@@ -387,9 +383,4 @@ export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
   };
-}
-
-export function closeCancelCernerAppointment() {
-  window.open(getCernerPortalLink());
-  return { type: CANCEL_APPOINTMENT_CLOSED };
 }

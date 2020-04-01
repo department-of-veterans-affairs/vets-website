@@ -19,7 +19,6 @@ export default class CancelAppointmentModal extends React.Component {
       onClose,
       onConfirm,
       facility,
-      onCernerConfirm,
       cernerFacilities,
     } = this.props;
 
@@ -53,7 +52,6 @@ export default class CancelAppointmentModal extends React.Component {
       return (
         <CancelCernerAppointmentModal
           onClose={onClose}
-          onConfirm={onCernerConfirm}
           status={cancelAppointmentStatus}
         />
       );

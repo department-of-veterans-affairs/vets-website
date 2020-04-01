@@ -15,7 +15,6 @@ import {
   fetchPastAppointments,
   fetchRequestMessages,
   startNewAppointmentFlow,
-  closeCancelCernerAppointment,
 } from '../actions/appointments';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
@@ -231,7 +230,6 @@ export class AppointmentsPage extends Component {
         </div>
         <CancelAppointmentModal
           {...cancelInfo}
-          onCernerConfirm={this.props.closeCancelCernerAppointment}
           onConfirm={this.props.confirmCancelAppointment}
           onClose={this.props.closeCancelAppointment}
         />
@@ -266,7 +264,6 @@ const mapDispatchToProps = {
   fetchPastAppointments,
   fetchRequestMessages,
   startNewAppointmentFlow,
-  closeCancelCernerAppointment,
 };
 
 export default connect(
