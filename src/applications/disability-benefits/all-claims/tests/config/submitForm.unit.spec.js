@@ -2,10 +2,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import formConfig from '../../config/form';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 describe('Form 526 submit reject timer', () => {
   let xhr;
   let requests = [];
+
+  before(() => {
+    sinon.stub(localStorage, 'getItem');
+  });
 
   beforeEach(() => {
     xhr = sinon.useFakeXMLHttpRequest();
@@ -18,6 +23,10 @@ describe('Form 526 submit reject timer', () => {
     global.XMLHttpRequest = window.XMLHttpRequest;
     xhr.restore();
     requests = [];
+  });
+
+  after(() => {
+    localStorage.getItem.restore();
   });
 
   it('should trigger reject timer', async () => {
