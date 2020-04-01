@@ -148,7 +148,7 @@ export const SearchResult = ({ school, schoolIDs }) => (
 SearchResult.propTypes = {
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
-    insturl: PropTypes.number,
+    insturl: PropTypes.string,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,

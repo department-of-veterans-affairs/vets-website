@@ -54,7 +54,6 @@ describe('Yellow Ribbon container <SearchResults>', () => {
         'Warning or Equivalent-Factors Affecting Academic Quality (Concerns about issues affecting academic quality)',
       city: 'ABILENE',
       closure109: null,
-      country: 'USA',
       createdAt: '2019-12-11T17:31:21.000Z',
       distanceLearning: true,
       dodBah: 1062,
