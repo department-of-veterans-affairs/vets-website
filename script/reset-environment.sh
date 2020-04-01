@@ -24,6 +24,8 @@ else
 fi
 echo "Removing the node modules folder..."
 rm -rf ./node_modules
+echo "Removing Babel cache..."
+rm -rf ./.babelcache
 if [ $? -eq 0 ]; then
     echo "Successfully cleaned out the node modules folder."
     yarn install
