@@ -3,11 +3,9 @@ import React from 'react';
 import CallToActionAlert from '../../CallToActionAlert';
 import { verify } from 'platform/user/authentication/utilities';
 
-const verifyHandler = () => {
-  verify(this.props.useSSOe ? 'v1' : 'v0');
-};
-
 function NotAuthorized({ useSSOe }) {
+  const version = useSSOe ? 'v1' : 'v0';
+
   const content = {
     heading: 'Verify your identity to access more VA.gov tools and features',
     alertText: (
@@ -17,10 +15,7 @@ function NotAuthorized({ useSSOe }) {
           track your claims, refill your prescriptions, and download your VA
           benefit letters.
         </p>
-        <button
-          className="usa-button-primary"
-          onClick={() => verifyHandler(useSSOe)}
-        >
+        <button className="usa-button-primary" onClick={() => verify(version)}>
           Verify Your Identity
         </button>
         <p>
