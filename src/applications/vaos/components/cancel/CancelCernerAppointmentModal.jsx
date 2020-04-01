@@ -10,9 +10,9 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
       status="warning"
       visible
       onClose={onClose}
-      title="You cannot cancel this appointment here."
+      title="You can't cancel this appointment on the VA appointments tool."
     >
-      To cancel this appointment, sign in on My VA health.
+      To cancel this appointment, please go to My VA Health.
       <p className="vads-u-margin-top--2">
         <button
           onClick={() => {
@@ -20,14 +20,14 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
             onClose();
           }}
         >
-          Yes, go to My VA Health
+          Go to My VA Health
         </button>
         <button
           className="usa-button-secondary"
           onClick={onClose}
           disabled={status === FETCH_STATUS.loading}
         >
-          No, take me back
+          Go back to VA appointments
         </button>
       </p>
     </Modal>
