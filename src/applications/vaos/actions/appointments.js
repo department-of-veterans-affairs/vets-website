@@ -24,6 +24,12 @@ export const FETCH_FUTURE_APPOINTMENTS_FAILED =
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_SUCCEEDED';
 
+export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
+export const FETCH_PAST_APPOINTMENTS_FAILED =
+  'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
+export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
+
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
   'vaos/FETCH_REQUEST_MESSAGES_FAILED';
@@ -218,6 +224,55 @@ export function fetchFutureAppointments() {
           error,
         });
       }
+    }
+  };
+}
+
+export function fetchPastAppointments(startDate, endDate) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_PAST_APPOINTMENTS,
+    });
+
+    try {
+      const data = await Promise.all([
+        getConfirmedAppointments(
+          'va',
+          moment(startDate).toISOString(),
+          moment(endDate).toISOString(),
+        ),
+        getConfirmedAppointments('cc', startDate, endDate),
+      ]);
+
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+        data,
+        startDate,
+        endDate,
+      });
+
+      try {
+        const {
+          clinicInstitutionList,
+          facilityData,
+        } = await getAdditionalFacilityInfo(getState().appointments.past);
+
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            clinicInstitutionList,
+            facilityData,
+          });
+        }
+      } catch (error) {
+        captureError(error);
+      }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_FAILED,
+        error,
+      });
     }
   };
 }

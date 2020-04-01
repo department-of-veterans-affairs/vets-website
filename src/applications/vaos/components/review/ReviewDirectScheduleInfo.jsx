@@ -17,21 +17,21 @@ export default function ReviewDirectScheduleInfo({
       <h1 className="vaos-review__header vads-u-font-size--h2">{pageTitle}</h1>
       <Description data={data} flowType={FLOW_TYPES.DIRECT} />
       <TypeOfAppointmentSection data={data} />
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <AppointmentDate
         dates={data.calendarData.selectedDates}
         systemId={facility.rootStationCode}
       />
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">
         {clinic.clinicFriendlyLocationName || clinic.clinicName}
       </h3>
       {facility.authoritativeName}
       <br />
       {facility.city}, {facility.stateAbbrev}
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
-      <hr className="vads-u-margin-y--2" />
+      <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ContactDetailSection data={data} />
     </div>
   );

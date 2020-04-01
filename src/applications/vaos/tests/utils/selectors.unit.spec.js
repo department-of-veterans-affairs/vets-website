@@ -17,7 +17,6 @@ import {
   getCancelInfo,
   getCCEType,
   isWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -502,31 +501,6 @@ describe('VAOS selectors', () => {
         },
       };
       expect(isWelcomeModalDismissed(state)).to.be.false;
-    });
-  });
-  describe('selectIsCernerOnlyPatient', () => {
-    it('should return true if Cerner only', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [{ facilityId: '123', isCerner: true }],
-          },
-        },
-      };
-      expect(selectIsCernerOnlyPatient(state)).to.be.true;
-    });
-    it('should return false if not Cerner only', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [
-              { facilityId: '123', isCerner: true },
-              { facilityId: '124', isCerner: false },
-            ],
-          },
-        },
-      };
-      expect(selectIsCernerOnlyPatient(state)).to.be.false;
     });
   });
 });

@@ -44,6 +44,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         searchBoundsInProgress: false,
       };
     case FETCH_LOCATION_DETAIL:
+    case SEARCH_COMPLETE:
       return {
         ...state,
         error: false,
@@ -71,12 +72,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
-        inProgress: false,
-      };
-    case SEARCH_COMPLETE:
-      return {
-        ...state,
-        error: false,
         inProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
