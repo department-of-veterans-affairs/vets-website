@@ -50,7 +50,11 @@ const emailUIDescription = (
  * @param {string} addressPath - The path to the address in the formData
  * @param {string} [title] - Displayed as the card title in the card's header
  * @param {boolean} reviewCard - Whether to display the information in a AddressCardField or not
- * @param {boolean} fieldsAreRequired - Whether the typical fields should be required or not
+ * @param {boolean} useStreet3 - Show a third line in the address
+ * @param {function} isRequired - A function for conditionally setting if an address is required.
+ *  Receives formData and an index (if in an array item)
+ * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
+ *   customizations
  * @returns {object} - UI schema for an address card's content
  */
 
