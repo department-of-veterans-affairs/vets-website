@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
@@ -89,7 +89,7 @@ export function getEnrollmentDetails(
     blocks.push(
       <>
         <strong>You applied on: </strong>
-        {moment(applicationDate).format('MMMM D, YYYY')}
+        {format(Date.parse(applicationDate), 'MMMM d, yyyy')}
       </>,
     );
   }
@@ -98,7 +98,7 @@ export function getEnrollmentDetails(
     blocks.push(
       <>
         <strong>We enrolled you on: </strong>
-        {moment(enrollmentDate).format('MMMM D, YYYY')}
+        {format(Date.parse(enrollmentDate), 'MMMM d, yyyy')}
       </>,
     );
   }
@@ -971,7 +971,7 @@ export function getAlertContent(
     blocks.push(
       <p key="you-applied-on">
         <strong>You applied on:</strong>{' '}
-        {moment(applicationDate).format('MMMM D, YYYY')}
+        {format(Date.parse(applicationDate), 'MMMM d, yyyy')}
       </p>,
     );
   }
