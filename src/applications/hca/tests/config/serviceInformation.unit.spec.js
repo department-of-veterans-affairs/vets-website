@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import moment from 'moment';
+import { format, addDays } from 'date-fns';
 
 import {
   DefinitionTester,
@@ -70,9 +70,7 @@ describe('Hca serviceInformation', () => {
     fillDate(
       form,
       'root_lastDischargeDate',
-      moment()
-        .add(130, 'days')
-        .format('YYYY-MM-DD'),
+      format(addDays(Date.now(), 130), 'yyyy-MM-dd'),
     );
     fillData(form, 'select#root_dischargeType', 'general');
 
