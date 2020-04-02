@@ -38,28 +38,15 @@ export const YellowRibbonApp = ({ results }) => (
           {/* Pre-form content */}
           {results ? (
             <>
-              <p>
-                If you receive Post-9/11 GI Bill benefits, the Yellow Ribbon
-                Program can help you pay for tuition that the Post-9/11 GI Bill
-                doesn&apos;t cover.
+              <p className="vads-l-col--9">
+                Participating school information on this page is valid for the
+                current academic year, from August 2019 through July 2020. To
+                view schools for the previous academic year,{' '}
+                <a href="" rel="noreferrer noopener">
+                  download 2018 - 2019 rates (PDF)
+                </a>
+                .
               </p>
-              <ul>
-                <li>
-                  <a href="" rel="noopener noreferrer">
-                    Find out if you&apos;re eligible for the Post-9/11 GI Bill
-                  </a>
-                </li>
-                <li>
-                  <a href="" rel="noopener noreferrer">
-                    Find out if you qualify for the Yellow Ribbon Program
-                  </a>
-                </li>
-                <li>
-                  <a href="" rel="noopener noreferrer">
-                    Apply for Post-9/11 GI Bill benefits
-                  </a>
-                </li>
-              </ul>
             </>
           ) : (
             <>
@@ -71,29 +58,37 @@ export const YellowRibbonApp = ({ results }) => (
                 you get varies by school, degree type, and the program
                 you&apos;re enrolled in.
               </p>
+
               <a
                 href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
                 rel="noopener noreferrer"
               >
                 Find out if you qualify for the Yellow Ribbon Program.
               </a>
+
               <p>
                 If you don&apos;t already have Post-9/11 GI Bill benefits, you
                 can:
               </p>
+
               <ul>
                 <li>
                   <a href="/education/eligibility/" rel="noreferrer noopener">
                     Find out if you&apos;re eligible for the Post-9/11 GI Bill
                   </a>
                 </li>
+
                 <li>
                   <a href="/education/how-to-apply/" rel="noreferrer noopener">
                     Apply for Post-9/11 GI Bill benefits
                   </a>
                 </li>
               </ul>
-              <p>Search for schools by one or all of the terms below.</p>
+
+              <p>
+                Search for schools participating in the current academic year by
+                one or all of the terms below.
+              </p>
             </>
           )}
         </div>
@@ -103,13 +98,50 @@ export const YellowRibbonApp = ({ results }) => (
           {results && (
             <h3 className="vads-u-margin-top--1p5">Search criteria</h3>
           )}
+
           <SearchForm />
+
+          {results && (
+            <>
+              <h3>Search criteria</h3>
+              <p>
+                <a href="/education/eligibility/" rel="noopener noreferrer">
+                  Find out if you&apos;re eligible for the Post-9/11 GI Bill
+                </a>
+              </p>
+              <p>
+                <a
+                  href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+                  rel="noopener noreferrer"
+                >
+                  Find out if you qualify for the Yellow Ribbon Program
+                </a>
+              </p>
+              <p>
+                <a href="/education/how-to-apply/" rel="noopener noreferrer">
+                  Apply for Post-9/11 GI Bill benefits
+                </a>
+              </p>
+            </>
+          )}
         </div>
 
         {/* Search Results */}
         <div className="vads-l-col--9 vads-u-padding-left--4">
           <SearchResults />
         </div>
+
+        {/* Post-Form Content */}
+        {!results && (
+          <p className="vads-l-col--7">
+            Participating school information is for the current academic year.
+            To view schools for the previous academic year,{' '}
+            <a href="" rel="noreferrer noopener">
+              download the historical rates (PDF)
+            </a>
+            .
+          </p>
+        )}
       </div>
     </div>
   </>
