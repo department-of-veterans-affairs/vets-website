@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class ProfileHeader extends Component {
   static defaultProps = {
@@ -10,6 +11,16 @@ class ProfileHeader extends Component {
     },
     // defaulting to Army for now as placeholder
     latestBranchOfService: 'A',
+  };
+
+  static propTypes = {
+    userFullName: PropTypes.shape({
+      first: PropTypes.string.isRequired,
+      middle: PropTypes.string.isRequired,
+      last: PropTypes.string.isRequired,
+    }).isRequired,
+    // defaulting to Army for now as placeholder
+    latestBranchOfService: PropTypes.string.isRequired,
   };
 
   render() {
