@@ -7,9 +7,9 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import moment from 'moment';
-import LoadFail from './LoadFail';
-import LoadingSection from './LoadingSection';
-import { handleDowntimeForSection } from './DowntimeBanner';
+import LoadFail from 'applications/personalization/profile360/components/LoadFail';
+import LoadingSection from 'applications/personalization/profile360/components/LoadingSection';
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
@@ -85,8 +85,8 @@ class MilitaryInformationContent extends React.Component {
       <table className="militaryInformation" data-field-name="serviceHistory">
         <thead>
           <tr>
-            <th colSpan="2">
-              <h3>Period of Service</h3>
+            <th>
+              <h3>Period of service</h3>
             </th>
           </tr>
         </thead>
@@ -94,15 +94,13 @@ class MilitaryInformationContent extends React.Component {
           {serviceHistory.map((service, index) => (
             <tr key={index}>
               <td>
-                <span>
-                  <h4 className="vads-u-font-family--sans .vads-u-font-size--base .vads-u-font-weight--bold">
-                    {service.branchOfService}
-                  </h4>
-                </span>
-                <span>
-                  {moment(service.beginDate).format('MMM D, YYYY')} &ndash;{' '}
-                  {moment(service.endDate).format('MMM D, YYYY')}
-                </span>
+                <h4 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--bold">
+                  {service.branchOfService}
+                </h4>
+              </td>
+              <td>
+                {moment(service.beginDate).format('MMM D, YYYY')} &ndash;{' '}
+                {moment(service.endDate).format('MMM D, YYYY')}
               </td>
             </tr>
           ))}
@@ -165,7 +163,7 @@ class MilitaryInformation extends Component {
     return (
       <div>
         <h2 className="va-profile-heading" tabIndex="-1">
-          Military Information
+          Military information
         </h2>
         <DowntimeNotification
           render={handleDowntimeForSection('military service')}
