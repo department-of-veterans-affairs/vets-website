@@ -213,6 +213,7 @@ export function getFacilityPageInfo(state) {
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
+    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities:
       selectPatientFacilities(state)
