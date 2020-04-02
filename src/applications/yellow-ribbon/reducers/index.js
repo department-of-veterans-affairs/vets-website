@@ -15,6 +15,7 @@ import {
 const initialState = {
   error: '',
   fetching: false,
+  hasFetchedOnce: false,
   page: 1,
   perPage: 10,
   results: undefined,
@@ -41,6 +42,7 @@ export const yellowRibbonReducer = (state = initialState, action) => {
         ...state,
         error: '',
         fetching: !action?.options?.hideFetchingState,
+        hasFetchedOnce: true,
         page: action?.options?.page || state?.page,
       };
     }
