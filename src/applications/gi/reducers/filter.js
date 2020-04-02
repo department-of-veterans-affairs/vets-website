@@ -16,13 +16,10 @@ const INITIAL_STATE = Object.freeze({
 });
 
 export default function(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case INSTITUTION_FILTER_CHANGED:
-      return {
+  return action.type === INSTITUTION_FILTER_CHANGED
+    ? {
         ...INITIAL_STATE,
         ...action.filter,
-      };
-    default:
-      return { ...state };
-  }
+      }
+    : { ...state };
 }

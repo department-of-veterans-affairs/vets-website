@@ -12,7 +12,7 @@ export const InjuredLineOfDutyInto = () => (
 );
 
 export const PrimaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="Learn more about Primary Caregiver">
+  <AdditionalInfo triggerText="What is a primary family caregiver">
     <p>
       A Family Member (defined herein), who is designated as a "primary provider
       of personal care services" under
@@ -43,7 +43,7 @@ export const PrimaryCaregiverInfo = () => (
 );
 
 export const SecondaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="Learn more about Secondary Caregiver">
+  <AdditionalInfo triggerText="What is a secondary family caregiver">
     <p>
       An individual approved as a "provider of personal care services" for the
       eligible Veteran under{' '}
@@ -91,7 +91,7 @@ export const CHAMPVAInfo = () => (
 );
 
 export const CaregiverSupportInfo = () => (
-  <AdditionalInfo triggerText="Learn more about Caregiver Support Coordinator">
+  <AdditionalInfo triggerText="What is a caregiver support coordinator?">
     Caregiver Support Coordinators (CSC) connect caregivers with VA and
     community resources. They are located at every VA medical center and
     specialize in caregiving issues.
@@ -106,14 +106,14 @@ export const CaregiverSupportInfo = () => (
 );
 
 export const PowerOfAttorneyInfo = () => (
-  <AdditionalInfo triggerText="Learn more about Power of Attorney">
+  <AdditionalInfo triggerText="What is power of attorney?">
     Power of attorney authorizes someone to act on the behalf of a Veteran or
     service member when completing this form.
   </AdditionalInfo>
 );
 
 export const RepresentativeInfo = () => (
-  <AdditionalInfo triggerText="Learn more about Representative">
+  <AdditionalInfo triggerText="Who can be a representative?">
     Refers to a Veteran's or Servicemember's court-appointed legal guardian or
     special guardian Durable POA for Health Care, or other designated health
     care agent. Attach POA/Representation documents to the application if
