@@ -10,7 +10,7 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
       status="warning"
       visible
       onClose={onClose}
-      title="You can't cancel this appointment on the VA appointments tool."
+      title="You can’t cancel this appointment on the VA appointments tool."
     >
       To cancel this appointment, please go to My VA Health.
       <p className="vads-u-margin-top--2">

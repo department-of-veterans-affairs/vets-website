@@ -37,13 +37,13 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
-export const selectFacilities = state =>
-  selectPatientFacilities(state)?.filter(
-    f => !f.facilityId.startsWith('742'),
-  ) || null;
+// export const selectFacilities = state =>
+//   selectPatientFacilities(state)?.filter(
+//     f => !f.facilityId.startsWith('742'),
+//   ) || null;
 
 export const selectCernerFacilities = state =>
-  selectFacilities(state)
+  selectPatientFacilities(state)
     ?.filter(f => f.isCerner)
     .map(f => f.facilityId) || [];
 
