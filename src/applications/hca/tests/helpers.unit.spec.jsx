@@ -7,7 +7,6 @@ import {
   getMedicalCenterNameByID,
   getOffsetTime,
   getAdjustedTime,
-  isBeforeCentralTimeDate,
   transformAttachments,
 } from '../helpers.jsx';
 
@@ -110,14 +109,6 @@ describe('HCA helpers', () => {
   describe('getAdjustedTime', () => {
     it('should determine utc time', () => {
       expect(getAdjustedTime(1, 1)).to.equal(2);
-    });
-  });
-  describe('isBeforeCentralTimeDate', () => {
-    it('should return true if the discharge date is after the Central Time reference date', () => {
-      expect(isBeforeCentralTimeDate('9999-12-24')).to.be.false;
-    });
-    it('should return false if the discharge date is not after the Central Time reference date', () => {
-      expect(isBeforeCentralTimeDate('2000-12-12')).to.be.true;
     });
   });
   describe('transformAttachments', () => {

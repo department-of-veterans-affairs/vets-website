@@ -590,12 +590,6 @@ export function getCSTDate() {
   return new Date(centralTime);
 }
 
-export function isBeforeCentralTimeDate(date) {
-  const lastDischargeDate = moment(date, 'YYYY-MM-DD');
-  const centralTimeDate = moment(getCSTDate());
-  return lastDischargeDate.isBefore(centralTimeDate.startOf('day'));
-}
-
 export function validateDate(date) {
   const newDate = moment(date, 'YYYY-MM-DD');
   const day = newDate.date();
