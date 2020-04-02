@@ -21,7 +21,7 @@ export class SearchResults extends Component {
         // Original form data key-value pairs.
         city: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        schoolNameInYrDatabase: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         state: PropTypes.string.isRequired,
       }).isRequired,
     ),
