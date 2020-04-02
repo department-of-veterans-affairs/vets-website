@@ -118,10 +118,6 @@ function validateIfDirtyDate(dayField, monthField, yearField, validator) {
   return true;
 }
 
-function isValidDateField(field) {
-  return isValidDate(field.day.value, field.month.value, field.year.value);
-}
-
 function isValidDateRange(fromDate, toDate) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
@@ -261,7 +257,6 @@ export {
   isNotBlank,
   isNotBlankDateField,
   isValidDate,
-  isValidDateField,
   isValidDateRange,
   isValidEmail,
   isValidFullNameField,
