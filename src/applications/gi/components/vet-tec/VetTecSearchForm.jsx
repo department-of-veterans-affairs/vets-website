@@ -2,14 +2,12 @@ import React from 'react';
 
 import KeywordSearch from '../search/KeywordSearch';
 import CheckboxGroup from '../CheckboxGroup';
-import Checkbox from '../Checkbox';
 import { addAllOption, getStateNameForCode } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
-import { renderLearnMoreLabel } from '../../utils/render';
-import { ariaLabels } from '../../constants';
 import environment from 'platform/utilities/environment';
+import CautionaryWarningsFilter from '../search/CautionaryWarningsFilter';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -52,14 +50,6 @@ class VetTecSearchForm extends React.Component {
     const { name: field, checked: value } = e.target;
     this.props.handleFilterChange(field, value);
   };
-
-  renderProfileCautionFlagModals = () =>
-    renderLearnMoreLabel({
-      modal: 'cautionaryWarnings',
-      showModal: this.props.showModal,
-      ariaLabel: ariaLabels.learnMore.cautionaryWarning,
-      component: this,
-    });
 
   renderLearningFormat = () => {
     const { inPerson, online } = this.props.eligibility.learningFormat;
@@ -132,22 +122,6 @@ class VetTecSearchForm extends React.Component {
     );
   };
 
-  renderCautionaryWarningsFilter = () => {
-    const { filters } = this.props;
-
-    return (
-      <div>
-        <p>Cautionary Warnings {this.renderProfileCautionFlagModals()}</p>
-        <Checkbox
-          checked={filters.excludeCautionFlags}
-          name="excludeCautionFlags"
-          label="Exclude institutions with warnings"
-          onChange={this.handleCheckboxChange}
-        />
-      </div>
-    );
-  };
-
   renderFilterBy = () => (
     <VetTecFilterBy
       showModal={this.props.showModal}
@@ -183,9 +157,15 @@ class VetTecSearchForm extends React.Component {
 
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
-            {environment.isProduction()
-              ? ''
-              : this.renderCautionaryWarningsFilter()}
+            {environment.isProduction() ? (
+              ''
+            ) : (
+              <CautionaryWarningsFilter
+                excludeCautionFlags={this.props.filters.excludeCautionFlags}
+                onChange={this.handleCheckboxChange}
+                showModal={this.props.showModal}
+              />
+            )}
             {this.renderFilterBy()}
           </div>
           <div className="results-button">

@@ -3,8 +3,6 @@ import React from 'react';
 
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
-import { renderLearnMoreLabel } from '../../utils/render';
-import { ariaLabels } from '../../constants';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
 import {
   addAllOption,
@@ -12,6 +10,7 @@ import {
   sortOptionsByStateName,
 } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
+import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -23,14 +22,6 @@ class InstitutionFilterForm extends React.Component {
     const { name: field, checked: value } = e.target;
     this.props.handleFilterChange(field, value);
   };
-
-  renderProfileCautionFlagModal = () =>
-    renderLearnMoreLabel({
-      modal: 'cautionaryWarnings',
-      showModal: this.props.showModal,
-      ariaLabel: ariaLabels.learnMore.cautionaryWarning,
-      component: this,
-    });
 
   renderCategoryFilter = () => (
     <SearchResultTypeOfInstitutionFilter
@@ -75,25 +66,6 @@ class InstitutionFilterForm extends React.Component {
         onChange={this.handleDropdownChange}
         visible
       />
-    );
-  };
-
-  renderCautionaryWarningsFilter = () => {
-    const { filters } = this.props;
-
-    return (
-      <div>
-        <p>
-          Cautionary Warnings
-          {this.renderProfileCautionFlagModal()}
-        </p>
-        <Checkbox
-          checked={filters.excludeCautionFlags}
-          name="excludeCautionFlags"
-          label="Exclude institutions with warnings"
-          onChange={this.handleCheckboxChange}
-        />
-      </div>
     );
   };
 
@@ -178,9 +150,15 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
-        {environment.isProduction()
-          ? ''
-          : this.renderCautionaryWarningsFilter()}
+        {environment.isProduction() ? (
+          ''
+        ) : (
+          <CautionaryWarningsFilter
+            excludeCautionFlags={this.props.filters.excludeCautionFlags}
+            onChange={this.handleCheckboxChange}
+            showModal={this.props.showModal}
+          />
+        )}
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
