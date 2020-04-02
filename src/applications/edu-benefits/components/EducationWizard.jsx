@@ -3,6 +3,8 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import { educationWizard1995s } from '../selectors/educationWizard';
+import { connect } from 'react-redux';
 
 const levels = [
   ['newBenefit'],
@@ -13,7 +15,7 @@ const levels = [
   ['applyForScholarship'],
 ];
 
-export default class EducationWizard extends React.Component {
+export class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -129,6 +131,10 @@ export default class EducationWizard extends React.Component {
       vetTecBenefit,
       applyForScholarship,
     } = this.state;
+
+    const { show1995s } = this.props;
+
+    const form1995 = show1995s ? '1995s' : '1995';
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
@@ -422,7 +428,8 @@ export default class EducationWizard extends React.Component {
                   label="Based on the eligibility requirements above, do you want to apply for this scholarship?"
                 />
                 <div className="vads-u-padding-top--2">
-                  {(applyForScholarship === 'yes' && this.getButton('1995')) ||
+                  {(applyForScholarship === 'yes' &&
+                    this.getButton(form1995)) ||
                     (applyForScholarship === 'no' && (
                       <p>
                         Learn what other education benefits you may be eligible
@@ -444,7 +451,7 @@ export default class EducationWizard extends React.Component {
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
-              this.getButton('1995')}
+              this.getButton(form1995)}
             {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
               this.getButton('5495')}
@@ -463,3 +470,9 @@ export default class EducationWizard extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  show1995s: educationWizard1995s(state),
+});
+
+export default connect(mapStateToProps)(EducationWizard);
