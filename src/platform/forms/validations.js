@@ -122,18 +122,6 @@ function validateIfDirtyDate(dayField, monthField, yearField, validator) {
   return true;
 }
 
-function isValidAnyDate(day, month, year) {
-  if (!isValidYear(year)) {
-    return false;
-  }
-
-  return moment({
-    day,
-    month: month ? parseInt(month, 10) - 1 : month,
-    year,
-  }).isValid();
-}
-
 function isValidPartialDate(day, month, year) {
   if (year && !isValidYear(year)) {
     return false;
@@ -361,7 +349,6 @@ export {
   isFullDate,
   isNotBlank,
   isNotBlankDateField,
-  isValidAnyDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrFutureMonthYear,
   isValidFutureDate,
