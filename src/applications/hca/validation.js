@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { addYears, endOfDay, format, isAfter } from 'date-fns';
 import _ from 'lodash/fp';
 import {
   convertToDateField,
@@ -13,9 +14,7 @@ function calculateEndDate() {
   return {
     endDateLimit,
     description,
-    endDate: moment()
-      .endOf('day')
-      .add(endDateLimit, 'years'),
+    endDate: addYears(endOfDay(Date.now()), endDateLimit),
   };
 }
 
@@ -31,19 +30,20 @@ export function validateServiceDates(
   // TODO: Use a constant instead of a magic string
   if (
     !isValidDateRange(fromDate, toDate) ||
-    moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDateInfo.endDate)
+    isAfter(Date.parse(lastDischargeDate), endDateInfo.endDate)
   ) {
     errors.lastDischargeDate.addError(
-      `Discharge date must be after the service period start date and before ${endDateInfo.endDate.format(
-        'MMMM D, YYYY',
+      `Discharge date must be after the service period start date and before ${format(
+        endDateInfo.endDate,
+        'MMMM d, yyyy',
       )} (${endDateInfo.description} from today)`,
     );
   }
 
   if (veteranDateOfBirth) {
-    const dateOfBirth = moment(veteranDateOfBirth);
+    const dateOfBirth = Date.parse(veteranDateOfBirth);
 
-    if (dateOfBirth.add(15, 'years').isAfter(moment(lastEntryDate))) {
+    if (isAfter(addYears(dateOfBirth, 15), Date.parse(lastEntryDate))) {
       errors.lastEntryDate.addError(
         'You must have been at least 15 years old when you entered the service',
       );

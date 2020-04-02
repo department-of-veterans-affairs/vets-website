@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
+import { addDays, addYears, format } from 'date-fns';
 
 import {
   validateServiceDates,
@@ -39,9 +39,7 @@ describe('hca validation', () => {
       validateServiceDates(
         errors,
         {
-          lastDischargeDate: moment()
-            .add(367, 'days')
-            .format('YYYY-MM-DD'),
+          lastDischargeDate: format(addDays(Date.now(), 367), 'yyyy-MM-dd'),
           lastEntryDate: '2011-01-01',
         },
         {},
@@ -57,9 +55,7 @@ describe('hca validation', () => {
       validateServiceDates(
         errors,
         {
-          lastDischargeDate: moment()
-            .add(1, 'year')
-            .format('YYYY-MM-DD'),
+          lastDischargeDate: format(addYears(Date.now(), 1), 'yyyy-MM-dd'),
           lastEntryDate: '2011-01-01',
         },
         {},
