@@ -1,7 +1,7 @@
 const mock = require('platform/testing/e2e/mock-helpers');
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 const Auth = require('platform/testing/e2e/auth.js');
-const moment = require('moment');
+const { addDays, getUnixTime } = require('date-fns');
 const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 function completeIDForm(client, data) {
@@ -484,9 +484,7 @@ function initSaveInProgressMock(url, client) {
               last_updated: 1501608808,
               metadata: {
                 last_updated: 1506792808,
-                expires_at: moment()
-                  .add(1, 'day')
-                  .unix(),
+                expires_at: getUnixTime(addDays(Date.now(), 1)),
               },
             },
           ],
@@ -537,9 +535,7 @@ function initSaveInProgressMock(url, client) {
         version: 0,
         returnUrl: '/veteran-information/birth-information',
         savedAt: 1498588443698,
-        expires_at: moment()
-          .add(1, 'day')
-          .unix(),
+        expires_at: getUnixTime(addDays(Date.now(), 1)),
         last_updated: 1498588443,
       },
     },
@@ -555,9 +551,7 @@ function initSaveInProgressMock(url, client) {
             version: 0,
             returnUrl: '/veteran-information/birth-information',
             savedAt: 1498588443698,
-            expires_at: moment()
-              .add(1, 'day')
-              .unix(),
+            expires_at: getUnixTime(addDays(Date.now(), 1)),
             last_updated: 1498588443,
           },
         },
