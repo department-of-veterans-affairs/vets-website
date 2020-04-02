@@ -163,11 +163,6 @@ function isValidPartialMonthYear(month, year) {
   return isValidPartialDate(null, null, year);
 }
 
-function isValidFutureDate(day, month, year) {
-  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
-  return momentDate.isAfter(moment().endOf('day'), 'day');
-}
-
 function isValidCurrentOrFutureMonthYear(month, year) {
   const momentDate = moment({ month: parseInt(month, 10) - 1, year });
   return momentDate.isSameOrAfter(moment(), 'month');
@@ -319,7 +314,6 @@ export {
   isNotBlank,
   isNotBlankDateField,
   isValidCurrentOrFutureMonthYear,
-  isValidFutureDate,
   isValidDate,
   isValidDateField,
   isValidDateOver17,
