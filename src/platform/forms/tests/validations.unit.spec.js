@@ -5,7 +5,6 @@ import moment from 'moment';
 import {
   isBlank,
   isNotBlank,
-  isValidCurrentOrPastDate,
   isValidDate,
   isValidDateOver17,
   isValidDateRange,
@@ -190,36 +189,6 @@ describe('Validations unit tests', () => {
         },
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.true;
-    });
-  });
-
-  describe('isValidCurrentOrPastDate', () => {
-    it('should validate past date', () => {
-      expect(isValidCurrentOrPastDate('2', '2', '2000')).to.be.true;
-    });
-    it('should validate current date', () => {
-      expect(
-        isValidCurrentOrPastDate(
-          moment()
-            .date()
-            .toString(),
-          (moment().month() + 1).toString(),
-          moment()
-            .year()
-            .toString(),
-        ),
-      ).to.be.true;
-    });
-    it('should not validate date in future', () => {
-      expect(
-        isValidCurrentOrPastDate(
-          (moment().date() + 1).toString(),
-          (moment().month() + 1).toString(),
-          moment()
-            .year()
-            .toString(),
-        ),
-      ).to.be.false;
     });
   });
 
