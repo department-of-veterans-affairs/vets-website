@@ -7,7 +7,6 @@ import URLSearchParams from 'url-search-params';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { ssoe } from 'platform/user/authentication/selectors';
-
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 import {
