@@ -17,6 +17,7 @@ module.exports = `
         ... numberCallout
         ... reactWidget
         ... table
+        ... alertParagraph
       }
     }
   }
