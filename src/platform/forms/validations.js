@@ -60,10 +60,6 @@ function isValidYear(value) {
   );
 }
 
-function isValidYearOrBlank(value) {
-  return isValidYear(value) || value === '';
-}
-
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -308,7 +304,6 @@ export {
   isValidSSN,
   isValidValue,
   isValidYear,
-  isValidYearOrBlank,
   validateCustomFormComponent,
   validateIfDirty,
   validateIfDirtyDate,
