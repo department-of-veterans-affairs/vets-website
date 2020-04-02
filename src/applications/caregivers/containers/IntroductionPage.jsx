@@ -42,16 +42,18 @@ const IntroductionPage = ({ route, router }) => {
 
   const ProcessTimeline = () => (
     <>
-      <h4>Follow the steps below to apply for Caregiver benefits</h4>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
+        Follow the steps below to apply for Caregiver benefits
+      </h2>
       <article className="schemaform-process vads-u-padding-bottom--2p5">
         <div>
           {/* prepare */}
           <section className="process-step list-one">
-            <h5>Prepare</h5>
-            <h6>
+            <h3 className="vads-u-font-size--h4">Prepare</h3>
+            <p>
               To fill out this application, you'll need the Veteran and
               Caregiver(s):
-            </h6>
+            </p>
 
             <ul>
               <li>Address</li>
@@ -62,10 +64,12 @@ const IntroductionPage = ({ route, router }) => {
             </ul>
 
             <div>
-              <h5>What if I need help filling out my application?</h5>
+              <h4 className="vads-u-font-size--h6">
+                What if I need help filling out my application?
+              </h4>
               <p>
                 An accredited representative, like a Veterans Service Officer
-                (VSO), can help you fill out your claim. {''}
+                (VSO), can help you fill out your claim.
                 <a
                   href="https://www.caregiver.va.gov/help_landing.asp"
                   target="_blank"
@@ -81,20 +85,23 @@ const IntroductionPage = ({ route, router }) => {
 
           {/* Apply */}
           <section className="process-step list-two">
-            <h5>Apply</h5>
+            <h3 className="vads-u-font-size--h4">Apply</h3>
             <p>
               Complete this Caregiver benefits form or have a Power of
               Attorney/Representative complete form. You’ll get a confirmation
               message after submitting the form. You can print this for your
               records.
             </p>
-            <PowerOfAttorneyInfo />
+
+            <div className="vads-u-margin-bottom--2p5">
+              <PowerOfAttorneyInfo />
+            </div>
             <RepresentativeInfo />
           </section>
 
           {/* Review */}
           <section className="process-step list-three">
-            <h5>VA Review</h5>
+            <h3 className="vads-u-font-size--h4">VA Review</h3>
             <p>
               A caregiver support coordinator will review the application and
               contact you or your caregiver about your eligibility.
@@ -119,7 +126,7 @@ const IntroductionPage = ({ route, router }) => {
           </section>
           {/* Decision */}
           <div className="process-step list-four vads-u-padding-bottom--0">
-            <h5>Decision</h5>
+            <h3 className="vads-u-font-size--h4">Decision</h3>
             <p>
               Once we’ve reviewed your application, you’ll get a notice in the
               mail with our decision.
@@ -131,7 +138,7 @@ const IntroductionPage = ({ route, router }) => {
   );
 
   return (
-    <div className="schemaform-intro caregiver-intro-page">
+    <div className="schemaform-intro">
       <FormTitle title="Apply for Caregiver Benefits" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
 
