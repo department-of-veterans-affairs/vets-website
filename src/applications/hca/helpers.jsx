@@ -596,10 +596,6 @@ export function isBeforeCentralTimeDate(date) {
   return lastDischargeDate.isBefore(centralTimeDate.startOf('day'));
 }
 
-export function isAfterCentralTimeDate(date) {
-  return !isBeforeCentralTimeDate(date);
-}
-
 export function validateDate(date) {
   const newDate = moment(date, 'YYYY-MM-DD');
   const day = newDate.date();
