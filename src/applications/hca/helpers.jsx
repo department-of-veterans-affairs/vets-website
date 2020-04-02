@@ -536,60 +536,6 @@ export const idFormUiSchema = {
   },
 };
 
-/**
- *
- * Provides the current Central Time CT offset according to whether or not daylight savings is in effect
- * @export
- * @param {boolean} isDST
- * @returns {number} offset in minutes
- */
-export function getCSTOffset(isDST) {
-  const offsetHours = isDST ? -5 : -6;
-  return offsetHours * 60;
-}
-
-/**
- *
- * Converts a timezone offset into milliseconds
- * @export
- * @param {number} offset (in minutes)
- */
-export function getOffsetTime(offset) {
-  return 60000 * offset;
-}
-
-/**
- *
- * Adjusts a given time using an offset
- * @export
- * @param {number} time (in milliseconds)
- * @param {number} offset (in milliseconds)
- */
-export function getAdjustedTime(time, offset) {
-  return time + offset;
-}
-
-/**
- * Provides a current date object in Central Time CT
- * Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
- */
-export function getCSTDate() {
-  const today = new Date();
-  const isDST = moment().isDST();
-  const cstOffset = getCSTOffset(isDST);
-
-  // The UTC and Central Time times are defined in milliseconds
-  // UTC time is determined by adding the local offset to the local time
-  const utcTime = getAdjustedTime(
-    today.getTime(),
-    getOffsetTime(today.getTimezoneOffset()),
-  );
-
-  // Central Time is determined by adjusting the UTC time (derived above) using the CST offset
-  const centralTime = getAdjustedTime(utcTime, getOffsetTime(cstOffset));
-  return new Date(centralTime);
-}
-
 export function validateDate(date) {
   const newDate = moment(date, 'YYYY-MM-DD');
   const day = newDate.date();

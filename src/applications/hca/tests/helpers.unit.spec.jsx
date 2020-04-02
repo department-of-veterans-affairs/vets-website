@@ -3,10 +3,7 @@ import { expect } from 'chai';
 import {
   didEnrollmentStatusChange,
   expensesLessThanIncome,
-  getCSTOffset,
   getMedicalCenterNameByID,
-  getOffsetTime,
-  getAdjustedTime,
   transformAttachments,
 } from '../helpers.jsx';
 
@@ -93,24 +90,7 @@ describe('HCA helpers', () => {
         .be.true;
     });
   });
-  describe('getCSTOffset', () => {
-    it('should return -300 if is daylight savings time', () => {
-      expect(getCSTOffset(true)).to.equal(-300);
-    });
-    it('should return -360 if is not daylight savings time', () => {
-      expect(getCSTOffset(false)).to.equal(-360);
-    });
-  });
-  describe('getOffsetTime', () => {
-    it('should convert an offset number of minutes into milliseconds', () => {
-      expect(getOffsetTime(1)).to.equal(60000);
-    });
-  });
-  describe('getAdjustedTime', () => {
-    it('should determine utc time', () => {
-      expect(getAdjustedTime(1, 1)).to.equal(2);
-    });
-  });
+
   describe('transformAttachments', () => {
     it('should do nothing if there are no attachments to transform', () => {
       const inputData = { firstName: 'Pat' };
