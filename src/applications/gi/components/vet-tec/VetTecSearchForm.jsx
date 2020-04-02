@@ -9,6 +9,7 @@ import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
+import environment from 'platform/utilities/environment';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -138,8 +139,8 @@ class VetTecSearchForm extends React.Component {
       <div>
         <p>Cautionary Warnings {this.renderProfileCautionFlagModals()}</p>
         <Checkbox
-          checked={filters.cautionFlag}
-          name="cautionFlag"
+          checked={filters.excludeCautionFlags}
+          name="excludeCautionFlags"
           label="Exclude institutions with warnings"
           onChange={this.handleCheckboxChange}
         />
@@ -182,7 +183,9 @@ class VetTecSearchForm extends React.Component {
 
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
-            {this.renderCautionaryWarningsFilter()}
+            {environment.isProduction()
+              ? ''
+              : this.renderCautionaryWarningsFilter()}
             {this.renderFilterBy()}
           </div>
           <div className="results-button">

@@ -3,14 +3,15 @@ import React from 'react';
 
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
-// import { renderLearnMoreLabel } from '../../utils/render';
-// import { ariaLabels } from '../../constants';
+import { renderLearnMoreLabel } from '../../utils/render';
+import { ariaLabels } from '../../constants';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
 import {
   addAllOption,
   getStateNameForCode,
   sortOptionsByStateName,
 } from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -23,14 +24,13 @@ class InstitutionFilterForm extends React.Component {
     this.props.handleFilterChange(field, value);
   };
 
-  // renderProfileCautionFlagModals = () => {
-  //   renderLearnMoreLabel({
-  //     modal: 'cautionaryWarnings',
-  //     showModal: this.props.showModal,
-  //     ariaLabel: ariaLabels.learnMore.cautionaryWarning,
-  //     component: this,
-  //   });
-  // };
+  renderProfileCautionFlagModal = () =>
+    renderLearnMoreLabel({
+      modal: 'cautionaryWarnings',
+      showModal: this.props.showModal,
+      ariaLabel: ariaLabels.learnMore.cautionaryWarning,
+      component: this,
+    });
 
   renderCategoryFilter = () => (
     <SearchResultTypeOfInstitutionFilter
@@ -85,11 +85,11 @@ class InstitutionFilterForm extends React.Component {
       <div>
         <p>
           Cautionary Warnings
-          {/* {renderProfileCautionFlagModals()} */}
+          {this.renderProfileCautionFlagModal()}
         </p>
         <Checkbox
-          checked={filters.cautionFlag}
-          name="cautionFlag"
+          checked={filters.excludeCautionFlags}
+          name="excludeCautionFlags"
           label="Exclude institutions with warnings"
           onChange={this.handleCheckboxChange}
         />
@@ -178,7 +178,9 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
-        {this.renderCautionaryWarningsFilter()}
+        {environment.isProduction()
+          ? ''
+          : this.renderCautionaryWarningsFilter()}
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
@@ -187,6 +189,7 @@ class InstitutionFilterForm extends React.Component {
 }
 
 InstitutionFilterForm.propTypes = {
+  showModal: PropTypes.func,
   filters: PropTypes.shape({
     category: PropTypes.string,
     distanceLearning: PropTypes.bool,
@@ -201,7 +204,7 @@ InstitutionFilterForm.propTypes = {
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
-    cautionFlags: PropTypes.bool,
+    excludeCautionFlags: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -218,7 +221,7 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
-    cautionFlag: PropTypes,
+    excludeCautionFlags: PropTypes,
   }),
 };
 
