@@ -189,7 +189,7 @@ export class SearchForm extends Component {
 
         {/* Submit Button */}
         <button
-          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5"
+          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
           type="submit"
         >
           Search
