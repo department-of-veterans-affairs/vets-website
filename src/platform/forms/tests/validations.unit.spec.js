@@ -10,7 +10,6 @@ import {
   isValidMonetaryValue,
   isValidName,
   isValidPartialDate,
-  isValidPartialMonthYear,
   isValidSSN,
   validateCustomFormComponent,
   validateLength,
@@ -307,25 +306,6 @@ describe('Validations unit tests', () => {
       ];
 
       expect(validateCustomFormComponent(validation)).to.equal(validation[1]);
-    });
-  });
-  describe('isValidPartialMonthYear', () => {
-    it('should validate month and year', () => {
-      expect(
-        isValidPartialMonthYear(
-          '2',
-          moment()
-            .add(5, 'year')
-            .year()
-            .toString(),
-        ),
-      ).to.be.true;
-    });
-    it('should not validate bad year', () => {
-      expect(isValidPartialMonthYear('2', '2500')).to.be.false;
-    });
-    it('should not validate bad month', () => {
-      expect(isValidPartialMonthYear('20', '2001')).to.be.false;
     });
   });
 
