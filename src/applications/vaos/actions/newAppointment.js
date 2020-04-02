@@ -49,7 +49,7 @@ import {
   recordEligibilityGAEvents,
 } from '../utils/eligibility';
 
-import { recordEligibilityFailure } from '../utils/events';
+import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
 
 import { captureError } from '../utils/error';
 
@@ -678,6 +678,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
@@ -692,6 +693,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
       }
     } else {
       const isCommunityCare =
@@ -738,6 +740,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
@@ -758,6 +761,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
       }
     }
   };
