@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -65,7 +65,9 @@ export class ConfirmationPage extends React.Component {
               <li>
                 <strong>{dateTitle}</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span>
+                  {format(parseISO(response.timestamp), 'MMM d, yyyy')}
+                </span>
               </li>
             </ul>
           )}
