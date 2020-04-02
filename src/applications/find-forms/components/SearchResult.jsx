@@ -29,7 +29,12 @@ export default function SearchResult({ form }) {
       </dd>
 
       <dd className="vads-u-padding-bottom--3">
-        <a href={form.attributes.url} rel="noopener noreferrer" target="_blank">
+        <a
+          href={form.attributes.url}
+          rel="noopener noreferrer"
+          target="_blank"
+          download
+        >
           Download VA form {form.id} {pdf}
         </a>
       </dd>
