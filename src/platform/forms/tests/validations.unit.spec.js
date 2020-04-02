@@ -13,7 +13,6 @@ import {
   isValidName,
   isValidPartialDate,
   isValidPartialMonthYear,
-  isValidPartialMonthYearInPast,
   isValidSSN,
   validateCustomFormComponent,
   validateLength,
@@ -387,34 +386,6 @@ describe('Validations unit tests', () => {
     });
     it('should not validate bad month', () => {
       expect(isValidPartialMonthYear('20', '2001')).to.be.false;
-    });
-  });
-  describe('isValidPartialMonthYearInPast', () => {
-    it('should validate month and year in past', () => {
-      expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
-    });
-    it('should validate month and year that is current', () => {
-      const currentMonthIndexedAtOne = moment().month() + 1;
-
-      expect(
-        isValidPartialMonthYearInPast(
-          currentMonthIndexedAtOne.toString(),
-          moment()
-            .year()
-            .toString(),
-        ),
-      ).to.be.true;
-    });
-    it('should not validate month and year that is in the future', () => {
-      expect(
-        isValidPartialMonthYearInPast(
-          '2',
-          moment()
-            .add(2, 'year')
-            .year()
-            .toString(),
-        ),
-      ).to.be.false;
     });
   });
 
