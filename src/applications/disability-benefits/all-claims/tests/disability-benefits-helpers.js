@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const mock = require('platform/testing/e2e/mock-helpers');
+const mock = require('../../../../platform/testing/e2e/mock-helpers');
 
 function initDocumentUploadMock() {
   mock(null, {
