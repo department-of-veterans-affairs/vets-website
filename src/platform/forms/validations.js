@@ -130,14 +130,6 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
-function isValidPartialDateField(field) {
-  return isValidPartialDate(
-    field.day.value,
-    field.month.value,
-    field.year.value,
-  );
-}
-
 function isValidDateRange(fromDate, toDate) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
@@ -298,7 +290,6 @@ export {
   isValidMonetaryValue,
   isValidPhone,
   isValidPartialDate,
-  isValidPartialDateField,
   isValidPartialMonthYear,
   isValidRequiredField,
   isValidSSN,
