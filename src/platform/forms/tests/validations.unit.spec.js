@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import moment from 'moment';
 
 import {
   isBlank,
@@ -9,7 +8,6 @@ import {
   isValidDateRange,
   isValidMonetaryValue,
   isValidName,
-  isValidPartialDate,
   isValidSSN,
   validateCustomFormComponent,
   validateLength,
@@ -238,43 +236,6 @@ describe('Validations unit tests', () => {
     });
   });
 
-  describe('isValidPartialDate', () => {
-    it('should validate complete date', () => {
-      expect(isValidPartialDate('5', '10', '2010')).to.be.true;
-    });
-    it('should validate empty date', () => {
-      expect(isValidPartialDate('', '', '')).to.be.true;
-    });
-    it('should validate month year date', () => {
-      expect(isValidPartialDate('', '10', '2050')).to.be.true;
-    });
-    it('should validate month day date', () => {
-      expect(isValidPartialDate('10', '10', '')).to.be.true;
-    });
-    it('should validate day year date', () => {
-      expect(isValidPartialDate('20', '', '2010')).to.be.true;
-    });
-    it('should validate day date', () => {
-      expect(isValidPartialDate('20', '', '')).to.be.true;
-    });
-    it('should validate year date', () => {
-      expect(isValidPartialDate('', '', '2010')).to.be.true;
-    });
-    it('should not validate year before 1900', () => {
-      expect(isValidPartialDate('', '', '1899')).to.be.false;
-    });
-    it('should not validate year more than 100 years in future', () => {
-      expect(
-        isValidPartialDate(
-          '',
-          '',
-          moment()
-            .add(101, 'year')
-            .year(),
-        ),
-      ).to.be.false;
-    });
-  });
   describe('validateCustomFormComponent', () => {
     it('should return object validation results', () => {
       const validation = {

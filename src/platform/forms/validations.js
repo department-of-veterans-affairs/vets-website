@@ -118,14 +118,6 @@ function validateIfDirtyDate(dayField, monthField, yearField, validator) {
   return true;
 }
 
-function isValidPartialDate(day, month, year) {
-  if (year && !isValidYear(year)) {
-    return false;
-  }
-
-  return true;
-}
-
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
@@ -278,7 +270,6 @@ export {
   isValidName,
   isValidMonetaryValue,
   isValidPhone,
-  isValidPartialDate,
   isValidRequiredField,
   isValidSSN,
   isValidValue,
