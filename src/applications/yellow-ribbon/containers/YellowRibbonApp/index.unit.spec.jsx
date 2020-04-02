@@ -18,7 +18,7 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
       'Find out if your school participates in the Yellow Ribbon program.',
     );
     expect(text).to.include(
-      'Search for schools by one or all of the terms below.',
+      'Search for schools participating in the current academic year by one or all of the terms below.',
     );
 
     tree.unmount();
