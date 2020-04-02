@@ -245,6 +245,7 @@
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.7",
+    "date-fns": "^2.11.1",
     "downshift": "^1.22.5",
     "express": "^4.14.0",
     "express-http-proxy": "^1.5.1",
