@@ -37,11 +37,6 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
-// export const selectFacilities = state =>
-//   selectPatientFacilities(state)?.filter(
-//     f => !f.facilityId.startsWith('742'),
-//   ) || null;
-
 export const selectCernerFacilities = state =>
   selectPatientFacilities(state)
     ?.filter(f => f.isCerner)
