@@ -56,13 +56,13 @@ export function validateMarriageDate(
   marriageDate,
   { spouseDateOfBirth, veteranDateOfBirth, discloseFinancialInformation },
 ) {
-  const vetDOB = moment(veteranDateOfBirth);
-  const spouseDOB = moment(spouseDateOfBirth);
-  const marriage = moment(marriageDate);
+  const vetDOB = Date.parse(veteranDateOfBirth);
+  const spouseDOB = Date.parse(spouseDateOfBirth);
+  const marriage = Date.parse(marriageDate);
 
   if (
     discloseFinancialInformation &&
-    (vetDOB.isAfter(marriage) || spouseDOB.isAfter(marriage))
+    (isAfter(vetDOB, marriage) || isAfter(spouseDOB, marriage))
   ) {
     errors.addError(
       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
