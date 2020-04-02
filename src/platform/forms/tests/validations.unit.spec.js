@@ -14,7 +14,6 @@ import {
   isValidPartialDate,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
-  isValidPartialMonthYearRange,
   isValidSSN,
   validateCustomFormComponent,
   validateLength,
@@ -192,93 +191,6 @@ describe('Validations unit tests', () => {
         },
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.true;
-    });
-  });
-
-  describe('isValidPartialMonthYearRange', () => {
-    it('should validate partial range', () => {
-      const fromDate = {
-        month: {
-          value: '2',
-        },
-        year: {
-          value: '2001',
-        },
-      };
-
-      const toDate = {
-        month: {
-          value: '3',
-        },
-        year: {
-          value: '',
-        },
-      };
-
-      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
-    });
-    it('should not validate invalid range', () => {
-      const fromDate = {
-        month: {
-          value: '2',
-        },
-        year: {
-          value: '2002',
-        },
-      };
-
-      const toDate = {
-        month: {
-          value: '3',
-        },
-        year: {
-          value: '2001',
-        },
-      };
-
-      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.false;
-    });
-    it('should validate same date range', () => {
-      const fromDate = {
-        month: {
-          value: '2',
-        },
-        year: {
-          value: '2001',
-        },
-      };
-
-      const toDate = {
-        month: {
-          value: '2',
-        },
-        year: {
-          value: '2001',
-        },
-      };
-
-      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
-    });
-    it('should validate year only range', () => {
-      const fromDate = {
-        month: {
-          value: '',
-        },
-        year: {
-          value: '2001',
-        },
-      };
-
-      const toDate = {
-        month: {
-          value: '',
-        },
-        year: {
-          value: '2002',
-        },
-      };
-
-      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
   });
 

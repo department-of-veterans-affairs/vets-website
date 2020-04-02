@@ -163,16 +163,6 @@ function isValidPartialMonthYear(month, year) {
   return isValidPartialDate(null, null, year);
 }
 
-function isValidPartialMonthYearRange(fromDate, toDate) {
-  if (!fromDate.year.value || !toDate.year.value) {
-    return true;
-  }
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
-
-  return momentStart.isSameOrBefore(momentEnd);
-}
-
 function isValidPartialMonthYearInPast(month, year) {
   if (typeof month === 'object') {
     throw new Error('Pass a month and a year to function');
@@ -367,7 +357,6 @@ export {
   isValidPartialDateField,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
-  isValidPartialMonthYearRange,
   isValidRequiredField,
   isValidSSN,
   isValidValue,
