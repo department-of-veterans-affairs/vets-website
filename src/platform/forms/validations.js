@@ -167,23 +167,6 @@ function isBlankMonthYear(field) {
   return isBlank(field.month.value) && isBlank(field.year.value);
 }
 
-function isValidDateOver17(day, month, year) {
-  if (!isValidYear(year)) {
-    return false;
-  }
-
-  const momentDate = moment({
-    day,
-    month: parseInt(month, 10) - 1,
-    year,
-  });
-  return momentDate.isBefore(
-    moment()
-      .endOf('day')
-      .subtract(17, 'years'),
-  );
-}
-
 /**
  * Field Validations *
  */
@@ -310,7 +293,6 @@ export {
   isNotBlankDateField,
   isValidDate,
   isValidDateField,
-  isValidDateOver17,
   isValidDateRange,
   isValidEmail,
   isValidFullNameField,

@@ -6,7 +6,6 @@ import {
   isBlank,
   isNotBlank,
   isValidDate,
-  isValidDateOver17,
   isValidDateRange,
   isValidMonetaryValue,
   isValidName,
@@ -240,34 +239,6 @@ describe('Validations unit tests', () => {
     });
   });
 
-  describe('isValidDateOver17', () => {
-    it('validates turning 17 today', () => {
-      const date = moment()
-        .startOf('day')
-        .subtract(17, 'years');
-      expect(
-        isValidDateOver17(
-          date.date().toString(),
-          (date.month() + 1).toString(),
-          date.year().toString(),
-        ),
-      ).to.be.true;
-    });
-
-    it('does not validate turning 17 tomorrow', () => {
-      const date = moment()
-        .startOf('day')
-        .subtract(17, 'years')
-        .add(1, 'days');
-      expect(
-        isValidDateOver17(
-          date.date().toString(),
-          (date.month() + 1).toString(),
-          date.year().toString(),
-        ),
-      ).to.be.false;
-    });
-  });
   describe('isValidPartialDate', () => {
     it('should validate complete date', () => {
       expect(isValidPartialDate('5', '10', '2010')).to.be.true;
