@@ -104,6 +104,7 @@ describe('<Vet360ProfileField/>', () => {
     props.showValidationModal = true;
     props.ValidationModal = () => <ValidationModal />;
     const expectedProps = {
+      transaction: props.transaction,
       title: props.title,
       transactionRequest: props.transactionRequest,
       clearErrors: props.clearErrors,

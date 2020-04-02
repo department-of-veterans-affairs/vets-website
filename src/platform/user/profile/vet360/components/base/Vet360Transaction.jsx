@@ -21,6 +21,7 @@ export default class Vet360Transaction extends React.Component {
   render() {
     const {
       id,
+      isModalOpen,
       children,
       refreshTransaction,
       title,
@@ -43,7 +44,9 @@ export default class Vet360Transaction extends React.Component {
               title={title}
               refreshTransaction={refreshTransaction}
               method={method}
-            />
+            >
+              {isModalOpen && children}
+            </Vet360TransactionPending>
           </div>
         ) : (
           children
