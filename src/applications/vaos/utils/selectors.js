@@ -37,6 +37,11 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
+export const selectCernerFacilities = state =>
+  selectPatientFacilities(state)
+    ?.filter(f => f.isCerner)
+    .map(f => f.facilityId) || [];
+
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
@@ -215,10 +220,7 @@ export function getFacilityPageInfo(state) {
     parentDetails: newAppointment?.facilityDetails[data.vaParent],
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerFacilities:
-      selectPatientFacilities(state)
-        ?.filter(f => f.isCerner)
-        .map(f => f.facilityId) || [],
+    cernerFacilities: selectCernerFacilities(state),
   };
 }
 
@@ -259,6 +261,7 @@ export function getClinicPageInfo(state, pageKey) {
 }
 
 export function getCancelInfo(state) {
+  const cernerFacilities = selectCernerFacilities(state);
   const {
     appointmentToCancel,
     showCancelModal,
@@ -290,6 +293,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cernerFacilities,
   };
 }
 

@@ -61,6 +61,25 @@ describe('VAOS <CancelAppointmentModal>', () => {
     tree.unmount();
   });
 
+  it('should render Cerner view', () => {
+    const tree = shallow(
+      <CancelAppointmentModal
+        showCancelModal
+        appointmentToCancel={{
+          clinicId: '123',
+          startDate: '11/20/2018',
+          clinicFriendlyName: 'Testing',
+          facilityId: '123',
+        }}
+        cernerFacilities={['123']}
+      />,
+    );
+
+    expect(tree.find('CancelCernerAppointmentModal').exists()).to.be.true;
+
+    tree.unmount();
+  });
+
   it('should render success state', () => {
     const tree = shallow(
       <CancelAppointmentModal

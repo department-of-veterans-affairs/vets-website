@@ -17,7 +17,10 @@ import {
   getCancelInfo,
   getCCEType,
   isWelcomeModalDismissed,
+  selectCernerFacilities,
 } from '../../utils/selectors';
+
+import { selectIsCernerOnlyPatient } from '../../../../platform/user/selectors';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
@@ -417,9 +420,15 @@ describe('VAOS selectors', () => {
       });
     });
   });
+
   describe('getCancelInfo', () => {
     it('should fetch facility in info', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
         appointments: {
           appointmentToCancel: {
             facility: {
@@ -440,6 +449,11 @@ describe('VAOS selectors', () => {
     });
     it('should fetch facility from clinic map', () => {
       const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
         appointments: {
           appointmentToCancel: {
             facilityId: '123',
@@ -458,6 +472,7 @@ describe('VAOS selectors', () => {
       );
     });
   });
+
   describe('getCCEType', () => {
     it('should return cce type for Audiology', () => {
       const state = {
@@ -485,6 +500,7 @@ describe('VAOS selectors', () => {
       expect(cceType).to.equal('Optometry');
     });
   });
+
   describe('isWelcomeModalDismissed', () => {
     it('should return dismissed if key is in list', () => {
       const state = {
@@ -501,6 +517,64 @@ describe('VAOS selectors', () => {
         },
       };
       expect(isWelcomeModalDismissed(state)).to.be.false;
+    });
+  });
+
+  describe('selectIsCernerOnlyPatient', () => {
+    it('should return true if Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+      };
+      expect(selectIsCernerOnlyPatient(state)).to.be.true;
+    });
+    it('should return false if not Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectIsCernerOnlyPatient(state)).to.be.false;
+    });
+  });
+
+  describe('selectCernerFacilities', () => {
+    it('should return collection of cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectCernerFacilities(state).length).to.be.equal(1);
+    });
+
+    it('should return empty collection of cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: false },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      expect(selectCernerFacilities(state).length).to.be.equal(0);
     });
   });
 });
