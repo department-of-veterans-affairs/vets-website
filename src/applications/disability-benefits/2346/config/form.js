@@ -1,4 +1,10 @@
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  addressUISchema,
+  buildAddressSchema,
+} from '../../686c-674/config/address-schema';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import { schemaFields } from '../constants';
@@ -6,7 +12,13 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';
 import UIDefinitions from '../definitions/2346UI';
 
-const { email, date, gender, address, supplies } = fullSchemaMDOT.definitions;
+const {
+  email,
+  address,
+  yesOrNo,
+  supplies,
+  useThisAddress,
+} = fullSchemaMDOT.definitions;
 
 const {
   permAddressField,
@@ -15,14 +27,11 @@ const {
   suppliesField,
   viewAddAccessoriesField,
   viewAddBatteriesField,
+  useThisAddressField,
 } = schemaFields;
-
-const { permanentAddress, temporaryAddress } = fullSchemaMDOT.properties;
 
 const {
   emailUI,
-  permAddressUI,
-  tempAddressUI,
   addAccessoriesUI,
   addBatteriesUI,
   batteriesUI,
@@ -40,6 +49,8 @@ const formPages = {
   addBatteriesPage: 'Add batteries to your order',
   addAccessoriesPage: 'Add accessories to your order',
 };
+
+const addressSchema = buildAddressSchema(true);
 
 const formConfig = {
   urlPrefix: '/',
@@ -60,10 +71,10 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    date,
     address,
-    gender,
     supplies,
+    yesOrNo,
+    useThisAddress,
   },
   chapters: {
     veteranInformationChapter: {
@@ -84,16 +95,43 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPages.address,
           uiSchema: {
-            [permAddressField]: permAddressUI,
-            [tempAddressField]: tempAddressUI,
+            [permAddressField]: {
+              ...addressUISchema(true, 'permanentAddress', () => true),
+              'ui:title': 'Permanent Address',
+              'ui:field': ReviewCardField,
+              'ui:widget': 'radio',
+              'ui:options': {
+                viewComponent: AddressViewField,
+              },
+            },
+            [tempAddressField]: {
+              ...addressUISchema(true, 'temporaryAddress', () => true),
+              'ui:title': 'Temporary Address',
+              'ui:field': ReviewCardField,
+              'ui:widget': 'radio',
+              'ui:options': {
+                viewComponent: AddressViewField,
+              },
+            },
+            [useThisAddressField]: {
+              'ui:title': 'Select which address to send your products to:',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  permanentAddress: 'Permanent Address',
+                  temporaryAddress: 'Temporary Address',
+                },
+              },
+            },
             [emailField]: emailUI,
           },
           schema: {
             type: 'object',
             properties: {
-              permanentAddress,
-              temporaryAddress,
-              email,
+              [permAddressField]: addressSchema,
+              [tempAddressField]: addressSchema,
+              [useThisAddressField]: useThisAddress,
+              [emailField]: email,
             },
           },
         },
@@ -103,7 +141,7 @@ const formConfig = {
       title: formChapters.orderSupplies,
       pages: {
         [formPages.addBatteriesPage]: {
-          path: 'supplies',
+          path: 'batteries',
           title: formPages.addBatteriesPage,
           schema: {
             type: 'object',

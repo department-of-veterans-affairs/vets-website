@@ -69,6 +69,11 @@ label {
     margin: 0.5em 0;
   }
 }
+//Radio button selection color
+
+[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
+  background-color: $color-primary
+}
 
 
 // ReviewCardField styles

@@ -49,6 +49,7 @@ export const schemaFields = {
   suppliesField: 'supplies',
   viewAddBatteriesField: 'view:AddBatteries',
   viewAddAccessoriesField: 'view:AddAccessories',
+  useThisAddressField: 'useThisAddress',
 };
 
 export const countryValues = countries.map(object => object.value);
