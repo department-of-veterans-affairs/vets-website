@@ -6,6 +6,7 @@ export const vetFields = {
   fullName: 'veteranFullName',
   gender: 'veteranGender',
   plannedClinic: 'veteranPlannedClinic',
+  preferredFacilityInfoView: 'view:preferredFacilityInfo',
   preferredFacilityStateView: 'view:facilityState',
   preferredFacilityView: 'view:preferredFacility',
   primaryPhoneNumber: 'veteranPrimaryPhoneNumber',
@@ -25,11 +26,11 @@ export const primaryCaregiverFields = {
   medicareEnrolled: 'primaryMedicareEnrolled',
   otherHealthInsurance: 'primaryOtherHealthInsurance',
   otherHealthInsuranceName: 'primaryOtherHealthInsuranceName',
+  primaryHealthCareEnrollmentView: 'view:primaryHealthCareEnrollment',
   primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsn',
   tricareEnrolled: 'primaryTricareEnrolled',
   vetRelationship: 'primaryVetRelationship',
-  primaryHealthCareEnrollmentView: 'view:primaryHealthCareEnrollment',
 };
 
 export const secondaryCaregiverFields = {
