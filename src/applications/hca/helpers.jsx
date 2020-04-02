@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
@@ -15,7 +14,6 @@ import {
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
-import { isValidDate } from 'platform/forms/validations';
 import { isInMVI } from 'platform/user/selectors';
 
 import facilityLocator from '../facility-locator/manifest.json';
@@ -535,14 +533,6 @@ export const idFormUiSchema = {
     },
   },
 };
-
-export function validateDate(date) {
-  const newDate = moment(date, 'YYYY-MM-DD');
-  const day = newDate.date();
-  const month = newDate.month() + 1; // Note: Months are zero indexed, so January is month 0.
-  const year = newDate.year();
-  return isValidDate(day, month, year);
-}
 
 /**
  * Helper that takes two sets of props and returns true if any of its relevant
