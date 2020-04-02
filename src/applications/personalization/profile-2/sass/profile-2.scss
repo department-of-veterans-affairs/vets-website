@@ -86,6 +86,17 @@ nav.profile-side-nav {
 
 .headerNameWrapper {
   width: 60%;
+  h2 {
+    text-transform: capitalize;
+  }
+  @media (max-width: $medium-screen) {
+    width: 100%;
+    text-align: center;
+
+    h3 {
+      margin-top: 0;
+    }
+  }
 }
 
 .profileServiceBadge {
@@ -93,5 +104,15 @@ nav.profile-side-nav {
 }
 
 .headerContentWrapper {
-  width: 70%;
+  width: 100%;
+  @media (max-width: $medium-screen) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.profileHeading{
+  @media (max-width: $medium-screen) {
+    display: none;
+  }
 }
