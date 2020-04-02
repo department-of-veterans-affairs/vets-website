@@ -59,6 +59,7 @@ export const uiSchema = {
     },
   },
   'view:marriageTypeInformation': {
+    'ui:title': 'Additional evidence needed',
     'ui:description': marriageTypeInformation,
   },
 };
