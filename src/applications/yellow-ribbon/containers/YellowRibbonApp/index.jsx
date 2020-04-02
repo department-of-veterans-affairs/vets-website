@@ -9,14 +9,14 @@ import SearchForm from '../SearchForm';
 import SearchResults from '../SearchResults';
 import manifest from '../../manifest.json';
 
-export const YellowRibbonApp = ({ results }) => (
+export const YellowRibbonApp = ({ hasFetchedOnce }) => (
   <>
     {/* Breadcrumbs */}
     <Breadcrumbs className="vads-u-padding--0">
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
       <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>
-      {results && <a href={window.location.href}>Search results</a>}
+      {hasFetchedOnce && <a href={window.location.href}>Search results</a>}
     </Breadcrumbs>
 
     {/* Comparison Banner */}
@@ -26,7 +26,7 @@ export const YellowRibbonApp = ({ results }) => (
       {/* Title */}
       <div className="vads-l-col">
         <h1 className="vads-u-margin-bottom--0">
-          {results
+          {hasFetchedOnce
             ? 'Yellow Ribbon school search results'
             : 'Find a Yellow Ribbon school'}
         </h1>
@@ -36,7 +36,7 @@ export const YellowRibbonApp = ({ results }) => (
         {/* Search Form */}
         <div className="vads-l-col--12">
           {/* Pre-form content */}
-          {results ? (
+          {hasFetchedOnce ? (
             <>
               <p className="vads-l-col--9">
                 Participating school information on this page is valid for the
@@ -95,13 +95,13 @@ export const YellowRibbonApp = ({ results }) => (
 
         {/* Search Form */}
         <div className="vads-l-col--3">
-          {results && (
+          {hasFetchedOnce && (
             <h3 className="vads-u-margin-top--1p5">Search criteria</h3>
           )}
 
           <SearchForm />
 
-          {results && (
+          {hasFetchedOnce && (
             <>
               <h3>Search criteria</h3>
               <p>
@@ -132,7 +132,7 @@ export const YellowRibbonApp = ({ results }) => (
         </div>
 
         {/* Post-Form Content */}
-        {!results && (
+        {!hasFetchedOnce && (
           <p className="vads-l-col--7">
             Participating school information is for the current academic year.
             To view schools for the previous academic year,{' '}
@@ -149,11 +149,11 @@ export const YellowRibbonApp = ({ results }) => (
 
 YellowRibbonApp.propTypes = {
   // From mapStateToProps.
-  results: PropTypes.array,
+  hasFetchedOnce: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
-  results: state.yellowRibbonReducer.results,
+  hasFetchedOnce: state.yellowRibbonReducer.hasFetchedOnce,
 });
 
 export default connect(
