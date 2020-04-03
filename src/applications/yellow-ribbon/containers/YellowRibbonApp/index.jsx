@@ -103,13 +103,13 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
 
           {hasFetchedOnce && (
             <>
-              <h3>Search criteria</h3>
-              <p>
+              <h3 className="vads-u-margin-top--2">Helpful links</h3>
+              <p className="vads-u-margin-bottom--1">
                 <a href="/education/eligibility/" rel="noopener noreferrer">
                   Find out if you&apos;re eligible for the Post-9/11 GI Bill
                 </a>
               </p>
-              <p>
+              <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
                 <a
                   href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
                   rel="noopener noreferrer"
@@ -117,7 +117,7 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
                   Find out if you qualify for the Yellow Ribbon Program
                 </a>
               </p>
-              <p>
+              <p className="vads-u-margin-top--1">
                 <a href="/education/how-to-apply/" rel="noopener noreferrer">
                   Apply for Post-9/11 GI Bill benefits
                 </a>
@@ -127,7 +127,7 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
         </div>
 
         {/* Search Results */}
-        <div className="vads-l-col--9 vads-u-padding-left--4">
+        <div className="vads-l-col--9 vads-u-padding-left--5">
           <SearchResults />
         </div>
 
