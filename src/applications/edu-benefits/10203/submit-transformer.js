@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { determineEligibilityFor1995Stem } from './helpers';
+import { determineEligibilityFor10203Stem } from './helpers';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
@@ -26,7 +26,7 @@ export function transform(formConfig, form) {
     if (clonedData.benefit === 'fryScholarship') {
       clonedData.benefit = 'chapter33';
     }
-    const submitAs1995Stem = determineEligibilityFor1995Stem(clonedData);
+    const submitAs1995Stem = determineEligibilityFor10203Stem(clonedData);
     if (submitAs1995Stem !== undefined && !submitAs1995Stem) {
       clonedData.isEdithNourseRogersScholarship = false;
     }

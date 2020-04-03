@@ -16,15 +16,10 @@ export const displayStemEligibility = form =>
   isEdithNourseRogersScholarship(form) &&
   !isEligibleForEdithNourseRogersScholarship(form);
 
-export const determineEligibilityFor1995Stem = form =>
+export const determineEligibilityFor10203Stem = form =>
   form['view:determineEligibility']['view:determineEligibility'];
-
-export const display1995StemFlow = form =>
-  isEdithNourseRogersScholarship(form) &&
-  (isEligibleForEdithNourseRogersScholarship(form) ||
-    determineEligibilityFor1995Stem(form));
 
 export const display10203StemFlow = form =>
   isEdithNourseRogersScholarship(form) &&
   (isEligibleForEdithNourseRogersScholarship(form) ||
-    determineEligibilityFor1995Stem(form));
+    determineEligibilityFor10203Stem(form));

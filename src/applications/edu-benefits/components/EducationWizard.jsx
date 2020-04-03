@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import { educationWizard1995s } from '../selectors/educationWizard';
+import { educationWizard10203 } from '../selectors/educationWizard';
 import { connect } from 'react-redux';
 
 const levels = [
@@ -468,7 +468,7 @@ export class EducationWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  showSTEMScholarship: educationWizard1995s(state),
+  showSTEMScholarship: educationWizard10203(state),
 });
 
 export default connect(mapStateToProps)(EducationWizard);
