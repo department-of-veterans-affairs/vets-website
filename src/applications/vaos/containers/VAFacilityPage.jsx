@@ -116,6 +116,7 @@ export class VAFacilityPage extends React.Component {
       typeOfCare,
       facilityDetailsStatus,
       parentDetails,
+      facilityDetails,
       hasDataFetchingError,
       hasEligibilityError,
       parentOfChosenFacility,
@@ -227,7 +228,10 @@ export class VAFacilityPage extends React.Component {
         >
           {notEligibleAtChosenFacility && (
             <div className="vads-u-margin-top--2">
-              <EligibilityCheckMessage eligibility={eligibility} />
+              <EligibilityCheckMessage
+                facilityDetails={facilityDetails}
+                eligibility={eligibility}
+              />
             </div>
           )}
           {hasEligibilityError && <ErrorMessage />}
@@ -256,6 +260,7 @@ VAFacilityPage.propTypes = {
   schema: PropTypes.object,
   data: PropTypes.object.isRequired,
   facility: PropTypes.object,
+  facilityDetails: PropTypes.object,
   loadingParentFacilities: PropTypes.bool,
   loadingFacilities: PropTypes.bool,
   singleValidVALocation: PropTypes.bool,

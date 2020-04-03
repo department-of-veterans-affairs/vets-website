@@ -21,7 +21,7 @@ export class SearchResults extends Component {
         // Original form data key-value pairs.
         city: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        schoolNameInYrDatabase: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         state: PropTypes.string.isRequired,
       }).isRequired,
     ),
@@ -39,7 +39,6 @@ export class SearchResults extends Component {
     // Derive the state values from our query params.
     const city = queryParams.get('city') || '';
     const contributionAmount = queryParams.get('contributionAmount') || '';
-    const country = queryParams.get('country') || '';
     const name = queryParams.get('name') || '';
     const numberOfStudents = queryParams.get('numberOfStudents') || '';
     const state = queryParams.get('state') || '';
@@ -51,7 +50,6 @@ export class SearchResults extends Component {
     fetchResults({
       city,
       contributionAmount,
-      country,
       hideFetchingState: true,
       name,
       numberOfStudents,

@@ -25,7 +25,8 @@ export default class SelectArrayItemsWidget extends React.Component {
     const { label: Label, selectedPropName, disabled, customTitle } = options;
     const { formContext } = registry;
 
-    // Review mode = true; review page view, not in edit mode
+    // inReviewMode = true (review page view, not in edit mode)
+    // inReviewMode = false (in edit mode)
     const inReviewMode = formContext.onReviewPage && formContext.reviewMode;
     const hasSelections = items?.reduce(
       (result, item) =>
@@ -33,9 +34,6 @@ export default class SelectArrayItemsWidget extends React.Component {
       false,
     );
 
-    // console.log('arrayitems widget', this.props, this.props.registry.formContext, hasSelections)
-
-    // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
         {customTitle && items && <h5 className="title">{customTitle}</h5>}
@@ -82,8 +80,12 @@ export default class SelectArrayItemsWidget extends React.Component {
               />
             );
 
+            // Fix axe issue on page, but not mess up review & submit page
+            // a <dl class="review"> wraps this content on review & submit page
+            const Tag = inReviewMode ? 'div' : 'dl';
+
             return (
-              <div key={elementId} className="review-row">
+              <Tag key={elementId} className="review-row">
                 <dt className={widgetClasses}>
                   {input}
                   <label
@@ -94,11 +96,14 @@ export default class SelectArrayItemsWidget extends React.Component {
                   </label>
                 </dt>
                 <dd />
-              </div>
+              </Tag>
             );
           })
         ) : (
-          <p>No selections have been made</p>
+          <div className="review-row" role="presentation">
+            <dt>No selections have been made</dt>
+            <dd />
+          </div>
         )}
       </>
     );

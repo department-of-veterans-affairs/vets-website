@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { ssoe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -68,7 +70,7 @@ class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
-    logout();
+    logout(this.props.useSSOe ? 'v1' : 'v0');
   };
 
   render() {
@@ -103,4 +105,10 @@ class SessionTimeoutModal extends React.Component {
   }
 }
 
-export default SessionTimeoutModal;
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+
+export default connect(mapStateToProps)(SessionTimeoutModal);

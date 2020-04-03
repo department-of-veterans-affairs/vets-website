@@ -6,6 +6,7 @@ import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object
@@ -112,10 +113,13 @@ function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
+  // This item should have been set in any previous API calls
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
     'Source-App-Name': window.appName,
+    'X-CSRF-Token': csrfTokenStored,
   };
 
   const body = transform(formConfig, form);

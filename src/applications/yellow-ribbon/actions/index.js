@@ -57,7 +57,6 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
   const city = options?.city || null;
   const contributionAmount = options?.contributionAmount || null;
-  const country = options?.country || null;
   const hideFetchingState = options?.hideFetchingState;
   const history = options?.history || window.history;
   const location = options?.location || window.location;
@@ -67,26 +66,30 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   const perPage = options?.perPage || 10;
   const state = options?.state || null;
 
-  const fetchOptions = {
+  const queryParamsLookup = {
     city,
     contributionAmount,
-    country,
-    hideFetchingState,
     name,
     numberOfStudents,
     state,
   };
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction(fetchOptions));
+  dispatch(
+    fetchResultsAction({
+      ...queryParamsLookup,
+      hideFetchingState,
+      page,
+    }),
+  );
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);
 
   // Set/Delete query params.
-  Object.keys(fetchOptions).forEach(key => {
+  Object.keys(queryParamsLookup).forEach(key => {
     // Derive the value.
-    const value = fetchOptions[key];
+    const value = queryParamsLookup[key];
 
     // Set the query param.
     if (value) {
@@ -106,7 +109,6 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     const response = await fetchResultsApi({
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       page,

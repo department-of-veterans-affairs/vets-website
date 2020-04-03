@@ -10,12 +10,11 @@ export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
   const city = options?.city;
   const contribution_amount = options?.contributionAmount;
-  const country = options?.country;
   const mockRequest = options?.mockRequest;
+  const name = options?.name;
   const number_of_students = options?.numberOfStudents;
   const page = options?.page;
   const per_page = options?.perPage;
-  const school_name_in_yr_database = options?.name;
   const state = options?.state;
 
   // Construct the URL and stub the response.
@@ -24,11 +23,10 @@ export const fetchResultsApi = async (options = {}) => {
     {
       city,
       contribution_amount,
-      country,
+      name,
       number_of_students,
       page,
       per_page,
-      school_name_in_yr_database,
       state,
     },
     { removeNull: true },

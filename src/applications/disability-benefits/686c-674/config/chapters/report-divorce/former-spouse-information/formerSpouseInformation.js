@@ -1,6 +1,9 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateName } from '../../../utilities';
+import { TASK_KEYS } from '../../../constants';
 import { genericSchemas } from '../../../generic-schema';
+import { isChapterFieldRequired } from '../../../helpers';
+import { merge } from 'lodash';
 
 const {
   fullName: formerSpouseName,
@@ -35,11 +38,15 @@ export const uiSchema = {
     first: {
       'ui:title': 'Former spouse’s first name',
       'ui:errorMessages': { required: 'Please enter a first name' },
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
     },
     middle: { 'ui:title': 'Former spouse’s middle name' },
     last: {
       'ui:title': 'Former spouse’s last name',
       'ui:errorMessages': { required: 'Please enter a last name' },
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
     },
     suffix: {
       'ui:title': 'Former spouse’s suffix',
@@ -49,7 +56,10 @@ export const uiSchema = {
       },
     },
   },
-  dateOfDivorce: currentOrPastDateUI('Date of divorce'),
+  dateOfDivorce: merge(currentOrPastDateUI('Date of divorce'), {
+    'ui:required': formData =>
+      isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+  }),
   locationOfDivorce: {
     'ui:title': 'Where did this marriage end?',
     state: {
@@ -57,12 +67,16 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter a state, or country if outside of USA',
       },
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
     },
     city: {
       'ui:title': 'City or county',
       'ui:errorMessages': {
         required: 'Please enter a city or county',
       },
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
     },
   },
   isMarriageAnnulledOrVoid: {

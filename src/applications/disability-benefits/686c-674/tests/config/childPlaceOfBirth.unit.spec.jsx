@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
@@ -59,7 +60,7 @@ describe('686 add child - child place of birth', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -78,6 +79,8 @@ describe('686 add child - child place of birth', () => {
       />,
     );
     fillData(form, 'input#root_childPlaceOfBirth_state', 'California');
+    fillData(form, 'input#root_childPlaceOfBirth_city', 'Someplace');
+    selectCheckbox(form, 'root_childStatus_biological', true);
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

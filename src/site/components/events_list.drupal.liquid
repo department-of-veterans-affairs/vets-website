@@ -1,10 +1,7 @@
 {% assign timezone = "America/New_York" %}
 <div class="events-listing events-show">
   {% assign count = 0 %}
-  {% assign eventsArray = fieldOffice.entity.reverseFieldOfficeNode.entities %}
-  {% if outreachSidebar.name == 'Outreach and events' %}
-    {% assign eventsArray = reverseFieldOfficeNode.entities %}
-  {% endif %}
+  {% assign eventsArray = reverseFieldListingNode.entities %}
   {% assign sortedEventsArray = eventsArray | eventSorter %}
   {% for event in sortedEventsArray %}
     {% if event.title.length %}

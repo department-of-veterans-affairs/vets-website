@@ -45,7 +45,7 @@ class IntroductionPage extends React.Component {
             Please complete the 20-0996 form to apply for Higher-Level Review.
           </SaveInProgressIntro>
         </CallToActionWidget>
-        <h3 className="vads-u-margin-top--0">What is a Higher-Level Review</h3>
+        <h3>What is a Higher-Level Review</h3>
         <p>
           If a veteran or their representative wants to dispute a decision they
           received on a claim, they can file a Higher-Level Review. When you
@@ -65,7 +65,7 @@ class IntroductionPage extends React.Component {
           </a>{' '}
           in order to have that new evidence considered.
         </p>
-        <aside className="process schemaform-process">
+        <div className="process schemaform-process">
           <h4>Follow the steps below to Request a Higher-Level Review.</h4>
           <br />
           <ol>
@@ -131,7 +131,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
           </ol>
-        </aside>
+        </div>
         <CallToActionWidget appId="higher-level-review">
           <SaveInProgressIntro
             formId={formConfig.formId}

@@ -260,6 +260,7 @@ function compilePage(page, contentData) {
       lifeInsuranceBenefitsHubQuery: lifeInsuranceHubSidebarNav = {},
       pensionBenefitsHubQuery: pensionHubSidebarNav = {},
       recordsBenefitsHubQuery: recordsHubSidebarNav = {},
+      decisionReviewsHubQuery: decisionReviewsSidebarNav = {},
       alerts: alertsItem = {},
       bannerAlerts: bannerAlertsItem = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -283,6 +284,7 @@ function compilePage(page, contentData) {
     lifeInsuranceHubSidebarNav,
     pensionHubSidebarNav,
     recordsHubSidebarNav,
+    decisionReviewsSidebarNav,
   ];
   let sidebarNavItems;
 

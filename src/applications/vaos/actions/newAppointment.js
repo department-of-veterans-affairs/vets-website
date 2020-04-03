@@ -17,6 +17,7 @@ import {
   getSystemFromChosenFacility,
   vaosCommunityCare,
   selectSystemIds,
+  getEligibilityStatus,
 } from '../utils/selectors';
 import {
   getParentFacilities,
@@ -47,6 +48,8 @@ import {
   getEligibleFacilities,
   recordEligibilityGAEvents,
 } from '../utils/eligibility';
+
+import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
 
 import { captureError } from '../utils/error';
 
@@ -289,6 +292,10 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId = eligibleFacilities[0].institutionCode;
       }
 
+      if (parentId && !eligibleFacilities?.length) {
+        recordEligibilityFailure('supported-facilities');
+      }
+
       const eligibilityChecks =
         newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
@@ -315,6 +322,18 @@ export function openFacilityPage(page, uiSchema, schema) {
         typeOfCareId,
         eligibilityData,
       });
+
+      if (facilityId) {
+        try {
+          const eligibility = getEligibilityStatus(getState());
+          if (!eligibility.direct && !eligibility.request) {
+            const thunk = fetchFacilityDetails(facilityId);
+            await thunk(dispatch, getState);
+          }
+        } catch (e) {
+          captureError(e);
+        }
+      }
     } catch (e) {
       captureError(e);
       dispatch({
@@ -353,6 +372,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         // If no available facilities, fetch system details to display contact info
         if (!availableFacilities?.length) {
           dispatch(fetchFacilityDetails(data.vaParent));
+          recordEligibilityFailure('supported-facilities');
         }
 
         dispatch({
@@ -403,6 +423,16 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
           eligibilityData,
         });
+
+        try {
+          const eligibility = getEligibilityStatus(getState());
+          if (!eligibility.direct && !eligibility.request) {
+            const thunk = fetchFacilityDetails(data.vaFacility);
+            await thunk(dispatch, getState);
+          }
+        } catch (e) {
+          captureError(e);
+        }
       } catch (e) {
         captureError(e);
         dispatch({
@@ -648,6 +678,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
@@ -662,6 +693,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
       }
     } else {
       const isCommunityCare =
@@ -708,6 +740,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
@@ -728,6 +761,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
       }
     }
   };

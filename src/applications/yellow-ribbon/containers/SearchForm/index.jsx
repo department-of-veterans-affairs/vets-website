@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
-import classNames from 'classnames';
 import map from 'lodash/map';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import STATES from '../../constants/STATES.json';
+import STATES from 'platform/static-data/STATES.json';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 
 export class SearchForm extends Component {
@@ -27,7 +27,6 @@ export class SearchForm extends Component {
     // Derive the state values from our query params.
     const city = queryParams.get('city') || '';
     const contributionAmount = queryParams.get('contributionAmount') || '';
-    const country = queryParams.get('country') || '';
     const name = queryParams.get('name') || '';
     const numberOfStudents = queryParams.get('numberOfStudents') || '';
     const state = queryParams.get('state') || '';
@@ -35,7 +34,6 @@ export class SearchForm extends Component {
     this.state = {
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       state,
@@ -46,25 +44,16 @@ export class SearchForm extends Component {
     const {
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       state,
     } = this.state;
 
     // Fetch the results with their name if it's on the URL.
-    if (
-      city ||
-      contributionAmount ||
-      country ||
-      name ||
-      numberOfStudents ||
-      state
-    ) {
+    if (city || contributionAmount || name || numberOfStudents || state) {
       this.props.fetchResultsThunk({
         city,
         contributionAmount,
-        country,
         name,
         numberOfStudents,
         state,
@@ -87,16 +76,10 @@ export class SearchForm extends Component {
     this.setState({ [key]: event.target.value });
   };
 
-  onCountryChange = event => {
-    // Clear `state` + `city` when `country` field is changed.
-    this.setState({ country: event.target.value, city: '', state: '' });
-  };
-
   onSubmitHandler = event => {
     const {
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       state,
@@ -109,24 +92,21 @@ export class SearchForm extends Component {
     this.props.fetchResultsThunk({
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
+      page: 1,
       state,
     });
+
+    // Scroll to top.
+    scrollToTop();
   };
 
   render() {
-    const {
-      onCountryChange,
-      onCheckboxChange,
-      onReactStateChange,
-      onSubmitHandler,
-    } = this;
+    const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
     const {
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       state,
@@ -134,7 +114,7 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0 vads-u-margin-bottom--3"
+        className="vads-l-grid-container vads-u-padding--0"
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
@@ -155,78 +135,40 @@ export class SearchForm extends Component {
           />
         </div>
 
-        <div
-          className={classNames('form-expanding-group', {
-            'form-expanding-group-open': country,
-          })}
+        {/* State Field */}
+        <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
+          State or territory
+        </label>
+        <div className="vads-u-flex--1">
+          <select
+            name="yr-search-state"
+            onChange={onReactStateChange('state')}
+            value={state}
+          >
+            <option value="">- Select -</option>
+            {map(STATES, provincialState => (
+              <option key={provincialState?.code} value={provincialState?.code}>
+                {provincialState?.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* City Field */}
+        <label
+          htmlFor="yr-search-city"
+          className="vads-u-margin-top--3 vads-u-margin--0"
         >
-          {/* Country Field */}
-          <label htmlFor="yr-search-country" className="vads-u-margin-top--3">
-            Country
-          </label>
-          <div className="vads-u-flex--1">
-            <select
-              name="yr-search-country"
-              onChange={onCountryChange}
-              value={country}
-            >
-              <option value="">- Select -</option>
-              {map(
-                [{ label: 'United States', value: 'USA' }],
-                countryOption => (
-                  <option
-                    key={countryOption?.value}
-                    value={countryOption?.value}
-                  >
-                    {countryOption?.label}
-                  </option>
-                ),
-              )}
-            </select>
-          </div>
-
-          {country && (
-            <>
-              {/* State Field */}
-              <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
-                State or Territory
-              </label>
-              <div className="vads-u-flex--1">
-                <select
-                  name="yr-search-state"
-                  onChange={onReactStateChange('state')}
-                  value={state}
-                >
-                  <option value="">- Select -</option>
-                  {map(STATES, provincialState => (
-                    <option
-                      key={provincialState?.code}
-                      value={provincialState?.code}
-                    >
-                      {provincialState?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* City Field */}
-              <label
-                htmlFor="yr-search-city"
-                className="vads-u-margin-top--3 vads-u-margin--0"
-              >
-                City
-              </label>
-              <div className="vads-u-flex--1">
-                <input
-                  className="usa-input"
-                  name="yr-search-city"
-                  onChange={onReactStateChange('city')}
-                  type="text"
-                  value={city}
-                />
-              </div>
-            </>
-          )}
+          City
+        </label>
+        <div className="vads-u-flex--1">
+          <input
+            className="usa-input"
+            name="yr-search-city"
+            onChange={onReactStateChange('city')}
+            type="text"
+            value={city}
+          />
         </div>
 
         {/* Unlimited Contribution Amount */}
@@ -247,7 +189,7 @@ export class SearchForm extends Component {
 
         {/* Submit Button */}
         <button
-          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5"
+          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
           type="submit"
         >
           Search

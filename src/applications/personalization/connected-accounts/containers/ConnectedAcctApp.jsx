@@ -57,7 +57,6 @@ class ConnectedAcctApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}
           user={this.props.user}
         >

@@ -6,6 +6,9 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber, locationInfo } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
+import CautionFlagHeading from './CautionFlagHeading';
+import SchoolClosingHeading from './SchoolClosingHeading';
+import environment from 'platform/utilities/environment';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -39,34 +42,50 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1 tabIndex={-1}>{it.name}</h1>
-          <AlertBox
-            content={
-              <p>
-                Are you enrolled in this school?{' '}
-                <a
-                  href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Find out if you qualify to have your benefits restored.
-                </a>
-              </p>
-            }
-            headline="This school is closing soon"
-            isVisible={!!it.schoolClosing}
-            status="warning"
-          />
-          <div className="caution-flag">
+          {// #6805 prod flag
+          environment.isProduction() ? (
             <AlertBox
               content={
-                <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
-                  View cautionary information about this school
-                </a>
+                <p>
+                  Are you enrolled in this school?{' '}
+                  <a
+                    href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Find out if you qualify to have your benefits restored.
+                  </a>
+                </p>
               }
-              headline="This school has cautionary warnings"
-              isVisible={!!it.cautionFlag}
+              headline="This school is closing soon"
+              isVisible={!!it.schoolClosing}
               status="warning"
             />
+          ) : (
+            <SchoolClosingHeading
+              schoolClosing={it.schoolClosing}
+              schoolClosingOn={it.schoolClosingOn}
+            />
+          )}
+          <div className="caution-flag">
+            {// #6805 prod flag
+            environment.isProduction() ? (
+              <AlertBox
+                content={
+                  <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
+                    View cautionary information about this school
+                  </a>
+                }
+                headline="This school has cautionary warnings"
+                isVisible={!!it.cautionFlag}
+                status="warning"
+              />
+            ) : (
+              <CautionFlagHeading
+                cautionFlags={it.cautionFlags}
+                onViewWarnings={this.props.onViewWarnings}
+              />
+            )}
           </div>
           <div className="column">
             <p>

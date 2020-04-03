@@ -233,13 +233,16 @@
         },
         "street": {
           "type": "string",
-          "maxLength": 50,
+          "maxLength": 100,
           "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
         },
         "street2": {
           "type": "string",
-          "maxLength": 30,
-          "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          "maxLength": 100
+        },
+        "street3": {
+          "type": "string",
+          "maxLength": 100
         },
         "city": {
           "type": "string",

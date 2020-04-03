@@ -10,4 +10,6 @@ export default Object.freeze({
   vaOnlineSchedulingPast: 'vaOnlineSchedulingPast',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaProfileAddressValidation: 'vaProfileAddressValidation',
+  ssoe: 'ssoe',
+  eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
 });

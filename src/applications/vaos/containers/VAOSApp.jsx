@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { selectUser } from 'platform/user/selectors';
+import { selectUser, selectPatientFacilities } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, {
@@ -14,7 +14,6 @@ import { captureError } from '../utils/error';
 import {
   vaosApplication,
   selectFeatureToggleLoading,
-  selectFacilities,
 } from '../utils/selectors';
 import NoRegistrationMessage from '../components/NoRegistrationMessage';
 import AppUnavailable from '../components/AppUnavailable';
@@ -106,7 +105,7 @@ function mapStateToProps(state) {
     user: selectUser(state),
     showApplication: vaosApplication(state),
     loadingFeatureToggles: selectFeatureToggleLoading(state),
-    sites: selectFacilities(state),
+    sites: selectPatientFacilities(state),
   };
 }
 

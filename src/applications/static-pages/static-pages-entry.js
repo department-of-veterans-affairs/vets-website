@@ -22,7 +22,7 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-va-forms/createFindVaForms';
+} from '../find-forms/createFindVaForms';
 import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
