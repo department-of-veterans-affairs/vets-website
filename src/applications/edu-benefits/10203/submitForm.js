@@ -1,6 +1,6 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { display1995StemFlow } from './helpers';
+import { display10203StemFlow } from './helpers';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit
@@ -22,7 +22,7 @@ const submitForm = (form, formConfig) => {
     'edu-exhaustedAllBenefits': exhaustedAllBenefits ? 'Yes' : 'No',
   };
 
-  const submitUrl = display1995StemFlow(form.data)
+  const submitUrl = display10203StemFlow(form.data)
     ? formConfig.submitUrl.replace('1995', '1995s')
     : formConfig.submitUrl;
 

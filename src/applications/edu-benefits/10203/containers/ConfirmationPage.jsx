@@ -74,7 +74,7 @@ class ConfirmationPage extends React.Component {
         <div className="inset">
           <h4>
             Education Benefit Claim{' '}
-            <span className="additional">(Form 22-1995)</span>
+            <span className="additional">(Form 22-10203)</span>
           </h4>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}
