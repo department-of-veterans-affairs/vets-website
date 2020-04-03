@@ -13,11 +13,16 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
         content={
           <div>
             <ul>
-              {cautionFlags.map(flag => (
-                <li className="headingFlag" key={flag.id}>
-                  <div>{flag.title}</div>
-                </li>
-              ))}
+              {[...cautionFlags]
+                .sort(
+                  (a, b) =>
+                    a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+                )
+                .map(flag => (
+                  <li className="headingFlag" key={flag.id}>
+                    <div>{flag.title}</div>
+                  </li>
+                ))}
             </ul>
             <p>
               <a href="#viewWarnings" onClick={onViewWarnings}>

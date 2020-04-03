@@ -8,7 +8,8 @@ import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -18,6 +19,36 @@ export class SearchResult extends React.Component {
       return value;
     }
     return <span>{formatCurrency(value)}</span>;
+  };
+
+  renderCautionAlert = result => {
+    const { cautionFlags } = result;
+    if (cautionFlags.length === 0) return null;
+    // Prod flag for 6803
+    if (!environment.isProduction()) {
+      return (
+        <AlertBox
+          className="vads-u-margin-top--1"
+          content={renderReasons(cautionFlags)}
+          headline={
+            cautionFlags.length > 1
+              ? 'This school has cautionary warnings'
+              : 'This school has a cautionary warning'
+          }
+          isVisible={cautionFlags.length > 0}
+          status="warning"
+        />
+      );
+    }
+    return (
+      <AlertBox
+        className="vads-u-margin-top--1"
+        content={<p>This school has cautionary warnings</p>}
+        headline="Caution"
+        isVisible={cautionFlags.length > 0}
+        status="warning"
+      />
+    );
   };
 
   render() {
