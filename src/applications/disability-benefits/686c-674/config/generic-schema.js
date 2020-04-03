@@ -90,4 +90,15 @@ export const genericSchemas = {
     type: 'string',
     pattern: currencyAmountPattern,
   },
+  fileSchema: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        size: { type: 'integer' },
+        confirmationCode: { type: 'string' },
+      },
+    },
+  },
 };

@@ -2,8 +2,10 @@ import { genericSchemas } from '../../../generic-schema';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
 import { isChapterFieldRequired } from '../../../helpers';
+import { TASK_KEYS } from '../../../constants';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { merge } from 'lodash/fp';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 export const schema = {
   type: 'object',
@@ -31,7 +33,7 @@ export const schema = {
               dateBecameDependent: genericSchemas.date,
             },
           },
-          'view:marriageTypeInformation': {
+          'view:childStatusInformation': {
             type: 'object',
             properties: {},
           },
@@ -70,14 +72,28 @@ export const uiSchema = {
         state: {
           'ui:title': 'State (or country if outside the USA)',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
         city: {
           'ui:title': 'City or county',
+          'ui:required': formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
       },
       childStatus: {
-        'ui:title': "Your child's status (check all that apply)",
+        'ui:title': "Your child's status (Check all that apply)",
+        'ui:validations': [
+          {
+            validator: validateBooleanGroup,
+          },
+        ],
+        'ui:errorMessages': {
+          atLeastOne: 'You must choose at least one option',
+        },
+        'ui:required': () => true,
+        'ui:options': {
+          showFieldLabel: true,
+        },
         biological: {
           'ui:title': 'Biological',
         },
@@ -98,15 +114,21 @@ export const uiSchema = {
               expandUnderCondition: true,
               keepInPageOnReview: true,
             },
+            'ui:required': (formData, index) =>
+              formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+              true,
           },
         ),
       },
-      'view:marriageTypeInformation': {
+      'view:childStatusInformation': {
+        'ui:title': 'Additional evidence needed',
         'ui:description': childStatusDescription,
       },
       childPreviouslyMarried: {
         'ui:widget': 'radio',
         'ui:title': 'Was this child previously married?',
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.addChild),
       },
       childPreviousMarriageDetails: {
         'ui:options': {
@@ -125,6 +147,8 @@ export const uiSchema = {
         reasonMarriageEnded: {
           'ui:widget': 'radio',
           'ui:title': 'Reason marriage ended',
+          'ui:required': (formData, index) =>
+            formData.childrenToAdd[`${index}`].childPreviouslyMarried === 'Yes',
         },
         otherReasonMarriageEnded: {
           'ui:title': 'Reason marriage ended',
@@ -133,6 +157,9 @@ export const uiSchema = {
             expandUnderCondition: 'Other',
             keepInPageOnReview: true,
           },
+          'ui:required': (formData, index) =>
+            formData?.childrenToAdd[`${index}`]?.childPreviousMarriageDetails
+              ?.reasonMarriageEnded === 'Other',
         },
       },
     },

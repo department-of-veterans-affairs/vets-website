@@ -108,8 +108,7 @@
               </div>
               {% assign even = true %}
               {% for entity in outreachAssetsDataArray.entities %}
-              {% if entity.fieldOffice.targetId == fieldOffice.targetId %}
-
+              {% if entity.fieldListing.targetId == entityId %}
 
               <div data-topic="{{entity.fieldBenefits}}"
                 {{entity.fieldBenefits | breakIntoSingles}}

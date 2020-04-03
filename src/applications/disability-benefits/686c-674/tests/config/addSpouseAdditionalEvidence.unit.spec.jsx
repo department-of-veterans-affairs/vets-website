@@ -1,57 +1,40 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
-import {
-  DefinitionTester,
-  fillData,
-  selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import sinon from 'sinon';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
 
-describe('686 add child - child place of birth', () => {
+describe('686 upload additional evidence for spouse', () => {
   const {
     schema,
     uiSchema,
-    arrayPath,
-  } = formConfig.chapters.addChild.pages.addChildPlaceOfBirth;
+  } = formConfig.chapters.addSpouse.pages.marriageAdditionalEvidence;
 
   const formData = {
     'view:selectable686Options': {
-      addChild: true,
+      addSpouse: true,
     },
-    childrenToAdd: [
-      {
-        first: 'Bill',
-        last: 'Bob',
-        ssn: '370947141',
-        birthDate: '1997-04-02',
-      },
-    ],
+    marriageType: 'TRIBAL',
   };
-
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        pagePerItemIndex={0}
-        arrayPath={arrayPath}
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(1);
     form.unmount();
   });
 
-  it('should not progress without the required fields', () => {
+  it('should submit an empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        pagePerItemIndex={0}
-        arrayPath={arrayPath}
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
@@ -60,28 +43,31 @@ describe('686 add child - child place of birth', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
-  it('should progress with the required fields filled', () => {
+  it('should submit a valid form', () => {
     const onSubmit = sinon.spy();
+    const fileData = {
+      ...formData,
+      ...{
+        files: [
+          { confirmationCode: 'testing' },
+          { confirmationCode: 'testing2' },
+        ],
+      },
+    };
     const form = mount(
       <DefinitionTester
-        pagePerItemIndex={0}
-        arrayPath={arrayPath}
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
-        data={formData}
+        data={fileData}
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childPlaceOfBirth_state', 'California');
-    fillData(form, 'input#root_childPlaceOfBirth_city', 'Someplace');
-    selectCheckbox(form, 'root_childStatus_biological', true);
-
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

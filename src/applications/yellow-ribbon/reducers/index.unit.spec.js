@@ -12,6 +12,7 @@ describe('Yellow Ribbon reducer', () => {
     expect(result).to.be.deep.equal({
       error: '',
       fetching: false,
+      hasFetchedOnce: false,
       page: 1,
       perPage: 10,
       results: undefined,
@@ -36,6 +37,7 @@ describe('Yellow Ribbon reducer', () => {
     expect(state).to.be.deep.equal({
       error: '',
       fetching: false,
+      hasFetchedOnce: true,
       page: 1,
       perPage: 10,
       results: undefined,

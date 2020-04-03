@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import includes from 'lodash/includes';
+import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -10,12 +11,12 @@ import { capitalize } from '../../helpers';
 
 const deriveNameLabel = school => {
   // Show unknown if there's no name.
-  if (!school?.schoolNameInYrDatabase) {
+  if (!school?.name) {
     return 'Not provided';
   }
 
   // Show the name.
-  return capitalize(school?.schoolNameInYrDatabase);
+  return startCase(school?.name);
 };
 
 const deriveLocationLabel = (school = {}) => {

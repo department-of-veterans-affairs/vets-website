@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { getMomentConfirmedDate, isCommunityCare } from '../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
+import { resetDataLayer } from '../utils/events';
 
 import {
   getConfirmedAppointments,
@@ -359,6 +360,7 @@ export function confirmCancelAppointment() {
         event: `${eventPrefix}-successful`,
         ...additionalEventdata,
       });
+      resetDataLayer();
     } catch (e) {
       captureError(e, true);
       dispatch({
@@ -369,6 +371,7 @@ export function confirmCancelAppointment() {
         event: `${eventPrefix}-failed`,
         ...additionalEventdata,
       });
+      resetDataLayer();
     }
   };
 }

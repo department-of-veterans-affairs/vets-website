@@ -6,7 +6,6 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 describe('Form 526 submit reject timer', () => {
   let xhr;
-  let requests = [];
 
   before(() => {
     sinon.stub(localStorage, 'getItem');
@@ -14,15 +13,11 @@ describe('Form 526 submit reject timer', () => {
 
   beforeEach(() => {
     xhr = sinon.useFakeXMLHttpRequest();
-    xhr.onCreate = req => {
-      requests.push(req);
-    };
   });
 
   afterEach(() => {
     global.XMLHttpRequest = window.XMLHttpRequest;
     xhr.restore();
-    requests = [];
   });
 
   after(() => {

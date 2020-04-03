@@ -89,10 +89,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
-        pageCompiled.allEventTeasers = pageCompiled.fieldOffice.entity
-          .reverseFieldOfficeNode.entities.length
-          ? pageCompiled.fieldOffice.entity.reverseFieldOfficeNode
-          : pageCompiled.reverseFieldOfficeNode;
+        pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
@@ -102,8 +99,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       case 'story_listing':
-        pageCompiled.allNewsStoryTeasers =
-          page.fieldOffice.entity.reverseFieldOfficeNode;
+        pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
@@ -113,8 +109,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       case 'press_releases_listing':
-        pageCompiled.allPressReleaseTeasers =
-          page.fieldOffice.entity.reverseFieldOfficeNode;
+        pageCompiled.allPressReleaseTeasers = page.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
@@ -128,7 +123,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
         );
         break;
-      case 'leaderships_listing':
+      case 'leadership_listing':
         pageCompiled.allStaffProfiles = page.fieldLeadership;
         addPager(
           pageCompiled,

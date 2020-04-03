@@ -1,4 +1,4 @@
-import { TASK_KEYS } from './constants';
+import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -12,6 +12,7 @@ import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopp
 import {
   currentMarriageInformation,
   doesLiveWithSpouse,
+  marriageAdditionalEvidence,
   spouseInformation,
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
@@ -22,6 +23,7 @@ import {
   children,
   childPlaceOfBirth,
   childAdditionalInformation,
+  childAdditionalEvidence,
 } from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
 import {
@@ -118,6 +120,16 @@ const formConfig = {
           uiSchema: childAdditionalInformation.uiSchema,
           schema: childAdditionalInformation.schema,
         },
+        childAdditionalEvidence: {
+          depends: formData =>
+            formData?.childrenToAdd?.some(
+              child => child?.childStatus?.stepchild === true,
+            ),
+          title: 'Additional evidence needed to add child',
+          path: 'add-child-evidence',
+          uiSchema: childAdditionalEvidence.uiSchema,
+          schema: childAdditionalEvidence.schema,
+        },
       },
     },
     addSpouse: {
@@ -182,6 +194,15 @@ const formConfig = {
           arrayPath: 'veteranMarriageHistory',
           uiSchema: veteranMarriageHistoryDetails.uiSchema,
           schema: veteranMarriageHistoryDetails.schema,
+        },
+        marriageAdditionalEvidence: {
+          depends: formData =>
+            typeof formData.marriageType === 'string' &&
+            formData.marriageType !== MARRIAGE_TYPES.ceremonial,
+          title: 'Additional evidence needed to add spouse',
+          path: 'add-spouse-evidence',
+          uiSchema: marriageAdditionalEvidence.uiSchema,
+          schema: marriageAdditionalEvidence.schema,
         },
       },
     },

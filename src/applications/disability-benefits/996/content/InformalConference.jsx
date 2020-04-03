@@ -27,14 +27,6 @@ export const informalConferenceLabels = {
   rep: 'Yes, call my representative',
 };
 
-// export const ContactYouDescription = (
-//   <strong>
-//     First, We’ll call you to schedule the informal conference. Fill in the
-//     details below to indicate up to two time periods during the day when you’re
-//     available to receive that initial phone call.
-//   </strong>
-// );
-
 export const ContactRepresentativeDescription = (
   <p>Please provide your representative’s contact information.</p>
 );
@@ -45,7 +37,7 @@ export const RepresentativePhoneTitle = 'Representative’s phone number';
 
 export const InformalConferenceTimes = ({ isRep }) => (
   <strong>
-    First, We’ll call
+    First, we’ll call
     {isRep ? ' your representative' : ' you'} to schedule the informal
     conference. Fill in the details below to indicate up to two time periods
     during the day when {isRep ? 'your representative is' : 'you’re'} available
