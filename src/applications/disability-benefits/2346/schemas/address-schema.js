@@ -173,7 +173,7 @@ export const addressUISchema = (
             countryUI['ui:disabled'] = false;
             return {
               type: 'string',
-              enum: countries.map(country => country.label),
+              enum: countries.map(country => country.value),
             };
           },
         },
