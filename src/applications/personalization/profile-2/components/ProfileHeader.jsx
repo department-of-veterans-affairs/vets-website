@@ -12,17 +12,19 @@ const ProfileHeader = ({ userFullName, latestBranchOfService }) => {
     VASeal: '/img/vic-va-seal.png',
   };
 
+  const modifyNameWith = (name, addition = '') => {
+    if (!name) {
+      return addition;
+    }
+    return `${name} ${addition}`;
+  };
+
   const renderName = ({ first, middle, last }) => {
     let name = '';
-    if (first) {
-      name += `${first}`;
-    }
-    if (middle) {
-      name += ` ${middle}`;
-    }
-    if (last) {
-      name += ` ${last}`;
-    }
+    // Attempt to compile first + middle + last.
+    name = modifyNameWith(name, first);
+    name = modifyNameWith(name, middle);
+    name = modifyNameWith(name, last);
     return name;
   };
 
