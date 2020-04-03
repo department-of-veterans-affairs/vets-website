@@ -19,7 +19,7 @@ export default function SearchResult({ form }) {
     'vads-u-border-top--1px',
     'vads-u-border-color--gray-lighter',
     'vads-u-font-weight--bold',
-    'vads-u-color--link-default'
+    'vads-u-color--link-default',
   ].join(' ');
 
   return (
