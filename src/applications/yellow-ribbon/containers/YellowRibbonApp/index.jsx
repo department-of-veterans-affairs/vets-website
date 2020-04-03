@@ -42,8 +42,11 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
                 Participating school information on this page is valid for the
                 current academic year, from August 2019 through July 2020. To
                 view schools for the previous academic year,{' '}
-                <a href="" rel="noreferrer noopener">
-                  download 2018 - 2019 rates (PDF)
+                <a
+                  href="https://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2018.asp"
+                  rel="noreferrer noopener"
+                >
+                  view 2018 - 2019 rates
                 </a>
                 .
               </p>
@@ -136,8 +139,11 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
           <p className="vads-l-col--7">
             Participating school information is for the current academic year.
             To view schools for the previous academic year,{' '}
-            <a href="" rel="noreferrer noopener">
-              download the historical rates (PDF)
+            <a
+              href="https://www.benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
+              rel="noreferrer noopener"
+            >
+              view the historical rates
             </a>
             .
           </p>
