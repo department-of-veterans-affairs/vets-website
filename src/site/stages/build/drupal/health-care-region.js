@@ -36,8 +36,7 @@ function createPastEventListPages(page, drupalPagePath, files) {
   };
 
   // separate current events from past events;
-  _.forEach(allEvents.entities, value => {
-    const eventTeaser = value;
+  allEvents.entities.forEach(eventTeaser => {
     const startDate = eventTeaser.fieldDate.startDate;
     const isPast = moment().diff(startDate, 'days');
     if (isPast >= 1) {
@@ -53,20 +52,20 @@ function createPastEventListPages(page, drupalPagePath, files) {
   );
 
   // Past Events listing page
-  const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}`);
+  const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
 
-  const pastEventsObj = Object.assign(
-    { allEventTeasers: pastEventTeasers },
-    { eventTeasers: pastEventTeasers },
-    { fieldIntroText: page.fieldIntroText },
-    { facilitySidebar: sidebar },
-    { entityUrl: pastEventsEntityUrl },
-    { title: page.title },
-    { alert: page.alert },
-  );
+  const pastEventsObj = {
+    allEventTeasers: pastEventTeasers,
+    eventTeasers: pastEventTeasers,
+    fieldIntroText: page.fieldIntroText,
+    facilitySidebar: sidebar,
+    entityUrl: pastEventsEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
   const pastEventsPage = updateEntityUrlObj(
     pastEventsObj,
-    `${drupalPagePath}`,
+    drupalPagePath,
     'Past events',
   );
   const pastEventsPagePath = pastEventsPage.entityUrl.path;
