@@ -73,8 +73,18 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/sessions/mfa/new');
   });
 
+  it('should redirect for MFA v1', () => {
+    mfa('v1');
+    expect(global.window.location).to.include('/v1/sessions/mfa/new');
+  });
+
   it('should redirect for verify', () => {
     verify();
     expect(global.window.location).to.include('/sessions/verify/new');
+  });
+
+  it('should redirect for verify v1', () => {
+    verify('v1');
+    expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 });
