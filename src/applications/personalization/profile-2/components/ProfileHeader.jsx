@@ -2,10 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const ProfileHeader = ({
-  userFullName: { first, middle, last },
-  latestBranchOfService,
-}) => {
+const ProfileHeader = ({ userFullName, latestBranchOfService }) => {
   const imagePaths = {
     A: '/img/vic-army-symbol.png',
     C: '/img/vic-cg-emblem.png',
@@ -15,10 +12,19 @@ const ProfileHeader = ({
     VASeal: '/img/vic-va-seal.png',
   };
 
-  // const renderName = ({first, middle, last}) => {
-  //   return (
-  //   )
-  // }
+  const renderName = ({ first, middle, last }) => {
+    let name = '';
+    if (first) {
+      name += `${first}`;
+    }
+    if (middle) {
+      name += ` ${middle}`;
+    }
+    if (last) {
+      name += ` ${last}`;
+    }
+    return name;
+  };
 
   return (
     <div className="vads-u-background-color--gray-dark vads-u-color--white vads-u-margin-bottom--2 vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center">
@@ -36,9 +42,7 @@ const ProfileHeader = ({
           <h1 className="medium-screen:vads-u-display--flex vads-u-display--none vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
             Your Profile
           </h1>
-          <h2 className="vads-u-font-size--h3">
-            {first} {middle} {last}
-          </h2>
+          <h2 className="vads-u-font-size--h3">{renderName(userFullName)}</h2>
           {latestBranchOfService && (
             <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
               {/* hardcoded for now but switching to lastBranchOfService */}
