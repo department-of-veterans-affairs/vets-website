@@ -85,34 +85,17 @@ nav.profile-side-nav {
 
 
 .headerNameWrapper {
-  width: 60%;
-  h2 {
-    text-transform: capitalize;
+  width: 100%;
+  text-align: center;
+  h3 {
+    margin-top: 0;
   }
-  @media (max-width: $medium-screen) {
-    width: 100%;
-    text-align: center;
-
-    h3 {
-      margin-top: 0;
-    }
+  @media (min-width: $medium-screen) {
+    width: 60%;
+    text-align: left;
   }
 }
 
 .profileServiceBadge {
   max-height: 108px;
-}
-
-.headerContentWrapper {
-  width: 100%;
-  @media (max-width: $medium-screen) {
-    flex-direction: column;
-    width: 100%;
-  }
-}
-
-.profileHeading{
-  @media (max-width: $medium-screen) {
-    display: none;
-  }
 }

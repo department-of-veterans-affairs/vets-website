@@ -15,26 +15,36 @@ const ProfileHeader = ({
     VASeal: '/img/vic-va-seal.png',
   };
 
+  // const renderName = ({first, middle, last}) => {
+  //   return (
+  //   )
+  // }
+
   return (
-    <div className="headerWrapper vads-u-background-color--gray-dark vads-u-color--white vads-u-margin-bottom--2 vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center">
-      <div className="headerContentWrapper usa-grid usa-grid-full vads-u-display--flex vads-u-align-items--center">
-        <div className="vads-u-padding-x--6 usa-width-one-fourth">
-          <img
-            className="profileServiceBadge"
-            src={imagePaths[`${latestBranchOfService}`]}
-            alt="service badge"
-          />
+    <div className="vads-u-background-color--gray-dark vads-u-color--white vads-u-margin-bottom--2 vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center">
+      <div className="medium-screen:vads-u-flex-direction--row usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--center vads-u-width--full">
+        <div className="medium-screen:vads-u-padding-left--8 usa-width-one-fourth">
+          {latestBranchOfService && (
+            <img
+              className="profileServiceBadge"
+              src={imagePaths[`${latestBranchOfService}`]}
+              alt="service badge"
+            />
+          )}
         </div>
         <div className="headerNameWrapper vads-u-flex-direction--column">
-          <h1 className="profileHeading vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+          <h1 className="medium-screen:vads-u-display--flex vads-u-display--none vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
             Your Profile
           </h1>
           <h2 className="vads-u-font-size--h3">
-            {first.toLowerCase()} {middle.toLowerCase()} {last.toLowerCase()}
+            {first} {middle} {last}
           </h2>
-          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-            United States Army Reserve
-          </h3>
+          {latestBranchOfService && (
+            <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+              {/* hardcoded for now but switching to lastBranchOfService */}
+              United States Army Reserve
+            </h3>
+          )}
         </div>
       </div>
     </div>
@@ -42,6 +52,7 @@ const ProfileHeader = ({
 };
 
 const mapStateToProps = state => ({
+  // moving to state.user.hero.userFullName
   userFullName: state.user.profile.userFullName,
 });
 
