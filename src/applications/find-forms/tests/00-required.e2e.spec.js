@@ -1,37 +1,70 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const createMockEndpoint = require('../../../platform/testing/e2e/mock-helpers');
+
+import sortBy from 'lodash/sortBy';
+import chunk from 'lodash/chunk';
+
+const stub = require('../constants/stub.json');
 
 const SELECTORS = {
+  WIDGET: '[data-widget-type="find-va-forms"]',
   SEARCH_FORM: '[data-e2e-id="find-form-search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
+  NEXT_PAGE: '.va-pagination-next > a',
 };
 
-module.exports = E2eHelpers.createE2eTest(client => {
-  client.openUrl(`${E2eHelpers.baseUrl}/find-forms/`);
+function runTest(browser) {
+  browser.openUrl(`${E2eHelpers.baseUrl}/find-forms/`);
 
-  E2eHelpers.overrideSmoothScrolling(client);
-  FacilityHelpers.initApplicationMock();
+  E2eHelpers.overrideSmoothScrolling(browser);
 
-  client
-    .waitForElementVisible('body', Timeouts.normal)
-    .waitForElementVisible('.facility-locator', Timeouts.slow)
-    .axeCheck('.main');
+  browser
+    .waitForElementVisible('body', Timeouts.slow)
+    .waitForElementVisible(SELECTORS.SEARCH_FORM, Timeouts.slow)
+    .axeCheck(SELECTORS.WIDGET);
 
-  client
-    .clearValue('input[name="street-city-state-zip"]')
-    .setValue('input[name="street-city-state-zip"]', 'Seattle, WA');
+  browser.setValue(`${SELECTORS.SEARCH_FORM} input`, 'health');
+  browser.click(`${SELECTORS.SEARCH_FORM} button[type="submit"]`);
 
-  client
-    .click('input[type="submit"]')
-    .waitForElementVisible('.facility-result', Timeouts.normal)
-    .axeCheck('.main');
+  browser.waitForElementVisible(
+    `${SELECTORS.SEARCH_RESULT_TITLE}`,
+    Timeouts.slow,
+  );
+  browser.axeCheck(SELECTORS.WIDGET);
 
-  // check detail pages
-  client
-    .waitForElementVisible('.facility-result a', Timeouts.slow)
-    .click('.facility-result a')
-    .waitForElementVisible('.all-details', Timeouts.slow)
-    .axeCheck('.main');
+  const sortedForms = sortBy(stub.data, 'id');
+  const pageLength = 10;
+  const pages = chunk(sortedForms, pageLength);
 
-  client.end();
+  pages.forEach((page, pageNumber) => {
+    page.forEach(form => {
+      browser.assert.elementPresent(`a[href="${form.attributes.url}"]`);
+    });
+
+    const nextPage = pageNumber + 1;
+    const hasNextPage = nextPage < pages.length;
+
+    if (hasNextPage) {
+      browser.click(SELECTORS.NEXT_PAGE);
+    }
+  });
+
+  browser.end();
+}
+
+async function setup() {
+  await createMockEndpoint('', {
+    path: '/v0/forms',
+    verb: 'get',
+    value: stub,
+  });
+}
+
+module.exports = E2eHelpers.createE2eTest(browser => {
+  browser.perform(async done => {
+    await setup();
+    runTest(browser);
+    done();
+  });
 });
