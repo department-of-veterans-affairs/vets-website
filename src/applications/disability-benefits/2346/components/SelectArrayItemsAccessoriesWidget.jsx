@@ -68,6 +68,7 @@ class SelectArrayItemsAccessoriesWidget extends Component {
                 name={supply.productId}
                 type="checkbox"
                 onChange={this.handleChecked}
+                checked={selectedItems.includes(supply.productId)}
               />
               <label htmlFor={supply.productId} className="main">
                 Order accessoires for this device
