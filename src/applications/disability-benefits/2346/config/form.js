@@ -1,16 +1,13 @@
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import {
-  addressUISchema,
-  buildAddressSchema,
-} from '../../686c-674/config/address-schema';
-import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';
-import UIDefinitions from '../definitions/2346UI';
+import fullSchemaMDOT from '../schemas/2346-schema.json';
+import { addressUISchema, buildAddressSchema } from '../schemas/address-schema';
+import UIDefinitions from '../schemas/definitions/2346UI';
 
 const {
   email,
