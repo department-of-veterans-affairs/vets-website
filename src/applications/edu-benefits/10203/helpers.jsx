@@ -23,3 +23,8 @@ export const display1995StemFlow = form =>
   isEdithNourseRogersScholarship(form) &&
   (isEligibleForEdithNourseRogersScholarship(form) ||
     determineEligibilityFor1995Stem(form));
+
+export const display10203StemFlow = form =>
+  isEdithNourseRogersScholarship(form) &&
+  (isEligibleForEdithNourseRogersScholarship(form) ||
+    determineEligibilityFor1995Stem(form));

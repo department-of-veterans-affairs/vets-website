@@ -14,7 +14,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import { display1995StemFlow, displayStemEligibility } from '../helpers';
+import { display10203StemFlow, displayStemEligibility } from '../helpers';
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -77,14 +77,14 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: display1995StemFlow, // 1995-STEM related
+        depends: display10203StemFlow, // 1995-STEM related
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        depends: form => !display1995StemFlow(form), // 1995-STEM related
+        depends: form => !display10203StemFlow(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -108,7 +108,7 @@ export const chapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        depends: form => !display1995StemFlow(form), // 1995-STEM related
+        depends: form => !display10203StemFlow(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
@@ -198,7 +198,7 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form =>
-          !display1995StemFlow(form) &&
+          !display10203StemFlow(form) &&
           form['view:hasServiceBefore1978'] === true,
         uiSchema: {
           serviceBefore1977: serviceBefore1977UI,
