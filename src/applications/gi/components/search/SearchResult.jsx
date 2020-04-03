@@ -59,12 +59,12 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <a
-                    href={linkTo.pathname}
+                  <Link
+                    to={linkTo}
                     aria-label={`${name} ${locationInfo(city, state, country)}`}
                   >
                     {name}
-                  </a>
+                  </Link>
                 </h2>
               </div>
             </div>
