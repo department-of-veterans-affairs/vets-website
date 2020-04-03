@@ -132,9 +132,9 @@ export class EducationWizard extends React.Component {
       applyForScholarship,
     } = this.state;
 
-    const { show1995s } = this.props;
+    const { showSTEMScholarship } = this.props;
 
-    const form1995 = show1995s ? '1995s' : '1995';
+    const form1995 = showSTEMScholarship ? '10203' : '1995';
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
@@ -472,7 +472,7 @@ export class EducationWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  show1995s: educationWizard1995s(state),
+  showSTEMScholarship: educationWizard1995s(state),
 });
 
 export default connect(mapStateToProps)(EducationWizard);

@@ -1,8 +1,8 @@
 {
-  "appName": "22-1995S Education benefits form",
+  "appName": "22-10203 Education benefits form",
   "entryFile": "./edu-benefits-entry.jsx",
-  "entryName": "1995s-edu-benefits",
-  "rootUrl": "/education/apply-for-education-benefits/application/1995S",
+  "entryName": "10203-edu-benefits",
+  "rootUrl": "/education/apply-for-education-benefits/application/10203",
   "production": true,
   "template": {
     "title": "Veteran Request For Change",
@@ -23,7 +23,7 @@
       },
       {
         "name": "Apply for education benefits",
-        "path": "education/apply-for-education-benefits/application/1995S"
+        "path": "education/apply-for-education-benefits/application/10203"
       }
     ]
   }
