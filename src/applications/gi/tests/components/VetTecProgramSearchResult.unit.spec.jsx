@@ -90,7 +90,7 @@ it('should display school closing and caution alerts', () => {
     result: {
       ...defaultProps.result,
       schoolClosing: true,
-      cautionFlags: [{ reason: 'reason for caution', id: '1' }],
+      cautionFlags: [{ title: 'reason for caution', id: '1' }],
     },
   };
   const wrapper = mount(<VetTecProgramSearchResult {...props} />);
@@ -105,10 +105,10 @@ it('should display multiple caution alerts', () => {
       ...defaultProps.result,
 
       cautionFlags: [
-        { reason: 'reason one', id: '1' },
-        { reason: 'reason two', id: '2' },
-        { reason: 'reason three', id: '3' },
-        { reason: 'reason four', id: '4' },
+        { title: 'reason one', id: '1' },
+        { title: 'reason two', id: '2' },
+        { title: 'reason three', id: '3' },
+        { title: 'reason four', id: '4' },
       ],
     },
   };
