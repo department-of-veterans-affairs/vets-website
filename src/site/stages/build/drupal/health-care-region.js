@@ -28,7 +28,7 @@ function sortServices(sortItem) {
 function createPastEventListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
   // Events listing page
-  const allEvents = page.secondSetOfEvents;
+  const allEvents = page.pastEvents;
 
   // store past & current events
   const pastEventTeasers = {

@@ -11,7 +11,7 @@ module.exports = `
     title
     fieldIntroText
     entityId
-    secondSetOfEvents: reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
+    pastEvents: reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
           entities {
             ... on NodeEvent {
               title
