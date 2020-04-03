@@ -27,6 +27,12 @@ const emailUIDescription = (
   </>
 );
 
+const emptySpace = (
+  <>
+    <br />
+  </>
+);
+
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
@@ -53,6 +59,7 @@ export default {
     },
     selectedAddressUI: {
       'ui:title': 'Select which address to send your products to:',
+      'ui:description': emptySpace,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {

@@ -79,7 +79,7 @@ const addressSchema = {
     },
     country: {
       type: 'string',
-      enum: countries.map(country => country.label),
+      enum: countries.map(country => country.value),
     },
     street: {
       type: 'string',
@@ -174,6 +174,7 @@ export const addressUISchema = (
             return {
               type: 'string',
               enum: countries.map(country => country.value),
+              enumNames: countries.map(country => country.label),
             };
           },
         },
