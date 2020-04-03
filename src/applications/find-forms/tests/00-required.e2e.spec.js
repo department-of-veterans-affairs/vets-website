@@ -53,8 +53,8 @@ function runTest(browser) {
   browser.end();
 }
 
-async function setup() {
-  await createMockEndpoint('', {
+function setup() {
+  return createMockEndpoint('', {
     path: '/v0/forms',
     verb: 'get',
     value: stub,
@@ -62,9 +62,10 @@ async function setup() {
 }
 
 module.exports = E2eHelpers.createE2eTest(browser => {
-  browser.perform(async done => {
-    await setup();
-    runTest(browser);
-    done();
+  browser.perform(done => {
+    setup().then(() => {
+      runTest(browser);
+      done();
+    });
   });
 });
