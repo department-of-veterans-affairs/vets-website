@@ -249,30 +249,38 @@
       "enum": ["yes", "no"]
     },
     "supplies": {
-      "type": "object",
-      "properties": {
-        "product_name": { "type": "string" },
-        "product_group": { "type": "string" },
-        "product_id": { "type": "number" },
-        "available_for_reorder": { "type": "boolean" },
-        "last_order_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "productName": {
-          "type": "string"
-        },
-        "quantity": { "type": "number" }
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "deviceName": { "type": "string" },
+          "productName": { "type": "string" },
+          "productGroup": { "type": "string" },
+          "productId": { "type": "string" },
+          "availableForReorder": { "type": "boolean" },
+          "lastOrderDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "nextAvailabilityDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "quantity": { "type": "number" },
+          "size": {
+            "type": "string"
+          }
+        }
       }
     },
     "accessories": {
       "type": "object",
       "properties": {
-        "product_name": { "type": "string" },
-        "product_group": { "type": "string" },
-        "product_id": { "type": "number" },
-        "available_for_reorder": { "type": "boolean" },
-        "last_order_date": {
+        "productName": { "type": "string" },
+        "productGroup": { "type": "string" },
+        "productId": { "type": "number" },
+        "availableForReorder": { "type": "boolean" },
+        "lastOrderDate": {
           "type": "string",
           "format": "date"
         },
@@ -333,7 +341,6 @@
     "fullName",
     "gender",
     "email",
-    "dateOfBirth",
-    "supplies"
+    "dateOfBirth"
   ]
 }
