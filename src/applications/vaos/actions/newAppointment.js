@@ -292,7 +292,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId = eligibleFacilities[0].institutionCode;
       }
 
-      if (!eligibleFacilities?.length) {
+      if (parentId && !eligibleFacilities?.length) {
         recordEligibilityFailure('supported-facilities');
       }
 

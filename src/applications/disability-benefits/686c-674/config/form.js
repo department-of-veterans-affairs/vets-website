@@ -6,7 +6,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
-import { deceasedDependentInformation } from './chapters/report-dependent-death';
+import {
+  deceasedDependentInformation,
+  deceasedDependentAdditionalInformation,
+} from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
@@ -233,6 +236,14 @@ const formConfig = {
           path: '686-report-dependent-death',
           uiSchema: deceasedDependentInformation.uiSchema,
           schema: deceasedDependentInformation.schema,
+        },
+        dependentAdditionalInformation: {
+          title: 'Report the death of a dependent',
+          path: '686-report-dependent-death/:index/additional-information',
+          showPagePerItem: true,
+          arrayPath: 'deaths',
+          uiSchema: deceasedDependentAdditionalInformation.uiSchema,
+          schema: deceasedDependentAdditionalInformation.schema,
         },
       },
     },
