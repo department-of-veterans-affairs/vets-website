@@ -11,14 +11,13 @@ describe('Yellow Ribbon <SearchResult>', () => {
       school: {
         city: 'Los Angeles',
         contributionAmount: '500',
-        country: 'USA',
         degreeLevel: 'All',
         divisionProfessionalSchool: 'All',
         facilityCode: '21115805',
         institutionId: 3454830,
         insturl: 'www.someurl.com',
         numberOfStudents: 212,
-        schoolNameInYrDatabase: 'Abraham Lincoln University',
+        nameOfInstitution: 'Abraham Lincoln University',
         state: 'CA',
         streetAddress: '3530 Wilshire Boulevard, Suite 1430',
         zip: '90010',
@@ -34,7 +33,7 @@ describe('Yellow Ribbon <SearchResult>', () => {
     expect(text).to.include(props.school.contributionAmount);
     expect(text).to.include(props.school.insturl);
     expect(text).to.include(props.school.numberOfStudents);
-    expect(text).to.include(props.school.schoolNameInYrDatabase);
+    expect(text).to.include(props.school.nameOfInstitution);
     expect(text).to.include(props.school.state);
 
     tree.unmount();

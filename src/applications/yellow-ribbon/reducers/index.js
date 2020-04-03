@@ -13,17 +13,12 @@ import {
 } from '../constants';
 
 const initialState = {
-  city: '',
-  contributionAmount: '',
-  country: '',
   error: '',
   fetching: false,
-  name: '',
-  numberOfStudents: '',
+  hasFetchedOnce: false,
   page: 1,
   perPage: 10,
   results: undefined,
-  state: '',
   totalResults: undefined,
   // For comparing:
   schoolIDs: [],
@@ -45,14 +40,10 @@ export const yellowRibbonReducer = (state = initialState, action) => {
     case FETCH_RESULTS: {
       return {
         ...state,
-        city: action?.options?.city || '',
-        contributionAmount: action?.options?.contributionAmount || '',
-        country: action?.options?.country || '',
         error: '',
         fetching: !action?.options?.hideFetchingState,
-        name: action?.options?.name || '',
-        numberOfStudents: action?.options?.numberOfStudents || '',
-        state: action?.options?.state || '',
+        hasFetchedOnce: true,
+        page: action?.options?.page || state?.page,
       };
     }
     case FETCH_RESULTS_FAILURE: {

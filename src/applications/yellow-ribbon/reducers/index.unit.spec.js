@@ -10,19 +10,14 @@ describe('Yellow Ribbon reducer', () => {
     const result = yellowRibbonReducer(undefined, emptyAction);
 
     expect(result).to.be.deep.equal({
-      city: '',
-      contributionAmount: '',
-      country: '',
       error: '',
       fetching: false,
-      name: '',
-      numberOfStudents: '',
+      hasFetchedOnce: false,
       page: 1,
       perPage: 10,
       results: undefined,
       schoolIDs: [],
       schoolsLookup: {},
-      state: '',
       totalResults: undefined,
     });
   });
@@ -32,7 +27,6 @@ describe('Yellow Ribbon reducer', () => {
       type: FETCH_RESULTS,
       options: {
         city: 'boulder',
-        country: 'usa',
         hideFetchingState: true,
         name: 'university',
         state: 'CO',
@@ -41,19 +35,14 @@ describe('Yellow Ribbon reducer', () => {
     const state = yellowRibbonReducer(undefined, action);
 
     expect(state).to.be.deep.equal({
-      city: 'boulder',
-      contributionAmount: '',
-      country: 'usa',
       error: '',
       fetching: false,
-      name: 'university',
-      numberOfStudents: '',
+      hasFetchedOnce: true,
       page: 1,
       perPage: 10,
       results: undefined,
       schoolIDs: [],
       schoolsLookup: {},
-      state: 'CO',
       totalResults: undefined,
     });
   });

@@ -3,19 +3,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import includes from 'lodash/includes';
+import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
 import { connect } from 'react-redux';
 // Relative imports.
 import { capitalize } from '../../helpers';
 
 const deriveNameLabel = school => {
-  // Show unknown if there's no name.
-  if (!school?.schoolNameInYrDatabase) {
+  // Show unknown if there's no nameOfInstitution.
+  if (!school?.nameOfInstitution) {
     return 'Not provided';
   }
 
-  // Show the name.
-  return capitalize(school?.schoolNameInYrDatabase);
+  // Show the nameOfInstitution.
+  return startCase(toLower(school?.nameOfInstitution));
 };
 
 const deriveLocationLabel = (school = {}) => {
@@ -89,13 +90,33 @@ const deriveInstURLLabel = (school = {}) => {
   );
 };
 
+const deriveDegreeLevel = (school = {}) => {
+  // Show unknown if there's no degreeLevel.
+  if (!school?.degreeLevel) {
+    return 'Not provided';
+  }
+
+  // Show the degreeLevel.
+  return school?.degreeLevel;
+};
+
+const deriveDivisionProfessionalSchool = (school = {}) => {
+  // Show unknown if there's no divisionProfessionalSchool.
+  if (!school?.divisionProfessionalSchool) {
+    return 'Not provided';
+  }
+
+  // Show the divisionProfessionalSchool.
+  return school?.divisionProfessionalSchool;
+};
+
 export const SearchResult = ({ school, schoolIDs }) => (
   <div
     className={classNames(
       'medium-screen:vads-l-col',
       'vads-l-col',
       'vads-u-margin-bottom--2',
-      'vads-u-padding-x--3',
+      'vads-u-padding-x--2',
       'vads-u-padding-y--2',
       'vads-u-background-color--gray-light-alt',
       'vads-u-border--3px',
@@ -132,14 +153,30 @@ export const SearchResult = ({ school, schoolIDs }) => (
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
           {deriveEligibleStudentsLabel(school)}
         </p>
+
+        {/* School Website */}
+        <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
+          School website
+        </h4>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+          {deriveInstURLLabel(school)}
+        </p>
       </div>
 
       <div className="vads-l-col--6 vads-u-padding-left--2">
-        {/* School Website */}
+        {/* Degree Level */}
         <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
-          School website
+          Degree type
         </h4>
-        <p className="vads-u-margin--0">{deriveInstURLLabel(school)}</p>
+        <p className="vads-u-margin--0">{deriveDegreeLevel(school)}</p>
+
+        {/* Division Professional School */}
+        <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--7 vads-u-margin-bottom--0">
+          School or program
+        </h4>
+        <p className="vads-u-margin--0">
+          {deriveDivisionProfessionalSchool(school)}
+        </p>
       </div>
     </div>
   </div>
@@ -148,9 +185,9 @@ export const SearchResult = ({ school, schoolIDs }) => (
 SearchResult.propTypes = {
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
-    insturl: PropTypes.number,
+    insturl: PropTypes.string,
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    nameOfInstitution: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
     numberOfStudents: PropTypes.number.isRequired,
     contributionAmount: PropTypes.number.isRequired,

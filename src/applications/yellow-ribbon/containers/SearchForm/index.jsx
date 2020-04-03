@@ -7,6 +7,7 @@ import map from 'lodash/map';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import STATES from 'platform/static-data/STATES.json';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 
 export class SearchForm extends Component {
@@ -93,8 +94,12 @@ export class SearchForm extends Component {
       contributionAmount,
       name,
       numberOfStudents,
+      page: 1,
       state,
     });
+
+    // Scroll to top.
+    scrollToTop();
   };
 
   render() {
@@ -109,7 +114,7 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0 vads-u-margin-bottom--3"
+        className="vads-l-grid-container vads-u-padding--0"
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
@@ -184,7 +189,7 @@ export class SearchForm extends Component {
 
         {/* Submit Button */}
         <button
-          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5"
+          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
           type="submit"
         >
           Search

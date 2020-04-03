@@ -28,14 +28,10 @@ export class EducationWizard extends React.Component {
   }
 
   getButton(form) {
-    let url;
-    switch (form) {
-      case '0994':
-        url = `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`;
-        break;
-      default:
-        url = `/education/apply-for-education-benefits/application/${form}`;
-    }
+    const url =
+      form === '0994'
+        ? `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`
+        : `/education/apply-for-education-benefits/application/${form}`;
 
     return (
       <a

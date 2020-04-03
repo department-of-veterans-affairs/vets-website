@@ -64,6 +64,7 @@ import {
 import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
+import facilityDetails from '../../api/facility_details_983.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -393,6 +394,13 @@ describe('VAOS newAppointment actions', () => {
       const firstAction = dispatch.firstCall.args[0];
       expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
 
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      );
+
       expect(firstAction.eligibilityData).to.not.be.null;
     });
 
@@ -663,6 +671,7 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
+      setFetchJSONResponse(global.fetch.onCall(4), facilityDetails);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -694,11 +703,17 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS,
       );
-      expect(dispatch.lastCall.args[0].type).to.equal(
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
       );
+      expect(dispatch.getCall(3).args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS,
+      );
+      expect(dispatch.getCall(4).args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      );
 
-      const succeededAction = dispatch.lastCall.args[0];
+      const succeededAction = dispatch.thirdCall.args[0];
       const eligibilityData = succeededAction.eligibilityData;
       expect(succeededAction.typeOfCareId).to.equal(
         defaultState.newAppointment.data.typeOfCareId,
@@ -1044,19 +1059,28 @@ describe('VAOS newAppointment actions', () => {
       });
       await thunk(dispatch, getState);
 
+      const dataLayer = global.window.dataLayer;
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(global.window.dataLayer[0]).to.deep.equal({
+      expect(dataLayer[0]).to.deep.equal({
         event: 'vaos-request-submission',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
       });
-      expect(global.window.dataLayer[1]).to.deep.equal({
+      expect(dataLayer[1]).to.deep.equal({
         event: 'vaos-request-submission-successful',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
+      });
+      expect(dataLayer[2]).to.deep.equal({
+        flow: undefined,
+        'health-TypeOfCare': undefined,
+        'health-ReasonForAppointment': undefined,
+        'error-key': undefined,
+        appointmentType: undefined,
+        facilityType: undefined,
       });
       expect(router.push.called).to.be.true;
     });
@@ -1198,6 +1222,14 @@ describe('VAOS newAppointment actions', () => {
         flow: 'va-request',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
+      });
+      expect(global.window.dataLayer[2]).to.deep.equal({
+        flow: undefined,
+        'health-TypeOfCare': undefined,
+        'health-ReasonForAppointment': undefined,
+        'error-key': undefined,
+        appointmentType: undefined,
+        facilityType: undefined,
       });
       expect(router.push.called).to.be.false;
     });

@@ -30,41 +30,36 @@ class DashboardAppWrapper extends React.Component {
   };
 
   renderDowntimeNotification = (downtime, children) => {
-    switch (downtime.status) {
-      case 'downtimeApproaching':
-        return (
-          <div
-            className="downtime-notification row-padded"
-            data-status={status}
+    if (downtime.status === 'downtimeApproaching') {
+      return (
+        <div className="downtime-notification row-padded" data-status={status}>
+          <Modal
+            id="downtime-approaching-modal"
+            title="Some parts of your homepage will be down for maintenance soon"
+            status="info"
+            onClose={this.dismissModal}
+            visible={!this.state.modalDismissed}
           >
-            <Modal
-              id="downtime-approaching-modal"
-              title="Some parts of your homepage will be down for maintenance soon"
-              status="info"
-              onClose={this.dismissModal}
-              visible={!this.state.modalDismissed}
+            <p>
+              We’ll be making updates to some tools and features on{' '}
+              {downtime.startTime.format('MMMM Do')} between{' '}
+              {downtime.startTime.format('LT')} and{' '}
+              {downtime.endTime.format('LT')} If you have trouble using parts of
+              the dashboard during that time, please check back soon.
+            </p>
+            <button
+              type="button"
+              className="usa-button-secondary"
+              onClick={this.dismissModal}
             >
-              <p>
-                We’ll be making updates to some tools and features on{' '}
-                {downtime.startTime.format('MMMM Do')} between{' '}
-                {downtime.startTime.format('LT')} and{' '}
-                {downtime.endTime.format('LT')} If you have trouble using parts
-                of the dashboard during that time, please check back soon.
-              </p>
-              <button
-                type="button"
-                className="usa-button-secondary"
-                onClick={this.dismissModal}
-              >
-                Continue
-              </button>
-            </Modal>
-            {children}
-          </div>
-        );
-      default:
-        return children;
+              Continue
+            </button>
+          </Modal>
+          {children}
+        </div>
+      );
     }
+    return children;
   };
 
   renderBreadcrumbs = location => {

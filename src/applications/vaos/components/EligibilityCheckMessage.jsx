@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorMessage from './ErrorMessage';
+import FacilityAddress from './FacilityAddress';
 
-export default function EligibilityCheckMessage({ eligibility }) {
+export default function EligibilityCheckMessage({
+  eligibility,
+  facilityDetails,
+}) {
   if (eligibility.requestFailed) {
     return <ErrorMessage />;
   }
@@ -47,12 +52,35 @@ export default function EligibilityCheckMessage({ eligibility }) {
       <div aria-atomic="true" aria-live="assertive">
         <AlertBox
           status="warning"
-          headline="You already have an appointment request at this location"
-        >
-          Our records show that you have an open appointment request at this
-          location. We can’t schedule any more appointments at this facility
-          until the open appointment requests are scheduled or canceled.
-        </AlertBox>
+          headline="You’ve reached the limit for appointment requests at this location"
+          content={
+            <>
+              <p>
+                Our records show that you have an open appointment request at
+                this location. We can’t schedule any more appointments at this
+                facility until your open requests are scheduled or canceled. To
+                schedule or cancel your open appointments:
+              </p>
+              <ul>
+                <li>
+                  Go to <Link to="/">your appointment list</Link> and cancel
+                  open requests, or
+                </li>
+                {facilityDetails && (
+                  <li>
+                    Call your medical facility:
+                    <br />
+                    <FacilityAddress
+                      name={facilityDetails.name}
+                      facility={facilityDetails}
+                    />
+                  </li>
+                )}
+                {!facilityDetails && <li>Call your medical facility</li>}
+              </ul>
+            </>
+          }
+        />
       </div>
     );
   }

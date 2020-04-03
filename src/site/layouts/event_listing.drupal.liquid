@@ -25,9 +25,7 @@
                   </p>
                 {% endif %}
               </div>
-              {% if entityUrl.breadcrumb.1.text != "Outreach and events" %}
-                {% include "src/site/facilities/facilities_events_toggle.drupal.liquid" with url = entityUrl.path %}
-              {% endif %}
+
               {% assign featuredUrl = null %}
               {% assign featuredItemSet = false %}
 

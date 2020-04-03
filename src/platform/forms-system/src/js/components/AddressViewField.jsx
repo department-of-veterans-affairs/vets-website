@@ -42,7 +42,7 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
-AddressViewField.PropTypes = {
+AddressViewField.propTypes = {
   formData: PropTypes.shape({
     country: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,

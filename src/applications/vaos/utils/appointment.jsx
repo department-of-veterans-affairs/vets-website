@@ -566,17 +566,14 @@ export function getAppointmentTypeHeader(appt) {
 export function getAppointmentDuration(appt) {
   const type = getAppointmentType(appt);
 
-  switch (type) {
-    case APPOINTMENT_TYPES.vaAppointment: {
-      const appointmentLength = parseInt(
-        appt.vdsAppointments[0]?.appointmentLength,
-        10,
-      );
-      return isNaN(appointmentLength) ? 60 : appointmentLength;
-    }
-    default:
-      return 60;
+  if (type === APPOINTMENT_TYPES.vaAppointment) {
+    const appointmentLength = parseInt(
+      appt.vdsAppointments[0]?.appointmentLength,
+      10,
+    );
+    return isNaN(appointmentLength) ? 60 : appointmentLength;
   }
+  return 60;
 }
 /**
  * Returns formatted address from facility details object

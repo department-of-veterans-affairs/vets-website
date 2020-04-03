@@ -4,6 +4,9 @@
     "sonarjs/no-identical-expressions": 2,
     "sonarjs/max-switch-cases": [2, 40],
     "sonarjs/no-duplicated-branches": 2,
-    "sonarjs/no-inverted-boolean-check": 2
+    "sonarjs/no-inverted-boolean-check": 2,
+    "sonarjs/no-redundant-boolean": 2,
+    "sonarjs/no-unused-collection": 2,
+    "sonarjs/no-small-switch": 2
   }
 }

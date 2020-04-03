@@ -405,11 +405,20 @@ describe('VAOS actions: appointments', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
+      const dataLayer = global.window.dataLayer;
 
-      expect(global.window.dataLayer[1]).to.deep.equal({
+      expect(dataLayer[1]).to.deep.equal({
         event: 'vaos-cancel-appointment-submission-failed',
         appointmentType: 'confirmed',
         facilityType: 'va',
+      });
+      expect(dataLayer[2]).to.deep.equal({
+        flow: undefined,
+        'health-TypeOfCare': undefined,
+        'health-ReasonForAppointment': undefined,
+        'error-key': undefined,
+        appointmentType: undefined,
+        facilityType: undefined,
       });
     });
 

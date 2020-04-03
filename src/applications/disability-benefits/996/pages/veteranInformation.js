@@ -1,8 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 
-import MaskedNumber from '../components/MaskedNumber';
+import { srSubstitute } from '../../all-claims/utils';
 import { genderLabels } from 'platform/static-data/labels';
+
+const mask = srSubstitute('●●●–●●–', 'ending with');
 
 const veteranInformationDescription = data => {
   const {
@@ -21,11 +23,11 @@ const veteranInformationDescription = data => {
         <p>
           <strong>{`${fullName?.first || ''} ${fullName?.last || ''}`}</strong>
         </p>
-        <p>
-          Social Security number: <MaskedNumber number={last4SSN} />
+        <p className="ssn">
+          Social Security number: {mask} {last4SSN.slice(-4)}
         </p>
-        <p>
-          VA file number: <MaskedNumber number={last4VAFile} />
+        <p className="vafn">
+          VA file number: {mask} {last4VAFile.slice(-4)}
         </p>
         <p>
           Date of birth:{' '}

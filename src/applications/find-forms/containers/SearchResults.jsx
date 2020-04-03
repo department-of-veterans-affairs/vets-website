@@ -118,10 +118,13 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <p className="vads-u-margin-y--1p5" data-forms-focus>
+        <h2
+          className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5"
+          data-forms-focus
+        >
           Showing {startLabel} &ndash; {lastLabel} of {results.length} results
           for "<strong>{query}</strong>"
-        </p>
+        </h2>
 
         <dl className="vads-l-grid-container--full">{searchResults}</dl>
 
