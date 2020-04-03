@@ -16,12 +16,19 @@ describe('686 report a divorce', () => {
     uiSchema,
   } = formConfig.chapters.reportDivorce.pages.formerSpouseDetails;
 
+  const formData = {
+    'view:selectable686Options': {
+      reportDivorce: true,
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
     expect(form.find('input').length).to.equal(8);
@@ -36,6 +43,7 @@ describe('686 report a divorce', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     form.find('form').simulate('submit');
@@ -52,6 +60,7 @@ describe('686 report a divorce', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     // spouse name
@@ -86,6 +95,7 @@ describe('686 report a divorce', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     // spouse name
@@ -120,6 +130,7 @@ describe('686 report a divorce', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     // spouse name
