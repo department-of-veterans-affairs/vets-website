@@ -1172,7 +1172,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('cautionaryWarnings')}
       >
-        <h3>Cautionary Warnings</h3>
+        <h3>Cautionary warnings</h3>
         <p>
           When Caution Flags are displayed for an institution, they indicate VA
           or other federal agencies like the Department of Education or

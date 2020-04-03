@@ -23,7 +23,7 @@ class CautionaryWarningsFilter extends React.Component {
     return (
       <div>
         <p>
-          Cautionary Warnings
+          Cautionary warnings
           {this.renderProfileCautionFlagModal()}
         </p>
         <Checkbox
