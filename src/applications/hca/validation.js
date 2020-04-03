@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import { addYears, endOfDay, format, isAfter } from 'date-fns';
 import {
   convertToDateField,
@@ -80,8 +79,7 @@ export function validateDependentDate(
 ) {
   const dependent = Date.parse(dependentDate);
   const dob =
-    Date.parse(_.get(`dependents[${index}].dateOfBirth`, formData)) ||
-    Date.now();
+    Date.parse(formData?.dependents?.[index]?.dateOfBirth) || Date.now();
 
   if (formData.discloseFinancialInformation && isAfter(dob, dependent)) {
     errors.addError('This date must come after the dependent’s birth date');
