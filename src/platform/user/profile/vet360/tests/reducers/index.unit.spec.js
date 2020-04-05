@@ -90,7 +90,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.modal, 'The modal was closed').to.be.null;
+    expect(state.modal, 'The modal remains open').to.not.be.null;
     expect(state.transactions.length).to.eql(1);
     expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
     expect(state.fieldTransactionMap).to.eql({
@@ -240,6 +240,7 @@ describe('vet360 reducer', () => {
     );
 
     expect(state.metadata.mostRecentErroredTransactionId).to.eql(null);
+    expect(state.modal).to.be.null;
     expect(state.transactions.length).to.eql(0);
   });
 
