@@ -1,9 +1,10 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
+import classNames from 'classnames';
 import map from 'lodash/map';
+import { connect } from 'react-redux';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import STATES from 'platform/static-data/STATES.json';
@@ -14,6 +15,7 @@ export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
+    showMobileForm: PropTypes.bool.isRequired,
     // From mapDispatchToProps.
     fetchResultsThunk: PropTypes.func.isRequired,
   };
@@ -104,6 +106,7 @@ export class SearchForm extends Component {
 
   render() {
     const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
+    const { showMobileForm } = this.props;
     const {
       city,
       contributionAmount,
@@ -114,7 +117,15 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0"
+        className={classNames(
+          'medium-screen:vads-u-display--flex',
+          'vads-l-grid-container',
+          'vads-u-flex-direction--column',
+          'vads-u-padding--0',
+          {
+            'vads-u-display--none': !showMobileForm,
+          },
+        )}
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
@@ -201,6 +212,7 @@ export class SearchForm extends Component {
 
 const mapStateToProps = state => ({
   fetching: state.yellowRibbonReducer.fetching,
+  showMobileForm: state.yellowRibbonReducer.showMobileForm,
 });
 
 const mapDispatchToProps = {

@@ -9,6 +9,7 @@ import {
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   REMOVE_SCHOOL_FROM_COMPARE,
+  TOGGLE_SHOW_MOBILE_FORM,
   UPDATE_PAGE,
 } from '../constants';
 
@@ -19,6 +20,7 @@ const initialState = {
   page: 1,
   perPage: 10,
   results: undefined,
+  showMobileForm: true,
   totalResults: undefined,
   // For comparing:
   schoolIDs: [],
@@ -44,6 +46,7 @@ export const yellowRibbonReducer = (state = initialState, action) => {
         fetching: !action?.options?.hideFetchingState,
         hasFetchedOnce: true,
         page: action?.options?.page || state?.page,
+        showMobileForm: false,
       };
     }
     case FETCH_RESULTS_FAILURE: {
@@ -69,6 +72,9 @@ export const yellowRibbonReducer = (state = initialState, action) => {
         schoolIDs,
         schoolsLookup: pick(state.schoolsLookup, schoolIDs),
       };
+    }
+    case TOGGLE_SHOW_MOBILE_FORM: {
+      return { ...state, showMobileForm: !state.showMobileForm };
     }
     case UPDATE_PAGE: {
       return { ...state, page: action.page };
