@@ -59,7 +59,14 @@ class Vet360ProfileField extends React.Component {
     if (modalOpenInPrevProps && modalIsClosed) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
     }
+    // Just close the edit modal if it takes more than 5 seconds for the update
+    // transaction to resolve. ie, give it 5 seconds before reverting to the old
+    // behavior of showing the "we're saving your new information..." message on
+    // the Profile page
     if (!prevProps.transaction && this.props.transaction) {
+      setTimeout(() => this.props.openModal(), 5000);
+    }
+    if (this.justClosedModal(prevProps, this.props) && this.props.transaction) {
       focusElement(`div#${this.props.fieldName}-transaction-status`);
     }
   }
@@ -148,6 +155,13 @@ class Vet360ProfileField extends React.Component {
     );
   };
 
+  justClosedModal(prevProps, props) {
+    return (
+      (prevProps.isEditing && !props.isEditing) ||
+      (prevProps.showValidationModal && !props.showValidationModal)
+    );
+  }
+
   clearErrors = () => {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
@@ -180,7 +194,12 @@ class Vet360ProfileField extends React.Component {
     if (this.props.transaction) {
       transactionPending = isPendingTransaction(this.props.transaction);
     }
-    return !this.props.isEmpty && !transactionPending;
+    return (
+      !this.props.isEmpty &&
+      (!transactionPending ||
+        this.props.isEditing ||
+        this.props.showValidationModal)
+    );
   };
 
   render() {
@@ -221,12 +240,14 @@ class Vet360ProfileField extends React.Component {
         {isEditing && <EditModal {...childProps} />}
         {showValidationModal && (
           <ValidationModal
-            title={title}
+            transaction={transaction}
             transactionRequest={transactionRequest}
+            title={title}
             clearErrors={this.clearErrors}
           />
         )}
         <Vet360Transaction
+          isModalOpen={isEditing || showValidationModal}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}

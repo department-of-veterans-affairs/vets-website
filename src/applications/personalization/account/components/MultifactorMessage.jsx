@@ -1,13 +1,16 @@
 import React from 'react';
-import { mfa } from '../../../../platform/user/authentication/utilities';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import { connect } from 'react-redux';
 
-function recordAnalyticEvent() {
+import { ssoe } from 'platform/user/authentication/selectors';
+import { mfa } from 'platform/user/authentication/utilities';
+import recordEvent from 'platform/monitoring/record-event';
+
+function mfaHandler(useSSOe) {
   recordEvent({ event: 'multifactor-link-clicked' });
-  mfa();
+  mfa(useSSOe ? 'v1' : 'v0');
 }
 
-export default function MultifactorMessage({ multifactor }) {
+export function MultifactorMessage({ multifactor, useSSOe }) {
   if (multifactor) {
     return (
       <div>
@@ -28,9 +31,19 @@ export default function MultifactorMessage({ multifactor }) {
         helps to make sure only you can access your account—even if someone gets
         your password.
       </p>
-      <button className="usa-button-primary" onClick={recordAnalyticEvent}>
+      <button
+        className="usa-button-primary"
+        onClick={() => mfaHandler(useSSOe)}
+      >
         Set up 2-factor authentication
       </button>
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+export default connect(mapStateToProps)(MultifactorMessage);

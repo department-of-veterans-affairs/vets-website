@@ -82,3 +82,20 @@ nav.profile-side-nav {
     margin: unset;
   }
 }
+
+
+.headerNameWrapper {
+  width: 100%;
+  text-align: center;
+  h3 {
+    margin-top: 0;
+  }
+  @media (min-width: $medium-screen) {
+    width: 60%;
+    text-align: left;
+  }
+}
+
+.profileServiceBadge {
+  max-height: 108px;
+}

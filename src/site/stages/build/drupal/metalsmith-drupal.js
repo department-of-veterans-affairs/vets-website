@@ -12,6 +12,7 @@ const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
+  createPastEventListPages,
   addGetUpdatesFields,
   addPager,
   sortServices,
@@ -89,6 +90,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
+        pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
         pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
         addPager(
           pageCompiled,
@@ -146,6 +148,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
+    }
+    if (page.entityBundle === 'event_listing') {
+      createPastEventListPages(pageCompiled, drupalPageDir, files);
     }
   }
 
