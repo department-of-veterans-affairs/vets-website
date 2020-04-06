@@ -256,8 +256,16 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const dispatch = sinon.spy();
+
+        const nextState = newAppointmentFlow.typeOfFacility.next(
+          state,
+          dispatch,
+        );
         expect(nextState).to.equal('requestDateTime');
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
+        );
       });
 
       it('should be vaFacility page if they chose VA', () => {
@@ -760,11 +768,17 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
+        const dispatch = sinon.spy();
+
         const nextState = newAppointmentFlow.reasonForAppointment.previous(
           state,
+          dispatch,
         );
 
         expect(nextState).to.equal('requestDateTime');
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
+        );
       });
     });
   });

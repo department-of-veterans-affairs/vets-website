@@ -108,6 +108,7 @@ export default {
                 // If CC enabled systems and toc is podiatry, skip typeOfFacility
                 if (isPodiatry(state)) {
                   dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+                  dispatch(startRequestAppointmentFlow(true));
                   return 'requestDateTime';
                 }
                 return 'typeOfFacility';
@@ -135,12 +136,13 @@ export default {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    next(state) {
+    next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
       }
 
       if (isCCFacility(state)) {
+        dispatch(startRequestAppointmentFlow(true));
         return 'requestDateTime';
       }
 
@@ -204,7 +206,10 @@ export default {
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'requestDateTime',
+    next(state, dispatch) {
+      dispatch(startRequestAppointmentFlow(true));
+      return 'requestDateTime';
+    },
     previous: 'typeOfFacility',
   },
   ccPreferences: {
@@ -244,7 +249,7 @@ export default {
       }
 
       if (eligibilityStatus.request) {
-        dispatch(startRequestAppointmentFlow());
+        dispatch(startRequestAppointmentFlow(isCCFacility(state)));
         return 'requestDateTime';
       }
 
@@ -274,7 +279,7 @@ export default {
     previous: 'vaFacility',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
-        dispatch(startRequestAppointmentFlow());
+        dispatch(startRequestAppointmentFlow(isCCFacility(state)));
         return 'requestDateTime';
       }
 
@@ -328,7 +333,7 @@ export default {
 
       return 'visitType';
     },
-    previous(state) {
+    previous(state, dispatch) {
       if (isCCFacility(state)) {
         return 'ccPreferences';
       }
@@ -337,6 +342,7 @@ export default {
         return 'selectDateTime';
       }
 
+      dispatch(startRequestAppointmentFlow());
       return 'requestDateTime';
     },
   },
