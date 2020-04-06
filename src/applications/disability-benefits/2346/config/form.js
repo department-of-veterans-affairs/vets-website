@@ -178,6 +178,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:addAccessories',
                 expandUnderCondition: 'yes',
+                showFieldLabel: 'label',
+                keepInPageOnReview: true,
+                selectedPropName: 'view:selected',
               },
             },
           },
