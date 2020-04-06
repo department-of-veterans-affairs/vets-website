@@ -827,7 +827,7 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  describe('startRequsetAppointmentFlow', () => {
+  describe('startRequestAppointmentFlow', () => {
     it('should return START_REQUEST_APPOINTMENT_FLOW action and expected record request event if isCommunityCare === true', () => {
       const action = startRequestAppointmentFlow(true);
       expect(action.type).to.equal(START_REQUEST_APPOINTMENT_FLOW);
