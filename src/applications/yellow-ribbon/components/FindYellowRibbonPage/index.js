@@ -31,10 +31,7 @@ export const FindYellowRibbonPage = () => (
             school, degree type, and the program you&apos;re enrolled in.
           </p>
 
-          <a
-            href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
-            rel="noopener noreferrer"
-          >
+          <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
             Find out if you qualify for the Yellow Ribbon Program.
           </a>
 
@@ -44,13 +41,13 @@ export const FindYellowRibbonPage = () => (
 
           <ul>
             <li>
-              <a href="/education/eligibility/" rel="noreferrer noopener">
+              <a href="/education/eligibility/">
                 Find out if you&apos;re eligible for the Post-9/11 GI Bill
               </a>
             </li>
 
             <li>
-              <a href="/education/how-to-apply/" rel="noreferrer noopener">
+              <a href="/education/how-to-apply/">
                 Apply for Post-9/11 GI Bill benefits
               </a>
             </li>
