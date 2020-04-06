@@ -55,6 +55,7 @@ export class SearchForm extends Component {
 
     return (
       <form
+        data-e2e-id="find-form-search-form"
         className="vads-l-grid-container vads-u-padding--2 medium-screen:vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
         name="find-va-form"
         onSubmit={onSubmitHandler}

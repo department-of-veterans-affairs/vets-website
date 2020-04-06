@@ -15,12 +15,19 @@ describe('686 report the marriage of a child', () => {
     uiSchema,
   } = formConfig.chapters.reportChildMarriage.pages.childInformation;
 
+  const formData = {
+    'view:selectable686Options': {
+      reportMarriageOfChildUnder18: true,
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
     expect(form.find('input').length).to.equal(4);
@@ -35,6 +42,7 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     form.find('form').simulate('submit');
@@ -51,6 +59,7 @@ describe('686 report the marriage of a child', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
     fillData(form, 'input#root_marriedChildName_first', 'john');
@@ -78,6 +87,7 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     fillData(form, 'input#root_marriedChildName_first', 'john');
@@ -96,6 +106,7 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     fillData(form, 'input#root_marriedChildName_first', 'john');
@@ -122,6 +133,7 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     fillData(form, 'input#root_marriedChildName_first', 'john');

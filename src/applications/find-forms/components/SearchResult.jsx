@@ -13,9 +13,18 @@ export default function SearchResult({ form }) {
     ? moment(form.attributes.lastRevisionOn).format('MM-DD-YYYY')
     : 'N/A';
 
+  const formTitleClassName = [
+    'vads-u-padding-top--3',
+    'vads-u-margin--0',
+    'vads-u-border-top--1px',
+    'vads-u-border-color--gray-lighter',
+    'vads-u-font-weight--bold',
+    'vads-u-color--link-default',
+  ].join(' ');
+
   return (
     <>
-      <dt className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold vads-u-color--link-default">
+      <dt data-e2e-id="result-title" className={formTitleClassName}>
         <dfn>
           <span className="vads-u-visibility--screen-reader">Form number</span>{' '}
           {form.id}

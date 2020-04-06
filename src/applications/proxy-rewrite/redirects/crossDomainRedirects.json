@@ -548,5 +548,185 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/add-dependents.asp",
     "dest": "/disability/add-remove-dependent/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/education_programs.asp",
+    "dest": "/education/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/get_started.asp",
+    "dest": "/education/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/montgomery_bill.asp",
+    "dest": "/education/about-gi-bill-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/coop_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/correspondence_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/entrepreneurship_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/flight_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/accelerated_payments.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/accelerated-payments/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/non_college_degree.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/onthejob_apprenticeship.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/independent_distance_learning.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/foreign_school_information_for_students.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/licensing_certification.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/national_testing.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/tuition_assistance.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/tutorial_assistance.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/higher_learning.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/workstudy.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/work-study/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/mgib_ad.asp",
+    "dest": "/education/about-gi-bill-benefits/montgomery-active-duty/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/mgib_sr.asp",
+    "dest": "/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/post911_gibill.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/choosing_a_school.asp",
+    "dest": "/education/choosing-a-school/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_locator.asp",
+    "dest": "/education/choosing-a-school/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_decision.asp",
+    "dest": "/education/choosing-a-school/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/principles_of_excellence.asp",
+    "dest": "/education/choosing-a-school/principles-of-excellence/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/apply.asp",
+    "dest": "/education/how-to-apply/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/national_call_to_service.asp",
+    "dest": "/education/other-va-education-benefits/national-call-to-service-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/reap.asp",
+    "dest": "/education/other-va-education-benefits/reap/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/veap.asp",
+    "dest": "/education/other-va-education-benefits/veap/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/survivor_dependent_assistance.asp",
+    "dest": "/education/survivor-dependent-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/dea.asp",
+    "dest": "/education/survivor-dependent-benefits/dependents-education-assistance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fry_scholarship.asp",
+    "dest": "/education/survivor-dependent-benefits/fry-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/post911_transfer.asp",
+    "dest": "/education/transfer-post-9-11-gi-bill-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/vettec.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/vettec_veteran.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/vettectrainingproviders.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
   }
 ]

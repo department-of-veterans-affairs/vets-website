@@ -11,6 +11,42 @@ module.exports = `
     title
     fieldIntroText
     entityId
+    pastEvents: reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
+          entities {
+            ... on NodeEvent {
+              title
+              entityUrl {
+                path
+              }
+              uid {
+                targetId
+                ... on FieldNodeUid {
+                  entity {
+                    name
+                    timezone
+                  }
+                }
+              }
+              fieldFeatured
+              fieldDate {
+                startDate
+                value
+                endDate
+                endValue
+              }
+              fieldDescription
+              fieldLocationHumanreadable
+              fieldFacilityLocation {
+                entity {
+                  title
+                  entityUrl {
+                    path
+                  }
+                }
+              }
+            }
+          }
+        }
     reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
         entities {
           ... on NodeEvent {
