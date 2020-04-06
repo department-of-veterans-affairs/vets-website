@@ -37,11 +37,11 @@ function setErrorOutput(errorOutput) {
 }
 
 describe('build/check-broken-links', () => {
-  before(() => {
+  beforeAll(() => {
     sinon.stub(console, 'log');
   });
 
-  after(() => {
+  afterAll(() => {
     console.log.restore();
   });
 
@@ -54,7 +54,7 @@ describe('build/check-broken-links', () => {
     done.resetHistory();
   });
 
-  it('evaluates only html pages', () => {
+  test('evaluates only html pages', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(0);
     middleware(files, null, done);
@@ -65,7 +65,7 @@ describe('build/check-broken-links', () => {
     expect(getBrokenLinks.args[1][0]).toEqual({ path: 'disability/' });
   });
 
-  it('calls applyIgnoredRoutes with all link-errors', () => {
+  test('calls applyIgnoredRoutes with all link-errors', () => {
     setBrokenLinksPerPage(5);
     setTotalBrokenPages(0);
     middleware(files, null, done);
@@ -84,21 +84,21 @@ describe('build/check-broken-links', () => {
     ]);
   });
 
-  it('does not call getErrorOutput when there are no broken pages', () => {
+  test('does not call getErrorOutput when there are no broken pages', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(0);
     middleware(files, null, done);
     expect(getErrorOutput.called).toBe(false);
   });
 
-  it('calls getErrorOutput when there are broken pages', () => {
+  test('calls getErrorOutput when there are broken pages', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(5);
     middleware(files, null, done);
     expect(getErrorOutput.called).toBe(true);
   });
 
-  it('logs errors and calls done without arguments', () => {
+  test('logs errors and calls done without arguments', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(5);
     setErrorOutput('broken links!');
@@ -108,7 +108,7 @@ describe('build/check-broken-links', () => {
     expect(done.firstCall.args[0]).toBeUndefined();
   });
 
-  it('logs errors and calls done without arguments', () => {
+  test('logs errors and calls done without arguments', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(5);
     setErrorOutput('broken links!');

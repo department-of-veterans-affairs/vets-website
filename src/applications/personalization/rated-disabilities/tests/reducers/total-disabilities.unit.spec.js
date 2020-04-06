@@ -11,14 +11,14 @@ const initialState = {
 };
 
 describe('totalDisabilities reducer', () => {
-  it('should return the initial state', () => {
+  test('should return the initial state', () => {
     const state = totalRating(initialState, {});
     expect(state.loading).toBe(true);
     expect(state.error).toBeNull();
     expect(state.totalDisabilityRating).toBeNull();
   });
 
-  it('should handle an error from the API call', () => {
+  test('should handle an error from the API call', () => {
     const state = totalRating(initialState, {
       type: FETCH_TOTAL_RATING_FAILED,
       response: {
@@ -36,7 +36,7 @@ describe('totalDisabilities reducer', () => {
     expect(state.totalDisabilityRating).toBeNull();
   });
 
-  it('should handle a successful API call', () => {
+  test('should handle a successful API call', () => {
     const state = totalRating(initialState, {
       type: FETCH_TOTAL_RATING_SUCCEEDED,
       response: {
@@ -48,7 +48,7 @@ describe('totalDisabilities reducer', () => {
     expect(state.totalDisabilityRating).toBe(80);
   });
 
-  it('should return the state if a type is not matched', () => {
+  test('should return the state if a type is not matched', () => {
     const state = totalRating(initialState, {
       type: 'BLERG',
     });

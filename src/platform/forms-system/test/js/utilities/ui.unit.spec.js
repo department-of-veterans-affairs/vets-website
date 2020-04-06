@@ -7,7 +7,7 @@ import { focusElement, focusOnChange } from '../../../src/js/utilities/ui';
 import ReviewCollapsibleChapter from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('focus on element', () => {
-  it('should focus on element based on selector string', () => {
+  test('should focus on element based on selector string', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <button />
@@ -20,7 +20,7 @@ describe('focus on element', () => {
     expect(focused.calledOnce).toBe(true);
   });
 
-  it('should focus on element passed to the function', () => {
+  test('should focus on element passed to the function', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <button />
@@ -35,7 +35,7 @@ describe('focus on element', () => {
 });
 
 describe('focus on change', () => {
-  it('should focus on edit button after updating a review form', done => {
+  test('should focus on edit button after updating a review form', done => {
     const pages = [
       {
         title: '',

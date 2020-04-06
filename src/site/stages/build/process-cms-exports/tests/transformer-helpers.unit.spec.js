@@ -12,7 +12,7 @@ const {
 
 describe('CMS export transformer helpers', () => {
   describe('getWysiwygString', () => {
-    it('should transform wysiwyg strings', () => {
+    test('should transform wysiwyg strings', () => {
       const raw =
         '<p>If you need support for a specific mental health problem\u2014or if you\u2019re having problems sleeping, controlling your anger, or readjusting to civilian life\u2014you are not alone. And we can help.</p>\r\n\r\n';
 
@@ -24,7 +24,7 @@ describe('CMS export transformer helpers', () => {
   });
 
   describe('combineItemsInIndexedObject', () => {
-    it('turns an index-keyed object into an array', () => {
+    test('turns an index-keyed object into an array', () => {
       /* eslint-disable quote-props */
       const obj = {
         '1': ['world'],
@@ -36,7 +36,7 @@ describe('CMS export transformer helpers', () => {
       expect(combineItemsInIndexedObject(obj)).toEqual(arr);
     });
 
-    it('keeps an array as an array', () => {
+    test('keeps an array as an array', () => {
       expect(combineItemsInIndexedObject([['hello'], ['world']])).toEqual([
         ['hello'],
         ['world'],
@@ -47,7 +47,7 @@ describe('CMS export transformer helpers', () => {
   describe('unescapeUnicode', () => {
     // These examples came from the tome-sync content
     // rg --no-filename ".*(\\\u\d{2,4}).*" -r '$1' | sort | uniq
-    it('should translate unicode code points into unicode characters', () => {
+    test('should translate unicode code points into unicode characters', () => {
       const pairs = [
         ['\\u200', 'Ȁ'],
         ['\\u201', 'ȁ'],
@@ -70,11 +70,11 @@ describe('CMS export transformer helpers', () => {
   });
 
   describe('createLink', () => {
-    it('should return null for an empty array', () => {
+    test('should return null for an empty array', () => {
       expect(createLink([])).toBeNull();
     });
 
-    it('returns a properly formatted link object', () => {
+    test('returns a properly formatted link object', () => {
       const fieldLink = [
         {
           uri: 'foo',
@@ -92,7 +92,7 @@ describe('CMS export transformer helpers', () => {
       });
     });
 
-    it('can select only part of the returned object properties', () => {
+    test('can select only part of the returned object properties', () => {
       const fieldLink = [
         {
           uri: 'foo',
@@ -124,7 +124,7 @@ describe('CMS export transformer helpers', () => {
   });
 
   describe('createMetaTagArray', () => {
-    it('should create all the tags', () => {
+    test('should create all the tags', () => {
       /* eslint-disable camelcase */
       const raw = {
         title:
@@ -208,7 +208,7 @@ describe('CMS export transformer helpers', () => {
       expect(createMetaTagArray(raw)).toEqual(transformed);
     });
 
-    it('should omit tags with no value', () => {
+    test('should omit tags with no value', () => {
       const raw = {
         title: 'foo',
       };
@@ -224,7 +224,7 @@ describe('CMS export transformer helpers', () => {
       expect(createMetaTagArray(raw)).toEqual(transformed);
     });
 
-    it('should ignore unrecognized tags', () => {
+    test('should ignore unrecognized tags', () => {
       const raw = { unknown: 'Dunno' };
       const transformed = [];
       expect(createMetaTagArray(raw)).toEqual(transformed);
@@ -232,33 +232,36 @@ describe('CMS export transformer helpers', () => {
   });
 
   describe('usePartialSchema', () => {
-    it('Should throw an error when a non-object schema is passed', () => {
+    test('Should throw an error when a non-object schema is passed', () => {
       expect(() => usePartialSchema({ type: 'array' })).toThrowError();
       expect(() => usePartialSchema(['invalid schema'])).toThrowError();
     });
 
-    it('Should throw an error when properties is not an array', () => {
+    test('Should throw an error when properties is not an array', () => {
       expect(() =>
         usePartialSchema({ type: 'object' }, { foo: 'invalid properties' }),
       ).toThrowError();
     });
 
-    it('Should throw an error when properties contains non-strings', () => {
+    test('Should throw an error when properties contains non-strings', () => {
       expect(() =>
         usePartialSchema({ type: 'object' }, [{ invalid: 'prop name' }]),
       ).toThrowError();
     });
 
-    it('Should throw an error when a property specified is missing from the schema', () => {
-      expect(() =>
-        usePartialSchema(
-          { type: 'object', properties: { stuff: { type: 'string' } } },
-          ['thingy'],
-        ),
-      ).toThrowError();
-    });
+    test(
+      'Should throw an error when a property specified is missing from the schema',
+      () => {
+        expect(() =>
+          usePartialSchema(
+            { type: 'object', properties: { stuff: { type: 'string' } } },
+            ['thingy'],
+          ),
+        ).toThrowError();
+      }
+    );
 
-    it('should omit $id', () => {
+    test('should omit $id', () => {
       const schema = {
         $id: 'foo',
         type: 'object',
@@ -274,7 +277,7 @@ describe('CMS export transformer helpers', () => {
       });
     });
 
-    it('should keep only the properties listed', () => {
+    test('should keep only the properties listed', () => {
       const schema = {
         $id: 'foo',
         type: 'object',
@@ -291,7 +294,7 @@ describe('CMS export transformer helpers', () => {
       });
     });
 
-    it('should remove unused properties from the required array', () => {
+    test('should remove unused properties from the required array', () => {
       const schema = {
         $id: 'foo',
         type: 'object',
@@ -314,13 +317,13 @@ describe('CMS export transformer helpers', () => {
   describe('findMatchingEntities', () => {
     const contentDir = path.join(__dirname, 'helper-test-entities');
 
-    it('should reject non-string baseTypes', () => {
+    test('should reject non-string baseTypes', () => {
       expect(() =>
         findMatchingEntities(123, contentDir, () => {}),
       ).toThrowError();
     });
 
-    it('should reject paths to a non-existent directory', () => {
+    test('should reject paths to a non-existent directory', () => {
       // Path to nothing
       expect(() =>
         findMatchingEntities(
@@ -335,25 +338,25 @@ describe('CMS export transformer helpers', () => {
       ).toThrowError();
     });
 
-    it('should reject a truthy non-string subType', () => {
+    test('should reject a truthy non-string subType', () => {
       expect(() =>
         findMatchingEntities('node', contentDir, () => {}, { subType: 123 }),
       ).toThrowError();
     });
 
-    it('should reject a truthy non-function filter', () => {
+    test('should reject a truthy non-function filter', () => {
       expect(() =>
         findMatchingEntities('node', contentDir, () => {}, { filter: 123 }),
       ).toThrowError();
     });
 
-    it('should return all (and only) entities of a baseType', () => {
+    test('should return all (and only) entities of a baseType', () => {
       expect(findMatchingEntities('node', contentDir, () => {})).toHaveLength(
         3,
       );
     });
 
-    it('should return only entities of a baseType and subType', () => {
+    test('should return only entities of a baseType and subType', () => {
       expect(
         findMatchingEntities('node', contentDir, () => {}, {
           subType: 'some_type',
@@ -361,7 +364,7 @@ describe('CMS export transformer helpers', () => {
       ).toHaveLength(2);
     });
 
-    it('should filter out entities not passing the filter function', () => {
+    test('should filter out entities not passing the filter function', () => {
       expect(
         findMatchingEntities('node', contentDir, () => {}, {
           subType: 'some_type',
@@ -370,7 +373,7 @@ describe('CMS export transformer helpers', () => {
       ).toHaveLength(1);
     });
 
-    it('should transform the entities', () => {
+    test('should transform the entities', () => {
       const spy = sinon.spy();
       findMatchingEntities('node', contentDir, spy, {
         subType: 'some_type',

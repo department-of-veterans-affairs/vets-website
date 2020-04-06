@@ -15,7 +15,7 @@ describe('feedback tool issue info', () => {
     uiSchema,
   } = formConfig.chapters.issueInformation.pages.issueInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -29,7 +29,7 @@ describe('feedback tool issue info', () => {
     form.unmount();
   });
 
-  it('should not submit without required information', () => {
+  test('should not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -46,7 +46,7 @@ describe('feedback tool issue info', () => {
     form.unmount();
   });
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

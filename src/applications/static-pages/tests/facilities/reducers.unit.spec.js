@@ -16,7 +16,7 @@ describe('Facility Reducer', () => {
   });
 
   describe('FETCH_FACILITY_STARTED', () => {
-    it('sets the `isLoading` to `true`', () => {
+    test('sets the `isLoading` to `true`', () => {
       action = {
         type: FETCH_FACILITY_STARTED,
       };
@@ -26,7 +26,7 @@ describe('Facility Reducer', () => {
   });
 
   describe('FETCH_FACILITY_SUCCESS', () => {
-    it('sets the state correctly', () => {
+    test('sets the state correctly', () => {
       action = {
         type: FETCH_FACILITY_SUCCESS,
         facility: mockFacilityLocatorApiResponse.data[0],
@@ -39,7 +39,7 @@ describe('Facility Reducer', () => {
 
     describe('FETCH_FACILITY_FAILED', () => {
       describe('regardless of the error codes', () => {
-        it('sets the state correctly', () => {
+        test('sets the state correctly', () => {
           action = {
             type: FETCH_FACILITY_FAILED,
             errors: [{ code: '400' }],

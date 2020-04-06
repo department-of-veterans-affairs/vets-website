@@ -1,7 +1,7 @@
 const getErrorOutput = require('../../helpers/getErrorOutput');
 
 describe('getErrorOutput', () => {
-  it('includes the total number of broken links', () => {
+  test('includes the total number of broken links', () => {
     const brokenPages = [
       {
         path: 'health-care',

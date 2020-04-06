@@ -2,7 +2,7 @@ import { isValidCentralMailPostalCode } from '../../address/validations';
 
 describe('Forms address validations:', () => {
   describe('isValidCentralMailPostalCode', () => {
-    it('should return valid on non-USA addresses', () => {
+    test('should return valid on non-USA addresses', () => {
       expect(
         isValidCentralMailPostalCode({
           country: 'CAN',
@@ -10,7 +10,7 @@ describe('Forms address validations:', () => {
         }),
       ).toBe(true);
     });
-    it('should return valid on five digit USA zips', () => {
+    test('should return valid on five digit USA zips', () => {
       expect(
         isValidCentralMailPostalCode({
           country: 'USA',
@@ -18,7 +18,7 @@ describe('Forms address validations:', () => {
         }),
       ).toBe(true);
     });
-    it('should return valid on nine digit USA zips', () => {
+    test('should return valid on nine digit USA zips', () => {
       expect(
         isValidCentralMailPostalCode({
           country: 'USA',
@@ -26,7 +26,7 @@ describe('Forms address validations:', () => {
         }),
       ).toBe(true);
     });
-    it('should return invalid on unformatted nine digit USA zips', () => {
+    test('should return invalid on unformatted nine digit USA zips', () => {
       expect(
         isValidCentralMailPostalCode({
           country: 'USA',

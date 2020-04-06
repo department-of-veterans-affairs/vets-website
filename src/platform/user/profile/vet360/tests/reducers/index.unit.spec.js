@@ -8,7 +8,7 @@ import {
 } from '../../actions';
 
 describe('vet360 reducer', () => {
-  it('should return array of transaction data', () => {
+  test('should return array of transaction data', () => {
     const state = vet360(
       {},
       {
@@ -21,7 +21,7 @@ describe('vet360 reducer', () => {
     expect(state.transactions).toEqual([{ data: 1 }, { data: 2 }, { data: 3 }]);
   });
 
-  it('should set pending transaction', () => {
+  test('should set pending transaction', () => {
     const state = vet360(
       {},
       {
@@ -39,7 +39,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should set pending transaction failure', () => {
+  test('should set pending transaction failure', () => {
     const state = vet360(
       {
         fieldTransactionMap: {
@@ -65,7 +65,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should set pending transaction success', () => {
+  test('should set pending transaction success', () => {
     const state = vet360(
       {
         fieldTransactionMap: {
@@ -101,7 +101,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should set transaction update request', () => {
+  test('should set transaction update request', () => {
     const state = vet360(
       { transactionsAwaitingUpdate: [] },
       {
@@ -120,7 +120,7 @@ describe('vet360 reducer', () => {
     expect(state.transactionsAwaitingUpdate[0]).toBe(111);
   });
 
-  it('should set updated transaction request success', () => {
+  test('should set updated transaction request success', () => {
     const state = vet360(
       {
         transactions: [
@@ -153,7 +153,7 @@ describe('vet360 reducer', () => {
     expect(state.transactions[0].data.attributes.transactionId).toBe(111);
   });
 
-  it('should set updated transaction request failure', () => {
+  test('should set updated transaction request failure', () => {
     const state = vet360(
       {
         transactions: [
@@ -187,7 +187,7 @@ describe('vet360 reducer', () => {
     expect(state.metadata.mostRecentErroredTransactionId).toBe(111);
   });
 
-  it('should set transaction update failed', () => {
+  test('should set transaction update failed', () => {
     const state = vet360(
       { transactionsAwaitingUpdate: [111] },
       {
@@ -205,12 +205,12 @@ describe('vet360 reducer', () => {
     expect(state.transactionsAwaitingUpdate.length).toBe(0);
   });
 
-  it('should set transaction status cleared', () => {
+  test('should set transaction status cleared', () => {
     const state = vet360({}, { type: 'VET360_CLEAR_TRANSACTION_STATUS' });
     expect(state.transactionStatus.length).toBe(0);
   });
 
-  it('should set transaction cleared', () => {
+  test('should set transaction cleared', () => {
     const state = vet360(
       {
         transactions: [
@@ -243,7 +243,7 @@ describe('vet360 reducer', () => {
     expect(state.transactions.length).toBe(0);
   });
 
-  it('should set transaction request cleared', () => {
+  test('should set transaction request cleared', () => {
     const state = vet360(
       {
         fieldTransactionMap: {
@@ -259,7 +259,7 @@ describe('vet360 reducer', () => {
     expect(state.fieldTransactionMap.name).toEqual(undefined);
   });
 
-  it('should update profile form fields', () => {
+  test('should update profile form fields', () => {
     const state = vet360(
       {},
       {
@@ -276,7 +276,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should open modal', () => {
+  test('should open modal', () => {
     const state = vet360(
       {},
       {
@@ -288,7 +288,7 @@ describe('vet360 reducer', () => {
     expect(state.modal).toBe('modalName');
   });
 
-  it('should update addressValidation on confirm', () => {
+  test('should update addressValidation on confirm', () => {
     const state = vet360(
       {},
       {
@@ -308,7 +308,7 @@ describe('vet360 reducer', () => {
   });
 
   describe('ADDRESS_VALIDATION_ERROR', () => {
-    it('sets the correct data on the redux state', () => {
+    test('sets the correct data on the redux state', () => {
       const state = {
         metadata: {},
         otherData: true,
@@ -355,7 +355,7 @@ describe('vet360 reducer', () => {
   });
 
   describe('ADDRESS_VALIDATION_RESET action', () => {
-    it('resets the addressValidation state', () => {
+    test('resets the addressValidation state', () => {
       const state = {
         modal: 'modalName',
         modalData: { foo: 'bar' },
@@ -406,7 +406,7 @@ describe('vet360 reducer', () => {
   });
 
   describe('UPDATE_SELECTED_ADDRESS action', () => {
-    it('sets the selectedAddress and selectedAddressId from the action', () => {
+    test('sets the selectedAddress and selectedAddressId from the action', () => {
       const state = {
         metadata: {},
         otherData: true,
@@ -434,7 +434,7 @@ describe('vet360 reducer', () => {
   });
 
   describe('ADDRESS_VALIDATION_INITIALIZE action', () => {
-    it('sets inProgress to true', () => {
+    test('sets inProgress to true', () => {
       const state = {
         fieldTransactionMap: {
           mailingAddress: { isPending: false },
@@ -472,7 +472,7 @@ describe('vet360 reducer', () => {
   });
 
   describe('ADDRESS_VALIDATION_UPDATE action', () => {
-    it('sets inProgress to true', () => {
+    test('sets inProgress to true', () => {
       const expectedState = {
         fieldTransactionMap: {
           mailingAddress: { isPending: true },

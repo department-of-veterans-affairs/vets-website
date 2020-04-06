@@ -3,7 +3,7 @@ import { FETCH_RESULTS, FETCH_RESULTS_SUCCESS } from '../constants';
 import { yellowRibbonReducer } from './index';
 
 describe('Yellow Ribbon reducer', () => {
-  it('returns the default state', () => {
+  test('returns the default state', () => {
     const emptyAction = {};
     const result = yellowRibbonReducer(undefined, emptyAction);
 
@@ -20,7 +20,7 @@ describe('Yellow Ribbon reducer', () => {
     });
   });
 
-  it('fetches results', () => {
+  test('fetches results', () => {
     const action = {
       type: FETCH_RESULTS,
       options: {
@@ -45,7 +45,7 @@ describe('Yellow Ribbon reducer', () => {
     });
   });
 
-  it('receives results', () => {
+  test('receives results', () => {
     const initialState = {
       fetching: true,
       results: undefined,

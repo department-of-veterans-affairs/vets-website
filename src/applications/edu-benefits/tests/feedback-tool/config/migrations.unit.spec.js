@@ -1,7 +1,7 @@
 import migrations from '../../../feedback-tool/config/migrations';
 
 describe('Feedback tool migrations', () => {
-  it('should convert keys in programs object', () => {
+  test('should convert keys in programs object', () => {
     const formData = {
       educationDetails: {
         programs: {
@@ -24,7 +24,7 @@ describe('Feedback tool migrations', () => {
     ).toBeUndefined();
   });
 
-  it('should convert keys in view:assistance object', () => {
+  test('should convert keys in view:assistance object', () => {
     const formData = {
       educationDetails: {
         assistance: {
@@ -53,7 +53,7 @@ describe('Feedback tool migrations', () => {
     ).toBeUndefined();
   });
 
-  it('should convert ffa key in assistance object', () => {
+  test('should convert ffa key in assistance object', () => {
     const formData = {
       educationDetails: {
         assistance: {

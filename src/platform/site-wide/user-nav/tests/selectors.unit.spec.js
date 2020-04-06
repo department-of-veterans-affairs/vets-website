@@ -14,7 +14,7 @@ describe('User navigation selectors', () => {
       },
     };
 
-    it('should return My Account and email', () => {
+    test('should return My Account and email', () => {
       const result = selectUserGreeting(state);
       const resultItemText = result.map(component => component.props.children);
 
@@ -22,13 +22,13 @@ describe('User navigation selectors', () => {
       expect(resultItemText).toEqual(['My Account', 'test@test.gov']);
     });
 
-    it('should return session name', () => {
+    test('should return session name', () => {
       localStorage.setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(state);
       expect(result.props.children).toBe('Joe');
     });
 
-    it('should return profile name', () => {
+    test('should return profile name', () => {
       localStorage.setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(
         set('user.profile.userFullName.first', 'Jane', state),

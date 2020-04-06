@@ -22,7 +22,7 @@ import { selectIsCernerOnlyPatient } from '../../../../platform/user/selectors';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
-    it('should return newAppointment state', () => {
+    test('should return newAppointment state', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -35,7 +35,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFormData', () => {
-    it('should return newAppointment.data', () => {
+    test('should return newAppointment.data', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -48,7 +48,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFlowType', () => {
-    it('should return newAppointment state', () => {
+    test('should return newAppointment state', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -61,7 +61,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFormPageInfo', () => {
-    it('should return info needed for form pages', () => {
+    test('should return info needed for form pages', () => {
       const state = {
         newAppointment: {
           pages: {
@@ -82,32 +82,35 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFacilityPageInfo', () => {
-    it('should return typeOfCare string and begin loading parentFacilities', () => {
-      const state = {
-        user: {
-          profile: {
-            facilities: [],
+    test(
+      'should return typeOfCare string and begin loading parentFacilities',
+      () => {
+        const state = {
+          user: {
+            profile: {
+              facilities: [],
+            },
           },
-        },
-        newAppointment: {
-          pages: {},
-          data: {
-            typeOfCareId: '160',
-            facilityType: 'vamc',
-            vaParent: '983',
+          newAppointment: {
+            pages: {},
+            data: {
+              typeOfCareId: '160',
+              facilityType: 'vamc',
+              vaParent: '983',
+            },
+            facilities: {},
+            eligibility: {},
+            parentFacilities: [{}],
+            facilityDetails: {},
           },
-          facilities: {},
-          eligibility: {},
-          parentFacilities: [{}],
-          facilityDetails: {},
-        },
-      };
+        };
 
-      const newState = getFacilityPageInfo(state);
-      expect(newState.typeOfCare).toBe('Pharmacy');
-      expect(newState.loadingParentFacilities).toBe(true);
-    });
-    it('should return eligibility error flag', () => {
+        const newState = getFacilityPageInfo(state);
+        expect(newState.typeOfCare).toBe('Pharmacy');
+        expect(newState.loadingParentFacilities).toBe(true);
+      }
+    );
+    test('should return eligibility error flag', () => {
       const state = {
         user: {
           profile: {
@@ -132,7 +135,7 @@ describe('VAOS selectors', () => {
       const newState = getFacilityPageInfo(state);
       expect(newState.hasEligibilityError).toBe(true);
     });
-    it('should return Cerner facilities', () => {
+    test('should return Cerner facilities', () => {
       const state = {
         user: {
           profile: {
@@ -163,7 +166,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getChosenFacilityInfo', () => {
-    it('should return a stored facility object', () => {
+    test('should return a stored facility object', () => {
       const state = {
         newAppointment: {
           data: {
@@ -189,7 +192,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getChosenFacilityDetails', () => {
-    it('should return a stored facility details object', () => {
+    test('should return a stored facility details object', () => {
       const state = {
         newAppointment: {
           data: {
@@ -210,7 +213,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getChosenClinicInfo', () => {
-    it('should return a stored clinic object', () => {
+    test('should return a stored clinic object', () => {
       const state = {
         newAppointment: {
           data: {
@@ -236,7 +239,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getTypeOfCare', () => {
-    it('get eye type of care', () => {
+    test('get eye type of care', () => {
       const data = {
         typeOfCareId: 'EYE',
         typeOfEyeCareId: '408',
@@ -247,7 +250,7 @@ describe('VAOS selectors', () => {
       expect(typeOfCare.name).toBe('Optometry');
     });
 
-    it('get sleep type of care', () => {
+    test('get sleep type of care', () => {
       const data = {
         typeOfCareId: 'SLEEP',
         typeOfSleepCareId: '349',
@@ -260,7 +263,7 @@ describe('VAOS selectors', () => {
       );
     });
 
-    it('get audiology type of care', () => {
+    test('get audiology type of care', () => {
       const data = {
         typeOfCareId: '203',
         audiologyType: 'CCAUDHEAR',
@@ -271,7 +274,7 @@ describe('VAOS selectors', () => {
       expect(typeOfCare.ccId).toBe('CCAUDHEAR');
     });
 
-    it('get podiatry type of care', () => {
+    test('get podiatry type of care', () => {
       const data = {
         typeOfCareId: 'tbd-podiatry',
       };
@@ -280,7 +283,7 @@ describe('VAOS selectors', () => {
       expect(typeOfCare.name).toBe('Podiatry');
     });
 
-    it('get pharmacy type of care', () => {
+    test('get pharmacy type of care', () => {
       const data = {
         typeOfCareId: '160',
       };
@@ -291,7 +294,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getClinicsForChosenFacility', () => {
-    it('should return relevant clinics list', () => {
+    test('should return relevant clinics list', () => {
       const state = {
         newAppointment: {
           data: {
@@ -316,7 +319,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getPreferredDate', () => {
-    it('should return info needed for form pages', () => {
+    test('should return info needed for form pages', () => {
       const state = {
         newAppointment: {
           pages: {},
@@ -340,7 +343,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getDateTimeSelect', () => {
-    it('should return available dates data and timezone', () => {
+    test('should return available dates data and timezone', () => {
       const availableSlots = [
         {
           date: '2019-10-24',
@@ -387,7 +390,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getClinicPageInfo', () => {
-    it('should return info needed for the clinic page', () => {
+    test('should return info needed for the clinic page', () => {
       const state = {
         newAppointment: {
           pages: {},
@@ -420,7 +423,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getCancelInfo', () => {
-    it('should fetch facility in info', () => {
+    test('should fetch facility in info', () => {
       const state = {
         user: {
           profile: {
@@ -443,7 +446,7 @@ describe('VAOS selectors', () => {
 
       expect(cancelInfo.facility).toBe(state.appointments.facilityData['123']);
     });
-    it('should fetch facility from clinic map', () => {
+    test('should fetch facility from clinic map', () => {
       const state = {
         user: {
           profile: {
@@ -470,7 +473,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('getCCEType', () => {
-    it('should return cce type for Audiology', () => {
+    test('should return cce type for Audiology', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -482,7 +485,7 @@ describe('VAOS selectors', () => {
       const cceType = getCCEType(state);
       expect(cceType).toBe('Audiology');
     });
-    it('should return cce type for Optometry', () => {
+    test('should return cce type for Optometry', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -498,7 +501,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('isWelcomeModalDismissed', () => {
-    it('should return dismissed if key is in list', () => {
+    test('should return dismissed if key is in list', () => {
       const state = {
         announcements: {
           dismissed: ['welcome-to-new-vaos'],
@@ -506,7 +509,7 @@ describe('VAOS selectors', () => {
       };
       expect(isWelcomeModalDismissed(state)).toBe(true);
     });
-    it('should not return dismissed if key is not in list', () => {
+    test('should not return dismissed if key is not in list', () => {
       const state = {
         announcements: {
           dismissed: ['welcome-to-new-va'],
@@ -517,7 +520,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('selectIsCernerOnlyPatient', () => {
-    it('should return true if Cerner only', () => {
+    test('should return true if Cerner only', () => {
       const state = {
         user: {
           profile: {
@@ -527,7 +530,7 @@ describe('VAOS selectors', () => {
       };
       expect(selectIsCernerOnlyPatient(state)).toBe(true);
     });
-    it('should return false if not Cerner only', () => {
+    test('should return false if not Cerner only', () => {
       const state = {
         user: {
           profile: {
@@ -543,7 +546,7 @@ describe('VAOS selectors', () => {
   });
 
   describe('selectCernerFacilities', () => {
-    it('should return collection of cerner facilities', () => {
+    test('should return collection of cerner facilities', () => {
       const state = {
         user: {
           profile: {
@@ -558,7 +561,7 @@ describe('VAOS selectors', () => {
       expect(selectCernerFacilities(state).length).toBe(1);
     });
 
-    it('should return empty collection of cerner facilities', () => {
+    test('should return empty collection of cerner facilities', () => {
       const state = {
         user: {
           profile: {

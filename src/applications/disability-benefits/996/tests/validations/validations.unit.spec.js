@@ -91,7 +91,7 @@ describe('From Date validations', () => {
 */
 
 describe('Informal conference time validation', () => {
-  it('should show an error if no times are selected', () => {
+  test('should show an error if no times are selected', () => {
     let errorMessage = '';
     const errors = {
       addError: message => {
@@ -109,7 +109,7 @@ describe('Informal conference time validation', () => {
     expect(checkConferenceTimes(null, times)).toBe(false);
   });
 
-  it('should show an error if too many times are selected', () => {
+  test('should show an error if too many times are selected', () => {
     let errorMessage = '';
     const errors = {
       addError: message => {
@@ -127,7 +127,7 @@ describe('Informal conference time validation', () => {
     expect(checkConferenceTimes(null, times)).toBe(false);
   });
 
-  it('should not show an error if a single time is selected', () => {
+  test('should not show an error if a single time is selected', () => {
     let errorMessage = '';
     const errors = {
       addError: message => {

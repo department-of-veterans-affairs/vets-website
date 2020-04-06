@@ -6,7 +6,7 @@ const initialState = {
 };
 
 describe('preview reducer', () => {
-  it('should enter preview mode', () => {
+  test('should enter preview mode', () => {
     const state = previewReducer(initialState, {
       type: 'ENTER_PREVIEW_MODE',
       version: 1,
@@ -16,7 +16,7 @@ describe('preview reducer', () => {
     expect(state.version).toBe(1);
   });
 
-  it('should exit preview mode', () => {
+  test('should exit preview mode', () => {
     const state = previewReducer(
       { display: true },
       {
@@ -28,7 +28,7 @@ describe('preview reducer', () => {
     expect(state.version).toEqual({});
   });
 
-  it('should set version correctly', () => {
+  test('should set version correctly', () => {
     const state = previewReducer(initialState, {
       type: 'SET_VERSION',
       version: 2,

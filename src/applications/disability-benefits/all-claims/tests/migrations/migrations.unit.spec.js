@@ -4,7 +4,7 @@ import formConfig from '../../config/form';
 
 describe('526 v2 migrations', () => {
   describe('01-require-claim-type', () => {
-    it('should change the URL to /claim-type', () => {
+    test('should change the URL to /claim-type', () => {
       const savedData = {
         formData: {},
         metadata: {
@@ -14,7 +14,7 @@ describe('526 v2 migrations', () => {
       const migratedData = redirectToClaimTypePage(savedData);
       expect(migratedData.metadata.returnUrl).toBe('/claim-type');
     });
-    it('should not change the URL if still on the veteran info page', () => {
+    test('should not change the URL if still on the veteran info page', () => {
       const savedData = {
         formData: {},
         metadata: {
@@ -24,7 +24,7 @@ describe('526 v2 migrations', () => {
       const migratedData = redirectToClaimTypePage(savedData);
       expect(migratedData.metadata.returnUrl).toBe('/veteran-information');
     });
-    it('should not modify anything except the returnUrl', () => {
+    test('should not modify anything except the returnUrl', () => {
       const savedData = {
         formData: { foo: 'bar' },
         metadata: {
@@ -35,14 +35,14 @@ describe('526 v2 migrations', () => {
       expect(migratedData.formData).toBe(savedData.formData);
     });
     // Sanity check
-    it('/claim-type should be a valid url', () => {
+    test('/claim-type should be a valid url', () => {
       expect(formConfig.chapters.veteranDetails.pages.claimType.path).toBe(
         'claim-type',
       );
     });
   });
   describe('02-upgrade-separationPay', () => {
-    it('should migrate view:hasSeparationPay to hasSeparationPay', () => {
+    test('should migrate view:hasSeparationPay to hasSeparationPay', () => {
       const savedData = {
         'view:hasSeparationPay': true,
       };

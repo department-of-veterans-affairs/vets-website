@@ -4,7 +4,7 @@ import { validateBurialAndDeathDates } from '../validation';
 
 describe('Burials validation', () => {
   describe('validateBurialAndDeathDates', () => {
-    it('should allow burial date after death date', () => {
+    test('should allow burial date after death date', () => {
       const errors = {
         burialDate: {
           addError: sinon.spy(),
@@ -17,7 +17,7 @@ describe('Burials validation', () => {
 
       expect(errors.burialDate.addError.called).toBe(false);
     });
-    it('should allow burial date on death date', () => {
+    test('should allow burial date on death date', () => {
       const errors = {
         burialDate: {
           addError: sinon.spy(),
@@ -30,7 +30,7 @@ describe('Burials validation', () => {
 
       expect(errors.burialDate.addError.called).toBe(false);
     });
-    it('should not allow burial date before death date', () => {
+    test('should not allow burial date before death date', () => {
       const errors = {
         burialDate: {
           addError: sinon.spy(),
@@ -43,7 +43,7 @@ describe('Burials validation', () => {
 
       expect(errors.burialDate.addError.called).toBe(true);
     });
-    it('should allow birth date before death date', () => {
+    test('should allow birth date before death date', () => {
       const errors = {
         deathDate: {
           addError: sinon.spy(),
@@ -56,7 +56,7 @@ describe('Burials validation', () => {
 
       expect(errors.deathDate.addError.called).toBe(false);
     });
-    it('should not allow birth date after death date', () => {
+    test('should not allow birth date after death date', () => {
       const errors = {
         deathDate: {
           addError: sinon.spy(),

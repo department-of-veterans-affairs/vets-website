@@ -17,16 +17,16 @@ import {
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
-  before(() => {
+  beforeAll(() => {
     sinon.stub(localStorage, 'getItem');
   });
 
-  after(() => {
+  afterAll(() => {
     localStorage.getItem.restore();
   });
 
   describe('setData', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const data = {};
       const action = setData(data);
 
@@ -35,7 +35,7 @@ describe('Schemaform actions:', () => {
     });
   });
   describe('setEditMode', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const page = 'page';
       const edit = false;
       const action = setEditMode(page, edit);
@@ -46,7 +46,7 @@ describe('Schemaform actions:', () => {
     });
   });
   describe('setSubmission', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const field = 'page';
       const value = false;
       const action = setSubmission(field, value);
@@ -57,7 +57,7 @@ describe('Schemaform actions:', () => {
     });
   });
   describe('setPreSubmit', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const accepted = false;
       const action = setPreSubmit('preSubmitAccepted', accepted);
 
@@ -66,14 +66,14 @@ describe('Schemaform actions:', () => {
     });
   });
   describe('setSubmitted', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const response = false;
       const action = setSubmitted(response);
 
       expect(action.response).toBe(response);
       expect(action.type).toBe(SET_SUBMITTED);
     });
-    it('should return action with response.data', () => {
+    test('should return action with response.data', () => {
       const response = { data: false };
       const action = setSubmitted(response);
 
@@ -104,7 +104,7 @@ describe('Schemaform actions:', () => {
       window.dataLayer = [];
     });
 
-    it('should set submitted', () => {
+    test('should set submitted', () => {
       const formConfig = {
         chapters: {},
       };
@@ -137,7 +137,7 @@ describe('Schemaform actions:', () => {
 
       return promise;
     });
-    it('should set submission error', () => {
+    test('should set submission error', () => {
       const formConfig = {
         chapters: {},
       };
@@ -172,7 +172,7 @@ describe('Schemaform actions:', () => {
 
       return promise;
     });
-    it('should set rate limit error', () => {
+    test('should set rate limit error', () => {
       const formConfig = {
         chapters: {},
       };
@@ -213,7 +213,7 @@ describe('Schemaform actions:', () => {
 
       return promise;
     });
-    it('should use submit function instead of url when provided', () => {
+    test('should use submit function instead of url when provided', () => {
       const response = { data: {} };
       const formConfig = {
         submit: sinon.stub().resolves(response),
@@ -269,7 +269,7 @@ describe('Schemaform actions:', () => {
       requests = [];
     });
 
-    it('should reject if file is too big', done => {
+    test('should reject if file is too big', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -300,7 +300,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
     });
 
-    it('should reject if file is too small', done => {
+    test('should reject if file is too small', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -332,7 +332,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
     });
 
-    it('should reject if file is wrong type', done => {
+    test('should reject if file is wrong type', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -363,7 +363,7 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
     });
 
-    it('should call set data on success', () => {
+    test('should call set data on success', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -413,7 +413,7 @@ describe('Schemaform actions:', () => {
       });
     });
 
-    it('should set error on failure', () => {
+    test('should set error on failure', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -450,7 +450,7 @@ describe('Schemaform actions:', () => {
         errorMessage: 'Bad Request',
       });
     });
-    it('should set error on network issue', () => {
+    test('should set error on network issue', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
@@ -487,7 +487,7 @@ describe('Schemaform actions:', () => {
         errorMessage: 'Network request failed',
       });
     });
-    it('should set error if error message is bad', () => {
+    test('should set error if error message is bad', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {

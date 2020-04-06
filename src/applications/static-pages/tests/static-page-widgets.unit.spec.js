@@ -23,7 +23,7 @@ const widgetContent = `
 `;
 
 describe('static page widget', () => {
-  it('should replace loading message with slow loading message', done => {
+  test('should replace loading message with slow loading message', done => {
     document.body.insertAdjacentHTML('beforeend', widgetContent);
     mountWidgets(document.querySelectorAll('[data-widget-type]'), 600);
 
@@ -42,7 +42,7 @@ describe('static page widget', () => {
     }, 700);
   });
 
-  it('should show error message after timing out', done => {
+  test('should show error message after timing out', done => {
     document.body.insertAdjacentHTML('beforeend', widgetContent);
     mountWidgets(document.querySelectorAll('[data-widget-type]'), 600);
 
@@ -56,7 +56,7 @@ describe('static page widget', () => {
     }, 1100);
   });
 
-  it('should not show error message if content replaced by React', done => {
+  test('should not show error message if content replaced by React', done => {
     document.body.insertAdjacentHTML('beforeend', widgetContent);
     mountWidgets(document.querySelectorAll('[data-widget-type]'), 600);
     document.querySelector('#testRoot').innerHTML = '';

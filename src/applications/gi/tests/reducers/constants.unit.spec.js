@@ -6,7 +6,7 @@ const initialState = {
 };
 
 describe('constants reducer', () => {
-  it('should handle fetch starting', () => {
+  test('should handle fetch starting', () => {
     const state = constantsReducer(initialState, {
       type: 'FETCH_CONSTANTS_STARTED',
     });
@@ -14,7 +14,7 @@ describe('constants reducer', () => {
     expect(state.inProgress).toBe(true);
   });
 
-  it('should handle fetch failed', () => {
+  test('should handle fetch failed', () => {
     const state = constantsReducer(
       { inProgress: true },
       {
@@ -27,7 +27,7 @@ describe('constants reducer', () => {
     expect(state.error).toBe('Service Unavailable');
   });
 
-  it('should handle fetch succeeded', () => {
+  test('should handle fetch succeeded', () => {
     const state = constantsReducer(
       { inProgress: true },
       {

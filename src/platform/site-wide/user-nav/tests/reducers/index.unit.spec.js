@@ -6,7 +6,7 @@ import {
 } from '../../actions';
 
 describe('User Navigation Reducer', () => {
-  it('should have a default state', () => {
+  test('should have a default state', () => {
     const state = reducer(undefined, {});
     expect(state.showLoginModal).toBe(false);
     expect(state.utilitiesMenuIsOpen.search).toBe(false);
@@ -14,7 +14,7 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.account).toBe(false);
   });
 
-  it('should hide the login modal', () => {
+  test('should hide the login modal', () => {
     const state = reducer(undefined, {
       type: TOGGLE_LOGIN_MODAL,
       isOpen: false,
@@ -22,7 +22,7 @@ describe('User Navigation Reducer', () => {
     expect(state.showLoginModal).toBe(false);
   });
 
-  it('should show the login modal', () => {
+  test('should show the login modal', () => {
     const state = reducer(undefined, {
       type: TOGGLE_LOGIN_MODAL,
       isOpen: true,
@@ -30,7 +30,7 @@ describe('User Navigation Reducer', () => {
     expect(state.showLoginModal).toBe(true);
   });
 
-  it('should hide the form sign-in modal', () => {
+  test('should hide the form sign-in modal', () => {
     const state = reducer(undefined, {
       type: TOGGLE_FORM_SIGN_IN_MODAL,
       isOpen: false,
@@ -38,7 +38,7 @@ describe('User Navigation Reducer', () => {
     expect(state.showFormSignInModal).toBe(false);
   });
 
-  it('should show the form sign-in modal', () => {
+  test('should show the form sign-in modal', () => {
     const state = reducer(undefined, {
       type: TOGGLE_FORM_SIGN_IN_MODAL,
       isOpen: true,
@@ -46,7 +46,7 @@ describe('User Navigation Reducer', () => {
     expect(state.showFormSignInModal).toBe(true);
   });
 
-  it('should close the search menu', () => {
+  test('should close the search menu', () => {
     const state = reducer(undefined, {
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'search',
@@ -55,7 +55,7 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.search).toBe(false);
   });
 
-  it('should open the search menu', () => {
+  test('should open the search menu', () => {
     const state = reducer(undefined, {
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'search',
@@ -64,7 +64,7 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.search).toBe(true);
   });
 
-  it('should close the help menu', () => {
+  test('should close the help menu', () => {
     const state = reducer(undefined, {
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'help',
@@ -73,7 +73,7 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.help).toBe(false);
   });
 
-  it('should open the help menu', () => {
+  test('should open the help menu', () => {
     const state = reducer(undefined, {
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'help',
@@ -82,7 +82,7 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.help).toBe(true);
   });
 
-  it('should close the account menu', () => {
+  test('should close the account menu', () => {
     const state = reducer(undefined, {
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'account',
@@ -91,7 +91,7 @@ describe('User Navigation Reducer', () => {
     expect(state.utilitiesMenuIsOpen.account).toBe(false);
   });
 
-  it('should open the account menu', () => {
+  test('should open the account menu', () => {
     const state = reducer(undefined, {
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'account',

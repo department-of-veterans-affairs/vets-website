@@ -5,12 +5,12 @@ const initialState = {
 };
 
 describe('ratedDisabilities reducer', () => {
-  it('should return the initial state', () => {
+  test('should return the initial state', () => {
     const state = ratedDisabilities.ratedDisabilities(initialState, {});
     expect(state.ratedDisabilities).toBeNull();
   });
 
-  it('should handle a succesful call for rated disabilities', () => {
+  test('should handle a succesful call for rated disabilities', () => {
     const state = ratedDisabilities.ratedDisabilities(initialState, {
       type: 'FETCH_RATED_DISABILITIES_SUCCESS',
       response: [
@@ -25,7 +25,7 @@ describe('ratedDisabilities reducer', () => {
     expect(state.ratedDisabilities[0].name).toBe('PTSD');
   });
 
-  it('should handle an error response from the backend', () => {
+  test('should handle an error response from the backend', () => {
     const state = ratedDisabilities.ratedDisabilities(initialState, {
       type: 'FETCH_RATED_DISABILITIES_FAILED',
       response: [

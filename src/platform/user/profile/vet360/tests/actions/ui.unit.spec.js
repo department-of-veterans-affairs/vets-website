@@ -1,7 +1,7 @@
 import * as actions from '../../actions/ui';
 
 describe('updateFormFieldWithSchema', () => {
-  it('creates the correct action', () => {
+  test('creates the correct action', () => {
     const schema = {
       type: 'object',
       properties: {

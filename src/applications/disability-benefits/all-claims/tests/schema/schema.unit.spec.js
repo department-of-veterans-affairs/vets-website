@@ -10,7 +10,7 @@ describe('526 all claims schema tests', () => {
   const dataDirPath = path.join(__dirname, '../data/');
   const files = fs.readdirSync(dataDirPath);
   files.filter(file => file.endsWith('json')).forEach(file => {
-    it(`should validate ${file}`, () => {
+    test(`should validate ${file}`, () => {
       const contents = JSON.parse(
         fs.readFileSync(path.join(dataDirPath, file), 'utf8'),
       );

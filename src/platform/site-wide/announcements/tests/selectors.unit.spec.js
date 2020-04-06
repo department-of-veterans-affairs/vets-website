@@ -63,7 +63,7 @@ describe('selectAnnouncement', () => {
     };
   });
 
-  it('returns undefined when there is no announcement', () => {
+  test('returns undefined when there is no announcement', () => {
     const emptyConfig = {
       announcements: [],
     };
@@ -75,7 +75,7 @@ describe('selectAnnouncement', () => {
     expect(result).toBeUndefined();
   });
 
-  it('selects an announcement based on path and configuration', () => {
+  test('selects an announcement based on path and configuration', () => {
     const result = selectors.selectAnnouncement(
       state,
       config,
@@ -84,7 +84,7 @@ describe('selectAnnouncement', () => {
     expect(result.name).toBe('dummy3');
   });
 
-  it('returns undefined when a matched annoucement has been dismissed', () => {
+  test('returns undefined when a matched annoucement has been dismissed', () => {
     state.announcements.dismissed.push('dummy3');
     const result = selectors.selectAnnouncement(
       state,
@@ -94,32 +94,38 @@ describe('selectAnnouncement', () => {
     expect(result).toBeUndefined();
   });
 
-  it('returns the next matched announcement when the first matched annoucement has been dismissed', () => {
-    state.announcements.dismissed.push('dummy3');
+  test(
+    'returns the next matched announcement when the first matched annoucement has been dismissed',
+    () => {
+      state.announcements.dismissed.push('dummy3');
 
-    config.announcements.push({
-      name: 'dummy3-conflict',
-      paths: /^(\/some-route-3\/)$/,
-    });
+      config.announcements.push({
+        name: 'dummy3-conflict',
+        paths: /^(\/some-route-3\/)$/,
+      });
 
-    const result = selectors.selectAnnouncement(
-      state,
-      config,
-      '/some-route-3/',
-    );
-    expect(result.name).toBe('dummy3-conflict');
-  });
+      const result = selectors.selectAnnouncement(
+        state,
+        config,
+        '/some-route-3/',
+      );
+      expect(result.name).toBe('dummy3-conflict');
+    }
+  );
 
-  it('bypasses disabled announcements and looks instead for the next match', () => {
-    const result = selectors.selectAnnouncement(
-      state,
-      config,
-      '/some-route-6/',
-    );
-    expect(result.name).toBe('dummy6');
-  });
+  test(
+    'bypasses disabled announcements and looks instead for the next match',
+    () => {
+      const result = selectors.selectAnnouncement(
+        state,
+        config,
+        '/some-route-6/',
+      );
+      expect(result.name).toBe('dummy6');
+    }
+  );
 
-  it('filters our expired announcements', () => {
+  test('filters our expired announcements', () => {
     const result = selectors.selectAnnouncement(
       state,
       config,
@@ -129,7 +135,7 @@ describe('selectAnnouncement', () => {
     expect(result).toBeUndefined();
   });
 
-  it('filters announcements that have not started yet', () => {
+  test('filters announcements that have not started yet', () => {
     const result = selectors.selectAnnouncement(
       state,
       config,
@@ -139,7 +145,7 @@ describe('selectAnnouncement', () => {
     expect(result).toBeUndefined();
   });
 
-  it('includes announcements where `startsAt` <= now <= `expiresAt`', () => {
+  test('includes announcements where `startsAt` <= now <= `expiresAt`', () => {
     const result = selectors.selectAnnouncement(
       state,
       config,

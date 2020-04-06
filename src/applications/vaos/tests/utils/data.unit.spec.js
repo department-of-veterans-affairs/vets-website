@@ -6,7 +6,7 @@ import {
 import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS data transformation', () => {
-  it('should transform form into VA request', () => {
+  test('should transform form into VA request', () => {
     const state = {
       newAppointment: {
         data: {
@@ -91,7 +91,7 @@ describe('VAOS data transformation', () => {
       providerOption: '',
     });
   });
-  it('should transform form for Sleep Care into VA request', () => {
+  test('should transform form for Sleep Care into VA request', () => {
     const state = {
       newAppointment: {
         data: {
@@ -178,7 +178,7 @@ describe('VAOS data transformation', () => {
     });
   });
 
-  it('should transform form into CC request', () => {
+  test('should transform form into CC request', () => {
     const state = {
       user: {
         profile: {
@@ -317,7 +317,7 @@ describe('VAOS data transformation', () => {
     });
   });
 
-  it('should transform audiology form into audiology CC request', () => {
+  test('should transform audiology form into audiology CC request', () => {
     const state = {
       user: {
         profile: {
@@ -457,7 +457,7 @@ describe('VAOS data transformation', () => {
     });
   });
 
-  it('should transform form into VA appointment', () => {
+  test('should transform form into VA appointment', () => {
     const state = {
       user: {
         profile: {
@@ -548,7 +548,7 @@ describe('VAOS data transformation', () => {
     });
   });
 
-  it('should transform form for Eye Care into VA request', () => {
+  test('should transform form for Eye Care into VA request', () => {
     const state = {
       newAppointment: {
         data: {

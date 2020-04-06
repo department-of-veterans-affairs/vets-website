@@ -4,7 +4,7 @@ import {
 } from '../../reducers/utility';
 
 describe('normalized attributes function', () => {
-  it('capitalizes attributes for name, city, and state', () => {
+  test('capitalizes attributes for name, city, and state', () => {
     const state = {
       attributes: {
         name: 'name',
@@ -24,7 +24,7 @@ describe('normalized attributes function', () => {
 });
 
 describe('normalized attributes function', () => {
-  it('capitalizes attributes for name, city, and state', () => {
+  test('capitalizes attributes for name, city, and state', () => {
     const state = {
       attributes: {
         description: 'name',

@@ -73,7 +73,7 @@ describe('Profile utilities', () => {
     afterEach(() => {
       global.dom.reconfigure({ url: oldLocation });
     });
-    it('should map profile', () => {
+    test('should map profile', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
         data,
@@ -85,7 +85,7 @@ describe('Profile utilities', () => {
       expect(mappedData.status).toBe(data.attributes.va_profile.status);
     });
 
-    it('should map veteran status', () => {
+    test('should map veteran status', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
         data,
@@ -108,7 +108,7 @@ describe('Profile utilities', () => {
       });
     });
 
-    it('should map vet 360 info', () => {
+    test('should map vet 360 info', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
         data,
@@ -122,7 +122,7 @@ describe('Profile utilities', () => {
       );
     });
 
-    it('should map the facilities if they are set', () => {
+    test('should map the facilities if they are set', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
         data,
@@ -136,7 +136,7 @@ describe('Profile utilities', () => {
       );
     });
 
-    it('should not add facilities if they are not set', () => {
+    test('should not add facilities if they are not set', () => {
       const data = createDefaultData();
       delete data.attributes.va_profile.facilities;
       const mappedData = mapRawUserDataToState({
@@ -149,7 +149,7 @@ describe('Profile utilities', () => {
       expect(mappedData.facilities).toBeUndefined();
     });
 
-    it('should handle profile error', () => {
+    test('should handle profile error', () => {
       const data = createDefaultData();
       data.attributes.va_profile = null;
       const mappedData = mapRawUserDataToState({
@@ -167,7 +167,7 @@ describe('Profile utilities', () => {
       expect(mappedData.status).toBe('SERVER_ERROR');
     });
 
-    it('should handle veteran status error', () => {
+    test('should handle veteran status error', () => {
       const data = createDefaultData();
       data.attributes.veteran_status = null;
       const mappedData = mapRawUserDataToState({
@@ -185,7 +185,7 @@ describe('Profile utilities', () => {
       expect(mappedData.veteranStatus).toBe('NOT_FOUND');
     });
 
-    it('should handle vet 360 error', () => {
+    test('should handle vet 360 error', () => {
       const data = createDefaultData();
       data.attributes.vet360_contact_information = null;
       const mappedData = mapRawUserDataToState({

@@ -1,7 +1,7 @@
 import numberToWords from '../../../src/js/utilities/data/numberToWords';
 
 describe('Convert numbers to words', () => {
-  it('should return the original value for non-numbers', () => {
+  test('should return the original value for non-numbers', () => {
     expect(numberToWords('')).toBe('');
     expect(numberToWords()).toBeUndefined();
     expect(numberToWords(null)).toBeNull();
@@ -13,15 +13,18 @@ describe('Convert numbers to words', () => {
     expect(numberToWords(false)).toBe(false);
   });
 
-  it('should return the original value for out of range numbers & fractions', () => {
-    expect(numberToWords(-1)).toEqual(-1);
-    expect(numberToWords(0)).toBe(0);
-    expect(numberToWords(0.5)).toBe(0.5);
-    expect(numberToWords(1.5)).toBe(1.5);
-    expect(numberToWords(Infinity)).toEqual(Infinity);
-  });
+  test(
+    'should return the original value for out of range numbers & fractions',
+    () => {
+      expect(numberToWords(-1)).toEqual(-1);
+      expect(numberToWords(0)).toBe(0);
+      expect(numberToWords(0.5)).toBe(0.5);
+      expect(numberToWords(1.5)).toBe(1.5);
+      expect(numberToWords(Infinity)).toEqual(Infinity);
+    }
+  );
 
-  it('should return preset values of numbers less than 21', () => {
+  test('should return preset values of numbers less than 21', () => {
     expect(numberToWords(1)).toBe('first');
     expect(numberToWords(2)).toBe('second');
     expect(numberToWords(3)).toBe('third');
@@ -44,7 +47,7 @@ describe('Convert numbers to words', () => {
     expect(numberToWords(20)).toBe('twentieth');
   });
 
-  it('should generate numbers between 21 and 40', () => {
+  test('should generate numbers between 21 and 40', () => {
     expect(numberToWords(21)).toBe('twenty-first');
     expect(numberToWords(22)).toBe('twenty-second');
     expect(numberToWords(23)).toBe('twenty-third');
@@ -66,7 +69,7 @@ describe('Convert numbers to words', () => {
     expect(numberToWords(39)).toBe('thirty-ninth');
   });
 
-  it('should add an appropriate suffix to numbers >= 40', () => {
+  test('should add an appropriate suffix to numbers >= 40', () => {
     expect(numberToWords(40)).toBe('40th');
     expect(numberToWords(41)).toBe('41st');
     expect(numberToWords(42)).toBe('42nd');

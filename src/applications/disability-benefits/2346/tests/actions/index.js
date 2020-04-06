@@ -24,7 +24,7 @@ const data = {
 
 describe('FORM 2346 actions', () => {
   describe('fetchVeteranInformation', () => {
-    it("returns an action with type 'FETCH_VETERAN_INFORMATION", () => {
+    test("returns an action with type 'FETCH_VETERAN_INFORMATION", () => {
       const action = fetchVeteranInformation(data);
       const expectedAction = {
         type: FETCH_VETERAN_INFORMATION,
@@ -35,7 +35,7 @@ describe('FORM 2346 actions', () => {
   });
 
   describe('fetchVeteranInformationFailure', () => {
-    it("returns an action with type 'FETCH_VETERAN_INFORMATION_FAILURE", () => {
+    test("returns an action with type 'FETCH_VETERAN_INFORMATION_FAILURE", () => {
       const error = 'failed to retrieve data from the api';
       const action = fetchVeteranInformationFailure(error);
       const expectedAction = {

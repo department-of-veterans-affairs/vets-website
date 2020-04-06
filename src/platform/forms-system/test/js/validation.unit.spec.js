@@ -20,7 +20,7 @@ import {
 
 describe('Schemaform validations', () => {
   describe('transformErrors', () => {
-    it('should transform error into message from uiSchema', () => {
+    test('should transform error into message from uiSchema', () => {
       const errors = [
         {
           name: 'test',
@@ -43,7 +43,7 @@ describe('Schemaform validations', () => {
         uiSchema.field['ui:errorMessages'].test,
       );
     });
-    it('should transform error message into default', () => {
+    test('should transform error message into default', () => {
       const errors = [
         {
           name: 'maxLength',
@@ -60,7 +60,7 @@ describe('Schemaform validations', () => {
         'This field should be less than 5 characters',
       );
     });
-    it('should transform error message into email default', () => {
+    test('should transform error message into email default', () => {
       const errors = [
         {
           name: 'format',
@@ -75,7 +75,7 @@ describe('Schemaform validations', () => {
 
       expect(newErrors[0].message).toBe('Please enter a valid email address');
     });
-    it('should transform required message to field level', () => {
+    test('should transform required message to field level', () => {
       const errors = [
         {
           name: 'required',
@@ -93,7 +93,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('uiSchemaValidate', () => {
-    it('should use custom validation with function validator', () => {
+    test('should use custom validation with function validator', () => {
       const errors = {};
       const validator = sinon.spy();
       const schema = {};
@@ -107,7 +107,7 @@ describe('Schemaform validations', () => {
 
       expect(validator.calledWith(errors, formData, formData)).toBe(true);
     });
-    it('should use custom validation with object validator', () => {
+    test('should use custom validation with object validator', () => {
       const errors = {};
       const validator = sinon.spy();
       const schema = {};
@@ -133,7 +133,7 @@ describe('Schemaform validations', () => {
         ),
       ).toBe(true);
     });
-    it('should use custom validation on fields in object', () => {
+    test('should use custom validation on fields in object', () => {
       const errors = {
         field1: {},
         field2: {},
@@ -171,7 +171,7 @@ describe('Schemaform validations', () => {
         ),
       ).toBe(true);
     });
-    it('should use custom validation on fields in array', () => {
+    test('should use custom validation on fields in array', () => {
       const errors = {};
       const validator = sinon.spy();
       const schema = {
@@ -209,7 +209,7 @@ describe('Schemaform validations', () => {
         ),
       ).toBe(true);
     });
-    it('should skip validation when array is undefined', () => {
+    test('should skip validation when array is undefined', () => {
       const errors = {};
       const validator = sinon.spy();
       const schema = {
@@ -233,7 +233,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateSSN', () => {
-    it('should set message if invalid', () => {
+    test('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
       validateSSN(errors, 'asfd');
       validateSSN(errors, '123334455');
@@ -242,7 +242,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateDate', () => {
-    it('should set message if invalid', () => {
+    test('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
       validateDate(errors, '2010-01-03');
       validateDate(errors, 'asdf-01-03');
@@ -251,7 +251,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateCurrentOrPastDate', () => {
-    it('should set message if invalid', () => {
+    test('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
       const futureDate = moment()
         .add(2, 'year')
@@ -263,7 +263,7 @@ describe('Schemaform validations', () => {
         'Please provide a valid current or past date',
       );
     });
-    it('should use custom message', () => {
+    test('should use custom message', () => {
       const errors = { addError: sinon.spy() };
       const futureDate = moment()
         .add(2, 'year')
@@ -277,7 +277,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateCurrentOrFutureDate', () => {
-    it('should set message if invalid', () => {
+    test('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
       const pastDate = moment()
         .add(-2, 'year')
@@ -289,7 +289,7 @@ describe('Schemaform validations', () => {
         'Please provide a valid current or future date',
       );
     });
-    it('should use custom message', () => {
+    test('should use custom message', () => {
       const errors = { addError: sinon.spy() };
       const pastDate = moment()
         .add(-2, 'year')
@@ -303,7 +303,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateMatch', () => {
-    it('should set message if emails do not match', () => {
+    test('should set message if emails do not match', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
       validateMatch('email', 'confirmEmail')(errors, {
         email: 'test@test.com',
@@ -312,7 +312,7 @@ describe('Schemaform validations', () => {
 
       expect(errors.confirmEmail.addError.called).toBe(true);
     });
-    it('should not set message if emails match', () => {
+    test('should not set message if emails match', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
       validateMatch('email', 'confirmEmail')(errors, {
         email: 'test@test.com',
@@ -323,7 +323,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateDateRange', () => {
-    it('should not set message if date range is valid', () => {
+    test('should not set message if date range is valid', () => {
       const errors = { to: { addError: sinon.spy() } };
       validateDateRange(errors, {
         from: '2014-01-04',
@@ -332,7 +332,7 @@ describe('Schemaform validations', () => {
 
       expect(errors.to.addError.called).toBe(false);
     });
-    it('should set message if date range is not valid', () => {
+    test('should set message if date range is not valid', () => {
       const errors = { to: { addError: sinon.spy() } };
       validateDateRange(
         errors,
@@ -347,24 +347,27 @@ describe('Schemaform validations', () => {
 
       expect(errors.to.addError.called).toBe(true);
     });
-    it('should set custom message from config if date range is not valid', () => {
-      const errors = { to: { addError: sinon.spy() } };
-      validateDateRange(
-        errors,
-        {
-          from: '2014-01-04',
-          to: '2012-01-04',
-        },
-        null,
-        null,
-        { pattern: 'Test message' },
-      );
+    test(
+      'should set custom message from config if date range is not valid',
+      () => {
+        const errors = { to: { addError: sinon.spy() } };
+        validateDateRange(
+          errors,
+          {
+            from: '2014-01-04',
+            to: '2012-01-04',
+          },
+          null,
+          null,
+          { pattern: 'Test message' },
+        );
 
-      expect(errors.to.addError.calledWith('Test message')).toBe(true);
-    });
+        expect(errors.to.addError.calledWith('Test message')).toBe(true);
+      }
+    );
   });
   describe('validateFileField', () => {
-    it('should mark uploading files as invalid', () => {
+    test('should mark uploading files as invalid', () => {
       const errors = {};
       validateFileField(errors, [
         {
@@ -375,7 +378,7 @@ describe('Schemaform validations', () => {
 
       expect(errors[0].__errors).toHaveLength(0);
     });
-    it('should mark files with error message as invalid', () => {
+    test('should mark files with error message as invalid', () => {
       const errors = {
         __errors: [],
         addError: function addError(error) {
@@ -391,7 +394,7 @@ describe('Schemaform validations', () => {
 
       expect(errors[0].__errors[0]).toBe('test');
     });
-    it('should mark files without confirmation number as invalid', () => {
+    test('should mark files without confirmation number as invalid', () => {
       const errors = {};
       validateFileField(errors, [
         {
@@ -403,7 +406,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateBooleanGroup', () => {
-    it('should add error if no props are true', () => {
+    test('should add error if no props are true', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(errors, {
         tests: false,
@@ -412,14 +415,14 @@ describe('Schemaform validations', () => {
       expect(errors.addError.called).toBe(true);
     });
 
-    it('should add error if empty object', () => {
+    test('should add error if empty object', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(errors, {});
 
       expect(errors.addError.called).toBe(true);
     });
 
-    it('should not add error if at least one prop is true', () => {
+    test('should not add error if at least one prop is true', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(errors, {
         tests: true,
@@ -428,7 +431,7 @@ describe('Schemaform validations', () => {
       expect(errors.addError.called).toBe(false);
     });
 
-    it('should use custom message', () => {
+    test('should use custom message', () => {
       const errors = { addError: sinon.spy() };
       validateBooleanGroup(
         errors,
@@ -444,7 +447,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('isValidForm', () => {
-    it('should validate pagePerItem schema', () => {
+    test('should validate pagePerItem schema', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
@@ -478,7 +481,7 @@ describe('Schemaform validations', () => {
 
       expect(isValidForm(form, pageList).isValid).toBe(false);
     });
-    it('should validate only filtered items for pagePerItem schema', () => {
+    test('should validate only filtered items for pagePerItem schema', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
@@ -513,7 +516,7 @@ describe('Schemaform validations', () => {
 
       expect(isValidForm(form, pageList).isValid).toBe(true);
     });
-    it('should not validate pages where depends is false', () => {
+    test('should not validate pages where depends is false', () => {
       const form = {
         data: {
           privacyAgreementAccepted: true,
@@ -564,7 +567,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateMonthYear', () => {
-    it('should validate month and year', () => {
+    test('should validate month and year', () => {
       const errors = { addError: sinon.spy() };
       validateMonthYear(errors, '20123-43-XX', null, null, {
         atLeastOne: 'testing',
@@ -574,7 +577,7 @@ describe('Schemaform validations', () => {
         'Please provide a valid date',
       );
     });
-    it('should pass with valid month and year', () => {
+    test('should pass with valid month and year', () => {
       const errors = { addError: sinon.spy() };
       validateMonthYear(errors, '2012-03-XX', null, null, {
         atLeastOne: 'testing',
@@ -584,7 +587,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateCurrentOrPastMonthYear', () => {
-    it('should validate month and year', () => {
+    test('should validate month and year', () => {
       const errors = { addError: sinon.spy() };
       validateCurrentOrPastMonthYear(errors, '20123-43-XX');
 
@@ -592,13 +595,13 @@ describe('Schemaform validations', () => {
         'Please provide a valid date',
       );
     });
-    it('should pass with valid month and year', () => {
+    test('should pass with valid month and year', () => {
       const errors = { addError: sinon.spy() };
       validateCurrentOrPastMonthYear(errors, '2012-03-XX');
 
       expect(errors.addError.called).toBe(false);
     });
-    it('should fail with date in future', () => {
+    test('should fail with date in future', () => {
       const errors = { addError: sinon.spy() };
       validateCurrentOrPastMonthYear(
         errors,
@@ -613,7 +616,7 @@ describe('Schemaform validations', () => {
     });
   });
   describe('validateAutosuggestOption', () => {
-    it('should validate that id is required with label', () => {
+    test('should validate that id is required with label', () => {
       const errors = { addError: sinon.spy() };
       validateAutosuggestOption(errors, {
         widget: 'autosuggest',
@@ -624,7 +627,7 @@ describe('Schemaform validations', () => {
         'Please select an option from the suggestions',
       );
     });
-    it('should pass if id is included', () => {
+    test('should pass if id is included', () => {
       const errors = { addError: sinon.spy() };
       validateAutosuggestOption(errors, {
         widget: 'autosuggest',

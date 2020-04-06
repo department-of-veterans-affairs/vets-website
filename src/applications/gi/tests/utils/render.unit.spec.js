@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import { renderSchoolClosingAlert } from '../../utils/render';
 
 describe('renderSchoolClosingAlert', () => {
-  it('should render as upcoming closure alert', () => {
+  test('should render as upcoming closure alert', () => {
     const tree = shallow(
       renderSchoolClosingAlert({
         schoolClosing: true,
@@ -13,7 +13,7 @@ describe('renderSchoolClosingAlert', () => {
     );
     tree.unmount();
   });
-  it('should render as school closed alert', () => {
+  test('should render as school closed alert', () => {
     const tree = shallow(
       renderSchoolClosingAlert({
         schoolClosing: true,
@@ -23,7 +23,7 @@ describe('renderSchoolClosingAlert', () => {
     expect(tree.find('.usa-alert-text').text()).toBe('School has closed');
     tree.unmount();
   });
-  it('should not render an alert', () => {
+  test('should not render an alert', () => {
     const result = renderSchoolClosingAlert({
       schoolClosing: false,
     });

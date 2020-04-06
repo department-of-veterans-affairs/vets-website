@@ -3,7 +3,7 @@ import moment from 'moment';
 import announcements from '../../../school-resources/constants/announcements';
 
 describe('Announcements data', () => {
-  it('has all required fields', () => {
+  test('has all required fields', () => {
     announcements.forEach(announcement => {
       expect(typeof announcement.name).toBe('string');
       expect(typeof announcement.date).toBe('string');
@@ -14,7 +14,7 @@ describe('Announcements data', () => {
     });
   });
 
-  it('all date fields are valid dates', () => {
+  test('all date fields are valid dates', () => {
     announcements.forEach(announcement => {
       expect(moment(announcement.date).isValid()).toBe(true);
       expect(moment(announcement.displayStartDate).isValid()).toBe(true);

@@ -57,7 +57,7 @@ describe('actions/paymentInformation', () => {
 
       afterEach(teardown);
 
-      it('calls fetch to `GET ppiu/payment_information`', async () => {
+      test('calls fetch to `GET ppiu/payment_information`', async () => {
         await actionCreator(dispatch);
 
         expect(global.fetch.firstCall.args[1].method).toBe('GET');
@@ -66,7 +66,7 @@ describe('actions/paymentInformation', () => {
         ).toBe(true);
       });
 
-      it('dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
+      test('dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
         await actionCreator(dispatch);
 
         expect(dispatch.firstCall.args[0].type).toBe(
@@ -121,16 +121,19 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
-          expect(dispatch.secondCall.args[0].type).toBe(
-            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-          );
-          expect(dispatch.secondCall.args[0].response).toEqual({
-            responses: [paymentInfo],
-          });
-        });
+        test(
+          'dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint',
+          () => {
+            expect(dispatch.secondCall.args[0].type).toBe(
+              paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+            );
+            expect(dispatch.secondCall.args[0].response).toEqual({
+              responses: [paymentInfo],
+            });
+          }
+        );
 
-        it('reports the correct data to Google Analytics', () => {
+        test('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).toBe(
             'profile-get-direct-deposit-retrieved',
           );
@@ -138,7 +141,7 @@ describe('actions/paymentInformation', () => {
       });
 
       describe('if the call fails', () => {
-        it('dispatches PAYMENT_INFORMATION_FETCH_FAILED', async () => {
+        test('dispatches PAYMENT_INFORMATION_FETCH_FAILED', async () => {
           setFetchJSONFailure(global.fetch.onFirstCall(), {});
           await actionCreator(dispatch);
 
@@ -167,7 +170,7 @@ describe('actions/paymentInformation', () => {
       });
       afterEach(teardown);
 
-      it('calls fetch to `PUT ppiu/payment_information', async () => {
+      test('calls fetch to `PUT ppiu/payment_information', async () => {
         await actionCreator(dispatch);
 
         expect(global.fetch.firstCall.args[1].method).toBe('PUT');
@@ -176,7 +179,7 @@ describe('actions/paymentInformation', () => {
         ).toBe(true);
       });
 
-      it('dispatches PAYMENT_INFORMATION_SAVE_STARTED', async () => {
+      test('dispatches PAYMENT_INFORMATION_SAVE_STARTED', async () => {
         await actionCreator(dispatch);
 
         expect(dispatch.firstCall.args[0].type).toBe(
@@ -189,13 +192,13 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_SAVE_SUCCEEDED', () => {
+        test('dispatches PAYMENT_INFORMATION_SAVE_SUCCEEDED', () => {
           expect(dispatch.secondCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
           );
         });
 
-        it('reports the correct data to Google Analytics', () => {
+        test('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).toBe(
             'profile-transaction',
           );
@@ -230,13 +233,13 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        it('dispatches PAYMENT_INFORMATION_SAVE_FAILED', () => {
+        test('dispatches PAYMENT_INFORMATION_SAVE_FAILED', () => {
           expect(dispatch.secondCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_SAVE_FAILED,
           );
         });
 
-        it('reports the correct data to Google Analytics', () => {
+        test('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0]).toEqual({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
@@ -253,7 +256,7 @@ describe('actions/paymentInformation', () => {
     afterEach(teardown);
 
     describe('savePaymentInformation', () => {
-      it('still calls fetch and dispatches SAVE_PAYMENT_INFORMATION', async () => {
+      test('still calls fetch and dispatches SAVE_PAYMENT_INFORMATION', async () => {
         const actionCreator = paymentInformationActions.savePaymentInformation({
           data: 'value',
         });

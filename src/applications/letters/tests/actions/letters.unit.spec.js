@@ -81,7 +81,7 @@ describe('getLettersList', () => {
     },
   };
 
-  it('dispatches GET_LETTERS_SUCCESS when GET succeeds', done => {
+  test('dispatches GET_LETTERS_SUCCESS when GET succeeds', done => {
     global.fetch.returns(
       Promise.resolve({
         headers: { get: () => 'application/json' },
@@ -99,22 +99,25 @@ describe('getLettersList', () => {
       .then(done, done);
   });
 
-  it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', done => {
-    global.fetch.returns(Promise.reject(new Error('something went wrong')));
-    const dispatch = sinon.spy();
-    getLetterList(dispatch)
-      .then(() => {
-        done(
-          new Error('getLetterList should have rejected but resolved instead'),
-        );
-      })
-      .catch(() => {
-        const action = dispatch.firstCall.args[0];
-        expect(action.type).toBe(GET_LETTERS_FAILURE);
-        expect(testkit.reports().length).toBe(2); // One from apiRequest, one from getLetterList()
-        done();
-      });
-  });
+  test(
+    'dispatches GET_LETTERS_FAILURE when GET fails with generic error',
+    done => {
+      global.fetch.returns(Promise.reject(new Error('something went wrong')));
+      const dispatch = sinon.spy();
+      getLetterList(dispatch)
+        .then(() => {
+          done(
+            new Error('getLetterList should have rejected but resolved instead'),
+          );
+        })
+        .catch(() => {
+          const action = dispatch.firstCall.args[0];
+          expect(action.type).toBe(GET_LETTERS_FAILURE);
+          expect(testkit.reports().length).toBe(2); // One from apiRequest, one from getLetterList()
+          done();
+        });
+    }
+  );
 
   const lettersErrors = {
     503: BACKEND_SERVICE_ERROR,
@@ -125,7 +128,7 @@ describe('getLettersList', () => {
   };
 
   Object.keys(lettersErrors).forEach(code => {
-    it(`dispatches ${
+    test(`dispatches ${
       lettersErrors[code]
     } when GET fails with ${code}`, done => {
       global.fetch.returns(
@@ -158,30 +161,36 @@ describe('getLetterListAndBSLOptions', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('should make the call to get the BSL options after the letter list call is complete', done => {
-    const thunk = getLetterListAndBSLOptions();
-    const dispatch = () => {};
+  test(
+    'should make the call to get the BSL options after the letter list call is complete',
+    done => {
+      const thunk = getLetterListAndBSLOptions();
+      const dispatch = () => {};
 
-    thunk(dispatch).then(() => {
-      expect(global.fetch.callCount).toBe(2);
-      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).toBe(true);
-      expect(
-        global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
-      ).toBe(true);
-      done();
-    });
-  });
+      thunk(dispatch).then(() => {
+        expect(global.fetch.callCount).toBe(2);
+        expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).toBe(true);
+        expect(
+          global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
+        ).toBe(true);
+        done();
+      });
+    }
+  );
 
-  it('should not make the call to get the BSL options if the letter list call fails', done => {
-    global.fetch.returns(Promise.reject());
-    const thunk = getLetterListAndBSLOptions();
-    const dispatch = () => {};
+  test(
+    'should not make the call to get the BSL options if the letter list call fails',
+    done => {
+      global.fetch.returns(Promise.reject());
+      const thunk = getLetterListAndBSLOptions();
+      const dispatch = () => {};
 
-    thunk(dispatch).then(() => {
-      expect(global.fetch.callCount).toBe(1);
-      done();
-    });
-  });
+      thunk(dispatch).then(() => {
+        expect(global.fetch.callCount).toBe(1);
+        done();
+      });
+    }
+  );
 });
 
 describe('getBenefitSummaryOptions', () => {
@@ -219,7 +228,7 @@ describe('getBenefitSummaryOptions', () => {
     },
   };
 
-  it('dispatches SUCCESS action with response when GET succeeds', done => {
+  test('dispatches SUCCESS action with response when GET succeeds', done => {
     global.fetch.returns(
       Promise.resolve({
         headers: { get: () => 'application/json' },
@@ -238,7 +247,7 @@ describe('getBenefitSummaryOptions', () => {
       .then(done, done);
   });
 
-  it('dispatches FAILURE action when GET fails', done => {
+  test('dispatches FAILURE action when GET fails', done => {
     global.fetch.returns(Promise.reject({}));
     const dispatch = sinon.spy();
 
@@ -288,7 +297,7 @@ describe('getLetterPdf', () => {
     },
   };
 
-  it('dispatches download pending action first', done => {
+  test('dispatches download pending action first', done => {
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();
@@ -301,7 +310,7 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds for BSL', done => {
+  test('dispatches SUCCESS action when fetch succeeds for BSL', done => {
     global.fetch.returns(
       Promise.resolve({
         headers: { get: () => 'application/octet-stream' },
@@ -320,7 +329,7 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds for non-BSL', done => {
+  test('dispatches SUCCESS action when fetch succeeds for non-BSL', done => {
     global.fetch.returns(
       Promise.resolve({
         headers: { get: () => 'application/octet-stream' },
@@ -339,7 +348,7 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches SUCCESS action when fetch succeeds on IE10', done => {
+  test('dispatches SUCCESS action when fetch succeeds on IE10', done => {
     const ieDownloadSpy = sinon.spy();
     const blobObj = { test: '123 testing' };
     global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
@@ -365,7 +374,7 @@ describe('getLetterPdf', () => {
       .then(done, done);
   });
 
-  it('dispatches FAILURE action if download fails', done => {
+  test('dispatches FAILURE action if download fails', done => {
     global.fetch.returns(Promise.reject(new Error('Oops, this failed')));
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);

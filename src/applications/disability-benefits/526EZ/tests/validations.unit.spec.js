@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 describe('526 Increase validations', () => {
   describe('isInPast', () => {
-    it('should not add error when no date present', () => {
+    test('should not add error when no date present', () => {
       const addError = sinon.spy();
       const errors = { addError };
 
@@ -11,7 +11,7 @@ describe('526 Increase validations', () => {
       expect(addError.called).toBe(false);
     });
 
-    it('should not add error when end date is in past', () => {
+    test('should not add error when end date is in past', () => {
       const addError = sinon.spy();
       const errors = { addError };
 
@@ -19,7 +19,7 @@ describe('526 Increase validations', () => {
       expect(addError.called).toBe(false);
     });
 
-    it('should add error when end date is in past', () => {
+    test('should add error when end date is in past', () => {
       const addError = sinon.spy();
       const errors = { addError };
 

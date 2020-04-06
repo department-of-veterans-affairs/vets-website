@@ -6,7 +6,7 @@ import {
 } from '../../actionTypes';
 
 describe('Feature Toggle reducer', () => {
-  it('sets a loading state', () => {
+  test('sets a loading state', () => {
     const state = FeatureToggleReducer(undefined, {
       type: FETCH_TOGGLE_VALUES_STARTED,
     });
@@ -14,7 +14,7 @@ describe('Feature Toggle reducer', () => {
     expect(state.loading).toBe(true);
   });
 
-  it('adds the payload to the state', () => {
+  test('adds the payload to the state', () => {
     const payload = {
       test: 'test',
     };
@@ -27,7 +27,7 @@ describe('Feature Toggle reducer', () => {
     expect(state.test).toBe('test');
   });
 
-  it('adds the newToggleValues to the state', () => {
+  test('adds the newToggleValues to the state', () => {
     const newToggleValues = {
       test: 'test',
     };

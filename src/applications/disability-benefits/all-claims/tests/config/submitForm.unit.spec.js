@@ -6,7 +6,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 describe('Form 526 submit reject timer', () => {
   let xhr;
 
-  before(() => {
+  beforeAll(() => {
     sinon.stub(localStorage, 'getItem');
   });
 
@@ -19,11 +19,11 @@ describe('Form 526 submit reject timer', () => {
     xhr.restore();
   });
 
-  after(() => {
+  afterAll(() => {
     localStorage.getItem.restore();
   });
 
-  it('should trigger reject timer', async () => {
+  test('should trigger reject timer', async () => {
     const blankFormConfig = {
       chapters: {},
     };

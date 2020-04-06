@@ -15,7 +15,7 @@ describe('686 veteran information', () => {
     uiSchema,
   } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -27,7 +27,7 @@ describe('686 veteran information', () => {
     form.unmount();
   });
 
-  it('should expand VA file number if noSSN is checked', () => {
+  test('should expand VA file number if noSSN is checked', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -40,7 +40,7 @@ describe('686 veteran information', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -56,7 +56,7 @@ describe('686 veteran information', () => {
     form.unmount();
   });
 
-  it('should submit completed form', () => {
+  test('should submit completed form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

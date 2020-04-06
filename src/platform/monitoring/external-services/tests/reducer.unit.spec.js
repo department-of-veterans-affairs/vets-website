@@ -7,23 +7,23 @@ import {
 import reducer from '../reducer';
 
 describe('External service statuses reducer', () => {
-  it('should have a default state', () => {
+  test('should have a default state', () => {
     const state = reducer(undefined, {});
     expect(state.loading).toBe(false);
     expect(state.statuses).toBeNull();
   });
 
-  it('should handle in progress requests for backend statuses', () => {
+  test('should handle in progress requests for backend statuses', () => {
     const state = reducer(undefined, { type: LOADING_BACKEND_STATUSES });
     expect(state.loading).toBe(true);
   });
 
-  it('should handle failed requests for backend statuses', () => {
+  test('should handle failed requests for backend statuses', () => {
     const state = reducer(undefined, { type: FETCH_BACKEND_STATUSES_FAILURE });
     expect(state.loading).toBe(false);
   });
 
-  it('should handle successful requests for backend statuses', () => {
+  test('should handle successful requests for backend statuses', () => {
     const statuses = [
       {
         service: 'Master Veterans Index (MVI)',

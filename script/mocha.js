@@ -1,4 +1,3 @@
-const Mocha = require('mocha');
 const { Writable } = require('stream');
 const path = require('path');
 const chalk = require('chalk');

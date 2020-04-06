@@ -11,7 +11,7 @@ import {
 import createSchemaFormReducer from '../../../src/js/state';
 
 describe('schemaform createSchemaFormReducer', () => {
-  it('creates a reducer with initial state for each page', () => {
+  test('creates a reducer with initial state for each page', () => {
     const formConfig = {
       disableSave: true,
       chapters: {
@@ -66,7 +66,7 @@ describe('schemaform createSchemaFormReducer', () => {
     };
     const reducer = createSchemaFormReducer(formConfig);
 
-    it('adds the chapter name to openChapters on OPEN_REVIEW_CHAPTER', () => {
+    test('adds the chapter name to openChapters on OPEN_REVIEW_CHAPTER', () => {
       const previousState = {
         reviewPageView: {
           openChapters: [],
@@ -89,34 +89,37 @@ describe('schemaform createSchemaFormReducer', () => {
       expect(testState).toEqual(expectedState);
     });
 
-    it('removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER', () => {
-      const viewedPages = new Set();
-      const previousState = {
-        reviewPageView: {
-          openChapters: ['chapter1', 'chapter2', 'chapter3'],
-          viewedPages,
-        },
-      };
+    test(
+      'removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER',
+      () => {
+        const viewedPages = new Set();
+        const previousState = {
+          reviewPageView: {
+            openChapters: ['chapter1', 'chapter2', 'chapter3'],
+            viewedPages,
+          },
+        };
 
-      const action = {
-        type: CLOSE_REVIEW_CHAPTER,
-        closedChapter: 'chapter2',
-        pageKeys: ['test'],
-      };
+        const action = {
+          type: CLOSE_REVIEW_CHAPTER,
+          closedChapter: 'chapter2',
+          pageKeys: ['test'],
+        };
 
-      const testState = reducer(previousState, action);
+        const testState = reducer(previousState, action);
 
-      const expectedState = {
-        reviewPageView: {
-          openChapters: ['chapter1', 'chapter3'],
-          viewedPages: viewedPages.add('test'),
-        },
-      };
+        const expectedState = {
+          reviewPageView: {
+            openChapters: ['chapter1', 'chapter3'],
+            viewedPages: viewedPages.add('test'),
+          },
+        };
 
-      expect(testState).toEqual(expectedState);
-    });
+        expect(testState).toEqual(expectedState);
+      }
+    );
 
-    it('should set data state', () => {
+    test('should set data state', () => {
       const state = reducer(
         {
           pages: {
@@ -139,7 +142,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.data.field).toBe('test2');
     });
-    it('should set edit mode', () => {
+    test('should set edit mode', () => {
       const state = reducer(
         {
           pages: {
@@ -157,7 +160,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.pages.page1.editMode).toBe(true);
     });
-    it('should reset array edit modes', () => {
+    test('should reset array edit modes', () => {
       const state = reducer(
         {
           pages: {
@@ -182,7 +185,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.pages.page1.editMode).toEqual([false, false]);
     });
-    it('should set privacy agreement', () => {
+    test('should set privacy agreement', () => {
       const state = reducer(
         {
           data: {
@@ -198,7 +201,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.data.privacyAgreementAccepted).toBe(true);
     });
-    it('should set submission field', () => {
+    test('should set submission field', () => {
       const state = reducer(
         {
           submission: {
@@ -214,7 +217,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.submission.hasAttemptedSubmit).toBe(true);
     });
-    it('should set submitted', () => {
+    test('should set submitted', () => {
       const state = reducer(
         {
           submission: {

@@ -22,7 +22,7 @@ describe('isBrokenLink', () => {
   ];
 
   for (const badLink of badLinks) {
-    it(`returns true for invalid link value - ${badLink}`, () => {
+    test(`returns true for invalid link value - ${badLink}`, () => {
       const result = isBrokenLink(badLink, page, files);
       expect(result).toBe(true);
     });
@@ -39,7 +39,7 @@ describe('isBrokenLink', () => {
   ];
 
   for (const goodLink of goodLinks) {
-    it(`returns false for valid link value - ${goodLink}`, () => {
+    test(`returns false for valid link value - ${goodLink}`, () => {
       const result = isBrokenLink(goodLink, page, files);
       expect(result).toBe(false);
     });

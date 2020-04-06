@@ -18,11 +18,11 @@ import {
 } from '../../feedback-tool/helpers';
 
 describe('removeEmptyStringProperties', () => {
-  it('removes keys that have empty string values', () => {
+  test('removes keys that have empty string values', () => {
     expect(removeEmptyStringProperties({ key: '' })).toEqual({});
     expect(removeEmptyStringProperties({ key: '  ' })).toEqual({});
   });
-  it('converts preserves non-empty strings', () => {
+  test('converts preserves non-empty strings', () => {
     expect(removeEmptyStringProperties({ key: 'hello' })).toEqual({
       key: 'hello',
     });
@@ -34,7 +34,7 @@ describe('removeEmptyStringProperties', () => {
 
 describe('feedback-tool helpers:', () => {
   describe('transformSearchToolAddress', () => {
-    it('converts international address data to the proper format', () => {
+    test('converts international address data to the proper format', () => {
       const inputData = {
         address1: '254 PHAYATHAI ROAD',
         address2: 'ENGINEERING BLDG 2',
@@ -56,7 +56,7 @@ describe('feedback-tool helpers:', () => {
       const address = transformSearchToolAddress(inputData);
       expect(address).toEqual(expectedAddress);
     });
-    it('converts domestic address data to the proper format', () => {
+    test('converts domestic address data to the proper format', () => {
       const inputData = {
         address1: '1840 NE ARGYLE',
         address2: null,
@@ -78,7 +78,7 @@ describe('feedback-tool helpers:', () => {
       const address = transformSearchToolAddress(inputData);
       expect(address).toEqual(expectedAddress);
     });
-    it('trims fields that are too long', () => {
+    test('trims fields that are too long', () => {
       const inputData1 = {
         address1: '254 PHAYATHAI ROAD 254 PHAYATHAI ROAD 254 PHAYATHAI ROAD',
         address2: 'ENGINEERING BLDG 2 ENGINEERING BLDG 2 ENGINEERING BLDG 2',
@@ -128,7 +128,7 @@ describe('feedback-tool helpers:', () => {
       expect(address1).toEqual(expectedAddress1);
       expect(address2).toEqual(expectedAddress2);
     });
-    it('converts empty strings to `undefined`', () => {
+    test('converts empty strings to `undefined`', () => {
       const inputData = {
         address1: '1840 NE ARGYLE',
         address2: '',
@@ -151,7 +151,7 @@ describe('feedback-tool helpers:', () => {
   });
 
   describe('removeFacilityCodeIfManualEntry', () => {
-    it('removes the facility code if manual entry is used', () => {
+    test('removes the facility code if manual entry is used', () => {
       const form = {
         data: {
           educationDetails: {
@@ -178,7 +178,7 @@ describe('feedback-tool helpers:', () => {
       };
       expect(actual).toEqual(expected);
     });
-    it('does not manipulate the object if manual entry is not used', () => {
+    test('does not manipulate the object if manual entry is not used', () => {
       const form = {
         data: {
           educationDetails: {
@@ -206,7 +206,7 @@ describe('feedback-tool helpers:', () => {
         },
       },
     };
-    it('calls the `formTransformer` with the `form` object', () => {
+    test('calls the `formTransformer` with the `form` object', () => {
       const form = { data: {} };
       const formTransformerSpy = sinon.spy(data => data);
       transform(formConfig, form, formTransformerSpy);
@@ -221,7 +221,7 @@ describe('feedback-tool helpers:', () => {
         createObjectURL: sinon.stub().returns('test'),
       };
     });
-    it('should reject if initial request fails', () => {
+    test('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
         chapters: {},
@@ -238,7 +238,7 @@ describe('feedback-tool helpers:', () => {
           expect(err.message).toBe('fake error');
         });
     });
-    it('should resolve if polling state is success', () => {
+    test('should resolve if polling state is success', () => {
       const parsedResponse = {};
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
@@ -274,7 +274,7 @@ describe('feedback-tool helpers:', () => {
         expect(res).toEqual({});
       });
     });
-    it('should reject if polling state is failed', () => {
+    test('should reject if polling state is failed', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {
@@ -331,7 +331,7 @@ describe('feedback-tool helpers:', () => {
       metadata = {};
     });
     describe(`"${PREFILL_FLAGS.APPLICANT_INFORMATION}" flag`, () => {
-      it('is added when a `fullName` is set on the formData', () => {
+      test('is added when a `fullName` is set on the formData', () => {
         formData.fullName = { first: 'Pat' };
         const expectedFormData = {
           ...formData,
@@ -342,7 +342,7 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      it('is not added when a `fullName` is not set on the formData', () => {
+      test('is not added when a `fullName` is not set on the formData', () => {
         const expectedFormData = {
           ...formData,
         };
@@ -353,7 +353,7 @@ describe('feedback-tool helpers:', () => {
       });
     });
     describe(`"${PREFILL_FLAGS.SERVICE_INFORMATION}" flag`, () => {
-      it('is added when a `serviceBranch` is set on the formData', () => {
+      test('is added when a `serviceBranch` is set on the formData', () => {
         formData.serviceBranch = 'Air Force';
         const expectedFormData = {
           ...formData,
@@ -364,7 +364,7 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      it('is added when a `serviceDateRange` is set on the formData', () => {
+      test('is added when a `serviceDateRange` is set on the formData', () => {
         formData.serviceDateRange = {
           from: '2001-03-21',
           to: '2014-07-21',
@@ -378,18 +378,21 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      it('is not added when neither `serviceBranch` or `serviceDateRange` are not set on the formData', () => {
-        const expectedFormData = {
-          ...formData,
-        };
-        const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).toEqual(metadata);
-        expect(result.pages).toEqual(pages);
-        expect(result.formData).toEqual(expectedFormData);
-      });
+      test(
+        'is not added when neither `serviceBranch` or `serviceDateRange` are not set on the formData',
+        () => {
+          const expectedFormData = {
+            ...formData,
+          };
+          const result = prefillTransformer(pages, formData, metadata);
+          expect(result.metadata).toEqual(metadata);
+          expect(result.pages).toEqual(pages);
+          expect(result.formData).toEqual(expectedFormData);
+        }
+      );
     });
     describe(`"${PREFILL_FLAGS.CONTACT_INFORMATION}" flag`, () => {
-      it('is added when an `applicantEmail` is set on the formData', () => {
+      test('is added when an `applicantEmail` is set on the formData', () => {
         formData.applicantEmail = 'foo@bar.com';
         const expectedFormData = {
           ...formData,
@@ -400,7 +403,7 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      it('is added when a `phone` is set on the formData', () => {
+      test('is added when a `phone` is set on the formData', () => {
         formData.phone = '4151234567';
         const expectedFormData = {
           ...formData,
@@ -411,7 +414,7 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      it('is added when an `address` is set on the formData', () => {
+      test('is added when an `address` is set on the formData', () => {
         formData.address = { country: 'US' };
         const expectedFormData = {
           ...formData,
@@ -422,15 +425,18 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      it('is not added when neither `address`, `phone`, or `applicantEmail` are set on the formData', () => {
-        const expectedFormData = {
-          ...formData,
-        };
-        const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).toEqual(metadata);
-        expect(result.pages).toEqual(pages);
-        expect(result.formData).toEqual(expectedFormData);
-      });
+      test(
+        'is not added when neither `address`, `phone`, or `applicantEmail` are set on the formData',
+        () => {
+          const expectedFormData = {
+            ...formData,
+          };
+          const result = prefillTransformer(pages, formData, metadata);
+          expect(result.metadata).toEqual(metadata);
+          expect(result.pages).toEqual(pages);
+          expect(result.formData).toEqual(expectedFormData);
+        }
+      );
     });
   });
 
@@ -444,23 +450,29 @@ describe('feedback-tool helpers:', () => {
     beforeEach(() => {
       messageComponent = sinon.spy(() => 'dom');
     });
-    it('calls the `messageComponent` param if the correct flag is set on data.formData', () => {
-      const result = conditionallyShowPrefillMessage(
-        'goodFlag',
-        data,
-        messageComponent,
-      );
-      expect(messageComponent.called).toBe(true);
-      expect(result).toBe('dom');
-    });
-    it('does not call the `messageComponent` param if the correct flag is not set data.formData', () => {
-      const result = conditionallyShowPrefillMessage(
-        'badFlag',
-        data,
-        messageComponent,
-      );
-      expect(messageComponent.called).toBe(false);
-      expect(result).toBe(null);
-    });
+    test(
+      'calls the `messageComponent` param if the correct flag is set on data.formData',
+      () => {
+        const result = conditionallyShowPrefillMessage(
+          'goodFlag',
+          data,
+          messageComponent,
+        );
+        expect(messageComponent.called).toBe(true);
+        expect(result).toBe('dom');
+      }
+    );
+    test(
+      'does not call the `messageComponent` param if the correct flag is not set data.formData',
+      () => {
+        const result = conditionallyShowPrefillMessage(
+          'badFlag',
+          data,
+          messageComponent,
+        );
+        expect(messageComponent.called).toBe(false);
+        expect(result).toBe(null);
+      }
+    );
   });
 });

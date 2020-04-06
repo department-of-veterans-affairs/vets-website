@@ -14,7 +14,7 @@ describe('feedback tool benefits info', () => {
     uiSchema,
   } = formConfig.chapters.benefitsInformation.pages.benefitsInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -28,7 +28,7 @@ describe('feedback tool benefits info', () => {
     form.unmount();
   });
 
-  it('should not submit without required information', () => {
+  test('should not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -45,7 +45,7 @@ describe('feedback tool benefits info', () => {
     form.unmount();
   });
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

@@ -17,7 +17,7 @@ describe('External services actions', () => {
       global.fetch = originalFetch;
     });
 
-    it('should handle a success response', () => {
+    test('should handle a success response', () => {
       const response = {
         data: {
           attributes: {
@@ -44,7 +44,7 @@ describe('External services actions', () => {
       });
     });
 
-    it('should handle an error response', () => {
+    test('should handle an error response', () => {
       const response = {
         data: { attributes: { code: 400 } },
       };

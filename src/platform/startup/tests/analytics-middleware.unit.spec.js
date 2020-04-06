@@ -39,7 +39,7 @@ describe('Analytics Middleware', () => {
     },
   ];
 
-  it('should capture the proper events', () => {
+  test('should capture the proper events', () => {
     const middleware = createAnalyticsMiddleware(eventList);
     middleware({})(() => {})({ type: 'test-string-event' });
     expect(global.window.dataLayer).toEqual([
@@ -47,7 +47,7 @@ describe('Analytics Middleware', () => {
     ]);
   });
 
-  it('should handle function events', () => {
+  test('should handle function events', () => {
     const middleware = createAnalyticsMiddleware(eventList);
     // Tests that both store and action are passed to the event callback
     middleware({ basePayload: 'some ' })(() => {})({
@@ -61,7 +61,7 @@ describe('Analytics Middleware', () => {
     ]);
   });
 
-  it('should call the next middleware', () => {
+  test('should call the next middleware', () => {
     const middleware = createAnalyticsMiddleware(eventList);
     const nextSpy = spy();
     middleware({})(nextSpy)({ type: 'test-string-event' });

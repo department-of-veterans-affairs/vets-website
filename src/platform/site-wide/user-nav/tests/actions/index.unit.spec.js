@@ -6,21 +6,21 @@ import {
 } from '../../actions';
 
 describe('User Nav Actions', () => {
-  it('should hide the login modal', () => {
+  test('should hide the login modal', () => {
     expect(toggleLoginModal(false)).toEqual({
       type: TOGGLE_LOGIN_MODAL,
       isOpen: false,
     });
   });
 
-  it('should show the login modal', () => {
+  test('should show the login modal', () => {
     expect(toggleLoginModal(true)).toEqual({
       type: TOGGLE_LOGIN_MODAL,
       isOpen: true,
     });
   });
 
-  it('should close a specified dropdown menu', () => {
+  test('should close a specified dropdown menu', () => {
     expect(toggleSearchHelpUserMenu('search', false)).toEqual({
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'search',
@@ -28,7 +28,7 @@ describe('User Nav Actions', () => {
     });
   });
 
-  it('should open a specified dropdown menu', () => {
+  test('should open a specified dropdown menu', () => {
     expect(toggleSearchHelpUserMenu('help', true)).toEqual({
       type: UPDATE_SEARCH_HELP_USER_MENU,
       menu: 'help',

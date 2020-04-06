@@ -37,7 +37,7 @@ const military = {
 };
 
 describe('formatAddress', () => {
-  it('formats domestic addresses with three street lines', () => {
+  test('formats domestic addresses with three street lines', () => {
     const expectedResult = {
       street: '140 Rock Creek Church Rd NW, Apt 57 Area Name',
       cityStateZip: 'Springfield, Oregon 97477',
@@ -47,7 +47,7 @@ describe('formatAddress', () => {
     expect(addressUtils.formatAddress(domestic)).toEqual(expectedResult);
   });
 
-  it('formats domestic addresses with two street lines', () => {
+  test('formats domestic addresses with two street lines', () => {
     const expectedResult = {
       street: '140 Rock Creek Church Rd NW, Apt 57',
       cityStateZip: 'Springfield, Oregon 97477',
@@ -58,7 +58,7 @@ describe('formatAddress', () => {
     expect(addressUtils.formatAddress(address)).toEqual(expectedResult);
   });
 
-  it('formats domestic addresses with one street line', () => {
+  test('formats domestic addresses with one street line', () => {
     const expectedResult = {
       street: '140 Rock Creek Church Rd NW',
       cityStateZip: 'Springfield, Oregon 97477',
@@ -70,7 +70,7 @@ describe('formatAddress', () => {
     expect(addressUtils.formatAddress(address)).toEqual(expectedResult);
   });
 
-  it('formats military addresses', () => {
+  test('formats military addresses', () => {
     const expectedResult = {
       street: '57 Columbus Strassa, Line2 Ben Franklin Village',
       cityStateZip: 'APO, AE 09028',
@@ -80,7 +80,7 @@ describe('formatAddress', () => {
     expect(addressUtils.formatAddress(military)).toEqual(expectedResult);
   });
 
-  it('formats international addresses', () => {
+  test('formats international addresses', () => {
     const expectedResult = {
       street: '2 Avenue Gabriel, Line2 Line3',
       cityStateZip: 'Paris',
@@ -92,52 +92,58 @@ describe('formatAddress', () => {
 });
 
 describe('getStateName', () => {
-  it('gets the full name of a state from its abbreviation', () => {
+  test('gets the full name of a state from its abbreviation', () => {
     expect(addressUtils.getStateName('KY')).toBe('Kentucky');
     expect(addressUtils.getStateName('ky')).toBe('Kentucky');
   });
 });
 
 describe('isEmptyAddress', () => {
-  it('detects an empty address', () => {
+  test('detects an empty address', () => {
     expect(addressUtils.isEmptyAddress({})).toBe(true);
     expect(
       addressUtils.isEmptyAddress({ type: 'domestic', countryName: 'USA' }),
     ).toBe(true);
   });
 
-  it('detects a non-empty address', () => {
+  test('detects a non-empty address', () => {
     expect(addressUtils.isEmptyAddress(domestic)).toBe(false);
   });
 });
 
 describe('consolidateAddress', () => {
-  it('converts a military address into a standard address format by adding the countryName set to USA, militaryPostOfficeTypeCode converted to city, and militaryStateCode converted to stateCode.', () => {
-    const expectedResult = {
-      type: 'MILITARY',
-      countryName: 'USA',
-      addressOne: military.addressOne,
-      addressTwo: military.addressTwo,
-      addressThree: military.addressThree,
-      city: military.militaryPostOfficeTypeCode,
-      stateCode: military.militaryStateCode,
-      zipCode: military.zipCode,
-      zipSuffix: military.zipSuffix,
-    };
-    expect(addressUtils.consolidateAddress(military)).toEqual(expectedResult);
-  });
-  it('does not affect non-military addresses', () => {
+  test(
+    'converts a military address into a standard address format by adding the countryName set to USA, militaryPostOfficeTypeCode converted to city, and militaryStateCode converted to stateCode.',
+    () => {
+      const expectedResult = {
+        type: 'MILITARY',
+        countryName: 'USA',
+        addressOne: military.addressOne,
+        addressTwo: military.addressTwo,
+        addressThree: military.addressThree,
+        city: military.militaryPostOfficeTypeCode,
+        stateCode: military.militaryStateCode,
+        zipCode: military.zipCode,
+        zipSuffix: military.zipSuffix,
+      };
+      expect(addressUtils.consolidateAddress(military)).toEqual(expectedResult);
+    }
+  );
+  test('does not affect non-military addresses', () => {
     expect(addressUtils.consolidateAddress(domestic)).toEqual(domestic);
   });
 });
 
 describe('expandAddress', () => {
-  it('converts a previously-consolidated address into the proper model by inferring the address type. If it is inferred as military, the inverse conversion of consolidateAddress is performed.', () => {
-    const consolidated = addressUtils.consolidateAddress(military);
-    consolidated.type = 'Will be inferred based on address fields';
-    expect(addressUtils.expandAddress(consolidated)).toEqual(military);
-  });
-  it('does not affect non-military addresses', () => {
+  test(
+    'converts a previously-consolidated address into the proper model by inferring the address type. If it is inferred as military, the inverse conversion of consolidateAddress is performed.',
+    () => {
+      const consolidated = addressUtils.consolidateAddress(military);
+      consolidated.type = 'Will be inferred based on address fields';
+      expect(addressUtils.expandAddress(consolidated)).toEqual(military);
+    }
+  );
+  test('does not affect non-military addresses', () => {
     expect(addressUtils.expandAddress(domestic)).toEqual(domestic);
   });
 });

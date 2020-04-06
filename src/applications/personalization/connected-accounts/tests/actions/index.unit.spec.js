@@ -11,7 +11,7 @@ import * as actions from '../../actions';
 describe('loadConnectedAccounts', () => {
   beforeEach(() => mockFetch());
 
-  it('should receive loaded and success actions', done => {
+  test('should receive loaded and success actions', done => {
     const payload = {
       data: [
         {
@@ -45,7 +45,7 @@ describe('loadConnectedAccounts', () => {
     }, 0);
   });
 
-  it('should receive loaded and error actions', done => {
+  test('should receive loaded and error actions', done => {
     const payload = { errors: [{ status: 404 }] };
 
     setFetchFailure(global.fetch.onFirstCall(), payload);
@@ -76,7 +76,7 @@ describe('loadConnectedAccounts', () => {
 describe('deleteConnectedAccount', () => {
   beforeEach(() => mockFetch());
 
-  it('should dispatch loading and success', done => {
+  test('should dispatch loading and success', done => {
     const dispatch = sinon.spy();
     setFetchResponse(global.fetch.onFirstCall());
 
@@ -100,7 +100,7 @@ describe('deleteConnectedAccount', () => {
     }, 0);
   });
 
-  it('should receive loaded and error actions', done => {
+  test('should receive loaded and error actions', done => {
     const payload = { errors: [{ status: 404 }] };
 
     setFetchFailure(global.fetch.onFirstCall(), payload);

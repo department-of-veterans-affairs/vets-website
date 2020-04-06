@@ -2,7 +2,7 @@ import * as selectors from '../selectors';
 
 describe('user selectors', () => {
   describe('selectVet360', () => {
-    it('pulls out the state.profile.vet360 data', () => {
+    test('pulls out the state.profile.vet360 data', () => {
       const state = {
         user: {
           profile: {
@@ -16,7 +16,7 @@ describe('user selectors', () => {
       };
       expect(selectors.selectVet360(state)).toEqual(state.user.profile.vet360);
     });
-    it('returns undefined if there is no vet360 on the profile', () => {
+    test('returns undefined if there is no vet360 on the profile', () => {
       const state = {
         user: {
           profile: {},
@@ -27,7 +27,7 @@ describe('user selectors', () => {
   });
 
   describe('selectVet360EmailAddress', () => {
-    it('pulls out the state.profile.vet360.emailAddress', () => {
+    test('pulls out the state.profile.vet360.emailAddress', () => {
       const state = {
         user: {
           profile: {
@@ -52,7 +52,7 @@ describe('user selectors', () => {
         state.user.profile.vet360.email.emailAddress,
       );
     });
-    it('returns undefined if there is no vet360 on the profile', () => {
+    test('returns undefined if there is no vet360 on the profile', () => {
       const state = {
         user: {
           profile: {},
@@ -60,7 +60,7 @@ describe('user selectors', () => {
       };
       expect(selectors.selectVet360EmailAddress(state)).toBeUndefined();
     });
-    it('returns undefined if there is no email', () => {
+    test('returns undefined if there is no email', () => {
       const state = {
         user: {
           profile: {
@@ -96,7 +96,7 @@ describe('user selectors', () => {
     };
 
     describe('selectVet360MobilePhone', () => {
-      it('pulls out the state.profile.vet360.mobilePhone data object', () => {
+      test('pulls out the state.profile.vet360.mobilePhone data object', () => {
         const state = {
           user: {
             profile: {
@@ -110,7 +110,7 @@ describe('user selectors', () => {
           state.user.profile.vet360.mobilePhone,
         );
       });
-      it('returns undefined if there is no vet360 on the profile', () => {
+      test('returns undefined if there is no vet360 on the profile', () => {
         const state = {
           user: {
             profile: {},
@@ -118,7 +118,7 @@ describe('user selectors', () => {
         };
         expect(selectors.selectVet360MobilePhone(state)).toBeUndefined();
       });
-      it('returns undefined if there is no mobile phone', () => {
+      test('returns undefined if there is no mobile phone', () => {
         const state = {
           user: {
             profile: {
@@ -131,21 +131,24 @@ describe('user selectors', () => {
     });
 
     describe('selectVet360MobilePhoneString', () => {
-      it('pulls out the mobile phone number as a single string if it exists', () => {
-        const state = {
-          user: {
-            profile: {
-              vet360: {
-                mobilePhone: phoneNumberData,
+      test(
+        'pulls out the mobile phone number as a single string if it exists',
+        () => {
+          const state = {
+            user: {
+              profile: {
+                vet360: {
+                  mobilePhone: phoneNumberData,
+                },
               },
             },
-          },
-        };
-        expect(selectors.selectVet360MobilePhoneString(state)).toBe(
-          '4158453210',
-        );
-      });
-      it('properly handles phone numbers with an extension', () => {
+          };
+          expect(selectors.selectVet360MobilePhoneString(state)).toBe(
+            '4158453210',
+          );
+        }
+      );
+      test('properly handles phone numbers with an extension', () => {
         const state = {
           user: {
             profile: {
@@ -159,7 +162,7 @@ describe('user selectors', () => {
           '4158453210x1234',
         );
       });
-      it('properly handles phone numbers with an extension of "0000"', () => {
+      test('properly handles phone numbers with an extension of "0000"', () => {
         const state = {
           user: {
             profile: {
@@ -176,7 +179,7 @@ describe('user selectors', () => {
     });
 
     describe('selectVet360HomePhone', () => {
-      it('pulls out the state.profile.vet360.homePhone data object', () => {
+      test('pulls out the state.profile.vet360.homePhone data object', () => {
         const state = {
           user: {
             profile: {
@@ -190,7 +193,7 @@ describe('user selectors', () => {
           state.user.profile.vet360.homePhone,
         );
       });
-      it('returns undefined if there is no vet360 on the profile', () => {
+      test('returns undefined if there is no vet360 on the profile', () => {
         const state = {
           user: {
             profile: {},
@@ -198,7 +201,7 @@ describe('user selectors', () => {
         };
         expect(selectors.selectVet360HomePhone(state)).toBeUndefined();
       });
-      it('returns undefined if there is no mobile phone', () => {
+      test('returns undefined if there is no mobile phone', () => {
         const state = {
           user: {
             profile: {
@@ -211,7 +214,7 @@ describe('user selectors', () => {
     });
 
     describe('selectVet360HomePhoneString', () => {
-      it('pulls out the home phone number as a single string if it exists', () => {
+      test('pulls out the home phone number as a single string if it exists', () => {
         const state = {
           user: {
             profile: {
@@ -223,7 +226,7 @@ describe('user selectors', () => {
         };
         expect(selectors.selectVet360HomePhoneString(state)).toBe('4158453210');
       });
-      it('properly handles phone numbers with an extension', () => {
+      test('properly handles phone numbers with an extension', () => {
         const state = {
           user: {
             profile: {
@@ -241,7 +244,7 @@ describe('user selectors', () => {
   });
 
   describe('selectPatientFacilities', () => {
-    it('pulls out the state.profile.facilities array', () => {
+    test('pulls out the state.profile.facilities array', () => {
       const state = {
         user: {
           profile: {
@@ -256,7 +259,7 @@ describe('user selectors', () => {
         state.user.profile.facilities,
       );
     });
-    it('returns undefined if there is no facilities on the profile', () => {
+    test('returns undefined if there is no facilities on the profile', () => {
       const state = {
         user: {
           profile: {},
@@ -266,7 +269,7 @@ describe('user selectors', () => {
     });
   });
   describe('selectIsCernerOnlyPatient', () => {
-    it('should return true if Cerner only', () => {
+    test('should return true if Cerner only', () => {
       const state = {
         user: {
           profile: {
@@ -276,7 +279,7 @@ describe('user selectors', () => {
       };
       expect(selectors.selectIsCernerOnlyPatient(state)).toBe(true);
     });
-    it('should return false if not Cerner only', () => {
+    test('should return false if not Cerner only', () => {
       const state = {
         user: {
           profile: {
@@ -291,7 +294,7 @@ describe('user selectors', () => {
     });
   });
   describe('selectIsCernerPatient', () => {
-    it('should return true if single cerner response', () => {
+    test('should return true if single cerner response', () => {
       const state = {
         user: {
           profile: {
@@ -301,7 +304,7 @@ describe('user selectors', () => {
       };
       expect(selectors.selectIsCernerPatient(state)).toBe(true);
     });
-    it('should return true if atleast 1 cerner facility', () => {
+    test('should return true if atleast 1 cerner facility', () => {
       const state = {
         user: {
           profile: {
@@ -314,7 +317,7 @@ describe('user selectors', () => {
       };
       expect(selectors.selectIsCernerPatient(state)).toBe(true);
     });
-    it('should return false if no cerner facilities', () => {
+    test('should return false if no cerner facilities', () => {
       const state = {
         user: {
           profile: {

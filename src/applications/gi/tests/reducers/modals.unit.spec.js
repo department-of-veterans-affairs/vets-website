@@ -5,7 +5,7 @@ const initialState = {
 };
 
 describe('modals reducer', () => {
-  it('should display modal correctly', () => {
+  test('should display modal correctly', () => {
     const state = modalsReducer(initialState, {
       type: 'DISPLAY_MODAL',
       modal: 'openModal',
@@ -14,7 +14,7 @@ describe('modals reducer', () => {
     expect(state.displaying).toBe('openModal');
   });
 
-  it('should close modals when route is updated', () => {
+  test('should close modals when route is updated', () => {
     const state = modalsReducer(initialState, { type: 'UPDATE_ROUTE' });
 
     expect(state.displaying).toBe(null);

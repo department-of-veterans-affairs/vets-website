@@ -28,7 +28,7 @@ const INITIAL_STATE = {
 };
 
 describe('search query reducer', () => {
-  it('should handle search started', () => {
+  test('should handle search started', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: SEARCH_STARTED,
     });
@@ -37,7 +37,7 @@ describe('search query reducer', () => {
     expect(state.inProgress).toBe(true);
   });
 
-  it('should handle fetching list of facilities', () => {
+  test('should handle fetching list of facilities', () => {
     const state = SearchQueryReducer(
       {
         inProgress: true,
@@ -54,7 +54,7 @@ describe('search query reducer', () => {
     expect(state.searchBoundsInProgress).toBe(false);
   });
 
-  it('should handle fetching single facility', () => {
+  test('should handle fetching single facility', () => {
     const state = SearchQueryReducer(
       {
         error: true,
@@ -69,7 +69,7 @@ describe('search query reducer', () => {
     expect(state.inProgress).toBe(false);
   });
 
-  it('should handle search failed', () => {
+  test('should handle search failed', () => {
     const state = SearchQueryReducer(
       {
         error: false,
@@ -84,7 +84,7 @@ describe('search query reducer', () => {
     expect(state.inProgress).toBe(false);
   });
 
-  it('should handle search query updated', () => {
+  test('should handle search query updated', () => {
     const state = SearchQueryReducer(
       {
         error: true,
@@ -101,7 +101,7 @@ describe('search query reducer', () => {
     expect(state.attribute).toBe(true);
   });
 
-  it('should handle fetching services', () => {
+  test('should handle fetching services', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: FETCH_SERVICES,
     });
@@ -110,7 +110,7 @@ describe('search query reducer', () => {
     expect(state.fetchSvcsInProgress).toBe(true);
   });
 
-  it('should handle provider services fetched', () => {
+  test('should handle provider services fetched', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: FETCH_SERVICES_DONE,
     });
@@ -119,7 +119,7 @@ describe('search query reducer', () => {
     expect(state.fetchSvcsInProgress).toBe(false);
   });
 
-  it('should handle failed fetching provider services', () => {
+  test('should handle failed fetching provider services', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
       type: FETCH_SERVICES_FAILED,
     });

@@ -13,25 +13,28 @@ const initialState = {
 };
 
 describe('eligibility reducer', () => {
-  it('should reset spouse active duty field after choosing military status', () => {
-    const state = eligibilityReducer(
-      {
-        ...initialState,
-        militaryStatus: 'spouse',
-        spouseActiveDuty: 'yes',
-      },
-      {
-        type: 'ELIGIBILITY_CHANGED',
-        field: 'militaryStatus',
-        value: 'veteran',
-      },
-    );
+  test(
+    'should reset spouse active duty field after choosing military status',
+    () => {
+      const state = eligibilityReducer(
+        {
+          ...initialState,
+          militaryStatus: 'spouse',
+          spouseActiveDuty: 'yes',
+        },
+        {
+          type: 'ELIGIBILITY_CHANGED',
+          field: 'militaryStatus',
+          value: 'veteran',
+        },
+      );
 
-    expect(state.militaryStatus).toBe('veteran');
-    expect(state.spouseActiveDuty).toBe('no');
-  });
+      expect(state.militaryStatus).toBe('veteran');
+      expect(state.spouseActiveDuty).toBe('no');
+    }
+  );
 
-  it('should reset fields after choosing GI Bill', () => {
+  test('should reset fields after choosing GI Bill', () => {
     const state = eligibilityReducer(
       {
         ...initialState,
@@ -48,7 +51,7 @@ describe('eligibility reducer', () => {
     expect(state).toEqual({ ...initialState, giBillChapter: '30' });
   });
 
-  it('should update eligibility for general field', () => {
+  test('should update eligibility for general field', () => {
     const state = eligibilityReducer(initialState, {
       type: 'ELIGIBILITY_CHANGED',
       field: 'fieldName',

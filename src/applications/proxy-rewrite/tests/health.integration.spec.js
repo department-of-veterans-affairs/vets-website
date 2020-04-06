@@ -29,7 +29,7 @@ describe('Veterans Health Administration page', () => {
     await page.goto(VAGOV_HEALTH_URL);
   });
 
-  it('renders full screen size', async () => {
+  test('renders full screen size', async () => {
     page.setViewport(fullScreen);
 
     await compareScreenshots(FOOTER);
@@ -47,7 +47,7 @@ describe('Veterans Health Administration page', () => {
       visible: true,
     });
   });
-  it('renders tablet screen size', async () => {
+  test('renders tablet screen size', async () => {
     page.setViewport(tabletScreen);
 
     await compareScreenshots(FOOTER);
@@ -65,7 +65,7 @@ describe('Veterans Health Administration page', () => {
       visible: true,
     });
   });
-  it('renders mobile screen size', async () => {
+  test('renders mobile screen size', async () => {
     page.setViewport(mobileScreen);
 
     await compareScreenshots(FOOTER);
@@ -89,7 +89,7 @@ describe('Veterans Health Administration page', () => {
       visible: true,
     });
   });
-  it('renders small mobile screen size', async () => {
+  test('renders small mobile screen size', async () => {
     page.setViewport(smallMobileScreen);
 
     await compareScreenshots(FOOTER);

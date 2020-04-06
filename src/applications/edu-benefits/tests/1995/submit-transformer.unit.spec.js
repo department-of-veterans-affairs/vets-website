@@ -11,11 +11,11 @@ import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
 
 describe('transform', () => {
-  it('should transform minimal data correctly', () => {
+  test('should transform minimal data correctly', () => {
     expect(transform(formConfig, minimalData)).toEqual(transformedMinimalData);
   });
 
-  it('should transform maximal data correctly', () => {
+  test('should transform maximal data correctly', () => {
     expect(transform(formConfig, maximalData)).toEqual(transformedMaximalData);
   });
 });

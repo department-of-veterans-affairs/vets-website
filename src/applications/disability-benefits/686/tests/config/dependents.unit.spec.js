@@ -15,7 +15,7 @@ describe('686 dependent info', () => {
     uiSchema,
   } = formConfig.chapters.unMarriedChildren.pages.dependents;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -28,7 +28,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -44,7 +44,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should submit form if applicant has no dependents', () => {
+  test('should submit form if applicant has no dependents', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -64,7 +64,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should expand dependent info if applicant has dependents', () => {
+  test('should expand dependent info if applicant has dependents', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -79,7 +79,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should submit form with all required fills filled', () => {
+  test('should submit form with all required fills filled', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -102,7 +102,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should add another dependent', () => {
+  test('should add another dependent', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

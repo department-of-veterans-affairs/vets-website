@@ -1,7 +1,7 @@
 import calculatorReducer from '../../reducers/calculator';
 
 describe('calculator reducer', () => {
-  it('should correctly change non-dollar input', () => {
+  test('should correctly change non-dollar input', () => {
     const state = calculatorReducer(
       {},
       {
@@ -14,7 +14,7 @@ describe('calculator reducer', () => {
     expect(state).toEqual({ field: 'value' });
   });
 
-  it('should correctly change dollar input', () => {
+  test('should correctly change dollar input', () => {
     const state = calculatorReducer(
       {},
       {
@@ -27,7 +27,7 @@ describe('calculator reducer', () => {
     expect(state).toEqual({ tuitionFees: 1000 });
   });
 
-  it('should correctly change inState input and set inState tuition', () => {
+  test('should correctly change inState input and set inState tuition', () => {
     const state = calculatorReducer(
       { tuitionInState: 10 },
       {
@@ -45,27 +45,30 @@ describe('calculator reducer', () => {
     });
   });
 
-  it('should correctly change inState input and set out of state tuition', () => {
-    const state = calculatorReducer(
-      { tuitionOutOfState: 100, tuitionInState: 10 },
-      {
-        type: 'CALCULATOR_INPUTS_CHANGED',
-        field: 'inState',
-        value: 'no',
-      },
-    );
+  test(
+    'should correctly change inState input and set out of state tuition',
+    () => {
+      const state = calculatorReducer(
+        { tuitionOutOfState: 100, tuitionInState: 10 },
+        {
+          type: 'CALCULATOR_INPUTS_CHANGED',
+          field: 'inState',
+          value: 'no',
+        },
+      );
 
-    expect(state).toEqual({
-      tuitionOutOfState: 100,
-      inStateTuitionFees: 10,
-      inState: 'no',
-      tuitionInState: 10,
-      tuitionFees: 100,
-    });
-  });
+      expect(state).toEqual({
+        tuitionOutOfState: 100,
+        inStateTuitionFees: 10,
+        inState: 'no',
+        tuitionInState: 10,
+        tuitionFees: 100,
+      });
+    }
+  );
 
   describe('FETCH_BAH_FAILED', () => {
-    it('should add a zip code not found error and clear values', () => {
+    test('should add a zip code not found error and clear values', () => {
       const previousState = {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
@@ -95,7 +98,7 @@ describe('calculator reducer', () => {
       expect(expectedState).toEqual(newState);
     });
 
-    it('should add a generic error message and clear values', () => {
+    test('should add a generic error message and clear values', () => {
       const previousState = {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
@@ -121,30 +124,33 @@ describe('calculator reducer', () => {
       expect(expectedState).toEqual(newState);
     });
 
-    it('should not modify the state if beneficiaryZIPFetched on state does not match action', () => {
-      const previousState = {
-        beneficiaryZIPError: '',
-        beneficiaryZIPFetched: '99999',
-        beneficiaryLocationBah: 5000,
-        housingAllowanceCity: 'New York, NY',
-      };
+    test(
+      'should not modify the state if beneficiaryZIPFetched on state does not match action',
+      () => {
+        const previousState = {
+          beneficiaryZIPError: '',
+          beneficiaryZIPFetched: '99999',
+          beneficiaryLocationBah: 5000,
+          housingAllowanceCity: 'New York, NY',
+        };
 
-      const action = {
-        type: 'FETCH_BAH_FAILED',
-        beneficiaryZIPFetched: '88888',
-        error: {
-          message: 'error',
-        },
-      };
+        const action = {
+          type: 'FETCH_BAH_FAILED',
+          beneficiaryZIPFetched: '88888',
+          error: {
+            message: 'error',
+          },
+        };
 
-      const newState = calculatorReducer(previousState, action);
+        const newState = calculatorReducer(previousState, action);
 
-      expect(previousState).toEqual(newState);
-    });
+        expect(previousState).toEqual(newState);
+      }
+    );
   });
 
   describe('FETCH_BAH_STARTED', () => {
-    it('should clear errors and fetch loading state', () => {
+    test('should clear errors and fetch loading state', () => {
       const previousState = {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
@@ -173,7 +179,7 @@ describe('calculator reducer', () => {
   });
 
   describe('FETCH_BAH_SUCCEEDED', () => {
-    it('should clear errors and set retrieved state', () => {
+    test('should clear errors and set retrieved state', () => {
       const previousState = {
         beneficiaryZIP: '88888',
         beneficiaryZIPError: '',
@@ -209,36 +215,39 @@ describe('calculator reducer', () => {
       expect(expectedState).toEqual(newState);
     });
 
-    it('should not modify the state if beneficiaryZIPFetched on state does not match action', () => {
-      const previousState = {
-        beneficiaryZIP: '88888',
-        beneficiaryZIPError: '',
-        beneficiaryZIPFetched: '88888',
-        beneficiaryLocationBah: null,
-        beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: '',
-      };
+    test(
+      'should not modify the state if beneficiaryZIPFetched on state does not match action',
+      () => {
+        const previousState = {
+          beneficiaryZIP: '88888',
+          beneficiaryZIPError: '',
+          beneficiaryZIPFetched: '88888',
+          beneficiaryLocationBah: null,
+          beneficiaryLocationGrandfatheredBah: null,
+          housingAllowanceCity: '',
+        };
 
-      const action = {
-        type: 'FETCH_BAH_SUCCEEDED',
-        beneficiaryZIPFetched: '11111',
-        payload: {
-          data: {
-            attributes: {
-              mhaRate: 5000,
-              mhaName: 'Los Angeles, CA',
+        const action = {
+          type: 'FETCH_BAH_SUCCEEDED',
+          beneficiaryZIPFetched: '11111',
+          payload: {
+            data: {
+              attributes: {
+                mhaRate: 5000,
+                mhaName: 'Los Angeles, CA',
+              },
             },
           },
-        },
-      };
+        };
 
-      const newState = calculatorReducer(previousState, action);
+        const newState = calculatorReducer(previousState, action);
 
-      expect(previousState).toEqual(newState);
-    });
+        expect(previousState).toEqual(newState);
+      }
+    );
   });
   describe('BENEFICIARY_ZIP_CODE_CHANGED', () => {
-    it('adds the input to the state and resets amounts and errors', () => {
+    test('adds the input to the state and resets amounts and errors', () => {
       const previousState = {
         beneficiaryZIP: '88888',
         beneficiaryZIPError: '',
@@ -266,7 +275,7 @@ describe('calculator reducer', () => {
       expect(expectedState).toEqual(newState);
     });
 
-    it('adds an error to the state when zip code has letters', () => {
+    test('adds an error to the state when zip code has letters', () => {
       const previousState = {
         beneficiaryZIP: '88888',
         beneficiaryZIPError: '',
@@ -294,7 +303,7 @@ describe('calculator reducer', () => {
       expect(expectedState).toEqual(newState);
     });
 
-    it('adds and error to the state when zip code is too long', () => {
+    test('adds and error to the state when zip code is too long', () => {
       const previousState = {
         beneficiaryZIP: '88888',
         beneficiaryZIPError: '',
@@ -323,9 +332,152 @@ describe('calculator reducer', () => {
     });
   });
 
-  it('should update yellowRibbonDivisionOptions, yellowRibbonDivison, and yellowRibbonAmount when yellowRibbonDegreeLevel is changed', () => {
-    const previousState = {
-      yellowRibbonPrograms: [
+  test(
+    'should update yellowRibbonDivisionOptions, yellowRibbonDivison, and yellowRibbonAmount when yellowRibbonDegreeLevel is changed',
+    () => {
+      const previousState = {
+        yellowRibbonPrograms: [
+          {
+            divisionProfessionalSchool: 'division1',
+            degreeLevel: 'graduate',
+            contributionAmount: 5000,
+            index: 0,
+            numberOfStudents: 20,
+          },
+          {
+            divisionProfessionalSchool: 'division2',
+            degreeLevel: 'undergraduate',
+            contributionAmount: 5,
+            index: 1,
+            numberOfStudents: 25,
+          },
+          {
+            divisionProfessionalSchool: 'division3',
+            degreeLevel: 'undergraduate',
+            contributionAmount: 25,
+            index: 2,
+            numberOfStudents: 30,
+          },
+        ],
+      };
+      const state = calculatorReducer(previousState, {
+        type: 'CALCULATOR_INPUTS_CHANGED',
+        field: 'yellowRibbonDegreeLevel',
+        value: 'undergraduate',
+      });
+
+      expect(state).toEqual({
+        ...previousState,
+        yellowRibbonDegreeLevel: 'undergraduate',
+        yellowRibbonDivisionOptions: ['division2', 'division3'],
+        yellowRibbonDivision: 'division2',
+        yellowRibbonAmount: 5,
+        yellowRibbonProgramIndex: 1,
+        yellowRibbonMaxAmount: 5,
+        yellowRibbonMaxNumberOfStudents: 25,
+      });
+    }
+  );
+
+  test(
+    'should update yellowRibbonAmount when yellowRibbonDivision is changed',
+    () => {
+      const previousState = {
+        yellowRibbonDegreeLevel: 'undergraduate',
+        yellowRibbonPrograms: [
+          {
+            divisionProfessionalSchool: 'division1',
+            degreeLevel: 'graduate',
+            contributionAmount: 5000,
+            index: 0,
+            numberOfStudents: 20,
+          },
+          {
+            divisionProfessionalSchool: 'division2',
+            degreeLevel: 'undergraduate',
+            contributionAmount: 5,
+            index: 1,
+            numberOfStudents: 25,
+          },
+          {
+            divisionProfessionalSchool: 'division3',
+            degreeLevel: 'undergraduate',
+            contributionAmount: 25,
+            index: 2,
+            numberOfStudents: 30,
+          },
+        ],
+      };
+      const state = calculatorReducer(previousState, {
+        type: 'CALCULATOR_INPUTS_CHANGED',
+        field: 'yellowRibbonDivision',
+        value: 'division3',
+      });
+
+      expect(state).toEqual({
+        ...previousState,
+        yellowRibbonDegreeLevel: 'undergraduate',
+        yellowRibbonDivision: 'division3',
+        yellowRibbonAmount: 25,
+        yellowRibbonMaxAmount: 25,
+        yellowRibbonMaxNumberOfStudents: 30,
+        yellowRibbonProgramIndex: 2,
+      });
+    }
+  );
+
+  test(
+    'should add yellowRibbonDegreeLevelOptions, yellowRibbonDivisonOptions, yellowRibbonAmount, yellowRibbonDegreeLevel, and yellowRibbonDivision when institution has yellowRibbonPrograms',
+    () => {
+      const state = calculatorReducer(
+        {},
+        {
+          type: 'FETCH_PROFILE_SUCCEEDED',
+          payload: {
+            data: {
+              attributes: {
+                yellowRibbonPrograms: [
+                  {
+                    divisionProfessionalSchool: 'division1',
+                    degreeLevel: 'graduate',
+                    contributionAmount: 5000,
+                    numberOfStudents: 20,
+                  },
+                  {
+                    divisionProfessionalSchool: 'division2',
+                    degreeLevel: 'undergraduate',
+                    contributionAmount: 5,
+                    numberOfStudents: 25,
+                  },
+                  {
+                    divisionProfessionalSchool: 'division3',
+                    degreeLevel: 'undergraduate',
+                    contributionAmount: 25,
+                    numberOfStudents: 30,
+                  },
+                ],
+              },
+            },
+            AVGDODBAH: 400,
+            AVGBAH: 500,
+          },
+        },
+      );
+
+      expect(state).toMatchObject({
+        yellowRibbonDegreeLevel: 'graduate',
+        yellowRibbonDivision: 'division1',
+        yellowRibbonAmount: 5000,
+        yellowRibbonMaxNumberOfStudents: 20,
+        yellowRibbonMaxAmount: 5000,
+        yellowRibbonProgramIndex: 0,
+      });
+      expect(state.yellowRibbonDivisionOptions).toEqual(['division1']);
+      expect(state.yellowRibbonDegreeLevelOptions).toEqual([
+        'graduate',
+        'undergraduate',
+      ]);
+      expect(state.yellowRibbonPrograms).toEqual([
         {
           divisionProfessionalSchool: 'division1',
           degreeLevel: 'graduate',
@@ -347,167 +499,36 @@ describe('calculator reducer', () => {
           index: 2,
           numberOfStudents: 30,
         },
-      ],
-    };
-    const state = calculatorReducer(previousState, {
-      type: 'CALCULATOR_INPUTS_CHANGED',
-      field: 'yellowRibbonDegreeLevel',
-      value: 'undergraduate',
-    });
+      ]);
+    }
+  );
 
-    expect(state).toEqual({
-      ...previousState,
-      yellowRibbonDegreeLevel: 'undergraduate',
-      yellowRibbonDivisionOptions: ['division2', 'division3'],
-      yellowRibbonDivision: 'division2',
-      yellowRibbonAmount: 5,
-      yellowRibbonProgramIndex: 1,
-      yellowRibbonMaxAmount: 5,
-      yellowRibbonMaxNumberOfStudents: 25,
-    });
-  });
-
-  it('should update yellowRibbonAmount when yellowRibbonDivision is changed', () => {
-    const previousState = {
-      yellowRibbonDegreeLevel: 'undergraduate',
-      yellowRibbonPrograms: [
+  test(
+    'FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower DOD rate',
+    () => {
+      const state = calculatorReducer(
+        {},
         {
-          divisionProfessionalSchool: 'division1',
-          degreeLevel: 'graduate',
-          contributionAmount: 5000,
-          index: 0,
-          numberOfStudents: 20,
-        },
-        {
-          divisionProfessionalSchool: 'division2',
-          degreeLevel: 'undergraduate',
-          contributionAmount: 5,
-          index: 1,
-          numberOfStudents: 25,
-        },
-        {
-          divisionProfessionalSchool: 'division3',
-          degreeLevel: 'undergraduate',
-          contributionAmount: 25,
-          index: 2,
-          numberOfStudents: 30,
-        },
-      ],
-    };
-    const state = calculatorReducer(previousState, {
-      type: 'CALCULATOR_INPUTS_CHANGED',
-      field: 'yellowRibbonDivision',
-      value: 'division3',
-    });
-
-    expect(state).toEqual({
-      ...previousState,
-      yellowRibbonDegreeLevel: 'undergraduate',
-      yellowRibbonDivision: 'division3',
-      yellowRibbonAmount: 25,
-      yellowRibbonMaxAmount: 25,
-      yellowRibbonMaxNumberOfStudents: 30,
-      yellowRibbonProgramIndex: 2,
-    });
-  });
-
-  it('should add yellowRibbonDegreeLevelOptions, yellowRibbonDivisonOptions, yellowRibbonAmount, yellowRibbonDegreeLevel, and yellowRibbonDivision when institution has yellowRibbonPrograms', () => {
-    const state = calculatorReducer(
-      {},
-      {
-        type: 'FETCH_PROFILE_SUCCEEDED',
-        payload: {
-          data: {
-            attributes: {
-              yellowRibbonPrograms: [
-                {
-                  divisionProfessionalSchool: 'division1',
-                  degreeLevel: 'graduate',
-                  contributionAmount: 5000,
-                  numberOfStudents: 20,
-                },
-                {
-                  divisionProfessionalSchool: 'division2',
-                  degreeLevel: 'undergraduate',
-                  contributionAmount: 5,
-                  numberOfStudents: 25,
-                },
-                {
-                  divisionProfessionalSchool: 'division3',
-                  degreeLevel: 'undergraduate',
-                  contributionAmount: 25,
-                  numberOfStudents: 30,
-                },
-              ],
-            },
-          },
-          AVGDODBAH: 400,
-          AVGBAH: 500,
-        },
-      },
-    );
-
-    expect(state).toMatchObject({
-      yellowRibbonDegreeLevel: 'graduate',
-      yellowRibbonDivision: 'division1',
-      yellowRibbonAmount: 5000,
-      yellowRibbonMaxNumberOfStudents: 20,
-      yellowRibbonMaxAmount: 5000,
-      yellowRibbonProgramIndex: 0,
-    });
-    expect(state.yellowRibbonDivisionOptions).toEqual(['division1']);
-    expect(state.yellowRibbonDegreeLevelOptions).toEqual([
-      'graduate',
-      'undergraduate',
-    ]);
-    expect(state.yellowRibbonPrograms).toEqual([
-      {
-        divisionProfessionalSchool: 'division1',
-        degreeLevel: 'graduate',
-        contributionAmount: 5000,
-        index: 0,
-        numberOfStudents: 20,
-      },
-      {
-        divisionProfessionalSchool: 'division2',
-        degreeLevel: 'undergraduate',
-        contributionAmount: 5,
-        index: 1,
-        numberOfStudents: 25,
-      },
-      {
-        divisionProfessionalSchool: 'division3',
-        degreeLevel: 'undergraduate',
-        contributionAmount: 25,
-        index: 2,
-        numberOfStudents: 30,
-      },
-    ]);
-  });
-
-  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower DOD rate', () => {
-    const state = calculatorReducer(
-      {},
-      {
-        type: 'FETCH_PROFILE_SUCCEEDED',
-        payload: {
-          data: {
-            attributes: {
-              yellowRibbonPrograms: [],
-              dodBah: 1,
-              bah: 2,
-              country: 'USA',
+          type: 'FETCH_PROFILE_SUCCEEDED',
+          payload: {
+            data: {
+              attributes: {
+                yellowRibbonPrograms: [],
+                dodBah: 1,
+                bah: 2,
+                country: 'USA',
+              },
             },
           },
         },
-      },
-    );
-    expect(state).toMatchObject({
-      giBillBenefit: 'no',
-    });
-  });
+      );
+      expect(state).toMatchObject({
+        giBillBenefit: 'no',
+      });
+    }
+  );
 
-  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower VA rate', () => {
+  test('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower VA rate', () => {
     const state = calculatorReducer(
       {},
       {
@@ -529,7 +550,7 @@ describe('calculator reducer', () => {
     });
   });
 
-  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to VA rate', () => {
+  test('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to VA rate', () => {
     const state = calculatorReducer(
       {},
       {
@@ -550,45 +571,51 @@ describe('calculator reducer', () => {
     });
   });
 
-  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower average VA rate constant for non-USA school', () => {
-    const state = calculatorReducer(
-      {},
-      {
-        type: 'FETCH_PROFILE_SUCCEEDED',
-        payload: {
-          data: {
-            attributes: {
-              yellowRibbonPrograms: [],
+  test(
+    'FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower average VA rate constant for non-USA school',
+    () => {
+      const state = calculatorReducer(
+        {},
+        {
+          type: 'FETCH_PROFILE_SUCCEEDED',
+          payload: {
+            data: {
+              attributes: {
+                yellowRibbonPrograms: [],
+              },
             },
+            AVGDODBAH: 500,
+            AVGBAH: 400,
           },
-          AVGDODBAH: 500,
-          AVGBAH: 400,
         },
-      },
-    );
-    expect(state).toMatchObject({
-      giBillBenefit: 'yes',
-    });
-  });
+      );
+      expect(state).toMatchObject({
+        giBillBenefit: 'yes',
+      });
+    }
+  );
 
-  it('FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower average DOD rate constant for non-USA school', () => {
-    const state = calculatorReducer(
-      {},
-      {
-        type: 'FETCH_PROFILE_SUCCEEDED',
-        payload: {
-          data: {
-            attributes: {
-              yellowRibbonPrograms: [],
+  test(
+    'FETCH_PROFILE_SUCCEEDED giBillBenefit defaults to lower average DOD rate constant for non-USA school',
+    () => {
+      const state = calculatorReducer(
+        {},
+        {
+          type: 'FETCH_PROFILE_SUCCEEDED',
+          payload: {
+            data: {
+              attributes: {
+                yellowRibbonPrograms: [],
+              },
             },
+            AVGDODBAH: 400,
+            AVGVABAH: 500,
           },
-          AVGDODBAH: 400,
-          AVGVABAH: 500,
         },
-      },
-    );
-    expect(state).toMatchObject({
-      giBillBenefit: 'no',
-    });
-  });
+      );
+      expect(state).toMatchObject({
+        giBillBenefit: 'no',
+      });
+    }
+  );
 });

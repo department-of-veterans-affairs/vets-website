@@ -21,23 +21,23 @@ describe('getBrokenLinks', () => {
   const detectAllLinksBroken = sinon.stub().returns(true);
   const detectAllLinksOkay = sinon.stub().returns(false);
 
-  it('finds broken links', () => {
+  test('finds broken links', () => {
     const linkErrors = getBrokenLinks(getFile(img), [], detectAllLinksBroken);
     expect(linkErrors).toHaveLength(2);
   });
 
-  it('does not detect non-links as a link', () => {
+  test('does not detect non-links as a link', () => {
     const linkErrors = getBrokenLinks(getFile(span), [], detectAllLinksBroken);
     expect(linkErrors).toHaveLength(1);
     expect(linkErrors[0].html).toBe(anchor);
   });
 
-  it('does not detect valid links as broken', () => {
+  test('does not detect valid links as broken', () => {
     const linkErrors = getBrokenLinks(getFile(img), [], detectAllLinksOkay);
     expect(linkErrors).toHaveLength(0);
   });
 
-  it('skips anchors without an HREF attribute', () => {
+  test('skips anchors without an HREF attribute', () => {
     const linkErrors = getBrokenLinks(
       getFile(anchorWithoutHref),
       [],

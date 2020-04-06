@@ -15,7 +15,7 @@ import {
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
-    it('accepts ssns of the right one including "invalid" test ones', () => {
+    test('accepts ssns of the right one including "invalid" test ones', () => {
       expect(isValidSSN('111-22-1234')).toBe(true);
 
       // SSNs have certain invalid versions. These are useful for tests so not
@@ -29,7 +29,7 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('111111112')).toBe(true);
     });
 
-    it('rejects invalid ssn format', () => {
+    test('rejects invalid ssn format', () => {
       // Disallow empty.
       expect(isValidSSN('')).toBe(false);
 
@@ -65,7 +65,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidDate', () => {
-    it('validate february separately cause its a special snowflake', () => {
+    test('validate february separately cause its a special snowflake', () => {
       // feb 28 should work always.
       expect(isValidDate('28', '2', '2015')).toBe(true);
 
@@ -85,14 +85,14 @@ describe('Validations unit tests', () => {
       expect(isValidDate('0', '2', '2016')).toBe(false);
     });
 
-    it('validate future dates', () => {
+    test('validate future dates', () => {
       // future dates are bad.
       expect(isValidDate('1', '1', '2050')).toBe(false);
     });
   });
 
   describe('isValidDateRange', () => {
-    it('validates if to date is after from date', () => {
+    test('validates if to date is after from date', () => {
       const fromDate = {
         day: {
           value: '3',
@@ -123,7 +123,7 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).toBe(true);
     });
-    it('does not validate to date is before from date', () => {
+    test('does not validate to date is before from date', () => {
       const fromDate = {
         day: {
           value: '3',
@@ -154,7 +154,7 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).toBe(false);
     });
-    it('does validate with partial dates', () => {
+    test('does validate with partial dates', () => {
       const fromDate = {
         day: {
           value: '3',
@@ -188,7 +188,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidName', () => {
-    it('correctly validates name', () => {
+    test('correctly validates name', () => {
       expect(isValidName('Test')).toBe(true);
       expect(isValidName('abc')).toBe(true);
       expect(isValidName('Jean-Pierre')).toBe(true);
@@ -204,7 +204,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isBlank', () => {
-    it('correctly validates blank values', () => {
+    test('correctly validates blank values', () => {
       expect(isBlank('')).toBe(true);
 
       expect(isBlank('something')).toBe(false);
@@ -212,7 +212,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isNotBlank', () => {
-    it('correctly validates blank values', () => {
+    test('correctly validates blank values', () => {
       expect(isNotBlank('Test')).toBe(true);
       expect(isNotBlank('abc')).toBe(true);
       expect(isNotBlank('123')).toBe(true);
@@ -223,7 +223,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidMonetaryValue', () => {
-    it('validates monetary values', () => {
+    test('validates monetary values', () => {
       expect(isValidMonetaryValue('100')).toBe(true);
       expect(isValidMonetaryValue('1.99')).toBe(true);
       expect(isValidMonetaryValue('1000')).toBe(true);
@@ -236,7 +236,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('validateCustomFormComponent', () => {
-    it('should return object validation results', () => {
+    test('should return object validation results', () => {
       const validation = {
         valid: false,
         message: 'Test',
@@ -244,7 +244,7 @@ describe('Validations unit tests', () => {
 
       expect(validateCustomFormComponent(validation)).toBe(validation);
     });
-    it('should return passing object validation results', () => {
+    test('should return passing object validation results', () => {
       const validation = {
         valid: true,
         message: 'Test',
@@ -253,7 +253,7 @@ describe('Validations unit tests', () => {
       expect(validateCustomFormComponent(validation).valid).toBe(true);
       expect(validateCustomFormComponent(validation).message).toBeNull();
     });
-    it('should return array validation results', () => {
+    test('should return array validation results', () => {
       const validation = [
         {
           valid: true,
@@ -270,17 +270,17 @@ describe('Validations unit tests', () => {
   });
 
   describe('validateLength', () => {
-    it('should return a validation function', () => {
+    test('should return a validation function', () => {
       expect(validateLength(10)).toBeInstanceOf(Function);
     });
 
-    it('should add an error if the input length is too large', () => {
+    test('should add an error if the input length is too large', () => {
       const errors = { addError: spy() };
       validateLength(4)(errors, 'More than four characters');
       expect(errors.addError.called).toBe(true);
     });
 
-    it('should not add an error if the input length is not too large', () => {
+    test('should not add an error if the input length is not too large', () => {
       const errors = { addError: spy() };
       validateLength(40)(errors, 'Less than forty characters');
       expect(errors.addError.called).toBe(false);
@@ -288,13 +288,13 @@ describe('Validations unit tests', () => {
   });
 
   describe('validateWhiteSpace', () => {
-    it('should add an error if the input contains only whitespace', () => {
+    test('should add an error if the input contains only whitespace', () => {
       const errors = { addError: spy() };
       validateWhiteSpace(errors, '    ');
       expect(errors.addError.called).toBe(true);
     });
 
-    it('should not add an error if the input is valid', () => {
+    test('should not add an error if the input is valid', () => {
       const errors = { addError: spy() };
       validateWhiteSpace(errors, 'valid input');
       expect(errors.addError.called).toBe(false);

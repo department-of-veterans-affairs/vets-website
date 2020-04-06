@@ -4,7 +4,7 @@ import * as paymentInfoActions from '../../actions/paymentInformation';
 const { vaProfile } = profileReducer;
 
 describe('index reducer', () => {
-  it('should fetch hero info', () => {
+  test('should fetch hero info', () => {
     const state = vaProfile(undefined, {
       type: 'FETCH_HERO_SUCCESS',
       hero: 'heroContent',
@@ -13,7 +13,7 @@ describe('index reducer', () => {
     expect(state.hero).toBe('heroContent');
   });
 
-  it('should fetch personalInformation', () => {
+  test('should fetch personalInformation', () => {
     const state = vaProfile(undefined, {
       type: 'FETCH_PERSONAL_INFORMATION_SUCCESS',
       personalInformation: 'personalInformation',
@@ -22,7 +22,7 @@ describe('index reducer', () => {
     expect(state.personalInformation).toBe('personalInformation');
   });
 
-  it('fetches paymentInformation', () => {
+  test('fetches paymentInformation', () => {
     const fetchAction = {
       type: paymentInfoActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
       response: {
@@ -35,7 +35,7 @@ describe('index reducer', () => {
     expect(state.paymentInformation).toEqual(fetchAction.response);
   });
 
-  it('opens the paymentInformation-edit modal', () => {
+  test('opens the paymentInformation-edit modal', () => {
     const modalOpenAction = {
       type: paymentInfoActions.PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED,
     };
@@ -45,7 +45,7 @@ describe('index reducer', () => {
     expect(state.paymentInformationUiState.isEditing).toBe(true);
   });
 
-  it('saves paymentInformation', () => {
+  test('saves paymentInformation', () => {
     const saveAction = {
       type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_STARTED,
     };

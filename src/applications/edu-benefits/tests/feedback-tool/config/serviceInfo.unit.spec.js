@@ -11,7 +11,7 @@ describe('feedback tool applicant info', () => {
     uiSchema,
   } = formConfig.chapters.applicantInformation.pages.serviceInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -31,7 +31,7 @@ describe('feedback tool applicant info', () => {
     form.unmount();
   });
 
-  it('should submit without any information', () => {
+  test('should submit without any information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

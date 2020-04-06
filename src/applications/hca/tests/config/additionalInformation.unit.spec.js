@@ -15,7 +15,7 @@ describe('Hca additionalInformation', () => {
     uiSchema,
   } = formConfig.chapters.militaryService.pages.additionalInformation;
   const definitions = formConfig.defaultDefinitions;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -29,7 +29,7 @@ describe('Hca additionalInformation', () => {
     expect(formDOM.querySelectorAll('input').length).toBe(9);
   });
 
-  it('should submit without data', () => {
+  test('should submit without data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

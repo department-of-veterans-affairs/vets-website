@@ -1,7 +1,7 @@
 import redirectIfNecessary from '../../redirects';
 
 describe('Redirect replaced pages', () => {
-  it('should redirect when page matches', () => {
+  test('should redirect when page matches', () => {
     const fakeWindow = {
       location: {
         host: 'www.benefits.va.gov',
@@ -14,7 +14,7 @@ describe('Redirect replaced pages', () => {
     expect(fakeWindow.location.href.endsWith('.gov/disability/')).toBe(true);
   });
 
-  it('should not redirect when there are no matches', () => {
+  test('should not redirect when there are no matches', () => {
     const fakeWindow = {
       location: {
         host: 'www.benefits.va.gov',

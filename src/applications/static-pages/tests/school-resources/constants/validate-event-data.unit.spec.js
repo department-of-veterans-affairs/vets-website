@@ -3,7 +3,7 @@ import moment from 'moment';
 import scoEvents from '../../../school-resources/constants/events';
 
 describe('school resources data', () => {
-  it('all events have required data', () => {
+  test('all events have required data', () => {
     scoEvents.forEach(item => {
       expect(typeof item.name).toBe('string');
       expect(typeof item.url).toBe('string');
@@ -18,7 +18,7 @@ describe('school resources data', () => {
     });
   });
 
-  it('all date fields are valid dates', () => {
+  test('all date fields are valid dates', () => {
     scoEvents.forEach(item => {
       expect(moment(item.eventStartDate).isValid()).toBe(true);
       expect(moment(item.eventEndDate).isValid()).toBe(true);

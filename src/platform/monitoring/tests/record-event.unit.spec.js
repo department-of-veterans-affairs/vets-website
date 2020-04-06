@@ -15,7 +15,7 @@ describe('recordEvent', () => {
     global.window = oldWindow;
   });
 
-  it('should record events to the data layer', () => {
+  test('should record events to the data layer', () => {
     const e = { event: 'foo-bar', contextualData: 'text' };
     recordEvent(e);
     expect(global.window.dataLayer.includes(e)).toBe(true);
@@ -39,7 +39,7 @@ describe('recordEventOnce', () => {
     [testKey]: 'Test Event',
   };
 
-  it('should record event if not already in dataLayer', () => {
+  test('should record event if not already in dataLayer', () => {
     // sanity check to ensure that setup worked
     expect(window.dataLayer.length).toBe(0);
 
@@ -47,7 +47,7 @@ describe('recordEventOnce', () => {
     expect(window.dataLayer.length).toBe(1);
   });
 
-  it('should not record duplicate events', () => {
+  test('should not record duplicate events', () => {
     // sanity check to ensure that setup worked
     expect(window.dataLayer.length).toBe(0);
 

@@ -39,21 +39,21 @@ const configs = [
 
 describe('profile helpers:', () => {
   describe('formDescriptions', () => {
-    it('should have description information for each verified form', () => {
+    test('should have description information for each verified form', () => {
       sipEnabledForms.forEach(form => {
         expect(formDescriptions[form]).toBeDefined();
       });
     });
   });
   describe('handleAuthorizableForms', () => {
-    it('should include authorization message if authorizable', () => {
+    test('should include authorization message if authorizable', () => {
       configs.forEach(config => {
         if (config.authorize) {
           expect(config.authorizationMessage).toBeDefined();
         }
       });
     });
-    it('should include getAuthorizationState if authorizable', () => {
+    test('should include getAuthorizationState if authorizable', () => {
       configs.forEach(config => {
         if (config.authorize) {
           expect(config.getAuthorizationState).toBeDefined();

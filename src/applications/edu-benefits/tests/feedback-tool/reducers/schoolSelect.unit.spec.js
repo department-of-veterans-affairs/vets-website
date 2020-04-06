@@ -2,7 +2,7 @@ import schoolSelect from '../../../feedback-tool/reducers/schoolSelect';
 
 describe('schoolSearch reducer', () => {
   describe('INSTITUTION_SELECTED', () => {
-    it('should return an institution selected state', () => {
+    test('should return an institution selected state', () => {
       const previousState = {
         oldState: [],
         institutionSelected: { selected: 'old' },
@@ -38,7 +38,7 @@ describe('schoolSearch reducer', () => {
     });
   });
   describe('LOAD_SCHOOLS_FAILED', () => {
-    it('should return a loading institutions failed state', () => {
+    test('should return a loading institutions failed state', () => {
       const previousState = {
         currentPageNumber: 2,
         institutionQuery: 'old',
@@ -78,7 +78,7 @@ describe('schoolSearch reducer', () => {
   });
 
   describe('LOAD_SCHOOLS_STARTED', () => {
-    it('should return a loading institution state', () => {
+    test('should return a loading institution state', () => {
       const previousState = {
         currentPageNumber: 2,
         institutionQuery: 'old',
@@ -117,7 +117,7 @@ describe('schoolSearch reducer', () => {
 
       expect(actualState).toEqual(expectedState);
     });
-    it('should return a loading page state', () => {
+    test('should return a loading page state', () => {
       const previousState = {
         currentPageNumber: 2,
         institutionQuery: 'old',
@@ -159,7 +159,7 @@ describe('schoolSearch reducer', () => {
     });
   });
   describe('LOAD_SCHOOLS_SUCCEEDED', () => {
-    it('should return a load schools succeeded state', () => {
+    test('should return a load schools succeeded state', () => {
       const previousState = {
         currentPageNumber: 1,
         institutionQuery: 'new',
@@ -229,7 +229,7 @@ describe('schoolSearch reducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    it('should set null values to empty strings', () => {
+    test('should set null values to empty strings', () => {
       const previousState = {
         currentPageNumber: 1,
         institutionQuery: 'new',
@@ -297,7 +297,7 @@ describe('schoolSearch reducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    it('should return a no results state', () => {
+    test('should return a no results state', () => {
       const previousState = {
         currentPageNumber: 1,
         institutionQuery: 'new',
@@ -342,7 +342,7 @@ describe('schoolSearch reducer', () => {
     });
   });
   describe('RESTORE_FROM_PREFILL_STARTED', () => {
-    it('should return a loading institution state', () => {
+    test('should return a loading institution state', () => {
       const previousState = {
         currentPageNumber: 2,
         institutionQuery: 'old',
@@ -390,7 +390,7 @@ describe('schoolSearch reducer', () => {
     });
   });
   describe('SEARCH_CLEARED', () => {
-    it('should return a search cleared state', () => {
+    test('should return a search cleared state', () => {
       const previousState = {
         oldState: [],
       };
@@ -422,7 +422,7 @@ describe('schoolSearch reducer', () => {
     });
   });
   describe('SEARCH_INPUT_CHANGED', () => {
-    it('should return a search input changed state', () => {
+    test('should return a search input changed state', () => {
       const previousState = {
         oldState: [],
       };

@@ -14,7 +14,7 @@ describe('Downtime Notification Reducer', () => {
       'dismissedDowntimeWarnings',
     ];
 
-    it('returns the initial state', () => {
+    test('returns the initial state', () => {
       const result = scheduledDowntime(undefined, {
         type: 'SHOULD_NOT_MATTER',
       });
@@ -23,15 +23,18 @@ describe('Downtime Notification Reducer', () => {
       );
     });
 
-    it('flips the isReady flag and sets value when RECEIVE_SCHEDULED_DOWNTIME is dispatched', () => {
-      const action = { type: RECEIVE_SCHEDULED_DOWNTIME, data: [] };
-      const result = scheduledDowntime(undefined, action);
+    test(
+      'flips the isReady flag and sets value when RECEIVE_SCHEDULED_DOWNTIME is dispatched',
+      () => {
+        const action = { type: RECEIVE_SCHEDULED_DOWNTIME, data: [] };
+        const result = scheduledDowntime(undefined, action);
 
-      expect(result).toEqual(
-        expect.arrayContaining(scheduledDowntimeInterface),
-      );
-      expect(result.serviceMap).toBeInstanceOf(Map);
-    });
+        expect(result).toEqual(
+          expect.arrayContaining(scheduledDowntimeInterface),
+        );
+        expect(result.serviceMap).toBeInstanceOf(Map);
+      }
+    );
 
     describe('globalDowntime', () => {
       const downtime = {
@@ -39,7 +42,7 @@ describe('Downtime Notification Reducer', () => {
         endTime: 'endTime',
       };
 
-      it('updates global downtime when received', () => {
+      test('updates global downtime when received', () => {
         const state = scheduledDowntime(undefined, {
           type: RECEIVE_GLOBAL_DOWNTIME,
           downtime,
@@ -49,7 +52,7 @@ describe('Downtime Notification Reducer', () => {
         expect(state.globalDowntime.endTime).toBe(downtime.endTime);
       });
 
-      it('updates global downtime independently of scheduled downtime', () => {
+      test('updates global downtime independently of scheduled downtime', () => {
         const initialState = {
           globalDowntime: null,
           isPending: false,

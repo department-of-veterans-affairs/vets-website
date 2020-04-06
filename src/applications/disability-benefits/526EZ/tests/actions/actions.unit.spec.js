@@ -21,7 +21,7 @@ describe('ITF actions', () => {
       global.fetch = originalFetch;
     });
 
-    it('should dispatch a fetch succeeded action with data', () => {
+    test('should dispatch a fetch succeeded action with data', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
@@ -34,7 +34,7 @@ describe('ITF actions', () => {
       });
     });
 
-    it('should dispatch a fetch failed action', () => {
+    test('should dispatch a fetch failed action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
@@ -50,7 +50,7 @@ describe('ITF actions', () => {
       global.fetch = originalFetch;
     });
 
-    it('should dispatch a fetch succeeded action with data', () => {
+    test('should dispatch a fetch succeeded action with data', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
@@ -63,7 +63,7 @@ describe('ITF actions', () => {
       });
     });
 
-    it('should dispatch a fetch failed action', () => {
+    test('should dispatch a fetch failed action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();

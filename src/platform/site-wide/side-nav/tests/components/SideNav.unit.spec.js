@@ -34,13 +34,13 @@ describe('<SideNav>', () => {
     },
   };
 
-  it('should not render when there are no nav items to show', () => {
+  test('should not render when there are no nav items to show', () => {
     const wrapper = shallow(<SideNav />);
     expect(wrapper.type()).toBeNull();
     wrapper.unmount();
   });
 
-  it('should render when there are nav items', () => {
+  test('should render when there are nav items', () => {
     const wrapper = shallow(<SideNav {...defaultProps} />);
     expect(wrapper.type()).not.toBeNull();
     wrapper.unmount();

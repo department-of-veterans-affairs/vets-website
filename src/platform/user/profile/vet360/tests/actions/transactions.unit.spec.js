@@ -27,14 +27,14 @@ const payload = {
 const analyticsSectionName = 'bar';
 
 describe('resetAddressValidation', () => {
-  it('creates the correct action', () => {
+  test('creates the correct action', () => {
     const action = resetAddressValidation();
     expect(action).toEqual({ type: ADDRESS_VALIDATION_RESET });
   });
 });
 
 describe('validateAddress', () => {
-  it('verify return data', () => {
+  test('verify return data', () => {
     const dispatch = sinon.spy();
     return validateAddress(
       route,
@@ -117,7 +117,7 @@ describe('validateAddress', () => {
 });
 
 describe('updateValidationKeyAndSave', () => {
-  it('verify return data', () => {
+  test('verify return data', () => {
     const dispatch = sinon.spy();
     return updateValidationKeyAndSave(
       route,

@@ -14,7 +14,7 @@ describe('<AccountVerification />', () => {
     };
   });
 
-  it('should render the correct message if the user is verified', () => {
+  test('should render the correct message if the user is verified', () => {
     const wrapper = enzyme.shallow(<AccountVerification {...props} />);
     expect(wrapper.html()).toEqual(
       expect.arrayContaining(['We’ve verified your identity.']),
@@ -22,7 +22,7 @@ describe('<AccountVerification />', () => {
     wrapper.unmount();
   });
 
-  it('should prompt to increase LOA when a user is not verified', () => {
+  test('should prompt to increase LOA when a user is not verified', () => {
     props.loa.current = 1;
     const wrapper = enzyme.shallow(<AccountVerification {...props} />);
     expect(wrapper.html()).toEqual(

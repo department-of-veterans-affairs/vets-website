@@ -13,7 +13,7 @@ import { capitalizeEachWord } from '../utils';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
-    it('should add an error if the year is not a number', () => {
+    test('should add an error if the year is not a number', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -21,15 +21,18 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
 
-    it('should add an error if the year contains more than just four digits', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
-      isValidYear(err, '1990asdf');
-      expect(err.addError.called).toBe(true);
-    });
+    test(
+      'should add an error if the year contains more than just four digits',
+      () => {
+        const err = {
+          addError: sinon.spy(),
+        };
+        isValidYear(err, '1990asdf');
+        expect(err.addError.called).toBe(true);
+      }
+    );
 
-    it('should add an error if the year is less than 1900', () => {
+    test('should add an error if the year is less than 1900', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -37,7 +40,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
 
-    it('should add an error if the year is more than 3000', () => {
+    test('should add an error if the year is more than 3000', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -45,7 +48,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
 
-    it('should not add an error if the year is between 1900 and 3000', () => {
+    test('should not add an error if the year is between 1900 and 3000', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -53,7 +56,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(false);
     });
 
-    it('should add an error if the year is in the future', () => {
+    test('should add an error if the year is in the future', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -61,7 +64,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
     describe('oneDisabilityRequired', () => {
-      it('should not add an error if at least one disability is selected', () => {
+      test('should not add an error if at least one disability is selected', () => {
         const err = {
           addError: sinon.spy(),
         };
@@ -80,7 +83,7 @@ describe('526 All Claims validations', () => {
         oneDisabilityRequired('rated')(err, null, formData);
         expect(err.addError.called).toBe(false);
       });
-      it('should add an error if no disabilities are selected', () => {
+      test('should add an error if no disabilities are selected', () => {
         const err = {
           addError: sinon.spy(),
         };
@@ -95,58 +98,67 @@ describe('526 All Claims validations', () => {
   });
 
   describe('startedAfterServicePeriod', () => {
-    it('should add error if treatment start date is before earliest service start date', () => {
-      const err = { addError: sinon.spy() };
+    test(
+      'should add error if treatment start date is before earliest service start date',
+      () => {
+        const err = { addError: sinon.spy() };
 
-      const formData = {
-        serviceInformation: {
-          servicePeriods: [
-            { dateRange: { from: '2003-03-12' } },
-            { dateRange: { from: '2000-01-14' } },
-            { dateRange: { from: '2011-12-25' } },
-          ],
-        },
-      };
+        const formData = {
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2003-03-12' } },
+              { dateRange: { from: '2000-01-14' } },
+              { dateRange: { from: '2011-12-25' } },
+            ],
+          },
+        };
 
-      startedAfterServicePeriod(err, '1999-12-XX', formData);
-      expect(err.addError.calledOnce).toBe(true);
-    });
+        startedAfterServicePeriod(err, '1999-12-XX', formData);
+        expect(err.addError.calledOnce).toBe(true);
+      }
+    );
 
-    it('should not add error if treatment start date monthYear is the same as earliest service start date', () => {
-      const err = { addError: sinon.spy() };
+    test(
+      'should not add error if treatment start date monthYear is the same as earliest service start date',
+      () => {
+        const err = { addError: sinon.spy() };
 
-      const formData = {
-        serviceInformation: {
-          servicePeriods: [
-            { dateRange: { from: '2003-03-12' } },
-            { dateRange: { from: '2000-01-14' } },
-            { dateRange: { from: '2011-12-25' } },
-          ],
-        },
-      };
+        const formData = {
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2003-03-12' } },
+              { dateRange: { from: '2000-01-14' } },
+              { dateRange: { from: '2011-12-25' } },
+            ],
+          },
+        };
 
-      startedAfterServicePeriod(err, '2000-01-XX', formData);
-      expect(err.addError.called).toBe(false);
-    });
+        startedAfterServicePeriod(err, '2000-01-XX', formData);
+        expect(err.addError.called).toBe(false);
+      }
+    );
 
-    it('should not add error if treatment start date is after earliest service start date', () => {
-      const err = { addError: sinon.spy() };
+    test(
+      'should not add error if treatment start date is after earliest service start date',
+      () => {
+        const err = { addError: sinon.spy() };
 
-      const formData = {
-        serviceInformation: {
-          servicePeriods: [
-            { dateRange: { from: '2003-03-12' } },
-            { dateRange: { from: '2000-01-14' } },
-            { dateRange: { from: '2011-12-25' } },
-          ],
-        },
-      };
+        const formData = {
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2003-03-12' } },
+              { dateRange: { from: '2000-01-14' } },
+              { dateRange: { from: '2011-12-25' } },
+            ],
+          },
+        };
 
-      startedAfterServicePeriod(err, '2000-02-XX', formData);
-      expect(err.addError.called).toBe(false);
-    });
+        startedAfterServicePeriod(err, '2000-02-XX', formData);
+        expect(err.addError.called).toBe(false);
+      }
+    );
 
-    it('should not add error if serviceInformation is missing', () => {
+    test('should not add error if serviceInformation is missing', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {};
@@ -155,7 +167,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(false);
     });
 
-    it('should not add error if servicePeriod is missing', () => {
+    test('should not add error if servicePeriod is missing', () => {
       const err = { addError: sinon.spy() };
 
       const formData = { serviceInformation: {} };
@@ -164,7 +176,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(false);
     });
 
-    it('should not add error if servicePeriod is not an array', () => {
+    test('should not add error if servicePeriod is not an array', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
@@ -177,7 +189,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(false);
     });
 
-    it('should not add error if servicePeriod is empty', () => {
+    test('should not add error if servicePeriod is empty', () => {
       const err = { addError: sinon.spy() };
 
       const formData = {
@@ -189,7 +201,7 @@ describe('526 All Claims validations', () => {
   });
 
   describe('hasMonthYear', () => {
-    it('should add an error if the year is missing', () => {
+    test('should add an error if the year is missing', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -197,7 +209,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
 
-    it('should add an error if the month is missing', () => {
+    test('should add an error if the month is missing', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -205,7 +217,7 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
 
-    it('should not add an error if the month and year are present', () => {
+    test('should not add an error if the month and year are present', () => {
       const err = {
         addError: sinon.spy(),
       };
@@ -217,25 +229,31 @@ describe('526 All Claims validations', () => {
   describe('validateDisabilityName', () => {
     const tooLong =
       'et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent';
-    it('should not add error when disability is in list', () => {
+    test('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, disabilityLabels[7100]);
       expect(err.addError.called).toBe(false);
     });
-    it('should not add error when disability is in list but capitalization is different', () => {
-      const err = { addError: sinon.spy() };
-      validateDisabilityName(err, capitalizeEachWord(disabilityLabels[7100]));
-      expect(err.addError.called).toBe(false);
-    });
-    it('should not add error when disability not in list but length OK', () => {
+    test(
+      'should not add error when disability is in list but capitalization is different',
+      () => {
+        const err = { addError: sinon.spy() };
+        validateDisabilityName(err, capitalizeEachWord(disabilityLabels[7100]));
+        expect(err.addError.called).toBe(false);
+      }
+    );
+    test('should not add error when disability not in list but length OK', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, 'blah. (and, blah/blah)’- blah');
       expect(err.addError.called).toBe(false);
     });
-    it('should add error when disability not in list and length too long', () => {
-      const err = { addError: sinon.spy() };
-      validateDisabilityName(err, tooLong);
-      expect(err.addError.calledOnce).toBe(true);
-    });
+    test(
+      'should add error when disability not in list and length too long',
+      () => {
+        const err = { addError: sinon.spy() };
+        validateDisabilityName(err, tooLong);
+        expect(err.addError.calledOnce).toBe(true);
+      }
+    );
   });
 });

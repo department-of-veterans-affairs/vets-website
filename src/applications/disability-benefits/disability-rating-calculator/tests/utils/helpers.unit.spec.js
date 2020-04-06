@@ -16,7 +16,7 @@ describe('Disability Calculator helpers:', () => {
     for (const input of inputs) {
       const { ratings, combinedRating: expectedResult } = input;
 
-      it(`should calculate a CDR of ${expectedResult.exact} (rounded to ${
+      test(`should calculate a CDR of ${expectedResult.exact} (rounded to ${
         expectedResult.rounded
       }) from the following ratings: ${ratings.join(', ')}`, () => {
         const result = calculateCombinedRating(ratings);
@@ -33,14 +33,14 @@ describe('Disability Calculator helpers:', () => {
     const invalidRatings = [0, -1, 5, 11, 100, 101, 123];
 
     for (const rating of validRatings) {
-      it(`accepts ${rating} as valid input`, () => {
+      test(`accepts ${rating} as valid input`, () => {
         const result = getRatingErrorMessage(rating);
         expect(result).toBe(false);
       });
     }
 
     for (const rating of invalidRatings) {
-      it(`rejects ${rating} as valid input`, () => {
+      test(`rejects ${rating} as valid input`, () => {
         const result = getRatingErrorMessage(rating);
         expect(result).toEqual(expect.arrayContaining(['title', 'body']));
       });

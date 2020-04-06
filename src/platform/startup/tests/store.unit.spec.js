@@ -1,7 +1,7 @@
 import createCommonStore from '../store';
 
 describe('Common Redux store', () => {
-  it('should support injecting reducer', () => {
+  test('should support injecting reducer', () => {
     const store = createCommonStore();
     const fakeReducer = (state = {}, action) => {
       if (action.type === 'test') {

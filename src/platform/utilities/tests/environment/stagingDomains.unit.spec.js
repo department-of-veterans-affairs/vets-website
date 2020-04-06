@@ -5,7 +5,7 @@ const currentEnv = `https://${HOSTNAMES[global.__BUILDTYPE__]}`;
 
 describe('Staging va.gov domain replacement', () => {
   describe('replaceDomainsInData', () => {
-    it('should replace links in an array', () => {
+    test('should replace links in an array', () => {
       const data = [
         {
           href: 'https://www.va.gov/',
@@ -18,7 +18,7 @@ describe('Staging va.gov domain replacement', () => {
       ]);
     });
 
-    it('should replace links in a nested array', () => {
+    test('should replace links in a nested array', () => {
       const data = [
         {
           someArray: [
@@ -46,7 +46,7 @@ describe('Staging va.gov domain replacement', () => {
       ]);
     });
 
-    it('should replace links in an object', () => {
+    test('should replace links in an object', () => {
       const data = {
         href: 'https://www.va.gov/testing',
         other: 'www.va.gov',
@@ -58,7 +58,7 @@ describe('Staging va.gov domain replacement', () => {
       });
     });
 
-    it('should replaces links in a nested object', () => {
+    test('should replaces links in a nested object', () => {
       const data = {
         test: 'https://www.va.gov/testing',
         other: {

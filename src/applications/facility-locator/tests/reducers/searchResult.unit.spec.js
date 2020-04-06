@@ -13,7 +13,7 @@ const INITIAL_STATE = {
 };
 
 describe('facilities reducer', () => {
-  it('should handle fetching a single facility', () => {
+  test('should handle fetching a single facility', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: FETCH_LOCATION_DETAIL,
       payload: {
@@ -24,7 +24,7 @@ describe('facilities reducer', () => {
     expect(state.selectedResult).toEqual({ name: 'selectedResult' });
   });
 
-  it('should handle fetching a list of facilities', () => {
+  test('should handle fetching a list of facilities', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: FETCH_LOCATIONS,
       payload: {
@@ -41,7 +41,7 @@ describe('facilities reducer', () => {
     expect(state.pagination.currentPage).toBe(1);
   });
 
-  it('should handle fetching state to build a search query object', () => {
+  test('should handle fetching state to build a search query object', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: FETCH_LOCATIONS,
       payload: {
@@ -89,7 +89,7 @@ describe('facilities reducer', () => {
     expect(state.pagination.currentPage).toBe(1);
   });
 
-  it('should handle failure case', () => {
+  test('should handle failure case', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: SEARCH_FAILED,
     });
@@ -97,7 +97,7 @@ describe('facilities reducer', () => {
     expect(state).toEqual(INITIAL_STATE);
   });
 
-  it('should handle clearing search results', () => {
+  test('should handle clearing search results', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: CLEAR_SEARCH_RESULTS,
     });

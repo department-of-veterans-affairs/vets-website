@@ -6,7 +6,7 @@ import { uniqueId } from 'lodash';
 import NavItemRow from '../../components/NavItemRow';
 
 describe('<NavItemRow>', () => {
-  it('should render a button tag when there are child nav items.', () => {
+  test('should render a button tag when there are child nav items.', () => {
     const noop = () => {};
 
     const item = {
@@ -33,7 +33,7 @@ describe('<NavItemRow>', () => {
     wrapper.unmount();
   });
 
-  it('should render an anchor tag when there are child nav items.', () => {
+  test('should render an anchor tag when there are child nav items.', () => {
     const noop = () => {};
 
     const item = {

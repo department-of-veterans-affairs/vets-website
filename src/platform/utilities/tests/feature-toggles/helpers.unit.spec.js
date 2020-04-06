@@ -6,13 +6,13 @@ const {
 describe('feature toggles', () => {
   let oldCookie;
 
-  before(() => {
+  beforeAll(() => {
     oldCookie = document.cookie;
     document.cookie = '';
   });
 
   describe('generateToken', () => {
-    it('should return a string', () => {
+    test('should return a string', () => {
       const token = generateToken();
       expect(typeof token).toBe('string');
       expect(Object.keys(token)).not.toHaveLength(0);
@@ -20,22 +20,22 @@ describe('feature toggles', () => {
   });
 
   describe('getFlipperId', () => {
-    it('should set the FLIPPER_ID cookie to a non-empty string', () => {
+    test('should set the FLIPPER_ID cookie to a non-empty string', () => {
       document.cookie = '';
       expect(typeof getFlipperId()).toBe('string').and.not.empty;
     });
 
-    it('should set the FLIPPER_ID cookie to not be null', () => {
+    test('should set the FLIPPER_ID cookie to not be null', () => {
       document.cookie = '';
       expect(getFlipperId()).not.toBeNull();
     });
 
-    it('should set the FLIPPER_ID cookie to not be empty', () => {
+    test('should set the FLIPPER_ID cookie to not be empty', () => {
       document.cookie = '';
       expect(getFlipperId()).not.toHaveLength(0);
     });
 
-    it('should set the FLIPPER_ID cookie to a non-empty string', () => {
+    test('should set the FLIPPER_ID cookie to a non-empty string', () => {
       document.cookie = '';
       getFlipperId();
       const cookie = document.cookie.replace(
@@ -46,7 +46,7 @@ describe('feature toggles', () => {
       expect(Object.keys(cookie)).not.toHaveLength(0);
     });
 
-    it('should not change an existing FLIPPER_ID', () => {
+    test('should not change an existing FLIPPER_ID', () => {
       document.cookie = 'FLIPPER_ID=something';
       getFlipperId();
       expect(
@@ -60,7 +60,7 @@ describe('feature toggles', () => {
 
   // Restore previous cookie set
 
-  after(() => {
+  afterAll(() => {
     document.cookie = oldCookie;
   });
 });

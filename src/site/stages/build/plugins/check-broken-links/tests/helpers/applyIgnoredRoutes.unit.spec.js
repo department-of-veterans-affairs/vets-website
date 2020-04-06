@@ -5,7 +5,7 @@ const applyIgnoredRoutes = require('../../helpers/applyIgnoredRoutes');
 describe('getBrokenLink/getReactLandingPages', () => {
   const { getReactLandingPages } = applyIgnoredRoutes;
 
-  it('filter files down to React apps', () => {
+  test('filter files down to React apps', () => {
     const files = [
       { path: '/health-care' },
       { path: '/disability' },
@@ -19,29 +19,32 @@ describe('getBrokenLink/getReactLandingPages', () => {
 });
 
 describe('getBrokenLinks', () => {
-  it('removes links detected as errors that are child routes of React apps', () => {
-    const brokenPage = {
-      path: '/example-page',
-      linkErrors: [
-        { target: '' },
-        { target: '/non-react-path' },
-        { target: '/react-path/child-page' },
-      ],
-    };
-
-    const getReactLandingPages = sinon.stub().returns(['/react-path']);
-
-    const result = applyIgnoredRoutes([brokenPage], null, getReactLandingPages);
-
-    expect(result).toEqual([
-      {
+  test(
+    'removes links detected as errors that are child routes of React apps',
+    () => {
+      const brokenPage = {
         path: '/example-page',
-        linkErrors: [{ target: '' }, { target: '/non-react-path' }],
-      },
-    ]);
-  });
+        linkErrors: [
+          { target: '' },
+          { target: '/non-react-path' },
+          { target: '/react-path/child-page' },
+        ],
+      };
 
-  it('removes links ending with .asp', () => {
+      const getReactLandingPages = sinon.stub().returns(['/react-path']);
+
+      const result = applyIgnoredRoutes([brokenPage], null, getReactLandingPages);
+
+      expect(result).toEqual([
+        {
+          path: '/example-page',
+          linkErrors: [{ target: '' }, { target: '/non-react-path' }],
+        },
+      ]);
+    }
+  );
+
+  test('removes links ending with .asp', () => {
     const brokenPage = {
       path: '/example-page',
       linkErrors: [
@@ -63,7 +66,7 @@ describe('getBrokenLinks', () => {
     ]);
   });
 
-  it('removes page whose link-errors were filtered out entirely', () => {
+  test('removes page whose link-errors were filtered out entirely', () => {
     const brokenPages = [
       {
         path: '/example-page',

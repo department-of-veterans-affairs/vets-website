@@ -80,7 +80,7 @@ const maintenanceWindows = [
 ];
 
 describe('getStatusForTimeframe', () => {
-  it('assigns a status according to timeframe', () => {
+  test('assigns a status according to timeframe', () => {
     expect(
       downtimeHelpers.getStatusForTimeframe(
         pastDowntime.attributes.startTime,
@@ -125,25 +125,28 @@ describe('createGlobalMaintenanceWindow', () => {
     },
   };
 
-  it('generates a "/maintenance_windows" response for each downed service', () => {
-    const globalMaintWindow = downtimeHelpers.createGlobalMaintenanceWindow({
-      startTime,
-      endTime,
-      externalServices: { mvi: 'mvi' },
-    });
-
-    expect(globalMaintWindow.length).toBe(2);
-    expect(globalMaintWindow[0]).toEqual(globalWindow);
-    expect(globalMaintWindow[1]).toEqual({
-      attributes: {
-        externalService: 'mvi',
+  test(
+    'generates a "/maintenance_windows" response for each downed service',
+    () => {
+      const globalMaintWindow = downtimeHelpers.createGlobalMaintenanceWindow({
         startTime,
         endTime,
-      },
-    });
-  });
+        externalServices: { mvi: 'mvi' },
+      });
 
-  it('uses the default external services when none are provided', () => {
+      expect(globalMaintWindow.length).toBe(2);
+      expect(globalMaintWindow[0]).toEqual(globalWindow);
+      expect(globalMaintWindow[1]).toEqual({
+        attributes: {
+          externalService: 'mvi',
+          startTime,
+          endTime,
+        },
+      });
+    }
+  );
+
+  test('uses the default external services when none are provided', () => {
     const globalMaintWindow = downtimeHelpers.createGlobalMaintenanceWindow({
       startTime,
       endTime,
@@ -157,60 +160,66 @@ describe('createGlobalMaintenanceWindow', () => {
 });
 
 describe('createServiceMap', () => {
-  it('creates a map using the attributes.externalService property as keys', () => {
-    const serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
-    const evss = serviceMap.get('evss');
-    const vic = serviceMap.get('vic');
-    const mvi = serviceMap.get('mvi');
-    const appeals = serviceMap.get('appeals');
+  test(
+    'creates a map using the attributes.externalService property as keys',
+    () => {
+      const serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
+      const evss = serviceMap.get('evss');
+      const vic = serviceMap.get('vic');
+      const mvi = serviceMap.get('mvi');
+      const appeals = serviceMap.get('appeals');
 
-    expect(evss.status).toBe(externalServiceStatus.down);
-    expect(vic.status).toBe(externalServiceStatus.ok);
-    expect(mvi.status).toBe(externalServiceStatus.downtimeApproaching);
-    expect(appeals.status).toBe(externalServiceStatus.downtimeApproaching);
-  });
+      expect(evss.status).toBe(externalServiceStatus.down);
+      expect(vic.status).toBe(externalServiceStatus.ok);
+      expect(mvi.status).toBe(externalServiceStatus.downtimeApproaching);
+      expect(appeals.status).toBe(externalServiceStatus.downtimeApproaching);
+    }
+  );
 });
 
 describe('getMostUrgentDowntime', () => {
   let serviceMap = null;
 
-  before(() => {
+  beforeAll(() => {
     serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
   });
 
-  it('returns null when all services are ok', () => {
+  test('returns null when all services are ok', () => {
     expect(
       downtimeHelpers.getSoonestDowntime(serviceMap, ['dslogon', 'vic']),
     ).toBeNull();
   });
 
-  it('returns the status with the soonest startTime and endTime that is not in the past', () => {
-    const evss = downtimeHelpers.getSoonestDowntime(serviceMap, [
-      'dslogon',
-      'evss',
-      'vic',
-      'mvi',
-    ]);
-    expect(evss.status).toBe(externalServiceStatus.down);
-    expect(evss.externalService).toBe('evss');
+  test(
+    'returns the status with the soonest startTime and endTime that is not in the past',
+    () => {
+      const evss = downtimeHelpers.getSoonestDowntime(serviceMap, [
+        'dslogon',
+        'evss',
+        'vic',
+        'mvi',
+      ]);
+      expect(evss.status).toBe(externalServiceStatus.down);
+      expect(evss.externalService).toBe('evss');
 
-    const mvi = downtimeHelpers.getSoonestDowntime(serviceMap, [
-      'dslogon',
-      'vic',
-      'mvi',
-      'appeals',
-    ]);
-    expect(mvi.status).toBe(externalServiceStatus.downtimeApproaching);
-    expect(mvi.externalService).toBe('mvi');
+      const mvi = downtimeHelpers.getSoonestDowntime(serviceMap, [
+        'dslogon',
+        'vic',
+        'mvi',
+        'appeals',
+      ]);
+      expect(mvi.status).toBe(externalServiceStatus.downtimeApproaching);
+      expect(mvi.externalService).toBe('mvi');
 
-    const appeals = downtimeHelpers.getSoonestDowntime(serviceMap, [
-      'dslogon',
-      'vic',
-      'appeals',
-    ]);
-    expect(appeals.status).toBe(externalServiceStatus.downtimeApproaching);
-    expect(appeals.externalService).toBe('appeals');
-  });
+      const appeals = downtimeHelpers.getSoonestDowntime(serviceMap, [
+        'dslogon',
+        'vic',
+        'appeals',
+      ]);
+      expect(appeals.status).toBe(externalServiceStatus.downtimeApproaching);
+      expect(appeals.externalService).toBe('appeals');
+    }
+  );
 });
 
 describe('getCurrentGlobalDowntime', () => {
@@ -222,7 +231,7 @@ describe('getCurrentGlobalDowntime', () => {
     resetFetch();
   });
 
-  it('returns downtime when in the middle of a downtime', async () => {
+  test('returns downtime when in the middle of a downtime', async () => {
     const response = [
       {
         startTime: pastDowntime.attributes.startTime,
@@ -244,7 +253,7 @@ describe('getCurrentGlobalDowntime', () => {
     expect(downtime.endTime).toBe(response[1].endTime);
   });
 
-  it('returns null when not within any downtimes', async () => {
+  test('returns null when not within any downtimes', async () => {
     const response = [
       {
         startTime: pastDowntime.attributes.startTime,
@@ -261,13 +270,13 @@ describe('getCurrentGlobalDowntime', () => {
     expect(downtime).toBeNull();
   });
 
-  it('returns null when there are no downtimes', async () => {
+  test('returns null when there are no downtimes', async () => {
     setFetchJSONResponse(global.fetch, []);
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
     expect(downtime).toBeNull();
   });
 
-  it('returns null when failing to get downtimes', async () => {
+  test('returns null when failing to get downtimes', async () => {
     setFetchJSONFailure(global.fetch, null);
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
     expect(downtime).toBeNull();

@@ -10,7 +10,7 @@ describe('Add secondary other sources of information help ', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.secondaryOtherSourcesHelp0;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig}
@@ -30,7 +30,7 @@ describe('Add secondary other sources of information help ', () => {
     form.unmount();
   });
 
-  it('should submit', () => {
+  test('should submit', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(

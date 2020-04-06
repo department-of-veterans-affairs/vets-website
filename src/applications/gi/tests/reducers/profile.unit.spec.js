@@ -7,7 +7,7 @@ const initialState = {
 };
 
 describe('profile reducer', () => {
-  it('should handle profile fetch started', () => {
+  test('should handle profile fetch started', () => {
     const state = profileReducer(initialState, {
       type: 'FETCH_PROFILE_STARTED',
     });
@@ -15,7 +15,7 @@ describe('profile reducer', () => {
     expect(state.inProgress).toBe(true);
   });
 
-  it('should handle profile fetch failure', () => {
+  test('should handle profile fetch failure', () => {
     const state = profileReducer(
       { inProgress: true },
       {
@@ -28,7 +28,7 @@ describe('profile reducer', () => {
     expect(state.inProgress).toBe(false);
   });
 
-  it('should handle profile fetch success', () => {
+  test('should handle profile fetch success', () => {
     const state = profileReducer(
       { inProgress: true },
       {

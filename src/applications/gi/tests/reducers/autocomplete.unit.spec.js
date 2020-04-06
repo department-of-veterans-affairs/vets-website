@@ -9,7 +9,7 @@ const initialState = {
 };
 
 describe('autocomplete reducer', () => {
-  it('should change autocomplete term', () => {
+  test('should change autocomplete term', () => {
     const state = autocompleteReducer(
       { ...initialState, facilityCode: 'code' },
       {
@@ -22,7 +22,7 @@ describe('autocomplete reducer', () => {
     expect(state.searchTerm).toBe('newSearchTerm');
   });
 
-  it('should start autocomplete correctly', () => {
+  test('should start autocomplete correctly', () => {
     const state = autocompleteReducer(initialState, {
       type: 'AUTOCOMPLETE_STARTED',
     });
@@ -31,7 +31,7 @@ describe('autocomplete reducer', () => {
     expect(state.suggestions).toEqual([]);
   });
 
-  it('should handle autocomplete failure', () => {
+  test('should handle autocomplete failure', () => {
     const state = autocompleteReducer(
       { inProgress: true },
       {
@@ -48,7 +48,7 @@ describe('autocomplete reducer', () => {
     expect(state.errorMessage).toBe('error');
   });
 
-  it('should handle autocomplete success', () => {
+  test('should handle autocomplete success', () => {
     const state = autocompleteReducer(
       { ...initialState, searchTerm: 'searchTerm', inProgress: true },
       {
@@ -83,7 +83,7 @@ describe('autocomplete reducer', () => {
     expect(state.inProgress).toBe(false);
   });
 
-  it('should handle autocomplete clear', () => {
+  test('should handle autocomplete clear', () => {
     const state = autocompleteReducer(
       {
         ...initialState,
@@ -100,7 +100,7 @@ describe('autocomplete reducer', () => {
     expect(state.suggestions.length).toBe(0);
   });
 
-  it('should handle search starting', () => {
+  test('should handle search starting', () => {
     const state = autocompleteReducer(initialState, {
       type: 'SEARCH_STARTED',
       query: {

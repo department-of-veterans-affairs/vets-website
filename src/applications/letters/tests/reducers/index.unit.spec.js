@@ -43,20 +43,20 @@ const benefitSummaryOptionData = {
 };
 
 describe('letters reducer', () => {
-  it('should not modify state if an unrecognized action is passed', () => {
+  test('should not modify state if an unrecognized action is passed', () => {
     const state = reduce({ type: 'FOO_BAR' });
 
     expect(state).toEqual(initialState);
   });
 
-  it('should handle failure to fetch letters', () => {
+  test('should handle failure to fetch letters', () => {
     const state = reduce({ type: GET_LETTERS_FAILURE });
 
     expect(state.letters).toHaveLength(0);
     expect(state.lettersAvailability).toBe(AVAILABILITY_STATUSES.unavailable);
   });
 
-  it('should handle backend service error', () => {
+  test('should handle backend service error', () => {
     const state = reduce({ type: BACKEND_SERVICE_ERROR });
 
     expect(state.letters).toHaveLength(0);
@@ -65,7 +65,7 @@ describe('letters reducer', () => {
     );
   });
 
-  it('should handle backend authentication error', () => {
+  test('should handle backend authentication error', () => {
     const state = reduce({ type: BACKEND_AUTHENTICATION_ERROR });
 
     expect(state.letters).toHaveLength(0);
@@ -74,7 +74,7 @@ describe('letters reducer', () => {
     );
   });
 
-  it('should handle invalid address', () => {
+  test('should handle invalid address', () => {
     const state = reduce({ type: INVALID_ADDRESS_PROPERTY });
 
     expect(state.letters).toHaveLength(0);
@@ -83,7 +83,7 @@ describe('letters reducer', () => {
     );
   });
 
-  it('should handle a successful request for letters', () => {
+  test('should handle a successful request for letters', () => {
     const state = reduce({
       type: GET_LETTERS_SUCCESS,
       data: {
@@ -109,7 +109,7 @@ describe('letters reducer', () => {
     expect(state.lettersAvailability).toBe(AVAILABILITY_STATUSES.available);
   });
 
-  it('should handle failure to fetch benefit summary options', () => {
+  test('should handle failure to fetch benefit summary options', () => {
     const state = reduce({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
 
     expect(state.benefitInfo).toHaveLength(0);
@@ -117,7 +117,7 @@ describe('letters reducer', () => {
     expect(state.optionsAvailable).toBe(false);
   });
 
-  it('should handle a successful request for benefit summary options', () => {
+  test('should handle a successful request for benefit summary options', () => {
     const state = reduce({
       type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
       data: benefitSummaryOptionData,
@@ -128,7 +128,7 @@ describe('letters reducer', () => {
     expect(state.optionsAvailable).toBe(true);
   });
 
-  it('should update benefit summary request options', () => {
+  test('should update benefit summary request options', () => {
     const state = reduce({
       type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
       data: benefitSummaryOptionData,
@@ -138,7 +138,7 @@ describe('letters reducer', () => {
     // TODO: Test what makes it to requestOptions when we have a firmer grasp of the business logic
   });
 
-  it('should handle a letter eligibility error', () => {
+  test('should handle a letter eligibility error', () => {
     const state = reduce({ type: LETTER_ELIGIBILITY_ERROR });
 
     expect(state.lettersAvailability).toBe(
@@ -146,7 +146,7 @@ describe('letters reducer', () => {
     );
   });
 
-  it('should handle updating a benefit summary request option', () => {
+  test('should handle updating a benefit summary request option', () => {
     const state = reduce({
       type: UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
       propertyPath: 'foo',
@@ -156,7 +156,7 @@ describe('letters reducer', () => {
     expect(state.requestOptions.foo).toBe('bar');
   });
 
-  it('should handle downloading a pdf', () => {
+  test('should handle downloading a pdf', () => {
     const state = reduce({
       type: GET_LETTER_PDF_DOWNLOADING,
       data: 'foo', // The letter name
@@ -165,7 +165,7 @@ describe('letters reducer', () => {
     expect(state.letterDownloadStatus.foo).toBe(DOWNLOAD_STATUSES.downloading);
   });
 
-  it('should handle successfully downloading a pdf', () => {
+  test('should handle successfully downloading a pdf', () => {
     const state = reduce({
       type: GET_LETTER_PDF_SUCCESS,
       data: 'foo', // The letter name
@@ -174,7 +174,7 @@ describe('letters reducer', () => {
     expect(state.letterDownloadStatus.foo).toBe(DOWNLOAD_STATUSES.success);
   });
 
-  it('should handle failing to download a pdf', () => {
+  test('should handle failing to download a pdf', () => {
     const state = reduce({
       type: GET_LETTER_PDF_FAILURE,
       data: 'foo', // The letter name

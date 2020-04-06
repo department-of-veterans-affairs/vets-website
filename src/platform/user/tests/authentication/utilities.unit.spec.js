@@ -36,70 +36,70 @@ describe('authentication URL helpers', () => {
     global.localStorage = oldLocalStorage;
   });
 
-  it('should redirect for signup', () => {
+  test('should redirect for signup', () => {
     signup();
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/sessions/signup/new']),
     );
   });
 
-  it('should redirect for signup v1', () => {
+  test('should redirect for signup v1', () => {
     signup('v1');
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/v1/sessions/signup/new']),
     );
   });
 
-  it('should redirect for login', () => {
+  test('should redirect for login', () => {
     login('idme');
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/sessions/idme/new']),
     );
   });
 
-  it('should redirect for login v1', () => {
+  test('should redirect for login v1', () => {
     login('idme', 'v1');
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/v1/sessions/idme/new']),
     );
   });
 
-  it('should redirect for logout', () => {
+  test('should redirect for logout', () => {
     logout();
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/sessions/slo/new']),
     );
   });
 
-  it('should redirect for logout v1', () => {
+  test('should redirect for logout v1', () => {
     logout('v1');
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/v1/sessions/slo/new']),
     );
   });
 
-  it('should redirect for MFA', () => {
+  test('should redirect for MFA', () => {
     mfa();
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/sessions/mfa/new']),
     );
   });
 
-  it('should redirect for MFA v1', () => {
+  test('should redirect for MFA v1', () => {
     mfa('v1');
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/v1/sessions/mfa/new']),
     );
   });
 
-  it('should redirect for verify', () => {
+  test('should redirect for verify', () => {
     verify();
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/sessions/verify/new']),
     );
   });
 
-  it('should redirect for verify v1', () => {
+  test('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).toEqual(
       expect.arrayContaining(['/v1/sessions/verify/new']),

@@ -15,7 +15,7 @@ describe('530 schema tests', () => {
     );
     const submitData = JSON.parse(transform(formConfig, contents)).burialClaim
       .form;
-    it(`should validate ${file}`, () => {
+    test(`should validate ${file}`, () => {
       const result = v.validate(JSON.parse(submitData), fullSchema530);
 
       if (!result.valid) {

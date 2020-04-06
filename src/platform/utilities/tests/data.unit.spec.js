@@ -9,34 +9,37 @@ import deduplicate from '../data/deduplicate';
 // Could split these out into separate files...
 describe('data utils', () => {
   describe('deconstructPath', () => {
-    it('should deconstruct a string path', () => {
+    test('should deconstruct a string path', () => {
       const strPath = 'a.b.c';
       expect(deconstructPath(strPath)).toEqual(['a', 'b', 'c']);
     });
 
-    it('should handle array notation', () => {
+    test('should handle array notation', () => {
       const strPath = 'a.b[4].c';
       expect(deconstructPath(strPath)).toEqual(['a', 'b', 4, 'c']);
     });
 
-    it('should handle array indexes using dot notation', () => {
+    test('should handle array indexes using dot notation', () => {
       const strPath = 'a.b.4.c.123abc';
       expect(deconstructPath(strPath)).toEqual(['a', 'b', 4, 'c', '123abc']);
     });
   });
 
   describe('clone', () => {
-    it('should return an object with the same data but different reference', () => {
-      const obj = {
-        a: 1,
-        b: 2,
-      };
-      const cloned = _.clone(obj);
-      expect(cloned).toEqual(obj);
-      expect(cloned).not.toBe(obj);
-    });
+    test(
+      'should return an object with the same data but different reference',
+      () => {
+        const obj = {
+          a: 1,
+          b: 2,
+        };
+        const cloned = _.clone(obj);
+        expect(cloned).toEqual(obj);
+        expect(cloned).not.toBe(obj);
+      }
+    );
 
-    it('should clone a set', () => {
+    test('should clone a set', () => {
       const s = new Set([{ sub: 'original' }]);
       const cloned = _.clone(s);
       expect(cloned).toEqual(s);
@@ -64,12 +67,12 @@ describe('data utils', () => {
 
     const cloned = _.cloneDeep(obj);
 
-    it('should return an object with a different reference', () => {
+    test('should return an object with a different reference', () => {
       expect(cloned).toEqual(obj);
       expect(cloned).not.toBe(obj);
     });
 
-    it('should handle an array as the root "object"', () => {
+    test('should handle an array as the root "object"', () => {
       const arr = ['foo', 'bar', 0];
       const clonedArr = _.cloneDeep(arr);
 
@@ -77,12 +80,12 @@ describe('data utils', () => {
       expect(clonedArr).not.toBe(arr);
     });
 
-    it('should clone all sub-objects', () => {
+    test('should clone all sub-objects', () => {
       expect(cloned.obj).toEqual(obj.obj);
       expect(cloned.obj).not.toBe(obj.obj);
     });
 
-    it('should clone all sub-arrays', () => {
+    test('should clone all sub-arrays', () => {
       expect(cloned.array).toEqual(obj.array);
       expect(cloned.array).not.toBe(obj.array);
       expect(cloned.obj.nestedObj.nestedArray).toEqual(
@@ -93,7 +96,7 @@ describe('data utils', () => {
       );
     });
 
-    it('should clone all objects in arrays', () => {
+    test('should clone all objects in arrays', () => {
       expect(cloned.array[3]).toEqual(obj.array[3]);
       expect(cloned.array[3]).not.toBe(obj.array[3]);
     });
@@ -107,38 +110,38 @@ describe('data utils', () => {
       g: ['h', 'i', 'j'],
     };
 
-    it('should get a value one level deep', () => {
+    test('should get a value one level deep', () => {
       expect(_.get('a', o)).toBe(o.a);
     });
 
-    it('should get a value n levels deep', () => {
+    test('should get a value n levels deep', () => {
       expect(_.get('b.c', o)).toBe(o.b.c);
       expect(_.get('k.a.y', o)).toBe(o.k.a.y);
     });
 
-    it('should handle array indexes', () => {
+    test('should handle array indexes', () => {
       expect(_.get('g[2]', o)).toBe(o.g[2]);
     });
 
-    it('should handle dot-notated array indexes', () => {
+    test('should handle dot-notated array indexes', () => {
       expect(_.get('g.2', o)).toBe(o.g[2]);
     });
 
-    it('should handle an array path', () => {
+    test('should handle an array path', () => {
       expect(_.get(['k', 'a', 'y'], o)).toBe(o.k.a.y);
     });
 
-    it('should return a default value if not found', () => {
+    test('should return a default value if not found', () => {
       expect(_.get('does.not.exist', o, 'default')).toBe('default');
     });
 
-    it('should return undefined if not found and no default is provided', () => {
+    test('should return undefined if not found and no default is provided', () => {
       expect(_.get('does.not.exist', o)).toBe();
     });
   });
 
   describe('set', () => {
-    it('should set the value of an existing path', () => {
+    test('should set the value of an existing path', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -156,7 +159,7 @@ describe('data utils', () => {
       });
     });
 
-    it('should create nested objects as needed', () => {
+    test('should create nested objects as needed', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -168,7 +171,7 @@ describe('data utils', () => {
       expect(newObj.new.path).toEqual(['foo', 'bar']);
     });
 
-    it('should create nested arrays as needed', () => {
+    test('should create nested arrays as needed', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -180,7 +183,7 @@ describe('data utils', () => {
       expect(newObj.array).toEqual([undefined, 'first']);
     });
 
-    it('should handle an array path', () => {
+    test('should handle an array path', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -192,14 +195,14 @@ describe('data utils', () => {
       expect(newObj.new.path).toEqual(['foo', 'bar']);
     });
 
-    it('should not change the array path provided', () => {
+    test('should not change the array path provided', () => {
       const o = {};
       const arrayPath = ['path', 0];
       _.set(arrayPath, 'foo', o);
       expect(arrayPath).toEqual(['path', 0]);
     });
 
-    it('should not modify original object when adding a new property', () => {
+    test('should not modify original object when adding a new property', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -214,36 +217,42 @@ describe('data utils', () => {
       expect(o).toEqual(oCopy);
     });
 
-    it('should not modify original object when changing an existing property', () => {
-      const o = {
-        a: 'a',
-        b: { c: 'c' },
-        k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j'],
-      };
+    test(
+      'should not modify original object when changing an existing property',
+      () => {
+        const o = {
+          a: 'a',
+          b: { c: 'c' },
+          k: { a: { y: 'f' } },
+          g: ['h', 'i', 'j'],
+        };
 
-      // Perhaps using cloneDeep in here is in bad taste?
-      const oCopy = _.cloneDeep(o);
+        // Perhaps using cloneDeep in here is in bad taste?
+        const oCopy = _.cloneDeep(o);
 
-      _.set('b.c', 'd', o);
-      expect(o).toEqual(oCopy);
-    });
+        _.set('b.c', 'd', o);
+        expect(o).toEqual(oCopy);
+      }
+    );
 
-    it('should not maintain the same refs to sub-objects which were changed', () => {
-      const o = {
-        a: 'a',
-        b: { c: 'c' },
-        k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j'],
-      };
+    test(
+      'should not maintain the same refs to sub-objects which were changed',
+      () => {
+        const o = {
+          a: 'a',
+          b: { c: 'c' },
+          k: { a: { y: 'f' } },
+          g: ['h', 'i', 'j'],
+        };
 
-      const newObj = _.set('k.a.y', 'd', o);
-      expect(newObj.k.a).not.toBe(o.k.a);
-      expect(newObj.k.a).not.toEqual(o.k.a);
-    });
+        const newObj = _.set('k.a.y', 'd', o);
+        expect(newObj.k.a).not.toBe(o.k.a);
+        expect(newObj.k.a).not.toEqual(o.k.a);
+      }
+    );
 
     // Objects outside the given path should remain the same
-    it('should maintain the same refs to objects not touched', () => {
+    test('should maintain the same refs to objects not touched', () => {
       const old = {
         a: {
           prop: 1,
@@ -267,42 +276,45 @@ describe('data utils', () => {
       expect(old.b.prop2).toBe(changed.b.prop2);
     });
 
-    it('should throw an error if a segment of the path is not a string or number', () => {
-      const o = {
-        a: 'a',
-        b: { c: 'c' },
-        k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j'],
-      };
+    test(
+      'should throw an error if a segment of the path is not a string or number',
+      () => {
+        const o = {
+          a: 'a',
+          b: { c: 'c' },
+          k: { a: { y: 'f' } },
+          g: ['h', 'i', 'j'],
+        };
 
-      try {
-        _.set(['new', [0, 1]], ['foo', 'bar'], o);
-        // Shouldn't get here; should throw an error
-        throw new Error(
-          'Should have failed if path is not a string or number.',
-        );
-      } catch (e) {
-        // There's gotta be a better way to do this...
-        if (
-          e.message === 'Should have failed if path is not a string or number.'
-        ) {
-          throw e;
+        try {
+          _.set(['new', [0, 1]], ['foo', 'bar'], o);
+          // Shouldn't get here; should throw an error
+          throw new Error(
+            'Should have failed if path is not a string or number.',
+          );
+        } catch (e) {
+          // There's gotta be a better way to do this...
+          if (
+            e.message === 'Should have failed if path is not a string or number.'
+          ) {
+            throw e;
+          }
+
+          // Public service announcement: Arrays are objects too!
+          expect(e.message).toEqual(
+            expect.arrayContaining(['Unrecognized path element type: object.']),
+          );
         }
-
-        // Public service announcement: Arrays are objects too!
-        expect(e.message).toEqual(
-          expect.arrayContaining(['Unrecognized path element type: object.']),
-        );
       }
-    });
+    );
   });
 
   describe('checkValidPath', () => {
-    it('should throw an error if a path segment is undefined', () => {
+    test('should throw an error if a path segment is undefined', () => {
       expect(() => checkValidPath(['asdf', undefined])).to.throw;
     });
 
-    it('should throw an error if a path segment is null', () => {
+    test('should throw an error if a path segment is null', () => {
       expect(() => checkValidPath(['asdf', null])).to.throw;
     });
   });
@@ -310,7 +322,7 @@ describe('data utils', () => {
   describe('omit', () => {
     // So properties can be compared with ===
     // Useful in shouldComponentUpdate, for instance
-    it('should not return a deep clone of an object', () => {
+    test('should not return a deep clone of an object', () => {
       const obj = {
         a: 'a',
         b: {
@@ -322,13 +334,16 @@ describe('data utils', () => {
       expect(newObj.b).toBe(obj.b);
     });
 
-    it('should return the same reference to the root object if no fields are omitted', () => {
-      const obj = { a: 'a' };
-      const newObj = _.omit(['b'], obj);
-      expect(newObj).toBe(obj);
-    });
+    test(
+      'should return the same reference to the root object if no fields are omitted',
+      () => {
+        const obj = { a: 'a' };
+        const newObj = _.omit(['b'], obj);
+        expect(newObj).toBe(obj);
+      }
+    );
 
-    it('should omit all the fields passed in', () => {
+    test('should omit all the fields passed in', () => {
       const obj = {
         a: 'a',
         b: 'b',
@@ -340,7 +355,7 @@ describe('data utils', () => {
       omittedFields.forEach(f => expect(newObj[f]).toBeUndefined());
     });
 
-    it('should retain all fields not passed in', () => {
+    test('should retain all fields not passed in', () => {
       const obj = {
         a: 'a',
         b: 'b',
@@ -358,7 +373,7 @@ describe('data utils', () => {
   });
 
   describe('debounce', () => {
-    it('should call a function with the supplied arguments', done => {
+    test('should call a function with the supplied arguments', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(0, spy);
       debouncedFunc('first arg', 'second arg');
@@ -369,7 +384,7 @@ describe('data utils', () => {
       }, 10);
     });
 
-    it('should call a function after a waiting period', done => {
+    test('should call a function after a waiting period', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
@@ -380,7 +395,7 @@ describe('data utils', () => {
       }, 150);
     });
 
-    it('should not call a function before the wait time is over', done => {
+    test('should not call a function before the wait time is over', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
@@ -410,7 +425,7 @@ describe('data utils', () => {
       }, 350);
     });
 
-    it("should not call the function after it's been canceled", done => {
+    test("should not call the function after it's been canceled", done => {
       const spy = sinon.spy();
       const debouncedFunction = _.debounce(100, spy);
       debouncedFunction();
@@ -423,7 +438,7 @@ describe('data utils', () => {
   });
 
   describe('unset', () => {
-    it('remove item at path', () => {
+    test('remove item at path', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -441,7 +456,7 @@ describe('data utils', () => {
       });
     });
 
-    it('remove item at first level', () => {
+    test('remove item at first level', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -459,7 +474,7 @@ describe('data utils', () => {
       });
     });
 
-    it('unchanged if path does not exist', () => {
+    test('unchanged if path does not exist', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -477,29 +492,32 @@ describe('data utils', () => {
   });
 
   describe('removeDeeplyEmptyObjects', () => {
-    it('should not remove non-empty objects', () => {
+    test('should not remove non-empty objects', () => {
       const data = { level1: { level2: "I'm not empty!" } };
       expect(removeDeeplyEmptyObjects(data)).toBe(data);
     });
-    it('should remove empty objects', () => {
+    test('should remove empty objects', () => {
       const data = { level1: {} };
       expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
-    it('should remove deeply empty objects', () => {
+    test('should remove deeply empty objects', () => {
       const data = { level1: { level2: {} } };
       expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
-    it('should remove deeply empty objects while keeping deeply non-empty objects', () => {
-      const data = { level1: { level2: {}, level2Filled: 'I am full' } };
-      expect(removeDeeplyEmptyObjects(data)).toEqual({
-        level1: { level2Filled: 'I am full' },
-      });
-    });
-    it('should remove multiple sibling objects', () => {
+    test(
+      'should remove deeply empty objects while keeping deeply non-empty objects',
+      () => {
+        const data = { level1: { level2: {}, level2Filled: 'I am full' } };
+        expect(removeDeeplyEmptyObjects(data)).toEqual({
+          level1: { level2Filled: 'I am full' },
+        });
+      }
+    );
+    test('should remove multiple sibling objects', () => {
       const data = { level1: { first: {}, second: {} } };
       expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
-    it('should consider null and undefined as empty by default', () => {
+    test('should consider null and undefined as empty by default', () => {
       const data = {
         noGood: undefined,
         stillNoGood: null,
@@ -508,7 +526,7 @@ describe('data utils', () => {
     });
   });
   describe('deduplicate', () => {
-    it('should return a list of unique items', () => {
+    test('should return a list of unique items', () => {
       const uniques = deduplicate([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
       expect(uniques).toEqual(expect.arrayContaining([1, 2, 3, 4, 5]));
       expect(uniques.length).toBe(5);

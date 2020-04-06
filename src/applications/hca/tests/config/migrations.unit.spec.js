@@ -4,7 +4,7 @@ const migrations = formConfig.migrations;
 
 describe('HCA migrations', () => {
   describe('first migration', () => {
-    it('should remove hispanic property and add in view: object', () => {
+    test('should remove hispanic property and add in view: object', () => {
       const data = {
         formData: {
           isSpanishHispanicLatino: false,
@@ -19,7 +19,7 @@ describe('HCA migrations', () => {
         },
       });
     });
-    it('should not remove existing hispanic choice', () => {
+    test('should not remove existing hispanic choice', () => {
       const data = {
         formData: {
           isSpanishHispanicLatino: false,
@@ -40,7 +40,7 @@ describe('HCA migrations', () => {
   });
   describe('second migration', () => {
     const migration = migrations[1];
-    it('should convert report children field', () => {
+    test('should convert report children field', () => {
       const data = {
         formData: {
           'view:reportChildren': false,
@@ -51,7 +51,7 @@ describe('HCA migrations', () => {
         'view:reportDependents': data.formData['view:reportChildren'],
       });
     });
-    it('should change name of empty children array', () => {
+    test('should change name of empty children array', () => {
       const data = {
         formData: {
           children: [],
@@ -62,7 +62,7 @@ describe('HCA migrations', () => {
         dependents: [],
       });
     });
-    it('should change field names inside children items', () => {
+    test('should change field names inside children items', () => {
       const data = {
         formData: {
           children: [
@@ -94,7 +94,7 @@ describe('HCA migrations', () => {
   });
   describe('third migration', () => {
     const migration = migrations[2];
-    it('should update url when it matches', () => {
+    test('should update url when it matches', () => {
       const data = {
         formData: {
           'view:reportChildren': false,
@@ -110,7 +110,7 @@ describe('HCA migrations', () => {
       );
       expect(formData).toBe(data.formData);
     });
-    it('should leave url alone when it does not match', () => {
+    test('should leave url alone when it does not match', () => {
       const data = {
         formData: {
           'view:reportChildren': false,
@@ -127,7 +127,7 @@ describe('HCA migrations', () => {
   });
   describe('fourth migration', () => {
     const migration = migrations[3];
-    it('should leave data alone if not set', () => {
+    test('should leave data alone if not set', () => {
       const data = {
         formData: {},
         metadata: {
@@ -139,7 +139,7 @@ describe('HCA migrations', () => {
       expect(metadata).toBe(data.metadata);
       expect(formData).toBe(data.formData);
     });
-    it('should set to none if all false', () => {
+    test('should set to none if all false', () => {
       const data = {
         formData: {
           compensableVaServiceConnected: false,
@@ -158,7 +158,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).toBeUndefined();
       expect(formData.isVaServiceConnected).toBeUndefined();
     });
-    it('should set to highDisability if isVaServiceConnected', () => {
+    test('should set to highDisability if isVaServiceConnected', () => {
       const data = {
         formData: {
           compensableVaServiceConnected: false,
@@ -177,7 +177,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).toBeUndefined();
       expect(formData.isVaServiceConnected).toBeUndefined();
     });
-    it('should set to lowDisability if compensableVaServiceConnected', () => {
+    test('should set to lowDisability if compensableVaServiceConnected', () => {
       const data = {
         formData: {
           compensableVaServiceConnected: true,
@@ -196,7 +196,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).toBeUndefined();
       expect(formData.isVaServiceConnected).toBeUndefined();
     });
-    it('should set to pension if receivesVaPension', () => {
+    test('should set to pension if receivesVaPension', () => {
       const data = {
         formData: {
           compensableVaServiceConnected: false,
@@ -215,7 +215,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).toBeUndefined();
       expect(formData.isVaServiceConnected).toBeUndefined();
     });
-    it('should set url if any other combination of choices', () => {
+    test('should set url if any other combination of choices', () => {
       const data = {
         formData: {
           compensableVaServiceConnected: true,
@@ -234,7 +234,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).toBeUndefined();
       expect(formData.isVaServiceConnected).toBeUndefined();
     });
-    it('should not set url if prefill', () => {
+    test('should not set url if prefill', () => {
       const data = {
         formData: {
           compensableVaServiceConnected: true,
@@ -255,7 +255,7 @@ describe('HCA migrations', () => {
   });
   describe('fifth migration', () => {
     const migration = migrations[4];
-    it('should unset required fields that are blank strings', () => {
+    test('should unset required fields that are blank strings', () => {
       const data = {
         formData: {
           veteranFullName: {
@@ -273,7 +273,7 @@ describe('HCA migrations', () => {
       expect(formData.veteranFullName).toEqual({});
       expect(formData.veteranAddress).toEqual({});
     });
-    it('set the return URL to veteran address when address updated', () => {
+    test('set the return URL to veteran address when address updated', () => {
       const data = {
         formData: {
           veteranAddress: {
@@ -287,26 +287,29 @@ describe('HCA migrations', () => {
       expect(formData.veteranAddress).toEqual({});
       expect(metadata.returnUrl).toBe('veteran-information/veteran-address');
     });
-    it('set the return URL to veteran information when veteranFullName updated', () => {
-      const data = {
-        formData: {
-          veteranFullName: {
-            first: '   ',
-            last: ' ',
+    test(
+      'set the return URL to veteran information when veteranFullName updated',
+      () => {
+        const data = {
+          formData: {
+            veteranFullName: {
+              first: '   ',
+              last: ' ',
+            },
           },
-        },
-      };
+        };
 
-      const { formData, metadata } = migration(data);
-      expect(formData.veteranFullName).toEqual({});
-      expect(metadata.returnUrl).toBe(
-        'veteran-information/personal-information',
-      );
-    });
+        const { formData, metadata } = migration(data);
+        expect(formData.veteranFullName).toEqual({});
+        expect(metadata.returnUrl).toBe(
+          'veteran-information/personal-information',
+        );
+      }
+    );
   });
   describe('sixth migration', () => {
     const migration = migrations[5];
-    it('should unset insurance fields that are blank strings', () => {
+    test('should unset insurance fields that are blank strings', () => {
       const data = {
         formData: {
           providers: [

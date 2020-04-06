@@ -15,7 +15,7 @@ describe('5495 schema tests', () => {
     );
     const submitData = JSON.parse(transform(formConfig, contents))
       .educationBenefitsClaim.form;
-    it(`should validate ${file}`, () => {
+    test(`should validate ${file}`, () => {
       const result = v.validate(JSON.parse(submitData), fullSchema5495);
 
       if (!result.valid) {

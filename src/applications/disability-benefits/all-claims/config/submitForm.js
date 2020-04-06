@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 const submitFormFor = eventName =>
-  function submitForm(form, formConfig, { mode } = {}) {
+  (function submitForm(form, formConfig, { mode } = {}) {
     const body = formConfig.transformForSubmit
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
@@ -93,6 +93,6 @@ const submitFormFor = eventName =>
 
       req.send(body);
     });
-  };
+  });
 
 export default submitFormFor;

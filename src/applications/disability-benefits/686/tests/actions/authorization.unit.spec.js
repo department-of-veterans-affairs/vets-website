@@ -36,61 +36,70 @@ function getUnverifiedState() {
 
 describe('authorization actions', () => {
   xdescribe('verifyDisablityRating', () => {
-    it('should not dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions if user is not verified', () => {
-      const dispatch = sinon.spy();
+    test(
+      'should not dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions if user is not verified',
+      () => {
+        const dispatch = sinon.spy();
 
-      verifyDisabilityRating()(dispatch, getUnverifiedState);
+        verifyDisabilityRating()(dispatch, getUnverifiedState);
 
-      expect(dispatch.called).toBe(false);
-    });
-    it('should dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions', done => {
-      const payload = { test: 'test' };
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), payload);
+        expect(dispatch.called).toBe(false);
+      }
+    );
+    test(
+      'should dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions',
+      done => {
+        const payload = { test: 'test' };
+        mockFetch();
+        setFetchResponse(global.fetch.onFirstCall(), payload);
 
-      const dispatch = sinon.spy();
+        const dispatch = sinon.spy();
 
-      verifyDisabilityRating()(dispatch, getVerifiedState);
+        verifyDisabilityRating()(dispatch, getVerifiedState);
 
-      expect(
-        dispatch.firstCall.calledWith({
-          type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
-        }),
-      ).toBe(true);
+        expect(
+          dispatch.firstCall.calledWith({
+            type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
+          }),
+        ).toBe(true);
 
-      setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).toEqual({
-          type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
-          payload,
-        });
-        resetFetch();
-        done();
-      }, 0);
-    });
+        setTimeout(() => {
+          expect(dispatch.secondCall.args[0]).toEqual({
+            type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
+            payload,
+          });
+          resetFetch();
+          done();
+        }, 0);
+      }
+    );
 
-    it('should dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_FAILED actions', done => {
-      const error = { test: 'test' };
-      mockFetch();
-      setFetchFailure(global.fetch.onFirstCall(), error);
+    test(
+      'should dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_FAILED actions',
+      done => {
+        const error = { test: 'test' };
+        mockFetch();
+        setFetchFailure(global.fetch.onFirstCall(), error);
 
-      const dispatch = sinon.spy();
+        const dispatch = sinon.spy();
 
-      verifyDisabilityRating()(dispatch, getVerifiedState);
+        verifyDisabilityRating()(dispatch, getVerifiedState);
 
-      expect(
-        dispatch.firstCall.calledWith({
-          type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
-        }),
-      ).toBe(true);
+        expect(
+          dispatch.firstCall.calledWith({
+            type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
+          }),
+        ).toBe(true);
 
-      setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).toEqual({
-          type: LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
-          error,
-        });
-        resetFetch();
-        done();
-      }, 0);
-    });
+        setTimeout(() => {
+          expect(dispatch.secondCall.args[0]).toEqual({
+            type: LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
+            error,
+          });
+          resetFetch();
+          done();
+        }, 0);
+      }
+    );
   });
 });

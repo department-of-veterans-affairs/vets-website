@@ -3,7 +3,7 @@ import { capitalize, normalizeResponse } from './index';
 
 describe('Yellow Ribbon helpers', () => {
   describe('`capitalize`', () => {
-    it('should capitalize university names', () => {
+    test('should capitalize university names', () => {
       const name = 'colorado UNIVERSITY';
 
       expect(capitalize(name)).toBe('Colorado University');
@@ -11,7 +11,7 @@ describe('Yellow Ribbon helpers', () => {
   });
 
   describe('`normalizeResponse`', () => {
-    it('should return what we expect', () => {
+    test('should return what we expect', () => {
       const response = {
         data: [
           {

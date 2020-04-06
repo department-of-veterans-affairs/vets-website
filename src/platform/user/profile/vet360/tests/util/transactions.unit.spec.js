@@ -6,10 +6,10 @@ import {
 } from 'vet360/util/transactions';
 
 describe('isPendingTransaction', () => {
-  it('returns `false` if passed nothing', () => {
+  test('returns `false` if passed nothing', () => {
     expect(isPendingTransaction()).toBe(false);
   });
-  it('returns `true` if passed a transaction with a pending status', () => {
+  test('returns `true` if passed a transaction with a pending status', () => {
     const transaction = {
       data: {
         attributes: {
@@ -27,10 +27,10 @@ describe('isPendingTransaction', () => {
 });
 
 describe('isFailedTransaction', () => {
-  it('returns `false` if passed nothing', () => {
+  test('returns `false` if passed nothing', () => {
     expect(isFailedTransaction()).toBe(false);
   });
-  it('returns `true` if passed a transaction with a failed status', () => {
+  test('returns `true` if passed a transaction with a failed status', () => {
     const transaction = {
       data: {
         attributes: {
@@ -45,10 +45,10 @@ describe('isFailedTransaction', () => {
 });
 
 describe('isSuccessfulTransaction', () => {
-  it('returns `false` if passed nothing', () => {
+  test('returns `false` if passed nothing', () => {
     expect(isSuccessfulTransaction()).toBe(false);
   });
-  it('returns `true` if passed a transaction with a successful status', () => {
+  test('returns `true` if passed a transaction with a successful status', () => {
     const transaction = {
       data: {
         attributes: {
@@ -66,7 +66,7 @@ describe('isSuccessfulTransaction', () => {
 describe('addCountryCodeIso3ToAddress', () => {
   describe('when passed an object with a countryName', () => {
     describe('and the countryName is valid', () => {
-      it('adds the countryCodeIso3 prop', () => {
+      test('adds the countryCodeIso3 prop', () => {
         const address = {
           countryName: 'United States',
         };
@@ -78,7 +78,7 @@ describe('addCountryCodeIso3ToAddress', () => {
       });
     });
     describe('and the countryName is not valid', () => {
-      it('simply returns the data it was passed', () => {
+      test('simply returns the data it was passed', () => {
         const address = {
           countryName: 'Not A Real Country',
         };
@@ -88,7 +88,7 @@ describe('addCountryCodeIso3ToAddress', () => {
     });
   });
   describe('when passed an object without a countryName', () => {
-    it('returns the data it was passed', () => {
+    test('returns the data it was passed', () => {
       const address = {
         state: 'CA',
         street1: '123 Main St',

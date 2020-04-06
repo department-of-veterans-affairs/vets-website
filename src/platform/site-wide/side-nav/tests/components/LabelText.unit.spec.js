@@ -6,7 +6,7 @@ import { uniqueId } from 'lodash';
 import LabelText from '../../components/LabelText';
 
 describe('<LabelText>', () => {
-  it('should always render a <div /> tag.', () => {
+  test('should always render a <div /> tag.', () => {
     const defaultProps = {
       item: {
         description: 'Some description',

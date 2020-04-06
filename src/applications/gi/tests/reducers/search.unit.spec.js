@@ -1,7 +1,7 @@
 import searchReducer from '../../reducers/search';
 
 describe('search reducer', () => {
-  it('should toggle filters', () => {
+  test('should toggle filters', () => {
     const state = searchReducer(
       { filterOpened: false },
       {
@@ -12,7 +12,7 @@ describe('search reducer', () => {
     expect(state.filterOpened).toBe(true);
   });
 
-  it('should set search inProgress', () => {
+  test('should set search inProgress', () => {
     const state = searchReducer(
       { inProgress: false },
       {
@@ -23,7 +23,7 @@ describe('search reducer', () => {
     expect(state.inProgress).toBe(true);
   });
 
-  it('should set correct state on failure', () => {
+  test('should set correct state on failure', () => {
     const state = searchReducer(
       { inProgress: true },
       {
@@ -36,7 +36,7 @@ describe('search reducer', () => {
     expect(state.error).toBe('Service Unavailable');
   });
 
-  it('should set correct state on institution search success', () => {
+  test('should set correct state on institution search success', () => {
     const state = searchReducer(
       { inProgress: true },
       {
@@ -81,7 +81,7 @@ describe('search reducer', () => {
     expect(state.pagination.perPage).toBe(10);
   });
 
-  it('should set correct state on program search success', () => {
+  test('should set correct state on program search success', () => {
     const state = searchReducer(
       { inProgress: true },
       {

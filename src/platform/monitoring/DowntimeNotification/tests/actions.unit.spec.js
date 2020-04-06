@@ -17,12 +17,12 @@ describe('getScheduledDowntime', () => {
     dataLayer: global.window.dataLayer,
   };
 
-  before(() => {
+  beforeAll(() => {
     global.sessionStorage = {};
     global.window.dataLayer = [];
   });
 
-  after(() => {
+  afterAll(() => {
     global.sessionStorage = old.sessionStorage;
     global.window.dataLayer = old.dataLayer;
   });
@@ -34,7 +34,7 @@ describe('getScheduledDowntime', () => {
     dispatch.reset();
   });
 
-  it('dispatches the correct actions and maps the data correctly', done => {
+  test('dispatches the correct actions and maps the data correctly', done => {
     const actionCreator = getScheduledDowntime();
     const description = 'This is a description';
     const startTime = new Date().toISOString();

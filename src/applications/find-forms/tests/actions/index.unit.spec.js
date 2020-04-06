@@ -17,7 +17,7 @@ import {
 
 describe('Find VA Forms actions', () => {
   describe('fetchFormsAction', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const query = 'some text';
       const action = fetchFormsAction(query);
 
@@ -29,7 +29,7 @@ describe('Find VA Forms actions', () => {
   });
 
   describe('fetchFormsFailure', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const action = fetchFormsFailure('test');
 
       expect(action).toEqual({
@@ -40,7 +40,7 @@ describe('Find VA Forms actions', () => {
   });
 
   describe('fetchFormsSuccess', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const results = [];
       const action = fetchFormsSuccess(results);
 
@@ -52,7 +52,7 @@ describe('Find VA Forms actions', () => {
   });
 
   describe('updatePaginationAction', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const action = updatePaginationAction();
 
       expect(action).toEqual({
@@ -78,7 +78,7 @@ describe('Find VA Forms actions', () => {
       };
     });
 
-    it('updates search params', async () => {
+    test('updates search params', async () => {
       const dispatch = () => {};
       const query = 'health';
       const thunk = fetchFormsThunk(query, {
@@ -95,7 +95,7 @@ describe('Find VA Forms actions', () => {
       expect(replaceStateStub.firstCall.args[2]).toBe('?q=health');
     });
 
-    it('calls dispatch', async () => {
+    test('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const query = 'health';
       const thunk = fetchFormsThunk(query, {

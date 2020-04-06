@@ -11,7 +11,7 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('FETCH_ENROLLMENT_STATUS_STARTED', () => {
-    it('sets the `isLoadingApplicationStatus` to `true`', () => {
+    test('sets the `isLoadingApplicationStatus` to `true`', () => {
       action = {
         type: actions.FETCH_ENROLLMENT_STATUS_STARTED,
       };
@@ -22,7 +22,7 @@ describe('HCA Enrollment Status Reducer', () => {
 
   describe('FETCH_ENROLLMENT_STATUS_SUCCEEDED', () => {
     describe('regardless of `parsedStatus`', () => {
-      it('sets the state correctly', () => {
+      test('sets the state correctly', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_SUCCEEDED,
           data: {
@@ -58,10 +58,10 @@ describe('HCA Enrollment Status Reducer', () => {
         };
         reducedState = reducer(state, action);
       });
-      it('sets `loginRequired` to `false`', () => {
+      test('sets `loginRequired` to `false`', () => {
         expect(reducedState.loginRequired).toBe(false);
       });
-      it('sets `noESRRecordFound` to `true`', () => {
+      test('sets `noESRRecordFound` to `true`', () => {
         expect(reducedState.noESRRecordFound).toBe(true);
       });
     });
@@ -76,10 +76,10 @@ describe('HCA Enrollment Status Reducer', () => {
         };
         reducedState = reducer(state, action);
       });
-      it('sets `loginRequired` to `true`', () => {
+      test('sets `loginRequired` to `true`', () => {
         expect(reducedState.loginRequired).toBe(true);
       });
-      it('sets `noESRRecordFound` to `false`', () => {
+      test('sets `noESRRecordFound` to `false`', () => {
         expect(reducedState.noESRRecordFound).toBe(false);
       });
     });
@@ -87,7 +87,7 @@ describe('HCA Enrollment Status Reducer', () => {
 
   describe('FETCH_ENROLLMENT_STATUS_FAILED', () => {
     describe('regardless of the error codes', () => {
-      it('sets the state correctly', () => {
+      test('sets the state correctly', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
           errors: [{ code: '400' }],
@@ -101,7 +101,7 @@ describe('HCA Enrollment Status Reducer', () => {
     });
 
     describe('if the error code if 404', () => {
-      it('sets `noESRRecordFound` to `true`', () => {
+      test('sets `noESRRecordFound` to `true`', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
           errors: [{ code: '404' }],
@@ -112,7 +112,7 @@ describe('HCA Enrollment Status Reducer', () => {
     });
 
     describe('if the error code is 429', () => {
-      it('sets `loginRequired` to `true`', () => {
+      test('sets `loginRequired` to `true`', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
           errors: [{ code: '429' }],
@@ -123,7 +123,7 @@ describe('HCA Enrollment Status Reducer', () => {
     });
 
     describe('if the error code is >=500', () => {
-      it('sets `hasServerError` to `true`', () => {
+      test('sets `hasServerError` to `true`', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
           errors: [{ code: '500' }],
@@ -135,7 +135,7 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('SHOW_HCA_REAPPLY_CONTENT', () => {
-    it('sets `showHCAReapplyContent` to `true`', () => {
+    test('sets `showHCAReapplyContent` to `true`', () => {
       action = {
         type: actions.SHOW_HCA_REAPPLY_CONTENT,
       };
@@ -145,7 +145,7 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('FETCH_DISMISSED_HCA_NOTIFICATION_STARTED', () => {
-    it('sets `isLoadingDismissedNotification` to `true`', () => {
+    test('sets `isLoadingDismissedNotification` to `true`', () => {
       state = { isLoadingDismissedNotification: false };
       action = {
         type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
@@ -156,7 +156,7 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED', () => {
-    it('sets the state correctly', () => {
+    test('sets the state correctly', () => {
       state = {
         isLoadingDismissedNotification: true,
         dismissedNotificationDate: null,
@@ -183,7 +183,7 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('FETCH_DISMISSED_HCA_NOTIFICATION_FAILED', () => {
-    it('sets `isLoadingDismissedNotification` to `false`', () => {
+    test('sets `isLoadingDismissedNotification` to `false`', () => {
       state = {
         isLoadingDismissedNotification: true,
       };

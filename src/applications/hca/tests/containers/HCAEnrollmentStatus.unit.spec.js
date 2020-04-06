@@ -20,7 +20,7 @@ describe('<HCAEnrollmentStatus />', () => {
       route: {},
     };
   });
-  it('renders an HCAEnrollmentStatusWarning with the correct props', () => {
+  test('renders an HCAEnrollmentStatusWarning with the correct props', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
     const statusWarning = wrapper.find(HCAEnrollmentStatusWarning);
     expect(statusWarning.prop('applicationDate')).toBe(
@@ -37,7 +37,7 @@ describe('<HCAEnrollmentStatus />', () => {
     );
     wrapper.unmount;
   });
-  it('renders an HCAEnrollmentStatusFAQ with the correct props', () => {
+  test('renders an HCAEnrollmentStatusFAQ with the correct props', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
     const statusFAQ = wrapper.find(HCAEnrollmentStatusFAQ);
     expect(statusFAQ.prop('enrollmentStatus')).toBe(
@@ -46,7 +46,7 @@ describe('<HCAEnrollmentStatus />', () => {
     expect(statusFAQ.prop('route')).toBe(defaultProps.route);
     wrapper.unmount();
   });
-  it('calls its `getEnrollmentStatus` prop when it mounts', () => {
+  test('calls its `getEnrollmentStatus` prop when it mounts', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
     expect(getEnrollmentStatusSpy.callCount).toBe(1);
     wrapper.unmount();

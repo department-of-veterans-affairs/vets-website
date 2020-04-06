@@ -6,32 +6,35 @@ import {
 describe('mega-menu', () => {
   describe('Main.jsx', () => {
     describe('flagCurrentPageIntopLevelLinks', () => {
-      it('should return object with currentPage: true when path name matches href', () => {
-        const pathName = '/test';
-        const links = [
-          {
-            href: '/test',
-          },
-          {
-            href: 'not',
-          },
-        ];
-        const expectedResult = [
-          {
-            href: '/test',
-            currentPage: true,
-          },
-          {
-            href: 'not',
-          },
-        ];
-        const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
+      test(
+        'should return object with currentPage: true when path name matches href',
+        () => {
+          const pathName = '/test';
+          const links = [
+            {
+              href: '/test',
+            },
+            {
+              href: 'not',
+            },
+          ];
+          const expectedResult = [
+            {
+              href: '/test',
+              currentPage: true,
+            },
+            {
+              href: 'not',
+            },
+          ];
+          const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
 
-        expect(actualResult).toEqual(expectedResult);
-      });
+          expect(actualResult).toEqual(expectedResult);
+        }
+      );
     });
     describe('maybeMergeAuthorizedLinkData', () => {
-      it('should merge Authorized links when loggedIn is true', () => {
+      test('should merge Authorized links when loggedIn is true', () => {
         const AuthorizedLinks = ['test2', 'test3'];
         const defaultLinks = ['test0', 'test1'];
         const expectedResults = ['test0', 'test1', 'test2', 'test3'];
@@ -44,7 +47,7 @@ describe('mega-menu', () => {
 
         expect(actualResults).toEqual(expectedResults);
       });
-      it('should not merge Authorized links when loggedIn is false', () => {
+      test('should not merge Authorized links when loggedIn is false', () => {
         const AuthorizedLinks = ['test2', 'test3'];
         const defaultLinks = ['test0', 'test1'];
         const expectedResults = ['test0', 'test1'];

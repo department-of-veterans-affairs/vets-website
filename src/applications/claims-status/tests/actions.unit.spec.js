@@ -61,7 +61,7 @@ const unMockFetch = () => {
 
 describe('Actions', () => {
   describe('setNotification', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = setNotification('Testing');
 
       expect(action).toEqual({
@@ -71,7 +71,7 @@ describe('Actions', () => {
     });
   });
   describe('setAdditionalEvidenceNotification', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = setAdditionalEvidenceNotification('Testing');
 
       expect(action).toEqual({
@@ -81,7 +81,7 @@ describe('Actions', () => {
     });
   });
   describe('changePage', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = changePage('Testing');
 
       expect(action).toEqual({
@@ -91,7 +91,7 @@ describe('Actions', () => {
     });
   });
   describe('setUnavailable', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = setUnavailable();
 
       expect(action).toEqual({
@@ -100,7 +100,7 @@ describe('Actions', () => {
     });
   });
   describe('resetUploads', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = resetUploads();
 
       expect(action).toEqual({
@@ -109,7 +109,7 @@ describe('Actions', () => {
     });
   });
   describe('addFile', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = addFile('Testing');
 
       expect(action).toEqual({
@@ -119,7 +119,7 @@ describe('Actions', () => {
     });
   });
   describe('removeFile', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = removeFile(1);
 
       expect(action).toEqual({
@@ -129,7 +129,7 @@ describe('Actions', () => {
     });
   });
   describe('clearNotification', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = clearNotification();
 
       expect(action).toEqual({
@@ -138,7 +138,7 @@ describe('Actions', () => {
     });
   });
   describe('clearAdditionalEvidenceNotification', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = clearAdditionalEvidenceNotification();
 
       expect(action).toEqual({
@@ -147,7 +147,7 @@ describe('Actions', () => {
     });
   });
   describe('updateField', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = updateField('path', 'field');
 
       expect(action).toEqual({
@@ -158,7 +158,7 @@ describe('Actions', () => {
     });
   });
   describe('showMailOrFaxModal', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = showMailOrFaxModal(true);
 
       expect(action).toEqual({
@@ -168,7 +168,7 @@ describe('Actions', () => {
     });
   });
   describe('setFieldsDirty', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = setFieldsDirty();
 
       expect(action).toEqual({
@@ -177,7 +177,7 @@ describe('Actions', () => {
     });
   });
   describe('showConsolidatedMessage', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = showConsolidatedMessage(true);
 
       expect(action).toEqual({
@@ -187,7 +187,7 @@ describe('Actions', () => {
     });
   });
   describe('setLastPage', () => {
-    it('should return the correct action object', () => {
+    test('should return the correct action object', () => {
       const action = setLastPage(2);
 
       expect(action).toEqual({
@@ -197,7 +197,7 @@ describe('Actions', () => {
     });
   });
   describe('cancelUpload', () => {
-    it('should call cancel on uploader', () => {
+    test('should call cancel on uploader', () => {
       const oldDataLayer = global.window.dataLayer;
       global.window.dataLayer = [];
       const thunk = cancelUpload();
@@ -224,7 +224,7 @@ describe('Actions', () => {
   });
   describe('getAppeals', () => {
     beforeEach(mockFetch);
-    it('should fetch claims', done => {
+    test('should fetch claims', done => {
       const appeals = [];
       fetchMock.returns({
         catch: () => ({
@@ -244,7 +244,7 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    it('should fail on error', done => {
+    test('should fail on error', done => {
       const appeals = [];
       fetchMock.returns({
         catch: () => ({
@@ -274,7 +274,7 @@ describe('Actions', () => {
     afterEach(unMockFetch);
   });
   describe('getClaimsV2', () => {
-    it('should call dispatch and pollStatus', () => {
+    test('should call dispatch and pollStatus', () => {
       const dispatchSpy = sinon.spy();
       const pollStatusSpy = sinon.spy();
       getClaimsV2(pollStatusSpy)(dispatchSpy);
@@ -286,7 +286,7 @@ describe('Actions', () => {
     });
 
     describe('onError callback', () => {
-      it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
+      test('should dispatch a FETCH_CLAIMS_ERROR action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
@@ -299,7 +299,7 @@ describe('Actions', () => {
       });
     });
     describe('onSuccess callback', () => {
-      it('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
+      test('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
@@ -314,7 +314,7 @@ describe('Actions', () => {
       });
     });
     describe('shouldFail predicate', () => {
-      it('should return true when response.meta.syncStatus is FAILED', () => {
+      test('should return true when response.meta.syncStatus is FAILED', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
@@ -325,7 +325,7 @@ describe('Actions', () => {
 
         expect(shouldFail).toBe(true);
       });
-      it('should return false when response.meta.syncStatus is not FAILED', () => {
+      test('should return false when response.meta.syncStatus is not FAILED', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
@@ -336,7 +336,7 @@ describe('Actions', () => {
       });
     });
     describe('shouldSucceed predicate', () => {
-      it('should return true when response.meta.syncStatus is SUCCESS', () => {
+      test('should return true when response.meta.syncStatus is SUCCESS', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimsV2(pollStatusSpy)(dispatchSpy);
@@ -347,20 +347,23 @@ describe('Actions', () => {
 
         expect(shouldSucceed).toBe(true);
       });
-      it('should return false when response.meta.syncStatus is not SUCCESS', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+      test(
+        'should return false when response.meta.syncStatus is not SUCCESS',
+        () => {
+          const dispatchSpy = sinon.spy();
+          const pollStatusSpy = sinon.spy();
+          getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
+          const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
 
-        expect(shouldSucceed).toBe(false);
-      });
+          expect(shouldSucceed).toBe(false);
+        }
+      );
     });
   });
 
   describe('getClaimDetail', () => {
-    it('should call dispatch and pollStatus', () => {
+    test('should call dispatch and pollStatus', () => {
       const dispatchSpy = sinon.spy();
       const pollStatusSpy = sinon.spy();
       getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
@@ -370,7 +373,7 @@ describe('Actions', () => {
     });
 
     describe('onError callback', () => {
-      it('should dispatch a SET_CLAIMS_UNAVAILABLE action', () => {
+      test('should dispatch a SET_CLAIMS_UNAVAILABLE action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
@@ -383,7 +386,7 @@ describe('Actions', () => {
       });
     });
     describe('onSuccess callback', () => {
-      it('should dispatch a SET_CLAIM_DETAIL action', () => {
+      test('should dispatch a SET_CLAIM_DETAIL action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
@@ -398,7 +401,7 @@ describe('Actions', () => {
       });
     });
     describe('shouldFail predicate', () => {
-      it('should return true when response.meta.syncStatus is FAILED', () => {
+      test('should return true when response.meta.syncStatus is FAILED', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
@@ -409,7 +412,7 @@ describe('Actions', () => {
 
         expect(shouldFail).toBe(true);
       });
-      it('should return false when response.meta.syncStatus is not FAILED', () => {
+      test('should return false when response.meta.syncStatus is not FAILED', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
@@ -420,7 +423,7 @@ describe('Actions', () => {
       });
     });
     describe('shouldSucceed predicate', () => {
-      it('should return true when response.meta.syncStatus is SUCCESS', () => {
+      test('should return true when response.meta.syncStatus is SUCCESS', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
         getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
@@ -431,27 +434,30 @@ describe('Actions', () => {
 
         expect(shouldSucceed).toBe(true);
       });
-      it('should return false when response.meta.syncStatus is not SUCCESS', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
-        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+      test(
+        'should return false when response.meta.syncStatus is not SUCCESS',
+        () => {
+          const dispatchSpy = sinon.spy();
+          const pollStatusSpy = sinon.spy();
+          getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
 
-        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
+          const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
 
-        expect(shouldSucceed).toBe(false);
-      });
+          expect(shouldSucceed).toBe(false);
+        }
+      );
     });
   });
 
   describe('pollClaimStatus', () => {
-    it('should call apiRequest', () => {
+    test('should call apiRequest', () => {
       const apiRequestSpy = sinon.spy();
 
       pollRequest({ request: apiRequestSpy });
       expect(apiRequestSpy.calledOnce).toBe(true);
     });
     describe('apiRequest response handler', () => {
-      it('should call onSuccess when shouldSucceed returns true', () => {
+      test('should call onSuccess when shouldSucceed returns true', () => {
         const apiRequestSpy = sinon.spy();
         const mockResponse = {};
         const onSuccessSpy = sinon.spy();
@@ -471,34 +477,37 @@ describe('Actions', () => {
         expect(onErrorSpy.called).toBe(false);
         expect(shouldSucceedStub.firstCall.args[0]).toEqual(mockResponse);
       });
-      it('should call onError when shouldSuccess return false shouldFail returns true', () => {
-        const apiRequestSpy = sinon.spy();
-        const mockResponse = {};
-        const onErrorSpy = sinon.spy();
-        const onSuccessSpy = sinon.spy();
-        const shouldFailStub = sinon.stub();
-        const shouldSucceedStub = sinon.stub();
-        shouldSucceedStub.returns(false);
-        shouldFailStub.returns(true);
+      test(
+        'should call onError when shouldSuccess return false shouldFail returns true',
+        () => {
+          const apiRequestSpy = sinon.spy();
+          const mockResponse = {};
+          const onErrorSpy = sinon.spy();
+          const onSuccessSpy = sinon.spy();
+          const shouldFailStub = sinon.stub();
+          const shouldSucceedStub = sinon.stub();
+          shouldSucceedStub.returns(false);
+          shouldFailStub.returns(true);
 
-        pollRequest({
-          onError: onErrorSpy,
-          onSuccess: onSuccessSpy,
-          request: apiRequestSpy,
-          shouldFail: shouldFailStub,
-          shouldSucceed: shouldSucceedStub,
-        });
-        apiRequestSpy.firstCall.args[2](mockResponse);
+          pollRequest({
+            onError: onErrorSpy,
+            onSuccess: onSuccessSpy,
+            request: apiRequestSpy,
+            shouldFail: shouldFailStub,
+            shouldSucceed: shouldSucceedStub,
+          });
+          apiRequestSpy.firstCall.args[2](mockResponse);
 
-        expect(onSuccessSpy.calledOnce).toBe(false);
-        expect(onErrorSpy.calledOnce).toBe(true);
-        expect(shouldFailStub.firstCall.args[0]).toEqual(mockResponse);
-      });
+          expect(onSuccessSpy.calledOnce).toBe(false);
+          expect(onErrorSpy.calledOnce).toBe(true);
+          expect(shouldFailStub.firstCall.args[0]).toEqual(mockResponse);
+        }
+      );
     });
   });
   describe('submitRequest', () => {
     beforeEach(mockFetch);
-    it('should submit request', done => {
+    test('should submit request', done => {
       fetchMock.returns({
         catch: () => ({
           then: fn => fn({ ok: true, json: () => Promise.resolve() }),
@@ -526,7 +535,7 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    it('should fail on error', done => {
+    test('should fail on error', done => {
       fetchMock.returns({
         catch: () => ({
           then: fn =>

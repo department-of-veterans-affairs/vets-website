@@ -14,7 +14,7 @@ describe('pre-need schema tests', () => {
       fs.readFileSync(path.join(__dirname, file), 'utf8'),
     );
     const submitData = transform(formConfig, contents);
-    it(`should validate ${file}`, () => {
+    test(`should validate ${file}`, () => {
       const result = v.validate(JSON.parse(submitData), fullSchemaPreNeed);
 
       if (!result.valid) {

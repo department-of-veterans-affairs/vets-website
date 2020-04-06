@@ -16,7 +16,7 @@ import {
 
 describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
-    before(() => {
+    beforeAll(() => {
       mockFetch();
     });
 
@@ -28,7 +28,7 @@ describe('VAOS scheduling eligibility logic', () => {
       resetFetch();
     });
 
-    it('should fetch all data', async () => {
+    test('should fetch all data', async () => {
       const eligibilityData = await getEligibilityData(
         {
           institutionCode: '983',
@@ -50,7 +50,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'clinics',
       ]);
     });
-    it('should skip pact if not primary care', async () => {
+    test('should skip pact if not primary care', async () => {
       const eligibilityData = await getEligibilityData(
         {
           institutionCode: '983',
@@ -72,7 +72,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'clinics',
       ]);
     });
-    it('should finish all calls even if one fails', async () => {
+    test('should finish all calls even if one fails', async () => {
       setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
       const eligibilityData = await getEligibilityData(
         {
@@ -97,7 +97,7 @@ describe('VAOS scheduling eligibility logic', () => {
     });
   });
   describe('getEligibilityChecks', () => {
-    it('should calculate failing statuses', () => {
+    test('should calculate failing statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
         clinics: [],
         directSupported: true,
@@ -131,7 +131,7 @@ describe('VAOS scheduling eligibility logic', () => {
       });
     });
 
-    it('should calculate successful statuses', () => {
+    test('should calculate successful statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
         clinics: [{}],
         directSupported: true,
@@ -164,7 +164,7 @@ describe('VAOS scheduling eligibility logic', () => {
         requestLimitValue: 1,
       });
     });
-    it('should skip direct status on direct failure', () => {
+    test('should skip direct status on direct failure', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
         pacTeam: [],
         clinics: [],
@@ -194,7 +194,7 @@ describe('VAOS scheduling eligibility logic', () => {
         requestSupported: true,
       });
     });
-    it('should skip request status on request failure', () => {
+    test('should skip request status on request failure', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
         pacTeam: [],
         clinics: [],
@@ -225,7 +225,7 @@ describe('VAOS scheduling eligibility logic', () => {
     });
   });
   describe('isEligible', () => {
-    it('should return top level eligibility status', () => {
+    test('should return top level eligibility status', () => {
       const { direct, request } = isEligible({
         directPastVisit: false,
         directClinics: true,
@@ -241,7 +241,7 @@ describe('VAOS scheduling eligibility logic', () => {
   });
 
   describe('GA Events', () => {
-    it('should record error events with fetch failures', async () => {
+    test('should record error events with fetch failures', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch.onCall(0), { errors: [{}] });
       setFetchJSONFailure(global.fetch.onCall(1), { errors: [{}] });
@@ -268,7 +268,7 @@ describe('VAOS scheduling eligibility logic', () => {
       resetFetch();
     });
 
-    it('should record failure events when ineligible', () => {
+    test('should record failure events when ineligible', () => {
       recordEligibilityGAEvents(
         {
           pacTeam: [],
@@ -298,7 +298,7 @@ describe('VAOS scheduling eligibility logic', () => {
       ).toBe(4);
     });
 
-    it('should record only supported failure events', () => {
+    test('should record only supported failure events', () => {
       recordEligibilityGAEvents(
         {
           pacTeam: [],
@@ -328,7 +328,7 @@ describe('VAOS scheduling eligibility logic', () => {
       ).toBe(2);
     });
 
-    it('should not record failure events when ineligible', () => {
+    test('should not record failure events when ineligible', () => {
       recordEligibilityGAEvents(
         {
           pacTeam: [{ facilityId: '983' }],

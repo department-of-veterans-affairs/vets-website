@@ -83,7 +83,7 @@ const excludedForms = new Set([
 ]);
 
 describe('form:', () => {
-  it('should check all forms', () => {
+  test('should check all forms', () => {
     const includedSchemaIds = Object.keys(schemas).filter(
       formId => !excludedForms.has(formId),
     );
@@ -101,13 +101,13 @@ describe('form:', () => {
       describe('migrations:', () => {
         const { migrations } = form;
         if (migrations || form.version > 0) {
-          it('should have a length equal to the version number', () => {
+          test('should have a length equal to the version number', () => {
             expect(migrations.length).toBe(form.version);
           });
-          it('should be typeof array', () => {
+          test('should be typeof array', () => {
             expect(Array.isArray(migrations)).toBe(true);
           });
-          it('should be array of functions', () => {
+          test('should be array of functions', () => {
             expect(
               migrations.every(migration => typeof migration === 'function'),
             ).toBe(true);
@@ -115,98 +115,98 @@ describe('form:', () => {
         }
       });
 
-      it('should have chapters object', () => {
+      test('should have chapters object', () => {
         expect(form.chapters).toBeInstanceOf(Object);
       });
 
-      it('should have defaultDefinitions object', () => {
+      test('should have defaultDefinitions object', () => {
         expect(form.defaultDefinitions).toBeInstanceOf(Object);
       });
 
       if (form.introduction) {
-        it('should have introduction function', () => {
+        test('should have introduction function', () => {
           expect(form.introduction).toBeInstanceOf(Function);
         });
       }
 
       if (form.prefillEnabled) {
-        it('should have prefillEnabled boolean', () => {
+        test('should have prefillEnabled boolean', () => {
           expect(form.prefillEnabled).toBeInstanceOf(Boolean);
         });
       }
 
       if (form.prefillTransformer) {
-        it('should have prefillTransformer function', () => {
+        test('should have prefillTransformer function', () => {
           expect(form.prefillTransformer).toBeInstanceOf(Function);
         });
       }
 
-      it('should have trackingPrefix', () => {
+      test('should have trackingPrefix', () => {
         expect(typeof form.trackingPrefix).toBe('string');
       });
 
-      it('should have title', () => {
+      test('should have title', () => {
         expect(typeof form.title).toBe('string');
       });
 
       if (form.subTitle) {
-        it('should have subTitle', () => {
+        test('should have subTitle', () => {
           expect(typeof form.subTitle).toBe('string');
         });
       }
 
-      it('should have urlPrefix', () => {
+      test('should have urlPrefix', () => {
         expect(typeof form.urlPrefix).toBe('string');
       });
 
       if (form.submitUrl) {
-        it('should have submitUrl', () => {
+        test('should have submitUrl', () => {
           expect(typeof form.submitUrl).toBe('string');
         });
       }
 
       if (form.submit) {
-        it('should have submit', () => {
+        test('should have submit', () => {
           expect(form.submit).toBeInstanceOf(Function);
         });
       }
 
       if (form.savedFormMessages) {
-        it('should have savedFormMessages', () => {
+        test('should have savedFormMessages', () => {
           expect(form.savedFormMessages).toBeInstanceOf(Object);
         });
       }
 
       if (form.transformForSubmit) {
-        it('should have transformForSubmit', () => {
+        test('should have transformForSubmit', () => {
           expect(form.transformForSubmit).toBeInstanceOf(Function);
         });
       }
 
-      it('should have confirmation', () => {
+      test('should have confirmation', () => {
         expect(form.confirmation).toBeInstanceOf(Function);
       });
 
       if (form.preSubmitInfo) {
-        it('should have preSubmitInfo', () => {
+        test('should have preSubmitInfo', () => {
           expect(form.preSubmitInfo).toBeInstanceOf(Object);
         });
       }
 
       if (form.footerContent) {
-        it('should have footerContent', () => {
+        test('should have footerContent', () => {
           expect(form.footerContent).toBeInstanceOf(Function);
         });
       }
 
       if (form.getHelp) {
-        it('should have getHelp', () => {
+        test('should have getHelp', () => {
           expect(form.getHelp).toBeInstanceOf(Function);
         });
       }
 
       if (form.errorText) {
-        it('should have errorText', () => {
+        test('should have errorText', () => {
           expect(form.errorText).toBeInstanceOf(Function);
         });
       }

@@ -20,13 +20,13 @@ const defaultProps = {
 };
 
 describe('<SearchPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = shallow(<SearchPage {...defaultProps} />);
     expect(tree).toBeDefined();
     tree.unmount();
   });
 
-  it('should render LoadingIndicator', () => {
+  test('should render LoadingIndicator', () => {
     const props = {
       ...defaultProps,
       search: {
@@ -58,7 +58,7 @@ describe('<SearchPage>', () => {
     tree.unmount();
   });
 
-  it('should call expected actions when mounted', () => {
+  test('should call expected actions when mounted', () => {
     const tree = mount(
       <Provider store={defaultStore}>
         <SearchPage {...defaultProps} />
@@ -71,7 +71,7 @@ describe('<SearchPage>', () => {
   });
 });
 
-it('should render error message', () => {
+test('should render error message', () => {
   const props = {
     ...defaultProps,
     search: {
@@ -91,7 +91,7 @@ it('should render error message', () => {
 });
 
 describe('<SearchPage> functions', () => {
-  it('updateSearchResults should set store correctly', () => {
+  test('updateSearchResults should set store correctly', () => {
     const booleanFilterParams = [
       'distanceLearning',
       'studentVeteranGroup',

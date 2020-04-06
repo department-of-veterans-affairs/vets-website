@@ -19,7 +19,7 @@ import {
 
 describe('Yellow Ribbon actions', () => {
   describe('fetchResultsAction', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const options = {
         hideFetchingState: true,
         name: 'boulder',
@@ -35,7 +35,7 @@ describe('Yellow Ribbon actions', () => {
   });
 
   describe('fetchResultsFailure', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const action = fetchResultsFailure('test');
 
       expect(action).toEqual({
@@ -46,7 +46,7 @@ describe('Yellow Ribbon actions', () => {
   });
 
   describe('fetchResultsSuccess', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const response = {
         results: [],
         totalResults: 0,
@@ -61,7 +61,7 @@ describe('Yellow Ribbon actions', () => {
   });
 
   describe('addSchoolToCompareAction', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const school = {
         id: 'asdf',
         name: 'qwer',
@@ -76,7 +76,7 @@ describe('Yellow Ribbon actions', () => {
   });
 
   describe('updatePageAction', () => {
-    it('should return an action in the shape we expect', () => {
+    test('should return an action in the shape we expect', () => {
       const page = 1;
       const action = updatePageAction(page);
 
@@ -102,7 +102,7 @@ describe('Yellow Ribbon actions', () => {
       };
     });
 
-    it('updates search params', async () => {
+    test('updates search params', async () => {
       const dispatch = () => {};
       const thunk = fetchResultsThunk({
         city: 'boulder',
@@ -126,7 +126,7 @@ describe('Yellow Ribbon actions', () => {
       );
     });
 
-    it('calls dispatch', async () => {
+    test('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const thunk = fetchResultsThunk({
         city: 'boulder',

@@ -1,7 +1,7 @@
 import titleReducer from '../../reducers/title';
 
 describe('title reducer', () => {
-  it('should set the page title', () => {
+  test('should set the page title', () => {
     const oldWindow = global.window;
     global.window = {
       document: {},

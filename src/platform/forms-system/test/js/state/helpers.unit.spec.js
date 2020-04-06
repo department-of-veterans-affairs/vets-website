@@ -12,7 +12,7 @@ import {
 
 describe('Schemaform formState:', () => {
   describe('updateRequiredFields', () => {
-    it('should add field to required array', () => {
+    test('should add field to required array', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -28,7 +28,7 @@ describe('Schemaform formState:', () => {
       };
       expect(updateRequiredFields(schema, uiSchema).required[0]).toBe('test');
     });
-    it('should remove field from required array', () => {
+    test('should remove field from required array', () => {
       const schema = {
         type: 'object',
         required: ['test'],
@@ -45,7 +45,7 @@ describe('Schemaform formState:', () => {
       };
       expect(updateRequiredFields(schema, uiSchema).required).toHaveLength(0);
     });
-    it('should not change schema if required does not change', () => {
+    test('should not change schema if required does not change', () => {
       const schema = {
         type: 'object',
         required: ['test'],
@@ -62,7 +62,7 @@ describe('Schemaform formState:', () => {
       };
       expect(updateRequiredFields(schema, uiSchema)).toBe(schema);
     });
-    it('should set required in arrays', () => {
+    test('should set required in arrays', () => {
       const schema = {
         type: 'array',
         items: [
@@ -98,7 +98,7 @@ describe('Schemaform formState:', () => {
     });
   });
   describe('setHiddenFields', () => {
-    it('should set field as hidden', () => {
+    test('should set field as hidden', () => {
       const schema = {};
       const uiSchema = {
         'ui:options': {
@@ -112,7 +112,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema['ui:hidden']).toBe(true);
       expect(newSchema).not.toBe(schema);
     });
-    it('should not touch non-hidden field without prop', () => {
+    test('should not touch non-hidden field without prop', () => {
       const schema = {};
       const uiSchema = {
         'ui:options': {
@@ -126,7 +126,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema['ui:hidden']).toBeUndefined();
       expect(newSchema).toBe(schema);
     });
-    it('should remove hidden prop from schema', () => {
+    test('should remove hidden prop from schema', () => {
       const schema = {
         'ui:hidden': true,
       };
@@ -142,7 +142,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema['ui:hidden']).toBeUndefined();
       expect(newSchema).not.toBe(schema);
     });
-    it('should set hidden on object field', () => {
+    test('should set hidden on object field', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -163,7 +163,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field['ui:hidden']).toBe(true);
       expect(newSchema).not.toBe(schema);
     });
-    it('should set hidden on nested hidden object field', () => {
+    test('should set hidden on nested hidden object field', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -184,7 +184,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.nestedObject['ui:hidden']).toBe(true);
       expect(newSchema).not.toBe(schema);
     });
-    it('should set collapsed on expandUnder field', () => {
+    test('should set collapsed on expandUnder field', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -206,7 +206,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field['ui:collapsed']).toBe(true);
       expect(newSchema).not.toBe(schema);
     });
-    it('should set collapsed on expandUnder field with value condition', () => {
+    test('should set collapsed on expandUnder field with value condition', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -229,30 +229,33 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field['ui:collapsed']).toBe(true);
       expect(newSchema).not.toBe(schema);
     });
-    it('should set collapsed on expandUnder field with function condition', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {},
-          field2: {},
-        },
-      };
-      const uiSchema = {
-        field: {
-          'ui:options': {
-            expandUnder: 'field2',
-            expandUnderCondition: () => false,
+    test(
+      'should set collapsed on expandUnder field with function condition',
+      () => {
+        const schema = {
+          type: 'object',
+          properties: {
+            field: {},
+            field2: {},
           },
-        },
-      };
-      const data = { field: '', field2: 'bleh' };
+        };
+        const uiSchema = {
+          field: {
+            'ui:options': {
+              expandUnder: 'field2',
+              expandUnderCondition: () => false,
+            },
+          },
+        };
+        const data = { field: '', field2: 'bleh' };
 
-      const newSchema = setHiddenFields(schema, uiSchema, data);
+        const newSchema = setHiddenFields(schema, uiSchema, data);
 
-      expect(newSchema.properties.field['ui:collapsed']).toBe(true);
-      expect(newSchema).not.toBe(schema);
-    });
-    it('should set collapsed on nested expandUnder field', () => {
+        expect(newSchema.properties.field['ui:collapsed']).toBe(true);
+        expect(newSchema).not.toBe(schema);
+      }
+    );
+    test('should set collapsed on nested expandUnder field', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -283,7 +286,7 @@ describe('Schemaform formState:', () => {
       );
       expect(newSchema).not.toBe(schema);
     });
-    it('should set hidden on array field', () => {
+    test('should set hidden on array field', () => {
       const schema = {
         type: 'array',
         items: [
@@ -319,7 +322,7 @@ describe('Schemaform formState:', () => {
     });
   });
   describe('removeHiddenData', () => {
-    it('should remove hidden field', () => {
+    test('should remove hidden field', () => {
       const schema = {
         'ui:hidden': true,
       };
@@ -329,7 +332,7 @@ describe('Schemaform formState:', () => {
 
       expect(newData).toBeUndefined();
     });
-    it('should remove hidden field in object', () => {
+    test('should remove hidden field in object', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -345,7 +348,7 @@ describe('Schemaform formState:', () => {
 
       expect(newData).toEqual({ field: 'test' });
     });
-    it('should remove collapsed field in object', () => {
+    test('should remove collapsed field in object', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -361,7 +364,7 @@ describe('Schemaform formState:', () => {
 
       expect(newData).toEqual({ field: 'test' });
     });
-    it('should remove collapsed field in nested object', () => {
+    test('should remove collapsed field in nested object', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -382,7 +385,7 @@ describe('Schemaform formState:', () => {
 
       expect(newData).toEqual({ field: 'test', nested: {} });
     });
-    it('should remove hidden field in array', () => {
+    test('should remove hidden field in array', () => {
       const schema = {
         type: 'array',
         items: [
@@ -413,7 +416,7 @@ describe('Schemaform formState:', () => {
   });
   describe('updateUiSchema', () => {
     describe('if no updateUiSchema are set', () => {
-      it('should return the input uiSchema', () => {
+      test('should return the input uiSchema', () => {
         const data = {
           first: 'Pat',
         };
@@ -445,10 +448,10 @@ describe('Schemaform formState:', () => {
       beforeEach(() => {
         newUiSchema = updateUiSchema(uiSchema, data);
       });
-      it('should call the updateUiSchema function', () => {
+      test('should call the updateUiSchema function', () => {
         expect(updateUiSchemaStub.called).toBe(true);
       });
-      it('should return the updated uiSchema', () => {
+      test('should return the updated uiSchema', () => {
         expect(newUiSchema.first['ui:title']).toBe('FIRST NAME');
         expect(newUiSchema.first['ui:options']).toEqual({
           updateUiSchema: updateUiSchemaStub,
@@ -458,7 +461,7 @@ describe('Schemaform formState:', () => {
   });
 
   describe('updateSchemaFromUiSchema', () => {
-    it('should update schema', () => {
+    test('should update schema', () => {
       const schema = {
         type: 'string',
       };
@@ -480,7 +483,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema).toEqual({ type: 'number' });
       expect(newSchema).not.toBe(schema);
     });
-    it('should completely replace schema', () => {
+    test('should completely replace schema', () => {
       const schema = {
         type: 'string',
         enum: ['a', 'b'],
@@ -497,7 +500,7 @@ describe('Schemaform formState:', () => {
       expect(Object.keys(newSchema)).toEqual(['type']);
       expect(newSchema).not.toBe(schema);
     });
-    it('should update schema in object', () => {
+    test('should update schema in object', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -526,7 +529,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field).toEqual({ type: 'number' });
       expect(newSchema).not.toBe(schema);
     });
-    it('should update schema in array', () => {
+    test('should update schema in array', () => {
       const schema = {
         type: 'array',
         items: [
@@ -577,7 +580,7 @@ describe('Schemaform formState:', () => {
         type: 'string',
       },
     };
-    it('should replace ref', () => {
+    test('should replace ref', () => {
       const schema = {
         $ref: '#/definitions/common',
       };
@@ -588,7 +591,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema).not.toBe(schema);
     });
 
-    it('should replace nested $ref', () => {
+    test('should replace nested $ref', () => {
       const schema = {
         $ref: '#/definitions/common',
       };
@@ -606,7 +609,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema).toEqual({ type: 'number' });
       expect(newSchema).not.toBe(schema);
     });
-    it('should replace ref in object', () => {
+    test('should replace ref in object', () => {
       const schema = {
         type: 'object',
         properties: {
@@ -621,7 +624,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field).toEqual({ type: 'string' });
       expect(newSchema).not.toBe(schema);
     });
-    it('should update schema in array', () => {
+    test('should update schema in array', () => {
       const schema = {
         type: 'array',
         items: {
@@ -639,7 +642,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.items.properties.field).toEqual({ type: 'string' });
       expect(newSchema).not.toBe(schema);
     });
-    it('should throw error on missing schema', () => {
+    test('should throw error on missing schema', () => {
       const schema = {
         $ref: '#/definitions/common2',
       };
@@ -650,7 +653,7 @@ describe('Schemaform formState:', () => {
     });
   });
   describe('updateItemsSchema', () => {
-    it('should set array and additional items', () => {
+    test('should set array and additional items', () => {
       const schema = {
         type: 'array',
         items: {
@@ -663,7 +666,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema.additionalItems).toBe(schema.items);
       expect(newSchema.items).toEqual([]);
     });
-    it('should remove all item schemas when data is falsy', () => {
+    test('should remove all item schemas when data is falsy', () => {
       const schema = {
         type: 'array',
         items: [
@@ -677,7 +680,7 @@ describe('Schemaform formState:', () => {
 
       expect(newSchema.items).toEqual([]);
     });
-    it('should remove all item schemas when data is empty', () => {
+    test('should remove all item schemas when data is empty', () => {
       const schema = {
         type: 'array',
         items: [
@@ -692,7 +695,7 @@ describe('Schemaform formState:', () => {
 
       expect(newSchema.items).toEqual([]);
     });
-    it('should add item to array when form data has more items', () => {
+    test('should add item to array when form data has more items', () => {
       const schema = {
         type: 'array',
         items: [
@@ -712,26 +715,29 @@ describe('Schemaform formState:', () => {
       expect(newSchema.items[1]).toBe(schema.additionalItems);
       expect(newSchema.items[2]).toBe(schema.additionalItems);
     });
-    it('should remove item from schema items if fewer items in data array', () => {
-      const schema = {
-        type: 'array',
-        items: [
-          {
+    test(
+      'should remove item from schema items if fewer items in data array',
+      () => {
+        const schema = {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+            },
+            {
+              type: 'string',
+            },
+          ],
+          additionalItems: {
             type: 'string',
           },
-          {
-            type: 'string',
-          },
-        ],
-        additionalItems: {
-          type: 'string',
-        },
-      };
-      const data = ['test'];
+        };
+        const data = ['test'];
 
-      const newSchema = updateItemsSchema(schema, data);
+        const newSchema = updateItemsSchema(schema, data);
 
-      expect(newSchema.items.length).toBe(data.length);
-    });
+        expect(newSchema.items.length).toBe(data.length);
+      }
+    );
   });
 });

@@ -39,7 +39,7 @@ const ignoreList = {
 };
 
 describe('Root property names', () => {
-  it('should not be duplicated', () => {
+  test('should not be duplicated', () => {
     const properties = new Map();
     const duplicatedProperties = {};
     Object.keys(pages).forEach(pageName => {

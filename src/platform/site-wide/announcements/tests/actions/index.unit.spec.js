@@ -7,7 +7,7 @@ describe('initDismissedAnnouncements', () => {
     localStorage.removeItem(announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE);
   });
 
-  it('returns an empty array from localStorage', () => {
+  test('returns an empty array from localStorage', () => {
     const result = announcementActions.initDismissedAnnouncements();
     expect(result).toEqual({
       type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
@@ -15,7 +15,7 @@ describe('initDismissedAnnouncements', () => {
     });
   });
 
-  it('returns previously-dismissed announcements during startup', () => {
+  test('returns previously-dismissed announcements during startup', () => {
     localStorage.setItem(
       announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE,
       JSON.stringify(['dummy1']),

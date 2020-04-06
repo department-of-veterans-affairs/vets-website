@@ -14,19 +14,19 @@ describe('preferencesReducer', () => {
   describe('default state', () => {
     action = { type: 'NOT_RELEVANT' };
     const newState = reducer(state, action);
-    it('sets `dashboard` to empty object', () => {
+    test('sets `dashboard` to empty object', () => {
       expect(newState.dashboard).toEqual({});
     });
-    it('sets `availableBenefits` to empty array', () => {
+    test('sets `availableBenefits` to empty array', () => {
       expect(newState.availableBenefits).toEqual([]);
     });
-    it('sets `dismissedBenefitAlerts` to empty array', () => {
+    test('sets `dismissedBenefitAlerts` to empty array', () => {
       expect(newState.dismissedBenefitAlerts).toEqual([]);
     });
   });
 
   describe('FETCH_USER_PREFERENCES_STARTED', () => {
-    it('sets the `userBenefitsLoadingStatus` to `pending`', () => {
+    test('sets the `userBenefitsLoadingStatus` to `pending`', () => {
       action = {
         type: preferencesActions.FETCH_USER_PREFERENCES_STARTED,
       };
@@ -39,7 +39,7 @@ describe('preferencesReducer', () => {
 
   describe('FETCH_USER_PREFERENCES_SUCCEEDED', () => {
     let userPreferencesResponse;
-    it('sets the `userBenefitsLoadingStatus` to `loaded`', () => {
+    test('sets the `userBenefitsLoadingStatus` to `loaded`', () => {
       userPreferencesResponse = {};
       action = {
         type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
@@ -50,75 +50,81 @@ describe('preferencesReducer', () => {
       expect(newState.availableBenefits).toEqual([]);
     });
 
-    it('correctly parses the server payload and updates the `dashboard` and `savedDashboard` state when the user has set preferences', () => {
-      userPreferencesResponse = {
-        data: {
-          id: '',
-          type: 'arrays',
-          attributes: {
-            userPreferences: [
-              {
-                code: 'benefits',
-                title:
-                  'the benefits a veteran is interested in, so VA.gov can help you apply for them',
-                userPreferences: [
-                  {
-                    code: 'education-training',
-                    description: 'Info about education and training benefits',
-                  },
-                ],
-              },
-            ],
+    test(
+      'correctly parses the server payload and updates the `dashboard` and `savedDashboard` state when the user has set preferences',
+      () => {
+        userPreferencesResponse = {
+          data: {
+            id: '',
+            type: 'arrays',
+            attributes: {
+              userPreferences: [
+                {
+                  code: 'benefits',
+                  title:
+                    'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+                  userPreferences: [
+                    {
+                      code: 'education-training',
+                      description: 'Info about education and training benefits',
+                    },
+                  ],
+                },
+              ],
+            },
           },
-        },
-      };
-      state = {
-        dashboard: {
-          appeals: true,
-          'education-training': false,
-        },
-      };
-      action = {
-        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
-        payload: userPreferencesResponse,
-      };
-      const newState = reducer(state, action);
-      expect(newState.dashboard).toEqual({
-        'education-training': true,
-      });
-      expect(newState.savedDashboard).toEqual({
-        'education-training': true,
-      });
-    });
+        };
+        state = {
+          dashboard: {
+            appeals: true,
+            'education-training': false,
+          },
+        };
+        action = {
+          type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+          payload: userPreferencesResponse,
+        };
+        const newState = reducer(state, action);
+        expect(newState.dashboard).toEqual({
+          'education-training': true,
+        });
+        expect(newState.savedDashboard).toEqual({
+          'education-training': true,
+        });
+      }
+    );
 
-    it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
-      userPreferencesResponse = {
-        data: {
-          id: '',
-          type: 'arrays',
-          attributes: {
-            userPreferences: [],
+    test(
+      'correctly parses the server payload and updates the state when the user has not set preferences',
+      () => {
+        userPreferencesResponse = {
+          data: {
+            id: '',
+            type: 'arrays',
+            attributes: {
+              userPreferences: [],
+            },
           },
-        },
-      };
-      state = {
-        dashboard: {
-          appeals: true,
-          'education-training': false,
-        },
-      };
-      action = {
-        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
-        payload: userPreferencesResponse,
-      };
-      const newState = reducer(state, action);
-      expect(newState.dashboard).toEqual({});
-      expect(newState.savedDashboard).toEqual({});
-    });
+        };
+        state = {
+          dashboard: {
+            appeals: true,
+            'education-training': false,
+          },
+        };
+        action = {
+          type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+          payload: userPreferencesResponse,
+        };
+        const newState = reducer(state, action);
+        expect(newState.dashboard).toEqual({});
+        expect(newState.savedDashboard).toEqual({});
+      }
+    );
   });
 
   describe('FETCH_USER_PREFERENCES_FAILED', () => {
-    it('sets the `userBenefitsLoadingStatus` to `error`', () => {
+    test('sets the `userBenefitsLoadingStatus` to `error`', () => {
       action = {
         type: preferencesActions.FETCH_USER_PREFERENCES_FAILED,
       };
@@ -130,7 +136,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('FETCH_ALL_BENEFITS_STARTED', () => {
-    it('sets the `allBenefitsLoadingStatus` to `pending`', () => {
+    test('sets the `allBenefitsLoadingStatus` to `pending`', () => {
       action = {
         type: preferencesActions.FETCH_ALL_BENEFITS_STARTED,
       };
@@ -169,11 +175,11 @@ describe('preferencesReducer', () => {
       };
       newState = reducer(state, action);
     });
-    it('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
+    test('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
       expect(newState.allBenefitsLoadingStatus).toBe('loaded');
       expect(newState.dashboard).toEqual({});
     });
-    it('sets the `availableBenefits`', () => {
+    test('sets the `availableBenefits`', () => {
       expect(newState.availableBenefits).toEqual([
         { code: 'health-care', description: 'Get health care coverage' },
         {
@@ -187,7 +193,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('FETCH_ALL_BENEFITS_FAILED', () => {
-    it('sets the `allBenefitsLoadingStatus` to `error`', () => {
+    test('sets the `allBenefitsLoadingStatus` to `error`', () => {
       action = {
         type: preferencesActions.FETCH_ALL_BENEFITS_FAILED,
       };
@@ -199,7 +205,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('SAVE_USER_PREFERENCES_STARTED', () => {
-    it('sets the `saveStatus` to `pending`', () => {
+    test('sets the `saveStatus` to `pending`', () => {
       action = {
         type: preferencesActions.SAVE_USER_PREFERENCES_STARTED,
       };
@@ -211,7 +217,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('SAVE_USER_PREFERENCES_SUCCEEDED', () => {
-    it('sets the `saveStatus` to `loaded`', () => {
+    test('sets the `saveStatus` to `loaded`', () => {
       action = {
         type: preferencesActions.SAVE_USER_PREFERENCES_SUCCEEDED,
       };
@@ -221,7 +227,7 @@ describe('preferencesReducer', () => {
       expect(newState.availableBenefits).toEqual([]);
     });
 
-    it('uses Date.now() to set the `savedAt` timestamp', () => {
+    test('uses Date.now() to set the `savedAt` timestamp', () => {
       const ts = 1544809132931;
       const dateNowStub = sinon.stub(Date, 'now').callsFake(() => ts);
       action = {
@@ -237,7 +243,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('SAVE_USER_PREFERENCES_FAILED', () => {
-    it('sets the `saveStatus` to `error`', () => {
+    test('sets the `saveStatus` to `error`', () => {
       action = {
         type: preferencesActions.SAVE_USER_PREFERENCES_FAILED,
       };
@@ -249,7 +255,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('SET_USER_PREFERENCE', () => {
-    it('adds new prefs to dashboard with a value of `true`', () => {
+    test('adds new prefs to dashboard with a value of `true`', () => {
       state = {
         dashboard: {},
       };
@@ -261,19 +267,22 @@ describe('preferencesReducer', () => {
       const newState = reducer(state, action);
       expect(newState.dashboard).toEqual({ pref1: true });
     });
-    it('completely removes prefs from dashboard when their new value is `false`', () => {
-      state = {
-        dashboard: { pref1: true, pref2: true },
-      };
-      action = {
-        type: preferencesActions.SET_USER_PREFERENCE,
-        code: 'pref1',
-        value: false,
-      };
-      const newState = reducer(state, action);
-      expect(newState.dashboard).toEqual({ pref2: true });
-    });
-    it('does not touch the savedDashboard when updating the dashboard', () => {
+    test(
+      'completely removes prefs from dashboard when their new value is `false`',
+      () => {
+        state = {
+          dashboard: { pref1: true, pref2: true },
+        };
+        action = {
+          type: preferencesActions.SET_USER_PREFERENCE,
+          code: 'pref1',
+          value: false,
+        };
+        const newState = reducer(state, action);
+        expect(newState.dashboard).toEqual({ pref2: true });
+      }
+    );
+    test('does not touch the savedDashboard when updating the dashboard', () => {
       state = {
         dashboard: { pref1: true, pref2: true },
         savedDashboard: { pref1: true, pref2: true },
@@ -292,7 +301,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS', () => {
-    it('sets the `dismissedBenefitAlerts`', () => {
+    test('sets the `dismissedBenefitAlerts`', () => {
       action = {
         type:
           preferencesActions.SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
@@ -304,7 +313,7 @@ describe('preferencesReducer', () => {
   });
 
   describe('RESTORE_PREVIOUS_USER_PREFERENCES', () => {
-    it('sets the `dashboard` to the value of `savedDashboard`', () => {
+    test('sets the `dashboard` to the value of `savedDashboard`', () => {
       state = {
         dashboard: {},
         savedDashboard: {

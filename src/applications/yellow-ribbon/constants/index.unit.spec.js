@@ -8,7 +8,7 @@ import {
 } from './index';
 
 describe('Yellow Ribbon constants', () => {
-  it('should have `yellow-ribbon` in them', () => {
+  test('should have `yellow-ribbon` in them', () => {
     expect(FETCH_RESULTS).toEqual(expect.arrayContaining(['yellow-ribbon']));
     expect(FETCH_RESULTS_FAILURE).toEqual(
       expect.arrayContaining(['yellow-ribbon']),

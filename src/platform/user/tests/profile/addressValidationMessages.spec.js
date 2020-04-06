@@ -7,7 +7,7 @@ import {
 } from '../../profile/constants/addressValidationMessages';
 
 describe('ADDRESS_VALIDATION_MESSAGES object', () => {
-  it('has a valid data object for each validation type', () => {
+  test('has a valid data object for each validation type', () => {
     const validationTypes = Object.values(ADDRESS_VALIDATION_TYPES);
     validationTypes.forEach(type => {
       const messageData = ADDRESS_VALIDATION_MESSAGES[type];

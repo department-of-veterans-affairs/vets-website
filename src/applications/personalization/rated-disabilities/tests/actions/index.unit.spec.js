@@ -25,7 +25,7 @@ const unMockFetch = () => {
 describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
   beforeEach(mockFetch);
 
-  it('should fetch rated disabilities', () => {
+  test('should fetch rated disabilities', () => {
     const disabilities = [
       {
         name: 'PTSD',
@@ -57,7 +57,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     thunk(dispatch);
   });
 
-  it('should handle an error returned', () => {
+  test('should handle an error returned', () => {
     const response = {
       errors: [
         {
@@ -89,7 +89,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
 describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
   beforeEach(mockFetch);
 
-  it('should fetch the total rating', () => {
+  test('should fetch the total rating', () => {
     const total = { userPercentOfDisability: 80 };
 
     fetchMock.returns({
@@ -111,7 +111,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     thunk(dispatch);
   });
 
-  it('should handle an error returned', () => {
+  test('should handle an error returned', () => {
     const response = {
       errors: [
         {

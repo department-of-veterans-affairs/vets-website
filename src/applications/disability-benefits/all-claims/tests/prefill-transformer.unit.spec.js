@@ -21,7 +21,7 @@ describe('526v2 prefill transformer', () => {
     pages: { testPage: 'Page 1' },
   };
 
-  it('should return a copy of the prefill data', () => {
+  test('should return a copy of the prefill data', () => {
     const { pages, formData, metadata } = noTransformData;
     const noTransformActual = prefillTransformer(pages, formData, metadata);
     // ensure transformed data is not the same object as input data
@@ -32,7 +32,7 @@ describe('526v2 prefill transformer', () => {
   });
 
   describe('prefillRatedDisabilities', () => {
-    it('should filter out non-service-connected disabilities', () => {
+    test('should filter out non-service-connected disabilities', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         disabilities: [
@@ -49,33 +49,35 @@ describe('526v2 prefill transformer', () => {
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(transformedData.ratedDisabilities)
-        .to.be.an('array')
+      expect(Array.isArray(transformedData.ratedDisabilities)).toBe(true)
         .toHaveLength(1);
       expect(transformedData.ratedDisabilities[0].name).toBe(
         formData.disabilities[0].name,
       );
     });
 
-    it('should add claimType when no rated service-connected disabilities', () => {
-      const { pages, metadata } = noTransformData;
-      const formData = {
-        disabilities: [
-          {
-            name: 'other disability',
-            decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected,
-          },
-        ],
-      };
+    test(
+      'should add claimType when no rated service-connected disabilities',
+      () => {
+        const { pages, metadata } = noTransformData;
+        const formData = {
+          disabilities: [
+            {
+              name: 'other disability',
+              decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected,
+            },
+          ],
+        };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
-      expect(transformedData['view:claimType']).toEqual(
-        noTransformData.formData['view:claimType'],
-      );
-    });
+        const transformedData = prefillTransformer(pages, formData, metadata)
+          .formData;
+        expect(transformedData['view:claimType']).toEqual(
+          noTransformData.formData['view:claimType'],
+        );
+      }
+    );
 
-    it('should add claimType when no disabilities', () => {
+    test('should add claimType when no disabilities', () => {
       const { pages, metadata } = noTransformData;
       const formData = {};
 
@@ -86,27 +88,30 @@ describe('526v2 prefill transformer', () => {
       });
     });
 
-    it('should not add claimType when service-connected disabilities present', () => {
-      const { pages, metadata } = noTransformData;
-      const formData = {
-        disabilities: [
-          {
-            name: 'other disability',
-            decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected,
-          },
-        ],
-      };
+    test(
+      'should not add claimType when service-connected disabilities present',
+      () => {
+        const { pages, metadata } = noTransformData;
+        const formData = {
+          disabilities: [
+            {
+              name: 'other disability',
+              decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected,
+            },
+          ],
+        };
 
-      const transformedData = prefillTransformer(pages, formData, metadata)
-        .formData;
-      expect(transformedData.ratedDisabilities[0].name).toBe(
-        formData.disabilities[0].name,
-      );
-    });
+        const transformedData = prefillTransformer(pages, formData, metadata)
+          .formData;
+        expect(transformedData.ratedDisabilities[0].name).toBe(
+          formData.disabilities[0].name,
+        );
+      }
+    );
   });
 
   describe('prefillContactInformation', () => {
-    it('should transform contact info when present', () => {
+    test('should transform contact info when present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         veteran: {
@@ -135,7 +140,7 @@ describe('526v2 prefill transformer', () => {
       });
     });
 
-    it('should transform partial contact info', () => {
+    test('should transform partial contact info', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         veteran: {
@@ -156,7 +161,7 @@ describe('526v2 prefill transformer', () => {
   });
 
   describe('prefillServiceInformation', () => {
-    it('should transform service info when present', () => {
+    test('should transform service info when present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         servicePeriods: [
@@ -185,7 +190,7 @@ describe('526v2 prefill transformer', () => {
       });
     });
 
-    it('should transform partial service info when present', () => {
+    test('should transform partial service info when present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         servicePeriods: [
@@ -207,7 +212,7 @@ describe('526v2 prefill transformer', () => {
   });
 
   describe('prefillBankInformation', () => {
-    it('should transform bank info when present', () => {
+    test('should transform bank info when present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         bankAccountType: 'Checking',
@@ -235,7 +240,7 @@ describe('526v2 prefill transformer', () => {
         'view:bankAccount': { 'view:hasPrefilledBank': true },
       });
     });
-    it('should not prefill any bank info when some info not present', () => {
+    test('should not prefill any bank info when some info not present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         bankAccountType: 'Checking',
@@ -261,29 +266,30 @@ describe('addNoneDisabilityActionType', () => {
     { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
   ];
 
-  it('should return an array of same length as input', () => {
+  test('should return an array of same length as input', () => {
     const withActionType = addNoneDisabilityActionType(disabilities);
-    expect(withActionType)
-      .to.be.an('array')
+    expect(Array.isArray(withActionType)).toBe(true)
       .toHaveLength(disabilities.length);
   });
 
-  it('should return an empty array when no input', () => {
-    expect(addNoneDisabilityActionType())
-      .to.be.an('array')
+  test('should return an empty array when no input', () => {
+    expect(Array.isArray(addNoneDisabilityActionType())).toBe(true)
       .toHaveLength(0);
   });
 
-  it('should set disabilityActionType to NONE for each rated disability', () => {
-    const withActionType = addNoneDisabilityActionType(disabilities);
-    withActionType.forEach(d => {
-      expect(d.disabilityActionType).toBe(disabilityActionTypes.NONE);
-    });
-  });
+  test(
+    'should set disabilityActionType to NONE for each rated disability',
+    () => {
+      const withActionType = addNoneDisabilityActionType(disabilities);
+      withActionType.forEach(d => {
+        expect(d.disabilityActionType).toBe(disabilityActionTypes.NONE);
+      });
+    }
+  );
 });
 
 describe('filterServiceConnected', () => {
-  it('should filter non-service-connected disabililties', () => {
+  test('should filter non-service-connected disabililties', () => {
     const disabilities = [
       { decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected },
       { decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected },
@@ -298,7 +304,7 @@ describe('filterServiceConnected', () => {
     );
   });
 
-  it('should return an empty array when no disabilities provided', () => {
+  test('should return an empty array when no disabilities provided', () => {
     const disabilities = [];
 
     const filteredDisabilities = filterServiceConnected(disabilities);

@@ -2,7 +2,7 @@ import routingReducer from '../../reducers/routing';
 import { SET_LAST_PAGE } from '../../actions';
 
 describe('routingReducer', () => {
-  it('should set the last page to null on first call', () => {
+  test('should set the last page to null on first call', () => {
     const state = routingReducer(undefined, {
       type: SET_LAST_PAGE,
       page: '/testing',
@@ -11,7 +11,7 @@ describe('routingReducer', () => {
     expect(state.lastPage).toBeNull();
     expect(state.history[0]).toBe('testing');
   });
-  it('should set the last page with history items', () => {
+  test('should set the last page with history items', () => {
     const state = routingReducer(
       {
         history: ['some-url'],

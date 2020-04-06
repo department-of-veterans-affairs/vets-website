@@ -10,7 +10,7 @@ import {
 
 describe('hca validation', () => {
   describe('validateServiceDates', () => {
-    it('should set message if discharge date is before entry date', () => {
+    test('should set message if discharge date is before entry date', () => {
       const errors = {
         lastDischargeDate: {
           addError: sinon.spy(),
@@ -29,25 +29,28 @@ describe('hca validation', () => {
 
       expect(errors.lastDischargeDate.addError.callCount).toBe(1);
     });
-    it('should set message if discharge date is later than 1 year from today', () => {
-      const errors = {
-        lastDischargeDate: {
-          addError: sinon.spy(),
-        },
-      };
-      validateServiceDates(
-        errors,
-        {
-          lastDischargeDate: moment()
-            .add(367, 'days')
-            .format('YYYY-MM-DD'),
-          lastEntryDate: '2011-01-01',
-        },
-        {},
-      );
-      expect(errors.lastDischargeDate.addError.callCount).toBe(1);
-    });
-    it('should not set message if discharge date is 1 year from today', () => {
+    test(
+      'should set message if discharge date is later than 1 year from today',
+      () => {
+        const errors = {
+          lastDischargeDate: {
+            addError: sinon.spy(),
+          },
+        };
+        validateServiceDates(
+          errors,
+          {
+            lastDischargeDate: moment()
+              .add(367, 'days')
+              .format('YYYY-MM-DD'),
+            lastEntryDate: '2011-01-01',
+          },
+          {},
+        );
+        expect(errors.lastDischargeDate.addError.callCount).toBe(1);
+      }
+    );
+    test('should not set message if discharge date is 1 year from today', () => {
       const errors = {
         lastDischargeDate: {
           addError: sinon.spy(),
@@ -65,27 +68,30 @@ describe('hca validation', () => {
       );
       expect(errors.lastDischargeDate.addError.callCount).toBe(0);
     });
-    it('should set message if entry date is less than 15 years after dob', () => {
-      const errors = {
-        lastEntryDate: {
-          addError: sinon.spy(),
-        },
-      };
-      validateServiceDates(
-        errors,
-        {
-          lastDischargeDate: '2010-03-01',
-          lastEntryDate: '2000-01-01',
-        },
-        {
-          veteranDateOfBirth: '1990-01-01',
-        },
-      );
-      expect(errors.lastEntryDate.addError.callCount).toBe(1);
-    });
+    test(
+      'should set message if entry date is less than 15 years after dob',
+      () => {
+        const errors = {
+          lastEntryDate: {
+            addError: sinon.spy(),
+          },
+        };
+        validateServiceDates(
+          errors,
+          {
+            lastDischargeDate: '2010-03-01',
+            lastEntryDate: '2000-01-01',
+          },
+          {
+            veteranDateOfBirth: '1990-01-01',
+          },
+        );
+        expect(errors.lastEntryDate.addError.callCount).toBe(1);
+      }
+    );
   });
   describe('validateMarriageDate', () => {
-    it('should set message if marriage date is after spouse dob', () => {
+    test('should set message if marriage date is after spouse dob', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -97,7 +103,7 @@ describe('hca validation', () => {
 
       expect(errors.addError.callCount).toBe(1);
     });
-    it('should set message if marriage date is after veteran dob', () => {
+    test('should set message if marriage date is after veteran dob', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -109,7 +115,7 @@ describe('hca validation', () => {
 
       expect(errors.addError.callCount).toBe(1);
     });
-    it('should not set message if not disclosing financials', () => {
+    test('should not set message if not disclosing financials', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -123,7 +129,7 @@ describe('hca validation', () => {
     });
   });
   describe('validateDependentDate', () => {
-    it('should set message if birth date is after dependent date', () => {
+    test('should set message if birth date is after dependent date', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -145,7 +151,7 @@ describe('hca validation', () => {
 
       expect(errors.addError.callCount).toBe(1);
     });
-    it('should not set message if not disclosing financials', () => {
+    test('should not set message if not disclosing financials', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -169,7 +175,7 @@ describe('hca validation', () => {
     });
   });
   describe('validateCurrency', () => {
-    it('should set message if value has three decimals', () => {
+    test('should set message if value has three decimals', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -177,7 +183,7 @@ describe('hca validation', () => {
 
       expect(errors.addError.callCount).toBe(1);
     });
-    it('should set message if value has trailing whitespace', () => {
+    test('should set message if value has trailing whitespace', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -185,7 +191,7 @@ describe('hca validation', () => {
 
       expect(errors.addError.callCount).toBe(1);
     });
-    it('should set message if value has leading whitespace', () => {
+    test('should set message if value has leading whitespace', () => {
       const errors = {
         addError: sinon.spy(),
       };
@@ -193,7 +199,7 @@ describe('hca validation', () => {
 
       expect(errors.addError.callCount).toBe(1);
     });
-    it('should not set message if value includes dollar sign', () => {
+    test('should not set message if value includes dollar sign', () => {
       const errors = {
         addError: sinon.spy(),
       };

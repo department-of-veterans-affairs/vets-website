@@ -20,7 +20,7 @@ const params = {
 };
 
 describe('<GiBillApp>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(
       <GiBillApp {...defaultProps} location={location} params={params} />,
     );
@@ -28,7 +28,7 @@ describe('<GiBillApp>', () => {
     expect(vdom).toBeDefined();
   });
 
-  it('should render LoadingIndicator', () => {
+  test('should render LoadingIndicator', () => {
     const props = {
       ...defaultProps,
       constants: {
@@ -42,7 +42,7 @@ describe('<GiBillApp>', () => {
     expect(tree.subTree('LoadingIndicator')).toBeTruthy();
   });
 
-  it('should render error message when constants fail', () => {
+  test('should render error message when constants fail', () => {
     const errorProps = {
       ...defaultProps,
       constants: {

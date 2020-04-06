@@ -40,7 +40,7 @@ describe('preferences actions', () => {
     let getState;
 
     describe('when use selections have been cached', () => {
-      it(`should do nothing and its thunk should return null`, done => {
+      test(`should do nothing and its thunk should return null`, done => {
         dispatch = sinon.spy();
         getState = sinon.stub().returns({
           preferences: {
@@ -62,18 +62,21 @@ describe('preferences actions', () => {
           },
         });
       });
-      it(`should dispatch the FETCH_USER_PREFERENCES_STARTED action immediately`, done => {
-        fetchUserSelectedBenefits()(dispatch, getState);
+      test(
+        `should dispatch the FETCH_USER_PREFERENCES_STARTED action immediately`,
+        done => {
+          fetchUserSelectedBenefits()(dispatch, getState);
 
-        expect(
-          dispatch.firstCall.calledWith({
-            type: FETCH_USER_PREFERENCES_STARTED,
-          }),
-        ).toBe(true);
-        done();
-      });
+          expect(
+            dispatch.firstCall.calledWith({
+              type: FETCH_USER_PREFERENCES_STARTED,
+            }),
+          ).toBe(true);
+          done();
+        }
+      );
 
-      it(`should call the API`, done => {
+      test(`should call the API`, done => {
         fetchUserSelectedBenefits()(dispatch, getState);
 
         setTimeout(() => {
@@ -85,56 +88,62 @@ describe('preferences actions', () => {
         }, 0);
       });
 
-      it(`should dispatch the FETCH_USER_PREFERENCES_FAILED action on request failure`, done => {
-        const error = { test: 'test' };
-        setFetchFailure(global.fetch.onFirstCall(), error);
+      test(
+        `should dispatch the FETCH_USER_PREFERENCES_FAILED action on request failure`,
+        done => {
+          const error = { test: 'test' };
+          setFetchFailure(global.fetch.onFirstCall(), error);
 
-        fetchUserSelectedBenefits()(dispatch, getState);
+          fetchUserSelectedBenefits()(dispatch, getState);
 
-        setTimeout(() => {
-          expect(
-            dispatch.secondCall.calledWith({
-              type: FETCH_USER_PREFERENCES_FAILED,
-            }),
-          ).toBe(true);
-          done();
-        }, 0);
-      });
+          setTimeout(() => {
+            expect(
+              dispatch.secondCall.calledWith({
+                type: FETCH_USER_PREFERENCES_FAILED,
+              }),
+            ).toBe(true);
+            done();
+          }, 0);
+        }
+      );
 
-      it(`should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED action on request success`, done => {
-        const response = {
-          data: {
-            attributes: {
-              userPreferences: [
-                {
-                  code: 'benefits',
-                  userPreferences: [
-                    {
-                      code: 'pensions',
-                      description: 'pension benefits',
-                    },
-                    {
-                      code: 'health-care',
-                      description: 'health care benefits',
-                    },
-                  ],
-                },
-              ],
+      test(
+        `should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED action on request success`,
+        done => {
+          const response = {
+            data: {
+              attributes: {
+                userPreferences: [
+                  {
+                    code: 'benefits',
+                    userPreferences: [
+                      {
+                        code: 'pensions',
+                        description: 'pension benefits',
+                      },
+                      {
+                        code: 'health-care',
+                        description: 'health care benefits',
+                      },
+                    ],
+                  },
+                ],
+              },
             },
-          },
-        };
-        setFetchResponse(global.fetch.onFirstCall(), response);
+          };
+          setFetchResponse(global.fetch.onFirstCall(), response);
 
-        fetchUserSelectedBenefits()(dispatch, getState);
+          fetchUserSelectedBenefits()(dispatch, getState);
 
-        setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).toEqual({
-            type: FETCH_USER_PREFERENCES_SUCCEEDED,
-            payload: response,
-          });
-          done();
-        }, 0);
-      });
+          setTimeout(() => {
+            expect(dispatch.secondCall.args[0]).toEqual({
+              type: FETCH_USER_PREFERENCES_SUCCEEDED,
+              payload: response,
+            });
+            done();
+          }, 0);
+        }
+      );
     });
   });
   describe('fetchAvailableBenefits', () => {
@@ -148,7 +157,7 @@ describe('preferences actions', () => {
     let getState;
 
     describe('when available preferences have been cached', () => {
-      it(`should do nothing and its thunk should return null`, done => {
+      test(`should do nothing and its thunk should return null`, done => {
         dispatch = sinon.spy();
         getState = sinon.stub().returns({
           preferences: {
@@ -171,19 +180,22 @@ describe('preferences actions', () => {
           },
         });
       });
-      it(`should immediately dispatch the FETCH_ALL_BENEFITS_STARTED action`, done => {
-        fetchAvailableBenefits()(dispatch, getState);
+      test(
+        `should immediately dispatch the FETCH_ALL_BENEFITS_STARTED action`,
+        done => {
+          fetchAvailableBenefits()(dispatch, getState);
 
-        expect(
-          dispatch.firstCall.calledWith({
-            type: FETCH_ALL_BENEFITS_STARTED,
-          }),
-        ).toBe(true);
+          expect(
+            dispatch.firstCall.calledWith({
+              type: FETCH_ALL_BENEFITS_STARTED,
+            }),
+          ).toBe(true);
 
-        done();
-      });
+          done();
+        }
+      );
 
-      it(`should call the API`, done => {
+      test(`should call the API`, done => {
         fetchAvailableBenefits()(dispatch, getState);
 
         setTimeout(() => {
@@ -195,84 +207,102 @@ describe('preferences actions', () => {
         }, 0);
       });
 
-      it(`should dispatch the FETCH_ALL_BENEFITS_FAILED on request failure`, done => {
-        const error = { test: 'test' };
-        setFetchFailure(global.fetch.onFirstCall(), error);
+      test(
+        `should dispatch the FETCH_ALL_BENEFITS_FAILED on request failure`,
+        done => {
+          const error = { test: 'test' };
+          setFetchFailure(global.fetch.onFirstCall(), error);
 
-        fetchAvailableBenefits()(dispatch, getState);
+          fetchAvailableBenefits()(dispatch, getState);
 
-        setTimeout(() => {
-          expect(
-            dispatch.secondCall.calledWith({
-              type: FETCH_ALL_BENEFITS_FAILED,
-            }),
-          ).toBe(true);
-          done();
-        }, 0);
-      });
+          setTimeout(() => {
+            expect(
+              dispatch.secondCall.calledWith({
+                type: FETCH_ALL_BENEFITS_FAILED,
+              }),
+            ).toBe(true);
+            done();
+          }, 0);
+        }
+      );
 
-      it(`should dispatch the FETCH_ALL_BENEFITS_SUCCEEDED action on request success`, done => {
-        const response = {
-          data: {
-            attributes: {
-              code: 'benefits',
-              title: 'Available Benefits',
-              preferenceChoices: [
-                {
-                  code: 'pensions',
-                  description: 'pension benefits',
-                },
-              ],
+      test(
+        `should dispatch the FETCH_ALL_BENEFITS_SUCCEEDED action on request success`,
+        done => {
+          const response = {
+            data: {
+              attributes: {
+                code: 'benefits',
+                title: 'Available Benefits',
+                preferenceChoices: [
+                  {
+                    code: 'pensions',
+                    description: 'pension benefits',
+                  },
+                ],
+              },
             },
-          },
-        };
-        setFetchResponse(global.fetch.onFirstCall(), response);
+          };
+          setFetchResponse(global.fetch.onFirstCall(), response);
 
-        fetchAvailableBenefits()(dispatch, getState);
+          fetchAvailableBenefits()(dispatch, getState);
 
-        setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).toEqual({
-            type: FETCH_ALL_BENEFITS_SUCCEEDED,
-            payload: response,
-          });
-          done();
-        }, 0);
-      });
+          setTimeout(() => {
+            expect(dispatch.secondCall.args[0]).toEqual({
+              type: FETCH_ALL_BENEFITS_SUCCEEDED,
+              payload: response,
+            });
+            done();
+          }, 0);
+        }
+      );
     });
   });
   describe('setPreference', () => {
-    it('should return a SET_USER_PREFERENCE action, setting the preference to `true` by default', () => {
-      expect(setPreference('preference-code')).toEqual({
-        type: SET_USER_PREFERENCE,
-        code: 'preference-code',
-        value: true,
-      });
-    });
-    it('should return a SET_USER_PREFERENCE action, setting it to the correct value', () => {
-      expect(setPreference('preference-code', false)).toEqual({
-        type: SET_USER_PREFERENCE,
-        code: 'preference-code',
-        value: false,
-      });
-    });
+    test(
+      'should return a SET_USER_PREFERENCE action, setting the preference to `true` by default',
+      () => {
+        expect(setPreference('preference-code')).toEqual({
+          type: SET_USER_PREFERENCE,
+          code: 'preference-code',
+          value: true,
+        });
+      }
+    );
+    test(
+      'should return a SET_USER_PREFERENCE action, setting it to the correct value',
+      () => {
+        expect(setPreference('preference-code', false)).toEqual({
+          type: SET_USER_PREFERENCE,
+          code: 'preference-code',
+          value: false,
+        });
+      }
+    );
   });
   describe('setDismissedBenefitAlerts', () => {
-    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting the dismissedBenefitAlerts to `[]` by default', () => {
-      expect(setDismissedBenefitAlerts()).toEqual({
-        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
-        value: [],
-      });
-    });
-    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting it to the correct value', () => {
-      const value = ['homelessness-alert'];
-      expect(setDismissedBenefitAlerts(value)).toEqual({
-        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
-        value,
-      });
-    });
+    test(
+      'should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting the dismissedBenefitAlerts to `[]` by default',
+      () => {
+        expect(setDismissedBenefitAlerts()).toEqual({
+          type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+          value: [],
+        });
+      }
+    );
+    test(
+      'should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting it to the correct value',
+      () => {
+        const value = ['homelessness-alert'];
+        expect(setDismissedBenefitAlerts(value)).toEqual({
+          type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+          value,
+        });
+      }
+    );
   });
   describe('restorePreviousSelections', () => {
-    it('should return a RESTORE_PREVIOUS_USER_PREFERENCES action', () => {
+    test('should return a RESTORE_PREVIOUS_USER_PREFERENCES action', () => {
       expect(restorePreviousSelections()).toEqual({
         type: RESTORE_PREVIOUS_USER_PREFERENCES,
       });
@@ -289,21 +319,24 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`, done => {
-      const dispatch = sinon.spy();
+    test(
+      `should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`,
+      done => {
+        const dispatch = sinon.spy();
 
-      savePreferences(benefitsData)(dispatch);
+        savePreferences(benefitsData)(dispatch);
 
-      expect(
-        dispatch.firstCall.calledWith({
-          type: SAVE_USER_PREFERENCES_STARTED,
-        }),
-      ).toBe(true);
+        expect(
+          dispatch.firstCall.calledWith({
+            type: SAVE_USER_PREFERENCES_STARTED,
+          }),
+        ).toBe(true);
 
-      done();
-    });
+        done();
+      }
+    );
 
-    it(`should call the API`, done => {
+    test(`should call the API`, done => {
       const dispatch = sinon.spy();
 
       savePreferences(benefitsData)(dispatch);
@@ -326,54 +359,60 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SAVE_USER_PREFERENCES_FAILED action on request failure`, done => {
-      const error = { test: 'test' };
-      setFetchFailure(global.fetch.onFirstCall(), error);
+    test(
+      `should dispatch the SAVE_USER_PREFERENCES_FAILED action on request failure`,
+      done => {
+        const error = { test: 'test' };
+        setFetchFailure(global.fetch.onFirstCall(), error);
 
-      const dispatch = sinon.spy();
+        const dispatch = sinon.spy();
 
-      savePreferences(benefitsData)(dispatch);
+        savePreferences(benefitsData)(dispatch);
 
-      setTimeout(() => {
-        expect(
-          dispatch.secondCall.calledWith({
-            type: SAVE_USER_PREFERENCES_FAILED,
-          }),
-        ).toBe(true);
-        done();
-      }, 0);
-    });
+        setTimeout(() => {
+          expect(
+            dispatch.secondCall.calledWith({
+              type: SAVE_USER_PREFERENCES_FAILED,
+            }),
+          ).toBe(true);
+          done();
+        }, 0);
+      }
+    );
 
-    it(`should dispatch the SAVE_USER_PREFERENCES_SUCCEEDED on request success`, done => {
-      const response = {
-        data: {
-          attributes: {
-            code: 'benefits',
-            title: 'Available Benefits',
-            preferenceChoices: [
-              {
-                code: 'pensions',
-                description: 'pension benefits',
-              },
-            ],
+    test(
+      `should dispatch the SAVE_USER_PREFERENCES_SUCCEEDED on request success`,
+      done => {
+        const response = {
+          data: {
+            attributes: {
+              code: 'benefits',
+              title: 'Available Benefits',
+              preferenceChoices: [
+                {
+                  code: 'pensions',
+                  description: 'pension benefits',
+                },
+              ],
+            },
           },
-        },
-      };
-      setFetchResponse(global.fetch.onFirstCall(), response);
+        };
+        setFetchResponse(global.fetch.onFirstCall(), response);
 
-      const dispatch = sinon.spy();
+        const dispatch = sinon.spy();
 
-      savePreferences(benefitsData)(dispatch);
+        savePreferences(benefitsData)(dispatch);
 
-      setTimeout(() => {
-        expect(
-          dispatch.secondCall.calledWith({
-            type: SAVE_USER_PREFERENCES_SUCCEEDED,
-          }),
-        ).toBe(true);
-        done();
-      }, 0);
-    });
+        setTimeout(() => {
+          expect(
+            dispatch.secondCall.calledWith({
+              type: SAVE_USER_PREFERENCES_SUCCEEDED,
+            }),
+          ).toBe(true);
+          done();
+        }, 0);
+      }
+    );
   });
   describe('deletePreferences', () => {
     beforeEach(() => {
@@ -382,21 +421,24 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`, done => {
-      const dispatch = sinon.spy();
+    test(
+      `should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`,
+      done => {
+        const dispatch = sinon.spy();
 
-      deletePreferences()(dispatch);
+        deletePreferences()(dispatch);
 
-      expect(
-        dispatch.firstCall.calledWith({
-          type: SAVE_USER_PREFERENCES_STARTED,
-        }),
-      ).toBe(true);
+        expect(
+          dispatch.firstCall.calledWith({
+            type: SAVE_USER_PREFERENCES_STARTED,
+          }),
+        ).toBe(true);
 
-      done();
-    });
+        done();
+      }
+    );
 
-    it(`should call the API`, done => {
+    test(`should call the API`, done => {
       const dispatch = sinon.spy();
 
       deletePreferences()(dispatch);
@@ -410,25 +452,28 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SAVE_USER_PREFERENCES_FAILED on request failure`, done => {
-      const error = { test: 'test' };
-      setFetchFailure(global.fetch.onFirstCall(), error);
+    test(
+      `should dispatch the SAVE_USER_PREFERENCES_FAILED on request failure`,
+      done => {
+        const error = { test: 'test' };
+        setFetchFailure(global.fetch.onFirstCall(), error);
 
-      const dispatch = sinon.spy();
+        const dispatch = sinon.spy();
 
-      deletePreferences()(dispatch);
+        deletePreferences()(dispatch);
 
-      setTimeout(() => {
-        expect(
-          dispatch.secondCall.calledWith({
-            type: SAVE_USER_PREFERENCES_FAILED,
-          }),
-        ).toBe(true);
-        done();
-      }, 0);
-    });
+        setTimeout(() => {
+          expect(
+            dispatch.secondCall.calledWith({
+              type: SAVE_USER_PREFERENCES_FAILED,
+            }),
+          ).toBe(true);
+          done();
+        }, 0);
+      }
+    );
 
-    it(`should dispatch the SAVE_USER_PREFERENCES_SUCCEEDED`, done => {
+    test(`should dispatch the SAVE_USER_PREFERENCES_SUCCEEDED`, done => {
       const response = {
         data: {
           id: 'string',
@@ -463,15 +508,21 @@ describe('preferences actions', () => {
       saveSpy = sinon.spy();
       deleteSpy = sinon.spy();
     });
-    it('should call savePreferences if it is passed a non-empty array of benefits', () => {
-      updatePreferences({ pref: true }, saveSpy, deleteSpy);
-      expect(deleteSpy.called).not.toBe(true);
-      expect(saveSpy.firstCall.calledWith({ pref: true })).toBe(true);
-    });
-    it('should call deletePreferences if it is passed an empty array of benefits', () => {
-      updatePreferences({}, saveSpy, deleteSpy);
-      expect(saveSpy.called).not.toBe(true);
-      expect(deleteSpy.called).toBe(true);
-    });
+    test(
+      'should call savePreferences if it is passed a non-empty array of benefits',
+      () => {
+        updatePreferences({ pref: true }, saveSpy, deleteSpy);
+        expect(deleteSpy.called).not.toBe(true);
+        expect(saveSpy.firstCall.calledWith({ pref: true })).toBe(true);
+      }
+    );
+    test(
+      'should call deletePreferences if it is passed an empty array of benefits',
+      () => {
+        updatePreferences({}, saveSpy, deleteSpy);
+        expect(saveSpy.called).not.toBe(true);
+        expect(deleteSpy.called).toBe(true);
+      }
+    );
   });
 });

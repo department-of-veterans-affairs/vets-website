@@ -37,7 +37,7 @@ describe('getAppealsV2', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('dispatches FETCH_APPEALS_PENDING', done => {
+  test('dispatches FETCH_APPEALS_PENDING', done => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -48,7 +48,7 @@ describe('getAppealsV2', () => {
       .then(done, done);
   });
 
-  it('dispatches FETCH_APPEALS_SUCCESS', done => {
+  test('dispatches FETCH_APPEALS_SUCCESS', done => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -68,7 +68,7 @@ describe('getAppealsV2', () => {
   };
 
   Object.keys(appealsErrors).forEach(code => {
-    it(`Dispatches ${
+    test(`Dispatches ${
       appealsErrors[code]
     } when GET fails with ${code}`, done => {
       global.fetch.returns(

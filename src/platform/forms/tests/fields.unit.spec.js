@@ -1,16 +1,15 @@
 import { dirtyAllFields, makeField } from '../fields';
 
 describe('fields model', () => {
-  it('field creation method defaults to clean', () => {
+  test('field creation method defaults to clean', () => {
     const field = makeField('hi');
-    expect(field)
-      .to.have.property('value')
+    expect(field).toHaveProperty('value')
       .toBe('hi');
     expect(field).toBe(false);
   });
 
   describe('dirtyAllFields', () => {
-    it('handles base cases', () => {
+    test('handles base cases', () => {
       const result = dirtyAllFields({
         a: makeField(1),
         b: makeField(''),
@@ -36,7 +35,7 @@ describe('fields model', () => {
       expect(dirtyAllFields({ a: [1] })).toEqual({ a: [1] });
     });
 
-    it('handles nested objects', () => {
+    test('handles nested objects', () => {
       const result = dirtyAllFields({
         a: {
           foo: makeField('1'),
@@ -63,7 +62,7 @@ describe('fields model', () => {
       });
     });
 
-    it('handles arrays', () => {
+    test('handles arrays', () => {
       const result = dirtyAllFields({
         a: [
           { foo: makeField('1') },

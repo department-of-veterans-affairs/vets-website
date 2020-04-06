@@ -112,7 +112,7 @@ const userState = {
 };
 
 describe('VAOS newAppointment actions', () => {
-  it('should open form page', () => {
+  test('should open form page', () => {
     const action = openFormPage('test', 'uiSchema', 'schema');
 
     expect(action).toEqual({
@@ -123,7 +123,7 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should start new appointment flow', () => {
+  test('should start new appointment flow', () => {
     const action = startNewAppointmentFlow();
 
     expect(action).toEqual({
@@ -131,7 +131,7 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should hide ToC modal', () => {
+  test('should hide ToC modal', () => {
     const action = hideTypeOfCareUnavailableModal();
 
     expect(action).toEqual({
@@ -140,7 +140,7 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('routeToPageInFlow', () => {
-    it('should route to next page with string key', async () => {
+    test('should route to next page with string key', async () => {
       const router = {
         push: sinon.spy(),
       };
@@ -160,7 +160,7 @@ describe('VAOS newAppointment actions', () => {
       expect(router.push.firstCall.args[0]).toBe('/page2');
     });
 
-    it('should route to next page with function', async () => {
+    test('should route to next page with function', async () => {
       const router = {
         push: sinon.spy(),
       };
@@ -174,7 +174,7 @@ describe('VAOS newAppointment actions', () => {
       expect(router.push.firstCall.args[0]).toBe('/page3');
     });
 
-    it('should throw error for bad state', done => {
+    test('should throw error for bad state', done => {
       const router = {
         push: sinon.spy(),
       };
@@ -196,7 +196,7 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('fetchFacilityDetails', () => {
-    it('should fetch facility details', async () => {
+    test('should fetch facility details', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
@@ -250,7 +250,7 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should fetch parentFacilities', async () => {
+    test('should fetch parentFacilities', async () => {
       setFetchJSONResponse(global.fetch, parentFacilities);
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
@@ -276,37 +276,40 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should fetch parentFacilities and child facilities if single parent', async () => {
-      setFetchJSONResponse(global.fetch, {
-        data: parentFacilities.data.filter(
-          parent => parent.attributes.institutionCode === '983',
-        ),
-      });
-      setFetchJSONResponse(global.fetch.onCall(1), facilities983);
-      const dispatch = sinon.spy();
-      const state = set('newAppointment.parentFacilities', null, defaultState);
-      const getState = () => state;
+    test(
+      'should fetch parentFacilities and child facilities if single parent',
+      async () => {
+        setFetchJSONResponse(global.fetch, {
+          data: parentFacilities.data.filter(
+            parent => parent.attributes.institutionCode === '983',
+          ),
+        });
+        setFetchJSONResponse(global.fetch.onCall(1), facilities983);
+        const dispatch = sinon.spy();
+        const state = set('newAppointment.parentFacilities', null, defaultState);
+        const getState = () => state;
 
-      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
-      await thunk(dispatch, getState);
+        const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+        await thunk(dispatch, getState);
 
-      const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).toEqual({
-        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        parentFacilities: parentFacilitiesParsed.slice(0, 1),
-        facilities: facilities983Parsed,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
-      });
-      expect(global.fetch.secondCall.args[0]).toEqual(
-        expect.arrayContaining(['/systems/983/']),
-      );
-    });
+        const succeededAction = dispatch.firstCall.args[0];
+        expect(succeededAction).toEqual({
+          type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+          schema: defaultSchema,
+          page: 'vaFacility',
+          uiSchema: {},
+          parentFacilities: parentFacilitiesParsed.slice(0, 1),
+          facilities: facilities983Parsed,
+          eligibilityData: null,
+          typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+        });
+        expect(global.fetch.secondCall.args[0]).toEqual(
+          expect.arrayContaining(['/systems/983/']),
+        );
+      }
+    );
 
-    it('should send fail action if a fetch fails', async () => {
+    test('should send fail action if a fetch fails', async () => {
       setFetchJSONFailure(global.fetch, {});
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
@@ -320,7 +323,7 @@ describe('VAOS newAppointment actions', () => {
       );
     });
 
-    it('should reuse parentFacilities if already in state', async () => {
+    test('should reuse parentFacilities if already in state', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -340,7 +343,7 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should fetch facilities if system was selected already', async () => {
+    test('should fetch facilities if system was selected already', async () => {
       setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
       const state = set('newAppointment.data.vaParent', '983', defaultState);
@@ -366,108 +369,117 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should fetch eligibility info if facility is selected when opening page', async () => {
-      setFetchJSONResponse(global.fetch, clinics);
-      const dispatch = sinon.spy();
-      const previousState = {
-        ...defaultState,
-        newAppointment: {
-          ...defaultState.newAppointment,
-          data: {
-            ...defaultState.newAppointment.data,
-            vaParent: '983',
-            vaFacility: '983',
+    test(
+      'should fetch eligibility info if facility is selected when opening page',
+      async () => {
+        setFetchJSONResponse(global.fetch, clinics);
+        const dispatch = sinon.spy();
+        const previousState = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              ...defaultState.newAppointment.data,
+              vaParent: '983',
+              vaFacility: '983',
+            },
+            facilities: {
+              '323_983': facilities983Parsed,
+            },
           },
-          facilities: {
-            '323_983': facilities983Parsed,
+        };
+
+        const getState = () => previousState;
+
+        const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+        await thunk(dispatch, getState);
+        const firstAction = dispatch.firstCall.args[0];
+        expect(firstAction.type).toBe(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+
+        expect(dispatch.secondCall.args[0].type).toBe(
+          FORM_FETCH_FACILITY_DETAILS,
+        );
+        expect(dispatch.thirdCall.args[0].type).toBe(
+          FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+        );
+
+        expect(firstAction.eligibilityData).not.toBeNull();
+      }
+    );
+
+    test(
+      'should fetch eligibility info if only one supported facility',
+      async () => {
+        setFetchJSONResponse(global.fetch, clinics);
+        const dispatch = sinon.spy();
+        const previousState = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              ...defaultState.newAppointment.data,
+              vaParent: '983',
+            },
+            facilities: {
+              '323_983': [
+                {
+                  institutionCode: '983',
+                  rootStationCode: '983',
+                  parentStationCode: '983',
+                  requestSupported: false,
+                  directSchedulingSupported: false,
+                },
+                {
+                  institutionCode: '983GC',
+                  rootStationCode: '983',
+                  parentStationCode: '983',
+                  requestSupported: true,
+                  directSchedulingSupported: false,
+                },
+              ],
+            },
           },
-        },
-      };
+        };
 
-      const getState = () => previousState;
+        const getState = () => previousState;
 
-      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
-      await thunk(dispatch, getState);
-      const firstAction = dispatch.firstCall.args[0];
-      expect(firstAction.type).toBe(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+        const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+        await thunk(dispatch, getState);
+        const firstAction = dispatch.firstCall.args[0];
+        expect(firstAction.type).toBe(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
 
-      expect(dispatch.secondCall.args[0].type).toBe(
-        FORM_FETCH_FACILITY_DETAILS,
-      );
-      expect(dispatch.thirdCall.args[0].type).toBe(
-        FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
-      );
+        expect(firstAction.eligibilityData).not.toBeNull();
+      }
+    );
 
-      expect(firstAction.eligibilityData).not.toBeNull();
-    });
+    test(
+      'should skip eligibility request and succeed if facility list is empty',
+      async () => {
+        setFetchJSONResponse(global.fetch, { data: [] });
+        const dispatch = sinon.spy();
+        const state = set('newAppointment.data.vaParent', '983', defaultState);
+        const getState = () => state;
 
-    it('should fetch eligibility info if only one supported facility', async () => {
-      setFetchJSONResponse(global.fetch, clinics);
-      const dispatch = sinon.spy();
-      const previousState = {
-        ...defaultState,
-        newAppointment: {
-          ...defaultState.newAppointment,
-          data: {
-            ...defaultState.newAppointment.data,
-            vaParent: '983',
-          },
-          facilities: {
-            '323_983': [
-              {
-                institutionCode: '983',
-                rootStationCode: '983',
-                parentStationCode: '983',
-                requestSupported: false,
-                directSchedulingSupported: false,
-              },
-              {
-                institutionCode: '983GC',
-                rootStationCode: '983',
-                parentStationCode: '983',
-                requestSupported: true,
-                directSchedulingSupported: false,
-              },
-            ],
-          },
-        },
-      };
+        const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+        await thunk(dispatch, getState);
 
-      const getState = () => previousState;
+        expect(dispatch.firstCall.args[0].type).toBe(
+          FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        );
 
-      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
-      await thunk(dispatch, getState);
-      const firstAction = dispatch.firstCall.args[0];
-      expect(firstAction.type).toBe(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
-
-      expect(firstAction.eligibilityData).not.toBeNull();
-    });
-
-    it('should skip eligibility request and succeed if facility list is empty', async () => {
-      setFetchJSONResponse(global.fetch, { data: [] });
-      const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaParent', '983', defaultState);
-      const getState = () => state;
-
-      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).toBe(
-        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-      );
-
-      const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).toEqual({
-        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        parentFacilities: parentFacilitiesParsed,
-        facilities: [],
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
-      });
-    });
+        const succeededAction = dispatch.firstCall.args[0];
+        expect(succeededAction).toEqual({
+          type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+          schema: defaultSchema,
+          page: 'vaFacility',
+          uiSchema: {},
+          parentFacilities: parentFacilitiesParsed,
+          facilities: [],
+          eligibilityData: null,
+          typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+        });
+      }
+    );
   });
 
   describe('updateFacilityPageData', () => {
@@ -497,7 +509,7 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should not fetch anything if system did not change', async () => {
+    test('should not fetch anything if system did not change', async () => {
       const dispatch = sinon.spy();
       const getState = () => ({
         newAppointment: {
@@ -525,32 +537,35 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.lastCall.args[0].type).toBe(FORM_DATA_UPDATED);
     });
 
-    it('should not fetch anything if system changed and we already have facilities', async () => {
-      const dispatch = sinon.spy();
-      const getState = () =>
-        set(
-          'newAppointment.facilities',
+    test(
+      'should not fetch anything if system changed and we already have facilities',
+      async () => {
+        const dispatch = sinon.spy();
+        const getState = () =>
+          set(
+            'newAppointment.facilities',
+            {
+              '323_983': facilities983Parsed,
+            },
+            defaultState,
+          );
+
+        const thunk = updateFacilityPageData(
+          'vaFacility',
+          {},
           {
-            '323_983': facilities983Parsed,
+            ...defaultState.newAppointment.data,
+            vaParent: '983',
           },
-          defaultState,
         );
+        await thunk(dispatch, getState);
 
-      const thunk = updateFacilityPageData(
-        'vaFacility',
-        {},
-        {
-          ...defaultState.newAppointment.data,
-          vaParent: '983',
-        },
-      );
-      await thunk(dispatch, getState);
+        expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+        expect(dispatch.lastCall.args[0].type).toBe(FORM_VA_PARENT_CHANGED);
+      }
+    );
 
-      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
-      expect(dispatch.lastCall.args[0].type).toBe(FORM_VA_PARENT_CHANGED);
-    });
-
-    it('should fetch facilities if system is selected already', async () => {
+    test('should fetch facilities if system is selected already', async () => {
       setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
       const getState = () => defaultState;
@@ -582,7 +597,7 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should fetch system details if no facilities found', async () => {
+    test('should fetch system details if no facilities found', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
       const dispatch = sinon.spy();
       const getState = () => defaultState;
@@ -618,7 +633,7 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should send fail action if facilities fetch fails', async () => {
+    test('should send fail action if facilities fetch fails', async () => {
       setFetchJSONFailure(global.fetch, {});
       const dispatch = sinon.spy();
       const getState = () => defaultState;
@@ -642,7 +657,7 @@ describe('VAOS newAppointment actions', () => {
       );
     });
 
-    it('should fetch eligibility info if facility is selected', async () => {
+    test('should fetch eligibility info if facility is selected', async () => {
       setFetchJSONResponse(global.fetch, {
         data: {
           attributes: {
@@ -717,7 +732,7 @@ describe('VAOS newAppointment actions', () => {
       expect(eligibilityData.requestLimits.numberOfRequests).toBe(0);
     });
 
-    it('should send fail action for error in eligibility code', async () => {
+    test('should send fail action for error in eligibility code', async () => {
       setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const previousState = {
@@ -756,7 +771,7 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('openClinicPage', () => {
-    it('should fetch facility info', async () => {
+    test('should fetch facility info', async () => {
       const dispatch = sinon.spy();
       const previousState = {
         newAppointment: {
@@ -794,7 +809,7 @@ describe('VAOS newAppointment actions', () => {
     const reasonForAppointment = 'new-issue';
     const reasonAdditionalInfo = 'test';
 
-    it('sends reason for appointment changed action', () => {
+    test('sends reason for appointment changed action', () => {
       const action = updateReasonForAppointmentData(
         'reasonForAppointment',
         {},
@@ -809,7 +824,7 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('calendar actions', () => {
-    it('should fetch appointment slots and not adjust time', async () => {
+    test('should fetch appointment slots and not adjust time', async () => {
       mockFetch();
       const tomorrowString = moment()
         .add(1, 'days')
@@ -875,54 +890,57 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should send fail action when appointment slots fetch fails', async () => {
-      mockFetch();
-      setFetchJSONFailure(global.fetch, {});
+    test(
+      'should send fail action when appointment slots fetch fails',
+      async () => {
+        mockFetch();
+        setFetchJSONFailure(global.fetch, {});
 
-      const state = {
-        newAppointment: {
-          data: {
-            preferredDate: '2019-01-01',
-            vaFacility: '983GC',
-            vaParent: '983A6',
-            typeOfCareId: '323',
-            clinicId: '1234',
+        const state = {
+          newAppointment: {
+            data: {
+              preferredDate: '2019-01-01',
+              vaFacility: '983GC',
+              vaParent: '983A6',
+              typeOfCareId: '323',
+              clinicId: '1234',
+            },
+            fetchedAppointmentSlotMonths: [],
+            facilities: {
+              '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+            },
           },
-          fetchedAppointmentSlotMonths: [],
-          facilities: {
-            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
-          },
-        },
-      };
-      const getState = () => state;
-      const dispatch = sinon.spy();
+        };
+        const getState = () => state;
+        const dispatch = sinon.spy();
 
-      const thunk = getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-      );
-      await thunk(dispatch, getState);
+        const thunk = getAppointmentSlots(
+          moment()
+            .startOf('month')
+            .format('YYYY-MM-DD'),
+          moment()
+            .add(1, 'months')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+        );
+        await thunk(dispatch, getState);
 
-      expect(global.fetch.firstCall.args[0]).toEqual(
-        expect.arrayContaining([
-          '/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=1234',
-        ]),
-      );
-      expect(dispatch.firstCall.args[0].type).toBe(FORM_CALENDAR_FETCH_SLOTS);
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining([
+            '/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=1234',
+          ]),
+        );
+        expect(dispatch.firstCall.args[0].type).toBe(FORM_CALENDAR_FETCH_SLOTS);
 
-      expect(dispatch.secondCall.args[0].type).toBe(
-        FORM_CALENDAR_FETCH_SLOTS_FAILED,
-      );
+        expect(dispatch.secondCall.args[0].type).toBe(
+          FORM_CALENDAR_FETCH_SLOTS_FAILED,
+        );
 
-      resetFetch();
-    });
+        resetFetch();
+      }
+    );
 
-    it('should dispatch onChange action', () => {
+    test('should dispatch onChange action', () => {
       expect(
         onCalendarChange({
           currentlySelectedDate: '2020-12-11',
@@ -957,7 +975,7 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should fetch parentFacilities', async () => {
+    test('should fetch parentFacilities', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -981,7 +999,7 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should send fail action when fetch fails', async () => {
+    test('should send fail action when fetch fails', async () => {
       setFetchJSONFailure(global.fetch, {});
       const dispatch = sinon.spy();
       const getState = () => defaultState;
@@ -1011,7 +1029,7 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should send VA request', async () => {
+    test('should send VA request', async () => {
       setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
@@ -1076,7 +1094,7 @@ describe('VAOS newAppointment actions', () => {
       expect(router.push.called).toBe(true);
     });
 
-    it('should send CC request', async () => {
+    test('should send CC request', async () => {
       setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
@@ -1115,7 +1133,7 @@ describe('VAOS newAppointment actions', () => {
       expect(router.push.called).toBe(true);
     });
 
-    it('should make VA appointment', async () => {
+    test('should make VA appointment', async () => {
       setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
@@ -1166,7 +1184,7 @@ describe('VAOS newAppointment actions', () => {
       expect(router.push.called).toBe(true);
     });
 
-    it('should send fail action if request fails', async () => {
+    test('should send fail action if request fails', async () => {
       setFetchJSONFailure(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
@@ -1225,7 +1243,7 @@ describe('VAOS newAppointment actions', () => {
       expect(router.push.called).toBe(false);
     });
 
-    it('should send fail action if direct schedule fails', async () => {
+    test('should send fail action if direct schedule fails', async () => {
       setFetchJSONFailure(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
@@ -1278,7 +1296,7 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('openTypeOfCarePage', () => {
-    it('should open type of care page and pull contact info to prefill', () => {
+    test('should open type of care page and pull contact info to prefill', () => {
       const state = {
         user: {
           profile: {
@@ -1309,7 +1327,7 @@ describe('VAOS newAppointment actions', () => {
     });
   });
   describe('requestAppointmentDateChoice', () => {
-    it('should start request flow and route to request date page', () => {
+    test('should start request flow and route to request date page', () => {
       const router = {
         replace: sinon.spy(),
       };

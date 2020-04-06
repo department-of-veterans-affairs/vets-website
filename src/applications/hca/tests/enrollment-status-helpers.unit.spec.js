@@ -4,20 +4,20 @@ import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 describe('getWarningStatus', () => {
   describe('when `enrollmentStatus` is `deceased`', () => {
-    it('should return null', () => {
+    test('should return null', () => {
       expect(getWarningStatus(HCA_ENROLLMENT_STATUSES.deceased)).toBeNull();
     });
   });
 
   describe('default behavior', () => {
     describe('if no `applicationDate` is passed', () => {
-      it('should return null', () => {
+      test('should return null', () => {
         expect(getWarningStatus('enrollment_status')).toBeNull();
       });
     });
 
     describe('if `applicationDate` is a valid date', () => {
-      it('should return the correct markup', () => {
+      test('should return the correct markup', () => {
         const wrapper = shallow(
           getWarningStatus(
             'enrollment_status',
@@ -34,7 +34,7 @@ describe('getWarningStatus', () => {
 
   describe('when `enrollmentStatus` is `enrolled`', () => {
     describe('when all info is provided', () => {
-      it('should return the correct markup', () => {
+      test('should return the correct markup', () => {
         const wrapper = shallow(
           getWarningStatus(
             HCA_ENROLLMENT_STATUSES.enrolled,
@@ -56,7 +56,7 @@ describe('getWarningStatus', () => {
     });
 
     describe('when the `applicationDate` is not set', () => {
-      it('should return the correct markup', () => {
+      test('should return the correct markup', () => {
         const wrapper = shallow(
           getWarningStatus(
             HCA_ENROLLMENT_STATUSES.enrolled,
@@ -78,7 +78,7 @@ describe('getWarningStatus', () => {
     });
 
     describe('when the `enrollmentDate` is not set', () => {
-      it('should return the correct markup', () => {
+      test('should return the correct markup', () => {
         const wrapper = shallow(
           getWarningStatus(
             HCA_ENROLLMENT_STATUSES.enrolled,
@@ -100,7 +100,7 @@ describe('getWarningStatus', () => {
     });
 
     describe('when the `preferredFacility` is not set', () => {
-      it('should return the correct markup', () => {
+      test('should return the correct markup', () => {
         const wrapper = shallow(
           getWarningStatus(
             HCA_ENROLLMENT_STATUSES.enrolled,
@@ -121,7 +121,7 @@ describe('getWarningStatus', () => {
     });
 
     describe('when only `preferredFacility` is set', () => {
-      it('should return the correct markup', () => {
+      test('should return the correct markup', () => {
         const wrapper = shallow(
           getWarningStatus(
             HCA_ENROLLMENT_STATUSES.enrolled,
@@ -143,7 +143,7 @@ describe('getWarningStatus', () => {
     });
 
     describe('when nothing is set', () => {
-      it('should return null', () => {
+      test('should return null', () => {
         expect(getWarningStatus(HCA_ENROLLMENT_STATUSES.enrolled)).toBeNull();
       });
     });

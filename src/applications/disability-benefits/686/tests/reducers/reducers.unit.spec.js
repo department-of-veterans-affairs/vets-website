@@ -15,7 +15,7 @@ describe('authorization686 reducer', () => {
   const { authorization686 } = reducers;
   let expectedState = {};
 
-  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_STARTED', () => {
+  test('should handle LOAD_30_PERCENT_DISABILITY_RATING_STARTED', () => {
     expectedState = {
       isLoading: true,
       isAuthorized: false,
@@ -27,35 +27,41 @@ describe('authorization686 reducer', () => {
     expect(newState).toEqual(expectedState);
   });
 
-  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED with authorization', () => {
-    expectedState = {
-      isLoading: false,
-      isAuthorized: true,
-      loadedStatus: true,
-    };
-    const newState = authorization686(initialState, {
-      type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
-      payload: { has30Percent: true },
-    });
+  test(
+    'should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED with authorization',
+    () => {
+      expectedState = {
+        isLoading: false,
+        isAuthorized: true,
+        loadedStatus: true,
+      };
+      const newState = authorization686(initialState, {
+        type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
+        payload: { has30Percent: true },
+      });
 
-    expect(newState).toEqual(expectedState);
-  });
+      expect(newState).toEqual(expectedState);
+    }
+  );
 
-  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED without authorization', () => {
-    expectedState = {
-      isLoading: false,
-      isAuthorized: false,
-      loadedStatus: true,
-    };
-    const newState = authorization686(initialState, {
-      type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
-      payload: { has30Percent: false },
-    });
+  test(
+    'should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED without authorization',
+    () => {
+      expectedState = {
+        isLoading: false,
+        isAuthorized: false,
+        loadedStatus: true,
+      };
+      const newState = authorization686(initialState, {
+        type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
+        payload: { has30Percent: false },
+      });
 
-    expect(newState).toEqual(expectedState);
-  });
+      expect(newState).toEqual(expectedState);
+    }
+  );
 
-  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_FAILED', () => {
+  test('should handle LOAD_30_PERCENT_DISABILITY_RATING_FAILED', () => {
     const payload = {
       error: true,
     };

@@ -8,13 +8,13 @@ import reducer from '../../reducers';
 const defaultProps = createCommonStore(reducer).getState();
 
 describe('<ProfilePage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<ProfilePage {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).toBeDefined();
   });
 
-  it('should render VET TEC institution', () => {
+  test('should render VET TEC institution', () => {
     const vetTecProps = {
       ...defaultProps,
       showModal: () => {},
@@ -33,7 +33,7 @@ describe('<ProfilePage>', () => {
     expect(tree.subTree('VetTecInstitutionProfile')).toBeTruthy();
   });
 
-  it('should show LoadingState when profile is fetching', () => {
+  test('should show LoadingState when profile is fetching', () => {
     const inProgressProps = {
       ...defaultProps,
       profile: { inProgress: true },
@@ -44,7 +44,7 @@ describe('<ProfilePage>', () => {
     expect(tree.subTree('LoadingIndicator')).toBeTruthy();
   });
 
-  it('should show error message when profile failed', () => {
+  test('should show error message when profile failed', () => {
     const errorProps = {
       ...defaultProps,
       profile: { inProgress: true, error: 'Service Unavailable' },

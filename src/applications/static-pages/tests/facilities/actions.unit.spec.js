@@ -21,14 +21,14 @@ const getState = () => ({
 
 describe('Facilities actions', () => {
   describe('fetchFacilityStarted', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const action = fetchFacilityStarted();
 
       expect(action.type).toBe(FETCH_FACILITY_STARTED);
     });
   });
   describe('fetchFacilitySuccess', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const action = fetchFacilitySuccess(
         mockFacilityLocatorApiResponse.data[0],
       );
@@ -40,14 +40,14 @@ describe('Facilities actions', () => {
     });
   });
   describe('fetchFacilityFailed', () => {
-    it('should return action', () => {
+    test('should return action', () => {
       const action = fetchFacilityFailed();
 
       expect(action.type).toBe(FETCH_FACILITY_FAILED);
     });
   });
   describe('fetchFacility', () => {
-    it('dispatches a pending', done => {
+    test('dispatches a pending', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
       mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
@@ -62,7 +62,7 @@ describe('Facilities actions', () => {
           done(err);
         });
     });
-    it('calls the api to get the facility', done => {
+    test('calls the api to get the facility', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
       mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
@@ -78,7 +78,7 @@ describe('Facilities actions', () => {
           done(err);
         });
     });
-    it('dispatches a success if there are no errors', done => {
+    test('dispatches a success if there are no errors', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
       mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
@@ -99,7 +99,7 @@ describe('Facilities actions', () => {
           done(err);
         });
     });
-    it('dispatches a failure on any failure', done => {
+    test('dispatches a failure on any failure', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
       mockApiRequest({}, false);

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { CallToActionWidget } from '../index';
 
 describe('<CallToActionWidget>', () => {
-  it('should show loading state', () => {
+  test('should show loading state', () => {
     const tree = mount(
       <CallToActionWidget
         profile={{
@@ -26,7 +26,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('LoadingIndicator').exists()).toBe(true);
     tree.unmount();
   });
-  it('should show loading state when loading feature toggles', () => {
+  test('should show loading state when loading feature toggles', () => {
     const tree = mount(
       <CallToActionWidget
         profile={{
@@ -47,7 +47,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('LoadingIndicator').exists()).toBe(true);
     tree.unmount();
   });
-  it('should show sign in state', () => {
+  test('should show sign in state', () => {
     const tree = mount(
       <CallToActionWidget
         profile={{
@@ -69,7 +69,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('SignIn').exists()).toBe(true);
     tree.unmount();
   });
-  it('should show verify link', () => {
+  test('should show verify link', () => {
     const tree = mount(
       <CallToActionWidget
         appId="test"
@@ -92,7 +92,7 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('Verify').exists()).toBe(true);
     tree.unmount();
   });
-  it('should show link and description', () => {
+  test('should show link and description', () => {
     const tree = mount(
       <CallToActionWidget
         appId="claims-and-appeals"
@@ -125,7 +125,7 @@ describe('<CallToActionWidget>', () => {
     tree.unmount();
   });
   describe('health tools', () => {
-    it('should fetch MHV account on mount', () => {
+    test('should fetch MHV account on mount', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -151,7 +151,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should fetch MHV account on update', () => {
+    test('should fetch MHV account on update', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -179,7 +179,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should create and upgrade MHV account when necessary', () => {
+    test('should create and upgrade MHV account when necessary', () => {
       const createAndUpgradeMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -215,7 +215,7 @@ describe('<CallToActionWidget>', () => {
       global.dom.reconfigure({ url: 'http://localhost' });
     });
 
-    it('should upgrade MHV account when necessary', () => {
+    test('should upgrade MHV account when necessary', () => {
       const upgradeMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -252,7 +252,7 @@ describe('<CallToActionWidget>', () => {
       global.dom.reconfigure({ url: 'http://localhost' });
     });
 
-    it('should open rx tool', () => {
+    test('should open rx tool', () => {
       const jsdomOpen = window.open;
       window.open = sinon.spy();
       const tree = mount(
@@ -286,7 +286,7 @@ describe('<CallToActionWidget>', () => {
       window.open = jsdomOpen;
     });
 
-    it('should show mvi server error', () => {
+    test('should show mvi server error', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -313,7 +313,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show mvi not authorized error', () => {
+    test('should show mvi not authorized error', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -340,7 +340,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show mvi not found error', () => {
+    test('should show mvi not found error', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -367,7 +367,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show mhv error', () => {
+    test('should show mhv error', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -395,7 +395,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show multifactor message for direct deposit', () => {
+    test('should show multifactor message for direct deposit', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -422,32 +422,35 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show direct deposit component when verified with multifactor', () => {
-      const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={d => d}
-          isLoggedIn
-          appId="direct-deposit"
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{
-            loading: false,
-            accountState: 'good',
-            accountLevel: 'Premium',
-          }}
-          mviStatus="GOOD"
-          featureToggles={{
-            loading: false,
-          }}
-        />,
-      );
+    test(
+      'should show direct deposit component when verified with multifactor',
+      () => {
+        const tree = mount(
+          <CallToActionWidget
+            fetchMHVAccount={d => d}
+            isLoggedIn
+            appId="direct-deposit"
+            profile={{
+              loading: false,
+              verified: true,
+              multifactor: true,
+            }}
+            mhvAccount={{
+              loading: false,
+              accountState: 'good',
+              accountLevel: 'Premium',
+            }}
+            mviStatus="GOOD"
+            featureToggles={{
+              loading: false,
+            }}
+          />,
+        );
 
-      expect(tree.find('DirectDeposit').exists()).toBe(true);
-      tree.unmount();
-    });
+        expect(tree.find('DirectDeposit').exists()).toBe(true);
+        tree.unmount();
+      }
+    );
     describe('account state errors', () => {
       const defaultProps = {
         fetchMHVAccount: d => d,
@@ -462,7 +465,7 @@ describe('<CallToActionWidget>', () => {
         featureToggles: { loading: false },
       };
 
-      it('should show verify message', () => {
+      test('should show verify message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -478,7 +481,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should show needs ssn message', () => {
+      test('should show needs ssn message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -494,7 +497,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should show deactived ids message', () => {
+      test('should show deactived ids message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -510,7 +513,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should show multiple ids message', () => {
+      test('should show multiple ids message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -526,7 +529,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should show register failed message', () => {
+      test('should show register failed message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -542,7 +545,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should show upgrade failed message', () => {
+      test('should show upgrade failed message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -558,7 +561,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
 
-      it('should show needs VA patient message', () => {
+      test('should show needs VA patient message', () => {
         const tree = mount(
           <CallToActionWidget
             {...defaultProps}
@@ -574,7 +577,7 @@ describe('<CallToActionWidget>', () => {
         tree.unmount();
       });
     });
-    it('should show MHV link', () => {
+    test('should show MHV link', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -600,7 +603,7 @@ describe('<CallToActionWidget>', () => {
       expect(tree.find('OpenMyHealtheVet').exists()).toBe(true);
       tree.unmount();
     });
-    it('should show no MHV account message and redirect to t&c', () => {
+    test('should show no MHV account message and redirect to t&c', () => {
       Object.defineProperty(window, 'location', {
         writable: true,
         value: window.location,
@@ -638,7 +641,7 @@ describe('<CallToActionWidget>', () => {
     });
   });
   describe('online scheduling', () => {
-    it('should show mvi error', () => {
+    test('should show mvi error', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -663,7 +666,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show appts message', () => {
+    test('should show appts message', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -694,7 +697,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should not fetch mhv account for new tool', () => {
+    test('should not fetch mhv account for new tool', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -720,7 +723,7 @@ describe('<CallToActionWidget>', () => {
       expect(fetchMHVAccount.called).toBe(false);
       tree.unmount();
     });
-    it('should show mhv message if flag is off', () => {
+    test('should show mhv message if flag is off', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget

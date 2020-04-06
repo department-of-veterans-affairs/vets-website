@@ -16,7 +16,7 @@ import {
 import { createSaveInProgressFormReducer } from '../../save-in-progress/reducers';
 
 describe('schemaform createSaveInProgressInitialState', () => {
-  it('creates a reducer with initial state for each page', () => {
+  test('creates a reducer with initial state for each page', () => {
     const formConfig = {
       chapters: {
         test: {
@@ -49,20 +49,23 @@ describe('schemaform createSaveInProgressInitialState', () => {
     expect(state.initialData).toBe(state.data);
   });
 
-  it('creates a reducer with initial additionalRoutes if they are present in the form config', () => {
-    const formConfig = {
-      additionalRoutes: [
-        {
-          path: 'route-path',
-        },
-      ],
-      chapters: {},
-    };
-    const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
-    const state = reducer(undefined, {});
+  test(
+    'creates a reducer with initial additionalRoutes if they are present in the form config',
+    () => {
+      const formConfig = {
+        additionalRoutes: [
+          {
+            path: 'route-path',
+          },
+        ],
+        chapters: {},
+      };
+      const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
+      const state = reducer(undefined, {});
 
-    expect(state.additionalRoutes).toEqual([{ path: 'route-path' }]);
-  });
+      expect(state.additionalRoutes).toEqual([{ path: 'route-path' }]);
+    }
+  );
 
   describe('reducer', () => {
     const formConfig = {
@@ -94,7 +97,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       },
     };
 
-    it('should set save form status', () => {
+    test('should set save form status', () => {
       const state = reducer(
         {
           savedStatus: SAVE_STATUSES.notAttempted,
@@ -110,7 +113,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.prefillStatus).toBe(PREFILL_STATUSES.notAttempted);
     });
 
-    it('should set auto save form status', () => {
+    test('should set auto save form status', () => {
       const state = reducer(
         {
           autoSavedStatus: SAVE_STATUSES.notAttempted,
@@ -123,7 +126,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
 
       expect(state.autoSavedStatus).toBe(SAVE_STATUSES.success);
     });
-    it('should reset auto saved form status on error', () => {
+    test('should reset auto saved form status on error', () => {
       const state = reducer(
         {
           autoSavedStatus: SAVE_STATUSES.failure,
@@ -138,7 +141,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.savedStatus).toBe(SAVE_STATUSES.noAuth);
       expect(state.autoSavedStatus).toBe(SAVE_STATUSES.notAttempted);
     });
-    it('should set fetch form status', () => {
+    test('should set fetch form status', () => {
       const state = reducer(
         {
           loadedStatus: LOAD_STATUSES.notAttempted,
@@ -151,7 +154,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
 
       expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
     });
-    it('should set in progress form data', () => {
+    test('should set in progress form data', () => {
       const state = reducer(
         {
           loadedStatus: LOAD_STATUSES.notAttempted,
@@ -169,7 +172,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.loadedData).toBe(data);
       expect(state.data).toBe(data.formData);
     });
-    it('should merge prefill data with current form', () => {
+    test('should merge prefill data with current form', () => {
       const state = reducer(
         {
           data: { existingProp: true },
@@ -187,7 +190,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.data.field).toBe('foo');
       expect(state.prefillStatus).toBe(PREFILL_STATUSES.success);
     });
-    it('should not mark prefill successful when data is empty', () => {
+    test('should not mark prefill successful when data is empty', () => {
       const state = reducer(
         {
           data: {},
@@ -203,7 +206,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
 
       expect(state.prefillStatus).toBe(PREFILL_STATUSES.unfilled);
     });
-    it('should handle undefined formData', () => {
+    test('should handle undefined formData', () => {
       const state = reducer(
         {
           data: {},
@@ -219,7 +222,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
 
       expect(state.prefillStatus).toBe(PREFILL_STATUSES.unfilled);
     });
-    it('should set fetch form pending', () => {
+    test('should set fetch form pending', () => {
       const state = reducer(
         {},
         {
@@ -230,7 +233,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
       expect(state.prefillStatus).toBeUndefined();
     });
-    it('should set fetch form pending and prefill', () => {
+    test('should set fetch form pending and prefill', () => {
       const state = reducer(
         {},
         {
@@ -242,7 +245,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
       expect(state.prefillStatus).toBe(PREFILL_STATUSES.pending);
     });
-    it('should start over form', () => {
+    test('should start over form', () => {
       const initialData = { field: true };
       const state = reducer(
         {
@@ -258,7 +261,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       expect(state.data).toBe(initialData);
       expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
     });
-    it('should set prefill as unfilled', () => {
+    test('should set prefill as unfilled', () => {
       const initialData = { field: true };
       const state = reducer(
         {

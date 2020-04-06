@@ -1,7 +1,7 @@
 import prescriptionsReducer from '../../reducers/prescriptions.js';
 
 describe('prescriptions reducer', () => {
-  it('should show a loading screen for active', () => {
+  test('should show a loading screen for active', () => {
     const state = prescriptionsReducer(
       { active: { loading: false } },
       { type: 'LOADING_ACTIVE' },
@@ -9,7 +9,7 @@ describe('prescriptions reducer', () => {
     expect(state.active.loading).toBe(true);
   });
 
-  it('should show a loading screen for history', () => {
+  test('should show a loading screen for history', () => {
     const state = prescriptionsReducer(
       { history: { loading: false } },
       { type: 'LOADING_HISTORY' },
@@ -17,7 +17,7 @@ describe('prescriptions reducer', () => {
     expect(state.history.loading).toBe(true);
   });
 
-  it('should handle failure to fetch active prescriptions', () => {
+  test('should handle failure to fetch active prescriptions', () => {
     const state = prescriptionsReducer(
       {
         items: ['123', '456', '789'],
@@ -31,7 +31,7 @@ describe('prescriptions reducer', () => {
     expect(state.active.loading).toBe(false);
   });
 
-  it('should handle failure to fetch prescriptions history', () => {
+  test('should handle failure to fetch prescriptions history', () => {
     const state = prescriptionsReducer(
       {
         items: ['123', '456', '789'],
@@ -44,7 +44,7 @@ describe('prescriptions reducer', () => {
     expect(state.history.loading).toBe(false);
   });
 
-  it('should handle a successful request for active prescriptions', () => {
+  test('should handle a successful request for active prescriptions', () => {
     const state = prescriptionsReducer(
       {
         items: null,
@@ -69,7 +69,7 @@ describe('prescriptions reducer', () => {
     expect(state.active.loading).toBe(false);
   });
 
-  it('should handle a successful request for prescriptions history', () => {
+  test('should handle a successful request for prescriptions history', () => {
     const state = prescriptionsReducer(
       {
         items: null,

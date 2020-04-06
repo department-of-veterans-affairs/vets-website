@@ -16,13 +16,13 @@ const defaultProps = {
 };
 
 describe('<LandingPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = shallow(<LandingPage {...defaultProps} />);
     expect(tree).toBeDefined();
     tree.unmount();
   });
 
-  it('should handleSubmit correctly', () => {
+  test('should handleSubmit correctly', () => {
     const props = {
       ...defaultProps,
       router: { push: sinon.spy() },
@@ -41,7 +41,7 @@ describe('<LandingPage>', () => {
     tree.unmount();
   });
 
-  it('should display VET TEC type of institution filter', () => {
+  test('should display VET TEC type of institution filter', () => {
     const props = {
       ...defaultProps,
       router: { push: sinon.spy() },

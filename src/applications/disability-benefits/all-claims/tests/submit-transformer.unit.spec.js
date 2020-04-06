@@ -29,7 +29,7 @@ describe('transform', () => {
     .filter(fileName => fileName.endsWith('.json'))
     .forEach(fileName => {
       // Loop through them
-      it(`should transform ${fileName} correctly`, () => {
+      test(`should transform ${fileName} correctly`, () => {
         const rawData = JSON.parse(
           fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
         );
@@ -56,7 +56,7 @@ describe('transform', () => {
 });
 
 describe('transformRelatedDisabilities', () => {
-  it('should return an array of strings', () => {
+  test('should return an array of strings', () => {
     const claimedConditions = ['Some Condition Name', 'Another Condition Name'];
     const treatedDisabilityNames = {
       'some condition name': true,
@@ -67,7 +67,7 @@ describe('transformRelatedDisabilities', () => {
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
     ).toEqual(['Some Condition Name', 'Another Condition Name']);
   });
-  it('should not add conditions if they are not claimed', () => {
+  test('should not add conditions if they are not claimed', () => {
     const claimedConditions = ['Some Condition Name'];
     const treatedDisabilityNames = {
       'some condition name': true,
@@ -81,20 +81,20 @@ describe('transformRelatedDisabilities', () => {
 });
 
 describe('getFlatIncidentKeys', () => {
-  it('should return correct amount of incident keys', () => {
+  test('should return correct amount of incident keys', () => {
     expect(getFlatIncidentKeys().length).toEqual(PTSD_INCIDENT_ITERATION * 2);
   });
 });
 
 describe('getPtsdChangeText', () => {
-  it('should have valid labels', () => {
+  test('should have valid labels', () => {
     Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
       expect(typeof PTSD_CHANGE_LABELS[key]).toBe('string');
     });
   });
 
   const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
-  it('should have mappings for all workBehaviorChanges schema fields', () => {
+  test('should have mappings for all workBehaviorChanges schema fields', () => {
     Object.keys(
       formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
         .properties.workBehaviorChanges.properties,
@@ -105,7 +105,7 @@ describe('getPtsdChangeText', () => {
       });
   });
 
-  it('should have mappings for all mentalHealthChanges schema fields', () => {
+  test('should have mappings for all mentalHealthChanges schema fields', () => {
     Object.keys(
       formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
         .properties.mentalChanges.properties,
@@ -116,29 +116,35 @@ describe('getPtsdChangeText', () => {
       });
   });
 
-  it('should have mappings for all physicalHealthChanges schema fields', () => {
-    Object.keys(
-      formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
-        .properties.physicalChanges.properties,
-    )
-      .filter(key => !ignoredFields.includes(key))
-      .forEach(key => {
-        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
-      });
-  });
+  test(
+    'should have mappings for all physicalHealthChanges schema fields',
+    () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+          .properties.physicalChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
+        });
+    }
+  );
 
-  it('should have mappings for all socialBehaviorChanges schema fields', () => {
-    Object.keys(
-      formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
-        .properties.socialBehaviorChanges.properties,
-    )
-      .filter(key => !ignoredFields.includes(key))
-      .forEach(key => {
-        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
-      });
-  });
+  test(
+    'should have mappings for all socialBehaviorChanges schema fields',
+    () => {
+      Object.keys(
+        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+          .properties.socialBehaviorChanges.properties,
+      )
+        .filter(key => !ignoredFields.includes(key))
+        .forEach(key => {
+          expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
+        });
+    }
+  );
 
-  it('should return UI titles', () => {
+  test('should return UI titles', () => {
     const fieldTitles = getPtsdChangeText({
       increasedLeave: true,
       withdrawal: true,
@@ -150,7 +156,7 @@ describe('getPtsdChangeText', () => {
     expect(fieldTitles.length).toBe(2);
   });
 
-  it('should correctly handle undefined ptsd changes', () => {
+  test('should correctly handle undefined ptsd changes', () => {
     const fieldTitles = getPtsdChangeText(undefined);
     expect(fieldTitles.length).toBe(0);
   });
@@ -159,7 +165,7 @@ describe('getPtsdChangeText', () => {
 describe('setActionTypes', () => {
   const formData = maximalData.data;
 
-  it('should set disabilityActionType for each disability properly', () => {
+  test('should set disabilityActionType for each disability properly', () => {
     const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
 
     expect(formattedDisabilities).toHaveLength(
@@ -180,7 +186,7 @@ describe('setActionTypes', () => {
     );
   });
 
-  it('should return cloned formData when no rated disabilities', () => {
+  test('should return cloned formData when no rated disabilities', () => {
     const noRated = _.omit('ratedDisabilities', formData);
 
     expect(setActionTypes(noRated)).toEqual(noRated);

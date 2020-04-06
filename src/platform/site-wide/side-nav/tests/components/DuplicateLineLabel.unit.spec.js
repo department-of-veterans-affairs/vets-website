@@ -6,7 +6,7 @@ import { uniqueId } from 'lodash';
 import DuplicateLineLabel from '../../components/DuplicateLineLabel';
 
 describe('<DuplicateLineLabel>', () => {
-  it('should not render when the nav item is collapsed', () => {
+  test('should not render when the nav item is collapsed', () => {
     const defaultProps = {
       depth: 2,
       item: {
@@ -26,7 +26,7 @@ describe('<DuplicateLineLabel>', () => {
     wrapper.unmount();
   });
 
-  it('should not render when the nav item is not 2nd level', () => {
+  test('should not render when the nav item is not 2nd level', () => {
     const defaultProps = {
       depth: 3,
       item: {
@@ -46,7 +46,7 @@ describe('<DuplicateLineLabel>', () => {
     wrapper.unmount();
   });
 
-  it('should render when the nav item is expanded and is 2nd level', () => {
+  test('should render when the nav item is expanded and is 2nd level', () => {
     const defaultProps = {
       depth: 2,
       item: {

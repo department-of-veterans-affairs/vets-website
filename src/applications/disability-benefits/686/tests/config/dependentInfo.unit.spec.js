@@ -34,7 +34,7 @@ describe('686 dependent info', () => {
       ],
     });
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -49,27 +49,30 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should show disabled question if child is less than 18 years old', () => {
-    const props = dependentData();
-    const underageBirthday = moment()
-      .subtract(17, 'years')
-      .format('YYYY-MM-DD');
-    props.dependents[0].childDateOfBirth = underageBirthday;
-    const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        schema={schema}
-        data={props}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
-    );
-    expect(form.find('input').length).toBe(7); // `inSchool` question hidden
-    form.unmount();
-  });
+  test(
+    'should show disabled question if child is less than 18 years old',
+    () => {
+      const props = dependentData();
+      const underageBirthday = moment()
+        .subtract(17, 'years')
+        .format('YYYY-MM-DD');
+      props.dependents[0].childDateOfBirth = underageBirthday;
+      const form = mount(
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          schema={schema}
+          data={props}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />,
+      );
+      expect(form.find('input').length).toBe(7); // `inSchool` question hidden
+      form.unmount();
+    }
+  );
 
-  it('should not show show disabled question if child is 18 years old', () => {
+  test('should not show show disabled question if child is 18 years old', () => {
     const props = dependentData();
     const underageBirthday = moment()
       .subtract(18, 'years')
@@ -89,7 +92,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should not show disabled or inSchool if child is older than 23', () => {
+  test('should not show disabled or inSchool if child is older than 23', () => {
     const props = dependentData();
     const over23Birthday = moment()
       .subtract(24, 'years')
@@ -109,7 +112,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -128,7 +131,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should submit form with required fields filled', () => {
+  test('should submit form with required fields filled', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -150,7 +153,7 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  it('should expand view:stepChildCondition if stepChild is selected', () => {
+  test('should expand view:stepChildCondition if stepChild is selected', () => {
     const form = mount(
       <DefinitionTester
         data={dependentData()}

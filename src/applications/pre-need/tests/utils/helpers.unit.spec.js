@@ -2,7 +2,7 @@ import { transform } from '../../utils/helpers';
 
 describe('Preneed helpers', () => {
   describe('transform', () => {
-    it('should remove view fields', () => {
+    test('should remove view fields', () => {
       const data = JSON.parse(
         transform(
           {},
@@ -21,7 +21,7 @@ describe('Preneed helpers', () => {
       expect(data.application['view:testing']).toBeUndefined();
     });
 
-    it('should populate service name', () => {
+    test('should populate service name', () => {
       const data = JSON.parse(
         transform(
           {},
@@ -44,7 +44,7 @@ describe('Preneed helpers', () => {
       );
     });
 
-    it('should remove partial addresses', () => {
+    test('should remove partial addresses', () => {
       const data = JSON.parse(
         transform(
           {},

@@ -3,7 +3,7 @@ import { FETCH_FORMS, FETCH_FORMS_SUCCESS } from '../../constants';
 import findVAFormsReducer from '../../reducers/findVAFormsReducer';
 
 describe('Find VA Forms reducer: findVAFormsReducer', () => {
-  it('returns the default state', () => {
+  test('returns the default state', () => {
     const emptyAction = {};
     const result = findVAFormsReducer(undefined, emptyAction);
 
@@ -17,7 +17,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     });
   });
 
-  it('fetches forms', () => {
+  test('fetches forms', () => {
     const action = { type: FETCH_FORMS, query: 'testing' };
     const state = findVAFormsReducer(undefined, action);
 
@@ -31,7 +31,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     });
   });
 
-  it('receives forms', () => {
+  test('receives forms', () => {
     const initialState = {
       fetching: true,
       results: null,
