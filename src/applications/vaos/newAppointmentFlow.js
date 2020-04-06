@@ -249,7 +249,7 @@ export default {
       }
 
       if (eligibilityStatus.request) {
-        dispatch(startRequestAppointmentFlow(isCCFacility(state)));
+        dispatch(startRequestAppointmentFlow());
         return 'requestDateTime';
       }
 
@@ -279,7 +279,7 @@ export default {
     previous: 'vaFacility',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
-        dispatch(startRequestAppointmentFlow(isCCFacility(state)));
+        dispatch(startRequestAppointmentFlow());
         return 'requestDateTime';
       }
 
@@ -333,7 +333,7 @@ export default {
 
       return 'visitType';
     },
-    previous(state, dispatch) {
+    previous(state) {
       if (isCCFacility(state)) {
         return 'ccPreferences';
       }
@@ -342,7 +342,6 @@ export default {
         return 'selectDateTime';
       }
 
-      dispatch(startRequestAppointmentFlow());
       return 'requestDateTime';
     },
   },
