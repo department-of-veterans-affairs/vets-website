@@ -39,8 +39,8 @@ export function transform(formConfig, form) {
 
   const contactInfoTransform = formData => ({
     ...formData,
-    email: _.get(formData, 'view:otherContactInfo.email', undefined),
-    homePhone: _.get(formData, 'view:otherContactInfo.homePhone', undefined),
+    email: formData?.['view:otherContactInfo']?.email,
+    homePhone: formData?.['view:otherContactInfo']?.homePhone,
   });
 
   const transformedData = [
