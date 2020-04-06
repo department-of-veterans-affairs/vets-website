@@ -39,7 +39,7 @@ export const uiSchema = {
         expandUnder: 'spouseDoesLiveWithVeteran',
         expandUnderCondition: false,
         updateSchema: (formData, formSchema) => {
-          // if someone selects a country, and then changes their mind and selects 'no' for spouseDoesLiveWithVeteran,
+          // if someone selects a country, and then changes their mind and selects 'yes' for spouseDoesLiveWithVeteran,
           // The collapsed form will silently throw an error because some fields are required based on country.
           // manually clearning the required array fixes this issue.
           if (formData.spouseDoesLiveWithVeteran) {
