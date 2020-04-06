@@ -33,6 +33,7 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
       if (!selected && formContext.onReviewPage) return null;
       return supply.productGroup === HEARING_AID_ACCESSORIES &&
         supply.availableForReorder === true ? (
+        // eslint-disable-next-line react/jsx-indent
         <div key={supply.productId} className="order-background">
           <p className="vads-u-font-size--md vads-u-font-weight--bold">
             {supply.productName}
