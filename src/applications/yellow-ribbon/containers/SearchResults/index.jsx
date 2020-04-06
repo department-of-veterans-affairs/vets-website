@@ -18,10 +18,12 @@ export class SearchResults extends Component {
     fetching: PropTypes.bool.isRequired,
     results: PropTypes.arrayOf(
       PropTypes.shape({
-        // Original form data key-value pairs.
         city: PropTypes.string.isRequired,
+        contributionAmount: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        insturl: PropTypes.string,
+        nameOfInstitution: PropTypes.string.isRequired,
+        numberOfStudents: PropTypes.number.isRequired,
         state: PropTypes.string.isRequired,
       }).isRequired,
     ),
@@ -142,8 +144,8 @@ export class SearchResults extends Component {
     return (
       <>
         <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Displaying {resultsStartNumber}-{resultsEndNumber} out of{' '}
-          {totalResults} results
+          Displaying {resultsStartNumber}-{resultsEndNumber} of {totalResults}{' '}
+          results
         </h2>
 
         {/* Table of Results */}

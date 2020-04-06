@@ -8,6 +8,7 @@ import {
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   REMOVE_SCHOOL_FROM_COMPARE,
+  TOGGLE_SHOW_MOBILE_FORM,
   UPDATE_PAGE,
 } from '../constants';
 
@@ -48,6 +49,13 @@ export const fetchResultsSuccess = response => ({
 export const updatePageAction = page => ({
   page,
   type: UPDATE_PAGE,
+});
+
+// ============
+// Toggle showMobileForm
+// ============
+export const toggleShowMobileFormAction = () => ({
+  type: TOGGLE_SHOW_MOBILE_FORM,
 });
 
 // ============
