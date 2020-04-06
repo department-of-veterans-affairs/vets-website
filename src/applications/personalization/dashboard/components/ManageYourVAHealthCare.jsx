@@ -145,10 +145,11 @@ const ManageYourVAHealthCare = ({
     >
       <PrescriptionsWidget />
     </DowntimeNotification>
+    {(isEnrolledInHealthCare && !isCernerPatient) ||
+      (environment.isProduction() && <ScheduleAnAppointmentWidget />)}
     {isEnrolledInHealthCare &&
-      !isCernerPatient && <ScheduleAnAppointmentWidget />}
-    {isEnrolledInHealthCare &&
-      isCernerPatient && <ScheduleAnAppointmentCernerWidget />}
+      isCernerPatient &&
+      !environment.isProduction() && <ScheduleAnAppointmentCernerWidget />}
   </>
 );
 
