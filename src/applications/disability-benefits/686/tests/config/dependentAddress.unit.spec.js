@@ -81,24 +81,21 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  test(
-    'should expand address info if child does not live with applicant',
-    () => {
-      const form = mount(
-        <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          schema={schema}
-          data={dependentData()}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-        />,
-      );
-      selectRadio(form, 'root_childInHousehold', 'N');
-      expect(form.find('input').length).toBe(9);
-      form.unmount();
-    }
-  );
+  test('should expand address info if child does not live with applicant', () => {
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        data={dependentData()}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+      />,
+    );
+    selectRadio(form, 'root_childInHousehold', 'N');
+    expect(form.find('input').length).toBe(9);
+    form.unmount();
+  });
 
   test('should submit form with required fields filled', () => {
     const props = dependentData();

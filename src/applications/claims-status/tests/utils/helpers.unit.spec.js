@@ -501,32 +501,23 @@ describe('Disability benefits helpers: ', () => {
       expect(!!testText.header && !!testText.description).toBe(true);
     });
 
-    test(
-      'should return an object with header and description properties with nonsense input',
-      () => {
-        const testText = makeDurationText(inputs.nonsense);
-        expect(testText.header).toBe('');
-        expect(testText.description).toBe('');
-      }
-    );
+    test('should return an object with header and description properties with nonsense input', () => {
+      const testText = makeDurationText(inputs.nonsense);
+      expect(testText.header).toBe('');
+      expect(testText.description).toBe('');
+    });
 
-    test(
-      'should return an object with header and description properties with empty array input',
-      () => {
-        const testText = makeDurationText(inputs.empty);
-        expect(testText.header).toBe('');
-        expect(testText.description).toBe('');
-      }
-    );
+    test('should return an object with header and description properties with empty array input', () => {
+      const testText = makeDurationText(inputs.empty);
+      expect(testText.header).toBe('');
+      expect(testText.description).toBe('');
+    });
 
-    test(
-      'should return an object with header and description properties with no input',
-      () => {
-        const testText = makeDurationText();
-        expect(testText.header).toBe('');
-        expect(testText.description).toBe('');
-      }
-    );
+    test('should return an object with header and description properties with no input', () => {
+      const testText = makeDurationText();
+      expect(testText.header).toBe('');
+      expect(testText.description).toBe('');
+    });
 
     test('should format exact singular time estimates', () => {
       const testText = makeDurationText(inputs.exactSingular);
@@ -614,17 +605,14 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('makeDecisionReviewContent', () => {
-    test(
-      'returns the default content if no additional content is provided',
-      () => {
-        const decisionReviewContent = makeDecisionReviewContent();
-        const descText = shallow(decisionReviewContent);
-        expect(descText.render().text()).toBe(
-          'A Veterans Law Judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
-        );
-        descText.unmount();
-      }
-    );
+    test('returns the default content if no additional content is provided', () => {
+      const decisionReviewContent = makeDecisionReviewContent();
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).toBe(
+        'A Veterans Law Judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+      );
+      descText.unmount();
+    });
 
     test('returns additional content when provided', () => {
       const decisionReviewContent = makeDecisionReviewContent({
@@ -678,18 +666,15 @@ describe('Disability benefits helpers: ', () => {
       expect(appeal).toBe(expectedAppeal);
     });
 
-    test(
-      'should find the right appeal if the given v1 id matches a v2 appeal',
-      () => {
-        const expectedAppeal = mockData.data[1];
-        // appealIds[1] is the fake v1 id
-        const appeal = isolateAppeal(
-          state,
-          expectedAppeal.attributes.appealIds[1],
-        );
-        expect(appeal).toBe(expectedAppeal);
-      }
-    );
+    test('should find the right appeal if the given v1 id matches a v2 appeal', () => {
+      const expectedAppeal = mockData.data[1];
+      // appealIds[1] is the fake v1 id
+      const appeal = isolateAppeal(
+        state,
+        expectedAppeal.attributes.appealIds[1],
+      );
+      expect(appeal).toBe(expectedAppeal);
+    });
 
     test('should return undefined if no appeal matches the id given', () => {
       const appeal = isolateAppeal(state, 'non-existent id');

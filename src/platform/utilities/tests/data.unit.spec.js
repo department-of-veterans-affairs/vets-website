@@ -26,18 +26,15 @@ describe('data utils', () => {
   });
 
   describe('clone', () => {
-    test(
-      'should return an object with the same data but different reference',
-      () => {
-        const obj = {
-          a: 1,
-          b: 2,
-        };
-        const cloned = _.clone(obj);
-        expect(cloned).toEqual(obj);
-        expect(cloned).not.toBe(obj);
-      }
-    );
+    test('should return an object with the same data but different reference', () => {
+      const obj = {
+        a: 1,
+        b: 2,
+      };
+      const cloned = _.clone(obj);
+      expect(cloned).toEqual(obj);
+      expect(cloned).not.toBe(obj);
+    });
 
     test('should clone a set', () => {
       const s = new Set([{ sub: 'original' }]);
@@ -217,39 +214,33 @@ describe('data utils', () => {
       expect(o).toEqual(oCopy);
     });
 
-    test(
-      'should not modify original object when changing an existing property',
-      () => {
-        const o = {
-          a: 'a',
-          b: { c: 'c' },
-          k: { a: { y: 'f' } },
-          g: ['h', 'i', 'j'],
-        };
+    test('should not modify original object when changing an existing property', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j'],
+      };
 
-        // Perhaps using cloneDeep in here is in bad taste?
-        const oCopy = _.cloneDeep(o);
+      // Perhaps using cloneDeep in here is in bad taste?
+      const oCopy = _.cloneDeep(o);
 
-        _.set('b.c', 'd', o);
-        expect(o).toEqual(oCopy);
-      }
-    );
+      _.set('b.c', 'd', o);
+      expect(o).toEqual(oCopy);
+    });
 
-    test(
-      'should not maintain the same refs to sub-objects which were changed',
-      () => {
-        const o = {
-          a: 'a',
-          b: { c: 'c' },
-          k: { a: { y: 'f' } },
-          g: ['h', 'i', 'j'],
-        };
+    test('should not maintain the same refs to sub-objects which were changed', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j'],
+      };
 
-        const newObj = _.set('k.a.y', 'd', o);
-        expect(newObj.k.a).not.toBe(o.k.a);
-        expect(newObj.k.a).not.toEqual(o.k.a);
-      }
-    );
+      const newObj = _.set('k.a.y', 'd', o);
+      expect(newObj.k.a).not.toBe(o.k.a);
+      expect(newObj.k.a).not.toEqual(o.k.a);
+    });
 
     // Objects outside the given path should remain the same
     test('should maintain the same refs to objects not touched', () => {
@@ -276,37 +267,34 @@ describe('data utils', () => {
       expect(old.b.prop2).toBe(changed.b.prop2);
     });
 
-    test(
-      'should throw an error if a segment of the path is not a string or number',
-      () => {
-        const o = {
-          a: 'a',
-          b: { c: 'c' },
-          k: { a: { y: 'f' } },
-          g: ['h', 'i', 'j'],
-        };
+    test('should throw an error if a segment of the path is not a string or number', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j'],
+      };
 
-        try {
-          _.set(['new', [0, 1]], ['foo', 'bar'], o);
-          // Shouldn't get here; should throw an error
-          throw new Error(
-            'Should have failed if path is not a string or number.',
-          );
-        } catch (e) {
-          // There's gotta be a better way to do this...
-          if (
-            e.message === 'Should have failed if path is not a string or number.'
-          ) {
-            throw e;
-          }
-
-          // Public service announcement: Arrays are objects too!
-          expect(e.message).toEqual(
-            expect.arrayContaining(['Unrecognized path element type: object.']),
-          );
+      try {
+        _.set(['new', [0, 1]], ['foo', 'bar'], o);
+        // Shouldn't get here; should throw an error
+        throw new Error(
+          'Should have failed if path is not a string or number.',
+        );
+      } catch (e) {
+        // There's gotta be a better way to do this...
+        if (
+          e.message === 'Should have failed if path is not a string or number.'
+        ) {
+          throw e;
         }
+
+        // Public service announcement: Arrays are objects too!
+        expect(e.message).toEqual(
+          expect.arrayContaining(['Unrecognized path element type: object.']),
+        );
       }
-    );
+    });
   });
 
   describe('checkValidPath', () => {
@@ -334,14 +322,11 @@ describe('data utils', () => {
       expect(newObj.b).toBe(obj.b);
     });
 
-    test(
-      'should return the same reference to the root object if no fields are omitted',
-      () => {
-        const obj = { a: 'a' };
-        const newObj = _.omit(['b'], obj);
-        expect(newObj).toBe(obj);
-      }
-    );
+    test('should return the same reference to the root object if no fields are omitted', () => {
+      const obj = { a: 'a' };
+      const newObj = _.omit(['b'], obj);
+      expect(newObj).toBe(obj);
+    });
 
     test('should omit all the fields passed in', () => {
       const obj = {
@@ -504,15 +489,12 @@ describe('data utils', () => {
       const data = { level1: { level2: {} } };
       expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
-    test(
-      'should remove deeply empty objects while keeping deeply non-empty objects',
-      () => {
-        const data = { level1: { level2: {}, level2Filled: 'I am full' } };
-        expect(removeDeeplyEmptyObjects(data)).toEqual({
-          level1: { level2Filled: 'I am full' },
-        });
-      }
-    );
+    test('should remove deeply empty objects while keeping deeply non-empty objects', () => {
+      const data = { level1: { level2: {}, level2Filled: 'I am full' } };
+      expect(removeDeeplyEmptyObjects(data)).toEqual({
+        level1: { level2Filled: 'I am full' },
+      });
+    });
     test('should remove multiple sibling objects', () => {
       const data = { level1: { first: {}, second: {} } };
       expect(removeDeeplyEmptyObjects(data)).toEqual({});

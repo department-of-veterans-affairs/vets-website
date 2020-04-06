@@ -13,16 +13,13 @@ describe('Convert numbers to words', () => {
     expect(numberToWords(false)).toBe(false);
   });
 
-  test(
-    'should return the original value for out of range numbers & fractions',
-    () => {
-      expect(numberToWords(-1)).toEqual(-1);
-      expect(numberToWords(0)).toBe(0);
-      expect(numberToWords(0.5)).toBe(0.5);
-      expect(numberToWords(1.5)).toBe(1.5);
-      expect(numberToWords(Infinity)).toEqual(Infinity);
-    }
-  );
+  test('should return the original value for out of range numbers & fractions', () => {
+    expect(numberToWords(-1)).toEqual(-1);
+    expect(numberToWords(0)).toBe(0);
+    expect(numberToWords(0.5)).toBe(0.5);
+    expect(numberToWords(1.5)).toBe(1.5);
+    expect(numberToWords(Infinity)).toEqual(Infinity);
+  });
 
   test('should return preset values of numbers less than 21', () => {
     expect(numberToWords(1)).toBe('first');

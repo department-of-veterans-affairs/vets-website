@@ -23,14 +23,11 @@ describe('CMS export', () => {
     fs.readdirSync(transformersDir)
       .filter(fileName => !excluded.includes(fileName))
       .forEach(fileName => {
-        test(
-          `${fileName} should have a corresponding test file mapped in tests/entities/index.js`,
-          () => {
-            const testFileName = entityMap[fileName.slice(0, -3)]; // Slice off the '.js'
-            expect(testFileName).to.be.a.string;
-            expect(testFileName).toBeDefined(); // Turns out undefined acts like a string in the above test
-          }
-        );
+        test(`${fileName} should have a corresponding test file mapped in tests/entities/index.js`, () => {
+          const testFileName = entityMap[fileName.slice(0, -3)]; // Slice off the '.js'
+          expect(testFileName).to.be.a.string;
+          expect(testFileName).toBeDefined(); // Turns out undefined acts like a string in the above test
+        });
       });
   });
 
@@ -41,12 +38,9 @@ describe('CMS export', () => {
         ...entityFileName.split('.').slice(0, 2),
       );
 
-      test(
-        'entry in the test entity map should match the content model type',
-        () => {
-          expect(contentModelType).toBe(getContentModelType(entity));
-        }
-      );
+      test('entry in the test entity map should match the content model type', () => {
+        expect(contentModelType).toBe(getContentModelType(entity));
+      });
 
       // Test 2: Look for a post-transformation json file matching the entity type
       //         If one exists, run the transformation on it and compare the result

@@ -23,18 +23,15 @@ describe('Downtime Notification Reducer', () => {
       );
     });
 
-    test(
-      'flips the isReady flag and sets value when RECEIVE_SCHEDULED_DOWNTIME is dispatched',
-      () => {
-        const action = { type: RECEIVE_SCHEDULED_DOWNTIME, data: [] };
-        const result = scheduledDowntime(undefined, action);
+    test('flips the isReady flag and sets value when RECEIVE_SCHEDULED_DOWNTIME is dispatched', () => {
+      const action = { type: RECEIVE_SCHEDULED_DOWNTIME, data: [] };
+      const result = scheduledDowntime(undefined, action);
 
-        expect(result).toEqual(
-          expect.arrayContaining(scheduledDowntimeInterface),
-        );
-        expect(result.serviceMap).toBeInstanceOf(Map);
-      }
-    );
+      expect(result).toEqual(
+        expect.arrayContaining(scheduledDowntimeInterface),
+      );
+      expect(result.serviceMap).toBeInstanceOf(Map);
+    });
 
     describe('globalDowntime', () => {
       const downtime = {

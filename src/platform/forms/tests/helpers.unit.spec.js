@@ -27,12 +27,9 @@ describe('Helpers unit tests', () => {
         expect(isInProgressPath('form-saved', additionalSafePaths)).toBe(false);
         expect(isInProgressPath('error', additionalSafePaths)).toBe(false);
       });
-      test(
-        'returns false when passed a path that is one of the additional non-form paths',
-        () => {
-          expect(isInProgressPath('id-page', additionalSafePaths)).toBe(false);
-        }
-      );
+      test('returns false when passed a path that is one of the additional non-form paths', () => {
+        expect(isInProgressPath('id-page', additionalSafePaths)).toBe(false);
+      });
       test('returns true when passed a path that is a form path', () => {
         expect(isInProgressPath('page-one', additionalSafePaths)).toBe(true);
       });

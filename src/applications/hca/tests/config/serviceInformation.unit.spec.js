@@ -81,33 +81,30 @@ describe('Hca serviceInformation', () => {
     form.unmount();
   });
 
-  test(
-    'shows discharge type with lastDischargeDate is in the present or past',
-    () => {
-      const onSubmit = sinon.spy();
-      const form = mount(
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          data={{}}
-          formData={{}}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}
-        />,
-      );
-      fillData(form, 'select#root_lastServiceBranch', 'army');
-      fillDate(form, 'root_lastEntryDate', '1990-1-1');
-      fillDate(form, 'root_lastDischargeDate', '2011-1-1');
-      expect(form.find('select').length).toBe(6);
+  test('shows discharge type with lastDischargeDate is in the present or past', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    fillData(form, 'select#root_lastServiceBranch', 'army');
+    fillDate(form, 'root_lastEntryDate', '1990-1-1');
+    fillDate(form, 'root_lastDischargeDate', '2011-1-1');
+    expect(form.find('select').length).toBe(6);
 
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error').length).toBe(1);
-      expect(onSubmit.called).toBe(false);
-      fillData(form, 'select#root_dischargeType', 'honorable');
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error').length).toBe(0);
-      expect(onSubmit.called).toBe(true);
-      form.unmount();
-    }
-  );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).toBe(1);
+    expect(onSubmit.called).toBe(false);
+    fillData(form, 'select#root_dischargeType', 'honorable');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
+    form.unmount();
+  });
 });

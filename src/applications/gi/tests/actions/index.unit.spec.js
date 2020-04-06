@@ -30,18 +30,15 @@ import {
 
 describe('beneficiaryZIPCodeChanged', () => {
   beforeEach(() => mockFetch());
-  test(
-    'should return BENEFICIARY_ZIP_CODE_CHANGED when zip code is no valid for submission',
-    () => {
-      const actualAction = beneficiaryZIPCodeChanged('1111');
+  test('should return BENEFICIARY_ZIP_CODE_CHANGED when zip code is no valid for submission', () => {
+    const actualAction = beneficiaryZIPCodeChanged('1111');
 
-      const expectedAction = {
-        type: 'BENEFICIARY_ZIP_CODE_CHANGED',
-        beneficiaryZIP: '1111',
-      };
-      expect(expectedAction).toEqual(actualAction);
-    }
-  );
+    const expectedAction = {
+      type: 'BENEFICIARY_ZIP_CODE_CHANGED',
+      beneficiaryZIP: '1111',
+    };
+    expect(expectedAction).toEqual(actualAction);
+  });
 
   test('should dispatch started and success actions', done => {
     const payload = {
@@ -164,84 +161,78 @@ describe('fetchProfile', () => {
     }, 0);
   });
 
-  test(
-    'should dispatch a started and failed action when the institution call fails',
-    done => {
-      const payload = {
-        errors: [
-          {
-            title: 'error',
-          },
-        ],
-      };
-      setFetchFailure(global.fetch.onFirstCall(), payload);
+  test('should dispatch a started and failed action when the institution call fails', done => {
+    const payload = {
+      errors: [
+        {
+          title: 'error',
+        },
+      ],
+    };
+    setFetchFailure(global.fetch.onFirstCall(), payload);
 
-      const dispatch = sinon.spy();
+    const dispatch = sinon.spy();
 
-      fetchProfile('12345')(dispatch);
+    fetchProfile('12345')(dispatch);
 
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
+      }),
+    ).toBe(true);
+
+    setTimeout(() => {
+      const { type } = dispatch.secondCall.args[0];
+      expect(type).toEqual(FETCH_PROFILE_FAILED);
+      done();
+    }, 0);
+  });
+
+  test('should dispatch a started and success action when the zip code rates call fails', done => {
+    const institutionPayload = {
+      meta: {
+        version: 1,
+      },
+      data: {
+        attributes: {
+          mha_rate: 300, // eslint-disable-line camelcase
+          mha_name: 'New York, NY', // eslint-disable-line camelcase
+        },
+      },
+    };
+    const constants = {
+      constants: {
+        AVGVABAH: 10,
+        AVGDODBAH: 10,
+      },
+    };
+
+    const getState = () => ({ constants });
+    setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
+
+    const dispatch = sinon.spy();
+
+    fetchProfile('12345')(dispatch, getState);
+
+    expect(
+      dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
+      }),
+    ).toBe(true);
+
+    setTimeout(() => {
       expect(
-        dispatch.firstCall.calledWith({
-          type: FETCH_PROFILE_STARTED,
+        dispatch.secondCall.calledWith({
+          type: FETCH_PROFILE_SUCCEEDED,
+          payload: {
+            ...institutionPayload,
+            ...constants.constants,
+          },
         }),
       ).toBe(true);
-
-      setTimeout(() => {
-        const { type } = dispatch.secondCall.args[0];
-        expect(type).toEqual(FETCH_PROFILE_FAILED);
-        done();
-      }, 0);
-    }
-  );
-
-  test(
-    'should dispatch a started and success action when the zip code rates call fails',
-    done => {
-      const institutionPayload = {
-        meta: {
-          version: 1,
-        },
-        data: {
-          attributes: {
-            mha_rate: 300, // eslint-disable-line camelcase
-            mha_name: 'New York, NY', // eslint-disable-line camelcase
-          },
-        },
-      };
-      const constants = {
-        constants: {
-          AVGVABAH: 10,
-          AVGDODBAH: 10,
-        },
-      };
-
-      const getState = () => ({ constants });
-      setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
-
-      const dispatch = sinon.spy();
-
-      fetchProfile('12345')(dispatch, getState);
-
-      expect(
-        dispatch.firstCall.calledWith({
-          type: FETCH_PROFILE_STARTED,
-        }),
-      ).toBe(true);
-
-      setTimeout(() => {
-        expect(
-          dispatch.secondCall.calledWith({
-            type: FETCH_PROFILE_SUCCEEDED,
-            payload: {
-              ...institutionPayload,
-              ...constants.constants,
-            },
-          }),
-        ).toBe(true);
-        done();
-      }, 0);
-    }
-  );
+      done();
+    }, 0);
+  });
   afterEach(() => resetFetch());
 });
 

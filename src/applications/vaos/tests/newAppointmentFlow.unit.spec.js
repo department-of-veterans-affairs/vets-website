@@ -88,99 +88,90 @@ describe('VAOS newAppointmentFlow', () => {
         resetFetch();
       });
 
-      test(
-        'should be typeOfCare page if CC check has an error and podiatry chosen',
-        async () => {
-          mockFetch();
-          setFetchJSONResponse(global.fetch, supportedSites);
-          setFetchJSONFailure(global.fetch.onCall(1), {});
-          const state = {
-            ...userState,
-            featureToggles: {
-              loading: false,
-              vaOnlineSchedulingDirect: true,
-              vaOnlineSchedulingCommunityCare: true,
-            },
-            newAppointment: {
-              data: {
-                typeOfCareId: 'tbd-podiatry',
-              },
-            },
-          };
-
-          const dispatch = sinon.spy();
-          const nextState = await newAppointmentFlow.typeOfCare.next(
-            state,
-            dispatch,
-          );
-          expect(nextState).toBe('typeOfCare');
-          resetFetch();
-        }
-      );
-
-      test(
-        'should be the current page if no CC support and typeOfCare is podiatry',
-        async () => {
-          const state = {
-            user: {
-              profile: {
-                facilities: [{ facilityId: '000' }],
-              },
-            },
-            featureToggles: {
-              loading: false,
-              vaOnlineSchedulingDirect: true,
-              vaOnlineSchedulingCommunityCare: true,
-            },
-            newAppointment: {
-              data: {
-                typeOfCareId: 'tbd-podiatry',
-              },
-            },
-          };
-
-          const dispatch = sinon.spy();
-          const nextState = await newAppointmentFlow.typeOfCare.next(
-            state,
-            dispatch,
-          );
-          expect(nextState).toBe('typeOfCare');
-        }
-      );
-
-      test(
-        'should be requestDateTime if CC support and typeOfCare is podiatry',
-        async () => {
-          mockFetch();
-          setFetchJSONResponse(global.fetch, supportedSites);
-          setFetchJSONResponse(global.fetch.onCall(1), {
+      test('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
+        mockFetch();
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONFailure(global.fetch.onCall(1), {});
+        const state = {
+          ...userState,
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingCommunityCare: true,
+          },
+          newAppointment: {
             data: {
-              attributes: { eligible: true },
+              typeOfCareId: 'tbd-podiatry',
             },
-          });
-          const state = {
-            ...userState,
-            featureToggles: {
-              loading: false,
-              vaOnlineSchedulingDirect: true,
-              vaOnlineSchedulingCommunityCare: true,
-            },
-            newAppointment: {
-              data: {
-                typeOfCareId: 'tbd-podiatry',
-              },
-            },
-          };
+          },
+        };
 
-          const dispatch = sinon.spy();
-          const nextState = await newAppointmentFlow.typeOfCare.next(
-            state,
-            dispatch,
-          );
-          expect(nextState).toBe('requestDateTime');
-          resetFetch();
-        }
-      );
+        const dispatch = sinon.spy();
+        const nextState = await newAppointmentFlow.typeOfCare.next(
+          state,
+          dispatch,
+        );
+        expect(nextState).toBe('typeOfCare');
+        resetFetch();
+      });
+
+      test('should be the current page if no CC support and typeOfCare is podiatry', async () => {
+        const state = {
+          user: {
+            profile: {
+              facilities: [{ facilityId: '000' }],
+            },
+          },
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingCommunityCare: true,
+          },
+          newAppointment: {
+            data: {
+              typeOfCareId: 'tbd-podiatry',
+            },
+          },
+        };
+
+        const dispatch = sinon.spy();
+        const nextState = await newAppointmentFlow.typeOfCare.next(
+          state,
+          dispatch,
+        );
+        expect(nextState).toBe('typeOfCare');
+      });
+
+      test('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
+        mockFetch();
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(1), {
+          data: {
+            attributes: { eligible: true },
+          },
+        });
+        const state = {
+          ...userState,
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingCommunityCare: true,
+          },
+          newAppointment: {
+            data: {
+              typeOfCareId: 'tbd-podiatry',
+            },
+          },
+        };
+
+        const dispatch = sinon.spy();
+        const nextState = await newAppointmentFlow.typeOfCare.next(
+          state,
+          dispatch,
+        );
+        expect(nextState).toBe('requestDateTime');
+        resetFetch();
+      });
 
       test('should be typeOfSleepCare if sleep care chosen', async () => {
         const dispatch = sinon.spy();
@@ -240,22 +231,19 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('typeOfFacility page', () => {
     describe('next page', () => {
-      test(
-        'should be audiologyCareType if CC supported and audiology chosen',
-        () => {
-          const state = {
-            newAppointment: {
-              data: {
-                facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-                typeOfCareId: '203',
-              },
+      test('should be audiologyCareType if CC supported and audiology chosen', () => {
+        const state = {
+          newAppointment: {
+            data: {
+              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+              typeOfCareId: '203',
             },
-          };
+          },
+        };
 
-          const nextState = newAppointmentFlow.typeOfFacility.next(state);
-          expect(nextState).toBe('audiologyCareType');
-        }
-      );
+        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        expect(nextState).toBe('audiologyCareType');
+      });
 
       test('should be requestDateTime if CC is chosen', () => {
         const state = {
@@ -345,42 +333,39 @@ describe('VAOS newAppointmentFlow', () => {
 
         resetFetch();
       });
-      test(
-        'should be requestDateTime page if past appointments request errors',
-        async () => {
-          mockFetch();
-          setFetchJSONFailure(global.fetch, {});
-          const state = {
-            ...defaultState,
-            newAppointment: {
-              ...defaultState.newAppointment,
-              eligibility: {
-                '983_323': {
-                  directSupported: true,
-                  directPastVisit: true,
-                  directPACT: true,
-                  directClinics: true,
-                  requestSupported: true,
-                  requestPastVisit: true,
-                  requestLimit: true,
-                },
+      test('should be requestDateTime page if past appointments request errors', async () => {
+        mockFetch();
+        setFetchJSONFailure(global.fetch, {});
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            eligibility: {
+              '983_323': {
+                directSupported: true,
+                directPastVisit: true,
+                directPACT: true,
+                directClinics: true,
+                requestSupported: true,
+                requestPastVisit: true,
+                requestLimit: true,
               },
             },
-          };
-          const dispatch = sinon.spy();
+          },
+        };
+        const dispatch = sinon.spy();
 
-          const nextState = await newAppointmentFlow.vaFacility.next(
-            state,
-            dispatch,
-          );
-          expect(dispatch.firstCall.args[0].type).toBe(
-            'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
-          );
-          expect(nextState).toBe('requestDateTime');
+        const nextState = await newAppointmentFlow.vaFacility.next(
+          state,
+          dispatch,
+        );
+        expect(dispatch.firstCall.args[0].type).toBe(
+          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
+        );
+        expect(nextState).toBe('requestDateTime');
 
-          resetFetch();
-        }
-      );
+        resetFetch();
+      });
       test('should throw error if not eligible for requests or direct', async () => {
         const state = {
           ...defaultState,
@@ -478,120 +463,105 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).toBe('typeOfFacility');
       });
 
-      test(
-        'should be typeOfCare if user if user has CC enabled systems but is not CC eligible',
-        () => {
-          const state = {
-            ...defaultState,
-            newAppointment: {
-              ...defaultState.newAppointment,
-              data: {
-                typeOfCareId: '323',
-                vaParent: '983',
-                vaFacility: '983',
-                facilityType: FACILITY_TYPES.VAMC,
-              },
-              ccEnabledSystems: ['983'],
-              isCCEligible: false,
+      test('should be typeOfCare if user if user has CC enabled systems but is not CC eligible', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: '323',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
             },
-          };
+            ccEnabledSystems: ['983'],
+            isCCEligible: false,
+          },
+        };
 
-          const nextState = newAppointmentFlow.vaFacility.previous(state);
-          expect(nextState).toBe('typeOfCare');
-        }
-      );
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).toBe('typeOfCare');
+      });
 
-      test(
-        'should be typeOfCare if selected type of care is not CC eligible',
-        () => {
-          const state = {
-            ...defaultState,
-            newAppointment: {
-              ...defaultState.newAppointment,
-              data: {
-                typeOfCareId: '502',
-                vaParent: '983',
-                vaFacility: '983',
-                facilityType: FACILITY_TYPES.VAMC,
-              },
-              ccEnabledSystems: ['983'],
-              isCCEligible: true,
+      test('should be typeOfCare if selected type of care is not CC eligible', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: '502',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
             },
-          };
+            ccEnabledSystems: ['983'],
+            isCCEligible: true,
+          },
+        };
 
-          const nextState = newAppointmentFlow.vaFacility.previous(state);
-          expect(nextState).toBe('typeOfCare');
-        }
-      );
-      test(
-        'should be typeOfSleepCare page when back button selected along sleep care flow',
-        () => {
-          const state = {
-            ...defaultState,
-            newAppointment: {
-              ...defaultState.newAppointment,
-              data: {
-                typeOfCareId: 'SLEEP',
-                vaParent: '983',
-                vaFacility: '983',
-                facilityType: FACILITY_TYPES.VAMC,
-              },
-              hasCCEnabledSystems: false,
-              isCCEligible: true,
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).toBe('typeOfCare');
+      });
+      test('should be typeOfSleepCare page when back button selected along sleep care flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'SLEEP',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
             },
-          };
+            hasCCEnabledSystems: false,
+            isCCEligible: true,
+          },
+        };
 
-          const nextState = newAppointmentFlow.vaFacility.previous(state);
-          expect(nextState).toBe('typeOfSleepCare');
-        }
-      );
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).toBe('typeOfSleepCare');
+      });
       // testing eyecare flow
-      test(
-        'should be typeOfEyeCare page when back button selected along Ophthalmology flow',
-        () => {
-          const state = {
-            ...defaultState,
-            newAppointment: {
-              ...defaultState.newAppointment,
-              data: {
-                typeOfCareId: 'EYE',
-                typeOfEyeCareId: '407',
-                vaParent: '983',
-                vaFacility: '983',
-                facilityType: FACILITY_TYPES.VAMC,
-              },
-              hasCCEnabledSystems: false,
-              isCCEligible: true,
+      test('should be typeOfEyeCare page when back button selected along Ophthalmology flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'EYE',
+              typeOfEyeCareId: '407',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
             },
-          };
+            hasCCEnabledSystems: false,
+            isCCEligible: true,
+          },
+        };
 
-          const nextState = newAppointmentFlow.vaFacility.previous(state);
-          expect(nextState).toBe('typeOfEyeCare');
-        }
-      );
-      test(
-        'should be typeOfFacility page when back button selected along optometry flow',
-        () => {
-          const state = {
-            ...defaultState,
-            newAppointment: {
-              ...defaultState.newAppointment,
-              data: {
-                typeOfCareId: 'EYE',
-                typeOfEyeCareId: '408',
-                vaParent: '983',
-                vaFacility: '983',
-                facilityType: FACILITY_TYPES.VAMC,
-              },
-              hasCCEnabledSystems: true,
-              isCCEligible: true,
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).toBe('typeOfEyeCare');
+      });
+      test('should be typeOfFacility page when back button selected along optometry flow', () => {
+        const state = {
+          ...defaultState,
+          newAppointment: {
+            ...defaultState.newAppointment,
+            data: {
+              typeOfCareId: 'EYE',
+              typeOfEyeCareId: '408',
+              vaParent: '983',
+              vaFacility: '983',
+              facilityType: FACILITY_TYPES.VAMC,
             },
-          };
+            hasCCEnabledSystems: true,
+            isCCEligible: true,
+          },
+        };
 
-          const nextState = newAppointmentFlow.vaFacility.previous(state);
-          expect(nextState).toBe('typeOfFacility');
-        }
-      );
+        const nextState = newAppointmentFlow.vaFacility.previous(state);
+        expect(nextState).toBe('typeOfFacility');
+      });
     });
   });
 
@@ -698,24 +668,21 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).toBe('preferredDate');
       });
 
-      test(
-        'should be requestDateTime if user chose that they need a different clinic',
-        () => {
-          const state = {
-            newAppointment: {
-              data: {
-                clinicId: 'NONE',
-              },
+      test('should be requestDateTime if user chose that they need a different clinic', () => {
+        const state = {
+          newAppointment: {
+            data: {
+              clinicId: 'NONE',
             },
-          };
-          const dispatch = sinon.spy();
+          },
+        };
+        const dispatch = sinon.spy();
 
-          const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
+        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
 
-          expect(nextState).toBe('requestDateTime');
-          expect(dispatch.called).toBe(true);
-        }
-      );
+        expect(nextState).toBe('requestDateTime');
+        expect(dispatch.called).toBe(true);
+      });
     });
   });
 

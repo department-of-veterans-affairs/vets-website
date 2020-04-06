@@ -69,16 +69,13 @@ const LOA1UserState = {
 };
 describe('simple top-level selectors', () => {
   describe('isLoggedOut', () => {
-    test(
-      'is `true` if the profile is not loading and the user is not logged in',
-      () => {
-        const state = {
-          user: { ...loggedOutUserState },
-        };
-        const isLoggedOut = selectors.isLoggedOut(state);
-        expect(isLoggedOut).toBe(true);
-      }
-    );
+    test('is `true` if the profile is not loading and the user is not logged in', () => {
+      const state = {
+        user: { ...loggedOutUserState },
+      };
+      const isLoggedOut = selectors.isLoggedOut(state);
+      expect(isLoggedOut).toBe(true);
+    });
     test('is `false` if the profile is loading', () => {
       const state = {
         user: { ...loadingUserState },
@@ -86,16 +83,13 @@ describe('simple top-level selectors', () => {
       const isLoggedOut = selectors.isLoggedOut(state);
       expect(isLoggedOut).toBe(false);
     });
-    test(
-      'is `false` if the profile is not loading and the user is logged in',
-      () => {
-        const state = {
-          user: { ...LOA3UserState },
-        };
-        const isLoggedOut = selectors.isLoggedOut(state);
-        expect(isLoggedOut).toBe(false);
-      }
-    );
+    test('is `false` if the profile is not loading and the user is logged in', () => {
+      const state = {
+        user: { ...LOA3UserState },
+      };
+      const isLoggedOut = selectors.isLoggedOut(state);
+      expect(isLoggedOut).toBe(false);
+    });
   });
 
   describe('selectEnrollmentStatus', () => {
@@ -291,17 +285,14 @@ describe('compound selectors', () => {
       const isLoading = selectors.isLoading(state);
       expect(isLoading).toBe(true);
     });
-    test(
-      'returns false if neither the profile or enrollment status is loading',
-      () => {
-        const state = {
-          hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
-          user: { ...loggedOutUserState },
-        };
-        const isLoading = selectors.isLoading(state);
-        expect(isLoading).toBe(false);
-      }
-    );
+    test('returns false if neither the profile or enrollment status is loading', () => {
+      const state = {
+        hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
+        user: { ...loggedOutUserState },
+      };
+      const isLoading = selectors.isLoading(state);
+      expect(isLoading).toBe(false);
+    });
   });
 
   describe('isUserLOA1', () => {
@@ -367,20 +358,17 @@ describe('compound selectors', () => {
       const isLOA3 = selectors.isUserLOA3(state);
       expect(isLOA3).toBe(false);
     });
-    test(
-      'returns true if enrollment status is loading but the user has resolved',
-      () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-            isLoadingApplicationStatus: true,
-          },
-          user: { ...LOA3UserState },
-        };
-        const isLOA3 = selectors.isUserLOA3(state);
-        expect(isLOA3).toBe(true);
-      }
-    );
+    test('returns true if enrollment status is loading but the user has resolved', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          isLoadingApplicationStatus: true,
+        },
+        user: { ...LOA3UserState },
+      };
+      const isLOA3 = selectors.isUserLOA3(state);
+      expect(isLOA3).toBe(true);
+    });
     test('returns false if the profile still loading', () => {
       const state = {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
@@ -460,21 +448,18 @@ describe('compound selectors', () => {
       );
       expect(shouldShowLoggedOutContent).toBe(true);
     });
-    test(
-      'returns false if the user is logged in, is in ESR, and there are no enrollment status server errors',
-      () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-          },
-          user: { ...LOA3UserState },
-        };
-        const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
-          state,
-        );
-        expect(shouldShowLoggedOutContent).toBe(false);
-      }
-    );
+    test('returns false if the user is logged in, is in ESR, and there are no enrollment status server errors', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+        },
+        user: { ...LOA3UserState },
+      };
+      const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
+        state,
+      );
+      expect(shouldShowLoggedOutContent).toBe(false);
+    });
   });
 
   describe('shouldHideFormFooter', () => {
@@ -512,33 +497,27 @@ describe('compound selectors', () => {
       expect(shouldHideFormFooter).toBe(true);
     });
 
-    test(
-      'returns true if the user is LOA3 and the Reapply For Healthcare content is not shown',
-      () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-          },
-          user: { ...LOA3UserState },
-        };
-        const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-        expect(shouldHideFormFooter).toBe(true);
-      }
-    );
+    test('returns true if the user is LOA3 and the Reapply For Healthcare content is not shown', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+        },
+        user: { ...LOA3UserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).toBe(true);
+    });
 
-    test(
-      'returns false if the user is LOA3 but the Reapply For Healthcare content is shown',
-      () => {
-        const state = {
-          hcaEnrollmentStatus: {
-            ...basicEnrollmentStatusState,
-            showHCAReapplyContent: true,
-          },
-          user: { ...LOA3UserState },
-        };
-        const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-        expect(shouldHideFormFooter).toBe(false);
-      }
-    );
+    test('returns false if the user is LOA3 but the Reapply For Healthcare content is shown', () => {
+      const state = {
+        hcaEnrollmentStatus: {
+          ...basicEnrollmentStatusState,
+          showHCAReapplyContent: true,
+        },
+        user: { ...LOA3UserState },
+      };
+      const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
+      expect(shouldHideFormFooter).toBe(false);
+    });
   });
 });

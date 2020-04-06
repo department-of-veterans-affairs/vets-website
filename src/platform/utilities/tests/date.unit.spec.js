@@ -90,23 +90,20 @@ describe('Helpers unit tests', () => {
       expect(formatDateParsedZoneShort(midnight)).toBe('11/12/1995');
     });
 
-    test(
-      'should display the date string without regard to the timezone or offset',
-      () => {
-        expect(formatDateParsedZoneShort(midnight)).toBe('11/12/1995');
-        expect(formatDateParsedZoneShort(midnightOffsetNegative1)).toBe(
-          '11/12/1995',
-        );
-        expect(formatDateParsedZoneShort(sixAMOffset0)).toBe('11/12/1995');
-        expect(formatDateParsedZoneShort(eightAMOffset0)).toBe('11/12/1995');
-        expect(formatDateParsedZoneShort(almostMidnightOffset0)).toBe(
-          '11/12/1995',
-        );
-        expect(formatDateParsedZoneShort(almostMidnightOffsetNegative1)).toBe(
-          '11/12/1995',
-        );
-      }
-    );
+    test('should display the date string without regard to the timezone or offset', () => {
+      expect(formatDateParsedZoneShort(midnight)).toBe('11/12/1995');
+      expect(formatDateParsedZoneShort(midnightOffsetNegative1)).toBe(
+        '11/12/1995',
+      );
+      expect(formatDateParsedZoneShort(sixAMOffset0)).toBe('11/12/1995');
+      expect(formatDateParsedZoneShort(eightAMOffset0)).toBe('11/12/1995');
+      expect(formatDateParsedZoneShort(almostMidnightOffset0)).toBe(
+        '11/12/1995',
+      );
+      expect(formatDateParsedZoneShort(almostMidnightOffsetNegative1)).toBe(
+        '11/12/1995',
+      );
+    });
   });
 
   describe('formatDateLong', () => {
@@ -129,25 +126,22 @@ describe('Helpers unit tests', () => {
       expect(formatDateParsedZoneLong(midnight)).toBe('November 12, 1995');
     });
 
-    test(
-      'should display the date string without regard to the timezone or offset',
-      () => {
-        expect(formatDateParsedZoneLong(midnight)).toBe('November 12, 1995');
-        expect(formatDateParsedZoneLong(midnightOffsetNegative1)).toBe(
-          'November 12, 1995',
-        );
-        expect(formatDateParsedZoneLong(sixAMOffset0)).toBe('November 12, 1995');
-        expect(formatDateParsedZoneLong(eightAMOffset0)).toBe(
-          'November 12, 1995',
-        );
-        expect(formatDateParsedZoneLong(almostMidnightOffset0)).toBe(
-          'November 12, 1995',
-        );
-        expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).toBe(
-          'November 12, 1995',
-        );
-      }
-    );
+    test('should display the date string without regard to the timezone or offset', () => {
+      expect(formatDateParsedZoneLong(midnight)).toBe('November 12, 1995');
+      expect(formatDateParsedZoneLong(midnightOffsetNegative1)).toBe(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(sixAMOffset0)).toBe('November 12, 1995');
+      expect(formatDateParsedZoneLong(eightAMOffset0)).toBe(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(almostMidnightOffset0)).toBe(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).toBe(
+        'November 12, 1995',
+      );
+    });
   });
 
   describe('isValidDateString', () => {
@@ -156,19 +150,13 @@ describe('Helpers unit tests', () => {
       expect(isValidDateString(false)).toBe(false);
       expect(isValidDateString({})).toBe(false);
     });
-    test(
-      'returns `false` when passed a string that cannot be parsed as a date',
-      () => {
-        expect(isValidDateString('not a date')).toBe(false);
-      }
-    );
-    test(
-      'returns `true` when passed a string that can be parsed as a date',
-      () => {
-        expect(isValidDateString('1986-05-06')).toBe(true);
-        expect(isValidDateString('2018-01-24T00:00:00.000-06:00')).toBe(true);
-      }
-    );
+    test('returns `false` when passed a string that cannot be parsed as a date', () => {
+      expect(isValidDateString('not a date')).toBe(false);
+    });
+    test('returns `true` when passed a string that can be parsed as a date', () => {
+      expect(isValidDateString('1986-05-06')).toBe(true);
+      expect(isValidDateString('2018-01-24T00:00:00.000-06:00')).toBe(true);
+    });
   });
 
   describe('formatDowntime', () => {

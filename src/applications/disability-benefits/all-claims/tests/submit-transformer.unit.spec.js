@@ -116,33 +116,27 @@ describe('getPtsdChangeText', () => {
       });
   });
 
-  test(
-    'should have mappings for all physicalHealthChanges schema fields',
-    () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
-          .properties.physicalChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
-        });
-    }
-  );
+  test('should have mappings for all physicalHealthChanges schema fields', () => {
+    Object.keys(
+      formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+        .properties.physicalChanges.properties,
+    )
+      .filter(key => !ignoredFields.includes(key))
+      .forEach(key => {
+        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
+      });
+  });
 
-  test(
-    'should have mappings for all socialBehaviorChanges schema fields',
-    () => {
-      Object.keys(
-        formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
-          .properties.socialBehaviorChanges.properties,
-      )
-        .filter(key => !ignoredFields.includes(key))
-        .forEach(key => {
-          expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
-        });
-    }
-  );
+  test('should have mappings for all socialBehaviorChanges schema fields', () => {
+    Object.keys(
+      formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+        .properties.socialBehaviorChanges.properties,
+    )
+      .filter(key => !ignoredFields.includes(key))
+      .forEach(key => {
+        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
+      });
+  });
 
   test('should return UI titles', () => {
     const fieldTitles = getPtsdChangeText({

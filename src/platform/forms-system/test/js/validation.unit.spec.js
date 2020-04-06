@@ -347,24 +347,21 @@ describe('Schemaform validations', () => {
 
       expect(errors.to.addError.called).toBe(true);
     });
-    test(
-      'should set custom message from config if date range is not valid',
-      () => {
-        const errors = { to: { addError: sinon.spy() } };
-        validateDateRange(
-          errors,
-          {
-            from: '2014-01-04',
-            to: '2012-01-04',
-          },
-          null,
-          null,
-          { pattern: 'Test message' },
-        );
+    test('should set custom message from config if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRange(
+        errors,
+        {
+          from: '2014-01-04',
+          to: '2012-01-04',
+        },
+        null,
+        null,
+        { pattern: 'Test message' },
+      );
 
-        expect(errors.to.addError.calledWith('Test message')).toBe(true);
-      }
-    );
+      expect(errors.to.addError.calledWith('Test message')).toBe(true);
+    });
   });
   describe('validateFileField', () => {
     test('should mark uploading files as invalid', () => {

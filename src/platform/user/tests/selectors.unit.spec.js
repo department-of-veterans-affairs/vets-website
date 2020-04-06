@@ -131,23 +131,20 @@ describe('user selectors', () => {
     });
 
     describe('selectVet360MobilePhoneString', () => {
-      test(
-        'pulls out the mobile phone number as a single string if it exists',
-        () => {
-          const state = {
-            user: {
-              profile: {
-                vet360: {
-                  mobilePhone: phoneNumberData,
-                },
+      test('pulls out the mobile phone number as a single string if it exists', () => {
+        const state = {
+          user: {
+            profile: {
+              vet360: {
+                mobilePhone: phoneNumberData,
               },
             },
-          };
-          expect(selectors.selectVet360MobilePhoneString(state)).toBe(
-            '4158453210',
-          );
-        }
-      );
+          },
+        };
+        expect(selectors.selectVet360MobilePhoneString(state)).toBe(
+          '4158453210',
+        );
+      });
       test('properly handles phone numbers with an extension', () => {
         const state = {
           user: {

@@ -112,37 +112,31 @@ describe('isEmptyAddress', () => {
 });
 
 describe('consolidateAddress', () => {
-  test(
-    'converts a military address into a standard address format by adding the countryName set to USA, militaryPostOfficeTypeCode converted to city, and militaryStateCode converted to stateCode.',
-    () => {
-      const expectedResult = {
-        type: 'MILITARY',
-        countryName: 'USA',
-        addressOne: military.addressOne,
-        addressTwo: military.addressTwo,
-        addressThree: military.addressThree,
-        city: military.militaryPostOfficeTypeCode,
-        stateCode: military.militaryStateCode,
-        zipCode: military.zipCode,
-        zipSuffix: military.zipSuffix,
-      };
-      expect(addressUtils.consolidateAddress(military)).toEqual(expectedResult);
-    }
-  );
+  test('converts a military address into a standard address format by adding the countryName set to USA, militaryPostOfficeTypeCode converted to city, and militaryStateCode converted to stateCode.', () => {
+    const expectedResult = {
+      type: 'MILITARY',
+      countryName: 'USA',
+      addressOne: military.addressOne,
+      addressTwo: military.addressTwo,
+      addressThree: military.addressThree,
+      city: military.militaryPostOfficeTypeCode,
+      stateCode: military.militaryStateCode,
+      zipCode: military.zipCode,
+      zipSuffix: military.zipSuffix,
+    };
+    expect(addressUtils.consolidateAddress(military)).toEqual(expectedResult);
+  });
   test('does not affect non-military addresses', () => {
     expect(addressUtils.consolidateAddress(domestic)).toEqual(domestic);
   });
 });
 
 describe('expandAddress', () => {
-  test(
-    'converts a previously-consolidated address into the proper model by inferring the address type. If it is inferred as military, the inverse conversion of consolidateAddress is performed.',
-    () => {
-      const consolidated = addressUtils.consolidateAddress(military);
-      consolidated.type = 'Will be inferred based on address fields';
-      expect(addressUtils.expandAddress(consolidated)).toEqual(military);
-    }
-  );
+  test('converts a previously-consolidated address into the proper model by inferring the address type. If it is inferred as military, the inverse conversion of consolidateAddress is performed.', () => {
+    const consolidated = addressUtils.consolidateAddress(military);
+    consolidated.type = 'Will be inferred based on address fields';
+    expect(addressUtils.expandAddress(consolidated)).toEqual(military);
+  });
   test('does not affect non-military addresses', () => {
     expect(addressUtils.expandAddress(domestic)).toEqual(domestic);
   });

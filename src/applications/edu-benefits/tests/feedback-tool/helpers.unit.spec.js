@@ -378,18 +378,15 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      test(
-        'is not added when neither `serviceBranch` or `serviceDateRange` are not set on the formData',
-        () => {
-          const expectedFormData = {
-            ...formData,
-          };
-          const result = prefillTransformer(pages, formData, metadata);
-          expect(result.metadata).toEqual(metadata);
-          expect(result.pages).toEqual(pages);
-          expect(result.formData).toEqual(expectedFormData);
-        }
-      );
+      test('is not added when neither `serviceBranch` or `serviceDateRange` are not set on the formData', () => {
+        const expectedFormData = {
+          ...formData,
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
+      });
     });
     describe(`"${PREFILL_FLAGS.CONTACT_INFORMATION}" flag`, () => {
       test('is added when an `applicantEmail` is set on the formData', () => {
@@ -425,18 +422,15 @@ describe('feedback-tool helpers:', () => {
         expect(result.pages).toEqual(pages);
         expect(result.formData).toEqual(expectedFormData);
       });
-      test(
-        'is not added when neither `address`, `phone`, or `applicantEmail` are set on the formData',
-        () => {
-          const expectedFormData = {
-            ...formData,
-          };
-          const result = prefillTransformer(pages, formData, metadata);
-          expect(result.metadata).toEqual(metadata);
-          expect(result.pages).toEqual(pages);
-          expect(result.formData).toEqual(expectedFormData);
-        }
-      );
+      test('is not added when neither `address`, `phone`, or `applicantEmail` are set on the formData', () => {
+        const expectedFormData = {
+          ...formData,
+        };
+        const result = prefillTransformer(pages, formData, metadata);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
+      });
     });
   });
 
@@ -450,29 +444,23 @@ describe('feedback-tool helpers:', () => {
     beforeEach(() => {
       messageComponent = sinon.spy(() => 'dom');
     });
-    test(
-      'calls the `messageComponent` param if the correct flag is set on data.formData',
-      () => {
-        const result = conditionallyShowPrefillMessage(
-          'goodFlag',
-          data,
-          messageComponent,
-        );
-        expect(messageComponent.called).toBe(true);
-        expect(result).toBe('dom');
-      }
-    );
-    test(
-      'does not call the `messageComponent` param if the correct flag is not set data.formData',
-      () => {
-        const result = conditionallyShowPrefillMessage(
-          'badFlag',
-          data,
-          messageComponent,
-        );
-        expect(messageComponent.called).toBe(false);
-        expect(result).toBe(null);
-      }
-    );
+    test('calls the `messageComponent` param if the correct flag is set on data.formData', () => {
+      const result = conditionallyShowPrefillMessage(
+        'goodFlag',
+        data,
+        messageComponent,
+      );
+      expect(messageComponent.called).toBe(true);
+      expect(result).toBe('dom');
+    });
+    test('does not call the `messageComponent` param if the correct flag is not set data.formData', () => {
+      const result = conditionallyShowPrefillMessage(
+        'badFlag',
+        data,
+        messageComponent,
+      );
+      expect(messageComponent.called).toBe(false);
+      expect(result).toBe(null);
+    });
   });
 });

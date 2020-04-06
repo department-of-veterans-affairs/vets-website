@@ -93,34 +93,31 @@ describe('feedback tool school info', () => {
     form.unmount();
   });
 
-  test(
-    'should not submit without required international address information',
-    () => {
-      const onSubmit = sinon.spy();
-      const form = mount(
-        <DefinitionTester
-          schema={schema}
-          data={{
-            educationDetails: {
-              school: {
-                'view:searchSchoolSelect': {
-                  'view:manualSchoolEntryChecked': true,
-                },
+  test('should not submit without required international address information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                'view:manualSchoolEntryChecked': true,
               },
             },
-          }}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}
-        />,
-      );
+          },
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
 
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error').length).toBe(3);
-      expect(onSubmit.called).toBe(false);
-      form.unmount();
-    }
-  );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).toBe(3);
+    expect(onSubmit.called).toBe(false);
+    form.unmount();
+  });
 
   test('should submit with required information', () => {
     const onSubmit = sinon.spy();

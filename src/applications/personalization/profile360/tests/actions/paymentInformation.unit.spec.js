@@ -121,17 +121,14 @@ describe('actions/paymentInformation', () => {
           await actionCreator(dispatch);
         });
 
-        test(
-          'dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint',
-          () => {
-            expect(dispatch.secondCall.args[0].type).toBe(
-              paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-            );
-            expect(dispatch.secondCall.args[0].response).toEqual({
-              responses: [paymentInfo],
-            });
-          }
-        );
+        test('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+          expect(dispatch.secondCall.args[0].type).toBe(
+            paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+          );
+          expect(dispatch.secondCall.args[0].response).toEqual({
+            responses: [paymentInfo],
+          });
+        });
 
         test('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).toBe(

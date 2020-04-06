@@ -24,93 +24,87 @@ describe('schoolSearch actions', () => {
   });
 
   describe('restoreFromPrefill', () => {
-    test(
-      'should dispatch RESTORE_FROM_PREFILL_STARTED and RESTORE_FROM_PREFILL_SUCCEEDED actions',
-      done => {
-        const payload = { test: 'test' };
-        mockFetch();
-        setFetchResponse(global.fetch.onFirstCall(), payload);
+    test('should dispatch RESTORE_FROM_PREFILL_STARTED and RESTORE_FROM_PREFILL_SUCCEEDED actions', done => {
+      const payload = { test: 'test' };
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), payload);
 
-        const dispatch = sinon.spy();
+      const dispatch = sinon.spy();
 
-        const restoreInformation = {
+      const restoreInformation = {
+        institutionSelected: {
+          test: 'test',
+        },
+        institutionQuery: 'testQuery',
+        page: 1,
+        searchInputValue: 'test',
+      };
+
+      restoreFromPrefill(restoreInformation)(dispatch);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          type: 'RESTORE_FROM_PREFILL_STARTED',
           institutionSelected: {
             test: 'test',
           },
           institutionQuery: 'testQuery',
           page: 1,
           searchInputValue: 'test',
-        };
+        }),
+      ).toBe(true);
 
-        restoreFromPrefill(restoreInformation)(dispatch);
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).toEqual({
+          type: 'RESTORE_FROM_PREFILL_SUCCEEDED',
+          payload,
+          institutionQuery: 'testQuery',
+        });
+        resetFetch();
+        done();
+      }, 0);
+    });
 
-        expect(
-          dispatch.firstCall.calledWith({
-            type: 'RESTORE_FROM_PREFILL_STARTED',
-            institutionSelected: {
-              test: 'test',
-            },
-            institutionQuery: 'testQuery',
-            page: 1,
-            searchInputValue: 'test',
-          }),
-        ).toBe(true);
+    test('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions', done => {
+      const error = { test: 'test' };
+      mockFetch();
+      setFetchFailure(global.fetch.onFirstCall(), error);
 
-        setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).toEqual({
-            type: 'RESTORE_FROM_PREFILL_SUCCEEDED',
-            payload,
-            institutionQuery: 'testQuery',
-          });
-          resetFetch();
-          done();
-        }, 0);
-      }
-    );
+      const dispatch = sinon.spy();
 
-    test(
-      'should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions',
-      done => {
-        const error = { test: 'test' };
-        mockFetch();
-        setFetchFailure(global.fetch.onFirstCall(), error);
+      const restoreInformation = {
+        institutionSelected: {
+          test: 'test',
+        },
+        institutionQuery: 'testQuery',
+        page: 1,
+        searchInputValue: 'test',
+      };
 
-        const dispatch = sinon.spy();
+      restoreFromPrefill(restoreInformation)(dispatch);
 
-        const restoreInformation = {
+      expect(
+        dispatch.firstCall.calledWith({
+          type: 'RESTORE_FROM_PREFILL_STARTED',
           institutionSelected: {
             test: 'test',
           },
           institutionQuery: 'testQuery',
           page: 1,
           searchInputValue: 'test',
-        };
+        }),
+      ).toBe(true);
 
-        restoreFromPrefill(restoreInformation)(dispatch);
-
-        expect(
-          dispatch.firstCall.calledWith({
-            type: 'RESTORE_FROM_PREFILL_STARTED',
-            institutionSelected: {
-              test: 'test',
-            },
-            institutionQuery: 'testQuery',
-            page: 1,
-            searchInputValue: 'test',
-          }),
-        ).toBe(true);
-
-        setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).toEqual({
-            type: 'RESTORE_FROM_PREFILL_FAILED',
-            error,
-            institutionQuery: 'testQuery',
-          });
-          resetFetch();
-          done();
-        }, 0);
-      }
-    );
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).toEqual({
+          type: 'RESTORE_FROM_PREFILL_FAILED',
+          error,
+          institutionQuery: 'testQuery',
+        });
+        resetFetch();
+        done();
+      }, 0);
+    });
   });
 
   describe('searchInputChange', () => {
@@ -122,77 +116,71 @@ describe('schoolSearch actions', () => {
     });
   });
   describe('searchSchools', () => {
-    test(
-      'should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_SUCCEEDED actions',
-      done => {
-        const payload = { test: 'test' };
-        mockFetch();
-        setFetchResponse(global.fetch.onFirstCall(), payload);
+    test('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_SUCCEEDED actions', done => {
+      const payload = { test: 'test' };
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), payload);
 
-        const dispatch = sinon.spy();
+      const dispatch = sinon.spy();
 
-        const schoolSearchQuery = {
+      const schoolSearchQuery = {
+        institutionQuery: 'testQuery',
+        page: 1,
+      };
+
+      searchSchools(schoolSearchQuery)(dispatch);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          type: 'LOAD_SCHOOLS_STARTED',
           institutionQuery: 'testQuery',
           page: 1,
-        };
+        }),
+      ).toBe(true);
 
-        searchSchools(schoolSearchQuery)(dispatch);
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).toEqual({
+          type: 'LOAD_SCHOOLS_SUCCEEDED',
+          payload,
+          institutionQuery: 'testQuery',
+        });
+        resetFetch();
+        done();
+      }, 0);
+    });
 
-        expect(
-          dispatch.firstCall.calledWith({
-            type: 'LOAD_SCHOOLS_STARTED',
-            institutionQuery: 'testQuery',
-            page: 1,
-          }),
-        ).toBe(true);
+    test('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions', done => {
+      const error = { test: 'test' };
+      mockFetch();
+      setFetchFailure(global.fetch.onFirstCall(), error);
 
-        setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).toEqual({
-            type: 'LOAD_SCHOOLS_SUCCEEDED',
-            payload,
-            institutionQuery: 'testQuery',
-          });
-          resetFetch();
-          done();
-        }, 0);
-      }
-    );
+      const dispatch = sinon.spy();
 
-    test(
-      'should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions',
-      done => {
-        const error = { test: 'test' };
-        mockFetch();
-        setFetchFailure(global.fetch.onFirstCall(), error);
+      const schoolSearchQuery = {
+        institutionQuery: 'testQuery',
+        page: 1,
+      };
 
-        const dispatch = sinon.spy();
+      searchSchools(schoolSearchQuery)(dispatch);
 
-        const schoolSearchQuery = {
+      expect(
+        dispatch.firstCall.calledWith({
+          type: 'LOAD_SCHOOLS_STARTED',
           institutionQuery: 'testQuery',
           page: 1,
-        };
+        }),
+      ).toBe(true);
 
-        searchSchools(schoolSearchQuery)(dispatch);
-
-        expect(
-          dispatch.firstCall.calledWith({
-            type: 'LOAD_SCHOOLS_STARTED',
-            institutionQuery: 'testQuery',
-            page: 1,
-          }),
-        ).toBe(true);
-
-        setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).toEqual({
-            type: 'LOAD_SCHOOLS_FAILED',
-            error,
-            institutionQuery: 'testQuery',
-          });
-          resetFetch();
-          done();
-        }, 0);
-      }
-    );
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).toEqual({
+          type: 'LOAD_SCHOOLS_FAILED',
+          error,
+          institutionQuery: 'testQuery',
+        });
+        resetFetch();
+        done();
+      }, 0);
+    });
   });
   describe('selectInstitution', () => {
     test('should return an INSTITUTION_SELECTED action', () => {

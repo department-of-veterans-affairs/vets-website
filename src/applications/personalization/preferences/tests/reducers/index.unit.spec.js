@@ -50,77 +50,71 @@ describe('preferencesReducer', () => {
       expect(newState.availableBenefits).toEqual([]);
     });
 
-    test(
-      'correctly parses the server payload and updates the `dashboard` and `savedDashboard` state when the user has set preferences',
-      () => {
-        userPreferencesResponse = {
-          data: {
-            id: '',
-            type: 'arrays',
-            attributes: {
-              userPreferences: [
-                {
-                  code: 'benefits',
-                  title:
-                    'the benefits a veteran is interested in, so VA.gov can help you apply for them',
-                  userPreferences: [
-                    {
-                      code: 'education-training',
-                      description: 'Info about education and training benefits',
-                    },
-                  ],
-                },
-              ],
-            },
+    test('correctly parses the server payload and updates the `dashboard` and `savedDashboard` state when the user has set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [
+              {
+                code: 'benefits',
+                title:
+                  'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+                userPreferences: [
+                  {
+                    code: 'education-training',
+                    description: 'Info about education and training benefits',
+                  },
+                ],
+              },
+            ],
           },
-        };
-        state = {
-          dashboard: {
-            appeals: true,
-            'education-training': false,
-          },
-        };
-        action = {
-          type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
-          payload: userPreferencesResponse,
-        };
-        const newState = reducer(state, action);
-        expect(newState.dashboard).toEqual({
-          'education-training': true,
-        });
-        expect(newState.savedDashboard).toEqual({
-          'education-training': true,
-        });
-      }
-    );
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).toEqual({
+        'education-training': true,
+      });
+      expect(newState.savedDashboard).toEqual({
+        'education-training': true,
+      });
+    });
 
-    test(
-      'correctly parses the server payload and updates the state when the user has not set preferences',
-      () => {
-        userPreferencesResponse = {
-          data: {
-            id: '',
-            type: 'arrays',
-            attributes: {
-              userPreferences: [],
-            },
+    test('correctly parses the server payload and updates the state when the user has not set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [],
           },
-        };
-        state = {
-          dashboard: {
-            appeals: true,
-            'education-training': false,
-          },
-        };
-        action = {
-          type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
-          payload: userPreferencesResponse,
-        };
-        const newState = reducer(state, action);
-        expect(newState.dashboard).toEqual({});
-        expect(newState.savedDashboard).toEqual({});
-      }
-    );
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.FETCH_USER_PREFERENCES_SUCCEEDED,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).toEqual({});
+      expect(newState.savedDashboard).toEqual({});
+    });
   });
 
   describe('FETCH_USER_PREFERENCES_FAILED', () => {
@@ -267,21 +261,18 @@ describe('preferencesReducer', () => {
       const newState = reducer(state, action);
       expect(newState.dashboard).toEqual({ pref1: true });
     });
-    test(
-      'completely removes prefs from dashboard when their new value is `false`',
-      () => {
-        state = {
-          dashboard: { pref1: true, pref2: true },
-        };
-        action = {
-          type: preferencesActions.SET_USER_PREFERENCE,
-          code: 'pref1',
-          value: false,
-        };
-        const newState = reducer(state, action);
-        expect(newState.dashboard).toEqual({ pref2: true });
-      }
-    );
+    test('completely removes prefs from dashboard when their new value is `false`', () => {
+      state = {
+        dashboard: { pref1: true, pref2: true },
+      };
+      action = {
+        type: preferencesActions.SET_USER_PREFERENCE,
+        code: 'pref1',
+        value: false,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).toEqual({ pref2: true });
+    });
     test('does not touch the savedDashboard when updating the dashboard', () => {
       state = {
         dashboard: { pref1: true, pref2: true },

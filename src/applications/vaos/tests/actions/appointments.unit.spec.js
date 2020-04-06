@@ -76,30 +76,27 @@ describe('VAOS actions: appointments', () => {
     );
   });
 
-  test(
-    'should dispatch fail action when fetching future appointments',
-    async () => {
-      const data = {
-        data: [],
-      };
-      setFetchJSONFailure(global.fetch, data);
-      const thunk = fetchFutureAppointments();
-      const dispatchSpy = sinon.spy();
-      const getState = () => ({
-        appointments: {
-          futureStatus: 'notStarted',
-          future: [{ facilityId: '442' }],
-        },
-      });
-      await thunk(dispatchSpy, getState);
-      expect(dispatchSpy.firstCall.args[0].type).toEqual(
-        FETCH_FUTURE_APPOINTMENTS,
-      );
-      expect(dispatchSpy.secondCall.args[0].type).toEqual(
-        FETCH_FUTURE_APPOINTMENTS_FAILED,
-      );
-    }
-  );
+  test('should dispatch fail action when fetching future appointments', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONFailure(global.fetch, data);
+    const thunk = fetchFutureAppointments();
+    const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        futureStatus: 'notStarted',
+        future: [{ facilityId: '442' }],
+      },
+    });
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
+      FETCH_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
+      FETCH_FUTURE_APPOINTMENTS_FAILED,
+    );
+  });
 
   test('should fetch past appointments', async () => {
     const data = {
@@ -128,28 +125,25 @@ describe('VAOS actions: appointments', () => {
     );
   });
 
-  test(
-    'should dispatch fail action when fetching past appointments',
-    async () => {
-      const data = {
-        data: [],
-      };
-      setFetchJSONFailure(global.fetch, data);
-      const thunk = fetchPastAppointments('2019-02-02', '2029-12-31');
-      const dispatchSpy = sinon.spy();
-      const getState = () => ({
-        appointments: {
-          pastStatus: 'notStarted',
-          past: [{ facilityId: '442' }],
-        },
-      });
-      await thunk(dispatchSpy, getState);
-      expect(dispatchSpy.firstCall.args[0].type).toEqual(FETCH_PAST_APPOINTMENTS);
-      expect(dispatchSpy.secondCall.args[0].type).toEqual(
-        FETCH_PAST_APPOINTMENTS_FAILED,
-      );
-    }
-  );
+  test('should dispatch fail action when fetching past appointments', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONFailure(global.fetch, data);
+    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31');
+    const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        pastStatus: 'notStarted',
+        past: [{ facilityId: '442' }],
+      },
+    });
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
+      FETCH_PAST_APPOINTMENTS_FAILED,
+    );
+  });
 
   test('should fetch clinic institution mapping', async () => {
     const data = {
@@ -224,33 +218,30 @@ describe('VAOS actions: appointments', () => {
     expect(global.fetch.callCount).toBe(3);
   });
 
-  test(
-    'should not send fail action if clinic institution mapping fails',
-    async () => {
-      const data = {
-        data: [],
-      };
-      setFetchJSONResponse(global.fetch, data);
-      setFetchJSONFailure(global.fetch.onCall(3), {});
-      const thunk = fetchFutureAppointments();
-      const dispatchSpy = sinon.spy();
-      const getState = () => ({
-        appointments: {
-          futureStatus: 'notStarted',
-          future: [{ facilityId: '983', clinicId: '455' }],
-        },
-      });
-      await thunk(dispatchSpy, getState);
-      expect(dispatchSpy.firstCall.args[0].type).toEqual(
-        FETCH_FUTURE_APPOINTMENTS,
-      );
-      expect(dispatchSpy.secondCall.args[0].type).toEqual(
-        FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-      );
-      expect(dispatchSpy.callCount).toBe(2);
-      expect(global.fetch.callCount).toBe(4);
-    }
-  );
+  test('should not send fail action if clinic institution mapping fails', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
+    setFetchJSONFailure(global.fetch.onCall(3), {});
+    const thunk = fetchFutureAppointments();
+    const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        futureStatus: 'notStarted',
+        future: [{ facilityId: '983', clinicId: '455' }],
+      },
+    });
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
+      FETCH_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
+      FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
+    expect(dispatchSpy.callCount).toBe(2);
+    expect(global.fetch.callCount).toBe(4);
+  });
 
   test('should fetch request messages', async () => {
     setFetchJSONResponse(global.fetch);
@@ -287,64 +278,61 @@ describe('VAOS actions: appointments', () => {
       });
     });
 
-    test(
-      'should fetch cancel reasons and cancel appt if has valid reason',
-      async () => {
-        const reasons = {
-          data: [
-            {
-              id: '4',
-              type: 'cancel_reason',
-              attributes: {
-                number: '4',
-                text: 'WEATHER',
-                type: 'B',
-                inactive: false,
-              },
-            },
-          ],
-        };
-        setFetchJSONResponse(global.fetch, reasons);
-        const state = {
-          appointments: {
-            appointmentToCancel: {
-              facilityId: '983',
-              vdsAppointments: [
-                {
-                  clinic: {},
-                },
-              ],
+    test('should fetch cancel reasons and cancel appt if has valid reason', async () => {
+      const reasons = {
+        data: [
+          {
+            id: '4',
+            type: 'cancel_reason',
+            attributes: {
+              number: '4',
+              text: 'WEATHER',
+              type: 'B',
+              inactive: false,
             },
           },
-        };
-        const dispatch = sinon.spy();
-        const thunk = confirmCancelAppointment();
+        ],
+      };
+      setFetchJSONResponse(global.fetch, reasons);
+      const state = {
+        appointments: {
+          appointmentToCancel: {
+            facilityId: '983',
+            vdsAppointments: [
+              {
+                clinic: {},
+              },
+            ],
+          },
+        },
+      };
+      const dispatch = sinon.spy();
+      const thunk = confirmCancelAppointment();
 
-        await thunk(dispatch, () => state);
+      await thunk(dispatch, () => state);
 
-        expect(dispatch.firstCall.args[0].type).toBe(
-          CANCEL_APPOINTMENT_CONFIRMED,
-        );
-        expect(dispatch.secondCall.args[0]).toEqual({
-          type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        });
+      expect(dispatch.firstCall.args[0].type).toBe(
+        CANCEL_APPOINTMENT_CONFIRMED,
+      );
+      expect(dispatch.secondCall.args[0]).toEqual({
+        type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+      });
 
-        expect(global.window.dataLayer[0]).toEqual({
-          event: 'vaos-cancel-appointment-submission',
-          appointmentType: 'confirmed',
-          facilityType: 'va',
-        });
+      expect(global.window.dataLayer[0]).toEqual({
+        event: 'vaos-cancel-appointment-submission',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
 
-        expect(global.window.dataLayer[1]).toEqual({
-          event: 'vaos-cancel-appointment-submission-successful',
-          appointmentType: 'confirmed',
-          facilityType: 'va',
-        });
-        expect(
-          JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
-        ).toBe('4');
-      }
-    );
+      expect(global.window.dataLayer[1]).toEqual({
+        event: 'vaos-cancel-appointment-submission-successful',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
+      expect(
+        JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
+      ).toBe('4');
+    });
 
     test('should fetch cancel reasons and cancel appt', async () => {
       setFetchJSONResponse(global.fetch, cancelReasons);

@@ -137,39 +137,33 @@ describe('getEnrollmentData', () => {
       .then(done, done);
   });
 
-  test(
-    'dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code',
-    done => {
-      global.fetch.returns(Promise.reject({}));
-      const thunk = getEnrollmentData();
-      const dispatch = sinon.spy();
-      thunk(dispatch)
-        .then(() => {
-          const action = dispatch.firstCall.args[0];
-          expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
-        })
-        .then(done, done);
-    }
-  );
+  test('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code', done => {
+    global.fetch.returns(Promise.reject({}));
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
+      })
+      .then(done, done);
+  });
 
-  test(
-    'dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error code',
-    done => {
-      global.fetch.returns(
-        Promise.reject({
-          errors: [{ status: '500' }],
-        }),
-      );
-      const thunk = getEnrollmentData();
-      const dispatch = sinon.spy();
-      thunk(dispatch)
-        .then(() => {
-          const action = dispatch.firstCall.args[0];
-          expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
-        })
-        .then(done, done);
-    }
-  );
+  test('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error code', done => {
+    global.fetch.returns(
+      Promise.reject({
+        errors: [{ status: '500' }],
+      }),
+    );
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
+      })
+      .then(done, done);
+  });
 
   test('dispatches matching error action on known error code', done => {
     global.fetch.returns(
@@ -224,60 +218,51 @@ describe('getServiceAvailability', () => {
       .then(done, done);
   });
 
-  test(
-    'should dispatch SET_SERVICE_AVAILABILITY with a status of `up`',
-    done => {
-      global.fetch.returns(apiResponse(true));
-      const thunk = getServiceAvailability();
-      const dispatch = sinon.spy();
+  test('should dispatch SET_SERVICE_AVAILABILITY with a status of `up`', done => {
+    global.fetch.returns(apiResponse(true));
+    const thunk = getServiceAvailability();
+    const dispatch = sinon.spy();
 
-      thunk(dispatch)
-        .then(() => {
-          // The first call is with `pending`
-          const action = dispatch.secondCall.args[0];
-          expect(action.type).toBe(SET_SERVICE_AVAILABILITY);
-          expect(action.serviceAvailability).toBe(SERVICE_AVAILABILITY_STATES.up);
-        })
-        .then(done, done);
-    }
-  );
+    thunk(dispatch)
+      .then(() => {
+        // The first call is with `pending`
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).toBe(SET_SERVICE_AVAILABILITY);
+        expect(action.serviceAvailability).toBe(SERVICE_AVAILABILITY_STATES.up);
+      })
+      .then(done, done);
+  });
 
-  test(
-    'should dispatch SET_SERVICE_AVAILABILITY with a status of `down`',
-    done => {
-      global.fetch.returns(apiResponse(false));
-      const thunk = getServiceAvailability();
-      const dispatch = sinon.spy();
+  test('should dispatch SET_SERVICE_AVAILABILITY with a status of `down`', done => {
+    global.fetch.returns(apiResponse(false));
+    const thunk = getServiceAvailability();
+    const dispatch = sinon.spy();
 
-      thunk(dispatch)
-        .then(() => {
-          // The first call is with `pending`
-          const action = dispatch.secondCall.args[0];
-          expect(action.type).toBe(SET_SERVICE_AVAILABILITY);
-          expect(action.serviceAvailability).toBe(
-            SERVICE_AVAILABILITY_STATES.down,
-          );
-        })
-        .then(done, done);
-    }
-  );
+    thunk(dispatch)
+      .then(() => {
+        // The first call is with `pending`
+        const action = dispatch.secondCall.args[0];
+        expect(action.type).toBe(SET_SERVICE_AVAILABILITY);
+        expect(action.serviceAvailability).toBe(
+          SERVICE_AVAILABILITY_STATES.down,
+        );
+      })
+      .then(done, done);
+  });
 
-  test(
-    'should dispatch SET_SERVICE_UPTIME_REMAINING with the seconds until the next scheduled downtime',
-    done => {
-      global.fetch.returns(apiResponse(false, 300));
-      const thunk = getServiceAvailability();
-      const dispatch = sinon.spy();
+  test('should dispatch SET_SERVICE_UPTIME_REMAINING with the seconds until the next scheduled downtime', done => {
+    global.fetch.returns(apiResponse(false, 300));
+    const thunk = getServiceAvailability();
+    const dispatch = sinon.spy();
 
-      thunk(dispatch)
-        .then(() => {
-          // The first call is with `pending`
-          // The second call is for SET_SERVICE_AVAILABILITY
-          const action = dispatch.thirdCall.args[0];
-          expect(action.type).toBe(SET_SERVICE_UPTIME_REMAINING);
-          expect(action.uptimeRemaining).toBe(300);
-        })
-        .then(done, done);
-    }
-  );
+    thunk(dispatch)
+      .then(() => {
+        // The first call is with `pending`
+        // The second call is for SET_SERVICE_AVAILABILITY
+        const action = dispatch.thirdCall.args[0];
+        expect(action.type).toBe(SET_SERVICE_UPTIME_REMAINING);
+        expect(action.uptimeRemaining).toBe(300);
+      })
+      .then(done, done);
+  });
 });

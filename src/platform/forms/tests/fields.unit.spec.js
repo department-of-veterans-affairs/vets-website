@@ -3,7 +3,8 @@ import { dirtyAllFields, makeField } from '../fields';
 describe('fields model', () => {
   test('field creation method defaults to clean', () => {
     const field = makeField('hi');
-    expect(field).toHaveProperty('value')
+    expect(field)
+      .toHaveProperty('value')
       .toBe('hi');
     expect(field).toBe(false);
   });

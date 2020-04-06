@@ -369,26 +369,23 @@ describe('Schemaform save / load actions:', () => {
         ).toBe(true);
       });
     });
-    test(
-      "dispatches an invalid-data if the data returned from the api isn't an object",
-      () => {
-        const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
-        const dispatch = sinon.spy();
-        global.fetch.returns(
-          Promise.resolve({
-            ok: true,
-            json: () => [], // Return not an object
-          }),
-        );
+    test("dispatches an invalid-data if the data returned from the api isn't an object", () => {
+      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
+      const dispatch = sinon.spy();
+      global.fetch.returns(
+        Promise.resolve({
+          ok: true,
+          json: () => [], // Return not an object
+        }),
+      );
 
-        return thunk(dispatch, getState).then(() => {
-          expect(dispatch.calledTwice).toBe(true);
-          expect(
-            dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData)),
-          ).toBe(true);
-        });
-      }
-    );
+      return thunk(dispatch, getState).then(() => {
+        expect(dispatch.calledTwice).toBe(true);
+        expect(
+          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData)),
+        ).toBe(true);
+      });
+    });
     test("dispatches an invalid-data if the api doesn't return valid json", () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();

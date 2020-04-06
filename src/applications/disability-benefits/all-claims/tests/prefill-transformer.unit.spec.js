@@ -49,33 +49,31 @@ describe('526v2 prefill transformer', () => {
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(Array.isArray(transformedData.ratedDisabilities)).toBe(true)
+      expect(Array.isArray(transformedData.ratedDisabilities))
+        .toBe(true)
         .toHaveLength(1);
       expect(transformedData.ratedDisabilities[0].name).toBe(
         formData.disabilities[0].name,
       );
     });
 
-    test(
-      'should add claimType when no rated service-connected disabilities',
-      () => {
-        const { pages, metadata } = noTransformData;
-        const formData = {
-          disabilities: [
-            {
-              name: 'other disability',
-              decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected,
-            },
-          ],
-        };
+    test('should add claimType when no rated service-connected disabilities', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        disabilities: [
+          {
+            name: 'other disability',
+            decisionCode: SERVICE_CONNECTION_TYPES.notServiceConnected,
+          },
+        ],
+      };
 
-        const transformedData = prefillTransformer(pages, formData, metadata)
-          .formData;
-        expect(transformedData['view:claimType']).toEqual(
-          noTransformData.formData['view:claimType'],
-        );
-      }
-    );
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData['view:claimType']).toEqual(
+        noTransformData.formData['view:claimType'],
+      );
+    });
 
     test('should add claimType when no disabilities', () => {
       const { pages, metadata } = noTransformData;
@@ -88,26 +86,23 @@ describe('526v2 prefill transformer', () => {
       });
     });
 
-    test(
-      'should not add claimType when service-connected disabilities present',
-      () => {
-        const { pages, metadata } = noTransformData;
-        const formData = {
-          disabilities: [
-            {
-              name: 'other disability',
-              decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected,
-            },
-          ],
-        };
+    test('should not add claimType when service-connected disabilities present', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        disabilities: [
+          {
+            name: 'other disability',
+            decisionCode: SERVICE_CONNECTION_TYPES.serviceConnected,
+          },
+        ],
+      };
 
-        const transformedData = prefillTransformer(pages, formData, metadata)
-          .formData;
-        expect(transformedData.ratedDisabilities[0].name).toBe(
-          formData.disabilities[0].name,
-        );
-      }
-    );
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData.ratedDisabilities[0].name).toBe(
+        formData.disabilities[0].name,
+      );
+    });
   });
 
   describe('prefillContactInformation', () => {
@@ -268,24 +263,23 @@ describe('addNoneDisabilityActionType', () => {
 
   test('should return an array of same length as input', () => {
     const withActionType = addNoneDisabilityActionType(disabilities);
-    expect(Array.isArray(withActionType)).toBe(true)
+    expect(Array.isArray(withActionType))
+      .toBe(true)
       .toHaveLength(disabilities.length);
   });
 
   test('should return an empty array when no input', () => {
-    expect(Array.isArray(addNoneDisabilityActionType())).toBe(true)
+    expect(Array.isArray(addNoneDisabilityActionType()))
+      .toBe(true)
       .toHaveLength(0);
   });
 
-  test(
-    'should set disabilityActionType to NONE for each rated disability',
-    () => {
-      const withActionType = addNoneDisabilityActionType(disabilities);
-      withActionType.forEach(d => {
-        expect(d.disabilityActionType).toBe(disabilityActionTypes.NONE);
-      });
-    }
-  );
+  test('should set disabilityActionType to NONE for each rated disability', () => {
+    const withActionType = addNoneDisabilityActionType(disabilities);
+    withActionType.forEach(d => {
+      expect(d.disabilityActionType).toBe(disabilityActionTypes.NONE);
+    });
+  });
 });
 
 describe('filterServiceConnected', () => {

@@ -422,35 +422,32 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    test(
-      'should show direct deposit component when verified with multifactor',
-      () => {
-        const tree = mount(
-          <CallToActionWidget
-            fetchMHVAccount={d => d}
-            isLoggedIn
-            appId="direct-deposit"
-            profile={{
-              loading: false,
-              verified: true,
-              multifactor: true,
-            }}
-            mhvAccount={{
-              loading: false,
-              accountState: 'good',
-              accountLevel: 'Premium',
-            }}
-            mviStatus="GOOD"
-            featureToggles={{
-              loading: false,
-            }}
-          />,
-        );
+    test('should show direct deposit component when verified with multifactor', () => {
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={d => d}
+          isLoggedIn
+          appId="direct-deposit"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{
+            loading: false,
+            accountState: 'good',
+            accountLevel: 'Premium',
+          }}
+          mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
+        />,
+      );
 
-        expect(tree.find('DirectDeposit').exists()).toBe(true);
-        tree.unmount();
-      }
-    );
+      expect(tree.find('DirectDeposit').exists()).toBe(true);
+      tree.unmount();
+    });
     describe('account state errors', () => {
       const defaultProps = {
         fetchMHVAccount: d => d,

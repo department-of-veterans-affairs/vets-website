@@ -90,25 +90,22 @@ describe('781/781a incident form config iterators', () => {
       }
     });
 
-    test(
-      'should contain three incident properties within incident date pages',
-      () => {
-        const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    test('should contain three incident properties within incident date pages', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(
-            config[`secondaryIncidentDate${i}`].schema.properties[
-              `secondaryIncident${i}`
-            ],
-          ).toBeInstanceOf(Object);
-          expect(
-            config[`secondaryIncidentDate${i}`].schema.properties[
-              `secondaryIncident${i}`
-            ],
-          ).to.haveOwnProperty('type');
-        }
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(
+          config[`secondaryIncidentDate${i}`].schema.properties[
+            `secondaryIncident${i}`
+          ],
+        ).toBeInstanceOf(Object);
+        expect(
+          config[`secondaryIncidentDate${i}`].schema.properties[
+            `secondaryIncident${i}`
+          ],
+        ).to.haveOwnProperty('type');
       }
-    );
+    });
 
     test('should return three incident location page config objects', () => {
       const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
@@ -119,21 +116,18 @@ describe('781/781a incident form config iterators', () => {
       }
     });
 
-    test(
-      'should return three incident permission notice page config objects',
-      () => {
-        const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    test('should return three incident permission notice page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(
-            `secondaryIncidentPermissionNotice${i}`,
-          );
-          expect(config[`secondaryIncidentPermissionNotice${i}`]).toBeInstanceOf(
-            Object,
-          );
-        }
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(
+          `secondaryIncidentPermissionNotice${i}`,
+        );
+        expect(config[`secondaryIncidentPermissionNotice${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
-    );
+    });
 
     test('should return three incident authorities page config objects', () => {
       const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
@@ -146,68 +140,56 @@ describe('781/781a incident form config iterators', () => {
       }
     });
 
-    test(
-      'should return three additional events yes/no page config objects',
-      () => {
-        const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    test('should return three additional events yes/no page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(`ptsdSecondaryAdditionalEvents${i}`);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`ptsdSecondaryAdditionalEvents${i}`);
 
-          expect(config[`ptsdSecondaryAdditionalEvents${i}`]).toBeInstanceOf(
-            Object,
-          );
-        }
+        expect(config[`ptsdSecondaryAdditionalEvents${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
-    );
+    });
 
-    test(
-      'should contain three view additional event properties within additional events yes/no pages',
-      () => {
-        const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    test('should contain three view additional event properties within additional events yes/no pages', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(
-            config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
-              `view:enterAdditionalSecondaryEvents${i}`
-            ],
-          ).toBeInstanceOf(Object);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(
+          config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
+            `view:enterAdditionalSecondaryEvents${i}`
+          ],
+        ).toBeInstanceOf(Object);
 
-          expect(
-            config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
-              `view:enterAdditionalSecondaryEvents${i}`
-            ],
-          ).to.haveOwnProperty('type');
-        }
+        expect(
+          config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
+            `view:enterAdditionalSecondaryEvents${i}`
+          ],
+        ).to.haveOwnProperty('type');
       }
-    );
+    });
 
-    test(
-      'should return three secondary upload sources page config objects',
-      () => {
-        const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    test('should return three secondary upload sources page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(`secondaryUploadSources${i}`);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`secondaryUploadSources${i}`);
 
-          expect(config[`secondaryUploadSources${i}`]).toBeInstanceOf(Object);
-        }
+        expect(config[`secondaryUploadSources${i}`]).toBeInstanceOf(Object);
       }
-    );
+    });
 
-    test(
-      'should return three secondary upload sources choice page config objects',
-      () => {
-        const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    test('should return three secondary upload sources choice page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(`secondaryUploadSourcesChoice${i}`);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`secondaryUploadSourcesChoice${i}`);
 
-          expect(config[`secondaryUploadSourcesChoice${i}`]).toBeInstanceOf(
-            Object,
-          );
-        }
+        expect(config[`secondaryUploadSourcesChoice${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
-    );
+    });
   });
 });

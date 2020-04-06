@@ -70,29 +70,23 @@ describe('estimatedBenefits', () => {
     ).toBe(250);
   });
 
-  test(
-    'should display 1/2 lower VA average rate for online classes for usa institutions',
-    () => {
-      let state = set('eligibility.onlineClasses', 'yes', defaultState);
-      state = set('constants.constants.AVGVABAH', 1000, state);
-      expect(
-        estimatedBenefits(state, { type: 'public', country: 'usa' }).housing
-          .value,
-      ).toBe(state.constants.constants.AVGVABAH * 0.5);
-    }
-  );
+  test('should display 1/2 lower VA average rate for online classes for usa institutions', () => {
+    let state = set('eligibility.onlineClasses', 'yes', defaultState);
+    state = set('constants.constants.AVGVABAH', 1000, state);
+    expect(
+      estimatedBenefits(state, { type: 'public', country: 'usa' }).housing
+        .value,
+    ).toBe(state.constants.constants.AVGVABAH * 0.5);
+  });
 
-  test(
-    'should display 1/2 lower AVGVABAH rate for online classes for non-usa institutions',
-    () => {
-      let state = set('eligibility.onlineClasses', 'yes', defaultState);
-      state = set('constants.constants.AVGVABAH', 1000, state);
-      expect(
-        estimatedBenefits(state, { type: 'public', country: 'canada' }).housing
-          .value,
-      ).toBe(state.constants.constants.AVGVABAH * 0.5);
-    }
-  );
+  test('should display 1/2 lower AVGVABAH rate for online classes for non-usa institutions', () => {
+    let state = set('eligibility.onlineClasses', 'yes', defaultState);
+    state = set('constants.constants.AVGVABAH', 1000, state);
+    expect(
+      estimatedBenefits(state, { type: 'public', country: 'canada' }).housing
+        .value,
+    ).toBe(state.constants.constants.AVGVABAH * 0.5);
+  });
 
   test('should display lower AVGDODBAH rate for non-usa institutions', () => {
     expect(
@@ -148,18 +142,15 @@ describe('estimatedBenefits', () => {
     ).toBe(0);
   });
 
-  test(
-    'should estimate zero housing allowance for correspondence school',
-    () => {
-      expect(
-        estimatedBenefits(defaultState, {
-          type: 'correspondence',
-          bah: 1000,
-          country: 'usa',
-        }).housing.value,
-      ).toBe(0);
-    }
-  );
+  test('should estimate zero housing allowance for correspondence school', () => {
+    expect(
+      estimatedBenefits(defaultState, {
+        type: 'correspondence',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).toBe(0);
+  });
 
   test('should estimate zero tuition allowance for old GI bill', () => {
     const state = set('eligibility.giBillChapter', '30', defaultState);
@@ -183,17 +174,14 @@ describe('estimatedBenefits', () => {
     ).toBe(Math.round(state.constants.constants.MGIB3YRRATE));
   });
 
-  test(
-    'should estimate OJT housing allowance for chapter 30 as .75 * MGIB3YRRATE',
-    () => {
-      const state = set('eligibility.giBillChapter', '30', defaultState);
-      expect(
-        estimatedBenefits(state, {
-          type: 'ojt',
-          bah: 1000,
-          country: 'usa',
-        }).housing.value,
-      ).toBe(Math.round(state.constants.constants.MGIB3YRRATE * 0.75));
-    }
-  );
+  test('should estimate OJT housing allowance for chapter 30 as .75 * MGIB3YRRATE', () => {
+    const state = set('eligibility.giBillChapter', '30', defaultState);
+    expect(
+      estimatedBenefits(state, {
+        type: 'ojt',
+        bah: 1000,
+        country: 'usa',
+      }).housing.value,
+    ).toBe(Math.round(state.constants.constants.MGIB3YRRATE * 0.75));
+  });
 });

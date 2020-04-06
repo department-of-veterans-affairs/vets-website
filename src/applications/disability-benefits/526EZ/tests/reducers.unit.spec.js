@@ -64,40 +64,37 @@ describe('ITF reducer', () => {
       expect(newState.currentITF.status).toBe(itfStatuses.active);
     });
 
-    test(
-      'should set the currentITF to the one with the latest expiration date if no active one is present',
-      () => {
-        const action = {
-          type: ITF_FETCH_SUCCEEDED,
-          data: {
-            attributes: {
-              intentToFile: [
-                {
-                  type: 'something not compensation',
-                  status: itfStatuses.active,
-                },
-                {
-                  type: 'compensation',
-                  status: itfStatuses.expired,
-                  expirationDate: moment()
-                    .subtract(1, 'd')
-                    .format(),
-                },
-                {
-                  type: 'compensation',
-                  status: itfStatuses.duplicate,
-                  expirationDate: moment()
-                    .add(1, 'd')
-                    .format(),
-                },
-              ],
-            },
+    test('should set the currentITF to the one with the latest expiration date if no active one is present', () => {
+      const action = {
+        type: ITF_FETCH_SUCCEEDED,
+        data: {
+          attributes: {
+            intentToFile: [
+              {
+                type: 'something not compensation',
+                status: itfStatuses.active,
+              },
+              {
+                type: 'compensation',
+                status: itfStatuses.expired,
+                expirationDate: moment()
+                  .subtract(1, 'd')
+                  .format(),
+              },
+              {
+                type: 'compensation',
+                status: itfStatuses.duplicate,
+                expirationDate: moment()
+                  .add(1, 'd')
+                  .format(),
+              },
+            ],
           },
-        };
-        const newState = itf(initialState, action);
-        expect(newState.currentITF.status).toBe(itfStatuses.duplicate);
-      }
-    );
+        },
+      };
+      const newState = itf(initialState, action);
+      expect(newState.currentITF.status).toBe(itfStatuses.duplicate);
+    });
   });
 
   test('should handle ITF_FETCH_FAILED', () => {

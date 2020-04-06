@@ -99,25 +99,22 @@ describe('getLettersList', () => {
       .then(done, done);
   });
 
-  test(
-    'dispatches GET_LETTERS_FAILURE when GET fails with generic error',
-    done => {
-      global.fetch.returns(Promise.reject(new Error('something went wrong')));
-      const dispatch = sinon.spy();
-      getLetterList(dispatch)
-        .then(() => {
-          done(
-            new Error('getLetterList should have rejected but resolved instead'),
-          );
-        })
-        .catch(() => {
-          const action = dispatch.firstCall.args[0];
-          expect(action.type).toBe(GET_LETTERS_FAILURE);
-          expect(testkit.reports().length).toBe(2); // One from apiRequest, one from getLetterList()
-          done();
-        });
-    }
-  );
+  test('dispatches GET_LETTERS_FAILURE when GET fails with generic error', done => {
+    global.fetch.returns(Promise.reject(new Error('something went wrong')));
+    const dispatch = sinon.spy();
+    getLetterList(dispatch)
+      .then(() => {
+        done(
+          new Error('getLetterList should have rejected but resolved instead'),
+        );
+      })
+      .catch(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).toBe(GET_LETTERS_FAILURE);
+        expect(testkit.reports().length).toBe(2); // One from apiRequest, one from getLetterList()
+        done();
+      });
+  });
 
   const lettersErrors = {
     503: BACKEND_SERVICE_ERROR,
@@ -161,36 +158,30 @@ describe('getLetterListAndBSLOptions', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  test(
-    'should make the call to get the BSL options after the letter list call is complete',
-    done => {
-      const thunk = getLetterListAndBSLOptions();
-      const dispatch = () => {};
+  test('should make the call to get the BSL options after the letter list call is complete', done => {
+    const thunk = getLetterListAndBSLOptions();
+    const dispatch = () => {};
 
-      thunk(dispatch).then(() => {
-        expect(global.fetch.callCount).toBe(2);
-        expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).toBe(true);
-        expect(
-          global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
-        ).toBe(true);
-        done();
-      });
-    }
-  );
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).toBe(2);
+      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).toBe(true);
+      expect(
+        global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
+      ).toBe(true);
+      done();
+    });
+  });
 
-  test(
-    'should not make the call to get the BSL options if the letter list call fails',
-    done => {
-      global.fetch.returns(Promise.reject());
-      const thunk = getLetterListAndBSLOptions();
-      const dispatch = () => {};
+  test('should not make the call to get the BSL options if the letter list call fails', done => {
+    global.fetch.returns(Promise.reject());
+    const thunk = getLetterListAndBSLOptions();
+    const dispatch = () => {};
 
-      thunk(dispatch).then(() => {
-        expect(global.fetch.callCount).toBe(1);
-        done();
-      });
-    }
-  );
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).toBe(1);
+      done();
+    });
+  });
 });
 
 describe('getBenefitSummaryOptions', () => {

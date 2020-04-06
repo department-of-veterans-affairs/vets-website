@@ -64,45 +64,7 @@ describe('ITF reducer', () => {
       expect(newState.currentITF.status).toBe(itfStatuses.active);
     });
 
-    test(
-      'should set the currentITF to the one with the latest expiration date if no active one is present',
-      () => {
-        const action = {
-          type: ITF_FETCH_SUCCEEDED,
-          data: {
-            attributes: {
-              intentToFile: [
-                {
-                  type: 'something not compensation',
-                  status: itfStatuses.active,
-                },
-                {
-                  type: 'compensation',
-                  status: itfStatuses.expired,
-                  expirationDate: moment()
-                    .subtract(1, 'd')
-                    .format(),
-                },
-                {
-                  type: 'compensation',
-                  status: itfStatuses.duplicate,
-                  expirationDate: moment()
-                    .add(1, 'd')
-                    .format(),
-                },
-              ],
-            },
-          },
-        };
-        const newState = itf(initialState, action);
-        expect(newState.currentITF.status).toBe(itfStatuses.duplicate);
-      }
-    );
-  });
-
-  test(
-    'should not set a currentITF if the active & latest expiration date have passed',
-    () => {
+    test('should set the currentITF to the one with the latest expiration date if no active one is present', () => {
       const action = {
         type: ITF_FETCH_SUCCEEDED,
         data: {
@@ -116,21 +78,14 @@ describe('ITF reducer', () => {
                 type: 'compensation',
                 status: itfStatuses.expired,
                 expirationDate: moment()
-                  .subtract(3, 'd')
+                  .subtract(1, 'd')
                   .format(),
               },
               {
                 type: 'compensation',
                 status: itfStatuses.duplicate,
                 expirationDate: moment()
-                  .subtract(2, 'd')
-                  .format(),
-              },
-              {
-                type: 'compensation',
-                status: itfStatuses.active,
-                expirationDate: moment()
-                  .subtract(1, 'd')
+                  .add(1, 'd')
                   .format(),
               },
             ],
@@ -138,9 +93,48 @@ describe('ITF reducer', () => {
         },
       };
       const newState = itf(initialState, action);
-      expect(newState.currentITF).toBeNull();
-    }
-  );
+      expect(newState.currentITF.status).toBe(itfStatuses.duplicate);
+    });
+  });
+
+  test('should not set a currentITF if the active & latest expiration date have passed', () => {
+    const action = {
+      type: ITF_FETCH_SUCCEEDED,
+      data: {
+        attributes: {
+          intentToFile: [
+            {
+              type: 'something not compensation',
+              status: itfStatuses.active,
+            },
+            {
+              type: 'compensation',
+              status: itfStatuses.expired,
+              expirationDate: moment()
+                .subtract(3, 'd')
+                .format(),
+            },
+            {
+              type: 'compensation',
+              status: itfStatuses.duplicate,
+              expirationDate: moment()
+                .subtract(2, 'd')
+                .format(),
+            },
+            {
+              type: 'compensation',
+              status: itfStatuses.active,
+              expirationDate: moment()
+                .subtract(1, 'd')
+                .format(),
+            },
+          ],
+        },
+      },
+    };
+    const newState = itf(initialState, action);
+    expect(newState.currentITF).toBeNull();
+  });
 
   test('should handle ITF_FETCH_FAILED', () => {
     const newState = itf(initialState, { type: ITF_FETCH_FAILED });

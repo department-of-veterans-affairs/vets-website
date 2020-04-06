@@ -381,63 +381,60 @@ describe('Schemaform helpers:', () => {
         field: 'testing',
       });
     });
-    test(
-      'should not remove properties that are on both active and inactive pages',
-      () => {
-        const formConfig = {
-          chapters: {
-            chapter1: {
-              pages: {
-                page1: {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      otherField: {
-                        type: 'string',
-                      },
-                      anotherField: {
-                        type: 'string',
-                      },
+    test('should not remove properties that are on both active and inactive pages', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    otherField: {
+                      type: 'string',
+                    },
+                    anotherField: {
+                      type: 'string',
                     },
                   },
-                  depends: {
-                    field: 'something',
-                  },
+                },
+                depends: {
+                  field: 'something',
                 },
               },
             },
-            chapter2: {
-              pages: {
-                page2: {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      anotherField: {
-                        type: 'string',
-                      },
+          },
+          chapter2: {
+            pages: {
+              page2: {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    anotherField: {
+                      type: 'string',
                     },
                   },
                 },
               },
             },
           },
-        };
-        const formData = {
-          data: {
-            otherField: 'testing2',
-            anotherField: 'testing3',
-            field: 'testing',
-          },
-        };
-
-        const output = JSON.parse(transformForSubmit(formConfig, formData));
-
-        expect(output).toEqual({
-          field: 'testing',
+        },
+      };
+      const formData = {
+        data: {
+          otherField: 'testing2',
           anotherField: 'testing3',
-        });
-      }
-    );
+          field: 'testing',
+        },
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output).toEqual({
+        field: 'testing',
+        anotherField: 'testing3',
+      });
+    });
     test('should remove empty addresses', () => {
       const formConfig = {
         chapters: {
@@ -534,90 +531,84 @@ describe('Schemaform helpers:', () => {
 
       expect(output.someField2).toBe('1');
     });
-    test(
-      'should not remove inactive pagePerItem pages if some of the pages are active',
-      () => {
-        const formConfig = {
-          chapters: {
-            chapter1: {
-              pages: {
-                page1: {
-                  showPagePerItem: true,
-                  arrayPath: 'testArray',
-                  path: '/test/:index',
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      testArray: {
-                        type: 'array',
-                        items: {
-                          type: 'object',
-                          properties: {
-                            isActive: { type: 'boolean' },
-                          },
+    test('should not remove inactive pagePerItem pages if some of the pages are active', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                showPagePerItem: true,
+                arrayPath: 'testArray',
+                path: '/test/:index',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    testArray: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          isActive: { type: 'boolean' },
                         },
                       },
                     },
                   },
-                  depends: (data, index) => data.testArray[index].isActive,
                 },
+                depends: (data, index) => data.testArray[index].isActive,
               },
             },
           },
-        };
-        const formData = {
-          data: {
-            testArray: [{ isActive: true }, { isActive: false }],
-          },
-        };
+        },
+      };
+      const formData = {
+        data: {
+          testArray: [{ isActive: true }, { isActive: false }],
+        },
+      };
 
-        const output = JSON.parse(transformForSubmit(formConfig, formData));
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-        expect(output.testArray).not.toBeUndefined();
-      }
-    );
-    test(
-      'should remove inactive pagePerItem pages if none of the pages are active',
-      () => {
-        const formConfig = {
-          chapters: {
-            chapter1: {
-              pages: {
-                page1: {
-                  showPagePerItem: true,
-                  arrayPath: 'testArray',
-                  path: '/test/:index',
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      testArray: {
-                        type: 'array',
-                        items: {
-                          type: 'object',
-                          properties: {
-                            isActive: { type: 'boolean' },
-                          },
+      expect(output.testArray).not.toBeUndefined();
+    });
+    test('should remove inactive pagePerItem pages if none of the pages are active', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                showPagePerItem: true,
+                arrayPath: 'testArray',
+                path: '/test/:index',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    testArray: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          isActive: { type: 'boolean' },
                         },
                       },
                     },
                   },
-                  depends: (data, index) => data.testArray[index].isActive,
                 },
+                depends: (data, index) => data.testArray[index].isActive,
               },
             },
           },
-        };
-        const formData = {
-          data: {
-            testArray: [{ isActive: false }, { isActive: false }],
-          },
-        };
+        },
+      };
+      const formData = {
+        data: {
+          testArray: [{ isActive: false }, { isActive: false }],
+        },
+      };
 
-        const output = JSON.parse(transformForSubmit(formConfig, formData));
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-        expect(output.testArray).toBeUndefined();
-      }
-    );
+      expect(output.testArray).toBeUndefined();
+    });
   });
   describe('setArrayRecordTouched', () => {
     /* eslint-disable camelcase */

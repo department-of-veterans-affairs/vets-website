@@ -28,15 +28,12 @@ describe('feature-toggle selectors', () => {
       };
       expect(selectors.isProduction(state)).toBe(true);
     });
-    test(
-      'returns `undefined` if `production` is not set on `featureToggles`',
-      () => {
-        const state = {
-          featureToggles: {},
-        };
-        expect(selectors.isProduction(state)).toBeUndefined();
-      }
-    );
+    test('returns `undefined` if `production` is not set on `featureToggles`', () => {
+      const state = {
+        featureToggles: {},
+      };
+      expect(selectors.isProduction(state)).toBeUndefined();
+    });
     test('returns `undefined` if `featureToggles` is not set', () => {
       const state = {};
       expect(selectors.isProduction(state)).toBeUndefined();

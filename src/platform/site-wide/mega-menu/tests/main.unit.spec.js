@@ -6,32 +6,29 @@ import {
 describe('mega-menu', () => {
   describe('Main.jsx', () => {
     describe('flagCurrentPageIntopLevelLinks', () => {
-      test(
-        'should return object with currentPage: true when path name matches href',
-        () => {
-          const pathName = '/test';
-          const links = [
-            {
-              href: '/test',
-            },
-            {
-              href: 'not',
-            },
-          ];
-          const expectedResult = [
-            {
-              href: '/test',
-              currentPage: true,
-            },
-            {
-              href: 'not',
-            },
-          ];
-          const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
+      test('should return object with currentPage: true when path name matches href', () => {
+        const pathName = '/test';
+        const links = [
+          {
+            href: '/test',
+          },
+          {
+            href: 'not',
+          },
+        ];
+        const expectedResult = [
+          {
+            href: '/test',
+            currentPage: true,
+          },
+          {
+            href: 'not',
+          },
+        ];
+        const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
 
-          expect(actualResult).toEqual(expectedResult);
-        }
-      );
+        expect(actualResult).toEqual(expectedResult);
+      });
     });
     describe('maybeMergeAuthorizedLinkData', () => {
       test('should merge Authorized links when loggedIn is true', () => {

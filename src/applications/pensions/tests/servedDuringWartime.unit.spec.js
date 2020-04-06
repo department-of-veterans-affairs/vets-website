@@ -2,17 +2,14 @@ import { servedDuringWartime } from '../helpers';
 
 describe('Wartime service validation', () => {
   describe('servedDuringWartime', () => {
-    test(
-      'should allow for service period overlapping with a wartime period',
-      () => {
-        const allow = servedDuringWartime({
-          from: '1916-01-01',
-          to: '1917-01-02',
-        });
+    test('should allow for service period overlapping with a wartime period', () => {
+      const allow = servedDuringWartime({
+        from: '1916-01-01',
+        to: '1917-01-02',
+      });
 
-        expect(allow).toBe(true);
-      }
-    );
+      expect(allow).toBe(true);
+    });
     test('should allow for service period within a wartime period', () => {
       const allow = servedDuringWartime({
         from: '1916-11-01',

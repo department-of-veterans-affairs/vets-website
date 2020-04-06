@@ -40,33 +40,30 @@ const hooks = {
 describe('selectors', () => {
   describe('selectIsVet360AvailableForUser', () => {
     beforeEach(hooks.beforeEach);
-    test(
-      'returns true if vet660 is found in the profile.services list or when the environment is localhost',
-      () => {
-        const old = { document: global.document };
-        global.document = {
-          location: {
-            hostname: 'localhost',
-          },
-        };
+    test('returns true if vet660 is found in the profile.services list or when the environment is localhost', () => {
+      const old = { document: global.document };
+      global.document = {
+        location: {
+          hostname: 'localhost',
+        },
+      };
 
-        let result = selectors.selectIsVet360AvailableForUser(state);
-        // returns true when on localhost so the local mock Vet360 will run
-        expect(result).toBe(true);
+      let result = selectors.selectIsVet360AvailableForUser(state);
+      // returns true when on localhost so the local mock Vet360 will run
+      expect(result).toBe(true);
 
-        global.document.location.hostname = 'staging.vets.gov';
-        result = selectors.selectIsVet360AvailableForUser(state);
-        // returns true when the environment is not localhost but Vet360 is in the profile services array
-        expect(result).toBe(true);
+      global.document.location.hostname = 'staging.vets.gov';
+      result = selectors.selectIsVet360AvailableForUser(state);
+      // returns true when the environment is not localhost but Vet360 is in the profile services array
+      expect(result).toBe(true);
 
-        state.user.profile.services = [];
-        result = selectors.selectIsVet360AvailableForUser(state);
-        // returns false when the environment is not localhost and Vet360 is not in the services array
-        expect(result).toBe(false);
+      state.user.profile.services = [];
+      result = selectors.selectIsVet360AvailableForUser(state);
+      // returns false when the environment is not localhost and Vet360 is not in the services array
+      expect(result).toBe(false);
 
-        global.document = old.document;
-      }
-    );
+      global.document = old.document;
+    });
   });
 
   describe('selectVet360Field', () => {
@@ -79,37 +76,34 @@ describe('selectors', () => {
 
   describe('selectVet360Transaction', () => {
     beforeEach(hooks.beforeEach);
-    test(
-      'accepts a field name to look up a transaction and transaction request using the field-transaction map',
-      () => {
-        const fieldName = 'someField';
-        const transactionId = 'transaction_1';
-        const transaction = {
-          data: {
-            attributes: {
-              transactionId,
-            },
+    test('accepts a field name to look up a transaction and transaction request using the field-transaction map', () => {
+      const fieldName = 'someField';
+      const transactionId = 'transaction_1';
+      const transaction = {
+        data: {
+          attributes: {
+            transactionId,
           },
-        };
-        const transactions = [transaction];
-        const transactionRequest = { transactionId };
-        const fieldTransactionMap = {
-          [fieldName]: transactionRequest,
-        };
+        },
+      };
+      const transactions = [transaction];
+      const transactionRequest = { transactionId };
+      const fieldTransactionMap = {
+        [fieldName]: transactionRequest,
+      };
 
-        state.vet360 = { transactions, fieldTransactionMap };
+      state.vet360 = { transactions, fieldTransactionMap };
 
-        let result = selectors.selectVet360Transaction(state, fieldName);
-        expect(result).toEqual({ transaction, transactionRequest });
+      let result = selectors.selectVet360Transaction(state, fieldName);
+      expect(result).toEqual({ transaction, transactionRequest });
 
-        result = selectors.selectVet360Transaction(state, 'someOtherField');
-        // returns a null transaction for a field that has no data in the field-transaction map
-        expect(result).toEqual({
-          transaction: null,
-          transactionRequest: null,
-        });
-      }
-    );
+      result = selectors.selectVet360Transaction(state, 'someOtherField');
+      // returns a null transaction for a field that has no data in the field-transaction map
+      expect(result).toEqual({
+        transaction: null,
+        transactionRequest: null,
+      });
+    });
   });
 
   describe('selectVet360FailedTransactions', () => {
@@ -163,93 +157,87 @@ describe('selectors', () => {
 
   describe('selectMostRecentErroredTransaction', () => {
     beforeEach(hooks.beforeEach);
-    test(
-      'selects the transaction of the ID stored in the metadata mostRecentErroredTransactionId',
-      () => {
-        const transactionId = 'transaction_id';
-        const transaction = { data: { attributes: { transactionId } } };
-        state.vet360.transactions = [transaction];
-        state.vet360.metadata.mostRecentErroredTransactionId = transactionId;
-        expect(selectors.selectMostRecentErroredTransaction(state)).toBe(
-          transaction,
-        );
-      }
-    );
+    test('selects the transaction of the ID stored in the metadata mostRecentErroredTransactionId', () => {
+      const transactionId = 'transaction_id';
+      const transaction = { data: { attributes: { transactionId } } };
+      state.vet360.transactions = [transaction];
+      state.vet360.metadata.mostRecentErroredTransactionId = transactionId;
+      expect(selectors.selectMostRecentErroredTransaction(state)).toBe(
+        transaction,
+      );
+    });
   });
 
   describe('selectVet360PendingCategoryTransactions', () => {
     beforeEach(hooks.beforeEach);
-    test(
-      'selects transactions of the passed transaction category type that is still pending and without field-level data',
-      () => {
-        const type = TRANSACTION_CATEGORY_TYPES.ADDRESS;
-        const pendingAddressTransactions = [
-          {
-            data: {
-              attributes: {
-                type,
-                transactionId: 'transaction_1',
-                transactionStatus: TRANSACTION_STATUS.RECEIVED,
-              },
+    test('selects transactions of the passed transaction category type that is still pending and without field-level data', () => {
+      const type = TRANSACTION_CATEGORY_TYPES.ADDRESS;
+      const pendingAddressTransactions = [
+        {
+          data: {
+            attributes: {
+              type,
+              transactionId: 'transaction_1',
+              transactionStatus: TRANSACTION_STATUS.RECEIVED,
             },
           },
-          {
-            data: {
-              attributes: {
-                type,
-                transactionId: 'transaction_2',
-                transactionStatus: TRANSACTION_STATUS.RECEIVED,
-              },
+        },
+        {
+          data: {
+            attributes: {
+              type,
+              transactionId: 'transaction_2',
+              transactionStatus: TRANSACTION_STATUS.RECEIVED,
             },
           },
-        ];
+        },
+      ];
 
-        const transactions = [
-          ...pendingAddressTransactions,
-          {
-            data: {
-              attributes: {
-                type: TRANSACTION_CATEGORY_TYPES.EMAIL,
-                transactionId: 'transaction_3',
-                transactionStatus: TRANSACTION_STATUS.RECEIVED,
-              },
+      const transactions = [
+        ...pendingAddressTransactions,
+        {
+          data: {
+            attributes: {
+              type: TRANSACTION_CATEGORY_TYPES.EMAIL,
+              transactionId: 'transaction_3',
+              transactionStatus: TRANSACTION_STATUS.RECEIVED,
             },
           },
-          {
-            data: {
-              attributes: {
-                type: TRANSACTION_CATEGORY_TYPES.PHONE,
-                transactionId: 'transaction_4',
-                transactionStatus: TRANSACTION_STATUS.RECEIVED,
-              },
+        },
+        {
+          data: {
+            attributes: {
+              type: TRANSACTION_CATEGORY_TYPES.PHONE,
+              transactionId: 'transaction_4',
+              transactionStatus: TRANSACTION_STATUS.RECEIVED,
             },
           },
-          {
-            data: {
-              attributes: {
-                type: TRANSACTION_CATEGORY_TYPES.ADDRESS,
-                transactionId: 'transaction_5',
-                transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
-              },
+        },
+        {
+          data: {
+            attributes: {
+              type: TRANSACTION_CATEGORY_TYPES.ADDRESS,
+              transactionId: 'transaction_5',
+              transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
             },
           },
-        ];
+        },
+      ];
 
-        state.vet360.transactions = transactions;
+      state.vet360.transactions = transactions;
 
-        const result = selectors.selectVet360PendingCategoryTransactions(
-          state,
-          type,
-        );
+      const result = selectors.selectVet360PendingCategoryTransactions(
+        state,
+        type,
+      );
 
-        expect(result).toEqual(
-          expect.arrayContaining([pendingAddressTransactions[0]]),
-        );
-        expect(result).toEqual(
-          expect.arrayContaining([pendingAddressTransactions[1]]),
-        );
-      }
-    );
+      expect(result).toEqual(
+        expect.arrayContaining([pendingAddressTransactions[0]]),
+      );
+      expect(result).toEqual(
+        expect.arrayContaining([pendingAddressTransactions[1]]),
+      );
+    });
   });
 
   describe('selectEditedFormField', () => {
@@ -294,14 +282,11 @@ describe('selectVet360InitializationStatus', () => {
     global.document = old.document;
   });
 
-  test(
-    'returns UNINITIALIZED if Vet360 is not found in the services array and there is not an associated transaction',
-    () => {
-      state.user.profile.services = [];
-      const result = selectors.selectVet360InitializationStatus(state);
-      expect(result.status).toBe(VET360_INITIALIZATION_STATUS.UNINITALIZED);
-    }
-  );
+  test('returns UNINITIALIZED if Vet360 is not found in the services array and there is not an associated transaction', () => {
+    state.user.profile.services = [];
+    const result = selectors.selectVet360InitializationStatus(state);
+    expect(result.status).toBe(VET360_INITIALIZATION_STATUS.UNINITALIZED);
+  });
 
   test('returns INITIALIZED if Vet360 is found in the services array', () => {
     const result = selectors.selectVet360InitializationStatus(state);

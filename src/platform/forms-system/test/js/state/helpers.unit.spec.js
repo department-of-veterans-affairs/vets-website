@@ -229,32 +229,29 @@ describe('Schemaform formState:', () => {
       expect(newSchema.properties.field['ui:collapsed']).toBe(true);
       expect(newSchema).not.toBe(schema);
     });
-    test(
-      'should set collapsed on expandUnder field with function condition',
-      () => {
-        const schema = {
-          type: 'object',
-          properties: {
-            field: {},
-            field2: {},
+    test('should set collapsed on expandUnder field with function condition', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {},
+        },
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            expandUnder: 'field2',
+            expandUnderCondition: () => false,
           },
-        };
-        const uiSchema = {
-          field: {
-            'ui:options': {
-              expandUnder: 'field2',
-              expandUnderCondition: () => false,
-            },
-          },
-        };
-        const data = { field: '', field2: 'bleh' };
+        },
+      };
+      const data = { field: '', field2: 'bleh' };
 
-        const newSchema = setHiddenFields(schema, uiSchema, data);
+      const newSchema = setHiddenFields(schema, uiSchema, data);
 
-        expect(newSchema.properties.field['ui:collapsed']).toBe(true);
-        expect(newSchema).not.toBe(schema);
-      }
-    );
+      expect(newSchema.properties.field['ui:collapsed']).toBe(true);
+      expect(newSchema).not.toBe(schema);
+    });
     test('should set collapsed on nested expandUnder field', () => {
       const schema = {
         type: 'object',
@@ -715,29 +712,26 @@ describe('Schemaform formState:', () => {
       expect(newSchema.items[1]).toBe(schema.additionalItems);
       expect(newSchema.items[2]).toBe(schema.additionalItems);
     });
-    test(
-      'should remove item from schema items if fewer items in data array',
-      () => {
-        const schema = {
-          type: 'array',
-          items: [
-            {
-              type: 'string',
-            },
-            {
-              type: 'string',
-            },
-          ],
-          additionalItems: {
+    test('should remove item from schema items if fewer items in data array', () => {
+      const schema = {
+        type: 'array',
+        items: [
+          {
             type: 'string',
           },
-        };
-        const data = ['test'];
+          {
+            type: 'string',
+          },
+        ],
+        additionalItems: {
+          type: 'string',
+        },
+      };
+      const data = ['test'];
 
-        const newSchema = updateItemsSchema(schema, data);
+      const newSchema = updateItemsSchema(schema, data);
 
-        expect(newSchema.items.length).toBe(data.length);
-      }
-    );
+      expect(newSchema.items.length).toBe(data.length);
+    });
   });
 });

@@ -26,41 +26,35 @@ describe('checkAndUpdateSSOeSession', () => {
     expect(localStorage.getItem('sessionExpirationSSO')).toBeNull();
   });
 
-  test(
-    'should do nothing if the session expiration is above the timeout threshold',
-    () => {
-      mockFetch();
-      localStorage.setItem('hasSessionSSO', 'true');
-      localStorage.setItem('sessionExpirationSSO', 'some value');
-      setKeepAliveResponse(global.fetch.onFirstCall(), SSO_SESSION_TIMEOUT);
+  test('should do nothing if the session expiration is above the timeout threshold', () => {
+    mockFetch();
+    localStorage.setItem('hasSessionSSO', 'true');
+    localStorage.setItem('sessionExpirationSSO', 'some value');
+    setKeepAliveResponse(global.fetch.onFirstCall(), SSO_SESSION_TIMEOUT);
 
-      checkAndUpdateSSOeSession();
+    checkAndUpdateSSOeSession();
 
-      expect(localStorage.getItem('sessionExpirationSSO')).toBe('some value');
+    expect(localStorage.getItem('sessionExpirationSSO')).toBe('some value');
 
-      resetFetch();
-    }
-  );
+    resetFetch();
+  });
 
-  test(
-    'should make a keepalive request for active SSO sessions below the timeout threshold',
-    () => {
-      mockFetch();
-      const expiringSession = new Date();
-      expiringSession.setTime(Date.now() + 5000);
-      localStorage.setItem('hasSessionSSO', 'true');
-      localStorage.setItem('sessionExpirationSSO', expiringSession);
-      setKeepAliveResponse(global.fetch.onFirstCall(), SSO_SESSION_TIMEOUT);
+  test('should make a keepalive request for active SSO sessions below the timeout threshold', () => {
+    mockFetch();
+    const expiringSession = new Date();
+    expiringSession.setTime(Date.now() + 5000);
+    localStorage.setItem('hasSessionSSO', 'true');
+    localStorage.setItem('sessionExpirationSSO', expiringSession);
+    setKeepAliveResponse(global.fetch.onFirstCall(), SSO_SESSION_TIMEOUT);
 
-      checkAndUpdateSSOeSession();
+    checkAndUpdateSSOeSession();
 
-      // The expiration should be different since it will get updated
-      expect(localStorage.getItem('sessionExpirationSSO')).not.toBe(
-        expiringSession,
-      );
-      resetFetch();
-    }
-  );
+    // The expiration should be different since it will get updated
+    expect(localStorage.getItem('sessionExpirationSSO')).not.toBe(
+      expiringSession,
+    );
+    resetFetch();
+  });
 
   afterEach(() => {
     localStorage.clear();

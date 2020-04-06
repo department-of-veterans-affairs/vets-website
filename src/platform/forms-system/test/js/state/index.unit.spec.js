@@ -89,35 +89,32 @@ describe('schemaform createSchemaFormReducer', () => {
       expect(testState).toEqual(expectedState);
     });
 
-    test(
-      'removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER',
-      () => {
-        const viewedPages = new Set();
-        const previousState = {
-          reviewPageView: {
-            openChapters: ['chapter1', 'chapter2', 'chapter3'],
-            viewedPages,
-          },
-        };
+    test('removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER', () => {
+      const viewedPages = new Set();
+      const previousState = {
+        reviewPageView: {
+          openChapters: ['chapter1', 'chapter2', 'chapter3'],
+          viewedPages,
+        },
+      };
 
-        const action = {
-          type: CLOSE_REVIEW_CHAPTER,
-          closedChapter: 'chapter2',
-          pageKeys: ['test'],
-        };
+      const action = {
+        type: CLOSE_REVIEW_CHAPTER,
+        closedChapter: 'chapter2',
+        pageKeys: ['test'],
+      };
 
-        const testState = reducer(previousState, action);
+      const testState = reducer(previousState, action);
 
-        const expectedState = {
-          reviewPageView: {
-            openChapters: ['chapter1', 'chapter3'],
-            viewedPages: viewedPages.add('test'),
-          },
-        };
+      const expectedState = {
+        reviewPageView: {
+          openChapters: ['chapter1', 'chapter3'],
+          viewedPages: viewedPages.add('test'),
+        },
+      };
 
-        expect(testState).toEqual(expectedState);
-      }
-    );
+      expect(testState).toEqual(expectedState);
+    });
 
     test('should set data state', () => {
       const state = reducer(

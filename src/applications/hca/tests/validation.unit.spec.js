@@ -29,27 +29,24 @@ describe('hca validation', () => {
 
       expect(errors.lastDischargeDate.addError.callCount).toBe(1);
     });
-    test(
-      'should set message if discharge date is later than 1 year from today',
-      () => {
-        const errors = {
-          lastDischargeDate: {
-            addError: sinon.spy(),
-          },
-        };
-        validateServiceDates(
-          errors,
-          {
-            lastDischargeDate: moment()
-              .add(367, 'days')
-              .format('YYYY-MM-DD'),
-            lastEntryDate: '2011-01-01',
-          },
-          {},
-        );
-        expect(errors.lastDischargeDate.addError.callCount).toBe(1);
-      }
-    );
+    test('should set message if discharge date is later than 1 year from today', () => {
+      const errors = {
+        lastDischargeDate: {
+          addError: sinon.spy(),
+        },
+      };
+      validateServiceDates(
+        errors,
+        {
+          lastDischargeDate: moment()
+            .add(367, 'days')
+            .format('YYYY-MM-DD'),
+          lastEntryDate: '2011-01-01',
+        },
+        {},
+      );
+      expect(errors.lastDischargeDate.addError.callCount).toBe(1);
+    });
     test('should not set message if discharge date is 1 year from today', () => {
       const errors = {
         lastDischargeDate: {
@@ -68,27 +65,24 @@ describe('hca validation', () => {
       );
       expect(errors.lastDischargeDate.addError.callCount).toBe(0);
     });
-    test(
-      'should set message if entry date is less than 15 years after dob',
-      () => {
-        const errors = {
-          lastEntryDate: {
-            addError: sinon.spy(),
-          },
-        };
-        validateServiceDates(
-          errors,
-          {
-            lastDischargeDate: '2010-03-01',
-            lastEntryDate: '2000-01-01',
-          },
-          {
-            veteranDateOfBirth: '1990-01-01',
-          },
-        );
-        expect(errors.lastEntryDate.addError.callCount).toBe(1);
-      }
-    );
+    test('should set message if entry date is less than 15 years after dob', () => {
+      const errors = {
+        lastEntryDate: {
+          addError: sinon.spy(),
+        },
+      };
+      validateServiceDates(
+        errors,
+        {
+          lastDischargeDate: '2010-03-01',
+          lastEntryDate: '2000-01-01',
+        },
+        {
+          veteranDateOfBirth: '1990-01-01',
+        },
+      );
+      expect(errors.lastEntryDate.addError.callCount).toBe(1);
+    });
   });
   describe('validateMarriageDate', () => {
     test('should set message if marriage date is after spouse dob', () => {

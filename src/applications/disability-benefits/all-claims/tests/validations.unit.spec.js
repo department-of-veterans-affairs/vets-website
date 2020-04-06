@@ -21,16 +21,13 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).toBe(true);
     });
 
-    test(
-      'should add an error if the year contains more than just four digits',
-      () => {
-        const err = {
-          addError: sinon.spy(),
-        };
-        isValidYear(err, '1990asdf');
-        expect(err.addError.called).toBe(true);
-      }
-    );
+    test('should add an error if the year contains more than just four digits', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      isValidYear(err, '1990asdf');
+      expect(err.addError.called).toBe(true);
+    });
 
     test('should add an error if the year is less than 1900', () => {
       const err = {
@@ -98,65 +95,56 @@ describe('526 All Claims validations', () => {
   });
 
   describe('startedAfterServicePeriod', () => {
-    test(
-      'should add error if treatment start date is before earliest service start date',
-      () => {
-        const err = { addError: sinon.spy() };
+    test('should add error if treatment start date is before earliest service start date', () => {
+      const err = { addError: sinon.spy() };
 
-        const formData = {
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2003-03-12' } },
-              { dateRange: { from: '2000-01-14' } },
-              { dateRange: { from: '2011-12-25' } },
-            ],
-          },
-        };
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' } },
+            { dateRange: { from: '2000-01-14' } },
+            { dateRange: { from: '2011-12-25' } },
+          ],
+        },
+      };
 
-        startedAfterServicePeriod(err, '1999-12-XX', formData);
-        expect(err.addError.calledOnce).toBe(true);
-      }
-    );
+      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.calledOnce).toBe(true);
+    });
 
-    test(
-      'should not add error if treatment start date monthYear is the same as earliest service start date',
-      () => {
-        const err = { addError: sinon.spy() };
+    test('should not add error if treatment start date monthYear is the same as earliest service start date', () => {
+      const err = { addError: sinon.spy() };
 
-        const formData = {
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2003-03-12' } },
-              { dateRange: { from: '2000-01-14' } },
-              { dateRange: { from: '2011-12-25' } },
-            ],
-          },
-        };
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' } },
+            { dateRange: { from: '2000-01-14' } },
+            { dateRange: { from: '2011-12-25' } },
+          ],
+        },
+      };
 
-        startedAfterServicePeriod(err, '2000-01-XX', formData);
-        expect(err.addError.called).toBe(false);
-      }
-    );
+      startedAfterServicePeriod(err, '2000-01-XX', formData);
+      expect(err.addError.called).toBe(false);
+    });
 
-    test(
-      'should not add error if treatment start date is after earliest service start date',
-      () => {
-        const err = { addError: sinon.spy() };
+    test('should not add error if treatment start date is after earliest service start date', () => {
+      const err = { addError: sinon.spy() };
 
-        const formData = {
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2003-03-12' } },
-              { dateRange: { from: '2000-01-14' } },
-              { dateRange: { from: '2011-12-25' } },
-            ],
-          },
-        };
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' } },
+            { dateRange: { from: '2000-01-14' } },
+            { dateRange: { from: '2011-12-25' } },
+          ],
+        },
+      };
 
-        startedAfterServicePeriod(err, '2000-02-XX', formData);
-        expect(err.addError.called).toBe(false);
-      }
-    );
+      startedAfterServicePeriod(err, '2000-02-XX', formData);
+      expect(err.addError.called).toBe(false);
+    });
 
     test('should not add error if serviceInformation is missing', () => {
       const err = { addError: sinon.spy() };
@@ -234,26 +222,20 @@ describe('526 All Claims validations', () => {
       validateDisabilityName(err, disabilityLabels[7100]);
       expect(err.addError.called).toBe(false);
     });
-    test(
-      'should not add error when disability is in list but capitalization is different',
-      () => {
-        const err = { addError: sinon.spy() };
-        validateDisabilityName(err, capitalizeEachWord(disabilityLabels[7100]));
-        expect(err.addError.called).toBe(false);
-      }
-    );
+    test('should not add error when disability is in list but capitalization is different', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, capitalizeEachWord(disabilityLabels[7100]));
+      expect(err.addError.called).toBe(false);
+    });
     test('should not add error when disability not in list but length OK', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, 'blah. (and, blah/blah)’- blah');
       expect(err.addError.called).toBe(false);
     });
-    test(
-      'should add error when disability not in list and length too long',
-      () => {
-        const err = { addError: sinon.spy() };
-        validateDisabilityName(err, tooLong);
-        expect(err.addError.calledOnce).toBe(true);
-      }
-    );
+    test('should add error when disability not in list and length too long', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, tooLong);
+      expect(err.addError.calledOnce).toBe(true);
+    });
   });
 });

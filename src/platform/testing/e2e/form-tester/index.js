@@ -113,17 +113,20 @@ const testForm = (testDataSets, testConfig) => {
   });
 
   testDataSets.forEach(({ fileName, contents }) =>
-    test(fileName, async () => {
-      const testData = getTestData(contents, testConfig.testDataPathPrefix);
-      if (testConfig.setupPerTest) {
-        testConfig.setupPerTest({ userToken: token, testData });
-      }
-      const pageList = await browser.pages();
-      const page = pageList[0] || (await browser.newPage());
-      await fastForwardAnimations(page);
-      await runTest(page, testData, testConfig, token, fileName);
-    }, // TODO: Make the timeout based on the number of inputs by default
-    testConfig.timeoutPerTest || 120000),
+    test(
+      fileName,
+      async () => {
+        const testData = getTestData(contents, testConfig.testDataPathPrefix);
+        if (testConfig.setupPerTest) {
+          testConfig.setupPerTest({ userToken: token, testData });
+        }
+        const pageList = await browser.pages();
+        const page = pageList[0] || (await browser.newPage());
+        await fastForwardAnimations(page);
+        await runTest(page, testData, testConfig, token, fileName);
+      }, // TODO: Make the timeout based on the number of inputs by default
+      testConfig.timeoutPerTest || 120000,
+    ),
   );
 };
 

@@ -249,17 +249,14 @@ describe('CMS export transformer helpers', () => {
       ).toThrowError();
     });
 
-    test(
-      'Should throw an error when a property specified is missing from the schema',
-      () => {
-        expect(() =>
-          usePartialSchema(
-            { type: 'object', properties: { stuff: { type: 'string' } } },
-            ['thingy'],
-          ),
-        ).toThrowError();
-      }
-    );
+    test('Should throw an error when a property specified is missing from the schema', () => {
+      expect(() =>
+        usePartialSchema(
+          { type: 'object', properties: { stuff: { type: 'string' } } },
+          ['thingy'],
+        ),
+      ).toThrowError();
+    });
 
     test('should omit $id', () => {
       const schema = {

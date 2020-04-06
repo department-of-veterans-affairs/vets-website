@@ -82,34 +82,31 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFacilityPageInfo', () => {
-    test(
-      'should return typeOfCare string and begin loading parentFacilities',
-      () => {
-        const state = {
-          user: {
-            profile: {
-              facilities: [],
-            },
+    test('should return typeOfCare string and begin loading parentFacilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [],
           },
-          newAppointment: {
-            pages: {},
-            data: {
-              typeOfCareId: '160',
-              facilityType: 'vamc',
-              vaParent: '983',
-            },
-            facilities: {},
-            eligibility: {},
-            parentFacilities: [{}],
-            facilityDetails: {},
+        },
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaParent: '983',
           },
-        };
+          facilities: {},
+          eligibility: {},
+          parentFacilities: [{}],
+          facilityDetails: {},
+        },
+      };
 
-        const newState = getFacilityPageInfo(state);
-        expect(newState.typeOfCare).toBe('Pharmacy');
-        expect(newState.loadingParentFacilities).toBe(true);
-      }
-    );
+      const newState = getFacilityPageInfo(state);
+      expect(newState.typeOfCare).toBe('Pharmacy');
+      expect(newState.loadingParentFacilities).toBe(true);
+    });
     test('should return eligibility error flag', () => {
       const state = {
         user: {

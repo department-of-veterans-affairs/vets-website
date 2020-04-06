@@ -19,30 +19,27 @@ describe('getBrokenLink/getReactLandingPages', () => {
 });
 
 describe('getBrokenLinks', () => {
-  test(
-    'removes links detected as errors that are child routes of React apps',
-    () => {
-      const brokenPage = {
+  test('removes links detected as errors that are child routes of React apps', () => {
+    const brokenPage = {
+      path: '/example-page',
+      linkErrors: [
+        { target: '' },
+        { target: '/non-react-path' },
+        { target: '/react-path/child-page' },
+      ],
+    };
+
+    const getReactLandingPages = sinon.stub().returns(['/react-path']);
+
+    const result = applyIgnoredRoutes([brokenPage], null, getReactLandingPages);
+
+    expect(result).toEqual([
+      {
         path: '/example-page',
-        linkErrors: [
-          { target: '' },
-          { target: '/non-react-path' },
-          { target: '/react-path/child-page' },
-        ],
-      };
-
-      const getReactLandingPages = sinon.stub().returns(['/react-path']);
-
-      const result = applyIgnoredRoutes([brokenPage], null, getReactLandingPages);
-
-      expect(result).toEqual([
-        {
-          path: '/example-page',
-          linkErrors: [{ target: '' }, { target: '/non-react-path' }],
-        },
-      ]);
-    }
-  );
+        linkErrors: [{ target: '' }, { target: '/non-react-path' }],
+      },
+    ]);
+  });
 
   test('removes links ending with .asp', () => {
     const brokenPage = {

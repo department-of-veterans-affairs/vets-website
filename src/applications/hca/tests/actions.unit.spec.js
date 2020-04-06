@@ -201,15 +201,12 @@ describe('HCA actions', () => {
           }),
         );
       });
-      test(
-        'should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date',
-        () => {
-          expect(dispatch.firstCall.args[0]).toEqual({
-            type: SET_DISMISSED_HCA_NOTIFICATION,
-            data: statusEffectiveAtDate,
-          });
-        }
-      );
+      test('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
+        expect(dispatch.firstCall.args[0]).toEqual({
+          type: SET_DISMISSED_HCA_NOTIFICATION,
+          data: statusEffectiveAtDate,
+        });
+      });
       test('should call the correct POST endpoint', () => {
         expect(global.fetch.firstCall.args[0]).toEqual(
           expect.arrayContaining(['/v0/notifications/dismissed_statuses']),
@@ -229,26 +226,20 @@ describe('HCA actions', () => {
           }),
         );
       });
-      test(
-        'should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date',
-        () => {
-          expect(dispatch.firstCall.args[0]).toEqual({
-            type: SET_DISMISSED_HCA_NOTIFICATION,
-            data: statusEffectiveAtDate,
-          });
-        }
-      );
-      test(
-        'should call the correct PUT endpoint if a notification is being dismissed for the second time',
-        () => {
-          expect(global.fetch.firstCall.args[0]).toEqual(
-            expect.arrayContaining([
-              '/notifications/dismissed_statuses/form_10_10ez',
-            ]),
-          );
-          expect(global.fetch.firstCall.args[1].method).toBe('PUT');
-        }
-      );
+      test('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
+        expect(dispatch.firstCall.args[0]).toEqual({
+          type: SET_DISMISSED_HCA_NOTIFICATION,
+          data: statusEffectiveAtDate,
+        });
+      });
+      test('should call the correct PUT endpoint if a notification is being dismissed for the second time', () => {
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining([
+            '/notifications/dismissed_statuses/form_10_10ez',
+          ]),
+        );
+        expect(global.fetch.firstCall.args[1].method).toBe('PUT');
+      });
     });
   });
 });

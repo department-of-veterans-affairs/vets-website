@@ -287,25 +287,22 @@ describe('HCA migrations', () => {
       expect(formData.veteranAddress).toEqual({});
       expect(metadata.returnUrl).toBe('veteran-information/veteran-address');
     });
-    test(
-      'set the return URL to veteran information when veteranFullName updated',
-      () => {
-        const data = {
-          formData: {
-            veteranFullName: {
-              first: '   ',
-              last: ' ',
-            },
+    test('set the return URL to veteran information when veteranFullName updated', () => {
+      const data = {
+        formData: {
+          veteranFullName: {
+            first: '   ',
+            last: ' ',
           },
-        };
+        },
+      };
 
-        const { formData, metadata } = migration(data);
-        expect(formData.veteranFullName).toEqual({});
-        expect(metadata.returnUrl).toBe(
-          'veteran-information/personal-information',
-        );
-      }
-    );
+      const { formData, metadata } = migration(data);
+      expect(formData.veteranFullName).toEqual({});
+      expect(metadata.returnUrl).toBe(
+        'veteran-information/personal-information',
+      );
+    });
   });
   describe('sixth migration', () => {
     const migration = migrations[5];

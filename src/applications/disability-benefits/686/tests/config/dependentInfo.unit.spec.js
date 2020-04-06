@@ -49,28 +49,25 @@ describe('686 dependent info', () => {
     form.unmount();
   });
 
-  test(
-    'should show disabled question if child is less than 18 years old',
-    () => {
-      const props = dependentData();
-      const underageBirthday = moment()
-        .subtract(17, 'years')
-        .format('YYYY-MM-DD');
-      props.dependents[0].childDateOfBirth = underageBirthday;
-      const form = mount(
-        <DefinitionTester
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-          schema={schema}
-          data={props}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-        />,
-      );
-      expect(form.find('input').length).toBe(7); // `inSchool` question hidden
-      form.unmount();
-    }
-  );
+  test('should show disabled question if child is less than 18 years old', () => {
+    const props = dependentData();
+    const underageBirthday = moment()
+      .subtract(17, 'years')
+      .format('YYYY-MM-DD');
+    props.dependents[0].childDateOfBirth = underageBirthday;
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        data={props}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+      />,
+    );
+    expect(form.find('input').length).toBe(7); // `inSchool` question hidden
+    form.unmount();
+  });
 
   test('should not show show disabled question if child is 18 years old', () => {
     const props = dependentData();
