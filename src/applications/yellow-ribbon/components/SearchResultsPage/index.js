@@ -9,7 +9,7 @@ import SearchResults from '../../containers/SearchResults';
 import manifest from '../../manifest.json';
 import { toggleShowMobileFormAction } from '../../actions';
 
-export const SearchResultsPage = ({ showMobileForm, toggleShowMobileForm }) => (
+export const SearchResultsPage = ({ toggleShowMobileForm }) => (
   <>
     {/* Breadcrumbs */}
     <Breadcrumbs className="vads-u-padding--1p5 medium-screen:vads-u-pading--0">
@@ -97,21 +97,15 @@ export const SearchResultsPage = ({ showMobileForm, toggleShowMobileForm }) => (
 );
 
 SearchResultsPage.propTypes = {
-  // From mapStateToProps.
-  showMobileForm: PropTypes.bool.isRequired,
   // From mapDispatchToProps.
   toggleShowMobileForm: PropTypes.func.isRequired,
 };
-
-const mapStateToProps = state => ({
-  showMobileForm: state.yellowRibbonReducer.showMobileForm,
-});
 
 const mapDispatchToProps = dispatch => ({
   toggleShowMobileForm: () => dispatch(toggleShowMobileFormAction()),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SearchResultsPage);
