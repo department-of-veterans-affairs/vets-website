@@ -65,7 +65,7 @@ export class SchoolLocations extends React.Component {
   };
 
   handleViewLessClicked = () => {
-    if (this.props.onViewLess){
+    if (this.props.onViewLess) {
       this.props.onViewLess();
     }
     this.setState({
