@@ -4,7 +4,6 @@
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
 
-import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
