@@ -3,6 +3,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
+import FindYellowRibbonPage from '../../components/FindYellowRibbonPage';
+import SearchResultsPage from '../../components/SearchResultsPage';
 import { YellowRibbonApp } from './index';
 
 describe('Yellow Ribbon container <YellowRibbonApp>', () => {
@@ -10,8 +12,8 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
     const tree = shallow(<YellowRibbonApp />);
 
     // Expect there to be:
-    expect(tree.find('FindYellowRibbonPage')).to.have.lengthOf(1);
-    expect(tree.find('SearchResultsPage')).to.have.lengthOf(0);
+    expect(tree.find(FindYellowRibbonPage)).to.have.lengthOf(1);
+    expect(tree.find(SearchResultsPage)).to.have.lengthOf(0);
 
     tree.unmount();
   });
@@ -20,8 +22,8 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
     const tree = shallow(<YellowRibbonApp hasFetchedOnce />);
 
     // Expect there to be:
-    expect(tree.find('FindYellowRibbonPage')).to.have.lengthOf(0);
-    expect(tree.find('SearchResultsPage')).to.have.lengthOf(1);
+    expect(tree.find(FindYellowRibbonPage)).to.have.lengthOf(0);
+    expect(tree.find(SearchResultsPage)).to.have.lengthOf(1);
 
     tree.unmount();
   });

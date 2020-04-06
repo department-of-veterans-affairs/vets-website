@@ -18,6 +18,7 @@ describe('Yellow Ribbon reducer', () => {
       results: undefined,
       schoolIDs: [],
       schoolsLookup: {},
+      showMobileForm: true,
       totalResults: undefined,
     });
   });
@@ -43,6 +44,7 @@ describe('Yellow Ribbon reducer', () => {
       results: undefined,
       schoolIDs: [],
       schoolsLookup: {},
+      showMobileForm: false,
       totalResults: undefined,
     });
   });
