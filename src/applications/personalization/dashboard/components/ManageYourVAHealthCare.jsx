@@ -85,7 +85,7 @@ const ManageYourVAHealthCare = ({
   isEnrolledInHealthCare,
   preferredFacility,
   showServerError,
-  isCernerPatient,
+  showCernerWidget,
 }) => (
   <>
     <h2>Manage your VA health care</h2>
@@ -145,11 +145,10 @@ const ManageYourVAHealthCare = ({
     >
       <PrescriptionsWidget />
     </DowntimeNotification>
-    {(isEnrolledInHealthCare && !isCernerPatient) ||
-      (environment.isProduction() && <ScheduleAnAppointmentWidget />)}
     {isEnrolledInHealthCare &&
-      isCernerPatient &&
-      !environment.isProduction() && <ScheduleAnAppointmentCernerWidget />}
+      !showCernerWidget && <ScheduleAnAppointmentWidget />}
+    {isEnrolledInHealthCare &&
+      showCernerWidget && <ScheduleAnAppointmentCernerWidget />}
   </>
 );
 
@@ -157,7 +156,8 @@ const mapStateToProps = state => {
   const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
   const hcaEnrollmentStatus = selectEnrollmentStatus(state);
   const showServerError = hasESRServerError(state);
-  const isCernerPatient = selectIsCernerPatient(state);
+  const showCernerWidget =
+    !environment.isProduction() && selectIsCernerPatient(state);
   const {
     applicationDate,
     enrollmentDate,
@@ -170,7 +170,7 @@ const mapStateToProps = state => {
     isEnrolledInHealthCare,
     preferredFacility,
     showServerError,
-    isCernerPatient,
+    showCernerWidget,
   };
 };
 
