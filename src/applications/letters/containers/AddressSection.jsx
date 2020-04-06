@@ -65,8 +65,7 @@ export class AddressSection extends React.Component {
       <div>
         <div>
           <div aria-live="polite" aria-relevant="additions">
-            {emptyAddress && noAddressBanner}
-            {addressContent}
+            {emptyAddress ? noAddressBanner : addressContent}
           </div>
         </div>
         {viewLettersButton}
