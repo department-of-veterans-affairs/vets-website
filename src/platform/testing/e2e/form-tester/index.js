@@ -115,6 +115,7 @@ const testForm = (testDataSets, testConfig) => {
   testDataSets.forEach(({ fileName, contents }) =>
     test(
       fileName,
+      // TODO: Make the timeout based on the number of inputs by default
       async () => {
         const testData = getTestData(contents, testConfig.testDataPathPrefix);
         if (testConfig.setupPerTest) {
@@ -124,7 +125,7 @@ const testForm = (testDataSets, testConfig) => {
         const page = pageList[0] || (await browser.newPage());
         await fastForwardAnimations(page);
         await runTest(page, testData, testConfig, token, fileName);
-      }, // TODO: Make the timeout based on the number of inputs by default
+      },
       testConfig.timeoutPerTest || 120000,
     ),
   );
