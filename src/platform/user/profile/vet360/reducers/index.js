@@ -102,7 +102,6 @@ export default function vet360(state = initialState, action) {
     case VET360_TRANSACTION_REQUEST_SUCCEEDED: {
       return {
         ...state,
-        modal: null,
         transactions: state.transactions.concat(action.transaction),
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
@@ -187,6 +186,7 @@ export default function vet360(state = initialState, action) {
         transactions: state.transactions.filter(
           t => t.data.attributes.transactionId !== finishedTransactionId,
         ),
+        modal: null,
         fieldTransactionMap,
         transactionStatus: action.transaction.data.attributes.transactionStatus,
       };

@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from 'vet360/util/transactions';
 import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
 import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
@@ -63,6 +67,7 @@ export default class Vet360EditModal extends React.Component {
         clearErrors,
         render,
         onDelete,
+        transaction,
         transactionRequest,
         analyticsSectionName,
         deleteDisabled,
@@ -70,8 +75,11 @@ export default class Vet360EditModal extends React.Component {
     } = this;
 
     const isFormReady = isInitialized();
-    const isLoading = transactionRequest && transactionRequest.isPending;
-    const error = transactionRequest && transactionRequest.error;
+    const isLoading =
+      transactionRequest?.isPending || isPendingTransaction(transaction);
+    const error =
+      transactionRequest?.error ||
+      (isFailedTransaction(transaction) ? {} : null);
 
     const actionButtons = (
       <Vet360EditModalActionButtons
