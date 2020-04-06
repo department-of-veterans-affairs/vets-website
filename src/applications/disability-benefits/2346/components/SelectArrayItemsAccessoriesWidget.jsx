@@ -21,7 +21,7 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
     const supplies = set(
       `[${index}].${this.props.options.selectedPropName}`,
       checked,
-      this.props.supplies,
+      this.props.value || this.props.supplies,
     );
     this.props.onChange(supplies);
   };
