@@ -16,7 +16,6 @@ const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
-const applyFragments = require('../build/plugins/apply-fragments');
 const processEntryNames = require('../build/plugins/process-entry-names');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 const parseHtml = require('../build/plugins/parse-html');
@@ -45,7 +44,6 @@ async function createPipeline(options) {
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
-  smith.use(applyFragments(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
 
