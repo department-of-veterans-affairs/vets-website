@@ -186,12 +186,10 @@ export function startDirectScheduleFlow(appointments) {
 }
 
 export function startRequestAppointmentFlow(isCommunityCare) {
-  const event = `vaos-${
-    isCommunityCare ? 'community-care' : 'request'
-  }-path-started`;
-
   recordEvent({
-    event,
+    event: `vaos-${
+      isCommunityCare ? 'community-care' : 'request'
+    }-path-started`,
   });
 
   return {
