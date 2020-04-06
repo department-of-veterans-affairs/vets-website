@@ -53,18 +53,12 @@ export const uiSchema = {
       'ui:title': 'Last term school’s name',
     },
     schoolAddress: {
-      ...{
-        'ui:title': 'Last term school’s address',
-        'ui:options': {
-          updateSchema: (formData, formSchema) => {
-            if (!formData.studentDidAttendSchoolLastTerm) {
-              return {
-                required: [],
-              };
-            }
-            return formSchema;
-          },
-        },
+      'ui:title': 'Last term school’s address',
+      'ui:options': {
+        updateSchema: (formData, formSchema) =>
+          !formData.studentDidAttendSchoolLastTerm
+            ? { required: [] }
+            : formSchema,
       },
       ...addressUISchema(
         false,
