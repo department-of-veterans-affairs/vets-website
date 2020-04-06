@@ -5,6 +5,8 @@ import React from 'react';
 import AccordionItem from '../AccordionItem';
 import HeadingSummary from './HeadingSummary';
 import Programs from './Programs';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
@@ -24,6 +26,10 @@ export class InstitutionProfile extends React.Component {
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
+
+  scrollToLocations = () => {
+    scroller.scrollTo('school-locations', getScrollOptions());
+  };
 
   render() {
     const { profile, isOJT, constants, showModal } = this.props;
@@ -48,7 +54,10 @@ export class InstitutionProfile extends React.Component {
               </AccordionItem>
             )}
             {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
-              <AccordionItem button="School locations">
+              <AccordionItem
+                button="School locations"
+                headerClass="school-locations"
+              >
                 <SchoolLocations
                   institution={profile.attributes}
                   facilityMap={profile.attributes.facilityMap}
@@ -56,6 +65,7 @@ export class InstitutionProfile extends React.Component {
                   eligibility={this.props.eligibility}
                   constants={constants}
                   version={this.props.version}
+                  onViewLess={this.scrollToLocations}
                 />
               </AccordionItem>
             )}
