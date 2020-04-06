@@ -768,11 +768,11 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const prevState = newAppointmentFlow.reasonForAppointment.previous(
+        const nextState = newAppointmentFlow.reasonForAppointment.previous(
           state,
         );
 
-        expect(prevState).to.equal('requestDateTime');
+        expect(nextState).to.equal('requestDateTime');
       });
     });
   });
