@@ -26,7 +26,6 @@ import {
   fetchPaymentInformation,
   savePaymentInformation,
   editModalToggled,
-  editModalFieldChanged,
 } from '../actions/paymentInformation';
 import {
   directDepositAccountInformation,
@@ -112,7 +111,6 @@ class PaymentInformation extends React.Component {
     multifactorEnabled: PropTypes.bool.isRequired,
     fetchPaymentInformation: PropTypes.func.isRequired,
     editModalToggled: PropTypes.func.isRequired,
-    editModalFieldChanged: PropTypes.func.isRequired,
     savePaymentInformation: PropTypes.func.isRequired,
     paymentInformationUiState: PropTypes.object.isRequired,
     paymentInformation: PropTypes.shape({
@@ -245,7 +243,6 @@ class PaymentInformation extends React.Component {
             }
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
-            editModalFieldChanged={this.props.editModalFieldChanged}
             responseError={this.props.paymentInformationUiState.responseError}
           />
         </>
@@ -304,7 +301,6 @@ const mapDispatchToProps = {
   fetchPaymentInformation,
   savePaymentInformation,
   editModalToggled,
-  editModalFieldChanged,
 };
 
 const PaymentInformationContainer = connect(
