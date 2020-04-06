@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
@@ -24,7 +23,7 @@ describe('686 veteran information', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).toBe(5);
     form.unmount();
   });
 
@@ -37,7 +36,7 @@ describe('686 veteran information', () => {
       />,
     );
     selectCheckbox(form, 'root_view:noSSN', true);
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).toBe(6);
     form.unmount();
   });
 
@@ -52,8 +51,8 @@ describe('686 veteran information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(3);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -73,8 +72,8 @@ describe('686 veteran information', () => {
     fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2424');
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 });

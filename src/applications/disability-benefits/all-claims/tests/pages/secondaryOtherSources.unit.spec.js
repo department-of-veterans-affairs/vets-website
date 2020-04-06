@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
@@ -26,7 +25,7 @@ describe('Add secondary other sources of information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).toBe(2);
     form.unmount();
   });
 
@@ -49,8 +48,8 @@ describe('Add secondary other sources of information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error-message').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 });

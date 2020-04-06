@@ -8,7 +8,6 @@ import {
   ADDRESS_VALIDATION_UPDATE,
 } from '../../actions/transactions';
 import sinon from 'sinon';
-import { expect } from 'chai';
 
 const route = 'foo';
 const method = 'PUT';
@@ -30,7 +29,7 @@ const analyticsSectionName = 'bar';
 describe('resetAddressValidation', () => {
   it('creates the correct action', () => {
     const action = resetAddressValidation();
-    expect(action).to.deep.equal({ type: ADDRESS_VALIDATION_RESET });
+    expect(action).toEqual({ type: ADDRESS_VALIDATION_RESET });
   });
 });
 
@@ -44,13 +43,11 @@ describe('validateAddress', () => {
       payload,
       analyticsSectionName,
     )(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         ADDRESS_VALIDATION_INITIALIZE,
       );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        ADDRESS_VALIDATION_CONFIRM,
-      );
-      expect(dispatch.secondCall.args[0].suggestedAddresses).to.deep.equal([
+      expect(dispatch.secondCall.args[0].type).toBe(ADDRESS_VALIDATION_CONFIRM);
+      expect(dispatch.secondCall.args[0].suggestedAddresses).toEqual([
         {
           addressMetaData: {
             confidenceScore: 100,
@@ -129,9 +126,7 @@ describe('updateValidationKeyAndSave', () => {
       payload,
       analyticsSectionName,
     )(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        ADDRESS_VALIDATION_UPDATE,
-      );
+      expect(dispatch.firstCall.args[0].type).toBe(ADDRESS_VALIDATION_UPDATE);
     });
   });
 });

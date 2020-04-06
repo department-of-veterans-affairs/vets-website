@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import schoolSelect from '../../../feedback-tool/reducers/schoolSelect';
 
 describe('schoolSearch reducer', () => {
@@ -36,7 +34,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
   describe('LOAD_SCHOOLS_FAILED', () => {
@@ -75,7 +73,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
 
@@ -117,7 +115,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
     it('should return a loading page state', () => {
       const previousState = {
@@ -157,7 +155,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
   describe('LOAD_SCHOOLS_SUCCEEDED', () => {
@@ -228,7 +226,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
 
     it('should set null values to empty strings', () => {
@@ -296,7 +294,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
 
     it('should return a no results state', () => {
@@ -340,7 +338,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
   describe('RESTORE_FROM_PREFILL_STARTED', () => {
@@ -388,7 +386,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
   describe('SEARCH_CLEARED', () => {
@@ -420,7 +418,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
   describe('SEARCH_INPUT_CHANGED', () => {
@@ -441,7 +439,7 @@ describe('schoolSearch reducer', () => {
 
       const actualState = schoolSelect(previousState, action);
 
-      expect(actualState).to.eql(expectedState);
+      expect(actualState).toEqual(expectedState);
     });
   });
 });

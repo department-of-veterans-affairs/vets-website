@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -17,7 +16,7 @@ describe('Pension validation', () => {
         dateOfMarriage: '2016-01-01',
       });
 
-      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.called).toBe(true);
     });
   });
   describe('validateServiceBirthDates', () => {
@@ -40,7 +39,7 @@ describe('Pension validation', () => {
         { veteranDateOfBirth: '2016-01-01' },
       );
 
-      expect(errors.activeServiceDateRange.from.addError.called).to.be.true;
+      expect(errors.activeServiceDateRange.from.addError.called).toBe(true);
     });
   });
 });

@@ -86,26 +86,18 @@
           "sunday": "-"
         },
         "services": {
-          "other": [
-            "Online Scheduling"
-          ],
+          "other": ["Online Scheduling"],
           "health": [
             {
-              "sl1": [
-                "PrimaryCare"
-              ],
+              "sl1": ["PrimaryCare"],
               "sl2": []
             },
             {
-              "sl1": [
-                "Audiology"
-              ],
+              "sl1": ["Audiology"],
               "sl2": []
             },
             {
-              "sl1": [
-                "Orthopedics"
-              ],
+              "sl1": ["Orthopedics"],
               "sl2": []
             }
           ],
@@ -184,21 +176,15 @@
           "lastUpdated": "2017-07-24",
           "health": [
             {
-              "sl1": [
-                "DentalServices"
-              ],
+              "sl1": ["DentalServices"],
               "sl2": []
             },
             {
-              "sl1": [
-                "MentalHealthCare"
-              ],
+              "sl1": ["MentalHealthCare"],
               "sl2": []
             },
             {
-              "sl1": [
-                "PrimaryCare"
-              ],
+              "sl1": ["PrimaryCare"],
               "sl2": []
             }
           ]
@@ -605,45 +591,31 @@
         "services": {
           "health": [
             {
-              "sl1": [
-                "MentalHealthCare"
-              ],
+              "sl1": ["MentalHealthCare"],
               "sl2": []
             },
             {
-              "sl1": [
-                "PrimaryCare"
-              ],
+              "sl1": ["PrimaryCare"],
               "sl2": []
             },
             {
-              "sl1": [
-                "EmergencyCare"
-              ],
+              "sl1": ["EmergencyCare"],
               "sl2": []
             },
             {
-              "sl1": [
-                "WomensHealth"
-              ],
+              "sl1": ["WomensHealth"],
               "sl2": []
             },
             {
-              "sl1": [
-                "Audiology"
-              ],
+              "sl1": ["Audiology"],
               "sl2": []
             },
             {
-              "sl1": [
-                "Dermatology"
-              ],
+              "sl1": ["Dermatology"],
               "sl2": []
             },
             {
-              "sl1": [
-                "Gynecology"
-              ],
+              "sl1": ["Gynecology"],
               "sl2": []
             }
           ],

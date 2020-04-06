@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
 
 .va-connected-acct {
   margin-bottom: 6em;
@@ -44,7 +44,7 @@ $connected-acct-border: 1px solid #5b616b;
     margin: 1rem;
 
     @include media-maxwidth($medium-screen) {
-        margin: .5em 0;
+      margin: 0.5em 0;
     }
   }
 
@@ -61,7 +61,7 @@ $connected-acct-border: 1px solid #5b616b;
 
   .va-connected-acct-row-details {
     i {
-      padding-left: .5em;
+      padding-left: 0.5em;
     }
   }
 
@@ -75,7 +75,6 @@ $connected-acct-border: 1px solid #5b616b;
   }
 }
 
-
 .va-connected-acct-details-toggled {
   background: $color-gray-lightest;
 }
@@ -84,30 +83,30 @@ $connected-acct-border: 1px solid #5b616b;
   flex-basis: 100%;
 
   @include media-maxwidth($medium-screen) {
-    margin: .5em;
+    margin: 0.5em;
   }
   .va-connected-acct-row-details-block-content {
     background: $color-white;
     padding: 0 1em 1em;
 
-      p {
-        padding-top: .5em;
-        margin-top: 0;
-        margin-bottom: 0;
-        line-height: 3.5;
-      }
+    p {
+      padding-top: 0.5em;
+      margin-top: 0;
+      margin-bottom: 0;
+      line-height: 3.5;
+    }
 
-      button {
-        float: right;
+    button {
+      float: right;
 
-        @include media-maxwidth($small-screen) {
-            float: none;
-        }
+      @include media-maxwidth($small-screen) {
+        float: none;
       }
+    }
 
-      ul {
-        margin-left: 3em;
-        padding-bottom: 1em;
-      }
+    ul {
+      margin-left: 3em;
+      padding-bottom: 1em;
+    }
   }
 }

@@ -1,4 +1,3 @@
-const { expect } = require('chai');
 const sinon = require('sinon');
 
 const applyIgnoredRoutes = require('../../helpers/applyIgnoredRoutes');
@@ -15,7 +14,7 @@ describe('getBrokenLink/getReactLandingPages', () => {
 
     const result = getReactLandingPages(files);
 
-    expect(result).to.be.deep.equal(['/dashboard']);
+    expect(result).toEqual(['/dashboard']);
   });
 });
 
@@ -34,7 +33,7 @@ describe('getBrokenLinks', () => {
 
     const result = applyIgnoredRoutes([brokenPage], null, getReactLandingPages);
 
-    expect(result).to.be.deep.equal([
+    expect(result).toEqual([
       {
         path: '/example-page',
         linkErrors: [{ target: '' }, { target: '/non-react-path' }],
@@ -56,7 +55,7 @@ describe('getBrokenLinks', () => {
 
     const result = applyIgnoredRoutes([brokenPage], null, getReactLandingPages);
 
-    expect(result).to.be.deep.equal([
+    expect(result).toEqual([
       {
         path: '/example-page',
         linkErrors: [{ target: '' }, { target: '/non-asp-page' }],
@@ -79,7 +78,7 @@ describe('getBrokenLinks', () => {
     const getReactLandingPages = sinon.stub().returns([]);
     const result = applyIgnoredRoutes(brokenPages, null, getReactLandingPages);
 
-    expect(result).to.be.deep.equal([
+    expect(result).toEqual([
       {
         path: '/example-page',
         linkErrors: [{ target: '/broken-page' }],

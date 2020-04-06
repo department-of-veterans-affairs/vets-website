@@ -161,8 +161,7 @@
           "addressMetaData": {
             "confidenceScore": 98.0,
             "addressType": "Domestic",
-            "deliveryPointValidation":
-            "STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER",
+            "deliveryPointValidation": "STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER",
             "residentialDeliveryIndicator": "RESIDENTIAL"
           }
         }

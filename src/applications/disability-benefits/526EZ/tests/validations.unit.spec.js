@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { isInPast } from '../validations';
 import sinon from 'sinon';
 
@@ -9,7 +8,7 @@ describe('526 Increase validations', () => {
       const errors = { addError };
 
       isInPast(errors);
-      expect(addError.called).to.be.false;
+      expect(addError.called).toBe(false);
     });
 
     it('should not add error when end date is in past', () => {
@@ -17,7 +16,7 @@ describe('526 Increase validations', () => {
       const errors = { addError };
 
       isInPast(errors, '2010-12-31');
-      expect(addError.called).to.be.false;
+      expect(addError.called).toBe(false);
     });
 
     it('should add error when end date is in past', () => {
@@ -25,7 +24,7 @@ describe('526 Increase validations', () => {
       const errors = { addError };
 
       isInPast(errors, '2099-01-01');
-      expect(addError.calledOnce).to.be.true;
+      expect(addError.calledOnce).toBe(true);
     });
   });
 });

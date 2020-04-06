@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   formDescriptions,
   sipEnabledForms,
@@ -43,7 +41,7 @@ describe('profile helpers:', () => {
   describe('formDescriptions', () => {
     it('should have description information for each verified form', () => {
       sipEnabledForms.forEach(form => {
-        expect(formDescriptions[form]).to.exist;
+        expect(formDescriptions[form]).toBeDefined();
       });
     });
   });
@@ -51,14 +49,14 @@ describe('profile helpers:', () => {
     it('should include authorization message if authorizable', () => {
       configs.forEach(config => {
         if (config.authorize) {
-          expect(config.authorizationMessage).to.exist;
+          expect(config.authorizationMessage).toBeDefined();
         }
       });
     });
     it('should include getAuthorizationState if authorizable', () => {
       configs.forEach(config => {
         if (config.authorize) {
-          expect(config.getAuthorizationState).to.exist;
+          expect(config.getAuthorizationState).toBeDefined();
         }
       });
     });

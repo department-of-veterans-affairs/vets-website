@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 import sentryTestkit from 'sentry-testkit';
@@ -94,8 +93,8 @@ describe('getLettersList', () => {
     getLetterList(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_LETTERS_SUCCESS);
-        expect(action.data).to.eql(lettersResponse);
+        expect(action.type).toBe(GET_LETTERS_SUCCESS);
+        expect(action.data).toEqual(lettersResponse);
       })
       .then(done, done);
   });
@@ -111,8 +110,8 @@ describe('getLettersList', () => {
       })
       .catch(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_LETTERS_FAILURE);
-        expect(testkit.reports().length).to.equal(2); // One from apiRequest, one from getLetterList()
+        expect(action.type).toBe(GET_LETTERS_FAILURE);
+        expect(testkit.reports().length).toBe(2); // One from apiRequest, one from getLetterList()
         done();
       });
   });
@@ -142,13 +141,13 @@ describe('getLettersList', () => {
         .catch(() => Promise.resolve())
         .then(() => {
           const action = dispatch.firstCall.args[0];
-          expect(action.type).to.equal(lettersErrors[code]);
+          expect(action.type).toBe(lettersErrors[code]);
           const reports = testkit.reports();
-          expect(reports.length).to.equal(2);
-          expect(reports[1].exception.values[0].value).to.equal(
+          expect(reports.length).toBe(2);
+          expect(reports[1].exception.values[0].value).toBe(
             `vets_letters_error_getLetterList ${code}`,
           );
-          expect(reports[1].fingerprint).to.eql(['{{ default }}', code]);
+          expect(reports[1].fingerprint).toEqual(['{{ default }}', code]);
         })
         .then(done, done);
     });
@@ -164,11 +163,11 @@ describe('getLetterListAndBSLOptions', () => {
     const dispatch = () => {};
 
     thunk(dispatch).then(() => {
-      expect(global.fetch.callCount).to.equal(2);
-      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).to.be.true;
+      expect(global.fetch.callCount).toBe(2);
+      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).toBe(true);
       expect(
         global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary'),
-      ).to.be.true;
+      ).toBe(true);
       done();
     });
   });
@@ -179,7 +178,7 @@ describe('getLetterListAndBSLOptions', () => {
     const dispatch = () => {};
 
     thunk(dispatch).then(() => {
-      expect(global.fetch.callCount).to.equal(1);
+      expect(global.fetch.callCount).toBe(1);
       done();
     });
   });
@@ -233,8 +232,8 @@ describe('getBenefitSummaryOptions', () => {
     getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
         const action = dispatch.args[0][0]; // first call, first arg
-        expect(action.type).to.equal(GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS);
-        expect(action.data).to.eql(mockResponse);
+        expect(action.type).toBe(GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS);
+        expect(action.data).toEqual(mockResponse);
       })
       .then(done, done);
   });
@@ -254,7 +253,7 @@ describe('getBenefitSummaryOptions', () => {
       .catch(() => {
         expect(
           dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE }),
-        ).to.be.true;
+        ).toBe(true);
         done();
       });
   });
@@ -296,8 +295,8 @@ describe('getLetterPdf', () => {
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_LETTER_PDF_DOWNLOADING);
-        expect(action.data).to.equal(letterType);
+        expect(action.type).toBe(GET_LETTER_PDF_DOWNLOADING);
+        expect(action.data).toBe(letterType);
       })
       .then(done, done);
   });
@@ -316,7 +315,7 @@ describe('getLetterPdf', () => {
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+        expect(action.type).toBe(GET_LETTER_PDF_SUCCESS);
       })
       .then(done, done);
   });
@@ -335,7 +334,7 @@ describe('getLetterPdf', () => {
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
+        expect(action.type).toBe(GET_LETTER_PDF_SUCCESS);
       })
       .then(done, done);
   });
@@ -358,8 +357,10 @@ describe('getLetterPdf', () => {
       .then(() => {
         const action = dispatch.secondCall.args[0];
         const msBlobArgs = ieDownloadSpy.firstCall.args;
-        expect(action.type).to.equal(GET_LETTER_PDF_SUCCESS);
-        expect(msBlobArgs).to.have.members([blobObj, `${letterName}.pdf`]);
+        expect(action.type).toBe(GET_LETTER_PDF_SUCCESS);
+        expect(msBlobArgs).toEqual(
+          expect.arrayContaining([blobObj, `${letterName}.pdf`]),
+        );
       })
       .then(done, done);
   });
@@ -372,7 +373,7 @@ describe('getLetterPdf', () => {
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(GET_LETTER_PDF_FAILURE);
+        expect(action.type).toBe(GET_LETTER_PDF_FAILURE);
       })
       .then(done, done);
   });

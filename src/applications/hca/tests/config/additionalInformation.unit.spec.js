@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
@@ -27,7 +26,7 @@ describe('Hca additionalInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input').length).toBe(9);
   });
 
   it('should submit without data', () => {
@@ -42,7 +41,7 @@ describe('Hca additionalInformation', () => {
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
   });
 });

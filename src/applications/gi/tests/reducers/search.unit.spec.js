@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import searchReducer from '../../reducers/search';
 
 describe('search reducer', () => {
@@ -11,7 +9,7 @@ describe('search reducer', () => {
       },
     );
 
-    expect(state.filterOpened).to.eql(true);
+    expect(state.filterOpened).toBe(true);
   });
 
   it('should set search inProgress', () => {
@@ -22,7 +20,7 @@ describe('search reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(true);
+    expect(state.inProgress).toBe(true);
   });
 
   it('should set correct state on failure', () => {
@@ -34,8 +32,8 @@ describe('search reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.error).to.eql('Service Unavailable');
+    expect(state.inProgress).toBe(false);
+    expect(state.error).toBe('Service Unavailable');
   });
 
   it('should set correct state on institution search success', () => {
@@ -71,16 +69,16 @@ describe('search reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.results.length).to.eql(1);
-    expect(state.results[0].name).to.eql('RESULT_NAME');
-    expect(state.facets.state.STATEFACETKEY).to.eql('value');
-    expect(state.facets.type.TYPEFACETKEY).to.eql('value');
-    expect(state.count).to.eql(1);
-    expect(state.version).to.eql(1);
-    expect(state.pagination.currentPage).to.eql(1);
-    expect(state.pagination.totalPages).to.eql(1);
-    expect(state.pagination.perPage).to.eql(10);
+    expect(state.inProgress).toBe(false);
+    expect(state.results.length).toBe(1);
+    expect(state.results[0].name).toBe('RESULT_NAME');
+    expect(state.facets.state.STATEFACETKEY).toBe('value');
+    expect(state.facets.type.TYPEFACETKEY).toBe('value');
+    expect(state.count).toBe(1);
+    expect(state.version).toBe(1);
+    expect(state.pagination.currentPage).toBe(1);
+    expect(state.pagination.totalPages).toBe(1);
+    expect(state.pagination.perPage).toBe(10);
   });
 
   it('should set correct state on program search success', () => {
@@ -117,16 +115,16 @@ describe('search reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.results.length).to.eql(1);
-    expect(state.results[0].description).to.eql('RESULT_NAME');
-    expect(state.facets.state.STATEFACETKEY).to.eql('value');
-    expect(state.facets.type.TYPEFACETKEY).to.eql('value');
-    expect(state.facets.provider[0].name).to.eql('PROVIDER 1');
-    expect(state.count).to.eql(1);
-    expect(state.version).to.eql(1);
-    expect(state.pagination.currentPage).to.eql(1);
-    expect(state.pagination.totalPages).to.eql(1);
-    expect(state.pagination.perPage).to.eql(10);
+    expect(state.inProgress).toBe(false);
+    expect(state.results.length).toBe(1);
+    expect(state.results[0].description).toBe('RESULT_NAME');
+    expect(state.facets.state.STATEFACETKEY).toBe('value');
+    expect(state.facets.type.TYPEFACETKEY).toBe('value');
+    expect(state.facets.provider[0].name).toBe('PROVIDER 1');
+    expect(state.count).toBe(1);
+    expect(state.version).toBe(1);
+    expect(state.pagination.currentPage).toBe(1);
+    expect(state.pagination.totalPages).toBe(1);
+    expect(state.pagination.perPage).toBe(10);
   });
 });

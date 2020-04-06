@@ -1,16 +1,15 @@
 /* eslint-disable camelcase */
 
-const { expect } = require('chai');
 const { getFilter, getFilteredEntity } = require('../filters');
 
 describe('CMS export filter helpers', () => {
   describe('getFilter', () => {
     it('should return an array of properties to keep, given the content model type', () => {
-      expect(getFilter('paragraph-wysiwyg')).to.deep.equal(['field_wysiwyg']);
+      expect(getFilter('paragraph-wysiwyg')).toEqual(['field_wysiwyg']);
     });
 
     it('should return an empty array if the content model type is not found', () => {
-      expect(getFilter('asdf')).to.deep.equal([]);
+      expect(getFilter('asdf')).toEqual([]);
     });
 
     // Skipping this for now because it doesn't properly reset console
@@ -32,7 +31,7 @@ describe('CMS export filter helpers', () => {
           field_wysiwyg: 'keep this',
           filter_me_out: 'discard this',
         }),
-      ).to.deep.equal({
+      ).toEqual({
         contentModelType: 'paragraph-wysiwyg',
         field_wysiwyg: 'keep this',
       });
@@ -45,7 +44,7 @@ describe('CMS export filter helpers', () => {
           uid: 'discard this',
           keep_me: 'keep this',
         }),
-      ).to.deep.equal({
+      ).toEqual({
         contentModelType: 'some entity we know nothing about yet',
         keep_me: 'keep this',
       });

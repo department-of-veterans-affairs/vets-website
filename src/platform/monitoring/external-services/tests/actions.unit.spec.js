@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
@@ -37,10 +36,8 @@ describe('External services actions', () => {
       mockApiRequest(response);
       const dispatch = sinon.spy();
       return getBackendStatuses()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          LOADING_BACKEND_STATUSES,
-        );
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0].type).toBe(LOADING_BACKEND_STATUSES);
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: FETCH_BACKEND_STATUSES_SUCCESS,
           data: response.data,
         });
@@ -55,10 +52,8 @@ describe('External services actions', () => {
       mockApiRequest(response, false);
       const dispatch = sinon.spy();
       return getBackendStatuses()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          LOADING_BACKEND_STATUSES,
-        );
-        expect(dispatch.secondCall.args[0].type).to.equal(
+        expect(dispatch.firstCall.args[0].type).toBe(LOADING_BACKEND_STATUSES);
+        expect(dispatch.secondCall.args[0].type).toBe(
           FETCH_BACKEND_STATUSES_FAILURE,
         );
       });

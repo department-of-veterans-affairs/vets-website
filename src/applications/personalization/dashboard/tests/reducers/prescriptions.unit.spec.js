@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import prescriptionsReducer from '../../reducers/prescriptions.js';
 
 describe('prescriptions reducer', () => {
@@ -8,7 +6,7 @@ describe('prescriptions reducer', () => {
       { active: { loading: false } },
       { type: 'LOADING_ACTIVE' },
     );
-    expect(state.active.loading).to.be.true;
+    expect(state.active.loading).toBe(true);
   });
 
   it('should show a loading screen for history', () => {
@@ -16,7 +14,7 @@ describe('prescriptions reducer', () => {
       { history: { loading: false } },
       { type: 'LOADING_HISTORY' },
     );
-    expect(state.history.loading).to.be.true;
+    expect(state.history.loading).toBe(true);
   });
 
   it('should handle failure to fetch active prescriptions', () => {
@@ -29,8 +27,8 @@ describe('prescriptions reducer', () => {
         active: true,
       },
     );
-    expect(state.items).to.be.null;
-    expect(state.active.loading).to.be.false;
+    expect(state.items).toBeNull();
+    expect(state.active.loading).toBe(false);
   });
 
   it('should handle failure to fetch prescriptions history', () => {
@@ -42,8 +40,8 @@ describe('prescriptions reducer', () => {
         type: 'LOAD_PRESCRIPTIONS_FAILURE',
       },
     );
-    expect(state.items).to.be.null;
-    expect(state.history.loading).to.be.false;
+    expect(state.items).toBeNull();
+    expect(state.history.loading).toBe(false);
   });
 
   it('should handle a successful request for active prescriptions', () => {
@@ -66,9 +64,9 @@ describe('prescriptions reducer', () => {
         },
       },
     );
-    expect(state.items).to.eql(['item1', 'item2']);
-    expect(state.active.sort.value).to.eql('prescriptionName');
-    expect(state.active.loading).to.be.false;
+    expect(state.items).toEqual(['item1', 'item2']);
+    expect(state.active.sort.value).toBe('prescriptionName');
+    expect(state.active.loading).toBe(false);
   });
 
   it('should handle a successful request for prescriptions history', () => {
@@ -90,11 +88,11 @@ describe('prescriptions reducer', () => {
         },
       },
     );
-    expect(state.items).to.eql(['item1', 'item2']);
-    expect(state.history.sort.value).to.eql('prescriptionName');
-    expect(state.history.sort.order).to.eql('ASC');
-    expect(state.history.page).to.equal(1);
-    expect(state.history.pages).to.equal(1);
-    expect(state.history.loading).to.be.false;
+    expect(state.items).toEqual(['item1', 'item2']);
+    expect(state.history.sort.value).toBe('prescriptionName');
+    expect(state.history.sort.order).toBe('ASC');
+    expect(state.history.page).toBe(1);
+    expect(state.history.pages).toBe(1);
+    expect(state.history.loading).toBe(false);
   });
 });

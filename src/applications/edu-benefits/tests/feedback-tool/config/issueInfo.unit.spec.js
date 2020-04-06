@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
@@ -26,7 +25,7 @@ describe('feedback tool issue info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).toBe(12);
     form.unmount();
   });
 
@@ -42,8 +41,8 @@ describe('feedback tool issue info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(3);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -62,8 +61,8 @@ describe('feedback tool issue info', () => {
     fillData(form, 'textarea#root_issueDescription', 'test');
     fillData(form, 'textarea#root_issueResolution', 'test');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 });

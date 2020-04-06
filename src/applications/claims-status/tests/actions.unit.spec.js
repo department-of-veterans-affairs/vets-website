@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -65,7 +64,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = setNotification('Testing');
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SET_NOTIFICATION,
         message: 'Testing',
       });
@@ -75,7 +74,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = setAdditionalEvidenceNotification('Testing');
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
         message: 'Testing',
       });
@@ -85,7 +84,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = changePage('Testing');
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: CHANGE_CLAIMS_PAGE,
         page: 'Testing',
       });
@@ -95,7 +94,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = setUnavailable();
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SET_CLAIMS_UNAVAILABLE,
       });
     });
@@ -104,7 +103,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = resetUploads();
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: RESET_UPLOADS,
       });
     });
@@ -113,7 +112,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = addFile('Testing');
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: ADD_FILE,
         files: 'Testing',
       });
@@ -123,7 +122,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = removeFile(1);
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: REMOVE_FILE,
         index: 1,
       });
@@ -133,7 +132,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = clearNotification();
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: CLEAR_NOTIFICATION,
       });
     });
@@ -142,7 +141,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = clearAdditionalEvidenceNotification();
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
       });
     });
@@ -151,7 +150,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = updateField('path', 'field');
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: UPDATE_FIELD,
         path: 'path',
         field: 'field',
@@ -162,7 +161,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = showMailOrFaxModal(true);
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SHOW_MAIL_OR_FAX,
         visible: true,
       });
@@ -172,7 +171,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = setFieldsDirty();
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SET_FIELDS_DIRTY,
       });
     });
@@ -181,7 +180,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = showConsolidatedMessage(true);
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SHOW_CONSOLIDATED_MODAL,
         visible: true,
       });
@@ -191,7 +190,7 @@ describe('Actions', () => {
     it('should return the correct action object', () => {
       const action = setLastPage(2);
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: SET_LAST_PAGE,
         page: 2,
       });
@@ -218,8 +217,8 @@ describe('Actions', () => {
 
       thunk(dispatchSpy, getState);
 
-      expect(uploaderSpy.called).to.be.true;
-      expect(dispatchSpy.firstCall.args[0].type).to.equal(CANCEL_UPLOAD);
+      expect(uploaderSpy.called).toBe(true);
+      expect(dispatchSpy.firstCall.args[0].type).toBe(CANCEL_UPLOAD);
       global.window.dataLayer = oldDataLayer;
     });
   });
@@ -237,8 +236,8 @@ describe('Actions', () => {
       const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS);
+          expect(dispatchSpy.firstCall.args[0].type).toEqual(FETCH_APPEALS);
+          expect(dispatchSpy.secondCall.args[0].type).toEqual(SET_APPEALS);
           done();
         }
       };
@@ -262,8 +261,8 @@ describe('Actions', () => {
       const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+          expect(dispatchSpy.firstCall.args[0].type).toEqual(FETCH_APPEALS);
+          expect(dispatchSpy.secondCall.args[0].type).toEqual(
             SET_APPEALS_UNAVAILABLE,
           );
           done();
@@ -280,10 +279,10 @@ describe('Actions', () => {
       const pollStatusSpy = sinon.spy();
       getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-      expect(dispatchSpy.firstCall.args[0]).to.eql({
+      expect(dispatchSpy.firstCall.args[0]).toEqual({
         type: 'FETCH_CLAIMS_PENDING',
       });
-      expect(pollStatusSpy.calledOnce).to.be.true;
+      expect(pollStatusSpy.calledOnce).toBe(true);
     });
 
     describe('onError callback', () => {
@@ -294,7 +293,7 @@ describe('Actions', () => {
 
         pollStatusSpy.firstCall.args[0].onError({ errors: [] });
 
-        expect(dispatchSpy.secondCall.args[0]).to.eql({
+        expect(dispatchSpy.secondCall.args[0]).toEqual({
           type: 'FETCH_CLAIMS_ERROR',
         });
       });
@@ -307,7 +306,7 @@ describe('Actions', () => {
 
         pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
 
-        expect(dispatchSpy.secondCall.args[0]).to.eql({
+        expect(dispatchSpy.secondCall.args[0]).toEqual({
           type: 'FETCH_CLAIMS_SUCCESS',
           claims: [],
           pages: 0,
@@ -324,7 +323,7 @@ describe('Actions', () => {
           meta: { syncStatus: 'FAILED' },
         });
 
-        expect(shouldFail).to.be.true;
+        expect(shouldFail).toBe(true);
       });
       it('should return false when response.meta.syncStatus is not FAILED', () => {
         const dispatchSpy = sinon.spy();
@@ -333,7 +332,7 @@ describe('Actions', () => {
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
 
-        expect(shouldFail).to.be.false;
+        expect(shouldFail).toBe(false);
       });
     });
     describe('shouldSucceed predicate', () => {
@@ -346,7 +345,7 @@ describe('Actions', () => {
           meta: { syncStatus: 'SUCCESS' },
         });
 
-        expect(shouldSucceed).to.be.true;
+        expect(shouldSucceed).toBe(true);
       });
       it('should return false when response.meta.syncStatus is not SUCCESS', () => {
         const dispatchSpy = sinon.spy();
@@ -355,7 +354,7 @@ describe('Actions', () => {
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
 
-        expect(shouldSucceed).to.be.false;
+        expect(shouldSucceed).toBe(false);
       });
     });
   });
@@ -366,8 +365,8 @@ describe('Actions', () => {
       const pollStatusSpy = sinon.spy();
       getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
 
-      expect(dispatchSpy.firstCall.args[0]).to.eql({ type: GET_CLAIM_DETAIL });
-      expect(pollStatusSpy.calledOnce).to.be.true;
+      expect(dispatchSpy.firstCall.args[0]).toEqual({ type: GET_CLAIM_DETAIL });
+      expect(pollStatusSpy.calledOnce).toBe(true);
     });
 
     describe('onError callback', () => {
@@ -378,7 +377,7 @@ describe('Actions', () => {
 
         pollStatusSpy.firstCall.args[0].onError({ response: {} });
 
-        expect(dispatchSpy.secondCall.args[0]).to.eql({
+        expect(dispatchSpy.secondCall.args[0]).toEqual({
           type: 'SET_CLAIMS_UNAVAILABLE',
         });
       });
@@ -391,7 +390,7 @@ describe('Actions', () => {
 
         pollStatusSpy.firstCall.args[0].onSuccess({ data: [], meta: 'test' });
 
-        expect(dispatchSpy.secondCall.args[0]).to.eql({
+        expect(dispatchSpy.secondCall.args[0]).toEqual({
           type: SET_CLAIM_DETAIL,
           claim: [],
           meta: 'test',
@@ -408,7 +407,7 @@ describe('Actions', () => {
           meta: { syncStatus: 'FAILED' },
         });
 
-        expect(shouldFail).to.be.true;
+        expect(shouldFail).toBe(true);
       });
       it('should return false when response.meta.syncStatus is not FAILED', () => {
         const dispatchSpy = sinon.spy();
@@ -417,7 +416,7 @@ describe('Actions', () => {
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
 
-        expect(shouldFail).to.be.false;
+        expect(shouldFail).toBe(false);
       });
     });
     describe('shouldSucceed predicate', () => {
@@ -430,7 +429,7 @@ describe('Actions', () => {
           meta: { syncStatus: 'SUCCESS' },
         });
 
-        expect(shouldSucceed).to.be.true;
+        expect(shouldSucceed).toBe(true);
       });
       it('should return false when response.meta.syncStatus is not SUCCESS', () => {
         const dispatchSpy = sinon.spy();
@@ -439,7 +438,7 @@ describe('Actions', () => {
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
 
-        expect(shouldSucceed).to.be.false;
+        expect(shouldSucceed).toBe(false);
       });
     });
   });
@@ -449,7 +448,7 @@ describe('Actions', () => {
       const apiRequestSpy = sinon.spy();
 
       pollRequest({ request: apiRequestSpy });
-      expect(apiRequestSpy.calledOnce).to.be.true;
+      expect(apiRequestSpy.calledOnce).toBe(true);
     });
     describe('apiRequest response handler', () => {
       it('should call onSuccess when shouldSucceed returns true', () => {
@@ -468,9 +467,9 @@ describe('Actions', () => {
         });
         apiRequestSpy.firstCall.args[2](mockResponse);
 
-        expect(onSuccessSpy.calledOnce).to.be.true;
-        expect(onErrorSpy.called).to.be.false;
-        expect(shouldSucceedStub.firstCall.args[0]).to.eql(mockResponse);
+        expect(onSuccessSpy.calledOnce).toBe(true);
+        expect(onErrorSpy.called).toBe(false);
+        expect(shouldSucceedStub.firstCall.args[0]).toEqual(mockResponse);
       });
       it('should call onError when shouldSuccess return false shouldFail returns true', () => {
         const apiRequestSpy = sinon.spy();
@@ -491,9 +490,9 @@ describe('Actions', () => {
         });
         apiRequestSpy.firstCall.args[2](mockResponse);
 
-        expect(onSuccessSpy.calledOnce).to.be.false;
-        expect(onErrorSpy.calledOnce).to.be.true;
-        expect(shouldFailStub.firstCall.args[0]).to.eql(mockResponse);
+        expect(onSuccessSpy.calledOnce).toBe(false);
+        expect(onErrorSpy.calledOnce).toBe(true);
+        expect(shouldFailStub.firstCall.args[0]).toEqual(mockResponse);
       });
     });
   });
@@ -510,16 +509,17 @@ describe('Actions', () => {
       const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 3) {
-          expect(fetchMock.firstCall.args[1].method).to.equal('POST');
-          expect(fetchMock.firstCall.args[0].endsWith('5/request_decision')).to
-            .be.true;
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
+          expect(fetchMock.firstCall.args[1].method).toBe('POST');
+          expect(
+            fetchMock.firstCall.args[0].endsWith('5/request_decision'),
+          ).toBe(true);
+          expect(dispatchSpy.firstCall.args[0]).toEqual({
             type: SUBMIT_DECISION_REQUEST,
           });
-          expect(dispatchSpy.secondCall.args[0]).to.eql({
+          expect(dispatchSpy.secondCall.args[0]).toEqual({
             type: SET_DECISION_REQUESTED,
           });
-          expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+          expect(dispatchSpy.thirdCall.args[0].type).toEqual(SET_NOTIFICATION);
           done();
         }
       };
@@ -538,10 +538,10 @@ describe('Actions', () => {
       const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
+          expect(dispatchSpy.firstCall.args[0]).toEqual({
             type: SUBMIT_DECISION_REQUEST,
           });
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+          expect(dispatchSpy.secondCall.args[0].type).toEqual(
             SET_DECISION_REQUEST_ERROR,
           );
           done();

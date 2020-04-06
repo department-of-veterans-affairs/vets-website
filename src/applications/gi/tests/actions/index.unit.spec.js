@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -38,7 +37,7 @@ describe('beneficiaryZIPCodeChanged', () => {
       type: 'BENEFICIARY_ZIP_CODE_CHANGED',
       beneficiaryZIP: '1111',
     };
-    expect(expectedAction).to.eql(actualAction);
+    expect(expectedAction).toEqual(actualAction);
   });
 
   it('should dispatch started and success actions', done => {
@@ -61,7 +60,7 @@ describe('beneficiaryZIPCodeChanged', () => {
         type: FETCH_BAH_STARTED,
         beneficiaryZIPFetched: '12345',
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -70,7 +69,7 @@ describe('beneficiaryZIPCodeChanged', () => {
           payload,
           beneficiaryZIPFetched: '12345',
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -94,7 +93,7 @@ describe('beneficiaryZIPCodeChanged', () => {
         type: FETCH_BAH_STARTED,
         beneficiaryZIPFetched: '12345',
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       const {
@@ -102,9 +101,9 @@ describe('beneficiaryZIPCodeChanged', () => {
         type,
         error,
       } = dispatch.secondCall.args[0];
-      expect(type).to.eql(FETCH_BAH_FAILED);
-      expect(error instanceof Error).to.be.true;
-      expect(beneficiaryZIPFetched).to.eql('12345');
+      expect(type).toEqual(FETCH_BAH_FAILED);
+      expect(error instanceof Error).toBe(true);
+      expect(beneficiaryZIPFetched).toBe('12345');
       done();
     }, 0);
   });
@@ -146,7 +145,7 @@ describe('fetchProfile', () => {
       dispatch.firstCall.calledWith({
         type: FETCH_PROFILE_STARTED,
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -157,7 +156,7 @@ describe('fetchProfile', () => {
             ...constants.constants,
           },
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -180,11 +179,11 @@ describe('fetchProfile', () => {
       dispatch.firstCall.calledWith({
         type: FETCH_PROFILE_STARTED,
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       const { type } = dispatch.secondCall.args[0];
-      expect(type).to.eql(FETCH_PROFILE_FAILED);
+      expect(type).toEqual(FETCH_PROFILE_FAILED);
       done();
     }, 0);
   });
@@ -219,7 +218,7 @@ describe('fetchProfile', () => {
       dispatch.firstCall.calledWith({
         type: FETCH_PROFILE_STARTED,
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -230,7 +229,7 @@ describe('fetchProfile', () => {
             ...constants.constants,
           },
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -261,7 +260,7 @@ describe('institution autocomplete', () => {
             ...autocompleteResults,
           },
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -276,8 +275,8 @@ describe('institution autocomplete', () => {
 
     setTimeout(() => {
       const { type, err } = dispatch.firstCall.args[0];
-      expect(type).to.eql(AUTOCOMPLETE_FAILED);
-      expect(err instanceof Error).to.be.true;
+      expect(type).toEqual(AUTOCOMPLETE_FAILED);
+      expect(err instanceof Error).toBe(true);
       done();
     }, 0);
   });
@@ -307,7 +306,7 @@ describe('institution program autocomplete', () => {
             ...autocompleteResults,
           },
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -322,8 +321,8 @@ describe('institution program autocomplete', () => {
 
     setTimeout(() => {
       const { type, err } = dispatch.firstCall.args[0];
-      expect(type).to.eql(AUTOCOMPLETE_FAILED);
-      expect(err instanceof Error).to.be.true;
+      expect(type).toEqual(AUTOCOMPLETE_FAILED);
+      expect(err instanceof Error).toBe(true);
       done();
     }, 0);
   });
@@ -340,12 +339,12 @@ describe('institution search', () => {
 
     fetchInstitutionSearchResults('@@', {})(dispatch);
 
-    expect(dispatch.firstCall.args[0].type).to.equal(SEARCH_STARTED);
+    expect(dispatch.firstCall.args[0].type).toBe(SEARCH_STARTED);
 
     setTimeout(() => {
       const { payload } = dispatch.secondCall.args[0];
 
-      expect(dispatch.secondCall.args[0]).to.eql({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: SEARCH_FAILED,
         payload,
       });
@@ -365,12 +364,12 @@ describe('constants', () => {
 
     fetchConstants('test')(dispatch);
 
-    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CONSTANTS_STARTED);
+    expect(dispatch.firstCall.args[0].type).toBe(FETCH_CONSTANTS_STARTED);
 
     setTimeout(() => {
       const { payload } = dispatch.secondCall.args[0];
 
-      expect(dispatch.secondCall.args[0]).to.eql({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: FETCH_CONSTANTS_FAILED,
         payload,
       });

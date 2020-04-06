@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import {
   areBoundsEqual,
   formatOperatingHours,
@@ -14,7 +13,7 @@ describe('Locator Helper Method Tests', () => {
 
       const result = areBoundsEqual(bbox1, bbox2);
 
-      expect(result).to.eql(true);
+      expect(result).toBe(true);
     });
 
     it('Should handle unequal input', () => {
@@ -23,7 +22,7 @@ describe('Locator Helper Method Tests', () => {
 
       const result = areBoundsEqual(bbox1, bbox2);
 
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
     });
 
     it('Should handle null/missing input', () => {
@@ -31,43 +30,43 @@ describe('Locator Helper Method Tests', () => {
       let bbox1 = [-78.128];
       let bbox2 = [];
       let result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
 
       // First Input Invalid
       bbox1 = [-76.69];
       bbox2 = [-76.69, 39.64, -78.19, 38.14];
       result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
 
       // Second Input Invalid
       bbox1 = [-76.69, 39.64, -78.19, 38.14];
       bbox2 = [-76.69];
       result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
 
       // First Input null
       bbox1 = null;
       bbox2 = [-76.69, 39.64, -78.19, 38.14];
       result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
 
       // Second Input null
       bbox1 = [-76.69, 39.64, -78.19, 38.14];
       bbox2 = null;
       result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
 
       // First Input undefined
       bbox1 = undefined;
       bbox2 = [-76.69, 39.64, -78.19, 38.14];
       result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
 
       // Second Input undefined
       bbox1 = [-76.69, 39.64, -78.19, 38.14];
       bbox2 = undefined;
       result = areBoundsEqual(bbox1, bbox2);
-      expect(result).to.eql(false);
+      expect(result).toBe(false);
     });
   });
 });
@@ -75,42 +74,42 @@ describe('Locator Helper Method Tests', () => {
 describe('Validate ID Strings for Breadcrumb', () => {
   it('Should handle facility ID pattern letters_, letter, digits', () => {
     const result = validateIdString('/facility/abc_s1130', '/facility');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should handle facility ID pattern letters_, digits, letters', () => {
     const result = validateIdString('/facility/abc_691GE', '/facility');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should handle facility ID pattern letters_, digits', () => {
     const result = validateIdString('/facility/abc_827', '/facility');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should handle provider ID pattern letters_, letter, digits', () => {
     const result = validateIdString('/provider/abc_s1130', '/provider');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should handle provider ID pattern letters_, digits, letters', () => {
     const result = validateIdString('/provider/abc_691GE', '/provider');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should handle provider ID pattern letters_, digits', () => {
     const result = validateIdString('/provider/abc_827', '/provider');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should handle other facility designations', () => {
     const result = validateIdString('/hospital/abc_123', '/hospital');
-    expect(result.length).to.eql(1);
+    expect(result.length).toBe(1);
   });
 
   it('Should not handle facility patterns with 0 characters before underscore', () => {
     const result = validateIdString('/facility/_abcdefghijklmno', '/facility');
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle facility patterns with more than 15 characters before underscore', () => {
@@ -118,12 +117,12 @@ describe('Validate ID Strings for Breadcrumb', () => {
       '/facility/abcdefghijklmno_abcdefghijklmnop',
       '/facility',
     );
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle facility patterns with 0 characters after underscore', () => {
     const result = validateIdString('/facility/abc_', '/facility');
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle facility patterns with more than 15 characters after underscore', () => {
@@ -131,12 +130,12 @@ describe('Validate ID Strings for Breadcrumb', () => {
       '/facility/abc_abcdefghijklmnop',
       '/facility',
     );
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle provider patterns with 0 characters before underscore', () => {
     const result = validateIdString('/provider/_abcdefghijklmno', '/provider');
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle provider patterns with more than 15 characters before underscore', () => {
@@ -144,12 +143,12 @@ describe('Validate ID Strings for Breadcrumb', () => {
       '/provider/abcdefghijklmno_abcdefghijklmnop',
       '/provider',
     );
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle provider patterns with 0 characters after underscore', () => {
     const result = validateIdString('/provider/abc_', '/provider');
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle provider patterns with more than 15 characters after underscore', () => {
@@ -157,17 +156,17 @@ describe('Validate ID Strings for Breadcrumb', () => {
       '/provider/abc_abcdefghijklmnop',
       '/provider',
     );
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle patterns without an underscore', () => {
     const result = validateIdString('/facility/abcdefg', '/facility');
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('Should not handle patterns without a type prefix', () => {
     const result = validateIdString('/abcdefg_abcdefg', '/');
-    expect(result).to.eql(null);
+    expect(result).toBe(null);
   });
 
   it('formatOperatingHours should convert API hour (without colon) to a human readable hour', () => {
@@ -176,7 +175,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should convert API hour (with colon) to a human readable hour', () => {
@@ -185,7 +184,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should return the original string a time is invalid', () => {
@@ -194,7 +193,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should return "Closed" if format is "-"', () => {
@@ -203,7 +202,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should return "Closed" if format is "Closed"', () => {
@@ -212,7 +211,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should return "By Appointment Only" if format is "By Appointment Only"', () => {
@@ -221,7 +220,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should return "24/7" if format is "24/7"', () => {
@@ -230,7 +229,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('formatOperatingHours should return "Sunrise - Sunset" if format is "Sunrise - Sunset"', () => {
@@ -239,21 +238,21 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     const result = formatOperatingHours(operatingHours);
 
-    expect(result).to.eq(expected);
+    expect(result).toBe(expected);
   });
 
   it('isVADomain should return true if https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/ ', () => {
     const result = isVADomain(
       'https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/',
     );
-    expect(result).to.eq(true);
+    expect(result).toBe(true);
   });
 
   it('isVADomain should return true if  https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
     const result = isVADomain(
       'https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
     );
-    expect(result).to.eq(true);
+    expect(result).toBe(true);
   });
 
   it('isVADomain should return true if  https://va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
@@ -261,13 +260,13 @@ describe('Validate ID Strings for Breadcrumb', () => {
       'https://va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
     );
 
-    expect(result).to.eq(true);
+    expect(result).toBe(true);
   });
 
   it('isVADomain should return true if  http://www.va.gov/testing ', () => {
     const result = isVADomain('http://www.va.gov/testing');
 
-    expect(result).to.eq(true);
+    expect(result).toBe(true);
   });
 
   it('isVADomain should return true if  http://staging.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
@@ -275,40 +274,40 @@ describe('Validate ID Strings for Breadcrumb', () => {
       'http://staging.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
     );
 
-    expect(result).to.eq(true);
+    expect(result).toBe(true);
   });
 
   it('isVADomain should false true if  http://www.staging.va.gov/testing ', () => {
     const result = isVADomain('http://www.staging.va.gov/testing');
 
-    expect(result).to.eq(false);
+    expect(result).toBe(false);
   });
 
   it('isVADomain should return false if  https://clinic.va.gov/clinic', () => {
     const result = isVADomain('https://clinic.va.gov/clinic');
 
-    expect(result).to.eq(false);
+    expect(result).toBe(false);
   });
 
   it('isVADomain should return false if  https://www.clinic.va.gov/clinic', () => {
     const result = isVADomain('https://clinic.va.gov/clinic');
 
-    expect(result).to.eq(false);
+    expect(result).toBe(false);
   });
 
   it('isVADomain should return false if  https://google.com/testing ', () => {
     const result = isVADomain('https://google.com/testing');
 
-    expect(result).to.eq(false);
+    expect(result).toBe(false);
   });
 
   it('isVADomain should return false if  https://example.ex/testing ', () => {
     const result = isVADomain('https://example.ex/testing');
-    expect(result).to.eq(false);
+    expect(result).toBe(false);
   });
 
   it('isVADomain should return false if http://some.com/va.gov ', () => {
     const result = isVADomain('http://some.com/va.gov');
-    expect(result).to.eq(false);
+    expect(result).toBe(false);
   });
 });

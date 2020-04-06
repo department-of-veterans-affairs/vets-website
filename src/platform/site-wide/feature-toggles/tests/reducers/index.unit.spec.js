@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { FeatureToggleReducer } from '../../reducers';
 import {
   TOGGLE_VALUES_SET,
@@ -13,7 +11,7 @@ describe('Feature Toggle reducer', () => {
       type: FETCH_TOGGLE_VALUES_STARTED,
     });
 
-    expect(state.loading).to.be.true;
+    expect(state.loading).toBe(true);
   });
 
   it('adds the payload to the state', () => {
@@ -25,8 +23,8 @@ describe('Feature Toggle reducer', () => {
       payload,
     });
 
-    expect(state.loading).to.be.false;
-    expect(state.test).to.equal('test');
+    expect(state.loading).toBe(false);
+    expect(state.test).toBe('test');
   });
 
   it('adds the newToggleValues to the state', () => {
@@ -38,6 +36,6 @@ describe('Feature Toggle reducer', () => {
       newToggleValues,
     });
 
-    expect(state.test).to.equal('test');
+    expect(state.test).toBe('test');
   });
 });

@@ -4,7 +4,6 @@
  * https://www.benefits.va.gov/compensation/rates-index.asp.
  */
 
-import { expect } from 'chai';
 import inputs from './inputs.json';
 
 import {
@@ -22,9 +21,9 @@ describe('Disability Calculator helpers:', () => {
       }) from the following ratings: ${ratings.join(', ')}`, () => {
         const result = calculateCombinedRating(ratings);
 
-        expect(result).to.have.keys(['exact', 'rounded']);
-        expect(result.exact).to.be.equal(expectedResult.exact);
-        expect(result.rounded).to.be.equal(expectedResult.rounded);
+        expect(result).toEqual(expect.arrayContaining(['exact', 'rounded']));
+        expect(result.exact).toBe(expectedResult.exact);
+        expect(result.rounded).toBe(expectedResult.rounded);
       });
     }
   });
@@ -36,14 +35,14 @@ describe('Disability Calculator helpers:', () => {
     for (const rating of validRatings) {
       it(`accepts ${rating} as valid input`, () => {
         const result = getRatingErrorMessage(rating);
-        expect(result).to.be.false;
+        expect(result).toBe(false);
       });
     }
 
     for (const rating of invalidRatings) {
       it(`rejects ${rating} as valid input`, () => {
         const result = getRatingErrorMessage(rating);
-        expect(result).to.have.keys(['title', 'body']);
+        expect(result).toEqual(expect.arrayContaining(['title', 'body']));
       });
     }
   });

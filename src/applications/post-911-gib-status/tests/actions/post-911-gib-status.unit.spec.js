@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   getEnrollmentData,
@@ -118,8 +117,8 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ENROLLMENT_DATA_SUCCESS);
-        expect(action.data).to.equal(successResponse.data.attributes);
+        expect(action.type).toBe(GET_ENROLLMENT_DATA_SUCCESS);
+        expect(action.data).toBe(successResponse.data.attributes);
       })
       .then(done, done);
   });
@@ -133,7 +132,7 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
+        expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
       })
       .then(done, done);
   });
@@ -145,7 +144,7 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
+        expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
       })
       .then(done, done);
   });
@@ -161,7 +160,7 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
+        expect(action.type).toBe(GET_ENROLLMENT_DATA_FAILURE);
       })
       .then(done, done);
   });
@@ -177,7 +176,7 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(BACKEND_SERVICE_ERROR);
+        expect(action.type).toBe(BACKEND_SERVICE_ERROR);
       })
       .then(done, done);
   });
@@ -212,8 +211,8 @@ describe('getServiceAvailability', () => {
 
     thunk(dispatch)
       .then(() => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/backend_statuses/gibs',
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining(['/v0/backend_statuses/gibs']),
         );
       })
       .then(done, done);
@@ -228,10 +227,8 @@ describe('getServiceAvailability', () => {
       .then(() => {
         // The first call is with `pending`
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(SET_SERVICE_AVAILABILITY);
-        expect(action.serviceAvailability).to.equal(
-          SERVICE_AVAILABILITY_STATES.up,
-        );
+        expect(action.type).toBe(SET_SERVICE_AVAILABILITY);
+        expect(action.serviceAvailability).toBe(SERVICE_AVAILABILITY_STATES.up);
       })
       .then(done, done);
   });
@@ -245,8 +242,8 @@ describe('getServiceAvailability', () => {
       .then(() => {
         // The first call is with `pending`
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(SET_SERVICE_AVAILABILITY);
-        expect(action.serviceAvailability).to.equal(
+        expect(action.type).toBe(SET_SERVICE_AVAILABILITY);
+        expect(action.serviceAvailability).toBe(
           SERVICE_AVAILABILITY_STATES.down,
         );
       })
@@ -263,8 +260,8 @@ describe('getServiceAvailability', () => {
         // The first call is with `pending`
         // The second call is for SET_SERVICE_AVAILABILITY
         const action = dispatch.thirdCall.args[0];
-        expect(action.type).to.equal(SET_SERVICE_UPTIME_REMAINING);
-        expect(action.uptimeRemaining).to.equal(300);
+        expect(action.type).toBe(SET_SERVICE_UPTIME_REMAINING);
+        expect(action.uptimeRemaining).toBe(300);
       })
       .then(done, done);
   });

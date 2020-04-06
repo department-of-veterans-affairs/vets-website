@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../platform/forms/sass/m-form-confirmation";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../platform/forms/sass/m-schemaform';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-omb-info';
+@import '../../../platform/forms/sass/m-form-confirmation';
 
 .confirmation-page {
   padding-bottom: 5rem;
@@ -15,10 +15,10 @@
 
 .process-steps {
   margin-left: 0;
-  padding-left: .8em;
+  padding-left: 0.8em;
 
   .process-step {
-    padding-bottom: .3em;
+    padding-bottom: 0.3em;
   }
 }
 

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   minPrefillData,
   minTransformedPrefillData,
@@ -11,12 +9,12 @@ import { prefillTransformer } from '../../1995/prefill-transformer';
 
 describe('prefillTransformer', () => {
   it('should transform minimal prefill data correctly', () => {
-    expect(prefillTransformer({}, minPrefillData, {}).formData).to.deep.equal(
+    expect(prefillTransformer({}, minPrefillData, {}).formData).toEqual(
       minTransformedPrefillData,
     );
   });
   it('should transform maximal prefill data correctly', () => {
-    expect(prefillTransformer({}, maxPrefillData, {}).formData).to.deep.equal(
+    expect(prefillTransformer({}, maxPrefillData, {}).formData).toEqual(
       transformedMaxPrefillData,
     );
   });

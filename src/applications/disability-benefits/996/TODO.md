@@ -5,16 +5,16 @@
 - Update `IntroductionPage.jsx`
   - [x] Replace placeholder `isInLegacySystem` with value from API
   - [x] Add code to update `isInLegacySystem` (or whatever it's named).
--  Update `OptOutFromLegacySystem.jsx`
-  - [x] Consider converting the `OptOutFromLegacySystem` component into a
-        standalone form with it's own form schema - suggested by Erik Hansen.
+- Update `OptOutFromLegacySystem.jsx`
+- [x] Consider converting the `OptOutFromLegacySystem` component into a
+      standalone form with it's own form schema - suggested by Erik Hansen.
 - Update `form.js`
   - [ ] Add `submitUrl`.
   - [ ] Update `formConfig.submit` (`confirmationNumber`?)
 - [ ] Add flipper UI switch.
 - [ ] Check if we're using an approved route for the form:
-  `/disability-benefits/apply/form-0996-higher-level-review/`; see
-  https://github.com/department-of-veterans-affairs/va.gov-team/issues/1984
+      `/disability-benefits/apply/form-0996-higher-level-review/`; see
+      https://github.com/department-of-veterans-affairs/va.gov-team/issues/1984
 
 ### Build Template & Introduction Page (Step 0)
 
@@ -88,6 +88,7 @@
 - [x] Remove opt out page!
 
 ### Before Production
+
 - [ ] Check for, and remove, all console logs.
 - [x] Move `20-0996-schema.json` to `vets-json-schema` repo.
 - [ ] Ensure matching tracking prefixes (if changed)
@@ -98,6 +99,7 @@
 - [ ] Add e2e tests (only executes on production pages?)
 
 #### Review
+
 - [ ] QA review - Tze
 - [ ] 508 internal review - Trevor & Jennifer
   - https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/accessibility/review-process.md

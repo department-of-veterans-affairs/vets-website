@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import profileReducer from '../../reducers/index';
 import * as paymentInfoActions from '../../actions/paymentInformation';
 
@@ -12,7 +10,7 @@ describe('index reducer', () => {
       hero: 'heroContent',
     });
 
-    expect(state.hero).to.eql('heroContent');
+    expect(state.hero).toBe('heroContent');
   });
 
   it('should fetch personalInformation', () => {
@@ -21,7 +19,7 @@ describe('index reducer', () => {
       personalInformation: 'personalInformation',
     });
 
-    expect(state.personalInformation).to.eql('personalInformation');
+    expect(state.personalInformation).toBe('personalInformation');
   });
 
   it('fetches paymentInformation', () => {
@@ -34,10 +32,7 @@ describe('index reducer', () => {
 
     const state = vaProfile(undefined, fetchAction);
 
-    expect(state.paymentInformation).to.be.deep.equal(
-      fetchAction.response,
-      'paymentInformation is initialized',
-    );
+    expect(state.paymentInformation).toEqual(fetchAction.response);
   });
 
   it('opens the paymentInformation-edit modal', () => {
@@ -47,7 +42,7 @@ describe('index reducer', () => {
 
     const state = vaProfile(undefined, modalOpenAction);
 
-    expect(state.paymentInformationUiState.isEditing).to.be.true;
+    expect(state.paymentInformationUiState.isEditing).toBe(true);
   });
 
   it('saves paymentInformation', () => {
@@ -57,7 +52,7 @@ describe('index reducer', () => {
 
     let state = vaProfile(undefined, saveAction);
 
-    expect(state.paymentInformationUiState.isSaving).to.be.true;
+    expect(state.paymentInformationUiState.isSaving).toBe(true);
 
     const savedAction = {
       type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
@@ -68,9 +63,6 @@ describe('index reducer', () => {
 
     state = vaProfile(state, savedAction);
 
-    expect(state.paymentInformation).to.be.deep.equal(
-      savedAction.response,
-      'paymentInformation is updated',
-    );
+    expect(state.paymentInformation).toEqual(savedAction.response);
   });
 });

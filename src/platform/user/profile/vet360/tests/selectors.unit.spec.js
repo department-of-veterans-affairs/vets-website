@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import {
@@ -50,24 +49,18 @@ describe('selectors', () => {
       };
 
       let result = selectors.selectIsVet360AvailableForUser(state);
-      expect(
-        result,
-        'returns true when on localhost so the local mock Vet360 will run',
-      ).to.be.true;
+      // returns true when on localhost so the local mock Vet360 will run
+      expect(result).toBe(true);
 
       global.document.location.hostname = 'staging.vets.gov';
       result = selectors.selectIsVet360AvailableForUser(state);
-      expect(
-        result,
-        'returns true when the environment is not localhost but Vet360 is in the profile services array',
-      ).to.be.true;
+      // returns true when the environment is not localhost but Vet360 is in the profile services array
+      expect(result).toBe(true);
 
       state.user.profile.services = [];
       result = selectors.selectIsVet360AvailableForUser(state);
-      expect(
-        result,
-        'returns false when the environment is not localhost and Vet360 is not in the services array',
-      ).to.be.false;
+      // returns false when the environment is not localhost and Vet360 is not in the services array
+      expect(result).toBe(false);
 
       global.document = old.document;
     });
@@ -77,7 +70,7 @@ describe('selectors', () => {
     beforeEach(hooks.beforeEach);
     it('looks up a field from the user vet360 data', () => {
       state.user.profile.vet360 = { someField: 'data' };
-      expect(selectors.selectVet360Field(state, 'someField')).to.equal('data');
+      expect(selectors.selectVet360Field(state, 'someField')).toBe('data');
     });
   });
 
@@ -102,13 +95,11 @@ describe('selectors', () => {
       state.vet360 = { transactions, fieldTransactionMap };
 
       let result = selectors.selectVet360Transaction(state, fieldName);
-      expect(result).to.deep.equal({ transaction, transactionRequest });
+      expect(result).toEqual({ transaction, transactionRequest });
 
       result = selectors.selectVet360Transaction(state, 'someOtherField');
-      expect(
-        result,
-        'returns a null transaction for a field that has no data in the field-transaction map',
-      ).to.be.deep.equal({
+      // returns a null transaction for a field that has no data in the field-transaction map
+      expect(result).toEqual({
         transaction: null,
         transactionRequest: null,
       });
@@ -159,8 +150,8 @@ describe('selectors', () => {
 
       const result = selectors.selectVet360FailedTransactions(state);
 
-      expect(result).to.include(failed[0]);
-      expect(result).to.include(failed[1]);
+      expect(result).toEqual(expect.arrayContaining([failed[0]]));
+      expect(result).toEqual(expect.arrayContaining([failed[1]]));
     });
   });
 
@@ -171,7 +162,7 @@ describe('selectors', () => {
       const transaction = { data: { attributes: { transactionId } } };
       state.vet360.transactions = [transaction];
       state.vet360.metadata.mostRecentErroredTransactionId = transactionId;
-      expect(selectors.selectMostRecentErroredTransaction(state)).to.be.equal(
+      expect(selectors.selectMostRecentErroredTransaction(state)).toBe(
         transaction,
       );
     });
@@ -240,8 +231,12 @@ describe('selectors', () => {
         type,
       );
 
-      expect(result).to.include(pendingAddressTransactions[0]);
-      expect(result).to.include(pendingAddressTransactions[1]);
+      expect(result).toEqual(
+        expect.arrayContaining([pendingAddressTransactions[0]]),
+      );
+      expect(result).toEqual(
+        expect.arrayContaining([pendingAddressTransactions[1]]),
+      );
     });
   });
 
@@ -252,7 +247,7 @@ describe('selectors', () => {
       const fieldValue = 'someFieldValue';
       state.vet360.formFields[fieldName] = fieldValue;
 
-      expect(selectors.selectEditedFormField(state, fieldName)).to.be.equal(
+      expect(selectors.selectEditedFormField(state, fieldName)).toBe(
         fieldValue,
       );
     });
@@ -264,7 +259,7 @@ describe('selectors', () => {
       const currentlyOpenModal = 'someField';
       state.vet360.modal = currentlyOpenModal;
 
-      expect(selectors.selectCurrentlyOpenEditModal(state)).to.be.equal(
+      expect(selectors.selectCurrentlyOpenEditModal(state)).toBe(
         currentlyOpenModal,
       );
     });
@@ -290,14 +285,12 @@ describe('selectVet360InitializationStatus', () => {
   it('returns UNINITIALIZED if Vet360 is not found in the services array and there is not an associated transaction', () => {
     state.user.profile.services = [];
     const result = selectors.selectVet360InitializationStatus(state);
-    expect(result.status).to.be.equal(
-      VET360_INITIALIZATION_STATUS.UNINITALIZED,
-    );
+    expect(result.status).toBe(VET360_INITIALIZATION_STATUS.UNINITALIZED);
   });
 
   it('returns INITIALIZED if Vet360 is found in the services array', () => {
     const result = selectors.selectVet360InitializationStatus(state);
-    expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.INITIALIZED);
+    expect(result.status).toBe(VET360_INITIALIZATION_STATUS.INITIALIZED);
   });
 
   it('returns INITIALIZING if there is an ongoing transaction', () => {
@@ -315,9 +308,7 @@ describe('selectVet360InitializationStatus', () => {
     ];
     state.vet360.fieldTransactionMap[INIT_VET360_ID] = { transactionId };
     const result = selectors.selectVet360InitializationStatus(state);
-    expect(result.status).to.be.equal(
-      VET360_INITIALIZATION_STATUS.INITIALIZING,
-    );
+    expect(result.status).toBe(VET360_INITIALIZATION_STATUS.INITIALIZING);
   });
 
   it('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
@@ -335,7 +326,7 @@ describe('selectVet360InitializationStatus', () => {
     ];
     state.vet360.fieldTransactionMap[INIT_VET360_ID] = { transactionId };
     const result = selectors.selectVet360InitializationStatus(state);
-    expect(result.status).to.be.equal(
+    expect(result.status).toBe(
       VET360_INITIALIZATION_STATUS.INITIALIZATION_FAILURE,
     );
   });
@@ -349,7 +340,7 @@ describe('vaProfileUseAddressValidation', () => {
           vaProfileAddressValidation: true,
         },
       }),
-    ).to.be.true;
+    ).toBe(true);
   });
   it('returns `undefined` if the feature flag is not set', () => {
     expect(
@@ -358,6 +349,6 @@ describe('vaProfileUseAddressValidation', () => {
           anotherFeatureFlag: true,
         },
       }),
-    ).to.be.undefined;
+    ).toBeUndefined();
   });
 });

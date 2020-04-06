@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   addCountryCodeIso3ToAddress,
   isFailedTransaction,
@@ -9,7 +7,7 @@ import {
 
 describe('isPendingTransaction', () => {
   it('returns `false` if passed nothing', () => {
-    expect(isPendingTransaction()).to.be.false;
+    expect(isPendingTransaction()).toBe(false);
   });
   it('returns `true` if passed a transaction with a pending status', () => {
     const transaction = {
@@ -19,18 +17,18 @@ describe('isPendingTransaction', () => {
         },
       },
     };
-    expect(isPendingTransaction(transaction)).to.be.true;
+    expect(isPendingTransaction(transaction)).toBe(true);
     transaction.data.attributes.transactionStatus =
       'RECEIVED_DEAD_LETTER_QUEUE';
-    expect(isPendingTransaction(transaction)).to.be.true;
+    expect(isPendingTransaction(transaction)).toBe(true);
     transaction.data.attributes.transactionStatus = 'RECEIVED_ERROR_QUEUE';
-    expect(isPendingTransaction(transaction)).to.be.true;
+    expect(isPendingTransaction(transaction)).toBe(true);
   });
 });
 
 describe('isFailedTransaction', () => {
   it('returns `false` if passed nothing', () => {
-    expect(isFailedTransaction()).to.be.false;
+    expect(isFailedTransaction()).toBe(false);
   });
   it('returns `true` if passed a transaction with a failed status', () => {
     const transaction = {
@@ -40,15 +38,15 @@ describe('isFailedTransaction', () => {
         },
       },
     };
-    expect(isFailedTransaction(transaction)).to.be.true;
+    expect(isFailedTransaction(transaction)).toBe(true);
     transaction.data.attributes.transactionStatus = 'REJECTED';
-    expect(isFailedTransaction(transaction)).to.be.true;
+    expect(isFailedTransaction(transaction)).toBe(true);
   });
 });
 
 describe('isSuccessfulTransaction', () => {
   it('returns `false` if passed nothing', () => {
-    expect(isSuccessfulTransaction()).to.be.false;
+    expect(isSuccessfulTransaction()).toBe(false);
   });
   it('returns `true` if passed a transaction with a successful status', () => {
     const transaction = {
@@ -58,10 +56,10 @@ describe('isSuccessfulTransaction', () => {
         },
       },
     };
-    expect(isSuccessfulTransaction(transaction)).to.be.true;
+    expect(isSuccessfulTransaction(transaction)).toBe(true);
     transaction.data.attributes.transactionStatus =
       'COMPLETED_NO_CHANGES_DETECTED';
-    expect(isSuccessfulTransaction(transaction)).to.be.true;
+    expect(isSuccessfulTransaction(transaction)).toBe(true);
   });
 });
 
@@ -73,7 +71,7 @@ describe('addCountryCodeIso3ToAddress', () => {
           countryName: 'United States',
         };
         const output = addCountryCodeIso3ToAddress(address);
-        expect(output).to.deep.equal({
+        expect(output).toEqual({
           countryName: 'United States',
           countryCodeIso3: 'USA',
         });
@@ -85,7 +83,7 @@ describe('addCountryCodeIso3ToAddress', () => {
           countryName: 'Not A Real Country',
         };
         const output = addCountryCodeIso3ToAddress(address);
-        expect(output).to.deep.equal(address);
+        expect(output).toEqual(address);
       });
     });
   });
@@ -96,7 +94,7 @@ describe('addCountryCodeIso3ToAddress', () => {
         street1: '123 Main St',
       };
       const output = addCountryCodeIso3ToAddress(address);
-      expect(output).to.deep.equal(address);
+      expect(output).toEqual(address);
     });
   });
 });

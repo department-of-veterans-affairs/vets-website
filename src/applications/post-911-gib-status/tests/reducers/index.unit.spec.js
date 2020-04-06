@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import post911GIBStatus from '../../reducers';
 
 import {
@@ -25,8 +23,8 @@ describe('post911GIBStatus reducer', () => {
       },
     });
 
-    expect(state.enrollmentData.firstName).to.equal('Jane');
-    expect(state.availability).to.equal('available');
+    expect(state.enrollmentData.firstName).toBe('Jane');
+    expect(state.availability).toBe('available');
   });
 
   it('should handle backend service error', () => {
@@ -34,8 +32,8 @@ describe('post911GIBStatus reducer', () => {
       type: 'BACKEND_SERVICE_ERROR',
     });
 
-    expect(state.enrollmentData).to.be.null;
-    expect(state.availability).to.equal('backendServiceError');
+    expect(state.enrollmentData).toBeNull();
+    expect(state.availability).toBe('backendServiceError');
   });
 
   it('should handle backend authentication error', () => {
@@ -43,8 +41,8 @@ describe('post911GIBStatus reducer', () => {
       type: 'BACKEND_AUTHENTICATION_ERROR',
     });
 
-    expect(state.enrollmentData).to.be.null;
-    expect(state.availability).to.equal('backendAuthenticationError');
+    expect(state.enrollmentData).toBeNull();
+    expect(state.availability).toBe('backendAuthenticationError');
   });
 
   it('should handle no Chapter 33 record error', () => {
@@ -52,8 +50,8 @@ describe('post911GIBStatus reducer', () => {
       type: 'NO_CHAPTER33_RECORD_AVAILABLE',
     });
 
-    expect(state.enrollmentData).to.be.null;
-    expect(state.availability).to.equal('noChapter33Record');
+    expect(state.enrollmentData).toBeNull();
+    expect(state.availability).toBe('noChapter33Record');
   });
 
   it('should handle failure to fetch enrollment information', () => {
@@ -61,8 +59,8 @@ describe('post911GIBStatus reducer', () => {
       type: 'GET_ENROLLMENT_DATA_FAILURE',
     });
 
-    expect(state.enrollmentData).to.be.null;
-    expect(state.availability).to.equal('getEnrollmentDataFailure');
+    expect(state.enrollmentData).toBeNull();
+    expect(state.availability).toBe('getEnrollmentDataFailure');
   });
 
   it('should handle setting the service availability', () => {
@@ -71,7 +69,7 @@ describe('post911GIBStatus reducer', () => {
       serviceAvailability: SERVICE_AVAILABILITY_STATES.up,
     });
 
-    expect(state.serviceAvailability).to.equal(SERVICE_AVAILABILITY_STATES.up);
+    expect(state.serviceAvailability).toBe(SERVICE_AVAILABILITY_STATES.up);
   });
 
   it('should handle setting the uptime remaining', () => {
@@ -80,6 +78,6 @@ describe('post911GIBStatus reducer', () => {
       uptimeRemaining: 300,
     });
 
-    expect(state.uptimeRemaining).to.equal(300);
+    expect(state.uptimeRemaining).toBe(300);
   });
 });

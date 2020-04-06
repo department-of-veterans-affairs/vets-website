@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 const {
   generateToken,
   getFlipperId,
@@ -16,25 +14,25 @@ describe('feature toggles', () => {
   describe('generateToken', () => {
     it('should return a string', () => {
       const token = generateToken();
-      expect(token).to.be.a('string');
-      expect(token).to.not.be.empty;
+      expect(typeof token).toBe('string');
+      expect(Object.keys(token)).not.toHaveLength(0);
     });
   });
 
   describe('getFlipperId', () => {
     it('should set the FLIPPER_ID cookie to a non-empty string', () => {
       document.cookie = '';
-      expect(getFlipperId()).to.be.a('string').and.not.empty;
+      expect(typeof getFlipperId()).toBe('string').and.not.empty;
     });
 
     it('should set the FLIPPER_ID cookie to not be null', () => {
       document.cookie = '';
-      expect(getFlipperId()).to.not.be.null;
+      expect(getFlipperId()).not.toBeNull();
     });
 
     it('should set the FLIPPER_ID cookie to not be empty', () => {
       document.cookie = '';
-      expect(getFlipperId()).to.not.be.empty;
+      expect(getFlipperId()).not.toHaveLength(0);
     });
 
     it('should set the FLIPPER_ID cookie to a non-empty string', () => {
@@ -44,8 +42,8 @@ describe('feature toggles', () => {
         /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
         '$1',
       );
-      expect(cookie).to.be.a('string');
-      expect(cookie).to.not.be.empty;
+      expect(typeof cookie).toBe('string');
+      expect(Object.keys(cookie)).not.toHaveLength(0);
     });
 
     it('should not change an existing FLIPPER_ID', () => {
@@ -56,7 +54,7 @@ describe('feature toggles', () => {
           /(?:(?:^|.*;\s*)FLIPPER_ID=\s*([^;]*).*$)|^.*$/,
           '$1',
         ),
-      ).to.be.equal('something');
+      ).toBe('something');
     });
   });
 

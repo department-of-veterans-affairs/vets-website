@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import previewReducer from '../../reducers/preview';
 
 const initialState = {
@@ -14,8 +12,8 @@ describe('preview reducer', () => {
       version: 1,
     });
 
-    expect(state.display).to.eql(true);
-    expect(state.version).to.eql(1);
+    expect(state.display).toBe(true);
+    expect(state.version).toBe(1);
   });
 
   it('should exit preview mode', () => {
@@ -26,8 +24,8 @@ describe('preview reducer', () => {
       },
     );
 
-    expect(state.display).to.eql(false);
-    expect(state.version).to.eql({});
+    expect(state.display).toBe(false);
+    expect(state.version).toEqual({});
   });
 
   it('should set version correctly', () => {
@@ -36,7 +34,7 @@ describe('preview reducer', () => {
       version: 2,
     });
 
-    expect(state.display).to.eql(false);
-    expect(state.version).to.eql(2);
+    expect(state.display).toBe(false);
+    expect(state.version).toBe(2);
   });
 });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
@@ -20,9 +19,9 @@ describe('530 schema tests', () => {
       const result = v.validate(JSON.parse(submitData), fullSchema530);
 
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line
       }
-      expect(result.valid).to.be.true;
+      expect(result.valid).toBe(true);
     });
   });
 });

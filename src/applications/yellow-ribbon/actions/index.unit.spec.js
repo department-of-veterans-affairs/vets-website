@@ -1,5 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
 import sinon from 'sinon';
 // Relative imports.
 import {
@@ -28,7 +27,7 @@ describe('Yellow Ribbon actions', () => {
       };
       const action = fetchResultsAction(options);
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         options,
         type: FETCH_RESULTS,
       });
@@ -39,7 +38,7 @@ describe('Yellow Ribbon actions', () => {
     it('should return an action in the shape we expect', () => {
       const action = fetchResultsFailure('test');
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         error: 'test',
         type: FETCH_RESULTS_FAILURE,
       });
@@ -54,7 +53,7 @@ describe('Yellow Ribbon actions', () => {
       };
       const action = fetchResultsSuccess(response);
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         response,
         type: FETCH_RESULTS_SUCCESS,
       });
@@ -69,7 +68,7 @@ describe('Yellow Ribbon actions', () => {
       };
       const action = addSchoolToCompareAction(school);
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         school,
         type: ADD_SCHOOL_TO_COMPARE,
       });
@@ -81,7 +80,7 @@ describe('Yellow Ribbon actions', () => {
       const page = 1;
       const action = updatePageAction(page);
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         page,
         type: UPDATE_PAGE,
       });
@@ -121,8 +120,8 @@ describe('Yellow Ribbon actions', () => {
 
       const replaceStateStub = mockedHistory.replaceState;
 
-      expect(replaceStateStub.calledOnce).to.be.true;
-      expect(replaceStateStub.firstCall.args[2]).to.be.equal(
+      expect(replaceStateStub.calledOnce).toBe(true);
+      expect(replaceStateStub.firstCall.args[2]).toBe(
         '?city=boulder&name=university&state=CO',
       );
     });
@@ -158,7 +157,7 @@ describe('Yellow Ribbon actions', () => {
           },
           type: FETCH_RESULTS,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       const secondCallAction = dispatch.secondCall.args[0];
       expect(secondCallAction.type).to.be.oneOf([

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { isValidCentralMailPostalCode } from '../../address/validations';
 
 describe('Forms address validations:', () => {
@@ -10,7 +8,7 @@ describe('Forms address validations:', () => {
           country: 'CAN',
           postalCode: '234444',
         }),
-      ).to.be.true;
+      ).toBe(true);
     });
     it('should return valid on five digit USA zips', () => {
       expect(
@@ -18,7 +16,7 @@ describe('Forms address validations:', () => {
           country: 'USA',
           postalCode: '23444',
         }),
-      ).to.be.true;
+      ).toBe(true);
     });
     it('should return valid on nine digit USA zips', () => {
       expect(
@@ -26,7 +24,7 @@ describe('Forms address validations:', () => {
           country: 'USA',
           postalCode: '23444-1233',
         }),
-      ).to.be.true;
+      ).toBe(true);
     });
     it('should return invalid on unformatted nine digit USA zips', () => {
       expect(
@@ -34,7 +32,7 @@ describe('Forms address validations:', () => {
           country: 'USA',
           postalCode: '234441233',
         }),
-      ).to.be.false;
+      ).toBe(false);
     });
   });
 });

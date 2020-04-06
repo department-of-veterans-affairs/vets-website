@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
@@ -34,8 +33,8 @@ describe('search query reducer', () => {
       type: SEARCH_STARTED,
     });
 
-    expect(state.error).to.eql(false);
-    expect(state.inProgress).to.eql(true);
+    expect(state.error).toBe(false);
+    expect(state.inProgress).toBe(true);
   });
 
   it('should handle fetching list of facilities', () => {
@@ -50,9 +49,9 @@ describe('search query reducer', () => {
       },
     );
 
-    expect(state.error).to.eql(false);
-    expect(state.inProgress).to.eql(false);
-    expect(state.searchBoundsInProgress).to.eql(false);
+    expect(state.error).toBe(false);
+    expect(state.inProgress).toBe(false);
+    expect(state.searchBoundsInProgress).toBe(false);
   });
 
   it('should handle fetching single facility', () => {
@@ -66,8 +65,8 @@ describe('search query reducer', () => {
       },
     );
 
-    expect(state.error).to.eql(false);
-    expect(state.inProgress).to.eql(false);
+    expect(state.error).toBe(false);
+    expect(state.inProgress).toBe(false);
   });
 
   it('should handle search failed', () => {
@@ -81,8 +80,8 @@ describe('search query reducer', () => {
       },
     );
 
-    expect(state.error).to.eql(true);
-    expect(state.inProgress).to.eql(false);
+    expect(state.error).toBe(true);
+    expect(state.inProgress).toBe(false);
   });
 
   it('should handle search query updated', () => {
@@ -98,8 +97,8 @@ describe('search query reducer', () => {
       },
     );
 
-    expect(state.error).to.eql(false);
-    expect(state.attribute).to.eql(true);
+    expect(state.error).toBe(false);
+    expect(state.attribute).toBe(true);
   });
 
   it('should handle fetching services', () => {
@@ -107,8 +106,8 @@ describe('search query reducer', () => {
       type: FETCH_SERVICES,
     });
 
-    expect(state.error).to.eql(false);
-    expect(state.fetchSvcsInProgress).to.eql(true);
+    expect(state.error).toBe(false);
+    expect(state.fetchSvcsInProgress).toBe(true);
   });
 
   it('should handle provider services fetched', () => {
@@ -116,8 +115,8 @@ describe('search query reducer', () => {
       type: FETCH_SERVICES_DONE,
     });
 
-    expect(state.error).to.eql(false);
-    expect(state.fetchSvcsInProgress).to.eql(false);
+    expect(state.error).toBe(false);
+    expect(state.fetchSvcsInProgress).toBe(false);
   });
 
   it('should handle failed fetching provider services', () => {
@@ -125,7 +124,7 @@ describe('search query reducer', () => {
       type: FETCH_SERVICES_FAILED,
     });
 
-    expect(state.error).to.eql(true);
-    expect(state.fetchSvcsInProgress).to.eql(false);
+    expect(state.error).toBe(true);
+    expect(state.fetchSvcsInProgress).toBe(false);
   });
 });

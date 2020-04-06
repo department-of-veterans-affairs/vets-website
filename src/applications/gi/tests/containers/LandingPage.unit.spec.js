@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -19,7 +18,7 @@ const defaultProps = {
 describe('<LandingPage>', () => {
   it('should render', () => {
     const tree = shallow(<LandingPage {...defaultProps} />);
-    expect(tree).to.not.be.undefined;
+    expect(tree).toBeDefined();
     tree.unmount();
   });
 
@@ -38,7 +37,7 @@ describe('<LandingPage>', () => {
       </Provider>,
     );
     tree.find('form').simulate('submit');
-    expect(props.router.push.called).to.be.true;
+    expect(props.router.push.called).toBe(true);
     tree.unmount();
   });
 
@@ -73,7 +72,7 @@ describe('<LandingPage>', () => {
       .find('RadioButtons')
       .find('span')
       .find('button');
-    expect(vetTecOption.text()).to.equal('(Learn more)');
+    expect(vetTecOption.text()).toBe('(Learn more)');
     tree.unmount();
   });
 });

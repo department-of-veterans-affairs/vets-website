@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { prefillTransformer } from '../../1990/helpers.jsx';
 
 describe('1990 helpers', () => {
@@ -15,7 +14,7 @@ describe('1990 helpers', () => {
         },
       };
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData).to.eql(formData);
+      expect(result.formData).toEqual(formData);
     });
     it('should set the email', () => {
       const formData = {
@@ -32,7 +31,7 @@ describe('1990 helpers', () => {
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData['view:otherContactInfo'].email).to.eql(
+      expect(result.formData['view:otherContactInfo'].email).toEqual(
         formData.email,
       );
     });
@@ -51,7 +50,7 @@ describe('1990 helpers', () => {
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData['view:otherContactInfo'].homePhone).to.eql(
+      expect(result.formData['view:otherContactInfo'].homePhone).toEqual(
         formData.homePhone,
       );
     });
@@ -70,7 +69,7 @@ describe('1990 helpers', () => {
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData['view:otherContactInfo'].mobilePhone).to.eql(
+      expect(result.formData['view:otherContactInfo'].mobilePhone).toEqual(
         formData.mobilePhone,
       );
     });

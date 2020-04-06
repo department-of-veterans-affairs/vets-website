@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -50,10 +49,10 @@ describe('HCA actions', () => {
         });
         mockApiRequest(mockData);
         return getEnrollmentStatus()(dispatch, getState).then(() => {
-          expect(dispatch.firstCall.args[0].type).to.equal(
+          expect(dispatch.firstCall.args[0].type).toBe(
             FETCH_ENROLLMENT_STATUS_STARTED,
           );
-          expect(dispatch.secondCall.args[0]).to.eql({
+          expect(dispatch.secondCall.args[0]).toEqual({
             type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
             data: mockData,
           });
@@ -71,10 +70,10 @@ describe('HCA actions', () => {
         });
         mockApiRequest(mockData, false);
         return getEnrollmentStatus()(dispatch, getState).then(() => {
-          expect(dispatch.firstCall.args[0].type).to.equal(
+          expect(dispatch.firstCall.args[0].type).toBe(
             FETCH_ENROLLMENT_STATUS_STARTED,
           );
-          expect(dispatch.secondCall.args[0].type).to.equal(
+          expect(dispatch.secondCall.args[0].type).toBe(
             FETCH_ENROLLMENT_STATUS_FAILED,
           );
         });
@@ -88,8 +87,8 @@ describe('HCA actions', () => {
             isLoadingApplicationStatus: true,
           },
         });
-        expect(getEnrollmentStatus()(dispatch, getState)).to.be.null;
-        expect(dispatch.notCalled).to.be.true;
+        expect(getEnrollmentStatus()(dispatch, getState)).toBeNull();
+        expect(dispatch.notCalled).toBe(true);
         done();
       });
     });
@@ -110,20 +109,30 @@ describe('HCA actions', () => {
           ssn: '123-12-1234',
         };
         return getEnrollmentStatus(formData)(dispatch, getState).then(() => {
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            'health_care_applications/enrollment_status',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining([
+              'health_care_applications/enrollment_status',
+            ]),
           );
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            'userAttributes%5BveteranDateOfBirth%5D=01-01-00',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining([
+              'userAttributes%5BveteranDateOfBirth%5D=01-01-00',
+            ]),
           );
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            'userAttributes%5BveteranFullName%5D%5Bfirst%5D=Pat',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining([
+              'userAttributes%5BveteranFullName%5D%5Bfirst%5D=Pat',
+            ]),
           );
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            'userAttributes%5BveteranFullName%5D%5Blast%5D=Smith',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining([
+              'userAttributes%5BveteranFullName%5D%5Blast%5D=Smith',
+            ]),
           );
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            'userAttributes%5BveteranSocialSecurityNumber%5D=123-12-1234',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining([
+              'userAttributes%5BveteranSocialSecurityNumber%5D=123-12-1234',
+            ]),
           );
         });
       });
@@ -143,10 +152,10 @@ describe('HCA actions', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData);
         return getDismissedHCANotification()(dispatch).then(() => {
-          expect(dispatch.firstCall.args[0].type).to.equal(
+          expect(dispatch.firstCall.args[0].type).toBe(
             FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
           );
-          expect(dispatch.secondCall.args[0]).to.eql({
+          expect(dispatch.secondCall.args[0]).toEqual({
             type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
             response: mockData,
           });
@@ -159,10 +168,10 @@ describe('HCA actions', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData, false);
         return getDismissedHCANotification()(dispatch).then(() => {
-          expect(dispatch.firstCall.args[0].type).to.equal(
+          expect(dispatch.firstCall.args[0].type).toBe(
             FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
           );
-          expect(dispatch.secondCall.args[0].type).to.equal(
+          expect(dispatch.secondCall.args[0].type).toBe(
             FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
           );
         });
@@ -193,16 +202,16 @@ describe('HCA actions', () => {
         );
       });
       it('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
-        expect(dispatch.firstCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0]).toEqual({
           type: SET_DISMISSED_HCA_NOTIFICATION,
           data: statusEffectiveAtDate,
         });
       });
       it('should call the correct POST endpoint', () => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/notifications/dismissed_statuses',
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining(['/v0/notifications/dismissed_statuses']),
         );
-        expect(global.fetch.firstCall.args[1].method).to.eql('POST');
+        expect(global.fetch.firstCall.args[1].method).toBe('POST');
       });
     });
 
@@ -218,16 +227,18 @@ describe('HCA actions', () => {
         );
       });
       it('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
-        expect(dispatch.firstCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0]).toEqual({
           type: SET_DISMISSED_HCA_NOTIFICATION,
           data: statusEffectiveAtDate,
         });
       });
       it('should call the correct PUT endpoint if a notification is being dismissed for the second time', () => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/notifications/dismissed_statuses/form_10_10ez',
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining([
+            '/notifications/dismissed_statuses/form_10_10ez',
+          ]),
         );
-        expect(global.fetch.firstCall.args[1].method).to.eql('PUT');
+        expect(global.fetch.firstCall.args[1].method).toBe('PUT');
       });
     });
   });

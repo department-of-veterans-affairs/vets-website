@@ -1,5 +1,4 @@
 import sinon from 'sinon';
-import { expect } from 'chai';
 
 import * as preferencesActions from '../../actions';
 import reducer from '../../reducers';
@@ -16,13 +15,13 @@ describe('preferencesReducer', () => {
     action = { type: 'NOT_RELEVANT' };
     const newState = reducer(state, action);
     it('sets `dashboard` to empty object', () => {
-      expect(newState.dashboard).to.deep.equal({});
+      expect(newState.dashboard).toEqual({});
     });
     it('sets `availableBenefits` to empty array', () => {
-      expect(newState.availableBenefits).to.deep.equal([]);
+      expect(newState.availableBenefits).toEqual([]);
     });
     it('sets `dismissedBenefitAlerts` to empty array', () => {
-      expect(newState.dismissedBenefitAlerts).to.deep.equal([]);
+      expect(newState.dismissedBenefitAlerts).toEqual([]);
     });
   });
 
@@ -32,9 +31,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.FETCH_USER_PREFERENCES_STARTED,
       };
       const newState = reducer(state, action);
-      expect(newState.userBenefitsLoadingStatus).to.equal('pending');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.userBenefitsLoadingStatus).toBe('pending');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
   });
 
@@ -47,8 +46,8 @@ describe('preferencesReducer', () => {
         payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
-      expect(newState.userBenefitsLoadingStatus).to.equal('loaded');
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.userBenefitsLoadingStatus).toBe('loaded');
+      expect(newState.availableBenefits).toEqual([]);
     });
 
     it('correctly parses the server payload and updates the `dashboard` and `savedDashboard` state when the user has set preferences', () => {
@@ -84,10 +83,10 @@ describe('preferencesReducer', () => {
         payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal({
+      expect(newState.dashboard).toEqual({
         'education-training': true,
       });
-      expect(newState.savedDashboard).to.be.deep.equal({
+      expect(newState.savedDashboard).toEqual({
         'education-training': true,
       });
     });
@@ -113,8 +112,8 @@ describe('preferencesReducer', () => {
         payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.savedDashboard).to.be.deep.equal({});
+      expect(newState.dashboard).toEqual({});
+      expect(newState.savedDashboard).toEqual({});
     });
   });
 
@@ -124,9 +123,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.FETCH_USER_PREFERENCES_FAILED,
       };
       const newState = reducer(state, action);
-      expect(newState.userBenefitsLoadingStatus).to.equal('error');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.userBenefitsLoadingStatus).toBe('error');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
   });
 
@@ -136,9 +135,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.FETCH_ALL_BENEFITS_STARTED,
       };
       const newState = reducer(state, action);
-      expect(newState.allBenefitsLoadingStatus).to.equal('pending');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.allBenefitsLoadingStatus).toBe('pending');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
   });
 
@@ -171,11 +170,11 @@ describe('preferencesReducer', () => {
       newState = reducer(state, action);
     });
     it('sets the `allBenefitsLoadingStatus` to `loaded`', () => {
-      expect(newState.allBenefitsLoadingStatus).to.equal('loaded');
-      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.allBenefitsLoadingStatus).toBe('loaded');
+      expect(newState.dashboard).toEqual({});
     });
     it('sets the `availableBenefits`', () => {
-      expect(newState.availableBenefits).to.deep.equal([
+      expect(newState.availableBenefits).toEqual([
         { code: 'health-care', description: 'Get health care coverage' },
         {
           code: 'disability',
@@ -183,7 +182,7 @@ describe('preferencesReducer', () => {
             'Find benefits for an illness or injury related to a veterans service benefits',
         },
       ]);
-      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.dashboard).toEqual({});
     });
   });
 
@@ -193,9 +192,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.FETCH_ALL_BENEFITS_FAILED,
       };
       const newState = reducer(state, action);
-      expect(newState.allBenefitsLoadingStatus).to.equal('error');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.allBenefitsLoadingStatus).toBe('error');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
   });
 
@@ -205,9 +204,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.SAVE_USER_PREFERENCES_STARTED,
       };
       const newState = reducer(state, action);
-      expect(newState.saveStatus).to.equal('pending');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.saveStatus).toBe('pending');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
   });
 
@@ -217,9 +216,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.SAVE_USER_PREFERENCES_SUCCEEDED,
       };
       const newState = reducer(state, action);
-      expect(newState.saveStatus).to.equal('loaded');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.saveStatus).toBe('loaded');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
 
     it('uses Date.now() to set the `savedAt` timestamp', () => {
@@ -230,9 +229,9 @@ describe('preferencesReducer', () => {
       };
       const newState = reducer(state, action);
       expect(dateNowStub.called);
-      expect(newState.savedAt).to.equal(ts);
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.savedAt).toBe(ts);
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
       dateNowStub.restore();
     });
   });
@@ -243,9 +242,9 @@ describe('preferencesReducer', () => {
         type: preferencesActions.SAVE_USER_PREFERENCES_FAILED,
       };
       const newState = reducer(state, action);
-      expect(newState.saveStatus).to.equal('error');
-      expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.availableBenefits).to.be.deep.equal([]);
+      expect(newState.saveStatus).toBe('error');
+      expect(newState.dashboard).toEqual({});
+      expect(newState.availableBenefits).toEqual([]);
     });
   });
 
@@ -260,7 +259,7 @@ describe('preferencesReducer', () => {
         value: true,
       };
       const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal({ pref1: true });
+      expect(newState.dashboard).toEqual({ pref1: true });
     });
     it('completely removes prefs from dashboard when their new value is `false`', () => {
       state = {
@@ -272,7 +271,7 @@ describe('preferencesReducer', () => {
         value: false,
       };
       const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal({ pref2: true });
+      expect(newState.dashboard).toEqual({ pref2: true });
     });
     it('does not touch the savedDashboard when updating the dashboard', () => {
       state = {
@@ -285,7 +284,7 @@ describe('preferencesReducer', () => {
         value: false,
       };
       const newState = reducer(state, action);
-      expect(newState.savedDashboard).to.be.deep.equal({
+      expect(newState.savedDashboard).toEqual({
         pref1: true,
         pref2: true,
       });
@@ -300,7 +299,7 @@ describe('preferencesReducer', () => {
         value: ['medical'],
       };
       const newState = reducer(state, action);
-      expect(newState.dismissedBenefitAlerts).to.be.deep.equal(['medical']);
+      expect(newState.dismissedBenefitAlerts).toEqual(['medical']);
     });
   });
 
@@ -317,7 +316,7 @@ describe('preferencesReducer', () => {
         type: preferencesActions.RESTORE_PREVIOUS_USER_PREFERENCES,
       };
       const newState = reducer(state, action);
-      expect(newState.dashboard).to.be.deep.equal(state.savedDashboard);
+      expect(newState.dashboard).toEqual(state.savedDashboard);
     });
   });
 });

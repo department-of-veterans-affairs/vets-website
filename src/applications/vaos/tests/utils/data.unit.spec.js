@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   transformFormToCCRequest,
   transformFormToVARequest,
@@ -51,7 +49,7 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToVARequest(state);
-    expect(data).to.deep.equal({
+    expect(data).toEqual({
       typeOfCare: '323',
       typeOfCareId: '323',
       appointmentType: 'Primary care',
@@ -137,7 +135,7 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToVARequest(state);
-    expect(data).to.deep.equal({
+    expect(data).toEqual({
       typeOfCare: '349',
       typeOfCareId: '349',
       appointmentType: 'Continuous Positive Airway Pressure (CPAP)',
@@ -258,7 +256,7 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToCCRequest(state);
-    expect(data).to.deep.equal({
+    expect(data).toEqual({
       typeOfCare: 'CCPRMYRTNE',
       typeOfCareId: 'CCPRMYRTNE',
       appointmentType: 'Primary care',
@@ -398,7 +396,7 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToCCRequest(state);
-    expect(data).to.deep.equal({
+    expect(data).toEqual({
       typeOfCare: 'CCAUDHEAR',
       typeOfCareId: 'CCAUDHEAR',
       appointmentType: 'Hearing aid support',
@@ -521,7 +519,7 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToAppointment(state);
-    expect(data).to.deep.equal({
+    expect(data).toEqual({
       clinic: {
         siteCode: '983',
         clinicId: '308',
@@ -595,7 +593,7 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToVARequest(state);
-    expect(data).to.deep.equal({
+    expect(data).toEqual({
       typeOfCare: '407',
       typeOfCareId: '407',
       appointmentType: 'Ophthalmology',

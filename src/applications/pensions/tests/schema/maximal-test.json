@@ -210,7 +210,7 @@
           "ira": 23,
           "stocks": 23,
           "realProperty": 23,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "monthlyIncome": {
           "socialSecurity": 40,
@@ -219,20 +219,22 @@
           "blackLung": 30,
           "serviceRetirement": 30,
           "ssi": 30,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "expectedIncome": {
           "salary": 40,
           "interest": 40,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "view:hasOtherExpenses": true,
-        "otherExpenses": [{
-          "amount": 30,
-          "purpose": "to cover expense",
-          "date": "2017-05-05",
-          "paidTo": "vendor"
-        }]
+        "otherExpenses": [
+          {
+            "amount": 30,
+            "purpose": "to cover expense",
+            "date": "2017-05-05",
+            "paidTo": "vendor"
+          }
+        ]
       },
       {
         "childInHousehold": true,
@@ -252,7 +254,7 @@
           "ira": 23,
           "stocks": 23,
           "realProperty": 23,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "monthlyIncome": {
           "socialSecurity": 40,
@@ -261,20 +263,22 @@
           "blackLung": 30,
           "serviceRetirement": 30,
           "ssi": 30,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "expectedIncome": {
           "salary": 40,
           "interest": 40,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "view:hasOtherExpenses": true,
-        "otherExpenses": [{
-          "amount": 30,
-          "purpose": "to cover expense",
-          "date": "2017-05-05",
-          "paidTo": "vendor"
-        }]
+        "otherExpenses": [
+          {
+            "amount": 30,
+            "purpose": "to cover expense",
+            "date": "2017-05-05",
+            "paidTo": "vendor"
+          }
+        ]
       }
     ],
     "netWorth": {
@@ -283,7 +287,7 @@
       "ira": 23,
       "stocks": 23,
       "realProperty": 23,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "monthlyIncome": {
       "socialSecurity": 40,
@@ -292,27 +296,29 @@
       "blackLung": 30,
       "serviceRetirement": 30,
       "ssi": 30,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "expectedIncome": {
       "salary": 40,
       "interest": 40,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "view:hasOtherExpenses": true,
-    "otherExpenses": [{
-      "amount": 30,
-      "purpose": "to cover expense",
-      "date": "2017-05-05",
-      "paidTo": "vendor"
-    }],
+    "otherExpenses": [
+      {
+        "amount": 30,
+        "purpose": "to cover expense",
+        "date": "2017-05-05",
+        "paidTo": "vendor"
+      }
+    ],
     "spouseNetWorth": {
       "bank": 34,
       "interestBank": 23,
       "ira": 23,
       "stocks": 23,
       "realProperty": 23,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "spouseMonthlyIncome": {
       "socialSecurity": 40,
@@ -321,20 +327,22 @@
       "blackLung": 30,
       "serviceRetirement": 30,
       "ssi": 30,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "spouseExpectedIncome": {
       "salary": 23,
       "interest": 34,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "view:spouseHasOtherExpenses": true,
-    "spouseOtherExpenses": [{
-      "amount": 30,
-      "purpose": "to cover expense",
-      "date": "2017-05-05",
-      "paidTo": "vendor"
-    }],
+    "spouseOtherExpenses": [
+      {
+        "amount": 30,
+        "purpose": "to cover expense",
+        "date": "2017-05-05",
+        "paidTo": "vendor"
+      }
+    ],
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",

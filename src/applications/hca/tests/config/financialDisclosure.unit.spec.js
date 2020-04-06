@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
@@ -26,7 +25,7 @@ describe('Hca financial disclosure', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input').length).toBe(2);
   });
 
   it('should not submit empty form', () => {
@@ -44,8 +43,8 @@ describe('Hca financial disclosure', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).toBe(1);
+    expect(onSubmit.called).toBe(false);
   });
 
   it('should submit with valid data', () => {
@@ -70,8 +69,8 @@ describe('Hca financial disclosure', () => {
     );
 
     submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
   });
   it('should show a warning if No is selected', () => {
     const onSubmit = sinon.spy();
@@ -84,9 +83,9 @@ describe('Hca financial disclosure', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-alert-info')).length,
-    ).to.equal(1);
+    expect(Array.from(formDOM.querySelectorAll('.usa-alert-info')).length).toBe(
+      1,
+    );
 
     ReactTestUtils.Simulate.change(
       formDOM.querySelector('#root_discloseFinancialInformationNo'),
@@ -97,8 +96,8 @@ describe('Hca financial disclosure', () => {
       },
     );
 
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-alert-info')).length,
-    ).to.equal(2);
+    expect(Array.from(formDOM.querySelectorAll('.usa-alert-info')).length).toBe(
+      2,
+    );
   });
 });

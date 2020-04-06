@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import moment from 'moment';
@@ -28,8 +27,8 @@ describe('Hca serviceInformation', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).toBe(2);
+    expect(form.find('select').length).toBe(6);
     form.unmount();
   });
 
@@ -47,9 +46,9 @@ describe('Hca serviceInformation', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).toBe(4);
 
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -77,8 +76,8 @@ describe('Hca serviceInformation', () => {
     fillData(form, 'select#root_dischargeType', 'general');
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 
@@ -97,15 +96,15 @@ describe('Hca serviceInformation', () => {
     fillData(form, 'select#root_lastServiceBranch', 'army');
     fillDate(form, 'root_lastEntryDate', '1990-1-1');
     fillDate(form, 'root_lastDischargeDate', '2011-1-1');
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('select').length).toBe(6);
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(1);
+    expect(onSubmit.called).toBe(false);
     fillData(form, 'select#root_dischargeType', 'honorable');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 });

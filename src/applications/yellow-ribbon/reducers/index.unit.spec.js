@@ -1,6 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
-// Relative imports.
 import { FETCH_RESULTS, FETCH_RESULTS_SUCCESS } from '../constants';
 import { yellowRibbonReducer } from './index';
 
@@ -9,7 +7,7 @@ describe('Yellow Ribbon reducer', () => {
     const emptyAction = {};
     const result = yellowRibbonReducer(undefined, emptyAction);
 
-    expect(result).to.be.deep.equal({
+    expect(result).toEqual({
       error: '',
       fetching: false,
       hasFetchedOnce: false,
@@ -34,7 +32,7 @@ describe('Yellow Ribbon reducer', () => {
     };
     const state = yellowRibbonReducer(undefined, action);
 
-    expect(state).to.be.deep.equal({
+    expect(state).toEqual({
       error: '',
       fetching: false,
       hasFetchedOnce: true,
@@ -55,7 +53,7 @@ describe('Yellow Ribbon reducer', () => {
     const action = { type: FETCH_RESULTS_SUCCESS, response: { results: [] } };
     const state = yellowRibbonReducer(initialState, action);
 
-    expect(state.fetching).to.be.false;
-    expect(state.results).to.be.instanceOf(Array);
+    expect(state.fetching).toBe(false);
+    expect(state.results).toBeInstanceOf(Array);
   });
 });

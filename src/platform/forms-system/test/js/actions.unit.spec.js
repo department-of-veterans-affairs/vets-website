@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -31,8 +30,8 @@ describe('Schemaform actions:', () => {
       const data = {};
       const action = setData(data);
 
-      expect(action.data).to.equal(data);
-      expect(action.type).to.equal(SET_DATA);
+      expect(action.data).toBe(data);
+      expect(action.type).toBe(SET_DATA);
     });
   });
   describe('setEditMode', () => {
@@ -41,9 +40,9 @@ describe('Schemaform actions:', () => {
       const edit = false;
       const action = setEditMode(page, edit);
 
-      expect(action.page).to.equal(page);
-      expect(action.edit).to.equal(edit);
-      expect(action.type).to.equal(SET_EDIT_MODE);
+      expect(action.page).toBe(page);
+      expect(action.edit).toBe(edit);
+      expect(action.type).toBe(SET_EDIT_MODE);
     });
   });
   describe('setSubmission', () => {
@@ -52,9 +51,9 @@ describe('Schemaform actions:', () => {
       const value = false;
       const action = setSubmission(field, value);
 
-      expect(action.field).to.equal(field);
-      expect(action.value).to.equal(value);
-      expect(action.type).to.equal(SET_SUBMISSION);
+      expect(action.field).toBe(field);
+      expect(action.value).toBe(value);
+      expect(action.type).toBe(SET_SUBMISSION);
     });
   });
   describe('setPreSubmit', () => {
@@ -62,8 +61,8 @@ describe('Schemaform actions:', () => {
       const accepted = false;
       const action = setPreSubmit('preSubmitAccepted', accepted);
 
-      expect(action.preSubmitAccepted).to.equal(accepted);
-      expect(action.type).to.equal(SET_PRE_SUBMIT);
+      expect(action.preSubmitAccepted).toBe(accepted);
+      expect(action.type).toBe(SET_PRE_SUBMIT);
     });
   });
   describe('setSubmitted', () => {
@@ -71,15 +70,15 @@ describe('Schemaform actions:', () => {
       const response = false;
       const action = setSubmitted(response);
 
-      expect(action.response).to.equal(response);
-      expect(action.type).to.equal(SET_SUBMITTED);
+      expect(action.response).toBe(response);
+      expect(action.type).toBe(SET_SUBMITTED);
     });
     it('should return action with response.data', () => {
       const response = { data: false };
       const action = setSubmitted(response);
 
-      expect(action.response).to.equal(response.data);
-      expect(action.type).to.equal(SET_SUBMITTED);
+      expect(action.response).toBe(response.data);
+      expect(action.type).toBe(SET_SUBMITTED);
     });
   });
   describe('submitForm', () => {
@@ -122,13 +121,13 @@ describe('Schemaform actions:', () => {
       const response = { data: {} };
 
       const promise = thunk(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0]).toEqual({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
           extra: null,
         });
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: SET_SUBMITTED,
           response: {},
         });
@@ -155,13 +154,13 @@ describe('Schemaform actions:', () => {
       const response = { data: {} };
 
       const promise = thunk(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0]).toEqual({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
           extra: null,
         });
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'serverError',
@@ -190,13 +189,13 @@ describe('Schemaform actions:', () => {
       const response = { data: {} };
 
       const promise = thunk(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0]).toEqual({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
           extra: null,
         });
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'throttledError',
@@ -232,15 +231,15 @@ describe('Schemaform actions:', () => {
       const dispatch = sinon.spy();
 
       const promise = thunk(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0]).toEqual({
           type: SET_SUBMISSION,
           field: 'status',
           value: 'submitPending',
           extra: null,
         });
-        expect(formConfig.submit.called).to.be.true;
-        expect(requests).to.be.empty;
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(formConfig.submit.called).toBe(true);
+        expect(Object.keys(requests)).toHaveLength(0);
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: SET_SUBMITTED,
           response: response.data,
         });
@@ -284,7 +283,7 @@ describe('Schemaform actions:', () => {
         f => f,
         onChange,
         () => {
-          expect(onChange.firstCall.args[0]).to.eql({
+          expect(onChange.firstCall.args[0]).toEqual({
             name: 'jpg',
             errorMessage: 'File is too large to be uploaded',
           });
@@ -316,7 +315,7 @@ describe('Schemaform actions:', () => {
         f => f,
         onChange,
         () => {
-          expect(onChange.firstCall.args[0]).to.eql({
+          expect(onChange.firstCall.args[0]).toEqual({
             name: 'jpg',
             errorMessage: 'File is too small to be uploaded',
           });
@@ -347,7 +346,7 @@ describe('Schemaform actions:', () => {
         f => f,
         onChange,
         () => {
-          expect(onChange.firstCall.args[0]).to.eql({
+          expect(onChange.firstCall.args[0]).toEqual({
             errorMessage: 'File is not one of the allowed types',
             name: 'jpg',
           });
@@ -403,11 +402,11 @@ describe('Schemaform actions:', () => {
         }),
       );
 
-      expect(onChange.firstCall.args[0]).to.eql({
+      expect(onChange.firstCall.args[0]).toEqual({
         name: 'jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).toEqual({
         name: 'Test name',
         size: 1234,
         confirmationCode: 'Test code',
@@ -442,11 +441,11 @@ describe('Schemaform actions:', () => {
 
       requests[0].respond(400);
 
-      expect(onChange.firstCall.args[0]).to.eql({
+      expect(onChange.firstCall.args[0]).toEqual({
         name: 'jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).toEqual({
         name: 'jpg',
         errorMessage: 'Bad Request',
       });
@@ -479,11 +478,11 @@ describe('Schemaform actions:', () => {
 
       requests[0].error();
 
-      expect(onChange.firstCall.args[0]).to.eql({
+      expect(onChange.firstCall.args[0]).toEqual({
         name: 'jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).toEqual({
         name: 'jpg',
         errorMessage: 'Network request failed',
       });
@@ -516,11 +515,11 @@ describe('Schemaform actions:', () => {
 
       requests[0].respond(500, null, undefined);
 
-      expect(onChange.firstCall.args[0]).to.eql({
+      expect(onChange.firstCall.args[0]).toEqual({
         name: 'jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).toEqual({
         name: 'jpg',
         errorMessage: 'Internal Server Error',
       });

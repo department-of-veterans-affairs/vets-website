@@ -1,5 +1,4 @@
 import _ from 'platform/utilities/data';
-import { expect } from 'chai';
 
 import recordEvent, { recordEventOnce } from '../record-event';
 
@@ -19,7 +18,7 @@ describe('recordEvent', () => {
   it('should record events to the data layer', () => {
     const e = { event: 'foo-bar', contextualData: 'text' };
     recordEvent(e);
-    expect(global.window.dataLayer.includes(e)).to.be.true;
+    expect(global.window.dataLayer.includes(e)).toBe(true);
   });
 });
 
@@ -42,19 +41,19 @@ describe('recordEventOnce', () => {
 
   it('should record event if not already in dataLayer', () => {
     // sanity check to ensure that setup worked
-    expect(window.dataLayer.length).to.equal(0);
+    expect(window.dataLayer.length).toBe(0);
 
     recordEventOnce(testEvent, testKey);
-    expect(window.dataLayer.length).to.equal(1);
+    expect(window.dataLayer.length).toBe(1);
   });
 
   it('should not record duplicate events', () => {
     // sanity check to ensure that setup worked
-    expect(window.dataLayer.length).to.equal(0);
+    expect(window.dataLayer.length).toBe(0);
 
     recordEventOnce(testEvent, testKey);
     recordEventOnce(testEvent, testKey);
 
-    expect(window.dataLayer.length).to.equal(1);
+    expect(window.dataLayer.length).toBe(1);
   });
 });

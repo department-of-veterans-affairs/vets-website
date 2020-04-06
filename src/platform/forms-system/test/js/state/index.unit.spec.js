@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
@@ -42,8 +40,8 @@ describe('schemaform createSchemaFormReducer', () => {
     const reducer = createSchemaFormReducer(formConfig);
     const state = reducer(undefined, {});
 
-    expect(state.submission).not.to.be.undefined;
-    expect(state.data.field).to.eql(
+    expect(state.submission).not.toBeUndefined();
+    expect(state.data.field).toEqual(
       formConfig.chapters.test.pages.page1.initialData.field,
     );
   });
@@ -88,7 +86,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
       const testState = reducer(previousState, action);
 
-      expect(testState).to.deep.equal(expectedState);
+      expect(testState).toEqual(expectedState);
     });
 
     it('removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER', () => {
@@ -115,7 +113,7 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       };
 
-      expect(testState).to.deep.equal(expectedState);
+      expect(testState).toEqual(expectedState);
     });
 
     it('should set data state', () => {
@@ -139,7 +137,7 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
 
-      expect(state.data.field).to.equal('test2');
+      expect(state.data.field).toBe('test2');
     });
     it('should set edit mode', () => {
       const state = reducer(
@@ -157,7 +155,7 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
 
-      expect(state.pages.page1.editMode).to.be.true;
+      expect(state.pages.page1.editMode).toBe(true);
     });
     it('should reset array edit modes', () => {
       const state = reducer(
@@ -182,7 +180,7 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
 
-      expect(state.pages.page1.editMode).to.eql([false, false]);
+      expect(state.pages.page1.editMode).toEqual([false, false]);
     });
     it('should set privacy agreement', () => {
       const state = reducer(
@@ -198,7 +196,7 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
 
-      expect(state.data.privacyAgreementAccepted).to.be.true;
+      expect(state.data.privacyAgreementAccepted).toBe(true);
     });
     it('should set submission field', () => {
       const state = reducer(
@@ -214,7 +212,7 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
 
-      expect(state.submission.hasAttemptedSubmit).to.be.true;
+      expect(state.submission.hasAttemptedSubmit).toBe(true);
     });
     it('should set submitted', () => {
       const state = reducer(
@@ -230,8 +228,8 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
 
-      expect(state.submission.status).to.equal('applicationSubmitted');
-      expect(state.submission.response).to.eql({ field: 'test' });
+      expect(state.submission.status).toBe('applicationSubmitted');
+      expect(state.submission.response).toEqual({ field: 'test' });
     });
   });
 });

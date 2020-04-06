@@ -29,7 +29,8 @@ button.va-crisis-line {
     outline-offset: -2px;
   }
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: $red-70v;
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
@@ -61,7 +62,7 @@ button.va-crisis-line {
 }
 
 .va-crisis-line-icon {
-  content: "";
+  content: '';
   background: url(/img/VCL-icon-white.svg) no-repeat right 29%;
   background-size: 1.75em auto;
   background-position: 0.5em 0.5em;
@@ -128,7 +129,7 @@ button.va-crisis-line {
     padding: 0.4em 0.3em;
     align-self: center;
     flex-shrink: 0;
-    font-family: "Font Awesome 5 Free";
+    font-family: 'Font Awesome 5 Free';
     &.fa-mobile {
       font-size: 38px;
       padding: 0.15em 0.3em;

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import * as selectors from '../selectors';
 
 describe('user selectors', () => {
@@ -15,9 +14,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360(state)).to.deep.equal(
-        state.user.profile.vet360,
-      );
+      expect(selectors.selectVet360(state)).toEqual(state.user.profile.vet360);
     });
     it('returns undefined if there is no vet360 on the profile', () => {
       const state = {
@@ -25,7 +22,7 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectVet360(state)).to.be.undefined;
+      expect(selectors.selectVet360(state)).toBeUndefined();
     });
   });
 
@@ -51,7 +48,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360EmailAddress(state)).to.equal(
+      expect(selectors.selectVet360EmailAddress(state)).toBe(
         state.user.profile.vet360.email.emailAddress,
       );
     });
@@ -61,7 +58,7 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectVet360EmailAddress(state)).to.be.undefined;
+      expect(selectors.selectVet360EmailAddress(state)).toBeUndefined();
     });
     it('returns undefined if there is no email', () => {
       const state = {
@@ -71,7 +68,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectVet360EmailAddress(state)).to.be.undefined;
+      expect(selectors.selectVet360EmailAddress(state)).toBeUndefined();
     });
   });
 
@@ -109,7 +106,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360MobilePhone(state)).to.deep.equal(
+        expect(selectors.selectVet360MobilePhone(state)).toEqual(
           state.user.profile.vet360.mobilePhone,
         );
       });
@@ -119,7 +116,7 @@ describe('user selectors', () => {
             profile: {},
           },
         };
-        expect(selectors.selectVet360MobilePhone(state)).to.be.undefined;
+        expect(selectors.selectVet360MobilePhone(state)).toBeUndefined();
       });
       it('returns undefined if there is no mobile phone', () => {
         const state = {
@@ -129,7 +126,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360MobilePhone(state)).to.be.undefined;
+        expect(selectors.selectVet360MobilePhone(state)).toBeUndefined();
       });
     });
 
@@ -144,7 +141,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360MobilePhoneString(state)).to.equal(
+        expect(selectors.selectVet360MobilePhoneString(state)).toBe(
           '4158453210',
         );
       });
@@ -158,7 +155,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360MobilePhoneString(state)).to.equal(
+        expect(selectors.selectVet360MobilePhoneString(state)).toBe(
           '4158453210x1234',
         );
       });
@@ -172,7 +169,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360MobilePhoneString(state)).to.equal(
+        expect(selectors.selectVet360MobilePhoneString(state)).toBe(
           '4158453210',
         );
       });
@@ -189,7 +186,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360HomePhone(state)).to.deep.equal(
+        expect(selectors.selectVet360HomePhone(state)).toEqual(
           state.user.profile.vet360.homePhone,
         );
       });
@@ -199,7 +196,7 @@ describe('user selectors', () => {
             profile: {},
           },
         };
-        expect(selectors.selectVet360HomePhone(state)).to.be.undefined;
+        expect(selectors.selectVet360HomePhone(state)).toBeUndefined();
       });
       it('returns undefined if there is no mobile phone', () => {
         const state = {
@@ -209,7 +206,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360HomePhone(state)).to.be.undefined;
+        expect(selectors.selectVet360HomePhone(state)).toBeUndefined();
       });
     });
 
@@ -224,9 +221,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360HomePhoneString(state)).to.equal(
-          '4158453210',
-        );
+        expect(selectors.selectVet360HomePhoneString(state)).toBe('4158453210');
       });
       it('properly handles phone numbers with an extension', () => {
         const state = {
@@ -238,7 +233,7 @@ describe('user selectors', () => {
             },
           },
         };
-        expect(selectors.selectVet360HomePhoneString(state)).to.equal(
+        expect(selectors.selectVet360HomePhoneString(state)).toBe(
           '4158453210x1234',
         );
       });
@@ -257,7 +252,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectPatientFacilities(state)).to.deep.equal(
+      expect(selectors.selectPatientFacilities(state)).toEqual(
         state.user.profile.facilities,
       );
     });
@@ -267,7 +262,7 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectPatientFacilities(state)).to.be.null;
+      expect(selectors.selectPatientFacilities(state)).toBeNull();
     });
   });
   describe('selectIsCernerOnlyPatient', () => {
@@ -279,7 +274,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectIsCernerOnlyPatient(state)).to.be.true;
+      expect(selectors.selectIsCernerOnlyPatient(state)).toBe(true);
     });
     it('should return false if not Cerner only', () => {
       const state = {
@@ -292,7 +287,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
+      expect(selectors.selectIsCernerOnlyPatient(state)).toBe(false);
     });
   });
   describe('selectIsCernerPatient', () => {
@@ -304,7 +299,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectIsCernerPatient(state)).to.be.true;
+      expect(selectors.selectIsCernerPatient(state)).toBe(true);
     });
     it('should return true if atleast 1 cerner facility', () => {
       const state = {
@@ -317,7 +312,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectIsCernerPatient(state)).to.be.true;
+      expect(selectors.selectIsCernerPatient(state)).toBe(true);
     });
     it('should return false if no cerner facilities', () => {
       const state = {
@@ -327,7 +322,7 @@ describe('user selectors', () => {
           },
         },
       };
-      expect(selectors.selectIsCernerPatient(state)).to.be.false;
+      expect(selectors.selectIsCernerPatient(state)).toBe(false);
     });
   });
 });

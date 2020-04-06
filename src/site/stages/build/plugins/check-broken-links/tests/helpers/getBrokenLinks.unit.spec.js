@@ -1,4 +1,3 @@
-const { expect } = require('chai');
 const sinon = require('sinon');
 const cheerio = require('cheerio');
 
@@ -24,18 +23,18 @@ describe('getBrokenLinks', () => {
 
   it('finds broken links', () => {
     const linkErrors = getBrokenLinks(getFile(img), [], detectAllLinksBroken);
-    expect(linkErrors).to.have.lengthOf(2);
+    expect(linkErrors).toHaveLength(2);
   });
 
   it('does not detect non-links as a link', () => {
     const linkErrors = getBrokenLinks(getFile(span), [], detectAllLinksBroken);
-    expect(linkErrors).to.have.lengthOf(1);
-    expect(linkErrors[0].html).to.be.equal(anchor);
+    expect(linkErrors).toHaveLength(1);
+    expect(linkErrors[0].html).toBe(anchor);
   });
 
   it('does not detect valid links as broken', () => {
     const linkErrors = getBrokenLinks(getFile(img), [], detectAllLinksOkay);
-    expect(linkErrors).to.have.lengthOf(0);
+    expect(linkErrors).toHaveLength(0);
   });
 
   it('skips anchors without an HREF attribute', () => {
@@ -44,6 +43,6 @@ describe('getBrokenLinks', () => {
       [],
       detectAllLinksBroken,
     );
-    expect(linkErrors).to.have.lengthOf(1);
+    expect(linkErrors).toHaveLength(1);
   });
 });

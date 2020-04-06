@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -23,7 +22,7 @@ const defaultProps = {
 describe('<SearchPage>', () => {
   it('should render', () => {
     const tree = shallow(<SearchPage {...defaultProps} />);
-    expect(tree).to.not.be.undefined;
+    expect(tree).toBeDefined();
     tree.unmount();
   });
 
@@ -53,7 +52,7 @@ describe('<SearchPage>', () => {
       </Provider>,
     );
 
-    expect(tree.find('LoadingIndicator').text()).to.equal(
+    expect(tree.find('LoadingIndicator').text()).toBe(
       'Loading search results...',
     );
     tree.unmount();
@@ -66,8 +65,8 @@ describe('<SearchPage>', () => {
       </Provider>,
     );
 
-    expect(defaultProps.fetchInstitutionSearchResults.called).to.be.true;
-    expect(defaultProps.setPageTitle.called).to.be.true;
+    expect(defaultProps.fetchInstitutionSearchResults.called).toBe(true);
+    expect(defaultProps.setPageTitle.called).toBe(true);
     tree.unmount();
   });
 });
@@ -87,7 +86,7 @@ it('should render error message', () => {
     </Provider>,
   );
 
-  expect(tree.find('ServiceError')).to.be.ok;
+  expect(tree.find('ServiceError')).toBeTruthy();
   tree.unmount();
 });
 
@@ -119,18 +118,19 @@ describe('<SearchPage> functions', () => {
     const institutionFilterChange = institutionFilter => {
       // Make sure searchParams are removed
       stringSearchParams.forEach(stringParam => {
-        expect(Object.keys(institutionFilter).includes(stringParam)).to.be
-          .false;
+        expect(Object.keys(institutionFilter).includes(stringParam)).toBe(
+          false,
+        );
       });
 
       // Make sure booleanParams have been converted from String to boolean
       booleanFilterParams.forEach(booleanParam => {
-        expect(typeof institutionFilter[booleanParam]).to.be.equal('boolean');
+        expect(typeof institutionFilter[booleanParam]).toBe('boolean');
       });
 
       // Make sure stringParams are still Strings
       stringFilterParams.forEach(stringParam => {
-        expect(typeof institutionFilter[stringParam]).to.be.equal('string');
+        expect(typeof institutionFilter[stringParam]).toBe('string');
       });
     };
 
@@ -164,7 +164,7 @@ describe('<SearchPage> functions', () => {
         ...stringFilterParams,
         ...booleanFilterParams,
       ]);
-      expect(queryStore.toString()).to.be.equal(queryCheck.toString());
+      expect(queryStore.toString()).toBe(queryCheck.toString());
     };
 
     const props = {

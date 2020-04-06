@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 
 import { HCAEnrollmentStatus } from '../../containers/HCAEnrollmentStatus';
 import HCAEnrollmentStatusWarning from '../../components/HCAEnrollmentStatusWarning';
@@ -24,16 +23,16 @@ describe('<HCAEnrollmentStatus />', () => {
   it('renders an HCAEnrollmentStatusWarning with the correct props', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
     const statusWarning = wrapper.find(HCAEnrollmentStatusWarning);
-    expect(statusWarning.prop('applicationDate')).to.equal(
+    expect(statusWarning.prop('applicationDate')).toBe(
       defaultProps.applicationDate,
     );
-    expect(statusWarning.prop('enrollmentDate')).to.equal(
+    expect(statusWarning.prop('enrollmentDate')).toBe(
       defaultProps.enrollmentDate,
     );
-    expect(statusWarning.prop('enrollmentStatus')).to.equal(
+    expect(statusWarning.prop('enrollmentStatus')).toBe(
       defaultProps.enrollmentStatus,
     );
-    expect(statusWarning.prop('preferredFacility')).to.equal(
+    expect(statusWarning.prop('preferredFacility')).toBe(
       defaultProps.preferredFacility,
     );
     wrapper.unmount;
@@ -41,15 +40,15 @@ describe('<HCAEnrollmentStatus />', () => {
   it('renders an HCAEnrollmentStatusFAQ with the correct props', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
     const statusFAQ = wrapper.find(HCAEnrollmentStatusFAQ);
-    expect(statusFAQ.prop('enrollmentStatus')).to.equal(
+    expect(statusFAQ.prop('enrollmentStatus')).toBe(
       defaultProps.enrollmentStatus,
     );
-    expect(statusFAQ.prop('route')).to.equal(defaultProps.route);
+    expect(statusFAQ.prop('route')).toBe(defaultProps.route);
     wrapper.unmount();
   });
   it('calls its `getEnrollmentStatus` prop when it mounts', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
-    expect(getEnrollmentStatusSpy.callCount).to.equal(1);
+    expect(getEnrollmentStatusSpy.callCount).toBe(1);
     wrapper.unmount();
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import formConfig1990 from '../../1990/config/form';
 import formConfig1990e from '../../1990e/config/form';
 import formConfig1990n from '../../1990n/config/form';
@@ -59,42 +57,42 @@ describe('EDU migrations', () => {
         },
       };
 
-      expect(migrations1990[0](data1990)).to.eql({
+      expect(migrations1990[0](data1990)).toEqual({
         formId: formConfig1990.formId,
         metadata: {
           returnUrl: '/abc/',
         },
       });
 
-      expect(migrations1990e[0](data1990e)).to.eql({
+      expect(migrations1990e[0](data1990e)).toEqual({
         formId: formConfig1990e.formId,
         metadata: {
           returnUrl: '/abc/',
         },
       });
 
-      expect(migrations1990n[0](data1990n)).to.eql({
+      expect(migrations1990n[0](data1990n)).toEqual({
         formId: formConfig1990n.formId,
         metadata: {
           returnUrl: '/abc/',
         },
       });
 
-      expect(migrations1995[0](data1995)).to.eql({
+      expect(migrations1995[0](data1995)).toEqual({
         formId: formConfig1995.formId,
         metadata: {
           returnUrl: '/abc/',
         },
       });
 
-      expect(migrations5490[0](data5490)).to.eql({
+      expect(migrations5490[0](data5490)).toEqual({
         formId: formConfig5490.formId,
         metadata: {
           returnUrl: '/abc/',
         },
       });
 
-      expect(migrations5495[0](data5495)).to.eql({
+      expect(migrations5495[0](data5495)).toEqual({
         formId: formConfig5495.formId,
         metadata: {
           returnUrl: '/abc/',

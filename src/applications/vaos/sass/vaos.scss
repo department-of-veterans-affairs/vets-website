@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "../../../platform/forms/sass/m-schemaform";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '../../../platform/forms/sass/m-schemaform';
 
 .vaos-appts__tabs ul.react-tabs__tab-list {
   padding: 0;
@@ -25,7 +25,7 @@
   }
 
   @include media($medium-screen) {
-    padding: 6px 12px;  
+    padding: 6px 12px;
     width: 200px;
     font-size: 16px;
   }
@@ -76,7 +76,7 @@
 }
 
 .vaos-form__detailed-radio {
-  input[type="radio"] + label::before {
+  input[type='radio'] + label::before {
     margin-top: 0.6em;
   }
 
@@ -134,7 +134,7 @@
   background-color: $color-primary;
   border-color: $color-primary;
   color: $color-white;
-  
+
   &:hover {
     border: 1px solid $color-primary-darker;
   }
@@ -246,17 +246,17 @@
   border-radius: 5px;
   padding: 8px 4px;
 
-  input[type="radio"],
-  input[type="checkbox"] {
+  input[type='radio'],
+  input[type='checkbox'] {
     width: auto;
   }
 
-  input[type="radio"] + label::before {
+  input[type='radio'] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
   }
 
-  input[type="checkbox"] + label::before {
+  input[type='checkbox'] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
   }
@@ -268,7 +268,8 @@
       cursor: not-allowed;
     }
 
-    input[type="checkbox"], input[type="checkbox"] + label::before {
+    input[type='checkbox'],
+    input[type='checkbox'] + label::before {
       box-shadow: 0 0 0 1px $color-gray-light;
       background: $color-gray-lightest;
       cursor: not-allowed;

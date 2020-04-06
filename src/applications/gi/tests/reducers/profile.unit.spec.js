@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import profileReducer from '../../reducers/profile';
 
 const initialState = {
@@ -14,7 +12,7 @@ describe('profile reducer', () => {
       type: 'FETCH_PROFILE_STARTED',
     });
 
-    expect(state.inProgress).to.eql(true);
+    expect(state.inProgress).toBe(true);
   });
 
   it('should handle profile fetch failure', () => {
@@ -26,8 +24,8 @@ describe('profile reducer', () => {
       },
     );
 
-    expect(state.error).to.eql('Service Unavailable');
-    expect(state.inProgress).to.eql(false);
+    expect(state.error).toBe('Service Unavailable');
+    expect(state.inProgress).toBe(false);
   });
 
   it('should handle profile fetch success', () => {
@@ -49,8 +47,8 @@ describe('profile reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.attributes.name).to.eql('NAME');
-    expect(state.version).to.eql(1);
+    expect(state.inProgress).toBe(false);
+    expect(state.attributes.name).toBe('NAME');
+    expect(state.version).toBe(1);
   });
 });

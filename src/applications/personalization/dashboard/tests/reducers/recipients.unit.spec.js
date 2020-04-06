@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import recipientsReducer from '../../reducers/recipients';
 
 import {
@@ -15,7 +13,7 @@ describe('recipients reducer', () => {
       type: FETCH_RECIPIENTS_FAILURE,
     });
 
-    expect(state.data).to.be.null;
+    expect(state.data).toBeNull();
   });
 
   it('should populate the list of possible recipients on success', () => {
@@ -25,7 +23,7 @@ describe('recipients reducer', () => {
     });
 
     recipients.data.forEach(recipient => {
-      expect(state.data).to.deep.contain({
+      expect(state.data).toMatchObject({
         label: recipient.attributes.name,
         value: recipient.attributes.triageTeamId,
       });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
@@ -24,7 +23,7 @@ describe('526 all claims schema tests', () => {
         console.log(`Validation errors found in ${file}`); // eslint-disable-line
         console.log(JSON.stringify(result.errors, null, 2)); // eslint-disable-line
       }
-      expect(result.valid).to.be.true;
+      expect(result.valid).toBe(true);
     });
   });
 });

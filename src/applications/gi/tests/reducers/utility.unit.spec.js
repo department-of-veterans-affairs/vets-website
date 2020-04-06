@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   normalizedInstitutionAttributes,
   normalizedProgramAttributes,
@@ -19,9 +17,9 @@ describe('normalized attributes function', () => {
 
     const results = normalizedInstitutionAttributes(state.attributes);
 
-    expect(results.name).to.eql('NAME');
-    expect(results.city).to.eql('CITY B'); // this function is expected to return physical City name, if available.
-    expect(results.state).to.eql('STATE B'); // this function is expected to return physical State name, if available.
+    expect(results.name).toBe('NAME');
+    expect(results.city).toBe('CITY B'); // this function is expected to return physical City name, if available.
+    expect(results.state).toBe('STATE B'); // this function is expected to return physical State name, if available.
   });
 });
 
@@ -38,9 +36,9 @@ describe('normalized attributes function', () => {
 
     const results = normalizedProgramAttributes(state.attributes);
 
-    expect(results.description).to.eql('NAME');
-    expect(results.city).to.eql('CITY');
-    expect(results.state).to.eql('STATE');
-    expect(results.country).to.eql('COUNTRY');
+    expect(results.description).toBe('NAME');
+    expect(results.city).toBe('CITY');
+    expect(results.state).toBe('STATE');
+    expect(results.country).toBe('COUNTRY');
   });
 });

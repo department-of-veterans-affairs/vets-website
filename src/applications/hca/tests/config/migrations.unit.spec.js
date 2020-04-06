@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import formConfig from '../../config/form';
 
 const migrations = formConfig.migrations;
@@ -13,7 +11,7 @@ describe('HCA migrations', () => {
         },
       };
 
-      expect(migrations[0](data)).to.eql({
+      expect(migrations[0](data)).toEqual({
         formData: {
           'view:demographicCategories': {
             isSpanishHispanicLatino: false,
@@ -31,7 +29,7 @@ describe('HCA migrations', () => {
         },
       };
 
-      expect(migrations[0](data)).to.eql({
+      expect(migrations[0](data)).toEqual({
         formData: {
           'view:demographicCategories': {
             isSpanishHispanicLatino: true,
@@ -49,7 +47,7 @@ describe('HCA migrations', () => {
         },
       };
 
-      expect(migration(data).formData).to.eql({
+      expect(migration(data).formData).toEqual({
         'view:reportDependents': data.formData['view:reportChildren'],
       });
     });
@@ -60,7 +58,7 @@ describe('HCA migrations', () => {
         },
       };
 
-      expect(migration(data).formData).to.eql({
+      expect(migration(data).formData).toEqual({
         dependents: [],
       });
     });
@@ -79,7 +77,7 @@ describe('HCA migrations', () => {
         },
       };
 
-      expect(migration(data).formData).to.eql({
+      expect(migration(data).formData).toEqual({
         dependents: [
           {
             fullName: data.formData.children[0].childFullName,
@@ -107,10 +105,10 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal(
+      expect(metadata.returnUrl).toBe(
         '/household-information/dependent-information',
       );
-      expect(formData).to.equal(data.formData);
+      expect(formData).toBe(data.formData);
     });
     it('should leave url alone when it does not match', () => {
       const data = {
@@ -123,8 +121,8 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal(data.metadata.returnUrl);
-      expect(formData).to.equal(data.formData);
+      expect(metadata.returnUrl).toBe(data.metadata.returnUrl);
+      expect(formData).toBe(data.formData);
     });
   });
   describe('fourth migration', () => {
@@ -138,8 +136,8 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata).to.equal(data.metadata);
-      expect(formData).to.equal(data.formData);
+      expect(metadata).toBe(data.metadata);
+      expect(formData).toBe(data.formData);
     });
     it('should set to none if all false', () => {
       const data = {
@@ -154,11 +152,11 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata).to.equal(data.metadata);
-      expect(formData.vaCompensationType).to.equal('none');
-      expect(formData.compensableVaServiceConnected).to.be.undefined;
-      expect(formData.receivesVaPension).to.be.undefined;
-      expect(formData.isVaServiceConnected).to.be.undefined;
+      expect(metadata).toBe(data.metadata);
+      expect(formData.vaCompensationType).toBe('none');
+      expect(formData.compensableVaServiceConnected).toBeUndefined();
+      expect(formData.receivesVaPension).toBeUndefined();
+      expect(formData.isVaServiceConnected).toBeUndefined();
     });
     it('should set to highDisability if isVaServiceConnected', () => {
       const data = {
@@ -173,11 +171,11 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata).to.equal(data.metadata);
-      expect(formData.vaCompensationType).to.equal('highDisability');
-      expect(formData.compensableVaServiceConnected).to.be.undefined;
-      expect(formData.receivesVaPension).to.be.undefined;
-      expect(formData.isVaServiceConnected).to.be.undefined;
+      expect(metadata).toBe(data.metadata);
+      expect(formData.vaCompensationType).toBe('highDisability');
+      expect(formData.compensableVaServiceConnected).toBeUndefined();
+      expect(formData.receivesVaPension).toBeUndefined();
+      expect(formData.isVaServiceConnected).toBeUndefined();
     });
     it('should set to lowDisability if compensableVaServiceConnected', () => {
       const data = {
@@ -192,11 +190,11 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata).to.equal(data.metadata);
-      expect(formData.vaCompensationType).to.equal('lowDisability');
-      expect(formData.compensableVaServiceConnected).to.be.undefined;
-      expect(formData.receivesVaPension).to.be.undefined;
-      expect(formData.isVaServiceConnected).to.be.undefined;
+      expect(metadata).toBe(data.metadata);
+      expect(formData.vaCompensationType).toBe('lowDisability');
+      expect(formData.compensableVaServiceConnected).toBeUndefined();
+      expect(formData.receivesVaPension).toBeUndefined();
+      expect(formData.isVaServiceConnected).toBeUndefined();
     });
     it('should set to pension if receivesVaPension', () => {
       const data = {
@@ -211,11 +209,11 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata).to.equal(data.metadata);
-      expect(formData.vaCompensationType).to.equal('pension');
-      expect(formData.compensableVaServiceConnected).to.be.undefined;
-      expect(formData.receivesVaPension).to.be.undefined;
-      expect(formData.isVaServiceConnected).to.be.undefined;
+      expect(metadata).toBe(data.metadata);
+      expect(formData.vaCompensationType).toBe('pension');
+      expect(formData.compensableVaServiceConnected).toBeUndefined();
+      expect(formData.receivesVaPension).toBeUndefined();
+      expect(formData.isVaServiceConnected).toBeUndefined();
     });
     it('should set url if any other combination of choices', () => {
       const data = {
@@ -230,11 +228,11 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal('/va-benefits/basic-information');
-      expect(formData.vaCompensationType).to.be.undefined;
-      expect(formData.compensableVaServiceConnected).to.be.undefined;
-      expect(formData.receivesVaPension).to.be.undefined;
-      expect(formData.isVaServiceConnected).to.be.undefined;
+      expect(metadata.returnUrl).toBe('/va-benefits/basic-information');
+      expect(formData.vaCompensationType).toBeUndefined();
+      expect(formData.compensableVaServiceConnected).toBeUndefined();
+      expect(formData.receivesVaPension).toBeUndefined();
+      expect(formData.isVaServiceConnected).toBeUndefined();
     });
     it('should not set url if prefill', () => {
       const data = {
@@ -250,7 +248,7 @@ describe('HCA migrations', () => {
       };
 
       const { metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal(
+      expect(metadata.returnUrl).toBe(
         '/household-information/spouse-information',
       );
     });
@@ -272,8 +270,8 @@ describe('HCA migrations', () => {
       };
 
       const { formData } = migration(data);
-      expect(formData.veteranFullName).to.eql({});
-      expect(formData.veteranAddress).to.eql({});
+      expect(formData.veteranFullName).toEqual({});
+      expect(formData.veteranAddress).toEqual({});
     });
     it('set the return URL to veteran address when address updated', () => {
       const data = {
@@ -286,10 +284,8 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(formData.veteranAddress).to.eql({});
-      expect(metadata.returnUrl).to.equal(
-        'veteran-information/veteran-address',
-      );
+      expect(formData.veteranAddress).toEqual({});
+      expect(metadata.returnUrl).toBe('veteran-information/veteran-address');
     });
     it('set the return URL to veteran information when veteranFullName updated', () => {
       const data = {
@@ -302,8 +298,8 @@ describe('HCA migrations', () => {
       };
 
       const { formData, metadata } = migration(data);
-      expect(formData.veteranFullName).to.eql({});
-      expect(metadata.returnUrl).to.equal(
+      expect(formData.veteranFullName).toEqual({});
+      expect(metadata.returnUrl).toBe(
         'veteran-information/personal-information',
       );
     });
@@ -327,8 +323,8 @@ describe('HCA migrations', () => {
       };
 
       const { formData } = migration(data);
-      expect(formData.providers[0]).to.eql({});
-      expect(formData.providers[1]).to.deep.eql({ insuranceGroupCode: '   t' });
+      expect(formData.providers[0]).toEqual({});
+      expect(formData.providers[1]).toEqual({ insuranceGroupCode: '   t' });
     });
   });
 });

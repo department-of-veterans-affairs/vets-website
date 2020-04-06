@@ -20,7 +20,8 @@
     padding: 0;
   }
 
-  a, button {
+  a,
+  button {
     background: none;
     border-radius: none;
     color: $color-gray-dark;
@@ -96,7 +97,8 @@
   }
 
   .va-sidenav-level-2 {
-    a, button {
+    a,
+    button {
       color: $color-primary;
       font-weight: normal;
       letter-spacing: 0;

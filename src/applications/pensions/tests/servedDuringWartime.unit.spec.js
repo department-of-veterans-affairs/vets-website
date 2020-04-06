@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { servedDuringWartime } from '../helpers';
 
 describe('Wartime service validation', () => {
@@ -10,7 +8,7 @@ describe('Wartime service validation', () => {
         to: '1917-01-02',
       });
 
-      expect(allow).to.be.true;
+      expect(allow).toBe(true);
     });
     it('should allow for service period within a wartime period', () => {
       const allow = servedDuringWartime({
@@ -18,7 +16,7 @@ describe('Wartime service validation', () => {
         to: '1916-12-02',
       });
 
-      expect(allow).to.be.true;
+      expect(allow).toBe(true);
     });
     it('should allow for wartime period within service period', () => {
       const allow = servedDuringWartime({
@@ -26,7 +24,7 @@ describe('Wartime service validation', () => {
         to: '1956-01-01',
       });
 
-      expect(allow).to.be.true;
+      expect(allow).toBe(true);
     });
     it('should not allow for service period outside of wartime period', () => {
       const allow = servedDuringWartime({
@@ -34,7 +32,7 @@ describe('Wartime service validation', () => {
         to: '1981-12-02',
       });
 
-      expect(allow).to.be.false;
+      expect(allow).toBe(false);
     });
   });
 });

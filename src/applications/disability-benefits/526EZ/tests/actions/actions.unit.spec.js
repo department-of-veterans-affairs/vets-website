@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { mockApiRequest } from '../../../../../platform/testing/unit/helpers.js';
@@ -27,8 +26,8 @@ describe('ITF actions', () => {
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
       return fetchITF()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(ITF_FETCH_INITIATED);
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0].type).toBe(ITF_FETCH_INITIATED);
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: ITF_FETCH_SUCCEEDED,
           data: mockData.data,
         });
@@ -40,8 +39,8 @@ describe('ITF actions', () => {
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
       return fetchITF()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(ITF_FETCH_INITIATED);
-        expect(dispatch.secondCall.args[0].type).to.equal(ITF_FETCH_FAILED);
+        expect(dispatch.firstCall.args[0].type).toBe(ITF_FETCH_INITIATED);
+        expect(dispatch.secondCall.args[0].type).toBe(ITF_FETCH_FAILED);
       });
     });
   });
@@ -56,10 +55,8 @@ describe('ITF actions', () => {
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
       return createITF()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          ITF_CREATION_INITIATED,
-        );
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.firstCall.args[0].type).toBe(ITF_CREATION_INITIATED);
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: ITF_CREATION_SUCCEEDED,
           data: mockData.data,
         });
@@ -71,10 +68,8 @@ describe('ITF actions', () => {
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
       return createITF()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          ITF_CREATION_INITIATED,
-        );
-        expect(dispatch.secondCall.args[0].type).to.eql(ITF_CREATION_FAILED);
+        expect(dispatch.firstCall.args[0].type).toBe(ITF_CREATION_INITIATED);
+        expect(dispatch.secondCall.args[0].type).toEqual(ITF_CREATION_FAILED);
       });
     });
   });

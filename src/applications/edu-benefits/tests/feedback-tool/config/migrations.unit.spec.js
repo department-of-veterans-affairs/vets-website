@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import migrations from '../../../feedback-tool/config/migrations';
 
 describe('Feedback tool migrations', () => {
@@ -14,13 +13,15 @@ describe('Feedback tool migrations', () => {
 
     const result = migrations[0]({ formData, metadata: {} });
 
-    expect(result.formData.educationDetails.programs.chapter33).to.be.true;
-    expect(result.formData.educationDetails.programs.chapter30).to.be.false;
+    expect(result.formData.educationDetails.programs.chapter33).toBe(true);
+    expect(result.formData.educationDetails.programs.chapter30).toBe(false);
 
-    expect(result.formData.educationDetails.programs['Post-9/11 Ch 33']).to.be
-      .undefined;
-    expect(result.formData.educationDetails.programs['MGIB-AD Ch 30']).to.be
-      .undefined;
+    expect(
+      result.formData.educationDetails.programs['Post-9/11 Ch 33'],
+    ).toBeUndefined();
+    expect(
+      result.formData.educationDetails.programs['MGIB-AD Ch 30'],
+    ).toBeUndefined();
   });
 
   it('should convert keys in view:assistance object', () => {
@@ -37,16 +38,19 @@ describe('Feedback tool migrations', () => {
 
     const result = migrations[0]({ formData, metadata: {} });
 
-    expect(result.formData.educationDetails.assistance['view:assistance'].ta).to
-      .be.true;
-    expect(result.formData.educationDetails.assistance['view:assistance'].taAgr)
-      .to.be.false;
+    expect(
+      result.formData.educationDetails.assistance['view:assistance'].ta,
+    ).toBe(true);
+    expect(
+      result.formData.educationDetails.assistance['view:assistance'].taAgr,
+    ).toBe(false);
 
-    expect(result.formData.educationDetails.assistance['view:assistance'].TA).to
-      .be.undefined;
+    expect(
+      result.formData.educationDetails.assistance['view:assistance'].TA,
+    ).toBeUndefined();
     expect(
       result.formData.educationDetails.assistance['view:assistance']['TA-AGR'],
-    ).to.be.undefined;
+    ).toBeUndefined();
   });
 
   it('should convert ffa key in assistance object', () => {
@@ -62,10 +66,12 @@ describe('Feedback tool migrations', () => {
 
     const result = migrations[0]({ formData, metadata: {} });
 
-    expect(result.formData.educationDetails.assistance['view:ffa'].ffa).to.be
-      .false;
+    expect(result.formData.educationDetails.assistance['view:ffa'].ffa).toBe(
+      false,
+    );
 
-    expect(result.formData.educationDetails.assistance['view:FFA']).to.be
-      .undefined;
+    expect(
+      result.formData.educationDetails.assistance['view:FFA'],
+    ).toBeUndefined();
   });
 });

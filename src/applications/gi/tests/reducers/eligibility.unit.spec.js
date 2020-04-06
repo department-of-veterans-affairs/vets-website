@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import eligibilityReducer from '../../reducers/eligibility';
 
 const initialState = {
@@ -29,8 +27,8 @@ describe('eligibility reducer', () => {
       },
     );
 
-    expect(state.militaryStatus).to.eql('veteran');
-    expect(state.spouseActiveDuty).to.eql('no');
+    expect(state.militaryStatus).toBe('veteran');
+    expect(state.spouseActiveDuty).toBe('no');
   });
 
   it('should reset fields after choosing GI Bill', () => {
@@ -47,7 +45,7 @@ describe('eligibility reducer', () => {
       },
     );
 
-    expect(state).to.eql({ ...initialState, giBillChapter: '30' });
+    expect(state).toEqual({ ...initialState, giBillChapter: '30' });
   });
 
   it('should update eligibility for general field', () => {
@@ -57,6 +55,6 @@ describe('eligibility reducer', () => {
       value: 'fieldValue',
     });
 
-    expect(state.fieldName).to.eql('fieldValue');
+    expect(state.fieldName).toBe('fieldValue');
   });
 });

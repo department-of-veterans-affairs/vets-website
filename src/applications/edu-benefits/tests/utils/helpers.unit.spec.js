@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { formatPartialDate } from '../../utils/helpers';
 import { makeField } from '../../../../platform/forms/fields';
 
@@ -12,7 +10,7 @@ describe('edu helpers:', () => {
         year: makeField('2001'),
       };
 
-      expect(formatPartialDate(date)).to.equal('2001-05-01');
+      expect(formatPartialDate(date)).toBe('2001-05-01');
     });
     it('should format a full date with 2 digit month and day', () => {
       const date = {
@@ -21,7 +19,7 @@ describe('edu helpers:', () => {
         year: makeField('2001'),
       };
 
-      expect(formatPartialDate(date)).to.equal('2001-12-12');
+      expect(formatPartialDate(date)).toBe('2001-12-12');
     });
     it('should format a date with missing month', () => {
       const date = {
@@ -30,7 +28,7 @@ describe('edu helpers:', () => {
         year: makeField('2001'),
       };
 
-      expect(formatPartialDate(date)).to.equal('2001-XX-12');
+      expect(formatPartialDate(date)).toBe('2001-XX-12');
     });
     it('should format a date with missing day', () => {
       const date = {
@@ -39,7 +37,7 @@ describe('edu helpers:', () => {
         year: makeField('2001'),
       };
 
-      expect(formatPartialDate(date)).to.equal('2001-12-XX');
+      expect(formatPartialDate(date)).toBe('2001-12-XX');
     });
     it('should format a date with missing year', () => {
       const date = {
@@ -48,7 +46,7 @@ describe('edu helpers:', () => {
         year: makeField(''),
       };
 
-      expect(formatPartialDate(date)).to.equal('XXXX-12-31');
+      expect(formatPartialDate(date)).toBe('XXXX-12-31');
     });
     it('should format a date with space in year', () => {
       const date = {
@@ -57,7 +55,7 @@ describe('edu helpers:', () => {
         year: makeField('2001 '),
       };
 
-      expect(formatPartialDate(date)).to.equal('2001-12-31');
+      expect(formatPartialDate(date)).toBe('2001-12-31');
     });
     it('should format a date with non digit characters in year', () => {
       const date = {
@@ -66,7 +64,7 @@ describe('edu helpers:', () => {
         year: makeField('2001*'),
       };
 
-      expect(formatPartialDate(date)).to.equal('2001-12-31');
+      expect(formatPartialDate(date)).toBe('2001-12-31');
     });
     it('should return undefined for blank date', () => {
       const date = {
@@ -75,10 +73,10 @@ describe('edu helpers:', () => {
         year: makeField(''),
       };
 
-      expect(formatPartialDate(date)).to.be.undefined;
+      expect(formatPartialDate(date)).toBeUndefined();
     });
     it('should return undefined for undefined date', () => {
-      expect(formatPartialDate()).to.be.undefined;
+      expect(formatPartialDate()).toBeUndefined();
     });
     it('should format a partial year', () => {
       const date = {
@@ -87,7 +85,7 @@ describe('edu helpers:', () => {
         year: makeField('96'),
       };
 
-      expect(formatPartialDate(date)).to.equal('1996-12-31');
+      expect(formatPartialDate(date)).toBe('1996-12-31');
     });
   });
 });

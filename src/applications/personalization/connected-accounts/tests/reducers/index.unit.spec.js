@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import * as actions from '../../actions';
 import reducer from '../../reducers';
 
@@ -26,7 +24,7 @@ describe('connectedAccounts', () => {
     const state = reducer.connectedAccounts(null, {
       type: actions.LOADING_CONNECTED_ACCOUNTS,
     });
-    expect(state.loading).to.be.true;
+    expect(state.loading).toBe(true);
   });
 
   it('receives a finished accounts state', () => {
@@ -34,8 +32,8 @@ describe('connectedAccounts', () => {
       type: actions.FINISHED_CONNECTED_ACCOUNTS,
       data: accounts,
     });
-    expect(state.loading).to.be.false;
-    expect(state.accounts[0].id).to.eq('fake-id');
+    expect(state.loading).toBe(false);
+    expect(state.accounts[0].id).toBe('fake-id');
   });
 
   it('receives a errors accounts state', () => {
@@ -43,8 +41,8 @@ describe('connectedAccounts', () => {
       type: actions.ERROR_CONNECTED_ACCOUNTS,
       errors,
     });
-    expect(state.loading).to.be.false;
-    expect(state.errors[0].status).to.eq(404);
+    expect(state.loading).toBe(false);
+    expect(state.errors[0].status).toBe(404);
   });
 
   it('receives a deleting account state', () => {
@@ -52,7 +50,7 @@ describe('connectedAccounts', () => {
       type: actions.DELETING_CONNECTED_ACCOUNT,
       accountId: 'fake-id',
     });
-    expect(state.accounts[0].deleting).to.be.true;
+    expect(state.accounts[0].deleting).toBe(true);
   });
 
   it('receives a finished deleting account state', () => {
@@ -60,7 +58,7 @@ describe('connectedAccounts', () => {
       type: actions.FINISHED_DELETING_CONNECTED_ACCOUNT,
       accountId: 'fake-id',
     });
-    expect(state.accounts.filter(account => !account.deleted).length).to.eq(0);
+    expect(state.accounts.filter(account => !account.deleted).length).toBe(0);
   });
 
   it('removes an account after alert dismissed', () => {
@@ -68,7 +66,7 @@ describe('connectedAccounts', () => {
       type: actions.DELETED_ACCOUNT_ALERT_DISMISSED,
       accountId: 'fake-id',
     });
-    expect(state.accounts.length).to.eq(0);
+    expect(state.accounts.length).toBe(0);
   });
 
   it('receives an error deleting account state', () => {
@@ -77,6 +75,6 @@ describe('connectedAccounts', () => {
       accountId: 'fake-id',
       errors,
     });
-    expect(state.accounts[0].errors[0].status).to.eq(404);
+    expect(state.accounts[0].errors[0].status).toBe(404);
   });
 });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import {
   FETCH_TOTAL_RATING_SUCCEEDED,
   FETCH_TOTAL_RATING_FAILED,
@@ -14,9 +13,9 @@ const initialState = {
 describe('totalDisabilities reducer', () => {
   it('should return the initial state', () => {
     const state = totalRating(initialState, {});
-    expect(state.loading).to.equal(true);
-    expect(state.error).to.equal(null);
-    expect(state.totalDisabilityRating).to.equal(null);
+    expect(state.loading).toBe(true);
+    expect(state.error).toBeNull();
+    expect(state.totalDisabilityRating).toBeNull();
   });
 
   it('should handle an error from the API call', () => {
@@ -32,9 +31,9 @@ describe('totalDisabilities reducer', () => {
       },
     });
     const err = { code: 500, detail: 'failed to load' };
-    expect(state.loading).to.equal(false);
-    expect(state.error.code).to.equal(err.code);
-    expect(state.totalDisabilityRating).to.equal(null);
+    expect(state.loading).toBe(false);
+    expect(state.error.code).toBe(err.code);
+    expect(state.totalDisabilityRating).toBeNull();
   });
 
   it('should handle a successful API call', () => {
@@ -44,9 +43,9 @@ describe('totalDisabilities reducer', () => {
         userPercentOfDisability: 80,
       },
     });
-    expect(state.loading).to.equal(false);
-    expect(state.error).to.equal(null);
-    expect(state.totalDisabilityRating).to.equal(80);
+    expect(state.loading).toBe(false);
+    expect(state.error).toBeNull();
+    expect(state.totalDisabilityRating).toBe(80);
   });
 
   it('should return the state if a type is not matched', () => {
@@ -54,8 +53,8 @@ describe('totalDisabilities reducer', () => {
       type: 'BLERG',
     });
 
-    expect(state.loading).to.equal(true);
-    expect(state.error).to.equal(null);
-    expect(state.totalDisabilityRating).to.equal(null);
+    expect(state.loading).toBe(true);
+    expect(state.error).toBeNull();
+    expect(state.totalDisabilityRating).toBeNull();
   });
 });

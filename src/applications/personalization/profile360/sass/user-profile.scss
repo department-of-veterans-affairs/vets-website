@@ -1,8 +1,8 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
 
 .user-profile-row {
   margin-bottom: 6em;
@@ -27,7 +27,6 @@
       }
     }
   }
-
 
   h4 {
     border-bottom: 2px solid $color-primary;
@@ -103,7 +102,7 @@
   }
 
   .form-title {
-    @include media ($medium-large-screen) {
+    @include media($medium-large-screen) {
       padding-right: 24px;
     }
   }

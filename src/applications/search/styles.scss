@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
 
 .search-app {
   margin-bottom: 3em;
@@ -8,8 +8,8 @@
     margin-top: 0;
   }
 
-  [href^="http"],
-  [rel="external"] {
+  [href^='http'],
+  [rel='external'] {
     background: none;
   }
 
@@ -27,7 +27,8 @@
 
         h5,
         p {
-          font-family: "Helvetica", "Arial", "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+          font-family: 'Helvetica', 'Arial', 'Bitter', 'Georgia', 'Cambria',
+            'Times New Roman', 'Times', serif;
         }
 
         .result-url,
@@ -40,7 +41,7 @@
           text-decoration: none;
 
           h5 {
-            margin-bottom: .1rem;
+            margin-bottom: 0.1rem;
             font-size: 1.6rem;
             font-weight: normal;
           }
@@ -51,7 +52,7 @@
 
           &.result-url {
             color: $color-green;
-            margin-bottom: .1rem;
+            margin-bottom: 0.1rem;
           }
         }
       }
@@ -127,7 +128,6 @@
   }
 
   .search-box {
-
     input,
     button {
       margin: 0;
@@ -143,7 +143,7 @@
     }
   }
 
-  nav[aria-label="Breadcrumb"],
+  nav[aria-label='Breadcrumb'],
   h4.sr-focus {
     outline: 0;
   }

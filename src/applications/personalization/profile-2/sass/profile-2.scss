@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "../../../../platform/forms/sass/m-schemaform";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '../../../../platform/forms/sass/m-schemaform';
 
 nav.profile-side-nav {
   ul {
@@ -69,7 +69,7 @@ nav.profile-side-nav {
   tr,
   td:last-child {
     border-left: none;
-    width: 100%
+    width: 100%;
   }
 
   h3 {
@@ -82,7 +82,6 @@ nav.profile-side-nav {
     margin: unset;
   }
 }
-
 
 .headerNameWrapper {
   width: 100%;

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import migrations from '../migrations';
 
 describe('Burials migrations', () => {
@@ -16,8 +14,8 @@ describe('Burials migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/claimant-contact-information');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/claimant-contact-information');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should set url to veteran info page if file number is bad', () => {
     const { formData, metadata } = migrations[1]({
@@ -29,7 +27,7 @@ describe('Burials migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/veteran-information');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/veteran-information');
+    expect(formData).toBeInstanceOf(Object);
   });
 });

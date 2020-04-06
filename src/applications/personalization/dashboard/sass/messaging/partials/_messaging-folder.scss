@@ -17,7 +17,7 @@
 
   @media (min-width: $medium-screen) {
     &::after {
-      content: "\A0";
+      content: '\A0';
       display: block;
       clear: both;
     }
@@ -135,7 +135,7 @@
         }
       }
 
-      &:nth-child(n+5) {
+      &:nth-child(n + 5) {
         display: none;
       }
     }

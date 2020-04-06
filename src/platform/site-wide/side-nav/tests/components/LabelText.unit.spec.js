@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import LabelText from '../../components/LabelText';
@@ -22,7 +21,7 @@ describe('<LabelText>', () => {
     };
 
     const wrapper = shallow(<LabelText {...defaultProps} />);
-    expect(wrapper.name()).to.equal('div');
+    expect(wrapper.name()).toBe('div');
     wrapper.unmount();
   });
 });

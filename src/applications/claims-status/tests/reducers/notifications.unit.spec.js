@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { SET_NOTIFICATION, CLEAR_NOTIFICATION } from '../../actions';
 import notificationsReducer from '../../reducers/notifications';
 
@@ -12,14 +11,14 @@ describe('notificationsReducer', () => {
       },
     });
 
-    expect(state.message.title).to.equal('Testing');
-    expect(state.message.body).to.equal('Body');
+    expect(state.message.title).toBe('Testing');
+    expect(state.message.body).toBe('Body');
   });
   it('should clear a notification', () => {
     const state = notificationsReducer(undefined, {
       type: CLEAR_NOTIFICATION,
     });
 
-    expect(state.message).to.be.null;
+    expect(state.message).toBeNull();
   });
 });

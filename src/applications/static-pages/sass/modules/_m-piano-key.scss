@@ -8,9 +8,10 @@
   padding: 0;
   margin: 0 -0.625rem;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     clear: both;
-    content: " ";
+    content: ' ';
     display: table;
   }
 
@@ -30,7 +31,7 @@
     box-shadow: none;
     display: block;
     text-decoration: none;
-    padding: 1em .5em;
+    padding: 1em 0.5em;
     height: auto;
     margin: 0;
 
@@ -46,9 +47,9 @@
 .va-nav-category h5 {
   color: $color-primary-darkest;
   font-weight: 700;
-  font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
+  font-family: 'Source Sans Pro', 'Helvetica', 'Arial', sans-serif;
   font-size: 1.35em;
-  padding: 0 0 .25em 0;
+  padding: 0 0 0.25em 0;
   margin: 0;
   width: 100%;
 }

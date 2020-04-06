@@ -8,7 +8,7 @@ body.va-pos-fixed {
 }
 
 #vetnav,
-[role="menu"] [role="menu"] {
+[role='menu'] [role='menu'] {
   // The main menu takes up the whole screen under the Menu button for xsmall & small screens
   // Sub menus also take up the whole screen to cover the main menu
   min-height: calc(100vh - #{$height-offset-xsmall});
@@ -88,7 +88,7 @@ body.va-pos-fixed {
 
   &::before {
     display: block;
-    content: " ";
+    content: ' ';
   }
 
   ul {
@@ -155,7 +155,7 @@ body.va-pos-fixed {
   }
 }
 
-[class^="vetnav-controller"] {
+[class^='vetnav-controller'] {
   position: absolute;
   top: 0;
   left: 0;
@@ -207,7 +207,7 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-expanded="true"] {
+  &[aria-expanded='true'] {
     @include media($medium-large-screen) {
       color: $color-base;
       background-color: $color-white;
@@ -216,7 +216,7 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-expanded="false"] {
+  &[aria-expanded='false'] {
     background-image: url(/img/plus-white.svg);
 
     &:hover {
@@ -282,7 +282,7 @@ body.va-pos-fixed {
       text-decoration: underline;
     }
 
-    &[aria-expanded="true"] {
+    &[aria-expanded='true'] {
       background-color: $color-gray-lightest;
       border-bottom-color: $color-gray-warm-light;
       border-top-color: $color-gray-warm-light;
@@ -405,7 +405,7 @@ body.va-pos-fixed {
     margin-right: 0;
   }
 
-  [href^="tel"] {
+  [href^='tel'] {
     text-decoration: none;
   }
 
@@ -424,15 +424,15 @@ body.va-pos-fixed {
   }
 }
 
-[id="search"] {
+[id='search'] {
   width: 30rem;
 
-  [type="text"] {
+  [type='text'] {
     margin: 0;
     flex: 1 0 20rem;
   }
 
-  [type="submit"] {
+  [type='submit'] {
     border-radius: 0 0.3rem 0.3rem 0;
     display: flex;
     flex: 1 0 3rem;
@@ -532,8 +532,7 @@ body.va-pos-fixed {
   }
 
   // Toggle button on mobile
-  [class^="vetnav-controller"] {
+  [class^='vetnav-controller'] {
     position: relative !important;
   }
-
 }

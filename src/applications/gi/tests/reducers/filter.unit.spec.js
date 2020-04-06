@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import filterReducer from '../../reducers/filter';
 
 const initialState = {
@@ -39,19 +37,19 @@ describe('filter reducer', () => {
       },
     });
 
-    expect(state.category).to.eql('ALL');
-    expect(state.distanceLearning).to.eql(false);
-    expect(state.type).to.eql('ALL');
-    expect(state.country).to.eql('ALL');
-    expect(state.state).to.eql('WA');
-    expect(state.studentVeteranGroup).to.eql(false);
-    expect(state.yellowRibbonScholarship).to.eql(false);
-    expect(state.onlineOnly).to.eql(false);
-    expect(state.principlesOfExcellence).to.eql(true);
-    expect(state.eightKeysToVeteranSuccess).to.eql(false);
-    expect(state.independentStudy).to.eql(false);
-    expect(state.eightKeysToVeteranSuccess).to.eql(false);
-    expect(state.stemIndicator).to.eql(true);
-    expect(state.typeName).to.eql('ALL');
+    expect(state.category).toBe('ALL');
+    expect(state.distanceLearning).toBe(false);
+    expect(state.type).toBe('ALL');
+    expect(state.country).toBe('ALL');
+    expect(state.state).toBe('WA');
+    expect(state.studentVeteranGroup).toBe(false);
+    expect(state.yellowRibbonScholarship).toBe(false);
+    expect(state.onlineOnly).toBe(false);
+    expect(state.principlesOfExcellence).toBe(true);
+    expect(state.eightKeysToVeteranSuccess).toBe(false);
+    expect(state.independentStudy).toBe(false);
+    expect(state.eightKeysToVeteranSuccess).toBe(false);
+    expect(state.stemIndicator).toBe(true);
+    expect(state.typeName).toBe('ALL');
   });
 });

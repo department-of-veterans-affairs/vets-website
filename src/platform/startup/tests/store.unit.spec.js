@@ -1,5 +1,4 @@
 import createCommonStore from '../store';
-import { expect } from 'chai';
 
 describe('Common Redux store', () => {
   it('should support injecting reducer', () => {
@@ -16,6 +15,6 @@ describe('Common Redux store', () => {
 
     store.dispatch({ type: 'test' });
 
-    expect(store.getState().testSlice.testActionHappened).to.be.true;
+    expect(store.getState().testSlice.testActionHappened).toBe(true);
   });
 });

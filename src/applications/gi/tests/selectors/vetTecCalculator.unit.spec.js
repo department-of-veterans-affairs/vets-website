@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
 import { calculatorConstants } from '../gibct-helpers';
@@ -41,59 +40,59 @@ defaultState = {
 
 describe('getCalculatedBenefits', () => {
   it('should default vetTecTuitionFees to "TBD"', () => {
-    expect(
-      getCalculatedBenefits(defaultState).outputs.vetTecTuitionFees,
-    ).to.equal('TBD');
+    expect(getCalculatedBenefits(defaultState).outputs.vetTecTuitionFees).toBe(
+      'TBD',
+    );
   });
 
   it('should default vetTecScholarships to "TBD"', () => {
-    expect(
-      getCalculatedBenefits(defaultState).outputs.vetTecScholarships,
-    ).to.equal('$0');
+    expect(getCalculatedBenefits(defaultState).outputs.vetTecScholarships).toBe(
+      '$0',
+    );
   });
 
   it('should default vaPaysToProvider to "TBD"', () => {
-    expect(
-      getCalculatedBenefits(defaultState).outputs.vaPaysToProvider,
-    ).to.equal('TBD');
+    expect(getCalculatedBenefits(defaultState).outputs.vaPaysToProvider).toBe(
+      'TBD',
+    );
   });
 
   it('should default quarterVetTecPayment to "TBD"', () => {
     expect(
       getCalculatedBenefits(defaultState).outputs.quarterVetTecPayment,
-    ).to.equal('TBD');
+    ).toBe('TBD');
   });
 
   it('should default halfVetTecPayment to "TBD"', () => {
-    expect(
-      getCalculatedBenefits(defaultState).outputs.halfVetTecPayment,
-    ).to.equal('TBD');
+    expect(getCalculatedBenefits(defaultState).outputs.halfVetTecPayment).toBe(
+      'TBD',
+    );
   });
 
   it('should default outOfPocketTuitionFees to "TBD"', () => {
     expect(
       getCalculatedBenefits(defaultState).outputs.outOfPocketTuitionFees,
-    ).to.equal('TBD');
+    ).toBe('TBD');
   });
 
   it('should correctly calculate and format vetTecTuitionFees', () => {
     const state = set('calculator.vetTecTuitionFees', '100', defaultState);
     const calculatedBenefits = getCalculatedBenefits(state);
-    expect(calculatedBenefits.outputs.vetTecTuitionFees).to.equal('$100');
-    expect(calculatedBenefits.outputs.vetTecScholarships).to.equal('$0');
-    expect(calculatedBenefits.outputs.vaPaysToProvider).to.equal('$100');
-    expect(calculatedBenefits.outputs.quarterVetTecPayment).to.equal('$25');
-    expect(calculatedBenefits.outputs.halfVetTecPayment).to.equal('$50');
+    expect(calculatedBenefits.outputs.vetTecTuitionFees).toBe('$100');
+    expect(calculatedBenefits.outputs.vetTecScholarships).toBe('$0');
+    expect(calculatedBenefits.outputs.vaPaysToProvider).toBe('$100');
+    expect(calculatedBenefits.outputs.quarterVetTecPayment).toBe('$25');
+    expect(calculatedBenefits.outputs.halfVetTecPayment).toBe('$50');
   });
 
   it('should correctly calculate and format vetTecScholarships', () => {
     const state = set('calculator.vetTecScholarships', '100', defaultState);
     const calculatedBenefits = getCalculatedBenefits(state);
-    expect(calculatedBenefits.outputs.vetTecTuitionFees).to.equal('TBD');
-    expect(calculatedBenefits.outputs.vetTecScholarships).to.equal('$100');
-    expect(calculatedBenefits.outputs.vaPaysToProvider).to.equal('TBD');
-    expect(calculatedBenefits.outputs.quarterVetTecPayment).to.equal('TBD');
-    expect(calculatedBenefits.outputs.halfVetTecPayment).to.equal('TBD');
+    expect(calculatedBenefits.outputs.vetTecTuitionFees).toBe('TBD');
+    expect(calculatedBenefits.outputs.vetTecScholarships).toBe('$100');
+    expect(calculatedBenefits.outputs.vaPaysToProvider).toBe('TBD');
+    expect(calculatedBenefits.outputs.quarterVetTecPayment).toBe('TBD');
+    expect(calculatedBenefits.outputs.halfVetTecPayment).toBe('TBD');
   });
 
   it('should correctly calculate and format fields based on vetTecScholarships and vetTecTuitionFees', () => {
@@ -107,21 +106,19 @@ describe('getCalculatedBenefits', () => {
     };
 
     const calculatedBenefits = getCalculatedBenefits(state);
-    expect(calculatedBenefits.outputs.vetTecTuitionFees).to.equal('$1,000');
-    expect(calculatedBenefits.outputs.vetTecScholarships).to.equal('$300');
-    expect(calculatedBenefits.outputs.vaPaysToProvider).to.equal('$700');
-    expect(calculatedBenefits.outputs.quarterVetTecPayment).to.equal('$175');
-    expect(calculatedBenefits.outputs.halfVetTecPayment).to.equal('$350');
+    expect(calculatedBenefits.outputs.vetTecTuitionFees).toBe('$1,000');
+    expect(calculatedBenefits.outputs.vetTecScholarships).toBe('$300');
+    expect(calculatedBenefits.outputs.vaPaysToProvider).toBe('$700');
+    expect(calculatedBenefits.outputs.quarterVetTecPayment).toBe('$175');
+    expect(calculatedBenefits.outputs.halfVetTecPayment).toBe('$350');
   });
 
   it('should calculate onlineRate as AVGDODBAH constant', () => {
-    expect(getCalculatedBenefits(defaultState).outputs.onlineRate).to.equal(
-      '$800',
-    );
+    expect(getCalculatedBenefits(defaultState).outputs.onlineRate).toBe('$800');
   });
 
   it('should correctly calculate inPersonRate', () => {
-    expect(getCalculatedBenefits(defaultState).outputs.inPersonRate).to.equal(
+    expect(getCalculatedBenefits(defaultState).outputs.inPersonRate).toBe(
       '$1,800',
     );
   });

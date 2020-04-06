@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import get from '../../../../platform/utilities/data/get';
 import * as pages from '../pages';
 
@@ -77,6 +75,6 @@ describe('Root property names', () => {
       );
     });
 
-    expect(Object.keys(duplicatedProperties)).to.be.empty;
+    expect(Object.keys(duplicatedProperties)).toHaveLength(0);
   });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { focusElement, focusOnChange } from '../../../src/js/utilities/ui';
@@ -18,7 +17,7 @@ describe('focus on element', () => {
     global.document = dom;
     const focused = sinon.stub(dom.querySelector('button'), 'focus');
     focusElement('button', {});
-    expect(focused.calledOnce).to.be.true;
+    expect(focused.calledOnce).toBe(true);
   });
 
   it('should focus on element passed to the function', () => {
@@ -31,7 +30,7 @@ describe('focus on element', () => {
     const button = dom.querySelector('button');
     const focused = sinon.stub(button, 'focus');
     focusElement(button);
-    expect(focused.calledOnce).to.be.true;
+    expect(focused.calledOnce).toBe(true);
   });
 });
 
@@ -83,7 +82,7 @@ describe('focus on change', () => {
 
     // setTimeout used by focusOnChange function
     setTimeout(() => {
-      expect(focused.calledOnce).to.be.true;
+      expect(focused.calledOnce).toBe(true);
       done();
     }, 0);
   });

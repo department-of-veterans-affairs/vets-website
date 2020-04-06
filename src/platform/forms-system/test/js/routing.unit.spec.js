@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { getNextPagePath, getPreviousPagePath } from '../../src/js/routing';
 
 describe('Schemaform routing', () => {
@@ -38,7 +36,7 @@ describe('Schemaform routing', () => {
     };
 
     const path = getNextPagePath(pageList, data, pathname);
-    expect(path).to.equal('/testing/0');
+    expect(path).toBe('/testing/0');
   });
 
   it('getPreviousPagePath should get previous page when on an array page', () => {
@@ -49,7 +47,7 @@ describe('Schemaform routing', () => {
     };
 
     const path = getPreviousPagePath(pageList, data, pathname);
-    expect(path).to.equal('a-path');
+    expect(path).toBe('a-path');
   });
 
   it('getNextPagePath should skip an array page that depends on unfulfilled information in the array', () => {
@@ -62,7 +60,7 @@ describe('Schemaform routing', () => {
     );
 
     const path = getNextPagePath(pageList, data, pathname);
-    expect(path).to.equal('/testing/last-page');
+    expect(path).toBe('/testing/last-page');
   });
 
   it('getNextPagePath should not skip an array page that depends on fulfilled information in the array', () => {
@@ -75,7 +73,7 @@ describe('Schemaform routing', () => {
     );
 
     const path = getNextPagePath(pageList, data, pathname);
-    expect(path).to.equal('/testing/0/conditional-page');
+    expect(path).toBe('/testing/0/conditional-page');
   });
 
   it('getPreviousPagePath should skip an array page that depends on unfulfilled information in the array', () => {
@@ -88,7 +86,7 @@ describe('Schemaform routing', () => {
     );
 
     const path = getPreviousPagePath(pageList, data, pathname);
-    expect(path).to.equal('/testing/0');
+    expect(path).toBe('/testing/0');
   });
 
   it('getPreviousPagePath should not skip an array page that depends on fulfilled information in the array', () => {
@@ -101,7 +99,7 @@ describe('Schemaform routing', () => {
     );
 
     const path = getPreviousPagePath(pageList, data, pathname);
-    expect(path).to.equal('/testing/0/conditional-page');
+    expect(path).toBe('/testing/0/conditional-page');
   });
 
   it('getPreviousPagePath should go back to a previous dependent array page', () => {
@@ -114,6 +112,6 @@ describe('Schemaform routing', () => {
     );
 
     const path = getPreviousPagePath(pageList, data, pathname);
-    expect(path).to.equal('/testing/0/conditional-page');
+    expect(path).toBe('/testing/0/conditional-page');
   });
 });

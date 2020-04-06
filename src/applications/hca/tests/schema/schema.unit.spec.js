@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
@@ -19,10 +18,10 @@ describe('hca schema tests', () => {
       const data = JSON.parse(submitData);
       const result = v.validate(data, fullSchemaHca);
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line
       }
-      expect(typeof data.dependents).not.to.equal('undefined');
-      expect(result.valid).to.be.true;
+      expect(typeof data.dependents).not.toBe('undefined');
+      expect(result.valid).toBe(true);
     });
   });
 });

@@ -3,30 +3,38 @@
 ## Entities and their `target_id`s
 
 - [block_content](./block_content.md)
+
   - `alert`
   - `promo`
 
 - [~~consumer~~ (not used)](./consumer.md)
+
   - No `target_id`s.
 
 - [crop](./crop.md)
+
   - No `target_id`s.
 
 - [~~entity_subqueue~~ (not used)](./entity_subqueue.md)
+
   - No `target_id`s.
 
 - [file](./file.md)
+
   - No `target_id`s.
 
 - [media](./media.md)
+
   - `document`
   - `image`
   - `video`
 
 - [menu_link_content](./menu_link_content.md)
+
   - No `target_id`s.
 
 - [node](./node.md)
+
   - `health_care_region_detail_page`
   - `documentation_page`
   - `event`
@@ -45,6 +53,7 @@
   - `vamc_operating_status_and_alerts` (e.g. `VAMC system operating status`)
 
 - [paragraph](./paragraph.md)
+
   - `collapsible_panel` (e.g. `Accordion group`)
   - `collapsible_panel_item` (e.g. `Accordion Item`)
   - `spanish_translation_summary` (e.g. `Additional information`)
@@ -67,12 +76,15 @@
   - `wysiwyg` (e.g. `WYSIWYG`)
 
 - [~~redirect~~ (not used)](./redirect.md)
+
   - No `target_id`s.
 
 - [~~section_association~~ (not used)](./section_association.md)
+
   - No `target_id`s.
 
 - [~~taxonomy_term~~ (not used)](./taxonomy_term.md)
+
   - `administration` (e.g. `Sections`)
   - `health_care_service_taxonomy` (e.g. `VHA health service taxonomy`)
 

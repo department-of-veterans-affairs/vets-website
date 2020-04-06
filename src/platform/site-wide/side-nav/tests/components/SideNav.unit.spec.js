@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import SideNav from '../../components/SideNav';
@@ -37,13 +36,13 @@ describe('<SideNav>', () => {
 
   it('should not render when there are no nav items to show', () => {
     const wrapper = shallow(<SideNav />);
-    expect(wrapper.type()).to.equal(null);
+    expect(wrapper.type()).toBeNull();
     wrapper.unmount();
   });
 
   it('should render when there are nav items', () => {
     const wrapper = shallow(<SideNav {...defaultProps} />);
-    expect(wrapper.type()).to.not.equal(null);
+    expect(wrapper.type()).not.toBeNull();
     wrapper.unmount();
   });
 });

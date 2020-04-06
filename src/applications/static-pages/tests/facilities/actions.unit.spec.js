@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   FETCH_FACILITY_STARTED,
@@ -25,7 +24,7 @@ describe('Facilities actions', () => {
     it('should return action', () => {
       const action = fetchFacilityStarted();
 
-      expect(action.type).to.equal(FETCH_FACILITY_STARTED);
+      expect(action.type).toBe(FETCH_FACILITY_STARTED);
     });
   });
   describe('fetchFacilitySuccess', () => {
@@ -34,8 +33,8 @@ describe('Facilities actions', () => {
         mockFacilityLocatorApiResponse.data[0],
       );
 
-      expect(action.type).to.equal(FETCH_FACILITY_SUCCESS);
-      expect(action.facility.id).to.equal(
+      expect(action.type).toBe(FETCH_FACILITY_SUCCESS);
+      expect(action.facility.id).toBe(
         mockFacilityLocatorApiResponse.data[0].id,
       );
     });
@@ -44,7 +43,7 @@ describe('Facilities actions', () => {
     it('should return action', () => {
       const action = fetchFacilityFailed();
 
-      expect(action.type).to.equal(FETCH_FACILITY_FAILED);
+      expect(action.type).toBe(FETCH_FACILITY_FAILED);
     });
   });
   describe('fetchFacility', () => {
@@ -55,7 +54,7 @@ describe('Facilities actions', () => {
 
       thunk(dispatch, getState)
         .then(() => {
-          expect(dispatch.calledWith(fetchFacilityStarted())).to.be.true;
+          expect(dispatch.calledWith(fetchFacilityStarted())).toBe(true);
           resetFetch();
           done();
         })
@@ -69,8 +68,8 @@ describe('Facilities actions', () => {
       mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
       thunk(dispatch, getState)
         .then(() => {
-          expect(global.fetch.args[0][0]).to.contain(
-            '/v0/facilities/va/vha_646',
+          expect(global.fetch.args[0][0]).toEqual(
+            expect.arrayContaining(['/v0/facilities/va/vha_646']),
           );
           resetFetch();
           done();
@@ -90,11 +89,9 @@ describe('Facilities actions', () => {
             dispatch.calledWith(
               fetchFacilitySuccess(mockFacilityLocatorApiResponse.data[0]),
             ),
-          ).to.be.true;
+          ).toBe(true);
 
-          expect(dispatch.secondCall.args[0].type).to.equal(
-            FETCH_FACILITY_SUCCESS,
-          );
+          expect(dispatch.secondCall.args[0].type).toBe(FETCH_FACILITY_SUCCESS);
           resetFetch();
           done();
         })
@@ -109,7 +106,7 @@ describe('Facilities actions', () => {
 
       thunk(dispatch, getState)
         .then(() => {
-          expect(dispatch.calledWith(fetchFacilityFailed())).to.be.true;
+          expect(dispatch.calledWith(fetchFacilityFailed())).toBe(true);
           resetFetch();
           done();
         })

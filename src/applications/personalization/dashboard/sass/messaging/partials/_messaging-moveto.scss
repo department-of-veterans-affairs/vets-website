@@ -9,14 +9,14 @@
   @include messaging-rectangular-button;
 
   > i {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 }
 
 // Creates a radio input but with a hidden
 // control. Using high-specificity selector because
 // USWDS does.
-.msg-hidden-radio[type=radio] {
+.msg-hidden-radio[type='radio'] {
   // Overrides some silly USWDS input stuff
   height: auto;
   width: auto;
@@ -32,7 +32,7 @@
     margin: 0;
     &::before {
       display: none;
-      content: "";
+      content: '';
     }
   }
 }
@@ -56,7 +56,7 @@
     width: 25rem;
   }
 
-  .msg-btn-newfolder[type="button"] {
+  .msg-btn-newfolder[type='button'] {
     display: block;
     padding: 1rem;
     width: 100%;

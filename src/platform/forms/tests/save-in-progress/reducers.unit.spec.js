@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import { expect } from 'chai';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -45,9 +44,9 @@ describe('schemaform createSaveInProgressInitialState', () => {
     const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
     const state = reducer(undefined, {});
 
-    expect(state.isStartingOver).to.be.false;
-    expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
-    expect(state.initialData).to.equal(state.data);
+    expect(state.isStartingOver).toBe(false);
+    expect(state.prefillStatus).toBe(PREFILL_STATUSES.notAttempted);
+    expect(state.initialData).toBe(state.data);
   });
 
   it('creates a reducer with initial additionalRoutes if they are present in the form config', () => {
@@ -62,7 +61,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
     const reducer = createSaveInProgressFormReducer(formConfig, { data: {} });
     const state = reducer(undefined, {});
 
-    expect(state.additionalRoutes).to.deep.equal([{ path: 'route-path' }]);
+    expect(state.additionalRoutes).toEqual([{ path: 'route-path' }]);
   });
 
   describe('reducer', () => {
@@ -106,9 +105,9 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.savedStatus).to.equal(SAVE_STATUSES.success);
-      expect(state.startingOver).to.be.false;
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
+      expect(state.savedStatus).toBe(SAVE_STATUSES.success);
+      expect(state.startingOver).toBe(false);
+      expect(state.prefillStatus).toBe(PREFILL_STATUSES.notAttempted);
     });
 
     it('should set auto save form status', () => {
@@ -122,7 +121,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.autoSavedStatus).to.equal(SAVE_STATUSES.success);
+      expect(state.autoSavedStatus).toBe(SAVE_STATUSES.success);
     });
     it('should reset auto saved form status on error', () => {
       const state = reducer(
@@ -136,8 +135,8 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.savedStatus).to.equal(SAVE_STATUSES.noAuth);
-      expect(state.autoSavedStatus).to.equal(SAVE_STATUSES.notAttempted);
+      expect(state.savedStatus).toBe(SAVE_STATUSES.noAuth);
+      expect(state.autoSavedStatus).toBe(SAVE_STATUSES.notAttempted);
     });
     it('should set fetch form status', () => {
       const state = reducer(
@@ -150,7 +149,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+      expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
     });
     it('should set in progress form data', () => {
       const state = reducer(
@@ -166,9 +165,9 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.loadedStatus).to.equal(LOAD_STATUSES.success);
-      expect(state.loadedData).to.equal(data);
-      expect(state.data).to.equal(data.formData);
+      expect(state.loadedStatus).toBe(LOAD_STATUSES.success);
+      expect(state.loadedData).toBe(data);
+      expect(state.data).toBe(data.formData);
     });
     it('should merge prefill data with current form', () => {
       const state = reducer(
@@ -184,9 +183,9 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.data.existingProp).to.be.true;
-      expect(state.data.field).to.equal('foo');
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.success);
+      expect(state.data.existingProp).toBe(true);
+      expect(state.data.field).toBe('foo');
+      expect(state.prefillStatus).toBe(PREFILL_STATUSES.success);
     });
     it('should not mark prefill successful when data is empty', () => {
       const state = reducer(
@@ -202,7 +201,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
+      expect(state.prefillStatus).toBe(PREFILL_STATUSES.unfilled);
     });
     it('should handle undefined formData', () => {
       const state = reducer(
@@ -218,7 +217,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
+      expect(state.prefillStatus).toBe(PREFILL_STATUSES.unfilled);
     });
     it('should set fetch form pending', () => {
       const state = reducer(
@@ -228,8 +227,8 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
-      expect(state.prefillStatus).to.be.undefined;
+      expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
+      expect(state.prefillStatus).toBeUndefined();
     });
     it('should set fetch form pending and prefill', () => {
       const state = reducer(
@@ -240,8 +239,8 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.pending);
+      expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
+      expect(state.prefillStatus).toBe(PREFILL_STATUSES.pending);
     });
     it('should start over form', () => {
       const initialData = { field: true };
@@ -255,9 +254,9 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.isStartingOver).to.be.true;
-      expect(state.data).to.equal(initialData);
-      expect(state.loadedStatus).to.equal(LOAD_STATUSES.pending);
+      expect(state.isStartingOver).toBe(true);
+      expect(state.data).toBe(initialData);
+      expect(state.loadedStatus).toBe(LOAD_STATUSES.pending);
     });
     it('should set prefill as unfilled', () => {
       const initialData = { field: true };
@@ -270,9 +269,9 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
       );
 
-      expect(state.data).to.equal(initialData);
-      expect(state.loadedStatus).to.equal(LOAD_STATUSES.notAttempted);
-      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
+      expect(state.data).toBe(initialData);
+      expect(state.loadedStatus).toBe(LOAD_STATUSES.notAttempted);
+      expect(state.prefillStatus).toBe(PREFILL_STATUSES.unfilled);
     });
   });
 });

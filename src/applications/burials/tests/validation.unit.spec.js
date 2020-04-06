@@ -1,5 +1,4 @@
 import sinon from 'sinon';
-import { expect } from 'chai';
 
 import { validateBurialAndDeathDates } from '../validation';
 
@@ -16,7 +15,7 @@ describe('Burials validation', () => {
         burialDate: '2017-01-02',
       });
 
-      expect(errors.burialDate.addError.called).to.be.false;
+      expect(errors.burialDate.addError.called).toBe(false);
     });
     it('should allow burial date on death date', () => {
       const errors = {
@@ -29,7 +28,7 @@ describe('Burials validation', () => {
         burialDate: '2017-01-01',
       });
 
-      expect(errors.burialDate.addError.called).to.be.false;
+      expect(errors.burialDate.addError.called).toBe(false);
     });
     it('should not allow burial date before death date', () => {
       const errors = {
@@ -42,7 +41,7 @@ describe('Burials validation', () => {
         burialDate: '2017-01-01',
       });
 
-      expect(errors.burialDate.addError.called).to.be.true;
+      expect(errors.burialDate.addError.called).toBe(true);
     });
     it('should allow birth date before death date', () => {
       const errors = {
@@ -55,7 +54,7 @@ describe('Burials validation', () => {
         veteranDateOfBirth: '2017-01-01',
       });
 
-      expect(errors.deathDate.addError.called).to.be.false;
+      expect(errors.deathDate.addError.called).toBe(false);
     });
     it('should not allow birth date after death date', () => {
       const errors = {
@@ -68,7 +67,7 @@ describe('Burials validation', () => {
         veteranDateOfBirth: '2017-01-02',
       });
 
-      expect(errors.deathDate.addError.called).to.be.true;
+      expect(errors.deathDate.addError.called).toBe(true);
     });
   });
 });

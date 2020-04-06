@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import prefillTransformer, {
   filterServiceConnected,
   addNoneDisabilityActionType,
@@ -26,10 +25,10 @@ describe('526v2 prefill transformer', () => {
     const { pages, formData, metadata } = noTransformData;
     const noTransformActual = prefillTransformer(pages, formData, metadata);
     // ensure transformed data is not the same object as input data
-    expect(noTransformActual).to.not.equal(noTransformData);
+    expect(noTransformActual).not.toBe(noTransformData);
     // ensure the transformed data properties are the same as input since no
     // changes expected given this input data set
-    expect(noTransformActual).to.deep.equal(noTransformData);
+    expect(noTransformActual).toEqual(noTransformData);
   });
 
   describe('prefillRatedDisabilities', () => {
@@ -52,8 +51,8 @@ describe('526v2 prefill transformer', () => {
         .formData;
       expect(transformedData.ratedDisabilities)
         .to.be.an('array')
-        .with.length(1);
-      expect(transformedData.ratedDisabilities[0].name).to.equal(
+        .toHaveLength(1);
+      expect(transformedData.ratedDisabilities[0].name).toBe(
         formData.disabilities[0].name,
       );
     });
@@ -71,7 +70,7 @@ describe('526v2 prefill transformer', () => {
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(transformedData['view:claimType']).to.deep.equal(
+      expect(transformedData['view:claimType']).toEqual(
         noTransformData.formData['view:claimType'],
       );
     });
@@ -82,7 +81,7 @@ describe('526v2 prefill transformer', () => {
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
       });
     });
@@ -100,7 +99,7 @@ describe('526v2 prefill transformer', () => {
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(transformedData.ratedDisabilities[0].name).to.equal(
+      expect(transformedData.ratedDisabilities[0].name).toBe(
         formData.disabilities[0].name,
       );
     });
@@ -126,7 +125,7 @@ describe('526v2 prefill transformer', () => {
         .formData;
 
       const { primaryPhone, emailAddress, mailingAddress } = formData.veteran;
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
         phoneAndEmail: {
           primaryPhone,
@@ -147,7 +146,7 @@ describe('526v2 prefill transformer', () => {
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
 
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
         phoneAndEmail: {
           emailAddress: formData.veteran.emailAddress,
@@ -177,7 +176,7 @@ describe('526v2 prefill transformer', () => {
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
       const { servicePeriods, reservesNationalGuardService } = formData;
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
         serviceInformation: {
           servicePeriods,
@@ -200,7 +199,7 @@ describe('526v2 prefill transformer', () => {
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
       const { servicePeriods } = formData;
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
         serviceInformation: { servicePeriods },
       });
@@ -225,7 +224,7 @@ describe('526v2 prefill transformer', () => {
         bankRoutingNumber,
         bankName,
       } = formData;
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
         'view:originalBankAccount': {
           'view:bankAccountType': bankAccountType,
@@ -247,7 +246,7 @@ describe('526v2 prefill transformer', () => {
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
 
-      expect(transformedData).to.deep.equal({
+      expect(transformedData).toEqual({
         'view:claimType': noTransformData.formData['view:claimType'],
       });
     });
@@ -266,19 +265,19 @@ describe('addNoneDisabilityActionType', () => {
     const withActionType = addNoneDisabilityActionType(disabilities);
     expect(withActionType)
       .to.be.an('array')
-      .that.has.length(disabilities.length);
+      .toHaveLength(disabilities.length);
   });
 
   it('should return an empty array when no input', () => {
     expect(addNoneDisabilityActionType())
       .to.be.an('array')
-      .that.has.length(0);
+      .toHaveLength(0);
   });
 
   it('should set disabilityActionType to NONE for each rated disability', () => {
     const withActionType = addNoneDisabilityActionType(disabilities);
     withActionType.forEach(d => {
-      expect(d.disabilityActionType).to.equal(disabilityActionTypes.NONE);
+      expect(d.disabilityActionType).toBe(disabilityActionTypes.NONE);
     });
   });
 });
@@ -293,11 +292,9 @@ describe('filterServiceConnected', () => {
     ];
 
     const filteredDisabilities = filterServiceConnected(disabilities);
-    expect(filteredDisabilities.length).to.equal(2);
+    expect(filteredDisabilities.length).toBe(2);
     filteredDisabilities.forEach(d =>
-      expect(d.decisionCode).to.equal(
-        SERVICE_CONNECTION_TYPES.serviceConnected,
-      ),
+      expect(d.decisionCode).toBe(SERVICE_CONNECTION_TYPES.serviceConnected),
     );
   });
 
@@ -305,6 +302,6 @@ describe('filterServiceConnected', () => {
     const disabilities = [];
 
     const filteredDisabilities = filterServiceConnected(disabilities);
-    expect(filteredDisabilities).to.be.an('array').that.is.empty;
+    expect(filteredDisabilities).toEqual([]);
   });
 });

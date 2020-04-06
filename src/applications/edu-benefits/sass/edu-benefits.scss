@@ -1,17 +1,17 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../platform/forms/sass/m-form-confirmation";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../platform/forms/sass/m-schemaform';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-omb-info';
+@import '../../../platform/forms/sass/m-form-confirmation';
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
 
-
-.form-checkbox > input[type="checkbox"] + .schemaform-label { // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
+.form-checkbox > input[type='checkbox'] + .schemaform-label {
+  // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
   margin-top: 0;
 }
 
@@ -42,7 +42,8 @@
   margin-bottom: 7rem;
 }
 
-.search-results-count:focus, .schemaform-widget-wrapper textarea:focus {
+.search-results-count:focus,
+.schemaform-widget-wrapper textarea:focus {
   @include focus-gold-light-outline(0);
   outline-offset: 2px;
   z-index: 3;
@@ -68,22 +69,22 @@
   }
 
   .school-search {
-    margin-top: 0
+    margin-top: 0;
   }
 
   .school-search-label {
-    margin-top: 0
+    margin-top: 0;
   }
 
   .search-controls {
     display: flex;
     flex-direction: column;
-    .clear-search{
+    .clear-search {
       display: flex;
     }
     .search-input {
       align-items: center;
-      width: "100%";
+      width: '100%';
       display: flex;
     }
     .search-schools-button {
@@ -92,7 +93,7 @@
       width: 100%;
     }
     .start-over {
-      font-weight: normal
+      font-weight: normal;
     }
   }
 
@@ -128,4 +129,3 @@
   // This needed for on the Review Page of the form
   list-style-type: none !important;
 }
-

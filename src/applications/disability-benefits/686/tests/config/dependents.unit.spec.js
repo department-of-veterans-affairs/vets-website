@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
@@ -25,7 +24,7 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).toBe(2);
     form.unmount();
   });
 
@@ -40,8 +39,8 @@ describe('686 dependent info', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(1);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -60,8 +59,8 @@ describe('686 dependent info', () => {
     selectRadio(form, 'root_view:hasUnmarriedChildren', 'N');
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 
@@ -76,7 +75,7 @@ describe('686 dependent info', () => {
     );
     selectRadio(form, 'root_view:hasUnmarriedChildren', 'Y');
 
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).toBe(6);
     form.unmount();
   });
 
@@ -98,8 +97,8 @@ describe('686 dependent info', () => {
     fillData(form, 'select#root_dependents_0_childDateOfBirthDay', '31');
     fillData(form, 'input#root_dependents_0_childDateOfBirthYear', '1986');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 
@@ -120,7 +119,7 @@ describe('686 dependent info', () => {
     fillData(form, 'select#root_dependents_0_childDateOfBirthDay', '31');
     fillData(form, 'input#root_dependents_0_childDateOfBirthYear', '1986');
     form.find('.va-growable-add-btn').simulate('click');
-    expect(form.find('.va-growable-background').length).to.equal(2);
+    expect(form.find('.va-growable-background').length).toBe(2);
     form.unmount();
   });
 });

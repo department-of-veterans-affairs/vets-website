@@ -16,22 +16,43 @@ function processAxeCheckResults(error, results) {
 
   var bannerEl = document.createElement('div');
 
-  var details = '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--primary-darker vads-u-border-bottom--2px vads-u-padding--1">';
-  details += '<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (' + results.violations.length + ') accessibility issues on this page.</h4></summary>';
+  var details =
+    '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--primary-darker vads-u-border-bottom--2px vads-u-padding--1">';
+  details +=
+    '<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (' +
+    results.violations.length +
+    ') accessibility issues on this page.</h4></summary>';
 
-  var violationsList = '<ul class="usa-unstyled-list vads-u-border-color--primary-darker vads-u-border-top--1px vads-u-padding-x--6 vads-u-padding-y--2">';
+  var violationsList =
+    '<ul class="usa-unstyled-list vads-u-border-color--primary-darker vads-u-border-top--1px vads-u-padding-x--6 vads-u-padding-y--2">';
 
   results.violations.forEach(function(violation) {
     var violationEl = '<li class="vads-u-margin-y--1">';
 
     violationEl += '<details>';
-    violationEl += '<summary>' + sanitizeString(violation.help, 'strong') + '</summary>';
-    violationEl += '<ul class="usa-unstyled-list vads-u-padding-y--1 vads-u-padding-x--2">';
+    violationEl +=
+      '<summary>' + sanitizeString(violation.help, 'strong') + '</summary>';
+    violationEl +=
+      '<ul class="usa-unstyled-list vads-u-padding-y--1 vads-u-padding-x--2">';
 
-    violationEl += '<li><strong>Description</strong>: ' + sanitizeString(violation.description, 'span') + '</li>';
-    violationEl += '<li><strong>Impact</strong>: ' + sanitizeString(violation.impact, 'span') + '</li>';
-    violationEl += '<li><strong>Tags</strong>: ' + sanitizeString(violation.tags.join(', '), 'span') + '</li>';
-    violationEl += '<li><strong>Help</strong>: <a href="' + violation.helpUrl + '" target="blank" rel="noopener noreferrer">' + sanitizeString(violation.helpUrl, 'span') + '</a></li>';
+    violationEl +=
+      '<li><strong>Description</strong>: ' +
+      sanitizeString(violation.description, 'span') +
+      '</li>';
+    violationEl +=
+      '<li><strong>Impact</strong>: ' +
+      sanitizeString(violation.impact, 'span') +
+      '</li>';
+    violationEl +=
+      '<li><strong>Tags</strong>: ' +
+      sanitizeString(violation.tags.join(', '), 'span') +
+      '</li>';
+    violationEl +=
+      '<li><strong>Help</strong>: <a href="' +
+      violation.helpUrl +
+      '" target="blank" rel="noopener noreferrer">' +
+      sanitizeString(violation.helpUrl, 'span') +
+      '</a></li>';
 
     var nodeList = '<li><strong>HTML</strong>:';
     nodeList += '<ol>';
@@ -77,5 +98,7 @@ function processAxeCheckResults(error, results) {
       rules: {
         'color-contrast': { enabled: false },
       },
-    }, processAxeCheckResults);
+    },
+    processAxeCheckResults,
+  );
 })();

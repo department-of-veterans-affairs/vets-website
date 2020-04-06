@@ -26,7 +26,7 @@
   }
 }
 // and on desktop the opposite is true
-@media(min-width: $medium-screen) {
+@media (min-width: $medium-screen) {
   #login-root {
     z-index: $top-layer;
   }

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   mockFetch,
@@ -18,7 +17,7 @@ import {
 describe('schoolSearch actions', () => {
   describe('clearSearch', () => {
     it('should return a SEARCH_CLEARED action', () => {
-      expect(clearSearch()).to.eql({
+      expect(clearSearch()).toEqual({
         type: 'SEARCH_CLEARED',
       });
     });
@@ -53,10 +52,10 @@ describe('schoolSearch actions', () => {
           page: 1,
           searchInputValue: 'test',
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: 'RESTORE_FROM_PREFILL_SUCCEEDED',
           payload,
           institutionQuery: 'testQuery',
@@ -94,10 +93,10 @@ describe('schoolSearch actions', () => {
           page: 1,
           searchInputValue: 'test',
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: 'RESTORE_FROM_PREFILL_FAILED',
           error,
           institutionQuery: 'testQuery',
@@ -110,7 +109,7 @@ describe('schoolSearch actions', () => {
 
   describe('searchInputChange', () => {
     it('should return a SEARCH_INPUT_CHANGED action', () => {
-      expect(searchInputChange({ searchInputValue: 'test' })).to.eql({
+      expect(searchInputChange({ searchInputValue: 'test' })).toEqual({
         type: 'SEARCH_INPUT_CHANGED',
         searchInputValue: 'test',
       });
@@ -137,10 +136,10 @@ describe('schoolSearch actions', () => {
           institutionQuery: 'testQuery',
           page: 1,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: 'LOAD_SCHOOLS_SUCCEEDED',
           payload,
           institutionQuery: 'testQuery',
@@ -170,10 +169,10 @@ describe('schoolSearch actions', () => {
           institutionQuery: 'testQuery',
           page: 1,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: 'LOAD_SCHOOLS_FAILED',
           error,
           institutionQuery: 'testQuery',
@@ -195,7 +194,7 @@ describe('schoolSearch actions', () => {
         state: 'testState',
       });
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: 'INSTITUTION_SELECTED',
         address1: 'testAddress1',
         address2: 'testAddress2',
@@ -211,7 +210,7 @@ describe('schoolSearch actions', () => {
     it('should return an MANUAL_SCHOOL_ENTRY_TOGGLED action', () => {
       const action = toggleManualSchoolEntry(true);
 
-      expect(action).to.eql({
+      expect(action).toEqual({
         type: 'MANUAL_SCHOOL_ENTRY_TOGGLED',
         manualSchoolEntryChecked: true,
       });

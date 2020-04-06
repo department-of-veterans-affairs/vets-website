@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import vet360 from '../../reducers';
 import * as VET360 from '../../constants';
 import {
@@ -19,8 +17,8 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.transactions.length).to.eql(3);
-    expect(state.transactions).to.eql([{ data: 1 }, { data: 2 }, { data: 3 }]);
+    expect(state.transactions.length).toBe(3);
+    expect(state.transactions).toEqual([{ data: 1 }, { data: 2 }, { data: 3 }]);
   });
 
   it('should set pending transaction', () => {
@@ -33,7 +31,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.fieldTransactionMap).to.eql({
+    expect(state.fieldTransactionMap).toEqual({
       fieldName: {
         isPending: true,
         method: 'POST',
@@ -57,7 +55,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.fieldTransactionMap).to.eql({
+    expect(state.fieldTransactionMap).toEqual({
       fieldName: {
         retainedField: 'value',
         isPending: false,
@@ -90,10 +88,11 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.modal, 'The modal remains open').to.not.be.null;
-    expect(state.transactions.length).to.eql(1);
-    expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
-    expect(state.fieldTransactionMap).to.eql({
+    // The modal remains open
+    expect(state.modal).not.toBeNull();
+    expect(state.transactions.length).toBe(1);
+    expect(state.transactions[0].data.attributes.transactionId).toBe(111);
+    expect(state.fieldTransactionMap).toEqual({
       fieldName: {
         retainedField: 'value',
         isPending: false,
@@ -117,8 +116,8 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.transactionsAwaitingUpdate.length).to.eql(1);
-    expect(state.transactionsAwaitingUpdate[0]).to.eql(111);
+    expect(state.transactionsAwaitingUpdate.length).toBe(1);
+    expect(state.transactionsAwaitingUpdate[0]).toBe(111);
   });
 
   it('should set updated transaction request success', () => {
@@ -150,8 +149,8 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.transactionsAwaitingUpdate.length).to.eql(0);
-    expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
+    expect(state.transactionsAwaitingUpdate.length).toBe(0);
+    expect(state.transactions[0].data.attributes.transactionId).toBe(111);
   });
 
   it('should set updated transaction request failure', () => {
@@ -183,9 +182,9 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.transactionsAwaitingUpdate.length).to.eql(0);
-    expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
-    expect(state.metadata.mostRecentErroredTransactionId).to.eql(111);
+    expect(state.transactionsAwaitingUpdate.length).toBe(0);
+    expect(state.transactions[0].data.attributes.transactionId).toBe(111);
+    expect(state.metadata.mostRecentErroredTransactionId).toBe(111);
   });
 
   it('should set transaction update failed', () => {
@@ -203,12 +202,12 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.transactionsAwaitingUpdate.length).to.eql(0);
+    expect(state.transactionsAwaitingUpdate.length).toBe(0);
   });
 
   it('should set transaction status cleared', () => {
     const state = vet360({}, { type: 'VET360_CLEAR_TRANSACTION_STATUS' });
-    expect(state.transactionStatus.length).to.eql(0);
+    expect(state.transactionStatus.length).toBe(0);
   });
 
   it('should set transaction cleared', () => {
@@ -239,9 +238,9 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.metadata.mostRecentErroredTransactionId).to.eql(null);
-    expect(state.modal).to.be.null;
-    expect(state.transactions.length).to.eql(0);
+    expect(state.metadata.mostRecentErroredTransactionId).toBe(null);
+    expect(state.modal).toBeNull();
+    expect(state.transactions.length).toBe(0);
   });
 
   it('should set transaction request cleared', () => {
@@ -257,7 +256,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.fieldTransactionMap.name).to.eql(undefined);
+    expect(state.fieldTransactionMap.name).toEqual(undefined);
   });
 
   it('should update profile form fields', () => {
@@ -272,7 +271,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.formFields.fieldName).to.eql({
+    expect(state.formFields.fieldName).toEqual({
       fieldValue: 'value',
     });
   });
@@ -286,7 +285,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.modal).to.eql('modalName');
+    expect(state.modal).toBe('modalName');
   });
 
   it('should update addressValidation on confirm', () => {
@@ -300,12 +299,12 @@ describe('vet360 reducer', () => {
         validationKey: 123456,
       },
     );
-    expect(state.modal).to.eql('addressValidation');
-    expect(state.addressValidation.addressValidationType).to.eql(
+    expect(state.modal).toBe('addressValidation');
+    expect(state.addressValidation.addressValidationType).toBe(
       'mailingAddress',
     );
-    expect(state.addressValidation.suggestedAddresses).to.eql([]);
-    expect(state.addressValidation.validationKey).to.eql(123456);
+    expect(state.addressValidation.suggestedAddresses).toEqual([]);
+    expect(state.addressValidation.validationKey).toBe(123456);
   });
 
   describe('ADDRESS_VALIDATION_ERROR', () => {
@@ -351,7 +350,7 @@ describe('vet360 reducer', () => {
         },
         modal: 'mailingAddress',
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vet360(state, action)).toEqual(expectedState);
     });
   });
 
@@ -402,7 +401,7 @@ describe('vet360 reducer', () => {
           selectedAddressId: null,
         },
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vet360(state, action)).toEqual(expectedState);
     });
   });
 
@@ -430,7 +429,7 @@ describe('vet360 reducer', () => {
           selectedAddressId: '0',
         },
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vet360(state, action)).toEqual(expectedState);
     });
   });
 
@@ -468,7 +467,7 @@ describe('vet360 reducer', () => {
           mailingAddress: { isPending: true },
         },
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vet360(state, action)).toEqual(expectedState);
     });
   });
 
@@ -488,7 +487,7 @@ describe('vet360 reducer', () => {
         type: ADDRESS_VALIDATION_UPDATE,
         fieldName: 'mailingAddress',
       };
-      expect(vet360(state, action)).to.eql(expectedState);
+      expect(vet360(state, action)).toEqual(expectedState);
     });
   });
 });

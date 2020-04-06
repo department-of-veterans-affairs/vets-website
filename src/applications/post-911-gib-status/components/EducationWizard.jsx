@@ -54,7 +54,8 @@ export default class EducationWizard extends React.Component {
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
-            {this.props.config.map(choice => { // eslint-disable-line
+            {this.props.config.map(choice => {
+              // eslint-disable-line
               const {
                 type,
                 label,

@@ -1,17 +1,17 @@
-$formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
+$formation-image-path: '~@department-of-veterans-affairs/formation/assets/img';
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
-@import "../../static-pages/sass/modules/m-education-wizard";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous';
+@import '../../static-pages/sass/modules/m-education-wizard';
 
 .gib-info {
   margin-bottom: 5em;
 
   h3 {
     border-bottom: 1px solid $color-gray-light;
-    margin: 1em 0 .5em 0;
-    padding: 0 0 .25em 0;
+    margin: 1em 0 0.5em 0;
+    padding: 0 0 0.25em 0;
   }
 
   hr {
@@ -27,7 +27,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   }
 
   .section-line {
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
   }
 
   /*.usa-alert {
@@ -35,8 +35,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   }*/
 
   .feature {
-      min-height: 0;
-      margin-top: 1em;
+    min-height: 0;
+    margin-top: 1em;
 
     &.help-desk {
       margin-top: 2em;
@@ -93,7 +93,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       a {
         text-decoration: none;
         &:after {
-          content: " (https://www.va.gov" attr(href) ")";
+          content: ' (https://www.va.gov' attr(href) ')';
         }
       }
 

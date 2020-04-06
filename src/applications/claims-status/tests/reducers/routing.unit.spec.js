@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import routingReducer from '../../reducers/routing';
 import { SET_LAST_PAGE } from '../../actions';
 
@@ -10,8 +8,8 @@ describe('routingReducer', () => {
       page: '/testing',
     });
 
-    expect(state.lastPage).to.be.null;
-    expect(state.history[0]).to.equal('testing');
+    expect(state.lastPage).toBeNull();
+    expect(state.history[0]).toBe('testing');
   });
   it('should set the last page with history items', () => {
     const state = routingReducer(
@@ -24,7 +22,7 @@ describe('routingReducer', () => {
       },
     );
 
-    expect(state.lastPage).to.equal('some-url');
-    expect(state.history.length).to.equal(2);
+    expect(state.lastPage).toBe('some-url');
+    expect(state.history.length).toBe(2);
   });
 });

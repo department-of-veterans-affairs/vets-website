@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
@@ -44,7 +43,7 @@ describe('Disability benefits helpers: ', () => {
 
       const phaseActivity = groupTimelineActivity(events);
 
-      expect(phaseActivity[1][0].type).to.equal('filed');
+      expect(phaseActivity[1][0].type).toBe('filed');
     });
     it('should filter out events without a date', () => {
       const events = [
@@ -56,7 +55,7 @@ describe('Disability benefits helpers: ', () => {
 
       const phaseActivity = groupTimelineActivity(events);
 
-      expect(phaseActivity).to.be.empty;
+      expect(Object.keys(phaseActivity)).toHaveLength(0);
     });
     it('should group events after phase 1 into phase 2', () => {
       const events = [
@@ -80,8 +79,8 @@ describe('Disability benefits helpers: ', () => {
 
       const phaseActivity = groupTimelineActivity(events);
 
-      expect(phaseActivity[1][0].type).to.equal('filed');
-      expect(phaseActivity[2].length).to.equal(3);
+      expect(phaseActivity[1][0].type).toBe('filed');
+      expect(phaseActivity[2].length).toBe(3);
     });
     it('should discard micro phases', () => {
       const events = [
@@ -113,8 +112,8 @@ describe('Disability benefits helpers: ', () => {
 
       const phaseActivity = groupTimelineActivity(events);
 
-      expect(phaseActivity[3].length).to.equal(1);
-      expect(phaseActivity[3][0].type).to.equal('phase_entered');
+      expect(phaseActivity[3].length).toBe(1);
+      expect(phaseActivity[3][0].type).toBe('phase_entered');
     });
     it('should group events into correct bucket', () => {
       const events = [
@@ -178,10 +177,10 @@ describe('Disability benefits helpers: ', () => {
 
       const phaseActivity = groupTimelineActivity(events);
 
-      expect(phaseActivity[3].length).to.equal(5);
-      expect(phaseActivity[3][4].type).to.equal('phase_entered');
-      expect(phaseActivity[2].length).to.equal(4);
-      expect(phaseActivity[1].length).to.equal(1);
+      expect(phaseActivity[3].length).toBe(5);
+      expect(phaseActivity[3][4].type).toBe('phase_entered');
+      expect(phaseActivity[2].length).toBe(4);
+      expect(phaseActivity[1].length).toBe(1);
     });
   });
   describe('isPopulatedClaim', () => {
@@ -194,7 +193,7 @@ describe('Disability benefits helpers: ', () => {
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim)).toBe(false);
     });
 
     it('should return true if no field is empty', () => {
@@ -207,7 +206,7 @@ describe('Disability benefits helpers: ', () => {
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.true;
+      expect(isPopulatedClaim(claim)).toBe(true);
     });
 
     it('should return false if contention list is empty', () => {
@@ -220,7 +219,7 @@ describe('Disability benefits helpers: ', () => {
         },
       };
 
-      expect(isPopulatedClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim)).toBe(false);
     });
   });
   describe('truncateDescription', () => {
@@ -231,7 +230,7 @@ describe('Disability benefits helpers: ', () => {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq…';
 
       const text = truncateDescription(userText);
-      expect(text).to.equal(userTextEllipsed);
+      expect(text).toBe(userTextEllipsed);
     });
   });
   describe('hasBeenReviewed', () => {
@@ -241,7 +240,7 @@ describe('Disability benefits helpers: ', () => {
         status: 'ACCEPTED',
       });
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
     it('should check that item has not been reviewed', () => {
       const result = hasBeenReviewed({
@@ -249,52 +248,52 @@ describe('Disability benefits helpers: ', () => {
         status: 'SUBMITTED_AWAITING_REVIEW',
       });
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
   });
   describe('getDocTypeDescription', () => {
     it('should get description by type', () => {
       const result = getDocTypeDescription('L070');
 
-      expect(result).to.equal('Photographs');
+      expect(result).toBe('Photographs');
     });
   });
   describe('displayFileSize', () => {
     it('should show size in bytes', () => {
       const size = displayFileSize(2);
 
-      expect(size).to.equal('2B');
+      expect(size).toBe('2B');
     });
     it('should show size in kilobytes', () => {
       const size = displayFileSize(1026);
 
-      expect(size).to.equal('1KB');
+      expect(size).toBe('1KB');
     });
     it('should show size in megabytes', () => {
       const size = displayFileSize(2097152);
 
-      expect(size).to.equal('2MB');
+      expect(size).toBe('2MB');
     });
   });
   describe('getUserPhase', () => {
     it('should get phase 3 desc for 4-6', () => {
       const phase = getUserPhase(5);
 
-      expect(phase).to.equal(3);
+      expect(phase).toBe(3);
     });
   });
   describe('getUserPhaseDescription', () => {
     it('should get description for 3', () => {
       const desc = getUserPhaseDescription(3);
 
-      expect(desc).to.equal('Evidence gathering, review, and decision');
+      expect(desc).toBe('Evidence gathering, review, and decision');
     });
   });
   describe('getPhaseDescription', () => {
     it('should display description from map', () => {
       const desc = getPhaseDescription(2);
 
-      expect(desc).to.equal('Initial review');
+      expect(desc).toBe('Initial review');
     });
   });
   describe('getItemDate', () => {
@@ -305,7 +304,7 @@ describe('Disability benefits helpers: ', () => {
         date: '2012-01-01',
       });
 
-      expect(date).to.equal('2010-01-01');
+      expect(date).toBe('2010-01-01');
     });
     it('should use the last document upload date', () => {
       const date = getItemDate({
@@ -314,7 +313,7 @@ describe('Disability benefits helpers: ', () => {
         date: '2013-01-01',
       });
 
-      expect(date).to.equal('2012-01-01');
+      expect(date).toBe('2012-01-01');
     });
     it('should use the date', () => {
       const date = getItemDate({
@@ -323,7 +322,7 @@ describe('Disability benefits helpers: ', () => {
         date: '2013-01-01',
       });
 
-      expect(date).to.equal('2013-01-01');
+      expect(date).toBe('2013-01-01');
     });
     it('should use the upload date', () => {
       const date = getItemDate({
@@ -332,7 +331,7 @@ describe('Disability benefits helpers: ', () => {
         date: '2013-01-01',
       });
 
-      expect(date).to.equal('2014-01-01');
+      expect(date).toBe('2014-01-01');
     });
   });
   describe('isClaimComplete', () => {
@@ -343,7 +342,7 @@ describe('Disability benefits helpers: ', () => {
         },
       });
 
-      expect(isComplete).to.be.true;
+      expect(isComplete).toBe(true);
     });
     it('should check if claim has decision letter', () => {
       const isComplete = isClaimComplete({
@@ -352,7 +351,7 @@ describe('Disability benefits helpers: ', () => {
         },
       });
 
-      expect(isComplete).to.be.true;
+      expect(isComplete).toBe(true);
     });
   });
   describe('itemsNeedingAttentionFromVet', () => {
@@ -372,7 +371,7 @@ describe('Disability benefits helpers: ', () => {
         },
       ]);
 
-      expect(itemsNeeded).to.equal(1);
+      expect(itemsNeeded).toBe(1);
     });
   });
 
@@ -383,7 +382,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: 'Awesome',
         },
       };
-      expect(getClaimType(claim)).to.equal('awesome');
+      expect(getClaimType(claim)).toBe('awesome');
     });
     it('should return the default claim type', () => {
       const claim = {
@@ -391,7 +390,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: undefined,
         },
       };
-      expect(getClaimType(claim)).to.equal('disability compensation');
+      expect(getClaimType(claim)).toBe('disability compensation');
     });
   });
 
@@ -416,9 +415,11 @@ describe('Disability benefits helpers: ', () => {
       const onSuccess = () => done();
       makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
 
-      expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
-      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+      expect(fetchMock.called).toBe(true);
+      expect(fetchMock.firstCall.args[0]).toEqual(
+        expect.arrayContaining(['/testing']),
+      );
+      expect(fetchMock.firstCall.args[1].method).toBe('GET');
     });
     it('should reject promise when there is an error', done => {
       fetchMock.returns({
@@ -429,14 +430,16 @@ describe('Disability benefits helpers: ', () => {
       });
 
       const onError = resp => {
-        expect(resp.ok).to.be.false;
+        expect(resp.ok).toBe(false);
         done();
       };
       makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
 
-      expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
-      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+      expect(fetchMock.called).toBe(true);
+      expect(fetchMock.firstCall.args[0]).toEqual(
+        expect.arrayContaining(['/testing']),
+      );
+      expect(fetchMock.firstCall.args[1].method).toBe('GET');
     });
     it('should dispatch auth error', done => {
       fetchMock.returns({
@@ -449,9 +452,9 @@ describe('Disability benefits helpers: ', () => {
       const onError = sinon.spy();
       const onSuccess = sinon.spy();
       const dispatch = action => {
-        expect(action.type).to.equal('SET_UNAUTHORIZED');
-        expect(onError.called).to.be.false;
-        expect(onSuccess.called).to.be.false;
+        expect(action.type).toBe('SET_UNAUTHORIZED');
+        expect(onError.called).toBe(false);
+        expect(onSuccess.called).toBe(false);
         done();
       };
 
@@ -465,9 +468,11 @@ describe('Disability benefits helpers: ', () => {
       const expectedDescSnippet =
         'The judge granted the following issue:Reasonableness of attorney fees';
       const contents = getStatusContents(mockData.data[6]);
-      expect(contents.title).to.equal(expectedTitle);
+      expect(contents.title).toBe(expectedTitle);
       const descText = shallow(contents.description);
-      expect(descText.render().text()).to.contain(expectedDescSnippet);
+      expect(descText.render().text()).toEqual(
+        expect.arrayContaining([expectedDescSnippet]),
+      );
       descText.unmount();
     });
 
@@ -475,8 +480,8 @@ describe('Disability benefits helpers: ', () => {
       const contents = getStatusContents({
         attributes: { status: { type: 'fake_type' } },
       });
-      expect(contents.title).to.equal('We don’t know your status');
-      expect(contents.description.props.children).to.eql(
+      expect(contents.title).toBe('We don’t know your status');
+      expect(contents.description.props.children).toBe(
         'We’re sorry, VA.gov will soon be updated to show your status.',
       );
     });
@@ -493,43 +498,43 @@ describe('Disability benefits helpers: ', () => {
 
     it('should return an object with header and description properties', () => {
       const testText = makeDurationText(inputs.exactSingular);
-      expect(!!testText.header && !!testText.description).to.be.true;
+      expect(!!testText.header && !!testText.description).toBe(true);
     });
 
     it('should return an object with header and description properties with nonsense input', () => {
       const testText = makeDurationText(inputs.nonsense);
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
+      expect(testText.header).toBe('');
+      expect(testText.description).toBe('');
     });
 
     it('should return an object with header and description properties with empty array input', () => {
       const testText = makeDurationText(inputs.empty);
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
+      expect(testText.header).toBe('');
+      expect(testText.description).toBe('');
     });
 
     it('should return an object with header and description properties with no input', () => {
       const testText = makeDurationText();
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
+      expect(testText.header).toBe('');
+      expect(testText.description).toBe('');
     });
 
     it('should format exact singular time estimates', () => {
       const testText = makeDurationText(inputs.exactSingular);
-      expect(testText.header).to.equal('1 month');
-      expect(testText.description).to.equal('about 1 month');
+      expect(testText.header).toBe('1 month');
+      expect(testText.description).toBe('about 1 month');
     });
 
     it('should format exact plural time estimates', () => {
       const testText = makeDurationText(inputs.exactPlural);
-      expect(testText.header).to.equal('2 months');
-      expect(testText.description).to.equal('about 2 months');
+      expect(testText.header).toBe('2 months');
+      expect(testText.description).toBe('about 2 months');
     });
 
     it('should format range time estimates', () => {
       const testText = makeDurationText(inputs.range);
-      expect(testText.header).to.equal('1–8 months');
-      expect(testText.description).to.equal('between 1 and 8 months');
+      expect(testText.header).toBe('1–8 months');
+      expect(testText.description).toBe('between 1 and 8 months');
     });
   });
 
@@ -543,7 +548,7 @@ describe('Disability benefits helpers: ', () => {
       const nextEvents = getNextEvents({
         attributes: { status: { type, details } },
       });
-      expect(nextEvents.header).to.equal(
+      expect(nextEvents.header).toBe(
         'What happens next depends on whether you submit new evidence.',
       );
     });
@@ -559,12 +564,12 @@ describe('Disability benefits helpers: ', () => {
         attributes: { status: { type, details } },
       });
       const { events } = nextEvents;
-      expect(events.length).to.equal(2);
+      expect(events.length).toBe(2);
       const firstEvent = events[0];
       const secondEvent = events[1];
       // each of the 2 'remandSsoc' nextEvents has 4 properties
-      expect(Object.keys(firstEvent).length).to.equal(4);
-      expect(Object.keys(secondEvent).length).to.equal(4);
+      expect(Object.keys(firstEvent).length).toBe(4);
+      expect(Object.keys(secondEvent).length).toBe(4);
     });
   });
 
@@ -578,10 +583,10 @@ describe('Disability benefits helpers: ', () => {
       };
 
       const alertContent = getAlertContent(alert);
-      expect(alertContent.title).to.exist;
-      expect(alertContent.description).to.exist;
-      expect(alertContent.displayType).to.exist;
-      expect(alertContent.type).to.exist;
+      expect(alertContent.title).toBeDefined();
+      expect(alertContent.description).toBeDefined();
+      expect(alertContent.displayType).toBeDefined();
+      expect(alertContent.type).toBeDefined();
     });
   });
 
@@ -589,13 +594,13 @@ describe('Disability benefits helpers: ', () => {
     it('returns an array of same length as input array', () => {
       const { issues } = mockData.data[2].attributes;
       const formattedIssues = addStatusToIssues(issues);
-      expect(formattedIssues.length).to.equal(issues.length);
+      expect(formattedIssues.length).toBe(issues.length);
     });
 
     it('returns an array of objects, each with status and description', () => {
       const { issues } = mockData.data[2].attributes;
       const formattedIssues = addStatusToIssues(issues);
-      expect(formattedIssues.every(i => i.status && i.description)).to.be.true;
+      expect(formattedIssues.every(i => i.status && i.description)).toBe(true);
     });
   });
 
@@ -603,7 +608,7 @@ describe('Disability benefits helpers: ', () => {
     it('returns the default content if no additional content is provided', () => {
       const decisionReviewContent = makeDecisionReviewContent();
       const descText = shallow(decisionReviewContent);
-      expect(descText.render().text()).to.equal(
+      expect(descText.render().text()).toBe(
         'A Veterans Law Judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
       descText.unmount();
@@ -615,7 +620,7 @@ describe('Disability benefits helpers: ', () => {
           'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge.',
       });
       const descText = shallow(decisionReviewContent);
-      expect(descText.render().text()).to.equal(
+      expect(descText.render().text()).toBe(
         'Once your representative has completed their review, your case will be ready to go to a Veterans Law Judge. The judge will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
       descText.unmount();
@@ -626,8 +631,8 @@ describe('Disability benefits helpers: ', () => {
         aoj: AOJS.nca,
       });
       const descText = shallow(decisionReviewContent);
-      expect(descText.render().text()).to.contain(
-        'National Cemetery Administration',
+      expect(descText.render().text()).toEqual(
+        expect.arrayContaining(['National Cemetery Administration']),
       );
       descText.unmount();
     });
@@ -635,8 +640,10 @@ describe('Disability benefits helpers: ', () => {
     it('adjusts language for ama appeals', () => {
       const decisionReviewContent = makeDecisionReviewContent({ isAma: true });
       const descText = shallow(decisionReviewContent);
-      expect(descText.render().text()).to.not.contain(
-        '60% of all cases have at least 1 issue remanded.',
+      expect(descText.render().text()).toEqual(
+        expect.not.arrayContaining([
+          '60% of all cases have at least 1 issue remanded.',
+        ]),
       );
       descText.unmount();
     });
@@ -656,7 +663,7 @@ describe('Disability benefits helpers: ', () => {
     it('should find the right appeal if the given id matches', () => {
       const expectedAppeal = mockData.data[1];
       const appeal = isolateAppeal(state, expectedAppeal.id);
-      expect(appeal).to.equal(expectedAppeal);
+      expect(appeal).toBe(expectedAppeal);
     });
 
     it('should find the right appeal if the given v1 id matches a v2 appeal', () => {
@@ -666,12 +673,12 @@ describe('Disability benefits helpers: ', () => {
         state,
         expectedAppeal.attributes.appealIds[1],
       );
-      expect(appeal).to.equal(expectedAppeal);
+      expect(appeal).toBe(expectedAppeal);
     });
 
     it('should return undefined if no appeal matches the id given', () => {
       const appeal = isolateAppeal(state, 'non-existent id');
-      expect(appeal).to.be.undefined;
+      expect(appeal).toBeUndefined();
     });
   });
 });

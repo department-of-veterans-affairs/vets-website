@@ -8,26 +8,26 @@ None. 😎
 
 ## `target_id`s:
 
-  - `collapsible_panel` (e.g. `Accordion group`)
-  - `collapsible_panel_item` (e.g. `Accordion Item`)
-  - `spanish_translation_summary` (e.g. `Additional information`)
-  - `address` (e.g. `Address`)
-  - `alert` (e.g. `Alert`)
-  - `media` (e.g. `Embedded image`)
-  - `expandable_text` (e.g. `Expandable Text`)
-  - `link_teaser` (e.g. `Link teaser`)
-  - `downloadable_file` (e.g. `Link to file or video`)
-  - `list_of_link_teasers` (e.g. `List of link teasers`)
-  - `number_callout` (e.g. `Number callout`)
-  - `process` (e.g. `Process list`)
-  - `q_a` (e.g. `Q&A`)
-  - `q_a_section` (e.g. `Q&A Section`)
-  - `react_widget` (e.g. `React Widget`)
-  - `situation_update` (e.g. `Situation update`)
-  - `staff_profile` (e.g. `Staff profile`)
-  - `table` (e.g. `Table`)
-  - `health_care_local_facility_servi` (e.g. `VAMC facility service (non-healthcare service)`)
-  - `wysiwyg` (e.g. `WYSIWYG`)
+- `collapsible_panel` (e.g. `Accordion group`)
+- `collapsible_panel_item` (e.g. `Accordion Item`)
+- `spanish_translation_summary` (e.g. `Additional information`)
+- `address` (e.g. `Address`)
+- `alert` (e.g. `Alert`)
+- `media` (e.g. `Embedded image`)
+- `expandable_text` (e.g. `Expandable Text`)
+- `link_teaser` (e.g. `Link teaser`)
+- `downloadable_file` (e.g. `Link to file or video`)
+- `list_of_link_teasers` (e.g. `List of link teasers`)
+- `number_callout` (e.g. `Number callout`)
+- `process` (e.g. `Process list`)
+- `q_a` (e.g. `Q&A`)
+- `q_a_section` (e.g. `Q&A Section`)
+- `react_widget` (e.g. `React Widget`)
+- `situation_update` (e.g. `Situation update`)
+- `staff_profile` (e.g. `Staff profile`)
+- `table` (e.g. `Table`)
+- `health_care_local_facility_servi` (e.g. `VAMC facility service (non-healthcare service)`)
+- `wysiwyg` (e.g. `WYSIWYG`)
 
 ## All standard key-value pairs:
 
@@ -78,8 +78,8 @@ None. 😎
   - `field_media` | Entity reference
   - `field_title` | Text (plain)
 - target_id: `list_of_link_teasers` (e.g. `List of link teasers`)
-  - `field_title`	Text (plain)
-  - `field_va_paragraphs`	Entity reference revisions
+  - `field_title` Text (plain)
+  - `field_va_paragraphs` Entity reference revisions
 - target_id: `number_callout` (e.g. `Number callout`)
   - `field_short_phrase_with_a_number` | Text (plain)
   - `field_wysiwyg` | Text (formatted, long)
@@ -118,61 +118,61 @@ None. 😎
 
 ```json
 {
-    "uuid": [
-        {
-            "value": "0a2be6fb-55f2-4dd5-8a26-6c795acd6c5d"
-        }
-    ],
-    "langcode": [
-        {
-            "value": "en"
-        }
-    ],
-    "type": [
-        {
-            "target_id": "link_teaser",
-            "target_type": "paragraphs_type",
-            "target_uuid": "072db7a4-476e-41a6-ab49-c44184281451"
-        }
-    ],
-    "status": [
-        {
-            "value": true
-        }
-    ],
-    "created": [
-        {
-            "value": "2019-03-19T21:59:05+00:00",
-            "format": "Y-m-d\\TH:i:sP"
-        }
-    ],
-    "behavior_settings": [
-        {
-            "value": []
-        }
-    ],
-    "default_langcode": [
-        {
-            "value": true
-        }
-    ],
-    "revision_translation_affected": [
-        {
-            "value": true
-        }
-    ],
-    "field_link": [
-        {
-            "uri": "https:\/\/www.va.gov\/HEALTH\/patientadvocate\/",
-            "title": "VA's patient advocacy program",
-            "options": []
-        }
-    ],
-    "field_link_summary": [
-        {
-            "value": "Learn more about how patient advocates support Veterans at VA and what the process of working with one is like."
-        }
-    ]
+  "uuid": [
+    {
+      "value": "0a2be6fb-55f2-4dd5-8a26-6c795acd6c5d"
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "link_teaser",
+      "target_type": "paragraphs_type",
+      "target_uuid": "072db7a4-476e-41a6-ab49-c44184281451"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "created": [
+    {
+      "value": "2019-03-19T21:59:05+00:00",
+      "format": "Y-m-d\\TH:i:sP"
+    }
+  ],
+  "behavior_settings": [
+    {
+      "value": []
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "field_link": [
+    {
+      "uri": "https://www.va.gov/HEALTH/patientadvocate/",
+      "title": "VA's patient advocacy program",
+      "options": []
+    }
+  ],
+  "field_link_summary": [
+    {
+      "value": "Learn more about how patient advocates support Veterans at VA and what the process of working with one is like."
+    }
+  ]
 }
 ```
 

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import titleReducer from '../../reducers/title';
 
 describe('title reducer', () => {
@@ -14,7 +12,7 @@ describe('title reducer', () => {
       title: 'newTitle',
     });
 
-    expect(state).to.eql('newTitle');
+    expect(state).toBe('newTitle');
     global.window = oldWindow;
   });
 });

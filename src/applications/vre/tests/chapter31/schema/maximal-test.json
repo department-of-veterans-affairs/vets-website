@@ -33,22 +33,26 @@
       "state": "KS",
       "postalCode": "83443"
     },
-    "previousPrograms": [{
-      "program": "education program",
-      "yearStarted": 1900,
-      "yearLeft": 1901
-    }],
+    "previousPrograms": [
+      {
+        "program": "education program",
+        "yearStarted": 1900,
+        "yearLeft": 1901
+      }
+    ],
     "serviceFlags": {
       "ww2": true
     },
-    "serviceHistory": [{
-      "serviceBranch": "Army",
-      "dateRange": {
-        "from": "2001-01-01",
-        "to": "2002-01-01"
-      },
-      "dischargeType": "honorable"
-    }],
+    "serviceHistory": [
+      {
+        "serviceBranch": "Army",
+        "dateRange": {
+          "from": "2001-01-01",
+          "to": "2002-01-01"
+        },
+        "dischargeType": "honorable"
+      }
+    ],
     "vaRecordsOffice": "office",
     "veteranAddress": {
       "street": "122 first st",

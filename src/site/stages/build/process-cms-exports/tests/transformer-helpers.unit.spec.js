@@ -1,5 +1,4 @@
 const path = require('path');
-const { expect } = require('chai');
 const sinon = require('sinon');
 const {
   combineItemsInIndexedObject,
@@ -20,7 +19,7 @@ describe('CMS export transformer helpers', () => {
       const transformed =
         '<p>If you need support for a specific mental health problem—or if you’re having problems sleeping, controlling your anger, or readjusting to civilian life—you are not alone. And we can help.</p>\r\n\r\n';
 
-      expect(getWysiwygString(raw)).to.equal(transformed);
+      expect(getWysiwygString(raw)).toBe(transformed);
     });
   });
 
@@ -34,13 +33,14 @@ describe('CMS export transformer helpers', () => {
       /* eslint-enable quote-props */
       const arr = [['hello'], ['world']];
 
-      expect(combineItemsInIndexedObject(obj)).to.deep.equal(arr);
+      expect(combineItemsInIndexedObject(obj)).toEqual(arr);
     });
 
     it('keeps an array as an array', () => {
-      expect(combineItemsInIndexedObject([['hello'], ['world']])).to.deep.equal(
-        [['hello'], ['world']],
-      );
+      expect(combineItemsInIndexedObject([['hello'], ['world']])).toEqual([
+        ['hello'],
+        ['world'],
+      ]);
     });
   });
 
@@ -62,7 +62,7 @@ describe('CMS export transformer helpers', () => {
       ];
       pairs.forEach(([codePoint, character]) => {
         // Make sure it replaces all instances in a string, not just the first
-        expect(unescapeUnicode(`a ${codePoint} ${codePoint} a`)).to.equal(
+        expect(unescapeUnicode(`a ${codePoint} ${codePoint} a`)).toBe(
           `a ${character} ${character} a`,
         );
       });
@@ -71,7 +71,7 @@ describe('CMS export transformer helpers', () => {
 
   describe('createLink', () => {
     it('should return null for an empty array', () => {
-      expect(createLink([])).to.equal(null);
+      expect(createLink([])).toBeNull();
     });
 
     it('returns a properly formatted link object', () => {
@@ -83,7 +83,7 @@ describe('CMS export transformer helpers', () => {
         },
       ];
 
-      expect(createLink(fieldLink)).to.deep.equal({
+      expect(createLink(fieldLink)).toEqual({
         url: {
           path: 'foo',
         },
@@ -104,17 +104,17 @@ describe('CMS export transformer helpers', () => {
       const urlOnly = ['url'];
       const titleOnly = ['title'];
 
-      expect(createLink(fieldLink, urlOnly)).to.deep.equal({
+      expect(createLink(fieldLink, urlOnly)).toEqual({
         url: {
           path: 'foo',
         },
       });
 
-      expect(createLink(fieldLink, titleOnly)).to.deep.equal({
+      expect(createLink(fieldLink, titleOnly)).toEqual({
         title: 'Hello, World!',
       });
 
-      expect(createLink(fieldLink, [...urlOnly, ...titleOnly])).to.deep.equal({
+      expect(createLink(fieldLink, [...urlOnly, ...titleOnly])).toEqual({
         url: {
           path: 'foo',
         },
@@ -205,7 +205,7 @@ describe('CMS export transformer helpers', () => {
         },
       ];
 
-      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+      expect(createMetaTagArray(raw)).toEqual(transformed);
     });
 
     it('should omit tags with no value', () => {
@@ -221,32 +221,32 @@ describe('CMS export transformer helpers', () => {
         },
       ];
 
-      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+      expect(createMetaTagArray(raw)).toEqual(transformed);
     });
 
     it('should ignore unrecognized tags', () => {
       const raw = { unknown: 'Dunno' };
       const transformed = [];
-      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+      expect(createMetaTagArray(raw)).toEqual(transformed);
     });
   });
 
   describe('usePartialSchema', () => {
     it('Should throw an error when a non-object schema is passed', () => {
-      expect(() => usePartialSchema({ type: 'array' })).to.throw();
-      expect(() => usePartialSchema(['invalid schema'])).to.throw();
+      expect(() => usePartialSchema({ type: 'array' })).toThrowError();
+      expect(() => usePartialSchema(['invalid schema'])).toThrowError();
     });
 
     it('Should throw an error when properties is not an array', () => {
       expect(() =>
         usePartialSchema({ type: 'object' }, { foo: 'invalid properties' }),
-      ).to.throw();
+      ).toThrowError();
     });
 
     it('Should throw an error when properties contains non-strings', () => {
       expect(() =>
         usePartialSchema({ type: 'object' }, [{ invalid: 'prop name' }]),
-      ).to.throw();
+      ).toThrowError();
     });
 
     it('Should throw an error when a property specified is missing from the schema', () => {
@@ -255,7 +255,7 @@ describe('CMS export transformer helpers', () => {
           { type: 'object', properties: { stuff: { type: 'string' } } },
           ['thingy'],
         ),
-      ).to.throw();
+      ).toThrowError();
     });
 
     it('should omit $id', () => {
@@ -266,7 +266,7 @@ describe('CMS export transformer helpers', () => {
           foo: { type: 'string' },
         },
       };
-      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+      expect(usePartialSchema(schema, ['foo'])).toEqual({
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -283,7 +283,7 @@ describe('CMS export transformer helpers', () => {
           var: { type: 'string' },
         },
       };
-      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+      expect(usePartialSchema(schema, ['foo'])).toEqual({
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -301,7 +301,7 @@ describe('CMS export transformer helpers', () => {
         },
         required: ['foo', 'bar'],
       };
-      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+      expect(usePartialSchema(schema, ['foo'])).toEqual({
         type: 'object',
         properties: {
           foo: { type: 'string' },
@@ -315,7 +315,9 @@ describe('CMS export transformer helpers', () => {
     const contentDir = path.join(__dirname, 'helper-test-entities');
 
     it('should reject non-string baseTypes', () => {
-      expect(() => findMatchingEntities(123, contentDir, () => {})).to.throw();
+      expect(() =>
+        findMatchingEntities(123, contentDir, () => {}),
+      ).toThrowError();
     });
 
     it('should reject paths to a non-existent directory', () => {
@@ -326,27 +328,27 @@ describe('CMS export transformer helpers', () => {
           'node',
           () => {},
         ),
-      ).to.throw();
+      ).toThrowError();
       // Path to a file
       expect(() =>
         findMatchingEntities('node', __filename, () => {}),
-      ).to.throw();
+      ).toThrowError();
     });
 
     it('should reject a truthy non-string subType', () => {
       expect(() =>
         findMatchingEntities('node', contentDir, () => {}, { subType: 123 }),
-      ).to.throw();
+      ).toThrowError();
     });
 
     it('should reject a truthy non-function filter', () => {
       expect(() =>
         findMatchingEntities('node', contentDir, () => {}, { filter: 123 }),
-      ).to.throw();
+      ).toThrowError();
     });
 
     it('should return all (and only) entities of a baseType', () => {
-      expect(findMatchingEntities('node', contentDir, () => {})).to.have.length(
+      expect(findMatchingEntities('node', contentDir, () => {})).toHaveLength(
         3,
       );
     });
@@ -356,7 +358,7 @@ describe('CMS export transformer helpers', () => {
         findMatchingEntities('node', contentDir, () => {}, {
           subType: 'some_type',
         }),
-      ).to.have.length(2);
+      ).toHaveLength(2);
     });
 
     it('should filter out entities not passing the filter function', () => {
@@ -365,7 +367,7 @@ describe('CMS export transformer helpers', () => {
           subType: 'some_type',
           filter: e => e.field_keep_me,
         }),
-      ).to.have.length(1);
+      ).toHaveLength(1);
     });
 
     it('should transform the entities', () => {
@@ -374,7 +376,7 @@ describe('CMS export transformer helpers', () => {
         subType: 'some_type',
         filter: e => e.field_keep_me,
       });
-      expect(spy.calledOnce).to.be.true;
+      expect(spy.calledOnce).toBe(true);
     });
   });
 });

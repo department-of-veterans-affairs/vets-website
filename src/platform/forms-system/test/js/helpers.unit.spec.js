@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   parseISODate,
   formatISOPartialDate,
@@ -18,19 +16,19 @@ import {
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
     it('should parse an ISO date', () => {
-      expect(parseISODate('2001-02-03')).to.eql({
+      expect(parseISODate('2001-02-03')).toEqual({
         month: '2',
         day: '3',
         year: '2001',
       });
     });
     it('should parse a partial ISO date', () => {
-      expect(parseISODate('XXXX-02-03')).to.eql({
+      expect(parseISODate('XXXX-02-03')).toEqual({
         month: '2',
         day: '3',
         year: '',
       });
-      expect(parseISODate('2003-XX-03')).to.eql({
+      expect(parseISODate('2003-XX-03')).toEqual({
         month: '',
         day: '3',
         year: '2003',
@@ -44,7 +42,7 @@ describe('Schemaform helpers:', () => {
         day: '29',
         year: '2005',
       };
-      expect(formatISOPartialDate(date)).to.equal('2005-03-29');
+      expect(formatISOPartialDate(date)).toBe('2005-03-29');
     });
     it('should format a partial date', () => {
       const date = {
@@ -52,7 +50,7 @@ describe('Schemaform helpers:', () => {
         day: '',
         year: '2005',
       };
-      expect(formatISOPartialDate(date)).to.equal('2005-02-XX');
+      expect(formatISOPartialDate(date)).toBe('2005-02-XX');
     });
     it('should format an empty date as undefined', () => {
       const date = {
@@ -60,7 +58,7 @@ describe('Schemaform helpers:', () => {
         day: '',
         year: '',
       };
-      expect(formatISOPartialDate(date)).to.be.undefined;
+      expect(formatISOPartialDate(date)).toBeUndefined();
     });
   });
   describe('createRoutes', () => {
@@ -80,8 +78,8 @@ describe('Schemaform helpers:', () => {
 
       const routes = createRoutes(formConfig);
 
-      expect(routes[0].path).to.equal('test-page');
-      expect(routes[1].path).to.equal('review-and-submit');
+      expect(routes[0].path).toBe('test-page');
+      expect(routes[1].path).toBe('review-and-submit');
     });
     it('should create routes with intro', () => {
       const formConfig = {
@@ -99,7 +97,7 @@ describe('Schemaform helpers:', () => {
 
       const routes = createRoutes(formConfig);
 
-      expect(routes[0].path).to.equal('introduction');
+      expect(routes[0].path).toBe('introduction');
     });
   });
   describe('hasFieldsOtherThanArray', () => {
@@ -116,7 +114,7 @@ describe('Schemaform helpers:', () => {
         },
       };
 
-      expect(hasFieldsOtherThanArray(schema)).to.be.true;
+      expect(hasFieldsOtherThanArray(schema)).toBe(true);
     });
     it('should return true if nested non-array fields', () => {
       const schema = {
@@ -136,7 +134,7 @@ describe('Schemaform helpers:', () => {
         },
       };
 
-      expect(hasFieldsOtherThanArray(schema)).to.be.true;
+      expect(hasFieldsOtherThanArray(schema)).toBe(true);
     });
     it('should return false if only array fields', () => {
       const schema = {
@@ -156,7 +154,7 @@ describe('Schemaform helpers:', () => {
         },
       };
 
-      expect(hasFieldsOtherThanArray(schema)).to.be.false;
+      expect(hasFieldsOtherThanArray(schema)).toBe(false);
     });
   });
   describe('getArrayFields', () => {
@@ -170,7 +168,7 @@ describe('Schemaform helpers:', () => {
 
       const fields = getArrayFields(data);
 
-      expect(fields).not.to.be.empty;
+      expect(Object.keys(fields)).toHaveLength(0);
     });
     it('should skip array using option', () => {
       const data = {
@@ -186,7 +184,7 @@ describe('Schemaform helpers:', () => {
 
       const fields = getArrayFields(data);
 
-      expect(fields).to.be.empty;
+      expect(Object.keys(fields)).toHaveLength(0);
     });
     it('should get array in object', () => {
       const data = {
@@ -203,8 +201,8 @@ describe('Schemaform helpers:', () => {
 
       const fields = getArrayFields(data, {});
 
-      expect(fields).not.to.be.empty;
-      expect(fields[0].path).to.eql(['field']);
+      expect(Object.keys(fields)).toHaveLength(0);
+      expect(fields[0].path).toEqual(['field']);
     });
     it('should not get hidden array', () => {
       const data = {
@@ -217,7 +215,7 @@ describe('Schemaform helpers:', () => {
 
       const fields = getArrayFields(data, {});
 
-      expect(fields).to.be.empty;
+      expect(Object.keys(fields)).toHaveLength(0);
     });
     it('should not get array in hidden object', () => {
       const data = {
@@ -235,7 +233,7 @@ describe('Schemaform helpers:', () => {
 
       const fields = getArrayFields(data, {});
 
-      expect(fields).to.be.empty;
+      expect(Object.keys(fields)).toHaveLength(0);
     });
   });
   describe('transformForSubmit', () => {
@@ -259,7 +257,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output).to.eql({
+      expect(output).toEqual({
         otherField: 'testing2',
         field: 'testing',
       });
@@ -288,7 +286,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output).to.eql({
+      expect(output).toEqual({
         otherField: 'testing2',
         field: 'testing',
       });
@@ -311,7 +309,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output['view:Test']).to.be.undefined;
+      expect(output['view:Test']).toBeUndefined();
     });
     it('should flatten view objects', () => {
       const formConfig = {
@@ -333,8 +331,8 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output['view:Test']).to.be.undefined;
-      expect(output).to.eql({
+      expect(output['view:Test']).toBeUndefined();
+      expect(output).toEqual({
         field: 'testing',
       });
     });
@@ -379,7 +377,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output).to.eql({
+      expect(output).toEqual({
         field: 'testing',
       });
     });
@@ -432,7 +430,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output).to.eql({
+      expect(output).toEqual({
         field: 'testing',
         anotherField: 'testing3',
       });
@@ -457,7 +455,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.address).to.be.undefined;
+      expect(output.address).toBeUndefined();
     });
     it('should remove empty objects', () => {
       const formConfig = {
@@ -480,8 +478,8 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.someField).to.be.undefined;
-      expect(output.someField2).to.be.undefined;
+      expect(output.someField).toBeUndefined();
+      expect(output.someField2).toBeUndefined();
     });
     it('should remove empty objects within an array', () => {
       const formConfig = {
@@ -505,9 +503,9 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.someField.subField.length).to.equal(1);
-      expect(output.arrayField.length).to.equal(1);
-      expect(output.emptyArray).to.be.undefined;
+      expect(output.someField.subField.length).toBe(1);
+      expect(output.arrayField.length).toBe(1);
+      expect(output.emptyArray).toBeUndefined();
     });
     it('should convert autosuggest field to id', () => {
       const formConfig = {
@@ -531,7 +529,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.someField2).to.equal('1');
+      expect(output.someField2).toBe('1');
     });
     it('should not remove inactive pagePerItem pages if some of the pages are active', () => {
       const formConfig = {
@@ -570,7 +568,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.testArray).not.to.be.undefined;
+      expect(output.testArray).not.toBeUndefined();
     });
     it('should remove inactive pagePerItem pages if none of the pages are active', () => {
       const formConfig = {
@@ -609,7 +607,7 @@ describe('Schemaform helpers:', () => {
 
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
-      expect(output.testArray).to.be.undefined;
+      expect(output.testArray).toBeUndefined();
     });
   });
   describe('setArrayRecordTouched', () => {
@@ -617,7 +615,7 @@ describe('Schemaform helpers:', () => {
     it('should set field as touched', () => {
       const touched = setArrayRecordTouched('root', 0);
 
-      expect(touched).to.eql({
+      expect(touched).toEqual({
         root_0: true,
       });
     });
@@ -627,7 +625,7 @@ describe('Schemaform helpers:', () => {
     it('should return undefined if array', () => {
       const result = getNonArraySchema({ type: 'array' });
 
-      expect(result).to.be.undefined;
+      expect(result).toBeUndefined();
     });
     it('should skip array fields using option', () => {
       const result = getNonArraySchema(
@@ -635,7 +633,7 @@ describe('Schemaform helpers:', () => {
         { 'ui:option': { keepInPageOnReview: true } },
       );
 
-      expect(result).to.be.undefined;
+      expect(result).toBeUndefined();
     });
     it('should return undefined if nested array', () => {
       const result = getNonArraySchema({
@@ -647,7 +645,7 @@ describe('Schemaform helpers:', () => {
         },
       });
 
-      expect(result).to.be.undefined;
+      expect(result).toBeUndefined();
     });
     it('should return fields without array', () => {
       const result = getNonArraySchema({
@@ -663,7 +661,7 @@ describe('Schemaform helpers:', () => {
         },
       });
 
-      expect(result).to.eql({
+      expect(result).toEqual({
         type: 'object',
         required: ['field'],
         properties: {
@@ -711,7 +709,7 @@ describe('Schemaform helpers:', () => {
       };
 
       // If this throws an error, the test will fail
-      expect(checkValidSchema(s)).to.equal(true);
+      expect(checkValidSchema(s)).toBe(true);
     });
     it('should throw an error for invalid schemas', () => {
       const s = {
@@ -793,11 +791,11 @@ describe('Schemaform helpers:', () => {
         // Perhaps this should not be in this test...Seems pretty brittle.
         //  Still, I'd like a way to make sure we get all the right errors and
         //  would prefer to not write 6 different tests.
-        expect(err.message).to.equal(
+        expect(err.message).toBe(
           'Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema. Missing type in root.field7.items schema. root.field8 should contain additionalItems when items is an array. root.field9 should not contain additionalItems when items is an object.',
         );
       }
-      expect(isValid).to.equal(undefined);
+      expect(isValid).toBeUndefined();
     });
   });
   describe('expandArrayPages', () => {
@@ -815,9 +813,9 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(data.test.length);
-      expect(newPageList[0].path).to.equal('test/0');
-      expect(newPageList[0].index).to.equal(0);
+      expect(newPageList.length).toBe(data.test.length);
+      expect(newPageList[0].path).toBe('test/0');
+      expect(newPageList[0].index).toBe(0);
     });
     it('should expand array page for multiple items', () => {
       const pageList = [
@@ -833,11 +831,11 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(data.test.length);
-      expect(newPageList[0].path).to.equal('test/0');
-      expect(newPageList[0].index).to.equal(0);
-      expect(newPageList[1].path).to.equal('test/1');
-      expect(newPageList[1].index).to.equal(1);
+      expect(newPageList.length).toBe(data.test.length);
+      expect(newPageList[0].path).toBe('test/0');
+      expect(newPageList[0].index).toBe(0);
+      expect(newPageList[1].path).toBe('test/1');
+      expect(newPageList[1].index).toBe(1);
     });
     it('should expand array pages in correct position in list', () => {
       const pageList = [
@@ -859,11 +857,11 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(data.test.length + 2);
-      expect(newPageList[0].showPagePerItem).not.to.be.true;
-      expect(newPageList[1].path).to.equal('test/0');
-      expect(newPageList[1].index).to.equal(0);
-      expect(newPageList[2].showPagePerItem).not.to.be.true;
+      expect(newPageList.length).toBe(data.test.length + 2);
+      expect(newPageList[0].showPagePerItem).not.toBe(true);
+      expect(newPageList[1].path).toBe('test/0');
+      expect(newPageList[1].index).toBe(0);
+      expect(newPageList[2].showPagePerItem).not.toBe(true);
     });
     it('should expand multiple array pages', () => {
       const pageList = [
@@ -884,11 +882,11 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(data.test.length * pageList.length);
-      expect(newPageList[0].path).to.equal('path/0');
-      expect(newPageList[1].path).to.equal('other-path/0');
-      expect(newPageList[2].path).to.equal('path/1');
-      expect(newPageList[3].path).to.equal('other-path/1');
+      expect(newPageList.length).toBe(data.test.length * pageList.length);
+      expect(newPageList[0].path).toBe('path/0');
+      expect(newPageList[1].path).toBe('other-path/0');
+      expect(newPageList[2].path).toBe('path/1');
+      expect(newPageList[3].path).toBe('other-path/1');
     });
     it('should skip filtered out array pages', () => {
       const pageList = [
@@ -910,10 +908,10 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(3);
-      expect(newPageList[0].path).to.equal('other-path/0');
-      expect(newPageList[1].path).to.equal('path/1');
-      expect(newPageList[2].path).to.equal('other-path/1');
+      expect(newPageList.length).toBe(3);
+      expect(newPageList[0].path).toBe('other-path/0');
+      expect(newPageList[1].path).toBe('path/1');
+      expect(newPageList[2].path).toBe('other-path/1');
     });
     it('should pass through list with no array pages', () => {
       const pageList = [
@@ -927,8 +925,8 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(pageList.length);
-      expect(newPageList[0].path).to.equal('test');
+      expect(newPageList.length).toBe(pageList.length);
+      expect(newPageList[0].path).toBe('test');
     });
     it('should not generate array pages if array is empty', () => {
       const pageList = [
@@ -947,19 +945,19 @@ describe('Schemaform helpers:', () => {
 
       const newPageList = expandArrayPages(pageList, data);
 
-      expect(newPageList.length).to.equal(pageList.length - 1);
-      expect(newPageList[0].path).to.equal('test');
+      expect(newPageList.length).toBe(pageList.length - 1);
+      expect(newPageList[0].path).toBe('test');
     });
   });
   describe('formatReviewDate', () => {
     it('should format full date', () => {
-      expect(formatReviewDate('2010-01-01')).to.equal('01/01/2010');
+      expect(formatReviewDate('2010-01-01')).toBe('01/01/2010');
     });
     it('should format partial date', () => {
-      expect(formatReviewDate('2010-01-XX')).to.equal('01/XX/2010');
+      expect(formatReviewDate('2010-01-XX')).toBe('01/XX/2010');
     });
     it('should format month year date', () => {
-      expect(formatReviewDate('2010-01-XX', true)).to.equal('01/2010');
+      expect(formatReviewDate('2010-01-XX', true)).toBe('01/2010');
     });
   });
   describe('omitRequired', () => {
@@ -994,7 +992,7 @@ describe('Schemaform helpers:', () => {
           },
         },
       };
-      expect(omitRequired(schema)).to.eql(expected);
+      expect(omitRequired(schema)).toEqual(expected);
     });
   });
 });

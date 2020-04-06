@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -50,7 +49,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatch = action => {
       dispatchSpy(action);
       if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.secondCall.args[0].type).to.equal(
+        expect(dispatchSpy.secondCall.args[0].type).toBe(
           FETCH_RATED_DISABILITIES_SUCCESS,
         );
       }
@@ -77,7 +76,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatch = action => {
       dispatchSpy(action);
       if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.secondCall.args[0].type).to.equal(
+        expect(dispatchSpy.secondCall.args[0].type).toBe(
           FETCH_RATED_DISABILITIES_FAILED,
         );
       }
@@ -104,7 +103,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatch = action => {
       dispatchSpy(action);
       if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.secondCall.args[0].type).to.equal(
+        expect(dispatchSpy.secondCall.args[0].type).toBe(
           FETCH_TOTAL_RATING_SUCCEEDED,
         );
       }
@@ -131,7 +130,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     const dispatch = action => {
       dispatchSpy(action);
       if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.secondCall.args[0].type).to.equal(
+        expect(dispatchSpy.secondCall.args[0].type).toBe(
           FETCH_TOTAL_RATING_FAILED,
         );
       }

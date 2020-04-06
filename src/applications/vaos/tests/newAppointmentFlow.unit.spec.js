@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -58,7 +57,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('vaFacility');
+        expect(nextState).toBe('vaFacility');
         resetFetch();
       });
 
@@ -85,7 +84,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('vaFacility');
+        expect(nextState).toBe('vaFacility');
         resetFetch();
       });
 
@@ -112,7 +111,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('typeOfCare');
+        expect(nextState).toBe('typeOfCare');
         resetFetch();
       });
 
@@ -140,7 +139,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('typeOfCare');
+        expect(nextState).toBe('typeOfCare');
       });
 
       it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
@@ -170,7 +169,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).toBe('requestDateTime');
         resetFetch();
       });
 
@@ -193,7 +192,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('typeOfSleepCare');
+        expect(nextState).toBe('typeOfSleepCare');
       });
 
       it('should be typeOfFacility page if site has CC support', async () => {
@@ -223,7 +222,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('typeOfFacility');
+        expect(nextState).toBe('typeOfFacility');
 
         resetFetch();
       });
@@ -243,7 +242,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.typeOfFacility.next(state);
-        expect(nextState).to.equal('audiologyCareType');
+        expect(nextState).toBe('audiologyCareType');
       });
 
       it('should be requestDateTime if CC is chosen', () => {
@@ -257,7 +256,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.typeOfFacility.next(state);
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).toBe('requestDateTime');
       });
 
       it('should be vaFacility page if they chose VA', () => {
@@ -271,7 +270,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.typeOfFacility.next(state);
-        expect(nextState).to.equal('vaFacility');
+        expect(nextState).toBe('vaFacility');
       });
     });
   });
@@ -327,10 +326,10 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(dispatch.firstCall.args[0].type).to.equal(
+        expect(dispatch.firstCall.args[0].type).toBe(
           'newAppointment/START_DIRECT_SCHEDULE_FLOW',
         );
-        expect(nextState).to.equal('clinicChoice');
+        expect(nextState).toBe('clinicChoice');
 
         resetFetch();
       });
@@ -360,10 +359,10 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(dispatch.firstCall.args[0].type).to.equal(
+        expect(dispatch.firstCall.args[0].type).toBe(
           'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
         );
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).toBe('requestDateTime');
 
         resetFetch();
       });
@@ -390,9 +389,9 @@ describe('VAOS newAppointmentFlow', () => {
         try {
           await newAppointmentFlow.vaFacility.next(state, dispatch);
           // Should throw an error above
-          expect(false).to.be.true;
+          expect(false).toBe(true);
         } catch (e) {
-          expect(e.message).to.equal(
+          expect(e.message).toBe(
             'Veteran not eligible for direct scheduling or requests',
           );
         }
@@ -421,7 +420,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).toBe('requestDateTime');
       });
     });
     // previous state
@@ -441,7 +440,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfCare');
+        expect(nextState).toBe('typeOfCare');
       });
 
       it('should be typeOfFacility if user is CC eligible ', () => {
@@ -461,7 +460,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfFacility');
+        expect(nextState).toBe('typeOfFacility');
       });
 
       it('should be typeOfCare if user if user has CC enabled systems but is not CC eligible', () => {
@@ -481,7 +480,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfCare');
+        expect(nextState).toBe('typeOfCare');
       });
 
       it('should be typeOfCare if selected type of care is not CC eligible', () => {
@@ -501,7 +500,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfCare');
+        expect(nextState).toBe('typeOfCare');
       });
       it('should be typeOfSleepCare page when back button selected along sleep care flow', () => {
         const state = {
@@ -520,7 +519,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfSleepCare');
+        expect(nextState).toBe('typeOfSleepCare');
       });
       // testing eyecare flow
       it('should be typeOfEyeCare page when back button selected along Ophthalmology flow', () => {
@@ -541,7 +540,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfEyeCare');
+        expect(nextState).toBe('typeOfEyeCare');
       });
       it('should be typeOfFacility page when back button selected along optometry flow', () => {
         const state = {
@@ -561,7 +560,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.vaFacility.previous(state);
-        expect(nextState).to.equal('typeOfFacility');
+        expect(nextState).toBe('typeOfFacility');
       });
     });
   });
@@ -579,7 +578,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.requestDateTime.next(state);
 
-        expect(nextState).to.equal('ccPreferences');
+        expect(nextState).toBe('ccPreferences');
       });
       it('should be reasonForAppointment if in the VA flow', () => {
         const state = {
@@ -592,7 +591,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.requestDateTime.next(state);
 
-        expect(nextState).to.equal('reasonForAppointment');
+        expect(nextState).toBe('reasonForAppointment');
       });
     });
     describe('previous page', () => {
@@ -607,7 +606,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.requestDateTime.previous(state);
 
-        expect(nextState).to.equal('typeOfFacility');
+        expect(nextState).toBe('typeOfFacility');
       });
       it('should be audiologyCareType if user chose audiology', () => {
         const state = {
@@ -621,7 +620,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.requestDateTime.previous(state);
 
-        expect(nextState).to.equal('audiologyCareType');
+        expect(nextState).toBe('audiologyCareType');
       });
       it('should be vaFacility if in the VA flow', () => {
         const state = {
@@ -634,7 +633,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.requestDateTime.previous(state);
 
-        expect(nextState).to.equal('vaFacility');
+        expect(nextState).toBe('vaFacility');
       });
       it('should be typeOfCare if in the CC flow and user chose podiatry', () => {
         const state = {
@@ -648,7 +647,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.requestDateTime.previous(state);
 
-        expect(nextState).to.equal('typeOfCare');
+        expect(nextState).toBe('typeOfCare');
       });
     });
   });
@@ -666,7 +665,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.clinicChoice.next(state);
 
-        expect(nextState).to.equal('preferredDate');
+        expect(nextState).toBe('preferredDate');
       });
 
       it('should be requestDateTime if user chose that they need a different clinic', () => {
@@ -681,8 +680,8 @@ describe('VAOS newAppointmentFlow', () => {
 
         const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
 
-        expect(nextState).to.equal('requestDateTime');
-        expect(dispatch.called).to.be.true;
+        expect(nextState).toBe('requestDateTime');
+        expect(dispatch.called).toBe(true);
       });
     });
   });
@@ -699,7 +698,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.reasonForAppointment.next(state);
-        expect(nextState).to.equal('visitType');
+        expect(nextState).toBe('visitType');
       });
 
       it('should be contactInfo if in the CC flow', () => {
@@ -712,7 +711,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         const nextState = newAppointmentFlow.reasonForAppointment.next(state);
-        expect(nextState).to.equal('contactInfo');
+        expect(nextState).toBe('contactInfo');
       });
     });
 
@@ -730,7 +729,7 @@ describe('VAOS newAppointmentFlow', () => {
         const nextState = newAppointmentFlow.reasonForAppointment.previous(
           state,
         );
-        expect(nextState).to.equal('ccPreferences');
+        expect(nextState).toBe('ccPreferences');
       });
 
       it('should be selectDateTime if in the direct schedule flow', () => {
@@ -747,7 +746,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
         );
 
-        expect(nextState).to.equal('selectDateTime');
+        expect(nextState).toBe('selectDateTime');
       });
 
       it('should be requestDateTime if in request flow', () => {
@@ -764,7 +763,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
         );
 
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).toBe('requestDateTime');
       });
     });
   });
@@ -777,7 +776,7 @@ describe('VAOS newAppointmentFlow', () => {
             data: {},
           },
         };
-        expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
+        expect(newAppointmentFlow.contactInfo.previous(state)).toBe(
           'visitType',
         );
       });
@@ -788,7 +787,7 @@ describe('VAOS newAppointmentFlow', () => {
             flowType: FLOW_TYPES.DIRECT,
           },
         };
-        expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
+        expect(newAppointmentFlow.contactInfo.previous(state)).toBe(
           'reasonForAppointment',
         );
       });
@@ -800,7 +799,7 @@ describe('VAOS newAppointmentFlow', () => {
             },
           },
         };
-        expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
+        expect(newAppointmentFlow.contactInfo.previous(state)).toBe(
           'reasonForAppointment',
         );
       });
@@ -821,7 +820,7 @@ describe('VAOS newAppointmentFlow', () => {
         state,
         dispatch,
       );
-      expect(nextState).to.equal('typeOfEyeCare');
+      expect(nextState).toBe('typeOfEyeCare');
     });
 
     it('should be typeOfFacility page when optometry selected', async () => {
@@ -852,7 +851,7 @@ describe('VAOS newAppointmentFlow', () => {
         state,
         dispatch,
       );
-      expect(nextState).to.equal('typeOfFacility');
+      expect(nextState).toBe('typeOfFacility');
 
       resetFetch();
     });
@@ -885,7 +884,7 @@ describe('VAOS newAppointmentFlow', () => {
         state,
         dispatch,
       );
-      expect(nextState).to.equal('vaFacility');
+      expect(nextState).toBe('vaFacility');
 
       resetFetch();
     });

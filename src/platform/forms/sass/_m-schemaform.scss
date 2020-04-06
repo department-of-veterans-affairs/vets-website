@@ -29,7 +29,7 @@ legend {
   font-weight: 700;
   line-height: 1.5;
   margin: 0;
-  padding: 0 0 .5em 0;
+  padding: 0 0 0.5em 0;
 }
 
 // IE
@@ -45,8 +45,8 @@ fieldset {
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;
-    padding-left: 2rem - .9375rem;
-    padding-right: 2rem - .9375rem;
+    padding-left: 2rem - 0.9375rem;
+    padding-right: 2rem - 0.9375rem;
   }
 }
 
@@ -58,7 +58,13 @@ fieldset {
   }
 }
 
-.va-nav-breadcrumbs-list, legend, .nav-header > h4, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
+.va-nav-breadcrumbs-list,
+legend,
+.nav-header > h4,
+.nav-header,
+.usa-input-error,
+.input-error-date,
+.usa-alert {
   &:focus {
     outline: none;
   }
@@ -133,7 +139,7 @@ label {
 }
 
 .schemaform-buttons {
-  [type="submit"] {
+  [type='submit'] {
     margin-top: 0.5em;
     margin-right: 0.5em;
   }
@@ -162,8 +168,8 @@ label {
   padding-right: 2rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
-    padding-left: 2rem - .9375rem;
-    padding-right: 2rem - .9375rem;
+    padding-left: 2rem - 0.9375rem;
+    padding-right: 2rem - 0.9375rem;
   }
   > h4 {
     padding-bottom: 0 !important;
@@ -212,7 +218,9 @@ label {
 
 .schemaform-block-header {
   margin-bottom: 0.7em;
-  > legend, > h5, > p {
+  > legend,
+  > h5,
+  > p {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
   }
@@ -233,7 +241,8 @@ label {
 }
 
 .schemaform-first-field {
-  .schemaform-label, > .usa-input-error {
+  .schemaform-label,
+  > .usa-input-error {
     margin-top: 0;
   }
 }
@@ -273,7 +282,7 @@ fieldset.schemaform-field-template {
 .schemaform-currency-input .schemaform-widget-wrapper {
   position: relative;
   &:before {
-    content: "$";
+    content: '$';
     display: block;
     position: absolute;
     top: 9px;
@@ -443,8 +452,8 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-array-warning-icon {
-  background-image: url("~uswds/dist/img/alerts/warning.png");
-  background-image: url("~uswds/dist/img/alerts/warning.svg");
+  background-image: url('~uswds/dist/img/alerts/warning.png');
+  background-image: url('~uswds/dist/img/alerts/warning.svg');
   width: 2em;
   height: 1.4em;
   background-size: 2em;
@@ -459,9 +468,9 @@ legend.schemaform-label.schemaform-file-label {
     &:after {
       display: block;
       order: 2;
-      content: " ";
-      background-image: url("~uswds/dist/img/alerts/warning.png");
-      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      content: ' ';
+      background-image: url('~uswds/dist/img/alerts/warning.png');
+      background-image: url('~uswds/dist/img/alerts/warning.svg');
       width: 2em;
       height: 1.3em;
       background-size: 2em;
@@ -490,8 +499,8 @@ legend.schemaform-label.schemaform-file-label {
       top: 2.8rem;
       right: 4rem;
       display: block;
-      background-image: url("~uswds/dist/img/alerts/warning.png");
-      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      background-image: url('~uswds/dist/img/alerts/warning.png');
+      background-image: url('~uswds/dist/img/alerts/warning.svg');
       width: 2em;
       height: 1.2em;
       background-size: 1.8em;
@@ -510,7 +519,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .saved-success-icon {
-  margin: 0 .5em 0 0;
+  margin: 0 0.5em 0 0;
 }
 
 .usa-alert-no-color {
@@ -574,12 +583,10 @@ legend.schemaform-label.schemaform-file-label {
   background: $color-white;
   border: 1px solid $color-gray;
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px $color-focus,
-              -3px 3px 3px -3px $color-focus,
-              7px 7px 7px -7px $color-focus,
-              -7px 7px 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px $color-focus, -3px 3px 3px -3px $color-focus,
+    7px 7px 7px -7px $color-focus, -7px 7px 7px -7px $color-focus;
   list-style: none;
-  margin-top: -.5rem;
+  margin-top: -0.5rem;
   max-width: 46rem;
   max-height: 46rem;
   overflow: auto;
@@ -595,12 +602,15 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
-.usa-input-error > .schemaform-widget-wrapper > .autosuggest-container > .autosuggest-list {
+.usa-input-error
+  > .schemaform-widget-wrapper
+  > .autosuggest-container
+  > .autosuggest-list {
   width: calc(100% + 1.9rem);
 }
 
 .autosuggest-item {
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   list-style-type: none;
 
   &-highlighted {
@@ -613,7 +623,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 // More correcting of overly broad uswds accordion styles
-.react-autosuggest__input[aria-expanded=false] {
+.react-autosuggest__input[aria-expanded='false'] {
   background-image: inherit !important;
   background-repeat: inherit !important;
   background-size: inherit !important;
@@ -628,7 +638,8 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 1em;
 }
 
-.usa-accordion, .usa-accordion-bordered {
+.usa-accordion,
+.usa-accordion-bordered {
   > ul {
     button {
       border-radius: $button-border-radius;
@@ -646,7 +657,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 // highlighted outlines for accessibility
-[role=button]:focus,
+[role='button']:focus,
 button:focus,
 input:focus,
 select:focus,
@@ -655,11 +666,11 @@ textarea:focus {
   outline-offset: 2px;
 }
 
-.form-checkbox>input[type=checkbox]+.schemaform-label {
+.form-checkbox > input[type='checkbox'] + .schemaform-label {
   line-height: 2.4rem;
 }
 
-.form-checkbox>input[type=checkbox]+label:before {
+.form-checkbox > input[type='checkbox'] + label:before {
   margin-right: 0.6em;
 }
 

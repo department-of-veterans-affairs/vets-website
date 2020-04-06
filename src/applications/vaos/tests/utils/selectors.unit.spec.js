@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
@@ -32,7 +30,7 @@ describe('VAOS selectors', () => {
         },
       };
       const newAppointment = getNewAppointment(state);
-      expect(newAppointment).to.equal(state.newAppointment);
+      expect(newAppointment).toBe(state.newAppointment);
     });
   });
 
@@ -45,7 +43,7 @@ describe('VAOS selectors', () => {
         },
       };
       const formData = getFormData(state);
-      expect(formData).to.equal(state.newAppointment.data);
+      expect(formData).toBe(state.newAppointment.data);
     });
   });
 
@@ -58,7 +56,7 @@ describe('VAOS selectors', () => {
           flowType: 'DIRECT',
         },
       };
-      expect(getFlowType(state)).to.equal('DIRECT');
+      expect(getFlowType(state)).toBe('DIRECT');
     });
   });
 
@@ -75,11 +73,11 @@ describe('VAOS selectors', () => {
       };
       const pageInfo = getFormPageInfo(state, 'testPage');
 
-      expect(pageInfo.pageChangeInProgress).to.equal(
+      expect(pageInfo.pageChangeInProgress).toBe(
         state.newAppointment.pageChangeInProgress,
       );
-      expect(pageInfo.data).to.equal(state.newAppointment.data);
-      expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
+      expect(pageInfo.data).toBe(state.newAppointment.data);
+      expect(pageInfo.schema).toBe(state.newAppointment.pages.testPage);
     });
   });
 
@@ -106,8 +104,8 @@ describe('VAOS selectors', () => {
       };
 
       const newState = getFacilityPageInfo(state);
-      expect(newState.typeOfCare).to.equal('Pharmacy');
-      expect(newState.loadingParentFacilities).to.be.true;
+      expect(newState.typeOfCare).toBe('Pharmacy');
+      expect(newState.loadingParentFacilities).toBe(true);
     });
     it('should return eligibility error flag', () => {
       const state = {
@@ -132,7 +130,7 @@ describe('VAOS selectors', () => {
       };
 
       const newState = getFacilityPageInfo(state);
-      expect(newState.hasEligibilityError).to.be.true;
+      expect(newState.hasEligibilityError).toBe(true);
     });
     it('should return Cerner facilities', () => {
       const state = {
@@ -160,7 +158,7 @@ describe('VAOS selectors', () => {
       };
 
       const newState = getFacilityPageInfo(state);
-      expect(newState.cernerFacilities).to.deep.equal(['123']);
+      expect(newState.cernerFacilities).toEqual(['123']);
     });
   });
 
@@ -184,7 +182,7 @@ describe('VAOS selectors', () => {
         },
       };
 
-      expect(getChosenFacilityInfo(state)).to.equal(
+      expect(getChosenFacilityInfo(state)).toBe(
         state.newAppointment.facilities['323_123'][0],
       );
     });
@@ -205,7 +203,7 @@ describe('VAOS selectors', () => {
         },
       };
 
-      expect(getChosenFacilityDetails(state)).to.equal(
+      expect(getChosenFacilityDetails(state)).toBe(
         state.newAppointment.facilityDetails['983'],
       );
     });
@@ -233,7 +231,7 @@ describe('VAOS selectors', () => {
         },
       };
       const clinic = getChosenClinicInfo(state);
-      expect(clinic.clinicId).to.equal(state.newAppointment.data.clinicId);
+      expect(clinic.clinicId).toBe(state.newAppointment.data.clinicId);
     });
   });
 
@@ -245,8 +243,8 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.id).to.equal('408');
-      expect(typeOfCare.name).to.equal('Optometry');
+      expect(typeOfCare.id).toBe('408');
+      expect(typeOfCare.name).toBe('Optometry');
     });
 
     it('get sleep type of care', () => {
@@ -256,8 +254,8 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.id).to.equal('349');
-      expect(typeOfCare.name).to.equal(
+      expect(typeOfCare.id).toBe('349');
+      expect(typeOfCare.name).toBe(
         'Continuous Positive Airway Pressure (CPAP)',
       );
     });
@@ -270,7 +268,7 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.ccId).to.equal('CCAUDHEAR');
+      expect(typeOfCare.ccId).toBe('CCAUDHEAR');
     });
 
     it('get podiatry type of care', () => {
@@ -279,7 +277,7 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.name).to.equal('Podiatry');
+      expect(typeOfCare.name).toBe('Podiatry');
     });
 
     it('get pharmacy type of care', () => {
@@ -288,7 +286,7 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.name).to.equal('Pharmacy');
+      expect(typeOfCare.name).toBe('Pharmacy');
     });
   });
 
@@ -313,7 +311,7 @@ describe('VAOS selectors', () => {
         },
       };
       const clinics = getClinicsForChosenFacility(state);
-      expect(clinics).to.equal(state.newAppointment.clinics['688GB_323']);
+      expect(clinics).toBe(state.newAppointment.clinics['688GB_323']);
     });
   });
 
@@ -330,14 +328,14 @@ describe('VAOS selectors', () => {
       };
       const preferredDate = getPreferredDate(state, 'testPage');
 
-      expect(preferredDate.pageChangeInProgress).to.equal(
+      expect(preferredDate.pageChangeInProgress).toBe(
         state.newAppointment.pageChangeInProgress,
       );
-      expect(preferredDate.data).to.equal(state.newAppointment.data);
-      expect(preferredDate.schema).to.equal(
+      expect(preferredDate.data).toBe(state.newAppointment.data);
+      expect(preferredDate.schema).toBe(
         state.newAppointment.pages.preferredDate,
       );
-      expect(preferredDate.typeOfCare).to.equal('Primary care');
+      expect(preferredDate.typeOfCare).toBe('Primary care');
     });
   });
 
@@ -382,9 +380,9 @@ describe('VAOS selectors', () => {
       };
 
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.equal('Mountain time (MT)');
-      expect(data.availableDates).to.eql(['2019-10-24']);
-      expect(data.availableSlots).to.eql(availableSlots);
+      expect(data.timezone).toBe('Mountain time (MT)');
+      expect(data.availableDates).toEqual(['2019-10-24']);
+      expect(data.availableSlots).toEqual(availableSlots);
     });
   });
 
@@ -406,12 +404,12 @@ describe('VAOS selectors', () => {
       };
       const pageInfo = getClinicPageInfo(state, 'clinicChoice');
 
-      expect(pageInfo.pageChangeInProgress).to.equal(
+      expect(pageInfo.pageChangeInProgress).toBe(
         state.newAppointment.pageChangeInProgress,
       );
-      expect(pageInfo.data).to.equal(state.newAppointment.data);
-      expect(pageInfo.schema).to.equal(state.newAppointment.pages.clinicChoice);
-      expect(pageInfo.typeOfCare).to.deep.equal({
+      expect(pageInfo.data).toBe(state.newAppointment.data);
+      expect(pageInfo.schema).toBe(state.newAppointment.pages.clinicChoice);
+      expect(pageInfo.typeOfCare).toEqual({
         id: '323',
         ccId: 'CCPRMYRTNE',
         group: 'primary',
@@ -443,9 +441,7 @@ describe('VAOS selectors', () => {
 
       const cancelInfo = getCancelInfo(state);
 
-      expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData['123'],
-      );
+      expect(cancelInfo.facility).toBe(state.appointments.facilityData['123']);
     });
     it('should fetch facility from clinic map', () => {
       const state = {
@@ -467,7 +463,7 @@ describe('VAOS selectors', () => {
 
       const cancelInfo = getCancelInfo(state);
 
-      expect(cancelInfo.facility).to.equal(
+      expect(cancelInfo.facility).toBe(
         state.appointments.systemClinicToFacilityMap['123_456'],
       );
     });
@@ -484,7 +480,7 @@ describe('VAOS selectors', () => {
         },
       };
       const cceType = getCCEType(state);
-      expect(cceType).to.equal('Audiology');
+      expect(cceType).toBe('Audiology');
     });
     it('should return cce type for Optometry', () => {
       const state = {
@@ -497,7 +493,7 @@ describe('VAOS selectors', () => {
         },
       };
       const cceType = getCCEType(state);
-      expect(cceType).to.equal('Optometry');
+      expect(cceType).toBe('Optometry');
     });
   });
 
@@ -508,7 +504,7 @@ describe('VAOS selectors', () => {
           dismissed: ['welcome-to-new-vaos'],
         },
       };
-      expect(isWelcomeModalDismissed(state)).to.be.true;
+      expect(isWelcomeModalDismissed(state)).toBe(true);
     });
     it('should not return dismissed if key is not in list', () => {
       const state = {
@@ -516,7 +512,7 @@ describe('VAOS selectors', () => {
           dismissed: ['welcome-to-new-va'],
         },
       };
-      expect(isWelcomeModalDismissed(state)).to.be.false;
+      expect(isWelcomeModalDismissed(state)).toBe(false);
     });
   });
 
@@ -529,7 +525,7 @@ describe('VAOS selectors', () => {
           },
         },
       };
-      expect(selectIsCernerOnlyPatient(state)).to.be.true;
+      expect(selectIsCernerOnlyPatient(state)).toBe(true);
     });
     it('should return false if not Cerner only', () => {
       const state = {
@@ -542,7 +538,7 @@ describe('VAOS selectors', () => {
           },
         },
       };
-      expect(selectIsCernerOnlyPatient(state)).to.be.false;
+      expect(selectIsCernerOnlyPatient(state)).toBe(false);
     });
   });
 
@@ -559,7 +555,7 @@ describe('VAOS selectors', () => {
         },
       };
 
-      expect(selectCernerFacilities(state).length).to.be.equal(1);
+      expect(selectCernerFacilities(state).length).toBe(1);
     });
 
     it('should return empty collection of cerner facilities', () => {
@@ -574,7 +570,7 @@ describe('VAOS selectors', () => {
         },
       };
 
-      expect(selectCernerFacilities(state).length).to.be.equal(0);
+      expect(selectCernerFacilities(state).length).toBe(0);
     });
   });
 });

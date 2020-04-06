@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   createDirectDepositAnalyticsDataObject,
   hasAccountFlaggedError,
@@ -41,11 +39,11 @@ describe('profile utils', () => {
     );
     it('returns the correct data when passed nothing', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject();
-      expect(eventDataObject).to.deep.equal(defaultDataObject);
+      expect(eventDataObject).toEqual(defaultDataObject);
     });
     it('returns the correct data when passed an empty array', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([]);
-      expect(eventDataObject).to.deep.equal(defaultDataObject);
+      expect(eventDataObject).toEqual(defaultDataObject);
     });
     it('returns the correct data when a bad address error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -67,7 +65,7 @@ describe('profile utils', () => {
           },
         },
       ]);
-      expect(eventDataObject).to.deep.equal(badAddressDataObject);
+      expect(eventDataObject).toEqual(badAddressDataObject);
     });
     it('returns the correct data when a work phone number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -89,7 +87,7 @@ describe('profile utils', () => {
           },
         },
       ]);
-      expect(eventDataObject).to.deep.equal(badWorkPhoneDataObject);
+      expect(eventDataObject).toEqual(badWorkPhoneDataObject);
     });
     it('returns the correct data when a day phone number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -111,7 +109,7 @@ describe('profile utils', () => {
           },
         },
       ]);
-      expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
+      expect(eventDataObject).toEqual(badHomePhoneDataObject);
     });
     it('returns the correct data when a routing number flagged for fraud error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -132,9 +130,7 @@ describe('profile utils', () => {
           title: 'Potential Fraud',
         },
       ]);
-      expect(eventDataObject).to.deep.equal(
-        routingNumberFlaggedForFraudDataObject,
-      );
+      expect(eventDataObject).toEqual(routingNumberFlaggedForFraudDataObject);
     });
     it('returns the correct data when an account flagged for fraud error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -155,7 +151,7 @@ describe('profile utils', () => {
           title: 'Account Flagged',
         },
       ]);
-      expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
+      expect(eventDataObject).toEqual(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -176,7 +172,7 @@ describe('profile utils', () => {
           },
         },
       ]);
-      expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
+      expect(eventDataObject).toEqual(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -197,7 +193,7 @@ describe('profile utils', () => {
           },
         },
       ]);
-      expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
+      expect(eventDataObject).toEqual(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when a payment restriction indicators error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -218,9 +214,7 @@ describe('profile utils', () => {
           },
         },
       ]);
-      expect(eventDataObject).to.deep.equal(
-        paymentRestrictionIndicatorsDataObject,
-      );
+      expect(eventDataObject).toEqual(paymentRestrictionIndicatorsDataObject);
     });
   });
 
@@ -244,7 +238,7 @@ describe('profile utils', () => {
           title: 'Potential Fraud',
         },
       ];
-      expect(hasRoutingNumberFlaggedError(errors)).to.equal(true);
+      expect(hasRoutingNumberFlaggedError(errors)).toBe(true);
     });
 
     it('hasAccountFlaggedError returns true on error', () => {
@@ -266,7 +260,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasAccountFlaggedError(errors)).to.equal(true);
+      expect(hasAccountFlaggedError(errors)).toBe(true);
     });
 
     it('hasInvalidHomePhoneNumberError returns false if text does not contain night phone', () => {
@@ -289,7 +283,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
+      expect(hasInvalidHomePhoneNumberError(errors)).toBe(false);
     });
 
     it('should return false with multiple errors with text not matching desired error conditions', () => {
@@ -317,7 +311,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
+      expect(hasInvalidHomePhoneNumberError(errors)).toBe(false);
     });
   });
 });

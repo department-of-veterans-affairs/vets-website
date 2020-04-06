@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -42,7 +41,7 @@ describe('authorization actions', () => {
 
       verifyDisabilityRating()(dispatch, getUnverifiedState);
 
-      expect(dispatch.called).to.be.false;
+      expect(dispatch.called).toBe(false);
     });
     it('should dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions', done => {
       const payload = { test: 'test' };
@@ -57,10 +56,10 @@ describe('authorization actions', () => {
         dispatch.firstCall.calledWith({
           type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
           payload,
         });
@@ -82,10 +81,10 @@ describe('authorization actions', () => {
         dispatch.firstCall.calledWith({
           type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.secondCall.args[0]).toEqual({
           type: LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
           error,
         });

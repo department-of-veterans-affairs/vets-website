@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { renderSchoolClosingAlert } from '../../utils/render';
 
@@ -9,7 +8,7 @@ describe('renderSchoolClosingAlert', () => {
         schoolClosing: true,
       }),
     );
-    expect(tree.find('.usa-alert-text').text()).to.equal(
+    expect(tree.find('.usa-alert-text').text()).toBe(
       'A campus at this school will be closing soon',
     );
     tree.unmount();
@@ -21,13 +20,13 @@ describe('renderSchoolClosingAlert', () => {
         schoolClosingOn: '2019-05-06',
       }),
     );
-    expect(tree.find('.usa-alert-text').text()).to.equal('School has closed');
+    expect(tree.find('.usa-alert-text').text()).toBe('School has closed');
     tree.unmount();
   });
   it('should not render an alert', () => {
     const result = renderSchoolClosingAlert({
       schoolClosing: false,
     });
-    expect(result).to.be.null;
+    expect(result).toBeNull();
   });
 });

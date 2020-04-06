@@ -1,7 +1,9 @@
 # Content-Preview Server
+
 This application is used to render content dynamically via a Node server and content API (Drupal). Its current objective is to render Drupal pages that are not yet published.
 
 ## Steps
+
 1. Do a local build so that the Webpack assets are available - `npm run build`
 2. Start the preview server - `npm run preview`
 

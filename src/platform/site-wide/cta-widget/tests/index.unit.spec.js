@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CallToActionWidget } from '../index';
@@ -24,7 +23,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('LoadingIndicator').exists()).toBe(true);
     tree.unmount();
   });
   it('should show loading state when loading feature toggles', () => {
@@ -45,7 +44,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('LoadingIndicator').exists()).toBe(true);
     tree.unmount();
   });
   it('should show sign in state', () => {
@@ -66,8 +65,8 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(tree.find('SignIn').exists()).to.be.true;
+    expect(tree.find('LoadingIndicator').exists()).toBe(false);
+    expect(tree.find('SignIn').exists()).toBe(true);
     tree.unmount();
   });
   it('should show verify link', () => {
@@ -90,7 +89,7 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('Verify').exists()).to.be.true;
+    expect(tree.find('Verify').exists()).toBe(true);
     tree.unmount();
   });
   it('should show link and description', () => {
@@ -113,12 +112,16 @@ describe('<CallToActionWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(tree.find('SignIn').exists()).to.be.false;
-    expect(tree.find('Verify').exists()).to.be.false;
-    expect(tree.find('a').props().href).to.contain('track-claims');
-    expect(tree.find('a').props().target).to.equal('_self');
-    expect(tree.find('a').text()).to.contain('Claim or Appeal Status');
+    expect(tree.find('LoadingIndicator').exists()).toBe(false);
+    expect(tree.find('SignIn').exists()).toBe(false);
+    expect(tree.find('Verify').exists()).toBe(false);
+    expect(tree.find('a').props().href).toEqual(
+      expect.arrayContaining(['track-claims']),
+    );
+    expect(tree.find('a').props().target).toBe('_self');
+    expect(tree.find('a').text()).toEqual(
+      expect.arrayContaining(['Claim or Appeal Status']),
+    );
     tree.unmount();
   });
   describe('health tools', () => {
@@ -144,7 +147,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(fetchMHVAccount.called).to.be.true;
+      expect(fetchMHVAccount.called).toBe(true);
       tree.unmount();
     });
 
@@ -168,11 +171,11 @@ describe('<CallToActionWidget>', () => {
           }}
         />,
       );
-      expect(fetchMHVAccount.called).to.be.false;
+      expect(fetchMHVAccount.called).toBe(false);
 
       tree.setProps({ isLoggedIn: true });
 
-      expect(fetchMHVAccount.called).to.be.true;
+      expect(fetchMHVAccount.called).toBe(true);
       tree.unmount();
     });
 
@@ -196,7 +199,7 @@ describe('<CallToActionWidget>', () => {
           }}
         />,
       );
-      expect(createAndUpgradeMHVAccount.called).to.be.false;
+      expect(createAndUpgradeMHVAccount.called).toBe(false);
 
       global.dom.reconfigure({ url: 'http://localhost?tc_accepted=true' });
       tree.setProps({
@@ -207,7 +210,7 @@ describe('<CallToActionWidget>', () => {
         },
       });
 
-      expect(createAndUpgradeMHVAccount.called).to.be.true;
+      expect(createAndUpgradeMHVAccount.called).toBe(true);
       tree.unmount();
       global.dom.reconfigure({ url: 'http://localhost' });
     });
@@ -232,7 +235,7 @@ describe('<CallToActionWidget>', () => {
           }}
         />,
       );
-      expect(upgradeMHVAccount.called).to.be.false;
+      expect(upgradeMHVAccount.called).toBe(false);
 
       global.dom.reconfigure({ url: 'http://localhost?tc_accepted=true' });
       tree.setProps({
@@ -244,7 +247,7 @@ describe('<CallToActionWidget>', () => {
         },
       });
 
-      expect(upgradeMHVAccount.called).to.be.true;
+      expect(upgradeMHVAccount.called).toBe(true);
       tree.unmount();
       global.dom.reconfigure({ url: 'http://localhost' });
     });
@@ -276,7 +279,9 @@ describe('<CallToActionWidget>', () => {
         isLoggedIn: true,
       });
 
-      expect(window.open.firstCall.args[0]).to.contain('refill-prescriptions');
+      expect(window.open.firstCall.args[0]).toEqual(
+        expect.arrayContaining(['refill-prescriptions']),
+      );
       tree.unmount();
       window.open = jsdomOpen;
     });
@@ -304,7 +309,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      expect(tree.find('HealthToolsDown').exists()).toBe(true);
       tree.unmount();
     });
 
@@ -331,7 +336,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('NotAuthorized').exists()).to.be.true;
+      expect(tree.find('NotAuthorized').exists()).toBe(true);
       tree.unmount();
     });
 
@@ -358,7 +363,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('NotFound').exists()).to.be.true;
+      expect(tree.find('NotFound').exists()).toBe(true);
       tree.unmount();
     });
 
@@ -386,7 +391,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      expect(tree.find('HealthToolsDown').exists()).toBe(true);
       tree.unmount();
     });
 
@@ -413,7 +418,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('MFA').exists()).to.be.true;
+      expect(tree.find('MFA').exists()).toBe(true);
       tree.unmount();
     });
 
@@ -440,7 +445,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('DirectDeposit').exists()).to.be.true;
+      expect(tree.find('DirectDeposit').exists()).toBe(true);
       tree.unmount();
     });
     describe('account state errors', () => {
@@ -469,7 +474,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('Verify').exists()).to.be.true;
+        expect(tree.find('Verify').exists()).toBe(true);
         tree.unmount();
       });
 
@@ -485,7 +490,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('NeedsSSNResolution').exists()).to.be.true;
+        expect(tree.find('NeedsSSNResolution').exists()).toBe(true);
         tree.unmount();
       });
 
@@ -501,7 +506,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
+        expect(tree.find('DeactivatedMHVIds').exists()).toBe(true);
         tree.unmount();
       });
 
@@ -517,7 +522,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('MultipleIds').exists()).to.be.true;
+        expect(tree.find('MultipleIds').exists()).toBe(true);
         tree.unmount();
       });
 
@@ -533,7 +538,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('RegisterFailed').exists()).to.be.true;
+        expect(tree.find('RegisterFailed').exists()).toBe(true);
         tree.unmount();
       });
 
@@ -549,7 +554,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('UpgradeFailed').exists()).to.be.true;
+        expect(tree.find('UpgradeFailed').exists()).toBe(true);
         tree.unmount();
       });
 
@@ -565,7 +570,7 @@ describe('<CallToActionWidget>', () => {
           />,
         );
 
-        expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+        expect(tree.find('NeedsVAPatient').exists()).toBe(true);
         tree.unmount();
       });
     });
@@ -592,7 +597,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
+      expect(tree.find('OpenMyHealtheVet').exists()).toBe(true);
       tree.unmount();
     });
     it('should show no MHV account message and redirect to t&c', () => {
@@ -621,13 +626,13 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('NoMHVAccount').exists()).to.be.true;
+      expect(tree.find('NoMHVAccount').exists()).toBe(true);
       tree
         .find('NoMHVAccount')
         .props()
         .primaryButtonHandler();
-      expect(window.location).to.contain(
-        'medical-information-terms-conditions',
+      expect(window.location).toEqual(
+        expect.arrayContaining(['medical-information-terms-conditions']),
       );
       tree.unmount();
     });
@@ -654,7 +659,7 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      expect(tree.find('HealthToolsDown').exists()).toBe(true);
       tree.unmount();
     });
 
@@ -679,10 +684,12 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(fetchMHVAccount.called).to.be.false;
-      expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
-      expect(tree.text()).contains(
-        'view, schedule, or cancel your appointment online',
+      expect(fetchMHVAccount.called).toBe(false);
+      expect(tree.find('VAOnlineScheduling').exists()).toBe(true);
+      expect(tree.text()).toEqual(
+        expect.arrayContaining([
+          'view, schedule, or cancel your appointment online',
+        ]),
       );
       tree.unmount();
     });
@@ -708,9 +715,9 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(fetchMHVAccount.called).to.be.false;
+      expect(fetchMHVAccount.called).toBe(false);
       tree.setProps({});
-      expect(fetchMHVAccount.called).to.be.false;
+      expect(fetchMHVAccount.called).toBe(false);
       tree.unmount();
     });
     it('should show mhv message if flag is off', () => {
@@ -734,8 +741,8 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(fetchMHVAccount.called).to.be.true;
-      expect(tree.find('NoMHVAccount').exists()).to.be.true;
+      expect(fetchMHVAccount.called).toBe(true);
+      expect(tree.find('NoMHVAccount').exists()).toBe(true);
       tree.unmount();
     });
   });

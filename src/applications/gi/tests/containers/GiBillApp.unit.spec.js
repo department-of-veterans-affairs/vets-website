@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import createCommonStore from '../../../../platform/startup/store';
@@ -26,7 +25,7 @@ describe('<GiBillApp>', () => {
       <GiBillApp {...defaultProps} location={location} params={params} />,
     );
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    expect(vdom).toBeDefined();
   });
 
   it('should render LoadingIndicator', () => {
@@ -40,7 +39,7 @@ describe('<GiBillApp>', () => {
     const tree = SkinDeep.shallowRender(
       <GiBillApp {...props} location={location} params={params} />,
     );
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+    expect(tree.subTree('LoadingIndicator')).toBeTruthy();
   });
 
   it('should render error message when constants fail', () => {
@@ -55,6 +54,6 @@ describe('<GiBillApp>', () => {
     const tree = SkinDeep.shallowRender(
       <GiBillApp {...errorProps} location={location} params={params} />,
     );
-    expect(tree.subTree('ServiceError')).to.be.ok;
+    expect(tree.subTree('ServiceError')).toBeTruthy();
   });
 });

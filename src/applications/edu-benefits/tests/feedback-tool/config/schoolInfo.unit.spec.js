@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import _ from 'lodash';
@@ -38,7 +37,7 @@ describe('feedback tool school info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).toBe(7);
     form.unmount();
   });
 
@@ -59,7 +58,7 @@ describe('feedback tool school info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).toBe(8);
     form.unmount();
   });
 
@@ -89,8 +88,8 @@ describe('feedback tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(5);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -115,8 +114,8 @@ describe('feedback tool school info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(3);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -176,8 +175,8 @@ describe('feedback tool school info', () => {
       'United States',
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 });

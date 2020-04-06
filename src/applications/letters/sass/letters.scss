@@ -1,11 +1,11 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
 
 @mixin schemaform-padding {
   // query borrowed from _m-schemaform.scss
-  @media(max-width: 40.063em) {
-    padding-right: 2rem - .9375rem;
+  @media (max-width: 40.063em) {
+    padding-right: 2rem - 0.9375rem;
   }
 }
 
@@ -14,7 +14,7 @@
 // This triggers the [tabindex]:focus rule in USWDS which gives a golden outline
 // We don't want that outline around #content
 #content[tabindex]:focus {
-    outline: none;
+  outline: none;
 }
 
 .letters {
@@ -34,7 +34,7 @@
       margin-top: 2em;
 
       h2 {
-        margin-top: .5em;
+        margin-top: 0.5em;
       }
     }
   }
@@ -62,7 +62,7 @@
       margin-top: 2em;
 
       &.va-modal-close {
-        margin-top: .25rem;
+        margin-top: 0.25rem;
       }
 
       &.address-help-btn {
@@ -146,7 +146,7 @@
   }
 
   th {
-    [scope="row"] {
+    [scope='row'] {
       padding-bottom: 0;
       padding-top: 0;
     }
@@ -183,14 +183,18 @@
 
 // This probably belongs somewhere else
 
-.usa-alert, .usa-input-error, .nav-header > h4, .nav-header {
+.usa-alert,
+.usa-input-error,
+.nav-header > h4,
+.nav-header {
   &:focus {
     outline: none;
   }
 }
 
 label + div {
-  select, input:not([type="radio"]) {
+  select,
+  input:not([type='radio']) {
     margin-top: 0.5em;
   }
 }
@@ -201,8 +205,8 @@ label + div {
   padding-right: 2rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
-    padding-left: 2rem - .9375rem;
-    padding-right: 2rem - .9375rem;
+    padding-left: 2rem - 0.9375rem;
+    padding-right: 2rem - 0.9375rem;
   }
   > h4 {
     padding-bottom: 0 !important;

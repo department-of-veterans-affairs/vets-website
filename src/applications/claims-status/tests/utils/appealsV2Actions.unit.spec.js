@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getAppealsV2 } from '../../actions';
@@ -44,7 +43,7 @@ describe('getAppealsV2', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(FETCH_APPEALS_PENDING);
+        expect(action.type).toBe(FETCH_APPEALS_PENDING);
       })
       .then(done, done);
   });
@@ -55,7 +54,7 @@ describe('getAppealsV2', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(FETCH_APPEALS_SUCCESS);
+        expect(action.type).toBe(FETCH_APPEALS_SUCCESS);
       })
       .then(done, done);
   });
@@ -82,7 +81,7 @@ describe('getAppealsV2', () => {
       thunk(dispatch)
         .then(() => {
           const action = dispatch.secondCall.args[0];
-          expect(action.type).to.equal(appealsErrors[code]);
+          expect(action.type).toBe(appealsErrors[code]);
         })
         .then(done, done);
     });

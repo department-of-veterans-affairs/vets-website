@@ -1,21 +1,20 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../../platform/forms/sass/m-schemaform";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../../platform/forms/sass/m-schemaform';
 // @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 // @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
-
+@import '../../../../platform/forms/sass/m-form-confirmation';
 
 .dashed-bullet {
   list-style-type: none;
 }
 
 .dashed-bullet:before {
-  content: "-";
+  content: '-';
   padding-right: 10px;
 }
 
@@ -44,7 +43,8 @@
 }
 
 .accordion-header {
-  > button, > .accordion-title {
+  > button,
+  > .accordion-title {
     min-height: 7rem;
     padding: 2.5rem 6.5rem 2.5rem 3rem;
     font-size: 1.15em;
@@ -54,7 +54,7 @@
 }
 
 // Bring the text of an element nested in a <label> up to the same line as the check box
-.form-checkbox input[type="checkbox"] + label {
+.form-checkbox input[type='checkbox'] + label {
   div {
     display: inline-block;
     // Also give a little more space between the checkbox and the label
@@ -65,7 +65,6 @@
     }
   }
 }
-
 
 // This could go in the schemaform css, but it isn't used anywhere but here for now
 .widget-outline {
@@ -86,7 +85,7 @@
     display: inline-block;
   }
 
-  input[type="checkbox"] + label {
+  input[type='checkbox'] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
     margin-top: 0em;

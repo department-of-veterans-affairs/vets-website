@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import formConfig from '../../config/form';
@@ -40,7 +39,7 @@ describe('Form 526 submit reject timer', () => {
     const promise = await formConfig
       .submit(form, blankFormConfig, { mode: 'testing' })
       .catch(error => {
-        expect(error.message).to.eql('client_error: Request taking too long');
+        expect(error.message).toBe('client_error: Request taking too long');
       });
 
     return promise;

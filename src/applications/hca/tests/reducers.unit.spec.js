@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import * as actions from '../actions';
 import { hcaEnrollmentStatus as reducer } from '../reducer';
 
@@ -18,7 +16,7 @@ describe('HCA Enrollment Status Reducer', () => {
         type: actions.FETCH_ENROLLMENT_STATUS_STARTED,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isLoadingApplicationStatus).to.be.true;
+      expect(reducedState.isLoadingApplicationStatus).toBe(true);
     });
   });
 
@@ -36,23 +34,17 @@ describe('HCA Enrollment Status Reducer', () => {
           },
         };
         reducedState = reducer(state, action);
-        expect(reducedState.enrollmentStatus).to.equal(
-          action.data.parsedStatus,
-        );
-        expect(reducedState.applicationDate).to.equal(
-          action.data.applicationDate,
-        );
-        expect(reducedState.enrollmentDate).to.equal(
-          action.data.enrollmentDate,
-        );
-        expect(reducedState.enrollmentStatusEffectiveDate).to.equal(
+        expect(reducedState.enrollmentStatus).toBe(action.data.parsedStatus);
+        expect(reducedState.applicationDate).toBe(action.data.applicationDate);
+        expect(reducedState.enrollmentDate).toBe(action.data.enrollmentDate);
+        expect(reducedState.enrollmentStatusEffectiveDate).toBe(
           action.data.effectiveDate,
         );
-        expect(reducedState.preferredFacility).to.equal(
+        expect(reducedState.preferredFacility).toBe(
           action.data.preferredFacility,
         );
-        expect(reducedState.isLoadingApplicationStatus).to.be.false;
-        expect(reducedState.isUserInMVI).to.be.true;
+        expect(reducedState.isLoadingApplicationStatus).toBe(false);
+        expect(reducedState.isUserInMVI).toBe(true);
       });
     });
 
@@ -67,10 +59,10 @@ describe('HCA Enrollment Status Reducer', () => {
         reducedState = reducer(state, action);
       });
       it('sets `loginRequired` to `false`', () => {
-        expect(reducedState.loginRequired).to.be.false;
+        expect(reducedState.loginRequired).toBe(false);
       });
       it('sets `noESRRecordFound` to `true`', () => {
-        expect(reducedState.noESRRecordFound).to.be.true;
+        expect(reducedState.noESRRecordFound).toBe(true);
       });
     });
 
@@ -85,10 +77,10 @@ describe('HCA Enrollment Status Reducer', () => {
         reducedState = reducer(state, action);
       });
       it('sets `loginRequired` to `true`', () => {
-        expect(reducedState.loginRequired).to.be.true;
+        expect(reducedState.loginRequired).toBe(true);
       });
       it('sets `noESRRecordFound` to `false`', () => {
-        expect(reducedState.noESRRecordFound).to.be.false;
+        expect(reducedState.noESRRecordFound).toBe(false);
       });
     });
   });
@@ -101,10 +93,10 @@ describe('HCA Enrollment Status Reducer', () => {
           errors: [{ code: '400' }],
         };
         reducedState = reducer(state, action);
-        expect(reducedState.hasServerError).to.be.false;
-        expect(reducedState.isLoadingApplicationStatus).to.be.false;
-        expect(reducedState.loginRequired).to.be.false;
-        expect(reducedState.noESRRecordFound).to.be.false;
+        expect(reducedState.hasServerError).toBe(false);
+        expect(reducedState.isLoadingApplicationStatus).toBe(false);
+        expect(reducedState.loginRequired).toBe(false);
+        expect(reducedState.noESRRecordFound).toBe(false);
       });
     });
 
@@ -115,7 +107,7 @@ describe('HCA Enrollment Status Reducer', () => {
           errors: [{ code: '404' }],
         };
         reducedState = reducer(state, action);
-        expect(reducedState.noESRRecordFound).to.be.true;
+        expect(reducedState.noESRRecordFound).toBe(true);
       });
     });
 
@@ -126,7 +118,7 @@ describe('HCA Enrollment Status Reducer', () => {
           errors: [{ code: '429' }],
         };
         reducedState = reducer(state, action);
-        expect(reducedState.loginRequired).to.be.true;
+        expect(reducedState.loginRequired).toBe(true);
       });
     });
 
@@ -137,7 +129,7 @@ describe('HCA Enrollment Status Reducer', () => {
           errors: [{ code: '500' }],
         };
         reducedState = reducer(state, action);
-        expect(reducedState.hasServerError).to.be.true;
+        expect(reducedState.hasServerError).toBe(true);
       });
     });
   });
@@ -148,7 +140,7 @@ describe('HCA Enrollment Status Reducer', () => {
         type: actions.SHOW_HCA_REAPPLY_CONTENT,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.showHCAReapplyContent).to.be.true;
+      expect(reducedState.showHCAReapplyContent).toBe(true);
     });
   });
 
@@ -159,7 +151,7 @@ describe('HCA Enrollment Status Reducer', () => {
         type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.true;
+      expect(reducedState.isLoadingDismissedNotification).toBe(true);
     });
   });
 
@@ -183,8 +175,8 @@ describe('HCA Enrollment Status Reducer', () => {
         },
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
-      expect(reducedState.dismissedNotificationDate).to.equal(
+      expect(reducedState.isLoadingDismissedNotification).toBe(false);
+      expect(reducedState.dismissedNotificationDate).toBe(
         '2019-02-25T01:22:00.000Z',
       );
     });
@@ -199,7 +191,7 @@ describe('HCA Enrollment Status Reducer', () => {
         type: actions.FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
+      expect(reducedState.isLoadingDismissedNotification).toBe(false);
     });
   });
 });

@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { srSubstitute, maskBankInformation } from '../../0994/utils';
@@ -11,7 +10,7 @@ describe('0994 utils', () => {
       const substitutionText = 'substitutionText';
       const srSub = shallow(srSubstitute(srIgnored, substitutionText));
 
-      expect(srSub.text()).to.contain('Test');
+      expect(srSub.text()).toEqual(expect.arrayContaining(['Test']));
       srSub.unmount();
     });
   });
@@ -19,7 +18,9 @@ describe('0994 utils', () => {
     it('should mask all but last 4 characters', () => {
       const maskedBankInfo = shallow(maskBankInformation('000000000', 4));
 
-      expect(maskedBankInfo.text()).to.contain('●●●●●ending with0000');
+      expect(maskedBankInfo.text()).toEqual(
+        expect.arrayContaining(['●●●●●ending with0000']),
+      );
 
       maskedBankInfo.unmount();
     });
@@ -28,7 +29,9 @@ describe('0994 utils', () => {
     it('should mask all but last 4 characters', () => {
       const maskedBankInfo = shallow(maskBankInformation(undefined, 4));
 
-      expect(maskedBankInfo.text()).to.contain('is blank');
+      expect(maskedBankInfo.text()).toEqual(
+        expect.arrayContaining(['is blank']),
+      );
 
       maskedBankInfo.unmount();
     });

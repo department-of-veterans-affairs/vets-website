@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   mockFetch,
@@ -49,8 +48,8 @@ describe('preferences actions', () => {
           },
         });
         const value = fetchUserSelectedBenefits()(dispatch, getState);
-        expect(value).to.be.null;
-        expect(dispatch.notCalled).to.be.true;
+        expect(value).toBeNull();
+        expect(dispatch.notCalled).toBe(true);
         done();
       });
     });
@@ -70,7 +69,7 @@ describe('preferences actions', () => {
           dispatch.firstCall.calledWith({
             type: FETCH_USER_PREFERENCES_STARTED,
           }),
-        ).to.be.true;
+        ).toBe(true);
         done();
       });
 
@@ -78,10 +77,10 @@ describe('preferences actions', () => {
         fetchUserSelectedBenefits()(dispatch, getState);
 
         setTimeout(() => {
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            '/v0/user/preferences',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining(['/v0/user/preferences']),
           );
-          expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+          expect(global.fetch.firstCall.args[1].method).toBe('GET');
           done();
         }, 0);
       });
@@ -97,7 +96,7 @@ describe('preferences actions', () => {
             dispatch.secondCall.calledWith({
               type: FETCH_USER_PREFERENCES_FAILED,
             }),
-          ).to.be.true;
+          ).toBe(true);
           done();
         }, 0);
       });
@@ -129,7 +128,7 @@ describe('preferences actions', () => {
         fetchUserSelectedBenefits()(dispatch, getState);
 
         setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).to.eql({
+          expect(dispatch.secondCall.args[0]).toEqual({
             type: FETCH_USER_PREFERENCES_SUCCEEDED,
             payload: response,
           });
@@ -157,8 +156,8 @@ describe('preferences actions', () => {
           },
         });
         const value = fetchAvailableBenefits()(dispatch, getState);
-        expect(value).to.be.null;
-        expect(dispatch.notCalled).to.be.true;
+        expect(value).toBeNull();
+        expect(dispatch.notCalled).toBe(true);
         done();
       });
     });
@@ -179,7 +178,7 @@ describe('preferences actions', () => {
           dispatch.firstCall.calledWith({
             type: FETCH_ALL_BENEFITS_STARTED,
           }),
-        ).to.be.true;
+        ).toBe(true);
 
         done();
       });
@@ -188,10 +187,10 @@ describe('preferences actions', () => {
         fetchAvailableBenefits()(dispatch, getState);
 
         setTimeout(() => {
-          expect(global.fetch.firstCall.args[0]).to.contain(
-            '/v0/user/preferences/choices/benefits',
+          expect(global.fetch.firstCall.args[0]).toEqual(
+            expect.arrayContaining(['/v0/user/preferences/choices/benefits']),
           );
-          expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+          expect(global.fetch.firstCall.args[1].method).toBe('GET');
           done();
         }, 0);
       });
@@ -207,7 +206,7 @@ describe('preferences actions', () => {
             dispatch.secondCall.calledWith({
               type: FETCH_ALL_BENEFITS_FAILED,
             }),
-          ).to.be.true;
+          ).toBe(true);
           done();
         }, 0);
       });
@@ -232,7 +231,7 @@ describe('preferences actions', () => {
         fetchAvailableBenefits()(dispatch, getState);
 
         setTimeout(() => {
-          expect(dispatch.secondCall.args[0]).to.eql({
+          expect(dispatch.secondCall.args[0]).toEqual({
             type: FETCH_ALL_BENEFITS_SUCCEEDED,
             payload: response,
           });
@@ -243,14 +242,14 @@ describe('preferences actions', () => {
   });
   describe('setPreference', () => {
     it('should return a SET_USER_PREFERENCE action, setting the preference to `true` by default', () => {
-      expect(setPreference('preference-code')).to.eql({
+      expect(setPreference('preference-code')).toEqual({
         type: SET_USER_PREFERENCE,
         code: 'preference-code',
         value: true,
       });
     });
     it('should return a SET_USER_PREFERENCE action, setting it to the correct value', () => {
-      expect(setPreference('preference-code', false)).to.eql({
+      expect(setPreference('preference-code', false)).toEqual({
         type: SET_USER_PREFERENCE,
         code: 'preference-code',
         value: false,
@@ -259,14 +258,14 @@ describe('preferences actions', () => {
   });
   describe('setDismissedBenefitAlerts', () => {
     it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting the dismissedBenefitAlerts to `[]` by default', () => {
-      expect(setDismissedBenefitAlerts()).to.eql({
+      expect(setDismissedBenefitAlerts()).toEqual({
         type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
         value: [],
       });
     });
     it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting it to the correct value', () => {
       const value = ['homelessness-alert'];
-      expect(setDismissedBenefitAlerts(value)).to.eql({
+      expect(setDismissedBenefitAlerts(value)).toEqual({
         type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
         value,
       });
@@ -274,7 +273,7 @@ describe('preferences actions', () => {
   });
   describe('restorePreviousSelections', () => {
     it('should return a RESTORE_PREVIOUS_USER_PREFERENCES action', () => {
-      expect(restorePreviousSelections()).to.eql({
+      expect(restorePreviousSelections()).toEqual({
         type: RESTORE_PREVIOUS_USER_PREFERENCES,
       });
     });
@@ -299,7 +298,7 @@ describe('preferences actions', () => {
         dispatch.firstCall.calledWith({
           type: SAVE_USER_PREFERENCES_STARTED,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       done();
     });
@@ -310,11 +309,11 @@ describe('preferences actions', () => {
       savePreferences(benefitsData)(dispatch);
 
       setTimeout(() => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/user/preferences',
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining(['/v0/user/preferences']),
         );
-        expect(global.fetch.firstCall.args[1].method).to.eql('POST');
-        expect(JSON.parse(global.fetch.firstCall.args[1].body)).to.eql([
+        expect(global.fetch.firstCall.args[1].method).toBe('POST');
+        expect(JSON.parse(global.fetch.firstCall.args[1].body)).toEqual([
           {
             preference: {
               code: 'benefits',
@@ -340,7 +339,7 @@ describe('preferences actions', () => {
           dispatch.secondCall.calledWith({
             type: SAVE_USER_PREFERENCES_FAILED,
           }),
-        ).to.be.true;
+        ).toBe(true);
         done();
       }, 0);
     });
@@ -371,7 +370,7 @@ describe('preferences actions', () => {
           dispatch.secondCall.calledWith({
             type: SAVE_USER_PREFERENCES_SUCCEEDED,
           }),
-        ).to.be.true;
+        ).toBe(true);
         done();
       }, 0);
     });
@@ -392,7 +391,7 @@ describe('preferences actions', () => {
         dispatch.firstCall.calledWith({
           type: SAVE_USER_PREFERENCES_STARTED,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       done();
     });
@@ -403,10 +402,10 @@ describe('preferences actions', () => {
       deletePreferences()(dispatch);
 
       setTimeout(() => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/user/preferences/benefits/delete_all',
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining(['/v0/user/preferences/benefits/delete_all']),
         );
-        expect(global.fetch.firstCall.args[1].method).to.eql('DELETE');
+        expect(global.fetch.firstCall.args[1].method).toBe('DELETE');
         done();
       }, 0);
     });
@@ -424,7 +423,7 @@ describe('preferences actions', () => {
           dispatch.secondCall.calledWith({
             type: SAVE_USER_PREFERENCES_FAILED,
           }),
-        ).to.be.true;
+        ).toBe(true);
         done();
       }, 0);
     });
@@ -451,7 +450,7 @@ describe('preferences actions', () => {
           dispatch.secondCall.calledWith({
             type: SAVE_USER_PREFERENCES_SUCCEEDED,
           }),
-        ).to.be.true;
+        ).toBe(true);
         done();
       }, 0);
     });
@@ -466,13 +465,13 @@ describe('preferences actions', () => {
     });
     it('should call savePreferences if it is passed a non-empty array of benefits', () => {
       updatePreferences({ pref: true }, saveSpy, deleteSpy);
-      expect(deleteSpy.called).not.to.be.true;
-      expect(saveSpy.firstCall.calledWith({ pref: true })).to.be.true;
+      expect(deleteSpy.called).not.toBe(true);
+      expect(saveSpy.firstCall.calledWith({ pref: true })).toBe(true);
     });
     it('should call deletePreferences if it is passed an empty array of benefits', () => {
       updatePreferences({}, saveSpy, deleteSpy);
-      expect(saveSpy.called).not.to.be.true;
-      expect(deleteSpy.called).to.be.true;
+      expect(saveSpy.called).not.toBe(true);
+      expect(deleteSpy.called).toBe(true);
     });
   });
 });

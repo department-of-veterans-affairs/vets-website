@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -39,7 +38,7 @@ describe('VIC helpers:', () => {
           expect.fail();
         },
         err => {
-          expect(err.message).to.equal('fake error');
+          expect(err.message).toBe('fake error');
         },
       );
     });
@@ -80,7 +79,7 @@ describe('VIC helpers:', () => {
       };
 
       return submit(form, formConfig).then(res => {
-        expect(res).to.deep.equal({
+        expect(res).toEqual({
           photo: 'test',
         });
       });
@@ -124,7 +123,7 @@ describe('VIC helpers:', () => {
           expect.fail();
         },
         err => {
-          expect(err.message).to.equal('vets_server_error_vic: status failed');
+          expect(err.message).toBe('vets_server_error_vic: status failed');
         },
       );
     });
@@ -164,7 +163,7 @@ describe('VIC helpers:', () => {
       };
 
       return submit(form, formConfig).then(res => {
-        expect(res).to.deep.equal({
+        expect(res).toEqual({
           photo: 'test',
         });
       });
@@ -198,7 +197,7 @@ describe('VIC helpers:', () => {
       };
 
       return submit(form, formConfig).then(res => {
-        expect(res).to.deep.equal({
+        expect(res).toEqual({
           photo: null,
         });
       });
@@ -224,9 +223,9 @@ describe('VIC helpers:', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData).to.equal(formData);
-      expect(result.pages).to.equal(pages);
-      expect(result.metadata).to.equal(metadata);
+      expect(result.formData).toBe(formData);
+      expect(result.pages).toBe(pages);
+      expect(result.metadata).toBe(metadata);
     });
     it('should set serviceBranch to first branch and enum to list', () => {
       const formData = {
@@ -253,11 +252,9 @@ describe('VIC helpers:', () => {
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(
         result.pages.veteranInformation.schema.properties.serviceBranch.enum,
-      ).to.deep.equal(formData.serviceBranches);
-      expect(result.formData.serviceBranch).to.equal(
-        formData.serviceBranches[0],
-      );
-      expect(result.formData.serviceBranches).to.be.undefined;
+      ).toEqual(formData.serviceBranches);
+      expect(result.formData.serviceBranch).toBe(formData.serviceBranches[0]);
+      expect(result.formData.serviceBranches).toBeUndefined();
     });
     it('should filter out invalid branches', () => {
       const formData = {
@@ -284,11 +281,9 @@ describe('VIC helpers:', () => {
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(
         result.pages.veteranInformation.schema.properties.serviceBranch.enum,
-      ).to.deep.equal(['A']);
-      expect(result.formData.serviceBranch).to.equal(
-        formData.serviceBranches[0],
-      );
-      expect(result.formData.serviceBranches).to.be.undefined;
+      ).toEqual(['A']);
+      expect(result.formData.serviceBranch).toBe(formData.serviceBranches[0]);
+      expect(result.formData.serviceBranches).toBeUndefined();
     });
     it('should leave full list when no valid branches', () => {
       const formData = {
@@ -315,9 +310,9 @@ describe('VIC helpers:', () => {
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(
         result.pages.veteranInformation.schema.properties.serviceBranch.enum,
-      ).to.deep.equal(fullSchemaVIC.properties.serviceBranch.enum);
-      expect(result.formData.serviceBranch).to.be.undefined;
-      expect(result.formData.serviceBranches).to.be.undefined;
+      ).toEqual(fullSchemaVIC.properties.serviceBranch.enum);
+      expect(result.formData.serviceBranch).toBeUndefined();
+      expect(result.formData.serviceBranches).toBeUndefined();
     });
     it('should set id proofed flag and original user data', () => {
       const formData = {
@@ -343,11 +338,11 @@ describe('VIC helpers:', () => {
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData.processAsIdProofed).to.be.true;
-      expect(result.formData.originalUser.veteranFullName).to.equal(
+      expect(result.formData.processAsIdProofed).toBe(true);
+      expect(result.formData.originalUser.veteranFullName).toBe(
         formData.veteranFullName,
       );
-      expect(result.formData.originalUser.veteranSocialSecurityNumber).to.equal(
+      expect(result.formData.originalUser.veteranSocialSecurityNumber).toBe(
         formData.veteranSocialSecurityNumber,
       );
     });
@@ -371,9 +366,9 @@ describe('VIC helpers:', () => {
       };
       const result = JSON.parse(transform(form, fullFormConfig));
 
-      expect(result.processAsAnonymous).to.be.false;
-      expect(result.veteranSocialSecurityNumber).to.be.undefined;
-      expect(result.veteranFullName).to.be.undefined;
+      expect(result.processAsAnonymous).toBe(false);
+      expect(result.veteranSocialSecurityNumber).toBeUndefined();
+      expect(result.veteranFullName).toBeUndefined();
     });
     it('should process as anonymous if fields are different', () => {
       const form = {
@@ -393,9 +388,9 @@ describe('VIC helpers:', () => {
       };
       const result = JSON.parse(transform(form, fullFormConfig));
 
-      expect(result.processAsAnonymous).to.be.true;
-      expect(result.veteranSocialSecurityNumber).not.to.be.undefined;
-      expect(result.veteranFullName).not.to.be.undefined;
+      expect(result.processAsAnonymous).toBe(true);
+      expect(result.veteranSocialSecurityNumber).not.toBeUndefined();
+      expect(result.veteranFullName).not.toBeUndefined();
     });
   });
 });

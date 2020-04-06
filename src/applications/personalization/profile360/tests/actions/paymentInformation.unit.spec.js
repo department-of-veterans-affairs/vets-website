@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -61,16 +60,16 @@ describe('actions/paymentInformation', () => {
       it('calls fetch to `GET ppiu/payment_information`', async () => {
         await actionCreator(dispatch);
 
-        expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+        expect(global.fetch.firstCall.args[1].method).toBe('GET');
         expect(
           global.fetch.firstCall.args[0].endsWith('/ppiu/payment_information'),
-        ).to.be.true;
+        ).toBe(true);
       });
 
       it('dispatches FETCH_PAYMENT_INFORMATION_STARTED', async () => {
         await actionCreator(dispatch);
 
-        expect(dispatch.firstCall.args[0].type).to.be.equal(
+        expect(dispatch.firstCall.args[0].type).toBe(
           paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
         );
       });
@@ -123,16 +122,16 @@ describe('actions/paymentInformation', () => {
         });
 
         it('dispatches PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
-          expect(dispatch.secondCall.args[0].type).to.be.equal(
+          expect(dispatch.secondCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
+          expect(dispatch.secondCall.args[0].response).toEqual({
             responses: [paymentInfo],
           });
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0].event).to.equal(
+          expect(recordEventSpy.firstCall.args[0].event).toBe(
             'profile-get-direct-deposit-retrieved',
           );
         });
@@ -143,10 +142,10 @@ describe('actions/paymentInformation', () => {
           setFetchJSONFailure(global.fetch.onFirstCall(), {});
           await actionCreator(dispatch);
 
-          expect(dispatch.firstCall.args[0].type).to.be.equal(
+          expect(dispatch.firstCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_FETCH_STARTED,
           );
-          expect(dispatch.secondCall.args[0].type).to.be.equal(
+          expect(dispatch.secondCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_FETCH_FAILED,
           );
         });
@@ -171,16 +170,16 @@ describe('actions/paymentInformation', () => {
       it('calls fetch to `PUT ppiu/payment_information', async () => {
         await actionCreator(dispatch);
 
-        expect(global.fetch.firstCall.args[1].method).to.equal('PUT');
+        expect(global.fetch.firstCall.args[1].method).toBe('PUT');
         expect(
           global.fetch.firstCall.args[0].endsWith('/ppiu/payment_information'),
-        ).to.be.true;
+        ).toBe(true);
       });
 
       it('dispatches PAYMENT_INFORMATION_SAVE_STARTED', async () => {
         await actionCreator(dispatch);
 
-        expect(dispatch.firstCall.args[0].type).to.be.equal(
+        expect(dispatch.firstCall.args[0].type).toBe(
           paymentInformationActions.PAYMENT_INFORMATION_SAVE_STARTED,
         );
       });
@@ -191,16 +190,16 @@ describe('actions/paymentInformation', () => {
         });
 
         it('dispatches PAYMENT_INFORMATION_SAVE_SUCCEEDED', () => {
-          expect(dispatch.secondCall.args[0].type).to.be.equal(
+          expect(dispatch.secondCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
           );
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0].event).to.equal(
+          expect(recordEventSpy.firstCall.args[0].event).toBe(
             'profile-transaction',
           );
-          expect(recordEventSpy.firstCall.args[0]['profile-section']).to.equal(
+          expect(recordEventSpy.firstCall.args[0]['profile-section']).toBe(
             'direct-deposit-information',
           );
         });
@@ -232,13 +231,13 @@ describe('actions/paymentInformation', () => {
         });
 
         it('dispatches PAYMENT_INFORMATION_SAVE_FAILED', () => {
-          expect(dispatch.secondCall.args[0].type).to.be.equal(
+          expect(dispatch.secondCall.args[0].type).toBe(
             paymentInformationActions.PAYMENT_INFORMATION_SAVE_FAILED,
           );
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
+          expect(recordEventSpy.firstCall.args[0]).toEqual({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': 'direct-deposit-information',
@@ -262,12 +261,12 @@ describe('actions/paymentInformation', () => {
 
         await actionCreator(dispatch);
 
-        expect(global.fetch.called).to.be.true;
-        expect(dispatch.calledTwice).to.be.true;
-        expect(dispatch.firstCall.args[0].type).to.be.equal(
+        expect(global.fetch.called).toBe(true);
+        expect(dispatch.calledTwice).toBe(true);
+        expect(dispatch.firstCall.args[0].type).toBe(
           paymentInformationActions.PAYMENT_INFORMATION_SAVE_STARTED,
         );
-        expect(dispatch.secondCall.args[0].type).to.be.equal(
+        expect(dispatch.secondCall.args[0].type).toBe(
           paymentInformationActions.PAYMENT_INFORMATION_SAVE_SUCCEEDED,
         );
       });

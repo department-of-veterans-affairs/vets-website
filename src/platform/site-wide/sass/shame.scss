@@ -1,7 +1,6 @@
 $medium-phone-screen: 375px;
 /* OVERRIDE */
 .merger {
-
   // Begin new-grid override
   // Overrides some default properties with a
   // class name that makes it more clear we remove
@@ -44,8 +43,8 @@ $medium-phone-screen: 375px;
   }
   $color-primary-lightest: #e1f3f8;
 
-  @import "iconography";
-  @import "modules/m-right-rail";
+  @import 'iconography';
+  @import 'modules/m-right-rail';
 
   section.usa-grid {
     padding-top: 3em;
@@ -375,16 +374,15 @@ $medium-phone-screen: 375px;
     }
   }
 
-
-
   .usa-accordion-bordered {
-    &.social, &.links {
+    &.social,
+    &.links {
       a {
         text-decoration: underline;
       }
-        .social-icon {
-          text-decoration: none;
-        }
+      .social-icon {
+        text-decoration: none;
+      }
 
       .usa-accordion-content {
         h4:first-child {
@@ -450,7 +448,7 @@ $medium-phone-screen: 375px;
 
     a {
       &::before {
-        content: " \2039 ";
+        content: ' \2039 ';
         display: inline-block;
         padding: 0 0.35em 0 0;
       }
@@ -532,20 +530,21 @@ img[data-srcset] {
   position: relative;
 }
 
-.usa-grid > :last-child, .usa-grid-full > :last-child {
+.usa-grid > :last-child,
+.usa-grid-full > :last-child {
   &.half-em-bottom-margin {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 }
 
 .inline-table-helper {
-  display: inline-table
+  display: inline-table;
 }
 
 .va-l-detail-page {
   .usa-content {
     p {
-      margin-top: 0
+      margin-top: 0;
     }
   }
 
@@ -559,7 +558,7 @@ img[data-srcset] {
 
 .usa-accordion > ul li ul,
 .usa-accordion-bordered > ul li ul {
-    list-style: square;
+  list-style: square;
 }
 
 .no-left-button-right-radius-treatment {

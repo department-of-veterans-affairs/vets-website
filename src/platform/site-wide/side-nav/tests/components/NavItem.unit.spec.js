@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import NavItem from '../../components/NavItem';
@@ -9,7 +8,7 @@ import NavItem from '../../components/NavItem';
 describe('<NavItem>', () => {
   it('should always render when used.', () => {
     const wrapper = shallow(<NavItem />);
-    expect(wrapper.type()).to.not.equal(null);
+    expect(wrapper.type()).not.toBeNull();
     wrapper.unmount();
   });
 
@@ -38,7 +37,7 @@ describe('<NavItem>', () => {
     };
 
     const wrapper = shallow(<NavItem {...defaultProps} />);
-    expect(wrapper.contains(<ul />)).to.equal(true);
+    expect(wrapper.contains(<ul />)).toBe(true);
     wrapper.unmount();
   });
 
@@ -79,7 +78,7 @@ describe('<NavItem>', () => {
     };
 
     const wrapper = shallow(<NavItem {...defaultProps} />);
-    expect(wrapper.contains(<div className="line" />)).to.equal(true);
+    expect(wrapper.contains(<div className="line" />)).toBe(true);
     wrapper.unmount();
   });
 });

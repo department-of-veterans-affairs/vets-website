@@ -11,37 +11,40 @@ Currently, Vet360's scope is limited to veteran contact information, which consi
 - Residential Address
 
 ## Getting started
+
 The [Profile](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/personalization/profile360) application serves as an example for how to use this work.
 
 Follow these steps to get started in your own application:
 
 1. Import and initialize the Vet360 reducer into the Redux store as `vet360`.
-    - In the Profile, this looks like - `export default { vaProfile, vet360 };`
+   - In the Profile, this looks like - `export default { vaProfile, vet360 };`
 2. Import and render the components or containers useful for your application.
-    - The `vet360/components` directory contains components that internally wrap containers so that they can be freely rendered standalone without any props or setup involved.
+   - The `vet360/components` directory contains components that internally wrap containers so that they can be freely rendered standalone without any props or setup involved.
 
 This should hopefully be all you need to know to work with Vet360, but there's more information below in case you would like to become familiar with how the components work.
 
 ## Vet360 Reducer
+
 The Vet360 reducer is necessary in order to manage transactions (more on that below), as well as certain interactions with the UI (opening an edit-modal after a user clicks "edit", for example.) It contains the following fields-
 
 1. `modal`
-    - A string value indicating which field's edit-modal should be visible.
+   - A string value indicating which field's edit-modal should be visible.
 2. `formFields`
-    - Information for the modals to manage their state in the UI, including the edited form value and validation errors.
-2. `transactions`
-    - An array of transactions, all of which will pertain to updates that are either pending (status of `RECEIVED`) or rejected. Successful transactions are automatically removed from state after the user profile is refreshed.
-    - The `fetchTransactions` action will populate this property with all transactions for a particular user.
-3. `fieldTransactionMap`
-    - An object, where each field-name (`mailingAddress`, `emailAddress`, etc) is used to look up whether there is an update request for a field. If there is pending request, then `fieldTransactionMap[FIELD_NAME].isPending` will be `true`. If there is direct error, then `isFailed` will be true and `error` will contain information from the API. If we there is an active transaction for that field, then `fieldTransactionMap[FIELD_NAME].transactionId` can be used to look up that transaction in the `transactions` property. This is necessary because a transaction only contains enough information to determine the update category (address, email address, or phone number) via its `type` rather then the specific field that it corresponds.
-    - A transaction may exist in the `transactions` array but without a field-mapping in the `fieldTransactionMap` if transactions are found via the `fetchTransactions` action.
-    - If there is no active transaction for a field or the specific field can't be determined because of the reason described above, then the value for a field will be `undefined`.
-4. `transactionsAwaitingUpdate`
-    - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
-5. `metadata`
-    - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
+   - Information for the modals to manage their state in the UI, including the edited form value and validation errors.
+3. `transactions`
+   - An array of transactions, all of which will pertain to updates that are either pending (status of `RECEIVED`) or rejected. Successful transactions are automatically removed from state after the user profile is refreshed.
+   - The `fetchTransactions` action will populate this property with all transactions for a particular user.
+4. `fieldTransactionMap`
+   - An object, where each field-name (`mailingAddress`, `emailAddress`, etc) is used to look up whether there is an update request for a field. If there is pending request, then `fieldTransactionMap[FIELD_NAME].isPending` will be `true`. If there is direct error, then `isFailed` will be true and `error` will contain information from the API. If we there is an active transaction for that field, then `fieldTransactionMap[FIELD_NAME].transactionId` can be used to look up that transaction in the `transactions` property. This is necessary because a transaction only contains enough information to determine the update category (address, email address, or phone number) via its `type` rather then the specific field that it corresponds.
+   - A transaction may exist in the `transactions` array but without a field-mapping in the `fieldTransactionMap` if transactions are found via the `fetchTransactions` action.
+   - If there is no active transaction for a field or the specific field can't be determined because of the reason described above, then the value for a field will be `undefined`.
+5. `transactionsAwaitingUpdate`
+   - An array of transaction IDs, each one corresponding to a request at `/v0/profile/person/status/{transaction_id}`. This is effectively used to prevent the API from being hit quicker than it can respond while we are polling for transaction updates.
+6. `metadata`
+   - Anything else about the transactions data. Currently, it contains only a `mostRecentErroredTransactionId` property, which is used to render error messaging for the most recent rejected transaction. It is necessary because transactions aren't timestamped.
 
 ## Transactions
+
 When a request to update a field is sent to Vet360 (via `PUT`, or `POST` if the field is empty), Vet360 does not respond with the updated record from a database as you would expect from a typical API. Instead, it responds with data on how to look up the progress of the update, information referred to as a "transaction." For example, a request to update an email would return a transaction that looks like:
 
 ```json
@@ -61,6 +64,7 @@ The `transaction_status` property set to `RECEIVED` indicates that Vet360 has en
 A note here about the `type` property - that field indicates whether the transaction pertains to an email, address, or telephone number. In the case of an address, you are not provided with an identifier to determine whether the transaction is for a residential or mailing address. This information must be managed by the Front-End in memory.
 
 ### Errors
+
 Most errors are returned by Vet360 during a transaction lookup along with a `transaction_status` indicating that the update was rejected. However, some errors are returned directly, similar to a traditional API response. These errors are -
 
 1. An address was said to be invalid

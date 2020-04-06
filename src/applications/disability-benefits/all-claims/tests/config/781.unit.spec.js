@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { createFormConfig781, createFormConfig781a } from '../../config/781';
 
 import { PTSD_INCIDENT_ITERATION } from '../../constants';
@@ -7,7 +5,9 @@ import { PTSD_INCIDENT_ITERATION } from '../../constants';
 describe('781/781a incident form config iterators', () => {
   describe('781 incident form config', () => {
     it('should return a config object', () => {
-      expect(createFormConfig781(PTSD_INCIDENT_ITERATION)).to.be.an('object');
+      expect(createFormConfig781(PTSD_INCIDENT_ITERATION)).toBeInstanceOf(
+        Object,
+      );
     });
 
     it('should return three incident date page config objects', () => {
@@ -16,7 +16,7 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`incidentDate${i}`);
 
-        expect(config[`incidentDate${i}`]).to.be.an('object');
+        expect(config[`incidentDate${i}`]).toBeInstanceOf(Object);
       }
     });
     it('should return three incident description page config objects', () => {
@@ -25,7 +25,7 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`incidentDescription${i}`);
 
-        expect(config[`incidentDescription${i}`]).to.be.an('object');
+        expect(config[`incidentDescription${i}`]).toBeInstanceOf(Object);
       }
     });
     it('should return three medals page config objects', () => {
@@ -34,7 +34,7 @@ describe('781/781a incident form config iterators', () => {
         for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
           expect(config).to.haveOwnProperty(`medals${i}`);
 
-          expect(config[`medals${i}`]).to.be.an('object');
+          expect(config[`medals${i}`]).toBeInstanceOf(Object);
         }
       };
       testMultipleIncidentMedalsProps();
@@ -45,7 +45,7 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(
           config[`incidentDate${i}`].schema.properties[`incident${i}`],
-        ).to.be.an('object');
+        ).toBeInstanceOf(Object);
         expect(
           config[`incidentDate${i}`].schema.properties[`incident${i}`],
         ).to.haveOwnProperty('type');
@@ -58,13 +58,15 @@ describe('781/781a incident form config iterators', () => {
 
     for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
       expect(config).to.haveOwnProperty(`incidentLocation${i}`);
-      expect(config[`incidentLocation${i}`]).to.be.an('object');
+      expect(config[`incidentLocation${i}`]).toBeInstanceOf(Object);
     }
   });
 
   describe('781a incident form config', () => {
     it('should return a config object', () => {
-      expect(createFormConfig781a(PTSD_INCIDENT_ITERATION)).to.be.an('object');
+      expect(createFormConfig781a(PTSD_INCIDENT_ITERATION)).toBeInstanceOf(
+        Object,
+      );
     });
 
     it('should return three incident date page config objects', () => {
@@ -73,7 +75,7 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryIncidentDate${i}`);
 
-        expect(config[`secondaryIncidentDate${i}`]).to.be.an('object');
+        expect(config[`secondaryIncidentDate${i}`]).toBeInstanceOf(Object);
       }
     });
     it('should return three incident description page config objects', () => {
@@ -82,7 +84,9 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryIncidentDescription${i}`);
 
-        expect(config[`secondaryIncidentDescription${i}`]).to.be.an('object');
+        expect(config[`secondaryIncidentDescription${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
     });
 
@@ -94,7 +98,7 @@ describe('781/781a incident form config iterators', () => {
           config[`secondaryIncidentDate${i}`].schema.properties[
             `secondaryIncident${i}`
           ],
-        ).to.be.an('object');
+        ).toBeInstanceOf(Object);
         expect(
           config[`secondaryIncidentDate${i}`].schema.properties[
             `secondaryIncident${i}`
@@ -108,7 +112,7 @@ describe('781/781a incident form config iterators', () => {
 
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryIncidentLocation${i}`);
-        expect(config[`secondaryIncidentLocation${i}`]).to.be.an('object');
+        expect(config[`secondaryIncidentLocation${i}`]).toBeInstanceOf(Object);
       }
     });
 
@@ -119,8 +123,8 @@ describe('781/781a incident form config iterators', () => {
         expect(config).to.haveOwnProperty(
           `secondaryIncidentPermissionNotice${i}`,
         );
-        expect(config[`secondaryIncidentPermissionNotice${i}`]).to.be.an(
-          'object',
+        expect(config[`secondaryIncidentPermissionNotice${i}`]).toBeInstanceOf(
+          Object,
         );
       }
     });
@@ -130,7 +134,9 @@ describe('781/781a incident form config iterators', () => {
 
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryIncidentAuthorities${i}`);
-        expect(config[`secondaryIncidentAuthorities${i}`]).to.be.an('object');
+        expect(config[`secondaryIncidentAuthorities${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
     });
 
@@ -140,7 +146,9 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`ptsdSecondaryAdditionalEvents${i}`);
 
-        expect(config[`ptsdSecondaryAdditionalEvents${i}`]).to.be.an('object');
+        expect(config[`ptsdSecondaryAdditionalEvents${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
     });
 
@@ -152,7 +160,7 @@ describe('781/781a incident form config iterators', () => {
           config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
             `view:enterAdditionalSecondaryEvents${i}`
           ],
-        ).to.be.an('object');
+        ).toBeInstanceOf(Object);
 
         expect(
           config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
@@ -168,7 +176,7 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryUploadSources${i}`);
 
-        expect(config[`secondaryUploadSources${i}`]).to.be.an('object');
+        expect(config[`secondaryUploadSources${i}`]).toBeInstanceOf(Object);
       }
     });
 
@@ -178,7 +186,9 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryUploadSourcesChoice${i}`);
 
-        expect(config[`secondaryUploadSourcesChoice${i}`]).to.be.an('object');
+        expect(config[`secondaryUploadSourcesChoice${i}`]).toBeInstanceOf(
+          Object,
+        );
       }
     });
   });

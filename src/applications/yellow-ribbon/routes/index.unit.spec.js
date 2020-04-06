@@ -1,6 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
-// Relative imports.
 import YellowRibbonApp from '../containers/YellowRibbonApp';
 import routes from './index';
 
@@ -11,6 +9,6 @@ describe('Yellow Ribbon routes', () => {
       component: YellowRibbonApp,
     };
 
-    expect(routes).to.deep.equal(expectedRoutes);
+    expect(routes).toEqual(expectedRoutes);
   });
 });

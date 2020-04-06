@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -43,15 +42,15 @@ describe('Schemaform save / load actions:', () => {
         SAVE_STATUSES.success,
       );
 
-      expect(action.type).to.equal(SET_SAVE_FORM_STATUS);
-      expect(action.status).to.equal(status);
+      expect(action.type).toBe(SET_SAVE_FORM_STATUS);
+      expect(action.status).toBe(status);
     });
     it('should return different action for auto saveType', () => {
       const status = SAVE_STATUSES.success;
       const action = setSaveFormStatus('auto', SAVE_STATUSES.success);
 
-      expect(action.type).to.equal(SET_AUTO_SAVE_FORM_STATUS);
-      expect(action.status).to.equal(status);
+      expect(action.type).toBe(SET_AUTO_SAVE_FORM_STATUS);
+      expect(action.status).toBe(status);
     });
   });
   describe('setFetchFormStatus', () => {
@@ -59,8 +58,8 @@ describe('Schemaform save / load actions:', () => {
       const status = LOAD_STATUSES.success;
       const action = setFetchFormStatus(status);
 
-      expect(action.type).to.equal(SET_FETCH_FORM_STATUS);
-      expect(action.status).to.equal(status);
+      expect(action.type).toBe(SET_FETCH_FORM_STATUS);
+      expect(action.status).toBe(status);
     });
   });
   describe('setInProgressForm', () => {
@@ -68,8 +67,8 @@ describe('Schemaform save / load actions:', () => {
       const data = {};
       const action = setInProgressForm(data);
 
-      expect(action.type).to.equal(SET_IN_PROGRESS_FORM);
-      expect(action.data).to.equal(data);
+      expect(action.type).toBe(SET_IN_PROGRESS_FORM);
+      expect(action.data).toBe(data);
     });
   });
   describe('migrateFormData', () => {
@@ -90,7 +89,7 @@ describe('Schemaform save / load actions:', () => {
       ];
       const migratedData = migrateFormData(data, migrations);
 
-      expect(migratedData).to.eql({
+      expect(migratedData).toEqual({
         formData: {
           field: 'STUFF',
         },
@@ -120,7 +119,7 @@ describe('Schemaform save / load actions:', () => {
       ];
       const migratedData = migrateFormData(data, migrations);
 
-      expect(migratedData).to.eql({
+      expect(migratedData).toEqual({
         formData: {
           field: 'STUFF to do',
         },
@@ -144,7 +143,7 @@ describe('Schemaform save / load actions:', () => {
             dispatch.calledWith(
               setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.pending),
             ),
-          ).to.be.true;
+          ).toBe(true);
           done();
         })
         .catch(err => {
@@ -157,8 +156,8 @@ describe('Schemaform save / load actions:', () => {
 
       thunk(dispatch, getState)
         .then(() => {
-          expect(global.fetch.args[0][0]).to.contain(
-            '/v0/in_progress_forms/1010ez',
+          expect(global.fetch.args[0][0]).toEqual(
+            expect.arrayContaining(['/v0/in_progress_forms/1010ez']),
           );
           done();
         })
@@ -190,12 +189,10 @@ describe('Schemaform save / load actions:', () => {
 
       thunk(dispatch, getState)
         .then(() => {
-          expect(dispatch.secondCall.args[0].status).to.equal(
+          expect(dispatch.secondCall.args[0].status).toBe(
             SAVE_STATUSES.success,
           );
-          expect(dispatch.secondCall.args[0].type).to.equal(
-            SET_SAVE_FORM_STATUS,
-          );
+          expect(dispatch.secondCall.args[0].type).toBe(SET_SAVE_FORM_STATUS);
           done();
         })
         .catch(err => {
@@ -220,8 +217,8 @@ describe('Schemaform save / load actions:', () => {
             dispatch.calledWith(
               setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.noAuth),
             ),
-          ).to.be.true;
-          expect(dispatch.calledWith(logOut())).to.be.true;
+          ).toBe(true);
+          expect(dispatch.calledWith(logOut())).toBe(true);
           done();
         })
         .catch(err => {
@@ -245,7 +242,7 @@ describe('Schemaform save / load actions:', () => {
             dispatch.calledWith(
               setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.failure),
             ),
-          ).to.be.true;
+          ).toBe(true);
           done();
         })
         .catch(err => {
@@ -263,7 +260,7 @@ describe('Schemaform save / load actions:', () => {
             dispatch.calledWith(
               setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.clientFailure),
             ),
-          ).to.be.true;
+          ).toBe(true);
           done();
         })
         .catch(err => {
@@ -286,7 +283,7 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
+        expect(dispatch.calledWith(setFetchFormPending(false))).toBe(true);
       });
     });
     it('attempts to fetch an in-progress form', () => {
@@ -294,8 +291,8 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
-        expect(global.fetch.args[0][0]).to.contain(
-          '/v0/in_progress_forms/1010ez',
+        expect(global.fetch.args[0][0]).toEqual(
+          expect.arrayContaining(['/v0/in_progress_forms/1010ez']),
         );
       });
     });
@@ -315,8 +312,8 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.args[0][0]).to.contain(
-          '/v0/in_progress_forms/1010ez',
+        expect(global.fetch.args[0][0]).toEqual(
+          expect.arrayContaining(['/v0/in_progress_forms/1010ez']),
         );
       });
     });
@@ -331,10 +328,11 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledThrice).to.be.true;
-        expect(dispatch.calledWith(logOut())).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth))).to
-          .be.true;
+        expect(dispatch.calledThrice).toBe(true);
+        expect(dispatch.calledWith(logOut())).toBe(true);
+        expect(
+          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)),
+        ).toBe(true);
       });
     });
     it('dispatches a not-found if the api returns a 404', () => {
@@ -348,9 +346,10 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound)))
-          .to.be.true;
+        expect(dispatch.calledTwice).toBe(true);
+        expect(
+          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound)),
+        ).toBe(true);
       });
     });
     it('dispatches a not-found if the api returns an empty object', () => {
@@ -364,9 +363,10 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound)))
-          .to.be.true;
+        expect(dispatch.calledTwice).toBe(true);
+        expect(
+          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.notFound)),
+        ).toBe(true);
       });
     });
     it("dispatches an invalid-data if the data returned from the api isn't an object", () => {
@@ -380,10 +380,10 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.calledTwice).toBe(true);
         expect(
           dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData)),
-        ).to.be.true;
+        ).toBe(true);
       });
     });
     it("dispatches an invalid-data if the api doesn't return valid json", () => {
@@ -398,10 +398,10 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.calledTwice).toBe(true);
         expect(
           dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData)),
-        ).to.be.true;
+        ).toBe(true);
       });
     });
     it('dispatches a failure on api response error', () => {
@@ -415,9 +415,10 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure)))
-          .to.be.true;
+        expect(dispatch.calledTwice).toBe(true);
+        expect(
+          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure)),
+        ).toBe(true);
       });
     });
     it('dispatches a failure on network error', () => {
@@ -426,10 +427,10 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(Promise.reject(new Error('No network connection')));
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
+        expect(dispatch.calledTwice).toBe(true);
         expect(
           dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.clientFailure)),
-        ).to.be.true;
+        ).toBe(true);
       });
     });
     describe('prefill', () => {
@@ -444,8 +445,9 @@ describe('Schemaform save / load actions:', () => {
         );
 
         return thunk(dispatch, getState).then(() => {
-          expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)))
-            .to.be.true;
+          expect(
+            dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)),
+          ).toBe(true);
         });
       });
       it('dispatches a success if the api returns a 404', () => {
@@ -459,7 +461,7 @@ describe('Schemaform save / load actions:', () => {
         );
 
         return thunk(dispatch, getState).then(() => {
-          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
+          expect(dispatch.calledWith(setPrefillComplete())).toBe(true);
         });
       });
       it('dispatches a success if the api returns an empty object', () => {
@@ -473,7 +475,7 @@ describe('Schemaform save / load actions:', () => {
         );
 
         return thunk(dispatch, getState).then(() => {
-          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
+          expect(dispatch.calledWith(setPrefillComplete())).toBe(true);
         });
       });
       it('calls prefill transform when response is prefilled', () => {
@@ -498,8 +500,8 @@ describe('Schemaform save / load actions:', () => {
         );
 
         return thunk(dispatch, getState).then(() => {
-          expect(prefillTransformer.called).to.be.true;
-          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
+          expect(prefillTransformer.called).toBe(true);
+          expect(dispatch.calledWith(setPrefillComplete())).toBe(true);
         });
       });
     });
@@ -519,7 +521,7 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledWith(setStartOver())).to.be.true;
+        expect(dispatch.calledWith(setStartOver())).toBe(true);
       });
     });
     it('attempts to remove an in-progress form', () => {
@@ -527,10 +529,10 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[0]).to.contain(
-          '/v0/in_progress_forms/1010ez',
+        expect(global.fetch.firstCall.args[0]).toEqual(
+          expect.arrayContaining(['/v0/in_progress_forms/1010ez']),
         );
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(global.fetch.firstCall.args[1].method).toBe('DELETE');
       });
     });
     it('removes a form and fetches prefill data', () => {
@@ -544,8 +546,8 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a('function');
+        expect(global.fetch.firstCall.args[1].method).toBe('DELETE');
+        expect(dispatch.lastCall.args[0]).toBeInstanceOf(Function);
       });
     });
     it('handles remove error and fetches prefill data', () => {
@@ -559,8 +561,8 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a('function');
+        expect(global.fetch.firstCall.args[1].method).toBe('DELETE');
+        expect(dispatch.lastCall.args[0]).toBeInstanceOf(Function);
       });
     });
     it('sets no-auth status if session expires', () => {
@@ -574,10 +576,10 @@ describe('Schemaform save / load actions:', () => {
       );
 
       return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
+        expect(global.fetch.firstCall.args[1].method).toBe('DELETE');
         expect(dispatch.calledWith(logOut()));
         expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)));
-        expect(dispatch.lastCall.args[0]).not.to.be.a('function');
+        expect(dispatch.lastCall.args[0]).toBeInstanceOf(Function);
       });
     });
   });

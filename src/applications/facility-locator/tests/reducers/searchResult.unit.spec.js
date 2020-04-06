@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
@@ -23,7 +21,7 @@ describe('facilities reducer', () => {
       },
     });
 
-    expect(state.selectedResult).to.eql({ name: 'selectedResult' });
+    expect(state.selectedResult).toEqual({ name: 'selectedResult' });
   });
 
   it('should handle fetching a list of facilities', () => {
@@ -39,8 +37,8 @@ describe('facilities reducer', () => {
       },
     });
 
-    expect(state.results.length).to.eql(2);
-    expect(state.pagination.currentPage).to.eql(1);
+    expect(state.results.length).toBe(2);
+    expect(state.pagination.currentPage).toBe(1);
   });
 
   it('should handle fetching state to build a search query object', () => {
@@ -74,23 +72,21 @@ describe('facilities reducer', () => {
       },
     });
 
-    expect(state.results.length).to.eql(1);
-    expect(state.results[0].attributes.name).to.eql('Test VA facility');
-    expect(state.results[0].attributes.facilityType).to.eql('Test health');
-    expect(state.results[0].attributes.classification).to.eql(
+    expect(state.results.length).toBe(1);
+    expect(state.results[0].attributes.name).toBe('Test VA facility');
+    expect(state.results[0].attributes.facilityType).toBe('Test health');
+    expect(state.results[0].attributes.classification).toBe(
       'Test medical center',
     );
-    expect(state.results[0].attributes.lat).to.eql(40.7365270700001);
-    expect(state.results[0].attributes.long).to.eql(-73.97761421);
-    expect(state.results[0].attributes.address.physical.zip).to.eql('10010');
-    expect(state.results[0].attributes.address.physical.city).to.eql(
-      'New York',
-    );
-    expect(state.results[0].attributes.address.physical.state).to.eql('NY');
-    expect(state.results[0].attributes.address.physical.address1).to.eql(
+    expect(state.results[0].attributes.lat).toBe(40.7365270700001);
+    expect(state.results[0].attributes.long).toEqual(-73.97761421);
+    expect(state.results[0].attributes.address.physical.zip).toBe('10010');
+    expect(state.results[0].attributes.address.physical.city).toBe('New York');
+    expect(state.results[0].attributes.address.physical.state).toBe('NY');
+    expect(state.results[0].attributes.address.physical.address1).toBe(
       '123 East 33rd Street',
     );
-    expect(state.pagination.currentPage).to.eql(1);
+    expect(state.pagination.currentPage).toBe(1);
   });
 
   it('should handle failure case', () => {
@@ -98,7 +94,7 @@ describe('facilities reducer', () => {
       type: SEARCH_FAILED,
     });
 
-    expect(state).to.eql(INITIAL_STATE);
+    expect(state).toEqual(INITIAL_STATE);
   });
 
   it('should handle clearing search results', () => {
@@ -106,6 +102,6 @@ describe('facilities reducer', () => {
       type: CLEAR_SEARCH_RESULTS,
     });
 
-    expect(state).to.eql(INITIAL_STATE);
+    expect(state).toEqual(INITIAL_STATE);
   });
 });

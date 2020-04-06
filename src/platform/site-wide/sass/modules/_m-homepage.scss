@@ -10,7 +10,10 @@
 }
 
 .homepage-hub {
-  @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
+  @include linear-gradient-background(
+    $color-old-browser-background-start,
+    $color-old-browser-background-end
+  );
   padding-top: 1.5em;
 
   @include media($medium-large-screen) {
@@ -71,15 +74,15 @@
   @include media($medium-large-screen) {
     padding-top: 3em;
 
-  @include media($medium-large-screen) {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
+    @include media($medium-large-screen) {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
 
-  @include media($large-screen) {
-    padding-left: 0;
-    padding-right: 0;
-  }
+    @include media($large-screen) {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
@@ -150,7 +153,8 @@
   transition-timing-function: ease-in-out;
   transition-property: background-color;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: $color-primary-darker;
     outline-offset: 2px;
     .icon-wrapper {
@@ -158,7 +162,9 @@
     }
   }
 
-  &:hover, &:focus, &:visited {
+  &:hover,
+  &:focus,
+  &:visited {
     color: $color-white;
     text-decoration: none;
     // background-color: $color-primary;
@@ -167,7 +173,8 @@
 
   &.vcl {
     background-color: $color-secondary-dark;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background-color: $color-secondary-darkest;
       outline-offset: 2px;
       .icon-wrapper {
@@ -190,7 +197,7 @@
     transition-property: background-color;
 
     &.vcl {
-      content: "";
+      content: '';
       background: url(/img/VCL-icon-white.svg) no-repeat;
       background-size: 2em auto;
       background-position: center;
@@ -207,11 +214,11 @@
       margin: 0;
       top: 15px;
       left: -7.75px;
-      font-family: "Font Awesome 5 Free"
+      font-family: 'Font Awesome 5 Free';
     }
     &.fa-user-circle {
       font-size: 1.5em;
-      padding-right: .3em;
+      padding-right: 0.3em;
     }
   }
 
@@ -224,7 +231,6 @@
     flex-direction: column;
     justify-content: center;
   }
-
 }
 
 .homepage-news-story {

@@ -1,15 +1,15 @@
-$usa-btn-small-width:   4.5rem;
-$usa-btn-medium-width:  8.5rem;
-$usa-btn-big-width:     11.6rem;
+$usa-btn-small-width: 4.5rem;
+$usa-btn-medium-width: 8.5rem;
+$usa-btn-big-width: 11.6rem;
 
 .usa-search {
   // Wrapper for field and button
-  [role="search"] {
+  [role='search'] {
     display: flex;
   }
 
   // Search box
-  [type="search"] {
+  [type='search'] {
     -webkit-appearance: none;
     border-bottom-right-radius: 0;
     border-right: none;
@@ -21,7 +21,7 @@ $usa-btn-big-width:     11.6rem;
     width: calc(100% - #{$usa-btn-small-width});
   }
 
-  [type="submit"] {
+  [type='submit'] {
     background-image: url(/img/search.png);
     background-image: url(/img/search.svg);
     background-position: 50%;
@@ -35,13 +35,12 @@ $usa-btn-big-width:     11.6rem;
   }
 }
 
-
 //---- Mobile search
 .va-btn-mobsearchtrigger {
   font-weight: normal;
-  padding: .5em;
+  padding: 0.5em;
   margin-top: 0;
-  border-radius: .15em;
+  border-radius: 0.15em;
   width: auto;
 
   svg {

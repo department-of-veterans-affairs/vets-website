@@ -25,7 +25,7 @@
       },
       {
         "serviceBranch": "Airforce",
-          "serviceStatus": "Other stuff",
+        "serviceStatus": "Other stuff",
         "dateRange": {
           "from": "1923-01-01",
           "to": "1925-01-01"

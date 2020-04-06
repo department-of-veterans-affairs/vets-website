@@ -99,7 +99,7 @@ header.merger {
   }
 
   @media (min-width: $large-screen) {
-    #mega-menu  {
+    #mega-menu {
       .vetnav-panel {
         width: 487px;
 
@@ -150,8 +150,9 @@ header.merger {
     .profile-nav {
       box-sizing: border-box;
       .va-dropdown {
-        span, p {
-          font-family: "Source Sans Pro";
+        span,
+        p {
+          font-family: 'Source Sans Pro';
           font-size: 16px;
         }
         p {

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   isValidFileSize,
   isValidFileType,
@@ -11,7 +9,7 @@ describe('Claims status validation:', () => {
   describe('isValidFileSize', () => {
     it('should validate size is less than max', () => {
       const result = isValidFileSize({ size: 10 });
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
   });
   describe('isValidFileType', () => {
@@ -20,21 +18,21 @@ describe('Claims status validation:', () => {
         name: 'testing.jpg',
       });
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
     it('should check that file has an invalid type', () => {
       const result = isValidFileType({
         name: 'testing.exe',
       });
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
     it('should check that file has a valid type regardless of case', () => {
       const result = isValidFileType({
         name: 'testing.JPG',
       });
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
   });
   describe('isValidFile', () => {
@@ -44,12 +42,12 @@ describe('Claims status validation:', () => {
         size: 10,
       });
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
     it('should not validate empty file', () => {
       const result = isValidFile();
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
   });
   describe('isValidDocument', () => {
@@ -64,7 +62,7 @@ describe('Claims status validation:', () => {
         },
       });
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
     it('should validate that docType and file are valid', () => {
       const result = isValidDocument({
@@ -77,7 +75,7 @@ describe('Claims status validation:', () => {
         },
       });
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
   });
 });

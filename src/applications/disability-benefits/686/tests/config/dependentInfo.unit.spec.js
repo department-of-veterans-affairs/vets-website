@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import moment from 'moment';
@@ -46,7 +45,7 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(7); // `disabled` question hidden
+    expect(form.find('input').length).toBe(7); // `disabled` question hidden
     form.unmount();
   });
 
@@ -66,7 +65,7 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(7); // `inSchool` question hidden
+    expect(form.find('input').length).toBe(7); // `inSchool` question hidden
     form.unmount();
   });
 
@@ -86,7 +85,7 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(7); // `inSchool` question visible
+    expect(form.find('input').length).toBe(7); // `inSchool` question visible
     form.unmount();
   });
 
@@ -106,7 +105,7 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).toBe(6);
     form.unmount();
   });
 
@@ -124,8 +123,8 @@ describe('686 dependent info', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(2);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -146,8 +145,8 @@ describe('686 dependent info', () => {
     fillData(form, 'input#root_childSocialSecurityNumber', '222-22-2424');
     selectRadio(form, 'root_childRelationship', 'adopted');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 
@@ -164,7 +163,7 @@ describe('686 dependent info', () => {
     );
 
     selectRadio(form, 'root_childRelationship', 'stepchild');
-    expect(form.find('input').length).to.equal(9); // `disabled` question hidden
+    expect(form.find('input').length).toBe(9); // `disabled` question hidden
     form.unmount();
   });
 });

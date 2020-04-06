@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import DuplicateLineLabel from '../../components/DuplicateLineLabel';
@@ -23,7 +22,7 @@ describe('<DuplicateLineLabel>', () => {
     };
 
     const wrapper = shallow(<DuplicateLineLabel {...defaultProps} />);
-    expect(wrapper.type()).to.equal(null);
+    expect(wrapper.type()).toBeNull();
     wrapper.unmount();
   });
 
@@ -43,7 +42,7 @@ describe('<DuplicateLineLabel>', () => {
     };
 
     const wrapper = shallow(<DuplicateLineLabel {...defaultProps} />);
-    expect(wrapper.type()).to.equal(null);
+    expect(wrapper.type()).toBeNull();
     wrapper.unmount();
   });
 
@@ -63,7 +62,7 @@ describe('<DuplicateLineLabel>', () => {
     };
 
     const wrapper = shallow(<DuplicateLineLabel {...defaultProps} />);
-    expect(wrapper.type()).to.not.equal(null);
+    expect(wrapper.type()).not.toBeNull();
     wrapper.unmount();
   });
 });

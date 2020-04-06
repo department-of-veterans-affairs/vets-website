@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-const { expect } = require('chai');
 const sinon = require('sinon');
 
 const checkBrokenLinks = require('../index');
@@ -59,11 +58,11 @@ describe('build/check-broken-links', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(0);
     middleware(files, null, done);
-    expect(getBrokenLinks.callCount).to.be.equal(2);
-    expect(getBrokenLinks.args[0][0]).to.be.deep.equal({
+    expect(getBrokenLinks.callCount).toBe(2);
+    expect(getBrokenLinks.args[0][0]).toEqual({
       path: 'health-care/',
     });
-    expect(getBrokenLinks.args[1][0]).to.be.deep.equal({ path: 'disability/' });
+    expect(getBrokenLinks.args[1][0]).toEqual({ path: 'disability/' });
   });
 
   it('calls applyIgnoredRoutes with all link-errors', () => {
@@ -73,7 +72,7 @@ describe('build/check-broken-links', () => {
 
     const brokenPages = applyIgnoredRoutes.firstCall.args[0];
 
-    expect(brokenPages).to.be.deep.equal([
+    expect(brokenPages).toEqual([
       {
         path: 'health-care/',
         linkErrors: new Array(5),
@@ -89,14 +88,14 @@ describe('build/check-broken-links', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(0);
     middleware(files, null, done);
-    expect(getErrorOutput.called).to.be.false;
+    expect(getErrorOutput.called).toBe(false);
   });
 
   it('calls getErrorOutput when there are broken pages', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(5);
     middleware(files, null, done);
-    expect(getErrorOutput.called).to.be.true;
+    expect(getErrorOutput.called).toBe(true);
   });
 
   it('logs errors and calls done without arguments', () => {
@@ -105,8 +104,8 @@ describe('build/check-broken-links', () => {
     setErrorOutput('broken links!');
 
     middleware(files, null, done);
-    expect(console.log.firstCall.args[0]).to.be.equal('broken links!');
-    expect(done.firstCall.args[0]).to.be.undefined;
+    expect(console.log.firstCall.args[0]).toBe('broken links!');
+    expect(done.firstCall.args[0]).toBeUndefined();
   });
 
   it('logs errors and calls done without arguments', () => {
@@ -117,6 +116,6 @@ describe('build/check-broken-links', () => {
     buildOptions['drupal-fail-fast'] = true;
 
     middleware(files, null, done);
-    expect(done.firstCall.args[0]).to.equal('broken links!');
+    expect(done.firstCall.args[0]).toBe('broken links!');
   });
 });

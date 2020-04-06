@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   FETCH_VETERAN_INFORMATION,
   FETCH_VETERAN_INFORMATION_FAILURE,
@@ -32,7 +30,7 @@ describe('FORM 2346 actions', () => {
         type: FETCH_VETERAN_INFORMATION,
         data,
       };
-      expect(action).to.deep.equal(expectedAction);
+      expect(action).toEqual(expectedAction);
     });
   });
 
@@ -44,7 +42,7 @@ describe('FORM 2346 actions', () => {
         type: FETCH_VETERAN_INFORMATION_FAILURE,
         error,
       };
-      expect(action).to.deep.equal(expectedAction);
+      expect(action).toEqual(expectedAction);
     });
   });
 });

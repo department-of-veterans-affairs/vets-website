@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import moment from 'moment';
 
 import { requestStates } from 'platform/utilities/constants';
@@ -27,7 +26,7 @@ describe('ITF reducer', () => {
 
   it('should handle ITF_FETCH_INITIATED', () => {
     const newState = itf(initialState, { type: ITF_FETCH_INITIATED });
-    expect(newState.fetchCallState).to.equal(requestStates.pending);
+    expect(newState.fetchCallState).toBe(requestStates.pending);
   });
 
   describe('ITF_FETCH_SUCCEEDED', () => {
@@ -62,7 +61,7 @@ describe('ITF reducer', () => {
         },
       };
       const newState = itf(initialState, action);
-      expect(newState.currentITF.status).to.equal(itfStatuses.active);
+      expect(newState.currentITF.status).toBe(itfStatuses.active);
     });
 
     it('should set the currentITF to the one with the latest expiration date if no active one is present', () => {
@@ -94,7 +93,7 @@ describe('ITF reducer', () => {
         },
       };
       const newState = itf(initialState, action);
-      expect(newState.currentITF.status).to.equal(itfStatuses.duplicate);
+      expect(newState.currentITF.status).toBe(itfStatuses.duplicate);
     });
   });
 
@@ -134,17 +133,17 @@ describe('ITF reducer', () => {
       },
     };
     const newState = itf(initialState, action);
-    expect(newState.currentITF).to.be.null;
+    expect(newState.currentITF).toBeNull();
   });
 
   it('should handle ITF_FETCH_FAILED', () => {
     const newState = itf(initialState, { type: ITF_FETCH_FAILED });
-    expect(newState.fetchCallState).to.equal(requestStates.failed);
+    expect(newState.fetchCallState).toBe(requestStates.failed);
   });
 
   it('should handle ITF_CREATION_INITIATED', () => {
     const newState = itf(initialState, { type: ITF_CREATION_INITIATED });
-    expect(newState.creationCallState).to.equal(requestStates.pending);
+    expect(newState.creationCallState).toBe(requestStates.pending);
   });
 
   it('should handle ITF_CREATION_SUCCEEDED', () => {
@@ -157,12 +156,12 @@ describe('ITF reducer', () => {
       },
     };
     const newState = itf({ currentITF: 'old itf' }, action);
-    expect(newState.previousITF).to.equal('old itf');
-    expect(newState.currentITF).to.equal('new itf');
+    expect(newState.previousITF).toBe('old itf');
+    expect(newState.currentITF).toBe('new itf');
   });
 
   it('should handle ITF_CREATION_FAILED', () => {
     const newState = itf(initialState, { type: ITF_CREATION_FAILED });
-    expect(newState.creationCallState).to.equal(requestStates.failed);
+    expect(newState.creationCallState).toBe(requestStates.failed);
   });
 });

@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import NavItemRow from '../../components/NavItemRow';
@@ -29,8 +28,8 @@ describe('<NavItemRow>', () => {
     };
 
     const wrapper = shallow(<NavItemRow {...defaultProps} />);
-    expect(wrapper.exists('button')).to.equal(true);
-    expect(wrapper.exists('a')).to.equal(false);
+    expect(wrapper.exists('button')).toBe(true);
+    expect(wrapper.exists('a')).toBe(false);
     wrapper.unmount();
   });
 
@@ -56,8 +55,8 @@ describe('<NavItemRow>', () => {
     };
 
     const wrapper = shallow(<NavItemRow {...defaultProps} />);
-    expect(wrapper.exists('button')).to.equal(false);
-    expect(wrapper.exists('a')).to.equal(true);
+    expect(wrapper.exists('button')).toBe(false);
+    expect(wrapper.exists('a')).toBe(true);
     wrapper.unmount();
   });
 });

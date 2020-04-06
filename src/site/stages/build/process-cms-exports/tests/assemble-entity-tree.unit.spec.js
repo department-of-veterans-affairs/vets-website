@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const { expect } = require('chai');
 const chalk = require('chalk');
 
 const entityMap = require('./entities');
@@ -27,7 +26,7 @@ describe('CMS export', () => {
         it(`${fileName} should have a corresponding test file mapped in tests/entities/index.js`, () => {
           const testFileName = entityMap[fileName.slice(0, -3)]; // Slice off the '.js'
           expect(testFileName).to.be.a.string;
-          expect(testFileName).to.not.be.undefined; // Turns out undefined acts like a string in the above test
+          expect(testFileName).toBeDefined(); // Turns out undefined acts like a string in the above test
         });
       });
   });
@@ -40,7 +39,7 @@ describe('CMS export', () => {
       );
 
       it('entry in the test entity map should match the content model type', () => {
-        expect(contentModelType).to.equal(getContentModelType(entity));
+        expect(contentModelType).toBe(getContentModelType(entity));
       });
 
       // Test 2: Look for a post-transformation json file matching the entity type
@@ -74,7 +73,7 @@ describe('CMS export', () => {
           let assembled;
           try {
             assembled = assembleEntityTree(entity);
-            expect(assembled).to.deep.equal(transformedEntity);
+            expect(assembled).toEqual(transformedEntity);
           } catch (e) {
             // eslint-disable-next-line no-console
             console.log(

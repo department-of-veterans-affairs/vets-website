@@ -5,13 +5,7 @@
   "definitions": {
     "address": {
       "type": "object",
-      "required": [
-        "country",
-        "street",
-        "city",
-        "state",
-        "postalCode"
-      ],
+      "required": ["country", "street", "city", "state", "postalCode"],
       "properties": {
         "country": {
           "type": "string",
@@ -423,9 +417,7 @@
       "maxItems": 100,
       "items": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string"
@@ -453,11 +445,7 @@
     },
     "informalConferenceChoice": {
       "type": "string",
-      "enum": [
-        "no",
-        "me",
-        "rep"
-      ]
+      "enum": ["no", "me", "rep"]
     },
     "scheduleTimes": {
       "type": "object",

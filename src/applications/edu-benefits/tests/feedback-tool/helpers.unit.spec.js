@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -20,14 +19,14 @@ import {
 
 describe('removeEmptyStringProperties', () => {
   it('removes keys that have empty string values', () => {
-    expect(removeEmptyStringProperties({ key: '' })).to.eql({});
-    expect(removeEmptyStringProperties({ key: '  ' })).to.eql({});
+    expect(removeEmptyStringProperties({ key: '' })).toEqual({});
+    expect(removeEmptyStringProperties({ key: '  ' })).toEqual({});
   });
   it('converts preserves non-empty strings', () => {
-    expect(removeEmptyStringProperties({ key: 'hello' })).to.eql({
+    expect(removeEmptyStringProperties({ key: 'hello' })).toEqual({
       key: 'hello',
     });
-    expect(removeEmptyStringProperties({ key: '  ', key2: 'hello' })).to.eql({
+    expect(removeEmptyStringProperties({ key: '  ', key2: 'hello' })).toEqual({
       key2: 'hello',
     });
   });
@@ -55,7 +54,7 @@ describe('feedback-tool helpers:', () => {
         postalCode: null,
       };
       const address = transformSearchToolAddress(inputData);
-      expect(address).to.eql(expectedAddress);
+      expect(address).toEqual(expectedAddress);
     });
     it('converts domestic address data to the proper format', () => {
       const inputData = {
@@ -77,7 +76,7 @@ describe('feedback-tool helpers:', () => {
         postalCode: '97211',
       };
       const address = transformSearchToolAddress(inputData);
-      expect(address).to.eql(expectedAddress);
+      expect(address).toEqual(expectedAddress);
     });
     it('trims fields that are too long', () => {
       const inputData1 = {
@@ -126,8 +125,8 @@ describe('feedback-tool helpers:', () => {
       };
       const address1 = transformSearchToolAddress(inputData1);
       const address2 = transformSearchToolAddress(inputData2);
-      expect(address1).to.eql(expectedAddress1);
-      expect(address2).to.eql(expectedAddress2);
+      expect(address1).toEqual(expectedAddress1);
+      expect(address2).toEqual(expectedAddress2);
     });
     it('converts empty strings to `undefined`', () => {
       const inputData = {
@@ -147,7 +146,7 @@ describe('feedback-tool helpers:', () => {
         postalCode: '97211',
       };
       const address = transformSearchToolAddress(inputData);
-      expect(address).to.eql(expectedAddress);
+      expect(address).toEqual(expectedAddress);
     });
   });
 
@@ -177,7 +176,7 @@ describe('feedback-tool helpers:', () => {
           },
         },
       };
-      expect(actual).to.eql(expected);
+      expect(actual).toEqual(expected);
     });
     it('does not manipulate the object if manual entry is not used', () => {
       const form = {
@@ -193,7 +192,7 @@ describe('feedback-tool helpers:', () => {
         },
       };
       const actual = removeFacilityCodeIfManualEntry(form);
-      expect(actual).to.eql(form);
+      expect(actual).toEqual(form);
     });
   });
 
@@ -211,7 +210,7 @@ describe('feedback-tool helpers:', () => {
       const form = { data: {} };
       const formTransformerSpy = sinon.spy(data => data);
       transform(formConfig, form, formTransformerSpy);
-      expect(formTransformerSpy.calledWith(form)).to.be.true;
+      expect(formTransformerSpy.calledWith(form)).toBe(true);
     });
   });
 
@@ -236,7 +235,7 @@ describe('feedback-tool helpers:', () => {
           expect.fail();
         })
         .catch(err => {
-          expect(err.message).to.equal('fake error');
+          expect(err.message).toBe('fake error');
         });
     });
     it('should resolve if polling state is success', () => {
@@ -272,7 +271,7 @@ describe('feedback-tool helpers:', () => {
       };
 
       return submit(form, formConfig).then(res => {
-        expect(res).to.deep.equal({});
+        expect(res).toEqual({});
       });
     });
     it('should reject if polling state is failed', () => {
@@ -310,7 +309,7 @@ describe('feedback-tool helpers:', () => {
           expect.fail();
         })
         .catch(err => {
-          expect(err.message).to.equal(
+          expect(err.message).toBe(
             'vets_server_error_gi_bill_feedbacks: status failed',
           );
         });
@@ -339,18 +338,18 @@ describe('feedback-tool helpers:', () => {
           [PREFILL_FLAGS.APPLICANT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
       it('is not added when a `fullName` is not set on the formData', () => {
         const expectedFormData = {
           ...formData,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
     });
     describe(`"${PREFILL_FLAGS.SERVICE_INFORMATION}" flag`, () => {
@@ -361,9 +360,9 @@ describe('feedback-tool helpers:', () => {
           [PREFILL_FLAGS.SERVICE_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
       it('is added when a `serviceDateRange` is set on the formData', () => {
         formData.serviceDateRange = {
@@ -375,18 +374,18 @@ describe('feedback-tool helpers:', () => {
           [PREFILL_FLAGS.SERVICE_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
       it('is not added when neither `serviceBranch` or `serviceDateRange` are not set on the formData', () => {
         const expectedFormData = {
           ...formData,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
     });
     describe(`"${PREFILL_FLAGS.CONTACT_INFORMATION}" flag`, () => {
@@ -397,9 +396,9 @@ describe('feedback-tool helpers:', () => {
           [PREFILL_FLAGS.CONTACT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
       it('is added when a `phone` is set on the formData', () => {
         formData.phone = '4151234567';
@@ -408,9 +407,9 @@ describe('feedback-tool helpers:', () => {
           [PREFILL_FLAGS.CONTACT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
       it('is added when an `address` is set on the formData', () => {
         formData.address = { country: 'US' };
@@ -419,18 +418,18 @@ describe('feedback-tool helpers:', () => {
           [PREFILL_FLAGS.CONTACT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
       it('is not added when neither `address`, `phone`, or `applicantEmail` are set on the formData', () => {
         const expectedFormData = {
           ...formData,
         };
         const result = prefillTransformer(pages, formData, metadata);
-        expect(result.metadata).to.eql(metadata);
-        expect(result.pages).to.eql(pages);
-        expect(result.formData).to.eql(expectedFormData);
+        expect(result.metadata).toEqual(metadata);
+        expect(result.pages).toEqual(pages);
+        expect(result.formData).toEqual(expectedFormData);
       });
     });
   });
@@ -451,8 +450,8 @@ describe('feedback-tool helpers:', () => {
         data,
         messageComponent,
       );
-      expect(messageComponent.called).to.be.true;
-      expect(result).to.eql('dom');
+      expect(messageComponent.called).toBe(true);
+      expect(result).toBe('dom');
     });
     it('does not call the `messageComponent` param if the correct flag is not set data.formData', () => {
       const result = conditionallyShowPrefillMessage(
@@ -460,8 +459,8 @@ describe('feedback-tool helpers:', () => {
         data,
         messageComponent,
       );
-      expect(messageComponent.called).to.be.false;
-      expect(result).to.eql(null);
+      expect(messageComponent.called).toBe(false);
+      expect(result).toBe(null);
     });
   });
 });

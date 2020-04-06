@@ -16,8 +16,8 @@
         "suffix": "Sr."
       },
       "view:veteranId": {
-         "vaFileNumber": "C12345678",
-         "view:noSSN": true
+        "vaFileNumber": "C12345678",
+        "view:noSSN": true
       }
     },
     "view:currentSameAsPrevious": false,
@@ -27,8 +27,8 @@
         "last": "Current sponsor last"
       },
       "view:veteranId": {
-         "view:noSSN": false,
-         "veteranSocialSecurityNumber": "334444333"
+        "view:noSSN": false,
+        "veteranSocialSecurityNumber": "334444333"
       }
     },
     "highSchool": {

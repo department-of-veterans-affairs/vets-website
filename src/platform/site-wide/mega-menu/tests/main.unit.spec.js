@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   flagCurrentPageInTopLevelLinks,
   getAuthorizedLinkData,
@@ -29,7 +27,7 @@ describe('mega-menu', () => {
         ];
         const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
 
-        expect(actualResult).to.eql(expectedResult);
+        expect(actualResult).toEqual(expectedResult);
       });
     });
     describe('maybeMergeAuthorizedLinkData', () => {
@@ -44,7 +42,7 @@ describe('mega-menu', () => {
           AuthorizedLinks,
         );
 
-        expect(actualResults).to.eql(expectedResults);
+        expect(actualResults).toEqual(expectedResults);
       });
       it('should not merge Authorized links when loggedIn is false', () => {
         const AuthorizedLinks = ['test2', 'test3'];
@@ -57,7 +55,7 @@ describe('mega-menu', () => {
           AuthorizedLinks,
         );
 
-        expect(actualResults).to.eql(expectedResults);
+        expect(actualResults).toEqual(expectedResults);
       });
     });
   });

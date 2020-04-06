@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { replaceDomainsInData } from '../../environment/stagingDomains';
 import HOSTNAMES from '../../../../site/constants/hostnames';
 
@@ -13,7 +11,7 @@ describe('Staging va.gov domain replacement', () => {
           href: 'https://www.va.gov/',
         },
       ];
-      expect(replaceDomainsInData(data)).to.deep.equal([
+      expect(replaceDomainsInData(data)).toEqual([
         {
           href: `${currentEnv}/`,
         },
@@ -34,7 +32,7 @@ describe('Staging va.gov domain replacement', () => {
         },
       ];
 
-      expect(replaceDomainsInData(data)).to.deep.equal([
+      expect(replaceDomainsInData(data)).toEqual([
         {
           someArray: [
             {
@@ -54,7 +52,7 @@ describe('Staging va.gov domain replacement', () => {
         other: 'www.va.gov',
       };
 
-      expect(replaceDomainsInData(data)).to.deep.equal({
+      expect(replaceDomainsInData(data)).toEqual({
         href: `${currentEnv}/testing`,
         other: 'www.va.gov',
       });
@@ -68,7 +66,7 @@ describe('Staging va.gov domain replacement', () => {
         },
       };
 
-      expect(replaceDomainsInData(data)).to.deep.equal({
+      expect(replaceDomainsInData(data)).toEqual({
         test: `https://www.va.gov/testing`,
         other: {
           href: `${currentEnv}/`,

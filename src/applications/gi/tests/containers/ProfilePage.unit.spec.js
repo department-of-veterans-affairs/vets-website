@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import createCommonStore from '../../../../platform/startup/store';
@@ -12,7 +11,7 @@ describe('<ProfilePage>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<ProfilePage {...defaultProps} />);
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    expect(vdom).toBeDefined();
   });
 
   it('should render VET TEC institution', () => {
@@ -31,7 +30,7 @@ describe('<ProfilePage>', () => {
       },
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
-    expect(tree.subTree('VetTecInstitutionProfile')).to.be.ok;
+    expect(tree.subTree('VetTecInstitutionProfile')).toBeTruthy();
   });
 
   it('should show LoadingState when profile is fetching', () => {
@@ -41,8 +40,8 @@ describe('<ProfilePage>', () => {
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...inProgressProps} />);
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+    expect(vdom).toBeDefined();
+    expect(tree.subTree('LoadingIndicator')).toBeTruthy();
   });
 
   it('should show error message when profile failed', () => {
@@ -51,6 +50,6 @@ describe('<ProfilePage>', () => {
       profile: { inProgress: true, error: 'Service Unavailable' },
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...errorProps} />);
-    expect(tree.subTree('ServiceError')).to.be.ok;
+    expect(tree.subTree('ServiceError')).toBeTruthy();
   });
 });

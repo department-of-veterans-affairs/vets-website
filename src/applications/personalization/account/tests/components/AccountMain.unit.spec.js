@@ -1,6 +1,5 @@
 import React from 'react';
 import enzyme from 'enzyme';
-import { expect } from 'chai';
 
 import AccountMain from '../../components/AccountMain';
 
@@ -27,11 +26,11 @@ describe('<AccountMain/>', () => {
 
   it('should render the profile and pass correct props to AccountVerification', () => {
     const wrapper = enzyme.shallow(<AccountMain {...props} />);
-    expect(wrapper.find('TermsAndConditions')).to.have.lengthOf(1);
-    expect(wrapper.find('LoginSettings')).to.have.lengthOf(1);
+    expect(wrapper.find('TermsAndConditions')).toHaveLength(1);
+    expect(wrapper.find('LoginSettings')).toHaveLength(1);
     const accountVerification = wrapper.find('AccountVerification');
-    expect(accountVerification).to.have.lengthOf(1);
-    expect(accountVerification.props().loa).to.deep.equal({ current: 3 });
+    expect(accountVerification).toHaveLength(1);
+    expect(accountVerification.props().loa).toEqual({ current: 3 });
     wrapper.unmount();
   });
 
@@ -44,7 +43,7 @@ describe('<AccountMain/>', () => {
         n.prop('headline') ===
           'We’re having trouble matching your information to our Veteran records',
     );
-    expect(alertBox.exists()).to.be.true;
+    expect(alertBox.exists()).toBe(true);
     wrapper.unmount();
   });
 });

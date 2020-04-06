@@ -1,5 +1,3 @@
-const { expect } = require('chai');
-
 const getErrorOutput = require('../../helpers/getErrorOutput');
 
 describe('getErrorOutput', () => {
@@ -17,6 +15,6 @@ describe('getErrorOutput', () => {
 
     const result = getErrorOutput(brokenPages);
 
-    expect(result).to.contain('45');
+    expect(result).toEqual(expect.arrayContaining(['45']));
   });
 });

@@ -1,6 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
-// Relative imports.
 import { capitalize, normalizeResponse } from './index';
 
 describe('Yellow Ribbon helpers', () => {
@@ -8,7 +6,7 @@ describe('Yellow Ribbon helpers', () => {
     it('should capitalize university names', () => {
       const name = 'colorado UNIVERSITY';
 
-      expect(capitalize(name)).to.equal('Colorado University');
+      expect(capitalize(name)).toBe('Colorado University');
     });
   });
 
@@ -27,7 +25,7 @@ describe('Yellow Ribbon helpers', () => {
         },
       };
 
-      expect(normalizeResponse(response)).to.deep.equal({
+      expect(normalizeResponse(response)).toEqual({
         results: [
           {
             id: '1',

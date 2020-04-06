@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import modalsReducer from '../../reducers/modals';
 
 const initialState = {
@@ -13,12 +11,12 @@ describe('modals reducer', () => {
       modal: 'openModal',
     });
 
-    expect(state.displaying).to.eql('openModal');
+    expect(state.displaying).toBe('openModal');
   });
 
   it('should close modals when route is updated', () => {
     const state = modalsReducer(initialState, { type: 'UPDATE_ROUTE' });
 
-    expect(state.displaying).to.eql(null);
+    expect(state.displaying).toBe(null);
   });
 });

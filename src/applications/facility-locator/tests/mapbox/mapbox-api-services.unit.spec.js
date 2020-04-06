@@ -1,5 +1,4 @@
 // Node modules.
-import { expect } from 'chai';
 import MapboxClient from '@mapbox/mapbox-sdk';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 // Relative imports.
@@ -35,15 +34,15 @@ describe('Locator MapBox SDK services tests', () => {
       context: zipCode,
     };
 
-    expect(SearchQuery.bounds).to.eql([
+    expect(SearchQuery.bounds).toEqual([
       -77.786547,
       38.1476751,
       -76.286547,
       39.6476751,
     ]);
-    expect(SearchQuery.searchString).to.eql(
+    expect(SearchQuery.searchString).toBe(
       '1600 Pennsylvania Avenue Northwest, Washington, District of Columbia 20006, United States',
     );
-    expect(SearchQuery.context).to.eql(20006);
+    expect(SearchQuery.context).toBe(20006);
   });
 });

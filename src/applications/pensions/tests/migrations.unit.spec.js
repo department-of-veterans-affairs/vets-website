@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import migrations from '../migrations';
 
 describe('Pension migrations', () => {
@@ -20,8 +18,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/military/history');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/military/history');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should set url to marriage page if dates are invalid', () => {
     const { formData, metadata } = migrations[0]({
@@ -40,8 +38,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/household/marriages/0');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/household/marriages/0');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should set url to spouse marriage page if dates are invalid', () => {
     const { formData, metadata } = migrations[0]({
@@ -58,8 +56,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/household/spouse-marriages/0');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/household/spouse-marriages/0');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should leave return url alone if no validation issues are found', () => {
     const { formData, metadata } = migrations[0]({
@@ -92,8 +90,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('test');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('test');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should leave return url alone if no matching data exists', () => {
     const { formData, metadata } = migrations[0]({
@@ -105,8 +103,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('test');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('test');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should set url to address page if zip is bad', () => {
     const { formData, metadata } = migrations[1]({
@@ -121,8 +119,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/additional-information/contact');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/additional-information/contact');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should set url to applicant info page if file number is bad', () => {
     const { formData, metadata } = migrations[2]({
@@ -134,8 +132,8 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/applicant/information');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/applicant/information');
+    expect(formData).toBeInstanceOf(Object);
   });
   it('should set url to spouse info page if file number is bad', () => {
     const { formData, metadata } = migrations[2]({
@@ -148,7 +146,7 @@ describe('Pension migrations', () => {
       },
     });
 
-    expect(metadata.returnUrl).to.equal('/household/spouse-info');
-    expect(formData).to.be.an('object');
+    expect(metadata.returnUrl).toBe('/household/spouse-info');
+    expect(formData).toBeInstanceOf(Object);
   });
 });

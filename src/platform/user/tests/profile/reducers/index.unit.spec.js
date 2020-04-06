@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import reducer from '../../../profile/reducers';
 import { UPDATE_LOGGEDIN_STATUS } from '../../../../user/authentication/actions';
 
@@ -21,33 +19,33 @@ describe('Profile reducer', () => {
   describe('initial state', () => {
     it('should set mhvAccount.loading to false', () => {
       const state = reducer(undefined, { type: 'not a valid event type' });
-      expect(state.mhvAccount.loading).to.be.false;
+      expect(state.mhvAccount.loading).toBe(false);
     });
   });
 
   it('should set loading to false when profile is done loading', () => {
     const state = reducer({}, { type: PROFILE_LOADING_FINISHED });
-    expect(state.loading).to.be.false;
+    expect(state.loading).toBe(false);
   });
 
   it('should set loading to false when logged in status changes', () => {
     const state = reducer({}, { type: UPDATE_LOGGEDIN_STATUS });
-    expect(state.loading).to.be.false;
+    expect(state.loading).toBe(false);
   });
 
   it('should be loading when creating MHV account', () => {
     const state = reducer({ mhvAccount: {} }, { type: CREATING_MHV_ACCOUNT });
-    expect(state.mhvAccount.loading).to.be.true;
+    expect(state.mhvAccount.loading).toBe(true);
   });
 
   it('should be loading when upgrading MHV account', () => {
     const state = reducer({ mhvAccount: {} }, { type: UPGRADING_MHV_ACCOUNT });
-    expect(state.mhvAccount.loading).to.be.true;
+    expect(state.mhvAccount.loading).toBe(true);
   });
 
   it('should be loading when fetching MHV account', () => {
     const state = reducer({ mhvAccount: {} }, { type: FETCHING_MHV_ACCOUNT });
-    expect(state.mhvAccount.loading).to.be.true;
+    expect(state.mhvAccount.loading).toBe(true);
   });
 
   it('should handle failed MHV account creation', () => {
@@ -63,8 +61,8 @@ describe('Profile reducer', () => {
         errors: [{ title: 'error', code: 500 }],
       },
     );
-    expect(state.mhvAccount.loading).to.be.false;
-    expect(state.mhvAccount.accountState).to.eq('register_failed');
+    expect(state.mhvAccount.loading).toBe(false);
+    expect(state.mhvAccount.accountState).toBe('register_failed');
   });
 
   it('should handle successful MHV account creation', () => {
@@ -86,8 +84,8 @@ describe('Profile reducer', () => {
       },
     );
 
-    expect(state.mhvAccount.accountLevel).to.eq('Advanced');
-    expect(state.mhvAccount.accountState).to.eq('registered');
+    expect(state.mhvAccount.accountLevel).toBe('Advanced');
+    expect(state.mhvAccount.accountState).toBe('registered');
   });
 
   it('should handle failed MHV account upgrade', () => {
@@ -103,8 +101,8 @@ describe('Profile reducer', () => {
         errors: [{ title: 'error', code: 500 }],
       },
     );
-    expect(state.mhvAccount.loading).to.be.false;
-    expect(state.mhvAccount.accountState).to.eq('upgrade_failed');
+    expect(state.mhvAccount.loading).toBe(false);
+    expect(state.mhvAccount.accountState).toBe('upgrade_failed');
   });
 
   it('should handle successful MHV account upgrade', () => {
@@ -140,9 +138,9 @@ describe('Profile reducer', () => {
       },
     );
 
-    expect(state.mhvAccount.accountLevel).to.eq('Premium');
-    expect(state.mhvAccount.accountState).to.eq('upgraded');
-    expect(state.services).to.contain('messaging');
+    expect(state.mhvAccount.accountLevel).toBe('Premium');
+    expect(state.mhvAccount.accountState).toBe('upgraded');
+    expect(state.services).toEqual(expect.arrayContaining(['messaging']));
   });
 
   it('should handle failure to fetch MHV account', () => {
@@ -153,8 +151,8 @@ describe('Profile reducer', () => {
         errors: [{ title: 'error', code: 500 }],
       },
     );
-    expect(state.mhvAccount.errors).to.exist;
-    expect(state.mhvAccount.loading).to.be.false;
+    expect(state.mhvAccount.errors).toBeDefined();
+    expect(state.mhvAccount.loading).toBe(false);
   });
 
   it('should set MHV account level and state after it is fetched', () => {
@@ -176,8 +174,8 @@ describe('Profile reducer', () => {
       },
     );
 
-    expect(state.mhvAccount.accountLevel).to.eq('Premium');
-    expect(state.mhvAccount.accountState).to.eq('upgraded');
+    expect(state.mhvAccount.accountLevel).toBe('Premium');
+    expect(state.mhvAccount.accountState).toBe('upgraded');
   });
 
   it('should remove the right form when deleting a form', () => {
@@ -191,7 +189,7 @@ describe('Profile reducer', () => {
       },
     );
 
-    expect(state.savedForms.length).to.eq(1);
-    expect(state.savedForms).to.deep.equal([{ form: 2 }]);
+    expect(state.savedForms.length).toBe(1);
+    expect(state.savedForms).toEqual([{ form: 2 }]);
   });
 });

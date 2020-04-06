@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
@@ -26,8 +25,8 @@ describe('0993 claimant information', () => {
     );
 
     // Check for opt out message
-    expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).toBe(5);
+    expect(form.find('select').length).toBe(1);
     form.unmount();
   });
 
@@ -42,8 +41,8 @@ describe('0993 claimant information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).toBe(3);
+    expect(onSubmit.called).toBe(false);
     form.unmount();
   });
 
@@ -66,8 +65,8 @@ describe('0993 claimant information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).toBe(0);
+    expect(onSubmit.called).toBe(true);
     form.unmount();
   });
 
@@ -93,8 +92,8 @@ describe('0993 claimant information', () => {
       form.find(
         '.usa-input-error #root_claimantSocialSecurityNumber-error-message',
       ).length,
-    ).to.equal(1);
-    expect(form.find('#root_vaFileNumber').length).to.equal(0);
+    ).toBe(1);
+    expect(form.find('#root_vaFileNumber').length).toBe(0);
 
     // Check no-SSN box
     selectCheckbox(form, 'root_view:noSSN', true);
@@ -102,10 +101,10 @@ describe('0993 claimant information', () => {
       form.find(
         '.usa-input-error #root_claimantSocialSecurityNumber-error-message',
       ).length,
-    ).to.equal(0);
+    ).toBe(0);
     expect(
       form.find('.usa-input-error #root_vaFileNumber-error-message').length,
-    ).to.equal(1);
+    ).toBe(1);
     form.unmount();
   });
 });

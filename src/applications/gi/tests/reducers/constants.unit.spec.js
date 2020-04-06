@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import constantsReducer from '../../reducers/constants';
 
 const initialState = {
@@ -13,7 +11,7 @@ describe('constants reducer', () => {
       type: 'FETCH_CONSTANTS_STARTED',
     });
 
-    expect(state.inProgress).to.eql(true);
+    expect(state.inProgress).toBe(true);
   });
 
   it('should handle fetch failed', () => {
@@ -25,8 +23,8 @@ describe('constants reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.error).to.eql('Service Unavailable');
+    expect(state.inProgress).toBe(false);
+    expect(state.error).toBe('Service Unavailable');
   });
 
   it('should handle fetch succeeded', () => {
@@ -50,8 +48,8 @@ describe('constants reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.version).to.eql(1);
-    expect(state.constants).to.eql({ constantName: 'constantValue' });
+    expect(state.inProgress).toBe(false);
+    expect(state.version).toBe(1);
+    expect(state.constants).toEqual({ constantName: 'constantValue' });
   });
 });

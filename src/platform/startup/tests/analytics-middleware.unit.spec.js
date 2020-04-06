@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { spy } from 'sinon';
 
 import createAnalyticsMiddleware from '../analytics-middleware';
@@ -43,7 +42,7 @@ describe('Analytics Middleware', () => {
   it('should capture the proper events', () => {
     const middleware = createAnalyticsMiddleware(eventList);
     middleware({})(() => {})({ type: 'test-string-event' });
-    expect(global.window.dataLayer).to.eql([
+    expect(global.window.dataLayer).toEqual([
       { event: 'first-string-event-name' },
     ]);
   });
@@ -56,7 +55,7 @@ describe('Analytics Middleware', () => {
       payload: 'stuff',
     });
     middleware({})(() => {})({ type: 'test-function-event' });
-    expect(global.window.dataLayer).to.eql([
+    expect(global.window.dataLayer).toEqual([
       { event: 'some stuff' },
       { event: 'no-payload' },
     ]);
@@ -66,6 +65,6 @@ describe('Analytics Middleware', () => {
     const middleware = createAnalyticsMiddleware(eventList);
     const nextSpy = spy();
     middleware({})(nextSpy)({ type: 'test-string-event' });
-    expect(nextSpy.called).to.equal(true);
+    expect(nextSpy.called).toBe(true);
   });
 });

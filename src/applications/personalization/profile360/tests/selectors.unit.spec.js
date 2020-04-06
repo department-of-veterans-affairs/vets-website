@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import * as selectors from '../selectors';
 
 describe('profile360 selectors', () => {
@@ -23,20 +22,20 @@ describe('profile360 selectors', () => {
       };
     });
     it('returns `true` if there is an account number set in state', () => {
-      expect(selectors.directDepositIsSetUp(state)).to.be.true;
+      expect(selectors.directDepositIsSetUp(state)).toBe(true);
     });
     it('returns `false` when vaProfile does not exist on state', () => {
       delete state.vaProfile;
-      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositIsSetUp(state)).toBe(false);
     });
     it('returns `false` when vaProfile.paymentInformation is not set on state', () => {
       delete state.vaProfile.paymentInformation;
-      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositIsSetUp(state)).toBe(false);
     });
     it('returns `false` when the account number is not set', () => {
       state.vaProfile.paymentInformation.responses[0].paymentAccount.accountNumber =
         '';
-      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositIsSetUp(state)).toBe(false);
     });
     it('returns `false` when the payment info endpoint failed to get data', () => {
       state = {
@@ -55,7 +54,7 @@ describe('profile360 selectors', () => {
           },
         },
       };
-      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositIsSetUp(state)).toBe(false);
     });
   });
 
@@ -79,21 +78,21 @@ describe('profile360 selectors', () => {
       };
     });
     it('returns `true` if there is a street, city, and state set on the payment info payment address', () => {
-      expect(selectors.directDepositAddressIsSetUp(state)).to.be.true;
+      expect(selectors.directDepositAddressIsSetUp(state)).toBe(true);
     });
     it('returns `false` if the street address is missing', () => {
       state.vaProfile.paymentInformation.responses[0].paymentAddress.addressOne =
         '';
-      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositAddressIsSetUp(state)).toBe(false);
     });
     it('returns `false` if the city is missing', () => {
       state.vaProfile.paymentInformation.responses[0].paymentAddress.city = '';
-      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositAddressIsSetUp(state)).toBe(false);
     });
     it('returns `false` if the state is missing', () => {
       state.vaProfile.paymentInformation.responses[0].paymentAddress.stateCode =
         '';
-      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositAddressIsSetUp(state)).toBe(false);
     });
 
     it('returns `false` when the payment info endpoint failed to get data', () => {
@@ -113,7 +112,7 @@ describe('profile360 selectors', () => {
           },
         },
       };
-      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.directDepositAddressIsSetUp(state)).toBe(false);
     });
   });
 
@@ -122,7 +121,7 @@ describe('profile360 selectors', () => {
       const state = {
         vaProfile: {},
       };
-      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+      expect(selectors.directDepositIsBlocked(state)).toBe(false);
     });
     it('returns `false` if the `canUpdateAddress` flag is `true`', () => {
       const state = {
@@ -138,7 +137,7 @@ describe('profile360 selectors', () => {
           },
         },
       };
-      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+      expect(selectors.directDepositIsBlocked(state)).toBe(false);
     });
     it('returns `true` if the `canUpdateAddress` flag is not `true`', () => {
       const state = {
@@ -154,7 +153,7 @@ describe('profile360 selectors', () => {
           },
         },
       };
-      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+      expect(selectors.directDepositIsBlocked(state)).toBe(true);
     });
   });
 });

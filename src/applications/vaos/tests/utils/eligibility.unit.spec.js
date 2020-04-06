@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   resetFetch,
   mockFetch,
@@ -42,7 +40,7 @@ describe('VAOS scheduling eligibility logic', () => {
         true,
       );
 
-      expect(Object.keys(eligibilityData)).to.deep.equal([
+      expect(Object.keys(eligibilityData)).toEqual([
         'requestPastVisit',
         'requestLimits',
         'directSupported',
@@ -64,7 +62,7 @@ describe('VAOS scheduling eligibility logic', () => {
         true,
       );
 
-      expect(Object.keys(eligibilityData)).to.deep.equal([
+      expect(Object.keys(eligibilityData)).toEqual([
         'requestPastVisit',
         'requestLimits',
         'directSupported',
@@ -87,7 +85,7 @@ describe('VAOS scheduling eligibility logic', () => {
         true,
       );
 
-      expect(Object.keys(eligibilityData)).to.deep.equal([
+      expect(Object.keys(eligibilityData)).toEqual([
         'requestPastVisit',
         'requestLimits',
         'directSupported',
@@ -118,7 +116,7 @@ describe('VAOS scheduling eligibility logic', () => {
         },
       });
 
-      expect(eligibilityChecks).to.deep.equal({
+      expect(eligibilityChecks).toEqual({
         directFailed: false,
         requestFailed: false,
         directPastVisit: false,
@@ -152,7 +150,7 @@ describe('VAOS scheduling eligibility logic', () => {
         },
       });
 
-      expect(eligibilityChecks).to.deep.equal({
+      expect(eligibilityChecks).toEqual({
         directFailed: false,
         requestFailed: false,
         directPastVisit: true,
@@ -185,7 +183,7 @@ describe('VAOS scheduling eligibility logic', () => {
         },
       });
 
-      expect(eligibilityChecks).to.deep.equal({
+      expect(eligibilityChecks).toEqual({
         directFailed: true,
         requestFailed: false,
         requestPastVisit: false,
@@ -215,7 +213,7 @@ describe('VAOS scheduling eligibility logic', () => {
         },
       });
 
-      expect(eligibilityChecks).to.deep.equal({
+      expect(eligibilityChecks).toEqual({
         directFailed: false,
         directSupported: true,
         requestSupported: true,
@@ -237,8 +235,8 @@ describe('VAOS scheduling eligibility logic', () => {
         requestLimit: true,
       });
 
-      expect(direct).to.be.false;
-      expect(request).to.be.true;
+      expect(direct).toBe(false);
+      expect(request).toBe(true);
     });
   });
 
@@ -266,7 +264,7 @@ describe('VAOS scheduling eligibility logic', () => {
             e.event === 'vaos-error' &&
             e['error-key'].startsWith('eligibility-'),
         ).length,
-      ).to.equal(4);
+      ).toBe(4);
       resetFetch();
     });
 
@@ -297,7 +295,7 @@ describe('VAOS scheduling eligibility logic', () => {
         global.window.dataLayer.filter(e =>
           e.event.startsWith('vaos-eligibility-'),
         ).length,
-      ).to.equal(4);
+      ).toBe(4);
     });
 
     it('should record only supported failure events', () => {
@@ -327,7 +325,7 @@ describe('VAOS scheduling eligibility logic', () => {
         global.window.dataLayer.filter(e =>
           e.event.startsWith('vaos-eligibility-'),
         ).length,
-      ).to.equal(2);
+      ).toBe(2);
     });
 
     it('should not record failure events when ineligible', () => {
@@ -354,7 +352,7 @@ describe('VAOS scheduling eligibility logic', () => {
         '983',
       );
 
-      expect(global.window.dataLayer.length).to.equal(0);
+      expect(global.window.dataLayer.length).toBe(0);
     });
   });
 });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import {
   getValidationMessageKey,
   showAddressValidationModal,
@@ -58,7 +57,7 @@ describe('getValidationMessageKey', () => {
         addressValidationError,
         confirmedAddresses,
       ),
-    ).to.equal('showSuggestionsOverride');
+    ).toBe('showSuggestionsOverride');
   });
 
   it('returns missingUnitNumberOverride key', () => {
@@ -93,7 +92,7 @@ describe('getValidationMessageKey', () => {
         validationKey,
         addressValidationError,
       ),
-    ).to.equal('missingUnitNumberOverride');
+    ).toBe('missingUnitNumberOverride');
   });
 });
 
@@ -141,7 +140,7 @@ describe('showAddressValidationModal', () => {
         },
       },
     ];
-    expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
+    expect(showAddressValidationModal(suggestedAddresses)).toBe(true);
   });
 
   it("returns false with single CONFIRMED suggestion that's over 90 confidence score", () => {
@@ -166,7 +165,7 @@ describe('showAddressValidationModal', () => {
         },
       },
     ];
-    expect(showAddressValidationModal(suggestedAddresses)).to.equal(false);
+    expect(showAddressValidationModal(suggestedAddresses)).toBe(false);
   });
 
   it("returns true with single deliverable suggestion that's under 90 confidence", () => {
@@ -191,7 +190,7 @@ describe('showAddressValidationModal', () => {
         },
       },
     ];
-    expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
+    expect(showAddressValidationModal(suggestedAddresses)).toBe(true);
   });
 
   it('returns true with single suggestion over 90 confidence but undeliverable', () => {
@@ -216,6 +215,6 @@ describe('showAddressValidationModal', () => {
         },
       },
     ];
-    expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
+    expect(showAddressValidationModal(suggestedAddresses)).toBe(true);
   });
 });

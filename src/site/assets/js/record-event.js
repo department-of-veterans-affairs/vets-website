@@ -8,4 +8,4 @@
 window.dataLayer = [] || window.dataLayer;
 window.recordEvent = function(data) {
   return window.dataLayer.push(data);
-}
+};

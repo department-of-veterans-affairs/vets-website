@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { checkAndUpdateSSOeSession } from '../../api/ssoHelpers';
@@ -23,9 +21,9 @@ const SSO_SESSION_TIMEOUT = 900; // seconds
 
 describe('checkAndUpdateSSOeSession', () => {
   it('should should do nothing if there is not SSO session active', () => {
-    expect(localStorage.getItem('sessionExpirationSSO')).to.be.null;
+    expect(localStorage.getItem('sessionExpirationSSO')).toBeNull();
     checkAndUpdateSSOeSession();
-    expect(localStorage.getItem('sessionExpirationSSO')).to.be.null;
+    expect(localStorage.getItem('sessionExpirationSSO')).toBeNull();
   });
 
   it('should do nothing if the session expiration is above the timeout threshold', () => {
@@ -36,7 +34,7 @@ describe('checkAndUpdateSSOeSession', () => {
 
     checkAndUpdateSSOeSession();
 
-    expect(localStorage.getItem('sessionExpirationSSO')).to.equal('some value');
+    expect(localStorage.getItem('sessionExpirationSSO')).toBe('some value');
 
     resetFetch();
   });
@@ -52,7 +50,7 @@ describe('checkAndUpdateSSOeSession', () => {
     checkAndUpdateSSOeSession();
 
     // The expiration should be different since it will get updated
-    expect(localStorage.getItem('sessionExpirationSSO')).to.not.equal(
+    expect(localStorage.getItem('sessionExpirationSSO')).not.toBe(
       expiringSession,
     );
     resetFetch();

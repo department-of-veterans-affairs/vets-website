@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { createRoutesWithSaveInProgress } from '../../save-in-progress/helpers';
 
 describe('createRoutes', () => {
@@ -17,11 +16,11 @@ describe('createRoutes', () => {
 
     const routes = createRoutesWithSaveInProgress(formConfig);
 
-    expect(routes[0].path).to.equal('test-page');
-    expect(routes[1].path).to.equal('review-and-submit');
-    expect(routes[2].path).to.equal('confirmation');
-    expect(routes[3].path).to.equal('form-saved');
-    expect(routes[4].path).to.equal('error');
-    expect(routes[5].path).to.equal('resume');
+    expect(routes[0].path).toBe('test-page');
+    expect(routes[1].path).toBe('review-and-submit');
+    expect(routes[2].path).toBe('confirmation');
+    expect(routes[3].path).toBe('form-saved');
+    expect(routes[4].path).toBe('error');
+    expect(routes[5].path).toBe('resume');
   });
 });

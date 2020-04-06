@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 
 import HCAEnrollmentStatusWarning from '../../components/HCAEnrollmentStatusWarning';
 import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
@@ -74,7 +73,7 @@ describe('these tests themselves', () => {
       possibleEnrollmentStatuses.every(enrollmentStatus =>
         testedEnrollmentStatuses.includes(enrollmentStatus),
       ),
-    ).to.be.true;
+    ).toBe(true);
   });
 });
 describe('<HCAEnrollmentStatusWarning />', () => {
@@ -87,8 +86,8 @@ describe('<HCAEnrollmentStatusWarning />', () => {
   it('renders a `warning` AlertBox', () => {
     const wrapper = shallow(<HCAEnrollmentStatusWarning {...defaultProps} />);
     const alertBox = wrapper.filter('AlertBox');
-    expect(alertBox.exists()).to.be.true;
-    expect(alertBox.prop('status')).to.equal('warning');
+    expect(alertBox.exists()).toBe(true);
+    expect(alertBox.prop('status')).toBe('warning');
     wrapper.unmount;
   });
   describe('renders the correct output for all of the handled enrollment statuses', () => {
@@ -96,7 +95,9 @@ describe('<HCAEnrollmentStatusWarning />', () => {
       it(`it renders the correct alert contents for status: ${enrollmentStatus}`, () => {
         const props = { ...defaultProps, enrollmentStatus };
         const wrapper = shallow(<HCAEnrollmentStatusWarning {...props} />);
-        expect(wrapper.html()).to.contain(expectedOutputs[enrollmentStatus]);
+        expect(wrapper.html()).toEqual(
+          expect.arrayContaining([expectedOutputs[enrollmentStatus]]),
+        );
         wrapper.unmount();
       });
     });

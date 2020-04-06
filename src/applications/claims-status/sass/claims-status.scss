@@ -1,9 +1,9 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-tabs';
 
 $color-inactive: #9b9b9b;
 
@@ -214,12 +214,12 @@ $color-inactive: #9b9b9b;
       position: absolute;
       font-size: 1.25em;
       display: inline-block;
-      font: normal normal normal 14px/1 "Font Awesome 5 Free";
+      font: normal normal normal 14px/1 'Font Awesome 5 Free';
       font-size: inherit;
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      content: "\F071";
+      content: '\F071';
     }
   }
 }
@@ -310,7 +310,7 @@ $color-inactive: #9b9b9b;
 }
 
 .clearfix:after {
-  content: " ";
+  content: ' ';
   visibility: hidden;
   display: block;
   height: 0;
@@ -587,10 +587,10 @@ h1:focus {
 
   .section-complete:before {
     background: $color-green;
-    content: "\2713\fe0e";
+    content: '\2713\fe0e';
 
     @include media($medium-large-screen) {
-      content: "\2714\fe0e";
+      content: '\2714\fe0e';
     }
   }
 
@@ -676,8 +676,8 @@ h1:focus {
   .section-complete {
     border-left: 5px solid $color-gray-lighter;
     &::before {
-      font-family: "Font Awesome 5 Free";
-      content: "\f00c";
+      font-family: 'Font Awesome 5 Free';
+      content: '\f00c';
       margin-top: 5px; // Aligns the check bullets to their headers better
     }
   }
@@ -699,8 +699,8 @@ h1:focus {
     }
 
     &::before {
-      font-family: "Font Awesome 5 Free";
-      content: "\f067";
+      font-family: 'Font Awesome 5 Free';
+      content: '\f067';
       color: $color-primary;
       background-color: $color-white;
       border-color: $color-primary;
@@ -710,8 +710,8 @@ h1:focus {
   .section-expanded {
     border-left: 5px solid $color-gray-lighter;
     &::before {
-      font-family: "Font Awesome 5 Free";
-      content: "\f068";
+      font-family: 'Font Awesome 5 Free';
+      content: '\f068';
       color: $color-primary;
       background-color: $color-white;
       border-color: $color-primary;
@@ -787,7 +787,7 @@ h1:focus {
       border: 4px solid $color-white;
       border-radius: 50%;
       color: $color-green;
-      content: "\2022";
+      content: '\2022';
       display: block;
       float: left;
       font-size: 0.8em;
@@ -973,7 +973,7 @@ h1:focus {
       float: left;
       width: 1em;
       height: 1em;
-      content: "";
+      content: '';
       border: 4px solid $color-gray-medium;
       border-radius: 50%;
       background: $color-gray-medium;
@@ -998,8 +998,8 @@ h1:focus {
 
       .number {
         &:before {
-          font-family: "Font Awesome 5 Free";
-          content: "\f017 "; // space added at end to keep kerning consistent
+          font-family: 'Font Awesome 5 Free';
+          content: '\f017 '; // space added at end to keep kerning consistent
         }
       }
     }
@@ -1077,7 +1077,7 @@ $marker-text-width: 9rem;
   }
 
   .appeals-ahead {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 26px;
     font-weight: bold;
     line-height: 1;

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
@@ -27,9 +26,9 @@ describe('1990n schema tests', () => {
       const result = v.validate(JSON.parse(submitData), fullSchema1990n);
 
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line
       }
-      expect(result.valid).to.be.true;
+      expect(result.valid).toBe(true);
     });
     // Expect the data to be what's found in expected-data/${file}
     // TODO: Switch back to .includes() when NodeJS gets updated on Jenkins
@@ -39,7 +38,7 @@ describe('1990n schema tests', () => {
         const expectedData = JSON.parse(
           fs.readFileSync(path.join(__dirname, 'expected-data', file), 'utf8'),
         );
-        expect(submitData).to.equal(JSON.stringify(expectedData));
+        expect(submitData).toBe(JSON.stringify(expectedData));
       });
     }
   });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import fullSchema1010ez from 'applications/hca/config/form';
 import fullSchema0993 from 'applications/edu-benefits/0993/config/form';
 import fullSchema0994 from 'applications/edu-benefits/0994/config/form';
@@ -92,18 +91,9 @@ describe('form:', () => {
     const includedSchemaIdsSet = new Set(includedSchemaIds);
     const mappedIdsSet = new Set(mappedIds);
 
-    expect(includedSchemaIdsSet.size).to.not.lessThan(
-      mappedIdsSet.size,
-      'a schema may have been removed from vets-json-schema/dist/schemas',
-    );
-    expect(includedSchemaIdsSet.size).to.not.greaterThan(
-      mappedIdsSet.size,
-      'a schema may have been added to vets-json-schema/dist/schemas',
-    );
-    expect(includedSchemaIds).to.have.same.members(
-      includedFormIds,
-      'possible missing formId property in a formConfig',
-    );
+    expect(includedSchemaIdsSet.size).not.toBeLessThan(mappedIdsSet.size);
+    expect(includedSchemaIdsSet.size).not.toBeGreaterThan(mappedIdsSet.size);
+    expect(includedSchemaIds).toEqual(includedFormIds);
   });
 
   configs.forEach(form => {
@@ -112,112 +102,112 @@ describe('form:', () => {
         const { migrations } = form;
         if (migrations || form.version > 0) {
           it('should have a length equal to the version number', () => {
-            expect(migrations.length).to.equal(form.version);
+            expect(migrations.length).toBe(form.version);
           });
           it('should be typeof array', () => {
-            expect(migrations).to.be.an('array');
+            expect(Array.isArray(migrations)).toBe(true);
           });
           it('should be array of functions', () => {
             expect(
               migrations.every(migration => typeof migration === 'function'),
-            ).to.be.true;
+            ).toBe(true);
           });
         }
       });
 
       it('should have chapters object', () => {
-        expect(form.chapters).to.be.an('object');
+        expect(form.chapters).toBeInstanceOf(Object);
       });
 
       it('should have defaultDefinitions object', () => {
-        expect(form.defaultDefinitions).to.be.an('object');
+        expect(form.defaultDefinitions).toBeInstanceOf(Object);
       });
 
       if (form.introduction) {
         it('should have introduction function', () => {
-          expect(form.introduction).to.be.a('function');
+          expect(form.introduction).toBeInstanceOf(Function);
         });
       }
 
       if (form.prefillEnabled) {
         it('should have prefillEnabled boolean', () => {
-          expect(form.prefillEnabled).to.be.a('boolean');
+          expect(form.prefillEnabled).toBeInstanceOf(Boolean);
         });
       }
 
       if (form.prefillTransformer) {
         it('should have prefillTransformer function', () => {
-          expect(form.prefillTransformer).to.be.a('function');
+          expect(form.prefillTransformer).toBeInstanceOf(Function);
         });
       }
 
       it('should have trackingPrefix', () => {
-        expect(form.trackingPrefix).to.be.a('string');
+        expect(typeof form.trackingPrefix).toBe('string');
       });
 
       it('should have title', () => {
-        expect(form.title).to.be.a('string');
+        expect(typeof form.title).toBe('string');
       });
 
       if (form.subTitle) {
         it('should have subTitle', () => {
-          expect(form.subTitle).to.be.a('string');
+          expect(typeof form.subTitle).toBe('string');
         });
       }
 
       it('should have urlPrefix', () => {
-        expect(form.urlPrefix).to.be.a('string');
+        expect(typeof form.urlPrefix).toBe('string');
       });
 
       if (form.submitUrl) {
         it('should have submitUrl', () => {
-          expect(form.submitUrl).to.be.a('string');
+          expect(typeof form.submitUrl).toBe('string');
         });
       }
 
       if (form.submit) {
         it('should have submit', () => {
-          expect(form.submit).to.be.a('function');
+          expect(form.submit).toBeInstanceOf(Function);
         });
       }
 
       if (form.savedFormMessages) {
         it('should have savedFormMessages', () => {
-          expect(form.savedFormMessages).to.be.a('object');
+          expect(form.savedFormMessages).toBeInstanceOf(Object);
         });
       }
 
       if (form.transformForSubmit) {
         it('should have transformForSubmit', () => {
-          expect(form.transformForSubmit).to.be.a('function');
+          expect(form.transformForSubmit).toBeInstanceOf(Function);
         });
       }
 
       it('should have confirmation', () => {
-        expect(form.confirmation).to.be.a('function');
+        expect(form.confirmation).toBeInstanceOf(Function);
       });
 
       if (form.preSubmitInfo) {
         it('should have preSubmitInfo', () => {
-          expect(form.preSubmitInfo).to.be.a('object');
+          expect(form.preSubmitInfo).toBeInstanceOf(Object);
         });
       }
 
       if (form.footerContent) {
         it('should have footerContent', () => {
-          expect(form.footerContent).to.be.a('function');
+          expect(form.footerContent).toBeInstanceOf(Function);
         });
       }
 
       if (form.getHelp) {
         it('should have getHelp', () => {
-          expect(form.getHelp).to.be.a('function');
+          expect(form.getHelp).toBeInstanceOf(Function);
         });
       }
 
       if (form.errorText) {
         it('should have errorText', () => {
-          expect(form.errorText).to.be.a('function');
+          expect(form.errorText).toBeInstanceOf(Function);
         });
       }
     });

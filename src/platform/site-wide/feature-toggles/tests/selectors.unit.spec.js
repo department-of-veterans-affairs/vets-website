@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import * as selectors from '../selectors';
 
 describe('feature-toggle selectors', () => {
@@ -10,13 +9,13 @@ describe('feature-toggle selectors', () => {
           flag2: false,
         },
       };
-      expect(selectors.toggleValues(state)).to.eql(state.featureToggles);
+      expect(selectors.toggleValues(state)).toEqual(state.featureToggles);
     });
     it('returns an empty object if the `featureToggles` is not set', () => {
       const state = {
         foo: 'bar',
       };
-      expect(selectors.toggleValues(state)).to.eql({});
+      expect(selectors.toggleValues(state)).toEqual({});
     });
   });
 
@@ -27,17 +26,17 @@ describe('feature-toggle selectors', () => {
           production: true,
         },
       };
-      expect(selectors.isProduction(state)).to.be.true;
+      expect(selectors.isProduction(state)).toBe(true);
     });
     it('returns `undefined` if `production` is not set on `featureToggles`', () => {
       const state = {
         featureToggles: {},
       };
-      expect(selectors.isProduction(state)).to.be.undefined;
+      expect(selectors.isProduction(state)).toBeUndefined();
     });
     it('returns `undefined` if `featureToggles` is not set', () => {
       const state = {};
-      expect(selectors.isProduction(state)).to.be.undefined;
+      expect(selectors.isProduction(state)).toBeUndefined();
     });
   });
 });

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
 import {
@@ -116,7 +115,7 @@ describe('VAOS newAppointment actions', () => {
   it('should open form page', () => {
     const action = openFormPage('test', 'uiSchema', 'schema');
 
-    expect(action).to.deep.equal({
+    expect(action).toEqual({
       type: FORM_PAGE_OPENED,
       page: 'test',
       uiSchema: 'uiSchema',
@@ -127,7 +126,7 @@ describe('VAOS newAppointment actions', () => {
   it('should start new appointment flow', () => {
     const action = startNewAppointmentFlow();
 
-    expect(action).to.deep.equal({
+    expect(action).toEqual({
       type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });
@@ -135,7 +134,7 @@ describe('VAOS newAppointment actions', () => {
   it('should hide ToC modal', () => {
     const action = hideTypeOfCareUnavailableModal();
 
-    expect(action).to.deep.equal({
+    expect(action).toEqual({
       type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
     });
   });
@@ -152,13 +151,13 @@ describe('VAOS newAppointment actions', () => {
       const thunk = routeToPageInFlow(testFlow, router, 'page1', 'next');
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
+      expect(dispatch.firstCall.args[0]).toEqual({
         type: FORM_PAGE_CHANGE_STARTED,
       });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
-      expect(router.push.firstCall.args[0]).to.equal('/page2');
+      expect(router.push.firstCall.args[0]).toBe('/page2');
     });
 
     it('should route to next page with function', async () => {
@@ -172,7 +171,7 @@ describe('VAOS newAppointment actions', () => {
       const thunk = routeToPageInFlow(testFlow, router, 'page2', 'next');
       await thunk(dispatch, getState);
 
-      expect(router.push.firstCall.args[0]).to.equal('/page3');
+      expect(router.push.firstCall.args[0]).toBe('/page3');
     });
 
     it('should throw error for bad state', done => {
@@ -190,9 +189,7 @@ describe('VAOS newAppointment actions', () => {
           done('Did not throw error for bad state');
         })
         .catch(e => {
-          expect(e.message).to.equal(
-            'Tried to route to page that does not exist',
-          );
+          expect(e.message).toBe('Tried to route to page that does not exist');
           done();
         });
     });
@@ -206,10 +203,8 @@ describe('VAOS newAppointment actions', () => {
       const thunk = fetchFacilityDetails('123');
 
       await thunk(dispatch);
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_FETCH_FACILITY_DETAILS,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_FETCH_FACILITY_DETAILS);
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
     });
@@ -264,12 +259,12 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
         page: 'vaFacility',
@@ -296,7 +291,7 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
         page: 'vaFacility',
@@ -306,7 +301,9 @@ describe('VAOS newAppointment actions', () => {
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
-      expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
+      expect(global.fetch.secondCall.args[0]).toEqual(
+        expect.arrayContaining(['/systems/983/']),
+      );
     });
 
     it('should send fail action if a fetch fails', async () => {
@@ -318,7 +315,7 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_PAGE_FACILITY_OPEN_FAILED,
       );
     });
@@ -331,7 +328,7 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
         page: 'vaFacility',
@@ -352,12 +349,12 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
         page: 'vaFacility',
@@ -392,16 +389,16 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
       const firstAction = dispatch.firstCall.args[0];
-      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+      expect(firstAction.type).toBe(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
 
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_FETCH_FACILITY_DETAILS,
       );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
+      expect(dispatch.thirdCall.args[0].type).toBe(
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
 
-      expect(firstAction.eligibilityData).to.not.be.null;
+      expect(firstAction.eligibilityData).not.toBeNull();
     });
 
     it('should fetch eligibility info if only one supported facility', async () => {
@@ -441,9 +438,9 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
       const firstAction = dispatch.firstCall.args[0];
-      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+      expect(firstAction.type).toBe(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
 
-      expect(firstAction.eligibilityData).to.not.be.null;
+      expect(firstAction.eligibilityData).not.toBeNull();
     });
 
     it('should skip eligibility request and succeed if facility list is empty', async () => {
@@ -455,12 +452,12 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
       );
 
       const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
         page: 'vaFacility',
@@ -525,7 +522,7 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.lastCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.lastCall.args[0].type).toBe(FORM_DATA_UPDATED);
     });
 
     it('should not fetch anything if system changed and we already have facilities', async () => {
@@ -549,8 +546,8 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.lastCall.args[0].type).to.equal(FORM_VA_PARENT_CHANGED);
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+      expect(dispatch.lastCall.args[0].type).toBe(FORM_VA_PARENT_CHANGED);
     });
 
     it('should fetch facilities if system is selected already', async () => {
@@ -568,16 +565,16 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_FETCH_CHILD_FACILITIES,
       );
-      expect(dispatch.lastCall.args[0].type).to.equal(
+      expect(dispatch.lastCall.args[0].type).toBe(
         FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
       );
 
       const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema: {},
         facilities: facilities983Parsed,
@@ -600,20 +597,20 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_FETCH_CHILD_FACILITIES,
       );
 
       // system details dispatch
-      expect(dispatch.thirdCall.args[0]).to.be.a('function');
+      expect(dispatch.thirdCall.args[0]).toBeInstanceOf(Function);
 
-      expect(dispatch.lastCall.args[0].type).to.equal(
+      expect(dispatch.lastCall.args[0].type).toBe(
         FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
       );
 
       const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema: {},
         facilities: [],
@@ -636,11 +633,11 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_FETCH_CHILD_FACILITIES,
       );
-      expect(dispatch.lastCall.args[0].type).to.equal(
+      expect(dispatch.lastCall.args[0].type).toBe(
         FORM_FETCH_CHILD_FACILITIES_FAILED,
       );
     });
@@ -699,27 +696,25 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        FORM_ELIGIBILITY_CHECKS,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_ELIGIBILITY_CHECKS);
+      expect(dispatch.thirdCall.args[0].type).toBe(
         FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
       );
-      expect(dispatch.getCall(3).args[0].type).to.equal(
+      expect(dispatch.getCall(3).args[0].type).toBe(
         FORM_FETCH_FACILITY_DETAILS,
       );
-      expect(dispatch.getCall(4).args[0].type).to.equal(
+      expect(dispatch.getCall(4).args[0].type).toBe(
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
 
       const succeededAction = dispatch.thirdCall.args[0];
       const eligibilityData = succeededAction.eligibilityData;
-      expect(succeededAction.typeOfCareId).to.equal(
+      expect(succeededAction.typeOfCareId).toBe(
         defaultState.newAppointment.data.typeOfCareId,
       );
-      expect(eligibilityData.clinics.length).to.equal(4);
-      expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
+      expect(eligibilityData.clinics.length).toBe(4);
+      expect(eligibilityData.requestLimits.numberOfRequests).toBe(0);
     });
 
     it('should send fail action for error in eligibility code', async () => {
@@ -752,11 +747,9 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        FORM_ELIGIBILITY_CHECKS,
-      );
-      expect(dispatch.lastCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_ELIGIBILITY_CHECKS);
+      expect(dispatch.lastCall.args[0].type).toBe(
         FORM_ELIGIBILITY_CHECKS_FAILED,
       );
     });
@@ -790,8 +783,8 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CLINIC_PAGE_OPENED);
-      expect(dispatch.thirdCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_CLINIC_PAGE_OPENED);
+      expect(dispatch.thirdCall.args[0].type).toBe(
         FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       );
     });
@@ -811,7 +804,7 @@ describe('VAOS newAppointment actions', () => {
         },
       );
 
-      expect(action.type).to.equal(FORM_REASON_FOR_APPOINTMENT_CHANGED);
+      expect(action.type).toBe(FORM_REASON_FOR_APPOINTMENT_CHANGED);
     });
   });
 
@@ -866,20 +859,18 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_CALENDAR_FETCH_SLOTS,
-      );
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_CALENDAR_FETCH_SLOTS);
 
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
       );
 
-      expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
-      expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
+      expect(dispatch.secondCall.args[0].availableSlots.length).toBe(1);
+      expect(dispatch.secondCall.args[0].availableSlots[0]).toEqual({
         date: tomorrowString,
         datetime: `${tomorrowString}T14:20:00`,
       });
-      expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
+      expect(dispatch.secondCall.args[0].appointmentLength).toBe(20);
 
       resetFetch();
     });
@@ -917,14 +908,14 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=1234',
+      expect(global.fetch.firstCall.args[0]).toEqual(
+        expect.arrayContaining([
+          '/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=1234',
+        ]),
       );
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_CALENDAR_FETCH_SLOTS,
-      );
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_CALENDAR_FETCH_SLOTS);
 
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.secondCall.args[0].type).toBe(
         FORM_CALENDAR_FETCH_SLOTS_FAILED,
       );
 
@@ -937,7 +928,7 @@ describe('VAOS newAppointment actions', () => {
           currentlySelectedDate: '2020-12-11',
           selectedDates: [{}, {}],
         }).type,
-      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
+      ).toBe(FORM_CALENDAR_DATA_CHANGED);
     });
   });
 
@@ -977,11 +968,11 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
       );
       const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
+      expect(succeededAction).toEqual({
         type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
         schema: defaultSchema,
         page: 'ccPreferences',
@@ -1002,10 +993,10 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
       );
-      expect(dispatch.lastCall.args[0].type).to.equal(
+      expect(dispatch.lastCall.args[0].type).toBe(
         FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
       );
     });
@@ -1060,21 +1051,21 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       const dataLayer = global.window.dataLayer;
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(dataLayer[0]).to.deep.equal({
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_SUBMIT_SUCCEEDED);
+      expect(dataLayer[0]).toEqual({
         event: 'vaos-request-submission',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
       });
-      expect(dataLayer[1]).to.deep.equal({
+      expect(dataLayer[1]).toEqual({
         event: 'vaos-request-submission-successful',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
         flow: 'va-request',
       });
-      expect(dataLayer[2]).to.deep.equal({
+      expect(dataLayer[2]).toEqual({
         flow: undefined,
         'health-TypeOfCare': undefined,
         'health-ReasonForAppointment': undefined,
@@ -1082,7 +1073,7 @@ describe('VAOS newAppointment actions', () => {
         appointmentType: undefined,
         facilityType: undefined,
       });
-      expect(router.push.called).to.be.true;
+      expect(router.push.called).toBe(true);
     });
 
     it('should send CC request', async () => {
@@ -1119,9 +1110,9 @@ describe('VAOS newAppointment actions', () => {
       });
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(router.push.called).to.be.true;
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_SUBMIT_SUCCEEDED);
+      expect(router.push.called).toBe(true);
     });
 
     it('should make VA appointment', async () => {
@@ -1170,9 +1161,9 @@ describe('VAOS newAppointment actions', () => {
       });
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
-      expect(router.push.called).to.be.true;
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_SUBMIT_SUCCEEDED);
+      expect(router.push.called).toBe(true);
     });
 
     it('should send fail action if request fails', async () => {
@@ -1215,15 +1206,15 @@ describe('VAOS newAppointment actions', () => {
       });
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
-      expect(global.window.dataLayer[1]).to.deep.equal({
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_SUBMIT_FAILED);
+      expect(global.window.dataLayer[1]).toEqual({
         event: 'vaos-request-submission-failed',
         flow: 'va-request',
         'health-TypeOfCare': 'Primary care',
         'health-ReasonForAppointment': 'routine-follow-up',
       });
-      expect(global.window.dataLayer[2]).to.deep.equal({
+      expect(global.window.dataLayer[2]).toEqual({
         flow: undefined,
         'health-TypeOfCare': undefined,
         'health-ReasonForAppointment': undefined,
@@ -1231,7 +1222,7 @@ describe('VAOS newAppointment actions', () => {
         appointmentType: undefined,
         facilityType: undefined,
       });
-      expect(router.push.called).to.be.false;
+      expect(router.push.called).toBe(false);
     });
 
     it('should send fail action if direct schedule fails', async () => {
@@ -1280,9 +1271,9 @@ describe('VAOS newAppointment actions', () => {
       });
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
-      expect(router.push.called).to.be.false;
+      expect(dispatch.firstCall.args[0].type).toBe(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).toBe(FORM_SUBMIT_FAILED);
+      expect(router.push.called).toBe(false);
     });
   });
 
@@ -1310,11 +1301,11 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openTypeOfCarePage('typeOfCare', {}, {});
       thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         FORM_TYPE_OF_CARE_PAGE_OPENED,
       );
-      expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
-      expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
+      expect(dispatch.firstCall.args[0].phoneNumber).toBe('5032222222');
+      expect(dispatch.firstCall.args[0].email).toBe('test@va.gov');
     });
   });
   describe('requestAppointmentDateChoice', () => {
@@ -1326,10 +1317,10 @@ describe('VAOS newAppointment actions', () => {
 
       requestAppointmentDateChoice(router)(dispatch);
 
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
+      expect(dispatch.firstCall.args[0]).toEqual({
         type: START_REQUEST_APPOINTMENT_FLOW,
       });
-      expect(router.replace.called).to.be.true;
+      expect(router.replace.called).toBe(true);
     });
   });
 });

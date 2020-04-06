@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
 
 .terms-and-conditions {
   margin-bottom: 3em;
@@ -7,7 +7,7 @@
     margin: 1rem 0;
   }
 
-  h3+hr {
+  h3 + hr {
     margin: 0 0 2rem;
   }
 
@@ -18,13 +18,14 @@
 
   .terms-text {
     h3 {
-      font-size: 3rem
+      font-size: 3rem;
     }
 
     p {
       strong {
         font-size: 2rem;
-        font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+        font-family: 'Bitter', 'Georgia', 'Cambria', 'Times New Roman', 'Times',
+          serif;
       }
     }
   }
@@ -36,7 +37,7 @@
   button {
     width: auto;
 
-    &+button {
+    & + button {
       margin-left: 2rem;
     }
   }

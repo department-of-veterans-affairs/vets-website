@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 
 import { HCAEnrollmentStatusFAQ } from '../../components/HCAEnrollmentStatusFAQ';
 import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
@@ -74,7 +73,7 @@ describe('these tests themselves', () => {
       possibleEnrollmentStatuses.every(enrollmentStatus =>
         testedEnrollmentStatuses.includes(enrollmentStatus),
       ),
-    ).to.be.true;
+    ).toBe(true);
   });
 });
 describe('<HCAEnrollmentStatusFAQ />', () => {
@@ -94,7 +93,9 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
       it(`it renders the correct FAQ contents for status: ${enrollmentStatus}`, () => {
         const props = { ...defaultProps, enrollmentStatus };
         const wrapper = shallow(<HCAEnrollmentStatusFAQ {...props} />);
-        expect(wrapper.html()).to.contain(expectedOutputs[enrollmentStatus]);
+        expect(wrapper.html()).toEqual(
+          expect.arrayContaining([expectedOutputs[enrollmentStatus]]),
+        );
         wrapper.unmount();
       });
     });
@@ -102,7 +103,7 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
 
   describe('the reapply link', () => {
     it('calls the showReapplyContent prop', () => {
-      expect(showReapplyContentSpy.callCount).to.equal(0);
+      expect(showReapplyContentSpy.callCount).toBe(0);
       const props = {
         ...defaultProps,
         enrollmentStatus: HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime,
@@ -110,13 +111,13 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
       const wrapper = shallow(<HCAEnrollmentStatusFAQ {...props} />);
       const reapplyButton = wrapper.find('ReapplyTextLink');
       reapplyButton.simulate('click');
-      expect(showReapplyContentSpy.callCount).to.equal(1);
+      expect(showReapplyContentSpy.callCount).toBe(1);
       wrapper.unmount();
     });
     it('is not visible when reapplying is not allowed', () => {
       const wrapper = shallow(<HCAEnrollmentStatusFAQ {...defaultProps} />);
       const reapplyButton = wrapper.filter('ReapplyTextLink');
-      expect(reapplyButton.length).to.equal(0);
+      expect(reapplyButton.length).toBe(0);
       wrapper.unmount();
     });
   });
@@ -129,7 +130,7 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
       };
       const wrapper = shallow(<HCAEnrollmentStatusFAQ {...props} />);
       const reapplyContent = wrapper.find('ReapplyContent');
-      expect(reapplyContent.length).to.equal(1);
+      expect(reapplyContent.length).toBe(1);
       wrapper.unmount();
     });
     it('is not shown when reapplying is not allowed', () => {
@@ -140,7 +141,7 @@ describe('<HCAEnrollmentStatusFAQ />', () => {
       };
       const wrapper = shallow(<HCAEnrollmentStatusFAQ {...props} />);
       const reapplyContent = wrapper.find('ReapplyContent');
-      expect(reapplyContent.length).to.equal(0);
+      expect(reapplyContent.length).toBe(0);
       wrapper.unmount();
     });
   });

@@ -1,7 +1,7 @@
 // Variables
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
 
 .vet-id-card {
   padding: 0 0 2rem 2.4rem;
@@ -10,7 +10,7 @@
 .vet-id-email-capture {
   padding-bottom: 4em;
 
-  button[type=submit] {
+  button[type='submit'] {
     width: auto;
   }
 }

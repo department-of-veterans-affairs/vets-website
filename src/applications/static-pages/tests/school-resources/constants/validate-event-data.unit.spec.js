@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import moment from 'moment';
 
 import scoEvents from '../../../school-resources/constants/events';
@@ -6,24 +5,24 @@ import scoEvents from '../../../school-resources/constants/events';
 describe('school resources data', () => {
   it('all events have required data', () => {
     scoEvents.forEach(item => {
-      expect(item.name).to.be.a('string');
-      expect(item.url).to.be.a('string');
-      expect(item.location).to.be.a('string');
-      expect(item.eventStartDate).to.be.a('string');
-      expect(item.displayStartDate).to.be.a('string');
-      expect(item.name).to.not.be.empty;
-      expect(item.url).to.not.be.empty;
-      expect(item.location).to.not.be.empty;
-      expect(item.eventStartDate).to.not.be.empty;
-      expect(item.displayStartDate).to.not.be.empty;
+      expect(typeof item.name).toBe('string');
+      expect(typeof item.url).toBe('string');
+      expect(typeof item.location).toBe('string');
+      expect(typeof item.eventStartDate).toBe('string');
+      expect(typeof item.displayStartDate).toBe('string');
+      expect(item.name).not.toHaveLength(0);
+      expect(item.url).not.toHaveLength(0);
+      expect(item.location).not.toHaveLength(0);
+      expect(item.eventStartDate).not.toHaveLength(0);
+      expect(item.displayStartDate).not.toHaveLength(0);
     });
   });
 
   it('all date fields are valid dates', () => {
     scoEvents.forEach(item => {
-      expect(moment(item.eventStartDate).isValid()).to.eq(true);
-      expect(moment(item.eventEndDate).isValid()).to.eq(true);
-      expect(moment(item.displayStartDate).isValid()).to.eq(true);
+      expect(moment(item.eventStartDate).isValid()).toBe(true);
+      expect(moment(item.eventEndDate).isValid()).toBe(true);
+      expect(moment(item.displayStartDate).isValid()).toBe(true);
     });
   });
 });

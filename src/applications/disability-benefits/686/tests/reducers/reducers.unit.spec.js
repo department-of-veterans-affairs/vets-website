@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
   LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
@@ -26,7 +24,7 @@ describe('authorization686 reducer', () => {
       type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
     });
 
-    expect(newState).to.eql(expectedState);
+    expect(newState).toEqual(expectedState);
   });
 
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED with authorization', () => {
@@ -40,7 +38,7 @@ describe('authorization686 reducer', () => {
       payload: { has30Percent: true },
     });
 
-    expect(newState).to.eql(expectedState);
+    expect(newState).toEqual(expectedState);
   });
 
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED without authorization', () => {
@@ -54,7 +52,7 @@ describe('authorization686 reducer', () => {
       payload: { has30Percent: false },
     });
 
-    expect(newState).to.eql(expectedState);
+    expect(newState).toEqual(expectedState);
   });
 
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_FAILED', () => {
@@ -72,6 +70,6 @@ describe('authorization686 reducer', () => {
       type: LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
       error: payload,
     });
-    expect(newState).to.eql(expectedState);
+    expect(newState).toEqual(expectedState);
   });
 });

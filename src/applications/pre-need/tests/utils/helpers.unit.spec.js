@@ -1,5 +1,4 @@
 import { transform } from '../../utils/helpers';
-import { expect } from 'chai';
 
 describe('Preneed helpers', () => {
   describe('transform', () => {
@@ -19,7 +18,7 @@ describe('Preneed helpers', () => {
         ),
       );
 
-      expect(data.application['view:testing']).to.be.undefined;
+      expect(data.application['view:testing']).toBeUndefined();
     });
 
     it('should populate service name', () => {
@@ -40,7 +39,7 @@ describe('Preneed helpers', () => {
         ),
       );
 
-      expect(data.application.veteran.serviceName).to.equal(
+      expect(data.application.veteran.serviceName).toBe(
         data.application.veteran.currentName,
       );
     });
@@ -65,7 +64,7 @@ describe('Preneed helpers', () => {
         ),
       );
 
-      expect(data.application.claimant.address).to.be.undefined;
+      expect(data.application.claimant.address).toBeUndefined();
     });
   });
 });

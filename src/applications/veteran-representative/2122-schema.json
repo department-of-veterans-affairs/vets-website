@@ -25,13 +25,7 @@
         "suffix": {
           "type": "string",
           "ui:title": "Middle name",
-          "enum": [
-            "Jr.",
-            "Sr.",
-            "II",
-            "III",
-            "IV"
-          ]
+          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
         }
       },
       "required": ["first", "last"]
@@ -43,9 +37,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "BRA"
-              ]
+              "enum": ["BRA"]
             },
             "state": {
               "type": "string",
@@ -89,9 +81,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "ITA"
-              ]
+              "enum": ["ITA"]
             },
             "state": {
               "type": "string",
@@ -218,9 +208,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "MEX"
-              ]
+              "enum": ["MEX"]
             },
             "state": {
               "type": "string",
@@ -269,9 +257,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "USA"
-              ]
+              "enum": ["USA"]
             },
             "state": {
               "type": "string",
@@ -351,9 +337,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "CAN"
-              ]
+              "enum": ["CAN"]
             },
             "state": {
               "type": "string",
@@ -383,9 +367,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "IND"
-              ]
+              "enum": ["IND"]
             },
             "state": {
               "type": "string",
@@ -437,9 +419,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "CHN"
-              ]
+              "enum": ["CHN"]
             },
             "state": {
               "type": "string",
@@ -490,22 +470,11 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "AUS"
-              ]
+              "enum": ["AUS"]
             },
             "state": {
               "type": "string",
-              "enum": [
-                "ACT",
-                "NSW",
-                "NT",
-                "QLD",
-                "SA",
-                "TAS",
-                "VIC",
-                "WA"
-              ]
+              "enum": ["ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"]
             },
             "postalCode": {
               "type": "string",
@@ -517,9 +486,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "IRL"
-              ]
+              "enum": ["IRL"]
             },
             "state": {
               "type": "string",
@@ -853,7 +820,8 @@
     },
     "relationship": {
       "title": "Relationship to Veteran",
-      "type": "string", "enum": ["Parent", "Spouse", "Child"]
+      "type": "string",
+      "enum": ["Parent", "Spouse", "Child"]
     },
     "appointmentDate": {
       "type": "string",

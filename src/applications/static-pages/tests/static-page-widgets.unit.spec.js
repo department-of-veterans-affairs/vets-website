@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import mountWidgets from '../../../site/assets/js/static-page-widgets';
 
 const widgetContent = `
@@ -34,12 +32,12 @@ describe('static page widget', () => {
         document
           .querySelector('#testRoot .loading-indicator-message--normal')
           .classList.contains('vads-u-display--none'),
-      ).to.be.true;
+      ).toBe(true);
       expect(
         document
           .querySelector('#testRoot .loading-indicator-message--slow')
           .classList.contains('vads-u-display--none'),
-      ).to.be.false;
+      ).toBe(false);
       done();
     }, 700);
   });
@@ -53,7 +51,7 @@ describe('static page widget', () => {
         document
           .querySelector('#testRoot .usa-alert-error')
           .classList.contains('vads-u-display--none'),
-      ).to.be.false;
+      ).toBe(false);
       done();
     }, 1100);
   });
@@ -64,7 +62,7 @@ describe('static page widget', () => {
     document.querySelector('#testRoot').innerHTML = '';
 
     setTimeout(() => {
-      expect(document.querySelector('#testRoot .usa-alert-error')).to.be.null;
+      expect(document.querySelector('#testRoot .usa-alert-error')).toBeNull();
       done();
     }, 700);
   });

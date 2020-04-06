@@ -1,9 +1,9 @@
 // Adds external icon to all links that begin
 // with http (including https)
-[href^=http] {
+[href^='http'] {
   #playbook .primary &,
   .coda & {
-    margin-right: .1em;
+    margin-right: 0.1em;
     padding-right: 1.5em;
   }
 }
@@ -28,7 +28,8 @@
   }
 
   .vets-logo {
-    path, rect {
+    path,
+    rect {
       fill: $color-primary-darker;
     }
   }
@@ -50,19 +51,19 @@
 
 #playbook .splash {
   margin: 0;
-  background: $color-white url(/img/design/background/thread.png) center center no-repeat;
+  background: $color-white url(/img/design/background/thread.png) center center
+    no-repeat;
   background-size: cover;
   display: flex;
   align-items: center;
   min-height: 14em;
 }
 
-
 // TODO: Remove !important from this block
 // Once the specificity of #content .splash h2 block/
 // gets reduced.
 .va-headingflag {
-  margin: .5em 0 !important;
+  margin: 0.5em 0 !important;
   padding: 0 !important;
   margin: 0 0 2em 0 !important;
   background: none !important;
@@ -80,13 +81,13 @@
     color: $color-primary-darkest;
     background: $color-gold;
     border-bottom: none;
-    padding: .5em .25em;
+    padding: 0.5em 0.25em;
     // Transition only these properties.
     -webkit-transition-property: padding;
     transition-property: padding;
 
     &:hover {
-      padding: .5em .65em;
+      padding: 0.5em 0.65em;
     }
   }
 
@@ -102,13 +103,18 @@
 }
 
 #playbook {
-  h2 {background: none; font-size: 2.5em;}
+  h2 {
+    background: none;
+    font-size: 2.5em;
+  }
 
   .card a {
     border-bottom: 2px solid $color-gray-lighter;
     display: inline-block;
     background: $color-link-default-hover;
-    &:hover {background: $color-link-default-hover;}
+    &:hover {
+      background: $color-link-default-hover;
+    }
   }
 }
 
@@ -159,13 +165,12 @@
   }
 }
 
-
 .process-step--iterative {
   .list-four,
   .list-six {
     @include media-maxwidth($small-screen) {
       padding-top: 0;
-      margin-top: 1em!important;
+      margin-top: 1em !important;
     }
   }
 
@@ -180,20 +185,20 @@
     background-size: contain;
     border: none;
     margin-left: -3.3em;
-    padding-top: .35em;
+    padding-top: 0.35em;
   }
 }
 
 .badge--iterative {
   display: inline-block;
   background: $color-link-default-hover;
-  padding: .2em .6em;
+  padding: 0.2em 0.6em;
   border-radius: 3px;
   margin-left: 0;
   text-transform: uppercase;
-  font-size: .85em;
+  font-size: 0.85em;
   vertical-align: 15%;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 
   @include media($medium-large-screen) {
     margin-left: 1.25em;
@@ -205,32 +210,32 @@
 }
 
 .human-centered {
-.discover,
-.design,
-.deliver {
-  border-top: 4px solid $color-white;
-  border-bottom: 4px solid $color-white;
+  .discover,
+  .design,
+  .deliver {
+    border-top: 4px solid $color-white;
+    border-bottom: 4px solid $color-white;
 
-  div:nth-child(1) {
-    border-right: 8px solid $color-white;
+    div:nth-child(1) {
+      border-right: 8px solid $color-white;
 
-    @include media-maxwidth($small-screen) {
-      border-right: 0;
+      @include media-maxwidth($small-screen) {
+        border-right: 0;
+      }
+    }
+    div:nth-child(2) {
+      padding: 1.5em 1.5em 0.2em;
+    }
+    .graphic {
+      background-size: 165px 165px;
+      padding: 0;
+      height: 209px;
+
+      @include media-maxwidth($medium-large-screen) {
+        background-position: 0 center;
+      }
     }
   }
-  div:nth-child(2) {
-    padding: 1.5em 1.5em .2em;
-  }
-  .graphic {
-    background-size: 165px 165px;
-    padding: 0;
-    height: 209px;
-
-    @include media-maxwidth($medium-large-screen) {
-      background-position: 0 center;
-    }
-  }
-}
 }
 .discover {
   background: $polar;
@@ -241,7 +246,8 @@
   }
 
   .graphic {
-    background: url(/img/design/playbook/discover-process.svg) 40% center no-repeat;
+    background: url(/img/design/playbook/discover-process.svg) 40% center
+      no-repeat;
   }
 }
 
@@ -249,7 +255,8 @@
   background: $wild-sand;
 
   .graphic {
-    background: url(/img/design/playbook/design-process.svg) 40% center no-repeat;
+    background: url(/img/design/playbook/design-process.svg) 40% center
+      no-repeat;
   }
 }
 
@@ -257,7 +264,8 @@
   background: $green-white;
 
   .graphic {
-    background: url(/img/design/playbook/discover-process.svg) 40% center no-repeat;
+    background: url(/img/design/playbook/discover-process.svg) 40% center
+      no-repeat;
   }
 }
 
@@ -274,7 +282,7 @@
 }
 
 .va-list-num--deliver {
-// TODO: Figure out why !important is necessary here.
+  // TODO: Figure out why !important is necessary here.
   li::before {
     background-color: $green-white !important;
   }
@@ -287,7 +295,8 @@
     padding-top: 1.5em;
   }
 
-  h5, h6 {
+  h5,
+  h6 {
     font-size: 2.16rem;
   }
 }
@@ -297,25 +306,40 @@
 .color-chip {
   height: 3em;
   width: 3em;
-  margin: .5em 1em .5em 0;
+  margin: 0.5em 1em 0.5em 0;
   border-radius: 10em;
   vertical-align: middle;
   display: inline-block;
 
-  &.primary-color {background: $color-primary;}
-  &.color-primary-darker {background: $color-primary-darker;}
-  &.color-primary-darkest {background: $color-primary-darkest;}
-  &.color-gray-dark {background: $color-gray-dark;}
-  &.color-gray-lightest {background: $color-gray-lightest;}
-  &.color-gold {background: $color-gold;}
-  &.color-green {background: $color-green;}
-  &.color-green-lightest {background: $color-green-lightest;}
+  &.primary-color {
+    background: $color-primary;
+  }
+  &.color-primary-darker {
+    background: $color-primary-darker;
+  }
+  &.color-primary-darkest {
+    background: $color-primary-darkest;
+  }
+  &.color-gray-dark {
+    background: $color-gray-dark;
+  }
+  &.color-gray-lightest {
+    background: $color-gray-lightest;
+  }
+  &.color-gold {
+    background: $color-gold;
+  }
+  &.color-green {
+    background: $color-green;
+  }
+  &.color-green-lightest {
+    background: $color-green-lightest;
+  }
 }
 
 // TODO(css): Remove !important once #content ul.breadcrumbs li.active
 // is refactored.
 .splash--alternate {
-
   li a {
     color: $color-primary-darkest !important;
     border-bottom: 2px solid $color-gray-lighter !important;
@@ -336,14 +360,27 @@
 
 .quaternary {
   background: $color-gray-lighter;
-  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  h4 {font-weight: 700;}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li {
+    color: $color-white;
+  }
+  h4 {
+    font-weight: 700;
+  }
   .cards {
     a {
       height: 12em;
     }
   }
-  .feature {background: none;}
+  .feature {
+    background: none;
+  }
 }
 
 .tertiary,

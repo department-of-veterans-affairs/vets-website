@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { termsAndConditions as reducer } from '../../reducers';
 
 import {
@@ -17,17 +15,17 @@ import {
 describe('Terms and conditions reducer', () => {
   it('should be loading when accepting terms', () => {
     const state = reducer(undefined, { type: ACCEPTING_LATEST_TERMS });
-    expect(state.loading.acceptance).to.be.true;
+    expect(state.loading.acceptance).toBe(true);
   });
 
   it('should be loading when fetching terms', () => {
     const state = reducer(undefined, { type: FETCHING_LATEST_TERMS });
-    expect(state.loading.tc).to.be.true;
+    expect(state.loading.tc).toBe(true);
   });
 
   it('should be loading when fetching terms acceptance', () => {
     const state = reducer(undefined, { type: FETCHING_TERMS_ACCEPTANCE });
-    expect(state.loading.acceptance).to.be.true;
+    expect(state.loading.acceptance).toBe(true);
   });
 
   it('should handle failed acceptance of terms', () => {
@@ -35,9 +33,9 @@ describe('Terms and conditions reducer', () => {
       type: ACCEPT_LATEST_TERMS_FAILURE,
       errors: [{ title: 'error', code: 500 }],
     });
-    expect(state.accepted).to.be.false;
-    expect(state.errors).to.exist;
-    expect(state.loading.acceptance).to.be.false;
+    expect(state.accepted).toBe(false);
+    expect(state.errors).toBeDefined();
+    expect(state.loading.acceptance).toBe(false);
   });
 
   it('should handle failed fetch of terms', () => {
@@ -45,8 +43,8 @@ describe('Terms and conditions reducer', () => {
       type: FETCH_LATEST_TERMS_FAILURE,
       errors: [{ title: 'error', code: 500 }],
     });
-    expect(state.errors).to.exist;
-    expect(state.loading.tc).to.be.false;
+    expect(state.errors).toBeDefined();
+    expect(state.loading.tc).toBe(false);
   });
 
   it('should handle failed fetch of terms acceptance', () => {
@@ -54,15 +52,15 @@ describe('Terms and conditions reducer', () => {
       type: FETCH_TERMS_ACCEPTANCE_FAILURE,
       errors: [{ title: 'error', code: 404 }],
     });
-    expect(state.errors).to.not.exist;
-    expect(state.accepted).to.be.false;
-    expect(state.loading.acceptance).to.be.false;
+    expect(state.errors).toBeFalsy();
+    expect(state.accepted).toBe(false);
+    expect(state.loading.acceptance).toBe(false);
   });
 
   it('should handle successful acceptance of terms', () => {
     const state = reducer(undefined, { type: ACCEPT_LATEST_TERMS_SUCCESS });
-    expect(state.accepted).to.be.true;
-    expect(state.loading.acceptance).to.be.false;
+    expect(state.accepted).toBe(true);
+    expect(state.loading.acceptance).toBe(false);
   });
 
   it('should handle successful fetch of terms', () => {
@@ -70,13 +68,13 @@ describe('Terms and conditions reducer', () => {
       type: FETCH_LATEST_TERMS_SUCCESS,
       data: { attributes: { termsContent: 'foo bar' } },
     });
-    expect(state.attributes.termsContent).to.eq('foo bar');
-    expect(state.loading.tc).to.be.false;
+    expect(state.attributes.termsContent).toBe('foo bar');
+    expect(state.loading.tc).toBe(false);
   });
 
   it('should handle successful fetch of terms acceptance', () => {
     const state = reducer(undefined, { type: FETCH_TERMS_ACCEPTANCE_SUCCESS });
-    expect(state.accepted).to.be.true;
-    expect(state.loading.acceptance).to.be.false;
+    expect(state.accepted).toBe(true);
+    expect(state.loading.acceptance).toBe(false);
   });
 });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   mockFetch,
@@ -33,7 +32,7 @@ describe('loadConnectedAccounts', () => {
       dispatch.firstCall.calledWith({
         type: actions.LOADING_CONNECTED_ACCOUNTS,
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -41,7 +40,7 @@ describe('loadConnectedAccounts', () => {
           type: actions.FINISHED_CONNECTED_ACCOUNTS,
           data: payload.data,
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -58,7 +57,7 @@ describe('loadConnectedAccounts', () => {
       dispatch.firstCall.calledWith({
         type: actions.LOADING_CONNECTED_ACCOUNTS,
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -66,7 +65,7 @@ describe('loadConnectedAccounts', () => {
           type: actions.ERROR_CONNECTED_ACCOUNTS,
           errors: payload.errors,
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -88,7 +87,7 @@ describe('deleteConnectedAccount', () => {
         type: actions.DELETING_CONNECTED_ACCOUNT,
         accountId: 'fake-id',
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -96,7 +95,7 @@ describe('deleteConnectedAccount', () => {
           type: actions.FINISHED_DELETING_CONNECTED_ACCOUNT,
           accountId: 'fake-id',
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -114,7 +113,7 @@ describe('deleteConnectedAccount', () => {
         type: actions.DELETING_CONNECTED_ACCOUNT,
         accountId: 'fake-id',
       }),
-    ).to.be.true;
+    ).toBe(true);
 
     setTimeout(() => {
       expect(
@@ -123,7 +122,7 @@ describe('deleteConnectedAccount', () => {
           accountId: 'fake-id',
           errors: payload.errors,
         }),
-      ).to.be.true;
+      ).toBe(true);
       done();
     }, 0);
   });

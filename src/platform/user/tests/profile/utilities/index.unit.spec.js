@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { mapRawUserDataToState } from '../../../profile/utilities';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -84,7 +82,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.status).to.equal(data.attributes.va_profile.status);
+      expect(mappedData.status).toBe(data.attributes.va_profile.status);
     });
 
     it('should map veteran status', () => {
@@ -96,10 +94,10 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.isVeteran).to.equal(
+      expect(mappedData.isVeteran).toBe(
         data.attributes.veteran_status.is_veteran,
       );
-      expect(mappedData.veteranStatus).to.deep.equal({
+      expect(mappedData.veteranStatus).toEqual({
         isVeteran: data.attributes.veteran_status.is_veteran,
         veteranStatus: {
           status: data.attributes.veteran_status.status,
@@ -119,7 +117,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360).to.deep.equal(
+      expect(mappedData.vet360).toEqual(
         data.attributes.vet360_contact_information,
       );
     });
@@ -133,7 +131,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.facilities).to.deep.equal(
+      expect(mappedData.facilities).toEqual(
         data.attributes.va_profile.facilities,
       );
     });
@@ -148,7 +146,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.facilities).to.be.undefined;
+      expect(mappedData.facilities).toBeUndefined();
     });
 
     it('should handle profile error', () => {
@@ -166,7 +164,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.status).to.equal('SERVER_ERROR');
+      expect(mappedData.status).toBe('SERVER_ERROR');
     });
 
     it('should handle veteran status error', () => {
@@ -184,7 +182,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.veteranStatus).to.equal('NOT_FOUND');
+      expect(mappedData.veteranStatus).toBe('NOT_FOUND');
     });
 
     it('should handle vet 360 error', () => {
@@ -202,7 +200,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360.status).to.equal('SERVER_ERROR');
+      expect(mappedData.vet360.status).toBe('SERVER_ERROR');
     });
   });
 });

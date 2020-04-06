@@ -28,11 +28,12 @@ export function transform(formConfig, form) {
 
 // disabling jsx-ally/no-noninteractive-tabindex for warning that screen readers should stop on
 /* eslint-disable */
-export const tabIndexedTitle = title => (<div
-  className="schemaform-block-subtitle schemaform-block-title"
-  tabIndex="0">
-  <p>
-    {title}
-  </p>
-</div>);
+export const tabIndexedTitle = title => (
+  <div
+    className="schemaform-block-subtitle schemaform-block-title"
+    tabIndex="0"
+  >
+    <p>{title}</p>
+  </div>
+);
 /* eslint-enable */

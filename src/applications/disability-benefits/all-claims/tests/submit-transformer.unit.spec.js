@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-import { expect } from 'chai';
-
 import _ from '../../../../platform/utilities/data';
 
 import formConfig from '../config/form';
@@ -50,7 +48,7 @@ describe('transform', () => {
           );
           throw new Error(`Could not find transformed data for ${fileName}`);
         }
-        expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
+        expect(JSON.parse(transform(formConfig, rawData))).toEqual(
           JSON.parse(transformedData),
         );
       });
@@ -67,7 +65,7 @@ describe('transformRelatedDisabilities', () => {
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-    ).to.eql(['Some Condition Name', 'Another Condition Name']);
+    ).toEqual(['Some Condition Name', 'Another Condition Name']);
   });
   it('should not add conditions if they are not claimed', () => {
     const claimedConditions = ['Some Condition Name'];
@@ -78,20 +76,20 @@ describe('transformRelatedDisabilities', () => {
     };
     expect(
       transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-    ).to.eql(['Some Condition Name']);
+    ).toEqual(['Some Condition Name']);
   });
 });
 
 describe('getFlatIncidentKeys', () => {
   it('should return correct amount of incident keys', () => {
-    expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
+    expect(getFlatIncidentKeys().length).toEqual(PTSD_INCIDENT_ITERATION * 2);
   });
 });
 
 describe('getPtsdChangeText', () => {
   it('should have valid labels', () => {
     Object.keys(PTSD_CHANGE_LABELS).forEach(key => {
-      expect(PTSD_CHANGE_LABELS[key]).to.be.a('string');
+      expect(typeof PTSD_CHANGE_LABELS[key]).toBe('string');
     });
   });
 
@@ -103,7 +101,7 @@ describe('getPtsdChangeText', () => {
     )
       .filter(key => !ignoredFields.includes(key))
       .forEach(key => {
-        expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
       });
   });
 
@@ -114,7 +112,7 @@ describe('getPtsdChangeText', () => {
     )
       .filter(key => !ignoredFields.includes(key))
       .forEach(key => {
-        expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
       });
   });
 
@@ -125,7 +123,7 @@ describe('getPtsdChangeText', () => {
     )
       .filter(key => !ignoredFields.includes(key))
       .forEach(key => {
-        expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
       });
   });
 
@@ -136,7 +134,7 @@ describe('getPtsdChangeText', () => {
     )
       .filter(key => !ignoredFields.includes(key))
       .forEach(key => {
-        expect(PTSD_CHANGE_LABELS).to.have.property(key);
+        expect(PTSD_CHANGE_LABELS).toHaveProperty(key);
       });
   });
 
@@ -149,12 +147,12 @@ describe('getPtsdChangeText', () => {
       otherExplanation: 'Other change',
     });
 
-    expect(fieldTitles.length).to.eql(2);
+    expect(fieldTitles.length).toBe(2);
   });
 
   it('should correctly handle undefined ptsd changes', () => {
     const fieldTitles = getPtsdChangeText(undefined);
-    expect(fieldTitles.length).to.eql(0);
+    expect(fieldTitles.length).toBe(0);
   });
 });
 
@@ -164,20 +162,20 @@ describe('setActionTypes', () => {
   it('should set disabilityActionType for each disability properly', () => {
     const formattedDisabilities = setActionTypes(formData).ratedDisabilities;
 
-    expect(formattedDisabilities).to.have.lengthOf(
+    expect(formattedDisabilities).toHaveLength(
       formData.ratedDisabilities.length,
     );
 
-    expect(formattedDisabilities[0].disabilityActionType).to.equal(
+    expect(formattedDisabilities[0].disabilityActionType).toBe(
       disabilityActionTypes.INCREASE,
     );
-    expect(formattedDisabilities[1].disabilityActionType).to.equal(
+    expect(formattedDisabilities[1].disabilityActionType).toBe(
       disabilityActionTypes.INCREASE,
     );
-    expect(formattedDisabilities[2].disabilityActionType).to.equal(
+    expect(formattedDisabilities[2].disabilityActionType).toBe(
       disabilityActionTypes.NONE,
     );
-    expect(formattedDisabilities[3].disabilityActionType).to.equal(
+    expect(formattedDisabilities[3].disabilityActionType).toBe(
       disabilityActionTypes.NONE,
     );
   });
@@ -185,7 +183,7 @@ describe('setActionTypes', () => {
   it('should return cloned formData when no rated disabilities', () => {
     const noRated = _.omit('ratedDisabilities', formData);
 
-    expect(setActionTypes(noRated)).to.deep.equal(noRated);
+    expect(setActionTypes(noRated)).toEqual(noRated);
   });
 });
 
@@ -195,6 +193,7 @@ describe('remove unreferenced reservedNationGuardService', () => {
   formData.serviceInformation.servicePeriods[0].serviceBranch = 'Air Force';
   formData.serviceInformation.servicePeriods[1].serviceBranch = 'Navy';
   const processedServiceInfo = filterServicePeriods(formData);
-  expect(processedServiceInfo.serviceInformation.reservesNationalGuardService)
-    .to.be.undefined;
+  expect(
+    processedServiceInfo.serviceInformation.reservesNationalGuardService,
+  ).toBeUndefined();
 });

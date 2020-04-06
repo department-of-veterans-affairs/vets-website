@@ -1,5 +1,3 @@
-const { expect } = require('chai');
-
 const isBrokenLink = require('../../helpers/isBrokenLink');
 
 describe('isBrokenLink', () => {
@@ -26,7 +24,7 @@ describe('isBrokenLink', () => {
   for (const badLink of badLinks) {
     it(`returns true for invalid link value - ${badLink}`, () => {
       const result = isBrokenLink(badLink, page, files);
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
   }
 
@@ -43,7 +41,7 @@ describe('isBrokenLink', () => {
   for (const goodLink of goodLinks) {
     it(`returns false for valid link value - ${goodLink}`, () => {
       const result = isBrokenLink(goodLink, page, files);
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
   }
 });

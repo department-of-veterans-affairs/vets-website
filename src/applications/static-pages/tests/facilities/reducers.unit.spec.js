@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   FETCH_FACILITY_FAILED,
   FETCH_FACILITY_STARTED,
@@ -23,7 +21,7 @@ describe('Facility Reducer', () => {
         type: FETCH_FACILITY_STARTED,
       };
       reducedState = reducer(state, action);
-      expect(reducedState.loading).to.be.true;
+      expect(reducedState.loading).toBe(true);
     });
   });
 
@@ -34,9 +32,9 @@ describe('Facility Reducer', () => {
         facility: mockFacilityLocatorApiResponse.data[0],
       };
       reducedState = reducer(state, action);
-      expect(reducedState.data.id).to.equal(action.facility.id);
-      expect(reducedState.loading).to.be.false;
-      expect(reducedState.error).to.be.false;
+      expect(reducedState.data.id).toBe(action.facility.id);
+      expect(reducedState.loading).toBe(false);
+      expect(reducedState.error).toBe(false);
     });
 
     describe('FETCH_FACILITY_FAILED', () => {
@@ -48,9 +46,9 @@ describe('Facility Reducer', () => {
           };
           reducedState = reducer(state, action);
 
-          expect(reducedState.error).to.be.true;
-          expect(reducedState.loading).to.be.false;
-          expect(!Object.keys(reducedState.data)).to.be.false;
+          expect(reducedState.error).toBe(true);
+          expect(reducedState.loading).toBe(false);
+          expect(!Object.keys(reducedState.data)).toBe(false);
         });
       });
     });

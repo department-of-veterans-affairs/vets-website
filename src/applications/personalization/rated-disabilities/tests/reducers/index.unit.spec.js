@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import ratedDisabilities from '../../reducers';
 
 const initialState = {
@@ -9,7 +7,7 @@ const initialState = {
 describe('ratedDisabilities reducer', () => {
   it('should return the initial state', () => {
     const state = ratedDisabilities.ratedDisabilities(initialState, {});
-    expect(state.ratedDisabilities).to.equal(null);
+    expect(state.ratedDisabilities).toBeNull();
   });
 
   it('should handle a succesful call for rated disabilities', () => {
@@ -23,8 +21,8 @@ describe('ratedDisabilities reducer', () => {
         },
       ],
     });
-    expect(state.ratedDisabilities.length).to.equal(1);
-    expect(state.ratedDisabilities[0].name).to.equal('PTSD');
+    expect(state.ratedDisabilities.length).toBe(1);
+    expect(state.ratedDisabilities[0].name).toBe('PTSD');
   });
 
   it('should handle an error response from the backend', () => {
@@ -37,6 +35,6 @@ describe('ratedDisabilities reducer', () => {
         },
       ],
     });
-    expect(state.ratedDisabilities[0].code).to.equal('500');
+    expect(state.ratedDisabilities[0].code).toBe('500');
   });
 });

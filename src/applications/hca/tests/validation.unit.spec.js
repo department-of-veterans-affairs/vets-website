@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
@@ -28,7 +27,7 @@ describe('hca validation', () => {
         },
       );
 
-      expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
+      expect(errors.lastDischargeDate.addError.callCount).toBe(1);
     });
     it('should set message if discharge date is later than 1 year from today', () => {
       const errors = {
@@ -46,7 +45,7 @@ describe('hca validation', () => {
         },
         {},
       );
-      expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
+      expect(errors.lastDischargeDate.addError.callCount).toBe(1);
     });
     it('should not set message if discharge date is 1 year from today', () => {
       const errors = {
@@ -64,7 +63,7 @@ describe('hca validation', () => {
         },
         {},
       );
-      expect(errors.lastDischargeDate.addError.callCount).to.equal(0);
+      expect(errors.lastDischargeDate.addError.callCount).toBe(0);
     });
     it('should set message if entry date is less than 15 years after dob', () => {
       const errors = {
@@ -82,7 +81,7 @@ describe('hca validation', () => {
           veteranDateOfBirth: '1990-01-01',
         },
       );
-      expect(errors.lastEntryDate.addError.callCount).to.equal(1);
+      expect(errors.lastEntryDate.addError.callCount).toBe(1);
     });
   });
   describe('validateMarriageDate', () => {
@@ -96,7 +95,7 @@ describe('hca validation', () => {
         discloseFinancialInformation: true,
       });
 
-      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.callCount).toBe(1);
     });
     it('should set message if marriage date is after veteran dob', () => {
       const errors = {
@@ -108,7 +107,7 @@ describe('hca validation', () => {
         discloseFinancialInformation: true,
       });
 
-      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.callCount).toBe(1);
     });
     it('should not set message if not disclosing financials', () => {
       const errors = {
@@ -120,7 +119,7 @@ describe('hca validation', () => {
         discloseFinancialInformation: false,
       });
 
-      expect(errors.addError.callCount).to.equal(0);
+      expect(errors.addError.callCount).toBe(0);
     });
   });
   describe('validateDependentDate', () => {
@@ -144,7 +143,7 @@ describe('hca validation', () => {
         0,
       );
 
-      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.callCount).toBe(1);
     });
     it('should not set message if not disclosing financials', () => {
       const errors = {
@@ -166,7 +165,7 @@ describe('hca validation', () => {
         0,
       );
 
-      expect(errors.addError.callCount).to.equal(0);
+      expect(errors.addError.callCount).toBe(0);
     });
   });
   describe('validateCurrency', () => {
@@ -176,7 +175,7 @@ describe('hca validation', () => {
       };
       validateCurrency(errors, '234.234');
 
-      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.callCount).toBe(1);
     });
     it('should set message if value has trailing whitespace', () => {
       const errors = {
@@ -184,7 +183,7 @@ describe('hca validation', () => {
       };
       validateCurrency(errors, '234234 ');
 
-      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.callCount).toBe(1);
     });
     it('should set message if value has leading whitespace', () => {
       const errors = {
@@ -192,7 +191,7 @@ describe('hca validation', () => {
       };
       validateCurrency(errors, ' 234234');
 
-      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.callCount).toBe(1);
     });
     it('should not set message if value includes dollar sign', () => {
       const errors = {
@@ -200,7 +199,7 @@ describe('hca validation', () => {
       };
       validateCurrency(errors, '$234,234');
 
-      expect(errors.addError.callCount).to.equal(0);
+      expect(errors.addError.callCount).toBe(0);
     });
   });
 });

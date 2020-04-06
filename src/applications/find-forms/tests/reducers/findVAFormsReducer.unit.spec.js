@@ -1,6 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
-// Relative imports.
 import { FETCH_FORMS, FETCH_FORMS_SUCCESS } from '../../constants';
 import findVAFormsReducer from '../../reducers/findVAFormsReducer';
 
@@ -9,7 +7,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     const emptyAction = {};
     const result = findVAFormsReducer(undefined, emptyAction);
 
-    expect(result).to.be.deep.equal({
+    expect(result).toEqual({
       error: '',
       fetching: false,
       page: 1,
@@ -23,7 +21,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     const action = { type: FETCH_FORMS, query: 'testing' };
     const state = findVAFormsReducer(undefined, action);
 
-    expect(state).to.be.deep.equal({
+    expect(state).toEqual({
       error: '',
       fetching: true,
       page: 1,
@@ -41,7 +39,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     const action = { type: FETCH_FORMS_SUCCESS, results: [] };
     const state = findVAFormsReducer(initialState, action);
 
-    expect(state.fetching).to.be.false;
-    expect(state.results).to.be.instanceOf(Array);
+    expect(state.fetching).toBe(false);
+    expect(state.results).toBeInstanceOf(Array);
   });
 });

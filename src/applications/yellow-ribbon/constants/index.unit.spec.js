@@ -1,6 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
-// Relative imports.
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
@@ -11,10 +9,16 @@ import {
 
 describe('Yellow Ribbon constants', () => {
   it('should have `yellow-ribbon` in them', () => {
-    expect(FETCH_RESULTS).to.include('yellow-ribbon');
-    expect(FETCH_RESULTS_FAILURE).to.include('yellow-ribbon');
-    expect(FETCH_RESULTS_SUCCESS).to.include('yellow-ribbon');
-    expect(ADD_SCHOOL_TO_COMPARE).to.include('yellow-ribbon');
-    expect(UPDATE_PAGE).to.include('yellow-ribbon');
+    expect(FETCH_RESULTS).toEqual(expect.arrayContaining(['yellow-ribbon']));
+    expect(FETCH_RESULTS_FAILURE).toEqual(
+      expect.arrayContaining(['yellow-ribbon']),
+    );
+    expect(FETCH_RESULTS_SUCCESS).toEqual(
+      expect.arrayContaining(['yellow-ribbon']),
+    );
+    expect(ADD_SCHOOL_TO_COMPARE).toEqual(
+      expect.arrayContaining(['yellow-ribbon']),
+    );
+    expect(UPDATE_PAGE).toEqual(expect.arrayContaining(['yellow-ribbon']));
   });
 });

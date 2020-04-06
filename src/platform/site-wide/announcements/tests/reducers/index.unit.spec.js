@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import * as announcementActions from '../../actions';
 import reducer from '../../reducers';
 
@@ -14,7 +12,7 @@ describe('announcementsReducer', () => {
 
   it('defaults isInitialized to false', () => {
     const newState = reducer(state, action);
-    expect(newState.isInitialized).to.be.false;
+    expect(newState.isInitialized).toBe(false);
   });
 
   it('flips isInitialized to true when the init action is dispatched', () => {
@@ -23,8 +21,8 @@ describe('announcementsReducer', () => {
       dismissedAnnouncements: ['dummy'],
     };
     const newState = reducer(state, action);
-    expect(newState.isInitialized).to.be.true;
-    expect(newState.dismissed).to.be.deep.equal(['dummy']);
+    expect(newState.isInitialized).toBe(true);
+    expect(newState.dismissed).toEqual(['dummy']);
   });
 
   it('adds dismissed announcements into state', () => {
@@ -33,10 +31,10 @@ describe('announcementsReducer', () => {
       announcement: 'dummy',
     };
     let newState = reducer(state, action);
-    expect(newState.dismissed).to.be.deep.equal(['dummy']);
+    expect(newState.dismissed).toEqual(['dummy']);
 
     action.announcement = 'dummy2';
     newState = reducer(newState, action);
-    expect(newState.dismissed).to.be.deep.equal(['dummy', 'dummy2']);
+    expect(newState.dismissed).toEqual(['dummy', 'dummy2']);
   });
 });

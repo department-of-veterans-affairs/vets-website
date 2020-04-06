@@ -3,7 +3,6 @@
 }
 
 .merger-r-rail {
-
   border: 3px solid $color-gray-lightest;
   margin-bottom: 1.5em;
 
@@ -19,7 +18,6 @@
   &.hub-promo {
     background-color: $mm-gray;
     border: none;
-
   }
   .hub-promo-text {
     padding: 1em;
@@ -31,7 +29,7 @@
 
   h4 {
     margin-top: 0;
-    a{
+    a {
       text-decoration: underline;
     }
   }
@@ -50,7 +48,6 @@
   }
 
   .social {
-
     .fa {
       color: $color-link-default;
       border-radius: 0;

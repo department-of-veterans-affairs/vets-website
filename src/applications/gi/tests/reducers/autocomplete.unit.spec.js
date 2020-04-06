@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import autocompleteReducer from '../../reducers/autocomplete';
 
 const initialState = {
@@ -20,8 +18,8 @@ describe('autocomplete reducer', () => {
       },
     );
 
-    expect(state.facilityCode).to.eql(null);
-    expect(state.searchTerm).to.eql('newSearchTerm');
+    expect(state.facilityCode).toBe(null);
+    expect(state.searchTerm).toBe('newSearchTerm');
   });
 
   it('should start autocomplete correctly', () => {
@@ -29,8 +27,8 @@ describe('autocomplete reducer', () => {
       type: 'AUTOCOMPLETE_STARTED',
     });
 
-    expect(state.inProgress).to.eql(true);
-    expect(state.suggestions).to.eql([]);
+    expect(state.inProgress).toBe(true);
+    expect(state.suggestions).toEqual([]);
   });
 
   it('should handle autocomplete failure', () => {
@@ -45,9 +43,9 @@ describe('autocomplete reducer', () => {
       },
     );
 
-    expect(state.inProgress).to.eql(false);
-    expect(state.searchTerm).to.eql('searchTerm');
-    expect(state.errorMessage).to.eql('error');
+    expect(state.inProgress).toBe(false);
+    expect(state.searchTerm).toBe('searchTerm');
+    expect(state.errorMessage).toBe('error');
   });
 
   it('should handle autocomplete success', () => {
@@ -70,19 +68,19 @@ describe('autocomplete reducer', () => {
       },
     );
 
-    expect(state.suggestions.length).to.eql(2);
-    expect(state.suggestions[0]).to.eql({
+    expect(state.suggestions.length).toBe(2);
+    expect(state.suggestions[0]).toEqual({
       id: null,
       value: 'searchTerm',
       label: 'searchTerm',
     });
-    expect(state.suggestions[1]).to.eql({
+    expect(state.suggestions[1]).toEqual({
       id: 1,
       value: 'autocomplete label',
       label: 'autocomplete label',
     });
-    expect(state.previewVersion).to.eql(1);
-    expect(state.inProgress).to.eql(false);
+    expect(state.previewVersion).toBe(1);
+    expect(state.inProgress).toBe(false);
   });
 
   it('should handle autocomplete clear', () => {
@@ -99,7 +97,7 @@ describe('autocomplete reducer', () => {
       },
     );
 
-    expect(state.suggestions.length).to.eql(0);
+    expect(state.suggestions.length).toBe(0);
   });
 
   it('should handle search starting', () => {
@@ -110,6 +108,6 @@ describe('autocomplete reducer', () => {
       },
     });
 
-    expect(state.searchTerm).to.eql('newSearchTerm');
+    expect(state.searchTerm).toBe('newSearchTerm');
   });
 });

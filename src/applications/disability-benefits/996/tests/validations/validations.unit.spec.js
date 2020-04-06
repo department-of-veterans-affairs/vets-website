@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { /* checkDateRange, */ checkConferenceTimes } from '../../validations';
 // import { addXMonths } from '../../helpers';
 import { errorMessages } from '../../constants';
@@ -107,8 +105,8 @@ describe('Informal conference time validation', () => {
       d: undefined,
     };
     checkConferenceTimes(errors, times, mockFormData);
-    expect(errorMessage).to.equal(errorMessages.informalConferenceTimesMin);
-    expect(checkConferenceTimes(null, times)).to.be.false;
+    expect(errorMessage).toBe(errorMessages.informalConferenceTimesMin);
+    expect(checkConferenceTimes(null, times)).toBe(false);
   });
 
   it('should show an error if too many times are selected', () => {
@@ -125,8 +123,8 @@ describe('Informal conference time validation', () => {
       d: true,
     };
     checkConferenceTimes(errors, times, mockFormData);
-    expect(errorMessage).to.equal(errorMessages.informalConferenceTimesMax);
-    expect(checkConferenceTimes(null, times)).to.be.false;
+    expect(errorMessage).toBe(errorMessages.informalConferenceTimesMax);
+    expect(checkConferenceTimes(null, times)).toBe(false);
   });
 
   it('should not show an error if a single time is selected', () => {
@@ -143,7 +141,7 @@ describe('Informal conference time validation', () => {
       d: undefined,
     };
     checkConferenceTimes(errors, times, mockFormData);
-    expect(errorMessage).to.equal('');
-    expect(checkConferenceTimes(null, times)).to.be.true;
+    expect(errorMessage).toBe('');
+    expect(checkConferenceTimes(null, times)).toBe(true);
   });
 });

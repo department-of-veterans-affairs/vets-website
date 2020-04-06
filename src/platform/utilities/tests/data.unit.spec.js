@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import _ from '../data';
@@ -12,17 +11,17 @@ describe('data utils', () => {
   describe('deconstructPath', () => {
     it('should deconstruct a string path', () => {
       const strPath = 'a.b.c';
-      expect(deconstructPath(strPath)).to.eql(['a', 'b', 'c']);
+      expect(deconstructPath(strPath)).toEqual(['a', 'b', 'c']);
     });
 
     it('should handle array notation', () => {
       const strPath = 'a.b[4].c';
-      expect(deconstructPath(strPath)).to.eql(['a', 'b', 4, 'c']);
+      expect(deconstructPath(strPath)).toEqual(['a', 'b', 4, 'c']);
     });
 
     it('should handle array indexes using dot notation', () => {
       const strPath = 'a.b.4.c.123abc';
-      expect(deconstructPath(strPath)).to.eql(['a', 'b', 4, 'c', '123abc']);
+      expect(deconstructPath(strPath)).toEqual(['a', 'b', 4, 'c', '123abc']);
     });
   });
 
@@ -33,15 +32,15 @@ describe('data utils', () => {
         b: 2,
       };
       const cloned = _.clone(obj);
-      expect(cloned).to.eql(obj);
-      expect(cloned).to.not.equal(obj);
+      expect(cloned).toEqual(obj);
+      expect(cloned).not.toBe(obj);
     });
 
     it('should clone a set', () => {
       const s = new Set([{ sub: 'original' }]);
       const cloned = _.clone(s);
-      expect(cloned).to.eql(s);
-      expect(cloned).to.not.equal(s);
+      expect(cloned).toEqual(s);
+      expect(cloned).not.toBe(s);
     });
   });
 
@@ -66,37 +65,37 @@ describe('data utils', () => {
     const cloned = _.cloneDeep(obj);
 
     it('should return an object with a different reference', () => {
-      expect(cloned).to.eql(obj);
-      expect(cloned).to.not.equal(obj);
+      expect(cloned).toEqual(obj);
+      expect(cloned).not.toBe(obj);
     });
 
     it('should handle an array as the root "object"', () => {
       const arr = ['foo', 'bar', 0];
       const clonedArr = _.cloneDeep(arr);
 
-      expect(clonedArr).to.eql(arr);
-      expect(clonedArr).to.not.equal(arr);
+      expect(clonedArr).toEqual(arr);
+      expect(clonedArr).not.toBe(arr);
     });
 
     it('should clone all sub-objects', () => {
-      expect(cloned.obj).to.eql(obj.obj);
-      expect(cloned.obj).to.not.equal(obj.obj);
+      expect(cloned.obj).toEqual(obj.obj);
+      expect(cloned.obj).not.toBe(obj.obj);
     });
 
     it('should clone all sub-arrays', () => {
-      expect(cloned.array).to.eql(obj.array);
-      expect(cloned.array).to.not.equal(obj.array);
-      expect(cloned.obj.nestedObj.nestedArray).to.eql(
+      expect(cloned.array).toEqual(obj.array);
+      expect(cloned.array).not.toBe(obj.array);
+      expect(cloned.obj.nestedObj.nestedArray).toEqual(
         obj.obj.nestedObj.nestedArray,
       );
-      expect(cloned.obj.nestedObj.nestedArray).to.not.equal(
+      expect(cloned.obj.nestedObj.nestedArray).not.toBe(
         obj.obj.nestedObj.nestedArray,
       );
     });
 
     it('should clone all objects in arrays', () => {
-      expect(cloned.array[3]).to.eql(obj.array[3]);
-      expect(cloned.array[3]).to.not.equal(obj.array[3]);
+      expect(cloned.array[3]).toEqual(obj.array[3]);
+      expect(cloned.array[3]).not.toBe(obj.array[3]);
     });
   });
 
@@ -109,32 +108,32 @@ describe('data utils', () => {
     };
 
     it('should get a value one level deep', () => {
-      expect(_.get('a', o)).to.equal(o.a);
+      expect(_.get('a', o)).toBe(o.a);
     });
 
     it('should get a value n levels deep', () => {
-      expect(_.get('b.c', o)).to.equal(o.b.c);
-      expect(_.get('k.a.y', o)).to.equal(o.k.a.y);
+      expect(_.get('b.c', o)).toBe(o.b.c);
+      expect(_.get('k.a.y', o)).toBe(o.k.a.y);
     });
 
     it('should handle array indexes', () => {
-      expect(_.get('g[2]', o)).to.equal(o.g[2]);
+      expect(_.get('g[2]', o)).toBe(o.g[2]);
     });
 
     it('should handle dot-notated array indexes', () => {
-      expect(_.get('g.2', o)).to.equal(o.g[2]);
+      expect(_.get('g.2', o)).toBe(o.g[2]);
     });
 
     it('should handle an array path', () => {
-      expect(_.get(['k', 'a', 'y'], o)).to.equal(o.k.a.y);
+      expect(_.get(['k', 'a', 'y'], o)).toBe(o.k.a.y);
     });
 
     it('should return a default value if not found', () => {
-      expect(_.get('does.not.exist', o, 'default')).to.equal('default');
+      expect(_.get('does.not.exist', o, 'default')).toBe('default');
     });
 
     it('should return undefined if not found and no default is provided', () => {
-      expect(_.get('does.not.exist', o)).to.equal();
+      expect(_.get('does.not.exist', o)).toBe();
     });
   });
 
@@ -148,11 +147,11 @@ describe('data utils', () => {
       };
 
       const newObj = _.set('b.c', 'd', o);
-      expect(newObj.b.c).to.equal('d');
+      expect(newObj.b.c).toBe('d');
       // Expect everything else to be deeply equal
       Object.keys(o).forEach(key => {
         if (key !== 'b') {
-          expect(o[key]).to.eql(newObj[key]);
+          expect(o[key]).toEqual(newObj[key]);
         }
       });
     });
@@ -166,7 +165,7 @@ describe('data utils', () => {
       };
 
       const newObj = _.set('new.path', ['foo', 'bar'], o);
-      expect(newObj.new.path).to.eql(['foo', 'bar']);
+      expect(newObj.new.path).toEqual(['foo', 'bar']);
     });
 
     it('should create nested arrays as needed', () => {
@@ -178,7 +177,7 @@ describe('data utils', () => {
       };
 
       const newObj = _.set(['array', 1], 'first', o);
-      expect(newObj.array).to.eql([undefined, 'first']);
+      expect(newObj.array).toEqual([undefined, 'first']);
     });
 
     it('should handle an array path', () => {
@@ -190,14 +189,14 @@ describe('data utils', () => {
       };
 
       const newObj = _.set(['new', 'path'], ['foo', 'bar'], o);
-      expect(newObj.new.path).to.eql(['foo', 'bar']);
+      expect(newObj.new.path).toEqual(['foo', 'bar']);
     });
 
     it('should not change the array path provided', () => {
       const o = {};
       const arrayPath = ['path', 0];
       _.set(arrayPath, 'foo', o);
-      expect(arrayPath).to.eql(['path', 0]);
+      expect(arrayPath).toEqual(['path', 0]);
     });
 
     it('should not modify original object when adding a new property', () => {
@@ -212,7 +211,7 @@ describe('data utils', () => {
       const oCopy = _.cloneDeep(o);
 
       _.set(['new', 'path'], ['foo', 'bar'], o);
-      expect(o).to.eql(oCopy);
+      expect(o).toEqual(oCopy);
     });
 
     it('should not modify original object when changing an existing property', () => {
@@ -227,7 +226,7 @@ describe('data utils', () => {
       const oCopy = _.cloneDeep(o);
 
       _.set('b.c', 'd', o);
-      expect(o).to.eql(oCopy);
+      expect(o).toEqual(oCopy);
     });
 
     it('should not maintain the same refs to sub-objects which were changed', () => {
@@ -239,8 +238,8 @@ describe('data utils', () => {
       };
 
       const newObj = _.set('k.a.y', 'd', o);
-      expect(newObj.k.a).to.not.equal(o.k.a);
-      expect(newObj.k.a).to.not.eql(o.k.a);
+      expect(newObj.k.a).not.toBe(o.k.a);
+      expect(newObj.k.a).not.toEqual(o.k.a);
     });
 
     // Objects outside the given path should remain the same
@@ -261,11 +260,11 @@ describe('data utils', () => {
 
       const changed = _.set('b.c', { prop4: 4 }, old);
 
-      expect(changed).to.not.equal(old);
-      expect(old.a).to.equal(changed.a);
-      expect(old.b).to.not.equal(changed.b);
-      expect(old.b.c).to.not.equal(changed.b.c);
-      expect(old.b.prop2).to.equal(changed.b.prop2);
+      expect(changed).not.toBe(old);
+      expect(old.a).toBe(changed.a);
+      expect(old.b).not.toBe(changed.b);
+      expect(old.b.c).not.toBe(changed.b.c);
+      expect(old.b.prop2).toBe(changed.b.prop2);
     });
 
     it('should throw an error if a segment of the path is not a string or number', () => {
@@ -291,7 +290,9 @@ describe('data utils', () => {
         }
 
         // Public service announcement: Arrays are objects too!
-        expect(e.message).to.contain('Unrecognized path element type: object.');
+        expect(e.message).toEqual(
+          expect.arrayContaining(['Unrecognized path element type: object.']),
+        );
       }
     });
   });
@@ -318,13 +319,13 @@ describe('data utils', () => {
       };
 
       const newObj = _.omit(['a'], obj);
-      expect(newObj.b).to.equal(obj.b);
+      expect(newObj.b).toBe(obj.b);
     });
 
     it('should return the same reference to the root object if no fields are omitted', () => {
       const obj = { a: 'a' };
       const newObj = _.omit(['b'], obj);
-      expect(newObj).to.equal(obj);
+      expect(newObj).toBe(obj);
     });
 
     it('should omit all the fields passed in', () => {
@@ -336,7 +337,7 @@ describe('data utils', () => {
       };
       const omittedFields = ['a', 'c', 'd'];
       const newObj = _.omit(omittedFields, obj);
-      omittedFields.forEach(f => expect(newObj[f]).to.be.undefined);
+      omittedFields.forEach(f => expect(newObj[f]).toBeUndefined());
     });
 
     it('should retain all fields not passed in', () => {
@@ -350,7 +351,7 @@ describe('data utils', () => {
       const newObj = _.omit(omittedFields, obj);
       Object.keys(newObj).forEach(f => {
         if (!omittedFields.includes(f)) {
-          expect(newObj[f]).to.eql(obj[f]);
+          expect(newObj[f]).toEqual(obj[f]);
         }
       });
     });
@@ -362,8 +363,8 @@ describe('data utils', () => {
       const debouncedFunc = _.debounce(0, spy);
       debouncedFunc('first arg', 'second arg');
       setTimeout(() => {
-        expect(spy.called).to.be.true;
-        expect(spy.firstCall.args).to.eql(['first arg', 'second arg']);
+        expect(spy.called).toBe(true);
+        expect(spy.firstCall.args).toEqual(['first arg', 'second arg']);
         done();
       }, 10);
     });
@@ -372,9 +373,9 @@ describe('data utils', () => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
-      expect(spy.called).to.be.false;
+      expect(spy.called).toBe(false);
       setTimeout(() => {
-        expect(spy.called).to.be.true;
+        expect(spy.called).toBe(true);
         done();
       }, 150);
     });
@@ -383,28 +384,28 @@ describe('data utils', () => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
-      expect(spy.called).to.be.false;
+      expect(spy.called).toBe(false);
 
       // Call the function every 50 ms so it resets the timeout clock
       setTimeout(() => {
         debouncedFunc();
-        expect(spy.called).to.be.false;
+        expect(spy.called).toBe(false);
       }, 50);
       setTimeout(() => {
         debouncedFunc();
-        expect(spy.called).to.be.false;
+        expect(spy.called).toBe(false);
       }, 100);
       setTimeout(() => {
         debouncedFunc();
-        expect(spy.called).to.be.false;
+        expect(spy.called).toBe(false);
       }, 150);
       setTimeout(() => {
         debouncedFunc();
-        expect(spy.called).to.be.false;
+        expect(spy.called).toBe(false);
       }, 200);
       // And finally, check to make sure it's only been called once
       setTimeout(() => {
-        expect(spy.callCount).to.equal(1);
+        expect(spy.callCount).toBe(1);
         done();
       }, 350);
     });
@@ -415,7 +416,7 @@ describe('data utils', () => {
       debouncedFunction();
       setTimeout(() => debouncedFunction.cancel(), 50);
       setTimeout(() => {
-        expect(spy.callCount).to.equal(0);
+        expect(spy.callCount).toBe(0);
         done();
       }, 200);
     });
@@ -431,11 +432,11 @@ describe('data utils', () => {
       };
 
       const newObj = _.unset('b.c', o);
-      expect(newObj.b.c).to.be.undefined;
+      expect(newObj.b.c).toBeUndefined();
       // Expect everything else to be equal
       Object.keys(o).forEach(key => {
         if (key !== 'b') {
-          expect(o[key]).to.eql(newObj[key]);
+          expect(o[key]).toEqual(newObj[key]);
         }
       });
     });
@@ -449,11 +450,11 @@ describe('data utils', () => {
       };
 
       const newObj = _.unset('b', o);
-      expect(newObj.b).to.be.undefined;
+      expect(newObj.b).toBeUndefined();
       // Expect everything else to be equal
       Object.keys(o).forEach(key => {
         if (key !== 'b') {
-          expect(o[key]).to.eql(newObj[key]);
+          expect(o[key]).toEqual(newObj[key]);
         }
       });
     });
@@ -467,10 +468,10 @@ describe('data utils', () => {
       };
 
       const newObj = _.unset('g.c', o);
-      expect(newObj).to.eql(o);
+      expect(newObj).toEqual(o);
       // Expect everything else to be equal
       Object.keys(o).forEach(key => {
-        expect(o[key]).to.eql(newObj[key]);
+        expect(o[key]).toEqual(newObj[key]);
       });
     });
   });
@@ -478,39 +479,39 @@ describe('data utils', () => {
   describe('removeDeeplyEmptyObjects', () => {
     it('should not remove non-empty objects', () => {
       const data = { level1: { level2: "I'm not empty!" } };
-      expect(removeDeeplyEmptyObjects(data)).to.equal(data);
+      expect(removeDeeplyEmptyObjects(data)).toBe(data);
     });
     it('should remove empty objects', () => {
       const data = { level1: {} };
-      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+      expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
     it('should remove deeply empty objects', () => {
       const data = { level1: { level2: {} } };
-      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+      expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
     it('should remove deeply empty objects while keeping deeply non-empty objects', () => {
       const data = { level1: { level2: {}, level2Filled: 'I am full' } };
-      expect(removeDeeplyEmptyObjects(data)).to.eql({
+      expect(removeDeeplyEmptyObjects(data)).toEqual({
         level1: { level2Filled: 'I am full' },
       });
     });
     it('should remove multiple sibling objects', () => {
       const data = { level1: { first: {}, second: {} } };
-      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+      expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
     it('should consider null and undefined as empty by default', () => {
       const data = {
         noGood: undefined,
         stillNoGood: null,
       };
-      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+      expect(removeDeeplyEmptyObjects(data)).toEqual({});
     });
   });
   describe('deduplicate', () => {
     it('should return a list of unique items', () => {
       const uniques = deduplicate([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
-      expect(uniques).to.have.members([1, 2, 3, 4, 5]);
-      expect(uniques.length).to.equal(5);
+      expect(uniques).toEqual(expect.arrayContaining([1, 2, 3, 4, 5]));
+      expect(uniques.length).toBe(5);
     });
   });
 });

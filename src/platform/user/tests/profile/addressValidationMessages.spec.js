@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import {
@@ -13,14 +12,14 @@ describe('ADDRESS_VALIDATION_MESSAGES object', () => {
     validationTypes.forEach(type => {
       const messageData = ADDRESS_VALIDATION_MESSAGES[type];
       const editSpy = sinon.spy();
-      expect(typeof messageData).to.equal('object');
-      expect(typeof messageData.headline).to.equal('string');
-      expect(typeof messageData.ModalText).to.equal('function');
+      expect(typeof messageData).toBe('object');
+      expect(typeof messageData.headline).toBe('string');
+      expect(typeof messageData.ModalText).toBe('function');
       const modalTextComponent = shallow(
         <messageData.ModalText editFunction={editSpy} />,
       );
       modalTextComponent.find('a').simulate('click');
-      expect(editSpy.called).to.be.true;
+      expect(editSpy.called).toBe(true);
       modalTextComponent.unmount();
     });
   });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import moment from 'moment';
 
 import {
@@ -87,31 +86,31 @@ describe('getStatusForTimeframe', () => {
         pastDowntime.attributes.startTime,
         pastDowntime.attributes.endTime,
       ),
-    ).to.equal(externalServiceStatus.ok);
+    ).toBe(externalServiceStatus.ok);
     expect(
       downtimeHelpers.getStatusForTimeframe(
         activeDowntime.attributes.startTime,
         activeDowntime.attributes.endTime,
       ),
-    ).to.equal(externalServiceStatus.down);
+    ).toBe(externalServiceStatus.down);
     expect(
       downtimeHelpers.getStatusForTimeframe(
         approachingDowntime.attributes.startTime,
         approachingDowntime.attributes.endTime,
       ),
-    ).to.equal(externalServiceStatus.downtimeApproaching);
+    ).toBe(externalServiceStatus.downtimeApproaching);
     expect(
       downtimeHelpers.getStatusForTimeframe(
         lessUrgentApproachingDowntime.attributes.startTime,
         lessUrgentApproachingDowntime.attributes.endTime,
       ),
-    ).to.equal(externalServiceStatus.downtimeApproaching);
+    ).toBe(externalServiceStatus.downtimeApproaching);
     expect(
       downtimeHelpers.getStatusForTimeframe(
         distantFutureDowntime.attributes.startTime,
         distantFutureDowntime.attributes.endTime,
       ),
-    ).to.equal(externalServiceStatus.ok);
+    ).toBe(externalServiceStatus.ok);
   });
 });
 
@@ -133,9 +132,9 @@ describe('createGlobalMaintenanceWindow', () => {
       externalServices: { mvi: 'mvi' },
     });
 
-    expect(globalMaintWindow.length).to.eql(2);
-    expect(globalMaintWindow[0]).to.eql(globalWindow);
-    expect(globalMaintWindow[1]).to.eql({
+    expect(globalMaintWindow.length).toBe(2);
+    expect(globalMaintWindow[0]).toEqual(globalWindow);
+    expect(globalMaintWindow[1]).toEqual({
       attributes: {
         externalService: 'mvi',
         startTime,
@@ -151,7 +150,7 @@ describe('createGlobalMaintenanceWindow', () => {
     });
 
     // The +1 is to account for the global service
-    expect(globalMaintWindow.length).to.eql(
+    expect(globalMaintWindow.length).toEqual(
       Object.keys(defaultExternalServices).length + 1,
     );
   });
@@ -165,10 +164,10 @@ describe('createServiceMap', () => {
     const mvi = serviceMap.get('mvi');
     const appeals = serviceMap.get('appeals');
 
-    expect(evss.status).to.equal(externalServiceStatus.down);
-    expect(vic.status).to.equal(externalServiceStatus.ok);
-    expect(mvi.status).to.equal(externalServiceStatus.downtimeApproaching);
-    expect(appeals.status).to.equal(externalServiceStatus.downtimeApproaching);
+    expect(evss.status).toBe(externalServiceStatus.down);
+    expect(vic.status).toBe(externalServiceStatus.ok);
+    expect(mvi.status).toBe(externalServiceStatus.downtimeApproaching);
+    expect(appeals.status).toBe(externalServiceStatus.downtimeApproaching);
   });
 });
 
@@ -180,8 +179,9 @@ describe('getMostUrgentDowntime', () => {
   });
 
   it('returns null when all services are ok', () => {
-    expect(downtimeHelpers.getSoonestDowntime(serviceMap, ['dslogon', 'vic']))
-      .to.be.null;
+    expect(
+      downtimeHelpers.getSoonestDowntime(serviceMap, ['dslogon', 'vic']),
+    ).toBeNull();
   });
 
   it('returns the status with the soonest startTime and endTime that is not in the past', () => {
@@ -191,8 +191,8 @@ describe('getMostUrgentDowntime', () => {
       'vic',
       'mvi',
     ]);
-    expect(evss.status).to.equal(externalServiceStatus.down);
-    expect(evss.externalService).to.equal('evss');
+    expect(evss.status).toBe(externalServiceStatus.down);
+    expect(evss.externalService).toBe('evss');
 
     const mvi = downtimeHelpers.getSoonestDowntime(serviceMap, [
       'dslogon',
@@ -200,16 +200,16 @@ describe('getMostUrgentDowntime', () => {
       'mvi',
       'appeals',
     ]);
-    expect(mvi.status).to.equal(externalServiceStatus.downtimeApproaching);
-    expect(mvi.externalService).to.equal('mvi');
+    expect(mvi.status).toBe(externalServiceStatus.downtimeApproaching);
+    expect(mvi.externalService).toBe('mvi');
 
     const appeals = downtimeHelpers.getSoonestDowntime(serviceMap, [
       'dslogon',
       'vic',
       'appeals',
     ]);
-    expect(appeals.status).to.equal(externalServiceStatus.downtimeApproaching);
-    expect(appeals.externalService).to.equal('appeals');
+    expect(appeals.status).toBe(externalServiceStatus.downtimeApproaching);
+    expect(appeals.externalService).toBe('appeals');
   });
 });
 
@@ -240,8 +240,8 @@ describe('getCurrentGlobalDowntime', () => {
 
     setFetchJSONResponse(global.fetch, response);
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
-    expect(downtime.startTime).to.equal(response[1].startTime);
-    expect(downtime.endTime).to.equal(response[1].endTime);
+    expect(downtime.startTime).toBe(response[1].startTime);
+    expect(downtime.endTime).toBe(response[1].endTime);
   });
 
   it('returns null when not within any downtimes', async () => {
@@ -258,18 +258,18 @@ describe('getCurrentGlobalDowntime', () => {
 
     setFetchJSONResponse(global.fetch, response);
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
-    expect(downtime).to.be.null;
+    expect(downtime).toBeNull();
   });
 
   it('returns null when there are no downtimes', async () => {
     setFetchJSONResponse(global.fetch, []);
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
-    expect(downtime).to.be.null;
+    expect(downtime).toBeNull();
   });
 
   it('returns null when failing to get downtimes', async () => {
     setFetchJSONFailure(global.fetch, null);
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
-    expect(downtime).to.be.null;
+    expect(downtime).toBeNull();
   });
 });

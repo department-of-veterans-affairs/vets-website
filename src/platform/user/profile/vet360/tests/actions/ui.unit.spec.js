@@ -1,5 +1,4 @@
 import * as actions from '../../actions/ui';
-import { expect } from 'chai';
 
 describe('updateFormFieldWithSchema', () => {
   it('creates the correct action', () => {
@@ -23,7 +22,7 @@ describe('updateFormFieldWithSchema', () => {
       uiSchema,
     );
 
-    expect(action).to.deep.equal({
+    expect(action).toEqual({
       type: actions.UPDATE_PROFILE_FORM_FIELD,
       field: 'address',
       newState: {

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { dirtyAllFields, makeField } from '../fields';
 
 describe('fields model', () => {
@@ -7,8 +5,8 @@ describe('fields model', () => {
     const field = makeField('hi');
     expect(field)
       .to.have.property('value')
-      .and.eq('hi');
-    expect(field).to.have.property('dirty').and.be.false;
+      .toBe('hi');
+    expect(field).toBe(false);
   });
 
   describe('dirtyAllFields', () => {
@@ -23,7 +21,7 @@ describe('fields model', () => {
         h: null,
         i: undefined,
       });
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         a: makeField(1, true),
         b: makeField('', true),
         c: makeField('str', true),
@@ -33,9 +31,9 @@ describe('fields model', () => {
         h: null,
         i: undefined,
       });
-      expect(dirtyAllFields(makeField(1))).to.eql(makeField(1, true));
-      expect(dirtyAllFields([])).to.eql([]);
-      expect(dirtyAllFields({ a: [1] })).to.eql({ a: [1] });
+      expect(dirtyAllFields(makeField(1))).toEqual(makeField(1, true));
+      expect(dirtyAllFields([])).toEqual([]);
+      expect(dirtyAllFields({ a: [1] })).toEqual({ a: [1] });
     });
 
     it('handles nested objects', () => {
@@ -51,7 +49,7 @@ describe('fields model', () => {
         },
         b: { foo: makeField(1) }, // Ensure multiple objects get processed.
       });
-      expect(result).to.eql({
+      expect(result).toEqual({
         a: {
           foo: makeField('1', true),
           bar: makeField('', true),
@@ -78,7 +76,7 @@ describe('fields model', () => {
         ],
         b: [{ foo: makeField(1) }], // ensure multiple arrays get processed.
       });
-      expect(result).to.eql({
+      expect(result).toEqual({
         a: [
           { foo: makeField('1', true) },
           { bar: makeField('', true) },

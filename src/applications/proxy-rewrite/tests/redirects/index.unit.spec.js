@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import redirectIfNecessary from '../../redirects';
 
 describe('Redirect replaced pages', () => {
@@ -13,7 +11,7 @@ describe('Redirect replaced pages', () => {
 
     redirectIfNecessary(fakeWindow);
 
-    expect(fakeWindow.location.href.endsWith('.gov/disability/')).to.be.true;
+    expect(fakeWindow.location.href.endsWith('.gov/disability/')).toBe(true);
   });
 
   it('should not redirect when there are no matches', () => {
@@ -26,6 +24,6 @@ describe('Redirect replaced pages', () => {
 
     redirectIfNecessary(fakeWindow);
 
-    expect(fakeWindow.location.href).to.be.undefined;
+    expect(fakeWindow.location.href).toBeUndefined();
   });
 });

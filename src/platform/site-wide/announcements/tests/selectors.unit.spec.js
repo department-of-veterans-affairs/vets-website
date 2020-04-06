@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import * as selectors from '../selectors';
 
 describe('selectAnnouncement', () => {
@@ -70,10 +69,10 @@ describe('selectAnnouncement', () => {
     };
 
     let result = selectors.selectAnnouncement(state, emptyConfig, '/dummy');
-    expect(result).to.be.undefined;
+    expect(result).toBeUndefined();
 
     result = selectors.selectAnnouncement(state, config, '/not-a-match');
-    expect(result).to.be.undefined;
+    expect(result).toBeUndefined();
   });
 
   it('selects an announcement based on path and configuration', () => {
@@ -82,7 +81,7 @@ describe('selectAnnouncement', () => {
       config,
       '/some-route-3/',
     );
-    expect(result.name).to.be.equal('dummy3');
+    expect(result.name).toBe('dummy3');
   });
 
   it('returns undefined when a matched annoucement has been dismissed', () => {
@@ -92,7 +91,7 @@ describe('selectAnnouncement', () => {
       config,
       '/some-route-3/',
     );
-    expect(result).to.be.undefined;
+    expect(result).toBeUndefined();
   });
 
   it('returns the next matched announcement when the first matched annoucement has been dismissed', () => {
@@ -108,7 +107,7 @@ describe('selectAnnouncement', () => {
       config,
       '/some-route-3/',
     );
-    expect(result.name).to.be.equal('dummy3-conflict');
+    expect(result.name).toBe('dummy3-conflict');
   });
 
   it('bypasses disabled announcements and looks instead for the next match', () => {
@@ -117,10 +116,7 @@ describe('selectAnnouncement', () => {
       config,
       '/some-route-6/',
     );
-    expect(result.name).to.be.equal(
-      'dummy6',
-      '"disabled dummy6" preceded "dummy6" but was ignored because of the disabled flag.',
-    );
+    expect(result.name).toBe('dummy6');
   });
 
   it('filters our expired announcements', () => {
@@ -130,7 +126,7 @@ describe('selectAnnouncement', () => {
       '/unique-route/',
     );
 
-    expect(result).to.be.undefined;
+    expect(result).toBeUndefined();
   });
 
   it('filters announcements that have not started yet', () => {
@@ -140,7 +136,7 @@ describe('selectAnnouncement', () => {
       '/unique-route-2/',
     );
 
-    expect(result).to.be.undefined;
+    expect(result).toBeUndefined();
   });
 
   it('includes announcements where `startsAt` <= now <= `expiresAt`', () => {
@@ -150,6 +146,6 @@ describe('selectAnnouncement', () => {
       '/unique-route-3/',
     );
 
-    expect(result).to.not.be.undefined;
+    expect(result).toBeDefined();
   });
 });

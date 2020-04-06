@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import localStorage from '../../../../utilities/storage/localStorage';
 
 import * as announcementActions from '../../actions';
@@ -11,7 +9,7 @@ describe('initDismissedAnnouncements', () => {
 
   it('returns an empty array from localStorage', () => {
     const result = announcementActions.initDismissedAnnouncements();
-    expect(result).to.be.deep.equal({
+    expect(result).toEqual({
       type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
       dismissedAnnouncements: [],
     });
@@ -25,7 +23,7 @@ describe('initDismissedAnnouncements', () => {
 
     const result = announcementActions.initDismissedAnnouncements();
 
-    expect(result).to.be.deep.equal({
+    expect(result).toEqual({
       type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
       dismissedAnnouncements: ['dummy1'],
     });

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { validateSponsorDeathDate } from '../validation';
@@ -18,7 +17,7 @@ describe('Pre-need validation', () => {
         dateOfDeath: '2010-01-01',
       });
 
-      expect(errors.dateOfDeath.addError.called).to.be.true;
+      expect(errors.dateOfDeath.addError.called).toBe(true);
     });
 
     it('should return error if death is same as birth', () => {
@@ -34,7 +33,7 @@ describe('Pre-need validation', () => {
         dateOfDeath: '2010-01-01',
       });
 
-      expect(errors.dateOfDeath.addError.called).to.be.true;
+      expect(errors.dateOfDeath.addError.called).toBe(true);
     });
 
     it('should not add error if death is after birth', () => {
@@ -50,7 +49,7 @@ describe('Pre-need validation', () => {
         dateOfDeath: '2011-01-01',
       });
 
-      expect(errors.dateOfDeath.addError.called).to.be.false;
+      expect(errors.dateOfDeath.addError.called).toBe(false);
     });
 
     it('should not add error if not deceased', () => {
@@ -66,7 +65,7 @@ describe('Pre-need validation', () => {
         dateOfDeath: '2010-01-01',
       });
 
-      expect(errors.dateOfDeath.addError.called).to.be.false;
+      expect(errors.dateOfDeath.addError.called).toBe(false);
     });
     it('should not add error if no death date', () => {
       const errors = {
@@ -80,7 +79,7 @@ describe('Pre-need validation', () => {
         dateOfBirth: '2011-01-01',
       });
 
-      expect(errors.dateOfDeath.addError.called).to.be.false;
+      expect(errors.dateOfDeath.addError.called).toBe(false);
     });
     it('should not add error if no dates', () => {
       const errors = {
@@ -93,7 +92,7 @@ describe('Pre-need validation', () => {
         isDeceased: 'yes',
       });
 
-      expect(errors.dateOfDeath.addError.called).to.be.false;
+      expect(errors.dateOfDeath.addError.called).toBe(false);
     });
   });
 });

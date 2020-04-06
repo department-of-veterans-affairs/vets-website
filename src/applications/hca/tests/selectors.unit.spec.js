@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import * as selectors from '../selectors';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
@@ -75,21 +74,21 @@ describe('simple top-level selectors', () => {
         user: { ...loggedOutUserState },
       };
       const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.be.true;
+      expect(isLoggedOut).toBe(true);
     });
     it('is `false` if the profile is loading', () => {
       const state = {
         user: { ...loadingUserState },
       };
       const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.be.false;
+      expect(isLoggedOut).toBe(false);
     });
     it('is `false` if the profile is not loading and the user is logged in', () => {
       const state = {
         user: { ...LOA3UserState },
       };
       const isLoggedOut = selectors.isLoggedOut(state);
-      expect(isLoggedOut).to.be.false;
+      expect(isLoggedOut).toBe(false);
     });
   });
 
@@ -100,7 +99,7 @@ describe('simple top-level selectors', () => {
         user: { ...loggedOutUserState },
       };
       const enrollmentStatus = selectors.selectEnrollmentStatus(state);
-      expect(enrollmentStatus).to.deep.equal(basicEnrollmentStatusState);
+      expect(enrollmentStatus).toEqual(basicEnrollmentStatusState);
     });
   });
 
@@ -110,10 +109,10 @@ describe('simple top-level selectors', () => {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
       };
       let isLoading = selectors.isEnrollmentStatusLoading(state);
-      expect(isLoading).to.equal(false);
+      expect(isLoading).toBe(false);
       state.hcaEnrollmentStatus.isLoadingApplicationStatus = true;
       isLoading = selectors.isEnrollmentStatusLoading(state);
-      expect(isLoading).to.equal(true);
+      expect(isLoading).toBe(true);
     });
   });
 
@@ -123,10 +122,10 @@ describe('simple top-level selectors', () => {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
       };
       let hasServerError = selectors.hasServerError(state);
-      expect(hasServerError).to.equal(false);
+      expect(hasServerError).toBe(false);
       state.hcaEnrollmentStatus.hasServerError = true;
       hasServerError = selectors.hasServerError(state);
-      expect(hasServerError).to.equal(true);
+      expect(hasServerError).toBe(true);
     });
   });
 
@@ -136,10 +135,10 @@ describe('simple top-level selectors', () => {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
       };
       let noESRRecordFound = selectors.noESRRecordFound(state);
-      expect(noESRRecordFound).to.equal(false);
+      expect(noESRRecordFound).toBe(false);
       state.hcaEnrollmentStatus.noESRRecordFound = true;
       noESRRecordFound = selectors.noESRRecordFound(state);
-      expect(noESRRecordFound).to.equal(true);
+      expect(noESRRecordFound).toBe(true);
     });
   });
 
@@ -151,10 +150,10 @@ describe('simple top-level selectors', () => {
       let isShowingHCAReapplyContent = selectors.isShowingHCAReapplyContent(
         state,
       );
-      expect(isShowingHCAReapplyContent).to.equal(false);
+      expect(isShowingHCAReapplyContent).toBe(false);
       state.hcaEnrollmentStatus.showHCAReapplyContent = true;
       isShowingHCAReapplyContent = selectors.isShowingHCAReapplyContent(state);
-      expect(isShowingHCAReapplyContent).to.equal(true);
+      expect(isShowingHCAReapplyContent).toBe(true);
     });
   });
 
@@ -166,7 +165,7 @@ describe('simple top-level selectors', () => {
       const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
         state,
       );
-      expect(isEnrolledInVAHealthCare).to.be.false;
+      expect(isEnrolledInVAHealthCare).toBe(false);
     });
     it('returns `false` if the enrollmentStatus is not enrolled', () => {
       const state = {
@@ -178,7 +177,7 @@ describe('simple top-level selectors', () => {
       const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
         state,
       );
-      expect(isEnrolledInVAHealthCare).to.be.false;
+      expect(isEnrolledInVAHealthCare).toBe(false);
     });
     it('returns `true` if the enrollmentStatus is enrolled', () => {
       const state = {
@@ -190,7 +189,7 @@ describe('simple top-level selectors', () => {
       const isEnrolledInVAHealthCare = selectors.isEnrolledInVAHealthCare(
         state,
       );
-      expect(isEnrolledInVAHealthCare).to.be.true;
+      expect(isEnrolledInVAHealthCare).toBe(true);
     });
   });
 
@@ -200,7 +199,7 @@ describe('simple top-level selectors', () => {
         hcaEnrollmentStatus: { ...basicEnrollmentStatusState },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.false;
+      expect(isInESR).toBe(false);
     });
     it('returns `false` if the enrollmentStatus is noneOfTheAbove', () => {
       const state = {
@@ -210,7 +209,7 @@ describe('simple top-level selectors', () => {
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.false;
+      expect(isInESR).toBe(false);
     });
     it('returns `false` if the enrollmentStatus is active duty', () => {
       const state = {
@@ -220,7 +219,7 @@ describe('simple top-level selectors', () => {
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.false;
+      expect(isInESR).toBe(false);
     });
     it('returns `false` if the enrollmentStatus is canceled', () => {
       const state = {
@@ -230,7 +229,7 @@ describe('simple top-level selectors', () => {
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.false;
+      expect(isInESR).toBe(false);
     });
     it('returns `false` if the enrollmentStatus is deceased', () => {
       const state = {
@@ -240,7 +239,7 @@ describe('simple top-level selectors', () => {
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.false;
+      expect(isInESR).toBe(false);
     });
     it('returns `true` if the enrollmentStatus is enrolled', () => {
       const state = {
@@ -250,7 +249,7 @@ describe('simple top-level selectors', () => {
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.true;
+      expect(isInESR).toBe(true);
     });
     it('returns `true` if the enrollmentStatus is pending', () => {
       const state = {
@@ -260,7 +259,7 @@ describe('simple top-level selectors', () => {
         },
       };
       const isInESR = selectors.hasApplicationInESR(state);
-      expect(isInESR).to.be.true;
+      expect(isInESR).toBe(true);
     });
   });
 });
@@ -276,7 +275,7 @@ describe('compound selectors', () => {
         user: { ...loggedOutUserState },
       };
       const isLoading = selectors.isLoading(state);
-      expect(isLoading).to.equal(true);
+      expect(isLoading).toBe(true);
     });
     it('returns true if the profile is loading', () => {
       const state = {
@@ -284,7 +283,7 @@ describe('compound selectors', () => {
         user: { ...loadingUserState },
       };
       const isLoading = selectors.isLoading(state);
-      expect(isLoading).to.equal(true);
+      expect(isLoading).toBe(true);
     });
     it('returns false if neither the profile or enrollment status is loading', () => {
       const state = {
@@ -292,7 +291,7 @@ describe('compound selectors', () => {
         user: { ...loggedOutUserState },
       };
       const isLoading = selectors.isLoading(state);
-      expect(isLoading).to.equal(false);
+      expect(isLoading).toBe(false);
     });
   });
 
@@ -303,7 +302,7 @@ describe('compound selectors', () => {
         user: { ...LOA1UserState },
       };
       const isLOA1 = selectors.isUserLOA1(state);
-      expect(isLOA1).to.equal(true);
+      expect(isLOA1).toBe(true);
     });
     it('returns false if everything is loaded and user is LOA3', () => {
       const state = {
@@ -311,7 +310,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const isLOA1 = selectors.isUserLOA1(state);
-      expect(isLOA1).to.equal(false);
+      expect(isLOA1).toBe(false);
     });
     it('returns false if enrollment status still loading', () => {
       const state = {
@@ -322,7 +321,7 @@ describe('compound selectors', () => {
         user: { ...LOA1UserState },
       };
       const isLOA1 = selectors.isUserLOA1(state);
-      expect(isLOA1).to.equal(false);
+      expect(isLOA1).toBe(false);
     });
     it('returns false if the profile still loading', () => {
       const state = {
@@ -330,7 +329,7 @@ describe('compound selectors', () => {
         user: { ...loadingUserState },
       };
       const isLOA1 = selectors.isUserLOA1(state);
-      expect(isLOA1).to.equal(false);
+      expect(isLOA1).toBe(false);
     });
     it('returns false if the user is logged out', () => {
       const state = {
@@ -338,7 +337,7 @@ describe('compound selectors', () => {
         user: { ...loggedOutUserState },
       };
       const isLOA1 = selectors.isUserLOA1(state);
-      expect(isLOA1).to.equal(false);
+      expect(isLOA1).toBe(false);
     });
   });
 
@@ -349,7 +348,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(true);
+      expect(isLOA3).toBe(true);
     });
     it('returns false if everything is loaded and user is LOA1', () => {
       const state = {
@@ -357,7 +356,7 @@ describe('compound selectors', () => {
         user: { ...LOA1UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).toBe(false);
     });
     it('returns true if enrollment status is loading but the user has resolved', () => {
       const state = {
@@ -368,7 +367,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(true);
+      expect(isLOA3).toBe(true);
     });
     it('returns false if the profile still loading', () => {
       const state = {
@@ -376,7 +375,7 @@ describe('compound selectors', () => {
         user: { ...loadingUserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).toBe(false);
     });
     it('returns false if the user is logged out', () => {
       const state = {
@@ -384,7 +383,7 @@ describe('compound selectors', () => {
         user: { ...loggedOutUserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).toBe(false);
     });
     it('returns false if there is a server error', () => {
       const state = {
@@ -395,7 +394,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).toBe(false);
     });
     it('returns false if the user was not found in ESR', () => {
       const state = {
@@ -406,7 +405,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const isLOA3 = selectors.isUserLOA3(state);
-      expect(isLOA3).to.equal(false);
+      expect(isLOA3).toBe(false);
     });
   });
 
@@ -421,7 +420,7 @@ describe('compound selectors', () => {
       const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
         state,
       );
-      expect(shouldShowLoggedOutContent).to.equal(true);
+      expect(shouldShowLoggedOutContent).toBe(true);
     });
     it('returns true if there is an enrollment status server error', () => {
       const state = {
@@ -434,7 +433,7 @@ describe('compound selectors', () => {
       const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
         state,
       );
-      expect(shouldShowLoggedOutContent).to.equal(true);
+      expect(shouldShowLoggedOutContent).toBe(true);
     });
     it('returns true if the user was not found in ESR', () => {
       const state = {
@@ -447,7 +446,7 @@ describe('compound selectors', () => {
       const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
         state,
       );
-      expect(shouldShowLoggedOutContent).to.equal(true);
+      expect(shouldShowLoggedOutContent).toBe(true);
     });
     it('returns false if the user is logged in, is in ESR, and there are no enrollment status server errors', () => {
       const state = {
@@ -459,7 +458,7 @@ describe('compound selectors', () => {
       const shouldShowLoggedOutContent = selectors.shouldShowLoggedOutContent(
         state,
       );
-      expect(shouldShowLoggedOutContent).to.equal(false);
+      expect(shouldShowLoggedOutContent).toBe(false);
     });
   });
 
@@ -472,7 +471,7 @@ describe('compound selectors', () => {
         user: { ...loadingUserState },
       };
       const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-      expect(shouldHideFormFooter).to.equal(false);
+      expect(shouldHideFormFooter).toBe(false);
     });
 
     it('returns false if the enrollment status is loading', () => {
@@ -484,7 +483,7 @@ describe('compound selectors', () => {
         user: { ...LOA1UserState },
       };
       const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-      expect(shouldHideFormFooter).to.equal(false);
+      expect(shouldHideFormFooter).toBe(false);
     });
 
     it('returns true if the user is LOA1', () => {
@@ -495,7 +494,7 @@ describe('compound selectors', () => {
         user: { ...LOA1UserState },
       };
       const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-      expect(shouldHideFormFooter).to.equal(true);
+      expect(shouldHideFormFooter).toBe(true);
     });
 
     it('returns true if the user is LOA3 and the Reapply For Healthcare content is not shown', () => {
@@ -506,7 +505,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-      expect(shouldHideFormFooter).to.equal(true);
+      expect(shouldHideFormFooter).toBe(true);
     });
 
     it('returns false if the user is LOA3 but the Reapply For Healthcare content is shown', () => {
@@ -518,7 +517,7 @@ describe('compound selectors', () => {
         user: { ...LOA3UserState },
       };
       const shouldHideFormFooter = selectors.shouldHideFormFooter(state);
-      expect(shouldHideFormFooter).to.equal(false);
+      expect(shouldHideFormFooter).toBe(false);
     });
   });
 });

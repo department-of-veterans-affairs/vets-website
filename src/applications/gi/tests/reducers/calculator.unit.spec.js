@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import calculatorReducer from '../../reducers/calculator';
 
 describe('calculator reducer', () => {
@@ -13,7 +11,7 @@ describe('calculator reducer', () => {
       },
     );
 
-    expect(state).to.eql({ field: 'value' });
+    expect(state).toEqual({ field: 'value' });
   });
 
   it('should correctly change dollar input', () => {
@@ -26,7 +24,7 @@ describe('calculator reducer', () => {
       },
     );
 
-    expect(state).to.eql({ tuitionFees: 1000 });
+    expect(state).toEqual({ tuitionFees: 1000 });
   });
 
   it('should correctly change inState input and set inState tuition', () => {
@@ -39,7 +37,7 @@ describe('calculator reducer', () => {
       },
     );
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       tuitionInState: 10,
       inState: 'yes',
       inStateTuitionFees: 10,
@@ -57,7 +55,7 @@ describe('calculator reducer', () => {
       },
     );
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       tuitionOutOfState: 100,
       inStateTuitionFees: 10,
       inState: 'no',
@@ -94,7 +92,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
 
     it('should add a generic error message and clear values', () => {
@@ -120,7 +118,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
 
     it('should not modify the state if beneficiaryZIPFetched on state does not match action', () => {
@@ -141,7 +139,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(previousState).to.eql(newState);
+      expect(previousState).toEqual(newState);
     });
   });
 
@@ -170,7 +168,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
   });
 
@@ -208,7 +206,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
 
     it('should not modify the state if beneficiaryZIPFetched on state does not match action', () => {
@@ -236,7 +234,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(previousState).to.eql(newState);
+      expect(previousState).toEqual(newState);
     });
   });
   describe('BENEFICIARY_ZIP_CODE_CHANGED', () => {
@@ -265,7 +263,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
 
     it('adds an error to the state when zip code has letters', () => {
@@ -293,7 +291,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
 
     it('adds and error to the state when zip code is too long', () => {
@@ -321,7 +319,7 @@ describe('calculator reducer', () => {
 
       const newState = calculatorReducer(previousState, action);
 
-      expect(expectedState).to.eql(newState);
+      expect(expectedState).toEqual(newState);
     });
   });
 
@@ -357,7 +355,7 @@ describe('calculator reducer', () => {
       value: 'undergraduate',
     });
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       ...previousState,
       yellowRibbonDegreeLevel: 'undergraduate',
       yellowRibbonDivisionOptions: ['division2', 'division3'],
@@ -402,7 +400,7 @@ describe('calculator reducer', () => {
       value: 'division3',
     });
 
-    expect(state).to.eql({
+    expect(state).toEqual({
       ...previousState,
       yellowRibbonDegreeLevel: 'undergraduate',
       yellowRibbonDivision: 'division3',
@@ -449,7 +447,7 @@ describe('calculator reducer', () => {
       },
     );
 
-    expect(state).to.include({
+    expect(state).toMatchObject({
       yellowRibbonDegreeLevel: 'graduate',
       yellowRibbonDivision: 'division1',
       yellowRibbonAmount: 5000,
@@ -457,12 +455,12 @@ describe('calculator reducer', () => {
       yellowRibbonMaxAmount: 5000,
       yellowRibbonProgramIndex: 0,
     });
-    expect(state.yellowRibbonDivisionOptions).to.eql(['division1']);
-    expect(state.yellowRibbonDegreeLevelOptions).to.eql([
+    expect(state.yellowRibbonDivisionOptions).toEqual(['division1']);
+    expect(state.yellowRibbonDegreeLevelOptions).toEqual([
       'graduate',
       'undergraduate',
     ]);
-    expect(state.yellowRibbonPrograms).to.eql([
+    expect(state.yellowRibbonPrograms).toEqual([
       {
         divisionProfessionalSchool: 'division1',
         degreeLevel: 'graduate',
@@ -504,7 +502,7 @@ describe('calculator reducer', () => {
         },
       },
     );
-    expect(state).to.include({
+    expect(state).toMatchObject({
       giBillBenefit: 'no',
     });
   });
@@ -526,7 +524,7 @@ describe('calculator reducer', () => {
         },
       },
     );
-    expect(state).to.include({
+    expect(state).toMatchObject({
       giBillBenefit: 'yes',
     });
   });
@@ -547,7 +545,7 @@ describe('calculator reducer', () => {
         },
       },
     );
-    expect(state).to.include({
+    expect(state).toMatchObject({
       giBillBenefit: 'yes',
     });
   });
@@ -568,7 +566,7 @@ describe('calculator reducer', () => {
         },
       },
     );
-    expect(state).to.include({
+    expect(state).toMatchObject({
       giBillBenefit: 'yes',
     });
   });
@@ -589,7 +587,7 @@ describe('calculator reducer', () => {
         },
       },
     );
-    expect(state).to.include({
+    expect(state).toMatchObject({
       giBillBenefit: 'no',
     });
   });

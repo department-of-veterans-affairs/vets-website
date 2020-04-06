@@ -9,7 +9,8 @@
   display: inline-block;
 }
 
-@mixin make-hub($hub-name,
+@mixin make-hub(
+  $hub-name,
   $icon,
   $color,
   $top-small: 6.5px,
@@ -17,8 +18,8 @@
   $top-large: 9.5px,
   $left-large: 11.47px,
   $top-baseline: 7px,
-  $left-baseline: 11px) {
-
+  $left-baseline: 11px
+) {
   // helper function from _variables.scss to add quotes around unicode
   $icon-escaped: fa-content($icon);
 
@@ -31,7 +32,7 @@
   }
   .hub-icon-#{$hub-name} {
     display: inline-block;
-    font: normal normal normal 14px/1 "Font Awesome 5 Free";
+    font: normal normal normal 14px/1 'Font Awesome 5 Free';
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -62,7 +63,7 @@
 }
 
 @include make-hub(
-  $hub-name: "health-care",
+  $hub-name: 'health-care',
   $icon: $fa-var-briefcase-medical,
   $color: $indigo-cool-60,
   $top-large: 10.25px,
@@ -72,7 +73,7 @@
 );
 
 @include make-hub(
-  $hub-name: "education",
+  $hub-name: 'education',
   $icon: $fa-var-graduation-cap,
   $color: $mint-cool-50,
   $top-large: 11px,
@@ -83,7 +84,7 @@
 );
 
 @include make-hub(
-  $hub-name: "disability",
+  $hub-name: 'disability',
   $icon: $fa-var-file-alt,
   $color: $red-60,
   $top-large: 10px,
@@ -93,7 +94,7 @@
 );
 
 @include make-hub(
-  $hub-name: "careers",
+  $hub-name: 'careers',
   $icon: $fa-var-briefcase,
   $color: $orange-warm-50,
   $top-large: 10px,
@@ -103,7 +104,7 @@
 );
 
 @include make-hub(
-  $hub-name: "pension",
+  $hub-name: 'pension',
   $icon: $fa-var-handshake,
   $color: $green-cool-50,
   $top-large: 10px,
@@ -113,7 +114,7 @@
 );
 
 @include make-hub(
-  $hub-name: "housing",
+  $hub-name: 'housing',
   $icon: $fa-var-home,
   $color: $gold-50,
   $top-large: 10px,
@@ -124,7 +125,7 @@
 );
 
 @include make-hub(
-  $hub-name: "life-insurance",
+  $hub-name: 'life-insurance',
   $icon: $fa-var-shield-alt,
   $color: $green-warm-50,
   $top-small: 8px,
@@ -134,18 +135,17 @@
 );
 
 @include make-hub(
-  $hub-name: "burials",
+  $hub-name: 'burials',
   $icon: $fa-var-star,
   $color: $blue-50,
   $top-small: 7px,
   $top-large: 10px,
   $left-large: 9px,
   $left-small: 6.75px
-
 );
 
 @include make-hub(
-  $hub-name: "records",
+  $hub-name: 'records',
   $icon: $fa-var-id-card,
   $color: $violet-warm-60,
   $top-small: 7px,
@@ -155,7 +155,7 @@
 );
 
 @include make-hub(
-  $hub-name: "family-member",
+  $hub-name: 'family-member',
   $icon: $fa-var-users,
   $color: $color-primary-darker,
   $top-small: 7px,
@@ -165,7 +165,7 @@
 );
 
 @include make-hub(
-  $hub-name: "service-member",
+  $hub-name: 'service-member',
   $icon: $fa-var-flag-usa,
   $color: $color-primary-darker,
   $top-small: 8px,
@@ -189,4 +189,3 @@
   height: 32px;
   width: 32px;
 }
-

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
 import localStorage from '../../../utilities/storage/localStorage';
@@ -19,14 +18,14 @@ describe('User navigation selectors', () => {
       const result = selectUserGreeting(state);
       const resultItemText = result.map(component => component.props.children);
 
-      expect(result.length).to.equal(2);
-      expect(resultItemText).to.eql(['My Account', 'test@test.gov']);
+      expect(result.length).toBe(2);
+      expect(resultItemText).toEqual(['My Account', 'test@test.gov']);
     });
 
     it('should return session name', () => {
       localStorage.setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(state);
-      expect(result.props.children).to.equal('Joe');
+      expect(result.props.children).toBe('Joe');
     });
 
     it('should return profile name', () => {
@@ -34,7 +33,7 @@ describe('User navigation selectors', () => {
       const result = selectUserGreeting(
         set('user.profile.userFullName.first', 'Jane', state),
       );
-      expect(result.props.children).to.equal('Jane');
+      expect(result.props.children).toBe('Jane');
     });
 
     afterEach(() => {

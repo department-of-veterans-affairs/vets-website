@@ -1,5 +1,4 @@
 // Dependencies.
-import { expect } from 'chai';
 import sinon from 'sinon';
 // Relative imports.
 import {
@@ -22,7 +21,7 @@ describe('Find VA Forms actions', () => {
       const query = 'some text';
       const action = fetchFormsAction(query);
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         type: FETCH_FORMS,
         query,
       });
@@ -33,7 +32,7 @@ describe('Find VA Forms actions', () => {
     it('should return an action in the shape we expect', () => {
       const action = fetchFormsFailure('test');
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         error: 'test',
         type: FETCH_FORMS_FAILURE,
       });
@@ -45,7 +44,7 @@ describe('Find VA Forms actions', () => {
       const results = [];
       const action = fetchFormsSuccess(results);
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         results,
         type: FETCH_FORMS_SUCCESS,
       });
@@ -56,7 +55,7 @@ describe('Find VA Forms actions', () => {
     it('should return an action in the shape we expect', () => {
       const action = updatePaginationAction();
 
-      expect(action).to.be.deep.equal({
+      expect(action).toEqual({
         page: 1,
         startIndex: 0,
         type: UPDATE_PAGINATION,
@@ -92,8 +91,8 @@ describe('Find VA Forms actions', () => {
 
       const replaceStateStub = mockedHistory.replaceState;
 
-      expect(replaceStateStub.calledOnce).to.be.true;
-      expect(replaceStateStub.firstCall.args[2]).to.be.equal('?q=health');
+      expect(replaceStateStub.calledOnce).toBe(true);
+      expect(replaceStateStub.firstCall.args[2]).toBe('?q=health');
     });
 
     it('calls dispatch', async () => {
@@ -112,7 +111,7 @@ describe('Find VA Forms actions', () => {
           type: FETCH_FORMS,
           query,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       expect(
         dispatch.secondCall.calledWith({
@@ -120,11 +119,11 @@ describe('Find VA Forms actions', () => {
           startIndex: 0,
           type: UPDATE_PAGINATION,
         }),
-      ).to.be.true;
+      ).toBe(true);
 
       const thirdCallAction = dispatch.thirdCall.args[0];
-      expect(thirdCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
-      expect(thirdCallAction.results).to.be.an('array');
+      expect(thirdCallAction.type).toBe(FETCH_FORMS_SUCCESS);
+      expect(Array.isArray(thirdCallAction.results)).toBe(true);
     });
   });
 });

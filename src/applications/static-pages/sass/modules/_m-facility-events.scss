@@ -7,13 +7,11 @@
   > dd {
     width: 75%;
   }
-
 }
 
 .va-c-social-icon {
   color: $color-link-default;
 }
-
 
 @include media($medium-screen) {
   .va-c-btn-group {
@@ -22,7 +20,7 @@
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         margin-right: 0;
-      };
+      }
       &:last-child {
         margin-top: 0;
         border-top-left-radius: 0;

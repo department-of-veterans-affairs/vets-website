@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
@@ -63,16 +62,18 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS,
     );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+    expect(dispatchSpy.thirdCall.args[0].type).toEqual(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
-    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+    expect(global.fetch.lastCall.args[0]).toEqual(
+      expect.arrayContaining(['ids=vha_442']),
+    );
   });
 
   it('should dispatch fail action when fetching future appointments', async () => {
@@ -89,10 +90,10 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS,
     );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS_FAILED,
     );
   });
@@ -112,14 +113,16 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_PAST_APPOINTMENTS_SUCCEEDED,
     );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+    expect(dispatchSpy.thirdCall.args[0].type).toEqual(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
-    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+    expect(global.fetch.lastCall.args[0]).toEqual(
+      expect.arrayContaining(['ids=vha_442']),
+    );
   });
 
   it('should dispatch fail action when fetching past appointments', async () => {
@@ -136,8 +139,8 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_PAST_APPOINTMENTS_FAILED,
     );
   });
@@ -161,25 +164,29 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS,
     );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+    expect(dispatchSpy.thirdCall.args[0].type).toEqual(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(
       dispatchSpy.thirdCall.args[0].clinicInstitutionList.some(
         clinic => clinic.locationIen === '455',
       ),
-    ).to.be.true;
+    ).toBe(true);
 
-    expect(global.fetch.getCall(3).args[0]).to.contain(
-      'systems/983/clinic_institutions?clinic_ids[]=455',
+    expect(global.fetch.getCall(3).args[0]).toEqual(
+      expect.arrayContaining([
+        'systems/983/clinic_institutions?clinic_ids[]=455',
+      ]),
     );
-    expect(global.fetch.getCall(4).args[0]).to.contain('ids=vha_442');
+    expect(global.fetch.getCall(4).args[0]).toEqual(
+      expect.arrayContaining(['ids=vha_442']),
+    );
   });
 
   it('should abort fetching clinics if more than 3 systems', async () => {
@@ -201,14 +208,14 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS,
     );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
-    expect(dispatchSpy.callCount).to.equal(2);
-    expect(global.fetch.callCount).to.equal(3);
+    expect(dispatchSpy.callCount).toBe(2);
+    expect(global.fetch.callCount).toBe(3);
   });
 
   it('should not send fail action if clinic institution mapping fails', async () => {
@@ -226,14 +233,14 @@ describe('VAOS actions: appointments', () => {
       },
     });
     await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+    expect(dispatchSpy.firstCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS,
     );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+    expect(dispatchSpy.secondCall.args[0].type).toEqual(
       FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
-    expect(dispatchSpy.callCount).to.equal(2);
-    expect(global.fetch.callCount).to.equal(4);
+    expect(dispatchSpy.callCount).toBe(2);
+    expect(global.fetch.callCount).toBe(4);
   });
 
   it('should fetch request messages', async () => {
@@ -242,8 +249,8 @@ describe('VAOS actions: appointments', () => {
     const thunk = fetchRequestMessages('8a48912a6c2409b9016c525a4d490190');
 
     await thunk(dispatch);
-    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_REQUEST_MESSAGES);
-    expect(dispatch.secondCall.args[0].type).to.equal(
+    expect(dispatch.firstCall.args[0].type).toBe(FETCH_REQUEST_MESSAGES);
+    expect(dispatch.secondCall.args[0].type).toBe(
       FETCH_REQUEST_MESSAGES_SUCCEEDED,
     );
   });
@@ -254,8 +261,8 @@ describe('VAOS actions: appointments', () => {
     const thunk = fetchRequestMessages('8a48912a6c2409b9016c525a4d490190');
 
     await thunk(dispatch);
-    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_REQUEST_MESSAGES);
-    expect(dispatch.secondCall.args[0].type).to.equal(
+    expect(dispatch.firstCall.args[0].type).toBe(FETCH_REQUEST_MESSAGES);
+    expect(dispatch.secondCall.args[0].type).toBe(
       FETCH_REQUEST_MESSAGES_FAILED,
     );
   });
@@ -265,7 +272,7 @@ describe('VAOS actions: appointments', () => {
       const appointment = {};
       const action = cancelAppointment(appointment);
 
-      expect(action).to.deep.equal({
+      expect(action).toEqual({
         type: CANCEL_APPOINTMENT,
         appointment,
       });
@@ -304,27 +311,27 @@ describe('VAOS actions: appointments', () => {
 
       await thunk(dispatch, () => state);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         CANCEL_APPOINTMENT_CONFIRMED,
       );
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
 
-      expect(global.window.dataLayer[0]).to.deep.equal({
+      expect(global.window.dataLayer[0]).toEqual({
         event: 'vaos-cancel-appointment-submission',
         appointmentType: 'confirmed',
         facilityType: 'va',
       });
 
-      expect(global.window.dataLayer[1]).to.deep.equal({
+      expect(global.window.dataLayer[1]).toEqual({
         event: 'vaos-cancel-appointment-submission-successful',
         appointmentType: 'confirmed',
         facilityType: 'va',
       });
       expect(
         JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
-      ).to.equal('4');
+      ).toBe('4');
     });
 
     it('should fetch cancel reasons and cancel appt', async () => {
@@ -346,16 +353,16 @@ describe('VAOS actions: appointments', () => {
 
       await thunk(dispatch, () => state);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         CANCEL_APPOINTMENT_CONFIRMED,
       );
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
 
       expect(
         JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
-      ).to.equal('5');
+      ).toBe('5');
     });
 
     it('should cancel request', async () => {
@@ -372,10 +379,10 @@ describe('VAOS actions: appointments', () => {
 
       await thunk(dispatch, () => state);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         CANCEL_APPOINTMENT_CONFIRMED,
       );
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
     });
@@ -399,20 +406,20 @@ describe('VAOS actions: appointments', () => {
 
       await thunk(dispatch, () => state);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).toBe(
         CANCEL_APPOINTMENT_CONFIRMED,
       );
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
+      expect(dispatch.secondCall.args[0]).toEqual({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
       const dataLayer = global.window.dataLayer;
 
-      expect(dataLayer[1]).to.deep.equal({
+      expect(dataLayer[1]).toEqual({
         event: 'vaos-cancel-appointment-submission-failed',
         appointmentType: 'confirmed',
         facilityType: 'va',
       });
-      expect(dataLayer[2]).to.deep.equal({
+      expect(dataLayer[2]).toEqual({
         flow: undefined,
         'health-TypeOfCare': undefined,
         'health-ReasonForAppointment': undefined,
@@ -425,7 +432,7 @@ describe('VAOS actions: appointments', () => {
     it('should send close cancel action', () => {
       const action = closeCancelAppointment();
 
-      expect(action).to.deep.equal({
+      expect(action).toEqual({
         type: CANCEL_APPOINTMENT_CLOSED,
       });
     });
@@ -433,7 +440,7 @@ describe('VAOS actions: appointments', () => {
   it('should start new appointment flow', () => {
     const action = startNewAppointmentFlow();
 
-    expect(action).to.deep.equal({
+    expect(action).toEqual({
       type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });

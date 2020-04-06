@@ -28,7 +28,7 @@
   }
 }
 
-[class^=va-footer-linkgroup] {
+[class^='va-footer-linkgroup'] {
   padding-left: 0;
   li {
     list-style: none;
@@ -39,7 +39,7 @@
     color: $color-white;
     font-size: 1em;
     font-weight: 400;
-    margin: .25em 0;
+    margin: 0.25em 0;
     text-decoration: underline;
 
     &:hover {
@@ -105,7 +105,7 @@
         text-decoration: none;
         font-size: 1em;
         font-weight: 400;
-        margin: .25em 0;
+        margin: 0.25em 0;
       }
     }
   }
@@ -122,8 +122,8 @@
 
 .footer-banner,
 .va-footer-links-bottom {
-  padding-left: .5em;
-  padding-right: .5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 .footer-banner {
@@ -138,7 +138,6 @@
   }
 }
 
-
 .va-footer-button {
   font-weight: 400;
   border-top: 3px solid transparent;
@@ -149,7 +148,8 @@
   margin: 0;
   padding: 1.6rem 0.8rem;
   font-size: 1.6rem;
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Roboto',
+    'Arial', sans-serif;
   color: $color-white;
   background-color: $color-primary-darker;
   &:hover {
@@ -159,14 +159,14 @@
     border-bottom: 3px solid transparent;
   }
 
-  &.usa-accordion-button[aria-expanded=false] {
-    background-image: url("/img/plus-white.png");
-    background-image: url("/img/plus-white.svg");
+  &.usa-accordion-button[aria-expanded='false'] {
+    background-image: url('/img/plus-white.png');
+    background-image: url('/img/plus-white.svg');
   }
 
-  &.usa-accordion-button[aria-expanded=true] {
-    background-image: url("/img/minus-white.png");
-    background-image: url("/img/minus-white.svg");
+  &.usa-accordion-button[aria-expanded='true'] {
+    background-image: url('/img/minus-white.png');
+    background-image: url('/img/minus-white.svg');
   }
 }
 
@@ -186,7 +186,7 @@
         }
       }
       &:after {
-        content: "|";
+        content: '|';
         padding: 0 1rem;
       }
     }

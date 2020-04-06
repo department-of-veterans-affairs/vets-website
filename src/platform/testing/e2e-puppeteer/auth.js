@@ -2,7 +2,6 @@ const process = require('process');
 const E2eHelpers = require('./helpers');
 const Timeouts = require('../e2e/timeouts');
 const mock = require('../e2e/mock-helpers');
-const expect = require('chai').expect;
 const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 const logoutRequestUrl = '/sessions/slo/new';
@@ -117,9 +116,7 @@ async function testUnauthedUserFlow(client, path) {
   await client.waitForSelector('body', { timeout: Timeouts.normal });
 
   await client.waitForSelector('.login', { timeout: Timeouts.normal });
-  expect(client.$eval('h1', node => node.innerText)).to.equal(
-    'Sign in to VA.gov',
-  );
+  expect(client.$eval('h1', node => node.innerText)).toBe('Sign in to VA.gov');
 }
 
 module.exports = {

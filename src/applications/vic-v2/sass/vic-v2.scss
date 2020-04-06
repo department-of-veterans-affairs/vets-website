@@ -1,17 +1,17 @@
-@import "~cropperjs/dist/cropper.css";
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "../../../platform/forms/sass/m-form-confirmation";
+@import '~cropperjs/dist/cropper.css';
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../platform/forms/sass/m-schemaform';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '../../../platform/forms/sass/m-form-confirmation';
 
 .vic-intro-indent {
   margin-left: 1.25em;
 }
 
-input[type="range"] {
+input[type='range'] {
   -webkit-appearance: none;
   width: 100%;
   height: 30px; // necessary to allow IE thumb to be taller than track
@@ -145,7 +145,7 @@ input[type="range"] {
 }
 
 .cropper-view-box:after {
-  content: " ";
+  content: ' ';
   position: absolute;
   top: 4px;
   left: 4px;
@@ -330,7 +330,7 @@ input[type="range"] {
     justify-content: flex-start;
     flex-direction: row;
   }
-  div[role="alert"] {
+  div[role='alert'] {
     display: flex;
     justify-content: center;
   }
@@ -365,7 +365,7 @@ input[type="range"] {
 }
 
 .drop-target:after {
-  content: " ";
+  content: ' ';
   position: absolute;
   z-index: 2;
   top: 0px;
@@ -376,7 +376,7 @@ input[type="range"] {
 }
 
 .drop-target:before {
-  content: " ";
+  content: ' ';
   position: absolute;
   z-index: 2;
   top: 4px;

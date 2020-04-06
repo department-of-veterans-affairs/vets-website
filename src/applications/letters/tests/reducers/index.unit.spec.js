@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import lettersReducer, { initialState } from '../../reducers';
 
 import {
@@ -48,23 +46,21 @@ describe('letters reducer', () => {
   it('should not modify state if an unrecognized action is passed', () => {
     const state = reduce({ type: 'FOO_BAR' });
 
-    expect(state).to.deep.equal(initialState);
+    expect(state).toEqual(initialState);
   });
 
   it('should handle failure to fetch letters', () => {
     const state = reduce({ type: GET_LETTERS_FAILURE });
 
-    expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal(
-      AVAILABILITY_STATUSES.unavailable,
-    );
+    expect(state.letters).toHaveLength(0);
+    expect(state.lettersAvailability).toBe(AVAILABILITY_STATUSES.unavailable);
   });
 
   it('should handle backend service error', () => {
     const state = reduce({ type: BACKEND_SERVICE_ERROR });
 
-    expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal(
+    expect(state.letters).toHaveLength(0);
+    expect(state.lettersAvailability).toBe(
       AVAILABILITY_STATUSES.backendServiceError,
     );
   });
@@ -72,8 +68,8 @@ describe('letters reducer', () => {
   it('should handle backend authentication error', () => {
     const state = reduce({ type: BACKEND_AUTHENTICATION_ERROR });
 
-    expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal(
+    expect(state.letters).toHaveLength(0);
+    expect(state.lettersAvailability).toBe(
       AVAILABILITY_STATUSES.backendAuthenticationError,
     );
   });
@@ -81,8 +77,8 @@ describe('letters reducer', () => {
   it('should handle invalid address', () => {
     const state = reduce({ type: INVALID_ADDRESS_PROPERTY });
 
-    expect(state.letters).to.be.empty;
-    expect(state.lettersAvailability).to.equal(
+    expect(state.letters).toHaveLength(0);
+    expect(state.lettersAvailability).toBe(
       AVAILABILITY_STATUSES.invalidAddressProperty,
     );
   });
@@ -105,20 +101,20 @@ describe('letters reducer', () => {
       },
     });
 
-    expect(state.letters[0].name).to.eql('Commissary Letter');
-    expect(state.letterDownloadStatus[LETTER_TYPES.commissary]).to.equal(
+    expect(state.letters[0].name).toBe('Commissary Letter');
+    expect(state.letterDownloadStatus[LETTER_TYPES.commissary]).toBe(
       DOWNLOAD_STATUSES.pending,
     );
-    expect(state.fullName).to.equal('Johann Bach');
-    expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.available);
+    expect(state.fullName).toBe('Johann Bach');
+    expect(state.lettersAvailability).toBe(AVAILABILITY_STATUSES.available);
   });
 
   it('should handle failure to fetch benefit summary options', () => {
     const state = reduce({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
 
-    expect(state.benefitInfo).to.be.empty;
-    expect(state.serviceInfo).to.be.empty;
-    expect(state.optionsAvailable).to.be.false;
+    expect(state.benefitInfo).toHaveLength(0);
+    expect(state.serviceInfo).toHaveLength(0);
+    expect(state.optionsAvailable).toBe(false);
   });
 
   it('should handle a successful request for benefit summary options', () => {
@@ -127,9 +123,9 @@ describe('letters reducer', () => {
       data: benefitSummaryOptionData,
     });
 
-    expect(state.benefitInfo.hasChapter35Eligibility).to.be.true;
-    expect(state.serviceInfo[0].branch).to.equal('ARMY');
-    expect(state.optionsAvailable).to.be.true;
+    expect(state.benefitInfo.hasChapter35Eligibility).toBe(true);
+    expect(state.serviceInfo[0].branch).toBe('ARMY');
+    expect(state.optionsAvailable).toBe(true);
   });
 
   it('should update benefit summary request options', () => {
@@ -137,15 +133,15 @@ describe('letters reducer', () => {
       type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
       data: benefitSummaryOptionData,
     });
-    expect(state.requestOptions.chapter35Eligibility).to.be.true;
-    expect(state.requestOptions.monthlyAward).to.be.true;
+    expect(state.requestOptions.chapter35Eligibility).toBe(true);
+    expect(state.requestOptions.monthlyAward).toBe(true);
     // TODO: Test what makes it to requestOptions when we have a firmer grasp of the business logic
   });
 
   it('should handle a letter eligibility error', () => {
     const state = reduce({ type: LETTER_ELIGIBILITY_ERROR });
 
-    expect(state.lettersAvailability).to.equal(
+    expect(state.lettersAvailability).toBe(
       AVAILABILITY_STATUSES.letterEligibilityError,
     );
   });
@@ -157,7 +153,7 @@ describe('letters reducer', () => {
       value: 'bar',
     });
 
-    expect(state.requestOptions.foo).to.equal('bar');
+    expect(state.requestOptions.foo).toBe('bar');
   });
 
   it('should handle downloading a pdf', () => {
@@ -166,9 +162,7 @@ describe('letters reducer', () => {
       data: 'foo', // The letter name
     });
 
-    expect(state.letterDownloadStatus.foo).to.equal(
-      DOWNLOAD_STATUSES.downloading,
-    );
+    expect(state.letterDownloadStatus.foo).toBe(DOWNLOAD_STATUSES.downloading);
   });
 
   it('should handle successfully downloading a pdf', () => {
@@ -177,7 +171,7 @@ describe('letters reducer', () => {
       data: 'foo', // The letter name
     });
 
-    expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.success);
+    expect(state.letterDownloadStatus.foo).toBe(DOWNLOAD_STATUSES.success);
   });
 
   it('should handle failing to download a pdf', () => {
@@ -186,6 +180,6 @@ describe('letters reducer', () => {
       data: 'foo', // The letter name
     });
 
-    expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.failure);
+    expect(state.letterDownloadStatus.foo).toBe(DOWNLOAD_STATUSES.failure);
   });
 });
