@@ -16,7 +16,6 @@ const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
-const applyFragments = require('./plugins/apply-fragments');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
@@ -75,7 +74,6 @@ function defaultBuild(BUILD_OPTIONS) {
   // plugin chain.
   smith.use(filenames(), 'Add filenames for debugging');
 
-  smith.use(applyFragments(BUILD_OPTIONS), 'Apply template fragments');
   smith.use(checkCollections(BUILD_OPTIONS), 'Check collections');
   smith.use(collections(BUILD_OPTIONS.collections), 'Group collections');
   smith.use(leftRailNavResetLevels(), 'Reset left rail navigation menu levels');
