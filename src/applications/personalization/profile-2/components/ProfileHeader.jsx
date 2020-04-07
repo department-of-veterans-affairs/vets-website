@@ -45,7 +45,7 @@ const mapStateToProps = state => {
   const latestBranchOfService = orderBy(
     state?.vaProfile?.militaryInformation?.serviceHistory?.serviceHistory,
     ['endDate'],
-    ['desc'],
+    'desc',
   )[0]?.branchOfService;
 
   return {
