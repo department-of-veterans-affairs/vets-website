@@ -29,7 +29,7 @@ export const SearchResultsPage = ({
         Yellow Ribbon school search results
         {/* Screen reader total results */}
         {hasFetchedOnce && (
-          <span className="ads-u-visibility--screen-reader">
+          <span className="vads-u-visibility--screen-reader">
             search returned {totalResults} schools
           </span>
         )}
@@ -106,7 +106,7 @@ export const SearchResultsPage = ({
 SearchResultsPage.propTypes = {
   // From mapStateToProps.
   hasFetchedOnce: PropTypes.bool.isRequired,
-  totalResults: PropTypes.number.isRequired,
+  totalResults: PropTypes.number,
   // From mapDispatchToProps.
   toggleShowMobileForm: PropTypes.func.isRequired,
 };
