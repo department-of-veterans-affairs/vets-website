@@ -291,7 +291,7 @@ module.exports = env => {
           // There's no place to create a landing page at
           if (!m.rootUrl) return undefined;
 
-          const landingPagePath = path.resolve(
+          const landingPagePath = path.join(
             outputPath,
             '../',
             m.rootUrl,
