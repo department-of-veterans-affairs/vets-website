@@ -111,7 +111,7 @@ class MilitaryInformationContent extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="vads-u-margin-bottom--2">
         <LoadingSection
           isLoading={!this.props.militaryInformation}
           message="Loading military information..."

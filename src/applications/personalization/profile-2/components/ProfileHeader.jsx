@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { imagePaths } from '../constants';
+import orderBy from 'lodash/orderBy';
 
 const ProfileHeader = ({
-  userFullName: { first, middle, last },
+  userFullName: { first, middle, last, suffix },
   latestBranchOfService,
 }) => {
-  const fullName = [first, middle, last].filter(name => !!name).join(' ');
+  const fullName = [first, middle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
 
   return (
     <div className="vads-u-background-color--gray-dark vads-u-color--white vads-u-margin-bottom--2 vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center">
@@ -38,19 +41,28 @@ const ProfileHeader = ({
   );
 };
 
-const mapStateToProps = state => ({
-  // moving to state.user.hero.userFullName
-  userFullName: state.user.profile.userFullName,
-});
+const mapStateToProps = state => {
+  const latestBranchOfService = orderBy(
+    state?.vaProfile?.militaryInformation?.serviceHistory?.serviceHistory,
+    ['endDate'],
+    ['desc'],
+  )[0]?.branchOfService;
+
+  return {
+    userFullName: state?.vaProfile?.hero?.userFullName,
+    latestBranchOfService,
+  };
+};
 
 ProfileHeader.defaultProps = {
   userFullName: {
     first: '',
     middle: '',
     last: '',
+    suffix: '',
   },
   // defaulting to Army for now as placeholder
-  latestBranchOfService: 'ARMY',
+  latestBranchOfService: '',
 };
 
 ProfileHeader.propTypes = {
