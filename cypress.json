@@ -1,0 +1,7 @@
+{
+  "fixturesFolder": false,
+  "integrationFolder": "./",
+  "pluginsFile": "src/platform/testing/e2e/cypress/plugins/index.js",
+  "supportFile": "src/platform/testing/e2e/cypress/support/index.js",
+  "testFiles": "src/**/tests/**/*.cypress.spec.js?(x)"
+}
