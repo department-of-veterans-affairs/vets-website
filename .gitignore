@@ -20,6 +20,7 @@ typings.json
 typings/
 coverage
 cypress
+pacts
 .nyc_output
 .yalc
 yalc.lock
