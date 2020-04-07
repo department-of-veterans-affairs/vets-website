@@ -1,5 +1,7 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
+import { hasSessionSSO } from 'platform/user/profile/utilities';
+import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -59,6 +61,30 @@ export const mhvBaseUrl = () => {
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
+const mhvToEauthRoutes = {
+  'download-my-data': 'download_my_data',
+  'web/myhealthevet/refill-prescriptions': 'prescription_refill',
+  'secure-messaging': 'secure_messaging',
+  appointments: 'appointments',
+  'labs-tests': 'lab-tests',
+};
+
+const mhvUrlNonSSO = subroute => {
+  const mhvSubdomain = !environment.isProduction() ? 'mhv-syst' : 'www';
+
+  return `https://${mhvSubdomain}.myhealth.va.gov/mhv-portal-web/${subroute}`;
+};
+
+const mhvUrlSSO = deeplinkTarget => {
+  const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+  const eauthDeepLink = mhvToEauthRoutes[deeplinkTarget];
+
+  return `https://${envPrefix}eauth.va.gov/mhv-portal-web/eauth?deeplinking=${eauthDeepLink}`;
+};
+
+const mhvUrl = subroute =>
+  hasSessionSSO() ? mhvUrlSSO(subroute) : mhvUrlNonSSO(subroute);
+
 export const mhvToolName = appId => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
@@ -90,32 +116,32 @@ export const toolUrl = appId => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/download-my-data`,
+        url: mhvUrl('download-my-data'),
         redirect: false,
       };
 
     case widgetTypes.RX:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
+        url: mhvUrl('web/myhealthevet/refill-prescriptions'),
         redirect: true,
       };
 
     case widgetTypes.MESSAGING:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`,
+        url: mhvUrl('secure-messaging'),
         redirect: true,
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,
+        url: mhvUrl('appointments'),
         redirect: false,
       };
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/labs-tests`,
+        url: mhvUrl('labs-tests'),
         redirect: true,
       };
 
