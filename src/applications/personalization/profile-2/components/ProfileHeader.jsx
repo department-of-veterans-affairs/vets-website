@@ -32,7 +32,7 @@ const ProfileHeader = ({
           <h2 className="vads-u-font-size--h3">{fullName}</h2>
           {latestBranchOfService && (
             <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-              {latestBranchOfService}
+              United States {latestBranchOfService}
             </h3>
           )}
         </div>
