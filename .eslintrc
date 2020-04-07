@@ -10,14 +10,15 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs", "cypress"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
     "es6": true,
     "mocha": true,
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "globals": {
     "PerformanceObserver": true,
