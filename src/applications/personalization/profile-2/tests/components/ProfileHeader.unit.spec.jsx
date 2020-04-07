@@ -6,12 +6,23 @@ import ProfileHeader from '../../components/ProfileHeader';
 
 const fakeStore = {
   getState: () => ({
-    user: {
-      profile: {
+    vaProfile: {
+      hero: {
         userFullName: {
           first: 'Johnnie',
           middle: 'Leonard',
           last: 'Weaver',
+        },
+      },
+      militaryInformation: {
+        serviceHistory: {
+          serviceHistory: [
+            {
+              branchOfService: 'Army',
+              beginDate: '1/2/2004',
+              endDate: '1/2/2007',
+            },
+          ],
         },
       },
     },
@@ -43,7 +54,7 @@ describe('<ProfileHeader>', () => {
         .find('h3')
         .first()
         .text(),
-    ).to.contain('United States Army Reserve');
+    ).to.contain('United States Army');
     component.unmount();
   });
   it('should render latest service badge', () => {
