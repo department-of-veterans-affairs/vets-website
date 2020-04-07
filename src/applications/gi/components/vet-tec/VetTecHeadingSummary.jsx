@@ -50,7 +50,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
 
   const prodFlagIcons = environment.isProduction()
     ? 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2'
-    : 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3';
+    : 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
 
   return (
     <div className="heading">
@@ -79,7 +79,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           </div>
         </div>
         <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6">
-          <div className="vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5">
+          <div className="vads-u-margin-top--neg6 vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5">
             {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
         </div>

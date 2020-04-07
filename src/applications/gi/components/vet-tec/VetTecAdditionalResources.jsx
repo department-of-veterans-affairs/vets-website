@@ -65,7 +65,7 @@ export const VetTecAdditionalResourcesLinks = () => (
 
 const prodFlagAdditonalResources = environment.isProduction()
   ? 'additional-resources usa-width-one-third medium-4 small-12 column vads-u-margin-top--neg7'
-  : 'additional-resources-vettec vads-u-margin-top--neg8 usa-width-one-third medium-4 small-12 column vads-u-margin-top--neg7';
+  : 'additional-resources-vettec  usa-width-one-third medium-4 small-12 column';
 
 const VetTecAdditionalResources = () => (
   <div className={prodFlagAdditonalResources}>

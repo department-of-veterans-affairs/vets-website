@@ -37,12 +37,17 @@
     }
   }
 
-  @media (max-width: $medium-screen) {
-    .additional-resources-vettec {
-        padding-top: 4.5em;
-    }
+  @media (max-width: $medium-screen -1 ) {
+    // .additional-resources-vettec {
+       
+    // }
     .additional-resources-profile {
       padding-top: 2em;
+  }
+}
+@media (min-width: 641px) {
+  .additional-resources-vettec {
+      margin-top: -7em;
   }
 }
 
