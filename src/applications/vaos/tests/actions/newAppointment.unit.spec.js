@@ -24,6 +24,8 @@ import {
   onCalendarChange,
   hideTypeOfCareUnavailableModal,
   startNewAppointmentFlow,
+  startDirectScheduleFlow,
+  startRequestAppointmentFlow,
   requestAppointmentDateChoice,
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -55,6 +57,7 @@ import {
   FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
+  START_DIRECT_SCHEDULE_FLOW,
 } from '../../actions/newAppointment';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -812,6 +815,31 @@ describe('VAOS newAppointment actions', () => {
       );
 
       expect(action.type).to.equal(FORM_REASON_FOR_APPOINTMENT_CHANGED);
+    });
+  });
+
+  describe('startDirectScheduleFlow', () => {
+    it('should return START_DIRECT_SCHEDULE_FLOW action and record direct schedule event', () => {
+      const action = startDirectScheduleFlow();
+      expect(action.type).to.equal(START_DIRECT_SCHEDULE_FLOW);
+      const dataLayer = global.window.dataLayer;
+      expect(dataLayer[0].event).to.equal('vaos-direct-path-started');
+    });
+  });
+
+  describe('startRequestAppointmentFlow', () => {
+    it('should return START_REQUEST_APPOINTMENT_FLOW action and expected record request event if isCommunityCare === true', () => {
+      const action = startRequestAppointmentFlow(true);
+      expect(action.type).to.equal(START_REQUEST_APPOINTMENT_FLOW);
+      const dataLayer = global.window.dataLayer;
+      expect(dataLayer[0].event).to.equal('vaos-community-care-path-started');
+    });
+
+    it('should return START_REQUEST_APPOINTMENT_FLOW action and record expected request event if isCommunityCare === false', () => {
+      const action = startRequestAppointmentFlow();
+      expect(action.type).to.equal(START_REQUEST_APPOINTMENT_FLOW);
+      const dataLayer = global.window.dataLayer;
+      expect(dataLayer[0].event).to.equal('vaos-request-path-started');
     });
   });
 

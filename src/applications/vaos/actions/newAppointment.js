@@ -177,13 +177,21 @@ export function updateFacilityType(facilityType) {
 }
 
 export function startDirectScheduleFlow(appointments) {
+  recordEvent({ event: 'vaos-direct-path-started' });
+
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
     appointments,
   };
 }
 
-export function startRequestAppointmentFlow() {
+export function startRequestAppointmentFlow(isCommunityCare) {
+  recordEvent({
+    event: `vaos-${
+      isCommunityCare ? 'community-care' : 'request'
+    }-path-started`,
+  });
+
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
   };

@@ -65,4 +65,25 @@ describe('<CautionFlagHeading>', () => {
     expect(wrapper.find('li.headingFlag').length).to.equal(cautionFlags.length);
     wrapper.unmount();
   });
+
+  it('sorts caution flags by title', () => {
+    const cautionFlags = [
+      { title: 'Test flag z', id: 1 },
+      { title: 'Test flag a', id: 2 },
+    ];
+
+    const wrapper = mount(
+      <CautionFlagHeading
+        cautionFlags={cautionFlags}
+        onViewWarnings={() => {}}
+      />,
+    );
+    expect(
+      wrapper
+        .find('li.headingFlag')
+        .at(0)
+        .text(),
+    ).to.equal(cautionFlags[1].title);
+    wrapper.unmount();
+  });
 });

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 
 class AccordionItem extends React.Component {
@@ -25,10 +26,13 @@ class AccordionItem extends React.Component {
 
   render() {
     const expanded = this.state.expanded;
+    const headerClasses = classNames('accordion-button-wrapper', {
+      [this.props.headerClass]: this.props.headerClass,
+    });
     return (
       <div>
         <li>
-          <h2 aria-live="off" className="accordion-button-wrapper">
+          <h2 aria-live="off" className={headerClasses}>
             <button
               onClick={this.toggle}
               className="usa-accordion-button"
