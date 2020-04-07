@@ -95,7 +95,7 @@ jobs:
         # ESLint is disabled
 
         `vets-website` uses ESLint to help enforce code quality. In most
-        situations we would like for it to remain enabled
+        situations we would like for to remain enabled.
 
         ## What you can do
 
