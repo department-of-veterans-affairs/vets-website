@@ -352,6 +352,7 @@ const formConfig = {
         secondaryOneCaregiverThree: {
           path: 'secondaryOne-caregiver-2',
           title: 'Secondary Caregiver Information',
+          depends: formData => hasSecondaryOneCaregiver(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
