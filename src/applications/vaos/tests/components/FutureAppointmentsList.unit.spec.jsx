@@ -186,6 +186,26 @@ describe('VAOS <FutureAppointmentsList>', () => {
     tree.unmount();
   });
 
+  it('should show past appointments link if showPastAppointmentLinks is true', () => {
+    const defaultProps = {
+      appointments: {
+        future: [{}],
+        futureStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+      cancelAppointment,
+      fetchRequestMessages,
+      showScheduleButton,
+      startNewAppointmentFlow,
+      showPastAppointmentsLink: true,
+    };
+
+    const tree = mount(<FutureAppointmentsList {...defaultProps} />);
+
+    expect(tree.find('a').text()).to.equal('go to My HealtheVet');
+    tree.unmount();
+  });
+
   it('should fire a GA event when clicking past appointments link', () => {
     const defaultProps = {
       appointments: {
