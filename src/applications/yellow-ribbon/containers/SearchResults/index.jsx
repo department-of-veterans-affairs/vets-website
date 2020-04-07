@@ -158,11 +158,11 @@ export class SearchResults extends Component {
         </h2>
 
         {/* Table of Results */}
-        <div className="search-results vads-u-margin-top--2">
+        <ul className="search-results vads-u-margin-top--2 vads-u-padding--0">
           {map(results, school => (
             <SearchResult key={school?.id} school={school} />
           ))}
-        </div>
+        </ul>
 
         {/* Pagination */}
         <Pagination
