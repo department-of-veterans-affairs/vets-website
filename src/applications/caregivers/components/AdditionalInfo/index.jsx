@@ -5,10 +5,10 @@ import { links } from 'applications/caregivers/definitions/content';
 export const InjuredLineOfDutyInto = () => (
   <AdditionalInfo triggerText="Learn more about injured in the Line of Duty">
     An injury incurred or aggravated during active military service, unless the
-    injury resulted from the Veteran's or Servicemember's willful misconduct or
-    abuse of alcohol or drugs, or it occurred while that individual was avoiding
-    duty by desertion, or absent without leave which materially interfered with
-    the performance of military duty.
+    injury resulted from the Veteran&apos;s or Service member&apos;s willful
+    misconduct or abuse of alcohol or drugs, or it occurred while that
+    individual was avoiding duty by desertion, or absent without leave which
+    materially interfered with the performance of military duty.
   </AdditionalInfo>
 );
 
@@ -80,10 +80,10 @@ export const PowerOfAttorneyInfo = () => (
 
 export const RepresentativeInfo = () => (
   <AdditionalInfo triggerText="Who can be a representative?">
-    Refers to a Veteran's or Servicemember's court-appointed legal guardian or
-    special guardian Durable POA for Health Care, or other designated health
-    care agent. Attach POA/Representation documents to the application if
-    applicable.
+    Refers to a Veteran&apos;s or Service member&apos;s court-appointed legal
+    guardian or special guardian Durable POA for Health Care, or other
+    designated health care agent. Attach POA/Representation documents to the
+    application if applicable.
     <span>You can also:</span>
     <ol>
       <li>Call us at 877-222-VETS (877-222-8387)</li>

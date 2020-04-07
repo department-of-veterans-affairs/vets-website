@@ -73,7 +73,7 @@ export const SecondaryCaregiverInfo = () => (
 export const FacilityInfo = () => (
   <>
     <div className="vads-u-margin-bottom--4">
-      <AdditionalInfo triggerText="Can't find your clinic">
+      <AdditionalInfo triggerText="Can&apos;t find your clinic">
         We only include certain facilities. You should pick the medical center
         or clinic closest to your home.
       </AdditionalInfo>
