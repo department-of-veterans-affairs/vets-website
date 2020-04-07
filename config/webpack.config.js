@@ -1,12 +1,15 @@
 // Staging config. Also the default config that prod and dev are based off of.
+const path = require('path');
+const fs = require('fs');
+
+const webpack = require('webpack');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
@@ -127,11 +130,13 @@ module.exports = env => {
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
+  const outputPath = `${buildOptions.destination}/generated`;
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
-      path: `${buildOptions.destination}/generated`,
+      path: outputPath,
       publicPath: '/generated/',
       filename: !isOptimizedBuild
         ? '[name].entry.js'
@@ -279,369 +284,371 @@ module.exports = env => {
       }),
     );
   } else {
-    // TODO: Only add these plugins when we're running watch
-
-    // Add landing pages. Maybe check to see if the content is built first, and
-    // only add these development landing pages if we don't have "real" landing
-    // pages.
+    // Add landing pages for local development with the watch task
     baseConfig.plugins = baseConfig.plugins.concat(
       getAppManifests()
         .map(m => {
-          // TODO: Only create the landing pages if they're not already there from
-          // the content build
-          if (m.rootUrl) {
-            // TODO: Use rootUrl instead of entryName
-            return new HtmlWebpackPlugin({
-              // .. to back out of generated/, where the normal webpack output goes
-              filename: `../${m.rootUrl}/index.html`,
-              template:
-                m.landingPageDevTemplate ||
-                'src/platform/landing-page-dev-template.ejs',
-              // Pass data to the tempates
-              templateParameters: {
-                // Everything from the manifest file
-                ...m,
-                // With some defaults
-                loadingMessage:
-                  m.loadingMessage ||
-                  'Please wait while we load the application for you.',
-                entryName: m.entryName || 'static-pages',
-                // TODO: Get this placeholder data from another file
-                headerFooterData: {
-                  footerData: [
-                    {
-                      column: 1,
-                      href: 'https://staging.va.gov/homeless/',
-                      order: 1,
-                      target: '',
-                      title: 'Homeless Veterans',
-                    },
-                    {
-                      column: 1,
-                      href: 'https://staging.va.gov/womenvet/',
-                      order: 2,
-                      target: '',
-                      title: 'Women Veterans',
-                    },
-                    {
-                      column: 1,
-                      href: 'https://staging.va.gov/centerforminorityveterans/',
-                      order: 3,
-                      target: '',
-                      title: 'Minority Veterans',
-                    },
-                    {
-                      column: 1,
-                      href: 'https://www.ptsd.va.gov',
-                      order: 4,
-                      target: '',
-                      title: 'PTSD',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 1,
-                      href: 'https://www.mentalhealth.va.gov',
-                      order: 5,
-                      target: '',
-                      title: 'Mental health',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 1,
-                      href: 'https://staging.va.gov/adaptivesports/',
-                      order: 6,
-                      target: '',
-                      title: 'Adaptive sports and special events',
-                    },
-                    {
-                      column: 1,
-                      href: 'https://www.nrd.gov',
-                      order: 7,
-                      target: '_blank',
-                      title: 'National Resource Directory',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/vaforms/',
-                      order: 1,
-                      target: null,
-                      title: 'Find a VA form',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://www.mobile.va.gov/appstore/',
-                      order: 2,
-                      target: '_blank',
-                      title: 'Get VA mobile apps',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/jobs/',
-                      order: 3,
-                      target: null,
-                      title: 'Careers at VA',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/landing2_business.htm',
-                      order: 4,
-                      target: null,
-                      title: 'Doing business with VA',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/ogc/accreditation.asp',
-                      order: 5,
-                      target: null,
-                      title: 'VA claims accreditation',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://www.accesstocare.va.gov/ourproviders/',
-                      order: 6,
-                      target: '_blank',
-                      title: 'Find a VA health care provider',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/vso/',
-                      order: 7,
-                      target: null,
-                      title: 'Veterans Service Organizations (VSOs)',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/statedva.htm',
-                      order: 8,
-                      target: null,
-                      title: 'State Veterans Affairs offices',
-                    },
-                    {
-                      column: 2,
-                      href: 'https://staging.va.gov/welcome-kit/',
-                      order: 9,
-                      target: null,
-                      title: 'Print your VA welcome kit',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://www.blogs.va.gov/VAntage/',
-                      order: 1,
-                      target: '_blank',
-                      title: 'VAntage Point blog',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href:
-                        'https://public.govdelivery.com/accounts/USVA/subscriber/new/',
-                      order: 2,
-                      target: '_blank',
-                      title: 'Email updates',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://www.facebook.com/VeteransAffairs',
-                      order: 3,
-                      target: '_blank',
-                      title: 'Facebook',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://www.instagram.com/deptvetaffairs/',
-                      order: 4,
-                      target: '_blank',
-                      title: 'Instagram',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://www.twitter.com/DeptVetAffairs/',
-                      order: 5,
-                      target: '_blank',
-                      title: 'Twitter',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://www.flickr.com/photos/VeteransAffairs/',
-                      order: 6,
-                      target: '_blank',
-                      title: 'Flickr',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://www.youtube.com/user/DeptVetAffairs',
-                      order: 7,
-                      target: '_blank',
-                      title: 'YouTube',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 3,
-                      href: 'https://staging.va.gov/opa/socialmedia.asp',
-                      order: 8,
-                      target: null,
-                      title: 'All VA social media',
-                    },
-                    {
-                      column: 4,
-                      href: 'https://staging.va.gov/find-locations/',
-                      order: 1,
-                      target: null,
-                      title: 'Find a VA location',
-                    },
-                    {
-                      column: 4,
-                      href: 'https://iris.custhelp.va.gov/app/ask',
-                      order: 2,
-                      target: null,
-                      title: 'Ask a question',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 4,
-                      label: 'Call MyVA311:',
-                      href: 'tel:18446982311',
-                      order: 3,
-                      target: null,
-                      title: '844-698-2311',
-                    },
-                    {
-                      column: 4,
-                      order: 4,
-                      title: 'TTY: 711',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://www.section508.va.gov',
-                      order: 1,
-                      target: null,
-                      title: 'Accessibility',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/orm/NOFEAR_Select.asp',
-                      order: 2,
-                      target: null,
-                      title: 'No FEAR Act Data',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/oig/',
-                      order: 3,
-                      target: null,
-                      title: 'Office of Inspector General',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/opa/Plain_Language.asp',
-                      order: 4,
-                      target: null,
-                      title: 'Plain language',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/privacy-policy/',
-                      order: 5,
-                      target: null,
-                      title: 'Privacy, policies, and legal information',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/privacy/',
-                      order: 6,
-                      target: null,
-                      title: 'VA Privacy Service',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/foia/',
-                      order: 7,
-                      target: null,
-                      title: 'Freedom of Information Act (FOIA)',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://www.usa.gov/',
-                      order: 8,
-                      target: '_blank',
-                      title: 'USA.gov',
-                      rel: 'noopener noreferrer',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/scorecard/',
-                      order: 9,
-                      target: null,
-                      title: 'VA.gov scorecard',
-                    },
-                    {
-                      column: 'bottom_rail',
-                      href: 'https://staging.va.gov/veterans-portrait-project/',
-                      order: 10,
-                      target: null,
-                      title: 'Veterans Portrait Project',
-                    },
-                  ],
-                  megaMenuData: [
-                    {
-                      title: 'VA Benefits and Health Care',
-                      menuSections: [
-                        {
-                          title: 'Health care',
-                          links: {
-                            seeAllLink: {
-                              text: 'View all in health care',
-                              href: 'https://staging.va.gov/health-care',
-                            },
-                            columnOne: {
-                              title: 'Get health care benefits',
-                              links: [
-                                {
-                                  text: 'About VA health benefits',
-                                  href:
-                                    'https://staging.va.gov/health-care/about-va-health-benefits',
-                                },
-                                {
-                                  text: 'How to apply',
-                                  href:
-                                    'https://staging.va.gov/health-care/how-to-apply',
-                                },
-                                {
-                                  text: 'Family and caregiver health benefits',
-                                  href:
-                                    'https://staging.va.gov/health-care/family-caregiver-benefits',
-                                },
-                                {
-                                  text: 'Apply now for health care',
-                                  href:
-                                    'https://staging.va.gov/health-care/apply/application',
-                                },
-                              ],
-                            },
+          // There's no place to create a landing page at
+          if (!m.rootUrl) return undefined;
+
+          const landingPagePath = path.resolve(
+            outputPath,
+            '../',
+            m.rootUrl,
+            'index.html',
+          );
+
+          // Only create a new landing page if one doesn't already exist from a
+          // previous build. This is useful for using the content build page for
+          // testing.
+          if (fs.existsSync(landingPagePath)) return undefined;
+
+          return new HtmlWebpackPlugin({
+            filename: landingPagePath,
+            template:
+              m.landingPageDevTemplate ||
+              'src/platform/landing-page-dev-template.ejs',
+            // Pass data to the tempates
+            templateParameters: {
+              // Everything from the manifest file
+              ...m,
+              // With some defaults
+              loadingMessage:
+                m.loadingMessage ||
+                'Please wait while we load the application for you.',
+              entryName: m.entryName || 'static-pages',
+              // TODO: Get this placeholder data from another file
+              headerFooterData: {
+                footerData: [
+                  {
+                    column: 1,
+                    href: 'https://staging.va.gov/homeless/',
+                    order: 1,
+                    target: '',
+                    title: 'Homeless Veterans',
+                  },
+                  {
+                    column: 1,
+                    href: 'https://staging.va.gov/womenvet/',
+                    order: 2,
+                    target: '',
+                    title: 'Women Veterans',
+                  },
+                  {
+                    column: 1,
+                    href: 'https://staging.va.gov/centerforminorityveterans/',
+                    order: 3,
+                    target: '',
+                    title: 'Minority Veterans',
+                  },
+                  {
+                    column: 1,
+                    href: 'https://www.ptsd.va.gov',
+                    order: 4,
+                    target: '',
+                    title: 'PTSD',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 1,
+                    href: 'https://www.mentalhealth.va.gov',
+                    order: 5,
+                    target: '',
+                    title: 'Mental health',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 1,
+                    href: 'https://staging.va.gov/adaptivesports/',
+                    order: 6,
+                    target: '',
+                    title: 'Adaptive sports and special events',
+                  },
+                  {
+                    column: 1,
+                    href: 'https://www.nrd.gov',
+                    order: 7,
+                    target: '_blank',
+                    title: 'National Resource Directory',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/vaforms/',
+                    order: 1,
+                    target: null,
+                    title: 'Find a VA form',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://www.mobile.va.gov/appstore/',
+                    order: 2,
+                    target: '_blank',
+                    title: 'Get VA mobile apps',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/jobs/',
+                    order: 3,
+                    target: null,
+                    title: 'Careers at VA',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/landing2_business.htm',
+                    order: 4,
+                    target: null,
+                    title: 'Doing business with VA',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/ogc/accreditation.asp',
+                    order: 5,
+                    target: null,
+                    title: 'VA claims accreditation',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://www.accesstocare.va.gov/ourproviders/',
+                    order: 6,
+                    target: '_blank',
+                    title: 'Find a VA health care provider',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/vso/',
+                    order: 7,
+                    target: null,
+                    title: 'Veterans Service Organizations (VSOs)',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/statedva.htm',
+                    order: 8,
+                    target: null,
+                    title: 'State Veterans Affairs offices',
+                  },
+                  {
+                    column: 2,
+                    href: 'https://staging.va.gov/welcome-kit/',
+                    order: 9,
+                    target: null,
+                    title: 'Print your VA welcome kit',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://www.blogs.va.gov/VAntage/',
+                    order: 1,
+                    target: '_blank',
+                    title: 'VAntage Point blog',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href:
+                      'https://public.govdelivery.com/accounts/USVA/subscriber/new/',
+                    order: 2,
+                    target: '_blank',
+                    title: 'Email updates',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://www.facebook.com/VeteransAffairs',
+                    order: 3,
+                    target: '_blank',
+                    title: 'Facebook',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://www.instagram.com/deptvetaffairs/',
+                    order: 4,
+                    target: '_blank',
+                    title: 'Instagram',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://www.twitter.com/DeptVetAffairs/',
+                    order: 5,
+                    target: '_blank',
+                    title: 'Twitter',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://www.flickr.com/photos/VeteransAffairs/',
+                    order: 6,
+                    target: '_blank',
+                    title: 'Flickr',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://www.youtube.com/user/DeptVetAffairs',
+                    order: 7,
+                    target: '_blank',
+                    title: 'YouTube',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 3,
+                    href: 'https://staging.va.gov/opa/socialmedia.asp',
+                    order: 8,
+                    target: null,
+                    title: 'All VA social media',
+                  },
+                  {
+                    column: 4,
+                    href: 'https://staging.va.gov/find-locations/',
+                    order: 1,
+                    target: null,
+                    title: 'Find a VA location',
+                  },
+                  {
+                    column: 4,
+                    href: 'https://iris.custhelp.va.gov/app/ask',
+                    order: 2,
+                    target: null,
+                    title: 'Ask a question',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 4,
+                    label: 'Call MyVA311:',
+                    href: 'tel:18446982311',
+                    order: 3,
+                    target: null,
+                    title: '844-698-2311',
+                  },
+                  {
+                    column: 4,
+                    order: 4,
+                    title: 'TTY: 711',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://www.section508.va.gov',
+                    order: 1,
+                    target: null,
+                    title: 'Accessibility',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/orm/NOFEAR_Select.asp',
+                    order: 2,
+                    target: null,
+                    title: 'No FEAR Act Data',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/oig/',
+                    order: 3,
+                    target: null,
+                    title: 'Office of Inspector General',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/opa/Plain_Language.asp',
+                    order: 4,
+                    target: null,
+                    title: 'Plain language',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/privacy-policy/',
+                    order: 5,
+                    target: null,
+                    title: 'Privacy, policies, and legal information',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/privacy/',
+                    order: 6,
+                    target: null,
+                    title: 'VA Privacy Service',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/foia/',
+                    order: 7,
+                    target: null,
+                    title: 'Freedom of Information Act (FOIA)',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://www.usa.gov/',
+                    order: 8,
+                    target: '_blank',
+                    title: 'USA.gov',
+                    rel: 'noopener noreferrer',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/scorecard/',
+                    order: 9,
+                    target: null,
+                    title: 'VA.gov scorecard',
+                  },
+                  {
+                    column: 'bottom_rail',
+                    href: 'https://staging.va.gov/veterans-portrait-project/',
+                    order: 10,
+                    target: null,
+                    title: 'Veterans Portrait Project',
+                  },
+                ],
+                megaMenuData: [
+                  {
+                    title: 'VA Benefits and Health Care',
+                    menuSections: [
+                      {
+                        title: 'Health care',
+                        links: {
+                          seeAllLink: {
+                            text: 'View all in health care',
+                            href: 'https://staging.va.gov/health-care',
+                          },
+                          columnOne: {
+                            title: 'Get health care benefits',
+                            links: [
+                              {
+                                text: 'About VA health benefits',
+                                href:
+                                  'https://staging.va.gov/health-care/about-va-health-benefits',
+                              },
+                              {
+                                text: 'How to apply',
+                                href:
+                                  'https://staging.va.gov/health-care/how-to-apply',
+                              },
+                              {
+                                text: 'Family and caregiver health benefits',
+                                href:
+                                  'https://staging.va.gov/health-care/family-caregiver-benefits',
+                              },
+                              {
+                                text: 'Apply now for health care',
+                                href:
+                                  'https://staging.va.gov/health-care/apply/application',
+                              },
+                            ],
                           },
                         },
-                      ],
-                    },
-                  ],
-                },
+                      },
+                    ],
+                  },
+                ],
               },
-              // Don't inject all the assets into all the landing pages
-              // The assets we want are referenced in the template itself
-              inject: false,
-            });
-          }
-
-          // If there's no rootUrl, we can't create a landing page for it
-          return undefined;
+            },
+            // Don't inject all the assets into all the landing pages
+            // The assets we want are referenced in the template itself
+            inject: false,
+          });
         })
         .filter(p => p),
     );
