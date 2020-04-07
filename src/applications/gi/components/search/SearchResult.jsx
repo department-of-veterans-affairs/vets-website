@@ -70,11 +70,13 @@ export class SearchResult extends React.Component {
                 </h2>
               </div>
             </div>
-            {(schoolClosing || cautionFlags.length > 0) && (
+            {(schoolClosing || (cautionFlags && cautionFlags.length > 0)) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {renderCautionAlert({ cautionFlags })}
+                  {cautionFlags &&
+                    cautionFlags.length > 0 &&
+                    renderCautionAlert({ cautionFlags })}
                 </div>
               </div>
             )}
