@@ -37,7 +37,7 @@ export class SearchResults extends Component {
     const justRefreshed = prevProps.fetching && !this.props.fetching;
 
     if (justRefreshed) {
-      focusElement('[data-forms-focus]');
+      focusElement('[data-display-results-header]');
     }
   }
 
@@ -139,7 +139,7 @@ export class SearchResults extends Component {
       return (
         <h2
           className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
-          data-forms-focus
+          data-display-results-header
         >
           No results found.
         </h2>
@@ -153,11 +153,11 @@ export class SearchResults extends Component {
     return (
       <>
         <h2
-          className="va-introtext vads-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
-          data-forms-focus
+          className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-display-results-header
         >
           Displaying {resultsStartNumber}
-          <span className="usa-sr-only">through</span>
+          <span className="vads-u-visibility--screen-reader">through</span>
           <span aria-hidden="true" role="presentation">
             &ndash;
           </span>
