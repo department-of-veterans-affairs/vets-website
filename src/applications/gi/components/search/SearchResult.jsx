@@ -25,7 +25,6 @@ export class SearchResult extends React.Component {
       version,
       schoolClosing,
       schoolClosingOn,
-      cautionFlags,
       estimated,
       facilityCode,
       name,
@@ -38,6 +37,9 @@ export class SearchResult extends React.Component {
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
+    const cautionFlags = [...this.props.cautionFlags].filter(
+      flag => flag.title,
+    );
 
     const linkTo = {
       pathname: `profile/${facilityCode}`,

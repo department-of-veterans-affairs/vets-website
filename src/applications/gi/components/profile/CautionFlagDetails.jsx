@@ -2,10 +2,13 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const CautionFlagDetails = ({ cautionFlags }) => {
-  if (cautionFlags && cautionFlags.length > 0) {
+  const validFlags = cautionFlags
+    ? [...cautionFlags].filter(flag => flag.title)
+    : [];
+  if (validFlags.length > 0) {
     return (
       <div className="cautionFlagDetails">
-        {[...cautionFlags]
+        {validFlags
           .sort(
             (a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1),
           )

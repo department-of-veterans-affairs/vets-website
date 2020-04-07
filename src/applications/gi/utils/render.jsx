@@ -49,6 +49,7 @@ export const renderSchoolClosingAlert = result => {
 export const renderCautionAlert = result => {
   const { cautionFlags } = result;
   if (cautionFlags.length === 0) return null;
+
   // Prod flag for 6803
   if (!environment.isProduction()) {
     return (
