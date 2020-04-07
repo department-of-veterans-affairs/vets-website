@@ -19,8 +19,18 @@ const fakeStore = {
           serviceHistory: [
             {
               branchOfService: 'Army',
-              beginDate: '1/2/2004',
-              endDate: '1/2/2007',
+              beginDate: '2004-2-1',
+              endDate: '2007-2-1',
+            },
+            {
+              branchOfService: 'Navy',
+              beginDate: '2007-2-1',
+              endDate: '2009-2-1',
+            },
+            {
+              branchOfService: 'Coast Guard',
+              beginDate: '2009-2-1',
+              endDate: '2019-2-1',
             },
           ],
         },
@@ -47,14 +57,15 @@ describe('<ProfileHeader>', () => {
     ).to.contain('Johnnie Leonard Weaver');
     component.unmount();
   });
-  it('should render military service', () => {
+  it('should render most recent military service', () => {
+    // this will render the most recent military service regardless of where it lands in the array
     const component = mount(<ProfileHeader store={fakeStore} />);
     expect(
       component
         .find('h3')
         .first()
         .text(),
-    ).to.contain('United States Army');
+    ).to.contain('United States Coast Guard');
     component.unmount();
   });
   it('should render latest service badge', () => {

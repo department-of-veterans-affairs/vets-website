@@ -1,4 +1,5 @@
 import { getData } from '../util';
+import moment from 'moment';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
@@ -33,7 +34,31 @@ export function fetchMilitaryInformation() {
     dispatch({
       type: FETCH_MILITARY_INFORMATION_SUCCESS,
       militaryInformation: {
-        serviceHistory: await getData('/profile/service_history'),
+        serviceHistory: {
+          serviceHistory: [
+            {
+              branchOfService: 'Army',
+              beginDate: moment(),
+              endDate: moment(),
+            },
+            {
+              branchOfService: 'Coast Guard',
+              beginDate: moment(),
+              endDate: moment(),
+            },
+            {
+              branchOfService: 'Marine Corps',
+              beginDate: moment(),
+              endDate: moment(),
+            },
+            {
+              branchOfService: 'Air Force',
+              beginDate: moment(),
+              endDate: moment(),
+            },
+          ],
+        },
+        // await getData('/profile/service_history'),
       },
     });
   };

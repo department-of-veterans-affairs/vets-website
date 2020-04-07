@@ -43,13 +43,13 @@ const ProfileHeader = ({
 
 const mapStateToProps = state => {
   const latestBranchOfService = orderBy(
-    state?.vaProfile?.militaryInformation?.serviceHistory?.serviceHistory,
+    state.vaProfile?.militaryInformation?.serviceHistory?.serviceHistory,
     ['endDate'],
     'desc',
   )[0]?.branchOfService;
 
   return {
-    userFullName: state?.vaProfile?.hero?.userFullName,
+    userFullName: state.vaProfile?.hero?.userFullName,
     latestBranchOfService,
     showBadgeImage: Boolean(imagePaths[latestBranchOfService]),
   };
