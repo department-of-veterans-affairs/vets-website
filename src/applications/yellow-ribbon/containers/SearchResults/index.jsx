@@ -9,7 +9,7 @@ import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk, updatePageAction } from '../../actions';
+import { fetchResultsThunk } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
 
 export class SearchResults extends Component {
@@ -42,7 +42,7 @@ export class SearchResults extends Component {
   }
 
   onPageSelect = page => {
-    const { fetchResults, perPage, updatePage } = this.props;
+    const { fetchResults, perPage } = this.props;
 
     // Derive the current name params.
     const queryParams = new URLSearchParams(window.location.search);
@@ -53,9 +53,6 @@ export class SearchResults extends Component {
     const name = queryParams.get('name') || '';
     const numberOfStudents = queryParams.get('numberOfStudents') || '';
     const state = queryParams.get('state') || '';
-
-    // Update the page.
-    updatePage(page);
 
     // Refetch results.
     fetchResults({
@@ -192,7 +189,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
-  updatePage: page => dispatch(updatePageAction(page)),
 });
 
 export default connect(
