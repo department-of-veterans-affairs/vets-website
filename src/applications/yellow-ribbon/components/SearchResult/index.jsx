@@ -111,11 +111,13 @@ export const SearchResult = ({ school }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
     <p className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-margin--0">
+      <span className="sr-only">School name</span>
       {deriveNameLabel(school)}
     </p>
 
     {/* School Location */}
     <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+      <span className="sr-only">School location</span>
       {deriveLocationLabel(school)}
     </p>
 
@@ -129,6 +131,7 @@ export const SearchResult = ({ school }) => (
             (per student, per year)
           </p>
           <p className="vads-u-margin--0">
+            <span className="sr-only">Maximum contribution amount</span>
             {deriveMaxAmountLabel(school)}
           </p>
         </div>
@@ -138,6 +141,7 @@ export const SearchResult = ({ school }) => (
           Funding available for
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+          <span className="sr-only">Eligible students</span>
           {deriveEligibleStudentsLabel(school)}
         </p>
 
@@ -146,6 +150,7 @@ export const SearchResult = ({ school }) => (
           School website
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+          <span className="sr-only">School website</span>
           {deriveInstURLLabel(school)}
         </p>
       </div>
@@ -156,6 +161,7 @@ export const SearchResult = ({ school }) => (
           Degree type
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
+          <span className="sr-only">Degree level</span>
           {deriveDegreeLevel(school)}
         </p>
 
@@ -164,6 +170,7 @@ export const SearchResult = ({ school }) => (
           School or program
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
+          <span className="sr-only">School or program</span>
           {deriveDivisionProfessionalSchool(school)}
         </p>
       </div>
