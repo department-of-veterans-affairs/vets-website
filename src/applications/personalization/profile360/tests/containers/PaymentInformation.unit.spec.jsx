@@ -27,7 +27,6 @@ describe('<PaymentInformation/>', () => {
     fetchPaymentInformation() {},
     savePaymentInformation() {},
     editModalToggled() {},
-    editModalFieldChanged() {},
     paymentAccount,
     paymentInformationUiState: {
       isEditing: false,

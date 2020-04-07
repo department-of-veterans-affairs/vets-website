@@ -4,7 +4,10 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo/formInfo';
+import {
+  FacilityInfo,
+  PrimaryHealthCoverage,
+} from 'applications/caregivers/components/AdditionalInfo/formInfo';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
@@ -26,7 +29,7 @@ export default {
   sharedItems: {
     fullNameUI,
     dateOfBirthUI: currentOrPastDateUI('Date of Birth'),
-    addressUI: address.uiSchema('Current Street Address', false),
+    addressUI: address.uiSchema(' ', false),
     primaryPhoneNumberUI: phoneUI(
       'Primary Telephone Number (Including Area Code)',
     ),
@@ -133,9 +136,7 @@ export default {
       },
     },
     'view:primaryHealthCareEnrollment': {
-      'ui:title':
-        'Check all that the Primary Caregiver is currently enrolled in',
-      'ui:description': '',
+      'ui:description': PrimaryHealthCoverage,
       [primaryCaregiverFields.medicaidEnrolled]: {
         'ui:title': 'Enrolled in Medicaid?',
       },
@@ -173,9 +174,6 @@ export default {
       fullNameUI: {
         ...fullNameUI,
       },
-      addressUI: {
-        ...address.uiSchema('Current Street Address', false),
-      },
     },
     secondaryTwo: {
       ssnUI: {
@@ -201,9 +199,6 @@ export default {
       },
       dateOfBirthUI: {
         ...currentOrPastDateUI('Date of Birth'),
-      },
-      addressUI: {
-        ...address.uiSchema('Current Street Address', false),
       },
       primaryPhoneNumberUI: {
         ...phoneUI('Primary Telephone Number (Including Area Code)'),
