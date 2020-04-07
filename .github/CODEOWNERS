@@ -43,5 +43,6 @@ src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-caregiver-f
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
 
 # Booz Allen Team
+src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers
 src/applications/gi @department-of-veterans-affairs/bah-code-reviewers
 src/applications/edu-benefits/1995 @department-of-veterans-affairs/bah-code-reviewers
