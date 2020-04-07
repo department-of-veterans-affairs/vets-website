@@ -115,7 +115,7 @@ export class SearchResults extends Component {
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading search results..." />;
+      return <LoadingIndicator setFocus message="Loading search results..." />;
     }
 
     // Show the error alert box if there was an error.
@@ -137,7 +137,10 @@ export class SearchResults extends Component {
     // Show no results found message.
     if (!results.length) {
       return (
-        <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        <h2
+          className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
+        >
           No results found.
         </h2>
       );
