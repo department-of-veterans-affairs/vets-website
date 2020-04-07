@@ -67,7 +67,7 @@ describe('686 current marriage co-habitation status', () => {
     );
     selectRadio(form, 'root_spouseDoesLiveWithVeteran', 'N');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -91,29 +91,17 @@ describe('686 current marriage co-habitation status', () => {
     );
     changeDropdown(
       form,
-      'select#root_currentSpouseAddress_currentSpouseCountry',
+      'select#root_currentSpouseAddress_countryName',
       'United States',
     );
     fillData(
       form,
-      'input#root_currentSpouseAddress_currentSpouseStreet',
+      'input#root_currentSpouseAddress_addressLine1',
       '123 Back St',
     );
-    fillData(
-      form,
-      'input#root_currentSpouseAddress_currentSpouseCity',
-      'SomeCity',
-    );
-    fillData(
-      form,
-      'input#root_currentSpouseAddress_currentSpouseState',
-      'SomeState',
-    );
-    fillData(
-      form,
-      'input#root_currentSpouseAddress_currentSpousePostalCode',
-      '12345',
-    );
+    fillData(form, 'input#root_currentSpouseAddress_city', 'SomeCity');
+    changeDropdown(form, 'select#root_currentSpouseAddress_stateCode', 'AL');
+    fillData(form, 'input#root_currentSpouseAddress_zipCode', '12345');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

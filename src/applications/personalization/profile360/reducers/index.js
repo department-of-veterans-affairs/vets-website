@@ -15,7 +15,6 @@ import {
   PAYMENT_INFORMATION_SAVE_SUCCEEDED,
   PAYMENT_INFORMATION_SAVE_FAILED,
   PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED,
-  PAYMENT_INFORMATION_EDIT_MODAL_FIELD_CHANGED,
 } from '../actions/paymentInformation';
 
 const editModalFormsInitialState = {
@@ -88,13 +87,6 @@ function vaProfile(state = initialState, action) {
         newState,
       );
     }
-
-    case PAYMENT_INFORMATION_EDIT_MODAL_FIELD_CHANGED:
-      return set(
-        `paymentInformationUiState.editModalForm.${action.fieldName}`,
-        action.fieldValue,
-        state,
-      );
 
     case PAYMENT_INFORMATION_SAVE_STARTED:
       return set('paymentInformationUiState.isSaving', true, state);

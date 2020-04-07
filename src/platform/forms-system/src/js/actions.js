@@ -3,6 +3,7 @@ import moment from 'moment';
 import { transformForSubmit } from './helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { timeFromNow } from './utilities/date';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -78,6 +79,8 @@ export function setViewedPages(pageKeys) {
 }
 
 export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
+  // This item should have been set in any previous API calls
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('POST', submitUrl);
@@ -128,6 +131,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
+    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
     req.withCredentials = true;
 
     req.send(body);

@@ -40,6 +40,7 @@ class InstitutionSearchForm extends React.Component {
               search={this.props.search}
               filters={this.props.filters}
               handleFilterChange={this.props.handleFilterChange}
+              showModal={this.props.showModal}
             />
             <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
             <OnlineClassesFilter
