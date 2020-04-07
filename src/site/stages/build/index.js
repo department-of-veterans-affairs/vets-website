@@ -60,16 +60,28 @@ const updateRobots = require('./plugins/update-robots');
  * this script no longer interacts with the Webpack output at all.
  */
 function preserveWebpackOutput(metalsmithDestination) {
+  /* eslint-disable no-console */
   const webpackBuildDirName = 'generated';
   const tempDir = path.join(__dirname, '../../../../tmp/', webpackBuildDirName);
   const webpackDir = path.join(metalsmithDestination, webpackBuildDirName);
 
+  const webpackDirExists = fs.existsSync(webpackDir);
+
   // Immediately copy the Webpack output to a new directory
-  fs.moveSync(webpackDir, tempDir);
+  if (webpackDirExists) fs.moveSync(webpackDir, tempDir);
+  else
+    console.log(
+      'No Webpack output found. Skipping the asset preservation step.',
+    );
 
   return () => {
-    fs.moveSync(tempDir, webpackDir);
+    if (webpackDirExists) fs.moveSync(tempDir, webpackDir);
+    else
+      console.log(
+        'No Webpack output found. Skipping the asset preservation step.',
+      );
   };
+  /* eslint-enable no-console */
 }
 
 function defaultBuild(BUILD_OPTIONS) {
