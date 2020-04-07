@@ -10,6 +10,7 @@ import map from 'lodash/map';
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk, updatePageAction } from '../../actions';
+import { focusElement } from 'platform/utilities/ui';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -31,6 +32,14 @@ export class SearchResults extends Component {
     perPage: PropTypes.number.isRequired,
     totalResults: PropTypes.number,
   };
+
+  componentWillUpdate(nextProps) {
+    const justRefreshed = nextProps.fetching && !this.props.fetching;
+
+    if (justRefreshed) {
+      focusElement('[data-forms-focus]');
+    }
+  }
 
   onPageSelect = page => {
     const { fetchResults, perPage, updatePage } = this.props;
@@ -143,7 +152,10 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <h2 className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        <h2
+          className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-forms-focus
+        >
           Displaying {resultsStartNumber}-{resultsEndNumber} of {totalResults}{' '}
           results
         </h2>
