@@ -56,9 +56,9 @@ export const SearchResultsPage = ({ toggleShowMobileForm }) => (
           </button>
 
           {/* Search Form Header */}
-          <h3 className="vads-u-display--none vads-u-margin-top--1p5 medium-screen:vads-u-display--flex">
+          <h2 className="vads-u-display--none vads-u-font-size--h3 vads-u-margin-top--1p5 medium-screen:vads-u-display--flex">
             Search criteria
-          </h3>
+          </h2>
 
           {/* Search Form Fields */}
           <SearchForm />
