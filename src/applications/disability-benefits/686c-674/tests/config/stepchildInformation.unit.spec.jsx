@@ -51,8 +51,8 @@ describe('686 stepchild information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(11);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).to.equal(10);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 
@@ -70,7 +70,7 @@ describe('686 stepchild information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -90,12 +90,17 @@ describe('686 stepchild information', () => {
     );
     fillData(form, 'input#root_whoDoesTheStepchildLiveWith_first', 'Bill');
     fillData(form, 'input#root_whoDoesTheStepchildLiveWith_last', 'Bob');
-    fillData(form, 'input#root_stepchildAddress_street', '112 Some Street');
+    fillData(
+      form,
+      'input#root_stepchildAddress_addressLine1',
+      '112 Some Street',
+    );
     fillData(form, 'input#root_stepchildAddress_city', 'The City');
-    fillData(form, 'input#root_stepchildAddress_postal', '12345');
+    fillData(form, 'input#root_stepchildAddress_zipCode', '12345');
+    changeDropdown(form, 'select#root_stepchildAddress_stateCode', 'AL');
     changeDropdown(
       form,
-      'select#root_stepchildAddress_country',
+      'select#root_stepchildAddress_countryName',
       'United States',
     );
 
