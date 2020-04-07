@@ -9,7 +9,11 @@ import SearchResults from '../../containers/SearchResults';
 import manifest from '../../manifest.json';
 import { toggleShowMobileFormAction } from '../../actions';
 
-export const SearchResultsPage = ({ toggleShowMobileForm }) => (
+export const SearchResultsPage = ({
+  hasFetchedOnce,
+  toggleShowMobileForm,
+  totalResults,
+}) => (
   <>
     {/* Breadcrumbs */}
     <Breadcrumbs className="vads-u-padding--1p5 medium-screen:vads-u-pading--0">
@@ -23,6 +27,12 @@ export const SearchResultsPage = ({ toggleShowMobileForm }) => (
       {/* Title */}
       <h1 className="vads-u-margin-bottom--0">
         Yellow Ribbon school search results
+        {/* Screen reader total results */}
+        {hasFetchedOnce && (
+          <span className="ads-u-visibility--screen-reader">
+            search returned {totalResults} schools
+          </span>
+        )}
       </h1>
 
       <div className="vads-l-row">
@@ -94,15 +104,23 @@ export const SearchResultsPage = ({ toggleShowMobileForm }) => (
 );
 
 SearchResultsPage.propTypes = {
+  // From mapStateToProps.
+  hasFetchedOnce: PropTypes.bool.isRequired,
+  totalResults: PropTypes.number.isRequired,
   // From mapDispatchToProps.
   toggleShowMobileForm: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  hasFetchedOnce: state.yellowRibbonReducer.hasFetchedOnce,
+  totalResults: state.yellowRibbonReducer.totalResults,
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleShowMobileForm: () => dispatch(toggleShowMobileFormAction()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SearchResultsPage);
