@@ -61,3 +61,31 @@ export const FacilityInfo = () => (
     </a>
   </>
 );
+
+export const PrimaryHealthCoverage = () => (
+  <>
+    <div className="vads-u-margin-bottom--4">
+      <p>Check all that the primary caregiver is currently enrolled in</p>
+      <div className="vads-u-margin-top--2">
+        <AdditionalInfo triggerText="Learn more about health coverage">
+          <p>
+            <b>Medicaid</b> is a government health program for eligible
+            low-income individuals and families and people with disabilities.
+          </p>
+
+          <p>
+            <b>Medicare</b> is a federal health insurance program providing
+            coverage for people who are 65 years or older or who meet who meet
+            special criteria. Part A insurance covers hospital care, skilled
+            nursing and nursing home care, hospice, and home health services.
+          </p>
+
+          <p>
+            <b>Tricare</b> is a cost-sharing program that covers the price of
+            some health care services and supplies
+          </p>
+        </AdditionalInfo>
+      </div>
+    </div>
+  </>
+);
