@@ -91,7 +91,15 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
-      OVERALL_REVIEW_COMMENT: ESLint is disabled - _please_ wait for a VSP review.
+      OVERALL_REVIEW_COMMENT: >
+        # ESLint is disabled
+        `vets-website` uses ESLint to help enforce code quality. In most
+        situations we would like for it to remain enabled
+
+        ## What you can do
+        See if the code can be refactored to avoid disabling ESLint, or wait for
+        a VSP review.
+
       LINE_COMMENT: ESLint disabled here
     steps:
       - checkout
