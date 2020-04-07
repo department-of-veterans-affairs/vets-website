@@ -29,10 +29,10 @@ export class StemEligibilityView extends React.Component {
   iconText = indication =>
     indication ? `You answered yes to` : `You answered no to`;
 
-  renderCheck = (classes, title, text) => (
+  renderCheck = (classes, iconTitle, title, text) => (
     <li className="vads-u-margin-bottom--0">
       <span className="fa-li">
-        <i className={classes} aria-hidden="true" />
+        <i className={classes} aria-hidden="true" title={iconTitle} />
       </span>
       <span className="vads-u-visibility--screen-reader">{title}</span>
       {text}
@@ -50,8 +50,9 @@ export class StemEligibilityView extends React.Component {
 
     const text = 'Post-9/11 GI Bill beneficiary or Fry Scholarship recipient';
     const title = question ? `You didn't answer` : this.iconText(check);
+    const iconTitle = `${title} ${text}`;
 
-    return this.renderCheck(classes, title, text);
+    return this.renderCheck(classes, iconTitle, title, text);
   };
 
   renderExhaustionOfBenefitsCheck = () => {
@@ -64,10 +65,13 @@ export class StemEligibilityView extends React.Component {
       exhaustionOfBenefits || exhaustionOfBenefitsAfterPursuingTeachingCert;
     const exhaustionOfBenefitsText =
       'Have used all your education benefits or are within 6 months of doing so';
+    const title = this.iconText(exhaustionOfBenefitsCheck);
+    const iconTitle = `${title} ${exhaustionOfBenefitsText}`;
 
     return this.renderCheck(
       this.iconClass(exhaustionOfBenefitsCheck),
-      this.iconText(exhaustionOfBenefitsCheck),
+      iconTitle,
+      title,
       exhaustionOfBenefitsText,
     );
   };
@@ -84,10 +88,13 @@ export class StemEligibilityView extends React.Component {
         certification
       </span>
     );
+    const title = this.iconText(isEnrolledStemCheck);
+    const iconTitle = `${title} Are enrolled in a STEM undergraduate degree program, or have earned a STEM degree and are now pursuing a teaching certification`;
 
     return this.renderCheck(
       this.iconClass(isEnrolledStemCheck),
-      this.iconText(isEnrolledStemCheck),
+      iconTitle,
+      title,
       isEnrolledStemText,
     );
   };
