@@ -209,4 +209,40 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(tree.find('PastAppointmentsDateDropdown').exists()).to.be.true;
     tree.unmount();
   });
+
+  it('should display AlertBox if fetch failed', () => {
+    const defaultProps = {
+      appointments: {
+        past: [{}],
+        pastStatus: FETCH_STATUS.failed,
+        facilityData: {},
+      },
+      dateRangeOptions,
+      selectedDateRangeIndex: 0,
+    };
+
+    const tree = mount(<PastAppointmentsList {...defaultProps} />);
+
+    expect(tree.find('AlertBox').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should display no appointments message if no appointments', () => {
+    const defaultProps = {
+      appointments: {
+        past: [],
+        pastStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+      dateRangeOptions,
+      selectedDateRangeIndex: 0,
+    };
+
+    const tree = mount(<PastAppointmentsList {...defaultProps} />);
+
+    expect(tree.find('h4').text()).to.equal(
+      'You don’t have any appointments in the selected date range',
+    );
+    tree.unmount();
+  });
 });

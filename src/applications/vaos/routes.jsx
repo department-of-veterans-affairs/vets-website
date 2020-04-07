@@ -60,12 +60,8 @@ export default function createRoutesWithStore(store) {
     <Route component={VAOSApp}>
       <Route path="/" component={AppointmentsPage}>
         <IndexRedirect to="upcoming" />
-        <Route
-          component={FutureAppointmentsList}
-          key="upcoming"
-          path="upcoming"
-        />
-        <Route component={PastAppointmentsList} key="past" path="past" />
+        <Route component={FutureAppointmentsList} path="upcoming" />
+        <Route component={PastAppointmentsList} path="past" />
       </Route>
       <Route
         path="new-appointment"

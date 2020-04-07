@@ -32,16 +32,17 @@ export default function FutureAppointmentsList({
   const hasAppointments =
     futureStatus === FETCH_STATUS.succeeded && future?.length > 0;
 
+  let content;
+
   if (loading) {
-    return (
+    content = (
       <div className="vads-u-margin-y--8">
         <LoadingIndicator message="Loading your appointments..." />
       </div>
     );
   } else if (hasAppointments) {
-    return (
+    content = (
       <>
-        <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
         {showPastAppointmentsLink && (
           <>
             <p>
@@ -113,22 +114,29 @@ export default function FutureAppointmentsList({
       </>
     );
   } else if (futureStatus === FETCH_STATUS.failed) {
-    return (
+    content = (
       <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
         We’re having trouble getting your upcoming appointments. Please try
         again later.
       </AlertBox>
     );
+  } else {
+    content = (
+      <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <NoAppointments
+          showScheduleButton={showScheduleButton}
+          isCernerOnlyPatient={isCernerOnlyPatient}
+          startNewAppointmentFlow={startNewAppointmentFlow}
+        />
+      </div>
+    );
   }
 
   return (
-    <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-      <NoAppointments
-        showScheduleButton={showScheduleButton}
-        isCernerOnlyPatient={isCernerOnlyPatient}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-      />
-    </div>
+    <>
+      <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+      {content}
+    </>
   );
 }
 

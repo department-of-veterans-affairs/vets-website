@@ -26,6 +26,7 @@ describe('VAOS <FutureAppointmentsList>', () => {
     };
 
     const tree = mount(<FutureAppointmentsList {...defaultProps} />);
+    expect(tree.find('h3').text()).to.equal('Upcoming appointments');
     expect(tree.find('LoadingIndicator').length).to.equal(1);
     tree.unmount();
   });
@@ -229,6 +230,46 @@ describe('VAOS <FutureAppointmentsList>', () => {
     expect(global.window.dataLayer[0].event).to.equal(
       'vaos-past-appointments-legacy-link-clicked',
     );
+    tree.unmount();
+  });
+
+  it('should display AlertBox if fetch failed', () => {
+    const defaultProps = {
+      appointments: {
+        future: [{}],
+        futureStatus: FETCH_STATUS.failed,
+        facilityData: {},
+      },
+      cancelAppointment,
+      fetchRequestMessages,
+      showScheduleButton,
+      startNewAppointmentFlow,
+      showPastAppointmentsLink: true,
+    };
+
+    const tree = mount(<FutureAppointmentsList {...defaultProps} />);
+
+    expect(tree.find('AlertBox').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should display NoAppointments if no appointments', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+      cancelAppointment,
+      fetchRequestMessages,
+      showScheduleButton,
+      startNewAppointmentFlow,
+      showPastAppointmentsLink: true,
+    };
+
+    const tree = mount(<FutureAppointmentsList {...defaultProps} />);
+
+    expect(tree.find('NoAppointments').exists()).to.be.true;
     tree.unmount();
   });
 });
