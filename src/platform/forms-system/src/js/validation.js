@@ -15,6 +15,9 @@ import {
   isValidPartialMonthYearInPast,
 } from './utilities/validations';
 
+/* eslint-disable-next-line no-console */
+console.log('Boo');
+
 /*
  * This contains the code for supporting our own custom validations and messages
  */
