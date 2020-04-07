@@ -131,7 +131,9 @@ export const SearchResult = ({ school }) => (
             (per student, per year)
           </p>
           <p className="vads-u-margin--0">
-            <span className="sr-only">Maximum contribution amount</span>
+            <span className="sr-only">
+              Maximum Yellow Ribbon funding amount (per student, per year)
+            </span>
             {deriveMaxAmountLabel(school)}
           </p>
         </div>

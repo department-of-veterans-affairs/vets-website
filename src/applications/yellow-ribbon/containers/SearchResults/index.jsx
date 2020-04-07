@@ -33,8 +33,8 @@ export class SearchResults extends Component {
     totalResults: PropTypes.number,
   };
 
-  componentWillUpdate(nextProps) {
-    const justRefreshed = nextProps.fetching && !this.props.fetching;
+  componentDidUpdate(prevProps) {
+    const justRefreshed = prevProps.fetching && !this.props.fetching;
 
     if (justRefreshed) {
       focusElement('[data-forms-focus]');
@@ -153,11 +153,15 @@ export class SearchResults extends Component {
     return (
       <>
         <h2
-          className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          className="va-introtext vads-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-forms-focus
         >
-          Displaying {resultsStartNumber}-{resultsEndNumber} of {totalResults}{' '}
-          results
+          Displaying {resultsStartNumber}
+          <span className="usa-sr-only">through</span>
+          <span aria-hidden="true" role="presentation">
+            &ndash;
+          </span>
+          {resultsEndNumber} of {totalResults} results
         </h2>
 
         {/* Table of Results */}
