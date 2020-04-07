@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PrimaryCaregiverInfo as PrimaryAdditional } from 'applications/caregivers/components/AdditionalInfo/index';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { links } from 'applications/caregivers/definitions/content';
 
 export const VetInfo = () => (
   <p>
@@ -21,7 +21,34 @@ export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
 
     {additionalInfo && (
       <section>
-        <PrimaryAdditional />
+        <AdditionalInfo triggerText="What is a primary family caregiver">
+          <p>
+            A Family Member (defined herein), who is designated as a "primary
+            provider of personal care services" under
+            <a
+              href={links.caregiverDefinition.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {links.caregiverDefinition.label}
+            </a>
+            and who meets the requirements of
+            <a
+              href={links.familyCaregiver.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {links.familyCaregiver.label}
+            </a>
+          </p>
+          <a
+            href={links.caregiverBenefits.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {links.caregiverBenefits.label}
+          </a>
+        </AdditionalInfo>
       </section>
     )}
   </div>
@@ -53,11 +80,11 @@ export const FacilityInfo = () => (
     </div>
 
     <a
-      href="https://www.va.gov/find-locations"
+      href={links.findLocations.link}
       rel="noopener noreferrer"
       target="_blank"
     >
-      Find locations with the VA facility locator
+      {links.findLocations.label}
     </a>
   </>
 );

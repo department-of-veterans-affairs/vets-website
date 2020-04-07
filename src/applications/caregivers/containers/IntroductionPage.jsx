@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
 import {
   CaregiverSupportInfo,
@@ -31,11 +32,11 @@ const IntroductionPage = ({ route, router }) => {
       </p>
 
       <a
-        href="https://www.va.gov/health-care/family-caregiver-benefits/comprehensive-assistance/"
+        href={links.caregiverBenefits.link}
         target="_blank"
         rel="noopener noreferrer"
       >
-        Learn more about family caregiver benefits and find out if you qualify
+        {links.caregiverBenefits.label}
       </a>
     </>
   );
@@ -71,11 +72,11 @@ const IntroductionPage = ({ route, router }) => {
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
                 <a
-                  href="https://www.caregiver.va.gov/help_landing.asp"
+                  href={links.caregiverHelp.link}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Get help filing your claim.
+                  {links.caregiverHelp.label}
                 </a>
               </p>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { links } from 'applications/caregivers/definitions/content';
 
 export const InjuredLineOfDutyInto = () => (
   <AdditionalInfo triggerText="Learn more about injured in the Line of Duty">
@@ -11,65 +12,34 @@ export const InjuredLineOfDutyInto = () => (
   </AdditionalInfo>
 );
 
-export const PrimaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="What is a primary family caregiver">
-    <p>
-      A Family Member (defined herein), who is designated as a "primary provider
-      of personal care services" under
-      <a
-        href="https://www.law.cornell.edu/uscode/text/38/1720G"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        38 U.S.C. §1720G(a)(7)(A);
-      </a>
-      and who meets the requirements of
-      <a
-        href="https://www.law.cornell.edu/cfr/text/38/71.25"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        38 C.F.R. §71.25.
-      </a>
-    </p>
-    <a
-      href="https://www.va.gov/healthbenefits/resources/Caregiver_Eligibility_Check.asp"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Find out if you qualify
-    </a>
-  </AdditionalInfo>
-);
-
 export const SecondaryCaregiverInfo = () => (
   <AdditionalInfo triggerText="What is a secondary family caregiver">
     <p>
       An individual approved as a "provider of personal care services" for the
       eligible Veteran under{' '}
       <a
-        href="https://www.law.cornell.edu/uscode/text/38/1720G"
+        href={links.caregiverDefinition.link}
         target="_blank"
         rel="noopener noreferrer"
       >
-        38 U.S.C. §1720G(a)(7)(A);
+        {links.caregiverDefinition.label}
       </a>
       meets the requirements of{' '}
       <a
-        href="https://www.law.cornell.edu/cfr/text/38/71.25"
+        href={links.caregiverEligibility.link}
         target="_blank"
         rel="noopener noreferrer"
       >
-        38 C.F.R. §71.25;
+        {links.caregiverEligibility.label}
       </a>
       and generally serves as a back-up to the Primary Family Caregiver.
     </p>
     <a
-      href="https://www.va.gov/healthbenefits/resources/Caregiver_Eligibility_Check.asp"
+      href={links.caregiverBenefits.link}
       target="_blank"
       rel="noopener noreferrer"
     >
-      Find out if you qualify
+      {links.caregiverBenefits.label}
     </a>
   </AdditionalInfo>
 );
@@ -80,12 +50,8 @@ export const CHAMPVAInfo = () => (
       CHAMPVA is a cost-sharing program that covers the price of some health
       care services and supplies.
     </p>
-    <a
-      href="https://www.va.gov/health-care/family-caregiver-benefits/champva/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Learn more about CHAMPVA
+    <a href={links.CHAMPVAInfo.link} target="_blank" rel="noopener noreferrer">
+      {links.CHAMPVAInfo.label}
     </a>
   </AdditionalInfo>
 );
@@ -96,11 +62,11 @@ export const CaregiverSupportInfo = () => (
     community resources. They are located at every VA medical center and
     specialize in caregiving issues.
     <a
-      href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+      href={links.caregiverSupportCoordinators.link}
       target="_blank"
       rel="noopener noreferrer"
     >
-      Find a caregiver support coordinator near you.
+      {links.caregiverSupportCoordinators.label}
     </a>
   </AdditionalInfo>
 );
@@ -124,11 +90,11 @@ export const RepresentativeInfo = () => (
       <li>
         Find a{' '}
         <a
-          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+          href={links.caregiverSupportCoordinators.link}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Caregiver Support Coordinator
+          {links.caregiverSupportCoordinators.label}
         </a>
       </li>
       <li>Contact the National Caregiver Support line at 855-260-3274</li>
