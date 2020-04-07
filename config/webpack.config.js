@@ -307,7 +307,7 @@ module.exports = env => {
             filename: landingPagePath,
             template:
               m.landingPageDevTemplate ||
-              'src/platform/landing-page-dev-template.ejs',
+              'src/platform/landing-pages/dev-template.ejs',
             // Pass data to the tempates
             templateParameters: {
               // Everything from the manifest file
