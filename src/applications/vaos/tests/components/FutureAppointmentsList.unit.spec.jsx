@@ -185,4 +185,30 @@ describe('VAOS <FutureAppointmentsList>', () => {
 
     tree.unmount();
   });
+
+  it('should fire a GA event when clicking past appointments link', () => {
+    const defaultProps = {
+      appointments: {
+        future: [{}],
+        futureStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+      cancelAppointment,
+      fetchRequestMessages,
+      showScheduleButton,
+      startNewAppointmentFlow,
+      showPastAppointmentsLink: true,
+    };
+
+    const tree = mount(<FutureAppointmentsList {...defaultProps} />);
+
+    tree
+      .find('a')
+      .at(0)
+      .simulate('click');
+    expect(global.window.dataLayer[0].event).to.equal(
+      'vaos-past-appointments-legacy-link-clicked',
+    );
+    tree.unmount();
+  });
 });

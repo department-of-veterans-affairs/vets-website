@@ -14,12 +14,15 @@ describe('VAOS <AppointmentsPage>', () => {
         futureStatus: FETCH_STATUS.loading,
         facilityData: {},
       },
+      location: {
+        pathname: '/upcoming',
+      },
     };
 
     const fetchFutureAppointments = sinon.spy();
     const fetchPastAppointments = sinon.spy();
 
-    const tree = shallow(
+    const tree = mount(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
         fetchPastAppointments={fetchPastAppointments}
@@ -27,7 +30,6 @@ describe('VAOS <AppointmentsPage>', () => {
       />,
     );
     expect(fetchFutureAppointments.called).to.be.true;
-    expect(tree.find('FutureAppointmentsList').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -52,9 +54,7 @@ describe('VAOS <AppointmentsPage>', () => {
       />,
     );
 
-    expect(tree.find('Tabs').exists()).to.be.true;
-    expect(tree.find('Tab').length).to.equal(2);
-    expect(tree.find('TabPanel').length).to.equal(2);
+    expect(tree.find('TabNav').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -65,7 +65,7 @@ describe('VAOS <AppointmentsPage>', () => {
         futureStatus: FETCH_STATUS.loading,
         facilityData: {},
       },
-      location: { query: { view: 'past' } },
+      location: { pathname: '/past' },
     };
 
     const fetchFutureAppointments = sinon.spy();
@@ -81,7 +81,7 @@ describe('VAOS <AppointmentsPage>', () => {
 
     expect(fetchFutureAppointments.called).to.be.true;
     expect(fetchPastAppointments.called).to.be.false;
-    expect(tree.find('Tabs').exists()).to.be.false;
+    expect(tree.find('TabNav').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -118,6 +118,9 @@ describe('VAOS <AppointmentsPage>', () => {
         facilityData: {},
       },
       isWelcomeModalDismissed: false,
+      location: {
+        pathname: '/upcoming',
+      },
     };
 
     const fetchFutureAppointments = sinon.spy();
@@ -151,6 +154,9 @@ describe('VAOS <AppointmentsPage>', () => {
         futureStatus: FETCH_STATUS.succeeded,
         facilityData: {},
       },
+      location: {
+        pathname: '/upcoming',
+      },
     };
 
     const startNewAppointmentFlow = sinon.spy();
@@ -177,48 +183,12 @@ describe('VAOS <AppointmentsPage>', () => {
     tree.unmount();
   });
 
-  it('should fire a GA event when clicking past appointments link', () => {
-    const defaultProps = {
-      appointments: {
-        future: [],
-        futureStatus: FETCH_STATUS.succeeded,
-        facilityData: {},
-      },
-    };
-
-    const startNewAppointmentFlow = sinon.spy();
-    const fetchFutureAppointments = sinon.spy();
-    const fetchPastAppointments = sinon.spy();
-
-    const tree = shallow(
-      <AppointmentsPage
-        {...defaultProps}
-        showScheduleButton
-        fetchFutureAppointments={fetchFutureAppointments}
-        fetchPastAppointments={fetchPastAppointments}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-      />,
-    );
-
-    tree
-      .find('a')
-      .at(0)
-      .simulate('click');
-    expect(global.window.dataLayer[0].event).to.equal(
-      'vaos-past-appointments-legacy-link-clicked',
-    );
-    tree.unmount();
-  });
-
   it('should load future tab if no "view" query is provided', () => {
     const defaultProps = {
       appointments: {
         future: [],
         futureStatus: FETCH_STATUS.notStarted,
         facilityData: {},
-      },
-      location: {
-        query: undefined,
       },
     };
 
@@ -239,7 +209,6 @@ describe('VAOS <AppointmentsPage>', () => {
 
     expect(fetchFutureAppointments.called).to.be.true;
     expect(fetchPastAppointments.called).to.be.false;
-    expect(tree.find('FutureAppointmentsList').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -253,9 +222,7 @@ describe('VAOS <AppointmentsPage>', () => {
         facilityData: {},
       },
       location: {
-        query: {
-          view: 'past',
-        },
+        pathname: '/past',
       },
     };
 
@@ -276,7 +243,6 @@ describe('VAOS <AppointmentsPage>', () => {
 
     expect(fetchFutureAppointments.called).to.be.false;
     expect(fetchPastAppointments.called).to.be.true;
-    expect(tree.find('PastAppointmentsList').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -290,9 +256,7 @@ describe('VAOS <AppointmentsPage>', () => {
         facilityData: {},
       },
       location: {
-        query: {
-          view: 'past',
-        },
+        pathname: '/past',
       },
     };
 
@@ -327,6 +291,9 @@ describe('VAOS <AppointmentsPage>', () => {
         pastStatus: FETCH_STATUS.notStarted,
         facilityData: {},
       },
+      location: {
+        pathname: '/past',
+      },
     };
 
     const startNewAppointmentFlow = sinon.spy();
@@ -348,91 +315,6 @@ describe('VAOS <AppointmentsPage>', () => {
     instance.onPastAppointmentDateRangeChange({ target: { value: 1 } });
     expect(tree.state('selectedPastDateRangeIndex')).to.equal(1);
     expect(fetchPastAppointments.called).to.be.true;
-    tree.unmount();
-  });
-
-  it('should fetch past and push route on change tab to past', () => {
-    const push = sinon.spy();
-    const defaultProps = {
-      appointments: {
-        future: [],
-        futureStatus: FETCH_STATUS.notStarted,
-        past: [],
-        pastStatus: FETCH_STATUS.notStarted,
-        facilityData: {},
-      },
-      router: {
-        push,
-      },
-    };
-
-    const startNewAppointmentFlow = sinon.spy();
-    const fetchFutureAppointments = sinon.spy();
-    const fetchPastAppointments = sinon.spy();
-
-    const tree = shallow(
-      <AppointmentsPage
-        {...defaultProps}
-        showScheduleButton
-        showPastAppointments
-        fetchFutureAppointments={fetchFutureAppointments}
-        fetchPastAppointments={fetchPastAppointments}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-      />,
-    );
-
-    const instance = tree.instance();
-    expect(tree.state('tabIndex')).to.equal(0);
-    instance.onSelectTab(1);
-    expect(fetchPastAppointments.called).to.be.true;
-    expect(push.called).to.be.true;
-    expect(push.firstCall.args[0]).to.equal('?view=past');
-    expect(tree.state('tabIndex')).to.equal(1);
-    tree.unmount();
-  });
-
-  it('should fetch future and push route on change tab to future', () => {
-    const push = sinon.spy();
-    const defaultProps = {
-      appointments: {
-        future: [],
-        futureStatus: FETCH_STATUS.notStarted,
-        past: [],
-        pastStatus: FETCH_STATUS.notStarted,
-        facilityData: {},
-      },
-      router: {
-        push,
-      },
-      location: {
-        query: {
-          view: 'past',
-        },
-      },
-    };
-
-    const startNewAppointmentFlow = sinon.spy();
-    const fetchFutureAppointments = sinon.spy();
-    const fetchPastAppointments = sinon.spy();
-
-    const tree = shallow(
-      <AppointmentsPage
-        {...defaultProps}
-        showScheduleButton
-        showPastAppointments
-        fetchFutureAppointments={fetchFutureAppointments}
-        fetchPastAppointments={fetchPastAppointments}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-      />,
-    );
-
-    const instance = tree.instance();
-    expect(tree.state('tabIndex')).to.equal(1);
-    instance.onSelectTab(0);
-    expect(fetchFutureAppointments.called).to.be.true;
-    expect(push.called).to.be.true;
-    expect(push.firstCall.args[0]).to.equal('');
-    expect(tree.state('tabIndex')).to.equal(0);
     tree.unmount();
   });
 

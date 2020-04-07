@@ -1,7 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
@@ -14,6 +15,7 @@ export default function FutureAppointmentsList({
   fetchRequestMessages,
   isCernerOnlyPatient,
   showCancelButton,
+  showPastAppointmentsLink,
   showScheduleButton,
   startNewAppointmentFlow,
 }) {
@@ -38,6 +40,29 @@ export default function FutureAppointmentsList({
   } else if (hasAppointments) {
     return (
       <>
+        <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+        {showPastAppointmentsLink && (
+          <>
+            <p>
+              To view past appointments you’ve made,{' '}
+              <a
+                href={`https://${
+                  !environment.isProduction() ? 'mhv-syst' : 'www'
+                }.myhealth.va.gov/mhv-portal-web/appointments`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  recordEvent({
+                    event: 'vaos-past-appointments-legacy-link-clicked',
+                  })
+                }
+              >
+                go to My HealtheVet
+              </a>
+              .
+            </p>
+          </>
+        )}
         <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
             const type = getAppointmentType(appt);
@@ -105,12 +130,3 @@ export default function FutureAppointmentsList({
     </div>
   );
 }
-
-FutureAppointmentsList.propTypes = {
-  appointments: PropTypes.object.isRequired,
-  cancelAppointment: PropTypes.func.isRequired,
-  fetchRequestMessages: PropTypes.func.isRequired,
-  showCancelButton: PropTypes.bool,
-  showScheduleButton: PropTypes.bool,
-  startNewAppointmentFlow: PropTypes.func.isRequired,
-};
