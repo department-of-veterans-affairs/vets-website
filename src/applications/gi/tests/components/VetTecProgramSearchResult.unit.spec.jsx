@@ -82,38 +82,37 @@ describe('<VetTecProgramSearchResult>', () => {
     expect(wrapper.find('.info-flag').text()).to.eq('TBD');
     wrapper.unmount();
   });
-});
 
-it('should display school closing and caution alerts', () => {
-  const props = {
-    ...defaultProps,
-    result: {
-      ...defaultProps.result,
-      schoolClosing: true,
-      cautionFlags: [{ reason: 'reason for caution', id: '1' }],
-    },
-  };
-  const wrapper = mount(<VetTecProgramSearchResult {...props} />);
-  expect(wrapper.find('.usa-alert')).to.have.lengthOf(2);
-  wrapper.unmount();
-});
+  it('should display school closing and caution alerts', () => {
+    const props = {
+      ...defaultProps,
+      result: {
+        ...defaultProps.result,
+        schoolClosing: true,
+        cautionFlags: [{ title: 'reason for caution', id: '1' }],
+      },
+    };
+    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    expect(wrapper.find('.usa-alert')).to.have.lengthOf(2);
+    wrapper.unmount();
+  });
 
-it('should display multiple caution alerts', () => {
-  const props = {
-    ...defaultProps,
-    result: {
-      ...defaultProps.result,
-
-      cautionFlags: [
-        { reason: 'reason one', id: '1' },
-        { reason: 'reason two', id: '2' },
-        { reason: 'reason three', id: '3' },
-        { reason: 'reason four', id: '4' },
-      ],
-    },
-  };
-  const wrapper = mount(<VetTecProgramSearchResult {...props} />);
-  const reasonList = wrapper.find('.usa-alert-text').find('ul');
-  expect(reasonList.children()).to.have.lengthOf(4);
-  wrapper.unmount();
+  it('should display multiple caution alerts', () => {
+    const props = {
+      ...defaultProps,
+      result: {
+        ...defaultProps.result,
+        cautionFlags: [
+          { title: 'reason one', id: '1' },
+          { title: 'reason two', id: '2' },
+          { title: 'reason three', id: '3' },
+          { title: 'reason four', id: '4' },
+        ],
+      },
+    };
+    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    const reasonList = wrapper.find('.usa-alert-text').find('ul');
+    expect(reasonList.children()).to.have.lengthOf(4);
+    wrapper.unmount();
+  });
 });
