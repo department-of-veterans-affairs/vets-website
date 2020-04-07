@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
@@ -82,3 +83,10 @@ export default function PastAppointmentsList({
     </>
   );
 }
+
+PastAppointmentsList.propTypes = {
+  appointments: PropTypes.object,
+  dateRangeOptions: PropTypes.array,
+  selectedDateRangeIndex: PropTypes.number,
+  onDateRangeChange: PropTypes.func,
+};

@@ -127,14 +127,6 @@ export class AppointmentsPage extends Component {
       isCernerOnlyPatient,
     } = this.props;
 
-    // const tabClasses = classNames(
-    //   'vaos-appts__tab',
-    //   'vads-u-background-color--gray-light-alt',
-    //   'vads-u-margin--0',
-    //   'vads-u-display--inline-block',
-    //   'vads-u-text-align--center',
-    // );
-
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         <Breadcrumbs />

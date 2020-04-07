@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
@@ -130,3 +131,12 @@ export default function FutureAppointmentsList({
     </div>
   );
 }
+
+FutureAppointmentsList.propTypes = {
+  appointments: PropTypes.object,
+  cancelAppointment: PropTypes.func,
+  fetchRequestMessages: PropTypes.func,
+  showCancelButton: PropTypes.bool,
+  showScheduleButton: PropTypes.bool,
+  startNewAppointmentFlow: PropTypes.func,
+};
