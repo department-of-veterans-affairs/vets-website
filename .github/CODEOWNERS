@@ -37,7 +37,7 @@ src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities
 # Caregiver
 src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
-# ---/VSA
+# /--- VSA
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
