@@ -143,7 +143,7 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        <h2 className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
           Displaying {resultsStartNumber}-{resultsEndNumber} of {totalResults}{' '}
           results
         </h2>
