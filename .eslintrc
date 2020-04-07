@@ -11,7 +11,7 @@
     }
   },
   "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs", "cypress"],
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:cypress/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
