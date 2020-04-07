@@ -61,7 +61,6 @@ ProfileHeader.defaultProps = {
     last: '',
     suffix: '',
   },
-  // defaulting to Army for now as placeholder
   latestBranchOfService: '',
 };
 
