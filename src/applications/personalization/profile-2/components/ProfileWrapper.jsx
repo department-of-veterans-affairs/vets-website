@@ -46,7 +46,7 @@ class ProfileWrapper extends Component {
   }
 
   // content to show if the component is waiting for data to load
-  loadingContent = (
+  loadingContent = () => (
     <div className="vads-u-margin-y--5">
       <LoadingIndicator setFocus message="Loading your information..." />
     </div>
@@ -54,7 +54,7 @@ class ProfileWrapper extends Component {
 
   // content to show after data has loaded
   // note that `children` will be passed in via React Router.
-  mainContent = (
+  mainContent = () => (
     <>
       <ProfileHeader />
       <div className="usa-grid usa-grid-full">
@@ -68,9 +68,9 @@ class ProfileWrapper extends Component {
 
   renderContent = () => {
     if (this.props.showLoader) {
-      return this.loadingContent;
+      return this.loadingContent();
     }
-    return this.mainContent;
+    return this.mainContent();
   };
 
   render() {
