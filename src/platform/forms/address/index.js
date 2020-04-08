@@ -1,7 +1,3 @@
-import _ from 'lodash';
-
-import { isNotBlank, isBlank, isValidRequiredField } from '../validations';
-
 export const countries = [
   { value: 'USA', label: 'United States' },
   { value: 'AFG', label: 'Afghanistan' },
@@ -359,43 +355,4 @@ export function isValidUSZipCode(value) {
 
 export function isValidCanPostalCode(value) {
   return /^[a-zA-Z]\d[a-zA-Z][ -]{0,1}\d[a-zA-Z]\d$/.test(value);
-}
-
-export function isValidAddressField(field) {
-  const initialOk =
-    isNotBlank(field.street.value) &&
-    isNotBlank(field.city.value) &&
-    isNotBlank(field.country.value);
-
-  let isValidPostalCode = true;
-
-  if (field.country.value === 'USA') {
-    isValidPostalCode =
-      isValidPostalCode &&
-      isValidRequiredField(isValidUSZipCode, field.postalCode);
-  }
-
-  if (field.country.value === 'CAN') {
-    isValidPostalCode =
-      isValidPostalCode &&
-      isValidRequiredField(isValidCanPostalCode, field.postalCode);
-  }
-
-  // if we have a defined list of values, they will
-  // be set as the state and zipcode keys
-  if (_.hasIn(states, field.country.value)) {
-    return initialOk && isNotBlank(field.state.value) && isValidPostalCode;
-  }
-  // if the entry was non-USA/CAN/MEX, only postal is
-  // required, not provinceCode
-  return initialOk && isNotBlank(field.postalCode.value);
-}
-
-export function isBlankAddress(address) {
-  return (
-    isBlank(address.city.value) &&
-    isBlank(address.state.value) &&
-    isBlank(address.street.value) &&
-    isBlank(address.postalCode.value)
-  );
 }
