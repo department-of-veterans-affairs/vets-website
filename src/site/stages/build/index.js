@@ -67,7 +67,7 @@ function preserveWebpackOutput(metalsmithDestination) {
   const webpackDirExists = fs.existsSync(webpackDir);
 
   // Immediately copy the Webpack output to a new directory
-  if (webpackDirExists) fs.moveSync(webpackDir, tempDir);
+  if (webpackDirExists) fs.moveSync(webpackDir, tempDir, { overwrite: true });
 
   return () => {
     /* eslint-disable no-console */
