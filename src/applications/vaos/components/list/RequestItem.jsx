@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import {
-  getRequestTimeToCall,
-  sentenceCase,
-  getRealFacilityId,
-} from '../../utils/appointment';
+import { formatBestTimetoCall, sentenceCase } from '../../utils/appointment';
 
 import { APPOINTMENT_STATUS, TIME_TEXT } from '../../utils/constants';
-import FacilityAddress from '../FacilityAddress';
+import Status from './Status';
+import RequestFacilityLocation from './RequestFacilityLocation';
+import RequestCommunityCareLocation from './RequestCommunityCareLocation';
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -80,58 +78,29 @@ export default class AppointmentRequestListItem extends React.Component {
         >
           {sentenceCase(appointment.typeOfCare)} appointment
         </h3>
-        <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
-          <div className="vads-u-margin-right--1">
-            {cancelled ? (
-              <i aria-hidden="true" className="fas fa-exclamation-circle" />
-            ) : (
-              <i aria-hidden="true" className="fas fa-exclamation-triangle" />
-            )}
-          </div>
-          <span className="vads-u-font-weight--bold vads-u-flex--1">
-            <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
-              {cancelled ? (
-                <span id={`card-${index}-status`}>Canceled</span>
-              ) : (
-                <>
-                  <strong id={`card-${index}-status`}>Pending</strong>{' '}
-                  <div className="vads-u-font-weight--normal">
-                    The time and date of this appointment are still to be
-                    determined.
-                  </div>
-                </>
-              )}
-            </div>
-          </span>
-        </div>
+        <Status status={appointment.status} index={index} />
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
+          <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {appointment.isCommunityCare
                   ? 'Preferred provider'
-                  : appointment.friendlyLocationName ||
-                    appointment.facility.name}
+                  : appointment.facilityName}
               </dt>
               <dd>
-                {!!facility && (
-                  <FacilityAddress facility={facility} showDirectionsLink />
+                {appointment.isCommunityCare && (
+                  <RequestCommunityCareLocation appointment={appointment} />
                 )}
-                {!facility && (
-                  <a
-                    href={`/find-locations/facility/vha_${getRealFacilityId(
-                      appointment.facility.facilityCode,
-                    )}`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    View facility information
-                  </a>
+                {!appointment.isCommunityCare && (
+                  <RequestFacilityLocation
+                    facility={facility}
+                    facilityId={appointment.facility.facilityCode}
+                  />
                 )}
               </dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
+          <div className="vads-u-flex--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 Preferred date and time
@@ -174,7 +143,7 @@ export default class AppointmentRequestListItem extends React.Component {
                     {appointment.phoneNumber}
                     <br />
                     <span className="vads-u-font-style--italic">
-                      {getRequestTimeToCall(appointment)}
+                      {formatBestTimetoCall(appointment.bestTimetoCall)}
                     </span>
                   </dd>
                 </dl>

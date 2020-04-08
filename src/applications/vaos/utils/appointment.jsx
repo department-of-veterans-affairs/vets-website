@@ -55,7 +55,7 @@ function isVideoVisit(appt) {
 }
 
 export function getVideoVisitLink(appt) {
-  return appt.vvsAppointments[0]?.patients?.[0]?.virtualMeetingRoom?.url;
+  return appt.vvsAppointments?.[0]?.patients?.[0]?.virtualMeetingRoom?.url;
 }
 
 export function titleCase(str) {
@@ -186,8 +186,8 @@ function getRequestDateOptions(appt) {
   return options;
 }
 
-export function getRequestTimeToCall(appt) {
-  const times = appt.bestTimetoCall.map(t => t.toLowerCase());
+export function formatBestTimetoCall(timesToCall) {
+  const times = timesToCall.map(t => t.toLowerCase());
   if (times.length === 1) {
     return `Call ${times[0]}`;
   } else if (times.length === 2) {
@@ -331,7 +331,7 @@ export function sortMessages(a, b) {
 }
 
 function getPurposeOfVisit(appt) {
-  switch (appt.appointmentType) {
+  switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.ccRequest:
       return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
         ?.short;
@@ -351,14 +351,12 @@ function getPurposeOfVisit(appt) {
  * @returns
  */
 function getAppointmentDuration(appt) {
-  if (appt.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    const appointmentLength = parseInt(
-      appt.vdsAppointments[0]?.appointmentLength,
-      10,
-    );
-    return isNaN(appointmentLength) ? 60 : appointmentLength;
-  }
-  return 60;
+  const appointmentLength = parseInt(
+    appt.vdsAppointments?.[0]?.appointmentLength ||
+      appt.vvsAppointments?.[0]?.duration,
+    10,
+  );
+  return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 /**
  * Returns formatted address from facility details object
@@ -483,7 +481,7 @@ function getInstructions(appointment) {
 }
 
 function getAppointmentStatus(appointment) {
-  switch (appointment.appointmentType) {
+  switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
     case APPOINTMENT_TYPES.ccRequest:
@@ -506,32 +504,45 @@ function getAppointmentStatus(appointment) {
   }
 }
 
-export function transformAppointment(appointment) {
-  const appointmentWithTypes = {
-    ...appointment,
-    isPastAppointment: false,
+export function addAppointmentTypes(appointment) {
+  return {
     appointmentType: getAppointmentType(appointment),
     videoType: getVideoType(appointment),
     isCommunityCare: isCommunityCare(appointment),
   };
+}
 
-  const isRequest =
-    appointmentWithTypes.appointmentType === APPOINTMENT_TYPES.ccRequest ||
-    appointmentWithTypes.appointmentType === APPOINTMENT_TYPES.vaRequest;
+export function transformAppointment(appointment) {
+  const appointmentTypes = addAppointmentTypes(appointment);
 
-  return {
-    ...appointmentWithTypes,
+  const appointmentData = {
+    ...appointmentTypes,
     apiData: appointment,
-    instructions: getInstructions(appointmentWithTypes),
-    duration: getAppointmentDuration(appointmentWithTypes),
-    appointmentDate: isRequest
-      ? null
-      : getMomentConfirmedDate(appointmentWithTypes),
-    dateOptions: isRequest ? getRequestDateOptions(appointmentWithTypes) : null,
-    status: getAppointmentStatus(appointmentWithTypes),
-    typeOfCare: appointment.appointmentType,
-    purposeOfVisit: getPurposeOfVisit(appointmentWithTypes),
+    isPastAppointment: false,
+    instructions: getInstructions(appointment),
+    duration: getAppointmentDuration(appointment),
+    appointmentDate: getMomentConfirmedDate(appointment),
+    status: getAppointmentStatus(appointment),
+    clinicId: appointment.clinicId,
+    facilityId: appointment.facilityId,
+    videoLink: getVideoVisitLink(appointment),
+    id: appointment.id,
+    clinicName:
+      appointment.clinicFriendlyName ||
+      appointment.vdsAppointments?.[0]?.clinic?.name,
   };
+
+  if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccAppointment) {
+    return {
+      ...appointmentData,
+      address: appointment.address,
+      providerPractice: appointment.providerPractice,
+      providerName: appointment.name,
+      providerPhone: appointment.providerPhone,
+    };
+  }
+
+  return appointmentData;
 }
 
 export function transformPastAppointment(appointment) {
@@ -539,4 +550,35 @@ export function transformPastAppointment(appointment) {
     ...transformAppointment(appointment),
     isPastAppointment: true,
   };
+}
+
+export function transformRequest(appointment) {
+  const appointmentTypes = addAppointmentTypes(appointment);
+
+  const requestData = {
+    ...appointmentTypes,
+    apiData: appointment,
+    id: appointment.id,
+    isPastAppointment: false,
+    duration: 60,
+    dateOptions: getRequestDateOptions(appointment),
+    status: getAppointmentStatus(appointment),
+    typeOfCare: appointment.appointmentType,
+    purposeOfVisit: getPurposeOfVisit(appointment),
+    facility: appointment.facility,
+    facilityName:
+      appointment.friendlyLocationName || appointment.facility?.name,
+    email: appointment.email,
+    phoneNumber: appointment.phoneNumber,
+    bestTimetoCall: appointment.bestTimetoCall,
+  };
+
+  if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccRequest) {
+    return {
+      ...requestData,
+      preferredProviders: appointment.ccAppointmentRequest.preferredProviders,
+    };
+  }
+
+  return requestData;
 }

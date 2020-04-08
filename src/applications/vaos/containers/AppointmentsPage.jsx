@@ -27,11 +27,7 @@ import {
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import {
-  getPastAppointmentDateRangeOptions,
-  transformAppointment,
-  transformPastAppointment,
-} from '../utils/appointment';
+import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
@@ -248,11 +244,7 @@ AppointmentsPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    appointments: {
-      ...state.appointments,
-      future: state.appointments.future?.map(transformAppointment),
-      past: state.appointments.past?.map(transformPastAppointment),
-    },
+    appointments: state.appointments,
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),

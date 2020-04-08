@@ -9,6 +9,8 @@ import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from '../AddToCalendar';
 import FacilityAddress from '../FacilityAddress';
 import AppointmentDateTime from './AppointmentDateTime';
+import Instructions from './Instructions';
+import Status from './Status';
 
 export default function ConfirmedAppointmentListItem({
   appointment,
@@ -46,31 +48,17 @@ export default function ConfirmedAppointmentListItem({
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime appointment={appointment} />
       </h3>
-      {(!isPastAppointment || cancelled) && (
-        <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-          {cancelled ? (
-            <i aria-hidden="true" className="fas fa-exclamation-circle" />
-          ) : (
-            <i aria-hidden="true" className="fas fa-check-circle" />
-          )}
-          <span
-            id={`card-${index}-state`}
-            className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block"
-          >
-            {cancelled ? 'Canceled' : 'Confirmed'}
-          </span>
-        </div>
+      {!isPastAppointment && (
+        <Status status={appointment.status} index={index} />
       )}
-
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          {!!appointment.videoType && !isPastAppointment ? (
+          {appointment.videoType ? (
             <VideoVisitSection appointment={appointment} />
           ) : (
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
-                {appointment.clinicFriendlyName ||
-                  appointment.vdsAppointments[0]?.clinic?.name}
+                {appointment.clinicName}
               </dt>
               <dd>
                 {!!facility && (
@@ -93,17 +81,7 @@ export default function ConfirmedAppointmentListItem({
             </dl>
           )}
         </div>
-        {!!appointment.instructions &&
-          !isPastAppointment && (
-            <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-              <dl className="vads-u-margin--0">
-                <dt className="vads-u-font-weight--bold">
-                  {appointment.instructions.header}
-                </dt>
-                <dd>{appointment.instructions.body}</dd>
-              </dl>
-            </div>
-          )}
+        <Instructions instructions={appointment.instructions} />
       </div>
 
       {!cancelled &&
