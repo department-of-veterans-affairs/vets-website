@@ -379,14 +379,6 @@
     "date": {
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
-    },
-    "selectedAddress": {
-      "type": "string",
-      "enum": [
-        "permanentAddress",
-        "temporaryAddress"
-      ],
-      "default": "permanentAddress"
     }
   },
   "properties": {
@@ -414,8 +406,22 @@
     "supplies": {
       "$ref": "#/definitions/supplies"
     },
+    "currentAddress": {
+      "type": "string",
+      "enum": [
+        "Add new address"
+      ]
+    },
     "selectedAddress": {
-      "$ref": "#/defintions/selectedAddress"
+      "type": "string",
+      "enum": [
+        "permanentAddress",
+        "temporaryAddress"
+      ],
+      "enumNames": [
+        "Permanent Address",
+        "Temporary Address"
+      ]
     }
   },
   "required": [

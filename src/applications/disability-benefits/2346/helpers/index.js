@@ -1,4 +1,6 @@
 import _ from 'platform/utilities/data';
+import get from 'platform/utilities/data/get';
+import React from 'react';
 import { militaryCities, militaryStates } from '../constants';
 
 /**
@@ -71,3 +73,32 @@ export function validateZIP(errors, zip) {
     );
   }
 }
+
+export const newAddressHider = formData => {
+  const address = get('newAddress', formData);
+  // return true if living at view:militaryBaseInfo object
+  return Object.keys(address).every(entry => {
+    const value = address[entry] || '';
+    return typeof value === 'string' ? value === '' : true;
+  });
+};
+
+export const updateRadioLabels = (formData, name) => {
+  const address = get(name, formData) || {};
+  const { street, street2, city, country, state, postalCode } = address;
+
+  return (
+    <span>
+      {street && street} {street2 && street2}
+      <br />
+      {city}, {state}, {postalCode || ''}
+      {country === 'United States' ? (
+        ''
+      ) : (
+        <>
+          {country} <br />{' '}
+        </>
+      )}
+    </span>
+  );
+};

@@ -7,21 +7,17 @@ import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const {
-  email,
-  address,
-  yesOrNo,
-  supplies,
-  selectedAddress,
-} = fullSchemaMDOT.definitions;
+const { email, supplies } = fullSchemaMDOT.definitions;
+
+const { currentAddress, selectedAddress } = fullSchemaMDOT.properties;
 
 const {
-  permAddressField,
-  tempAddressField,
   emailField,
   suppliesField,
   viewAddAccessoriesField,
   viewAddBatteriesField,
+  currentAddressField,
+  newAddressField,
   selectedAddressField,
 } = schemaFields;
 
@@ -31,8 +27,8 @@ const {
   addBatteriesUI,
   batteriesUI,
   accessoriesUI,
-  permAddressUI,
-  tempAddressUI,
+  currentAddressUI,
+  newAddressUI,
   selectedAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
@@ -69,9 +65,8 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    address,
     supplies,
-    yesOrNo,
+    currentAddress,
     selectedAddress,
   },
   chapters: {
@@ -93,16 +88,16 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPages.address,
           uiSchema: {
-            [permAddressField]: permAddressUI,
-            [tempAddressField]: tempAddressUI,
+            [currentAddressField]: currentAddressUI,
+            [newAddressField]: newAddressUI,
             [selectedAddressField]: selectedAddressUI,
             [emailField]: emailUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [permAddressField]: addressSchema,
-              [tempAddressField]: addressSchema,
+              [currentAddressField]: currentAddress,
+              [newAddressField]: addressSchema,
               [selectedAddressField]: selectedAddress,
               [emailField]: email,
             },

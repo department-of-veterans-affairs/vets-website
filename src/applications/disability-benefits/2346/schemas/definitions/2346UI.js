@@ -6,6 +6,7 @@ import orderAccessoriesPageContent from '../../components/orderAccessoriesPageCo
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
+import { newAddressHider, updateRadioLabels } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
@@ -24,12 +25,6 @@ const emailUIDescription = (
       email address.
     </p>
     <p>Email address</p>
-  </>
-);
-
-const emptySpace = (
-  <>
-    <br />
   </>
 );
 
@@ -57,16 +52,36 @@ export default {
         viewComponent: AddressViewField,
       },
     },
-    selectedAddressUI: {
-      'ui:title': 'Select which address to send your products to:',
-      'ui:description': emptySpace,
+    currentAddressUI: {
       'ui:widget': 'radio',
+      'ui:title': 'Shipping Address',
       'ui:options': {
-        labels: {
-          permanentAddress: 'Permanent Address',
-          temporaryAddress: 'Temporary Address',
+        updateSchema: formData => {
+          const enums = ['permanentAddress', 'temporaryAddress'].map(address =>
+            updateRadioLabels(formData, address),
+          );
+          return {
+            enum: [...enums, 'Add New Address'],
+          };
         },
       },
+    },
+    newAddressUI: {
+      ...addressUISchema(true, 'newAddress', () => true),
+      'ui:options': {
+        expandUnder: 'currentAddress',
+        expandUnderCondition: 'Add new address',
+        keepInPageOnReview: true,
+      },
+    },
+    selectedAddressUI: {
+      'ui:title': 'Is this a permanent or temporary address?',
+      'ui:widget': 'radio',
+      'ui:options': {
+        // expandUnder: 'newAddress',
+        hideIf: newAddressHider,
+      },
+      'ui:required': !newAddressHider,
     },
     emailUI: {
       'ui:title': emailUITitle,
