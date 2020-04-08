@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
-import { fetchMilitaryInformation } from '../../profile360/actions';
 
 import DowntimeNotification, {
   externalServices,
@@ -17,10 +16,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
 class MilitaryInformationContent extends React.Component {
-  componentDidMount() {
-    this.props.fetchMilitaryInformation();
-  }
-
   renderContent = () => {
     const {
       serviceHistory: { serviceHistory, error },
@@ -111,7 +106,7 @@ class MilitaryInformationContent extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="vads-u-margin-bottom--2">
         <LoadingSection
           isLoading={!this.props.militaryInformation}
           message="Loading military information..."
@@ -180,11 +175,4 @@ const mapStateToProps = state => ({
   militaryInformation: state.vaProfile.militaryInformation,
 });
 
-const mapDispatchToProps = {
-  fetchMilitaryInformation,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MilitaryInformation);
+export default connect(mapStateToProps)(MilitaryInformation);
