@@ -65,8 +65,18 @@ function preserveWebpackOutput(metalsmithDestination) {
 
   const webpackDirExists = fs.existsSync(webpackDir);
 
-  // Immediately copy the Webpack output to a new directory
-  if (webpackDirExists) fs.moveSync(webpackDir, tempDir, { overwrite: true });
+  // Immediately move the Webpack output to a new directory
+  if (webpackDirExists) {
+    /* eslint-disable no-console */
+    console.log(`Found Webpack directory at ${webpackDir}`);
+    console.log(
+      'Sanity check -- Does it STILL exist?',
+      fs.existsSync(webpackDir) ? 'yes' : 'no',
+    );
+    console.log('Contents:', fs.readdirSync(webpackDir));
+    fs.moveSync(webpackDir, tempDir, { overwrite: true });
+    /* eslint-enable no-console */
+  }
 
   return () => {
     /* eslint-disable no-console */
