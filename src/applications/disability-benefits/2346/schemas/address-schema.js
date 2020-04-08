@@ -146,6 +146,7 @@ export const addressUISchema = (
           'I live on a United States military base outside of the United States',
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
+          hideOnReview: true,
         },
       },
       'view:livesOnMilitaryBaseInfo': {
@@ -189,6 +190,9 @@ export const addressUISchema = (
       },
       street2: {
         'ui:title': 'Line 2',
+        'ui:options': {
+          hideOnReviewIfFalse: true,
+        },
       },
       city: {
         'ui:required': callback,

@@ -1,5 +1,3 @@
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import React from 'react';
 import orderSupplyPageContent from '../../components/oderSupplyPageContent';
 import orderAccessoriesPageContent from '../../components/orderAccessoriesPageContent';
@@ -34,43 +32,30 @@ export default {
     hideTitle: false,
   },
   sharedUISchemas: {
-    permAddressUI: {
-      ...addressUISchema(true, 'permanentAddress', () => true),
-      'ui:title': 'Permanent Address',
-      'ui:field': ReviewCardField,
-      'ui:widget': 'radio',
-      'ui:options': {
-        viewComponent: AddressViewField,
-      },
-    },
-    tempAddressUI: {
-      ...addressUISchema(true, 'temporaryAddress', () => true),
-      'ui:title': 'Temporary Address',
-      'ui:field': ReviewCardField,
-      'ui:widget': 'radio',
-      'ui:options': {
-        viewComponent: AddressViewField,
-      },
-    },
     currentAddressUI: {
       'ui:widget': 'radio',
       'ui:title': 'Shipping Address',
       'ui:options': {
         updateSchema: formData => {
-          const enums = ['permanentAddress', 'temporaryAddress'].map(address =>
-            updateRadioLabels(formData, address),
+          const updatedEnumNames = ['permanentAddress', 'temporaryAddress'].map(
+            address => updateRadioLabels(formData, address),
           );
           return {
-            enum: [...enums, 'Add new address'],
+            enumNames: [...updatedEnumNames, 'Add new address'],
+            enum: ['permanentAddress', 'temporaryAddress', 'newAddress'],
           };
         },
       },
     },
     newAddressUI: {
-      ...addressUISchema(true, 'newAddress', () => true),
+      ...addressUISchema(
+        true,
+        'newAddress',
+        formData => formData.currentAddress === 'newAddress',
+      ),
       'ui:options': {
         expandUnder: 'currentAddress',
-        expandUnderCondition: 'Add new address',
+        expandUnderCondition: 'newAddress',
         keepInPageOnReview: true,
       },
     },
@@ -80,6 +65,7 @@ export default {
       'ui:options': {
         // expandUnder: 'newAddress',
         hideIf: newAddressHider,
+        hideOnReview: true,
       },
       'ui:required': !newAddressHider,
     },
