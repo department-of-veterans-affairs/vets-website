@@ -7,6 +7,12 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.personal-info-box {
+  margin-left: 0rem;
+  border-left: 8px solid #0071bb;
+  padding-left: 2rem;
+}
+
 .order-background {
   background-color: #f1f1f1;
   padding-left: 2em;
@@ -57,8 +63,9 @@ label {
   font-weight: normal;
 }
 
-[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-   background-color: #fff;
+[type="checkbox"]:checked + label::before,
+[type="radio"]:checked + label::before {
+  background-color: #fff;
 }
 
 .blue-bar-block {

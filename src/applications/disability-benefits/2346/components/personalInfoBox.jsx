@@ -15,11 +15,11 @@ class personalInfoBox extends React.Component {
       <div>
         <p>This is the personal information we have for you.</p>
         <div>
-          <div className="usa-alert schemaform-sip-alert">
+          <div className="personal-info-box">
             <div className="usa-alert-body">
-              <p className="vads-u-margin--1px">
+              <h3 className="usa-alert-heading">
                 {first} {last}
-              </p>
+              </h3>
               <p className="vads-u-margin--1px">
                 Date of Birth: {moment(dateOfBirth).format('MM/DD/YYYY')}
               </p>
