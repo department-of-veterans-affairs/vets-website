@@ -19,9 +19,6 @@ import {
  * This contains the code for supporting our own custom validations and messages
  */
 
-/* eslint-disable-next-line no-console */
-console.log('Eeek');
-
 /*
  * Override the default messages for these json schema error types
  */
