@@ -9,7 +9,7 @@ import {
   VetInfo,
   PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
-} from 'applications/caregivers/components/AdditionalInfo/formInfo';
+} from 'applications/caregivers/components/AdditionalInfo';
 import {
   primaryCaregiverFields,
   secondaryCaregiverFields,
