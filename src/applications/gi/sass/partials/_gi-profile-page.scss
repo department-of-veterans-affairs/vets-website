@@ -37,6 +37,18 @@
     }
   }
 
+  @media (max-width: $medium-screen -1 ) {
+   
+    .additional-resources-profile {
+      padding-top: 2em;
+  }
+}
+@media (min-width: 641px) {
+  .additional-resources-vettec {
+      margin-top: -4em;
+  }
+}
+
   .icon-with-info {
     .text-column {
       overflow-wrap: break-word;
