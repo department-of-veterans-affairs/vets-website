@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
-import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
-import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
+import { getRealFacilityId } from '../utils/appointment';
+import ConfirmedCommunityCareItem from './list/ConfirmedCommunityCareItem';
+import ConfirmedVAItem from './list/ConfirmedVAItem';
+import RequestItem from '../components/list/RequestItem';
 import NoAppointments from '../components/NoAppointments';
 
 export default function FutureAppointmentsList({
@@ -40,17 +41,14 @@ export default function FutureAppointmentsList({
       <>
         <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
-            const type = getAppointmentType(appt);
-
-            switch (type) {
+            switch (appt.appointmentType) {
               case APPOINTMENT_TYPES.ccRequest:
               case APPOINTMENT_TYPES.request:
                 return (
-                  <AppointmentRequestListItem
+                  <RequestItem
                     key={index}
                     index={index}
                     appointment={appt}
-                    type={type}
                     facility={
                       facilityData[
                         getRealFacilityId(appt.facility?.facilityCode)
@@ -63,13 +61,21 @@ export default function FutureAppointmentsList({
                   />
                 );
               case APPOINTMENT_TYPES.ccAppointment:
-              case APPOINTMENT_TYPES.vaAppointment:
                 return (
-                  <ConfirmedAppointmentListItem
+                  <ConfirmedCommunityCareItem
                     key={index}
                     index={index}
                     appointment={appt}
-                    type={type}
+                    showCancelButton={showCancelButton}
+                    cancelAppointment={cancelAppointment}
+                  />
+                );
+              case APPOINTMENT_TYPES.vaAppointment:
+                return (
+                  <ConfirmedVAItem
+                    key={index}
+                    index={index}
+                    appointment={appt}
                     facility={
                       systemClinicToFacilityMap[
                         `${appt.facilityId}_${appt.clinicId}`

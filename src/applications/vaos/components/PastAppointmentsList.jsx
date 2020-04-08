@@ -4,7 +4,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import { getAppointmentType } from '../utils/appointment';
-import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
+import ConfirmedCommunityCareItem from './list/ConfirmedCommunityCareItem';
+import ConfirmedVAItem from './list/ConfirmedVAItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
 export default function PastAppointmentsList({
@@ -34,19 +35,24 @@ export default function PastAppointmentsList({
 
             switch (type) {
               case APPOINTMENT_TYPES.ccAppointment:
-              case APPOINTMENT_TYPES.vaAppointment:
                 return (
-                  <ConfirmedAppointmentListItem
+                  <ConfirmedCommunityCareItem
                     key={index}
                     index={index}
                     appointment={appt}
-                    type={type}
+                  />
+                );
+              case APPOINTMENT_TYPES.vaAppointment:
+                return (
+                  <ConfirmedVAItem
+                    key={index}
+                    index={index}
+                    appointment={appt}
                     facility={
                       systemClinicToFacilityMap[
                         `${appt.facilityId}_${appt.clinicId}`
                       ]
                     }
-                    isPastAppointment
                   />
                 );
               default:

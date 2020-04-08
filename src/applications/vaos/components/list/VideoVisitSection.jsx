@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import moment from 'moment';
 import {
   getVideoVisitLink,
-  isGFEVideoVisit,
   getMomentConfirmedDate,
-} from '../utils/appointment';
+} from '../../utils/appointment';
+import { VIDEO_TYPES } from '../../utils/constants';
 
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
 
-  if (isGFEVideoVisit(appointment)) {
+  if (appointment.videoType === VIDEO_TYPES.gfe) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
