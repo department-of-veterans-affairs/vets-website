@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import * as Sentry from '@sentry/browser';
 
 import environment from '../../../platform/utilities/environment';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
@@ -253,6 +254,7 @@ export function makeAuthRequest(
   onSuccess,
   onError,
 ) {
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   const options = _.merge(
     {
       method: 'GET',
@@ -261,6 +263,7 @@ export function makeAuthRequest(
       headers: {
         'X-Key-Inflection': 'camel',
         'Source-App-Name': window.appName,
+        'X-CSRF-Token': csrfTokenStored,
       },
       responseType: 'json',
     },
