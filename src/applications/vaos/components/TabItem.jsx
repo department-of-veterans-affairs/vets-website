@@ -42,9 +42,7 @@ class TabItem extends React.Component {
       >
         <IndexLink
           id={`tab${id || title}`}
-          aria-controls={
-            activeTab === tabpath ? `tabPanel${id || title}` : null
-          }
+          aria-controls={activeTab === tabpath ? `tab${id || title}` : null}
           aria-selected={activeTab === tabpath}
           role="tab"
           className={tabClasses}

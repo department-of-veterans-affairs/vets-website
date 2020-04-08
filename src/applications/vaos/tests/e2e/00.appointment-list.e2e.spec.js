@@ -21,7 +21,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Auth.logIn(
     token,
     client,
-    '/health-care/schedule-view-va-appointments/appointments/',
+    '/health-care/schedule-view-va-appointments/appointments/upcoming',
     3,
     VAOSHelpers.getUserDataWithFacilities(),
   )

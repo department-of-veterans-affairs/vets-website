@@ -8,11 +8,17 @@ class TabNav extends React.Component {
     return (
       <ul className="va-tabs vaos-appts__tabs" role="tablist">
         <TabItem
+          id="upcoming"
           shortcut={1}
           tabpath="upcoming"
           title="Upcoming appointments"
         />
-        <TabItem shortcut={2} tabpath="past" title="Past appointments" />
+        <TabItem
+          id="past"
+          shortcut={2}
+          tabpath="past"
+          title="Past appointments"
+        />
       </ul>
     );
   }
