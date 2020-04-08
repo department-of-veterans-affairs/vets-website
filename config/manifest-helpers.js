@@ -30,7 +30,7 @@ function getWebpackEntryPoints(manifests) {
 }
 
 function displayApplications() {
-  getAppManifests(root).forEach(manifest => {
+  getAppManifests().forEach(manifest => {
     console.log(manifest.appName);
     console.log(path.relative(root, manifest.filePath));
     console.log(`Production: ${manifest.production || false}`);
