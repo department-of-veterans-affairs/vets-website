@@ -49,10 +49,10 @@ fi
 # Only run Webpack if the assetSource = local
 if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
-    yarn build:webpack "${args}"
+    yarn build:webpack $args
 else
     echo "Will fetch application assets from the content build script"
 fi
 
 # Always build the content
-yarn build:content "${args}"
+yarn build:content $args
