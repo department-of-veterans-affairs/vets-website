@@ -26,6 +26,7 @@ const SchoolClosingDetails = ({
                 Visit the school's website to learn more
               </a>
             )}
+            {!schoolWebsite && <p>Visit the school's website to learn more</p>}
           </div>
         }
         headline={headline}

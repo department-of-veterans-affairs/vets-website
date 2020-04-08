@@ -22,7 +22,15 @@ const CautionFlagDetails = ({ cautionFlags }) => {
                   <p>{flag.description}</p>
                   {flag.linkText && !flag.linkUrl && <p>{flag.linkText}</p>}
                   {flag.linkUrl &&
-                    flag.linkText && <a href={flag.linkUrl}>{flag.linkText}</a>}
+                    flag.linkText && (
+                      <a
+                        href={flag.linkUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {flag.linkText}
+                      </a>
+                    )}
                 </div>
               }
             />

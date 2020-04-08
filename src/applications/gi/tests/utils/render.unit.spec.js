@@ -13,7 +13,7 @@ describe('renderSchoolClosingAlert', () => {
       }),
     );
     expect(tree.find('.usa-alert-text').text()).to.equal(
-      'A campus at this school will be closing soon',
+      'School will be closing soon',
     );
     tree.unmount();
   });

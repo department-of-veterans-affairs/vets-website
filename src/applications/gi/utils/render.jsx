@@ -27,8 +27,8 @@ export const renderSchoolClosingAlert = result => {
     return (
       <AlertBox
         className="vads-u-margin-top--1"
-        content={<p>A campus at this school will be closing soon</p>}
-        headline="A campus is closing soon"
+        content={<p>School will be closing soon</p>}
+        headline="School closing"
         isVisible={!!schoolClosing}
         status="warning"
       />
@@ -56,21 +56,26 @@ export const renderCautionAlert = result => {
       <AlertBox
         className="vads-u-margin-top--1"
         content={
-          <ul className="vads-u-margin-top--0">
-            {[...cautionFlags]
-              .sort(
-                (a, b) =>
-                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
-              )
-              .map(flag => (
-                <li
-                  className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
-                  key={flag.id}
-                >
-                  {flag.title}
-                </li>
-              ))}
-          </ul>
+          <React.Fragment>
+            {cautionFlags.length === 1 && <p>{cautionFlags[0].title}</p>}
+            {cautionFlags.length > 1 && (
+              <ul className="vads-u-margin-top--0">
+                {[...cautionFlags]
+                  .sort(
+                    (a, b) =>
+                      a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+                  )
+                  .map(flag => (
+                    <li
+                      className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+                      key={flag.id}
+                    >
+                      {flag.title}
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </React.Fragment>
         }
         headline={
           cautionFlags.length > 1
