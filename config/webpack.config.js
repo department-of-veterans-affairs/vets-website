@@ -96,7 +96,6 @@ function getSettings() {
 
 module.exports = env => {
   const buildOptions = Object.assign(
-    {},
     {
       api: '',
       buildtype: 'localhost',
