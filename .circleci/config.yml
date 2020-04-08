@@ -117,7 +117,18 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: Sentry\.
-      OVERALL_REVIEW_COMMENT: Sentry call found - Check for potential PII exposure. _Please_ wait for a VSP review.
+      OVERALL_REVIEW_COMMENT: >
+        # Sentry is found
+
+        Sentry captures a lot of data, and we want to make sure that we only
+        keep information that will be useful for troubleshooting issues.  This
+        means that PII should not be recorded.
+
+        ## What you can do
+
+        Review your call to Sentry and see if you can reasonably reduce any
+        information that is included, or wait for a VSP review.
+
       LINE_COMMENT: Sentry found
     steps:
       - checkout
