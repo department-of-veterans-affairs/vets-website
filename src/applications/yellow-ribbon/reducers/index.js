@@ -1,16 +1,9 @@
-// Dependencies
-import concat from 'lodash/concat';
-import filter from 'lodash/filter';
-import pick from 'lodash/pick';
 // Relative imports.
 import {
-  ADD_SCHOOL_TO_COMPARE,
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
-  REMOVE_SCHOOL_FROM_COMPARE,
   TOGGLE_SHOW_MOBILE_FORM,
-  UPDATE_PAGE,
 } from '../constants';
 
 const initialState = {
@@ -29,16 +22,6 @@ const initialState = {
 
 export const yellowRibbonReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_SCHOOL_TO_COMPARE: {
-      return {
-        ...state,
-        schoolIDs: concat(state.schoolIDs, action?.school?.id),
-        schoolsLookup: {
-          ...state.schoolsLookup,
-          [action?.school?.id]: action?.school,
-        },
-      };
-    }
     case FETCH_RESULTS: {
       return {
         ...state,
@@ -60,24 +43,8 @@ export const yellowRibbonReducer = (state = initialState, action) => {
         totalResults: action?.response?.totalResults,
       };
     }
-    case REMOVE_SCHOOL_FROM_COMPARE: {
-      // Derive the updated list of school IDs.
-      const schoolIDs = filter(
-        state.schoolIDs,
-        id => id !== action?.school?.id,
-      );
-
-      return {
-        ...state,
-        schoolIDs,
-        schoolsLookup: pick(state.schoolsLookup, schoolIDs),
-      };
-    }
     case TOGGLE_SHOW_MOBILE_FORM: {
       return { ...state, showMobileForm: !state.showMobileForm };
-    }
-    case UPDATE_PAGE: {
-      return { ...state, page: action.page };
     }
     default: {
       return { ...state };

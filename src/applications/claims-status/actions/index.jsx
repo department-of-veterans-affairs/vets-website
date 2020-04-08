@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from '../../../platform/utilities/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
@@ -366,6 +367,7 @@ export function submitFiles(claimId, trackedItem, files) {
     require.ensure(
       [],
       require => {
+        const csrfTokenStored = localStorage.getItem('csrfToken');
         const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
@@ -375,6 +377,7 @@ export function submitFiles(claimId, trackedItem, files) {
             inputName: 'file',
             customHeaders: {
               'X-Key-Inflection': 'camel',
+              'X-CSRF-Token': csrfTokenStored,
             },
           },
           cors: {
