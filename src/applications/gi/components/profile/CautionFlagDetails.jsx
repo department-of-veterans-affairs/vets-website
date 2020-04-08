@@ -21,8 +21,8 @@ const CautionFlagDetails = ({ cautionFlags }) => {
                 <div className="flagDetail">
                   <p>{flag.description}</p>
                   {flag.linkText && !flag.linkUrl && <p>{flag.linkText}</p>}
-                  {flag.linkUrl &&
-                    flag.linkText && (
+                  {flag.linkText &&
+                    flag.linkUrl && (
                       <a
                         href={flag.linkUrl}
                         target="_blank"
