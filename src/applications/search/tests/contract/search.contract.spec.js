@@ -1,6 +1,7 @@
-import { Pact } from '@pact-foundation/pact';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import contractTest from 'platform/testing/contract';
 
 import {
   FETCH_SEARCH_RESULTS,
@@ -10,22 +11,11 @@ import {
 
 import INTERACTIONS, { SEARCH_STRING } from './interactions';
 
-describe('Search', () => {
-  const provider = new Pact({
-    port: 3000,
-    consumer: 'VA.gov Search',
-    provider: 'VA.gov API',
-    spec: 2,
-  });
-
-  before(() => provider.setup());
-  after(() => provider.finalize());
-  afterEach(() => provider.verify());
-
+contractTest('VA.gov Search', 'VA.gov API', mockApi => {
   describe('GET /search', () => {
     context('with no results', () => {
       it('responds with success', async () => {
-        await provider.addInteraction(INTERACTIONS.searchWithNoResults);
+        await mockApi.addInteraction(INTERACTIONS.searchWithNoResults);
 
         const dispatch = sinon.spy();
         await fetchSearchResults(SEARCH_STRING)(dispatch);
@@ -45,7 +35,7 @@ describe('Search', () => {
 
     context('with a single result', () => {
       it('responds with success', async () => {
-        await provider.addInteraction(INTERACTIONS.searchWithSingleResult);
+        await mockApi.addInteraction(INTERACTIONS.searchWithSingleResult);
 
         const dispatch = sinon.spy();
         await fetchSearchResults(SEARCH_STRING)(dispatch);
@@ -72,7 +62,7 @@ describe('Search', () => {
 
     context('with multiple results', () => {
       it('responds with success', async () => {
-        await provider.addInteraction(INTERACTIONS.searchWithMultipleResults);
+        await mockApi.addInteraction(INTERACTIONS.searchWithMultipleResults);
 
         const dispatch = sinon.spy();
         await fetchSearchResults(SEARCH_STRING)(dispatch);
