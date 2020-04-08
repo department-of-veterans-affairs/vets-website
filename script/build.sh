@@ -1,12 +1,11 @@
 #!/bin/sh
 
 ##
-# Run the application and content builds. This script builds or fetches the
-# pre-built application assets based on the --asset-source option.
+# Run the application and content builds.
 ###
 
-# Default to local
 assetSource="local"
+buildtype="localhost"
 
 # Save the arguments to this script for later; they get drained in the following for loop
 args="$*"
@@ -23,12 +22,29 @@ for o in "$@"; do
             assetSource="${o#*=}" # grab the value
             shift # past the --asset-source=value
             ;;
+        --buildtype)
+            buildtype="$2"
+            shift
+            shift
+            ;;
+        --buildtype=*)
+            buildtype="${o#*=}"
+            shift
+            ;;
         *)
             ;;
     esac
 done
 
 echo "assetSource: ${assetSource}"
+echo "buildtype: ${buildtype}"
+echo
+
+buildDir="$(dirname "$0")/../build/${buildtype}/"
+if [ -d "${buildDir}" ]; then
+    echo "Removing build/${buildtype}"
+    rm -r "${buildDir}"
+fi
 
 # Only run Webpack if the assetSource = local
 if [ "${assetSource}" = "local" ]; then
