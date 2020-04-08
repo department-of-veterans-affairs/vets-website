@@ -50,6 +50,8 @@ export class AppointmentsPage extends Component {
 
     if (showPastAppointments && this.isPastView()) {
       this.fetchPastAppointments();
+    } else if (!showPastAppointments && this.isPastView()) {
+      this.props.router.push('/upcoming');
     } else {
       this.props.fetchFutureAppointments();
     }
@@ -145,7 +147,7 @@ export class AppointmentsPage extends Component {
             {React.Children.map(children, child =>
               React.cloneElement(
                 child,
-                child.type.name === 'FutureAppointmentsList'
+                child.type.name.toLowerCase().includes('future')
                   ? {
                       appointments,
                       cancelAppointment: this.props.cancelAppointment,
