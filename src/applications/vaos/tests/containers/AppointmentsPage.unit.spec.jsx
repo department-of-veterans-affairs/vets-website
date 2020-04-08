@@ -66,6 +66,9 @@ describe('VAOS <AppointmentsPage>', () => {
         facilityData: {},
       },
       location: { pathname: '/past' },
+      router: {
+        push: sinon.spy(),
+      },
     };
 
     const fetchFutureAppointments = sinon.spy();
@@ -79,7 +82,7 @@ describe('VAOS <AppointmentsPage>', () => {
       />,
     );
 
-    expect(fetchFutureAppointments.called).to.be.true;
+    expect(defaultProps.router.push.called).to.be.true;
     expect(fetchPastAppointments.called).to.be.false;
     expect(tree.find('TabNav').exists()).to.be.false;
     tree.unmount();
