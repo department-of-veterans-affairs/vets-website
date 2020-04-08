@@ -118,7 +118,7 @@ jobs:
     environment:
       CODE_PATTERN: Sentry\.
       OVERALL_REVIEW_COMMENT: >
-        # Sentry is found
+        # Sentry call found
 
         Sentry captures a lot of data, and we want to make sure that we only
         keep information that will be useful for troubleshooting issues.  This
