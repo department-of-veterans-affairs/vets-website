@@ -53,38 +53,53 @@ describe('ProfileWrapper', () => {
     wrapper.unmount();
   });
 
-  it('fetches the military information data when it mounts', () => {
-    const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
-    expect(fetchMilitaryInfoSpy.called).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('fetches the full name data when it mounts', () => {
-    const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
-    expect(fetchFullNameSpy.called).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('fetches the personal information data when it mounts', () => {
-    const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
-    expect(fetchPersonalInfoSpy.called).to.be.true;
-    wrapper.unmount();
-  });
-
-  describe('when `shouldFetchDirectDepositInformation` is `true`', () => {
-    it('fetches the payment information data when it mounts', () => {
+  describe('when the component mounts', () => {
+    it('should fetch the military information data', () => {
       const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
-      expect(fetchPaymentInfoSpy.called).to.be.true;
+      expect(fetchMilitaryInfoSpy.called).to.be.true;
       wrapper.unmount();
+    });
+
+    it('should fetch the full name data', () => {
+      const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+      expect(fetchFullNameSpy.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should fetch the personal information data', () => {
+      const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+      expect(fetchPersonalInfoSpy.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    describe('when `shouldFetchDirectDepositInformation` is `true`', () => {
+      it('should fetch the payment information data', () => {
+        const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+        expect(fetchPaymentInfoSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+    });
+
+    describe('when `shouldFetchDirectDepositInformation` is `false`', () => {
+      it('should not fetch the payment information data', () => {
+        defaultProps.shouldFetchDirectDepositInformation = false;
+        const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+        expect(fetchPaymentInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
     });
   });
 
-  describe('when `shouldFetchDirectDepositInformation` is `false`', () => {
-    it('should not fetch the payment information data when it mounts', () => {
-      defaultProps.shouldFetchDirectDepositInformation = false;
-      const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
-      expect(fetchPaymentInfoSpy.called).to.be.false;
-      wrapper.unmount();
+  describe('when the component updates', () => {
+    describe('when `shouldFetchDirectDepositInformation` goes from `false` to `true', () => {
+      it('should fetch the payment information data', () => {
+        defaultProps.shouldFetchDirectDepositInformation = false;
+        const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+        expect(fetchPaymentInfoSpy.called).to.be.false;
+        wrapper.setProps({ shouldFetchDirectDepositInformation: true });
+        expect(fetchPaymentInfoSpy.called).to.be.true;
+        wrapper.unmount();
+      });
     });
   });
 });
