@@ -144,7 +144,18 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: (<i )|(<i$)
-      OVERALL_REVIEW_COMMENT: Found `<i>` tag in changes. _Please_ wait for a VSP review.
+      OVERALL_REVIEW_COMMENT: >
+        # Icon found
+
+        Icons can be decorative, but sometimes they are used to convey meaning.
+        If there are any semantics associated with an icon, those semantics
+        should also be conveyed to a screen reader.
+
+        ## What you can do
+
+        Review the markup and see if the icon provides information that isn't
+        represented textually, or wait for a VSP review.
+
       LINE_COMMENT: icon found
     steps:
       - checkout
