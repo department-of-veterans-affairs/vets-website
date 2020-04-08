@@ -37,6 +37,10 @@ class VetTecProgramSearchResult extends React.Component {
       query: version ? { version } : {},
     };
 
+    const cautionFlags = this.props.result.cautionFlags
+      ? [...this.props.result.cautionFlags].filter(flag => flag.title)
+      : [];
+
     return (
       <div className="search-result">
         <div className="outer">

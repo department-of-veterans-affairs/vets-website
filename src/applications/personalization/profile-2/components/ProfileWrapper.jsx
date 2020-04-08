@@ -36,6 +36,15 @@ class ProfileWrapper extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.shouldFetchDirectDepositInformation &&
+      !prevProps.shouldFetchDirectDepositInformation
+    ) {
+      this.props.fetchPaymentInformation();
+    }
+  }
+
   // content to show if the component is waiting for data to load
   loadingContent = (
     <div className="vads-u-margin-y--5">
