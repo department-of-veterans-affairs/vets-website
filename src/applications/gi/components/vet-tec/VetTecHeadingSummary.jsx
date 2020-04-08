@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
-
+import environment from 'platform/utilities/environment';
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
@@ -44,10 +44,26 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     firstProgram.phoneNumber,
   );
 
+  const prodFlagHeader = environment.isProduction()
+    ? 'usa-width-two-thirds medium-8 small-12 column'
+    : 'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
+
+  const prodFlagIcons = environment.isProduction()
+    ? 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2'
+    : 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
+
+  const prodFlagLogoInner = environment.isProduction()
+    ? 'vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5'
+    : 'vads-u-margin-top--neg6 vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5';
+
+  const prodFlagLogoOuter = environment.isProduction()
+    ? 'usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6'
+    : 'usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg1';
+
   return (
     <div className="heading">
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 small-12 column">
+        <div className={prodFlagHeader}>
           <h1 tabIndex={-1}>{institution.name}</h1>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
@@ -70,15 +86,15 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6">
-          <div className="vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5">
+        <div className={prodFlagLogoOuter}>
+          <div className={prodFlagLogoInner}>
             {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
         </div>
       </div>
 
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
+        <div className={prodFlagIcons}>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
               icon="map-marker"

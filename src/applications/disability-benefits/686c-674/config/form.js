@@ -1,4 +1,4 @@
-import { TASK_KEYS } from './constants';
+import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -6,12 +6,16 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
-import { deceasedDependentInformation } from './chapters/report-dependent-death';
+import {
+  deceasedDependentInformation,
+  deceasedDependentAdditionalInformation,
+} from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
   doesLiveWithSpouse,
+  marriageAdditionalEvidence,
   spouseInformation,
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
@@ -22,6 +26,7 @@ import {
   children,
   childPlaceOfBirth,
   childAdditionalInformation,
+  childAdditionalEvidence,
 } from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
 import {
@@ -118,6 +123,16 @@ const formConfig = {
           uiSchema: childAdditionalInformation.uiSchema,
           schema: childAdditionalInformation.schema,
         },
+        childAdditionalEvidence: {
+          depends: formData =>
+            formData?.childrenToAdd?.some(
+              child => child?.childStatus?.stepchild === true,
+            ),
+          title: 'Additional evidence needed to add child',
+          path: 'add-child-evidence',
+          uiSchema: childAdditionalEvidence.uiSchema,
+          schema: childAdditionalEvidence.schema,
+        },
       },
     },
     addSpouse: {
@@ -183,6 +198,15 @@ const formConfig = {
           uiSchema: veteranMarriageHistoryDetails.uiSchema,
           schema: veteranMarriageHistoryDetails.schema,
         },
+        marriageAdditionalEvidence: {
+          depends: formData =>
+            typeof formData.marriageType === 'string' &&
+            formData.marriageType !== MARRIAGE_TYPES.ceremonial,
+          title: 'Additional evidence needed to add spouse',
+          path: 'add-spouse-evidence',
+          uiSchema: marriageAdditionalEvidence.uiSchema,
+          schema: marriageAdditionalEvidence.schema,
+        },
       },
     },
     reportDivorce: {
@@ -212,6 +236,14 @@ const formConfig = {
           path: '686-report-dependent-death',
           uiSchema: deceasedDependentInformation.uiSchema,
           schema: deceasedDependentInformation.schema,
+        },
+        dependentAdditionalInformation: {
+          title: 'Report the death of a dependent',
+          path: '686-report-dependent-death/:index/additional-information',
+          showPagePerItem: true,
+          arrayPath: 'deaths',
+          uiSchema: deceasedDependentAdditionalInformation.uiSchema,
+          schema: deceasedDependentAdditionalInformation.schema,
         },
       },
     },

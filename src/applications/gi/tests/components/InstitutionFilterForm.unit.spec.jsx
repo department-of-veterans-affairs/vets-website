@@ -15,6 +15,7 @@ const defaultProps = {
   },
   filters: {},
   handleFilterChange: () => {},
+  showModal: () => {},
 };
 
 describe('<InstitutionFilterForm>', () => {
@@ -37,6 +38,7 @@ describe('<InstitutionFilterForm>', () => {
       },
       filters: {},
       handleFilterChange: () => {},
+      showModal: () => {},
     };
     const wrapper = mount(<InstitutionFilterForm {...props} />);
     const stateCode = wrapper.find('option[value="ZZ"]').text();

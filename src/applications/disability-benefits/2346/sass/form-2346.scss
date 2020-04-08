@@ -1,9 +1,112 @@
-@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
-@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
-@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
-@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
-@import '../../../../platform/forms/sass/m-schemaform';
-@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
-@import '~@department-of-veterans-affairs/formation/sass/modules/m-omb-info';
-@import '../../../../platform/forms/sass/m-form-confirmation';
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
 
+.order-background {
+  background-color: #f1f1f1;
+  padding-left: 2em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+.gray-color {
+  background-color: #f1f1f1;
+}
+
+.form-expanding-group {
+  margin-bottom: 25px;
+}
+.mdot-alert-body {
+  padding-left: 1rem;
+}
+
+.button-dimensions {
+  margin-top: 2rem;
+  width: 267px;
+  height: 42px;
+  line-height: 36px;
+  padding-left: 15px;
+  border-radius: 4px;
+}
+
+label {
+  margin-top: 0.1rem !important;
+}
+
+[type="checkbox"]:checked + label::before {
+  background: #fff !important;
+  color: #0071bb !important;
+  content: "\2713";
+}
+
+[type="checkbox"]:focus + label::before {
+  outline: none;
+}
+
+.schemaform-field-container.schemaform-block {
+  margin-top: 0;
+}
+
+.required {
+  color: red;
+  font-weight: normal;
+}
+
+[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
+   background-color: #fff;
+}
+
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
+// ReviewCardField styles
+.review-card {
+  .review-card--header {
+    background-color: $color-gray-lightest;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 5rem;
+
+    .review-card--title {
+      margin: 0;
+      display: inline-block;
+    }
+  }
+
+  .review-card--body {
+    padding: 1.5rem;
+    border: 2px solid $color-gray-lightest;
+    // Remove the top border because it looks like it just extends the header
+    border-top: none;
+    margin-bottom: 1em;
+
+    .review-card--title {
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .update-button,
+    .cancel-button {
+      width: auto;
+      margin-top: 1rem;
+    }
+  }
+
+  .edit-button {
+    width: auto;
+    min-width: 8rem;
+    margin-right: 0;
+  }
+}

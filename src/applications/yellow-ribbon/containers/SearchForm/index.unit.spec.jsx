@@ -9,11 +9,11 @@ import { SearchForm } from './index';
 describe('Yellow Ribbon container <SearchForm>', () => {
   it('should render', () => {
     const tree = shallow(<SearchForm />);
-    const input = tree.find('input');
     const select = tree.find('select');
+    const input = tree.find('input');
 
-    expect(input.length).to.be.equal(1);
     expect(select.length).to.be.equal(1);
+    expect(input.length).to.be.equal(2);
     tree.unmount();
   });
 
@@ -23,7 +23,7 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     global.window = {
       location: {
         search:
-          '?contributionAmount=unlimited&city=boulder&country=usa&name=university&numberOfStudents=unlimited&state=co',
+          '?contributionAmount=unlimited&city=boulder&name=university&numberOfStudents=unlimited&state=co',
       },
     };
 
@@ -35,7 +35,6 @@ describe('Yellow Ribbon container <SearchForm>', () => {
       fetchResultsThunk.firstCall.calledWith({
         city: 'boulder',
         contributionAmount: 'unlimited',
-        country: 'usa',
         name: 'university',
         numberOfStudents: 'unlimited',
         state: 'co',

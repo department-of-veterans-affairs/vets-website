@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
@@ -9,23 +10,15 @@ import ExternalServicesError from 'platform/monitoring/external-services/Externa
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { ssoe } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
 
-const loginHandler = loginType => () => {
-  recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType);
-};
-
-const handleDsLogon = loginHandler('dslogon');
-const handleMhv = loginHandler('mhv');
-const handleIdMe = loginHandler('idme');
-
 const vaGovFullDomain = environment.BASE_URL;
 const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-class SignInModal extends React.Component {
+export class SignInModal extends React.Component {
   state = { globalDowntime: null };
 
   /*
@@ -43,6 +36,19 @@ class SignInModal extends React.Component {
       recordEvent({ event: 'login-modal-closed' });
     }
   }
+
+  authVersion() {
+    return this.props.useSSOe ? 'v1' : 'v0';
+  }
+
+  loginHandler = loginType => () => {
+    recordEvent({ event: `login-attempted-${loginType}` });
+    login(loginType, this.authVersion());
+  };
+
+  signupHandler = () => {
+    signup(this.authVersion());
+  };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
     <ExternalServicesError dependencies={dependencies} onRender={onRender}>
@@ -174,7 +180,7 @@ class SignInModal extends React.Component {
                   <button
                     disabled={globalDowntime}
                     className="dslogon"
-                    onClick={handleDsLogon}
+                    onClick={this.loginHandler('dslogon')}
                   >
                     <img
                       alt="DS Logon"
@@ -185,7 +191,7 @@ class SignInModal extends React.Component {
                   <button
                     disabled={globalDowntime}
                     className="mhv"
-                    onClick={handleMhv}
+                    onClick={this.loginHandler('mhv')}
                   >
                     <img
                       alt="My HealtheVet"
@@ -196,7 +202,7 @@ class SignInModal extends React.Component {
                   <button
                     disabled={globalDowntime}
                     className="usa-button-primary va-button-primary"
-                    onClick={handleIdMe}
+                    onClick={this.loginHandler('idme')}
                   >
                     <img
                       alt="ID.me"
@@ -210,7 +216,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="idme-create usa-button usa-button-secondary"
-                      onClick={signup}
+                      onClick={this.signupHandler}
                     >
                       <img
                         alt="ID.me"
@@ -326,4 +332,10 @@ SignInModal.propTypes = {
   visible: PropTypes.bool,
 };
 
-export default SignInModal;
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+
+export default connect(mapStateToProps)(SignInModal);

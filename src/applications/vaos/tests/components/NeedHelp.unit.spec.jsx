@@ -25,4 +25,10 @@ describe('VAOS <NeedHelp>', () => {
     );
     tree.unmount();
   });
+  it('should have aria labels to hide from screen reader', () => {
+    const tree = shallow(<NeedHelp />);
+
+    expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
+    tree.unmount();
+  });
 });

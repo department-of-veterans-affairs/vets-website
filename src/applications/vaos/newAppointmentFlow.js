@@ -108,6 +108,7 @@ export default {
                 // If CC enabled systems and toc is podiatry, skip typeOfFacility
                 if (isPodiatry(state)) {
                   dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+                  dispatch(startRequestAppointmentFlow(true));
                   return 'requestDateTime';
                 }
                 return 'typeOfFacility';
@@ -135,12 +136,13 @@ export default {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    next(state) {
+    next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
       }
 
       if (isCCFacility(state)) {
+        dispatch(startRequestAppointmentFlow(true));
         return 'requestDateTime';
       }
 
@@ -204,7 +206,10 @@ export default {
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'requestDateTime',
+    next(state, dispatch) {
+      dispatch(startRequestAppointmentFlow(true));
+      return 'requestDateTime';
+    },
     previous: 'typeOfFacility',
   },
   ccPreferences: {
@@ -216,10 +221,6 @@ export default {
     url: '/new-appointment/va-facility',
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
-
-      if (!eligibilityStatus.direct && !eligibilityStatus.request) {
-        recordEligibilityFailure();
-      }
 
       if (eligibilityStatus.direct) {
         let appointments = null;

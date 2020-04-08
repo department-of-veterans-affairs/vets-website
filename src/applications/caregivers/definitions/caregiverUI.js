@@ -4,6 +4,10 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import {
+  FacilityInfo,
+  PrimaryHealthCoverage,
+} from 'applications/caregivers/components/AdditionalInfo/formInfo';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
@@ -25,7 +29,7 @@ export default {
   sharedItems: {
     fullNameUI,
     dateOfBirthUI: currentOrPastDateUI('Date of Birth'),
-    addressUI: address.uiSchema('Current Street Address', false),
+    addressUI: address.uiSchema(' ', false),
     primaryPhoneNumberUI: phoneUI(
       'Primary Telephone Number (Including Area Code)',
     ),
@@ -36,7 +40,6 @@ export default {
       'ui:title': 'Email Address',
       'ui:widget': 'email',
     },
-
     genderUI: {
       'ui:title': 'Gender',
       'ui:widget': 'radio',
@@ -89,8 +92,6 @@ export default {
       },
     },
     [vetFields.preferredFacilityView]: {
-      'ui:title':
-        'Name of VA medical center or clinic where you receive or plan to receive health care services:',
       [vetFields.preferredFacilityStateView]: {
         'ui:title': 'Facility State',
         'ui:options': {
@@ -121,6 +122,10 @@ export default {
         },
       },
     },
+    preferredFacilityInfo: {
+      'ui:title': ' ',
+      'ui:widget': FacilityInfo,
+    },
   },
   primaryCaregiverUI: {
     ssnUI: {
@@ -131,9 +136,7 @@ export default {
       },
     },
     'view:primaryHealthCareEnrollment': {
-      'ui:title':
-        'Check all that the Primary Caregiver is currently enrolled in',
-      'ui:description': '',
+      'ui:description': PrimaryHealthCoverage,
       [primaryCaregiverFields.medicaidEnrolled]: {
         'ui:title': 'Enrolled in Medicaid?',
       },
@@ -171,9 +174,6 @@ export default {
       fullNameUI: {
         ...fullNameUI,
       },
-      addressUI: {
-        ...address.uiSchema('Current Street Address', false),
-      },
     },
     secondaryTwo: {
       ssnUI: {
@@ -199,9 +199,6 @@ export default {
       },
       dateOfBirthUI: {
         ...currentOrPastDateUI('Date of Birth'),
-      },
-      addressUI: {
-        ...address.uiSchema('Current Street Address', false),
       },
       primaryPhoneNumberUI: {
         ...phoneUI('Primary Telephone Number (Including Area Code)'),

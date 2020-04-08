@@ -59,7 +59,6 @@ class PaymentInformationEditModal extends React.Component {
     isSaving: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    editModalFieldChanged: PropTypes.func.isRequired,
     responseError: PropTypes.object,
   };
 

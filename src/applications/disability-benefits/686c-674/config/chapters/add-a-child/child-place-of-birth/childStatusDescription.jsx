@@ -3,11 +3,8 @@ import React from 'react';
 
 export const childStatusDescription = (
   <div>
-    <p className="vads-u-font-size--h3 vads-u-color--gray-dark vads-u-font-weight--bold vads-u-margin-bottom--1p5">
-      Additional evidence needed
-    </p>
     <p>
-      If you select a option other than{' '}
+      If you select an option other than{' '}
       <span className="vads-u-color--gray-dark vads-u-font-weight--bold">
         Biological
       </span>{' '}

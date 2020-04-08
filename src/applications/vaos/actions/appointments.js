@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { getMomentConfirmedDate, isCommunityCare } from '../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
+import { resetDataLayer } from '../utils/events';
 
 import {
   getConfirmedAppointments,
@@ -23,6 +24,12 @@ export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_SUCCEEDED';
+
+export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
+export const FETCH_PAST_APPOINTMENTS_FAILED =
+  'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
+export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
@@ -222,6 +229,55 @@ export function fetchFutureAppointments() {
   };
 }
 
+export function fetchPastAppointments(startDate, endDate) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_PAST_APPOINTMENTS,
+    });
+
+    try {
+      const data = await Promise.all([
+        getConfirmedAppointments(
+          'va',
+          moment(startDate).toISOString(),
+          moment(endDate).toISOString(),
+        ),
+        getConfirmedAppointments('cc', startDate, endDate),
+      ]);
+
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+        data,
+        startDate,
+        endDate,
+      });
+
+      try {
+        const {
+          clinicInstitutionList,
+          facilityData,
+        } = await getAdditionalFacilityInfo(getState().appointments.past);
+
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            clinicInstitutionList,
+            facilityData,
+          });
+        }
+      } catch (error) {
+        captureError(error);
+      }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_FAILED,
+        error,
+      });
+    }
+  };
+}
+
 const UNABLE_TO_KEEP_APPT = '5';
 const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
 
@@ -304,6 +360,7 @@ export function confirmCancelAppointment() {
         event: `${eventPrefix}-successful`,
         ...additionalEventdata,
       });
+      resetDataLayer();
     } catch (e) {
       captureError(e, true);
       dispatch({
@@ -314,6 +371,7 @@ export function confirmCancelAppointment() {
         event: `${eventPrefix}-failed`,
         ...additionalEventdata,
       });
+      resetDataLayer();
     }
   };
 }

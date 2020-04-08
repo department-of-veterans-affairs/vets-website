@@ -23,7 +23,6 @@ class VetTecProgramSearchResult extends React.Component {
       dodBah,
       schoolClosing,
       schoolClosingOn,
-      cautionFlags,
     } = result;
 
     const tuition = isPresent(tuitionAmount)
@@ -38,6 +37,10 @@ class VetTecProgramSearchResult extends React.Component {
       query: version ? { version } : {},
     };
 
+    const cautionFlags = this.props.result.cautionFlags
+      ? [...this.props.result.cautionFlags].filter(flag => flag.title)
+      : [];
+
     return (
       <div className="search-result">
         <div className="outer">
@@ -45,8 +48,8 @@ class VetTecProgramSearchResult extends React.Component {
             <div className="row vads-u-padding-top--1p5">
               <div className="small-12 medium-7 columns">
                 <h2>
-                  <a
-                    href={linkTo.pathname}
+                  <Link
+                    to={linkTo}
                     aria-label={`${description} ${locationInfo(
                       city,
                       state,
@@ -54,22 +57,20 @@ class VetTecProgramSearchResult extends React.Component {
                     )}`}
                   >
                     {description}
-                  </a>
+                  </Link>
                 </h2>
               </div>
               <div className="small-12 medium-3 columns">
                 {renderPreferredProviderFlag(this.props.result)}
               </div>
             </div>
-            {(schoolClosing || cautionFlags) && (
+            {(schoolClosing || (cautionFlags && cautionFlags.length > 0)) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
                   {cautionFlags &&
                     cautionFlags.length > 0 &&
-                    renderCautionAlert({
-                      cautionFlags,
-                    })}
+                    renderCautionAlert({ cautionFlags })}
                 </div>
               </div>
             )}

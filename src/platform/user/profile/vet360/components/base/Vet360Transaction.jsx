@@ -21,6 +21,7 @@ export default class Vet360Transaction extends React.Component {
   render() {
     const {
       id,
+      isModalOpen,
       children,
       refreshTransaction,
       title,
@@ -43,7 +44,12 @@ export default class Vet360Transaction extends React.Component {
               title={title}
               refreshTransaction={refreshTransaction}
               method={method}
-            />
+            >
+              {/* if this field's modal is open, pass in the children so prevent
+               the `Vet360TransactionPending` component from rendering the
+               "we're saving your info..." message */}
+              {isModalOpen && children}
+            </Vet360TransactionPending>
           </div>
         ) : (
           children

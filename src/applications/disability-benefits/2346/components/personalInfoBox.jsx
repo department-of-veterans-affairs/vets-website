@@ -51,10 +51,10 @@ personalInfoBox.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  first: state.form2346Reducer?.formData?.veteranFullName?.first,
-  last: state.form2346Reducer?.formData?.veteranFullName?.last,
-  gender: state.form2346Reducer?.formData?.gender,
-  dateOfBirth: state.form2346Reducer?.formData?.dateOfBirth,
+  first: state.form?.data?.fullName?.first,
+  last: state.form?.data?.fullName?.last,
+  gender: state.form?.data?.gender,
+  dateOfBirth: state.form?.data?.dateOfBirth,
 });
 const mapDispatchToProps = {
   getVeteranInformationData,

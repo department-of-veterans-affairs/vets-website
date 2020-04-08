@@ -62,7 +62,7 @@ export class VetTecSearchPage extends React.Component {
   }
 
   getQueryFilterFields = () => {
-    const booleanFilterParams = ['preferredProvider'];
+    const booleanFilterParams = ['preferredProvider', 'excludeCautionFlags'];
 
     const stringFilterParams = ['version', 'country', 'state', 'type'];
 

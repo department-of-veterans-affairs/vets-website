@@ -1,3 +1,5 @@
+import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import { TASK_KEYS } from '../../../constants';
 import { genericSchemas } from '../../../generic-schema';
 import { StepchildTitle } from './helpers';
 import { StepchildInfo } from '../stepchildren/helpers';
@@ -29,18 +31,7 @@ export const schema = {
               last: genericSchemas.genericTextInput,
             },
           },
-          stepchildAddress: {
-            type: 'object',
-            properties: {
-              country: genericSchemas.countryDropdown,
-              street: genericSchemas.genericTextInput,
-              line2: genericSchemas.genericTextInput,
-              line3: genericSchemas.genericTextInput,
-              city: genericSchemas.genericTextInput,
-              state: genericSchemas.genericTextInput,
-              postal: genericSchemas.genericNumberAndDashInput,
-            },
-          },
+          stepchildAddress: buildAddressSchema(false),
         },
       },
     },
@@ -85,39 +76,16 @@ export const uiSchema = {
         },
       },
       stepchildAddress: {
-        'ui:title': "Stepchild's address",
-        country: {
-          'ui:title': 'Country',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
-        },
-        street: {
-          'ui:title': 'Street',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
-        },
-        line2: {
-          'ui:title': 'Line 2',
-        },
-        line3: {
-          'ui:title': 'Line 3',
-        },
-        city: {
-          'ui:title': 'City',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
-        },
-        state: {
-          'ui:title': 'State',
-        },
-        postal: {
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
-          },
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
-          'ui:title': 'Postal Code',
-        },
+        ...{ 'ui:title': "Stepchild's address" },
+        ...addressUISchema(
+          false,
+          'stepChildren[INDEX].stepchildAddress',
+          formData =>
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportStepchildNotInHousehold,
+            ),
+        ),
       },
     },
   },

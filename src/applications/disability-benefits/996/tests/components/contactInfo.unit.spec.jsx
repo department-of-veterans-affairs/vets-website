@@ -25,8 +25,8 @@ describe('Higher-Level Review 0996 contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // phone, email, street, street2, city, state, postalCode
-    expect(form.find('input').length).to.equal(7);
+    // phone, email, street, street2, street3, city, state, postalCode
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 

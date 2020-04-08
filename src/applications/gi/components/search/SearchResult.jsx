@@ -8,7 +8,7 @@ import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -25,7 +25,6 @@ export class SearchResult extends React.Component {
       version,
       schoolClosing,
       schoolClosingOn,
-      cautionFlags,
       estimated,
       facilityCode,
       name,
@@ -38,6 +37,9 @@ export class SearchResult extends React.Component {
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
+    const cautionFlags = [...this.props.cautionFlags].filter(
+      flag => flag.title,
+    );
 
     const linkTo = {
       pathname: `profile/${facilityCode}`,
@@ -59,20 +61,22 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <a
-                    href={linkTo.pathname}
+                  <Link
+                    to={linkTo}
                     aria-label={`${name} ${locationInfo(city, state, country)}`}
                   >
                     {name}
-                  </a>
+                  </Link>
                 </h2>
               </div>
             </div>
-            {(schoolClosing || cautionFlags.length > 0) && (
+            {(schoolClosing || (cautionFlags && cautionFlags.length > 0)) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {renderCautionAlert({ cautionFlags })}
+                  {cautionFlags &&
+                    cautionFlags.length > 0 &&
+                    renderCautionAlert({ cautionFlags })}
                 </div>
               </div>
             )}

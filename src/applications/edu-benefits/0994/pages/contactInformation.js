@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { AddressViewField } from '../components/AddressViewField';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { PhoneEmailViewField } from '../components/PhoneEmailViewField';
 
 import {

@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
+import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
-import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
-import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
-import NoAppointments from '../components/NoAppointments';
 import {
-  fetchFutureAppointments,
   cancelAppointment,
-  confirmCancelAppointment,
   closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchFutureAppointments,
+  fetchPastAppointments,
   fetchRequestMessages,
   startNewAppointmentFlow,
 } from '../actions/appointments';
-import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
@@ -29,19 +25,45 @@ import {
   vaosDirectScheduling,
   vaosCommunityCare,
   isWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
 } from '../utils/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
+import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
+import FutureAppointmentsList from '../components/FutureAppointmentsList';
+import PastAppointmentsList from '../components/PastAppointmentsList';
 
 const pageTitle = 'VA appointments';
+const pastAppointmentDateRangeOptions = getPastAppointmentDateRangeOptions();
+
+const TABS = {
+  FUTURE: 0,
+  PAST: 1,
+};
 
 export class AppointmentsPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabIndex:
+        this.props.location?.query?.view === 'past' ? TABS.PAST : TABS.FUTURE,
+      selectedPastDateRangeIndex: 0,
+      selectedPastDateRange: pastAppointmentDateRangeOptions[0],
+    };
+  }
+
   componentDidMount() {
     if (this.props.isWelcomeModalDismissed) {
       scrollAndFocus();
     }
-    this.props.fetchFutureAppointments();
+
+    if (this.props.showPastAppointments && this.state.tabIndex === TABS.PAST) {
+      this.fetchPastAppointments();
+    } else {
+      this.props.fetchFutureAppointments();
+    }
+
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
@@ -54,12 +76,53 @@ export class AppointmentsPage extends Component {
     }
   }
 
+  onSelectTab = tabIndex => {
+    const { futureStatus, pastStatus } = this.props.appointments;
+    this.setState({ tabIndex });
+
+    let path = '';
+    if (tabIndex === 0) {
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        this.props.fetchFutureAppointments();
+      }
+    } else if (tabIndex === 1) {
+      if (pastStatus === FETCH_STATUS.notStarted) {
+        this.fetchPastAppointments();
+      }
+
+      path = '?view=past';
+    }
+
+    this.props.router.push(path);
+  };
+
+  onPastAppointmentDateRangeChange = e => {
+    const index = Number(e.target.value);
+    const selectedPastDateRange = pastAppointmentDateRangeOptions[index];
+
+    this.setState({
+      selectedPastDateRangeIndex: index,
+      selectedPastDateRange,
+    });
+
+    this.props.fetchPastAppointments(
+      selectedPastDateRange.startDate,
+      selectedPastDateRange.endDate,
+    );
+  };
+
   startNewAppointmentFlow = () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     this.props.startNewAppointmentFlow();
   };
+
+  fetchPastAppointments = () =>
+    this.props.fetchPastAppointments(
+      this.state.selectedPastDateRange.startDate,
+      this.state.selectedPastDateRange.endDate,
+    );
 
   render() {
     const {
@@ -72,96 +135,52 @@ export class AppointmentsPage extends Component {
       showDirectScheduling,
       isCernerOnlyPatient,
     } = this.props;
-    const {
-      future,
-      futureStatus,
-      facilityData,
-      requestMessages,
-      systemClinicToFacilityMap,
-    } = appointments;
 
-    let content;
+    const { selectedPastDateRangeIndex } = this.state;
 
-    const loading = futureStatus === FETCH_STATUS.loading;
-    const hasAppointments =
-      futureStatus === FETCH_STATUS.succeeded && future?.length > 0;
+    const futureAppointments = (
+      <>
+        <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+        {!showPastAppointments && (
+          <>
+            <p>
+              To view past appointments you’ve made,{' '}
+              <a
+                href={`https://${
+                  !environment.isProduction() ? 'mhv-syst' : 'www'
+                }.myhealth.va.gov/mhv-portal-web/appointments`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  recordEvent({
+                    event: 'vaos-past-appointments-legacy-link-clicked',
+                  })
+                }
+              >
+                go to My HealtheVet
+              </a>
+              .
+            </p>
+          </>
+        )}
+        <FutureAppointmentsList
+          appointments={appointments}
+          cancelAppointment={this.props.cancelAppointment}
+          fetchRequestMessages={this.props.fetchRequestMessages}
+          showCancelButton={showCancelButton}
+          showScheduleButton={showScheduleButton}
+          startNewAppointmentFlow={this.startNewAppointmentFlow}
+        />
+      </>
+    );
 
-    if (loading) {
-      content = (
-        <div className="vads-u-margin-y--8">
-          <LoadingIndicator message="Loading your appointments..." />
-        </div>
-      );
-    } else if (hasAppointments) {
-      content = (
-        <ul className="usa-unstyled-list" id="appointments-list">
-          {future.map((appt, index) => {
-            const type = getAppointmentType(appt);
-
-            switch (type) {
-              case APPOINTMENT_TYPES.ccRequest:
-              case APPOINTMENT_TYPES.request:
-                return (
-                  <AppointmentRequestListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    type={type}
-                    facility={
-                      facilityData[
-                        getRealFacilityId(appt.facility?.facilityCode)
-                      ]
-                    }
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={this.props.cancelAppointment}
-                    fetchMessages={this.props.fetchRequestMessages}
-                    messages={requestMessages}
-                  />
-                );
-              case APPOINTMENT_TYPES.ccAppointment:
-              case APPOINTMENT_TYPES.vaAppointment:
-                return (
-                  <ConfirmedAppointmentListItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                    type={type}
-                    facility={
-                      systemClinicToFacilityMap[
-                        `${appt.facilityId}_${appt.clinicId}`
-                      ]
-                    }
-                    showCancelButton={showCancelButton}
-                    cancelAppointment={this.props.cancelAppointment}
-                  />
-                );
-              default:
-                return null;
-            }
-          })}
-        </ul>
-      );
-    } else if (futureStatus === FETCH_STATUS.failed) {
-      content = (
-        <AlertBox
-          status="error"
-          headline="We're sorry. We've run into a problem"
-        >
-          We're having trouble getting your upcoming appointments. Please try
-          again later.
-        </AlertBox>
-      );
-    } else {
-      content = (
-        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-          <NoAppointments
-            showScheduleButton={showScheduleButton}
-            isCernerOnlyPatient={isCernerOnlyPatient}
-            startNewAppointmentFlow={this.startNewAppointmentFlow}
-          />
-        </div>
-      );
-    }
+    const tabClasses = classNames(
+      'vaos-appts__tab',
+      'vads-u-background-color--gray-light-alt',
+      'vads-u-margin--0',
+      'vads-u-display--inline-block',
+      'vads-u-text-align--center',
+    );
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -177,30 +196,35 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
-            <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-              Upcoming appointments
-            </h2>
-            {!showPastAppointments && (
-              <p>
-                To view past appointments you’ve made,{' '}
-                <a
-                  href={`https://${
-                    !environment.isProduction() ? 'mhv-syst' : 'www'
-                  }.myhealth.va.gov/mhv-portal-web/appointments`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'vaos-past-appointments-legacy-link-clicked',
-                    })
-                  }
-                >
-                  go to My HealtheVet
-                </a>
-                .
-              </p>
+            {showPastAppointments ? (
+              <Tabs
+                className="vaos-appts__tabs"
+                selectedIndex={this.state.tabIndex}
+                onSelect={this.onSelectTab}
+              >
+                <TabList>
+                  <Tab className={tabClasses}>Upcoming appointments</Tab>
+                  <Tab className={tabClasses}>Past appointments</Tab>
+                </TabList>
+                <TabPanel>{futureAppointments}</TabPanel>
+                <TabPanel>
+                  <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
+                    Past appointments
+                  </h3>
+                  <PastAppointmentsList
+                    appointments={appointments}
+                    dateRangeOptions={pastAppointmentDateRangeOptions}
+                    isCernerOnlyPatient
+                    onDateRangeChange={this.onPastAppointmentDateRangeChange}
+                    selectedDateRangeIndex={selectedPastDateRangeIndex}
+                    startNewAppointmentFlow={this.props.startNewAppointmentFlow}
+                  />
+                </TabPanel>
+              </Tabs>
+            ) : (
+              futureAppointments
             )}
-            {content}
+
             <NeedHelp />
           </div>
         </div>
@@ -233,11 +257,12 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  fetchFutureAppointments,
-  fetchRequestMessages,
   cancelAppointment,
-  confirmCancelAppointment,
   closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchFutureAppointments,
+  fetchPastAppointments,
+  fetchRequestMessages,
   startNewAppointmentFlow,
 };
 

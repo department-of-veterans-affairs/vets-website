@@ -5,6 +5,7 @@ import CancelCommunityCareAppointmentModal from './CancelCommunityCareAppointmen
 import CancelAppointmentFailedModal from './CancelAppointmentFailedModal';
 import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
+import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 import { isVideoVisit, getAppointmentType } from '../../utils/appointment';
@@ -18,6 +19,7 @@ export default class CancelAppointmentModal extends React.Component {
       onClose,
       onConfirm,
       facility,
+      cernerFacilities,
     } = this.props;
 
     if (!showCancelModal) {
@@ -38,6 +40,19 @@ export default class CancelAppointmentModal extends React.Component {
         <CancelCommunityCareAppointmentModal
           onClose={onClose}
           appointment={appointmentToCancel}
+        />
+      );
+    }
+
+    const isCerner = cernerFacilities?.some(facilityId =>
+      this.props.appointmentToCancel.facilityId?.startsWith(facilityId),
+    );
+
+    if (isCerner) {
+      return (
+        <CancelCernerAppointmentModal
+          onClose={onClose}
+          status={cancelAppointmentStatus}
         />
       );
     }
