@@ -8,14 +8,14 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .order-background {
-  background-color: #f1f1f1;
+  background-color: $color-gray-lightest;
   padding-left: 2em;
   padding-top: 1em;
   padding-bottom: 1em;
   margin-bottom: 1em;
 }
 .gray-color {
-  background-color: #f1f1f1;
+  background-color: $color-gray-lightest;
 }
 
 .form-expanding-group {
@@ -39,8 +39,8 @@ label {
 }
 
 [type="checkbox"]:checked + label::before {
-  background: #fff !important;
-  color: #0071bb !important;
+  background: $color-white !important;
+  color: $color-primary !important;
   content: "\2713";
 }
 
@@ -53,12 +53,12 @@ label {
 }
 
 .required {
-  color: red;
+  color: $color-secondary-dark;
   font-weight: normal;
 }
 
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-   background-color: #fff;
+   background-color: $color-white;
 }
 
 .blue-bar-block {
