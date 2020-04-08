@@ -51,7 +51,7 @@ const globalEntryFiles = {
  * application entries are built.
  */
 function getEntryPoints(entry) {
-  const manifests = getAppManifests(path.join(__dirname, '../'));
+  const manifests = getAppManifests();
   let manifestsToBuild = manifests;
   if (entry) {
     const entryNames = entry.split(',').map(name => name.trim());
@@ -75,7 +75,7 @@ function getEntryPoints(entry) {
  */
 function getSettings() {
   const settings = {};
-  const manifests = getAppManifests(path.join(__dirname, '../'));
+  const manifests = getAppManifests();
   settings.applications = manifests
     .map(
       m =>
