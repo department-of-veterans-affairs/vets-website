@@ -22,6 +22,22 @@ describe('<CautionFlagDetails>', () => {
     wrapper.unmount();
   });
 
+  it('sorts caution flags by title', () => {
+    const cautionFlags = [
+      { title: 'Test flag z', id: 1 },
+      { title: 'Test flag a', id: 2 },
+    ];
+
+    const wrapper = mount(<CautionFlagDetails cautionFlags={cautionFlags} />);
+    expect(
+      wrapper
+        .find('.usa-alert-heading')
+        .at(0)
+        .text(),
+    ).to.equal(cautionFlags[1].title);
+    wrapper.unmount();
+  });
+
   it('displays caution flag data correctly', () => {
     const cautionFlag = {
       id: 1,

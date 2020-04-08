@@ -46,41 +46,32 @@ export const renderSchoolClosingAlert = result => {
   );
 };
 
-const renderReasons = cautionFlags => {
-  const flags = [];
-
-  if (cautionFlags.length === 1) {
-    return <p>{cautionFlags[0].reason}</p>;
-  }
-  cautionFlags
-    .sort((a, b) => {
-      if (a.reason.toLowerCase() < b.reason.toLowerCase()) return -1;
-      if (a.reason.toLowerCase() > b.reason.toLowerCase()) return 1;
-      return 0;
-    })
-    .forEach(flag => {
-      flags.push(
-        <li
-          className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
-          key={flag.id}
-        >
-          {flag.reason}
-        </li>,
-      );
-    });
-
-  return <ul className="vads-u-margin-top--0">{flags}</ul>;
-};
-
 export const renderCautionAlert = result => {
   const { cautionFlags } = result;
   if (cautionFlags.length === 0) return null;
+
   // Prod flag for 6803
   if (!environment.isProduction()) {
     return (
       <AlertBox
         className="vads-u-margin-top--1"
-        content={renderReasons(cautionFlags)}
+        content={
+          <ul className="vads-u-margin-top--0">
+            {[...cautionFlags]
+              .sort(
+                (a, b) =>
+                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+              )
+              .map(flag => (
+                <li
+                  className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+                  key={flag.id}
+                >
+                  {flag.title}
+                </li>
+              ))}
+          </ul>
+        }
         headline={
           cautionFlags.length > 1
             ? 'This school has cautionary warnings'
