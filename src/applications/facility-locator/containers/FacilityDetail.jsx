@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchVAFacility } from '../actions';
 import { focusElement } from '../../../platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
@@ -41,13 +42,59 @@ class FacilityDetail extends Component {
     document.title = this.__previousDocTitle;
   }
 
+  showOperationStatus(operationStatus, website) {
+    if (!operationStatus) {
+      return null;
+    }
+    let operationStatusTitle;
+    let alertClass;
+    if (operationStatus === 1) {
+      operationStatusTitle = 'Facility notice';
+      alertClass = 'info';
+    }
+    if (operationStatus === 2) {
+      operationStatusTitle = 'Limited services and hours';
+      alertClass = 'warning';
+    }
+    if (operationStatus === 3) {
+      operationStatusTitle = 'Facility Closed';
+      alertClass = 'error';
+    }
+    return (
+      <AlertBox
+        headline={`${operationStatusTitle}`}
+        content={
+          <div>
+            <p>
+              Operating status text, 300 character limit. Aenean laoreet ac dui
+              non pretium. Nullam at mauris cursus ipsum sagittis venenatis.
+              Cras vitae maximus orci, in laoreet risus. Phasellus Phasellus vel
+              tempor elit. Duis id gravida leo. Curabitur ex eleifend quis
+              turpis at, pharetra viverra fusce.
+            </p>
+            {/* Will remove this logic before merging */}
+            {website ||
+              (true && (
+                <p>
+                  Visit the <a href={website || 'http://va.gov'}>website</a> to
+                  learn more about hours
+                </p>
+              ))}
+          </div>
+        }
+        status={`${alertClass}`}
+      />
+    );
+  }
+
   renderFacilityInfo() {
     const { facility } = this.props;
+    const { name, website, phone, operationStatus } = facility.attributes;
 
-    const { name, website, phone } = facility.attributes;
     return (
       <div>
         <h1>{name}</h1>
+        {this.showOperationStatus(operationStatus, website)}
         <div className="p1">
           <FacilityTypeDescription location={facility} />
           <LocationAddress location={facility} />
