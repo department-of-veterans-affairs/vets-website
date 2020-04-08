@@ -58,6 +58,9 @@ const LocationInfoBlock = ({ location, from, query }) => {
           )}
         </span>
       )}
+      <div className="usa-alert usa-alert-error background-color-only">
+        <div className="usa-alert-body">Error alert</div>
+      </div>
       <p>
         <LocationAddress location={location} />
       </p>
