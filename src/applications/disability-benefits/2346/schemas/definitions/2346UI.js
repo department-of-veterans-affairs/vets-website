@@ -61,7 +61,7 @@ export default {
             updateRadioLabels(formData, address),
           );
           return {
-            enum: [...enums, 'Add New Address'],
+            enum: [...enums, 'Add new address'],
           };
         },
       },
