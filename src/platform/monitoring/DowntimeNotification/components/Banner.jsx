@@ -25,7 +25,7 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
             <AlertBox
               status="info"
               isVisible
-              content={<DownMessaging appTitle={appTitle} {...downtime} />}
+              content={<DownMessaging appTitle={appTitle} />}
             />
           );
         }

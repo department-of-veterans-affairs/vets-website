@@ -1,8 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-// eslint-disable-next-line no-unused-vars
-export function DownMessaging({ endTime, appTitle }) {
+export function DownMessaging({ appTitle }) {
   return (
     <p>
       We’re making some updates to the {appTitle}. We’re sorry it’s not working
