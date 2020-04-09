@@ -299,6 +299,8 @@ export function confirmCancelAppointment() {
       appointmentType: isPendingRequest ? 'pending' : 'confirmed',
       facilityType: isCommunityCare(appointment) ? 'cc' : 'va',
     };
+    let cancelReasons = null;
+    let cancelReason = null;
 
     try {
       recordEvent({
@@ -328,7 +330,7 @@ export function confirmCancelAppointment() {
           cancelCode: 'PC',
         };
 
-        const cancelReasons = await getCancelReasons(appointment.facilityId);
+        cancelReasons = await getCancelReasons(appointment.facilityId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
@@ -340,7 +342,7 @@ export function confirmCancelAppointment() {
         } else if (
           cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
         ) {
-          const cancelReason = cancelReasons.find(reason =>
+          cancelReason = cancelReasons.find(reason =>
             VALID_CANCEL_CODES.has(reason.number),
           );
           await updateAppointment({
@@ -362,7 +364,16 @@ export function confirmCancelAppointment() {
       });
       resetDataLayer();
     } catch (e) {
-      captureError(e, true);
+      if (e.errors?.[0]?.code === 'VAOS_400') {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', e);
+          scope.setExtra('cancelReasons', cancelReasons);
+          scope.setExtra('cancelReason', cancelReason);
+          Sentry.captureMessage('Cancel failed due to bad request');
+        });
+      } else {
+        captureError(e, true);
+      }
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
