@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TabNav from '../components/TabNav';
 import recordEvent from 'platform/monitoring/record-event';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
@@ -9,15 +8,11 @@ import {
   cancelAppointment,
   closeCancelAppointment,
   confirmCancelAppointment,
-  fetchFutureAppointments,
-  fetchPastAppointments,
-  fetchRequestMessages,
   startNewAppointmentFlow,
 } from '../actions/appointments';
 import CancelAppointmentModal from '../components/cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
-  vaosCancel,
   vaosRequests,
   vaosPastAppts,
   vaosDirectScheduling,
@@ -25,83 +20,34 @@ import {
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+import { GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
 
 const pageTitle = 'VA appointments';
-const pastAppointmentDateRangeOptions = getPastAppointmentDateRangeOptions();
 
 export class AppointmentsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedPastDateRangeIndex: 0,
-      selectedPastDateRange: pastAppointmentDateRangeOptions[0],
-    };
-  }
-
   componentDidMount() {
-    const { showPastAppointments } = this.props;
+    const { showPastAppointments, location } = this.props;
     if (this.props.isWelcomeModalDismissed) {
       scrollAndFocus();
     }
 
-    if (showPastAppointments && this.isPastView()) {
-      this.fetchPastAppointments();
-    } else if (!showPastAppointments && this.isPastView()) {
-      this.props.router.push('/upcoming');
-    } else {
-      this.props.fetchFutureAppointments();
+    if (!showPastAppointments && location?.pathname === '/past') {
+      this.props.router.push('/');
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   componentDidUpdate(prevProps) {
-    const { appointments } = this.props;
-
     if (
       this.props.isWelcomeModalDismissed &&
       !prevProps.isWelcomeModalDismissed
     ) {
       scrollAndFocus();
     }
-
-    if (prevProps.location.pathname !== this.props.location.pathname) {
-      if (
-        this.isFutureView() &&
-        appointments.futureStatus === FETCH_STATUS.notStarted
-      ) {
-        this.props.fetchFutureAppointments();
-      } else if (
-        this.isPastView() &&
-        appointments.pastStatus === FETCH_STATUS.notStarted
-      ) {
-        this.fetchPastAppointments();
-      }
-    }
   }
-
-  onPastAppointmentDateRangeChange = e => {
-    const index = Number(e.target.value);
-    const selectedPastDateRange = pastAppointmentDateRangeOptions[index];
-
-    this.setState({
-      selectedPastDateRangeIndex: index,
-      selectedPastDateRange,
-    });
-
-    this.props.fetchPastAppointments(
-      selectedPastDateRange.startDate,
-      selectedPastDateRange.endDate,
-    );
-  };
-
-  isFutureView = () => this.props.location?.pathname === '/upcoming';
-
-  isPastView = () => this.props.location?.pathname === '/past';
 
   startNewAppointmentFlow = () => {
     recordEvent({
@@ -110,20 +56,11 @@ export class AppointmentsPage extends Component {
     this.props.startNewAppointmentFlow();
   };
 
-  fetchPastAppointments = () =>
-    this.props.fetchPastAppointments(
-      this.state.selectedPastDateRange.startDate,
-      this.state.selectedPastDateRange.endDate,
-    );
-
   render() {
     const {
-      appointments,
       cancelInfo,
       children,
-      showCancelButton,
       showScheduleButton,
-      showPastAppointments,
       showCommunityCare,
       showDirectScheduling,
       isCernerOnlyPatient,
@@ -143,31 +80,7 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
-            {showPastAppointments && <TabNav />}
-            {React.Children.map(children, child =>
-              React.cloneElement(
-                child,
-                child.type.name.toLowerCase().includes('future')
-                  ? {
-                      appointments,
-                      cancelAppointment: this.props.cancelAppointment,
-                      fetchRequestMessages: this.props.fetchRequestMessages,
-                      isCernerOnlyPatient,
-                      showCancelButton,
-                      showScheduleButton,
-                      showPastAppointmentsLink: !showPastAppointments,
-                      startNewAppointmentFlow: this.props
-                        .startNewAppointmentFlow,
-                    }
-                  : {
-                      appointments,
-                      dateRangeOptions: pastAppointmentDateRangeOptions,
-                      onDateRangeChange: this.onPastAppointmentDateRangeChange,
-                      selectedDateRangeIndex: this.state
-                        .selectedPastDateRangeIndex,
-                    },
-              ),
-            )}
+            {children}
             <NeedHelp />
           </div>
         </div>
@@ -182,14 +95,14 @@ export class AppointmentsPage extends Component {
 }
 
 AppointmentsPage.propTypes = {
-  fetchFutureAppointments: PropTypes.func.isRequired,
+  closeCancelAppointment: PropTypes.func.isRequired,
+  confirmCancelAppointment: PropTypes.func.isRequired,
+  startNewAppointmentFlow: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    appointments: state.appointments,
     cancelInfo: getCancelInfo(state),
-    showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
     showCommunityCare: vaosCommunityCare(state),
@@ -203,9 +116,6 @@ const mapDispatchToProps = {
   cancelAppointment,
   closeCancelAppointment,
   confirmCancelAppointment,
-  fetchFutureAppointments,
-  fetchPastAppointments,
-  fetchRequestMessages,
   startNewAppointmentFlow,
 };
 
