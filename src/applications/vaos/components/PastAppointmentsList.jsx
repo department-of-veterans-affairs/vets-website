@@ -28,7 +28,7 @@ export class PastAppointmentsList extends React.Component {
   componentDidMount() {
     if (!this.props.showPastAppointments) {
       this.props.router.push('/');
-    } else if (this.props.appointments.pastStatus === FETCH_STATUS.notStarted) {
+    } else {
       this.props.fetchPastAppointments(
         this.state.selectedDateRange.startDate,
         this.state.selectedDateRange.endDate,
