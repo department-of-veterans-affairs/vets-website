@@ -36,7 +36,7 @@ describe('renderSchoolClosingAlert', () => {
 });
 
 describe('renderCautionAlert', () => {
-  it('should render', () => {
+  it('should render multiple alerts as list items', () => {
     const cautionFlags = [
       { title: 'TEST A', id: 1 },
       { title: 'TEST B', id: 2 },
@@ -51,6 +51,19 @@ describe('renderCautionAlert', () => {
     ).to.equal(cautionFlags[0].title);
     expect(tree.find('li').length).to.equal(cautionFlags.length);
 
+    tree.unmount();
+  });
+  it('should render single alert as text', () => {
+    const cautionFlags = [{ title: 'TEST A', id: 1 }];
+
+    const tree = shallow(renderCautionAlert({ cautionFlags }));
+    expect(
+      tree
+        .find('p')
+        .at(0)
+        .text(),
+    ).to.equal(cautionFlags[0].title);
+    expect(tree.exists('li')).to.equal(false);
     tree.unmount();
   });
   it('should render correct heading for single flag', () => {
