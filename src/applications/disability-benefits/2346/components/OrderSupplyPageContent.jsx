@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class orderSupplyPageContent extends React.Component {
+class OrderSupplyPageContent extends Component {
   render() {
     return (
       <div>
@@ -12,4 +12,4 @@ class orderSupplyPageContent extends React.Component {
     );
   }
 }
-export default orderSupplyPageContent;
+export default OrderSupplyPageContent;

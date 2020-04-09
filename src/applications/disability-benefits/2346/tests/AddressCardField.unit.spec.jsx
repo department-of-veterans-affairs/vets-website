@@ -4,7 +4,7 @@ import _ from 'lodash/fp';
 import set from 'platform/utilities/data/set';
 import React from 'react';
 import { spy } from 'sinon';
-import { AddressCardField } from '../components/addressFields/AddressCardField';
+import { AddressCardField } from '../components/AddressFields/AddressCardField';
 
 const viewComponent = formData => (
   <div>
@@ -58,10 +58,11 @@ describe('Schemaform: AddressCardField', () => {
   });
 
   it('should throw an error if no viewComponent is found', () => {
-    expect(() => {
-      // eslint-disable-next-line va-enzyme/unmount
-      shallow(<AddressCardField {...defaultProps} uiSchema={{}} />);
-    }).to.throw('viewComponent');
+    const wrapper = shallow(
+      <AddressCardField {...defaultProps} uiSchema={{}} />,
+    );
+    expect(() => wrapper).to.throw('viewComponent');
+    wrapper.unmount();
   });
 
   it('should throw an error if schema type is not object or array', () => {

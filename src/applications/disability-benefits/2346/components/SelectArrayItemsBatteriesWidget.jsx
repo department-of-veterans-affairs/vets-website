@@ -1,11 +1,16 @@
-import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
+import {
+  BLUE_BACKGROUND,
+  HEARING_AID_BATTERIES,
+  WHITE_BACKGROUND,
+} from '../constants';
 // TODO: Safety checks for `selected` callback and `label` element
 
-class SelectArrayItemsBatteriesWidget extends React.Component {
+class SelectArrayItemsBatteriesWidget extends Component {
   state = {
     selectedItems: [],
   };
@@ -32,7 +37,7 @@ class SelectArrayItemsBatteriesWidget extends React.Component {
 
     return supplies.map(
       supply =>
-        supply.productGroup === 'hearing aid batteries' ? (
+        supply.productGroup === HEARING_AID_BATTERIES ? (
           <div key={supply.productId} className="order-background">
             <p className="vads-u-font-size--md vads-u-font-weight--bold">
               {supply.productName}
@@ -59,8 +64,8 @@ class SelectArrayItemsBatteriesWidget extends React.Component {
             <div
               className={
                 selectedItems.includes(supply.productId)
-                  ? 'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px'
-                  : 'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px'
+                  ? BLUE_BACKGROUND
+                  : WHITE_BACKGROUND
               }
             >
               <input

@@ -1,6 +1,6 @@
 import React from 'react';
-import orderSupplyPageContent from '../../components/oderSupplyPageContent';
-import orderAccessoriesPageContent from '../../components/orderAccessoriesPageContent';
+import OrderSupplyPageContent from '../../components/OrderSupplyPageContent';
+import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageContent';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
@@ -84,7 +84,7 @@ export default {
     },
     addBatteriesUI: {
       'ui:title': 'Add batteries to your order',
-      'ui:description': orderSupplyPageContent,
+      'ui:description': OrderSupplyPageContent,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -96,7 +96,7 @@ export default {
     },
     addAccessoriesUI: {
       'ui:title': 'Add hearing aid accessories to your order',
-      'ui:description': orderAccessoriesPageContent,
+      'ui:description': OrderAccessoriesPageContent,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {

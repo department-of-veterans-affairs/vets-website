@@ -1,5 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import personalInfoBox from '../components/personalInfoBox';
+import personalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const sizeField = () => (
+const LastOrderDateField = () => (
   <>
     <p className="vads-u-font-size--md vads-u-font-weight--bold">
       OMEGA XD3241
@@ -30,4 +30,4 @@ const sizeField = () => (
   </>
 );
 
-export default sizeField;
+export default LastOrderDateField;
