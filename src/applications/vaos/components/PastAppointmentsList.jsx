@@ -143,7 +143,7 @@ PastAppointmentsList.propTypes = {
 function mapStateToProps(state) {
   return {
     appointments: state.appointments,
-    fetchPastAppointments: PropTypes.func,
+    fetchPastAppointments,
     showPastAppointments: vaosPastAppts(state),
   };
 }
