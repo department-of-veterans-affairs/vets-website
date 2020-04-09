@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { TabItem } from '../../components/TabItem';
 
 const location = {
-  pathname: '/upcoming',
+  pathname: 'upcoming',
 };
 
 describe('<TabItem>', () => {
@@ -20,7 +20,7 @@ describe('<TabItem>', () => {
     );
 
     expect(tree.find('IndexLink').props()['aria-controls']).to.equal(
-      'tabPanelTitle',
+      'tabTitle',
     );
     expect(tree.find('IndexLink').props().to).to.equal('upcoming');
     tree.unmount();
@@ -38,7 +38,7 @@ describe('<TabItem>', () => {
     );
 
     expect(tree.find('IndexLink').props()['aria-controls']).to.equal(
-      'tabPanelTitleHere',
+      'tabTitleHere',
     );
     expect(tree.find('IndexLink').props().id).to.equal('tabTitleHere');
     expect(tree.find('IndexLink').props().to).to.equal('upcoming');
