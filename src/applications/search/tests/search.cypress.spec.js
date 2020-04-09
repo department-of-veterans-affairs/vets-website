@@ -25,12 +25,6 @@ describe('Search', () => {
       '/v0/search?query=test2',
       scenarios['multiple matching results exist'],
     ).as('searchWithMultipleResults');
-
-    // Workaround to intercept requests made with fetch API.
-    cy.on('window:before:load', window => {
-      // eslint-disable-next-line no-param-reassign
-      delete window.fetch;
-    });
   });
 
   it('searches from the home page', () => {
