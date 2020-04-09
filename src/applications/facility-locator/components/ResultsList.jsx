@@ -51,7 +51,7 @@ class ResultsList extends Component {
 
     if (inProgress) {
       return (
-        <div>
+        <li>
           <LoadingIndicator
             message={`Searching for ${facilityTypeName}
             in ${searchString}`}
@@ -64,7 +64,7 @@ class ResultsList extends Component {
               content="Your results should appear in less than a minute. Thank you for your patience."
             />
           </DelayedRender>
-        </div>
+        </li>
       );
     }
 
@@ -74,7 +74,7 @@ class ResultsList extends Component {
         const timedOut = error.find(err => TIMEOUTS.has(err.code));
         if (timedOut) {
           return (
-            <div
+            <li
               className="search-result-title facility-result"
               ref={this.searchResultTitle}
             >
@@ -92,13 +92,13 @@ class ResultsList extends Component {
                 If you have a medical emergency, please go to your nearest
                 emergency room or call 911.
               </p>
-            </div>
+            </li>
           );
         }
       }
 
       return (
-        <div
+        <li
           className="search-result-title facility-result"
           ref={this.searchResultTitle}
         >
@@ -112,14 +112,14 @@ class ResultsList extends Component {
             If you have a medical emergency, please go to your nearest emergency
             room or call 911.
           </p>
-        </div>
+        </li>
       );
     }
 
     if (!results || results.length < 1) {
       if (this.props.facilityTypeName === facilityTypes.cc_provider) {
         return (
-          <div
+          <li
             className="search-result-title facility-result"
             ref={this.searchResultTitle}
           >
@@ -136,18 +136,18 @@ class ResultsList extends Component {
               </li>
             </ul>
             Then click <strong>Search</strong>.
-          </div>
+          </li>
         );
       }
       return (
-        <div
+        <li
           className="search-result-title facility-result"
           ref={this.searchResultTitle}
         >
           No facilities found. Please try entering a different search term
           (Street, City, State or Postal code) and click search to find
           facilities.
-        </div>
+        </li>
       );
     }
 

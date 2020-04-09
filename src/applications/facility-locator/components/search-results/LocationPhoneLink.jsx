@@ -18,7 +18,7 @@ const renderPhoneNumber = (
   const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4})[ ]?(x?)[ ]?(\d*)/;
 
   return (
-    <div>
+    <dfn>
       {from === 'FacilityDetail' && <i className={`fa fa-${icon}`} />}
       {title && <strong>{title}: </strong>}
       {!isCCProvider && phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
@@ -35,7 +35,7 @@ const renderPhoneNumber = (
           {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
         </a>
       ) : null}
-    </div>
+    </dfn>
   );
 };
 
