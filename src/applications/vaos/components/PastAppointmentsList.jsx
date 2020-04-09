@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import ConfirmedCommunityCareItem from './ConfirmedCommunityCareItem';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
@@ -32,13 +31,6 @@ export default function PastAppointmentsList({
           {past.map((appt, index) => {
             switch (appt.appointmentType) {
               case APPOINTMENT_TYPES.ccAppointment:
-                return (
-                  <ConfirmedCommunityCareItem
-                    key={index}
-                    index={index}
-                    appointment={appt}
-                  />
-                );
               case APPOINTMENT_TYPES.vaAppointment:
                 return (
                   <ConfirmedAppointmentListItem
