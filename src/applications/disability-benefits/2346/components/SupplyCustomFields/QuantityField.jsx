@@ -1,6 +1,6 @@
 import React from 'react';
 
-const productName = () => (
+const QuantityField = () => (
   <>
     <p className="vads-u-font-size--md vads-u-font-weight--bold">
       OMEGA XD3241
@@ -30,4 +30,4 @@ const productName = () => (
   </>
 );
 
-export default productName;
+export default QuantityField;

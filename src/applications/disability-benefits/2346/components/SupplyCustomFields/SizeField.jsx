@@ -1,6 +1,6 @@
 import React from 'react';
 
-const quantityField = () => (
+const SizeField = () => (
   <>
     <p className="vads-u-font-size--md vads-u-font-weight--bold">
       OMEGA XD3241
@@ -30,4 +30,4 @@ const quantityField = () => (
   </>
 );
 
-export default quantityField;
+export default SizeField;

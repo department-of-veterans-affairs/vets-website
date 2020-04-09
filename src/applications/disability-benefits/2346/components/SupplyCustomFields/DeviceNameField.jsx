@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-const deviceNameField = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const DeviceNameField = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
@@ -46,4 +45,4 @@ const deviceNameField = () => {
   );
 };
 
-export default deviceNameField;
+export default DeviceNameField;
