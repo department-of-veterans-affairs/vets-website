@@ -12,5 +12,5 @@ export default Object.freeze({
   vaProfileAddressValidation: 'vaProfileAddressValidation',
   ssoe: 'ssoe',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
-  eduEstimateYourBenefitsSection103: 'eduEstimateYourBenefitsSection103',
+  eduSection103: 'eduSection103',
 });
