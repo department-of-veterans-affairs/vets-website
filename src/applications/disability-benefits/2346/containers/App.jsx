@@ -5,7 +5,7 @@ import formConfig from '../config/form';
 
 export default function App({ location, children }) {
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <>
       <Breadcrumbs>
         {[
           <a href="#" key="1">
@@ -19,7 +19,9 @@ export default function App({ location, children }) {
           </a>,
         ]}
       </Breadcrumbs>
-      {children}
-    </RoutedSavableApp>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </>
   );
 }
