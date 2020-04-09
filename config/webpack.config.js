@@ -95,26 +95,18 @@ function getSettings() {
 }
 
 module.exports = env => {
-  const buildOptions = Object.assign(
-    {
-      api: '',
-      buildtype: 'localhost',
-      host: 'localhost',
-      port: 3001,
-      watch: false,
+  const buildOptions = {
+    api: '',
+    buildtype: 'localhost',
+    host: 'localhost',
+    port: 3001,
+    watch: false,
+    ...env,
+    get destination() {
+      return path.resolve(__dirname, '../', 'build', this.buildtype);
     },
-    env,
-  );
-  // Assign additional defaults which reference other properties
-  Object.assign(buildOptions, {
-    destination: path.resolve(
-      __dirname,
-      '../',
-      'build',
-      buildOptions.buildtype,
-    ),
-  });
-  buildOptions.settings = getSettings();
+    settings: getSettings(),
+  };
 
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
