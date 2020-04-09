@@ -11,7 +11,6 @@ describe('Find Yellow Ribbon Page <FindYellowRibbonPage>', () => {
     const text = tree.text();
 
     // Expect there to be:
-    expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
     expect(text).to.include('Find a Yellow Ribbon school');
     expect(text).to.include(
       'Find out if your school participates in the Yellow Ribbon program.',

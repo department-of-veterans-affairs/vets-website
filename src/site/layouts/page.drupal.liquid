@@ -9,7 +9,11 @@
     {% include 'src/site/navigation/sidebar_nav.drupal.liquid' with sidebar %}
 
     <div class="usa-width-three-fourths">
-        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+
+        {% if sidebar.links != empty %}
+          {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% endif %}
+
         {% if !entityPublished %}
         <div class="usa-alert usa-alert-info" >
           <div class="usa-alert-body">
@@ -20,9 +24,11 @@
 
       <article class="usa-content">
         <h1>{{ title }}</h1>
-        <div class="va-introtext">
-          <p>{{ fieldIntroText }}</p>
-        </div>
+        {% if fieldIntroTextLimitedHtml.processed %}
+          <div class="va-introtext">
+            <p>{{ fieldIntroTextLimitedHtml.processed }}</p>
+          </div>
+        {% endif %}
         {% if fieldAlert.length %}
           {% for alert in fieldAlert %}
             {% if alert.entity != empty %}

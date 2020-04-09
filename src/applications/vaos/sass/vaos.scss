@@ -25,7 +25,7 @@
   }
 
   @include media($medium-screen) {
-    padding: 6px 12px;  
+    padding: 6px 12px;
     width: 200px;
     font-size: 16px;
   }
@@ -134,7 +134,7 @@
   background-color: $color-primary;
   border-color: $color-primary;
   color: $color-white;
-  
+
   &:hover {
     border: 1px solid $color-primary-darker;
   }
