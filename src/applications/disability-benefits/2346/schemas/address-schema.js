@@ -221,7 +221,7 @@ export const addressUISchema = (
         },
       },
       state: {
-        'ui:required': () => true,
+        'ui:required': callback,
         'ui:title': 'State/Province/Region',
         'ui:errorMessages': {
           required: 'State is required',
@@ -243,7 +243,7 @@ export const addressUISchema = (
         },
       },
       postalCode: {
-        'ui:required': () => true,
+        'ui:required': callback,
         'ui:title': 'Postal Code',
         'ui:errorMessages': {
           required: 'Zip code is required',

@@ -74,7 +74,7 @@ export function validateZIP(errors, zip) {
 }
 
 export const newAddressHider = formData => {
-  const address = get('newAddress', formData);
+  const address = get('newAddress', formData) || {};
   // return true if living at view:militaryBaseInfo object
   return Object.keys(address).every(entry => {
     const value = address[entry] || '';
