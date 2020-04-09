@@ -2,8 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import {
   formatAppointmentDate,
-  getFacilityAddress,
-} from '../utils/appointment';
+  formatFacilityAddress,
+} from '../utils/formatters';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from './AddToCalendar';
@@ -44,7 +44,7 @@ export default function ConfirmedAppointmentListItem({
     } ${appointment.address.zipCode}`;
   } else {
     header = 'VA Appointment';
-    location = facility ? getFacilityAddress(facility) : null;
+    location = facility ? formatFacilityAddress(facility) : null;
   }
 
   return (
@@ -60,6 +60,7 @@ export default function ConfirmedAppointmentListItem({
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime
+          appointmentDate={appointment.appointmentDate}
           timezone={appointment.timezone}
           facilityId={appointment.facilityId}
         />

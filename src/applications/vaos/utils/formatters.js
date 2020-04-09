@@ -1,6 +1,19 @@
 import moment from 'moment';
 
-export function formatBestTimeToCall(bestTime) {
+export function formatBestTimetoCallForList(timesToCall) {
+  const times = timesToCall.map(t => t.toLowerCase());
+  if (times.length === 1) {
+    return `Call ${times[0]}`;
+  } else if (times.length === 2) {
+    return `Call ${times[0]} or ${times[1]}`;
+  } else if (times.length === 3) {
+    return `Call ${times[0]}, ${times[1]}, or ${times[2]}`;
+  }
+
+  return null;
+}
+
+export function formatBestTimetoCallForReview(bestTime) {
   const times = [];
   if (bestTime?.morning) {
     times.push('Morning');
@@ -79,3 +92,62 @@ export const formatOperatingHours = operatingHours => {
   // Return the formatted operating hours.
   return formattedOperatingHours;
 };
+
+export function titleCase(str) {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+export function sentenceCase(str) {
+  return str
+    .split(' ')
+    .map((word, index) => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      if (index === 0) {
+        return `${word.charAt(0).toUpperCase()}${word
+          .substr(1, word.length - 1)
+          .toLowerCase()}`;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
+
+export function lowerCase(str = '') {
+  return str
+    .split(' ')
+    .map(word => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
+
+export function formatAppointmentDate(date) {
+  if (!date.isValid()) {
+    return null;
+  }
+
+  return date.format('MMMM D, YYYY');
+}
+
+/**
+ * Returns formatted address from facility details object
+ *
+ * @param {*} facility - facility details object
+ */
+export function formatFacilityAddress(facility) {
+  return `${facility.address.physical.address1} ${
+    facility.address.physical.city
+  }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
+}

@@ -58,46 +58,6 @@ export function getVideoVisitLink(appt) {
   return appt.vvsAppointments?.[0]?.patients?.[0]?.virtualMeetingRoom?.url;
 }
 
-export function titleCase(str) {
-  return str
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-export function sentenceCase(str) {
-  return str
-    .split(' ')
-    .map((word, index) => {
-      if (/^[^a-z]*$/.test(word)) {
-        return word;
-      }
-
-      if (index === 0) {
-        return `${word.charAt(0).toUpperCase()}${word
-          .substr(1, word.length - 1)
-          .toLowerCase()}`;
-      }
-
-      return word.toLowerCase();
-    })
-    .join(' ');
-}
-
-export function lowerCase(str = '') {
-  return str
-    .split(' ')
-    .map(word => {
-      if (/^[^a-z]*$/.test(word)) {
-        return word;
-      }
-
-      return word.toLowerCase();
-    })
-    .join(' ');
-}
-
 /**
  * Date and time
  */
@@ -128,26 +88,18 @@ export function getMomentRequestOptionDate(optionDate) {
 }
 
 export function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
-  if (timezone) {
-    const tzAbbr = timezone?.split(' ')?.[1] || timezone;
-    return stripDST(tzAbbr);
+  if (facilityId) {
+    return getTimezoneAbbrBySystemId(facilityId);
   }
 
-  return getTimezoneAbbrBySystemId(facilityId);
+  const tzAbbr = timezone?.split(' ')?.[1] || timezone;
+  return stripDST(tzAbbr);
 }
 
 export function getAppointmentTimezoneDescription(timezone, facilityId) {
   const abbr = getAppointmentTimezoneAbbreviation(timezone, facilityId);
 
   return getTimezoneDescFromAbbr(abbr);
-}
-
-export function formatAppointmentDate(date) {
-  if (!date.isValid()) {
-    return null;
-  }
-
-  return date.format('MMMM D, YYYY');
 }
 
 function getRequestDateOptions(appt) {
@@ -175,19 +127,6 @@ function getRequestDateOptions(appt) {
     });
 
   return options;
-}
-
-export function formatBestTimetoCall(timesToCall) {
-  const times = timesToCall.map(t => t.toLowerCase());
-  if (times.length === 1) {
-    return `Call ${times[0]}`;
-  } else if (times.length === 2) {
-    return `Call ${times[0]} or ${times[1]}`;
-  } else if (times.length === 3) {
-    return `Call ${times[0]}, ${times[1]}, or ${times[2]}`;
-  }
-
-  return null;
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
@@ -349,16 +288,6 @@ function getAppointmentDuration(appt) {
   );
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
-/**
- * Returns formatted address from facility details object
- *
- * @param {*} facility - facility details object
- */
-export function getFacilityAddress(facility) {
-  return `${facility.address.physical.address1} ${
-    facility.address.physical.city
-  }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
-}
 
 /**
  * Function to generate ICS.
@@ -403,7 +332,7 @@ export function getCernerPortalLink() {
 }
 
 function getVideoType(appt) {
-  if (appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE') {
+  if (isGFEVideoVisit(appt)) {
     return VIDEO_TYPES.gfe;
   } else if (
     appt.vvsAppointments?.length ||
@@ -427,33 +356,27 @@ function hasInstructions(appt) {
 }
 
 function getAppointmentInstructions(appt) {
-  if (hasInstructions(appt)) {
-    const bookingNotes =
-      appt.vdsAppointments?.[0]?.bookingNote ||
-      appt.vvsAppointments?.[0]?.bookingNotes;
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
 
-    const instructions = bookingNotes?.split(': ', 2);
+  const instructions = bookingNotes?.split(': ', 2);
 
-    if (instructions && instructions.length > 1) {
-      return instructions[1];
-    }
+  if (instructions && instructions.length > 1) {
+    return instructions[1];
   }
 
   return null;
 }
 
 function getAppointmentInstructionsHeader(appt) {
-  if (hasInstructions(appt)) {
-    const bookingNotes =
-      appt.vdsAppointments?.[0]?.bookingNote ||
-      appt.vvsAppointments?.[0]?.bookingNotes;
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
 
-    const instructions = bookingNotes?.split(': ', 2);
+  const instructions = bookingNotes?.split(': ', 2);
 
-    return instructions ? instructions[0] : '';
-  }
-
-  return null;
+  return instructions ? instructions[0] : '';
 }
 
 function getInstructions(appointment) {
@@ -498,7 +421,7 @@ function getAppointmentStatus(appointment) {
   }
 }
 
-export function addAppointmentTypes(appointment) {
+export function getAppointmentTypes(appointment) {
   return {
     appointmentType: getAppointmentType(appointment),
     videoType: getVideoType(appointment),
@@ -507,7 +430,7 @@ export function addAppointmentTypes(appointment) {
 }
 
 export function transformAppointment(appointment) {
-  const appointmentTypes = addAppointmentTypes(appointment);
+  const appointmentTypes = getAppointmentTypes(appointment);
 
   const appointmentData = {
     ...appointmentTypes,
@@ -548,7 +471,7 @@ export function transformPastAppointment(appointment) {
 }
 
 export function transformRequest(appointment) {
-  const appointmentTypes = addAppointmentTypes(appointment);
+  const appointmentTypes = getAppointmentTypes(appointment);
 
   const requestData = {
     ...appointmentTypes,

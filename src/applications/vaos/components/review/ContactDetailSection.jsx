@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import newAppointmentFlow from '../../newAppointmentFlow';
-import { formatBestTimeToCall } from '../../utils/formatters';
+import { formatBestTimetoCallForReview } from '../../utils/formatters';
 
 export default function ContactDetailSection(props) {
   return (
@@ -17,7 +17,9 @@ export default function ContactDetailSection(props) {
               <br />
               <i>
                 Call{' '}
-                {formatBestTimeToCall(props.data.bestTimeToCall).toLowerCase()}
+                {formatBestTimetoCallForReview(
+                  props.data.bestTimeToCall,
+                ).toLowerCase()}
               </i>
             </span>
           </div>
