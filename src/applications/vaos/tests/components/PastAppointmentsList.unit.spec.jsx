@@ -14,6 +14,7 @@ describe('VAOS <PastAppointmentsList>', () => {
 
   const appointments = {
     pastStatus: FETCH_STATUS.succeeded,
+    pastSelectedIndex: 0,
     past: [
       {
         startDate: '2019-12-11T15:00:00Z',
@@ -153,6 +154,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.loading,
+        pastSelectedIndex: 0,
         facilityData: {},
       },
     };
@@ -174,6 +176,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
         facilityData: {},
       },
     };
@@ -201,7 +204,11 @@ describe('VAOS <PastAppointmentsList>', () => {
 
   it('should render 2 appointments', () => {
     const tree = shallow(
-      <PastAppointmentsList appointments={appointments} showPastAppointments />,
+      <PastAppointmentsList
+        appointments={appointments}
+        showPastAppointments
+        pastSelectedIndex={0}
+      />,
     );
 
     expect(tree.find('ConfirmedAppointmentListItem').length).to.equal(2);
@@ -229,6 +236,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [{}],
         pastStatus: FETCH_STATUS.failed,
+        pastSelectedIndex: 0,
       },
     };
 
@@ -249,6 +257,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.succeeded,
+        pastSelectedIndex: 0,
       },
     };
 
@@ -271,6 +280,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
       },
     };
 
@@ -296,6 +306,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
       },
     };
     const fetchPastAppointments = sinon.spy();
@@ -320,6 +331,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
       },
       router: {
         push: sinon.spy(),

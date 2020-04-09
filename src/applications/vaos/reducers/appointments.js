@@ -35,6 +35,7 @@ const initialState = {
   futureStatus: FETCH_STATUS.notStarted,
   past: null,
   pastStatus: FETCH_STATUS.notStarted,
+  pastSelectedInex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
