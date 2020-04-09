@@ -47,37 +47,35 @@ export const renderSchoolClosingAlert = result => {
 };
 
 export const renderCautionAlert = result => {
-  const { cautionFlags } = result;
-  if (cautionFlags.length === 0) return null;
+  const { cautionFlag, cautionFlags } = result;
 
   // Prod flag for 6803
   if (!environment.isProduction()) {
+    const validFlags = [...cautionFlags]
+      .filter(flag => flag.title)
+      .sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1));
+
     return (
       <AlertBox
         className="vads-u-margin-top--1"
         content={
           <ul className="vads-u-margin-top--0">
-            {[...cautionFlags]
-              .sort(
-                (a, b) =>
-                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
-              )
-              .map(flag => (
-                <li
-                  className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
-                  key={flag.id}
-                >
-                  {flag.title}
-                </li>
-              ))}
+            {validFlags.map(flag => (
+              <li
+                className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+                key={flag.id}
+              >
+                {flag.title}
+              </li>
+            ))}
           </ul>
         }
         headline={
-          cautionFlags.length > 1
+          validFlags.length > 1
             ? 'This school has cautionary warnings'
             : 'This school has a cautionary warning'
         }
-        isVisible={cautionFlags.length > 0}
+        isVisible={validFlags.length > 0}
         status="warning"
       />
     );
@@ -87,7 +85,7 @@ export const renderCautionAlert = result => {
       className="vads-u-margin-top--1"
       content={<p>This school has cautionary warnings</p>}
       headline="Caution"
-      isVisible={cautionFlags.length > 0}
+      isVisible={cautionFlag}
       status="warning"
     />
   );
