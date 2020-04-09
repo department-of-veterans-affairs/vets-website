@@ -5,20 +5,44 @@
 
 *       @department-of-veterans-affairs/frontend-review-group
 
-# VSA
-src/applications/proxy-rewrite/redirects/crossDomainRedirects.json @department-of-veterans-affairs/vsa-frontend
-src/applications/find-forms @department-of-veterans-affairs/vsa-frontend
-src/platform/site-wide @department-of-veterans-affairs/vsa-frontend
-src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-frontend
-src/applications/personalization @department-of-veterans-affairs/vsa-frontend
-src/applications/letters @department-of-veterans-affairs/vsa-frontend
-src/applications/disability-benefits @department-of-veterans-affairs/vsa-frontend
-src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-frontend
+# VSA ----
+
+# Authenticated Experience
+src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/platform/user/profile/vet360 @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/frontend-review-group
+
+# Benefits and Memorials
+src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+
+# Benefits and Memorials 2
+src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+
+# eBenefits
+src/applications/disability-benefits/686 @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/personalization/rated-disabilities @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/view-dependents @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+
+# Public Websites
+src/applications/proxy-rewrite/redirects/crossDomainRedirects.json @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
+src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
+src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
+src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+
+# Facility Locator
+src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
+
+# Caregiver
+src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+
+# /--- VSA
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
-# Facilities team
-src/applications/facility-locator @department-of-veterans-affairs/facility-locator-frontend
+
 # Booz Allen Team
+src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers
 src/applications/gi @department-of-veterans-affairs/bah-code-reviewers
 src/applications/edu-benefits/1995 @department-of-veterans-affairs/bah-code-reviewers
