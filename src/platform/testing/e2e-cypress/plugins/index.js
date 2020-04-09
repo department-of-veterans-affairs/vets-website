@@ -29,23 +29,27 @@ module.exports = (on, config) => {
   });
 
   on('task', {
-    getTestDataSets(path, rules = { extension: 'json' }) {
+    getTestDataSets(input) {
       return fs
-        .readdirSync(path)
-        .filter(fileName => fileName.endsWith(rules.extension))
+        .readdirSync(`${input.path}`)
+        .filter(fileName => fileName.endsWith(input.rules.extension))
         .filter(
           fileName =>
-            Array.isArray(rules.only) ? rules.only.includes(fileName) : true,
+            Array.isArray(input.rules.only)
+              ? input.rules.only.includes(fileName)
+              : true,
         )
         .filter(
           fileName =>
-            Array.isArray(rules.ignore)
-              ? !rules.ignore.includes(fileName)
+            Array.isArray(input.rules.ignore)
+              ? !input.rules.ignore.includes(fileName)
               : true,
         )
         .map(fileName => ({
           fileName,
-          contents: JSON.parse(fs.readFileSync(join(path, fileName), 'utf8')),
+          contents: JSON.parse(
+            fs.readFileSync(join(input.path, fileName), 'utf8'),
+          ),
         }));
     },
   });
