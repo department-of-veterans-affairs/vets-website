@@ -12,8 +12,7 @@ const LocationInfoBlock = ({ location, from, query }) => {
   const distance = location.distance;
   return (
     <dt>
-      {!isProvider && <span className="i-pin-card">{location.markerText}</span>}
-      {!isProvider && ' '}
+      <span className="i-pin-card">{location.markerText}</span>{' '}
       <dfn>
         {distance &&
           location.resultItem && <strong>{distance.toFixed(1)} miles</strong>}

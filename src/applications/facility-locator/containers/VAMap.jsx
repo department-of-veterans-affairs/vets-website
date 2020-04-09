@@ -19,7 +19,6 @@ import {
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
-import ProviderMarker from '../components/markers/ProviderMarker';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import { facilityTypes } from '../config';
 import {
@@ -490,7 +489,7 @@ class VAMap extends Component {
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
             return (
-              <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>
+              <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
             );
           }
           return null;
