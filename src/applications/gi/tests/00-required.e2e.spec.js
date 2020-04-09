@@ -21,7 +21,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'washington dc');
+    .setValue(
+      '.keyword-search input[type="text"]',
+      'CENTRAL TEXAS COLLEGE-WASHINGTON DC',
+    );
 
   client
     .click('#search-button')
