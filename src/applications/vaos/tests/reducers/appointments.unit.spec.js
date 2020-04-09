@@ -111,6 +111,7 @@ describe('VAOS reducer: appointments', () => {
   it('should update pastStatus to be loading when calling FETCH_PAST_APPOINTMENTS', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex: 1,
     };
 
     const newState = appointmentsReducer(initialState, action);
