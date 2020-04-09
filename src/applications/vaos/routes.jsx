@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import AppointmentsPage from './containers/AppointmentsPage';
 import FutureAppointmentsList from './components/FutureAppointmentsList';
@@ -59,8 +59,7 @@ export default function createRoutesWithStore(store) {
   return (
     <Route component={VAOSApp}>
       <Route path="/" component={AppointmentsPage}>
-        <IndexRedirect to="upcoming" />
-        <Route component={FutureAppointmentsList} path="upcoming" />
+        <IndexRoute component={FutureAppointmentsList} />
         <Route component={PastAppointmentsList} path="past" />
       </Route>
       <Route
