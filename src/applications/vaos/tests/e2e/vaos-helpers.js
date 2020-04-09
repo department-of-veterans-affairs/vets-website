@@ -177,6 +177,10 @@ function initAppointmentListMock(token) {
             name: 'vaOnlineSchedulingDirect',
             value: true,
           },
+          {
+            name: 'vaOnlineSchedulingPast',
+            value: true,
+          },
         ],
       },
     },
