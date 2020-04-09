@@ -549,7 +549,7 @@ class VAMap extends Component {
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div
+              <ol
                 aria-live="polite"
                 aria-relevant="additions text"
                 className="facility-search-results"
@@ -559,7 +559,7 @@ class VAMap extends Component {
                   updateUrlParams={this.updateUrlParams}
                   query={this.props.currentQuery}
                 />
-              </div>
+              </ol>
               {results.length > 0 && (
                 <Pagination
                   onPageSelect={this.handlePageSelect}

@@ -4,18 +4,34 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 
 const LocationAddress = ({ location }) => {
   const addressArray = buildAddressArray(location);
-
-  if (addressArray.length === 0) {
+  if (location.resultItem) {
+    if (addressArray.length === 0) {
+      return (
+        <dd>
+          <strong>Address: </strong>
+          Contact for Information
+        </dd>
+      );
+    }
     return (
       <dd>
-        <strong>Address: </strong>
-        Contact for Information
+        {[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}
       </dd>
     );
   }
 
+  if (addressArray.length === 0) {
+    return (
+      <span>
+        <strong>Address: </strong>
+        Contact for Information
+      </span>
+    );
+  }
   return (
-    <dd>{[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}</dd>
+    <span>
+      {[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}
+    </span>
   );
 };
 

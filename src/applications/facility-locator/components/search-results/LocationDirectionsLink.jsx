@@ -15,7 +15,7 @@ class LocationDirectionsLink extends Component {
       address = `${lat},${long}`;
     }
 
-    return (
+    return location.resultItem ? (
       <dd>
         <a
           href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
@@ -27,6 +27,18 @@ class LocationDirectionsLink extends Component {
           Directions
         </a>
       </dd>
+    ) : (
+      <span>
+        <a
+          href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+          rel="noopener noreferrer"
+          target="_blank"
+          style={{ textDecoration: 'underline' }}
+        >
+          {from === 'FacilityDetail' && <i className="fa fa-road" />}
+          Directions
+        </a>
+      </span>
     );
   }
 }

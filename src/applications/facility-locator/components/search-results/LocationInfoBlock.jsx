@@ -28,9 +28,11 @@ const LocationInfoBlock = ({ location, from, query }) => {
               </span>
             </p>
           ) : (
-            <h2 className="vads-u-font-size--h5 no-marg-top">
-              <Link to={`provider/${location.id}`}>{name}</Link>
-            </h2>
+            <dfn>
+              <h2 className="vads-u-font-size--h5 no-marg-top">
+                <Link to={`provider/${location.id}`}>{name}</Link>
+              </h2>
+            </dfn>
           )}
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
@@ -48,9 +50,11 @@ const LocationInfoBlock = ({ location, from, query }) => {
               <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
             </a>
           ) : (
-            <h2 className="vads-u-font-size--h5 no-marg-top">
-              <Link to={`facility/${location.id}`}>{name}</Link>
-            </h2>
+            <dfn>
+              <h2 className="vads-u-font-size--h5 no-marg-top">
+                <Link to={`facility/${location.id}`}>{name}</Link>
+              </h2>
+            </dfn>
           )}
         </dfn>
       )}

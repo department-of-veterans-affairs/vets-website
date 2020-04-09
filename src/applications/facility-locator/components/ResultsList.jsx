@@ -170,9 +170,12 @@ class ResultsList extends Component {
     return sortedResults.map(
       r =>
         isMobile ? (
-          <div key={r.id} className="mobile-search-result">
-            <SearchResult result={r} query={query} />
-          </div>
+          <SearchResult
+            key={r.id}
+            result={r}
+            query={query}
+            className="mobile-search-result"
+          />
         ) : (
           <SearchResult key={r.id} result={r} query={query} />
         ),

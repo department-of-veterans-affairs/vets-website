@@ -15,21 +15,26 @@ const facilityName = (query, location) => {
   return name;
 };
 
-const FacilityTypeDescription = ({ location, from, query }) => (
-  <p>
-    <span>
-      {from === 'SearchResult' ? (
+const FacilityTypeDescription = ({ location, query }) => {
+  if (location.resultItem) {
+    return (
+      <dfn>
         <span>
           {facilityName(query, location) &&
             facilityName(query, location).toUpperCase()}
         </span>
-      ) : (
-        <span>
-          <strong>Facility type:</strong> {facilityName(query, location)}
-        </span>
-      )}
-    </span>
-  </p>
-);
+      </dfn>
+    );
+  }
+
+  return (
+    <p>
+      <span>
+        {facilityName(query, location) &&
+          facilityName(query, location).toUpperCase()}
+      </span>
+    </p>
+  );
+};
 
 export default FacilityTypeDescription;
