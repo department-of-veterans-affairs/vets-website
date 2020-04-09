@@ -10,6 +10,9 @@ buildtype="localhost"
 # Save the arguments to this script for later; they get drained in the following for loop
 args="$*"
 
+# Prepend env. to all args so they get passed to the Webpack config
+webpackArgs=$(echo -n "${args}" | sed -E 's/--([^ =]+)/--env.\1/g')
+
 # Get options
 for o in "$@"; do
     case "${o}" in
@@ -49,7 +52,7 @@ fi
 # Only run Webpack if the assetSource = local
 if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
-    yarn build:webpack $args
+    yarn build:webpack $webpackArgs
 else
     echo "Will fetch application assets from the content build script"
 fi
