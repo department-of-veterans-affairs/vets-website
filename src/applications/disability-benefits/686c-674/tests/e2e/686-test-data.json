@@ -1,0 +1,24 @@
+{
+  "data": {
+    "optionsSelection": {
+      "addChild": true,
+      "addSpouse": true
+    },
+    "veteranInformation": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "ssn": "123121234",
+      "dobMonth": "2",
+      "dobDay": "2",
+      "dobYear": "1991"
+    },
+    "veteranAddress": {
+      "countryName": "United States",
+      "addressLine1": "123 at home dr",
+      "city": "The City",
+      "stateCode": "AL",
+      "zipCode": "12345",
+      "phoneNumber": "1231231234"
+    }
+  }
+}
