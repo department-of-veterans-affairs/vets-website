@@ -123,6 +123,7 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
       startDate: '2018-01-01',
       endDate: moment().format(),
+      selectedIndex: 1,
       data: [
         [
           { startDate: '2019-04-30T05:35:00', facilityId: '984' },
@@ -178,6 +179,7 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
+    expect(newState.pastSelectedIndex).to.equal(1);
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {

@@ -103,7 +103,7 @@ describe('VAOS actions: appointments', () => {
     };
     setFetchJSONResponse(global.fetch, data);
     setFetchJSONResponse(global.fetch.onCall(4), facilityData);
-    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31');
+    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
     const dispatchSpy = sinon.spy();
     const getState = () => ({
       appointments: {
@@ -116,6 +116,7 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_PAST_APPOINTMENTS_SUCCEEDED,
     );
+    expect(dispatchSpy.secondCall.args[0].selectedIndex).to.eql(1);
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );

@@ -20,18 +20,25 @@ export class PastAppointmentsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDateRangeIndex: 0,
+      selectedDateRangeIndex: this.props.appointments.pastSelectedIndex || 0,
       selectedDateRange: dateRangeOptions[0],
     };
   }
 
   componentDidMount() {
-    if (!this.props.showPastAppointments) {
-      this.props.router.push('/');
-    } else {
+    const { appointments, router, showPastAppointments } = this.props;
+    const { selectedDateRange, selectedDateRangeIndex } = this.state;
+
+    if (!showPastAppointments) {
+      router.push('/');
+    } else if (
+      appointments.pastStatus === FETCH_STATUS.notStarted ||
+      appointments.pastSelectedIndex !== this.state.selectedDateRangeIndex
+    ) {
       this.props.fetchPastAppointments(
-        this.state.selectedDateRange.startDate,
-        this.state.selectedDateRange.endDate,
+        selectedDateRange.startDate,
+        selectedDateRange.endDate,
+        selectedDateRangeIndex,
       );
     }
   }
@@ -48,6 +55,7 @@ export class PastAppointmentsList extends React.Component {
     this.props.fetchPastAppointments(
       selectedDateRange.startDate,
       selectedDateRange.endDate,
+      index,
     );
   };
 

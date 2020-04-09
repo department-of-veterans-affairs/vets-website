@@ -79,7 +79,7 @@ export default function appointmentsReducer(state = initialState, action) {
         pastStatus: FETCH_STATUS.loading,
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
-      const { data, startDate, endDate } = action;
+      const { data, startDate, endDate, selectedIndex } = action;
       const [vaAppointments, ccAppointments] = data;
 
       const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
@@ -90,6 +90,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         past: confirmedFilteredAndSorted,
         pastStatus: FETCH_STATUS.succeeded,
+        pastSelectedIndex: selectedIndex,
       };
     }
     case FETCH_PAST_APPOINTMENTS_FAILED:
