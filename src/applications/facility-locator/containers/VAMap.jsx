@@ -19,14 +19,15 @@ import {
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
-import CemeteryMarker from '../components/markers/CemeteryMarker';
-import HealthMarker from '../components/markers/HealthMarker';
-import BenefitsMarker from '../components/markers/BenefitsMarker';
-import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import FacilityMarker from '../components/markers/FacilityMarker';
 import { facilityTypes } from '../config';
-import { LocationType, FacilityType, BOUNDING_RADIUS, letters } from '../constants';
+import {
+  LocationType,
+  FacilityType,
+  BOUNDING_RADIUS,
+  letters,
+} from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
@@ -422,7 +423,7 @@ class VAMap extends Component {
       }
     };
 
-    return results.map((r,idx) => {
+    return results.map((r, idx) => {
       const iconProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],
@@ -440,7 +441,7 @@ class VAMap extends Component {
           }
           this.props.fetchVAFacility(r.id, r);
         },
-        markerText: letters[idx]
+        markerText: letters[idx],
       };
 
       const popupContent = (
@@ -483,7 +484,9 @@ class VAMap extends Component {
         case FacilityType.VA_CEMETARY:
         case FacilityType.VA_BENEFITS_FACILITY:
         case FacilityType.VET_CENTER:
-          return <FacilityMarker{...iconProps}>{popupContent} </FacilityMarker>
+          return (
+            <FacilityMarker {...iconProps}>{popupContent} </FacilityMarker>
+          );
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
             return (

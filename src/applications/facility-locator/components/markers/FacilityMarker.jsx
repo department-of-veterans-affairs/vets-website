@@ -7,7 +7,7 @@ class FacilityMarker extends Component {
     const { position, onClick, markerText } = this.props;
     return (
       <DivMarker position={position} onClick={onClick}>
-        <span className="i-pin-map"> {markerText || 'A'}</span>
+        <span className="i-pin-map"> {markerText}</span>
       </DivMarker>
     );
   }
