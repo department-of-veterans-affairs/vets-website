@@ -7,17 +7,15 @@ const LocationAddress = ({ location }) => {
 
   if (addressArray.length === 0) {
     return (
-      <span>
+      <dd>
         <strong>Address: </strong>
         Contact for Information
-      </span>
+      </dd>
     );
   }
 
   return (
-    <span>
-      {[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}
-    </span>
+    <dd>{[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}</dd>
   );
 };
 

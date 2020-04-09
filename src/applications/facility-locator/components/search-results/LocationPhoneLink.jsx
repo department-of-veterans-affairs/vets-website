@@ -45,7 +45,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
-      <div>
+      <dd>
         {renderPhoneNumber(
           isCCProvider ? 'If you have a referral' : null,
           isCCProvider ? 'Call this facility at' : null,
@@ -60,7 +60,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
             If you don’t have a referral, contact your local VA medical center.
           </p>
         )}
-      </div>
+      </dd>
     );
   }
 
@@ -68,7 +68,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
     attributes: { phone },
   } = location;
   return (
-    <div>
+    <dd>
       {renderPhoneNumber('Main Number', null, phone.main, 'phone', null, from)}
       {renderPhoneNumber(
         'Mental Health',
@@ -77,7 +77,7 @@ const LocationPhoneLink = ({ location, from, query }) => {
         null,
         from,
       )}
-    </div>
+    </dd>
   );
 };
 

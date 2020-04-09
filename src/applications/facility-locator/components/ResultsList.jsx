@@ -167,21 +167,15 @@ class ResultsList extends Component {
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
-    return (
-      <div>
-        <div>
-          {sortedResults.map(
-            r =>
-              isMobile ? (
-                <div key={r.id} className="mobile-search-result">
-                  <SearchResult result={r} query={query} />
-                </div>
-              ) : (
-                <SearchResult key={r.id} result={r} query={query} />
-              ),
-          )}
-        </div>
-      </div>
+    return sortedResults.map(
+      r =>
+        isMobile ? (
+          <div key={r.id} className="mobile-search-result">
+            <SearchResult result={r} query={query} />
+          </div>
+        ) : (
+          <SearchResult key={r.id} result={r} query={query} />
+        ),
     );
   }
 }

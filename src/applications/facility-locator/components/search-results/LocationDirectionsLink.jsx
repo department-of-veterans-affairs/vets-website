@@ -16,7 +16,7 @@ class LocationDirectionsLink extends Component {
     }
 
     return (
-      <span>
+      <dd>
         <a
           href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
           rel="noopener noreferrer"
@@ -26,7 +26,7 @@ class LocationDirectionsLink extends Component {
           {from === 'FacilityDetail' && <i className="fa fa-road" />}
           Directions
         </a>
-      </span>
+      </dd>
     );
   }
 }

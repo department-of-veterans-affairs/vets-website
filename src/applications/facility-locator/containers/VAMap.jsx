@@ -661,18 +661,16 @@ class VAMap extends Component {
             style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
-            <div
+            <ol
               aria-live="polite"
               aria-relevant="additions text"
               className="facility-search-results"
             >
-              <div>
-                <ResultsList
-                  updateUrlParams={this.updateUrlParams}
-                  query={this.props.currentQuery}
-                />
-              </div>
-            </div>
+              <ResultsList
+                updateUrlParams={this.updateUrlParams}
+                query={this.props.currentQuery}
+              />
+            </ol>
           </div>
           <div
             className="columns usa-width-two-thirds medium-8 small-12"
