@@ -113,10 +113,10 @@ describe('VAOS actions: appointments', () => {
     });
     await thunk(dispatchSpy, getState);
     expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.firstCall.args[0].selectedIndex).to.eql(1);
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_PAST_APPOINTMENTS_SUCCEEDED,
     );
-    expect(dispatchSpy.secondCall.args[0].selectedIndex).to.eql(1);
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );

@@ -233,6 +233,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex,
     });
 
     try {
@@ -250,7 +251,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         data,
         startDate,
         endDate,
-        selectedIndex,
       });
 
       try {

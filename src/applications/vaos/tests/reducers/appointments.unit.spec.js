@@ -116,6 +116,7 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.pastStatus).to.equal(FETCH_STATUS.loading);
+    expect(newState.pastSelectedIndex).to.equal(1);
   });
 
   it('should populate confirmed with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
@@ -179,7 +180,6 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
-    expect(newState.pastSelectedIndex).to.equal(1);
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
