@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import { getVeteranInformationData } from '../actions';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -19,7 +18,6 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
-    this.props.getVeteranInformationData();
   }
 
   render() {
@@ -92,7 +90,6 @@ export class ConfirmationPage extends React.Component {
 
 ConfirmationPage.propTypes = {
   email: PropTypes.string.isRequired,
-  getVeteranInformationData: PropTypes.func.isRequired,
 };
 
 ConfirmationPage.defaultProps = {
@@ -103,11 +100,4 @@ const mapStateToProps = state => ({
   email: state.form2346Reducer?.formData?.email,
 });
 
-const mapDispatchToProps = {
-  getVeteranInformationData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmationPage);
+export default connect(mapStateToProps)(ConfirmationPage);

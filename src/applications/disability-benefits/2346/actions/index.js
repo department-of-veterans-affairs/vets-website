@@ -82,23 +82,6 @@ export const tempAddressIsAMilitaryBaseStatusChangeFailure = (
   message,
 });
 
-export const getVeteranInformationData = data => async dispatch => {
-  try {
-    const veteranInformation = {
-      fullName: data.formData.fullName,
-      gender: data.formData.gender,
-      dateOfBirth: data.formData.dateOfBirth,
-      veteranAddress: data.formData.veteranAddress,
-      email: data.formData.email,
-    };
-    dispatch(fetchVeteranInformation(veteranInformation));
-  } catch (error) {
-    // eslint-disable-next-line no-unused-expressions
-    Sentry.captureMessage('failed to retrieve data from the api');
-    dispatch(fetchVeteranInformationFailure(error));
-  }
-};
-
 export const getReOrderBatteryAndAccessoriesInformationData = data => async dispatch => {
   try {
     const batteryAndAccessoriesInformation = {

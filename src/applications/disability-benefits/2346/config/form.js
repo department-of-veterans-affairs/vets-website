@@ -1,5 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import personalInfoBox from '../components/PersonalInfoBox';
+import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';
@@ -77,9 +77,10 @@ const formConfig = {
           path: 'veteran-information',
           title: formPages.personalDetails,
           uiSchema: {
-            'ui:description': personalInfoBox,
+            'ui:description': PersonalInfoBox,
           },
           schema: {
+            required: [],
             type: 'object',
             properties: {},
           },
@@ -95,6 +96,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [],
             properties: {
               [currentAddressField]: currentAddress,
               [newAddressField]: addressSchema,
