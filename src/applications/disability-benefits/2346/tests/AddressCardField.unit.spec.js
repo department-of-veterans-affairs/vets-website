@@ -58,19 +58,20 @@ describe('Schemaform: AddressCardField', () => {
   });
 
   it('should throw an error if no viewComponent is found', () => {
-    const wrapper = shallow(
-      <AddressCardField {...defaultProps} uiSchema={{}} />,
-    );
-    expect(() => wrapper).to.throw('viewComponent');
-    wrapper.unmount();
+    expect(() => {
+      const wrapper = shallow(
+        <AddressCardField {...defaultProps} uiSchema={{}} />,
+      );
+      wrapper.unmount();
+    }).to.throw('viewComponent');
   });
 
   it('should throw an error if schema type is not object or array', () => {
     expect(() => {
-      // eslint-disable-next-line va-enzyme/unmount
-      shallow(
+      const wrapper = shallow(
         <AddressCardField {...defaultProps} schema={{ type: 'string' }} />,
       );
+      wrapper.unmount();
     }).to.throw('Unknown schema type');
   });
 
