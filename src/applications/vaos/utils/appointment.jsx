@@ -414,7 +414,10 @@ export function getCernerPortalLink() {
 function getVideoType(appt) {
   if (appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE') {
     return VIDEO_TYPES.gfe;
-  } else if (appt.vvsAppointments?.length) {
+  } else if (
+    appt.vvsAppointments?.length ||
+    appt.visitType === 'Video Conference'
+  ) {
     return VIDEO_TYPES.videoConnect;
   }
 
