@@ -24,9 +24,11 @@
 
       <article class="usa-content">
         <h1>{{ title }}</h1>
-        <div class="va-introtext">
-          <p>{{ fieldIntroText }}</p>
-        </div>
+        {% if fieldIntroTextLimitedHtml.processed %}
+          <div class="va-introtext">
+            <p>{{ fieldIntroTextLimitedHtml.processed }}</p>
+          </div>
+        {% endif %}
         {% if fieldAlert.length %}
           {% for alert in fieldAlert %}
             {% if alert.entity != empty %}
