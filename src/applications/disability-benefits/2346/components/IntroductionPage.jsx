@@ -76,7 +76,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-four">
-              <h5>Receive your order</h5>
+              <h3 className="vads-u-font-size--h5">Receive your order</h3>
               <p>
                 You should receive your order within the timeframe indicated by
                 the order tracking number.
