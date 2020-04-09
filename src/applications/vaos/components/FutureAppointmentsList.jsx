@@ -4,9 +4,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import { getRealFacilityId } from '../utils/appointment';
-import ConfirmedCommunityCareItem from './list/ConfirmedCommunityCareItem';
-import ConfirmedVAItem from './list/ConfirmedVAItem';
-import RequestItem from '../components/list/RequestItem';
+import ConfirmedCommunityCareItem from './ConfirmedCommunityCareItem';
+import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
+import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
 import NoAppointments from '../components/NoAppointments';
 
 export default function FutureAppointmentsList({
@@ -45,7 +45,7 @@ export default function FutureAppointmentsList({
               case APPOINTMENT_TYPES.ccRequest:
               case APPOINTMENT_TYPES.request:
                 return (
-                  <RequestItem
+                  <AppointmentRequestListItem
                     key={index}
                     index={index}
                     appointment={appt}
@@ -72,7 +72,7 @@ export default function FutureAppointmentsList({
                 );
               case APPOINTMENT_TYPES.vaAppointment:
                 return (
-                  <ConfirmedVAItem
+                  <ConfirmedAppointmentListItem
                     key={index}
                     index={index}
                     appointment={appt}

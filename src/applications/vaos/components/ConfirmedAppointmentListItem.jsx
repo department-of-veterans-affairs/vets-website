@@ -3,14 +3,14 @@ import classNames from 'classnames';
 import {
   formatAppointmentDate,
   getFacilityAddress,
-} from '../../utils/appointment';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
+} from '../utils/appointment';
+import { APPOINTMENT_STATUS } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
-import AddToCalendar from '../AddToCalendar';
-import FacilityAddress from '../FacilityAddress';
+import AddToCalendar from './AddToCalendar';
+import VAFacilityLocation from './VAFacilityLocation';
 import AppointmentDateTime from './AppointmentDateTime';
-import Instructions from './Instructions';
-import Status from './Status';
+import AppointmentInstructions from './AppointmentInstructions';
+import AppointmentStatus from './AppointmentStatus';
 
 export default function ConfirmedAppointmentListItem({
   appointment,
@@ -49,39 +49,21 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime appointment={appointment} />
       </h3>
       {!isPastAppointment && (
-        <Status status={appointment.status} index={index} />
+        <AppointmentStatus status={appointment.status} index={index} />
       )}
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          {appointment.videoType ? (
+          {appointment.videoType && (
             <VideoVisitSection appointment={appointment} />
-          ) : (
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {appointment.clinicName}
-              </dt>
-              <dd>
-                {!!facility && (
-                  <>
-                    {facility.name}
-                    <br />
-                    <FacilityAddress facility={facility} showDirectionsLink />
-                  </>
-                )}
-                {!facility && (
-                  <a
-                    href="/find-locations"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Find facility information
-                  </a>
-                )}
-              </dd>
-            </dl>
+          )}
+          {!appointment.videoType && (
+            <VAFacilityLocation
+              facility={facility}
+              clinicName={appointment.clinicName}
+            />
           )}
         </div>
-        <Instructions instructions={appointment.instructions} />
+        <AppointmentInstructions instructions={appointment.instructions} />
       </div>
 
       {!cancelled &&

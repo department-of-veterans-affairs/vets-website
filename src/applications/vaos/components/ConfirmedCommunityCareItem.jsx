@@ -1,11 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import { formatAppointmentDate } from '../../utils/appointment';
-import AddToCalendar from '../AddToCalendar';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import { formatAppointmentDate } from '../utils/appointment';
+import AddToCalendar from './AddToCalendar';
+import FacilityDirectionsLink from './FacilityDirectionsLink';
 import AppointmentDateTime from './AppointmentDateTime';
-import Instructions from './Instructions';
-import Status from './Status';
+import AppointmentInstructions from './AppointmentInstructions';
+import AppointmentStatus from './AppointmentStatus';
 
 export default function ConfirmedCommunityCareItem({
   appointment,
@@ -39,7 +39,7 @@ export default function ConfirmedCommunityCareItem({
         <AppointmentDateTime appointment={appointment} />
       </h3>
       {!appointment.isPastAppointment && (
-        <Status status={appointment.status} index={index} />
+        <AppointmentStatus status={appointment.status} index={index} />
       )}
 
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
@@ -59,7 +59,7 @@ export default function ConfirmedCommunityCareItem({
           </dl>
         </div>
         {!appointment.isPastAppointment && (
-          <Instructions instructions={appointment.instructions} />
+          <AppointmentInstructions instructions={appointment.instructions} />
         )}
       </div>
 

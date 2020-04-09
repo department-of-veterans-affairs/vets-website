@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Instructions({ instructions }) {
+export default function AppointmentInstructions({ instructions }) {
   if (!instructions) {
     return null;
   }

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import { formatBestTimetoCall, sentenceCase } from '../../utils/appointment';
+import { formatBestTimetoCall, sentenceCase } from '../utils/appointment';
 
-import { APPOINTMENT_STATUS, TIME_TEXT } from '../../utils/constants';
-import Status from './Status';
-import RequestFacilityLocation from './RequestFacilityLocation';
-import RequestCommunityCareLocation from './RequestCommunityCareLocation';
+import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
+import AppointmentStatus from './AppointmentStatus';
+import VAFacilityLocation from './VAFacilityLocation';
+import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -78,27 +78,21 @@ export default class AppointmentRequestListItem extends React.Component {
         >
           {sentenceCase(appointment.typeOfCare)} appointment
         </h3>
-        <Status status={appointment.status} index={index} />
+        <AppointmentStatus status={appointment.status} index={index} />
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {appointment.isCommunityCare
-                  ? 'Preferred provider'
-                  : appointment.facilityName}
-              </dt>
-              <dd>
-                {appointment.isCommunityCare && (
-                  <RequestCommunityCareLocation appointment={appointment} />
-                )}
-                {!appointment.isCommunityCare && (
-                  <RequestFacilityLocation
-                    facility={facility}
-                    facilityId={appointment.facility.facilityCode}
-                  />
-                )}
-              </dd>
-            </dl>
+            {appointment.isCommunityCare && (
+              <AppointmentRequestCommunityCareLocation
+                appointment={appointment}
+              />
+            )}
+            {!appointment.isCommunityCare && (
+              <VAFacilityLocation
+                facility={facility}
+                facilityName={appointment.facilityName}
+                facilityId={appointment.facility.facilityCode}
+              />
+            )}
           </div>
           <div className="vads-u-flex--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">

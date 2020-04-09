@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import { VIDEO_TYPES } from '../../utils/constants';
+import { VIDEO_TYPES } from '../utils/constants';
 
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
 
   if (appointment.isPastAppointment) {
-    linkContent = <span>Video visit link unavailable</span>;
+    linkContent = <span>Video conference</span>;
   } else if (appointment.videoType === VIDEO_TYPES.gfe) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
