@@ -316,7 +316,6 @@ describe('VAOS <FutureAppointmentsList>', () => {
       fetchRequestMessages,
       showScheduleButton,
       startNewAppointmentFlow,
-      showPastAppointmentsLink: true,
     };
 
     const tree = mount(<FutureAppointmentsList {...defaultProps} />);
@@ -336,7 +335,6 @@ describe('VAOS <FutureAppointmentsList>', () => {
       fetchRequestMessages,
       showScheduleButton,
       startNewAppointmentFlow,
-      showPastAppointmentsLink: true,
     };
 
     const tree = mount(<FutureAppointmentsList {...defaultProps} />);

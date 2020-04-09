@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchPastAppointments } from '../actions/appointments';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { vaosPastAppts } from '../utils/selectors';
 import {
   getAppointmentType,
   getPastAppointmentDateRangeOptions,
@@ -25,8 +26,13 @@ export class PastAppointmentsList extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.appointments.pastStatus === FETCH_STATUS.notStarted) {
-      this.fetchPastAppointments();
+    if (!this.props.showPastAppointments) {
+      this.props.router.push('/');
+    } else if (this.props.appointments.pastStatus === FETCH_STATUS.notStarted) {
+      this.props.fetchPastAppointments(
+        this.state.selectedDateRange.startDate,
+        this.state.selectedDateRange.endDate,
+      );
     }
   }
 
@@ -45,27 +51,18 @@ export class PastAppointmentsList extends React.Component {
     );
   };
 
-  fetchPastAppointments = () =>
-    this.props.fetchPastAppointments(
-      this.state.selectedDateRange.startDate,
-      this.state.selectedDateRange.endDate,
-    );
-
   render() {
     const { appointments } = this.props;
     const { past, pastStatus, systemClinicToFacilityMap } = appointments;
-    const loading = pastStatus === FETCH_STATUS.loading;
-    const hasAppointments =
-      pastStatus === FETCH_STATUS.succeeded && past?.length > 0;
     let content;
 
-    if (loading) {
+    if (pastStatus === FETCH_STATUS.loading) {
       content = (
         <div className="vads-u-margin-y--8">
           <LoadingIndicator message="Loading your appointments..." />
         </div>
       );
-    } else if (hasAppointments) {
+    } else if (pastStatus === FETCH_STATUS.succeeded && past?.length > 0) {
       content = (
         <>
           <ul className="usa-unstyled-list" id="appointments-list">
@@ -131,11 +128,15 @@ export class PastAppointmentsList extends React.Component {
 
 PastAppointmentsList.propTypes = {
   appointments: PropTypes.object,
+  fetchPastAppointments: PropTypes.func,
+  showPastAppointments: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   return {
     appointments: state.appointments,
+    fetchPastAppointments: PropTypes.func,
+    showPastAppointments: vaosPastAppts(state),
   };
 }
 

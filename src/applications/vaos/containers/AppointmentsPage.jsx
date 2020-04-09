@@ -5,7 +5,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ScheduleNewAppointment from '../components/ScheduleNewAppointment';
 import {
-  cancelAppointment,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,
@@ -28,13 +27,8 @@ const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
-    const { showPastAppointments, location } = this.props;
     if (this.props.isWelcomeModalDismissed) {
       scrollAndFocus();
-    }
-
-    if (!showPastAppointments && location?.pathname === '/past') {
-      this.props.router.push('/');
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -95,8 +89,14 @@ export class AppointmentsPage extends Component {
 }
 
 AppointmentsPage.propTypes = {
+  cancelInfo: PropTypes.object,
   closeCancelAppointment: PropTypes.func.isRequired,
   confirmCancelAppointment: PropTypes.func.isRequired,
+  isCernerOnlyPatient: PropTypes.bool.isRequired,
+  isWelcomeModalDismissed: PropTypes.bool.isRequired,
+  showPastAppointments: PropTypes.bool.isRequired,
+  showCommunityCare: PropTypes.bool.isRequired,
+  showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
 };
 
@@ -113,7 +113,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  cancelAppointment,
   closeCancelAppointment,
   confirmCancelAppointment,
   startNewAppointmentFlow,

@@ -7,19 +7,14 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   cancelAppointment,
-  closeCancelAppointment,
-  confirmCancelAppointment,
   fetchFutureAppointments,
   fetchRequestMessages,
   startNewAppointmentFlow,
 } from '../actions/appointments';
 import {
-  getCancelInfo,
   vaosCancel,
   vaosRequests,
   vaosPastAppts,
-  vaosDirectScheduling,
-  vaosCommunityCare,
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -54,19 +49,15 @@ export class FutureAppointmentsList extends React.Component {
       systemClinicToFacilityMap,
     } = appointments;
 
-    const loading = futureStatus === FETCH_STATUS.loading;
-    const hasAppointments =
-      futureStatus === FETCH_STATUS.succeeded && future?.length > 0;
-
     let content;
 
-    if (loading) {
+    if (futureStatus === FETCH_STATUS.loading) {
       content = (
         <div className="vads-u-margin-y--8">
           <LoadingIndicator message="Loading your appointments..." />
         </div>
       );
-    } else if (hasAppointments) {
+    } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
       content = (
         <>
           {!showPastAppointments && (
@@ -179,10 +170,12 @@ export class FutureAppointmentsList extends React.Component {
 FutureAppointmentsList.propTypes = {
   appointments: PropTypes.object,
   cancelAppointment: PropTypes.func,
-  confirmCancelAppointment: PropTypes.func,
+  isCernerOnlyPatient: PropTypes.bool,
+  isWelcomeModalDismissed: PropTypes.bool,
   fetchRequestMessages: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
+  showPastAppointments: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
 };
@@ -190,21 +183,16 @@ FutureAppointmentsList.propTypes = {
 function mapStateToProps(state) {
   return {
     appointments: state.appointments,
-    cancelInfo: getCancelInfo(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
     showCancelButton: vaosCancel(state),
     showPastAppointments: vaosPastAppts(state),
     showScheduleButton: vaosRequests(state),
-    showCommunityCare: vaosCommunityCare(state),
-    showDirectScheduling: vaosDirectScheduling(state),
-    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };
 }
 
 const mapDispatchToProps = {
   cancelAppointment,
-  closeCancelAppointment,
-  confirmCancelAppointment,
   fetchFutureAppointments,
   fetchRequestMessages,
   startNewAppointmentFlow,
