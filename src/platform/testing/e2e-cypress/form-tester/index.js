@@ -1,41 +1,8 @@
 /* eslint-disable */
 const { get } = require('lodash/fp');
-const { baseUrl } = require('../../../../platform/testing/e2e/helpers');
-const { getUserToken, logIn } = require('./auth');
-const { fillForm } = require('./form-filler');
+const { formData } = require('./formData');
 
 const getTestData = (contents, pathPrefix) => get(pathPrefix, contents, {});
-
-const getLogger = (debugMode, testName) => (...params) => {
-  if (debugMode) {
-    // eslint-disable-next-line no-console
-    console.log(`${testName}:`, ...params);
-  }
-};
-
-/**
- * Function to start the test. This logs in if necessary, navigates to the starting
- *  URL, sets up CSS injection to hide the Foresee overlay, and starts filling out
- *  the form.
- */
-const runTest = async (page, testData, testConfig, userToken, testName) => {
-  // Go to the starting page either by logging in or going there directly
-  if (testConfig.logIn) {
-    // await logIn(userToken, page, testConfig.url, 3);
-  } else {
-    page.visit(testConfig.url);
-  }
-
-  // Hide Foresee
-  // await page.addStyleTag({ content: '.__acs { display: none !important; }' });
-
-  // await fillForm(
-  //   page,
-  //   testData,
-  //   testConfig,
-  //   getLogger(testConfig.debug, testName),
-  // );
-};
 
 /**
  * Runs through the form one time for each item in testDataSets.
@@ -68,47 +35,47 @@ const runTest = async (page, testData, testConfig, userToken, testName) => {
  * @param {TestConfig} testConfig
  * @param {Array<DataSet>} testDataSets
  */
-const testForm = (testDataSets, testConfig) => {
-  describe('My First Test', () => {
-    const token = getUserToken();
+const testForm = (filePath, pathRules, testConfig) => {
+  describe('Form Tests', async () => {
+    const token = 'token-7658765-0';
+    const baseUrl = 'http://localhost:3001';
 
     before(() => {
       if (testConfig.setup) {
         testConfig.setup(token);
       }
+
+      // Initialize mock user
+      cy.initUserMock(token, 3);
+
+      cy.initItfMock(token);
+
+      // cy.task('getTestDataSets', {
+      //   path: filePath,
+      //   rules: pathRules,
+      // }).then(testData => {
+      //   // Cypress.env('formData', testData);
+      // });
     });
 
-    testDataSets.forEach(() => {
-      it('clicks the link "type"', () => {
-        if (!testConfig.logIn) {
-          // await logIn(userToken, page, testConfig.url, 3);
-        } else {
-          cy.visit(testConfig.url);
-        }
-        fillForm(cy);
+    beforeEach(() => {
+      if (testConfig.logIn) {
+        cy.setCookie('token', token, { httpOnly: true });
+        cy.visit(`${baseUrl}${testConfig.url}`, {
+          onBeforeLoad(win) {
+            win.localStorage.setItem('hasSession', true);
+          },
+        });
+      }
+    });
+
+    formData.forEach(({ fileName, contents }) => {
+      it(fileName, async () => {
+        const testData = getTestData(contents, testConfig.testDataPathPrefix);
+        // cy.runTest(testData, testConfig, token, fileName);
       });
     });
   });
-
-  // testDataSets.forEach(
-  //   ({ fileName, contents }) =>
-  //     cy.visit('https://example.cypress.io/commands/actions'),
-  //   test(
-  //     fileName,
-  //     async () => {
-  //       const testData = getTestData(contents, testConfig.testDataPathPrefix);
-  //       if (testConfig.setupPerTest) {
-  //         testConfig.setupPerTest({ userToken: token, testData });
-  //       }
-  //       const pageList = await browser.pages();
-  //       const page = pageList[0] || (await browser.newPage());
-  //       await fastForwardAnimations(page);
-  //       await runTest(page, testData, testConfig, token, fileName);
-  //     },
-  //     // TODO: Make the timeout based on the number of inputs by default
-  //     testConfig.timeoutPerTest || 120000,
-  //   ),
-  // );
 };
 
 module.exports = testForm;
