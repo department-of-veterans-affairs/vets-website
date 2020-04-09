@@ -7,6 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { facilityTypes } from '../config';
+import { letters } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
@@ -152,7 +153,8 @@ class ResultsList extends Component {
 
     const currentLocation = position;
     const sortedResults = results
-      .map(result => {
+      .map((result, idx) => {
+        const markerText = letters[idx];
         const distance = currentLocation
           ? distBetween(
               currentLocation.latitude,
@@ -161,7 +163,7 @@ class ResultsList extends Component {
               result.attributes.long,
             )
           : null;
-        return { ...result, distance, resultItem: true };
+        return { ...result, distance, resultItem: true, markerText };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 

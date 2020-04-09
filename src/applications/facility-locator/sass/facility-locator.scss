@@ -773,3 +773,19 @@ $facility-locator-color-gray: #ccc;
 .va-nav-breadcrumbs:focus {
   outline: 0;
 }
+
+.i-pin-card {
+  background: $color-gray-dark;
+  color: $color-white;
+  padding: 1px 7px;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.i-pin-map {
+  background: $color-gray-dark;
+  color: $color-white;
+  padding: 4px 9px;
+  border-radius: 50%;
+  font-size: 14px;
+}

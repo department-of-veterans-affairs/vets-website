@@ -16,6 +16,10 @@ const LocationInfoBlock = ({ location, from, query }) => {
       {distance &&
         location.resultItem && (
           <p>
+            {!isProvider && (
+              <span className="i-pin-card">{location.markerText}</span>
+            )}
+            {!isProvider && ' '}
             <span>
               <strong>{distance.toFixed(1)} miles</strong>
             </span>
