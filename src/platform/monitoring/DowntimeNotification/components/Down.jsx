@@ -15,7 +15,7 @@ export default function Down() {
   return (
     <AlertBox
       className="vads-u-margin-bottom--4"
-      headline={`This tool is down for maintenance.`}
+      headline="This tool is down for maintenance."
       isVisible
       status="warning"
     >

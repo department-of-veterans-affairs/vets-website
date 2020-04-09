@@ -115,7 +115,7 @@ class DowntimeNotification extends React.Component {
     }
 
     if (this.props.status === externalServiceStatus.down) {
-      return <Down {...this.props} />;
+      return <Down />;
     }
 
     return children;
