@@ -97,7 +97,7 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  email: state.form2346Reducer?.formData?.email,
+  email: state.form?.data?.email,
 });
 
 export default connect(mapStateToProps)(ConfirmationPage);

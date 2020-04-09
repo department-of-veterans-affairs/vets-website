@@ -33,6 +33,7 @@ export const TEMP_ADDRESS_MILITARY_BASE_SELECTION_FAILURE =
   'disability-benefits/2346/TEMP_ADDRESS_MILITARY_BASE_FAILURE';
 
 export const schemaFields = {
+  fullName: 'vetFullName',
   permAddressField: 'permanentAddress',
   tempAddressField: 'temporaryAddress',
   emailField: 'email',

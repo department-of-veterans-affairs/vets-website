@@ -6,6 +6,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 
 const { email, supplies } = fullSchemaMDOT.definitions;
 
@@ -78,6 +79,7 @@ const formConfig = {
           title: formPages.personalDetails,
           uiSchema: {
             'ui:description': PersonalInfoBox,
+            [schemaFields.fullName]: fullNameUI,
           },
           schema: {
             required: [],
