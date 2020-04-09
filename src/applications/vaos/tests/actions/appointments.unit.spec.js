@@ -33,6 +33,7 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
 
+import { APPOINTMENT_TYPES } from '../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
 
 import facilityData from '../../api/facility_data.json';
@@ -290,12 +291,10 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
+            apiData: {},
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
             facilityId: '983',
-            vdsAppointments: [
-              {
-                clinic: {},
-              },
-            ],
+            clinicId: '1234',
           },
         },
       };
@@ -309,6 +308,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData: {},
       });
 
       expect(global.window.dataLayer[0]).to.deep.equal({

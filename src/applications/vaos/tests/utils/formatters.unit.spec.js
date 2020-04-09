@@ -1,22 +1,28 @@
+import moment from 'moment';
 import { expect } from 'chai';
 
 import {
-  formatBestTimeToCall,
   formatTypeOfCare,
   formatOperatingHours,
+  formatAppointmentDate,
+  formatBestTimetoCallForList,
+  formatBestTimetoCallForReview,
+  titleCase,
+  sentenceCase,
+  lowerCase,
 } from '../../utils/formatters';
 
 describe('VAOS formatters', () => {
   describe('formatBestTimeToCall', () => {
     it('should return single time', () => {
-      const result = formatBestTimeToCall({
+      const result = formatBestTimetoCallForReview({
         morning: true,
       });
 
       expect(result).to.equal('Morning');
     });
     it('should return two times', () => {
-      const result = formatBestTimeToCall({
+      const result = formatBestTimetoCallForReview({
         morning: true,
         afternoon: true,
       });
@@ -24,7 +30,7 @@ describe('VAOS formatters', () => {
       expect(result).to.equal('Morning or Afternoon');
     });
     it('should return message for all times', () => {
-      const result = formatBestTimeToCall({
+      const result = formatBestTimetoCallForReview({
         morning: true,
         afternoon: true,
         evening: true,
@@ -75,6 +81,82 @@ describe('VAOS formatters', () => {
       const result = formatOperatingHours('whatever-whatever');
 
       expect(result).to.equal('whatever-whatever');
+    });
+  });
+
+  describe('titleCase', () => {
+    it('should return capitalize the 1st letter of each word in a sentence', () => {
+      expect(titleCase('THE cOw jumpeD over the moon')).to.equal(
+        'The Cow Jumped Over The Moon',
+      );
+    });
+  });
+
+  describe('sentenceCase', () => {
+    it('should return a string in sentence case', () => {
+      expect(sentenceCase('Apples and Oranges')).to.equal('Apples and oranges');
+    });
+
+    it('should ignore capital words', () => {
+      expect(sentenceCase('MOVE! Weight Management')).to.equal(
+        'MOVE! weight management',
+      );
+    });
+  });
+
+  describe('lowerCase', () => {
+    it('should lower the case of each word in a sentence', () => {
+      expect(lowerCase('The cOW jumpeD Over tHe moon')).to.equal(
+        'the cow jumped over the moon',
+      );
+    });
+    it('should ignore capital words', () => {
+      expect(lowerCase('The COW jumpeD Over tHe moon')).to.equal(
+        'the COW jumped over the moon',
+      );
+    });
+  });
+
+  describe('formatAppointmentDate', () => {
+    it('should format appointment date', () => {
+      expect(
+        formatAppointmentDate(
+          moment('01/02/2020 13:45:00', 'MM/DD/YYYY HH:mm:ss'),
+        ),
+      ).to.equal('January 2, 2020');
+    });
+  });
+  describe('formatBestTimetoCallForList', () => {
+    it('should return "Call in the morning"', () => {
+      expect(formatBestTimetoCallForList(['In the morning'])).to.equal(
+        'Call in the morning',
+      );
+    });
+
+    it('should return "Call in the evening"', () => {
+      expect(formatBestTimetoCallForList(['In the evening'])).to.equal(
+        'Call in the evening',
+      );
+    });
+
+    it('should return "Call in the morning or in the evening"', () => {
+      expect(
+        formatBestTimetoCallForList(['In the morning', 'In the evening']),
+      ).to.equal('Call in the morning or in the evening');
+    });
+
+    it('should return "Call in the morning, in the afternoon, or in the evening"', () => {
+      expect(
+        formatBestTimetoCallForList([
+          'In the morning',
+          'In the afternoon',
+          'In the evening',
+        ]),
+      ).to.equal('Call in the morning, in the afternoon, or in the evening');
+    });
+
+    it('should return null', () => {
+      expect(formatBestTimetoCallForList([])).to.be.null;
     });
   });
 });

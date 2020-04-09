@@ -38,7 +38,7 @@ export function getAppointmentType(appt) {
   return null;
 }
 
-export function isCommunityCare(appt) {
+function isCommunityCare(appt) {
   const apptType = getAppointmentType(appt);
   return (
     apptType === APPOINTMENT_TYPES.ccRequest ||
@@ -452,7 +452,7 @@ export function transformAppointment(appointment) {
   if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccAppointment) {
     return {
       ...appointmentData,
-      timezone: appointment.timeZone,
+      timeZone: appointment.timeZone,
       address: appointment.address,
       providerPractice: appointment.providerPractice,
       providerName: appointment.name,

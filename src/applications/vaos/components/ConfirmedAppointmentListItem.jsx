@@ -61,7 +61,7 @@ export default function ConfirmedAppointmentListItem({
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime
           appointmentDate={appointment.appointmentDate}
-          timezone={appointment.timezone}
+          timezone={appointment.timeZone}
           facilityId={appointment.facilityId}
         />
       </h3>
