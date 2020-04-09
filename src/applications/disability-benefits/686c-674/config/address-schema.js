@@ -19,12 +19,12 @@
  * 1. State/Province/Region - shows up if the country is NOT the US, but NOT required.
  */
 
+import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
-import React from 'react';
-import { countries, militaryCities, states50AndDC } from './constants';
+import { countries, states50AndDC, militaryCities } from './constants';
 
 /**
  * CONSTANTS:
