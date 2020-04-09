@@ -10,13 +10,13 @@ class TabNav extends React.Component {
         <TabItem
           id="upcoming"
           shortcut={1}
-          tabpath="upcoming"
+          tabpath="/"
           title="Upcoming appointments"
         />
         <TabItem
           id="past"
           shortcut={2}
-          tabpath="past"
+          tabpath="/past"
           title="Past appointments"
         />
       </ul>

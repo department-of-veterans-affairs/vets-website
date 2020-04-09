@@ -11,12 +11,6 @@ class TabItem extends React.Component {
     document.removeEventListener('keydown', this.tabShortcut);
   }
 
-  // Grab the current URL, trim the leading '/', and return activeTabPath
-  trimCurrentUrl = () => {
-    const activeTabPath = this.props.location.pathname.slice(1);
-    return activeTabPath;
-  };
-
   tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + this.props.shortcut) {
       this.props.router.push(this.props.tabpath);
@@ -25,7 +19,7 @@ class TabItem extends React.Component {
 
   render() {
     const { id, tabpath, title } = this.props;
-    const activeTab = this.trimCurrentUrl();
+    const activeTab = this.props.location.pathname;
 
     const tabClasses = classNames(
       'vaos-appts__tab',
