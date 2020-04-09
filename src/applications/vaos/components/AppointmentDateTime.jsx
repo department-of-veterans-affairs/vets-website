@@ -4,9 +4,11 @@ import {
   getAppointmentTimezoneDescription,
 } from '../utils/appointment';
 
-export default function AppointmentDateTime({ appointment }) {
-  const appointmentDate = appointment.appointmentDate;
-
+export default function AppointmentDateTime({
+  appointmentDate,
+  timezone,
+  facilityId,
+}) {
   if (!appointmentDate.isValid()) {
     return null;
   }
@@ -18,11 +20,11 @@ export default function AppointmentDateTime({ appointment }) {
       <span aria-hidden="true">
         {' '}
         {appointmentDate.format('a')}{' '}
-        {getAppointmentTimezoneAbbreviation(appointment)}
+        {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
       </span>
       <span className="sr-only">
         {appointmentDate.format('a')}{' '}
-        {getAppointmentTimezoneDescription(appointment)}
+        {getAppointmentTimezoneDescription(timezone, facilityId)}
       </span>
     </>
   );

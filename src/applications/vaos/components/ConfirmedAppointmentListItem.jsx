@@ -59,7 +59,10 @@ export default function ConfirmedAppointmentListItem({
         {header}
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
-        <AppointmentDateTime appointment={appointment} />
+        <AppointmentDateTime
+          timezone={appointment.timezone}
+          facilityId={appointment.facilityId}
+        />
       </h3>
       {!isPastAppointment && (
         <AppointmentStatus status={appointment.status} index={index} />

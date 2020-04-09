@@ -127,26 +127,17 @@ export function getMomentRequestOptionDate(optionDate) {
   return moment(optionDate, 'MM/DD/YYYY');
 }
 
-export function getAppointmentTimezoneAbbreviation(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment: {
-      const tzAbbr = appt?.timeZone?.split(' ')?.[1] || appt?.timeZone;
-      return stripDST(tzAbbr);
-    }
-    case APPOINTMENT_TYPES.ccRequest:
-    case APPOINTMENT_TYPES.request:
-      return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);
-    case APPOINTMENT_TYPES.vaAppointment:
-      return getTimezoneAbbrBySystemId(appt?.facilityId);
-    default:
-      return '';
+export function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
+  if (timezone) {
+    const tzAbbr = timezone?.split(' ')?.[1] || timezone;
+    return stripDST(tzAbbr);
   }
+
+  return getTimezoneAbbrBySystemId(facilityId);
 }
 
-export function getAppointmentTimezoneDescription(appt) {
-  const abbr = getAppointmentTimezoneAbbreviation(appt);
+export function getAppointmentTimezoneDescription(timezone, facilityId) {
+  const abbr = getAppointmentTimezoneAbbreviation(timezone, facilityId);
 
   return getTimezoneDescFromAbbr(abbr);
 }
@@ -538,6 +529,7 @@ export function transformAppointment(appointment) {
   if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccAppointment) {
     return {
       ...appointmentData,
+      timezone: appointment.timeZone,
       address: appointment.address,
       providerPractice: appointment.providerPractice,
       providerName: appointment.name,
