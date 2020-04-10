@@ -1,5 +1,4 @@
 import moment from './moment-tz';
-import guid from 'simple-guid';
 import environment from 'platform/utilities/environment';
 import {
   APPOINTMENT_TYPES,
@@ -111,48 +110,6 @@ function getPurposeOfVisit(appt) {
     default:
       return appt.purposeOfVisit;
   }
-}
-
-/**
- * Function to generate ICS.
- *
- * @param {*} summary - summary or subject of invite
- * @param {*} description - additional detials
- * @param {*} location - address / location
- * @param {*} startDateTime - start datetime in js date format
- * @param {*} endDateTime - end datetime in js date format
- */
-
-export function generateICS(
-  summary,
-  description,
-  location,
-  startDateTime,
-  endDateTime,
-) {
-  const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
-  const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
-  return `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:VA
-BEGIN:VEVENT
-UID:${guid()}
-SUMMARY:${summary}
-DESCRIPTION:${description}
-LOCATION:${location}
-DTSTAMP:${startDate}
-DTSTART:${startDate}
-DTEND:${endDate}
-END:VEVENT
-END:VCALENDAR`;
-}
-
-export function getCernerPortalLink() {
-  if (environment.isProduction()) {
-    return 'http://patientportal.myhealth.va.gov/';
-  }
-
-  return 'http://ehrm-va-test.patientportal.us.healtheintent.com/';
 }
 
 function getVideoType(appt) {
