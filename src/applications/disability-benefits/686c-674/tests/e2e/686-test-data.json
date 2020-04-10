@@ -12,13 +12,54 @@
       "dobDay": "2",
       "dobYear": "1991"
     },
-    "veteranAddress": {
+    "veteranDomesticAddress": {
       "countryName": "United States",
       "addressLine1": "123 at home dr",
       "city": "The City",
       "stateCode": "AL",
       "zipCode": "12345",
       "phoneNumber": "1231231234"
+    },
+    "childInformation": [
+      {
+        "firstName": "James",
+        "lastName": "Doe",
+        "ssn": "321324321",
+        "dobMonth": "1",
+        "dobDay": "1",
+        "dobYear": "2010",
+        "birthLocationState": "California",
+        "birthLocationCity": "Los Angeles",
+        "status": {
+          "biological": true
+        },
+        "previouslyMarried": "No",
+        "doesChildLiveWithYou": "Y"
+      }
+    ],
+    "spouseInformation": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "ssn": "123211234",
+      "dobMonth": "3",
+      "dobDay": "3",
+      "dobYear": "1991",
+      "isVeteran": "N"
+    },
+    "currentMarriageInformation": {
+      "veteranWasMarriedBefore": "N",
+      "doesLiveWithVeteran": "Y",
+      "spouseWasMarriedBefore": "N",
+      "dateOfMarriage": {
+        "month": "3",
+        "day": "3",
+        "year": "2008"
+      },
+      "locationOfMarriage": {
+        "state": "California",
+        "city": "Los Angeles"
+      },
+      "typeOfMarriage": "CEREMONIAL"
     }
   }
 }
