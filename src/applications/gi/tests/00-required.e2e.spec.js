@@ -35,31 +35,31 @@ module.exports = E2eHelpers.createE2eTest(client => {
     client,
     `/profile/${institutionAttributes.facility_code}`,
   );
-  client.waitForElementVisible('.profile-page', Timeouts.normal);
-  // .axeCheck('.main'); // commented out until 7727 is fixed
-  // Main sections are expanded on page load
+  client
+    .waitForElementVisible('.profile-page', Timeouts.normal)
+    .axeCheck('.main'); // commented out until 7727 is fixed
 
   GiHelpers.displayLearnMoreModal(client);
 
   // Estimate your benefits
-  GiHelpers.expandCollapseMainSections(client, 'Estimate your benefits');
+  GiHelpers.expandCollapseMainSection(client, 'Estimate your benefits');
   GiHelpers.editEligibilityDetails(client);
   GiHelpers.hideCalculatorFields(client);
 
   // Veteran programs
-  GiHelpers.expandCollapseMainSections(client, 'Veteran programs');
+  GiHelpers.expandCollapseMainSection(client, 'Veteran programs');
 
   // School locations
-  GiHelpers.expandCollapseMainSections(client, 'School locations');
+  GiHelpers.expandCollapseMainSection(client, 'School locations');
 
   // Cautionary information
-  GiHelpers.expandCollapseMainSections(client, 'Cautionary information');
+  GiHelpers.expandCollapseMainSection(client, 'Cautionary information');
 
   // Contact details
-  GiHelpers.expandCollapseMainSections(client, 'Contact details');
+  GiHelpers.expandCollapseMainSection(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseMainSections(client, 'Additional information');
+  GiHelpers.expandCollapseMainSection(client, 'Additional information');
 
   client.end();
 });

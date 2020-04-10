@@ -80,7 +80,12 @@ const expandCollapseAccordion = (client, id) =>
     .click(`${id} button`)
     .click(`${id} button`);
 
-const expandCollapseMainSections = (client, name) => {
+/**
+ * Main sections are expanded on page load, this collapses then expands a section
+ * @param client
+ * @param name
+ */
+const expandCollapseMainSection = (client, name) => {
   const id = `#${name.toLowerCase().replace(/\s/g, '-')}`;
   expandCollapseAccordion(client, id);
 };
@@ -110,7 +115,7 @@ module.exports = {
   searchForInstitution,
   selectFirstSearchResult,
   expandCollapseAccordion,
-  expandCollapseMainSections,
+  expandCollapseMainSection,
   displayLearnMoreModal,
   editEligibilityDetails,
   hideCalculatorFields,
