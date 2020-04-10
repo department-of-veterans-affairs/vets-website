@@ -23,8 +23,12 @@ class IntroductionPage extends React.Component {
           Please complete the 2346 form to apply for ordering hearing aid
           batteries and accessories.
         </SaveInProgressIntro>
-        <h2 itemProp="name" id="am-i-eligible-to-order-prosthe">
-          Follow the steps below to order hearing aid batteries aid accessories.
+        <h2
+          className="vads-u-font-size--h4"
+          itemProp="name"
+          id="am-i-eligible-to-order-prosthe"
+        >
+          Follow the steps below to order hearing aid batteries and accessories.
         </h2>
         <div className="process schemaform-process">
           <ol>
@@ -40,9 +44,8 @@ class IntroductionPage extends React.Component {
               <p>
                 If you need help ordering hearing aid batteries and accessories,
                 you can call the Denver Logistics Center Customer Service
-                Section at
+                Section at{' '}
                 <a
-                  aria-label="3 0 3. 2 7 3. 6 2 0 0."
                   title="Dial the telephone number 303-273-6200"
                   href="tel:303-273-6200"
                 >
@@ -86,7 +89,6 @@ class IntroductionPage extends React.Component {
                 If you have questions about your order, you can call the DLC
                 Customer Service Section at{' '}
                 <a
-                  aria-label="3 0 3. 2 7 3. 6 2 0 0."
                   title="Dial the telephone number 303-273-6200"
                   href="tel:303-273-6200"
                 >
