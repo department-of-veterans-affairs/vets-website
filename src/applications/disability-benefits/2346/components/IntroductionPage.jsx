@@ -18,7 +18,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Order hearing aid batteries and accessories"
         >
           Please complete the 2346 form to apply for ordering hearing aid
           batteries and accessories.
@@ -104,7 +104,7 @@ class IntroductionPage extends React.Component {
           hideUnauthedStartLink
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Order hearing aid batteries and accessories"
         />
       </div>
     );
