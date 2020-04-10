@@ -65,7 +65,7 @@ export default function ConfirmedAppointmentListItem({
           facilityId={appointment.facilityId}
         />
       </h3>
-      {!isPastAppointment && (
+      {(!isPastAppointment || cancelled) && (
         <AppointmentStatus status={appointment.status} index={index} />
       )}
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
