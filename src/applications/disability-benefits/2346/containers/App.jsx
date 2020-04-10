@@ -7,17 +7,12 @@ export default function App({ location, children }) {
   return (
     <>
       <Breadcrumbs>
-        {[
-          <a href="#" key="1">
-            Home
-          </a>,
-          <a href="#" key="2">
-            Health care
-          </a>,
-          <a href="#" key="3">
-            Order hearing aid batteries and accessories
-          </a>,
-        ]}
+        <a href="/">Home</a>
+        {/* this will get updated when this route is added */}
+        <a href="/health-care">Health care</a>
+        <span className="vads-u-color--black">
+          Order hearing aid batteries and accessories
+        </span>
       </Breadcrumbs>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
