@@ -4,7 +4,7 @@ import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageCo
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
-import { showNewAddressForm, updateRadioLabels } from '../../helpers';
+import { showNewAddressForm, getRadioLabelText } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
@@ -38,7 +38,7 @@ export default {
       'ui:options': {
         updateSchema: formData => {
           const updatedEnumNames = ['permanentAddress', 'temporaryAddress'].map(
-            address => updateRadioLabels(formData, address),
+            address => getRadioLabelText(formData, address),
           );
           return {
             enumNames: [...updatedEnumNames, 'Add new address'],

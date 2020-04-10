@@ -75,8 +75,9 @@ export function validateZIP(errors, zip) {
 export const showNewAddressForm = formData =>
   Object.values(formData?.newAddress).every(entry => Boolean(entry));
 
-export const updateRadioLabels = (formData, name) => {
-  const address = _.get(name, formData) || {};
-  const { street, street2, city, country, state, postalCode } = address;
-  return `${street} ${street2 || ''} ${city} ${state} ${country} ${postalCode}`;
+export const getRadioLabelText = (formData, name) => {
+  const address = formData?.[name] || {};
+  return Object.values(address)
+    .filter(entry => Boolean(entry))
+    .join(' ');
 };
