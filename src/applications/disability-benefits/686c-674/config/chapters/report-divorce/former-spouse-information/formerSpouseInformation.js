@@ -13,12 +13,6 @@ const {
 
 export const schema = {
   type: 'object',
-  required: [
-    'formerSpouseName',
-    'dateOfDivorce',
-    'locationOfDivorce',
-    'isMarriageAnnulledOrVoid',
-  ],
   properties: {
     formerSpouseName,
     dateOfDivorce,
