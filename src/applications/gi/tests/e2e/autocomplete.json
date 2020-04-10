@@ -1,0 +1,14 @@
+{
+  "data": [],
+  "meta": {
+    "version": {
+      "number": 132,
+      "created_at": "2020-04-07T16:57:37.600Z",
+      "preview": false
+    },
+    "term": "central texas college-washington dc"
+  },
+  "links": {
+    "self": "https://staging-api.va.gov/gids/v0/institutions/autocomplete?category=school&term=CENTRAL+TEXAS+COLLEGE-WASHINGTON+DC"
+  }
+}

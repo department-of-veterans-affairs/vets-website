@@ -1,0 +1,128 @@
+{
+  "data": [
+    {
+      "id": "8887595",
+      "type": "institutions",
+      "attributes": {
+        "name": "CENTRAL TEXAS COLLEGE-WASHINGTON DC",
+        "facility_code": "14000109",
+        "type": "PUBLIC",
+        "city": "WASHINGTON",
+        "state": "DC",
+        "zip": "20032",
+        "country": "USA",
+        "highest_degree": 2,
+        "locale_type": "suburban",
+        "student_count": 7,
+        "caution_flag": null,
+        "caution_flag_reason": null,
+        "caution_flags": [],
+        "created_at": "2020-04-07T16:57:37.000Z",
+        "updated_at": "2020-04-07T16:57:37.000Z",
+        "address_1": "PO BOX 8558",
+        "address_2": null,
+        "address_3": "112 Brookley Avenue",
+        "physical_city": "WASHINGTON",
+        "physical_state": "DC",
+        "physical_country": "USA",
+        "online_only": false,
+        "distance_learning": false,
+        "dod_bah": 2535,
+        "physical_zip": "20032",
+        "bah": 2624,
+        "tuition_in_state": 2790,
+        "tuition_out_of_state": 6270,
+        "books": 1707,
+        "student_veteran": null,
+        "yr": false,
+        "poe": true,
+        "eight_keys": true,
+        "stem_offered": false,
+        "independent_study": false,
+        "priority_enrollment": false,
+        "school_closing": false,
+        "school_closing_on": null,
+        "closure109": null,
+        "vet_tec_provider": false,
+        "parent_facility_code_id": null,
+        "campus_type": "Y",
+        "preferred_provider": false,
+        "count_of_caution_flags": 0
+      },
+      "links": {
+        "website": "http://www.ctcd.edu",
+        "scorecard": "https://collegescorecard.ed.gov/school/?223816-central-texas-college-washington-dc",
+        "self": "https://staging-api.va.gov/gids/v0/institutions/14000109"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://staging-api.va.gov/gids/v0/institutions?category=school&name=CENTRAL+TEXAS+COLLEGE-WASHINGTON+DC",
+    "first": "https://staging-api.va.gov/gids/v0/institutions?category=school&name=CENTRAL+TEXAS+COLLEGE-WASHINGTON+DC&page=1&per_page=10",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-api.va.gov/gids/v0/institutions?category=school&name=CENTRAL+TEXAS+COLLEGE-WASHINGTON+DC&page=1&per_page=10"
+  },
+  "meta": {
+    "version": {
+      "number": 132,
+      "created_at": "2020-04-07T16:57:37.600Z",
+      "preview": false
+    },
+    "count": 1,
+    "facets": {
+      "category": {
+        "school": 1,
+        "employer": 0
+      },
+      "type": {
+        "public": 1
+      },
+      "state": {
+        "dc": 1
+      },
+      "country": [
+        {
+          "name": "USA",
+          "count": 1
+        }
+      ],
+      "student_vet_group": {
+        "true": null,
+        "false": null
+      },
+      "yellow_ribbon_scholarship": {
+        "true": null,
+        "false": null
+      },
+      "principles_of_excellence": {
+        "true": null,
+        "false": null
+      },
+      "eight_keys_to_veteran_success": {
+        "true": null,
+        "false": null
+      },
+      "stem_offered": {
+        "true": null,
+        "false": null
+      },
+      "independent_study": {
+        "true": null,
+        "false": null
+      },
+      "online_only": {
+        "true": null,
+        "false": null
+      },
+      "distance_learning": {
+        "true": null,
+        "false": null
+      },
+      "priority_enrollment": {
+        "true": null,
+        "false": null
+      }
+    }
+  }
+}

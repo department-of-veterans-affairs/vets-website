@@ -1,9 +1,10 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
+const institutionProfile = require('./e2e/institution-profile.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  const institution = GiHelpers.singleSchool.data;
+  const institution = institutionProfile.data;
 
   GiHelpers.initApplicationMock();
 
@@ -33,8 +34,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Landing Page: Search
   client.click('#search-button');
 
-  // Search Page
-  // E2eHelpers.expectLocation(client, '/search'); doesn't work for some reason
+  // client.pause(10000000);
+  // Search Page window.location.href
+  // E2eHelpers.expectLocation(client, '/search');
   client
     .waitForElementVisible('.search-page', Timeouts.normal)
     .axeCheck('.main');
