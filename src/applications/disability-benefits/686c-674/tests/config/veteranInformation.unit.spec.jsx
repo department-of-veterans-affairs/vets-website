@@ -64,12 +64,12 @@ describe('686 veteran information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_first', 'Bill');
-    fillData(form, 'input#root_last', 'Bob');
-    fillData(form, 'input#root_ssn', '555-55-5551');
-    changeDropdown(form, 'select#root_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_birthDateDay', 1);
-    fillData(form, 'input#root_birthDateYear', '2002');
+    fillData(form, 'input#root_veteranInformation_first', 'Bill');
+    fillData(form, 'input#root_veteranInformation_last', 'Bob');
+    fillData(form, 'input#root_veteranInformation_ssn', '555-55-5551');
+    changeDropdown(form, 'select#root_veteranInformation_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_veteranInformation_birthDateDay', 1);
+    fillData(form, 'input#root_veteranInformation_birthDateYear', '2002');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
