@@ -27,10 +27,10 @@ import {
   sortMessages,
   getRealFacilityId,
   sortPastAppointments,
-  transformRequest,
-  transformAppointment,
-  transformPastAppointment,
 } from '../utils/appointment';
+
+import { transformRequest } from '../utils/appointment-new';
+
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
@@ -63,7 +63,6 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
         .filter(appt => filterFutureConfirmedAppointments(appt, action.today))
-        .map(transformAppointment)
         .sort(sortFutureConfirmedAppointments);
 
       const requestsFilteredAndSorted = [
@@ -96,7 +95,6 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
         .filter(appt => filterPastAppointments(appt, startDate, endDate))
-        .map(transformPastAppointment)
         .sort(sortPastAppointments);
 
       return {
