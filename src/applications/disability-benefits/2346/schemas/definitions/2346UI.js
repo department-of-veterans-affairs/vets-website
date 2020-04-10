@@ -10,11 +10,7 @@ import { addressUISchema } from '../address-schema';
 
 const { viewAddAccessoriesField, viewAddBatteriesField } = schemaFields;
 
-const emailUITitle = (
-  <>
-    <h4>Email address</h4>
-  </>
-);
+const emailUITitle = <h4>Email address</h4>;
 
 const emailUIDescription = (
   <>
