@@ -699,13 +699,7 @@ const calculatorConstants = {
 };
 
 const autocomplete = {
-  data: [
-    {
-      id: 8887595,
-      value: '14000109',
-      label: 'CENTRAL TEXAS COLLEGE-WASHINGTON DC',
-    },
-  ],
+  data: [],
   meta: {
     version: {
       number: 132,
@@ -766,5 +760,6 @@ function initApplicationMock() {
 module.exports = {
   calculatorConstants,
   schools,
+  singleSchool,
   initApplicationMock,
 };
