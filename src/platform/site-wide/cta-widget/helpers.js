@@ -56,7 +56,7 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 export const mhvBaseUrl = () => {
-  const mhvSubdomain = !environment.isProduction() ? 'mhv-syst' : 'www';
+  const mhvSubdomain = environment.isProduction() ? 'www' : 'mhv-syst';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
@@ -70,7 +70,7 @@ const mhvToEauthRoutes = {
 };
 
 const mhvUrlNonSSO = subroute => {
-  const mhvSubdomain = !environment.isProduction() ? 'mhv-syst' : 'www';
+  const mhvSubdomain = environment.isProduction() ? 'www' : 'mhv-syst';
 
   return `https://${mhvSubdomain}.myhealth.va.gov/mhv-portal-web/${subroute}`;
 };
@@ -82,7 +82,7 @@ const mhvUrlSSO = deeplinkTarget => {
   return `https://${envPrefix}eauth.va.gov/mhv-portal-web/eauth?deeplinking=${eauthDeepLink}`;
 };
 
-const mhvUrl = subroute =>
+export const mhvUrl = (subroute = '') =>
   hasSessionSSO() ? mhvUrlSSO(subroute) : mhvUrlNonSSO(subroute);
 
 export const mhvToolName = appId => {
