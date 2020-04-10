@@ -1,5 +1,4 @@
 import _ from 'platform/utilities/data';
-import get from 'platform/utilities/data/get';
 import { militaryCities, militaryStates } from '../constants';
 
 /**
@@ -74,7 +73,7 @@ export function validateZIP(errors, zip) {
 }
 
 export const newAddressHider = formData => {
-  const address = get('newAddress', formData) || {};
+  const address = formData?.newAddress;
   // return true if living at view:militaryBaseInfo object
   return Object.keys(address).every(entry => {
     const value = address[entry] || '';
@@ -83,9 +82,7 @@ export const newAddressHider = formData => {
 };
 
 export const updateRadioLabels = (formData, name) => {
-  const address = get(name, formData) || {};
+  const address = _.get(name, formData) || {};
   const { street, street2, city, country, state, postalCode } = address;
-  const updatedLabel = `${street} ${street2 ||
-    ''} ${city} ${state} ${country} ${postalCode}`;
-  return updatedLabel;
+  return `${street} ${street2 || ''} ${city} ${state} ${country} ${postalCode}`;
 };
