@@ -199,7 +199,7 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
-    excludeCautionFlags: PropTypes,
+    excludeCautionFlags: PropTypes.bool,
   }),
 };
 

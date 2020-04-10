@@ -115,11 +115,13 @@ describe('VAOS reducer: appointments', () => {
   it('should update pastStatus to be loading when calling FETCH_PAST_APPOINTMENTS', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex: 1,
     };
 
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.pastStatus).to.equal(FETCH_STATUS.loading);
+    expect(newState.pastSelectedIndex).to.equal(1);
   });
 
   it('should populate confirmed with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
@@ -127,6 +129,7 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
       startDate: '2018-01-01',
       endDate: moment().format(),
+      selectedIndex: 1,
       data: [
         [
           { startDate: '2019-04-30T05:35:00', facilityId: '984' },

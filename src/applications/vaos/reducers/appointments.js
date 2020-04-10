@@ -42,6 +42,7 @@ const initialState = {
   futureStatus: FETCH_STATUS.notStarted,
   past: null,
   pastStatus: FETCH_STATUS.notStarted,
+  pastSelectedIndex: 0,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
@@ -87,6 +88,7 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         pastStatus: FETCH_STATUS.loading,
+        pastSelectedIndex: action.selectedIndex,
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
       const { data, startDate, endDate } = action;
