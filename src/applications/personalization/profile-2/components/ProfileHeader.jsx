@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { imagePaths } from '../constants';
 import orderBy from 'lodash/orderBy';
+
+import { SERVICE_BADGE_IMAGE_PATHS } from '../constants';
+import { getServiceBranchDisplayName } from '../helpers';
 
 const ProfileHeader = ({
   userFullName: { first, middle, last, suffix },
@@ -20,7 +22,7 @@ const ProfileHeader = ({
           {showBadgeImage && (
             <img
               className="profileServiceBadge"
-              src={imagePaths[latestBranchOfService]}
+              src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt="service badge"
             />
           )}
@@ -32,7 +34,7 @@ const ProfileHeader = ({
           <h2 className="vads-u-font-size--h3">{fullName}</h2>
           {latestBranchOfService && (
             <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-              United States {latestBranchOfService}
+              {getServiceBranchDisplayName(latestBranchOfService)}
             </h3>
           )}
         </div>
@@ -51,7 +53,7 @@ const mapStateToProps = state => {
   return {
     userFullName: state.vaProfile?.hero?.userFullName,
     latestBranchOfService,
-    showBadgeImage: Boolean(imagePaths[latestBranchOfService]),
+    showBadgeImage: SERVICE_BADGE_IMAGE_PATHS.has(latestBranchOfService),
   };
 };
 
@@ -67,11 +69,11 @@ ProfileHeader.defaultProps = {
 
 ProfileHeader.propTypes = {
   userFullName: PropTypes.shape({
-    first: PropTypes.string.isRequired,
-    middle: PropTypes.string.isRequired,
-    last: PropTypes.string.isRequired,
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
   }).isRequired,
-  // defaulting to Army for now as placeholder
   latestBranchOfService: PropTypes.string.isRequired,
 };
 
