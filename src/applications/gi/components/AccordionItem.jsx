@@ -30,7 +30,7 @@ class AccordionItem extends React.Component {
       [this.props.headerClass]: this.props.headerClass,
     });
     return (
-      <div>
+      <div id={this.props.button.toLowerCase().replace(/\s/g, '-')}>
         <li>
           <h2 aria-live="off" className={headerClasses}>
             <button
