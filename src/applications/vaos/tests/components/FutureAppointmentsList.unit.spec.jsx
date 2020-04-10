@@ -55,7 +55,7 @@ describe('VAOS <FutureAppointmentsList>', () => {
     tree.unmount();
   });
 
-  it('should render 3 appointments', () => {
+  xit('should render 3 appointments', () => {
     const appointments = {
       facilityData: {},
       futureStatus: FETCH_STATUS.succeeded,
