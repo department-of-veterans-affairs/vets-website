@@ -2,15 +2,15 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import React from 'react';
 
-const IntroductionPage = () => (
+const IntroductionPage = props => (
   <div className="schemaform-intro">
     <FormTitle title="Order hearing aid batteries and accessories" />
     <p>Equal to VA Form 2346 (Request for Batteries and Accessories).</p>
     <SaveInProgressIntro
       hideUnauthedStartLink
-      prefillEnabled={this.props.route.formConfig.prefillEnabled}
-      messages={this.props.route.formConfig.savedFormMessages}
-      pageList={this.props.route.pageList}
+      prefillEnabled={props.route.formConfig.prefillEnabled}
+      messages={props.route.formConfig.savedFormMessages}
+      pageList={props.route.pageList}
       startText="Order hearing aid batteries and accessories"
     >
       Please complete the 2346 form to apply for ordering hearing aid batteries
@@ -92,8 +92,8 @@ const IntroductionPage = () => (
     <SaveInProgressIntro
       buttonOnly
       hideUnauthedStartLink
-      messages={this.props.route.formConfig.savedFormMessages}
-      pageList={this.props.route.pageList}
+      messages={props.route.formConfig.savedFormMessages}
+      pageList={props.route.pageList}
       startText="Order hearing aid batteries and accessories"
     />
   </div>
