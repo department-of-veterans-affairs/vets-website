@@ -298,7 +298,7 @@ export function confirmCancelAppointment() {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
       facilityType: appointment.isCommunityCare ? 'cc' : 'va',
     };
-    let apiData;
+    let apiData = appointment.apiData;
 
     try {
       recordEvent({
