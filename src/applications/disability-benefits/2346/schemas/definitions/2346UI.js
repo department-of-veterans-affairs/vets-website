@@ -4,7 +4,7 @@ import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageCo
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
-import { newAddressHider, updateRadioLabels } from '../../helpers';
+import { showNewAddressForm, updateRadioLabels } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
@@ -64,10 +64,10 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         // expandUnder: 'newAddress',
-        hideIf: newAddressHider,
+        hideIf: showNewAddressForm,
         hideOnReview: true,
       },
-      'ui:required': !newAddressHider,
+      'ui:required': !showNewAddressForm,
     },
     emailUI: {
       'ui:title': emailUITitle,
