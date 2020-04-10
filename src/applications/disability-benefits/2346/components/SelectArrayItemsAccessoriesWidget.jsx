@@ -44,7 +44,7 @@ class SelectArrayItemsAccessoriesWidget extends Component {
               {supply.productName}
             </p>
             <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
-              <div className="usa-alert-body mdot-alert-body">
+              <div className="usa-alert-body vads-u-padding-left--1">
                 <p className="vads-u-margin--1px">
                   <span className="vads-u-font-weight--bold">Battery: </span>
                   {supply.productId}

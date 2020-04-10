@@ -38,12 +38,12 @@ class SelectArrayItemsBatteriesWidget extends Component {
     return supplies.map(
       supply =>
         supply.productGroup === HEARING_AID_BATTERIES ? (
-          <div key={supply.productId} className="order-background">
+          <div key={supply.productId} className="vads-u-color--gray-lightest">
             <p className="vads-u-font-size--md vads-u-font-weight--bold">
               {supply.productName}
             </p>
             <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
-              <div className="usa-alert-body mdot-alert-body">
+              <div className="usa-alert-body vads-u-padding-left--1">
                 <p className="vads-u-margin--1px">
                   <span className="vads-u-font-weight--bold">Battery: </span>
                   {supply.productId}
