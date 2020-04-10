@@ -413,7 +413,7 @@ function getAppointmentStatus(appointment) {
       );
 
       return cancelled
-        ? APPOINTMENT_TYPES.cancelled
+        ? APPOINTMENT_STATUS.cancelled
         : APPOINTMENT_STATUS.booked;
     }
     default:
