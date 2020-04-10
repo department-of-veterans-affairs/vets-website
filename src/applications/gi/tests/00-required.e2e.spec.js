@@ -18,12 +18,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
-
-  // Landing Page: Search for an institution
   GiHelpers.searchForInstitution(client);
 
   // Search Page
-  GiHelpers.selectSearchResult(client);
+  GiHelpers.expectLocation(
+    client,
+    `/search?category=school&name=${institutionAttributes.name.replace(
+      /\s/g,
+      '+',
+    )}`,
+  );
+  GiHelpers.selectFirstSearchResult(client);
 
   // Profile Page
   GiHelpers.expectLocation(
@@ -32,6 +37,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   client.waitForElementVisible('.profile-page', Timeouts.normal);
   // .axeCheck('.main'); // commented out until 7727 is fixed
+  // Main sections are expanded on page load
 
   // Estimate your benefits
   GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
@@ -39,6 +45,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Veteran programs
   GiHelpers.expandCollapseAccordion(client, 'Veteran programs');
+
+  // School locations
+  GiHelpers.expandCollapseAccordion(client, 'School locations');
 
   // Cautionary information
   GiHelpers.expandCollapseAccordion(client, 'Cautionary information');

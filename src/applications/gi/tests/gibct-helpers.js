@@ -21,7 +21,7 @@ const initApplicationMock = () => {
   });
 
   mock(null, {
-    path: '/v0/gi/institutions/14000109',
+    path: `/v0/gi/institutions/${institutionAttributes.facility_code}`,
     verb: 'get',
     value: institutionProfile,
   });
@@ -66,20 +66,10 @@ const searchForInstitution = client => {
     .click('#search-button');
 };
 
-const selectSearchResult = client => {
-  expectLocation(
-    client,
-    `/search?category=school&name=${institutionAttributes.name.replace(
-      /\s/g,
-      '+',
-    )}`,
-  );
+const selectFirstSearchResult = client => {
   client
     .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main');
-
-  // Select first result
-  client
+    .axeCheck('.main')
     .waitForElementVisible('.search-result a', Timeouts.normal)
     .click('.search-result a');
 };
@@ -93,14 +83,17 @@ const expandCollapseAccordion = (client, name) => {
 };
 
 const editEligibilityDetails = client => {
-  client.waitForElementVisible('.eligibility-details', Timeouts.normal);
+  client
+    .waitForElementVisible('.eligibility-details', Timeouts.normal)
+    .click('.eligibility-details button')
+    .axeCheck('.eligibility-details');
 };
 
 module.exports = {
   expectLocation,
   initApplicationMock,
   searchForInstitution,
-  selectSearchResult,
+  selectFirstSearchResult,
   expandCollapseAccordion,
   editEligibilityDetails,
 };
