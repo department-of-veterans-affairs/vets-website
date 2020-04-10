@@ -130,12 +130,7 @@ export const SearchResult = ({ school }) => (
             <br />
             (per student, per year)
           </p>
-          <p className="vads-u-margin--0">
-            <span className="sr-only">
-              Maximum Yellow Ribbon funding amount (per student, per year)
-            </span>
-            {deriveMaxAmountLabel(school)}
-          </p>
+          <p className="vads-u-margin--0">{deriveMaxAmountLabel(school)}</p>
         </div>
 
         {/* Student Count */}
@@ -143,7 +138,6 @@ export const SearchResult = ({ school }) => (
           Funding available for
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-          <span className="sr-only">Eligible students</span>
           {deriveEligibleStudentsLabel(school)}
         </p>
 
@@ -152,7 +146,6 @@ export const SearchResult = ({ school }) => (
           School website
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-          <span className="sr-only">School website</span>
           {deriveInstURLLabel(school)}
         </p>
       </div>
@@ -163,7 +156,6 @@ export const SearchResult = ({ school }) => (
           Degree type
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
-          <span className="sr-only">Degree level</span>
           {deriveDegreeLevel(school)}
         </p>
 
@@ -172,7 +164,6 @@ export const SearchResult = ({ school }) => (
           School or program
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
-          <span className="sr-only">School or program</span>
           {deriveDivisionProfessionalSchool(school)}
         </p>
       </div>
