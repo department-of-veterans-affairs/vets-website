@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.overrideSmoothScrolling(client);
   client.timeoutsAsyncScript(2000);
 
-  // Landing Page
+  // Error page
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
