@@ -54,17 +54,16 @@ const USA = {
 };
 
 const MilitaryBaseInfo = () => (
-  <div className="vads-u-padding-x--2p5">
-    <AdditionalInfo
-      status="info"
-      triggerText="Learn more about military base addresses"
-    >
-      <span>
-        The United States is automatically chosen as your country if you live on
-        a military base outside of the country.
-      </span>
-    </AdditionalInfo>
-  </div>
+  <AdditionalInfo
+    status="info"
+    className="vads-u-padding-x--2p5"
+    triggerText="Learn more about military base addresses"
+  >
+    <span>
+      The United States is automatically chosen as your country if you live on a
+      military base outside of the country.
+    </span>
+  </AdditionalInfo>
 );
 
 const addressSchema = {
