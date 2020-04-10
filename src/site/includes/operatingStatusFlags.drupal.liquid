@@ -37,6 +37,9 @@
   }
 </style>
 {% if fieldOperatingStatusFacility == 'notice' %}<a
+  onclick="recordEvent({
+  'event': 'nav-info-box-click',
+  'infoBoxText': 'Facility Notice'});"
   class="operating-status-link"
   href="{{facilitySidebar.links.0.url.path}}/operating-status">
   <span
@@ -48,6 +51,9 @@
 </a>
 {% elsif fieldOperatingStatusFacility == 'limited' %}
 <a class="operating-status-link"
+  onclick="recordEvent({
+  'event': 'nav-info-box-click',
+  'infoBoxText': 'Facility Notice'});"
   href="{{facilitySidebar.links.0.url.path}}/operating-status"><span
     class="operating-status-flag operating-status-flag-warning operating-status usa-alert usa-alert-warning background-color-only vads-u-margin-top--1 vads-u-padding-y--1 vads-u-padding-x--1p5">
     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Limited
@@ -57,6 +63,9 @@
 </a>
 {% elsif fieldOperatingStatusFacility == 'closed' %}
 <a class="operating-status-link"
+  onclick="recordEvent({
+  'event': 'nav-info-box-click',
+  'infoBoxText': 'Facility Notice'});"
   href="{{facilitySidebar.links.0.url.path}}/operating-status"><span
     class="operating-status-flag operating-status-flag-error operating-status usa-alert usa-alert-error background-color-only vads-u-margin-top--1 vads-u-padding-y--1 vads-u-padding-x--1p5">
     <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Facility
