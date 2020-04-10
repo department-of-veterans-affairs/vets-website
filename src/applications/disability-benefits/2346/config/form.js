@@ -7,7 +7,7 @@ import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatte
 import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPage from '../components/IntroductionPage';
 import UIDefinitions from '../definitions/2346UI';
 
 const {
