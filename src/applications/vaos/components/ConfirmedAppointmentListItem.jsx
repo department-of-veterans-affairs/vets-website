@@ -49,7 +49,7 @@ export default function ConfirmedAppointmentListItem({
 
   return (
     <li
-      aria-labelledby={`card-${index}-type card-${index}-state`}
+      aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
     >
       <div
