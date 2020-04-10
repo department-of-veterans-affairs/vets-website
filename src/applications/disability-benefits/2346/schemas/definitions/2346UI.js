@@ -22,11 +22,20 @@ const emailUIDescription = (
   </>
 );
 
+const selectedAddressUITitle = (
+  <h4 className="vads-u-display--inline">Shipping address</h4>
+);
+
 const selectedAddressUIDescription = (
   <>
-    <p>
-      We'll ship your address to the address below. Orders typically arrive
-      within 7 to 10 business days.
+    <br />
+    <p className="vads-u-display--inline">
+      We'll ship your order to the address below. Orders typically arrive within
+      7 to 10 business days.
+    </p>
+    <br />
+    <p className="vads-u-font-weight--bold">
+      Select the address where you'd like to send your order:
     </p>
   </>
 );
@@ -38,9 +47,9 @@ export default {
   },
   sharedUISchemas: {
     selectedAddressUI: {
-      'ui:widget': 'radio',
-      'ui:title': 'Shipping Address',
+      'ui:title': selectedAddressUITitle,
       'ui:description': selectedAddressUIDescription,
+      'ui:widget': 'radio',
       'ui:options': {
         updateSchema: formData => {
           const updatedEnumNames = ['permanentAddress', 'temporaryAddress'].map(
@@ -52,6 +61,7 @@ export default {
           };
         },
       },
+      'ui:required': () => true,
     },
     newAddressUI: {
       ...addressUISchema(
@@ -79,6 +89,19 @@ export default {
     emailUI: {
       'ui:title': emailUITitle,
       'ui:description': emailUIDescription,
+      'ui:widget': 'email',
+      'ui:errorMessages': {
+        pattern: 'Please enter an email address using this format: X@X.com',
+        required: 'Please enter an email address',
+      },
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--3',
+        widgetClassNames: 'va-input-large',
+        inputType: 'email',
+      },
+    },
+    confirmationEmailUI: {
+      'ui:title': 'Re-enter email address',
       'ui:widget': 'email',
       'ui:errorMessages': {
         pattern: 'Please enter an email address using this format: X@X.com',

@@ -385,6 +385,9 @@
     "email": {
       "$ref": "#/definitions/email"
     },
+    "confirmationEmail": {
+      "$ref": "#/definitions/email"
+    },
     "dateOfBirth": {
       "$ref": "#/definitions/date"
     },

@@ -15,6 +15,7 @@ const { typeOfNewAddress, selectedAddress } = fullSchemaMDOT.properties;
 
 const {
   emailField,
+  confirmationEmailField,
   suppliesField,
   viewAddAccessoriesField,
   viewAddBatteriesField,
@@ -25,6 +26,7 @@ const {
 
 const {
   emailUI,
+  confirmationEmailUI,
   addAccessoriesUI,
   addBatteriesUI,
   batteriesUI,
@@ -94,20 +96,22 @@ const formConfig = {
         [formPageTitlesLookup.address]: {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
+          description: 'test',
           uiSchema: {
             [selectedAddressField]: selectedAddressUI,
             [newAddressField]: newAddressUI,
             [typeOfNewAddressField]: typeOfNewAddressUI,
             [emailField]: emailUI,
+            [confirmationEmailField]: confirmationEmailUI,
           },
           schema: {
             type: 'object',
-            required: [],
             properties: {
               [selectedAddressField]: selectedAddress,
               [newAddressField]: addressSchema,
               [typeOfNewAddressField]: typeOfNewAddress,
               [emailField]: email,
+              [confirmationEmailField]: email,
             },
           },
         },
