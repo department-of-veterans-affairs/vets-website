@@ -2,7 +2,7 @@ import React from 'react';
 import {
   getAppointmentTimezoneAbbreviation,
   getAppointmentTimezoneDescription,
-} from '../utils/appointment-new';
+} from '../utils/appointment';
 
 export default function AppointmentDateTime({
   appointmentDate,

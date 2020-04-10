@@ -1,10 +1,13 @@
-import React from 'react';
 import moment from './moment-tz';
 import guid from 'simple-guid';
 import environment from 'platform/utilities/environment';
-import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
-import FacilityAddress from '../components/FacilityAddress';
-import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
+import {
+  APPOINTMENT_TYPES,
+  PURPOSE_TEXT,
+  VIDEO_TYPES,
+  APPOINTMENT_STATUS,
+  CANCELLED_APPOINTMENT_SET,
+} from './constants';
 
 import {
   getTimezoneBySystemId,
@@ -35,7 +38,7 @@ export function getAppointmentType(appt) {
   return null;
 }
 
-export function isCommunityCare(appt) {
+function isCommunityCare(appt) {
   const apptType = getAppointmentType(appt);
   return (
     apptType === APPOINTMENT_TYPES.ccRequest ||
@@ -43,156 +46,16 @@ export function isCommunityCare(appt) {
   );
 }
 
-export function isGFEVideoVisit(appt) {
+function isGFEVideoVisit(appt) {
   return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
 }
 
-export function isVideoVisit(appt) {
+function isVideoVisit(appt) {
   return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
 }
 
 export function getVideoVisitLink(appt) {
-  return appt.vvsAppointments[0]?.patients?.[0]?.virtualMeetingRoom?.url;
-}
-
-export function titleCase(str) {
-  return str
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-export function sentenceCase(str) {
-  return str
-    .split(' ')
-    .map((word, index) => {
-      if (/^[^a-z]*$/.test(word)) {
-        return word;
-      }
-
-      if (index === 0) {
-        return `${word.charAt(0).toUpperCase()}${word
-          .substr(1, word.length - 1)
-          .toLowerCase()}`;
-      }
-
-      return word.toLowerCase();
-    })
-    .join(' ');
-}
-
-export function lowerCase(str = '') {
-  return str
-    .split(' ')
-    .map(word => {
-      if (/^[^a-z]*$/.test(word)) {
-        return word;
-      }
-
-      return word.toLowerCase();
-    })
-    .join(' ');
-}
-
-export function getLocationHeader(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return appt.providerPractice;
-    case APPOINTMENT_TYPES.ccRequest:
-      return 'Preferred provider';
-    case APPOINTMENT_TYPES.request:
-      return appt.friendlyLocationName || appt.facility.name;
-    default:
-      return appt.clinicFriendlyName || appt.vdsAppointments[0]?.clinic?.name;
-  }
-}
-
-export function getAppointmentTitle(appt) {
-  if (isCommunityCare(appt)) {
-    return `Community Care appointment`;
-  } else if (isVideoVisit(appt)) {
-    return `VA Video Connect`;
-  }
-
-  return 'VA visit';
-}
-
-export function getAppointmentLocation(appt, facility) {
-  if (isVideoVisit(appt)) {
-    return 'Video conference';
-  }
-
-  const type = getAppointmentType(appt);
-
-  if (type === APPOINTMENT_TYPES.ccAppointment) {
-    return (
-      <>
-        {appt.address.street}
-        <br />
-        {appt.address.city}, {appt.address.state} {appt.address.zipCode}
-        <br />
-        <FacilityDirectionsLink location={appt} />
-      </>
-    );
-  }
-
-  if (type === APPOINTMENT_TYPES.ccRequest) {
-    if (!appt.ccAppointmentRequest?.preferredProviders?.[0]) {
-      return 'Not specified';
-    }
-
-    return (
-      <ul className="usa-unstyled-list">
-        {appt.ccAppointmentRequest.preferredProviders.map(provider => (
-          <li key={`${provider.firstName} ${provider.lastName}`}>
-            {provider.practiceName}
-            <br />
-            {provider.firstName} {provider.lastName}
-          </li>
-        ))}
-      </ul>
-    );
-  }
-
-  if (facility) {
-    return (
-      <>
-        {type !== APPOINTMENT_TYPES.request && (
-          <>
-            {facility.name}
-            <br />
-          </>
-        )}
-        <FacilityAddress facility={facility} showDirectionsLink />
-      </>
-    );
-  }
-
-  if (type === APPOINTMENT_TYPES.vaAppointment) {
-    return (
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
-        Find facility information
-      </a>
-    );
-  }
-
-  const facilityId =
-    type === APPOINTMENT_TYPES.request || type === APPOINTMENT_TYPES.ccRequest
-      ? appt.facility.facilityCode
-      : appt.facilityId;
-
-  return (
-    <a
-      href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      View facility information
-    </a>
-  );
+  return appt.vvsAppointments?.[0]?.patients?.[0]?.virtualMeetingRoom?.url;
 }
 
 /**
@@ -224,61 +87,22 @@ export function getMomentRequestOptionDate(optionDate) {
   return moment(optionDate, 'MM/DD/YYYY');
 }
 
-export function getAppointmentTimezoneAbbreviation(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment: {
-      const tzAbbr = appt?.timeZone?.split(' ')?.[1] || appt?.timeZone;
-      return stripDST(tzAbbr);
-    }
-    case APPOINTMENT_TYPES.ccRequest:
-    case APPOINTMENT_TYPES.request:
-      return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);
-    case APPOINTMENT_TYPES.vaAppointment:
-      return getTimezoneAbbrBySystemId(appt?.facilityId);
-    default:
-      return '';
+export function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
+  if (facilityId) {
+    return getTimezoneAbbrBySystemId(facilityId);
   }
+
+  const tzAbbr = timezone?.split(' ')?.[1] || timezone;
+  return stripDST(tzAbbr);
 }
 
-export function getAppointmentTimezoneDescription(appt) {
-  const abbr = getAppointmentTimezoneAbbreviation(appt);
+export function getAppointmentTimezoneDescription(timezone, facilityId) {
+  const abbr = getAppointmentTimezoneAbbreviation(timezone, facilityId);
 
   return getTimezoneDescFromAbbr(abbr);
 }
 
-export function getAppointmentDate(appt) {
-  const parsedDate = getMomentConfirmedDate(appt);
-
-  if (!parsedDate.isValid()) {
-    return null;
-  }
-
-  return parsedDate.format('MMMM D, YYYY');
-}
-
-export function getAppointmentDateTime(appt) {
-  const parsedDate = getMomentConfirmedDate(appt);
-  if (!parsedDate.isValid()) {
-    return null;
-  }
-
-  return (
-    <>
-      {parsedDate.format('dddd, MMMM D, YYYY')} at {parsedDate.format('h:mm')}
-      <span aria-hidden="true">
-        {' '}
-        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
-      </span>
-      <span className="sr-only">
-        {parsedDate.format('a')} {getAppointmentTimezoneDescription(appt)}
-      </span>
-    </>
-  );
-}
-
-export function getRequestDateOptions(appt) {
+function getRequestDateOptions(appt) {
   const options = [
     {
       date: getMomentRequestOptionDate(appt.optionDate1),
@@ -302,27 +126,7 @@ export function getRequestDateOptions(appt) {
       return a.date.isBefore(b.date) ? -1 : 1;
     });
 
-  return options.reduce((formatted, option, index) => {
-    formatted.push(
-      <li key={`${appt.id}-option-${index}`}>
-        {option.date.format('ddd, MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
-      </li>,
-    );
-    return formatted;
-  }, []);
-}
-
-export function getRequestTimeToCall(appt) {
-  const times = appt.bestTimetoCall.map(t => t.toLowerCase());
-  if (times.length === 1) {
-    return `Call ${times[0]}`;
-  } else if (times.length === 2) {
-    return `Call ${times[0]} or ${times[1]}`;
-  } else if (times.length === 3) {
-    return `Call ${times[0]}, ${times[1]}, or ${times[2]}`;
-  }
-
-  return null;
+  return options;
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
@@ -456,69 +260,8 @@ export function sortMessages(a, b) {
   return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
 }
 
-export function getAppointmentInstructions(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return appt.instructionsToVeteran;
-    case APPOINTMENT_TYPES.vaAppointment: {
-      const bookingNotes =
-        appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes;
-
-      const instructions = bookingNotes?.split(': ', 2);
-
-      if (instructions && instructions.length > 1) {
-        return instructions[1];
-      }
-
-      return '';
-    }
-    default:
-      return '';
-  }
-}
-
-export function getAppointmentInstructionsHeader(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return 'Special instructions';
-    case APPOINTMENT_TYPES.vaAppointment: {
-      const bookingNotes =
-        appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes;
-
-      const instructions = bookingNotes?.split(': ', 2);
-
-      return instructions ? instructions[0] : '';
-    }
-    default:
-      return '';
-  }
-}
-
-export function hasInstructions(appt) {
-  if (appt.instructionsToVeteran) {
-    return true;
-  }
-
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  return (
-    !!bookingNotes &&
-    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
-  );
-}
-
-export function getPurposeOfVisit(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
+function getPurposeOfVisit(appt) {
+  switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.ccRequest:
       return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
         ?.short;
@@ -531,86 +274,19 @@ export function getPurposeOfVisit(appt) {
   }
 }
 
-export function getAppointmentTypeHeader(appt) {
-  const type = getAppointmentType(appt);
-
-  switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment:
-    case APPOINTMENT_TYPES.ccRequest:
-      return 'Community Care';
-    case APPOINTMENT_TYPES.request: {
-      if (appt.visitType === 'Video Conference') {
-        return 'VA Video Connect';
-      }
-
-      return 'VA Appointment';
-    }
-    case APPOINTMENT_TYPES.vaAppointment: {
-      if (isVideoVisit(appt)) {
-        return 'VA Video Connect';
-      }
-
-      return 'VA Appointment';
-    }
-    default:
-      return appt.purposeOfVisit;
-  }
-}
-
 /**
  * Function to get the appointment duration in minutes. The default is 60 minutes.
  *
  * @param {*} appt
  * @returns
  */
-export function getAppointmentDuration(appt) {
-  const type = getAppointmentType(appt);
-
-  if (type === APPOINTMENT_TYPES.vaAppointment) {
-    const appointmentLength = parseInt(
-      appt.vdsAppointments[0]?.appointmentLength,
-      10,
-    );
-    return isNaN(appointmentLength) ? 60 : appointmentLength;
-  }
-  return 60;
-}
-/**
- * Returns formatted address from facility details object
- *
- * @param {*} facility - facility details object
- */
-export function getFacilityAddress(facility) {
-  return `${facility.address.physical.address1} ${
-    facility.address.physical.city
-  }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
-}
-
-/**
- * Function to get the appointment address.
- *
- * @param {*} appt
- * @param {*} facility
- * @returns 'undefined' if there is no address
- */
-export function getAppointmentAddress(appt, facility) {
-  if (isVideoVisit(appt)) {
-    return 'Video conference';
-  }
-
-  const type = getAppointmentType(appt);
-
-  if (type === APPOINTMENT_TYPES.ccAppointment) {
-    return `${appt.address.street} ${appt.address.city}, ${
-      appt.address.state
-    } ${appt.address.zipCode}`;
-  }
-
-  if (facility) {
-    return getFacilityAddress(facility);
-  }
-
-  return undefined;
+function getAppointmentDuration(appt) {
+  const appointmentLength = parseInt(
+    appt.vdsAppointments?.[0]?.appointmentLength ||
+      appt.vvsAppointments?.[0]?.duration,
+    10,
+  );
+  return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
 /**
@@ -653,4 +329,174 @@ export function getCernerPortalLink() {
   }
 
   return 'http://ehrm-va-test.patientportal.us.healtheintent.com/';
+}
+
+function getVideoType(appt) {
+  if (isGFEVideoVisit(appt)) {
+    return VIDEO_TYPES.gfe;
+  } else if (
+    appt.vvsAppointments?.length ||
+    appt.visitType === 'Video Conference'
+  ) {
+    return VIDEO_TYPES.videoConnect;
+  }
+
+  return null;
+}
+
+function hasInstructions(appt) {
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
+  return (
+    !!bookingNotes &&
+    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
+  );
+}
+
+function getAppointmentInstructions(appt) {
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
+  const instructions = bookingNotes?.split(': ', 2);
+
+  if (instructions && instructions.length > 1) {
+    return instructions[1];
+  }
+
+  return null;
+}
+
+function getAppointmentInstructionsHeader(appt) {
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
+  const instructions = bookingNotes?.split(': ', 2);
+
+  return instructions ? instructions[0] : '';
+}
+
+function getInstructions(appointment) {
+  if (appointment.instructionsToVeteran) {
+    return {
+      header: 'Special instructions',
+      body: appointment.instructionsToVeteran,
+    };
+  }
+
+  if (hasInstructions(appointment)) {
+    return {
+      header: getAppointmentInstructionsHeader(appointment),
+      body: getAppointmentInstructions(appointment),
+    };
+  }
+
+  return null;
+}
+
+function getAppointmentStatus(appointment) {
+  switch (getAppointmentType(appointment)) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return APPOINTMENT_STATUS.booked;
+    case APPOINTMENT_TYPES.ccRequest:
+    case APPOINTMENT_TYPES.request: {
+      return appointment.status === 'Cancelled'
+        ? APPOINTMENT_STATUS.cancelled
+        : APPOINTMENT_STATUS.pending;
+    }
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const cancelled = CANCELLED_APPOINTMENT_SET.has(
+        appointment.vdsAppointments?.[0]?.currentStatus,
+      );
+
+      return cancelled
+        ? APPOINTMENT_TYPES.cancelled
+        : APPOINTMENT_STATUS.booked;
+    }
+    default:
+      return APPOINTMENT_STATUS.booked;
+  }
+}
+
+export function getAppointmentTypes(appointment) {
+  return {
+    appointmentType: getAppointmentType(appointment),
+    videoType: getVideoType(appointment),
+    isCommunityCare: isCommunityCare(appointment),
+  };
+}
+
+export function transformAppointment(appointment) {
+  const appointmentTypes = getAppointmentTypes(appointment);
+
+  const appointmentData = {
+    ...appointmentTypes,
+    apiData: appointment,
+    isPastAppointment: false,
+    instructions: getInstructions(appointment),
+    duration: getAppointmentDuration(appointment),
+    appointmentDate: getMomentConfirmedDate(appointment),
+    status: getAppointmentStatus(appointment),
+    clinicId: appointment.clinicId,
+    facilityId: appointment.facilityId,
+    videoLink: getVideoVisitLink(appointment),
+    id: appointment.id,
+    clinicName:
+      appointment.clinicFriendlyName ||
+      appointment.vdsAppointments?.[0]?.clinic?.name,
+  };
+
+  if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccAppointment) {
+    return {
+      ...appointmentData,
+      timeZone: appointment.timeZone,
+      address: appointment.address,
+      providerPractice: appointment.providerPractice,
+      providerName: appointment.name,
+      providerPhone: appointment.providerPhone,
+    };
+  }
+
+  return appointmentData;
+}
+
+export function transformPastAppointment(appointment) {
+  return {
+    ...transformAppointment(appointment),
+    isPastAppointment: true,
+  };
+}
+
+export function transformRequest(appointment) {
+  const appointmentTypes = getAppointmentTypes(appointment);
+
+  const requestData = {
+    ...appointmentTypes,
+    apiData: appointment,
+    id: appointment.id,
+    isPastAppointment: false,
+    duration: 60,
+    dateOptions: getRequestDateOptions(appointment),
+    status: getAppointmentStatus(appointment),
+    typeOfCare: appointment.appointmentType,
+    purposeOfVisit: getPurposeOfVisit(appointment),
+    facility: appointment.facility,
+    facilityName:
+      appointment.friendlyLocationName || appointment.facility?.name,
+    email: appointment.email,
+    phoneNumber: appointment.phoneNumber,
+    bestTimetoCall: appointment.bestTimetoCall,
+  };
+
+  if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccRequest) {
+    return {
+      ...requestData,
+      preferredProviders: appointment.ccAppointmentRequest.preferredProviders,
+    };
+  }
+
+  return requestData;
 }

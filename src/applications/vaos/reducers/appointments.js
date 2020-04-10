@@ -27,12 +27,10 @@ import {
   sortMessages,
   getRealFacilityId,
   sortPastAppointments,
-} from '../utils/appointment';
-import {
   transformRequest,
   transformAppointment,
   transformPastAppointment,
-} from '../utils/appointment-new';
+} from '../utils/appointment';
 import {
   FETCH_STATUS,
   APPOINTMENT_TYPES,
