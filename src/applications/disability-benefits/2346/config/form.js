@@ -1,25 +1,25 @@
-import React from 'react';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import React from 'react';
+import FooterInfo from '../components/FooterInfo';
+import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../components/IntroductionPage';
-import FooterInfo from '../components/FooterInfo';
 import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 
 const { email, supplies } = fullSchemaMDOT.definitions;
 
-const { currentAddress, selectedAddress } = fullSchemaMDOT.properties;
+const { typeOfNewAddress, selectedAddress } = fullSchemaMDOT.properties;
 
 const {
   emailField,
   suppliesField,
   viewAddAccessoriesField,
   viewAddBatteriesField,
-  currentAddressField,
+  typeOfNewAddressField,
   newAddressField,
   selectedAddressField,
 } = schemaFields;
@@ -30,7 +30,7 @@ const {
   addBatteriesUI,
   batteriesUI,
   accessoriesUI,
-  currentAddressUI,
+  typeOfNewAddressUI,
   newAddressUI,
   selectedAddressUI,
 } = UIDefinitions.sharedUISchemas;
@@ -71,8 +71,9 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
-    currentAddress,
+    typeOfNewAddress,
     selectedAddress,
+    addressSchema,
   },
   chapters: {
     veteranInformationChapter: {
@@ -97,18 +98,18 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
           uiSchema: {
-            [currentAddressField]: currentAddressUI,
-            [newAddressField]: newAddressUI,
             [selectedAddressField]: selectedAddressUI,
+            [newAddressField]: newAddressUI,
+            [typeOfNewAddressField]: typeOfNewAddressUI,
             [emailField]: emailUI,
           },
           schema: {
             type: 'object',
             required: [],
             properties: {
-              [currentAddressField]: currentAddress,
-              [newAddressField]: addressSchema,
               [selectedAddressField]: selectedAddress,
+              [newAddressField]: addressSchema,
+              [typeOfNewAddressField]: typeOfNewAddress,
               [emailField]: email,
             },
           },

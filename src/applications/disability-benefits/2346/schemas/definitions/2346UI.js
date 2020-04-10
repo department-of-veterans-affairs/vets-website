@@ -1,10 +1,10 @@
 import React from 'react';
-import OrderSupplyPageContent from '../../components/OrderSupplyPageContent';
 import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageContent';
+import OrderSupplyPageContent from '../../components/OrderSupplyPageContent';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
-import { showNewAddressForm, getRadioLabelText } from '../../helpers';
+import { getRadioLabelText, showNewAddressForm } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
@@ -22,15 +22,25 @@ const emailUIDescription = (
   </>
 );
 
+const selectedAddressUIDescription = (
+  <>
+    <p>
+      We'll ship your address to the address below. Orders typically arrive
+      within 7 to 10 business days.
+    </p>
+  </>
+);
+
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
     hideTitle: false,
   },
   sharedUISchemas: {
-    currentAddressUI: {
+    selectedAddressUI: {
       'ui:widget': 'radio',
       'ui:title': 'Shipping Address',
+      'ui:description': selectedAddressUIDescription,
       'ui:options': {
         updateSchema: formData => {
           const updatedEnumNames = ['permanentAddress', 'temporaryAddress'].map(
@@ -50,16 +60,17 @@ export default {
         formData => formData.currentAddress === 'newAddress',
       ),
       'ui:options': {
-        expandUnder: 'currentAddress',
+        expandUnder: 'selectedAddress',
         expandUnderCondition: 'newAddress',
         keepInPageOnReview: true,
       },
     },
-    selectedAddressUI: {
+    typeOfNewAddressUI: {
       'ui:title': 'Is this a permanent or temporary address?',
       'ui:widget': 'radio',
       'ui:options': {
-        // expandUnder: 'newAddress',
+        expandUnder: 'selectedAddress',
+        expandUnderCondition: 'newAddress',
         hideIf: showNewAddressForm,
         hideOnReview: true,
       },
