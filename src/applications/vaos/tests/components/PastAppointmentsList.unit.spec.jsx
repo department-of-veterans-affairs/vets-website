@@ -1,25 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
-import PastAppointmentsList from '../../components/PastAppointmentsList';
+import { PastAppointmentsList } from '../../components/PastAppointmentsList';
 import { getPastAppointmentDateRangeOptions } from '../../utils/appointment';
 
 describe('VAOS <PastAppointmentsList>', () => {
-  const cancelAppointment = sinon.spy();
-  const fetchRequestMessages = sinon.spy();
-  const showScheduleButton = sinon.spy();
-  const startNewAppointmentFlow = sinon.spy();
-
   const dateRangeOptions = getPastAppointmentDateRangeOptions(
     moment('2020-02-02'),
   );
 
   const appointments = {
-    facilityData: {},
     pastStatus: FETCH_STATUS.succeeded,
+    pastSelectedIndex: 0,
     past: [
       {
         startDate: '2019-12-11T15:00:00Z',
@@ -159,21 +154,50 @@ describe('VAOS <PastAppointmentsList>', () => {
       appointments: {
         past: [],
         pastStatus: FETCH_STATUS.loading,
+        pastSelectedIndex: 0,
         facilityData: {},
       },
-      cancelAppointment,
-      fetchRequestMessages,
-      showScheduleButton,
-      startNewAppointmentFlow,
     };
 
-    const tree = mount(
+    const tree = shallow(
       <PastAppointmentsList
         {...defaultProps}
-        dateRangeOptions={dateRangeOptions}
+        location={location}
+        showPastAppointments
       />,
     );
     expect(tree.find('LoadingIndicator').length).to.equal(1);
+    tree.unmount();
+  });
+
+  it('should fetch past appointments', () => {
+    const defaultProps = {
+      appointments: {
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
+        facilityData: {},
+      },
+    };
+
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <PastAppointmentsList
+        {...defaultProps}
+        dateRangeOptions={dateRangeOptions}
+        location={location}
+        showPastAppointments
+        fetchPastAppointments={fetchPastAppointments}
+      />,
+    );
+    expect(fetchPastAppointments.called).to.be.true;
+    expect(fetchPastAppointments.firstCall.args[0]).to.equal(
+      tree.state('selectedDateRange').startDate,
+    );
+    expect(fetchPastAppointments.firstCall.args[1]).to.equal(
+      tree.state('selectedDateRange').endDate,
+    );
     tree.unmount();
   });
 
@@ -181,8 +205,8 @@ describe('VAOS <PastAppointmentsList>', () => {
     const tree = shallow(
       <PastAppointmentsList
         appointments={appointments}
-        dateRangeOptions={dateRangeOptions}
-        selectedDateRangeIndex={0}
+        showPastAppointments
+        pastSelectedIndex={0}
       />,
     );
 
@@ -199,14 +223,105 @@ describe('VAOS <PastAppointmentsList>', () => {
 
   it('should render date range dropdown', () => {
     const tree = shallow(
-      <PastAppointmentsList
-        appointments={appointments}
-        dateRangeOptions={dateRangeOptions}
-        selectedDateRangeIndex={0}
-      />,
+      <PastAppointmentsList appointments={appointments} showPastAppointments />,
     );
 
     expect(tree.find('PastAppointmentsDateDropdown').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should display AlertBox if fetch failed', () => {
+    const defaultProps = {
+      appointments: {
+        past: [{}],
+        pastStatus: FETCH_STATUS.failed,
+        pastSelectedIndex: 0,
+      },
+    };
+
+    const tree = shallow(
+      <PastAppointmentsList
+        {...defaultProps}
+        location={location}
+        showPastAppointments
+      />,
+    );
+
+    expect(tree.find('AlertBox').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should display no appointments message if no appointments', () => {
+    const defaultProps = {
+      appointments: {
+        past: [],
+        pastStatus: FETCH_STATUS.succeeded,
+        pastSelectedIndex: 0,
+      },
+    };
+
+    const tree = shallow(
+      <PastAppointmentsList
+        {...defaultProps}
+        location={location}
+        showPastAppointments
+      />,
+    );
+
+    expect(tree.find('h4').text()).to.equal(
+      'You don’t have any appointments in the selected date range',
+    );
+    tree.unmount();
+  });
+
+  it('should fetch past on past dropdown change', () => {
+    const defaultProps = {
+      appointments: {
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
+      },
+    };
+
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <PastAppointmentsList
+        {...defaultProps}
+        fetchPastAppointments={fetchPastAppointments}
+        showPastAppointments
+      />,
+    );
+
+    const instance = tree.instance();
+    instance.onDateRangeChange({ target: { value: 1 } });
+    expect(fetchPastAppointments.callCount).to.equal(2);
+    tree.unmount();
+  });
+
+  it('should redirect to future if showPastAppointments is false', () => {
+    const defaultProps = {
+      appointments: {
+        past: [],
+        pastStatus: FETCH_STATUS.notStarted,
+        pastSelectedIndex: 0,
+      },
+      router: {
+        push: sinon.spy(),
+      },
+    };
+    const fetchPastAppointments = sinon.spy();
+
+    const tree = shallow(
+      <PastAppointmentsList
+        {...defaultProps}
+        fetchPastAppointments={fetchPastAppointments}
+      />,
+    );
+
+    expect(defaultProps.router.push.called).to.be.true;
+    expect(defaultProps.router.push.firstCall.args[0]).to.equal('/');
+    expect(fetchPastAppointments.called).to.be.false;
     tree.unmount();
   });
 });
