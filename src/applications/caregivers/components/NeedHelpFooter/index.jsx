@@ -1,4 +1,5 @@
 import React from 'react';
+import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = () => {
   const sectionClassNames =
@@ -10,17 +11,22 @@ const NeedHelpFooter = () => {
       <span>Need help filling out this form? Call our toll-free number: </span>
 
       <section className={sectionClassNames}>
-        <a href="tel:18772228387">1-877-222-8387</a>
+        <a href={links.VAHelpLine.label}>{links.VAHelpLine.link}</a>
         <span>
-          TTY: <a href="tel:18008778339">1-800-877-8339</a>
+          TTY:{' '}
+          <a href={links.VAHelpLine.linkTTL}>{links.VAHelpLine.labelTTL}</a>
         </span>
         <span>Monday through Friday, 8:00a.m. — 8:00p.m. ET.</span>
       </section>
 
       <section className={sectionClassNames}>
         <span>A Caregiver Support Coordinator locator is available at: </span>
-        <a href="https://www.caregiver.va.gov/" rel="noopener noreferrer">
-          http://www.caregiver.va.gov/
+        <a
+          href={links.caregiverHelpPage.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {links.caregiverHelpPage.link}
         </a>
       </section>
 
@@ -28,7 +34,9 @@ const NeedHelpFooter = () => {
         <span>
           You can contact the National Caregiver Support Line by calling:
         </span>
-        <a href="tel:18552603274">1-855-260-3274</a>
+        <a href={links.caregiverHelp.phoneLink}>
+          {links.caregiverHelp.phoneLabel}
+        </a>
       </section>
 
       <section className={sectionClassNames}>
@@ -36,8 +44,8 @@ const NeedHelpFooter = () => {
           To report a problem with this form, please call the Vets.gov Technical
           Help Desk:
         </span>
-        <a href="tel:18555747286">1-855-574-7286</a>
-        <a href="tel:18008778339">TTY: 1-800-877-8339</a>
+        <a href={links.reportLine.link}>{links.reportLine.label}</a>
+        <a href={links.VAHelpLine.linkTTL}>TTY: {links.VAHelpLine.labelTTL}</a>
         <span>Monday through Friday, 8:00a.m. — 7:00p.m. ET.</span>
       </section>
     </footer>

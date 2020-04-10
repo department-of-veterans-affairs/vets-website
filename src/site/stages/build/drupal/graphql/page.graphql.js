@@ -28,9 +28,7 @@ module.exports = `
 
   fragment page on NodePage {
     ${entityElementsFromPages}
-    fieldIntroTextLimitedHtml {
-      processed
-    }
+    fieldIntroText
     fieldDescription
     fieldFeaturedContent {
       entity {
