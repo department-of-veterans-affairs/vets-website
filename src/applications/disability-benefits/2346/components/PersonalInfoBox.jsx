@@ -13,7 +13,7 @@ const PersonalInfoBox = ({
   dateOfBirth,
   ssnLastFour,
 }) => {
-  const nameString = [first, middle, last, suffix]
+  const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
     .join(' ')
     .toUpperCase();
@@ -23,7 +23,7 @@ const PersonalInfoBox = ({
       <div className="vads-u-border-left--7px vads-u-border-color--primary-alt-darkest">
         <div className="vads-u-padding--1">
           <p className="vads-u-margin--1px vads-u-font-weight--bold">
-            {nameString}
+            {fullName}
           </p>
           <p className="vads-u-margin--1px">
             Last 4 of Social Security number: {ssnLastFour}
@@ -60,7 +60,7 @@ PersonalInfoBox.defaultProps = {
   middle: '',
   gender: '',
   dateOfBirth: '',
-  ssnLastFour: '1234',
+  ssnLastFour: '',
 };
 
 const mapStateToProps = state => ({

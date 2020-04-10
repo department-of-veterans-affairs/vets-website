@@ -33,12 +33,12 @@ const {
   selectedAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
-const formChapters = {
+const formChapterTitles = {
   veteranInformation: 'Veteran Information',
   orderSupplies: 'Order your supplies',
 };
 
-const formPages = {
+const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping Address',
   addBatteriesPage: 'Add batteries to your order',
@@ -72,11 +72,11 @@ const formConfig = {
   },
   chapters: {
     veteranInformationChapter: {
-      title: formChapters.veteranInformation,
+      title: formChapterTitles.veteranInformation,
       pages: {
-        [formPages.personalDetails]: {
+        [formPageTitlesLookup.personalDetails]: {
           path: 'veteran-information',
-          title: formPages.personalDetails,
+          title: formPageTitlesLookup.personalDetails,
           uiSchema: {
             'ui:description': PersonalInfoBox,
             [schemaFields.fullName]: fullNameUI,
@@ -87,9 +87,9 @@ const formConfig = {
             properties: {},
           },
         },
-        [formPages.address]: {
+        [formPageTitlesLookup.address]: {
           path: 'veteran-information/addresses',
-          title: formPages.address,
+          title: formPageTitlesLookup.address,
           uiSchema: {
             [currentAddressField]: currentAddressUI,
             [newAddressField]: newAddressUI,
@@ -110,11 +110,11 @@ const formConfig = {
       },
     },
     orderSuppliesChapter: {
-      title: formChapters.orderSupplies,
+      title: formChapterTitles.orderSupplies,
       pages: {
-        [formPages.addBatteriesPage]: {
+        [formPageTitlesLookup.addBatteriesPage]: {
           path: 'batteries',
-          title: formPages.addBatteriesPage,
+          title: formPageTitlesLookup.addBatteriesPage,
           schema: {
             type: 'object',
             properties: {
@@ -130,9 +130,9 @@ const formConfig = {
             [suppliesField]: batteriesUI,
           },
         },
-        [formPages.addAccessoriesPage]: {
+        [formPageTitlesLookup.addAccessoriesPage]: {
           path: 'accessories',
-          title: formPages.addAccessoriesPage,
+          title: formPageTitlesLookup.addAccessoriesPage,
           schema: {
             type: 'object',
             properties: {
