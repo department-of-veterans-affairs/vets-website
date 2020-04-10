@@ -10,7 +10,6 @@ import {
 } from './constants';
 
 import {
-  getTimezoneBySystemId,
   getTimezoneAbbrBySystemId,
   getTimezoneDescFromAbbr,
   stripDST,
@@ -50,37 +49,8 @@ function isGFEVideoVisit(appt) {
   return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
 }
 
-function isVideoVisit(appt) {
-  return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
-}
-
 export function getVideoVisitLink(appt) {
   return appt.vvsAppointments?.[0]?.patients?.[0]?.virtualMeetingRoom?.url;
-}
-
-/**
- * Date and time
- */
-
-export function getMomentConfirmedDate(appt) {
-  if (isCommunityCare(appt)) {
-    const zoneSplit = appt.timeZone.split(' ');
-    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
-    return moment
-      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
-      .utcOffset(offset);
-  }
-
-  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
-  const date = isVideoVisit(appt)
-    ? appt.vvsAppointments[0].dateTime
-    : appt.startDate;
-
-  if (timezone) {
-    return moment(date).tz(timezone);
-  }
-
-  return moment(date);
 }
 
 export function getMomentRequestOptionDate(optionDate) {
@@ -129,137 +99,6 @@ function getRequestDateOptions(appt) {
   return options;
 }
 
-export function getPastAppointmentDateRangeOptions(today = moment()) {
-  // Past 3 months
-  const options = [
-    {
-      value: 0,
-      label: 'Past 3 months',
-      startDate: today
-        .clone()
-        .subtract(3, 'months')
-        .format(),
-      endDate: today.format(),
-    },
-  ];
-
-  // 3 month ranges going back ~1 year
-  let index = 1;
-  let monthsToSubtract = 3;
-
-  while (index < 4) {
-    const start = today
-      .clone()
-      .subtract(index === 1 ? 5 : monthsToSubtract + 2, 'months')
-      .startOf('month');
-    const end = today
-      .clone()
-      .subtract(index === 1 ? 3 : monthsToSubtract, 'months')
-      .endOf('month');
-
-    options.push({
-      value: index,
-      label: `${start.format('MMM YYYY')} – ${end.format('MMM YYYY')}`,
-      startDate: start.format(),
-      endDate: end.format(),
-    });
-
-    monthsToSubtract += 3;
-    index += 1;
-  }
-
-  // All of current year
-  options.push({
-    value: 4,
-    label: `Show all of ${today.format('YYYY')}`,
-    startDate: today
-      .clone()
-      .startOf('year')
-      .format(),
-    endDate: today.format(),
-  });
-
-  // All of last year
-  const lastYear = today.clone().subtract(1, 'years');
-
-  options.push({
-    value: 5,
-    label: `Show all of ${lastYear.format('YYYY')}`,
-    startDate: lastYear.startOf('year').format(),
-    endDate: lastYear
-      .clone()
-      .endOf('year')
-      .format(),
-  });
-
-  return options;
-}
-
-/**
- * Filter and sort methods
- */
-
-export function filterFutureConfirmedAppointments(appt, today) {
-  // return appointments where current time is less than appointment time
-  // +60 min or +240 min in the case of video
-  const threshold = isVideoVisit(appt) ? 240 : 60;
-  const apptDateTime = getMomentConfirmedDate(appt);
-  return (
-    apptDateTime.isValid() &&
-    apptDateTime.add(threshold, 'minutes').isAfter(today)
-  );
-}
-
-export function sortFutureConfirmedAppointments(a, b) {
-  return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
-}
-
-export function filterPastAppointments(appt, startDate, endDate) {
-  const apptDateTime = getMomentConfirmedDate(appt);
-  return (
-    apptDateTime.isValid() &&
-    apptDateTime.isAfter(startDate) &&
-    apptDateTime.isBefore(endDate)
-  );
-}
-
-export function sortPastAppointments(a, b) {
-  return getMomentConfirmedDate(a).isAfter(getMomentConfirmedDate(b)) ? -1 : 1;
-}
-
-export function filterRequests(request, today) {
-  const status = request?.status;
-  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
-  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
-  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
-
-  const hasValidDateAfterToday =
-    (optionDate1.isValid() && optionDate1.isAfter(today)) ||
-    (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-    (optionDate3.isValid() && optionDate3.isAfter(today));
-
-  return (
-    status === 'Submitted' || (status === 'Cancelled' && hasValidDateAfterToday)
-  );
-}
-
-export function sortFutureRequests(a, b) {
-  const aDate = getMomentRequestOptionDate(a.optionDate1);
-  const bDate = getMomentRequestOptionDate(b.optionDate1);
-
-  // If appointmentType is the same, return the one with the sooner date
-  if (a.appointmentType === b.appointmentType) {
-    return aDate.isBefore(bDate) ? -1 : 1;
-  }
-
-  // Otherwise, return sorted alphabetically by appointmentType
-  return a.appointmentType < b.appointmentType ? -1 : 1;
-}
-
-export function sortMessages(a, b) {
-  return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
-}
-
 function getPurposeOfVisit(appt) {
   switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.ccRequest:
@@ -272,21 +111,6 @@ function getPurposeOfVisit(appt) {
     default:
       return appt.purposeOfVisit;
   }
-}
-
-/**
- * Function to get the appointment duration in minutes. The default is 60 minutes.
- *
- * @param {*} appt
- * @returns
- */
-function getAppointmentDuration(appt) {
-  const appointmentLength = parseInt(
-    appt.vdsAppointments?.[0]?.appointmentLength ||
-      appt.vvsAppointments?.[0]?.duration,
-    10,
-  );
-  return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
 /**
@@ -344,59 +168,6 @@ function getVideoType(appt) {
   return null;
 }
 
-function hasInstructions(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  return (
-    !!bookingNotes &&
-    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
-  );
-}
-
-function getAppointmentInstructions(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  const instructions = bookingNotes?.split(': ', 2);
-
-  if (instructions && instructions.length > 1) {
-    return instructions[1];
-  }
-
-  return null;
-}
-
-function getAppointmentInstructionsHeader(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  const instructions = bookingNotes?.split(': ', 2);
-
-  return instructions ? instructions[0] : '';
-}
-
-function getInstructions(appointment) {
-  if (appointment.instructionsToVeteran) {
-    return {
-      header: 'Special instructions',
-      body: appointment.instructionsToVeteran,
-    };
-  }
-
-  if (hasInstructions(appointment)) {
-    return {
-      header: getAppointmentInstructionsHeader(appointment),
-      body: getAppointmentInstructions(appointment),
-    };
-  }
-
-  return null;
-}
-
 function getAppointmentStatus(appointment) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
@@ -426,47 +197,6 @@ export function getAppointmentTypes(appointment) {
     appointmentType: getAppointmentType(appointment),
     videoType: getVideoType(appointment),
     isCommunityCare: isCommunityCare(appointment),
-  };
-}
-
-export function transformAppointment(appointment) {
-  const appointmentTypes = getAppointmentTypes(appointment);
-
-  const appointmentData = {
-    ...appointmentTypes,
-    apiData: appointment,
-    isPastAppointment: false,
-    instructions: getInstructions(appointment),
-    duration: getAppointmentDuration(appointment),
-    appointmentDate: getMomentConfirmedDate(appointment),
-    status: getAppointmentStatus(appointment),
-    clinicId: appointment.clinicId,
-    facilityId: appointment.facilityId,
-    videoLink: getVideoVisitLink(appointment),
-    id: appointment.id,
-    clinicName:
-      appointment.clinicFriendlyName ||
-      appointment.vdsAppointments?.[0]?.clinic?.name,
-  };
-
-  if (appointmentTypes.appointmentType === APPOINTMENT_TYPES.ccAppointment) {
-    return {
-      ...appointmentData,
-      timeZone: appointment.timeZone,
-      address: appointment.address,
-      providerPractice: appointment.providerPractice,
-      providerName: appointment.name,
-      providerPhone: appointment.providerPhone,
-    };
-  }
-
-  return appointmentData;
-}
-
-export function transformPastAppointment(appointment) {
-  return {
-    ...transformAppointment(appointment),
-    isPastAppointment: true,
   };
 }
 
