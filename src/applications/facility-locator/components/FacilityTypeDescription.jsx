@@ -19,10 +19,12 @@ const FacilityTypeDescription = ({ location, query }) => {
   if (location.resultItem) {
     return (
       <dfn>
-        <span>
-          {facilityName(query, location) &&
-            facilityName(query, location).toUpperCase()}
-        </span>
+        <div>
+          <span>
+            {facilityName(query, location) &&
+              facilityName(query, location).toUpperCase()}
+          </span>
+        </div>
       </dfn>
     );
   }
