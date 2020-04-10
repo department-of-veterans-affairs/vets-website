@@ -39,24 +39,27 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // .axeCheck('.main'); // commented out until 7727 is fixed
   // Main sections are expanded on page load
 
+  GiHelpers.displayLearnMoreModal(client);
+
   // Estimate your benefits
-  GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
+  GiHelpers.expandCollapseMainSections(client, 'Estimate your benefits');
   GiHelpers.editEligibilityDetails(client);
+  GiHelpers.hideCalculatorFields(client);
 
   // Veteran programs
-  GiHelpers.expandCollapseAccordion(client, 'Veteran programs');
+  GiHelpers.expandCollapseMainSections(client, 'Veteran programs');
 
   // School locations
-  GiHelpers.expandCollapseAccordion(client, 'School locations');
+  GiHelpers.expandCollapseMainSections(client, 'School locations');
 
   // Cautionary information
-  GiHelpers.expandCollapseAccordion(client, 'Cautionary information');
+  GiHelpers.expandCollapseMainSections(client, 'Cautionary information');
 
   // Contact details
-  GiHelpers.expandCollapseAccordion(client, 'Contact details');
+  GiHelpers.expandCollapseMainSections(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseAccordion(client, 'Additional information');
+  GiHelpers.expandCollapseMainSections(client, 'Additional information');
 
   client.end();
 });

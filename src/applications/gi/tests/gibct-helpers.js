@@ -74,12 +74,23 @@ const selectFirstSearchResult = client => {
     .click('.search-result a');
 };
 
-const expandCollapseAccordion = (client, name) => {
-  const id = `#${name.toLowerCase().replace(/\s/g, '-')}`;
+const expandCollapseAccordion = (client, id) =>
   client
     .waitForElementVisible(id, Timeouts.normal)
     .click(`${id} button`)
     .click(`${id} button`);
+
+const expandCollapseMainSections = (client, name) => {
+  const id = `#${name.toLowerCase().replace(/\s/g, '-')}`;
+  expandCollapseAccordion(client, id);
+};
+
+const displayLearnMoreModal = client => {
+  client
+    .waitForElementVisible('.learn-more-button', Timeouts.normal)
+    .click('.learn-more-button')
+    .axeCheck('.va-modal')
+    .click('.va-modal-close');
 };
 
 const editEligibilityDetails = client => {
@@ -89,11 +100,18 @@ const editEligibilityDetails = client => {
     .axeCheck('.eligibility-details');
 };
 
+const hideCalculatorFields = client => {
+  expandCollapseAccordion(client, '.calculator-inputs');
+};
+
 module.exports = {
   expectLocation,
   initApplicationMock,
   searchForInstitution,
   selectFirstSearchResult,
   expandCollapseAccordion,
+  expandCollapseMainSections,
+  displayLearnMoreModal,
   editEligibilityDetails,
+  hideCalculatorFields,
 };
