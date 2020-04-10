@@ -8,8 +8,10 @@ export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
 
   if (appointment.isPastAppointment) {
-    linkContent = <span>Video conference</span>;
-  } else if (appointment.videoType === VIDEO_TYPES.gfe) {
+    return <span>Video conference</span>;
+  }
+
+  if (appointment.videoType === VIDEO_TYPES.gfe) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
