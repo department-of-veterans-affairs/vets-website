@@ -8,7 +8,11 @@ import { getRadioLabelText, showNewAddressForm } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
-const { viewAddAccessoriesField, viewAddBatteriesField } = schemaFields;
+const {
+  viewAddAccessoriesField,
+  viewAddBatteriesField,
+  newAddressField,
+} = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -57,7 +61,7 @@ export default {
           );
           return {
             enumNames: [...updatedEnumNames, 'Add new address'],
-            enum: ['permanentAddress', 'temporaryAddress', 'newAddress'],
+            enum: ['permanentAddress', 'temporaryAddress', newAddressField],
           };
         },
       },
@@ -66,12 +70,12 @@ export default {
     newAddressUI: {
       ...addressUISchema(
         true,
-        'newAddress',
-        formData => formData.currentAddress === 'newAddress',
+        newAddressField,
+        formData => formData.selectedAddress === newAddressField,
       ),
       'ui:options': {
         expandUnder: 'selectedAddress',
-        expandUnderCondition: 'newAddress',
+        expandUnderCondition: newAddressField,
         keepInPageOnReview: true,
       },
     },
@@ -80,11 +84,11 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         expandUnder: 'selectedAddress',
-        expandUnderCondition: 'newAddress',
-        hideIf: showNewAddressForm,
+        expandUnderCondition: newAddressField,
+        hideIf: formData => !showNewAddressForm(formData),
         hideOnReview: true,
       },
-      'ui:required': !showNewAddressForm,
+      'ui:required': formData => showNewAddressForm(formData),
     },
     emailUI: {
       'ui:title': emailUITitle,
