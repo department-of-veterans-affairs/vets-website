@@ -1,3 +1,4 @@
+import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageContent';
 import OrderSupplyPageContent from '../../components/OrderSupplyPageContent';
@@ -103,6 +104,16 @@ export default {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
       },
+      'ui:validations': [
+        {
+          validator: (errors, fieldData) => {
+            const isEmailValid = isValidEmail(fieldData);
+            if (!isEmailValid) {
+              errors.addError('Please enter a valid email');
+            }
+          },
+        },
+      ],
     },
     confirmationEmailUI: {
       'ui:title': 'Re-enter email address',
@@ -115,6 +126,16 @@ export default {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
       },
+      'ui:validations': [
+        {
+          validator: (errors, fieldData) => {
+            const isEmailValid = isValidEmail(fieldData);
+            if (!isEmailValid) {
+              errors.addError('Please enter a valid email');
+            }
+          },
+        },
+      ],
     },
     addBatteriesUI: {
       'ui:title': 'Add batteries to your order',
