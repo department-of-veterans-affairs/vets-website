@@ -74,10 +74,12 @@ export default {
         newAddressField,
         formData => formData.selectedAddress === newAddressField,
       ),
+      'ui:title': 'Add a new shipping address',
       'ui:options': {
         expandUnder: 'selectedAddress',
         expandUnderCondition: newAddressField,
         keepInPageOnReview: true,
+        classNames: 'vads-u-margin-top--2',
       },
     },
     typeOfNewAddressUI: {
