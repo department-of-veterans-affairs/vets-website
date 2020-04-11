@@ -81,5 +81,5 @@ export const getRadioLabelText = (formData, name) => {
   const address = formData?.[name] || {};
   return Object.values(address)
     .filter(entry => Boolean(entry))
-    .join(' ');
+    .join(', ');
 };
