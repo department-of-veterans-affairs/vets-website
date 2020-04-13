@@ -229,10 +229,11 @@ export function fetchFutureAppointments() {
   };
 }
 
-export function fetchPastAppointments(startDate, endDate) {
+export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex,
     });
 
     try {

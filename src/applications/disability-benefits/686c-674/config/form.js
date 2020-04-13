@@ -272,7 +272,7 @@ const formConfig = {
           depends: formData =>
             isChapterFieldRequired(
               formData,
-              TASK_KEYS.reportChild18orOlderIsNotAttendingSchool,
+              TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
             ),
           title:
             'Information needed to report a child 18-23 years old stopped attending school',

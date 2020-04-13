@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 
 const SchoolClosingDetails = ({
   schoolClosing,
@@ -26,6 +26,7 @@ const SchoolClosingDetails = ({
                 Visit the school's website to learn more
               </a>
             )}
+            {!schoolWebsite && <p>Visit the school's website to learn more</p>}
           </div>
         }
         headline={headline}
