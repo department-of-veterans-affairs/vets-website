@@ -70,7 +70,7 @@ export default {
       ...addressUISchema(
         true,
         newAddressField,
-        formData => formData.selectedAddress === newAddressField,
+        formData => formData?.selectedAddress === newAddressField,
       ),
       'ui:title': 'Add a new shipping address',
       'ui:options': {

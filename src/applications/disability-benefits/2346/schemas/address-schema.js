@@ -225,15 +225,22 @@ export const addressUISchema = (
       },
       state: {
         'ui:required': (formData, index) => {
-          let countryNamePath = `${path}.country`;
-          if (typeof index === 'number') {
-            countryNamePath = insertArrayIndex(countryNamePath, index);
+          if (
+            formData.selectedAddress === 'newAddress' &&
+            (!formData.newAddress.country ||
+              formData.newAddress.country === 'United States')
+          ) {
+            let countryNamePath = `${path}.country`;
+            if (typeof index === 'number') {
+              countryNamePath = insertArrayIndex(countryNamePath, index);
+            }
+            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const countryName = get(countryNamePath, formData);
+            return (
+              !countryName || countryName === USA.name || livesOnMilitaryBase
+            );
           }
-          const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
-          const countryName = get(countryNamePath, formData);
-          return (
-            !countryName || countryName === USA.name || livesOnMilitaryBase
-          );
+          return false;
         },
         'ui:title': 'State',
         'ui:errorMessages': {
@@ -287,16 +294,23 @@ export const addressUISchema = (
           },
         },
         'ui:required': (formData, index) => {
-          let countryNamePath = `${path}.country`;
-          if (typeof index === 'number') {
-            countryNamePath = insertArrayIndex(countryNamePath, index);
+          if (
+            formData.selectedAddress === 'newAddress' &&
+            (formData.newAddress.country &&
+              formData.newAddress.country !== 'United States')
+          ) {
+            let countryNamePath = `${path}.country`;
+            if (typeof index === 'number') {
+              countryNamePath = insertArrayIndex(countryNamePath, index);
+            }
+            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            if (isMilitaryBaseAddress && livesOnMilitaryBase) {
+              return true;
+            }
+            const countryName = get(countryNamePath, formData);
+            return countryName !== USA.name || !countryName;
           }
-          const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
-          if (isMilitaryBaseAddress && livesOnMilitaryBase) {
-            return true;
-          }
-          const countryName = get(countryNamePath, formData);
-          return countryName !== USA.name || !countryName;
+          return false;
         },
       },
       postalCode: {
