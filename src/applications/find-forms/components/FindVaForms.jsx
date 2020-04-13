@@ -22,7 +22,7 @@ export default function() {
           </p>
           <a
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-            href="/disability/file-disability-claim-form-21-526ez"
+            href="/disability/how-to-file-claim/"
           >
             <span>
               Read more
@@ -41,7 +41,7 @@ export default function() {
           </p>
           <a
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-            href="/education/apply-for-education-benefits/application/1990"
+            href="/education/how-to-apply/"
           >
             <span>
               Read more
@@ -60,7 +60,7 @@ export default function() {
           </p>
           <a
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-            href="/health-care/apply/application"
+            href="/health-care/apply/application/introduction"
           >
             <span>
               Read more
