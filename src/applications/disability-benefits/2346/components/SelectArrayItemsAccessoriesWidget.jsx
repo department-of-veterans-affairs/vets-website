@@ -26,7 +26,6 @@ class SelectArrayItemsAccessoriesWidget extends Component {
       }));
     }
   };
-
   render() {
     const { supplies } = this.props;
     const { selectedItems } = this.state;
