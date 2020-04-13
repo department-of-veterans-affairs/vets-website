@@ -130,10 +130,13 @@ export default {
       },
       'ui:validations': [
         {
-          validator: (errors, fieldData) => {
-            const isEmailValid = isValidEmail(fieldData);
-            if (!isEmailValid) {
-              errors.addError('Please enter a valid email');
+          validator: (errors, fieldData, formData) => {
+            const emailMatcher = () => formData.email === fieldData;
+            const doesEmailMatch = emailMatcher();
+            if (!doesEmailMatch) {
+              errors.addError(
+                'This email does not match your previously entered email',
+              );
             }
           },
         },
