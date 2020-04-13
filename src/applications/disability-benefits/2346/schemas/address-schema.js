@@ -312,6 +312,9 @@ export const addressUISchema = (
           }
           return false;
         },
+        'ui:errorMessages': {
+          required: 'Province is required',
+        },
       },
       postalCode: {
         'ui:required': callback,
