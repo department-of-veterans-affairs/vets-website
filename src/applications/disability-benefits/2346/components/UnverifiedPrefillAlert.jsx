@@ -10,9 +10,7 @@ const UnverifiedPrefillAlert = props => (
         your order
       </h3>
       <div className="usa-alert-text">
-        <p className="vads-u-font-size--h4">
-          When you’re signed in to your VA.gov account:
-        </p>
+        <p>When you’re signed in to your VA.gov account:</p>
         <ul>
           <li>
             We can prefill part of your order based on your account details.
