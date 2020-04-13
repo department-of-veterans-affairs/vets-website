@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../components/AlertBox';
 import environment from 'platform/utilities/environment';
 
 export const renderSchoolClosingAlert = result => {
