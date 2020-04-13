@@ -1,3 +1,5 @@
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
@@ -53,6 +55,7 @@ const formConfig = {
   trackingPrefix: 'new-686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '21-686',
   version: 0,
   prefillEnabled: true,
