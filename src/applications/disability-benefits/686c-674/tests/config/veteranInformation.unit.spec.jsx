@@ -131,7 +131,11 @@ describe('686 veteran Address', () => {
     fillData(form, 'input#root_veteranAddress_city', 'Someplace');
     changeDropdown(form, 'select#root_veteranAddress_stateCode', 'AL');
     fillData(form, 'input#root_veteranAddress_zipCode', '12345');
-    fillData(form, 'input#root_phoneNumber', '2225555551');
+    fillData(
+      form,
+      'input#root_moreVeteranInformation_phoneNumber',
+      '2225555551',
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

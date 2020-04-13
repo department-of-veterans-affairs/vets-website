@@ -13,7 +13,7 @@ export const schema = {
         reportDeath: { type: 'boolean', default: false },
         reportStepchildNotInHousehold: { type: 'boolean', default: false },
         reportMarriageOfChildUnder18: { type: 'boolean', default: false },
-        reportChild18OrOlderIsNotAttendingSchool: {
+        reportChild18orOlderIsNotAttendingSchool: {
           type: 'boolean',
           default: false,
         },
@@ -50,7 +50,7 @@ export const uiSchema = {
     reportMarriageOfChildUnder18: {
       'ui:title': 'Report the marriage of a child under 18',
     },
-    reportChild18OrOlderIsNotAttendingSchool: {
+    reportChild18orOlderIsNotAttendingSchool: {
       'ui:title':
         'Report that a child 18 or older has stopped attending school',
     },
