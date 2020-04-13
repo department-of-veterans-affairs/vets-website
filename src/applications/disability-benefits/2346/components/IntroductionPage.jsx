@@ -1,7 +1,7 @@
+import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
-import React from 'react';
 
 const IntroductionPage = props => (
   <div className="schemaform-intro">
