@@ -33,13 +33,11 @@ const selectedAddressUITitle = (
 
 const selectedAddressUIDescription = (
   <>
-    <br />
-    <p className="vads-u-display--inline">
+    <p className="vads-u-margin-top--2">
       We'll ship your order to the address below. Orders typically arrive within
       7 to 10 business days.
     </p>
-    <br />
-    <p className="vads-u-font-weight--bold">
+    <p className="vads-u-font-weight--bold vads-u-margin-top--3">
       Select the address where you'd like to send your order:
     </p>
   </>
