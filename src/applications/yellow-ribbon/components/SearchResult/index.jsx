@@ -129,6 +129,7 @@ export const SearchResult = ({ school }) => (
             Maximum Yellow Ribbon funding amount
             <br />
             (per student, per year)
+            <span className="sr-only">:</span>
           </p>
           <p className="vads-u-margin--0">{deriveMaxAmountLabel(school)}</p>
         </div>
@@ -136,6 +137,7 @@ export const SearchResult = ({ school }) => (
         {/* Student Count */}
         <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
           Funding available for
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
           {deriveEligibleStudentsLabel(school)}
@@ -144,6 +146,7 @@ export const SearchResult = ({ school }) => (
         {/* School Website */}
         <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
           School website
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
           {deriveInstURLLabel(school)}
@@ -154,6 +157,7 @@ export const SearchResult = ({ school }) => (
         {/* Degree Level */}
         <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin--0">
           Degree type
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
           {deriveDegreeLevel(school)}
@@ -162,6 +166,7 @@ export const SearchResult = ({ school }) => (
         {/* Division Professional School */}
         <p className="school-program vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin-bottom--0">
           School or program
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
           {deriveDivisionProfessionalSchool(school)}
