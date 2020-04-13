@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 
 const SchoolClosingHeading = ({ schoolClosing, schoolClosingOn }) => {
   if (schoolClosing) {
@@ -13,7 +13,9 @@ const SchoolClosingHeading = ({ schoolClosing, schoolClosingOn }) => {
     return (
       <AlertBox
         content={<p>{content}</p>}
-        headline={headline}
+        headline={
+          <h2 className="vads-u-font-size--h3 usa-alert-heading">{headline}</h2>
+        }
         isVisible={!!schoolClosing}
         status="warning"
       />

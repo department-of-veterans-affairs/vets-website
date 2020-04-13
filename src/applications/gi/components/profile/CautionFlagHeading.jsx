@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 
 const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
   const validFlags = cautionFlags
@@ -40,7 +40,9 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
             </p>
           </div>
         }
-        headline={headline}
+        headline={
+          <h2 className="vads-u-font-size--h3 usa-alert-heading">{headline}</h2>
+        }
         isVisible={validFlags.length > 0}
         status="warning"
       />

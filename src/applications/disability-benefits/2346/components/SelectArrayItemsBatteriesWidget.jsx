@@ -2,7 +2,6 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
 import {
   BLUE_BACKGROUND,
   HEARING_AID_BATTERIES,
@@ -14,9 +13,6 @@ class SelectArrayItemsBatteriesWidget extends Component {
   state = {
     selectedItems: [],
   };
-  componentDidMount() {
-    this.props.getReOrderBatteryAndAccessoriesInformationData();
-  }
 
   handleChecked = e => {
     e.persist();
@@ -104,11 +100,5 @@ SelectArrayItemsBatteriesWidget.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.loadedData?.formData?.supplies,
 });
-const mapDispatchToProps = {
-  getReOrderBatteryAndAccessoriesInformationData,
-};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SelectArrayItemsBatteriesWidget);
+export default connect(mapStateToProps)(SelectArrayItemsBatteriesWidget);
