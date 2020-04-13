@@ -12,4 +12,5 @@ export default Object.freeze({
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
+  gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
 });
