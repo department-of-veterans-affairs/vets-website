@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
-import { fetchMilitaryInformation } from '../../profile360/actions';
 
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import moment from 'moment';
-import LoadFail from 'applications/personalization/profile360/components/LoadFail';
-import LoadingSection from 'applications/personalization/profile360/components/LoadingSection';
-import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import recordEvent from 'platform/monitoring/record-event';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
+import LoadFail from 'applications/personalization/profile360/components/LoadFail';
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
-class MilitaryInformationContent extends React.Component {
-  componentDidMount() {
-    this.props.fetchMilitaryInformation();
-  }
+import ProfileInfoTable from './ProfileInfoTable';
+import { transformServiceHistoryEntryIntoTableRow } from '../helpers';
 
-  renderContent = () => {
+class MilitaryInformationContent extends React.Component {
+  render() {
     const {
       serviceHistory: { serviceHistory, error },
     } = this.props.militaryInformation;
@@ -82,78 +78,52 @@ class MilitaryInformationContent extends React.Component {
     }
 
     return (
-      <table className="militaryInformation" data-field-name="serviceHistory">
-        <thead>
-          <tr>
-            <th>
-              <h3>Period of service</h3>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {serviceHistory.map((service, index) => (
-            <tr key={index}>
-              <td>
-                <h4 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--bold">
-                  {service.branchOfService}
-                </h4>
-              </td>
-              <td>
-                {moment(service.beginDate).format('MMM D, YYYY')} &ndash;{' '}
-                {moment(service.endDate).format('MMM D, YYYY')}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  };
-
-  render() {
-    return (
-      <div>
-        <LoadingSection
-          isLoading={!this.props.militaryInformation}
-          message="Loading military information..."
-          render={this.renderContent}
+      <>
+        <ProfileInfoTable
+          data={serviceHistory}
+          dataTransformer={transformServiceHistoryEntryIntoTableRow}
+          title="Period of service"
+          fieldName="serviceHistory"
         />
-        <AdditionalInfo
-          triggerText="What if my military service information doesn’t look right?"
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'update-military-information',
-            });
-          }}
-        >
-          <p>
-            Some Veterans have reported seeing military service information in
-            their VA.gov profiles that doesn’t seem right. When this happens,
-            it’s because there’s an error in the information we’re pulling into
-            VA.gov from the Defense Enrollment Eligibility Reporting System
-            (DEERS).
-          </p>
-          <p>
-            If the military service information in your profile doesn’t look
-            right, please call the Defense Manpower Data Center (DMDC). They’ll
-            work with you to update your information in DEERS.
-          </p>
-          <p>
-            To reach the DMDC, call{' '}
-            <a
-              href="tel:1-800-538-9552"
-              aria-label="8 0 0. 5 3 8. 9 5 5 2."
-              title="Dial the telephone number 800-538-9552"
-              className="no-wrap"
-            >
-              1-800-538-9552
-            </a>
-            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET. If you have hearing loss, call TTY: 1-866-363-2883.
-          </p>
-        </AdditionalInfo>
-      </div>
+        <div className="vads-u-margin-y--4">
+          <AdditionalInfo
+            triggerText="What if my military service information doesn’t look right?"
+            onClick={() => {
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'update-military-information',
+              });
+            }}
+          >
+            <p>
+              Some Veterans have reported seeing military service information in
+              their VA.gov profiles that doesn’t seem right. When this happens,
+              it’s because there’s an error in the information we’re pulling
+              into VA.gov from the Defense Enrollment Eligibility Reporting
+              System (DEERS).
+            </p>
+            <p>
+              If the military service information in your profile doesn’t look
+              right, please call the Defense Manpower Data Center (DMDC).
+              They’ll work with you to update your information in DEERS.
+            </p>
+            <p>
+              To reach the DMDC, call{' '}
+              <a
+                href="tel:1-800-538-9552"
+                aria-label="8 0 0. 5 3 8. 9 5 5 2."
+                title="Dial the telephone number 800-538-9552"
+                className="no-wrap"
+              >
+                1-800-538-9552
+              </a>
+              , Monday through Friday (except federal holidays), 8:00 a.m. to
+              8:00 p.m. ET. If you have hearing loss, call TTY: 1-866-363-2883.
+            </p>
+          </AdditionalInfo>
+        </div>
+      </>
     );
   }
 }
@@ -162,14 +132,15 @@ class MilitaryInformation extends Component {
   render() {
     return (
       <div>
-        <h2 className="va-profile-heading" tabIndex="-1">
-          Military information
-        </h2>
+        <h2 tabIndex="-1">Military information</h2>
         <DowntimeNotification
+          appTitle="Military Information"
           render={handleDowntimeForSection('military service')}
           dependencies={[externalServices.emis]}
         >
-          <MilitaryInformationContent {...this.props} />
+          <MilitaryInformationContent
+            militaryInformation={this.props.militaryInformation}
+          />
         </DowntimeNotification>
       </div>
     );
@@ -177,14 +148,7 @@ class MilitaryInformation extends Component {
 }
 
 const mapStateToProps = state => ({
-  militaryInformation: state.vaProfile.militaryInformation,
+  militaryInformation: state.vaProfile?.militaryInformation,
 });
 
-const mapDispatchToProps = {
-  fetchMilitaryInformation,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MilitaryInformation);
+export default connect(mapStateToProps)(MilitaryInformation);

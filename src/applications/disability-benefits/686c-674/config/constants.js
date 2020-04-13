@@ -13,8 +13,8 @@ export const TASK_KEYS = {
   reportDeath: 'reportDeath',
   reportStepchildNotInHousehold: 'reportStepchildNotInHousehold',
   reportMarriageOfChildUnder18: 'reportMarriageOfChildUnder18',
-  reportChild18orOlderIsNotAttendingSchool:
-    'reportChild18orOlderIsNotAttendingSchool',
+  reportChild18OrOlderIsNotAttendingSchool:
+    'reportChild18OrOlderIsNotAttendingSchool',
   report674: 'report674',
 };
 

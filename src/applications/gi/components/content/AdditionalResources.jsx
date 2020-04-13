@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 
 export const AdditionalResourcesLinks = () => (
   <div>
@@ -40,9 +41,12 @@ export const AdditionalResourcesLinks = () => (
     </p>
   </div>
 );
+const prodFlagAdditonalResources = environment.isProduction()
+  ? 'additional-resources usa-width-one-third medium-4 small-12 column'
+  : 'additional-resources-responsive usa-width-one-third medium-4 small-12 column';
 
 const AdditionalResources = () => (
-  <div className="additional-resources usa-width-one-third medium-4 small-12 column">
+  <div className={prodFlagAdditonalResources}>
     <h4 className="highlight">Additional resources</h4>
     <AdditionalResourcesLinks />
   </div>
