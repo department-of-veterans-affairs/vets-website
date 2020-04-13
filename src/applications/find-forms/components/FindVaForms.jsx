@@ -1,9 +1,12 @@
+// Node modules.
 import React from 'react';
+// Relative imports.
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
+import { recordEvent } from 'platform/monitoring/record-event';
 
 const onFeaturedContentClick = header => () => {
-  window.dataLayer.push({
+  recordEvent({
     event: 'nav-featured-content-link-click',
     'featured-content-header': header,
   });
