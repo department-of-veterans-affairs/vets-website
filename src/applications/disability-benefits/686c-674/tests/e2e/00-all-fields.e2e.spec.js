@@ -7,6 +7,8 @@ const testData = require('./686-test-data.json');
 import * as TestHelpers from './test-helpers';
 
 const runTest = E2eHelpers.createE2eTest(client => {
+  TestHelpers.initDocumentUploadMock();
+  TestHelpers.initApplicationSubmitMock();
   // Login
   const token = Auth.getUserToken();
   Auth.logIn(
@@ -40,46 +42,136 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // child information
   E2eHelpers.expectLocation(client, '/add-child');
   client.axeCheck('.main');
-  TestHelpers.fillChildNameInformation(client, testData.data);
+  TestHelpers.fillChildNameInformation(client, testData.data, 0);
+  client.click('.va-growable button.usa-button-secondary.va-growable-add-btn');
+  TestHelpers.fillChildNameInformation(client, testData.data, 1);
   client.click('button[id="2-continueButton"]');
-  // child place of birth and status
+
+  // child 1 place of birth and status
   E2eHelpers.expectLocation(client, '/add-child/0');
   client.axeCheck('.main');
   TestHelpers.fillChildPlaceOfBirthAndStatusInformation(client, testData.data);
   client.click('button[id="2-continueButton"]');
-  // child current living location
+  // child 1 current living location
   E2eHelpers.expectLocation(client, '/add-child/0/additional-information');
+  client.waitForElementVisible(
+    '#root_doesChildLiveWithYou-label',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
   TestHelpers.fillChildAddressStatus(client, testData.data);
-  TestHelpers.fillChildAddressStatus(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
+  // child 2 place of birth and status
+  E2eHelpers.expectLocation(client, '/add-child/1');
+  client.axeCheck('.main');
+  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(
+    client,
+    testData.data,
+    true,
+  );
+  client.click('button[id="2-continueButton"]');
+  // child 2 living location - lives with another person
+  E2eHelpers.expectLocation(client, '/add-child/1/additional-information');
+  client.waitForElementVisible(
+    '#root_doesChildLiveWithYou-label',
+    Timeouts.normal,
+  );
+  client.axeCheck('.main');
+  // Not sure why but this element doesn't get clicked unless there's a pause before interaction.
+  client.pause(Timeouts.normal);
+  TestHelpers.fillChildAddressStatus(client, testData.data, false);
   client.click('button[id="2-continueButton"]');
 
   // spouse information
   E2eHelpers.expectLocation(client, '/add-spouse');
+  client.waitForElementVisible(
+    '#root_spouseFullName_first-label',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
   TestHelpers.fillSpousePersonalInformation(client, testData.data);
   client.click('button[id="2-continueButton"]');
   // current marriage information
   E2eHelpers.expectLocation(client, '/current-marriage-information');
+  client.waitForElementVisible('#root_dateOfMarriage-label', Timeouts.normal);
   client.axeCheck('.main');
   TestHelpers.fillCurrentMarriageInformation(client, testData.data);
   client.click('button[id="2-continueButton"]');
   // current spouse address
   E2eHelpers.expectLocation(client, '/current-marriage-address');
+  client.waitForElementVisible(
+    '#root_spouseDoesLiveWithVeteran-label',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
-  TestHelpers.fillSpouseAddressInformation(client, testData.data);
+  client.pause(Timeouts.normal);
+  TestHelpers.fillSpouseAddressInformation(client, testData.data, false);
   client.click('button[id="2-continueButton"]');
+
   // current spouse marriage history
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history');
+  client.waitForElementVisible(
+    '#root_spouseWasMarriedBefore-label',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
-  TestHelpers.fillSpouseMarriageHistory(client, testData.data);
+  client.pause(Timeouts.normal);
+  TestHelpers.fillSpouseMarriageHistory(client, testData.data, true);
   client.click('button[id="2-continueButton"]');
+  // spouse marriage history details
+  E2eHelpers.expectLocation(client, '/current-spouse-marriage-history/0');
+  client.waitForElementVisible(
+    '#root_marriageStartDate-label',
+    Timeouts.normal,
+  );
+  client.axeCheck('.main');
+  TestHelpers.fillSpouseMarriageHistoryDetails(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
   // veteran marriage history
   E2eHelpers.expectLocation(client, '/veteran-marriage-history');
+  client.waitForElementVisible(
+    '#root_veteranWasMarriedBefore-label',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
-  TestHelpers.fillVeteranMarriageHistory(client, testData.data);
+  client.pause(Timeouts.normal);
+  TestHelpers.fillVeteranMarriageHistory(client, testData.data, true);
   client.click('button[id="2-continueButton"]');
+  // veteran marriage history details
+  E2eHelpers.expectLocation(client, '/veteran-marriage-history/0');
+  client.waitForElementVisible(
+    '#root_marriageStartDate-label',
+    Timeouts.normal,
+  );
+  TestHelpers.fillVeteranMarriageHistoryDetails(client, testData.data);
+  client.click('button[id="2-continueButton"]');
+
+  // marriage additional evidence
+  E2eHelpers.expectLocation(client, '/add-spouse-evidence');
+  client.waitForElementVisible(
+    '#root_supportingDocuments_add_label',
+    Timeouts.normal,
+  );
+  // E2eHelpers.uploadTestFile(client, testData.data.testUploadFile);
+  // client.waitForElementVisible(
+  //   'input#root_attachments_0_attachmentName',
+  //   Timeouts.slow,
+  // );
+  // client.expect
+  //   .element('input#root_attachments_0_attachmentName')
+  //   .to.have.value.that.equals(testData.data.testUploadFile.fileName);
+  client.pause(Timeouts.normal);
+  client.click(
+    '.row.form-progress-buttons.schemaform-buttons div.small-6.medium-5.end.columns button.usa-button-primary',
+  );
   // review page
+  E2eHelpers.expectLocation(client, '/review-and-submit');
+  client.waitForElementVisible(
+    '.usa-accordion-bordered.form-review-panel',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(5)',

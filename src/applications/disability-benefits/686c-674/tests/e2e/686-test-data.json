@@ -10,7 +10,22 @@
       "ssn": "123121234",
       "dobMonth": "2",
       "dobDay": "2",
-      "dobYear": "1991"
+      "dobYear": "1991",
+      "marriageHistory": [
+        {
+          "firstName": "Jenny",
+          "lastName": "Doe",
+          "marriageStartDateMonth": "1",
+          "marriageStartDateDay": "1",
+          "marriageStartDateYear": "2011",
+          "marriageEndDateMonth": "1",
+          "marriageEndDateDay": "1",
+          "marriageEndDateYear": "2012",
+          "locationState": "California",
+          "locationCity": "San Diego",
+          "reasonMarriageEnded": "DIVORCE"
+        }
+      ]
     },
     "veteranDomesticAddress": {
       "countryName": "United States",
@@ -33,8 +48,25 @@
         "status": {
           "biological": true
         },
-        "previouslyMarried": "No",
-        "doesChildLiveWithYou": "Y"
+        "previouslyMarriedNo": "No",
+        "previouslyMarriedYes": "Yes",
+        "doesChildLiveWithYouYes": "Y",
+        "doesChildLiveWithYouNo": "N",
+        "personChildLivesWithDetails": {
+          "firstName": "Bob",
+          "lastName": "Sacamano",
+          "countryName": "United States",
+          "addressLine1": "123 at home dr",
+          "city": "The City",
+          "stateCode": "AL",
+          "zipCode": "12345"
+        },
+        "previousMarriageInformation": {
+          "monthEnded": "1",
+          "dayEnded": "1",
+          "yearEnded": "2010",
+          "reasonMarriageEnded": "Divorce"
+        }
       }
     ],
     "spouseInformation": {
@@ -44,12 +76,40 @@
       "dobMonth": "3",
       "dobDay": "3",
       "dobYear": "1991",
-      "isVeteran": "N"
+      "isVeteran": "Y",
+      "vaFileNumber": "123123123",
+      "serviceNumber": "234234234",
+      "marriageHistory": [
+        {
+          "firstName": "Jason",
+          "lastName": "Doe",
+          "marriageStartDateMonth": "1",
+          "marriageStartDateDay": "1",
+          "marriageStartDateYear": "2011",
+          "marriageEndDateMonth": "1",
+          "marriageEndDateDay": "1",
+          "marriageEndDateYear": "2012",
+          "locationState": "California",
+          "locationCity": "San Diego",
+          "reasonMarriageEnded": "DIVORCE"
+        }
+      ]
     },
     "currentMarriageInformation": {
-      "veteranWasMarriedBefore": "N",
-      "doesLiveWithVeteran": "Y",
-      "spouseWasMarriedBefore": "N",
+      "veteranWasMarriedBeforeYes": "Y",
+      "veteranWasMarriedBeforeNo": "N",
+      "spouseWasMarriedBeforeYes": "Y",
+      "spouseWasMarriedBeforeNo": "N",
+      "doesLiveWithVeteranYes": "Y",
+      "doesLiveWithVeteranNo": "N",
+      "reasonForSeparation": "a reason",
+      "spouseAddress": {
+        "countryName": "United States",
+        "addressLine1": "123 at home dr",
+        "city": "The City",
+        "stateCode": "AL",
+        "zipCode": "12345"
+      },
       "dateOfMarriage": {
         "month": "3",
         "day": "3",
@@ -59,7 +119,12 @@
         "state": "California",
         "city": "Los Angeles"
       },
-      "typeOfMarriage": "CEREMONIAL"
+      "typeOfMarriage": "TRIBAL"
+    },
+    "testUploadFile": {
+      "filePath": "/src/platform/testing/",
+      "fileName": "example-upload.png",
+      "fileTypeSelection": "7"
     }
   }
 }
