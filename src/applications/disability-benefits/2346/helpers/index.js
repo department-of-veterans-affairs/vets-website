@@ -79,7 +79,6 @@ export const showNewAddressForm = formData =>
 
 export const getRadioLabelText = (formData, name) => {
   const address = formData?.[name] || {};
-  return Object.values(address)
-    .filter(entry => Boolean(entry))
-    .join(', ');
+  const { street, street2 = '', city, state, postalCode } = address;
+  return `${street} ${street2} ${city}, ${state}, ${postalCode}`;
 };
