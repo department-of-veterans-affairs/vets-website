@@ -3,7 +3,7 @@ import React from 'react';
 // Relative imports.
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
-import { recordEvent } from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 const onFeaturedContentClick = header => () => {
   recordEvent({
