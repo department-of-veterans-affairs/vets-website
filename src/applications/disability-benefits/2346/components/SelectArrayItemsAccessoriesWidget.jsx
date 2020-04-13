@@ -1,16 +1,16 @@
-import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getReOrderBatteryAndAccessoriesInformationData } from '../actions';
 import {
-  HEARING_AID_ACCESSORIES,
   BLUE_BACKGROUND,
+  HEARING_AID_ACCESSORIES,
   WHITE_BACKGROUND,
 } from '../constants';
 // TODO: Safety checks for `selected` callback and `label` element
 
-class SelectArrayItemsAccessoriesWidget extends React.Component {
+class SelectArrayItemsAccessoriesWidget extends Component {
   state = {
     selectedItems: [],
   };
@@ -44,7 +44,7 @@ class SelectArrayItemsAccessoriesWidget extends React.Component {
               {supply.productName}
             </p>
             <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
-              <div className="usa-alert-body mdot-alert-body">
+              <div className="usa-alert-body vads-u-padding-left--1">
                 <p className="vads-u-margin--1px">
                   <span className="vads-u-font-weight--bold">Battery: </span>
                   {supply.productId}

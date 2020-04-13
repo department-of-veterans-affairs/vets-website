@@ -59,19 +59,6 @@ export const FindYellowRibbonPage = () => (
       <div className="vads-l-col--12 vads-u-padding-left--0 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-left--5">
         <SearchResults />
       </div>
-
-      {/* Post-Form Content */}
-      <p className="vads-l-col--12 medium-screen:vads-l-col--7">
-        Participating school information is for the current academic year. To
-        view schools for the previous academic year,{' '}
-        <a
-          href="https://www.benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
-          rel="noreferrer noopener"
-        >
-          view the historical rates
-        </a>
-        .
-      </p>
     </div>
   </div>
 );
