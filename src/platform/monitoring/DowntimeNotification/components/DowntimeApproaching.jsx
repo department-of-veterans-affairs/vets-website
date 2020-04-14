@@ -4,9 +4,6 @@ import externalServiceStatus from '../config/externalServiceStatus';
 import DowntimeNotificationWrapper from './Wrapper';
 
 class DowntimeApproaching extends React.Component {
-  componentDidMount() {
-    this.props.initializeDowntimeWarnings();
-  }
   render() {
     const {
       startTime,

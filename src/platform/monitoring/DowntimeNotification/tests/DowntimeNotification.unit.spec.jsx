@@ -105,7 +105,6 @@ describe('<DowntimeNotification/>', () => {
       const wrapper = getComponent({ dependencies: [externalServices.mhv] });
       wrapper.setProps({
         isReady: true,
-        initializeDowntimeWarnings() {},
         startTime: moment(),
         endTime: moment(),
         status: externalServiceStatus.downtimeApproaching,

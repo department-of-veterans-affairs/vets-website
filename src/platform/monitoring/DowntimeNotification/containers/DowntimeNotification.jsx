@@ -11,7 +11,6 @@ import { formatDowntime } from 'platform/utilities/date';
 import {
   getGlobalDowntime,
   getScheduledDowntime,
-  initializeDowntimeWarnings,
   dismissDowntimeWarning,
 } from '../actions';
 
@@ -149,7 +148,6 @@ export const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
   getGlobalDowntime,
   getScheduledDowntime,
-  initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };
 
