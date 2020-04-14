@@ -190,7 +190,7 @@
     "nightwatch": "^0.9.16",
     "node-fetch": "^2.1.1",
     "node-resemble-js": "^0.2.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.13.1",
     "null-loader": "^0.1.1",
     "nyc": "^15.0.0",
     "polyfill-function-prototype-bind": "0.0.1",
