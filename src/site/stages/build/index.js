@@ -277,7 +277,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.build(err => {
     if (err) throw err;
     if (BUILD_OPTIONS.watch) {
-      console.log('Metalsmith build finished!  Starting webpack-dev-server...');
+      console.log('Metalsmith build finished!');
     } else {
       smith.printSummary();
       console.log('Build finished!');
