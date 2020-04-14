@@ -74,19 +74,15 @@ function getSettings() {
   const settings = {};
   const manifests = getAppManifests();
   settings.applications = manifests
-    .map(
-      m =>
-        // Some manifests don't have a rootUrl
-        m.rootUrl && {
-          contentProps: [
-            {
-              path: path.join('.', m.rootUrl),
-            },
-          ],
+    // Some manifests don't have a rootUrl
+    .filter(manifest => manifest.rootUrl)
+    .map(manifest => ({
+      contentProps: [
+        {
+          path: path.join('.', manifest.rootUrl),
         },
-    )
-    // Filter out empty entries
-    .filter(a => !!a);
+      ],
+    }));
 
   return settings;
 }
