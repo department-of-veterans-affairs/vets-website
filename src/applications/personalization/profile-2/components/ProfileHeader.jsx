@@ -82,8 +82,6 @@ const ProfileHeader = ({
     <div className={[...wrapperClasses, ...wrapperClassesMedium].join(' ')}>
       <div
         className={[
-          // ...wrapperClasses,
-          // ...wrapperClassesMedium,
           ...innerWrapperClasses,
           ...innerWrapperClassesMedium,
           'usa-grid',
