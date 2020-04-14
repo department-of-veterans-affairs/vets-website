@@ -7,6 +7,8 @@ import {
   VIDEO_TYPES,
   APPOINTMENT_STATUS,
   CANCELLED_APPOINTMENT_SET,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
+  PAST_APPOINTMENTS_HIDDEN_SET,
 } from './constants';
 
 import {
@@ -205,6 +207,9 @@ export function filterFutureConfirmedAppointments(appt, today) {
   const threshold = isVideoVisit(appt) ? 240 : 60;
   const apptDateTime = getMomentConfirmedDate(appt);
   return (
+    !FUTURE_APPOINTMENTS_HIDDEN_SET.includes(
+      appt.vdsAppointments?.[0]?.currentStatus,
+    ) &&
     apptDateTime.isValid() &&
     apptDateTime.add(threshold, 'minutes').isAfter(today)
   );
@@ -217,6 +222,9 @@ export function sortFutureConfirmedAppointments(a, b) {
 export function filterPastAppointments(appt, startDate, endDate) {
   const apptDateTime = getMomentConfirmedDate(appt);
   return (
+    !PAST_APPOINTMENTS_HIDDEN_SET.includes(
+      appt.vdsAppointments?.[0]?.currentStatus,
+    ) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)
