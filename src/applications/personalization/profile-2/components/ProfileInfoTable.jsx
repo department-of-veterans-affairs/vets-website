@@ -1,22 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-/**
- * Helper that prefixes class names with an optional responsive prefix and the
- * `vads-u-` utility class prefix.
- *
- * @param {string[]} classes - Array of classes to prefix with `vads-u-`
- * @param {string} screenSize - Optional screen size
- * @returns {string[]} The input `classes` array with the correct prefixes
- * applied
- *
- * Example: `prefixUtilityClasses(['my-class'], 'medium')` returns
- * ['medium-screen:vads-u-my-class']
- */
-const prefixUtilityClasses = (classes, screenSize = '') => {
-  const colonizedScreenSize = screenSize ? `${screenSize}-screen:` : '';
-  return classes.map(className => `${colonizedScreenSize}vads-u-${className}`);
-};
+import { prefixUtilityClasses } from '../helpers';
 
 const ProfileInfoTable = ({
   data,
@@ -48,7 +33,7 @@ const ProfileInfoTable = ({
     'padding-y--1p5',
   ]);
   const tableRowClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row', 'padding--3'],
+    ['flex-direction--row', 'padding-x--3', 'padding-y--4'],
     'medium',
   );
   const tableRowTitleClasses = prefixUtilityClasses([
@@ -66,7 +51,7 @@ const ProfileInfoTable = ({
   const tableRowDataClasses = ['vads-u-margin--0'];
 
   return (
-    <div className={[...tableClasses].join(' ')} data-field-name={fieldName}>
+    <div className={tableClasses.join(' ')} data-field-name={fieldName}>
       <h3 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
         {title}
       </h3>

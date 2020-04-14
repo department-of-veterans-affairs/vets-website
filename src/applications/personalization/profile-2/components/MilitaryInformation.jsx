@@ -85,7 +85,7 @@ class MilitaryInformationContent extends React.Component {
           title="Period of service"
           fieldName="serviceHistory"
         />
-        <div className="vads-u-margin-y--4">
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--6">
           <AdditionalInfo
             triggerText="What if my military service information doesn’t look right?"
             onClick={() => {
@@ -131,8 +131,10 @@ class MilitaryInformationContent extends React.Component {
 class MilitaryInformation extends Component {
   render() {
     return (
-      <div>
-        <h2 tabIndex="-1">Military information</h2>
+      <>
+        <h2 tabIndex="-1" className="vads-u-margin-y--4">
+          Military information
+        </h2>
         <DowntimeNotification
           appTitle="Military Information"
           render={handleDowntimeForSection('military service')}
@@ -142,7 +144,7 @@ class MilitaryInformation extends Component {
             militaryInformation={this.props.militaryInformation}
           />
         </DowntimeNotification>
-      </div>
+      </>
     );
   }
 }
