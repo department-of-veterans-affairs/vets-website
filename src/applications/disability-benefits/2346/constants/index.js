@@ -1,7 +1,4 @@
-import {
-  countries,
-  states,
-} from 'platform/forms-system/src/js/utilities/address';
+import { countries, states } from 'platform/forms/address';
 
 export const schemaFields = {
   fullName: 'vetFullName',
