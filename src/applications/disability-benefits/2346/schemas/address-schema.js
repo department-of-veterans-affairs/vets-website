@@ -106,7 +106,11 @@ const addressSchema = {
     },
     postalCode: {
       type: 'string',
-      pattern: '^\\d{5}$',
+      pattern: '(^\\d{5}$)|(^\\d{5}-\\d{4}$)',
+    },
+    internationalPostalCode: {
+      type: 'string',
+      maxLength: 10,
     },
   },
 };
@@ -187,8 +191,8 @@ export const addressUISchema = (
         'ui:required': callback,
         'ui:title': 'Street address',
         'ui:errorMessages': {
-          required: 'Street address is required',
-          pattern: 'Street address must be under 100 characters',
+          required: 'Please enter a street address',
+          pattern: 'Please enter a street address that is under 100 characters',
         },
       },
       street2: {
@@ -200,8 +204,8 @@ export const addressUISchema = (
       city: {
         'ui:required': callback,
         'ui:errorMessages': {
-          required: 'City is required',
-          pattern: 'City must be under 100 characters',
+          required: 'Please enter a city',
+          pattern: 'Please enter a city that is under 100 characters',
         },
         'ui:options': {
           replaceSchema: formData => {
@@ -244,7 +248,7 @@ export const addressUISchema = (
         },
         'ui:title': 'State',
         'ui:errorMessages': {
-          required: 'State is required',
+          required: 'Please enter a state',
         },
         'ui:options': {
           hideIf: (formData, index) => {
@@ -313,18 +317,62 @@ export const addressUISchema = (
           return false;
         },
         'ui:errorMessages': {
-          required: 'Province is required',
+          required: 'Please enter a state/province/region',
         },
       },
       postalCode: {
         'ui:required': callback,
         'ui:title': 'Postal Code',
         'ui:errorMessages': {
-          required: 'Zip code is required',
-          pattern: 'Zip code must be 5 digits',
+          required: 'Please enter a postal code',
+          pattern: 'Please enter a valid 5 digit postal code',
         },
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
+          hideIf: (formData, index) => {
+            // Because we have to update countryName manually in formData above,
+            // We have to check this when a user selects a non-US country and then selects
+            // the military base checkbox.
+            let countryNamePath = `${path}.country`;
+            if (typeof index === 'number') {
+              countryNamePath = insertArrayIndex(countryNamePath, index);
+            }
+            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const countryName = get(countryNamePath, formData);
+            if (isMilitaryBaseAddress && livesOnMilitaryBase) {
+              return false;
+            }
+            return countryName && countryName !== USA.name;
+          },
+        },
+      },
+      internationalPostalCode: {
+        'ui:required': (formData, index) => {
+          let countryNamePath = `${path}.country`;
+          if (typeof index === 'number') {
+            countryNamePath = insertArrayIndex(countryNamePath, index);
+          }
+          const countryName = get(countryNamePath, formData);
+          return countryName && countryName !== USA.name;
+        },
+        'ui:title': 'International postal code',
+        'ui:errorMessages': {
+          required: 'Please enter a postal code',
+        },
+        'ui:options': {
+          widgetClassNames: 'usa-input-medium',
+          hideIf: (formData, index) => {
+            let countryNamePath = `${path}.country`;
+            if (typeof index === 'number') {
+              countryNamePath = insertArrayIndex(countryNamePath, index);
+            }
+            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            if (isMilitaryBaseAddress && livesOnMilitaryBase) {
+              return true;
+            }
+            const countryName = get(countryNamePath, formData);
+            return countryName === USA.name || !countryName;
+          },
         },
       },
     };
