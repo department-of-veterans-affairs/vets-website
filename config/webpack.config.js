@@ -45,7 +45,7 @@ const globalEntryFiles = {
  *
  * @param {String} entry - List of comma-delimited entries to build. Builds all
  *                         entries if no value is passed.
- * @return {String[]} - An array of the entry file names from the manifest files
+ * @return {Object} - The entry file paths mapped to the entry names
  */
 function getEntryPoints(entry) {
   const manifests = getAppManifests();
