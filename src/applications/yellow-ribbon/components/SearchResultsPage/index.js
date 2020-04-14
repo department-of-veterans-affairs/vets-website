@@ -1,6 +1,7 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import SearchForm from '../../containers/SearchForm';
@@ -9,6 +10,7 @@ import { toggleShowMobileFormAction } from '../../actions';
 
 export const SearchResultsPage = ({
   hasFetchedOnce,
+  showMobileForm,
   toggleShowMobileForm,
   totalResults,
 }) => (
@@ -43,7 +45,12 @@ export const SearchResultsPage = ({
           type="button"
         >
           Change search criteria{' '}
-          <i className="fa fa-chevron-down vads-u-padding-left--0p5" />
+          <i
+            className={classNames('fa', 'vads-u-padding-left--0p5', {
+              'fa-chevron-down': !showMobileForm,
+              'fa-chevron-up': showMobileForm,
+            })}
+          />
         </button>
 
         {/* Search Form Header */}
@@ -86,6 +93,7 @@ export const SearchResultsPage = ({
 SearchResultsPage.propTypes = {
   // From mapStateToProps.
   hasFetchedOnce: PropTypes.bool.isRequired,
+  showMobileForm: PropTypes.bool.isRequired,
   totalResults: PropTypes.number,
   // From mapDispatchToProps.
   toggleShowMobileForm: PropTypes.func.isRequired,
@@ -93,6 +101,7 @@ SearchResultsPage.propTypes = {
 
 const mapStateToProps = state => ({
   hasFetchedOnce: state.yellowRibbonReducer.hasFetchedOnce,
+  showMobileForm: state.yellowRibbonReducer.showMobileForm,
   totalResults: state.yellowRibbonReducer.totalResults,
 });
 
