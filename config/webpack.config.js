@@ -1,26 +1,22 @@
-// Staging config. Also the default config that prod and dev are based off of.
 const path = require('path');
 const fs = require('fs');
-
 const webpack = require('webpack');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+require('@babel/polyfill');
+
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
-
 const {
   getAppManifests,
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
-
-require('@babel/polyfill');
 
 const timestamp = new Date().getTime();
 
