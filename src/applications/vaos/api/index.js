@@ -15,7 +15,8 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-const USE_MOCK_DATA = environment.isLocalhost();
+const USE_MOCK_DATA =
+  environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
 
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
