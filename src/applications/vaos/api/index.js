@@ -316,6 +316,7 @@ export function getPacTeam(systemId) {
 
 export function getFacilityInfo(facilityId) {
   let promise;
+  console.log(facilityId);
 
   if (USE_MOCK_DATA) {
     if (facilityId === '984') {
@@ -335,6 +336,7 @@ export function getFacilityInfo(facilityId) {
 
 export function getFacilitiesInfo(facilityIds) {
   let promise;
+  console.log(facilityIds);
 
   if (USE_MOCK_DATA) {
     promise = import('./facility_data.json').then(
