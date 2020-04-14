@@ -58,9 +58,14 @@ const updateRobots = require('./plugins/update-robots');
  * This can be removed when we move the content build to a new repository and
  * this script no longer interacts with the Webpack output at all.
  */
-function preserveWebpackOutput(metalsmithDestination) {
+function preserveWebpackOutput(metalsmithDestination, buildType) {
   const webpackBuildDirName = 'generated';
-  const tempDir = path.join(__dirname, '../../../../tmp/', webpackBuildDirName);
+  const tempDir = path.join(
+    __dirname,
+    '../../../../tmp/',
+    buildType,
+    webpackBuildDirName,
+  );
   const webpackDir = path.join(metalsmithDestination, webpackBuildDirName);
 
   const webpackDirExists = fs.existsSync(webpackDir);
@@ -108,7 +113,7 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 
   smith.use(
-    preserveWebpackOutput(BUILD_OPTIONS.destination),
+    preserveWebpackOutput(BUILD_OPTIONS.destination, BUILD_OPTIONS.buildtype),
     'Preserving Webpack build output',
   );
 
