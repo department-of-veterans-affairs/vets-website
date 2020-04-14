@@ -94,30 +94,30 @@ export const convertCleanDataToPayload = (data, fieldName) => {
   );
 };
 
-function AddressField({ title, fieldName, deleteDisabled }) {
-  return (
-    <Vet360ProfileField
-      title={title}
-      fieldName={fieldName}
-      apiRoute={API_ROUTES.ADDRESSES}
-      convertCleanDataToPayload={convertCleanDataToPayload}
-      deleteDisabled={deleteDisabled}
-      Content={AddressView}
-      EditModal={AddressEditModal}
-      ValidationModal={AddressValidationModal}
-      formSchema={getFormSchema(fieldName)}
-      uiSchema={getUiSchema(fieldName)}
-    />
-  );
+export default class AddressField extends React.Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    deleteDisabled: PropTypes.bool,
+    fieldName: PropTypes.oneOf([
+      FIELD_NAMES.MAILING_ADDRESS,
+      FIELD_NAMES.RESIDENTIAL_ADDRESS,
+    ]).isRequired,
+  };
+
+  render() {
+    return (
+      <Vet360ProfileField
+        title={this.props.title}
+        fieldName={this.props.fieldName}
+        apiRoute={API_ROUTES.ADDRESSES}
+        convertCleanDataToPayload={convertCleanDataToPayload}
+        deleteDisabled={this.props.deleteDisabled}
+        Content={AddressView}
+        EditModal={AddressEditModal}
+        ValidationModal={AddressValidationModal}
+        formSchema={getFormSchema(this.props.fieldName)}
+        uiSchema={getUiSchema(this.props.fieldName)}
+      />
+    );
+  }
 }
-
-AddressField.propTypes = {
-  title: PropTypes.string.isRequired,
-  deleteDisabled: PropTypes.bool,
-  fieldName: PropTypes.oneOf([
-    FIELD_NAMES.MAILING_ADDRESS,
-    FIELD_NAMES.RESIDENTIAL_ADDRESS,
-  ]).isRequired,
-};
-
-export default AddressField;
