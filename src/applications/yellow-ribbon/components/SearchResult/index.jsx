@@ -45,8 +45,9 @@ const deriveMaxAmountLabel = (school = {}) => {
   // Derive the contribution amount number.
   const contributionAmountNum = parseFloat(school?.contributionAmount);
 
+  // Show unlimited contribution amount state.
   if (contributionAmountNum > 90000) {
-    return 'All tuition and fees not covered by Post-9/11 GI Bill benefits';
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
   }
 
   // Show formatted contributionAmount.

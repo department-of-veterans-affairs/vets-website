@@ -188,7 +188,7 @@ export class SearchForm extends Component {
         {/* Unlimited Contribution Amount */}
         <ErrorableCheckbox
           checked={contributionAmount === 'unlimited'}
-          label="Only show schools that fund all tuition and fees not covered by Post-9/11 GI Bill benefits"
+          label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
           onValueChange={onCheckboxChange('contributionAmount')}
           required={false}
         />
