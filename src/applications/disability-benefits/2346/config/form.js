@@ -1,10 +1,10 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import FooterInfo from '../components/FooterInfo';
+import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../components/IntroductionPage';
-import FooterInfo from '../components/FooterInfo';
 import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
@@ -96,7 +96,6 @@ const formConfig = {
         [formPageTitlesLookup.address]: {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
-          description: 'test',
           uiSchema: {
             [selectedAddressField]: selectedAddressUI,
             [newAddressField]: newAddressUI,
