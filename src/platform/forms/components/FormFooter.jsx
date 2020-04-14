@@ -3,10 +3,7 @@ import React from 'react';
 export default function FormFooter({ formConfig, currentLocation }) {
   const GetFormHelp = formConfig.getHelp;
 
-  if (
-    currentLocation &&
-    currentLocation.pathname.replace(/\/$/, '').endsWith('confirmation')
-  ) {
+  if (currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation')) {
     return null;
   }
 
