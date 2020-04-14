@@ -70,7 +70,7 @@ function getEntryPoints(entry) {
  *
  * @return {Object} settings
  */
-function getSettings() {
+function getDevServerSettings() {
   const settings = {};
   const manifests = getAppManifests();
   settings.applications = manifests
@@ -98,7 +98,7 @@ module.exports = env => {
     get destination() {
       return path.resolve(__dirname, '../', 'build', this.buildtype);
     },
-    settings: getSettings(),
+    settings: getDevServerSettings(),
   };
 
   const apps = getEntryPoints(buildOptions.entry);
