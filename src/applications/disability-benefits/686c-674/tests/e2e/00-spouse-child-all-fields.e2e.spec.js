@@ -6,16 +6,19 @@ const testData = require('./686-test-data.json');
 
 import * as TestHelpers from './test-helpers';
 
+Timeouts.fast = 500;
+
 const runTest = E2eHelpers.createE2eTest(client => {
-  TestHelpers.initDocumentUploadMock();
-  TestHelpers.initApplicationSubmitMock();
-  // Login
   const token = Auth.getUserToken();
+  TestHelpers.initApplicationSubmitMock(token);
+  // Login
   Auth.logIn(
     token,
     client,
-    '/disability-benefits/new-686/686-options-selection',
-  ).waitForElementVisible('.schemaform-widget-wrapper', Timeouts.verySlow);
+    '/disability-benefits/new-686/introduction',
+    3,
+  ).waitForElementVisible('.process.schemaform-process', Timeouts.verySlow);
+  client.click('.usa-button-primary.va-button-primary.schemaform-start-button');
 
   // select options
   E2eHelpers.expectLocation(client, '/686-options-selection');
@@ -25,19 +28,19 @@ const runTest = E2eHelpers.createE2eTest(client => {
     ['addChild', 'addSpouse'],
     testData.data,
   );
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
   TestHelpers.fillVeteranData(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // veteran address
   E2eHelpers.expectLocation(client, '/veteran-address');
   client.axeCheck('.main');
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // child information
   E2eHelpers.expectLocation(client, '/add-child');
@@ -45,13 +48,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
   TestHelpers.fillChildNameInformation(client, testData.data, 0);
   client.click('.va-growable button.usa-button-secondary.va-growable-add-btn');
   TestHelpers.fillChildNameInformation(client, testData.data, 1);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // child 1 place of birth and status
   E2eHelpers.expectLocation(client, '/add-child/0');
   client.axeCheck('.main');
   TestHelpers.fillChildPlaceOfBirthAndStatusInformation(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
+
   // child 1 current living location
   E2eHelpers.expectLocation(client, '/add-child/0/additional-information');
   client.waitForElementVisible(
@@ -59,8 +63,9 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
+  client.pause(Timeouts.fast);
   TestHelpers.fillChildAddressStatus(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // child 2 place of birth and status
   E2eHelpers.expectLocation(client, '/add-child/1');
@@ -70,7 +75,8 @@ const runTest = E2eHelpers.createE2eTest(client => {
     testData.data,
     true,
   );
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
+
   // child 2 living location - lives with another person
   E2eHelpers.expectLocation(client, '/add-child/1/additional-information');
   client.waitForElementVisible(
@@ -79,9 +85,9 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   // Not sure why but this element doesn't get clicked unless there's a pause before interaction.
-  client.pause(Timeouts.normal);
+  client.pause(Timeouts.fast);
   TestHelpers.fillChildAddressStatus(client, testData.data, false);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // spouse information
   E2eHelpers.expectLocation(client, '/add-spouse');
@@ -91,13 +97,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillSpousePersonalInformation(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
+
   // current marriage information
   E2eHelpers.expectLocation(client, '/current-marriage-information');
   client.waitForElementVisible('#root_dateOfMarriage-label', Timeouts.normal);
   client.axeCheck('.main');
   TestHelpers.fillCurrentMarriageInformation(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
+
   // current spouse address
   E2eHelpers.expectLocation(client, '/current-marriage-address');
   client.waitForElementVisible(
@@ -105,9 +113,9 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.normal);
+  client.pause(Timeouts.fast);
   TestHelpers.fillSpouseAddressInformation(client, testData.data, false);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // current spouse marriage history
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history');
@@ -116,9 +124,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.normal);
+  client.pause(Timeouts.fast);
   TestHelpers.fillSpouseMarriageHistory(client, testData.data, true);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
+
   // spouse marriage history details
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history/0');
   client.waitForElementVisible(
@@ -127,7 +136,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fillSpouseMarriageHistoryDetails(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // veteran marriage history
   E2eHelpers.expectLocation(client, '/veteran-marriage-history');
@@ -136,9 +145,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.normal);
+  client.pause(Timeouts.fast);
   TestHelpers.fillVeteranMarriageHistory(client, testData.data, true);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
+
   // veteran marriage history details
   E2eHelpers.expectLocation(client, '/veteran-marriage-history/0');
   client.waitForElementVisible(
@@ -146,7 +156,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   TestHelpers.fillVeteranMarriageHistoryDetails(client, testData.data);
-  client.click('button[id="2-continueButton"]');
+  client.click('button[id="4-continueButton"]');
 
   // marriage additional evidence
   E2eHelpers.expectLocation(client, '/add-spouse-evidence');
@@ -154,18 +164,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '#root_supportingDocuments_add_label',
     Timeouts.normal,
   );
-  // E2eHelpers.uploadTestFile(client, testData.data.testUploadFile);
-  // client.waitForElementVisible(
-  //   'input#root_attachments_0_attachmentName',
-  //   Timeouts.slow,
-  // );
-  // client.expect
-  //   .element('input#root_attachments_0_attachmentName')
-  //   .to.have.value.that.equals(testData.data.testUploadFile.fileName);
-  client.pause(Timeouts.normal);
+  client.pause(Timeouts.fast);
   client.click(
     '.row.form-progress-buttons.schemaform-buttons div.small-6.medium-5.end.columns button.usa-button-primary',
   );
+
   // review page
   E2eHelpers.expectLocation(client, '/review-and-submit');
   client.waitForElementVisible(
@@ -178,6 +181,16 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   // privacy agreement
+  client.waitForElementVisible(
+    'label[name="privacyAgreementAccepted-label"]',
+    Timeouts.normal,
+  );
+  client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectLocation(client, '/confirmation');
+
+  // confirmation
+  client.axeCheck('.main');
   client.end();
 });
 

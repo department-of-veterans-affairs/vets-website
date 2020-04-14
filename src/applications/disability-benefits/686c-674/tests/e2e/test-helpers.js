@@ -418,28 +418,15 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
     );
 };
 
-export const initApplicationSubmitMock = () => {
-  mock(null, {
+export const initApplicationSubmitMock = token => {
+  mock(token, {
     path: '/v0/21-686c',
     verb: 'post',
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567',
-        },
-      },
-    },
-  });
-};
-
-export const initDocumentUploadMock = () => {
-  mock(null, {
-    path: '/v0/claim_attachments',
-    verb: 'post',
-    value: {
-      data: {
-        attributes: {
-          guid: '123fake-submission-id-567',
+          formSubmissionId: '123fake-submission-id-567',
+          timestamp: '2016-05-16',
         },
       },
     },
