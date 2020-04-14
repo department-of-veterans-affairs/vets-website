@@ -14,7 +14,7 @@
     {% assign headerClass = "va-nav-linkslist-heading" %}
     {% assign ulClass = "va-nav-linkslist-list" %}
 {% endif %}
-<section class="{{ entity.parentFieldName }}">
+<section class="{{ entity.parentFieldName }}" data-template="paragraphs/list_of_link_teasers" data-entity-id="{{ entityId }}">
     {% if entity.fieldTitle != empty %}
       <{{ header }}
           id="{{ entity.fieldTitle | hashReference }}"

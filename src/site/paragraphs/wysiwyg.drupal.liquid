@@ -9,6 +9,11 @@
   }
 {% endcomment %}
 
-<div class="processed-content">
+<div class="processed-content" data-template="paragraphs/wysiwyg" data-entity-id="{{ entityId }}">
     {{ entity.fieldWysiwyg.processed | drupalToVaPath }}
 </div>
+
+<script>
+  var elements = document.querySelector('[data-entity-id="{{ entityId }}"]');
+  console.log(elements)
+</script>
