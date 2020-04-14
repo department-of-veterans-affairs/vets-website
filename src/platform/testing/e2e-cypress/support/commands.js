@@ -23,7 +23,9 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import '@testing-library/cypress/add-commands';
 
+// Mock user login
 /* eslint-disable camelcase */
 Cypress.Commands.add('initUserMock', (token, level) => {
   cy.request('POST', 'http://localhost:3000/mock', {
@@ -91,75 +93,23 @@ Cypress.Commands.add('initUserMock', (token, level) => {
 });
 /* eslint-enable camelcase */
 
-Cypress.Commands.add('initItfMock', token => {
-  cy.request('POST', 'http://localhost:3000/mock', {
-    ...{
-      path: '/v0/intent_to_file',
-      verb: 'get',
-      value: {
-        data: {
-          id: '',
-          type: 'evss_intent_to_file_intent_to_files_responses',
-          attributes: {
-            intentToFile: [
-              {
-                id: '1',
-                creationDate: '2014-07-28T19:53:45.810+00:00',
-                expirationDate: Cypress.moment()
-                  .add(1, 'd')
-                  .format(),
-                participantId: 1,
-                source: 'EBN',
-                status: 'active',
-                type: 'compensation',
-              },
-              {
-                id: '1',
-                creationDate: '2014-07-28T19:53:45.810+00:00',
-                expirationDate: '2015-08-28T19:47:52.788+00:00',
-                participantId: 1,
-                source: 'EBN',
-                status: 'claim_recieved',
-                type: 'compensation',
-              },
-              {
-                id: '1',
-                creationDate: '2014-07-28T19:53:45.810+00:00',
-                expirationDate: '2015-08-28T19:47:52.789+00:00',
-                participantId: 1,
-                source: 'EBN',
-                status: 'claim_recieved',
-                type: 'compensation',
-              },
-              {
-                id: '1',
-                creationDate: '2014-07-28T19:53:45.810+00:00',
-                expirationDate: '2015-08-28T19:47:52.789+00:00',
-                participantId: 1,
-                source: 'EBN',
-                status: 'expired',
-                type: 'compensation',
-              },
-              {
-                id: '1',
-                creationDate: '2014-07-28T19:53:45.810+00:00',
-                expirationDate: '2015-08-28T19:47:52.790+00:00',
-                participantId: 1,
-                source: 'EBN',
-                status: 'incomplete',
-                type: 'compensation',
-              },
-            ],
-          },
-        },
-      },
-    },
-    token,
-  });
-});
+/**
+ * Fills in a date.
+ *
+ * @param {String} fieldName The name the field without the Month, Day, or Year
+ *                           e.g. root_spouseInfo_remarriageDate
+ * @param {String} dateString The date as a string
+ *                            e.g. 1990-1-28
+ */
+Cypress.Commands.add('fillDate', (fieldName, dateString) => {
+  const date = dateString.split('-');
+  cy.get(`#${fieldName}Month`)
+    .select(parseInt(date[1], 10).toString())
+    .should('have.value', parseInt(date[1], 10).toString());
 
-/* eslint-disable no-unused-vars */
-Cypress.Commands.add('runTest', (testData, testConfig, token, fileName) => {
-  //
+  cy.get(`#${fieldName}Day`)
+    .select(parseInt(date[2], 10).toString())
+    .should('have.value', parseInt(date[2], 10).toString());
+
+  cy.get(`#${fieldName}Year`).type(parseInt(date[0], 10).toString());
 });
-/* eslint-enable no-unused-vars */
