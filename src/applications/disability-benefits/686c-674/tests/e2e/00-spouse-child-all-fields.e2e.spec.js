@@ -6,8 +6,6 @@ const testData = require('./686-test-data.json');
 
 import * as TestHelpers from './test-helpers';
 
-Timeouts.fast = 500;
-
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
   TestHelpers.initApplicationSubmitMock(token);
@@ -63,7 +61,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.fast);
+  client.pause(Timeouts.normal);
   TestHelpers.fillChildAddressStatus(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
@@ -85,7 +83,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   // Not sure why but this element doesn't get clicked unless there's a pause before interaction.
-  client.pause(Timeouts.fast);
+  client.pause(Timeouts.normal);
   TestHelpers.fillChildAddressStatus(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
@@ -113,7 +111,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.fast);
+  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseAddressInformation(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
@@ -124,7 +122,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.fast);
+  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistory(client, testData.data, true);
   client.click('button[id="4-continueButton"]');
 
@@ -145,7 +143,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.fast);
+  client.pause(Timeouts.slow);
   TestHelpers.fillVeteranMarriageHistory(client, testData.data, true);
   client.click('button[id="4-continueButton"]');
 
@@ -164,7 +162,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '#root_supportingDocuments_add_label',
     Timeouts.normal,
   );
-  client.pause(Timeouts.fast);
+  client.pause(Timeouts.normal);
   client.click(
     '.row.form-progress-buttons.schemaform-buttons div.small-6.medium-5.end.columns button.usa-button-primary',
   );
