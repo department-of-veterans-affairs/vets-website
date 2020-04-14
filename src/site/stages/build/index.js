@@ -78,13 +78,19 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   }
 
   return () => {
-    /* eslint-disable no-console */
-    if (webpackDirExists) fs.moveSync(tempDir, webpackDir);
-    else
+    if (webpackDirExists) {
+      fs.moveSync(tempDir, webpackDir);
+      // Clean up tmp/ if it's empty. The empty check is needed for CI, where
+      // we're building multiple environments in parallel
+      if (!fs.readdirSync(path.resolve(tempDir, '..')).length) {
+        fs.rmdirSync(path.resolve(tempDir, '..'));
+      }
+    } else {
+      // eslint-disable-next-line no-console
       console.log(
         'No Webpack output found. Skipping the asset preservation step.',
       );
-    /* eslint-enable no-console */
+    }
   };
 }
 
