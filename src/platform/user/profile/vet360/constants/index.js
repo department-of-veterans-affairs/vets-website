@@ -6,6 +6,7 @@ import countries from './countries.json';
 export const ADDRESS_FORM_VALUES = {
   STATES: states.USA.map(state => state.value),
   COUNTRIES: countries.map(country => country.countryName),
+  COUNTRY_ISO3_CODES: countries.map(country => country.countryCodeISO3),
   MILITARY_STATES,
 };
 
@@ -23,6 +24,7 @@ export const ADDRESS_POU = {
 export const USA = {
   COUNTRY_NAME: 'United States',
   COUNTRY_CODE: '1',
+  COUNTRY_ISO3_CODE: 'USA',
 };
 
 export const TRANSACTION_CATEGORY_TYPES = {
