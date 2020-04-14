@@ -2,8 +2,20 @@
   .school-program {
     margin-top: 36px !important;
   }
+
+  .form-checkbox [type="checkbox"] {
+    top: 3rem;
+  }
 }
 
 .va-u-outline--none:focus {
   outline: none;
+}
+
+.form-checkbox {
+  position: relative;
+
+  & [type="checkbox"] {
+    cursor: pointer;
+  }
 }
