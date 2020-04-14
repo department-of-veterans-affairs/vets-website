@@ -15,12 +15,15 @@ const ProfileHeader = ({
     .filter(name => !!name)
     .join(' ');
 
+  // the outer full-width background of the header banner
   const wrapperClasses = prefixUtilityClasses([
     'background-color--gray-dark',
     'margin-bottom--2',
     'padding-y--2',
   ]);
   const wrapperClassesMedium = prefixUtilityClasses(['padding-y--3'], 'medium');
+
+  // the inner content of the header banner
   const innerWrapperClasses = prefixUtilityClasses([
     'align-items--center',
     'color--white',
@@ -32,6 +35,7 @@ const ProfileHeader = ({
     ['flex-direction--row'],
     'medium',
   );
+
   const serviceBadgeClasses = prefixUtilityClasses([
     'text-align--center',
     'margin-bottom--2',
@@ -40,6 +44,7 @@ const ProfileHeader = ({
     ['text-align--right', 'margin-bottom--0', 'padding-right--2'],
     'medium',
   );
+
   const titleClasses = prefixUtilityClasses([
     'display--none',
     'font-family--sans',
@@ -49,6 +54,7 @@ const ProfileHeader = ({
     'margin-top--0',
   ]);
   const titleClassesMedium = prefixUtilityClasses(['display--flex'], 'medium');
+
   const fullNameClasses = prefixUtilityClasses([
     'font-size--h3',
     'margin-top--0',
@@ -59,6 +65,7 @@ const ProfileHeader = ({
     ['text-align--left'],
     'medium',
   );
+
   const latestBranchClasses = prefixUtilityClasses([
     'font-family--sans',
     'font-size--base',
