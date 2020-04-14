@@ -185,21 +185,23 @@ export class SearchForm extends Component {
           />
         </div>
 
-        {/* Unlimited Contribution Amount */}
-        <ErrorableCheckbox
-          checked={contributionAmount === 'unlimited'}
-          label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
-          onValueChange={onCheckboxChange('contributionAmount')}
-          required={false}
-        />
+        <div>
+          {/* Unlimited Contribution Amount */}
+          <ErrorableCheckbox
+            checked={contributionAmount === 'unlimited'}
+            label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
+            onValueChange={onCheckboxChange('contributionAmount')}
+            required={false}
+          />
 
-        {/* Unlimited Number of Students */}
-        <ErrorableCheckbox
-          checked={numberOfStudents === 'unlimited'}
-          label="Only show schools that provide funding to all eligible students"
-          onValueChange={onCheckboxChange('numberOfStudents')}
-          required={false}
-        />
+          {/* Unlimited Number of Students */}
+          <ErrorableCheckbox
+            checked={numberOfStudents === 'unlimited'}
+            label="Only show schools that provide funding to all eligible students"
+            onValueChange={onCheckboxChange('numberOfStudents')}
+            required={false}
+          />
+        </div>
 
         {/* Submit Button */}
         <button
