@@ -99,7 +99,6 @@ const formConfig = {
         [formPageTitlesLookup.address]: {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
-          description: 'test',
           uiSchema: {
             [selectedAddressField]: selectedAddressUI,
             [newAddressField]: newAddressUI,
