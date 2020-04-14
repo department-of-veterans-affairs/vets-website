@@ -3,7 +3,28 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import ProfileInfoTable from '../../components/ProfileInfoTable';
+import ProfileInfoTable, {
+  prefixUtilityClasses,
+} from '../../components/ProfileInfoTable';
+
+describe('prefixUtilityClasses', () => {
+  const classes = ['class-1', 'class-2'];
+  it('should prefix an array of classes with `vads-u-`', () => {
+    const expectedResult = ['vads-u-class-1', 'vads-u-class-2'];
+    const result = prefixUtilityClasses(classes);
+    expect(result).to.deep.equal(expectedResult);
+  });
+  describe('when passed a screenSize', () => {
+    it('should prefix an array of classes with the responsive prefix and `vads-u-`', () => {
+      const expectedResult = [
+        'medium-screen:vads-u-class-1',
+        'medium-screen:vads-u-class-2',
+      ];
+      const result = prefixUtilityClasses(classes, 'medium');
+      expect(result).to.deep.equal(expectedResult);
+    });
+  });
+});
 
 describe('ProfileInfoTable', () => {
   let dataTransformerSpy;
@@ -24,18 +45,18 @@ describe('ProfileInfoTable', () => {
   afterEach(() => {
     wrapper.unmount();
   });
-  it('renders a `table`', () => {
-    expect(wrapper.type()).to.equal('table');
+  it('renders a `div`', () => {
+    expect(wrapper.type()).to.equal('div');
   });
-  it("sets the table's data-field-name to the fieldName prop", () => {
+  it("sets the div's data-field-name to the fieldName prop", () => {
     expect(wrapper.prop('data-field-name')).to.equal(props.fieldName);
   });
   it('renders the title prop in an h3 tag', () => {
     const h3 = wrapper.find('h3');
     expect(h3.text()).to.equal(props.title);
   });
-  it('renders a table row for each entry in the data prop', () => {
-    const tableRows = wrapper.find('tbody > tr');
+  it('renders a table row div for each entry in the data prop', () => {
+    const tableRows = wrapper.find('div > div.table-row');
     expect(tableRows.length).to.equal(props.data.length);
   });
   it('calls the dataTransformer once for each row of data', () => {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber, locationInfo } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
@@ -76,7 +76,11 @@ class HeadingSummary extends React.Component {
                     View cautionary information about this school
                   </a>
                 }
-                headline="This school has cautionary warnings"
+                headline={
+                  <h2 className="vads-u-font-size--h3 usa-alert-heading">
+                    This school has cautionary warnings
+                  </h2>
+                }
                 isVisible={!!it.cautionFlag}
                 status="warning"
               />

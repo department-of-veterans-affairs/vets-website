@@ -64,7 +64,9 @@ class ProfileWrapper extends Component {
         <div className="usa-width-one-fourth">
           <ProfileSideNav />
         </div>
-        <div className="usa-width-three-fourths">{this.props.children}</div>
+        <div className="usa-width-three-fourths columns">
+          {this.props.children}
+        </div>
       </div>
     </>
   );
