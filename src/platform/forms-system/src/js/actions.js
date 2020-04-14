@@ -249,6 +249,8 @@ export function uploadFile(
 
     const req = new XMLHttpRequest();
 
+    const csrfTokenStored = localStorage.getItem('csrfToken');
+
     req.open('POST', uiOptions.fileUploadUrl);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
@@ -298,6 +300,7 @@ export function uploadFile(
     });
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
+    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
     req.send(payload);
 
     return req;
