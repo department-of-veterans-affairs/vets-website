@@ -14,7 +14,7 @@ export const SearchResultsPage = ({
   toggleShowMobileForm,
   totalResults,
 }) => (
-  <div className="vads-l-grid-container vads-u-padding-x--2p5 vads-u-padding-bottom--4">
+  <>
     {/* Title */}
     <h1 className="vads-u-margin-bottom--0">
       Yellow Ribbon school search results
@@ -87,7 +87,7 @@ export const SearchResultsPage = ({
         <SearchResults />
       </div>
     </div>
-  </div>
+  </>
 );
 
 SearchResultsPage.propTypes = {
