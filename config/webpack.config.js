@@ -64,17 +64,13 @@ function getEntryPoints(entry) {
  * The dev server requires settings.js for building the
  * redirects. This loads the settings for use in the watch commands.
  *
- * This does NOT recreate the full settings like
- * create-build-settings.js does. This is currently only meant to fill
- * out the URL rewrites for the webpack-dev-server.
- *
  * @return {Object} settings
  */
 function getDevServerSettings() {
   const settings = {};
   const manifests = getAppManifests();
   settings.applications = manifests
-    // Some manifests don't have a rootUrl
+    // Manifests without rootUrls are excluded from the redirect settings
     .filter(manifest => manifest.rootUrl)
     .map(manifest => ({
       contentProps: [
