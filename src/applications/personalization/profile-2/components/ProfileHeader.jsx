@@ -16,17 +16,14 @@ const ProfileHeader = ({
     .join(' ');
 
   const wrapperClasses = prefixUtilityClasses([
-    'align-items--center',
     'background-color--gray-dark',
-    'color--white',
-    'display--flex',
-    'justify-content--center',
     'margin-bottom--2',
     'padding-y--2',
   ]);
   const wrapperClassesMedium = prefixUtilityClasses(['padding-y--3'], 'medium');
   const innerWrapperClasses = prefixUtilityClasses([
     'align-items--center',
+    'color--white',
     'display--flex',
     'flex-direction--column',
     'width--full',
@@ -78,6 +75,8 @@ const ProfileHeader = ({
     <div className={[...wrapperClasses, ...wrapperClassesMedium].join(' ')}>
       <div
         className={[
+          // ...wrapperClasses,
+          // ...wrapperClassesMedium,
           ...innerWrapperClasses,
           ...innerWrapperClassesMedium,
           'usa-grid',
