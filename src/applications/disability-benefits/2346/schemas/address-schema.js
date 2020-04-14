@@ -318,7 +318,7 @@ export const addressUISchema = (
       },
       postalCode: {
         'ui:required': callback,
-        'ui:title': 'Zip Code',
+        'ui:title': 'Postal Code',
         'ui:errorMessages': {
           required: 'Zip code is required',
           pattern: 'Zip code must be 5 digits',
