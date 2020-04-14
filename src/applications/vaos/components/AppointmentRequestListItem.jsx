@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import { formatBestTimetoCallForList, sentenceCase } from '../utils/formatters';
+import ListBestTimeToCall from './ListBestTimeToCall';
+import { sentenceCase } from '../utils/formatters';
 
 import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
 import AppointmentStatus from './AppointmentStatus';
@@ -137,7 +138,7 @@ export default class AppointmentRequestListItem extends React.Component {
                     {appointment.phoneNumber}
                     <br />
                     <span className="vads-u-font-style--italic">
-                      {formatBestTimetoCallForList(appointment.bestTimetoCall)}
+                      <ListBestTimeToCall times={appointment.bestTimetoCall} />
                     </span>
                   </dd>
                 </dl>
