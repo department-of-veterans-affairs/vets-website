@@ -111,20 +111,17 @@ describe('<DowntimeNotification/>', () => {
       });
 
       const downtimeApproaching = wrapper.find('DowntimeApproaching').dive();
-      const innerWrapper = downtimeApproaching
-        .find('DowntimeNotificationWrapper')
-        .dive();
 
-      expect(innerWrapper.text()).to.contain(
+      expect(downtimeApproaching.text()).to.contain(
         innerText,
         'The message was rendered',
       );
       expect(
-        innerWrapper.find(
+        downtimeApproaching.find(
           `[data-status="${externalServiceStatus.downtimeApproaching}"]`,
         ),
       ).to.have.lengthOf(1, 'The correct status was rendered');
-      expect(innerWrapper.find('Modal')).to.have.lengthOf(
+      expect(downtimeApproaching.find('Modal')).to.have.lengthOf(
         1,
         'Authenticated users will see a modal',
       );
