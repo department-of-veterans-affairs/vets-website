@@ -1,44 +1,14 @@
-import moment from 'moment';
 import { expect } from 'chai';
 
 import {
   formatTypeOfCare,
   formatOperatingHours,
-  formatAppointmentDate,
-  formatBestTimetoCallForList,
-  formatBestTimetoCallForReview,
   titleCase,
   sentenceCase,
   lowerCase,
 } from '../../utils/formatters';
 
 describe('VAOS formatters', () => {
-  describe('formatBestTimeToCall', () => {
-    it('should return single time', () => {
-      const result = formatBestTimetoCallForReview({
-        morning: true,
-      });
-
-      expect(result).to.equal('Morning');
-    });
-    it('should return two times', () => {
-      const result = formatBestTimetoCallForReview({
-        morning: true,
-        afternoon: true,
-      });
-
-      expect(result).to.equal('Morning or Afternoon');
-    });
-    it('should return message for all times', () => {
-      const result = formatBestTimetoCallForReview({
-        morning: true,
-        afternoon: true,
-        evening: true,
-      });
-
-      expect(result).to.equal('Anytime during the day');
-    });
-  });
   describe('formatTypeOfCare', () => {
     it('should not lower case MOVE', () => {
       const result = formatTypeOfCare('MOVE! weight management');
@@ -114,49 +84,6 @@ describe('VAOS formatters', () => {
       expect(lowerCase('The COW jumpeD Over tHe moon')).to.equal(
         'the COW jumped over the moon',
       );
-    });
-  });
-
-  describe('formatAppointmentDate', () => {
-    it('should format appointment date', () => {
-      expect(
-        formatAppointmentDate(
-          moment('01/02/2020 13:45:00', 'MM/DD/YYYY HH:mm:ss'),
-        ),
-      ).to.equal('January 2, 2020');
-    });
-  });
-  describe('formatBestTimetoCallForList', () => {
-    it('should return "Call in the morning"', () => {
-      expect(formatBestTimetoCallForList(['In the morning'])).to.equal(
-        'Call in the morning',
-      );
-    });
-
-    it('should return "Call in the evening"', () => {
-      expect(formatBestTimetoCallForList(['In the evening'])).to.equal(
-        'Call in the evening',
-      );
-    });
-
-    it('should return "Call in the morning or in the evening"', () => {
-      expect(
-        formatBestTimetoCallForList(['In the morning', 'In the evening']),
-      ).to.equal('Call in the morning or in the evening');
-    });
-
-    it('should return "Call in the morning, in the afternoon, or in the evening"', () => {
-      expect(
-        formatBestTimetoCallForList([
-          'In the morning',
-          'In the afternoon',
-          'In the evening',
-        ]),
-      ).to.equal('Call in the morning, in the afternoon, or in the evening');
-    });
-
-    it('should return null', () => {
-      expect(formatBestTimetoCallForList([])).to.be.null;
     });
   });
 });

@@ -1,9 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import {
-  formatAppointmentDate,
-  formatFacilityAddress,
-} from '../utils/formatters';
+import { formatFacilityAddress } from '../utils/formatters';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from './AddToCalendar';
@@ -12,6 +9,14 @@ import AppointmentDateTime from './AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
 import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
+
+function formatAppointmentDate(date) {
+  if (!date.isValid()) {
+    return null;
+  }
+
+  return date.format('MMMM D, YYYY');
+}
 
 export default function ConfirmedAppointmentListItem({
   appointment,

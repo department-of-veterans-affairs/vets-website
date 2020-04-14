@@ -1,28 +1,5 @@
 import moment from 'moment';
 
-export function formatBestTimetoCallForReview(bestTime) {
-  const times = [];
-  if (bestTime?.morning) {
-    times.push('Morning');
-  }
-
-  if (bestTime?.afternoon) {
-    times.push('Afternoon');
-  }
-
-  if (bestTime?.evening) {
-    times.push('Evening');
-  }
-
-  if (times.length === 1) {
-    return times[0];
-  } else if (times.length === 2) {
-    return `${times[0]} or ${times[1]}`;
-  }
-
-  return 'Anytime during the day';
-}
-
 export function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
     return careLabel;
@@ -118,14 +95,6 @@ export function lowerCase(str = '') {
       return word.toLowerCase();
     })
     .join(' ');
-}
-
-export function formatAppointmentDate(date) {
-  if (!date.isValid()) {
-    return null;
-  }
-
-  return date.format('MMMM D, YYYY');
 }
 
 /**

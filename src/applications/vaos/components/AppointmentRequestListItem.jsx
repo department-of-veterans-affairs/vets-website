@@ -138,7 +138,9 @@ export default class AppointmentRequestListItem extends React.Component {
                     {appointment.phoneNumber}
                     <br />
                     <span className="vads-u-font-style--italic">
-                      <ListBestTimeToCall times={appointment.bestTimetoCall} />
+                      <ListBestTimeToCall
+                        timesToCall={appointment.bestTimetoCall}
+                      />
                     </span>
                   </dd>
                 </dl>
