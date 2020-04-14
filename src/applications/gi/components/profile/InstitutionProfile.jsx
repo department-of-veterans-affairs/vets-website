@@ -75,7 +75,6 @@ export class InstitutionProfile extends React.Component {
                 this._cautionaryInfo = c;
               }}
             >
-              <a name="viewWarnings" />
               <CautionaryInformation
                 institution={profile.attributes}
                 onShowModal={showModal}
