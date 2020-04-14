@@ -21,7 +21,7 @@ class AddressEditModal extends React.Component {
       ...value,
     };
     if (newFieldValue['view:livesOnMilitaryBase']) {
-      newFieldValue.countryName = USA.COUNTRY_NAME;
+      newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
     this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
   };
@@ -29,7 +29,7 @@ class AddressEditModal extends React.Component {
   getInitialFormValues = () =>
     this.props.modalData ||
     this.transformInitialFormValues(this.props.data) || {
-      countryName: USA.COUNTRY_NAME,
+      countryCodeIso3: USA.COUNTRY_ISO3_CODE,
     };
 
   /**
@@ -46,7 +46,7 @@ class AddressEditModal extends React.Component {
         addressLine3: data.addressLine3,
         addressType: data.addressType,
         city: data.city,
-        countryName: data.countryName,
+        countryCodeIso3: data.countryCodeIso3,
         stateCode: data.stateCode,
         internationalPostalCode: data.internationalPostalCode,
         zipCode: data.zipCode,
