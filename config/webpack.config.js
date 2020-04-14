@@ -91,6 +91,7 @@ module.exports = env => {
     port: 3001,
     watch: false,
     ...env,
+    // Using a getter so we can reference the buildtype
     get destination() {
       return path.resolve(__dirname, '../', 'build', this.buildtype);
     },
@@ -265,48 +266,40 @@ module.exports = env => {
       }),
     );
   } else {
-    // Add landing pages for local development with the watch task
+    const landingPagePath = rootUrl =>
+      path.join(outputPath, '../', rootUrl, 'index.html');
+
     baseConfig.plugins = baseConfig.plugins.concat(
       getAppManifests()
-        .map(m => {
-          // There's no place to create a landing page at
-          if (!m.rootUrl) return undefined;
-
-          const landingPagePath = path.join(
-            outputPath,
-            '../',
-            m.rootUrl,
-            'index.html',
-          );
-
-          // Only create a new landing page if one doesn't already exist from a
-          // previous build. This is useful for using the content build page for
-          // testing.
-          if (fs.existsSync(landingPagePath)) return undefined;
-
-          return new HtmlWebpackPlugin({
-            filename: landingPagePath,
-            template:
-              m.landingPageDevTemplate ||
-              'src/platform/landing-pages/dev-template.ejs',
-            // Pass data to the tempates
-            templateParameters: {
-              // Everything from the manifest file
-              ...m,
-              // With some defaults
-              loadingMessage:
-                m.loadingMessage ||
-                'Please wait while we load the application for you.',
-              entryName: m.entryName || 'static-pages',
-              // TODO: Get this placeholder data from another file
-              headerFooterData,
-            },
-            // Don't inject all the assets into all the landing pages
-            // The assets we want are referenced in the template itself
-            inject: false,
-          });
-        })
-        .filter(p => p),
+        .filter(manifest => manifest.rootUrl)
+        // Only create a new landing page if one doesn't already exist from a
+        // previous build. This is useful for using the content build page for
+        // testing.
+        .filter(manifest => fs.existsSync(landingPagePath(manifest.rootUrl)))
+        .map(
+          manifest =>
+            new HtmlWebpackPlugin({
+              filename: landingPagePath(manifest.rootUrl),
+              template:
+                manifest.landingPageDevTemplate ||
+                'src/platform/landing-pages/dev-template.ejs',
+              // Pass data to the tempates
+              templateParameters: {
+                // Everything from the manifest file
+                ...manifest,
+                // With some defaults
+                loadingMessage:
+                  manifest.loadingMessage ||
+                  'Please wait while we load the application for you.',
+                entryName: manifest.entryName || 'static-pages',
+                // TODO: Get this placeholder data from another file
+                headerFooterData,
+              },
+              // Don't inject all the assets into all the landing pages
+              // The assets we want are referenced in the template itself
+              inject: false,
+            }),
+        ),
     );
   }
 
