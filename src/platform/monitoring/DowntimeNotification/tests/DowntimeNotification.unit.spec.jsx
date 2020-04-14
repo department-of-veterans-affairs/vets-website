@@ -17,7 +17,6 @@ const defaultProps = {
   dependencies: [],
   getGlobalDowntime: () => {},
   getScheduledDowntime: () => {},
-  shouldSendRequest: true,
 };
 
 const getComponent = props =>
@@ -28,23 +27,6 @@ const getComponent = props =>
   );
 
 describe('mapStateToProps', () => {
-  it('should set shouldSendRequest to true when scheduled downtime is not ready and a request is not pending', () => {
-    const scheduledDowntime = {
-      isReady: false,
-      isPending: false,
-      dismissedDowntimeWarnings: [],
-    };
-
-    const ownProps = {
-      appTitle: 'test app',
-      dependencies: ['Service A'],
-    };
-
-    const props = mapStateToProps({ scheduledDowntime }, ownProps);
-    expect(props.shouldSendRequest).to.be.true;
-    expect(props.status).to.be.undefined;
-  });
-
   it('should have properties of a downtime object if downtime is found', () => {
     const serviceMap = createServiceMap([
       {

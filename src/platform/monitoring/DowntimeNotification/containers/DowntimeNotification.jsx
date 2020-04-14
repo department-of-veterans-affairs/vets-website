@@ -53,11 +53,6 @@ class DowntimeNotification extends React.Component {
     dependencies: [],
   };
 
-  componentDidMount() {
-    // this.props.getGlobalDowntime();
-    if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
-  }
-
   renderGlobalDowntimeOverride = () => {
     const appType = Object.values(VA_FORM_IDS).includes(this.props.appTitle)
       ? 'form'
