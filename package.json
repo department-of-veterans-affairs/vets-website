@@ -160,7 +160,7 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-scanjs-rules": "^0.1.4",
     "eslint-plugin-sonarjs": "^0.5.0",
-    "eslint-plugin-va": "file:./script/eslint-plugin-va",
+    "eslint-plugin-va": "./script/eslint-plugin-va",
     "eslint-stats": "^1.0.0",
     "exports-loader": "^0.6.3",
     "express-history-api-fallback": "^2.0.0",
