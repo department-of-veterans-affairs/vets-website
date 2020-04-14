@@ -43,8 +43,9 @@ const globalEntryFiles = {
 /**
  * Get a list of all the entry points.
  *
- * If the `entry` CLI argument is passed, only the specified
- * application entries are built.
+ * @param {String} entry - List of comma-delimited entries to build. Builds all
+ *                         entries if no value is passed.
+ * @return {String[]} - An array of the entry file names from the manifest files
  */
 function getEntryPoints(entry) {
   const manifests = getAppManifests();
