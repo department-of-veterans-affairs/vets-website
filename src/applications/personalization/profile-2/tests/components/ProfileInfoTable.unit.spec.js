@@ -3,28 +3,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import ProfileInfoTable, {
-  prefixUtilityClasses,
-} from '../../components/ProfileInfoTable';
-
-describe('prefixUtilityClasses', () => {
-  const classes = ['class-1', 'class-2'];
-  it('should prefix an array of classes with `vads-u-`', () => {
-    const expectedResult = ['vads-u-class-1', 'vads-u-class-2'];
-    const result = prefixUtilityClasses(classes);
-    expect(result).to.deep.equal(expectedResult);
-  });
-  describe('when passed a screenSize', () => {
-    it('should prefix an array of classes with the responsive prefix and `vads-u-`', () => {
-      const expectedResult = [
-        'medium-screen:vads-u-class-1',
-        'medium-screen:vads-u-class-2',
-      ];
-      const result = prefixUtilityClasses(classes, 'medium');
-      expect(result).to.deep.equal(expectedResult);
-    });
-  });
-});
+import ProfileInfoTable from '../../components/ProfileInfoTable';
 
 describe('ProfileInfoTable', () => {
   let dataTransformerSpy;
