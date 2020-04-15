@@ -105,7 +105,7 @@ Ultimately, we will allow check to use user timezone.
     {% assign date_type = "all_dates" %}
   {% endif %}
 {% endif %}
-<div class="interior" id="content">
+<div data-template="layouts/event" data-entity-id="{{ entityId }}" class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
 
     {% comment %} On prod, show the SideNav. {% endcomment %}
