@@ -2,7 +2,7 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
-<div class="interior" id="content">
+<div data-template="layouts/health_care_region_page" data-entity-id="{{ entityId }}" class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% if entityUrl.path contains "/safety-security/" and buildtype != 'vagovprod' %}
