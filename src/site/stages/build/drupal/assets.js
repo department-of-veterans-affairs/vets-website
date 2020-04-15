@@ -2,11 +2,13 @@ const getDrupalClient = require('./api');
 const cheerio = require('cheerio');
 const { PUBLIC_URLS } = require('../../../constants/drupals');
 
-const PUBLIC_URLS_NO_SCHEME = {};
-Object.entries(PUBLIC_URLS).map(item => {
-  PUBLIC_URLS_NO_SCHEME[item[0]] = item[1].replace('http:', ':');
-  return PUBLIC_URLS_NO_SCHEME;
-});
+const PUBLIC_URLS_NO_SCHEME = Object.entries(PUBLIC_URLS).reduce(
+  (returnValue, item) => ({
+    ...returnValue,
+    [item[0]]: item[1].replace('http:', ':'),
+  }),
+  {},
+);
 
 function replacePathInData(data, replacer) {
   let current = data;
