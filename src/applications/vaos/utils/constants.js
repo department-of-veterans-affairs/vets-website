@@ -18,7 +18,6 @@ export const APPOINTMENT_STATUS = {
   cancelled: 'cancelled',
   fulfilled: 'fulfilled',
   noshow: 'noshow',
-  hideStatus: 'hideStatus',
 };
 
 export const VIDEO_TYPES = {

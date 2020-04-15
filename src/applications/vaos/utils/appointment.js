@@ -407,7 +407,7 @@ function getInstructions(appointment) {
   return null;
 }
 
-export function getAppointmentStatus(appointment, isPastAppointment) {
+function getAppointmentStatus(appointment, isPastAppointment) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
@@ -425,7 +425,7 @@ export function getAppointmentStatus(appointment, isPastAppointment) {
         (!isPastAppointment &&
           FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
       ) {
-        return APPOINTMENT_STATUS.hideStatus;
+        return null;
       }
 
       const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);

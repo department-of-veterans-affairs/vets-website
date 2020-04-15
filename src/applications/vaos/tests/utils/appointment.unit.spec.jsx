@@ -6,7 +6,6 @@ import {
   filterPastAppointments,
   generateICS,
   getAppointmentType,
-  getAppointmentStatus,
   getAppointmentTimezoneAbbreviation,
   getAppointmentTimezoneDescription,
   getMomentConfirmedDate,
@@ -16,6 +15,7 @@ import {
   sortFutureRequests,
   getPastAppointmentDateRangeOptions,
   transformAppointment,
+  transformPastAppointment,
   transformRequest,
 } from '../../utils/appointment';
 import {
@@ -71,113 +71,6 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('getAppointmentStatus', () => {
-    it('should return booked status for cc appointment', () => {
-      expect(getAppointmentStatus(communityCareAppointment)).to.equal(
-        APPOINTMENT_STATUS.booked,
-      );
-    });
-
-    it('should return pending status for request if not cancelled', () => {
-      expect(getAppointmentStatus(vaAppointmentRequest)).to.equal(
-        APPOINTMENT_STATUS.pending,
-      );
-    });
-
-    it('should return cancelled status for request if cancelled', () => {
-      expect(
-        getAppointmentStatus({ ...vaAppointmentRequest, status: 'Cancelled' }),
-      ).to.equal(APPOINTMENT_STATUS.cancelled);
-    });
-
-    it('should return pending status for cc request if not cancelled', () => {
-      expect(getAppointmentStatus(communityCareAppointmentRequest)).to.equal(
-        APPOINTMENT_STATUS.pending,
-      );
-    });
-
-    it('should return cancelled status for cc request if cancelled', () => {
-      expect(
-        getAppointmentStatus({
-          ...communityCareAppointmentRequest,
-          status: 'Cancelled',
-        }),
-      ).to.equal(APPOINTMENT_STATUS.cancelled);
-    });
-
-    it('should return booked status for cc request if not cancelled', () => {
-      expect(getAppointmentStatus(communityCareAppointment)).to.equal(
-        APPOINTMENT_STATUS.booked,
-      );
-    });
-
-    it('should return booked status for confirmed va appointment', () => {
-      expect(getAppointmentStatus(vaAppointment)).to.equal(
-        APPOINTMENT_STATUS.booked,
-      );
-    });
-
-    it('should return cancelled status for cancelled va appointment', () => {
-      expect(
-        getAppointmentStatus({
-          ...vaAppointment,
-          vdsAppointments: [
-            {
-              currentStatus: 'CANCELLED BY CLINIC',
-            },
-          ],
-        }),
-      ).to.equal(APPOINTMENT_STATUS.cancelled);
-    });
-
-    it('should return hideStatus for va appointment if in HIDE_STATUS_SET', () => {
-      expect(
-        getAppointmentStatus({
-          ...vaAppointment,
-          vdsAppointments: [
-            {
-              currentStatus: 'CHECKED IN',
-            },
-          ],
-        }),
-      ).to.equal(APPOINTMENT_STATUS.hideStatus);
-    });
-
-    it('should not return hideStatus for future va appointment if not in HIDE_STATUS_SET', () => {
-      expect(
-        getAppointmentStatus(
-          {
-            ...vaAppointment,
-            isPastAppointment: true,
-            vdsAppointments: [
-              {
-                currentStatus: 'INPATIENT APPOINTMENT',
-              },
-            ],
-          },
-          false,
-        ),
-      ).to.equal(APPOINTMENT_STATUS.booked);
-    });
-
-    it('should return hideStatus for past va appointment if in HIDE_STATUS_SET', () => {
-      expect(
-        getAppointmentStatus(
-          {
-            ...vaAppointment,
-            isPastAppointment: true,
-            vdsAppointments: [
-              {
-                currentStatus: 'INPATIENT APPOINTMENT',
-              },
-            ],
-          },
-          true,
-        ),
-      ).to.equal(APPOINTMENT_STATUS.hideStatus);
-    });
-  });
-
   describe('transformAppointment', () => {
     const ccData = {
       ...confirmedCC.data[0].attributes,
@@ -187,6 +80,111 @@ describe('VAOS appointment helpers', () => {
       ...confirmedVA.data[0].attributes,
       id: confirmedVA.data[0].id,
     };
+
+    describe('status', () => {
+      it('should return booked status for cc appointment', () => {
+        expect(transformAppointment(communityCareAppointment).status).to.equal(
+          APPOINTMENT_STATUS.booked,
+        );
+      });
+
+      it('should return pending status for request if not cancelled', () => {
+        expect(transformAppointment(vaAppointmentRequest).status).to.equal(
+          APPOINTMENT_STATUS.pending,
+        );
+      });
+
+      it('should return cancelled status for request if cancelled', () => {
+        expect(
+          transformAppointment({
+            ...vaAppointmentRequest,
+            status: 'Cancelled',
+          }).status,
+        ).to.equal(APPOINTMENT_STATUS.cancelled);
+      });
+
+      it('should return pending status for cc request if not cancelled', () => {
+        expect(
+          transformAppointment(communityCareAppointmentRequest).status,
+        ).to.equal(APPOINTMENT_STATUS.pending);
+      });
+
+      it('should return cancelled status for cc request if cancelled', () => {
+        expect(
+          transformAppointment({
+            ...communityCareAppointmentRequest,
+            status: 'Cancelled',
+          }).status,
+        ).to.equal(APPOINTMENT_STATUS.cancelled);
+      });
+
+      it('should return booked status for cc request if not cancelled', () => {
+        expect(transformAppointment(communityCareAppointment).status).to.equal(
+          APPOINTMENT_STATUS.booked,
+        );
+      });
+
+      it('should return booked status for confirmed va appointment', () => {
+        expect(transformAppointment(vaAppointment).status).to.equal(
+          APPOINTMENT_STATUS.booked,
+        );
+      });
+
+      it('should return cancelled status for cancelled va appointment', () => {
+        expect(
+          transformAppointment({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus: 'CANCELLED BY CLINIC',
+              },
+            ],
+          }).status,
+        ).to.equal(APPOINTMENT_STATUS.cancelled);
+      });
+
+      it('should return null for va appointment if in HIDE_STATUS_SET', () => {
+        expect(
+          transformAppointment({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus: 'CHECKED IN',
+              },
+            ],
+          }).status,
+        ).to.equal(null);
+      });
+
+      it('should not return null for future va appointment if not in HIDE_STATUS_SET', () => {
+        expect(
+          transformAppointment(
+            {
+              ...vaAppointment,
+              vdsAppointments: [
+                {
+                  currentStatus: 'INPATIENT APPOINTMENT',
+                },
+              ],
+            },
+            false,
+          ).status,
+        ).to.equal(APPOINTMENT_STATUS.booked);
+      });
+
+      it('should return null for past va appointment if in HIDE_STATUS_SET', () => {
+        expect(
+          transformPastAppointment({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus: 'INPATIENT APPOINTMENT',
+              },
+            ],
+          }).status,
+        ).to.equal(null);
+      });
+    });
 
     describe('isCommunityCare', () => {
       it('should return true for CC request', () => {
