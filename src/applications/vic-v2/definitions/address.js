@@ -1,7 +1,11 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { countryLabels, countryValues, states } from '../labels';
+import {
+  countryLabels,
+  countryValues,
+  states,
+} from 'platform/forms/address/data/labels';
 
 const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
 

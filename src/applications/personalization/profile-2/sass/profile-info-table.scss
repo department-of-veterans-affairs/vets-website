@@ -1,0 +1,29 @@
+$corner-size: 4px;
+
+.profile-info-table {
+  h3 {
+    border-top-left-radius: $corner-size;
+    border-top-right-radius: $corner-size;
+  }
+
+  // there is a bug that prevents setting an overall 1px border with a 0px
+  // top-border override using the utility classes. And applying three utility
+  // classes - one each for left, right, and bottom - felt like the wrong kind
+  // of hack.
+  div.table-row {
+    border: 1px solid;
+    border-top: 0;
+
+    h4 {
+      @include media($medium-screen) {
+        width: 216px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  div.table-row:last-of-type {
+    border-bottom-left-radius: $corner-size;
+    border-bottom-right-radius: $corner-size;
+  }
+}

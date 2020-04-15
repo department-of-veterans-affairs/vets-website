@@ -47,7 +47,7 @@ const prodFlagAdditonalResources = environment.isProduction()
 
 const AdditionalResources = () => (
   <div className={prodFlagAdditonalResources}>
-    <h4 className="highlight">Additional resources</h4>
+    <h3 className="vads-u-font-size--h4 highlight">Additional resources</h3>
     <AdditionalResourcesLinks />
   </div>
 );

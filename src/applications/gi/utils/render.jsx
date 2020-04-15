@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../components/AlertBox';
 import environment from 'platform/utilities/environment';
 
 export const renderSchoolClosingAlert = result => {
@@ -27,8 +27,8 @@ export const renderSchoolClosingAlert = result => {
     return (
       <AlertBox
         className="vads-u-margin-top--1"
-        content={<p>A campus at this school will be closing soon</p>}
-        headline="A campus is closing soon"
+        content={<p>School will be closing soon</p>}
+        headline="School closing"
         isVisible={!!schoolClosing}
         status="warning"
       />
@@ -59,16 +59,21 @@ export const renderCautionAlert = result => {
       <AlertBox
         className="vads-u-margin-top--1"
         content={
-          <ul className="vads-u-margin-top--0">
-            {validFlags.map(flag => (
-              <li
-                className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
-                key={flag.id}
-              >
-                {flag.title}
-              </li>
-            ))}
-          </ul>
+          <React.Fragment>
+            {validFlags.length === 1 && <p>{validFlags[0].title}</p>}
+            {validFlags.length > 1 && (
+              <ul className="vads-u-margin-top--0">
+                {validFlags.map(flag => (
+                  <li
+                    className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+                    key={flag.id}
+                  >
+                    {flag.title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </React.Fragment>
         }
         headline={
           validFlags.length > 1
@@ -129,3 +134,14 @@ export const renderVetTecLogo = classNames => (
     alt="Vet Tec Logo"
   />
 );
+
+export const renderSearchResultsHeader = search => {
+  const header = search.count === 1 ? 'Search Result' : 'Search Results';
+
+  return (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} ${header}`}
+    </h1>
+  );
+};
