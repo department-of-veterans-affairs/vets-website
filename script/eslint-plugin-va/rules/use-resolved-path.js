@@ -13,7 +13,7 @@ function isIncluded(val, path) {
 module.exports = {
   meta: {
     docs: {
-      description: 'Use resolved path and remove unnecessary parent path',
+      description: MESSAGE,
       category: 'best practices',
       recommended: true,
     },

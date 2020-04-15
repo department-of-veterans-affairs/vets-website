@@ -4,8 +4,7 @@ const rule = {
   meta: {
     type: 'problem',
     docs: {
-      description:
-        'The PropTypes library is capitalized, but the class property needs to be camel cased',
+      description: MESSAGE,
       category: 'best practices',
       recommended: true,
     },
