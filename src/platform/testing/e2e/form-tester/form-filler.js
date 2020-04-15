@@ -1,5 +1,6 @@
 const { parse: parseUrl } = require('url');
 const _ = require('lodash/fp');
+const { axe } = require('./util');
 
 const FIELD_SELECTOR = 'input, select, textarea';
 const CONTINUE_BUTTON = '.form-progress-buttons .usa-button-primary';
@@ -338,15 +339,23 @@ const fillForm = async (page, testData, testConfig, log) => {
   /* eslint-disable no-await-in-loop */
   while (!page.url().endsWith('review-and-submit')) {
     log(page.url());
-    // TODO: Run axe checker
+
+    // check before filling in the page
+    await axe.check(page, log);
 
     // If there's a page hook, run that
     const url = page.url();
     const hook = _.get(`pageHooks.${parseUrl(url).path}`, testConfig);
     if (hook) {
       await runHook(hook);
+
+      // Check axe after running the hook
+      await axe.expandAndCheck(page, log);
     } else {
       await fillPage(page, testData, testConfig, log);
+
+      // Check axe after filling in the page
+      await axe.expandAndCheck(page, log);
 
       // Hit the continue button
       log('Clicking continue');
@@ -384,9 +393,16 @@ const fillForm = async (page, testData, testConfig, log) => {
     await runHook(reviewHook);
   }
 
+  // Expand review & submit accordions
+  await axe.expandAndCheck(page, log);
+
   // Submit the form
   log('Submitting the form');
   await page.click('input[name="privacyAgreementAccepted"]');
+
+  await page.click('button.usa-button-primary');
+
+  // Clicking the button a second time; because it seems to fail the first?
   await page.click('button.usa-button-primary');
 
   // We should be on the confirmation page if all goes well
@@ -415,6 +431,14 @@ const fillForm = async (page, testData, testConfig, log) => {
   if (confirmationHook) {
     await runHook(confirmationHook);
   }
+
+  await axe.check(page, log);
+
+  if (axe.getViolations().size > 0) {
+    const message = axe.formatViolations();
+    throw new Error(`Axe violations:${message}`);
+  }
+  axe.clear();
 };
 
 module.exports = {
