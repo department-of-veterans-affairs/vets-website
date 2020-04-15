@@ -58,10 +58,6 @@ export const resolveParamsWithUrl = (
       }
       break;
     case 'cc_pharmacy':
-      facility = locationType;
-      service = serviceType;
-      url = api.ccUrl;
-      break;
     case 'cc_provider':
       facility = locationType;
       service = serviceType;
