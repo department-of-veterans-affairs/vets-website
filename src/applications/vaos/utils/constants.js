@@ -18,6 +18,7 @@ export const APPOINTMENT_STATUS = {
   cancelled: 'cancelled',
   fulfilled: 'fulfilled',
   noshow: 'noshow',
+  hideStatus: 'hideStatus',
 };
 
 export const VIDEO_TYPES = {
@@ -244,6 +245,7 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY PATIENT',
 ]);
 
+// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
 export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
   'CHECKED IN',
   'CHECKED OUT',
@@ -259,8 +261,8 @@ export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
   'NON-COUNT',
 ]);
 
+// Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
 export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
-
 export const PAST_APPOINTMENTS_HIDDEN_SET = new Set(['FUTURE', 'DELETED']);
 
 export const FLOW_TYPES = {

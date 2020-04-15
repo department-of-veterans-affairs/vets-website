@@ -3,8 +3,10 @@ import moment from 'moment';
 import {
   filterFutureConfirmedAppointments,
   filterRequests,
+  filterPastAppointments,
   generateICS,
   getAppointmentType,
+  getAppointmentStatus,
   getAppointmentTimezoneAbbreviation,
   getAppointmentTimezoneDescription,
   getMomentConfirmedDate,
@@ -15,9 +17,12 @@ import {
   getPastAppointmentDateRangeOptions,
   transformAppointment,
   transformRequest,
-  // getPastAppointmentDateRangeOptions,
 } from '../../utils/appointment';
-import { APPOINTMENT_TYPES, VIDEO_TYPES } from '../../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+  APPOINTMENT_STATUS,
+} from '../../utils/constants';
 import confirmedCC from '../../api/confirmed_cc.json';
 import confirmedVA from '../../api/confirmed_va.json';
 import requestData from '../../api/requests.json';
@@ -63,6 +68,113 @@ describe('VAOS appointment helpers', () => {
       expect(getAppointmentType(communityCareAppointment)).to.equal(
         APPOINTMENT_TYPES.ccAppointment,
       );
+    });
+  });
+
+  describe('getAppointmentStatus', () => {
+    it('should return booked status for cc appointment', () => {
+      expect(getAppointmentStatus(communityCareAppointment)).to.equal(
+        APPOINTMENT_STATUS.booked,
+      );
+    });
+
+    it('should return pending status for request if not cancelled', () => {
+      expect(getAppointmentStatus(vaAppointmentRequest)).to.equal(
+        APPOINTMENT_STATUS.pending,
+      );
+    });
+
+    it('should return cancelled status for request if cancelled', () => {
+      expect(
+        getAppointmentStatus({ ...vaAppointmentRequest, status: 'Cancelled' }),
+      ).to.equal(APPOINTMENT_STATUS.cancelled);
+    });
+
+    it('should return pending status for cc request if not cancelled', () => {
+      expect(getAppointmentStatus(communityCareAppointmentRequest)).to.equal(
+        APPOINTMENT_STATUS.pending,
+      );
+    });
+
+    it('should return cancelled status for cc request if cancelled', () => {
+      expect(
+        getAppointmentStatus({
+          ...communityCareAppointmentRequest,
+          status: 'Cancelled',
+        }),
+      ).to.equal(APPOINTMENT_STATUS.cancelled);
+    });
+
+    it('should return booked status for cc request if not cancelled', () => {
+      expect(getAppointmentStatus(communityCareAppointment)).to.equal(
+        APPOINTMENT_STATUS.booked,
+      );
+    });
+
+    it('should return booked status for confirmed va appointment', () => {
+      expect(getAppointmentStatus(vaAppointment)).to.equal(
+        APPOINTMENT_STATUS.booked,
+      );
+    });
+
+    it('should return cancelled status for cancelled va appointment', () => {
+      expect(
+        getAppointmentStatus({
+          ...vaAppointment,
+          vdsAppointments: [
+            {
+              currentStatus: 'CANCELLED BY CLINIC',
+            },
+          ],
+        }),
+      ).to.equal(APPOINTMENT_STATUS.cancelled);
+    });
+
+    it('should return hideStatus for va appointment if in HIDE_STATUS_SET', () => {
+      expect(
+        getAppointmentStatus({
+          ...vaAppointment,
+          vdsAppointments: [
+            {
+              currentStatus: 'CHECKED IN',
+            },
+          ],
+        }),
+      ).to.equal(APPOINTMENT_STATUS.hideStatus);
+    });
+
+    it('should not return hideStatus for future va appointment if not in HIDE_STATUS_SET', () => {
+      expect(
+        getAppointmentStatus(
+          {
+            ...vaAppointment,
+            isPastAppointment: true,
+            vdsAppointments: [
+              {
+                currentStatus: 'INPATIENT APPOINTMENT',
+              },
+            ],
+          },
+          false,
+        ),
+      ).to.equal(APPOINTMENT_STATUS.booked);
+    });
+
+    it('should return hideStatus for past va appointment if in HIDE_STATUS_SET', () => {
+      expect(
+        getAppointmentStatus(
+          {
+            ...vaAppointment,
+            isPastAppointment: true,
+            vdsAppointments: [
+              {
+                currentStatus: 'INPATIENT APPOINTMENT',
+              },
+            ],
+          },
+          true,
+        ),
+      ).to.equal(APPOINTMENT_STATUS.hideStatus);
     });
   });
 
@@ -388,7 +500,7 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('filterFutureConfirmedAppointments', () => {
+  describe('filterPastConfirmedAppointments', () => {
     it('should filter future confirmed appointments', () => {
       const confirmed = [
         { startDate: '2099-04-30T05:35:00', facilityId: '984' },
@@ -430,6 +542,16 @@ describe('VAOS appointment helpers', () => {
                 .format(),
             },
           ],
+          facilityId: '984',
+        },
+        // appointment with status 'NO-SHOW' should not show
+        {
+          vdsAppointments: [{ currentStatus: 'NO-SHOW' }],
+          facilityId: '984',
+        },
+        // appointment with status 'DELETED' should not show
+        {
+          vdsAppointments: [{ currentStatus: 'DELETED' }],
           facilityId: '984',
         },
       ];
@@ -523,6 +645,160 @@ describe('VAOS appointment helpers', () => {
       expect(sortedRequests[2].appointmentType).to.equal('Primary Care');
       expect(sortedRequests[2].optionDate1).to.equal('12/13/2019');
     });
+  });
+
+  describe('filterPastAppointments', () => {
+    it('should filter appointments that are not within startDate, endDates', () => {
+      const today = moment().endOf('day');
+      const threeMonthsAgo = now
+        .clone()
+        .subtract(3, 'month')
+        .startOf('day');
+
+      const appointments = [
+        // appointment in future should not show
+        {
+          startDate: now
+            .clone()
+            .add(1, 'day')
+            .format(),
+          facilityId: '984',
+        },
+        // appointment before startDate should not show
+        {
+          startDate: now
+            .clone()
+            .subtract(100, 'day')
+            .format(),
+          facilityId: '984',
+        },
+      ];
+
+      const filtered = appointments.filter(appt =>
+        filterPastAppointments(appt, threeMonthsAgo, today),
+      );
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should not filter appointments that are not within startDate, endDates', () => {
+      const today = moment().endOf('day');
+      const threeMonthsAgo = now
+        .clone()
+        .subtract(3, 'month')
+        .startOf('day');
+
+      const appointments = [
+        // appointment within range should show
+        {
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          facilityId: '984',
+        },
+      ];
+
+      const filtered = appointments.filter(appt =>
+        filterPastAppointments(appt, threeMonthsAgo, today),
+      );
+      expect(filtered.length).to.equal(1);
+    });
+
+    it('should filter appointments that are in hidden status set', () => {
+      const today = moment().endOf('day');
+      const threeMonthsAgo = now
+        .clone()
+        .subtract(3, 'month')
+        .startOf('day');
+
+      const appointments = [
+        // appointment within range should show
+        {
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          facilityId: '984',
+        },
+        {
+          facilityId: '984',
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'FUTURE',
+            },
+          ],
+        },
+        {
+          facilityId: '984',
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'DELETED',
+            },
+          ],
+        },
+      ];
+
+      const filtered = appointments.filter(appt =>
+        filterPastAppointments(appt, threeMonthsAgo, today),
+      );
+      expect(filtered.length).to.equal(1);
+    });
+  });
+
+  it('should not filter appointments that are not in hidden status set', () => {
+    const today = moment().endOf('day');
+    const threeMonthsAgo = now
+      .clone()
+      .subtract(3, 'month')
+      .startOf('day');
+
+    const appointments = [
+      // appointment within range should show
+      {
+        startDate: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        facilityId: '984',
+      },
+      {
+        facilityId: '984',
+        startDate: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        vdsAppointments: [
+          {
+            currentStatus: 'NO-SHOW',
+          },
+        ],
+      },
+      {
+        facilityId: '984',
+        startDate: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        vdsAppointments: [
+          {
+            currentStatus: 'CHECKED IN',
+          },
+        ],
+      },
+    ];
+
+    const filtered = appointments.filter(appt =>
+      filterPastAppointments(appt, threeMonthsAgo, today),
+    );
+    expect(filtered.length).to.equal(3);
   });
 
   xdescribe('sortMessages', () => {});
