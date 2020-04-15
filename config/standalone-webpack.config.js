@@ -8,6 +8,12 @@ const webpack = require('webpack');
 const path = require('path');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
+const generateWebpackDevConfig = require('./webpack.dev.config.js');
+
+const {
+  getAppManifests,
+  getWebpackEntryPoints,
+} = require('../src/site/stages/build/webpack/manifest-helpers');
 
 require('@babel/polyfill');
 
@@ -33,7 +39,80 @@ const globalEntryFiles = {
   ],
 };
 
-const configGenerator = (buildOptions, apps) => {
+/**
+ * Get a list of all the entry points.
+ *
+ * If the `entry` CLI argument is passed, only the specified
+ * application entries are built.
+ */
+function getEntryPoints(entry) {
+  const manifests = getAppManifests(path.join(__dirname, '../'));
+  let manifestsToBuild = manifests;
+  if (entry) {
+    const entryNames = entry.split(',').map(name => name.trim());
+    manifestsToBuild = manifests.filter(manifest =>
+      entryNames.includes(manifest.entryName),
+    );
+  }
+
+  return getWebpackEntryPoints(manifestsToBuild);
+}
+
+/**
+ * The dev server requires settings.js for building the
+ * redirects. This loads the settings for use in the watch commands.
+ *
+ * This does NOT recreate the full settings like
+ * create-build-settings.js does. This is currently only meant to fill
+ * out the URL rewrites for the webpack-dev-server.
+ *
+ * @return {Object} settings
+ */
+function getSettings() {
+  const settings = {};
+  const manifests = getAppManifests(path.join(__dirname, '../'));
+  settings.applications = manifests
+    .map(
+      m =>
+        // Some manifests don't have a rootUrl
+        m.rootUrl && {
+          contentProps: [
+            {
+              path: path.join('.', m.rootUrl),
+            },
+          ],
+        },
+    )
+    // Filter out empty entries
+    .filter(a => !!a);
+
+  return settings;
+}
+
+module.exports = env => {
+  const buildOptions = Object.assign(
+    {},
+    {
+      api: '',
+      buildtype: 'localhost',
+      host: 'localhost',
+      port: 3001,
+      watch: false,
+    },
+    env,
+  );
+  // Assign additional defaults which reference other properties
+  Object.assign(buildOptions, {
+    destination: path.resolve(
+      __dirname,
+      '../',
+      'build',
+      buildOptions.buildtype,
+    ),
+  });
+  buildOptions.settings = getSettings();
+
+  const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [
     ENVIRONMENTS.VAGOVSTAGING,
@@ -121,9 +200,8 @@ const configGenerator = (buildOptions, apps) => {
           use: {
             loader: 'url-loader',
             options: {
-              limit: 7000,
+              limit: 10000,
               mimetype: 'application/font-woff',
-              name: '[name].[ext]',
             },
           },
         },
@@ -131,9 +209,6 @@ const configGenerator = (buildOptions, apps) => {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           use: {
             loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-            },
           },
         },
         {
@@ -189,6 +264,7 @@ const configGenerator = (buildOptions, apps) => {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
+    devServer: generateWebpackDevConfig(buildOptions),
   };
 
   if (!buildOptions.watch) {
@@ -234,5 +310,3 @@ const configGenerator = (buildOptions, apps) => {
 
   return baseConfig;
 };
-
-module.exports = configGenerator;

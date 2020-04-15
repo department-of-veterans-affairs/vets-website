@@ -45,8 +45,6 @@ function generateWebpackDevConfig(buildOptions) {
       modules: false,
       warnings: true,
     },
-    // Needed to write the landing pages to disk so webpack-dev-server will actually serve them
-    writeToDisk: true,
     before: app => {
       // We're doing this because some of the pages
       // that we are redirecting end with asp and we want

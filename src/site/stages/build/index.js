@@ -1,7 +1,4 @@
 // Builds the site using Metalsmith as the top-level build runner.
-const fs = require('fs-extra');
-const path = require('path');
-
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -14,9 +11,6 @@ const permalinks = require('metalsmith-permalinks');
 
 const silverSmith = require('./silversmith');
 const getOptions = require('./options');
-
-const assetSources = require('../../constants/assetSources');
-
 const registerLiquidFilters = require('../../filters/liquid');
 const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
@@ -25,8 +19,7 @@ const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
-const downloadAssets = require('./plugins/download-assets');
-const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
+const configureAssets = require('./plugins/configure-assets');
 const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
@@ -45,55 +38,6 @@ const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const updateExternalLinks = require('./plugins/update-external-links');
 const updateRobots = require('./plugins/update-robots');
 
-/**
- * Immediately copies the Webpack build output to a directory outside of
- * Metalsmith's build destination, then returns a function for use as a
- * Metalsmith plugin. This plugin copies the files back to their expected
- * location.
- *
- * This is needed because script/build.sh runs Webpack before the content build,
- * and Metalsmith's build method removes everything in the destination, which
- * wipes out the output of the Webpack build.
- *
- * This can be removed when we move the content build to a new repository and
- * this script no longer interacts with the Webpack output at all.
- */
-function preserveWebpackOutput(metalsmithDestination, buildType) {
-  const webpackBuildDirName = 'generated';
-  const tempDir = path.join(
-    __dirname,
-    '../../../../tmp/',
-    buildType,
-    webpackBuildDirName,
-  );
-  const webpackDir = path.join(metalsmithDestination, webpackBuildDirName);
-
-  const webpackDirExists = fs.existsSync(webpackDir);
-
-  // Immediately move the Webpack output to a new directory
-  if (webpackDirExists) {
-    // eslint-disable-next-line no-console
-    console.log(`Found Webpack directory at ${webpackDir}`);
-    fs.moveSync(webpackDir, tempDir, { overwrite: true });
-  }
-
-  return () => {
-    if (webpackDirExists) {
-      fs.moveSync(tempDir, webpackDir);
-      // Clean up tmp/ if it's empty. The empty check is needed for CI, where
-      // we're building multiple environments in parallel
-      if (!fs.readdirSync(path.resolve(tempDir, '..')).length) {
-        fs.rmdirSync(path.resolve(tempDir, '..'));
-      }
-    } else {
-      // eslint-disable-next-line no-console
-      console.log(
-        'No Webpack output found. Skipping the asset preservation step.',
-      );
-    }
-  };
-}
-
 function defaultBuild(BUILD_OPTIONS) {
   const smith = silverSmith();
 
@@ -111,11 +55,6 @@ function defaultBuild(BUILD_OPTIONS) {
     hostUrl: BUILD_OPTIONS.hostUrl,
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
-
-  smith.use(
-    preserveWebpackOutput(BUILD_OPTIONS.destination, BUILD_OPTIONS.buildtype),
-    'Preserving Webpack build output',
-  );
 
   smith.use(createReactPages(BUILD_OPTIONS), 'Create React pages');
   smith.use(getDrupalContent(BUILD_OPTIONS), 'Get Drupal content');
@@ -234,17 +173,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 
-  if (BUILD_OPTIONS['asset-source'] !== assetSources.LOCAL) {
-    // Download the pre-built application assets if needed
-    smith.use(downloadAssets(BUILD_OPTIONS), 'Download application assets');
-  } else {
-    // If the asset-source === 'local', the script/build.sh will run Webpack
-    // Load the resulting files from disk
-    smith.use(
-      readAssetsFromDisk(BUILD_OPTIONS),
-      'Read application assets from disk',
-    );
-  }
+  configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
@@ -277,7 +206,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.build(err => {
     if (err) throw err;
     if (BUILD_OPTIONS.watch) {
-      console.log('Metalsmith build finished!');
+      console.log('Metalsmith build finished!  Starting webpack-dev-server...');
     } else {
       smith.printSummary();
       console.log('Build finished!');
