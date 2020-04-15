@@ -130,8 +130,12 @@ export const fillChildAddressStatus = (
   data,
   doesLiveWithVeteran = true,
 ) => {
-  if (doesLiveWithVeteran === false) {
+  if (!doesLiveWithVeteran) {
     client
+      .selectRadio(
+        'root_doesChildLiveWithYou',
+        data.childInformation[0].doesChildLiveWithYouNo,
+      )
       .selectRadio(
         'root_doesChildLiveWithYou',
         data.childInformation[0].doesChildLiveWithYouNo,
@@ -165,10 +169,15 @@ export const fillChildAddressStatus = (
         data.childInformation[0].personChildLivesWithDetails.zipCode,
       );
   } else {
-    client.selectRadio(
-      'root_doesChildLiveWithYou',
-      data.childInformation[0].doesChildLiveWithYouYes,
-    );
+    client
+      .selectRadio(
+        'root_doesChildLiveWithYou',
+        data.childInformation[0].doesChildLiveWithYouYes,
+      )
+      .selectRadio(
+        'root_doesChildLiveWithYou',
+        data.childInformation[0].doesChildLiveWithYouYes,
+      );
   }
 };
 
@@ -236,6 +245,10 @@ export const fillSpouseAddressInformation = (
         'root_spouseDoesLiveWithVeteran',
         data.currentMarriageInformation.doesLiveWithVeteranNo,
       )
+      .selectRadio(
+        'root_spouseDoesLiveWithVeteran',
+        data.currentMarriageInformation.doesLiveWithVeteranNo,
+      )
       .fill(
         'input[name="root_currentSpouseReasonForSeparation"]',
         data.currentMarriageInformation.reasonForSeparation,
@@ -261,10 +274,15 @@ export const fillSpouseAddressInformation = (
         data.currentMarriageInformation.spouseAddress.zipCode,
       );
   } else {
-    client.selectRadio(
-      'root_spouseDoesLiveWithVeteran',
-      data.currentMarriageInformation.doesLiveWithVeteranYes,
-    );
+    client
+      .selectRadio(
+        'root_spouseDoesLiveWithVeteran',
+        data.currentMarriageInformation.doesLiveWithVeteranYes,
+      )
+      .selectRadio(
+        'root_spouseDoesLiveWithVeteran',
+        data.currentMarriageInformation.doesLiveWithVeteranYes,
+      );
   }
 };
 
@@ -279,6 +297,10 @@ export const fillSpouseMarriageHistory = (
         'root_spouseWasMarriedBefore',
         data.currentMarriageInformation.spouseWasMarriedBeforeYes,
       )
+      .selectRadio(
+        'root_spouseWasMarriedBefore',
+        data.currentMarriageInformation.spouseWasMarriedBeforeYes,
+      )
       .fill(
         'input[name="root_spouseMarriageHistory_0_formerSpouseName_first"]',
         data.spouseInformation.marriageHistory[0].firstName,
@@ -288,10 +310,15 @@ export const fillSpouseMarriageHistory = (
         data.spouseInformation.marriageHistory[0].lastName,
       );
   } else {
-    client.selectRadio(
-      'root_spouseWasMarriedBefore',
-      data.currentMarriageInformation.spouseWasMarriedBeforeNo,
-    );
+    client
+      .selectRadio(
+        'root_spouseWasMarriedBefore',
+        data.currentMarriageInformation.spouseWasMarriedBeforeNo,
+      )
+      .selectRadio(
+        'root_spouseWasMarriedBefore',
+        data.currentMarriageInformation.spouseWasMarriedBeforeNo,
+      );
   }
 };
 
@@ -354,6 +381,10 @@ export const fillVeteranMarriageHistory = (
         'root_veteranWasMarriedBefore',
         data.currentMarriageInformation.veteranWasMarriedBeforeYes,
       )
+      .selectRadio(
+        'root_veteranWasMarriedBefore',
+        data.currentMarriageInformation.veteranWasMarriedBeforeYes,
+      )
       .fill(
         'input[name="root_veteranMarriageHistory_0_formerSpouseName_first"]',
         data.veteranInformation.marriageHistory[0].firstName,
@@ -363,10 +394,15 @@ export const fillVeteranMarriageHistory = (
         data.veteranInformation.marriageHistory[0].lastName,
       );
   } else {
-    client.selectRadio(
-      'root_veteranWasMarriedBefore',
-      data.currentMarriageInformation.veteranWasMarriedBeforeNo,
-    );
+    client
+      .selectRadio(
+        'root_veteranWasMarriedBefore',
+        data.currentMarriageInformation.veteranWasMarriedBeforeNo,
+      )
+      .selectRadio(
+        'root_veteranWasMarriedBefore',
+        data.currentMarriageInformation.veteranWasMarriedBeforeNo,
+      );
   }
 };
 

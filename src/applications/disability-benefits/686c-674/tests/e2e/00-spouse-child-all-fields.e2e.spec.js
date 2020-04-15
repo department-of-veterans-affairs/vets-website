@@ -61,7 +61,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.normal);
   TestHelpers.fillChildAddressStatus(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
@@ -82,8 +81,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  // Not sure why but this element doesn't get clicked unless there's a pause before interaction.
-  client.pause(Timeouts.normal);
   TestHelpers.fillChildAddressStatus(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
@@ -111,7 +108,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseAddressInformation(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
@@ -122,7 +118,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistory(client, testData.data, true);
   client.click('button[id="4-continueButton"]');
 
@@ -143,7 +138,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
-  client.pause(Timeouts.slow);
   TestHelpers.fillVeteranMarriageHistory(client, testData.data, true);
   client.click('button[id="4-continueButton"]');
 
