@@ -33,9 +33,18 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
               <p>
                 We’re sorry. We can’t find your Department of Defense (DoD) ID.
                 We need this to access your military service records. Please
-                call us at 800-827-1000, or visit your nearest VA regional
-                office and request to be added to the Defense Enrollment
-                Eligibility Reporting System (DEERS).
+                call us at{' '}
+                <a
+                  href="tel:1-800-827-1000"
+                  aria-label="800. 8 2 7. 1000."
+                  title="Dial the telephone number 800-827-1000"
+                  className="no-wrap"
+                >
+                  800-827-1000
+                </a>
+                , or visit your nearest VA regional office and request to be
+                added to the Defense Enrollment Eligibility Reporting System
+                (DEERS).
               </p>
               <a href={facilityLocator.rootUrl}>
                 Find your nearest VA regional office
@@ -111,14 +120,18 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
             To reach the DMDC, call{' '}
             <a
               href="tel:1-800-538-9552"
-              aria-label="8 0 0. 5 3 8. 9 5 5 2."
+              aria-label="800. 5 3 8. 9 5 5 2."
               title="Dial the telephone number 800-538-9552"
               className="no-wrap"
             >
               1-800-538-9552
             </a>
             , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET. If you have hearing loss, call TTY: 1-866-363-2883.
+            p.m. ET. If you have hearing loss, call TTY:{' '}
+            <a href="tel:1-866-363-2883" className="no-wrap">
+              1-866-363-2883
+            </a>
+            .
           </p>
         </AdditionalInfo>
       </div>
