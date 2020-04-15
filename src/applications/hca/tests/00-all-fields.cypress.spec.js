@@ -1,19 +1,19 @@
-describe('HCA', () => {
-  beforeEach(() => {
+describe('HCA form', () => {
+  before(() => {
     // Grab test data
     cy.fixture('hca/maximal-test.json').as('testData');
   });
 
-  it('renders the introduction page', () => {
-    cy.visit('http://localhost:3001/health-care/apply/application');
-
-    cy.get('.schemaform-start-button')
+  it('submits a valid application', () => {
+    // Start the application
+    cy.visit('http://localhost:3001/health-care/apply/application')
+      .get('.schemaform-start-button')
       .first()
       .click();
-  });
 
-  it('fills out the personal information section', () => {
+    // Fill the application
     cy.get('@testData').then(testData => {
+      // Fill out the personal information section
       cy.get('#root_firstName').type(testData.veteranFullName.first);
       cy.get('#root_lastName').type(testData.veteranFullName.last);
       cy.fillDate('root_dob', testData.veteranDateOfBirth);
@@ -21,6 +21,7 @@ describe('HCA', () => {
       // Click 'Continue to the Application' button
       cy.get('.usa-button').click();
 
+      // Information page
       cy.get('#root_veteranFullName_first').should(
         'have.value',
         testData.veteranFullName.first,
@@ -111,11 +112,8 @@ describe('HCA', () => {
       cy.get('#root_homePhone').type(testData.homePhone);
       cy.get('#root_mobilePhone').type(testData.mobilePhone);
       cy.get('.form-panel .usa-button-primary').click();
-    });
-  });
 
-  it('fills out the military service section', () => {
-    cy.get('@testData').then(testData => {
+      // fills out the military service section
       cy.get('#root_lastServiceBranch')
         .select(testData.lastServiceBranch)
         .should('have.value', testData.lastServiceBranch);
@@ -136,19 +134,14 @@ describe('HCA', () => {
       // Upload Discharge Papers
       // TODO
       cy.get('.form-panel .usa-button-primary').click();
-    });
-  });
 
-  it('fills out the VA benefits section', () => {
-    cy.get('@testData').then(testData => {
+      // fills out the VA benefits section
       // Current compensation
       cy.get('[type="radio"]').check(testData.vaCompensationType);
       cy.get('.form-panel .usa-button-primary').click();
-    });
-  });
 
-  it('fills out the household information section', () => {
-    cy.get('@testData').then(testData => {
+      // fills out the household information section
+
       // Current compensation
       cy.get('#root_discloseFinancialInformationYes').click();
       cy.get('.form-panel .usa-button-primary').click();
@@ -288,11 +281,9 @@ describe('HCA', () => {
         testData.deductibleEducationExpenses,
       );
       cy.get('.form-panel .usa-button-primary').click();
-    });
-  });
 
-  it('fills out the insurance information section', () => {
-    cy.get('@testData').then(testData => {
+      // fills out the insurance information section
+
       // Insurance information
       cy.get('#root_isMedicaidEligibleYes').click();
       cy.get('#root_isEnrolledMedicarePartAYes').click();
@@ -331,9 +322,8 @@ describe('HCA', () => {
       cy.get('#root_wantsInitialVaContactYes').click();
       cy.get('.form-panel .usa-button-primary').click();
     });
-  });
 
-  it('submits the application', () => {
+    // submit application
     cy.get('[type="checkbox"]').click();
     cy.findByText('Submit application')
       .should('exist')
