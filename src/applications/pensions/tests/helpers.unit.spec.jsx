@@ -4,6 +4,7 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
 import { fileHelp, submit } from '../helpers.jsx';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import {
   mockFetch,
@@ -13,6 +14,15 @@ import {
 
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
+
+  before(() => {
+    sinon.stub(localStorage, 'getItem');
+  });
+
+  after(() => {
+    localStorage.getItem.restore();
+  });
+
   describe('fileHelp', () => {
     it('should render', () => {
       const formData = {

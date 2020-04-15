@@ -7,7 +7,19 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
+import { TYPES_OF_CARE } from '../../utils/constants';
 
+const initialSchema = {
+  type: 'object',
+  required: ['typeOfCareId'],
+  properties: {
+    typeOfCareId: {
+      type: 'string',
+      enum: TYPES_OF_CARE.map(care => care.id || care.ccId),
+      enumNames: TYPES_OF_CARE.map(care => care.label || care.name),
+    },
+  },
+};
 describe('VAOS <TypeOfCarePage>', () => {
   it('should render', () => {
     const openTypeOfCarePage = sinon.spy();
@@ -17,12 +29,12 @@ describe('VAOS <TypeOfCarePage>', () => {
       <TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
+        schema={initialSchema}
         data={{}}
       />,
     );
 
     expect(form.find('fieldset').length).to.equal(1);
-    expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 
@@ -35,6 +47,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const form = mount(
       <TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
         router={router}
         data={{}}
       />,
@@ -60,6 +73,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       <TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
+        schema={initialSchema}
         router={router}
         data={{}}
       />,
@@ -79,6 +93,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const form = mount(
       <TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{ typeOfCareId: '323' }}
       />,
@@ -91,27 +106,6 @@ describe('VAOS <TypeOfCarePage>', () => {
     form.unmount();
   });
 
-  it('should list type of care in alphabetical order', () => {
-    const openTypeOfCarePage = sinon.spy();
-    const updateFormData = sinon.spy();
-
-    const form = mount(
-      <TypeOfCarePage
-        openTypeOfCarePage={openTypeOfCarePage}
-        updateFormData={updateFormData}
-        data={{}}
-      />,
-    );
-    expect(form.find('label').length).to.equal(12);
-    expect(
-      form
-        .find('label')
-        .at(0)
-        .text(),
-    ).to.contain('Amputation care');
-    form.unmount();
-  });
-
   it('document title should match h1 text', () => {
     const openTypeOfCarePage = sinon.spy();
     const updateFormData = sinon.spy();
@@ -120,6 +114,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     const form = mount(
       <TypeOfCarePage
         openTypeOfCarePage={openTypeOfCarePage}
+        schema={initialSchema}
         updateFormData={updateFormData}
         data={{}}
       />,

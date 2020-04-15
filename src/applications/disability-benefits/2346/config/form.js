@@ -1,21 +1,52 @@
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/2346-schema.json';
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import ConfirmAddressPage from '../Components/ConfirmAddress';
-import VeteranInformationPage from '../Components/VeteranInformationPage';
+import PersonalInfoBox from '../components/PersonalInfoBox';
+import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPage from '../components/IntroductionPage';
+import FooterInfo from '../components/FooterInfo';
+import fullSchemaMDOT from '../schemas/2346-schema.json';
+import { buildAddressSchema } from '../schemas/address-schema';
+import UIDefinitions from '../schemas/definitions/2346UI';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const { email, supplies } = fullSchemaMDOT.definitions;
 
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  VeteranInformationPage: 'Veteran Information',
-  confirmAddressPage: 'Confirm Address Page',
+const { currentAddress, selectedAddress } = fullSchemaMDOT.properties;
+
+const {
+  emailField,
+  suppliesField,
+  viewAddAccessoriesField,
+  viewAddBatteriesField,
+  currentAddressField,
+  newAddressField,
+  selectedAddressField,
+} = schemaFields;
+
+const {
+  emailUI,
+  addAccessoriesUI,
+  addBatteriesUI,
+  batteriesUI,
+  accessoriesUI,
+  currentAddressUI,
+  newAddressUI,
+  selectedAddressUI,
+} = UIDefinitions.sharedUISchemas;
+
+const formChapterTitles = {
+  veteranInformation: 'Veteran Information',
+  orderSupplies: 'Order your supplies',
 };
+
+const formPageTitlesLookup = {
+  personalDetails: 'Personal Details',
+  address: 'Shipping Address',
+  addBatteriesPage: 'Add batteries to your order',
+  addAccessoriesPage: 'Add accessories to your order',
+};
+
+const addressSchema = buildAddressSchema(true);
 
 const formConfig = {
   urlPrefix: '/',
@@ -23,58 +54,105 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'va-2346a-',
+  verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
+  title: 'Order Hearing Aid Batteries and Accessories',
+  subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'Request for hearing aid batteries and accessories',
   defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
+    email,
+    supplies,
+    currentAddress,
+    selectedAddress,
   },
   chapters: {
-    VeteranInformationChapter: {
-      title: formPages.VeteranInformationPage,
+    veteranInformationChapter: {
+      title: formChapterTitles.veteranInformation,
       pages: {
-        [formPages.VeteranInformationPage]: {
+        [formPageTitlesLookup.personalDetails]: {
           path: 'veteran-information',
-          title: formPages.VeteranInformationPage,
+          title: formPageTitlesLookup.personalDetails,
           uiSchema: {
-            'ui:description': VeteranInformationPage,
+            'ui:description': PersonalInfoBox,
+            [schemaFields.fullName]: fullNameUI,
           },
           schema: {
+            required: [],
             type: 'object',
             properties: {},
           },
         },
-      },
-    },
-    ConfirmAddressChapter: {
-      title: formPages.confirmAddressPage,
-      pages: {
-        'Confirm Address': {
-          path: 'confirm-address',
-          title: "Veteran's Address Info",
-          required: ['addressLine1', 'city', 'state', 'zip', 'email'],
+        [formPageTitlesLookup.address]: {
+          path: 'veteran-information/addresses',
+          title: formPageTitlesLookup.address,
           uiSchema: {
-            'ui:description': ConfirmAddressPage,
+            [currentAddressField]: currentAddressUI,
+            [newAddressField]: newAddressUI,
+            [selectedAddressField]: selectedAddressUI,
+            [emailField]: emailUI,
           },
           schema: {
             type: 'object',
-            properties: {},
+            required: [],
+            properties: {
+              [currentAddressField]: currentAddress,
+              [newAddressField]: addressSchema,
+              [selectedAddressField]: selectedAddress,
+              [emailField]: email,
+            },
+          },
+        },
+      },
+    },
+    orderSuppliesChapter: {
+      title: formChapterTitles.orderSupplies,
+      pages: {
+        [formPageTitlesLookup.addBatteriesPage]: {
+          path: 'batteries',
+          title: formPageTitlesLookup.addBatteriesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              [viewAddBatteriesField]: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+              supplies,
+            },
+          },
+          uiSchema: {
+            [viewAddBatteriesField]: addBatteriesUI,
+            [suppliesField]: batteriesUI,
+          },
+        },
+        [formPageTitlesLookup.addAccessoriesPage]: {
+          path: 'accessories',
+          title: formPageTitlesLookup.addAccessoriesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              [viewAddAccessoriesField]: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+              supplies,
+            },
+          },
+          uiSchema: {
+            [viewAddAccessoriesField]: addAccessoriesUI,
+            [suppliesField]: accessoriesUI,
           },
         },
       },
     },
   },
 };
-
 export default formConfig;

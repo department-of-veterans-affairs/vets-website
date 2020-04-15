@@ -16,7 +16,6 @@ const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
-const applyFragments = require('./plugins/apply-fragments');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
@@ -25,7 +24,6 @@ const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
-const createFeatureToggles = require('./plugins/create-feature-toggles');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const createReactPages = require('./plugins/create-react-pages');
@@ -76,7 +74,6 @@ function defaultBuild(BUILD_OPTIONS) {
   // plugin chain.
   smith.use(filenames(), 'Add filenames for debugging');
 
-  smith.use(applyFragments(BUILD_OPTIONS), 'Apply template fragments');
   smith.use(checkCollections(BUILD_OPTIONS), 'Check collections');
   smith.use(collections(BUILD_OPTIONS.collections), 'Group collections');
   smith.use(leftRailNavResetLevels(), 'Reset left rail navigation menu levels');
@@ -133,7 +130,6 @@ function defaultBuild(BUILD_OPTIONS) {
     'Add permalinks and change foo.md to foo/index.html',
   );
 
-  smith.use(createFeatureToggles(BUILD_OPTIONS), 'Create feature toggles');
   smith.use(createHeaderFooter(BUILD_OPTIONS), 'Create header and footer');
 
   smith.use(

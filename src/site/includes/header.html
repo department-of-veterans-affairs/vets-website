@@ -65,7 +65,6 @@
 
   <script type="text/javascript">
     window.VetsGov = window.VetsGov || {};
-    window.featureToggles = {{ featureToggles }};
     window.VetsGov.headerFooter = {{ headerFooterData }};
   </script>
 
@@ -81,10 +80,8 @@
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if path == '' or path == '/' %}
-  <div id="homepage-banner">
-    <!-- Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js -->
-  </div>
+  {% if homepage_banner %}
+    {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
   {% endif %}
 
   <script async src="/js/incompatible-browser.js"></script>

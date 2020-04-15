@@ -15,15 +15,18 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import renderHomepageBanner from './renderHomepageBanner';
+import createHomepageBanner from './homepage-banner/createHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-va-forms/createFindVaForms';
+} from '../find-forms/createFindVaForms';
 import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createPost911GiBillStatusWidget, {
+  post911GIBillStatusReducer,
+} from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -52,6 +55,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
+  ...post911GIBillStatusReducer,
 });
 
 Sentry.withScope(scope => {
@@ -115,10 +119,15 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createPost911GiBillStatusWidget(
+  store,
+  widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
+);
+
+createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
 
 // homepage widgets
 if (location.pathname === '/') {
-  renderHomepageBanner();
   createMyVALoginWidget(store);
 }
 

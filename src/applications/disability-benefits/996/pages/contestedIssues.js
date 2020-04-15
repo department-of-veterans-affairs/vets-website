@@ -1,15 +1,20 @@
 import fullSchema from '../20-0996-schema.json';
-import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
 
 import {
   contestedIssuesTitle,
-  contestedIssuesDescription,
   disabilityOption,
   disabilitiesExplanation,
   contestedIssuesAlert,
 } from '../content/contestedIssues';
+import {
+  OfficeForReviewTitle,
+  OfficeForReviewDescription,
+  OfficeForReviewAlert,
+} from '../content/OfficeForReview';
 
 import { requireRatedDisability } from '../validations';
+import SameOfficeReviewField from '../containers/SameOfficeReviewField';
 
 const { contestedIssues } = fullSchema.properties;
 
@@ -18,7 +23,6 @@ const contestedIssuesPage = {
     'ui:title': contestedIssuesTitle,
     contestedIssues: {
       'ui:title': ' ',
-      'ui:description': contestedIssuesDescription,
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsWidget,
       'ui:options': {
@@ -44,6 +48,25 @@ const contestedIssuesPage = {
     'view:disabilitiesExplanation': {
       'ui:description': disabilitiesExplanation,
     },
+    sameOffice: {
+      'ui:title': OfficeForReviewTitle,
+      // including a description here would add it _above_ the checkbox
+      'ui:widget': 'checkbox',
+      'ui:reviewField': SameOfficeReviewField,
+      'ui:options': {
+        hideLabelText: true,
+      },
+    },
+    'view:sameOfficeDescription': {
+      'ui:title': '',
+      'ui:description': OfficeForReviewDescription,
+    },
+    sameOfficeAlert: {
+      'ui:title': OfficeForReviewAlert,
+      'ui:options': {
+        hideIf: formData => formData?.sameOffice !== true,
+      },
+    },
   },
 
   schema: {
@@ -55,6 +78,17 @@ const contestedIssuesPage = {
         properties: {},
       },
       'view:disabilitiesExplanation': {
+        type: 'object',
+        properties: {},
+      },
+      sameOffice: {
+        type: 'boolean',
+      },
+      'view:sameOfficeDescription': {
+        type: 'object',
+        properties: {},
+      },
+      sameOfficeAlert: {
         type: 'object',
         properties: {},
       },

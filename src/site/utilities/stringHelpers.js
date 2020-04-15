@@ -29,18 +29,10 @@ function camelize(str) {
 // Remove all underscores from body of string and then prepend an underscore if string starts with number
 function updateQueryString(matchedString) {
   const findUnderscores = new RegExp('_', 'g');
-  let updatedString;
 
-  switch (matchedString) {
-    case 'FieldNodeFieldSupportServices':
-      updatedString = 'FieldNodeLandingPageFieldSupportServices';
-      break;
-    default:
-      updatedString = prependUnderscore(
-        matchedString.replace(findUnderscores, ''),
-      );
-  }
-  return updatedString;
+  return matchedString === 'FieldNodeFieldSupportServices'
+    ? 'FieldNodeLandingPageFieldSupportServices'
+    : prependUnderscore(matchedString.replace(findUnderscores, ''));
 }
 
 module.exports = {

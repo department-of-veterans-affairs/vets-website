@@ -6,6 +6,8 @@ import {
 } from '../../authentication/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
+import { ssoKeepAliveSession } from 'platform/utilities/api/ssoHelpers';
+
 import {
   ADDRESS_VALIDATION_TYPES,
   BAD_UNIT_NUMBER,
@@ -106,6 +108,9 @@ export function mapRawUserDataToState(json) {
     userState.status = getErrorStatusDesc(errorStatus);
   } else {
     userState.status = vaProfile.status;
+    if (vaProfile.facilities) {
+      userState.facilities = vaProfile.facilities;
+    }
   }
 
   // This one is checking userState because there's no extra mapping and it's
@@ -126,11 +131,13 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
-export function setupProfileSession(userProfile) {
+export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
+
+export async function setupProfileSession(userProfile) {
   const { firstName, signIn } = userProfile;
   const loginType = (signIn && signIn.serviceName) || null;
-
   localStorage.setItem('hasSession', true);
+  await ssoKeepAliveSession();
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
@@ -143,7 +150,13 @@ export function setupProfileSession(userProfile) {
 export function teardownProfileSession() {
   // Legacy keys (entryTime, userToken) can be removed
   // after session cookie is fully in place.
-  const sessionKeys = ['hasSession', 'userFirstName', 'sessionExpiration'];
+  const sessionKeys = [
+    'hasSession',
+    'userFirstName',
+    'sessionExpiration',
+    'hasSessionSSO',
+    'sessionExpirationSSO',
+  ];
   for (const key of sessionKeys) localStorage.removeItem(key);
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearSentryLoginType();
@@ -193,7 +206,7 @@ export const getValidationMessageKey = (
     !containsBadUnitNumber
   ) {
     return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
+      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE
       : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED;
   }
 

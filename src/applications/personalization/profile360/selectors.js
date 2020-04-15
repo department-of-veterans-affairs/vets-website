@@ -24,3 +24,10 @@ export const directDepositAddressIsSetUp = state => {
     addressInfo?.stateCode
   );
 };
+
+export const directDepositIsBlocked = state => {
+  const controlInfo = directDepositInformation(state)?.responses?.[0]
+    ?.controlInformation;
+  if (!controlInfo) return false;
+  return controlInfo.canUpdateAddress !== true;
+};

@@ -19,18 +19,21 @@ import {
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
-import CemeteryMarker from '../components/markers/CemeteryMarker';
-import HealthMarker from '../components/markers/HealthMarker';
-import BenefitsMarker from '../components/markers/BenefitsMarker';
-import VetCenterMarker from '../components/markers/VetCenterMarker';
-import ProviderMarker from '../components/markers/ProviderMarker';
+import FacilityMarker from '../components/markers/FacilityMarker';
 import { facilityTypes } from '../config';
-import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
+import {
+  LocationType,
+  FacilityType,
+  BOUNDING_RADIUS,
+  MARKER_LETTERS,
+} from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -43,12 +46,30 @@ const otherToolsLink = (
   </p>
 );
 
-const urgentCareLink = (
-  <p id="urgent-care-link">
-    <a href="http://vaurgentcarelocator.triwest.com/">
-      Find VA-approved urgent care locations and pharmacies near you
-    </a>
-  </p>
+// Link to urgent care benefit web page
+const urgentCareDialogLink = (
+  <AlertBox status="warning">
+    <h3 className="usa-alert-heading" tabIndex="-1">
+      Important information about your Community Care appointment
+    </h3>
+    <p>
+      Click below to learn how to prepare for your urgent care appointment with
+      a Community Care provider.
+    </p>
+    <button
+      className="usa-button-primary vads-u-margin-y--0"
+      onClick={() => {
+        // Record event
+        recordEvent({ event: 'cta-primary-button-click' });
+        window.open(
+          'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
+          '_blank',
+        );
+      }}
+    >
+      Learn about VA urgent care benefit
+    </button>
+  </AlertBox>
 );
 
 class VAMap extends Component {
@@ -402,6 +423,7 @@ class VAMap extends Component {
       }
     };
 
+    const markers = MARKER_LETTERS.values();
     return results.map(r => {
       const iconProps = {
         key: r.id,
@@ -420,6 +442,7 @@ class VAMap extends Component {
           }
           this.props.fetchVAFacility(r.id, r);
         },
+        markerText: markers.next().value,
       };
 
       const popupContent = (
@@ -459,19 +482,14 @@ class VAMap extends Component {
 
       switch (r.attributes.facilityType) {
         case FacilityType.VA_HEALTH_FACILITY:
-          return <HealthMarker {...iconProps}>{popupContent}</HealthMarker>;
         case FacilityType.VA_CEMETARY:
-          return <CemeteryMarker {...iconProps}>{popupContent}</CemeteryMarker>;
         case FacilityType.VA_BENEFITS_FACILITY:
-          return <BenefitsMarker {...iconProps}>{popupContent}</BenefitsMarker>;
         case FacilityType.VET_CENTER:
-          return (
-            <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
-          );
+          return <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>;
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
             return (
-              <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>
+              <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
             );
           }
           return null;
@@ -489,13 +507,15 @@ class VAMap extends Component {
       selectedResult,
       showCommunityCares,
       results,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { currentPage, totalPages },
     } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-    const externalLink =
-      currentQuery.facilityType === LocationType.CC_PROVIDER
-        ? urgentCareLink
-        : otherToolsLink;
+    const showDialogUrgCare =
+      (currentQuery.facilityType === LocationType.URGENT_CARE &&
+        currentQuery.serviceType === 'NonVAUrgentCare') ||
+      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
+        ? urgentCareDialogLink
+        : null;
     return (
       <div>
         <div className="columns small-12">
@@ -506,7 +526,8 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
             isMobile
           />
-          <div ref={this.searchResultTitle}>
+          <div>{showDialogUrgCare}</div>
+          {/* <div ref={this.searchResultTitle}>
             {results.length > 0 ? (
               <p className="search-result-title">
                 <strong>{totalEntries} results</strong>
@@ -520,7 +541,8 @@ class VAMap extends Component {
             ) : (
               <br />
             )}
-          </div>
+          </div> */}
+          <br />
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -537,7 +559,6 @@ class VAMap extends Component {
                   updateUrlParams={this.updateUrlParams}
                   query={this.props.currentQuery}
                 />
-                {externalLink}
               </div>
               {results.length > 0 && (
                 <Pagination
@@ -548,7 +569,7 @@ class VAMap extends Component {
               )}
             </TabPanel>
             <TabPanel>
-              {externalLink}
+              {otherToolsLink}
               <Map
                 ref="map"
                 center={position}
@@ -594,15 +615,17 @@ class VAMap extends Component {
       currentQuery,
       showCommunityCares,
       results,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { currentPage, totalPages },
     } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-    const externalLink =
-      currentQuery.facilityType === LocationType.CC_PROVIDER
-        ? urgentCareLink
-        : otherToolsLink;
+    const showDialogUrgCare =
+      (currentQuery.facilityType === LocationType.URGENT_CARE &&
+        currentQuery.serviceType === 'NonVAUrgentCare') ||
+      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES
+        ? urgentCareDialogLink
+        : null;
 
     return (
       <div className="desktop-container">
@@ -614,7 +637,8 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
           />
         </div>
-        <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
+        <div>{showDialogUrgCare}</div>
+        {/* <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
           {results.length > 0 ? (
             <p className="search-result-title">
               <strong>{totalEntries} results</strong>
@@ -626,9 +650,10 @@ class VAMap extends Component {
               <strong>“{this.props.currentQuery.context}”</strong>
             </p>
           ) : (
-            <br />
+            <br >
           )}
-        </div>
+        </div> */}
+        <br />
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"
@@ -652,7 +677,7 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
-            {externalLink}
+            {otherToolsLink}
             <Map
               ref="map"
               center={position}
@@ -706,15 +731,8 @@ class VAMap extends Component {
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
-            Search for your nearest VA health facility. Or find{' '}
-            <a
-              href="https://vaurgentcarelocator.triwest.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              VA-approved urgent care locations and pharmacies
-            </a>{' '}
-            near you.
+            Select Urgent care under facility type, then select either VA or
+            community providers as the service type.
           </p>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}

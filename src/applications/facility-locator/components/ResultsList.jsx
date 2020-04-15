@@ -7,6 +7,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import { facilityTypes } from '../config';
+import { MARKER_LETTERS } from '../constants';
 
 import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
@@ -83,16 +84,9 @@ class ResultsList extends Component {
                 Please try again later.
               </p>
               <p>
-                If you need care right away for a minor illness or injury, you
-                can search for your nearest VA health facility. Or find
-                <a
-                  href="https://vaurgentcarelocator.triwest.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  VA-approved urgent care locations and pharmacies{' '}
-                </a>{' '}
-                near you.
+                If you need care right away for a minor illness or injury,
+                select Urgent care under facility type, then select either VA or
+                community providers as the service type.
               </p>
               <p>
                 If you have a medical emergency, please go to your nearest
@@ -110,17 +104,9 @@ class ResultsList extends Component {
         >
           <p>We’re sorry. We couldn’t complete your request.</p>
           <p>
-            Please try again in a few minutes. Or, if you need care right away
-            for a minor illness or injury, search for your nearest VA health
-            facility or find{' '}
-            <a
-              href="https://vaurgentcarelocator.triwest.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              VA-approved urgent care locations and pharmacies
-            </a>{' '}
-            near you.
+            If you need care right away for a minor illness or injury, select
+            Urgent care under facility type, then select either VA or community
+            providers as the service type.
           </p>
           <p>
             If you have a medical emergency, please go to your nearest emergency
@@ -166,8 +152,10 @@ class ResultsList extends Component {
     }
 
     const currentLocation = position;
+    const markers = MARKER_LETTERS.values();
     const sortedResults = results
       .map(result => {
+        const markerText = markers.next().value;
         const distance = currentLocation
           ? distBetween(
               currentLocation.latitude,
@@ -176,7 +164,7 @@ class ResultsList extends Component {
               result.attributes.long,
             )
           : null;
-        return { ...result, distance, resultItem: true };
+        return { ...result, distance, resultItem: true, markerText };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 

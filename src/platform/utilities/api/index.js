@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
+import { checkAndUpdateSSOeSession } from './ssoHelpers';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
@@ -18,6 +19,8 @@ export function fetchAndUpdateSessionExpiration(...args) {
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
+        // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+        checkAndUpdateSSOeSession();
       }
       return response;
     });
@@ -46,6 +49,7 @@ function isJson(response) {
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
+  const csrfTokenStored = localStorage.getItem('csrfToken');
 
   if (success) {
     // eslint-disable-next-line no-console
@@ -67,6 +71,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     headers: {
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
+      'X-CSRF-Token': csrfTokenStored,
     },
   };
 
@@ -93,6 +98,13 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       const data = isJson(response)
         ? response.json()
         : Promise.resolve(response);
+
+      // Get CSRF Token from API header
+      const csrfToken = response.headers.get('X-CSRF-Token');
+
+      if (csrfToken && csrfToken !== csrfTokenStored) {
+        localStorage.setItem('csrfToken', csrfToken);
+      }
 
       if (response.ok || response.status === 304) {
         return data;

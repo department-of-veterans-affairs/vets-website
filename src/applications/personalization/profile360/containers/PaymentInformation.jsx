@@ -26,13 +26,13 @@ import {
   fetchPaymentInformation,
   savePaymentInformation,
   editModalToggled,
-  editModalFieldChanged,
 } from '../actions/paymentInformation';
 import {
   directDepositAccountInformation,
   directDepositAddressIsSetUp,
   directDepositInformation,
-  directDepositIsSetUp as directDepositIsSetUpSelector,
+  directDepositIsBlocked,
+  directDepositIsSetUp,
 } from '../selectors';
 
 const AdditionalInfos = props => (
@@ -107,11 +107,10 @@ const recordProfileNavEvent = (customProps = {}) => {
 class PaymentInformation extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    isEligible: PropTypes.bool.isRequired,
+    isEvssAvailable: PropTypes.bool.isRequired,
     multifactorEnabled: PropTypes.bool.isRequired,
     fetchPaymentInformation: PropTypes.func.isRequired,
     editModalToggled: PropTypes.func.isRequired,
-    editModalFieldChanged: PropTypes.func.isRequired,
     savePaymentInformation: PropTypes.func.isRequired,
     paymentInformationUiState: PropTypes.object.isRequired,
     paymentInformation: PropTypes.shape({
@@ -129,7 +128,7 @@ class PaymentInformation extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.isEligible && this.props.multifactorEnabled) {
+    if (this.props.isEvssAvailable && this.props.multifactorEnabled) {
       this.props.fetchPaymentInformation();
     }
   }
@@ -160,7 +159,7 @@ class PaymentInformation extends React.Component {
 
   render() {
     const {
-      directDepositIsSetUp,
+      isDirectDepositSetUp,
       isLoading,
       multifactorEnabled,
       paymentInformation,
@@ -170,64 +169,62 @@ class PaymentInformation extends React.Component {
 
     let content = null;
 
-    if (!shouldShowDirectDeposit) {
-      return content;
-    }
-
     if (isLoading) {
       return <LoadingIndicator message="Loading payment information..." />;
     }
 
     if (!multifactorEnabled) {
       content = <PaymentInformation2FARequired />;
-    } else if (paymentInformation.error) {
+    } else if (paymentInformation?.error) {
       content = <LoadFail information="payment" />;
+    } else if (!shouldShowDirectDeposit) {
+      return content;
     } else {
       content = (
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                isDirectDepositSetUp &&
                 (() => this.handleLinkClick('edit', 'bank-name'))
               }
             >
               Bank name
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {isDirectDepositSetUp
               ? paymentAccount.financialInstitutionName
               : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                isDirectDepositSetUp &&
                 (() => this.handleLinkClick('edit', 'account-number'))
               }
             >
               Account number
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {isDirectDepositSetUp
               ? paymentAccount.accountNumber
               : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                directDepositIsSetUp &&
+                isDirectDepositSetUp &&
                 (() => this.handleLinkClick('edit', 'account-type'))
               }
             >
               Account type
             </ProfileFieldHeading>
-            {directDepositIsSetUp
+            {isDirectDepositSetUp
               ? paymentAccount.accountType
               : this.renderSetupButton(
                   'account type (checking or savings)',
                   'account-type',
                 )}
           </div>
-          {directDepositIsSetUp && (
+          {isDirectDepositSetUp && (
             <p>
               <strong>Note:</strong> If you think you’ve been the victim of bank
               fraud, please call us at{' '}
@@ -242,12 +239,10 @@ class PaymentInformation extends React.Component {
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
             onSubmit={data =>
-              this.handleDirectDepositUpdateSubmit(data, !directDepositIsSetUp)
+              this.handleDirectDepositUpdateSubmit(data, !isDirectDepositSetUp)
             }
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
-            fields={this.props.paymentInformationUiState.editModalForm}
-            editModalFieldChanged={this.props.editModalFieldChanged}
             responseError={this.props.paymentInformationUiState.responseError}
           />
         </>
@@ -273,21 +268,22 @@ class PaymentInformation extends React.Component {
   }
 }
 
-const isEvssAvailable = createIsServiceAvailableSelector(
+const isEvssAvailableSelector = createIsServiceAvailableSelector(
   backendServices.EVSS_CLAIMS,
 );
 
 const mapStateToProps = state => {
-  const directDepositIsSetUp = directDepositIsSetUpSelector(state);
-  const isEligible = isEvssAvailable(state);
+  const isDirectDepositSetUp = directDepositIsSetUp(state);
+  const isDirectDepositBlocked = directDepositIsBlocked(state);
+  const isEvssAvailable = isEvssAvailableSelector(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
 
   return {
-    directDepositIsSetUp,
-    isEligible,
+    isDirectDepositSetUp,
+    isEvssAvailable,
     isEligibleToSignUp,
     isLoading:
-      isEligible &&
+      isEvssAvailable &&
       isMultifactorEnabled(state) &&
       !directDepositInformation(state),
     multifactorEnabled: isMultifactorEnabled(state),
@@ -295,7 +291,9 @@ const mapStateToProps = state => {
     paymentInformation: directDepositInformation(state),
     paymentInformationUiState: state.vaProfile.paymentInformationUiState,
     shouldShowDirectDeposit:
-      isEligible && (directDepositIsSetUp || isEligibleToSignUp),
+      isEvssAvailable &&
+      !isDirectDepositBlocked &&
+      (isDirectDepositSetUp || isEligibleToSignUp),
   };
 };
 
@@ -303,7 +301,6 @@ const mapDispatchToProps = {
   fetchPaymentInformation,
   savePaymentInformation,
   editModalToggled,
-  editModalFieldChanged,
 };
 
 const PaymentInformationContainer = connect(

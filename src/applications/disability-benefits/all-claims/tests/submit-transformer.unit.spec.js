@@ -13,6 +13,7 @@ import {
   getFlatIncidentKeys,
   getPtsdChangeText,
   setActionTypes,
+  filterServicePeriods,
 } from '../submit-transformer';
 
 import maximalData from './data/maximal-test.json';
@@ -186,4 +187,14 @@ describe('setActionTypes', () => {
 
     expect(setActionTypes(noRated)).to.deep.equal(noRated);
   });
+});
+
+describe('remove unreferenced reservedNationGuardService', () => {
+  const formData = _.cloneDeep(maximalData.data);
+  // Modify service names to remove "Reserves" & "National Guard"
+  formData.serviceInformation.servicePeriods[0].serviceBranch = 'Air Force';
+  formData.serviceInformation.servicePeriods[1].serviceBranch = 'Navy';
+  const processedServiceInfo = filterServicePeriods(formData);
+  expect(processedServiceInfo.serviceInformation.reservesNationalGuardService)
+    .to.be.undefined;
 });

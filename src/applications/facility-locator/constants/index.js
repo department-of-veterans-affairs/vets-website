@@ -46,7 +46,6 @@ export const PinNames = {
 export const LOCATION_OPTIONS = [
   LocationType.HEALTH,
   LocationType.URGENT_CARE,
-  LocationType.URGENT_CARE_FARMACIES,
   LocationType.CC_PROVIDER,
   LocationType.BENEFITS,
   LocationType.CEMETARY,
@@ -57,3 +56,10 @@ export const LOCATION_OPTIONS = [
  * Defines the ± change in bounding box size for the map when changing zoom
  */
 export const BOUNDING_RADIUS = 0.75;
+
+/**
+ *Defines the marker letter list
+ */
+export const MARKER_LETTERS = new Set([
+  ...'abcdefghijklmnopqrstuvwxyz'.toUpperCase(),
+]);

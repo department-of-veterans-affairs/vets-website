@@ -1,39 +1,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+// import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { ssoe } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
+import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
-
-import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
-
-const loginHandler = loginType => () => {
-  recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType);
-};
-
-const handleDsLogon = loginHandler('dslogon');
-const handleMhv = loginHandler('mhv');
-const handleIdMe = loginHandler('idme');
 
 const vaGovFullDomain = environment.BASE_URL;
 const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-class SignInModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      globalDowntime: false,
-    };
+export class SignInModal extends React.Component {
+  state = { globalDowntime: null };
 
-    this.setGlobalDowntimeState = this.setGlobalDowntimeState.bind(this);
+  /*
+  componentDidMount() {
+    getCurrentGlobalDowntime().then(globalDowntime => {
+      this.setState(globalDowntime);
+    });
   }
+  */
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
@@ -43,9 +37,18 @@ class SignInModal extends React.Component {
     }
   }
 
-  setGlobalDowntimeState() {
-    this.setState({ globalDowntime: true });
+  authVersion() {
+    return this.props.useSSOe ? 'v1' : 'v0';
   }
+
+  loginHandler = loginType => () => {
+    recordEvent({ event: `login-attempted-${loginType}` });
+    login(loginType, this.authVersion());
+  };
+
+  signupHandler = () => {
+    signup(this.authVersion());
+  };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
     <ExternalServicesError dependencies={dependencies} onRender={onRender}>
@@ -62,30 +65,30 @@ class SignInModal extends React.Component {
     </ExternalServicesError>
   );
 
-  renderModalContent = ({ globalDowntime }) => (
-    <main className="login">
-      <div className="row">
-        <div className="columns">
-          <div className="logo">
-            <a href="/">
-              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="columns small-12">
-            <h1>Sign in to VA.gov</h1>
-          </div>
-        </div>
-        <div className="row medium-screen:vads-u-display--none mobile-explanation">
-          <div className="columns small-12">
-            <h2>
-              One site. A lifetime of benefits and services at your fingertips.
-            </h2>
-          </div>
-        </div>
+  renderGlobalDowntime = () => (
+    <div className="vads-u-margin-bottom--4">
+      <AlertBox
+        headline="You may have trouble signing in or using some tools or services"
+        status="warning"
+        isVisible
+      >
+        <p>
+          We’re doing some work on VA.gov right now. We hope to finish our work
+          by {formatDowntime(this.state.globalDowntime.endTIme)}. If you have
+          trouble signing in or using any tool or services, check back after
+          then.
+        </p>
+      </AlertBox>
+    </div>
+  );
+
+  renderDowntimeBanners = () => {
+    if (this.state.globalDowntime) {
+      return this.renderGlobalDowntime();
+    }
+
+    return (
+      <>
         {this.downtimeBanner(
           [EXTERNAL_SERVICES.idme],
           'Our sign in process isn’t working right now',
@@ -126,16 +129,35 @@ class SignInModal extends React.Component {
           'warning',
           'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
         )}
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.global],
-          'You may have trouble signing in or using some tools or services',
-          'warning',
-          `We’re doing some work on VA.gov right now. We hope to finish our work by ${
-            scheduledDowntimeWindow.downtimeEnd
-          }. If you have trouble signing in or using any tools or services, please check back after then.`,
-          this.setGlobalDowntimeState,
-        )}
+      </>
+    );
+  };
 
+  renderModalContent = ({ globalDowntime }) => (
+    <main className="login">
+      <div className="row">
+        <div className="columns">
+          <div className="logo">
+            <a href="/">
+              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <div className="row">
+          <div className="columns small-12">
+            <h1>Sign in to VA.gov</h1>
+          </div>
+        </div>
+        <div className="row medium-screen:vads-u-display--none mobile-explanation">
+          <div className="columns small-12">
+            <h2>
+              One site. A lifetime of benefits and services at your fingertips.
+            </h2>
+          </div>
+        </div>
+        {this.renderDowntimeBanners()}
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">
@@ -158,7 +180,7 @@ class SignInModal extends React.Component {
                   <button
                     disabled={globalDowntime}
                     className="dslogon"
-                    onClick={handleDsLogon}
+                    onClick={this.loginHandler('dslogon')}
                   >
                     <img
                       alt="DS Logon"
@@ -169,7 +191,7 @@ class SignInModal extends React.Component {
                   <button
                     disabled={globalDowntime}
                     className="mhv"
-                    onClick={handleMhv}
+                    onClick={this.loginHandler('mhv')}
                   >
                     <img
                       alt="My HealtheVet"
@@ -180,7 +202,7 @@ class SignInModal extends React.Component {
                   <button
                     disabled={globalDowntime}
                     className="usa-button-primary va-button-primary"
-                    onClick={handleIdMe}
+                    onClick={this.loginHandler('idme')}
                   >
                     <img
                       alt="ID.me"
@@ -194,7 +216,7 @@ class SignInModal extends React.Component {
                     <button
                       disabled={globalDowntime}
                       className="idme-create usa-button usa-button-secondary"
-                      onClick={signup}
+                      onClick={this.signupHandler}
                     >
                       <img
                         alt="ID.me"
@@ -310,4 +332,10 @@ SignInModal.propTypes = {
   visible: PropTypes.bool,
 };
 
-export default SignInModal;
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+  };
+}
+
+export default connect(mapStateToProps)(SignInModal);

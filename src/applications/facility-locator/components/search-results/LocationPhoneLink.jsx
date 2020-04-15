@@ -9,6 +9,7 @@ const renderPhoneNumber = (
   icon = 'fw',
   altPhone,
   from,
+  isCCProvider,
 ) => {
   if (!phone) {
     return null;
@@ -20,11 +21,12 @@ const renderPhoneNumber = (
     <div>
       {from === 'FacilityDetail' && <i className={`fa fa-${icon}`} />}
       {title && <strong>{title}: </strong>}
-      {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
+      {!isCCProvider && phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
       <br />
       {from === 'FacilityDetail' && <i className="fa fa-fw" />}
-      {subTitle && subTitle}
-
+      {subTitle}
+      {isCCProvider &&
+        ` ${phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}`}
       {from === 'FacilityDetail' ? (
         <a
           href={`tel:${phone.replace(/[ ]?x/, '')}`}

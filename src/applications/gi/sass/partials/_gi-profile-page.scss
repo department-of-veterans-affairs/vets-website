@@ -27,13 +27,27 @@
     padding-bottom: 0.5em;
   }
 
-  .caution-flag {
-    background-color: $color-gold;
-  }
-
   .additional-resources {
     @include media-maxwidth($medium-large-screen - 1) {
       display: none;
+    }
+  }
+
+  @media (max-width: $medium-screen -1 ) {
+      .additional-resources-profile {
+        padding-top: 2em;
+    }
+  }
+
+  @media (min-width: 641px) {
+    .additional-resources-vettec {
+        margin-top: -4em;
+    }
+  }
+
+  @media screen and (max-width: $small-screen) {
+    .usa-alert {
+      padding-right: 3.2rem;
     }
   }
 

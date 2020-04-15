@@ -1,16 +1,10 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 
 import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import { formatDateShort } from '../../../platform/utilities/date';
-import {
-  BENEFIT_OPTIONS,
-  STATE_CODE_TO_NAME,
-  ADDRESS_TYPES,
-  MILITARY_STATES,
-} from './constants';
+import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -23,52 +17,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     .then(success)
     .catch(error);
 }
-
-export const addressUpdateUnavailable = (
-  <div>
-    <div className="usa-alert usa-alert-warning">
-      <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">
-          We're sorry. We can't update your address right now
-        </h4>
-        <p className="usa-alert-text">
-          Your <strong>VA letters and documents are still valid</strong> with
-          your old address. Please continue to download your VA letter or
-          document. You can come back later and try again.
-        </p>
-        <br />
-        <p className="usa-alert-text">
-          <strong>
-            Please continue to download your VA letter or document
-          </strong>
-          . You can come back later and try again.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const addressModalContent = (
-  <div>
-    <p>
-      Changing your address here will affect the address that shows on your
-      letters, as well as the location we mail your disability compensation and
-      pension information.
-    </p>
-    <p>
-      If you want to change your address for other VA benefits, such as life
-      insurance, education, and health care, you’ll need to update it separately
-      with each department.
-    </p>
-    <a
-      href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      Learn how to update your address for all VA departments
-    </a>
-  </div>
-);
 
 export const recordsNotFound = (
   <div id="records-not-found">
@@ -189,10 +137,9 @@ export const letterContent = {
       insurance requirements under the Affordable Care Act (ACA). To prove that
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
-      plan. If you’ve lost your IRS Form 1095-B, please call 877-222-VETS (
-      <a href="tel:+18772228387">877-222-8387</a>
-      ), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET to request
-      another copy.
+      plan. If you’ve lost your IRS Form 1095-B, please call{' '}
+      <a href="tel:+18772228387">877-222-8387</a>, Monday &#8211; Friday, 8:00
+      a.m. &#8211; 8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,
@@ -446,45 +393,6 @@ export const benefitOptionsMap = {
   militaryService: 'militaryService',
 };
 
-export const militaryStateNames = [
-  { label: 'Armed Forces Americas (AA)', value: 'AA' },
-  { label: 'Armed Forces Europe (AE)', value: 'AE' },
-  { label: 'Armed Forces Pacific (AP)', value: 'AP' },
-];
-
-export function isDomesticAddress(address) {
-  return address.type === 'DOMESTIC';
-}
-
-export function isInternationalAddress(address) {
-  return address.type === 'INTERNATIONAL';
-}
-
-export function isMilitaryAddress(address) {
-  return address.type === 'MILITARY';
-}
-
-export function getZipCode(address) {
-  if (isInternationalAddress(address)) {
-    return '';
-  }
-  const parts = [
-    address.zipCode,
-    address.zipSuffix ? `-${address.zipSuffix}` : '',
-  ];
-  return parts.join('');
-}
-
-export function getStateName(stateCode) {
-  const stateName = STATE_CODE_TO_NAME[stateCode];
-
-  if (stateName === undefined) {
-    Sentry.captureMessage(`vets_letters_unknown_state_code: ${stateCode}`);
-  }
-
-  return stateName || '';
-}
-
 /**
  * Infers the address type from the address supplied and returns the address
  *  with the "new" type.
@@ -520,41 +428,6 @@ export function resetDisallowedAddressFields(address) {
 }
 
 /**
- * Traverses a single-level object and removes its zero-length own-enumerable properties
- * @param {Object} input an object with no nested properties
- * @returns a cloned object with no empty properties
- */
-export const stripEmpties = input => {
-  const newObject = { ...input };
-  const deleteProperty = key => delete newObject[key];
-  const isEmpty = key => input[key].length === 0;
-  Object.keys(input)
-    .filter(isEmpty)
-    .forEach(deleteProperty);
-  return newObject;
-};
-
-/**
- * Takes an address object as returned from vets-api and translates its properties to
- * generic properties that are consumed by the front end
- * @param {Object} address an address object as formatted by vets-api
- * @returns {Object} shallow clone of address with military properties swapped for generics
- */
-export const toGenericAddress = address => {
-  const genericAddress = { ...address };
-  delete genericAddress.addressEffectiveDate;
-  if (address.type !== ADDRESS_TYPES.military) {
-    return genericAddress;
-  }
-  genericAddress.city = genericAddress.militaryPostOfficeTypeCode;
-  genericAddress.stateCode = genericAddress.militaryStateCode;
-  genericAddress.countryName = 'USA';
-  delete genericAddress.militaryPostOfficeTypeCode;
-  delete genericAddress.militaryStateCode;
-  return genericAddress;
-};
-
-/**
  * Tests an http error response for an errors array and status property for the
  * first error in the array. Returns the status code or 'unknown'
  * @param {Object} response error response object from vets-api
@@ -566,54 +439,14 @@ export const getStatus = response =>
     : 'unknown';
 
 // NOTE: It "shouldn't" ever happen...but it did. In production.
-export function isAddressEmpty(address = {}) {
+export function isAddressEmpty(address) {
   // An address will always have:
   //  type because it errors out on the api if it doesn't exist (pretty sure)
   //  countryName because of toGenericAddress() adds it
   const fieldsToIgnore = ['type', 'countryName'];
-  return Object.keys(address).reduce(
+  return Object.keys(address || {}).reduce(
     (emptySoFar, nextField) =>
       emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]),
     true,
   );
-}
-
-export function formatStreetAddress(address = {}) {
-  let formattedAddress = '';
-
-  if (address.addressOne) {
-    const streetAddressLines = [
-      address.addressOne,
-      address.addressTwo ? `, ${address.addressTwo}` : '',
-      address.addressThree ? ` ${address.addressThree}` : '',
-    ];
-    formattedAddress = streetAddressLines.join('').toLowerCase();
-  }
-
-  return formattedAddress;
-}
-
-export function formatCityStatePostal(address = {}) {
-  // Formats to "city, state, postal code" for the second line of an address
-  let cityStatePostal = '';
-
-  if (isAddressEmpty(address)) {
-    return cityStatePostal;
-  }
-
-  const city = address.city || '';
-  const zipCode = getZipCode(address);
-
-  if (isDomesticAddress(address)) {
-    const state = getStateName(address.stateCode);
-    cityStatePostal = `${city}, ${state} ${zipCode}`;
-  } else if (isMilitaryAddress(address)) {
-    const militaryStateCode = address.stateCode || '';
-    cityStatePostal = `${city}, ${militaryStateCode} ${zipCode}`;
-  } else {
-    // Must be an international address, only show a city
-    cityStatePostal = `${city}`;
-  }
-
-  return cityStatePostal;
 }

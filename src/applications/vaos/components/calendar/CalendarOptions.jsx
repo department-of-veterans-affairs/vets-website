@@ -8,6 +8,7 @@ export default function CalendarOptions({
   currentlySelectedDate,
   additionalOptions,
   handleSelectOption,
+  maxSelections,
   selectedDates,
   selectedCellIndex,
   optionsHeightRef,
@@ -46,7 +47,11 @@ export default function CalendarOptions({
     );
 
     return (
-      <div className="vaos-calendar__options-container" ref={optionsHeightRef}>
+      <div
+        className="vaos-calendar__options-container"
+        id={`vaos-options-container-${currentlySelectedDate}`}
+        ref={optionsHeightRef}
+      >
         <fieldset>
           <legend className="vads-u-visibility--screen-reader">
             {additionalOptions.legend ||
@@ -77,6 +82,9 @@ export default function CalendarOptions({
                       checked={checked}
                       onChange={() => handleSelectOption(dateObj)}
                       label={o.label}
+                      disabled={
+                        !checked && selectedDates?.length === maxSelections
+                      }
                     />
                   ) : (
                     <CalendarRadioOption

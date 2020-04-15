@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import AppointmentsPage from './containers/AppointmentsPage';
+import FutureAppointmentsList from './components/FutureAppointmentsList';
+import PastAppointmentsList from './components/PastAppointmentsList';
 import VAOSApp from './containers/VAOSApp';
 
 const ReasonForAppointmentPage = asyncLoader(() =>
@@ -37,6 +39,9 @@ const ClinicChoicePage = asyncLoader(() =>
 const TypeOfSleepCarePage = asyncLoader(() =>
   import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfSleepCarePage'),
 );
+const TypeOfEyeCarePage = asyncLoader(() =>
+  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfEyeCarePage'),
+);
 const PreferredDatePage = asyncLoader(() =>
   import(/* webpackChunkName: "vaos-form" */ './containers/PreferredDatePage'),
 );
@@ -52,13 +57,16 @@ const ConfirmationPage = asyncLoader(() =>
 
 export default function createRoutesWithStore(store) {
   return (
-    <Route path="/" component={VAOSApp}>
-      <IndexRoute component={AppointmentsPage} />
+    <Route component={VAOSApp}>
+      <Route path="/" component={AppointmentsPage}>
+        <IndexRoute component={FutureAppointmentsList} />
+        <Route component={PastAppointmentsList} path="past" />
+      </Route>
       <Route
         path="new-appointment"
         component={asyncLoader(() =>
           Promise.all([
-            import(/* webpackChunkName: "vaos-form" */ './components/NewAppointmentLayout'),
+            import(/* webpackChunkName: "vaos-form" */ './containers/NewAppointmentLayout'),
             import(/* webpackChunkName: "vaos-form" */ './reducers/newAppointment'),
           ]).then(([component, reducer]) => {
             store.injectReducer('newAppointment', reducer.default);
@@ -71,6 +79,7 @@ export default function createRoutesWithStore(store) {
         <Route path="choose-facility-type" component={TypeOfFacilityPage} />
         <Route path="choose-visit-type" component={TypeOfVisitPage} />
         <Route path="choose-sleep-care" component={TypeOfSleepCarePage} />
+        <Route path="choose-eye-care" component={TypeOfEyeCarePage} />
         <Route path="audiology" component={TypeOfAudiologyCarePage} />
         <Route path="preferred-date" component={PreferredDatePage} />
         <Route path="request-date" component={DateTimeRequestPage} />

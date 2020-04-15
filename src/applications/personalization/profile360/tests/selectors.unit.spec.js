@@ -116,4 +116,45 @@ describe('profile360 selectors', () => {
       expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
     });
   });
+
+  describe('directDepositIsBlocked', () => {
+    it('returns `false` if the `paymentInformation` is not set`', () => {
+      const state = {
+        vaProfile: {},
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+    });
+    it('returns `false` if the `canUpdateAddress` flag is `true`', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  canUpdateAddress: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+    });
+    it('returns `true` if the `canUpdateAddress` flag is not `true`', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  canUpdateAddress: null,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+  });
 });

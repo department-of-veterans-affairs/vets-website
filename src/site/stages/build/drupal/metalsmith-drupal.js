@@ -12,8 +12,12 @@ const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
+  createPastEventListPages,
   addGetUpdatesFields,
+  addPager,
+  sortServices,
 } = require('./health-care-region');
+
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
 
@@ -85,6 +89,52 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'health_care_region_detail_page':
         addGetUpdatesFields(pageCompiled, pages);
         break;
+      case 'event_listing':
+        pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
+        pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allEventTeasers,
+          'event_listing.drupal.liquid',
+          'event',
+        );
+        break;
+      case 'story_listing':
+        pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allNewsStoryTeasers,
+          'story_listing.drupal.liquid',
+          'story',
+        );
+        break;
+      case 'press_releases_listing':
+        pageCompiled.allPressReleaseTeasers = page.reverseFieldListingNode;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allPressReleaseTeasers,
+          'press_releases_listing.drupal.liquid',
+          'press_release',
+        );
+        break;
+      case 'health_services_listing':
+        pageCompiled.clinicalHealthServices = sortServices(
+          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
+        );
+        break;
+      case 'leadership_listing':
+        pageCompiled.allStaffProfiles = page.fieldLeadership;
+        addPager(
+          pageCompiled,
+          files,
+          pageCompiled.allStaffProfiles,
+          'leadership_listing.drupal.liquid',
+          'bio',
+        );
+        break;
       case 'page':
         addHubIconField(pageCompiled, pages);
         break;
@@ -99,6 +149,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
+    if (page.entityBundle === 'event_listing') {
+      createPastEventListPages(pageCompiled, drupalPageDir, files);
+    }
   }
 
   if (skippedContent.nullEntities) {
@@ -107,8 +160,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   if (skippedContent.emptyEntities) {
     log(`Skipped ${skippedContent.emptyEntities} empty entities`);
   }
-
-  addHomeContent(contentData, files);
 }
 
 async function loadDrupal(buildOptions) {
@@ -220,6 +271,7 @@ function getDrupalContent(buildOptions) {
 
       await loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      addHomeContent(drupalData, files, metalsmith, buildOptions);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
       done();

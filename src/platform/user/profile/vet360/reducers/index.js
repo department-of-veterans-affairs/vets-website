@@ -16,6 +16,7 @@ import {
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
+  ADDRESS_VALIDATION_UPDATE,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -101,7 +102,6 @@ export default function vet360(state = initialState, action) {
     case VET360_TRANSACTION_REQUEST_SUCCEEDED: {
       return {
         ...state,
-        modal: null,
         transactions: state.transactions.concat(action.transaction),
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
@@ -186,6 +186,7 @@ export default function vet360(state = initialState, action) {
         transactions: state.transactions.filter(
           t => t.data.attributes.transactionId !== finishedTransactionId,
         ),
+        modal: null,
         fieldTransactionMap,
         transactionStatus: action.transaction.data.attributes.transactionStatus,
       };
@@ -250,22 +251,36 @@ export default function vet360(state = initialState, action) {
         ...state,
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
-          [action.addressValidationType]: { isPending: false },
+          [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
+            isPending: false,
+            isFailed: true,
+            error: action.error,
+          },
         },
         addressValidation: {
           ...initialAddressValidationState,
           addressValidationError: action.addressValidationError,
-          addressValidationType: action.addressValidationType,
+          addressValidationType: action.fieldName,
           validationKey: action.validationKey || null,
           addressFromUser: action.addressFromUser,
         },
-        modal: 'addressValidation',
+        modal: action.fieldName,
       };
 
     case ADDRESS_VALIDATION_RESET:
       return {
         ...state,
         addressValidation: { ...initialAddressValidationState },
+      };
+
+    case ADDRESS_VALIDATION_UPDATE:
+      return {
+        ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: { isPending: true },
+        },
       };
 
     case UPDATE_SELECTED_ADDRESS:

@@ -657,6 +657,16 @@ export class Modals extends React.Component {
         </p>
         <p>
           <a
+            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#suspension"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Suspension of VA Benefits to Five Schools for Deceptive Practices
+          </a>
+        </p>
+
+        <p>
+          <a
             href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
             target="_blank"
             rel="noopener noreferrer"
@@ -1156,9 +1166,33 @@ export class Modals extends React.Component {
           doesn't find meaningful employment within 180 days.
         </p>
       </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('cautionaryWarnings')}
+      >
+        <h3>Cautionary warnings</h3>
+        <p>
+          When Caution Flags are displayed for an institution, they indicate VA
+          or other federal agencies like the Department of Education or
+          Department of Defense have applied increased regulatory or legal
+          scrutiny to this program. Before enrolling in a program, VA recommends
+          potential students should consider these cautionary warnings.
+        </p>
+        <p>
+          {' '}
+          To learn more about Caution Flags,{' '}
+          <a
+            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            visit the About this Tool page
+          </a>
+          .
+        </p>
+      </Modal>
     </span>
   );
-
   render() {
     return (
       <span>

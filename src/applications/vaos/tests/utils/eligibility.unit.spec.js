@@ -13,6 +13,7 @@ import {
   isEligible,
   getEligibilityChecks,
   getEligibilityData,
+  recordEligibilityGAEvents,
 } from '../../utils/eligibility';
 
 describe('VAOS scheduling eligibility logic', () => {
@@ -45,10 +46,10 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
-        'pacTeam',
       ]);
     });
     it('should skip pact if not primary care', async () => {
@@ -67,6 +68,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
@@ -89,6 +91,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
@@ -98,7 +101,6 @@ describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityChecks', () => {
     it('should calculate failing statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
-        pacTeam: [],
         clinics: [],
         directSupported: true,
         requestSupported: true,
@@ -121,7 +123,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: false,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
         requestPastVisit: false,
         requestPastVisitValue: 24,
@@ -134,7 +135,6 @@ describe('VAOS scheduling eligibility logic', () => {
 
     it('should calculate successful statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
-        pacTeam: [{ facilityId: '983' }],
         clinics: [{}],
         directSupported: true,
         requestSupported: true,
@@ -157,7 +157,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: false,
         directPastVisit: true,
         directPastVisitValue: 12,
-        directPACT: true,
         directClinics: true,
         directSupported: true,
         requestSupported: true,
@@ -223,7 +222,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: true,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
       });
     });
@@ -233,7 +231,6 @@ describe('VAOS scheduling eligibility logic', () => {
       const { direct, request } = isEligible({
         directPastVisit: false,
         directClinics: true,
-        directPACT: true,
         directSupported: true,
         requestSupported: true,
         requestPastVisit: true,
@@ -242,6 +239,122 @@ describe('VAOS scheduling eligibility logic', () => {
 
       expect(direct).to.be.false;
       expect(request).to.be.true;
+    });
+  });
+
+  describe('GA Events', () => {
+    it('should record error events with fetch failures', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch.onCall(0), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(1), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(3), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(4), { errors: [{}] });
+      await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
+      expect(
+        global.window.dataLayer.filter(
+          e =>
+            e.event === 'vaos-error' &&
+            e['error-key'].startsWith('eligibility-'),
+        ).length,
+      ).to.equal(4);
+      resetFetch();
+    });
+
+    it('should record failure events when ineligible', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [],
+          clinics: [],
+          directEnabled: true,
+          directSupported: true,
+          requestSupported: true,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: false,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 1,
+          },
+        },
+        '323',
+        '983',
+      );
+      expect(
+        global.window.dataLayer.filter(e =>
+          e.event.startsWith('vaos-eligibility-'),
+        ).length,
+      ).to.equal(4);
+    });
+
+    it('should record only supported failure events', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [],
+          clinics: [],
+          directEnabled: true,
+          directSupported: false,
+          requestSupported: false,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: false,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 1,
+          },
+        },
+        '323',
+        '983',
+      );
+      expect(
+        global.window.dataLayer.filter(e =>
+          e.event.startsWith('vaos-eligibility-'),
+        ).length,
+      ).to.equal(2);
+    });
+
+    it('should not record failure events when ineligible', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [{ facilityId: '983' }],
+          clinics: [{}],
+          directSupported: true,
+          requestSupported: true,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: true,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+            hasVisitedInPastMonths: true,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 0,
+          },
+        },
+        '323',
+        '983',
+      );
+
+      expect(global.window.dataLayer.length).to.equal(0);
     });
   });
 });

@@ -28,7 +28,6 @@ describe('VAOS data transformation', () => {
                 optionTime: 'PM',
               },
             ],
-            currentRowIndex: 3,
           },
           vaParent: '983',
           vaFacility: '983GB',
@@ -114,7 +113,6 @@ describe('VAOS data transformation', () => {
                 optionTime: 'PM',
               },
             ],
-            currentRowIndex: 3,
           },
           vaParent: '983',
           vaFacility: '983GB',
@@ -222,7 +220,6 @@ describe('VAOS data transformation', () => {
                 optionTime: 'PM',
               },
             ],
-            currentRowIndex: 3,
           },
           facilityType: 'communityCare',
           typeOfCareId: '323',
@@ -362,7 +359,6 @@ describe('VAOS data transformation', () => {
                 optionTime: 'PM',
               },
             ],
-            currentRowIndex: 3,
           },
           facilityType: 'communityCare',
           typeOfCareId: '203',
@@ -487,7 +483,6 @@ describe('VAOS data transformation', () => {
                 datetime: '2019-11-22T09:30:00',
               },
             ],
-            currentRowIndex: 3,
           },
           preferredDate: '2019-12-02',
           clinicId: '308',
@@ -552,6 +547,94 @@ describe('VAOS data transformation', () => {
       appointmentKind: 'TRADITIONAL',
       appointmentType: 'Primary care',
       schedulingMethod: 'direct',
+    });
+  });
+
+  it('should transform form for Eye Care into VA request', () => {
+    const state = {
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            morning: true,
+          },
+          email: 'test@va.gov',
+          visitType: 'office',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'Testing',
+          calendarData: {
+            currentlySelectedDate: '2019-11-20',
+            selectedDates: [
+              {
+                date: '2019-11-20',
+                optionTime: 'PM',
+              },
+            ],
+            currentRowIndex: 3,
+          },
+          vaParent: '983',
+          vaFacility: '983GB',
+          facilityType: 'vamc',
+          typeOfCareId: 'EYE',
+          typeOfEyeCareId: '407',
+        },
+        facilities: {
+          '407_983': [
+            {
+              institutionCode: '983GB',
+              name: 'CHYSHR-Cheyenne VA Medical Center',
+              city: 'Cheyenne',
+              stateAbbrev: 'WY',
+              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+              rootStationCode: '983',
+              parentStationCode: '983',
+              institutionTimezone: 'America/Denver',
+            },
+          ],
+        },
+      },
+    };
+    const data = transformFormToVARequest(state);
+    expect(data).to.deep.equal({
+      typeOfCare: '407',
+      typeOfCareId: '407',
+      appointmentType: 'Ophthalmology',
+      cityState: {
+        institutionCode: '983',
+        rootStationCode: '983',
+        parentStationCode: '983',
+        adminParent: true,
+      },
+      status: 'Submitted',
+      facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
+        facilityCode: '983GB',
+        parentSiteCode: '983',
+      },
+      purposeOfVisit: 'Routine Follow-up',
+      otherPurposeOfVisit: null,
+      visitType: 'Office Visit',
+      phoneNumber: '5035551234',
+      verifyPhoneNumber: '5035551234',
+      optionDate1: '11/20/2019',
+      optionDate2: 'No Date Selected',
+      optionDate3: 'No Date Selected',
+      optionTime1: 'PM',
+      optionTime2: 'No Time Selected',
+      optionTime3: 'No Time Selected',
+      bestTimetoCall: ['Morning'],
+      emailPreferences: {
+        emailAddress: 'test@va.gov',
+        notificationFrequency: 'Each new message',
+        emailAllowed: true,
+        textMsgAllowed: false,
+        textMsgPhNumber: '',
+      },
+      email: 'test@va.gov',
+      schedulingMethod: 'clerk',
+      requestedPhoneCall: false,
+      providerId: '0',
+      providerOption: '',
     });
   });
 });

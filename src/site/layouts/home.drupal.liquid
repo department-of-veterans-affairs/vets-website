@@ -15,7 +15,16 @@
           <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{ card.label | downcase | replace: ' ', '-' }} hub-color-{{ card.label | downcase | replace: ' ', '-' }}"></i>{{ card.label }}</h2>
           <ul class="hub-links-list">
             {% for link in card.links %}
-              <li><a data-nav-path="{{ card.label }}->{% if link.url.path != empty %}{{ link.url.path }}{% else %}{{ link.label }}{% endif %}" href="{{ link.url.path }}">{{ link.label }}</a></li>
+              <li>
+                <a href="{{ link.url.path }}"
+                  onclick="recordEvent({
+                    event: 'nav-zone-one',
+                    'nav-path': '->{% if link.url.path != empty %}{{ link.url.path }}{% else %}{{ link.label }}{% endif %}',
+                  });"
+                  >
+                  {{ link.label }}
+                </a>
+              </li>
             {% endfor %}
           </ul>
         </div>
@@ -117,21 +126,6 @@
   </section>
 
 </main>
-
-<script type="text/javascript">
-  var hubLinksList = document.getElementsByClassName('hub-links-list');
-
-  for (var i=0; i < hubLinksList.length; i++) {
-    hubLinksList[i].addEventListener('click', function(e) {
-      var linkData = e.target.dataset;
-
-      recordEvent({
-        event: 'nav-zone-one',
-        'nav-path': linkData.navPath,
-      });
-    });
-  }
-</script>
 
 {% include "src/site/includes/footer.html" %}
 {% include "src/site/includes/debug.drupal.liquid" %}

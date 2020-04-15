@@ -1,5 +1,4 @@
 import * as VET360 from '../constants';
-import countries from '../constants/countries.json';
 
 export const PENDING_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.RECEIVED,
@@ -58,19 +57,19 @@ export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
 export const DECEASED_ERROR_CODES = new Set(['VET360_MVI300']);
 
 export function isPendingTransaction(transaction) {
-  return PENDING_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return PENDING_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 export function isSuccessfulTransaction(transaction) {
-  return SUCCESS_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return SUCCESS_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 export function isFailedTransaction(transaction) {
-  return FAILURE_STATUSES.has(transaction.data.attributes.transactionStatus);
+  return FAILURE_STATUSES.has(transaction?.data.attributes.transactionStatus);
 }
 
 function matchErrorCode(codeSet, transaction) {
-  const { metadata } = transaction.data.attributes;
+  const { metadata } = transaction?.data.attributes;
   return metadata && metadata.some(error => codeSet.has(error.code));
 }
 
@@ -88,17 +87,4 @@ export function hasMVIError(transaction) {
 
 export function hasUserIsDeceasedError(transaction) {
   return matchErrorCode(DECEASED_ERROR_CODES, transaction);
-}
-
-// Adds a countryCodeIso3 to an address based on the countryName value
-export function addCountryCodeIso3ToAddress(address) {
-  if (!address.countryName) return { ...address };
-
-  const countryData = countries.find(
-    country => country.countryName === address.countryName,
-  );
-
-  if (!countryData) return { ...address };
-
-  return { ...address, countryCodeIso3: countryData.countryCodeISO3 };
 }
