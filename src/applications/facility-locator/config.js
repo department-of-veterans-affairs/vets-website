@@ -3,11 +3,6 @@ import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
 
-// TODO: Remove me when done bug fixing
-// const environment = {
-//   API_URL: 'http://staging-api.va.gov',
-// };
-
 // Base URL to be used in API requests.
 export const api = {
   baseUrl: `${environment.API_URL}/v0/facilities`,
@@ -63,6 +58,11 @@ export const resolveParamsWithUrl = (
       }
       break;
     case 'cc_pharmacy':
+      facility = locationType;
+      service = serviceType;
+      url = api.ccUrl;
+      break;
+    case 'cc_provider':
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
