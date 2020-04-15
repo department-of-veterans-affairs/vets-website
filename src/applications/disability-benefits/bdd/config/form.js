@@ -1,6 +1,6 @@
 // import fullSchema from 'vets-json-schema/dist/21-526EZ-schema.json';
 
-import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.properties;
