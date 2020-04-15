@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../components/AlertBox';
 import environment from 'platform/utilities/environment';
 
 export const renderSchoolClosingAlert = result => {
@@ -134,3 +134,14 @@ export const renderVetTecLogo = classNames => (
     alt="Vet Tec Logo"
   />
 );
+
+export const renderSearchResultsHeader = search => {
+  const header = search.count === 1 ? 'Search Result' : 'Search Results';
+
+  return (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} ${header}`}
+    </h1>
+  );
+};

@@ -15,7 +15,7 @@ const ADDRESS_PROPS = [
   'addressLine2',
   'addressLine3',
   'city',
-  'countryName',
+  'countryCodeIso3',
   'internationalPostalCode',
   'province',
   'stateCode',

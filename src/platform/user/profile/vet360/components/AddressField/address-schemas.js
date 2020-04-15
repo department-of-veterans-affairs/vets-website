@@ -30,9 +30,10 @@ const formSchema = {
       type: 'object',
       properties: {},
     },
-    countryName: {
+    countryCodeIso3: {
       type: 'string',
-      enum: ADDRESS_FORM_VALUES.COUNTRIES,
+      enum: ADDRESS_FORM_VALUES.COUNTRY_ISO3_CODES,
+      enumNames: ADDRESS_FORM_VALUES.COUNTRIES,
     },
     addressLine1: {
       type: 'string',
@@ -71,7 +72,7 @@ const formSchema = {
       type: 'string',
     },
   },
-  required: ['countryName', 'addressLine1', 'city'],
+  required: ['countryCodeIso3', 'addressLine1', 'city'],
 };
 
 const uiSchema = {
@@ -94,17 +95,19 @@ const uiSchema = {
       </div>
     ),
   },
-  countryName: {
+  countryCodeIso3: {
     'ui:title': 'Country',
     'ui:options': {
       updateSchema: formData => {
         if (formData['view:livesOnMilitaryBase']) {
           return {
-            enum: [USA.COUNTRY_NAME],
+            enum: [USA.COUNTRY_ISO3_CODE],
+            enumNames: [USA.COUNTRY_NAME],
           };
         }
         return {
-          enum: ADDRESS_FORM_VALUES.COUNTRIES,
+          enum: ADDRESS_FORM_VALUES.COUNTRY_ISO3_CODES,
+          enumNames: ADDRESS_FORM_VALUES.COUNTRIES,
         };
       },
       updateUiSchema: formData => {
@@ -162,7 +165,7 @@ const uiSchema = {
       required: 'State is required',
     },
     'ui:options': {
-      hideIf: formData => formData.countryName !== USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
       updateSchema: formData => {
         if (formData['view:livesOnMilitaryBase']) {
           return {
@@ -176,12 +179,13 @@ const uiSchema = {
         };
       },
     },
-    'ui:required': formData => formData.countryName === USA.COUNTRY_NAME,
+    'ui:required': formData =>
+      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   },
   province: {
     'ui:title': 'State/Province/Region',
     'ui:options': {
-      hideIf: formData => formData.countryName === USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
   },
   zipCode: {
@@ -192,9 +196,10 @@ const uiSchema = {
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
-      hideIf: formData => formData.countryName !== USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
     },
-    'ui:required': formData => formData.countryName === USA.COUNTRY_NAME,
+    'ui:required': formData =>
+      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   },
   internationalPostalCode: {
     'ui:title': 'International postal code',
@@ -203,9 +208,10 @@ const uiSchema = {
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
-      hideIf: formData => formData.countryName === USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
-    'ui:required': formData => formData.countryName !== USA.COUNTRY_NAME,
+    'ui:required': formData =>
+      formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
   },
 };
 
