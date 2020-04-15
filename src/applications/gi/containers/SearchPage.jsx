@@ -26,6 +26,7 @@ import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
+import { renderSearchResultsHeader } from '../utils/render';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -240,21 +241,10 @@ export class SearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => {
-    const header = search.count === 1 ? 'Search Result' : 'Search Results';
-
-    return (
-      <h1 tabIndex={-1}>
-        {!search.inProgress &&
-          `${(search.count || 0).toLocaleString()} ${header}`}
-      </h1>
-    );
-  };
-
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>
       <div className="vads-l-col--10 search-results-count">
-        {this.renderSearchResultsHeader(this.props.search)}
+        {renderSearchResultsHeader(this.props.search)}
       </div>
       <InstitutionSearchForm
         filtersClass={filtersClass}
