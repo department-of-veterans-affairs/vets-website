@@ -138,6 +138,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
+  client.pause(Timeouts.normal);
   TestHelpers.fillVeteranMarriageHistory(client, testData.data, true);
   client.click('button[id="4-continueButton"]');
 
