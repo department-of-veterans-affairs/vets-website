@@ -87,7 +87,7 @@ function updateAttr(attr, doc, client) {
     )[0];
     // *.ci.cms.va.gov ENVs don't have AWS URLs.
     const newAssetPath = convertAssetPath(srcAttr);
-    const awsURI = getAwsURI(usingAWS, siteURI);
+    const awsURI = getAwsURI(siteURI, usingAWS);
 
     assetsToDownload.push({
       // URLs in WYSIWYG content won't be the AWS URLs, they'll be CMS URLs.
