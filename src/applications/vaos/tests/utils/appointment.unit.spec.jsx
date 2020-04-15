@@ -500,7 +500,7 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('filterPastConfirmedAppointments', () => {
+  describe('filterFutureCConfirmedAppointments', () => {
     it('should filter future confirmed appointments', () => {
       const confirmed = [
         { startDate: '2099-04-30T05:35:00', facilityId: '984' },
