@@ -2,6 +2,12 @@ const getDrupalClient = require('./api');
 const cheerio = require('cheerio');
 const { PUBLIC_URLS } = require('../../../constants/drupals');
 
+const PUBLIC_URLS_NO_SCHEME = {};
+Object.entries(PUBLIC_URLS).map(item => {
+  PUBLIC_URLS_NO_SCHEME[item[0]] = item[1].replace('http:', ':');
+  return PUBLIC_URLS_NO_SCHEME;
+});
+
 function replacePathInData(data, replacer) {
   let current = data;
   if (Array.isArray(data)) {
@@ -62,7 +68,9 @@ function updateAttr(attr, doc, client) {
     // *.ci.cms.va.gov ENVs don't have AWS URLs.
     const newAssetPath = convertAssetPath(srcAttr);
     const awsURI = usingAWS
-      ? Object.entries(PUBLIC_URLS).find(entry => entry[1] === siteURI)[0]
+      ? Object.entries(PUBLIC_URLS_NO_SCHEME).find(entry =>
+          siteURI.match(entry[1]),
+        )[0]
       : null;
 
     assetsToDownload.push({
