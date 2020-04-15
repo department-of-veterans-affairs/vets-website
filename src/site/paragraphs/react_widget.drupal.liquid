@@ -31,11 +31,11 @@
 {% endcomment %}
 
   {% if entity.fieldCtaWidget %}
-      <div data-template="paragraphs/react_widget" data-entity-id="{{ entityId }}" class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
+      <div data-template="paragraphs/react_widget" data-entity-id="{{ entity.entityId }}" class="cta-widget" data-widget-type="cta" data-app-id="{{ entity.fieldWidgetType }}"></div>
   {% else %}
     <div
       data-template="paragraphs/react_widget"
-      data-entity-id="{{ entityId }}"
+      data-entity-id="{{ entity.entityId }}"
       data-widget-type={{ entity.fieldWidgetType }}
       {% if entityUrl.path contains "/eligibility" %}data-widget-show-learn-more{% endif %}
       data-widget-timeout="{{entity.fieldTimeout}}">
