@@ -69,11 +69,7 @@ const mhvToEauthRoutes = {
   'labs-tests': 'lab-tests',
 };
 
-const mhvUrlNonSSO = subroute => {
-  const mhvSubdomain = environment.isProduction() ? 'www' : 'mhv-syst';
-
-  return `https://${mhvSubdomain}.myhealth.va.gov/mhv-portal-web/${subroute}`;
-};
+const mhvUrlNonSSO = subroute => `${mhvBaseUrl()}/mhv-portal-web/${subroute}`;
 
 const mhvUrlSSO = deeplinkTarget => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
