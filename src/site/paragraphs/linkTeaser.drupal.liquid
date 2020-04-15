@@ -24,7 +24,7 @@
         {% assign headerClass = "va-nav-linkslist-title" %}
     {% endif %}
 {% endif %}
-<li {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
+<li data-template="paragraphs/linkTeaser" data-entity-id="{{ entityId }}" {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
     {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
     <a href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
         {% if link.title != empty %}
