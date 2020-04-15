@@ -240,12 +240,16 @@ export class SearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => (
-    <h1 tabIndex={-1}>
-      {!search.inProgress &&
-        `${(search.count || 0).toLocaleString()} Search Results`}
-    </h1>
-  );
+  renderSearchResultsHeader = search => {
+    const header = search.count === 1 ? 'Search Result' : 'Search Results';
+
+    return (
+      <h1 tabIndex={-1}>
+        {!search.inProgress &&
+          `${(search.count || 0).toLocaleString()} ${header}`}
+      </h1>
+    );
+  };
 
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>
