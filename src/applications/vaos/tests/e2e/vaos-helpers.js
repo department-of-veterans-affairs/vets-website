@@ -165,7 +165,6 @@ function mockSingleFacility(token, systemId, facilityId) {
     path: `/v0/vaos/systems/${systemId}/direct_scheduling_facilities`,
     verb: 'get',
     value: {
-      ...facilities983,
       data: facilities983.data.filter(f => f.id === facilityId),
     },
   });
