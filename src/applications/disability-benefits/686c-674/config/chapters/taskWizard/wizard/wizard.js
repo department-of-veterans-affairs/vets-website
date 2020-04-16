@@ -13,7 +13,7 @@ export const schema = {
         reportDeath: { type: 'boolean', default: false },
         reportStepchildNotInHousehold: { type: 'boolean', default: false },
         reportMarriageOfChildUnder18: { type: 'boolean', default: false },
-        reportChild18orOlderIsNotAttendingSchool: {
+        reportChild18OrOlderIsNotAttendingSchool: {
           type: 'boolean',
           default: false,
         },
