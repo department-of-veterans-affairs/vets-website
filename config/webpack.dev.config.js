@@ -1,23 +1,11 @@
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
-const appSettings = require('./parse-app-settings');
 
 function generateWebpackDevConfig(buildOptions) {
-  appSettings.parseFromBuildOptions(buildOptions);
-
-  const routes = appSettings.getAllApplicationRoutes();
-  const appRewrites = routes
-    .map(url => ({
-      from: `^${url}(.*)`,
-      to: `${url}/`,
-    }))
-    .sort((a, b) => b.from.length - a.from.length);
-
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: buildOptions.destination,
     historyApiFallback: {
       rewrites: [
-        ...appRewrites,
         {
           from: '^/(.*)',
           to(context) {
