@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -49,7 +50,7 @@ export const AccountSecurityContent = ({
   }
 
   return (
-    <div>
+    <>
       <ProfileInfoTable data={data} fieldName="accountSecurity" />
       <AlertBox
         status="info"
@@ -75,8 +76,16 @@ export const AccountSecurityContent = ({
           Go to VA.gov FAQs
         </a>
       </AlertBox>
-    </div>
+    </>
   );
+};
+
+AccountSecurityContent.propTypes = {
+  isIdentityVerified: PropTypes.bool.isRequired,
+  isMultifactorEnabled: PropTypes.bool.isRequired,
+  mhvAccount: PropTypes.object,
+  showMHVTermsAndConditions: PropTypes.bool.isRequired,
+  useSSOe: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
