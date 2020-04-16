@@ -9,7 +9,6 @@ import stub from './constants/stub.json';
 
 const SELECTORS = {
   APP: '[data-e2e-id="yellow-ribbon-app"]',
-  NEXT_PAGE: '.va-pagination-next > a',
   SEARCH_FORM: '[data-e2e-id="search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
 };
