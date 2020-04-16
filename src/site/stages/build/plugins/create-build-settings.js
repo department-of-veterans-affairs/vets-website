@@ -35,10 +35,9 @@ function createBuildSettings(options) {
 
       const frontmatter = {};
 
-      for (const dataKey of Object.keys(file)) {
-        const data = file[dataKey];
-        if (!keysToSkip.has(dataKey) && validTypes.includes(typeof data)) {
-          frontmatter[dataKey] = data;
+      for (const [key, data] of Object.entries(file)) {
+        if (!keysToSkip.has(key) && validTypes.includes(typeof data)) {
+          frontmatter[key] = data;
         }
       }
 
