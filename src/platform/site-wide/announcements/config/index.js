@@ -15,8 +15,8 @@ import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
 
 // Derive when downtime will start and expire.
-const downtimeStartAtDate = moment.utc('2020-03-01T02:00:00.000Z').local();
-const downtimeExpiresAtDate = moment.utc('2020-03-01T02:30:00.000Z').local();
+const downtimeStartAtDate = moment.utc('2020-04-25T13:00:00.000Z').local();
+const downtimeExpiresAtDate = moment.utc('2020-04-26T13:00:00.000Z').local();
 
 const config = {
   announcements: [
