@@ -3,6 +3,7 @@ const autocomplete = require('./e2e/autocomplete.json');
 const institutionProfile = require('./e2e/institution-profile.json');
 const searchResults = require('./e2e/search-results.json');
 const calculatorConstants = require('./e2e/calculator-constants.json');
+const featureToggles = require('./e2e/feature-toggles.json');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const institutionAttributes = institutionProfile.data.attributes;
@@ -41,11 +42,7 @@ const initApplicationMock = () => {
   mock(null, {
     path: '/v0/feature_toggles',
     verb: 'get',
-    value: {
-      data: {
-        features: [],
-      },
-    },
+    value: featureToggles,
   });
 
   mock(null, {
@@ -86,7 +83,7 @@ const expandCollapseAccordion = (client, id) =>
  * @param name
  */
 const expandCollapseMainSection = (client, name) => {
-  const id = `#${name.toLowerCase().replace(/\s/g, '-')}`;
+  const id = `#${name.toLowerCase().replace(/\s/g, '-')}-accordion`;
   expandCollapseAccordion(client, id);
 };
 

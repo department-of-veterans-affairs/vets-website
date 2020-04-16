@@ -2,6 +2,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const vetTecProfile = require('./e2e/vet-tec-profile.json');
 const vetTecSearchResults = require('./e2e/vet-tec-search-results.json');
 const calculatorConstants = require('./e2e/calculator-constants.json');
+const featureToggles = require('./e2e/feature-toggles.json');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const vetTecAttributes = vetTecProfile.data.attributes;
@@ -29,11 +30,7 @@ const initApplicationMock = () => {
   mock(null, {
     path: '/v0/feature_toggles',
     verb: 'get',
-    value: {
-      data: {
-        features: [],
-      },
-    },
+    value: featureToggles,
   });
 
   mock(null, {
