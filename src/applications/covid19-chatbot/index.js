@@ -3,6 +3,7 @@ import 'botframework-webchat';
 const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
 let chatBotScenario = 'unknown';
+let root = null;
 
 function extractLocale(localeParam) {
   if (localeParam === 'autodetect') {
@@ -37,8 +38,7 @@ function getUserLocation(callback) {
 }
 
 function startChat(user, webchatOptions) {
-  const botContainer = document.getElementById('webchat');
-  window.WebChat.renderWebChat(webchatOptions, botContainer);
+  window.WebChat.renderWebChat(webchatOptions, root);
 }
 
 function initBotConversation() {
@@ -164,6 +164,7 @@ function chatRequested(scenario) {
   }
 }
 
-export default function initializeChatbot() {
+export default function initializeChatbot(_root) {
+  root = _root;
   chatRequested('va_covid_chatbot_wrapper');
 }
