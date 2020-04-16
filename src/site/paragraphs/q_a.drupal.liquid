@@ -24,9 +24,9 @@
 {% else %}
   {% assign header = "h3" %}
 {% endif %}
-<div itemscope="" itemtype="http://schema.org/Question">
+<div data-template="paragraphs/q_a" data-entity-id="{{ entity.entityId }}" itemscope="" itemtype="http://schema.org/Question">
   <{{ header }} itemprop="name">{{ entity.fieldQuestion }}</{{ header }}>
-  <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+  <div data-entity-id="{{ entity.entityId }}" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
     <div itemprop="text">
 
     {% for answer in entity.fieldAnswer %}

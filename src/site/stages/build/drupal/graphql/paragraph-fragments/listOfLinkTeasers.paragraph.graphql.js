@@ -8,6 +8,7 @@ const listOfLinkTeasers = `
   fragment listOfLinkTeasers on ParagraphListOfLinkTeasers {
   	parentFieldName
     fieldTitle
+    entityId
     fieldVaParagraphs {
       entity {
         ${LINKTEASER_FRAGMENT}

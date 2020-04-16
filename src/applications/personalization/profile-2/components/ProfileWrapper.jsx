@@ -7,8 +7,10 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
+  selectProfile,
 } from 'platform/user/selectors';
 
+import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -23,11 +25,13 @@ class ProfileWrapper extends Component {
   componentDidMount() {
     const {
       fetchFullName,
+      fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchPaymentInformation,
       shouldFetchDirectDepositInformation,
     } = this.props;
+    fetchMHVAccount();
     fetchMilitaryInformation();
     fetchFullName();
     fetchPersonalInformation();
@@ -45,7 +49,10 @@ class ProfileWrapper extends Component {
     }
   }
 
-  // content to show if the component is waiting for data to load
+  // content to show if the component is waiting for data to load. This loader
+  // matches the loader shown by the RequiredLoginView component, so when the
+  // RequiredLoginView is done with its loading and this function takes over, it
+  // appears seamless to the user.
   loadingContent = () => (
     <div className="vads-u-margin-y--5">
       <LoadingIndicator setFocus message="Loading your information..." />
@@ -61,7 +68,9 @@ class ProfileWrapper extends Component {
         <div className="usa-width-one-fourth">
           <ProfileSideNav />
         </div>
-        <div className="usa-width-three-fourths">{this.props.children}</div>
+        <div className="usa-width-two-thirds vads-u-padding-x--1 medium-screen:vads-u-padding--0">
+          {this.props.children}
+        </div>
       </div>
     </>
   );
@@ -97,6 +106,12 @@ const mapStateToProps = state => {
   // or fails:
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
 
+  // when the call to load MHV fails, `errors` will be set to a non-null value
+  // when the call succeeds, the `accountState` will be set to a non-null value
+  const hasLoadedMHVInformation =
+    selectProfile(state)?.mhvAccount?.errors ||
+    selectProfile(state)?.mhvAccount?.accountState;
+
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
   const hasLoadedPersonalInformation = state.vaProfile?.personalInformation;
@@ -110,8 +125,9 @@ const mapStateToProps = state => {
   const hasLoadedPaymentInformation = state.vaProfile?.paymentInformation;
 
   const hasLoadedAllData =
-    hasLoadedMilitaryInformation &&
     hasLoadedFullName &&
+    hasLoadedMHVInformation &&
+    hasLoadedMilitaryInformation &&
     hasLoadedPersonalInformation &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
@@ -124,6 +140,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
+  fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchPaymentInformation: fetchPaymentInformationAction,

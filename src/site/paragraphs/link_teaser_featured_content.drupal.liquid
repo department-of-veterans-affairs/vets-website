@@ -1,4 +1,5 @@
-<li class="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
+<li data-template="paragraphs/link_teaser_featured_content" data-entity-id="{{ linkTeaser.entityId }}"
+  class="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
     {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
     {% if link.title != empty %}
         <b>{{ link.title }}</b>
