@@ -6,7 +6,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-import buildSettings from '../monitoring/BuildSettings/reducer';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import externalServiceStatuses from '../monitoring/external-services/reducer';
 import announcements from '../site-wide/announcements/reducers';
@@ -28,7 +27,6 @@ const brandConsolidatedReducers = {
  */
 export const commonReducer = {
   announcements,
-  buildSettings,
   externalServiceStatuses,
   featureToggles: FeatureToggleReducer,
   navigation,
