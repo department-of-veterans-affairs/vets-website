@@ -111,7 +111,10 @@ const deriveDivisionProfessionalSchool = (school = {}) => {
 export const SearchResult = ({ school }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
-    <p className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0">
+    <p
+      className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0"
+      data-e2e-id="result-title"
+    >
       <span className="sr-only">School name</span>
       {deriveNameLabel(school)}
     </p>
