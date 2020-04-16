@@ -1,12 +1,12 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { isAnchor } from './utilities';
 
-export default function addQaSectionListeners() {
-  const selectors = {
-    template: '[data-template="paragraphs/q_a_section"]',
-    faq: '[data-template="paragraphs/q_a"]',
-  };
+const selectors = {
+  template: '[data-template="paragraphs/q_a_section"]',
+  faq: '[data-template="paragraphs/q_a"]',
+};
 
+function attachDataToAnchorTags() {
   const faqs = document.querySelectorAll(selectors.faq);
 
   // Cycle through each FAQ, binding the FAQ data to each anchor
@@ -19,6 +19,18 @@ export default function addQaSectionListeners() {
       anchor.dataset.faqText = faq.dataset.analyticsFaqText; // eslint-disable-line no-param-reassign
     });
   });
+}
+
+export default function addQaSectionListeners() {
+  // Add some data into the dataset of each <a> tag.
+  // We could directly attach event listeners to the
+  // "selectors.faq" elements and easily access its dataset,
+  // but there are sometimes a lot of instances, so that
+  // would add up to a lot of listeners. So instead, we
+  // attach the listener to the wrapper of the "selectors.faq" elements
+  // and access the <a>'s dataset to get the context.
+
+  attachDataToAnchorTags();
 
   const containers = document.querySelectorAll(selectors.template);
 
