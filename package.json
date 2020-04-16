@@ -278,7 +278,6 @@
     "prop-types": "^15.6.1",
     "raven": "^2.6.4",
     "react": "^16.7.0",
-    "react-cropper": "^1.0.1",
     "react-dom": "^16.7.0",
     "react-dropzone": "^4.2.5",
     "react-leaflet": "^2.2.0",
