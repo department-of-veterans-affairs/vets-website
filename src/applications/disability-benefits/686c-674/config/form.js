@@ -1,3 +1,6 @@
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
@@ -49,10 +52,11 @@ import {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/21-686c`,
   trackingPrefix: 'new-686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '21-686',
   version: 0,
   prefillEnabled: true,
