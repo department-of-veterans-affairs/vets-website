@@ -3,43 +3,23 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import ProfileInfoTable, {
-  prefixUtilityClasses,
-} from '../../components/ProfileInfoTable';
-
-describe('prefixUtilityClasses', () => {
-  const classes = ['class-1', 'class-2'];
-  it('should prefix an array of classes with `vads-u-`', () => {
-    const expectedResult = ['vads-u-class-1', 'vads-u-class-2'];
-    const result = prefixUtilityClasses(classes);
-    expect(result).to.deep.equal(expectedResult);
-  });
-  describe('when passed a screenSize', () => {
-    it('should prefix an array of classes with the responsive prefix and `vads-u-`', () => {
-      const expectedResult = [
-        'medium-screen:vads-u-class-1',
-        'medium-screen:vads-u-class-2',
-      ];
-      const result = prefixUtilityClasses(classes, 'medium');
-      expect(result).to.deep.equal(expectedResult);
-    });
-  });
-});
+import ProfileInfoTable from '../../components/ProfileInfoTable';
 
 describe('ProfileInfoTable', () => {
   let dataTransformerSpy;
-  const props = {
-    title: 'Table Title',
-    fieldName: 'profileField',
-    data: [
-      { title: 'row 1', value: 'value 1' },
-      { title: 'row 2', value: 'value 2' },
-    ],
-  };
+  let props;
   let wrapper;
   beforeEach(() => {
     dataTransformerSpy = sinon.spy(arg => arg);
-    props.dataTransformer = dataTransformerSpy;
+    props = {
+      title: 'Table Title',
+      fieldName: 'profileField',
+      data: [
+        { title: 'row 1', value: 'value 1' },
+        { title: 'row 2', value: 'value 2' },
+      ],
+      dataTransformer: dataTransformerSpy,
+    };
     wrapper = shallow(<ProfileInfoTable {...props} />);
   });
   afterEach(() => {
@@ -55,6 +35,9 @@ describe('ProfileInfoTable', () => {
     const h3 = wrapper.find('h3');
     expect(h3.text()).to.equal(props.title);
   });
+  it('should render an h3 tag as the first child element', () => {
+    expect(wrapper.childAt(0).type()).to.equal('h3');
+  });
   it('renders a table row div for each entry in the data prop', () => {
     const tableRows = wrapper.find('div > div.table-row');
     expect(tableRows.length).to.equal(props.data.length);
@@ -68,6 +51,30 @@ describe('ProfileInfoTable', () => {
       const { title, value } = props.data[index];
       expect(row.text().includes(title)).to.be.true;
       expect(row.text().includes(value)).to.be.true;
+    });
+  });
+  describe('when no title is set', () => {
+    beforeEach(() => {
+      props = {
+        fieldName: 'profileField',
+        data: [
+          { title: 'row 1', value: 'value 1' },
+          { title: 'row 2', value: 'value 2' },
+        ],
+      };
+      wrapper = shallow(<ProfileInfoTable {...props} />);
+    });
+    afterEach(() => {
+      wrapper.unmount();
+    });
+    it('should not render an h3 tag', () => {
+      const h3 = wrapper.find('h3');
+      expect(h3.length).to.equal(0);
+    });
+    it('should render a table-row div as its first child', () => {
+      const firstChild = wrapper.childAt(0);
+      expect(firstChild.type()).to.equal('div');
+      expect(firstChild.hasClass('table-row')).to.be.true;
     });
   });
 });

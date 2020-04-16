@@ -1,28 +1,5 @@
 import moment from 'moment';
 
-export function formatBestTimeToCall(bestTime) {
-  const times = [];
-  if (bestTime?.morning) {
-    times.push('Morning');
-  }
-
-  if (bestTime?.afternoon) {
-    times.push('Afternoon');
-  }
-
-  if (bestTime?.evening) {
-    times.push('Evening');
-  }
-
-  if (times.length === 1) {
-    return times[0];
-  } else if (times.length === 2) {
-    return `${times[0]} or ${times[1]}`;
-  }
-
-  return 'Anytime during the day';
-}
-
 export function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
     return careLabel;
@@ -79,3 +56,54 @@ export const formatOperatingHours = operatingHours => {
   // Return the formatted operating hours.
   return formattedOperatingHours;
 };
+
+export function titleCase(str) {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+export function sentenceCase(str) {
+  return str
+    .split(' ')
+    .map((word, index) => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      if (index === 0) {
+        return `${word.charAt(0).toUpperCase()}${word
+          .substr(1, word.length - 1)
+          .toLowerCase()}`;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
+
+export function lowerCase(str = '') {
+  return str
+    .split(' ')
+    .map(word => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
+
+/**
+ * Returns formatted address from facility details object
+ *
+ * @param {*} facility - facility details object
+ */
+export function formatFacilityAddress(facility) {
+  return `${facility.address.physical.address1} ${
+    facility.address.physical.city
+  }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
+}

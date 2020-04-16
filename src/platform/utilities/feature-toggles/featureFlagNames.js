@@ -13,4 +13,5 @@ export default Object.freeze({
   ssoe: 'ssoe',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
   eduSection103: 'eduSection103',
+  gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
 });

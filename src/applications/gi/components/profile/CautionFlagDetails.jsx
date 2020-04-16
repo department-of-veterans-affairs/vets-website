@@ -14,7 +14,11 @@ const CautionFlagDetails = ({ cautionFlags }) => {
           )
           .map(flag => (
             <AlertBox
-              headline={flag.title}
+              headline={
+                <h4 className="vads-u-font-size--h3 usa-alert-heading">
+                  {flag.title}
+                </h4>
+              }
               key={flag.id}
               status="warning"
               content={

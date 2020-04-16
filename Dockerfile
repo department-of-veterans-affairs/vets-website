@@ -30,11 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
 
-# Install vale for plain language linting
-RUN curl -sfL https://install.goreleaser.com/github.com/ValeLint/vale.sh | sh -s v1.7.1 \
-  && export PATH="./bin:$PATH" \
-  && vale -v
-
 RUN mkdir -p /application
 
 WORKDIR /application

@@ -42,6 +42,7 @@ module.exports = `
           }
           fieldSituationUpdates {
             entity {
+              entityId
               ... on ParagraphSituationUpdate {
                 fieldDateAndTime {
                   date
