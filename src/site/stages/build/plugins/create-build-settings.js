@@ -8,10 +8,6 @@
 function getBuildSettings(options) {
   return {
     type: options.buildtype,
-    vic: {
-      rateLimitAuthed: 1,
-      rateLimitUnauthed: 1,
-    },
     applications: {},
   };
 }
