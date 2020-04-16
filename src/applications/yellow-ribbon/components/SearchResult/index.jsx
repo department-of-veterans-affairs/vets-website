@@ -6,7 +6,7 @@ import toLower from 'lodash/toLower';
 // Relative imports.
 import { capitalize } from '../../helpers';
 
-const deriveNameLabel = school => {
+export const deriveNameLabel = school => {
   // Show unknown if there's no nameOfInstitution.
   if (!school?.nameOfInstitution) {
     return 'Not provided';
@@ -16,7 +16,7 @@ const deriveNameLabel = school => {
   return startCase(toLower(school?.nameOfInstitution));
 };
 
-const deriveLocationLabel = (school = {}) => {
+export const deriveLocationLabel = (school = {}) => {
   // Show unknown if there's no city or state.
   if (!school?.city && !school?.state) {
     return 'Not provided';
@@ -36,7 +36,7 @@ const deriveLocationLabel = (school = {}) => {
   return `${capitalize(school?.city)}, ${school?.state}`;
 };
 
-const deriveMaxAmountLabel = (school = {}) => {
+export const deriveMaxAmountLabel = (school = {}) => {
   // Show unknown if there's no contributionAmount.
   if (!school?.contributionAmount) {
     return 'Not provided';
@@ -59,7 +59,7 @@ const deriveMaxAmountLabel = (school = {}) => {
   });
 };
 
-const deriveEligibleStudentsLabel = (school = {}) => {
+export const deriveEligibleStudentsLabel = (school = {}) => {
   // Show unknown if there's no numberOfStudents.
   if (!school?.numberOfStudents) {
     return 'Not provided';
@@ -74,7 +74,7 @@ const deriveEligibleStudentsLabel = (school = {}) => {
   return `${school?.numberOfStudents} students`;
 };
 
-const deriveInstURLLabel = (school = {}) => {
+export const deriveInstURLLabel = (school = {}) => {
   // Show unknown if there's no insturl.
   if (!school?.insturl) {
     return 'Not provided';
@@ -88,7 +88,7 @@ const deriveInstURLLabel = (school = {}) => {
   );
 };
 
-const deriveDegreeLevel = (school = {}) => {
+export const deriveDegreeLevel = (school = {}) => {
   // Show unknown if there's no degreeLevel.
   if (!school?.degreeLevel) {
     return 'Not provided';
@@ -98,7 +98,7 @@ const deriveDegreeLevel = (school = {}) => {
   return school?.degreeLevel;
 };
 
-const deriveDivisionProfessionalSchool = (school = {}) => {
+export const deriveDivisionProfessionalSchool = (school = {}) => {
   // Show unknown if there's no divisionProfessionalSchool.
   if (!school?.divisionProfessionalSchool) {
     return 'Not provided';
