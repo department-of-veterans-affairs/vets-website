@@ -21,7 +21,7 @@ Once you have the site set up locally, these are some common commands you might 
 | run the site for local development with automatic rebuilding of Javascript and sass **without** css sourcemaps | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. CSS sourcemaps are off by default to avoid an issue that causes the default watch task to crash after rebuilding |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps| `npm run watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps** | `npm run watch -- --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
-| run the site for local development with automatic rebuilding of code and styles for static **content** | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
+| run the site for local development with automatic rebuilding of code and styles for static **content** | `npm run watch:static` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
