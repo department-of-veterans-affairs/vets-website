@@ -8,5 +8,6 @@ const isCoronavirusFaq = document.location.pathname === coronavirusFaqUrl;
 if (isCoronavirusFaq) {
   addJumplinkListeners();
   addQaSectionListeners();
-  addTeaserListeners();
 }
+
+addTeaserListeners();
