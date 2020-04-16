@@ -29,14 +29,14 @@ export const schema = {
 export const uiSchema = {
   veteranInformation: {
     first: {
-      'ui:title': 'Your first Name',
+      'ui:title': 'Your first name',
       'ui:required': () => true,
     },
     middle: {
-      'ui:title': 'Your middle Name',
+      'ui:title': 'Your middle name',
     },
     last: {
-      'ui:title': 'Your last Name',
+      'ui:title': 'Your last name',
       'ui:required': () => true,
     },
     suffix: {
@@ -58,7 +58,7 @@ export const uiSchema = {
       },
     },
     serviceNumber: {
-      'ui:title': 'Your Service number',
+      'ui:title': 'Your service number',
       'ui:errorMessages': {
         pattern: 'Please enter only numbers',
       },
