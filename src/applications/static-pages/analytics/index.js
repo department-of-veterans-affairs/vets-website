@@ -3,7 +3,9 @@ import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
 
 const coronavirusFaqUrl = '/coronavirus-veteran-frequently-asked-questions/';
-const isCoronavirusFaq = document.location.pathname === coronavirusFaqUrl;
+const isCoronavirusFaq = document.location.pathname.startsWith(
+  coronavirusFaqUrl,
+);
 
 if (isCoronavirusFaq) {
   addJumplinkListeners();
