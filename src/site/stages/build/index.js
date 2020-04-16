@@ -11,6 +11,7 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
+const metalsmithWatch = require('metalsmith-watch');
 
 const silverSmith = require('./silversmith');
 const getOptions = require('./options');
@@ -78,7 +79,8 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   }
 
   return () => {
-    if (webpackDirExists) {
+    // Have to double-check that tempDir exists for when we watch the content
+    if (webpackDirExists && fs.existsSync(tempDir)) {
       fs.moveSync(tempDir, webpackDir);
       // Clean up tmp/ if it's empty. The empty check is needed for CI, where
       // we're building multiple environments in parallel
@@ -258,6 +260,7 @@ function defaultBuild(BUILD_OPTIONS) {
    * changes will be overwritten during the outputHtml step.
    */
   smith.use(parseHtml, 'Parse HTML files');
+
   /**
    * Add nonce attribute with substition string to all inline script tags
    * Convert onclick event handles into nonced script tags
@@ -272,6 +275,16 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
   smith.use(injectAxeCore(BUILD_OPTIONS), 'Inject axe-core for accessibility');
   smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
+
+  if (BUILD_OPTIONS.watch) {
+    smith.use(
+      metalsmithWatch({
+        paths: BUILD_OPTIONS.watchPaths,
+        livereload: true,
+      }),
+      'Watch the content',
+    );
+  }
 
   /* eslint-disable no-console */
   smith.build(err => {
