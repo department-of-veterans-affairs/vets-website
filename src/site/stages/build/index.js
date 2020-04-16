@@ -11,10 +11,8 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
-const metalsmithWatch = require('metalsmith-watch');
 
 const silverSmith = require('./silversmith');
-const getOptions = require('./options');
 
 const assetSources = require('../../constants/assetSources');
 
@@ -96,7 +94,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   };
 }
 
-function defaultBuild(BUILD_OPTIONS) {
+function build(BUILD_OPTIONS) {
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -276,16 +274,6 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(injectAxeCore(BUILD_OPTIONS), 'Inject axe-core for accessibility');
   smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
 
-  if (BUILD_OPTIONS.watch) {
-    smith.use(
-      metalsmithWatch({
-        paths: BUILD_OPTIONS.watchPaths,
-        livereload: true,
-      }),
-      'Watch the content',
-    );
-  }
-
   /* eslint-disable no-console */
   smith.build(err => {
     if (err) throw err;
@@ -298,9 +286,4 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-async function main() {
-  const buildOptions = await getOptions();
-  defaultBuild(buildOptions);
-}
-
-module.exports = main;
+module.exports = build;
