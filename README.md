@@ -37,7 +37,7 @@ Once you have the site set up locally, these are some common commands you might 
 | run lint on JS and fix anything that changed | `npm run lint:js:changed:fix`      |
 | run automated accessibility tests        | `npm run build && npm run test:accessibility` |
 | run visual regression testing            | Start the site. Generate your baseline image set using `npm run test:visual:baseline`. Make your changes. Then run `npm run test:visual`.  |
-| test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
+| test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules                      | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related. |
 | get the latest json schema               | `npm run update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit. |
 | check test coverage                      | `npm run test:coverage`                  |
