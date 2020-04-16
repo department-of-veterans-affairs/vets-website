@@ -11,7 +11,7 @@ import UIDefinitions from '../schemas/definitions/2346UI';
 
 const { email, supplies } = fullSchemaMDOT.definitions;
 
-const { typeOfNewAddress, selectedAddress } = fullSchemaMDOT.properties;
+const { selectedAddress } = fullSchemaMDOT.properties;
 
 const {
   emailField,
@@ -19,8 +19,8 @@ const {
   suppliesField,
   viewAddAccessoriesField,
   viewAddBatteriesField,
-  typeOfNewAddressField,
-  newAddressField,
+  permAddressField,
+  tempAddressField,
   selectedAddressField,
 } = schemaFields;
 
@@ -30,10 +30,10 @@ const {
   addAccessoriesUI,
   addBatteriesUI,
   batteriesUI,
-  accessoriesUI,
-  typeOfNewAddressUI,
-  newAddressUI,
   selectedAddressUI,
+  accessoriesUI,
+  permanentAddressUI,
+  temporaryAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -72,7 +72,6 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
-    typeOfNewAddress,
     selectedAddress,
     addressSchema,
   },
@@ -97,18 +96,18 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
           uiSchema: {
+            [permAddressField]: permanentAddressUI,
+            [tempAddressField]: temporaryAddressUI,
             [selectedAddressField]: selectedAddressUI,
-            [newAddressField]: newAddressUI,
-            [typeOfNewAddressField]: typeOfNewAddressUI,
             [emailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
           },
           schema: {
             type: 'object',
             properties: {
+              [permAddressField]: addressSchema,
+              [tempAddressField]: addressSchema,
               [selectedAddressField]: selectedAddress,
-              [newAddressField]: addressSchema,
-              [typeOfNewAddressField]: typeOfNewAddress,
               [emailField]: email,
               [confirmationEmailField]: email,
             },
