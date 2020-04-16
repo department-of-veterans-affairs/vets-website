@@ -11,7 +11,10 @@ export default function addTeaserListeners() {
     container.addEventListener('click', event => {
       // We need to use "currentTarget" because we're
       // attaching the event listener to the whole container
-      // instead of the <a> tags.
+      // to access its dataset and "target" will contain
+      // the child node of the <a> tag that was directly clicked.
+      // This is unique because the <a> tag wraps a heading and
+      // a <p> tag.
       const node = event.currentTarget;
 
       const analytic = {

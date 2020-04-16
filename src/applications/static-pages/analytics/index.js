@@ -22,7 +22,7 @@ if (specialListeners) {
 addTeaserListeners();
 
 // Prevent the window from navigating away.
-// Useful to verifying events when links are clicked.
+// Useful to verify analytics when links are clicked.
 // window.onbeforeunload = function() {
 //   return ''
 // }
