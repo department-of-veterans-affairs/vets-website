@@ -16,7 +16,7 @@ $corner-size: 4px;
 
     h4 {
       @include media($medium-screen) {
-        width: 216px;
+        width: 208px;
         flex-shrink: 0;
       }
     }
