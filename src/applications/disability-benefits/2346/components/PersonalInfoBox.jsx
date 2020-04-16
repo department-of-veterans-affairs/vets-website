@@ -47,11 +47,16 @@ const PersonalInfoBox = props => {
 };
 
 PersonalInfoBox.propTypes = {
-  first: PropTypes.string.isRequired,
-  last: PropTypes.string.isRequired,
-  middle: PropTypes.string.isRequired,
-  gender: PropTypes.string.isRequired,
-  dateOfBirth: PropTypes.string.isRequired,
+  formData: PropTypes.shape({
+    fullName: PropTypes.shape({
+      first: PropTypes.string.isRequired,
+      last: PropTypes.string.isRequired,
+      middle: PropTypes.string.isRequired,
+    }).isRequired,
+    gender: PropTypes.string.isRequired,
+    dateOfBirth: PropTypes.string.isRequired,
+    ssnLastFour: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default PersonalInfoBox;
