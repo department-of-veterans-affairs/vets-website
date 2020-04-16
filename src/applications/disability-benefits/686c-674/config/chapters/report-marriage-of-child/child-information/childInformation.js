@@ -12,7 +12,6 @@ export const schema = {
   properties: {
     childMarriage: {
       type: 'object',
-      required: ['marriedChildName', 'dateChildMarried'],
       properties: {
         marriedChildName: fullName,
         dateChildMarried: date,
