@@ -216,7 +216,6 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
-      global.fetch.reset();
     });
   });
 
@@ -312,7 +311,6 @@ describe('VAOS newAppointment actions', () => {
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
       expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
-      global.fetch.reset();
     });
 
     it('should send fail action if a fetch fails', async () => {
@@ -652,8 +650,6 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
-      resetFetch();
-      mockFetch();
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           attributes: {
