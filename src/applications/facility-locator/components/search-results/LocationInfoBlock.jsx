@@ -48,7 +48,8 @@ const LocationInfoBlock = ({ location, from, query }) => {
       {distance &&
         location.resultItem && (
           <p>
-            <span>
+            <span className="i-pin-card-map">{location.markerText}</span>
+            <span className="vads-u-margin-left--1">
               <strong>{distance.toFixed(1)} miles</strong>
             </span>
           </p>

@@ -138,7 +138,7 @@ export class SearchResults extends Component {
     if (!results.length) {
       return (
         <h2
-          className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
         >
           No results found.

@@ -7,6 +7,12 @@
 <html lang="en">
 <!--<![endif]-->
 
+<!--
+  layout: {{ layout }}
+  path: {{ path }}
+  entityId: {{ entityId | default: 'N/A' }}
+-->
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -80,8 +86,8 @@
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if path == '' or path == '/' %}
-  <div data-widget-type="homepage-banner"></div>
+  {% if homepage_banner %}
+    {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
   {% endif %}
 
   <script async src="/js/incompatible-browser.js"></script>

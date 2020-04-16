@@ -32,15 +32,13 @@ export class SearchResult extends React.Component {
       state,
       country,
       studentCount,
+      cautionFlag,
+      cautionFlags,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
-    const cautionFlags = [...this.props.cautionFlags].filter(
-      flag => flag.title,
-    );
-
     const linkTo = {
       pathname: `profile/${facilityCode}`,
       query: version ? { version } : {},
@@ -70,13 +68,11 @@ export class SearchResult extends React.Component {
                 </h2>
               </div>
             </div>
-            {(schoolClosing || (cautionFlags && cautionFlags.length > 0)) && (
+            {(schoolClosing || cautionFlag) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {cautionFlags &&
-                    cautionFlags.length > 0 &&
-                    renderCautionAlert({ cautionFlags })}
+                  {renderCautionAlert({ cautionFlag, cautionFlags })}
                 </div>
               </div>
             )}

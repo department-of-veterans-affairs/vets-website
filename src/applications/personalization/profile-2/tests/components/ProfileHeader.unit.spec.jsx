@@ -19,18 +19,18 @@ const fakeStore = {
           serviceHistory: [
             {
               branchOfService: 'Army',
-              beginDate: '2004-2-1',
-              endDate: '2007-2-1',
+              beginDate: '2004-02-01',
+              endDate: '2007-02-01',
             },
             {
               branchOfService: 'Navy',
-              beginDate: '2007-2-1',
-              endDate: '2009-2-1',
+              beginDate: '2007-02-01',
+              endDate: '2009-02-01',
             },
             {
               branchOfService: 'Coast Guard',
-              beginDate: '2009-2-1',
-              endDate: '2019-2-1',
+              beginDate: '2009-02-01',
+              endDate: '2019-02-01',
             },
           ],
         },

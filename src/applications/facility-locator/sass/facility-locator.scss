@@ -774,6 +774,14 @@ $facility-locator-color-gray: #ccc;
   outline: 0;
 }
 
+.i-pin-card-map {
+  background: $color-gray-dark;
+  color: $color-white;
+  padding: 2px 8px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-family: 'Source Sans Pro', sans-serif !important;
+}
 .notice-op-hr {
   padding: 0.5rem !important;
   margin-top: 0;
