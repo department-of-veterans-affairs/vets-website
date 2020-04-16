@@ -2,17 +2,17 @@ import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 
-const PersonalInfoBox = ({
-  first,
-  last,
-  middle,
-  suffix,
-  gender,
-  dateOfBirth,
-  ssnLastFour,
-}) => {
+const PersonalInfoBox = props => {
+  // Derive formData properties.
+  const first = props.formData?.fullName?.first || '';
+  const middle = props.formData?.fullName?.middle || '';
+  const last = props.formData?.fullName?.last || '';
+  const suffix = props.formData?.fullName?.suffix || '';
+  const gender = props.formData?.gender || '';
+  const dateOfBirth = props.formData?.dateOfBirth || '';
+  const ssnLastFour = props.formData?.ssnLastFour || '';
+
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
     .join(' ')
@@ -29,7 +29,7 @@ const PersonalInfoBox = ({
             Last 4 of Social Security number: {ssnLastFour}
           </p>
           <p className="vads-u-margin--1px">
-            Date of Birth: {moment(dateOfBirth).format('MM/DD/YYYY')}
+            Date of birth: {moment(dateOfBirth).format('MM/DD/YYYY')}
           </p>
           <p className="vads-u-margin--1px">
             Gender: {gender ? genderLabels[gender] : ''}
@@ -39,7 +39,7 @@ const PersonalInfoBox = ({
       <p>
         <span className="vads-u-font-weight--bold">Note:</span> if you need to
         update your personal information, please call Veterans Benefits
-        assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
+        Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
         through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </div>
@@ -47,30 +47,16 @@ const PersonalInfoBox = ({
 };
 
 PersonalInfoBox.propTypes = {
-  first: PropTypes.string.isRequired,
-  last: PropTypes.string.isRequired,
-  middle: PropTypes.string.isRequired,
-  gender: PropTypes.string.isRequired,
-  dateOfBirth: PropTypes.string.isRequired,
+  formData: PropTypes.shape({
+    fullName: PropTypes.shape({
+      first: PropTypes.string.isRequired,
+      last: PropTypes.string.isRequired,
+      middle: PropTypes.string.isRequired,
+    }).isRequired,
+    gender: PropTypes.string.isRequired,
+    dateOfBirth: PropTypes.string.isRequired,
+    ssnLastFour: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-PersonalInfoBox.defaultProps = {
-  first: '',
-  last: '',
-  middle: '',
-  gender: '',
-  dateOfBirth: '',
-  ssnLastFour: '',
-};
-
-const mapStateToProps = state => ({
-  first: state.form?.data?.fullName?.first,
-  last: state.form?.data?.fullName?.last,
-  middle: state.form?.data?.fullName?.middle,
-  suffix: state.form?.data?.fullName?.suffix,
-  ssnLastFour: state.form?.data?.ssnLastFour,
-  gender: state.form?.data?.gender,
-  dateOfBirth: state.form?.data?.dateOfBirth,
-});
-
-export default connect(mapStateToProps)(PersonalInfoBox);
+export default PersonalInfoBox;

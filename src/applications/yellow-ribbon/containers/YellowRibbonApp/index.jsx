@@ -9,9 +9,9 @@ import SearchResultsPage from '../../components/SearchResultsPage';
 import manifest from '../../manifest.json';
 
 export const YellowRibbonApp = ({ hasFetchedOnce }) => (
-  <>
+  <div className="vads-l-grid-container vads-u-padding-x--1p5 vads-u-padding-bottom--4">
     {/* Breadcrumbs */}
-    <Breadcrumbs className="vads-u-padding--1p5 medium-screen:vads-u-pading--0">
+    <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
       <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>
@@ -20,7 +20,7 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
 
     {/* Derive the Page */}
     {hasFetchedOnce ? <SearchResultsPage /> : <FindYellowRibbonPage />}
-  </>
+  </div>
 );
 
 YellowRibbonApp.propTypes = {

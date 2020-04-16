@@ -45,8 +45,9 @@ const deriveMaxAmountLabel = (school = {}) => {
   // Derive the contribution amount number.
   const contributionAmountNum = parseFloat(school?.contributionAmount);
 
+  // Show unlimited contribution amount state.
   if (contributionAmountNum > 90000) {
-    return 'All tuition and fees not covered by Post-9/11 GI Bill benefits';
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
   }
 
   // Show formatted contributionAmount.
@@ -110,7 +111,7 @@ const deriveDivisionProfessionalSchool = (school = {}) => {
 export const SearchResult = ({ school }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
-    <p className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-margin--0">
+    <p className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0">
       <span className="sr-only">School name</span>
       {deriveNameLabel(school)}
     </p>

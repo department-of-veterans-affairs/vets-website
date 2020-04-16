@@ -21,7 +21,7 @@
 
 {% if paginator != empty and totalItems <= paginatorCount %}
 
-  <div class="va-pagination">
+  <div class="va-pagination" data-template="includes/pagination">
     {% if paginator.prev != empty %}
       <span class="va-pagination-prev">
         <a href="{{ paginator.prev }}" aria-label="Load previous page{{ paginator.ariaLabel }}">

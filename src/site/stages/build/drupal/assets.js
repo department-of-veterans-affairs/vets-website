@@ -1,6 +1,15 @@
 const getDrupalClient = require('./api');
 const cheerio = require('cheerio');
+const chalk = require('chalk');
 const { PUBLIC_URLS } = require('../../../constants/drupals');
+
+const PUBLIC_URLS_NO_SCHEME = Object.entries(PUBLIC_URLS).reduce(
+  (returnValue, item) => ({
+    ...returnValue,
+    [item[0]]: item[1].replace('http:', ':'),
+  }),
+  {},
+);
 
 function replacePathInData(data, replacer) {
   let current = data;
@@ -47,6 +56,23 @@ function convertAssetPath(url) {
   return `/files/${path}`;
 }
 
+function getAwsURI(siteURI, usingAWS) {
+  if (!usingAWS) return null;
+
+  const matchingEntries = Object.entries(PUBLIC_URLS_NO_SCHEME).find(entry =>
+    siteURI.match(entry[1]),
+  );
+
+  if (!matchingEntries) {
+    // eslint-disable-next-line no-console
+    console.warn(chalk.red(`Could not find AWS bucket for: ${siteURI}`));
+
+    return null;
+  }
+
+  return matchingEntries[0];
+}
+
 // @todo Explain _why_ this function is needed.
 function updateAttr(attr, doc, client) {
   const assetsToDownload = [];
@@ -61,9 +87,7 @@ function updateAttr(attr, doc, client) {
     )[0];
     // *.ci.cms.va.gov ENVs don't have AWS URLs.
     const newAssetPath = convertAssetPath(srcAttr);
-    const awsURI = usingAWS
-      ? Object.entries(PUBLIC_URLS).find(entry => entry[1] === siteURI)[0]
-      : null;
+    const awsURI = getAwsURI(siteURI, usingAWS);
 
     assetsToDownload.push({
       // URLs in WYSIWYG content won't be the AWS URLs, they'll be CMS URLs.
