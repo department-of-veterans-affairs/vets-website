@@ -31,10 +31,9 @@ function createBuildSettings(options) {
 
       if (!entryName) continue;
 
-      let application = settings.applications[entryName];
+      const application = settings.applications[entryName];
       if (!application) {
-        application = {};
-        settings.applications[entryName] = application;
+        settings.applications[entryName] = {};
       }
     }
 
