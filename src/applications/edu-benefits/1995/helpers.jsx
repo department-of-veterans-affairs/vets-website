@@ -23,6 +23,7 @@ export const determineEligibilityFor1995Stem = form =>
   form['view:determineEligibility']['view:determineEligibility'];
 
 export const display1995StemFlow = form =>
+  environment.isProduction() &&
   isEdithNourseRogersScholarship(form) &&
   (isEligibleForEdithNourseRogersScholarship(form) ||
     determineEligibilityFor1995Stem(form));
