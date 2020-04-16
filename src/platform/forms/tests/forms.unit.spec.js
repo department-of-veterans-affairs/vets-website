@@ -9,7 +9,6 @@ import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
 import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
 import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
 import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
-import fullSchemaVIC from 'applications/vic-v2/config/form';
 import fullSchema527EZ from 'applications/pensions/config/form';
 import fullSchema526AllClaims from 'applications/disability-benefits/all-claims/config/form';
 import fullSchema530 from 'applications/burials/config/form';
@@ -65,7 +64,6 @@ const configs = [
   fullSchema5495,
   fullSchema10007,
   fullSchemaFeedbackTool,
-  fullSchemaVIC,
   fullSchema1010CG,
   fullSchemaMDOT,
 ];
