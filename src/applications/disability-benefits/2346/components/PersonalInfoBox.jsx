@@ -3,14 +3,16 @@ import { genderLabels } from 'platform/static-data/labels';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const PersonalInfoBox = ({
-  formData: {
-    fullName: { first, middle, last, suffix },
-    gender,
-    dateOfBirth,
-    ssnLastFour,
-  },
-}) => {
+const PersonalInfoBox = props => {
+  // Derive formData properties.
+  const first = props.formData?.fullName?.first || '';
+  const middle = props.formData?.fullName?.middle || '';
+  const last = props.formData?.fullName?.last || '';
+  const suffix = props.formData?.fullName?.suffix || '';
+  const gender = props.formData?.gender || '';
+  const dateOfBirth = props.formData?.dateOfBirth || '';
+  const ssnLastFour = props.formData?.ssnLastFour || '';
+
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
     .join(' ')
@@ -50,15 +52,6 @@ PersonalInfoBox.propTypes = {
   middle: PropTypes.string.isRequired,
   gender: PropTypes.string.isRequired,
   dateOfBirth: PropTypes.string.isRequired,
-};
-
-PersonalInfoBox.defaultProps = {
-  first: '',
-  last: '',
-  middle: '',
-  gender: '',
-  dateOfBirth: '',
-  ssnLastFour: '',
 };
 
 export default PersonalInfoBox;
