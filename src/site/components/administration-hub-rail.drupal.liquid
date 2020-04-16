@@ -1,4 +1,4 @@
-<ul class="usa-accordion-bordered social">
+<ul data-template="components/administration-hub-rail" data-entity-id="{{ administration.entityId }}" class="usa-accordion-bordered social">
     <li>
         {% assign accordionId = administration.entityBundle | append: administration.entityId  %}
         <button class="usa-accordion-button usa-accordion-button-dark rail-heading" aria-expanded="true" aria-controls="{{ accordionId }}">Connect with us</button>
