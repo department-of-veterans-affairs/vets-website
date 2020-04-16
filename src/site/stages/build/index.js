@@ -77,8 +77,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   }
 
   return () => {
-    // Have to double-check that tempDir exists for when we watch the content
-    if (webpackDirExists && fs.existsSync(tempDir)) {
+    if (webpackDirExists) {
       fs.moveSync(tempDir, webpackDir);
       // Clean up tmp/ if it's empty. The empty check is needed for CI, where
       // we're building multiple environments in parallel
