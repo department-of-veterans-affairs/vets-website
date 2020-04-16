@@ -7,7 +7,7 @@ export default (_store, widgetType) => {
     return;
   }
 
-  // webpackChunkName: "find-va-forms"
+  // webpackChunkName: "chatbot"
   import('./index').then(module => {
     const initializeChatbot = module.default;
     initializeChatbot();
