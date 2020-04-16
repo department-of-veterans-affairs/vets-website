@@ -9,7 +9,6 @@ const permalinks = require('metalsmith-permalinks');
 const registerLiquidFilters = require('../../filters/liquid');
 
 const getOptions = require('../build/options');
-const createBuildSettings = require('../build/plugins/create-build-settings');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
@@ -117,11 +116,6 @@ async function createPipeline(options) {
    */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteAWSUrls(BUILD_OPTIONS));
-
-  // Create the data passed from the content build to the assets compiler.
-  // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
-  // In the browser, it can be accessed at window.settings.
-  smith.use(createBuildSettings(BUILD_OPTIONS));
 
   /**
    * Parse the HTML into a JS data structure for use in later plugins.
