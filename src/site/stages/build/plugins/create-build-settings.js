@@ -22,8 +22,6 @@ function getBuildSettings(options) {
  */
 function createBuildSettings(options) {
   const settingsPath = 'js/settings.js';
-  const validTypes = ['string', 'boolean', 'number'];
-  const keysToSkip = new Set(['headerFooterData', 'featureToggles']);
 
   return (files, metalsmith, done) => {
     const settings = getBuildSettings(options);
@@ -33,22 +31,11 @@ function createBuildSettings(options) {
 
       if (!entryName) continue;
 
-      const frontmatter = {};
-
-      for (const [key, data] of Object.entries(file)) {
-        if (!keysToSkip.has(key) && validTypes.includes(typeof data)) {
-          frontmatter[key] = data;
-        }
-      }
-
       let application = settings.applications[entryName];
       if (!application) {
         application = {};
         settings.applications[entryName] = application;
       }
-
-      application.contentProps = application.contentProps || [];
-      application.contentProps.push(frontmatter);
     }
 
     files[settingsPath] = {
