@@ -13,7 +13,6 @@ Once you have the site set up locally, these are some common commands you might 
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
-| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp script/hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../script/hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
 | build the site with dev features enabled. | `npm run build`                          |
 | build the production site (dev features disabled). | `NODE_ENV=production npm run build -- --buildtype vagovprod` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with the latest content from Drupal | `npm run build -- --pull-drupal` (requires SOCKS proxy access) |
