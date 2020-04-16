@@ -28,8 +28,7 @@ function createBuildSettings(options) {
   return (files, metalsmith, done) => {
     const settings = getBuildSettings(options);
 
-    for (const fileName of Object.keys(files)) {
-      const file = files[fileName];
+    for (const file of Object.values(files)) {
       const { entryname: entryName } = file;
 
       if (!entryName) continue;
