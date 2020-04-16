@@ -8,6 +8,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import clinics from '../../api/clinicList983.json';
+import confirmed from '../../api/confirmed_va.json';
 
 import {
   isEligible,
@@ -24,6 +25,7 @@ describe('VAOS scheduling eligibility logic', () => {
 
     beforeEach(() => {
       setFetchJSONResponse(global.fetch, clinics);
+      setFetchJSONResponse(global.fetch.onCall(1), confirmed);
     });
 
     afterEach(() => {
@@ -50,6 +52,8 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestSupported',
         'directPastVisit',
         'clinics',
+        'hasMatchingClinics',
+        'pastAppointments',
       ]);
     });
     it('should skip pact if not primary care', async () => {
@@ -72,6 +76,8 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestSupported',
         'directPastVisit',
         'clinics',
+        'hasMatchingClinics',
+        'pastAppointments',
       ]);
     });
     it('should finish all calls even if one fails', async () => {
@@ -95,6 +101,8 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestSupported',
         'directPastVisit',
         'clinics',
+        'hasMatchingClinics',
+        'pastAppointments',
       ]);
     });
   });
@@ -135,6 +143,8 @@ describe('VAOS scheduling eligibility logic', () => {
 
     it('should calculate successful statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
+        hasMatchingClinics: true,
+        pastAppointments: [{}],
         clinics: [{}],
         directSupported: true,
         requestSupported: true,
@@ -245,11 +255,7 @@ describe('VAOS scheduling eligibility logic', () => {
   describe('GA Events', () => {
     it('should record error events with fetch failures', async () => {
       mockFetch();
-      setFetchJSONFailure(global.fetch.onCall(0), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(1), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(3), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(4), { errors: [{}] });
+      setFetchJSONFailure(global.fetch, { errors: [{}] });
       await getEligibilityData(
         {
           institutionCode: '983',
@@ -266,7 +272,7 @@ describe('VAOS scheduling eligibility logic', () => {
             e.event === 'vaos-error' &&
             e['error-key'].startsWith('eligibility-'),
         ).length,
-      ).to.equal(4);
+      ).to.equal(5);
       resetFetch();
     });
 

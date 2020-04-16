@@ -68,6 +68,7 @@ import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
 import facilityDetails from '../../api/facility_details_983.json';
+import pastAppointments from '../../api/confirmed_va.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -215,6 +216,7 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
+      global.fetch.reset();
     });
   });
 
@@ -310,6 +312,7 @@ describe('VAOS newAppointment actions', () => {
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
       expect(global.fetch.secondCall.args[0]).to.contain('/systems/983/');
+      global.fetch.reset();
     });
 
     it('should send fail action if a fetch fails', async () => {
@@ -649,7 +652,9 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
-      setFetchJSONResponse(global.fetch, {
+      resetFetch();
+      mockFetch();
+      setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           attributes: {
             durationInMonths: 0,
@@ -674,7 +679,11 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
-      setFetchJSONResponse(global.fetch.onCall(4), facilityDetails);
+      setFetchJSONResponse(global.fetch.onCall(4), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(5), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(6), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(7), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(8), facilityDetails);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -706,6 +715,7 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS,
       );
+
       expect(dispatch.thirdCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
       );
