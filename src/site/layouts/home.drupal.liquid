@@ -1,5 +1,5 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
-<main>
+<main data-template="layouts/home">
 
   <!-- the hub -->
   <section class="homepage-hub">
@@ -46,7 +46,7 @@
     <section id="homepage-benefits">
       <div class="usa-grid usa-grid-full homepage-benefits-row">
       {% for hub in hubs %}
-        <div class="usa-width-one-third" data-e2e="hub">
+        <div class="usa-width-one-third" data-e2e="hub" data-entity-id="{{ hub.entity.entityId }}">
           <h3 class="heading-level-4"><a href="{{ hub.entity.entityUrl.path }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{ hub.entity.fieldTitleIcon }} hub-background-{{ hub.entity.fieldTitleIcon }} white"></i>{{ hub.entity.fieldHomePageHubLabel }}</a></h4>
           <p class="homepage-benefits-description">{{ hub.entity.fieldTeaserText }}</p>
         </div>
@@ -109,7 +109,7 @@
     <div class="usa-grid usa-grid-full">
     {% comment %} Promos is an array of Drupal promo block entities. See /src/site/stages/build/drupal/home.js. {% endcomment %}
     {% for promo in promos %}
-      <div class="usa-width-one-third homepage-news-story" data-e2e="news">
+      <div data-entity-id="{{ promo.entity.entityId }}" class="usa-width-one-third homepage-news-story" data-e2e="news">
         <div class="homepage-image-wrapper">
           <img class="lazy" width="552" data-src="{{ promo.entity.fieldImage.entity.image.url }}" alt="{{ promo.entity.fieldImage.entity.image.alt }}"/>
         </div>

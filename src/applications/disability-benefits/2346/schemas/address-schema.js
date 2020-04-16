@@ -20,7 +20,7 @@
  */
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import { countries } from 'platform/forms-system/src/js/utilities/address';
+import { countries } from 'platform/forms/address';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';

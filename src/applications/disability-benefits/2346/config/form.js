@@ -1,5 +1,6 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import React from 'react';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
@@ -63,7 +64,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
-  title: 'Order Hearing Aid Batteries and Accessories',
+  title: 'Order hearing aid batteries and accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
@@ -83,7 +84,9 @@ const formConfig = {
           path: 'veteran-information',
           title: formPageTitlesLookup.personalDetails,
           uiSchema: {
-            'ui:description': PersonalInfoBox,
+            'ui:description': ({ formData }) => (
+              <PersonalInfoBox formData={formData} />
+            ),
             [schemaFields.fullName]: fullNameUI,
           },
           schema: {

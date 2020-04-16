@@ -3,17 +3,18 @@
  *
  */
 module.exports = `
-  fragment embeddedImage on ParagraphMedia {  
+  fragment embeddedImage on ParagraphMedia {
     fieldAllowClicksOnThisImage
-    fieldMedia {    
+    fieldMedia {
       entity {
+        entityId
         entityBundle
         ... on MediaImage {
           image {
             url
             alt
             title
-          }        
+          }
         }
       }
     }
