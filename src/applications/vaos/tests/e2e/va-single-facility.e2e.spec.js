@@ -20,7 +20,7 @@ module.exports = {
       client,
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
-      VAOSHelpers.getUserDataWithSingleFacility(),
+      VAOSHelpers.getUserDataWithSingleSystem('983'),
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
   },
   'Select new appointment': client => {

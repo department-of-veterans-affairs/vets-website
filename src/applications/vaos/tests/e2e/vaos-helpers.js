@@ -415,13 +415,13 @@ function getUserDataWithFacilities() {
   return response;
 }
 
-function getUserDataWithSingleFacility() {
+function getUserDataWithSingleSystem(id) {
   const response = Auth.getDefaultUserResponse(3);
 
   /* eslint-disable camelcase */
   response.data.attributes.va_profile.facilities = [
     {
-      facility_id: '983',
+      facility_id: id,
       isCerner: false,
     },
   ];
@@ -440,7 +440,7 @@ module.exports = {
   reviewAppointmentTest,
   appointmentSubmittedTest,
   getUserDataWithFacilities,
-  getUserDataWithSingleFacility,
+  getUserDataWithSingleSystem,
   mockSingleFacility,
   mockSingleSystem,
 };
