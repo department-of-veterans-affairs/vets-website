@@ -18,11 +18,11 @@ Once you have the site set up locally, these are some common commands you might 
 | build the site with the latest content from Drupal | `yarn build --pull-drupal` (requires SOCKS proxy access) |
 | fetch the latest content cache from S3 | `yarn fetch-drupal-cache` (does not require SOCKS proxy access) |
 | reset local environment (clean out node modules and runs npm install) | `yarn reset:env`                      |
-| run the site for local development with automatic rebuilding of Javascript and sass **without** css sourcemaps | `yarn watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. CSS sourcemaps are off by default to avoid an issue that causes the default watch task to crash after rebuilding |
-| run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps| `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of Javascript and sass **without** css sourcemaps | `yarn watch` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. CSS sourcemaps are off by default to avoid an issue that causes the default watch task to crash after rebuilding |
+| run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps| `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps** | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static **content** | `yarn watch:static` |
-| run the site so that devices on your local network can access it  | `yarn watch --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
+| run the site so that devices on your local network can access it  | `yarn watch --env.host 0.0.0.0 --env.public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `yarn test` |
 | run only unit tests | `yarn test:unit` |
 | run all unit tests and watch | `yarn test:watch` |
