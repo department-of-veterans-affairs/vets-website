@@ -33,6 +33,7 @@ const runTest = browser => {
   // A11y check the search form.
   browser
     .waitForElementVisible('body', Timeouts.slow)
+    .pause(Timeouts.slow)
     .waitForElementVisible(SELECTORS.SEARCH_FORM, Timeouts.slow)
     .axeCheck(SELECTORS.APP);
 
@@ -49,8 +50,9 @@ const runTest = browser => {
   browser.click(`${SELECTORS.SEARCH_FORM} button[type="submit"]`);
 
   // A11y check the search results.
-  browser.waitForElementVisible(SELECTORS.SEARCH_RESULT_TITLE, Timeouts.slow);
-  browser.axeCheck(SELECTORS.APP);
+  browser
+    .waitForElementVisible(SELECTORS.SEARCH_RESULT_TITLE, Timeouts.slow)
+    .axeCheck(SELECTORS.APP);
 
   // Check each search result to make sure it has the data we need to show.
   stub.data.forEach(yellowRibbonProgram => {
