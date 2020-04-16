@@ -21,6 +21,10 @@ function getBuildSettings(options) {
  * @param {object} options The build options as passed to the build script and processed through Metalsmith.
  */
 function createBuildSettings(options) {
+  const settingsPath = 'js/settings.js';
+  const validTypes = ['string', 'boolean', 'number'];
+  const keysToSkip = new Set(['headerFooterData', 'featureToggles']);
+
   return (files, metalsmith, done) => {
     const settings = getBuildSettings(options);
 
@@ -30,8 +34,6 @@ function createBuildSettings(options) {
 
       if (!entryName) continue;
 
-      const validTypes = ['string', 'boolean', 'number'];
-      const keysToSkip = new Set(['headerFooterData', 'featureToggles']);
       const frontmatter = {};
 
       for (const dataKey of Object.keys(file)) {
@@ -50,8 +52,6 @@ function createBuildSettings(options) {
       application.contentProps = application.contentProps || [];
       application.contentProps.push(frontmatter);
     }
-
-    const settingsPath = 'js/settings.js';
 
     files[settingsPath] = {
       path: settingsPath,
