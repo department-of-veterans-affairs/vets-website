@@ -1,20 +1,22 @@
-import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-
-import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
-import { isChapterFieldRequired } from './helpers';
-
-import IntroductionPage from '../containers/IntroductionPage';
+import environment from 'platform/utilities/environment';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// Chapter imports
-import { formerSpouseInformation } from './chapters/report-divorce';
+import IntroductionPage from '../containers/IntroductionPage';
 import {
-  deceasedDependentInformation,
-  deceasedDependentAdditionalInformation,
-} from './chapters/report-dependent-death';
-import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
+  studentAddressMarriageTuition,
+  studentIncomeInformation,
+  studentLastTerm,
+  studentNameAndSSN,
+  studentNetworthInformation,
+  studentSchoolAddress,
+  studentTermDates,
+} from './chapters/674';
+import {
+  childAdditionalEvidence,
+  childAdditionalInformation,
+  childPlaceOfBirth,
+  children,
+} from './chapters/add-a-child';
 import {
   currentMarriageInformation,
   doesLiveWithSpouse,
@@ -25,30 +27,25 @@ import {
   veteranMarriageHistory,
   veteranMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
+import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
-  children,
-  childPlaceOfBirth,
-  childAdditionalInformation,
-  childAdditionalEvidence,
-} from './chapters/add-a-child';
+  deceasedDependentAdditionalInformation,
+  deceasedDependentInformation,
+} from './chapters/report-dependent-death';
+// Chapter imports
+import { formerSpouseInformation } from './chapters/report-divorce';
+import { reportChildMarriage } from './chapters/report-marriage-of-child';
+import {
+  stepchildInformation,
+  stepchildren,
+} from './chapters/stepchild-no-longer-part-of-household';
 import { wizard } from './chapters/taskWizard';
 import {
-  veteranInformation,
   veteranAddress,
+  veteranInformation,
 } from './chapters/veteran-information';
-import {
-  stepchildren,
-  stepchildInformation,
-} from './chapters/stepchild-no-longer-part-of-household';
-import {
-  studentNameAndSSN,
-  studentAddressMarriageTuition,
-  studentSchoolAddress,
-  studentTermDates,
-  studentLastTerm,
-  studentIncomeInformation,
-  studentNetworthInformation,
-} from './chapters/674';
+import { MARRIAGE_TYPES, TASK_KEYS } from './constants';
+import { isChapterFieldRequired } from './helpers';
 
 const formConfig = {
   urlPrefix: '/',
