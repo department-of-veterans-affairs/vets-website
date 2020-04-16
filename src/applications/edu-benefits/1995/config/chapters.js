@@ -57,7 +57,7 @@ export const chapters = {
       stem: {
         title: 'Rogers STEM Scholarship',
         path: 'benefits/stem',
-        depends: environment.isProduction(),
+        depends: () => environment.isProduction(),
         uiSchema: stem.uiSchema,
         schema: stem.schema,
       },
