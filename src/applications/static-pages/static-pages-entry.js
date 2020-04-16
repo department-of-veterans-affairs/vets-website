@@ -45,7 +45,7 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-import createCoronavirusChatbot from './createCoronavirusChatbot';
+import createCoronavirusChatbot from '../covid19-chatbot/createCoronavirusChatbot';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
