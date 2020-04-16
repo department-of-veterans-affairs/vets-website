@@ -18,10 +18,7 @@ function createBuildSettings(options) {
 
       if (!entryName) continue;
 
-      const application = settings.applications[entryName];
-      if (!application) {
-        settings.applications[entryName] = {};
-      }
+      settings.applications[entryName] = {};
     }
 
     files[settingsPath] = {
