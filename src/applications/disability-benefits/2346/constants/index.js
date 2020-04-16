@@ -1,4 +1,4 @@
-import { countries, states } from 'platform/forms/address';
+import { states } from 'platform/forms/address';
 
 export const schemaFields = {
   fullName: 'vetFullName',
@@ -22,14 +22,6 @@ export const militaryLabels = states.USA.filter(
 ).map(state => state.label);
 
 export const militaryCities = ['APO', 'DPO', 'FPO'];
-export const countryValues = countries.map(object => object.value);
-export const countryNames = countries.map(object => object.label);
-export const usaStates = states.USA.map(state => state.value);
-export const usaLabels = states.USA.map(state => state.label);
-export const canProvinces = states.CAN.map(state => state.value);
-export const canLabels = states.CAN.map(state => state.label);
-export const mexStates = states.MEX.map(state => state.value);
-export const mexLabels = states.MEX.map(state => state.label);
 export const USA = 'USA';
 export const CAN = 'CAN';
 export const MEX = 'MEX';
