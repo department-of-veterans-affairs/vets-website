@@ -26,7 +26,10 @@
 {% endif %}
 <li data-template="paragraphs/linkTeaser" data-entity-id="{{ linkTeaser.entityId }}" {% if parentFieldName === 'field_spokes' %}class="hub-page-link-list__item"{% endif %}>
     {% assign link = linkTeaser.fieldLink | featureSingleValueFieldLink %}
-    <a href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+    <a
+      href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %}
+      data-links-list-header="{{ link.title | escape }}"
+      data-links-list-section-header="{{ section_header | escape }}">
         {% if link.title != empty %}
             <{{ header }} class="{{ headerClass }}">{{ link.title }}</{{ header }}>
             {% if parentFieldName === "field_spokes" %}

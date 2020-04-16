@@ -44,8 +44,27 @@ function addQaSectionListeners() {
 
 function addTeaserListeners() {
   const selectors = {
-    template: '[data-template="paragraphs/list_of_link_teasers"]',
+    template: '[data-template="paragraphs/linkTeaser"]',
   };
+
+  const containers = document.querySelectorAll(`${selectors.template} > a`);
+
+  [...containers].forEach(container => {
+    container.addEventListener('click', event => {
+      // We need to use "currentTarger" because these <a> tags
+      // contain child nodes. "target" may refer to a child node
+      // instead of the <a>.
+      const node = event.currentTarget;
+
+      const analytic = {
+        event: 'nav-linkslist',
+        'links-list-header': node.dataset.linksListHeader,
+        'links-list-section-header': node.dataset.linksListSectionHeader,
+      };
+
+      recordEvent(analytic);
+    });
+  });
 }
 
 function addJumplinkListeners() {
@@ -75,4 +94,5 @@ const isCoronavirusFaq = document.location.pathname === coronavirusFaqUrl;
 if (isCoronavirusFaq) {
   addJumplinkListeners();
   addQaSectionListeners();
+  addTeaserListeners();
 }
