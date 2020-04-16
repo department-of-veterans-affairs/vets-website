@@ -1,18 +1,20 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
+import AddressViewField from '../../components/AddressViewField';
 import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageContent';
 import OrderSupplyPageContent from '../../components/OrderSupplyPageContent';
+import ReviewCardField from '../../components/ReviewCardField';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
-import { getRadioLabelText, showNewAddressForm } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
 const {
   viewAddAccessoriesField,
   viewAddBatteriesField,
-  newAddressField,
+  permAddressField,
+  tempAddressField,
 } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
@@ -28,19 +30,9 @@ const emailUIDescription = (
 );
 
 const selectedAddressUITitle = (
-  <h4 className="vads-u-display--inline">Shipping address</h4>
-);
-
-const selectedAddressUIDescription = (
-  <>
-    <p className="vads-u-margin-top--2">
-      We'll ship your order to the address below. Orders typically arrive within
-      7 to 10 business days.
-    </p>
-    <p className="vads-u-font-weight--bold vads-u-margin-top--3">
-      Select the address where you'd like to send your order:
-    </p>
-  </>
+  <p className="vads-u-font-weight--bold vads-u-display--inline">
+    Select the address where you'd like to send your order:
+  </p>
 );
 
 export default {
@@ -49,47 +41,37 @@ export default {
     hideTitle: false,
   },
   sharedUISchemas: {
-    selectedAddressUI: {
-      'ui:title': selectedAddressUITitle,
-      'ui:description': selectedAddressUIDescription,
-      'ui:widget': 'radio',
-      'ui:options': {
-        updateSchema: formData => {
-          const updatedEnumNames = ['permanentAddress', 'temporaryAddress'].map(
-            address => getRadioLabelText(formData, address),
-          );
-          return {
-            enumNames: [...updatedEnumNames, 'Add new address'],
-            enum: ['permanentAddress', 'temporaryAddress', newAddressField],
-          };
-        },
-      },
-      'ui:required': () => true,
-    },
-    newAddressUI: {
+    permanentAddressUI: {
       ...addressUISchema(
         true,
-        newAddressField,
-        formData => formData?.selectedAddress === newAddressField,
+        permAddressField,
+        formData => formData.permanentAddress,
       ),
-      'ui:title': 'Add a new shipping address',
+      'ui:title': 'Permanent address',
+      'ui:field': ReviewCardField,
       'ui:options': {
-        expandUnder: 'selectedAddress',
-        expandUnderCondition: newAddressField,
-        keepInPageOnReview: true,
-        classNames: 'vads-u-margin-top--2',
+        viewComponent: AddressViewField,
       },
     },
-    typeOfNewAddressUI: {
-      'ui:title': 'Is this a permanent or temporary address?',
-      'ui:widget': 'radio',
+    temporaryAddressUI: {
+      ...addressUISchema(
+        true,
+        tempAddressField,
+        formData => formData.temporaryAddress,
+      ),
+      'ui:title': 'Temporary address',
+      'ui:field': ReviewCardField,
       'ui:options': {
-        expandUnder: 'selectedAddress',
-        expandUnderCondition: newAddressField,
-        hideIf: formData => !showNewAddressForm(formData),
-        hideOnReview: true,
+        viewComponent: AddressViewField,
       },
-      'ui:required': formData => showNewAddressForm(formData),
+    },
+    selectedAddressUI: {
+      'ui:title': selectedAddressUITitle,
+      'ui:widget': 'radio',
+      'ui:required': () => true,
+      'ui:options': {
+        widgetClassNames: 'vads-u-margin-top--4',
+      },
     },
     emailUI: {
       'ui:title': emailUITitle,

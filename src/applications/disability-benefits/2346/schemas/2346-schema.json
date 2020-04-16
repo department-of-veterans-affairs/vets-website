@@ -403,9 +403,6 @@
     "temporaryAddress": {
       "$ref": "#/definitions/address"
     },
-    "newAddress": {
-      "$ref": "#/definitions/address"
-    },
     "gender": {
       "$ref": "#/definitions/gender"
     },
@@ -413,19 +410,6 @@
       "$ref": "#/definitions/supplies"
     },
     "selectedAddress": {
-      "type": "string",
-      "enum": [
-        "permanentAddress",
-        "temporaryAddress",
-        "newAddress"
-      ],
-      "enumNames": [
-        "Permanent Address",
-        "Temporary Address",
-        "Add new address"
-      ]
-    },
-    "typeOfNewAddress": {
       "type": "string",
       "enum": [
         "permanentAddress",
