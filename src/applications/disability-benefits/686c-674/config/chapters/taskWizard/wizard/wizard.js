@@ -50,7 +50,7 @@ export const uiSchema = {
     reportMarriageOfChildUnder18: {
       'ui:title': 'Report the marriage of a child under 18',
     },
-    reportChild18orOlderIsNotAttendingSchool: {
+    reportChild18OrOlderIsNotAttendingSchool: {
       'ui:title':
         'Report that a child 18 or older has stopped attending school',
     },
