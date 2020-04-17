@@ -1,4 +1,5 @@
 // Node modules.
+import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
 // Relative imports.
 import E2eHelpers from 'platform/testing/e2e/helpers';
@@ -6,14 +7,6 @@ import Timeouts from 'platform/testing/e2e/timeouts.js';
 import createMockEndpoint from 'platform/testing/e2e/mock-helpers';
 import manifest from './manifest.json';
 import stub from './constants/stub.json';
-import {
-  deriveDegreeLevel,
-  deriveDivisionProfessionalSchool,
-  deriveEligibleStudentsLabel,
-  deriveLocationLabel,
-  deriveMaxAmountLabel,
-  deriveNameLabel,
-} from './components/SearchResult';
 
 const SELECTORS = {
   APP: '[data-e2e-id="yellow-ribbon-app"]',
@@ -54,50 +47,29 @@ const runTest = browser => {
     .waitForElementVisible(SELECTORS.SEARCH_RESULT_TITLE, Timeouts.slow)
     .axeCheck(SELECTORS.APP);
 
-  // Check each search result to make sure it has the data we need to show.
-  stub.data.forEach(yellowRibbonProgram => {
-    // Check Institution name.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      deriveNameLabel(yellowRibbonProgram.attributes),
-    );
+  // Check Institution name.
+  browser.assert.containsText(
+    SELECTORS.SEARCH_RESULTS,
+    'Concordia University Texas',
+  );
 
-    // Check location.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      deriveLocationLabel(yellowRibbonProgram.attributes),
-    );
+  // Check location.
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'Austin, TX');
 
-    // Check contribution amount.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      deriveMaxAmountLabel(yellowRibbonProgram.attributes),
-    );
+  // Check contribution amount.
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, '$8,500');
 
-    // Check eligible students.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      deriveEligibleStudentsLabel(yellowRibbonProgram.attributes),
-    );
+  // Check eligible students.
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, '250 students');
 
-    // Check degree level.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      deriveDegreeLevel(yellowRibbonProgram.attributes),
-    );
+  // Check degree level.
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'Undergraduate');
 
-    // Check profession/program.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      deriveDivisionProfessionalSchool(yellowRibbonProgram.attributes),
-    );
+  // Check profession/program.
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'Flex Program');
 
-    // Check website link.
-    browser.assert.containsText(
-      SELECTORS.SEARCH_RESULTS,
-      toLower(yellowRibbonProgram.attributes.insturl) || 'Not provided',
-    );
-  });
+  // Check website link.
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'www.phoenix.edu');
 
   browser.end();
 };
