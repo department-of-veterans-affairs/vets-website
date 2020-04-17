@@ -90,4 +90,10 @@
     {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
   {% endif %}
 
-  <script async src="/js/incompatible-browser.js"></script>
+  <script async type="text/javascript">
+  (function() {
+    var module = {};
+    {% include "src/site/assets/js/incompatible-browser.js" %}
+    incompatibleBrowser();
+  })();
+  </script>
