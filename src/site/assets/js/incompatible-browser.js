@@ -1,4 +1,4 @@
-function showBrowserWarning() {
+function checkBrowserCompatibility() {
   var domReady = function(callback) {
     document.readyState === 'interactive' || document.readyState === 'complete'
       ? callback()
@@ -20,5 +20,5 @@ function showBrowserWarning() {
 }
 
 if (module) {
-  module.exports = showBrowserWarning;
+  module.exports = checkBrowserCompatibility;
 }
