@@ -3,7 +3,7 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "10203-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/10203",
-  "production": true,
+  "production": false,
   "template": {
     "title": "Veteran Request For Change",
     "heading": "Veteran request for change",
