@@ -1,11 +1,11 @@
 import 'botframework-webchat';
 
-const defaultLocale = 'en-US';
+export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
 let chatBotScenario = 'unknown';
 let root = null;
 
-function extractLocale(localeParam) {
+export const extractLocale = localeParam => {
   if (localeParam === 'autodetect') {
     return navigator.language;
   }
@@ -15,9 +15,9 @@ function extractLocale(localeParam) {
     return localeParam;
   }
   return defaultLocale;
-}
+};
 
-function getUserLocation(callback) {
+export const getUserLocation = callback => {
   navigator.geolocation.getCurrentPosition(
     position => {
       const latitude = position.coords.latitude;
@@ -28,20 +28,18 @@ function getUserLocation(callback) {
       };
       callback(location);
     },
-    error => {
+    () => {
       // user declined to share location
-      // eslint-disable-next-line no-console
-      console.log(`location error:${error.message}`);
       callback();
     },
   );
-}
+};
 
-function startChat(user, webchatOptions) {
+const startChat = (user, webchatOptions) => {
   window.WebChat.renderWebChat(webchatOptions, root);
-}
+};
 
-function initBotConversation() {
+const initBotConversation = () => {
   if (this.status >= 400) {
     alert(this.statusText);
     return;
@@ -126,9 +124,9 @@ function initBotConversation() {
     locale: user.locale,
   };
   startChat(user, webchatOptions);
-}
+};
 
-function requestChatBot(loc) {
+export const requestChatBot = loc => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
@@ -150,9 +148,9 @@ function requestChatBot(loc) {
   // add Access-Control-Allow-Origin header on POST
   oReq.setRequestHeader('Access-Control-Allow-Origin', '*');
   oReq.send();
-}
+};
 
-function chatRequested(scenario) {
+const chatRequested = scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
   if (params.has('shareLocation')) {
@@ -160,7 +158,7 @@ function chatRequested(scenario) {
   } else {
     requestChatBot();
   }
-}
+};
 
 export default function initializeChatbot(_root) {
   root = _root;
