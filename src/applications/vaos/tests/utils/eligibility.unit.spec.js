@@ -25,7 +25,10 @@ describe('VAOS scheduling eligibility logic', () => {
 
     beforeEach(() => {
       setFetchJSONResponse(global.fetch, clinics);
-      setFetchJSONResponse(global.fetch.onCall(1), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(4), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(5), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(6), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(7), confirmed);
     });
 
     afterEach(() => {
@@ -55,6 +58,10 @@ describe('VAOS scheduling eligibility logic', () => {
         'hasMatchingClinics',
         'pastAppointments',
       ]);
+
+      expect(eligibilityData.hasMatchingClinics).to.be.true;
+      expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
+      expect(eligibilityData.pastAppointments.length).to.be.greaterThan(0);
     });
     it('should skip pact if not primary care', async () => {
       const eligibilityData = await getEligibilityData(
@@ -80,6 +87,54 @@ describe('VAOS scheduling eligibility logic', () => {
         'pastAppointments',
       ]);
     });
+
+    it('should set hasMatchingClinics to false if there are no matching past appointments', async () => {
+      setFetchJSONResponse(global.fetch, { data: [{}] });
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
+
+      expect(eligibilityData.hasMatchingClinics).to.be.false;
+      setFetchJSONResponse(global.fetch, clinics);
+    });
+
+    it('should set hasMatchingClinics to false if there are no matching appointments', async () => {
+      const nonMatchingAppointment = {
+        data: [
+          {
+            attributes: {
+              clinicId: '456',
+              facilityId: '123',
+            },
+          },
+        ],
+      };
+      setFetchJSONResponse(global.fetch.onCall(4), nonMatchingAppointment);
+      setFetchJSONResponse(global.fetch.onCall(5), nonMatchingAppointment);
+      setFetchJSONResponse(global.fetch.onCall(6), nonMatchingAppointment);
+      setFetchJSONResponse(global.fetch.onCall(7), nonMatchingAppointment);
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
+
+      expect(eligibilityData.hasMatchingClinics).to.be.false;
+      expect(eligibilityData.pastAppointments.length).to.equal(4);
+    });
+
     it('should finish all calls even if one fails', async () => {
       setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
       const eligibilityData = await getEligibilityData(
