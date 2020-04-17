@@ -1,9 +1,9 @@
 import React from 'react';
 import FormFooter from 'platform/forms/components/FormFooter';
 
-const Footer = () => (
-  <>
-    <p>
+const Footer = ({ formConfig, currentLocation }) => (
+  <div className="row">
+    <p className="usa-width-two-thirds medium-8">
       Respondent Burden: This information is collected in accordance with
       section 3507 of the Paperwork Reduction Act of 1995. Accordingly, we may
       not conduct or sponsor, and you are not required to respond to a
@@ -19,8 +19,8 @@ const Footer = () => (
       (005R1B), 810 Vermont Avenue, NW, Washington, DC 20420. Please DO NOT send
       claims for, or correspondence regarding benefits to this address.
     </p>
-    <FormFooter />
-  </>
+    <FormFooter formConfig={formConfig} currentLocation={currentLocation} />
+  </div>
 );
 
 export default Footer;
