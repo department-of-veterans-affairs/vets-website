@@ -40,7 +40,7 @@
     "va/proptypes-camel-cased": 2,
     "va/enzyme-unmount": 2,
     "va/use-resolved-path": [
-      2,
+      0,
       {
         "aliases": ["applications", "platform", "site"]
       }
