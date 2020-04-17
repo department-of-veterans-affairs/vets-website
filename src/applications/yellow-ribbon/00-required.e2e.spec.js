@@ -4,6 +4,7 @@ import toLower from 'lodash/toLower';
 import E2eHelpers from 'platform/testing/e2e/helpers';
 import Timeouts from 'platform/testing/e2e/timeouts.js';
 import createMockEndpoint from 'platform/testing/e2e/mock-helpers';
+import manifest from './manifest.json';
 import stub from './constants/stub.json';
 import {
   deriveDegreeLevel,
@@ -33,7 +34,6 @@ const runTest = browser => {
   // A11y check the search form.
   browser
     .waitForElementVisible('body', Timeouts.slow)
-    .pause(Timeouts.slow)
     .waitForElementVisible(SELECTORS.SEARCH_FORM, Timeouts.slow)
     .axeCheck(SELECTORS.APP);
 
@@ -117,3 +117,6 @@ module.exports = E2eHelpers.createE2eTest(browser => {
     });
   });
 });
+
+module.exports['@disabled'] =
+  manifest.template[process.env.BUILDTYPE] === false;
