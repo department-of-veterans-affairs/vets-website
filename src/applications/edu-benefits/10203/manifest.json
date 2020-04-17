@@ -4,7 +4,7 @@
   "entryName": "10203-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/10203",
   "template": {
-    "vagovprod" false,
+    "vagovprod": false,
     "title": "Veteran Request For Change",
     "heading": "Veteran request for change",
     "layout": "page-react.html",
