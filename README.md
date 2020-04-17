@@ -13,7 +13,7 @@ Once you have the site set up locally, these are some common commands you might 
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
-| build the site with dev features enabled. | ` build`                          |
+| build the site with dev features enabled. | `yarn build`                          |
 | build the production site (dev features disabled). | `NODE_ENV=production yarn build --buildtype vagovprod` |
 | build the site with the latest content from Drupal | `yarn build --pull-drupal` (requires SOCKS proxy access) |
 | fetch the latest content cache from S3 | `yarn fetch-drupal-cache` (does not require SOCKS proxy access) |
