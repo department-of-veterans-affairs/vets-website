@@ -315,12 +315,15 @@ export const veteranUI = {
   },
   ethnicity: {
     'ui:title': 'Race/Ethnicity',
+    'ui:widget': 'radio',
     'ui:options': {
-      1: 'American Indian or Alaska Native',
-      2: 'Black or African American',
-      3: 'Hispanic or Latino',
-      4: 'Native Hawaiian or Pacific Islander',
-      5: 'White',
+      labels: {
+        1: 'American Indian or Alaska Native',
+        2: 'Black or African American',
+        3: 'Hispanic or Latino',
+        4: 'Native Hawaiian or Pacific Islander',
+        5: 'White',
+      },
     },
   },
   militaryStatus: {
