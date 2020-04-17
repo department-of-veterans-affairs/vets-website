@@ -318,11 +318,11 @@ export const veteranUI = {
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        1: 'American Indian or Alaska Native',
-        2: 'Black or African American',
-        3: 'Hispanic or Latino',
-        4: 'Native Hawaiian or Pacific Islander',
-        5: 'White',
+        americanIndian: 'American Indian or Alaska Native',
+        blackOrAfrican: 'Black or African American',
+        hispanicOrLatino: 'Hispanic or Latino',
+        nativeHawaiianOrIslander: 'Native Hawaiian or Pacific Islander',
+        white: 'White',
       },
     },
   },
