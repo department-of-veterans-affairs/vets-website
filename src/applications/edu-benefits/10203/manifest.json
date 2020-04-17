@@ -3,8 +3,8 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "10203-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/10203",
-  "production": false,
   "template": {
+    "vagovprod" false,
     "title": "Veteran Request For Change",
     "heading": "Veteran request for change",
     "layout": "page-react.html",
