@@ -1,9 +1,6 @@
-// Node modules.
-import startCase from 'lodash/startCase';
-import toLower from 'lodash/toLower';
 // Relative imports.
 import E2eHelpers from 'platform/testing/e2e/helpers';
-import Timeouts from 'platform/testing/e2e/timeouts.js';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import createMockEndpoint from 'platform/testing/e2e/mock-helpers';
 import manifest from './manifest.json';
 import stub from './constants/stub.json';
