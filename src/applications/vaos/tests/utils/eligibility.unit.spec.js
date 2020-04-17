@@ -8,6 +8,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import clinics from '../../api/clinicList983.json';
+import confirmed from '../../api/confirmed_va.json';
 
 import {
   isEligible,
@@ -24,6 +25,10 @@ describe('VAOS scheduling eligibility logic', () => {
 
     beforeEach(() => {
       setFetchJSONResponse(global.fetch, clinics);
+      setFetchJSONResponse(global.fetch.onCall(4), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(5), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(6), confirmed);
+      setFetchJSONResponse(global.fetch.onCall(7), confirmed);
     });
 
     afterEach(() => {
@@ -46,10 +51,17 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
+        'hasMatchingClinics',
+        'pastAppointments',
       ]);
+
+      expect(eligibilityData.hasMatchingClinics).to.be.true;
+      expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
+      expect(eligibilityData.pastAppointments.length).to.be.greaterThan(0);
     });
     it('should skip pact if not primary care', async () => {
       const eligibilityData = await getEligibilityData(
@@ -67,11 +79,62 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
+        'hasMatchingClinics',
+        'pastAppointments',
       ]);
     });
+
+    it('should set hasMatchingClinics to false if there are no matching past appointments', async () => {
+      setFetchJSONResponse(global.fetch, { data: [{}] });
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
+
+      expect(eligibilityData.hasMatchingClinics).to.be.false;
+      setFetchJSONResponse(global.fetch, clinics);
+    });
+
+    it('should set hasMatchingClinics to false if there are no matching appointments', async () => {
+      const nonMatchingAppointment = {
+        data: [
+          {
+            attributes: {
+              clinicId: '456',
+              facilityId: '123',
+            },
+          },
+        ],
+      };
+      setFetchJSONResponse(global.fetch.onCall(4), nonMatchingAppointment);
+      setFetchJSONResponse(global.fetch.onCall(5), nonMatchingAppointment);
+      setFetchJSONResponse(global.fetch.onCall(6), nonMatchingAppointment);
+      setFetchJSONResponse(global.fetch.onCall(7), nonMatchingAppointment);
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
+
+      expect(eligibilityData.hasMatchingClinics).to.be.false;
+      expect(eligibilityData.pastAppointments.length).to.equal(4);
+    });
+
     it('should finish all calls even if one fails', async () => {
       setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
       const eligibilityData = await getEligibilityData(
@@ -89,9 +152,12 @@ describe('VAOS scheduling eligibility logic', () => {
         'requestPastVisit',
         'requestLimits',
         'directSupported',
+        'directEnabled',
         'requestSupported',
         'directPastVisit',
         'clinics',
+        'hasMatchingClinics',
+        'pastAppointments',
       ]);
     });
   });
@@ -132,6 +198,8 @@ describe('VAOS scheduling eligibility logic', () => {
 
     it('should calculate successful statuses', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
+        hasMatchingClinics: true,
+        pastAppointments: [{}],
         clinics: [{}],
         directSupported: true,
         requestSupported: true,
@@ -242,11 +310,7 @@ describe('VAOS scheduling eligibility logic', () => {
   describe('GA Events', () => {
     it('should record error events with fetch failures', async () => {
       mockFetch();
-      setFetchJSONFailure(global.fetch.onCall(0), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(1), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(3), { errors: [{}] });
-      setFetchJSONFailure(global.fetch.onCall(4), { errors: [{}] });
+      setFetchJSONFailure(global.fetch, { errors: [{}] });
       await getEligibilityData(
         {
           institutionCode: '983',
@@ -263,7 +327,7 @@ describe('VAOS scheduling eligibility logic', () => {
             e.event === 'vaos-error' &&
             e['error-key'].startsWith('eligibility-'),
         ).length,
-      ).to.equal(4);
+      ).to.equal(5);
       resetFetch();
     });
 
@@ -272,6 +336,7 @@ describe('VAOS scheduling eligibility logic', () => {
         {
           pacTeam: [],
           clinics: [],
+          directEnabled: true,
           directSupported: true,
           requestSupported: true,
           directPastVisit: {
@@ -294,6 +359,36 @@ describe('VAOS scheduling eligibility logic', () => {
           e.event.startsWith('vaos-eligibility-'),
         ).length,
       ).to.equal(4);
+    });
+
+    it('should record only supported failure events', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [],
+          clinics: [],
+          directEnabled: true,
+          directSupported: false,
+          requestSupported: false,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: false,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 1,
+          },
+        },
+        '323',
+        '983',
+      );
+      expect(
+        global.window.dataLayer.filter(e =>
+          e.event.startsWith('vaos-eligibility-'),
+        ).length,
+      ).to.equal(2);
     });
 
     it('should not record failure events when ineligible', () => {

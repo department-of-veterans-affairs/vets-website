@@ -1,23 +1,43 @@
 import React from 'react';
+import AlertBox from '../components/AlertBox';
 import environment from 'platform/utilities/environment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const renderSchoolClosingAlert = result => {
-  const { schoolClosing } = result;
+  const { schoolClosing, schoolClosingOn } = result;
 
   if (!schoolClosing) return null;
+  // Prod flag for 6803
+  // prod flag for bah-7020
   if (!environment.isProduction()) {
+    if (schoolClosingOn) {
+      const currentDate = new Date();
+      const schoolClosingDate = new Date(schoolClosingOn);
+      if (currentDate > schoolClosingDate) {
+        return (
+          <AlertBox
+            className="vads-u-margin-top--1"
+            headline="School closed"
+            content={<p>School has closed</p>}
+            isVisible={!!schoolClosing}
+            status="warning"
+          />
+        );
+      }
+    }
     return (
       <AlertBox
-        content={<p>Upcoming campus closure</p>}
-        headline="A campus is closing soon"
+        className="vads-u-margin-top--1"
+        content={<p>School will be closing soon</p>}
+        headline="School closing"
         isVisible={!!schoolClosing}
         status="warning"
       />
     );
   }
+
   return (
     <AlertBox
+      className="vads-u-margin-top--1"
       content={<p>Upcoming campus closure</p>}
       headline="School closure"
       isVisible={!!schoolClosing}
@@ -26,47 +46,51 @@ export const renderSchoolClosingAlert = result => {
   );
 };
 
-const renderReasons = cautionFlags => {
-  const flags = [];
-
-  if (cautionFlags.length === 1) {
-    return <p>{cautionFlags[0].reason}</p>;
-  }
-  cautionFlags
-    .sort((a, b) => {
-      if (a.reason.toLowerCase() < b.reason.toLowerCase()) return -1;
-      if (a.reason.toLowerCase() > b.reason.toLowerCase()) return 1;
-      return 0;
-    })
-    .forEach(flag => {
-      flags.push(<li key={flag.id}>{flag.reason}</li>);
-    });
-
-  return <ul>{flags}</ul>;
-};
-
 export const renderCautionAlert = result => {
-  const { cautionFlags } = result;
-  if (cautionFlags.length === 0) return null;
+  const { cautionFlag, cautionFlags } = result;
+
+  // Prod flag for 6803
   if (!environment.isProduction()) {
+    const validFlags = [...cautionFlags]
+      .filter(flag => flag.title)
+      .sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1));
+
     return (
       <AlertBox
-        content={renderReasons(cautionFlags)}
+        className="vads-u-margin-top--1"
+        content={
+          <React.Fragment>
+            {validFlags.length === 1 && <p>{validFlags[0].title}</p>}
+            {validFlags.length > 1 && (
+              <ul className="vads-u-margin-top--0">
+                {validFlags.map(flag => (
+                  <li
+                    className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+                    key={flag.id}
+                  >
+                    {flag.title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </React.Fragment>
+        }
         headline={
-          cautionFlags.length > 1
+          validFlags.length > 1
             ? 'This school has cautionary warnings'
             : 'This school has a cautionary warning'
         }
-        isVisible={cautionFlags.length > 0}
+        isVisible={validFlags.length > 0}
         status="warning"
       />
     );
   }
   return (
     <AlertBox
+      className="vads-u-margin-top--1"
       content={<p>This school has cautionary warnings</p>}
       headline="Caution"
-      isVisible={cautionFlags.length > 0}
+      isVisible={cautionFlag}
       status="warning"
     />
   );
@@ -110,3 +134,14 @@ export const renderVetTecLogo = classNames => (
     alt="Vet Tec Logo"
   />
 );
+
+export const renderSearchResultsHeader = search => {
+  const header = search.count === 1 ? 'Search Result' : 'Search Results';
+
+  return (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} ${header}`}
+    </h1>
+  );
+};

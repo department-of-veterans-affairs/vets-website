@@ -68,7 +68,7 @@ const formConfig = {
     noAuth: errorMessages.savedFormNoAuth,
   },
   title: 'Request a Higher-Level Review',
-  subTitle: 'VA Form 20-0996',
+  subTitle: 'Equal to VA Form 20-0996',
   defaultDefinitions: {
     name,
     fullName,

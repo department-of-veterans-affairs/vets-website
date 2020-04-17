@@ -8,53 +8,29 @@ module.exports = `
  fragment pressReleasesListingPage on NodePressReleasesListing {
     ${entityElementsFromPages}
     fieldIntroText
-    fieldOffice {
-      entity {
-        title
-        reverseFieldOfficeNode(limit: 500, filter: {conditions: [{field: "type", value: "press_release"}, {field: "status", value: "1", operator: EQUAL}]}) {
-          entities {
-            ... on NodePressRelease {
-              entityId
-              title
-              fieldReleaseDate {
-                value
+    reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "type", value: "press_release"}, {field: "status", value: "1", operator: EQUAL}]}) {
+      entities {
+        ... on NodePressRelease {
+          entityId
+          title
+          fieldReleaseDate {
+            value
+          }
+          entityUrl {
+            path
+          }
+          uid {
+            targetId
+            ... on FieldNodeUid {
+              entity {
+                name
+                timezone
               }
-              entityUrl {
-                path
-              }
-              uid {
-                targetId
-                ... on FieldNodeUid {
-                  entity {
-                    name
-                    timezone
-                  }
-                }
-              }
-              promote
-              created
-              fieldOffice {
-                entity {
-                  ... on NodeHealthCareRegionPage {
-                    entityLabel
-                    entityUrl {
-                      ... on EntityCanonicalUrl {
-                        breadcrumb {
-                          url {
-                            path
-                            routed
-                          }
-                          text
-                        }
-                        path
-                      }
-                    }
-                  }
-                }
-              }
-              fieldIntroText
             }
           }
+          promote
+          created
+          fieldIntroText
         }
       }
     }

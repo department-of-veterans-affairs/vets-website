@@ -1,7 +1,12 @@
 import { DISABLED_LIMIT_VALUE } from '../utils/constants';
 import { captureError } from '../utils/error';
 
-import { checkPastVisits, getRequestLimits, getAvailableClinics } from '../api';
+import {
+  checkPastVisits,
+  getRequestLimits,
+  getAvailableClinics,
+  getLongTermAppointmentHistory,
+} from '../api';
 
 import { recordVaosError, recordEligibilityFailure } from './events';
 
@@ -54,6 +59,11 @@ export async function getEligibilityData(
         createErrorHandler('direct', 'direct-available-clinics-error'),
       ),
     );
+    eligibilityChecks.push(
+      getLongTermAppointmentHistory().catch(
+        createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
+      ),
+    );
   }
 
   const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
@@ -63,15 +73,34 @@ export async function getEligibilityData(
     requestPastVisit,
     requestLimits,
     directSupported: facility.directSchedulingSupported,
+    directEnabled: isDirectScheduleEnabled,
     requestSupported: facility.requestSupported,
   };
 
   if (directData?.length) {
-    const [directPastVisit, clinics] = directData;
+    const [directPastVisit, clinics, pastAppointments] = directData;
+
+    const hasMatchingClinics = clinics?.length
+      ? clinics.some(
+          clinic =>
+            !!pastAppointments.find(
+              appt =>
+                clinic.siteCode === appt.facilityId &&
+                clinic.clinicId === appt.clinicId,
+            ),
+        )
+      : false;
+
+    if (!hasMatchingClinics) {
+      recordEligibilityFailure('direct-no-matching-past-clinics');
+    }
+
     eligibility = {
       ...eligibility,
       directPastVisit,
       clinics,
+      hasMatchingClinics,
+      pastAppointments,
     };
   }
 
@@ -80,8 +109,9 @@ export async function getEligibilityData(
 
 function hasVisitedInPastMonthsDirect(eligibilityData) {
   return (
-    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
-    eligibilityData.directPastVisit.hasVisitedInPastMonths
+    eligibilityData.directPastVisit?.durationInMonths ===
+      DISABLED_LIMIT_VALUE ||
+    eligibilityData.directPastVisit?.hasVisitedInPastMonths
   );
 }
 
@@ -152,7 +182,9 @@ export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
         directSchedulingEnabled &&
         eligibilityData.directPastVisit.durationInMonths,
       directClinics:
-        directSchedulingEnabled && !!eligibilityData.clinics.length,
+        directSchedulingEnabled &&
+        !!eligibilityData.clinics.length &&
+        eligibilityData.hasMatchingClinics,
     };
   }
 
@@ -187,7 +219,7 @@ export function isEligible(eligibilityChecks) {
 }
 
 export function getEligibleFacilities(facilities) {
-  return facilities.filter(
+  return facilities?.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
 }
@@ -198,7 +230,7 @@ export function getEligibleFacilities(facilities) {
  * of the check.
  */
 export function recordEligibilityGAEvents(eligibilityData) {
-  if (!hasRequestFailed(eligibilityData)) {
+  if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
     if (!isUnderRequestLimit(eligibilityData)) {
       recordEligibilityFailure('request-exceeded-outstanding-requests');
     }
@@ -208,9 +240,15 @@ export function recordEligibilityGAEvents(eligibilityData) {
     }
   }
 
-  const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
+  if (!eligibilityData.requestSupported) {
+    recordEligibilityFailure('request-supported');
+  }
 
-  if (directSchedulingEnabled && !hasRequestFailed(eligibilityData)) {
+  if (
+    eligibilityData.directEnabled &&
+    eligibilityData.directSupported &&
+    !eligibilityData.directFailed
+  ) {
     if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
       recordEligibilityFailure('direct-check-past-visits');
     }
@@ -218,5 +256,9 @@ export function recordEligibilityGAEvents(eligibilityData) {
     if (!eligibilityData.clinics?.length) {
       recordEligibilityFailure('direct-available-clinics');
     }
+  }
+
+  if (eligibilityData.directEnabled && !eligibilityData.directSupported) {
+    recordEligibilityFailure('direct-supported');
   }
 }

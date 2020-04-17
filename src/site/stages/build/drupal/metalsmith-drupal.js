@@ -12,6 +12,7 @@ const convertDrupalFilesToLocal = require('./assets');
 const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
+  createPastEventListPages,
   addGetUpdatesFields,
   addPager,
   sortServices,
@@ -89,10 +90,8 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
-        pageCompiled.allEventTeasers = pageCompiled.fieldOffice.entity
-          .reverseFieldOfficeNode.entities.length
-          ? pageCompiled.fieldOffice.entity.reverseFieldOfficeNode
-          : pageCompiled.reverseFieldOfficeNode;
+        pageCompiled.pastEventTeasers = pageCompiled.pastEvents;
+        pageCompiled.allEventTeasers = pageCompiled.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
@@ -102,8 +101,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       case 'story_listing':
-        pageCompiled.allNewsStoryTeasers =
-          page.fieldOffice.entity.reverseFieldOfficeNode;
+        pageCompiled.allNewsStoryTeasers = page.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
@@ -113,8 +111,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         );
         break;
       case 'press_releases_listing':
-        pageCompiled.allPressReleaseTeasers =
-          page.fieldOffice.entity.reverseFieldOfficeNode;
+        pageCompiled.allPressReleaseTeasers = page.reverseFieldListingNode;
         addPager(
           pageCompiled,
           files,
@@ -128,7 +125,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
         );
         break;
-      case 'leaderships_listing':
+      case 'leadership_listing':
         pageCompiled.allStaffProfiles = page.fieldLeadership;
         addPager(
           pageCompiled,
@@ -152,6 +149,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     if (page.entityBundle === 'health_care_region_page') {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
+    if (page.entityBundle === 'event_listing') {
+      createPastEventListPages(pageCompiled, drupalPageDir, files);
+    }
   }
 
   if (skippedContent.nullEntities) {
@@ -160,8 +160,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   if (skippedContent.emptyEntities) {
     log(`Skipped ${skippedContent.emptyEntities} empty entities`);
   }
-
-  addHomeContent(contentData, files);
 }
 
 async function loadDrupal(buildOptions) {
@@ -273,6 +271,7 @@ function getDrupalContent(buildOptions) {
 
       await loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      addHomeContent(drupalData, files, metalsmith, buildOptions);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
       done();

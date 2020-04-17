@@ -50,26 +50,6 @@ describe('index reducer', () => {
     expect(state.paymentInformationUiState.isEditing).to.be.true;
   });
 
-  it('updates a field in the paymentInformation-edit modal', () => {
-    const editFieldAction = {
-      type: paymentInfoActions.PAYMENT_INFORMATION_EDIT_MODAL_FIELD_CHANGED,
-      fieldName: 'accountNumber',
-      fieldValue: {
-        errorMessage: 'Example error message',
-        field: {
-          value: '123',
-          dirty: true,
-        },
-      },
-    };
-
-    const state = vaProfile(undefined, editFieldAction);
-
-    expect(
-      state.paymentInformationUiState.editModalForm.accountNumber,
-    ).to.deep.equal(editFieldAction.fieldValue);
-  });
-
   it('saves paymentInformation', () => {
     const saveAction = {
       type: paymentInfoActions.PAYMENT_INFORMATION_SAVE_STARTED,

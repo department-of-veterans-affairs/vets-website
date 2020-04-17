@@ -127,5 +127,9 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
         1,
       );
     });
+
+    it('should have aria labels for HR to hide from screen reader', () => {
+      expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
+    });
   });
 });

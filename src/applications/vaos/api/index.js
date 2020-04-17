@@ -15,18 +15,27 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-const USE_MOCK_DATA = environment.isLocalhost();
+const USE_MOCK_DATA =
+  environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
 
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
     if (type === 'va') {
-      promise = import('./confirmed_va.json').then(
-        module => (module.default ? module.default : module),
+      promise = new Promise(resolve =>
+        setTimeout(() => {
+          import('./confirmed_va.json').then(module => {
+            resolve(module.default ? module.default : module);
+          });
+        }, 500),
       );
     } else {
-      promise = import('./confirmed_cc.json').then(
-        module => (module.default ? module.default : module),
+      promise = new Promise(resolve =>
+        setTimeout(() => {
+          import('./confirmed_cc.json').then(module => {
+            resolve(module.default ? module.default : module);
+          });
+        }, 500),
       );
     }
   } else {
@@ -426,7 +435,17 @@ export function updateAppointment(appt) {
 export function updateRequest(req) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve();
+    promise = import('./requests.json')
+      .then(module => (module.default ? module.default : module))
+      .then(data => ({
+        data: {
+          id: req.id,
+          attributes: {
+            ...data.data.find(item => item.id === req.id).attributes,
+            status: 'Cancelled',
+          },
+        },
+      }));
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${req.id}`, {
       method: 'PUT',
@@ -435,7 +454,10 @@ export function updateRequest(req) {
     });
   }
 
-  return promise;
+  return promise.then(resp => ({
+    ...resp.data.attributes,
+    id: resp.data.id,
+  }));
 }
 
 export function submitRequest(type, request) {

@@ -8,6 +8,7 @@ import set from 'platform/utilities/data/set';
 import { PaymentInformation } from '../../containers/PaymentInformation';
 import ProfileFieldHeading from 'vet360/components/base/Vet360ProfileFieldHeading';
 import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
+import PaymentInformation2FARequired from '../../components/PaymentInformation2FARequired';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 describe('<PaymentInformation/>', () => {
@@ -26,7 +27,6 @@ describe('<PaymentInformation/>', () => {
     fetchPaymentInformation() {},
     savePaymentInformation() {},
     editModalToggled() {},
-    editModalFieldChanged() {},
     paymentAccount,
     paymentInformationUiState: {
       isEditing: false,
@@ -110,7 +110,7 @@ describe('<PaymentInformation/>', () => {
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
     expect(fetchPaymentInformation.called).to.be.false;
-    expect(wrapper.find('PaymentInformation2FARequired')).to.have.lengthOf(1);
+    expect(wrapper.find(PaymentInformation2FARequired)).to.have.lengthOf(1);
     wrapper.unmount();
   });
 

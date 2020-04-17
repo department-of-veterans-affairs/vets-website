@@ -1,29 +1,53 @@
+import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullSchemaMDOT from '../2346-schema.json';
-import personalInfoBox from '../components/personalInfoBox';
-import { vetFields } from '../constants';
+import PersonalInfoBox from '../components/PersonalInfoBox';
+import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../containers/IntroductionPage';
-import UIDefinitions from '../definitions/2346UI';
+import IntroductionPage from '../components/IntroductionPage';
+import FooterInfo from '../components/FooterInfo';
+import fullSchemaMDOT from '../schemas/2346-schema.json';
+import { buildAddressSchema } from '../schemas/address-schema';
+import UIDefinitions from '../schemas/definitions/2346UI';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+
+const { email, supplies } = fullSchemaMDOT.definitions;
+
+const { currentAddress, selectedAddress } = fullSchemaMDOT.properties;
 
 const {
-  email,
-  dateOfBirth,
-  veteranFullName,
-  veteranAddress,
-  gender,
-} = fullSchemaMDOT.definitions;
+  emailField,
+  suppliesField,
+  viewAddAccessoriesField,
+  viewAddBatteriesField,
+  currentAddressField,
+  newAddressField,
+  selectedAddressField,
+} = schemaFields;
 
-const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
+const {
+  emailUI,
+  addAccessoriesUI,
+  addBatteriesUI,
+  batteriesUI,
+  accessoriesUI,
+  currentAddressUI,
+  newAddressUI,
+  selectedAddressUI,
+} = UIDefinitions.sharedUISchemas;
 
-const formChapters = {
+const formChapterTitles = {
   veteranInformation: 'Veteran Information',
+  orderSupplies: 'Order your supplies',
 };
 
-const formPages = {
+const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
-  confirmAddress: 'Confirm Address',
+  address: 'Shipping Address',
+  addBatteriesPage: 'Add batteries to your order',
+  addAccessoriesPage: 'Add accessories to your order',
 };
+
+const addressSchema = buildAddressSchema(true);
 
 const formConfig = {
   urlPrefix: '/',
@@ -31,12 +55,14 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'va-2346a-',
+  verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
-  title: 'Order Hearing Aid Batteries and Accessories',
+  title: 'Order hearing aid batteries and accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
@@ -44,39 +70,88 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    dateOfBirth,
-    veteranFullName,
-    veteranAddress,
-    gender,
+    supplies,
+    currentAddress,
+    selectedAddress,
   },
   chapters: {
-    VeteranInformationChapter: {
-      title: formChapters.veteranInformation,
+    veteranInformationChapter: {
+      title: formChapterTitles.veteranInformation,
       pages: {
-        [formPages.personalDetails]: {
+        [formPageTitlesLookup.personalDetails]: {
           path: 'veteran-information',
-          title: formPages.personalDetails,
+          title: formPageTitlesLookup.personalDetails,
           uiSchema: {
-            'ui:description': personalInfoBox,
+            'ui:description': ({ formData }) => (
+              <PersonalInfoBox formData={formData} />
+            ),
+            [schemaFields.fullName]: fullNameUI,
           },
           schema: {
+            required: [],
             type: 'object',
             properties: {},
           },
         },
-        [formPages.address]: {
+        [formPageTitlesLookup.address]: {
           path: 'veteran-information/addresses',
-          title: formPages.confirmAddress,
+          title: formPageTitlesLookup.address,
           uiSchema: {
-            [vetFields.address]: addressUI,
-            [vetFields.email]: emailUI,
+            [currentAddressField]: currentAddressUI,
+            [newAddressField]: newAddressUI,
+            [selectedAddressField]: selectedAddressUI,
+            [emailField]: emailUI,
           },
           schema: {
             type: 'object',
+            required: [],
             properties: {
-              veteranAddress,
-              email,
+              [currentAddressField]: currentAddress,
+              [newAddressField]: addressSchema,
+              [selectedAddressField]: selectedAddress,
+              [emailField]: email,
             },
+          },
+        },
+      },
+    },
+    orderSuppliesChapter: {
+      title: formChapterTitles.orderSupplies,
+      pages: {
+        [formPageTitlesLookup.addBatteriesPage]: {
+          path: 'batteries',
+          title: formPageTitlesLookup.addBatteriesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              [viewAddBatteriesField]: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+              supplies,
+            },
+          },
+          uiSchema: {
+            [viewAddBatteriesField]: addBatteriesUI,
+            [suppliesField]: batteriesUI,
+          },
+        },
+        [formPageTitlesLookup.addAccessoriesPage]: {
+          path: 'accessories',
+          title: formPageTitlesLookup.addAccessoriesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              [viewAddAccessoriesField]: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+              supplies,
+            },
+          },
+          uiSchema: {
+            [viewAddAccessoriesField]: addAccessoriesUI,
+            [suppliesField]: accessoriesUI,
           },
         },
       },

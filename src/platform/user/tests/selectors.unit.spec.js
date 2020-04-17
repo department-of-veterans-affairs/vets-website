@@ -267,7 +267,67 @@ describe('user selectors', () => {
           profile: {},
         },
       };
-      expect(selectors.selectPatientFacilities(state)).to.be.undefined;
+      expect(selectors.selectPatientFacilities(state)).to.be.null;
+    });
+  });
+  describe('selectIsCernerOnlyPatient', () => {
+    it('should return true if Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerOnlyPatient(state)).to.be.true;
+    });
+    it('should return false if not Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
+    });
+  });
+  describe('selectIsCernerPatient', () => {
+    it('should return true if single cerner response', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerPatient(state)).to.be.true;
+    });
+    it('should return true if atleast 1 cerner facility', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerPatient(state)).to.be.true;
+    });
+    it('should return false if no cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '124', isCerner: false }],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerPatient(state)).to.be.false;
     });
   });
 });

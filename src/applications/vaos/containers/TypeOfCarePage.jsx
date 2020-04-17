@@ -14,7 +14,13 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+import {
+  getFormPageInfo,
+  getNewAppointment,
+  vaosDirectScheduling,
+} from '../utils/selectors';
+
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -48,7 +54,9 @@ export class TypeOfCarePage extends React.Component {
     // kick off the past appointments fetch, which takes a while
     // This could get called multiple times, but the function is memoized
     // and returns the previous promise if it eixsts
-    getLongTermAppointmentHistory();
+    if (this.props.showDirectScheduling) {
+      getLongTermAppointmentHistory();
+    }
 
     this.props.updateFormData(pageKey, uiSchema, newData);
   };
@@ -106,6 +114,8 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showDirectScheduling: vaosDirectScheduling(state),
   };
 }
 

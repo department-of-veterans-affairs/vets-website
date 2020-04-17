@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import localStorage from 'platform/utilities/storage/localStorage';
 import {
   setData,
   SET_DATA,
@@ -17,6 +18,14 @@ import {
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
+  before(() => {
+    sinon.stub(localStorage, 'getItem');
+  });
+
+  after(() => {
+    localStorage.getItem.restore();
+  });
+
   describe('setData', () => {
     it('should return action', () => {
       const data = {};

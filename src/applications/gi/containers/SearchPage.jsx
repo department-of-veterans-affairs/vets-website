@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -25,6 +26,7 @@ import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
+import { renderSearchResultsHeader } from '../utils/render';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -74,6 +76,7 @@ export class SearchPage extends React.Component {
       'priorityEnrollment',
       'independentStudy',
       'preferredProvider',
+      'excludeCautionFlags',
     ];
 
     const stringFilterParams = [
@@ -158,13 +161,20 @@ export class SearchPage extends React.Component {
       pagination: { currentPage, totalPages },
     } = search;
 
-    const resultsClass = classNames(
-      'search-results',
-      'small-12',
-      'usa-width-three-fourths medium-9',
-      'columns',
-      { opened: !search.filterOpened },
-    );
+    // Prod flag for 7183
+    const resultsClass = environment.isProduction()
+      ? classNames(
+          'search-results',
+          'small-12',
+          'usa-width-three-fourths medium-9',
+          'columns',
+          {
+            opened: !search.filterOpened,
+          },
+        )
+      : classNames('search-results', 'small-12', 'medium-9', 'columns', {
+          opened: !search.filterOpened,
+        });
 
     let searchResults;
 
@@ -201,11 +211,13 @@ export class SearchPage extends React.Component {
                 state={result.state}
                 zip={result.zip}
                 country={result.country}
+                cautionFlag={result.cautionFlag}
                 cautionFlags={result.cautionFlags}
                 studentCount={result.studentCount}
                 bah={result.bah}
                 dodBah={result.dodBah}
                 schoolClosing={result.schoolClosing}
+                schoolClosingOn={result.schoolClosingOn}
                 tuitionInState={result.tuitionInState}
                 tuitionOutOfState={result.tuitionOutOfState}
                 books={result.books}
@@ -229,17 +241,10 @@ export class SearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => (
-    <h1 tabIndex={-1}>
-      {!search.inProgress &&
-        `${(search.count || 0).toLocaleString()} Search Results`}
-    </h1>
-  );
-
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>
       <div className="vads-l-col--10 search-results-count">
-        {this.renderSearchResultsHeader(this.props.search)}
+        {renderSearchResultsHeader(this.props.search)}
       </div>
       <InstitutionSearchForm
         filtersClass={filtersClass}
@@ -266,7 +271,6 @@ export class SearchPage extends React.Component {
     const filtersClass = classNames(
       'filters-sidebar',
       'small-12',
-      'usa-width-one-fourth',
       'medium-3',
       'columns',
       { opened: search.filterOpened },

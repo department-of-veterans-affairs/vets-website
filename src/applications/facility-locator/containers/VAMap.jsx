@@ -19,13 +19,14 @@ import {
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
-import CemeteryMarker from '../components/markers/CemeteryMarker';
-import HealthMarker from '../components/markers/HealthMarker';
-import BenefitsMarker from '../components/markers/BenefitsMarker';
-import VetCenterMarker from '../components/markers/VetCenterMarker';
-import ProviderMarker from '../components/markers/ProviderMarker';
+import FacilityMarker from '../components/markers/FacilityMarker';
 import { facilityTypes } from '../config';
-import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
+import {
+  LocationType,
+  FacilityType,
+  BOUNDING_RADIUS,
+  MARKER_LETTERS,
+} from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
@@ -422,6 +423,7 @@ class VAMap extends Component {
       }
     };
 
+    const markers = MARKER_LETTERS.values();
     return results.map(r => {
       const iconProps = {
         key: r.id,
@@ -440,6 +442,7 @@ class VAMap extends Component {
           }
           this.props.fetchVAFacility(r.id, r);
         },
+        markerText: markers.next().value,
       };
 
       const popupContent = (
@@ -479,19 +482,14 @@ class VAMap extends Component {
 
       switch (r.attributes.facilityType) {
         case FacilityType.VA_HEALTH_FACILITY:
-          return <HealthMarker {...iconProps}>{popupContent}</HealthMarker>;
         case FacilityType.VA_CEMETARY:
-          return <CemeteryMarker {...iconProps}>{popupContent}</CemeteryMarker>;
         case FacilityType.VA_BENEFITS_FACILITY:
-          return <BenefitsMarker {...iconProps}>{popupContent}</BenefitsMarker>;
         case FacilityType.VET_CENTER:
-          return (
-            <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
-          );
+          return <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>;
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
             return (
-              <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>
+              <FacilityMarker {...iconProps}>{popupContent}</FacilityMarker>
             );
           }
           return null;
@@ -730,6 +728,12 @@ class VAMap extends Component {
             Find one of VA's more than 2,000 health care, counseling, benefits,
             and cemeteries facilities, plus VA's nationwide network of community
             health care providers.
+          </p>
+          <p>
+            <strong>Coronavirus update:</strong> Many VA and community provider
+            locations have changing hours and services due to COVID-19. For your
+            safety, please call before visiting any location to ask about
+            getting help by phone or video.
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}

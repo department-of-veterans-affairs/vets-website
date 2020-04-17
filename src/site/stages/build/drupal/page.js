@@ -60,69 +60,72 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
 
   /* eslint-enable camelcase */
   const pageField = _.get(bundleToField, page.entityBundle, field);
-  const pagedEntities = _.chunk(page[pageField].entities, perPage);
-
   const pageReturn = [];
-  for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
-    let pagedPage = Object.assign({}, page);
 
-    if (pageNum > 0) {
-      pagedPage = set(
-        'entityUrl.path',
-        `${page.entityUrl.path}${paginationPath(pageNum)}`,
-        page,
-      );
-    }
+  if (page[pageField]) {
+    const pagedEntities = _.chunk(page[pageField].entities, perPage);
 
-    pagedPage.pagedItems = pagedEntities[pageNum];
-    const innerPages = [];
+    for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
+      let pagedPage = Object.assign({}, page);
 
-    if (pagedEntities.length > 0) {
-      // add page numbers
-      const numPageLinks = 3;
-      let start;
-      let length;
-      if (pagedEntities.length <= numPageLinks) {
-        start = 0;
-        length = pagedEntities.length;
-      } else {
-        length = numPageLinks;
+      if (pageNum > 0) {
+        pagedPage = set(
+          'entityUrl.path',
+          `${page.entityUrl.path}${paginationPath(pageNum)}`,
+          page,
+        );
+      }
 
-        if (pageNum + numPageLinks > pagedEntities.length) {
-          start = pagedEntities.length - numPageLinks;
+      pagedPage.pagedItems = pagedEntities[pageNum];
+      const innerPages = [];
+
+      if (pagedEntities.length > 0) {
+        // add page numbers
+        const numPageLinks = 3;
+        let start;
+        let length;
+        if (pagedEntities.length <= numPageLinks) {
+          start = 0;
+          length = pagedEntities.length;
         } else {
-          start = pageNum;
+          length = numPageLinks;
+
+          if (pageNum + numPageLinks > pagedEntities.length) {
+            start = pagedEntities.length - numPageLinks;
+          } else {
+            start = pageNum;
+          }
         }
-      }
-      for (let num = start; num < start + length; num++) {
-        innerPages.push({
-          href:
-            num === pageNum
-              ? null
-              : `${page.entityUrl.path}${paginationPath(num)}`,
-          label: num + 1,
-          class: num === pageNum ? 'va-pagination-active' : '',
-        });
+        for (let num = start; num < start + length; num++) {
+          innerPages.push({
+            href:
+              num === pageNum
+                ? null
+                : `${page.entityUrl.path}${paginationPath(num)}`,
+            label: num + 1,
+            class: num === pageNum ? 'va-pagination-active' : '',
+          });
+        }
+
+        pagedPage.paginator = {
+          ariaLabel,
+          prev:
+            pageNum > 0
+              ? `${page.entityUrl.path}${paginationPath(pageNum - 1)}`
+              : null,
+          inner: innerPages,
+          next:
+            pageNum < pagedEntities.length - 1
+              ? `${page.entityUrl.path}${paginationPath(pageNum + 1)}`
+              : null,
+        };
+        pageReturn.push(pagedPage);
       }
 
-      pagedPage.paginator = {
-        ariaLabel,
-        prev:
-          pageNum > 0
-            ? `${page.entityUrl.path}${paginationPath(pageNum - 1)}`
-            : null,
-        inner: innerPages,
-        next:
-          pageNum < pagedEntities.length - 1
-            ? `${page.entityUrl.path}${paginationPath(pageNum + 1)}`
-            : null,
-      };
-      pageReturn.push(pagedPage);
+      const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
+
+      files[fileName] = createFileObj(pagedPage, layout);
     }
-
-    const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
-
-    files[fileName] = createFileObj(pagedPage, layout);
   }
   return pageReturn;
 }
@@ -257,6 +260,7 @@ function compilePage(page, contentData) {
       lifeInsuranceBenefitsHubQuery: lifeInsuranceHubSidebarNav = {},
       pensionBenefitsHubQuery: pensionHubSidebarNav = {},
       recordsBenefitsHubQuery: recordsHubSidebarNav = {},
+      decisionReviewsHubQuery: decisionReviewsSidebarNav = {},
       alerts: alertsItem = {},
       bannerAlerts: bannerAlertsItem = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -280,6 +284,7 @@ function compilePage(page, contentData) {
     lifeInsuranceHubSidebarNav,
     pensionHubSidebarNav,
     recordsHubSidebarNav,
+    decisionReviewsSidebarNav,
   ];
   let sidebarNavItems;
 
@@ -310,17 +315,6 @@ function compilePage(page, contentData) {
     case 'story_listing':
     case 'press_releases_listing':
     case 'health_services_listing':
-      pageCompiled = Object.assign(
-        {},
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-
     case 'health_care_region_detail_page':
       pageCompiled = Object.assign(
         {},
@@ -344,6 +338,8 @@ function compilePage(page, contentData) {
       );
       break;
     case 'health_care_region_page':
+    case 'press_release':
+    case 'person_profile':
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -362,30 +358,9 @@ function compilePage(page, contentData) {
         pageId,
       );
       break;
-    case 'press_release':
-      pageCompiled = Object.assign(
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-    case 'event': {
+    case 'event':
       // eslint-disable-next-line no-param-reassign
       page.entityUrl = generateBreadCrumbs(entityUrl.path);
-      pageCompiled = Object.assign(
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-    }
-    case 'person_profile':
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
