@@ -40,11 +40,9 @@
     "va/proptypes-camel-cased": 2,
     "va/enzyme-unmount": 2,
     "va/use-resolved-path": [
-      0,
+      2,
       {
-        "applicationsPath": true,
-        "platformPath": false,
-        "sitePath": true
+        "aliases": ["applications", "platform", "site"]
       }
     ],
 

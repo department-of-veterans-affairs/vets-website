@@ -10,9 +10,7 @@ module.exports = {
     'use-resolved-path': [
       2,
       {
-        applicationsPath: false,
-        platformPath: false,
-        sitePath: false,
+        aliases: ['applications', 'platform', 'site'],
       },
     ],
   },

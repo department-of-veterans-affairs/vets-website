@@ -1,13 +1,19 @@
-/* eslint-disable va/use-resolved-path */
-// self rule is disabled because it contains the string needed for comparison
 const MESSAGE = 'Use resolved path and remove unnecessary parent path';
+const DEFAULTS = ['applications'];
 
-function isIncluded(val, path) {
+function isIncluded(val, aliases) {
   const isString = str => typeof str === 'string';
-  if (!isString(val) || path === null) {
+  let alias;
+
+  if (!isString(val) || aliases === null) {
     return false;
   }
-  return val.includes(path);
+
+  for (alias of aliases) {
+    const path = `../${alias}/`;
+    if (val.includes(path)) return true;
+  }
+  return false;
 }
 
 module.exports = {
@@ -20,39 +26,40 @@ module.exports = {
     schema: [
       {
         properties: {
-          applicationsPath: {
-            description: 'report path containng `applications`',
-            type: 'boolean',
-          },
-          platformPath: {
-            description: 'report path containng `platform`',
-            type: 'boolean',
-          },
-          sitePath: {
-            description: 'report path containng `site`',
-            type: 'boolean',
+          aliases: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
           },
         },
       },
     ],
   },
   create(context) {
-    const _ref = context.options[0] || {};
-    const applicationsPath = _ref.applicationsPath ? '../applications/' : null;
-    const platformPath = _ref.platformPath ? '../platform/' : null;
-    const sitePath = _ref.sitePath ? '../site/' : null;
+    const configuration = context.options[0] || {};
+    const aliases = configuration.aliases || DEFAULTS;
 
     return {
-      Literal(node) {
-        if (
-          isIncluded(node.value, applicationsPath) ||
-          isIncluded(node.value, platformPath) ||
-          isIncluded(node.value, sitePath)
-        ) {
+      ImportDeclaration(node) {
+        const value = node.source.value;
+        if (isIncluded(value, aliases)) {
           context.report({
             node,
             message: MESSAGE,
           });
+        }
+      },
+      CallExpression(node) {
+        const callee = node.callee.name || node.callee.type;
+        if (callee === 'Import' || callee === 'require') {
+          const value = node.arguments[0].value;
+          if (isIncluded(value, aliases)) {
+            context.report({
+              node,
+              message: MESSAGE,
+            });
+          }
         }
       },
     };
