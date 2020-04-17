@@ -1,31 +1,14 @@
-import _ from 'lodash/fp';
-
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-
-import * as address from 'platform/forms/definitions/address';
-
-import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
-import createContactInformationPage from '../../pages/contactInformation';
-import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
-import { showSchoolAddress } from '../../utils/helpers';
 import { display10203StemFlow, displayStemEligibility } from '../helpers';
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
-import { validateWhiteSpace } from 'platform/forms/validations';
 
-const {
-  civilianBenefitsAssistance,
-  educationObjective,
-  nonVaAssistance,
-} = fullSchema1995.properties;
-
-const { educationType, serviceBefore1977 } = fullSchema1995.definitions;
+const { serviceBefore1977 } = fullSchema1995.definitions;
 
 export const chapters = {
   applicantInformation: {
