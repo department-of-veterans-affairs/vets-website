@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { branchCodeLabels } from '../labels';
+import { branchCodeLabels } from 'platform/forms/address/data/labels';
 
 const FONT_FAMILY = 'Arial, Helvetica, sans-serif';
 // sets the aspect ratio of svg

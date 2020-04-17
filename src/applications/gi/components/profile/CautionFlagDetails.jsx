@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 
 const CautionFlagDetails = ({ cautionFlags }) => {
   const validFlags = cautionFlags
@@ -14,15 +14,27 @@ const CautionFlagDetails = ({ cautionFlags }) => {
           )
           .map(flag => (
             <AlertBox
-              headline={flag.title}
+              headline={
+                <h4 className="vads-u-font-size--h3 usa-alert-heading">
+                  {flag.title}
+                </h4>
+              }
               key={flag.id}
               status="warning"
               content={
                 <div className="flagDetail">
                   <p>{flag.description}</p>
                   {flag.linkText && !flag.linkUrl && <p>{flag.linkText}</p>}
-                  {flag.linkUrl &&
-                    flag.linkText && <a href={flag.linkUrl}>{flag.linkText}</a>}
+                  {flag.linkText &&
+                    flag.linkUrl && (
+                      <a
+                        href={flag.linkUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {flag.linkText}
+                      </a>
+                    )}
                 </div>
               }
             />

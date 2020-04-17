@@ -3,7 +3,8 @@
  *
  */
 module.exports = `
-  fragment collapsiblePanel on ParagraphCollapsiblePanel {      
+  fragment collapsiblePanel on ParagraphCollapsiblePanel {
+      entityId
       fieldCollapsiblePanelMulti
       fieldCollapsiblePanelExpand
       fieldCollapsiblePanelBordered

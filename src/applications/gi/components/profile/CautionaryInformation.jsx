@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../AlertBox';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import environment from 'platform/utilities/environment';
@@ -44,7 +44,9 @@ export class CautionaryInformation extends React.Component {
 
     return (
       <div>
-        <h3>Alerts from VA and other federal agencies</h3>
+        <h3 tabIndex="-1" id="viewWarnings">
+          Alerts from VA and other federal agencies
+        </h3>
         <SchoolClosingDetails
           schoolClosing={it.schoolClosing}
           schoolClosingOn={it.schoolClosingOn}

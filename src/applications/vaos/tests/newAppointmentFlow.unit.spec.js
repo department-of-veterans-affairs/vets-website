@@ -342,39 +342,6 @@ describe('VAOS newAppointmentFlow', () => {
 
         resetFetch();
       });
-      it('should be requestDateTime page if past appointments request errors', async () => {
-        mockFetch();
-        setFetchJSONFailure(global.fetch, {});
-        const state = {
-          ...defaultState,
-          newAppointment: {
-            ...defaultState.newAppointment,
-            eligibility: {
-              '983_323': {
-                directSupported: true,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: true,
-                requestPastVisit: true,
-                requestLimit: true,
-              },
-            },
-          },
-        };
-        const dispatch = sinon.spy();
-
-        const nextState = await newAppointmentFlow.vaFacility.next(
-          state,
-          dispatch,
-        );
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
-        );
-        expect(nextState).to.equal('requestDateTime');
-
-        resetFetch();
-      });
       it('should throw error if not eligible for requests or direct', async () => {
         const state = {
           ...defaultState,

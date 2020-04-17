@@ -51,6 +51,7 @@ export class ProfilePage extends React.Component {
 
   handleViewWarnings = () => {
     this._cautionaryInfo.setState({ expanded: true });
+    focusElement('#viewWarnings');
   };
 
   render() {

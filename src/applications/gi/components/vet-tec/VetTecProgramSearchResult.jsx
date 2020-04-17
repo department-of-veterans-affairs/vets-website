@@ -23,11 +23,14 @@ class VetTecProgramSearchResult extends React.Component {
       dodBah,
       schoolClosing,
       schoolClosingOn,
+      cautionFlags,
     } = result;
 
     const tuition = isPresent(tuitionAmount)
       ? formatCurrency(tuitionAmount)
       : 'TBD';
+
+    const cautionFlag = cautionFlags && cautionFlags.length > 0;
 
     const displayHours =
       lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
@@ -36,10 +39,6 @@ class VetTecProgramSearchResult extends React.Component {
       pathname: `profile/${facilityCode}/${description}`,
       query: version ? { version } : {},
     };
-
-    const cautionFlags = this.props.result.cautionFlags
-      ? [...this.props.result.cautionFlags].filter(flag => flag.title)
-      : [];
 
     return (
       <div className="search-result">
@@ -64,13 +63,11 @@ class VetTecProgramSearchResult extends React.Component {
                 {renderPreferredProviderFlag(this.props.result)}
               </div>
             </div>
-            {(schoolClosing || (cautionFlags && cautionFlags.length > 0)) && (
+            {(schoolClosing || cautionFlag) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {cautionFlags &&
-                    cautionFlags.length > 0 &&
-                    renderCautionAlert({ cautionFlags })}
+                  {renderCautionAlert({ cautionFlag, cautionFlags })}
                 </div>
               </div>
             )}

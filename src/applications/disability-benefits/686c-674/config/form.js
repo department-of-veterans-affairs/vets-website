@@ -1,3 +1,6 @@
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
@@ -49,10 +52,11 @@ import {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  trackingPrefix: 'new-686-',
+  submitUrl: `${environment.API_URL}/v0/21-686c`,
+  trackingPrefix: '686c-674-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '21-686',
   version: 0,
   prefillEnabled: true,
@@ -272,7 +276,7 @@ const formConfig = {
           depends: formData =>
             isChapterFieldRequired(
               formData,
-              TASK_KEYS.reportChild18orOlderIsNotAttendingSchool,
+              TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
             ),
           title:
             'Information needed to report a child 18-23 years old stopped attending school',

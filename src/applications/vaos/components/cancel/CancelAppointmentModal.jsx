@@ -8,7 +8,6 @@ import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationM
 import CancelCernerAppointmentModal from './CancelCernerAppointmentModal';
 
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
-import { isVideoVisit, getAppointmentType } from '../../utils/appointment';
 
 export default class CancelAppointmentModal extends React.Component {
   render() {
@@ -26,15 +25,14 @@ export default class CancelAppointmentModal extends React.Component {
       return null;
     }
 
-    if (isVideoVisit(appointmentToCancel)) {
+    if (appointmentToCancel.videoType) {
       return (
         <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
       );
     }
 
     if (
-      getAppointmentType(appointmentToCancel) ===
-      APPOINTMENT_TYPES.ccAppointment
+      appointmentToCancel.appointmentType === APPOINTMENT_TYPES.ccAppointment
     ) {
       return (
         <CancelCommunityCareAppointmentModal
