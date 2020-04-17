@@ -7,8 +7,7 @@ export default (_store, widgetType) => {
     return;
   }
 
-  // webpackChunkName: "chatbot"
-  import('./index').then(module => {
+  import(/* webpackChunkName: "chatbot" */ './index').then(module => {
     const initializeChatbot = module.default;
     initializeChatbot(root);
   });
