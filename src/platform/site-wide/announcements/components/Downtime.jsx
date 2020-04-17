@@ -21,8 +21,8 @@ class Downtime extends Component {
     } = this.props;
 
     // Derive the message.
-    const formattedExpiresAt = moment(expiresAt).format('MMM D [at] h:mm a');
-    const message = `We're doing work on VA.gov. If you have trouble using online tools, check back after ${formattedExpiresAt}`;
+    const formattedExpiresAt = moment(expiresAt).format('dddd M/D [at] h:mm a');
+    const message = `DS Logon is down for maintenance. Please use ID.me or MyHealtheVet to sign in or use online tools. We hope to finish our DS Logon work by ${formattedExpiresAt}`;
 
     return (
       <PromoBanner
