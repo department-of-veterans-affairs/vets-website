@@ -1,7 +1,12 @@
 import { DISABLED_LIMIT_VALUE } from '../utils/constants';
 import { captureError } from '../utils/error';
 
-import { checkPastVisits, getRequestLimits, getAvailableClinics } from '../api';
+import {
+  checkPastVisits,
+  getRequestLimits,
+  getAvailableClinics,
+  getLongTermAppointmentHistory,
+} from '../api';
 
 import { recordVaosError, recordEligibilityFailure } from './events';
 
@@ -54,6 +59,11 @@ export async function getEligibilityData(
         createErrorHandler('direct', 'direct-available-clinics-error'),
       ),
     );
+    eligibilityChecks.push(
+      getLongTermAppointmentHistory().catch(
+        createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
+      ),
+    );
   }
 
   const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
@@ -68,11 +78,29 @@ export async function getEligibilityData(
   };
 
   if (directData?.length) {
-    const [directPastVisit, clinics] = directData;
+    const [directPastVisit, clinics, pastAppointments] = directData;
+
+    const hasMatchingClinics = clinics?.length
+      ? clinics.some(
+          clinic =>
+            !!pastAppointments.find(
+              appt =>
+                clinic.siteCode === appt.facilityId &&
+                clinic.clinicId === appt.clinicId,
+            ),
+        )
+      : false;
+
+    if (!hasMatchingClinics) {
+      recordEligibilityFailure('direct-no-matching-past-clinics');
+    }
+
     eligibility = {
       ...eligibility,
       directPastVisit,
       clinics,
+      hasMatchingClinics,
+      pastAppointments,
     };
   }
 
@@ -154,7 +182,9 @@ export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
         directSchedulingEnabled &&
         eligibilityData.directPastVisit.durationInMonths,
       directClinics:
-        directSchedulingEnabled && !!eligibilityData.clinics.length,
+        directSchedulingEnabled &&
+        !!eligibilityData.clinics.length &&
+        eligibilityData.hasMatchingClinics,
     };
   }
 

@@ -35,11 +35,19 @@ export class ConfirmationPage extends React.Component {
 
   componentDidMount() {
     document.title = `${this.pageTitle} | Veterans Affairs`;
+
+    const { data, router } = this.props;
+    // Check formData for typeOfCareId. Reroute if empty
+    if (router && !data?.typeOfCareId) {
+      router.replace('/new-appointment');
+    }
+
     if (
       !this.props.facilityDetails &&
-      this.props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
+      data.vaFacility &&
+      data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
-      this.props.fetchFacilityDetails(this.props.data.vaFacility);
+      this.props.fetchFacilityDetails(data.vaFacility);
     }
     scrollAndFocus();
   }

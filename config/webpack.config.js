@@ -18,8 +18,6 @@ const {
 } = require('./manifest-helpers');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 
-const timestamp = new Date().getTime();
-
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
@@ -96,12 +94,8 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: !isOptimizedBuild
-        ? '[name].entry.js'
-        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
       rules: [
@@ -224,12 +218,7 @@ module.exports = env => {
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
         __API__: JSON.stringify(buildOptions.api),
       }),
-
-      new MiniCssExtractPlugin({
-        filename: !isOptimizedBuild
-          ? '[name].css'
-          : `[name].[contenthash]-${timestamp}.css`,
-      }),
+      new MiniCssExtractPlugin({ filename: '[name].css' }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
     devServer: generateWebpackDevConfig(buildOptions),

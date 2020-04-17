@@ -7,22 +7,29 @@ export const schema = {
   required: [],
   properties: {
     veteranAddress: buildAddressSchema(true),
-    phoneNumber: genericSchemas.phoneInput,
-    emailAddress: genericSchemas.emailInput,
+    moreVeteranInformation: {
+      type: 'object',
+      properties: {
+        phoneNumber: genericSchemas.phoneInput,
+        emailAddress: genericSchemas.emailInput,
+      },
+    },
   },
 };
 
 export const uiSchema = {
   veteranAddress: addressUISchema(true, 'veteranAddress', () => true),
-  phoneNumber: {
-    'ui:options': {
-      widgetClassNames: 'usa-input-medium',
+  moreVeteranInformation: {
+    phoneNumber: {
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium',
+      },
+      'ui:required': () => true,
+      'ui:title': 'Phone Number',
+      'ui:errorMessages': {
+        pattern: 'Please enter only numbers, no dashes or parentheses',
+      },
     },
-    'ui:required': () => true,
-    'ui:title': 'Phone Number',
-    'ui:errorMessages': {
-      pattern: 'Please enter only numbers, no dashes or parentheses',
-    },
+    emailAddress: emailUI(),
   },
-  emailAddress: emailUI(),
 };
