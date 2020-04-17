@@ -174,11 +174,11 @@ export const addressUISchema = (
             const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               countryUI['ui:disabled'] = true;
-              countryFormData.country = USA.name;
+              countryFormData.country = USA.value;
               return {
                 enum: [USA.value],
                 enumNames: [USA.name],
-                default: USA.name,
+                default: USA.value,
               };
             }
             countryUI['ui:disabled'] = false;
