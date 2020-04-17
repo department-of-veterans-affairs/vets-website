@@ -13,7 +13,7 @@ import { mapToFHIRErrors } from '../utils/fhir';
  * @param {Array} parentFacilities A list of parent facilities from var-resources
  * @returns {Object} A FHIR searchset of Organization resources
  */
-export function mapParentFacilities(parentFacilities) {
+function mapParentFacilities(parentFacilities) {
   return {
     resourceType: 'Bundle',
     id: 'fake-id',
