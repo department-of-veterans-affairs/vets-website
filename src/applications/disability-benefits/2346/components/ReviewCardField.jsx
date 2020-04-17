@@ -1,4 +1,7 @@
-import { getDefaultFormState, getDefaultRegistry } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import {
+  getDefaultFormState,
+  getDefaultRegistry,
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
