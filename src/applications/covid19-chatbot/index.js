@@ -41,7 +41,6 @@ const startChat = (user, webchatOptions) => {
 
 const initBotConversation = () => {
   if (this.status >= 400) {
-    alert(this.statusText);
     return;
   }
   // extract the data from the JWT
