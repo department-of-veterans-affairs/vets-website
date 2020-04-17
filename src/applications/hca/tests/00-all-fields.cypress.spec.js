@@ -2,6 +2,35 @@ describe('HCA form', () => {
   before(() => {
     // Grab test data
     cy.fixture('hca/maximal-test.json').as('testData');
+
+    cy.server();
+
+    cy.route({
+      method: 'GET',
+      url: '/v0/health_care_applications/enrollment_status*',
+      status: 404,
+      response: {
+        errors: [
+          {
+            title: 'Record not found',
+            detail: 'The record identified by  could not be found',
+            code: '404',
+            status: '404',
+          },
+        ],
+      },
+    }).as('getApplication');
+
+    cy.route('POST', '/v0/health_care_applications', {
+      formSubmissionId: '123fake-submission-id-567',
+      timestamp: '2016-05-16',
+    }).as('submitApplication');
+
+    // Workaround to intercept requests made with fetch API.
+    cy.on('window:before:load', window => {
+      // eslint-disable-next-line no-param-reassign
+      delete window.fetch;
+    });
   });
 
   it('submits a valid application', () => {
@@ -24,7 +53,8 @@ describe('HCA form', () => {
         .get('#root_ssn')
         .type(testData.veteranSocialSecurityNumber)
         .get('.usa-button')
-        .click();
+        .click()
+        .wait('@getApplication');
 
       // Information page
       cy.get('#root_veteranFullName_first')
@@ -346,7 +376,8 @@ describe('HCA form', () => {
     cy.get('[type="checkbox"]').click();
     cy.findByText('Submit application')
       .should('exist')
-      .click();
+      .click()
+      .wait('@submitApplication');
     cy.contains('Thank you for submitting your application').should(
       'be.visible',
     );
