@@ -1,3 +1,5 @@
+import { terminalLog } from '../../../platform/testing/e2e-cypress/helpers.js';
+
 describe('HCA form', () => {
   before(() => {
     // Grab test data
@@ -38,7 +40,18 @@ describe('HCA form', () => {
     cy.visit('http://localhost:3001/health-care/apply/application')
       .get('.schemaform-start-button')
       .first()
-      .click();
+      .click()
+      .injectAxe();
+
+    // Ignore 'heading-order' axe error for now
+    cy.configureAxe({
+      rules: [
+        {
+          id: 'heading-order',
+          enabled: false,
+        },
+      ],
+    });
 
     // Fill the application
     cy.get('@testData').then(testData => {
@@ -52,6 +65,7 @@ describe('HCA form', () => {
         .fillDate('root_dob', testData.veteranDateOfBirth)
         .get('#root_ssn')
         .type(testData.veteranSocialSecurityNumber)
+        .checkA11y('.main', null, terminalLog)
         .get('.usa-button')
         .click()
         .wait('@getApplication');
@@ -68,6 +82,7 @@ describe('HCA form', () => {
         .should('have.value', testData.veteranFullName.suffix)
         .get('#root_mothersMaidenName')
         .type(testData.mothersMaidenName)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -94,6 +109,7 @@ describe('HCA form', () => {
             .select(testData['view:placeOfBirth'].stateOfBirth)
             .should('have.value', testData['view:placeOfBirth'].stateOfBirth);
         })
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -109,6 +125,7 @@ describe('HCA form', () => {
           // use cypress commands on it
           cy.wrap($checkbox).click();
         })
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -128,6 +145,7 @@ describe('HCA form', () => {
         .should('have.value', testData.veteranAddress.state)
         .get('#root_veteranAddress_postalCode')
         .type(testData.veteranAddress.postalCode)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -140,6 +158,7 @@ describe('HCA form', () => {
         .type(testData.homePhone)
         .get('#root_mobilePhone')
         .type(testData.mobilePhone)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -152,6 +171,7 @@ describe('HCA form', () => {
         .get('#root_dischargeType')
         .select(testData.dischargeType)
         .should('have.value', testData.dischargeType)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -161,10 +181,12 @@ describe('HCA form', () => {
           // use cypress commands on it
           cy.wrap($checkbox).click();
         })
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click()
         // Upload Discharge Papers
         // TODO
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -172,10 +194,12 @@ describe('HCA form', () => {
       // Current compensation
       cy.get('[type="radio"]')
         .check(testData.vaCompensationType)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click()
         .get('#root_discloseFinancialInformationYes')
         .click()
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -242,12 +266,14 @@ describe('HCA form', () => {
             .eq(5)
             .type(testData['view:spouseContactInformation'].spousePhone);
         })
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
       // Dependent information
       cy.get('[type="radio"]')
         .check('Y')
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click()
         .get('#root_dependents_0_fullName_first')
@@ -282,6 +308,7 @@ describe('HCA form', () => {
         .click()
         .get('#root_dependents_0_receivedSupportLastYearYes')
         .click()
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -314,6 +341,7 @@ describe('HCA form', () => {
         .get('input')
         .eq(9)
         .type(testData.dependents[0].otherIncome)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -324,6 +352,7 @@ describe('HCA form', () => {
         .type(testData.deductibleFuneralExpenses)
         .get('#root_deductibleEducationExpenses')
         .type(testData.deductibleEducationExpenses)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -338,6 +367,7 @@ describe('HCA form', () => {
           'root_medicarePartAEffectiveDate',
           testData.medicarePartAEffectiveDate,
         )
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -352,6 +382,7 @@ describe('HCA form', () => {
         .type(testData.providers[0].insurancePolicyNumber)
         .get('#root_providers_0_insuranceGroupCode')
         .type(testData.providers[0].insuranceGroupCode)
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
@@ -368,18 +399,23 @@ describe('HCA form', () => {
         .select(testData['view:preferredFacility'].vaMedicalFacility)
         .get('#root_wantsInitialVaContactYes')
         .click()
+        .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
     });
 
     // submit application
-    cy.get('[type="checkbox"]').click();
-    cy.findByText('Submit application')
+    cy.get('[type="checkbox"]')
+      .click()
+      .checkA11y('.main', null, terminalLog)
+      .get('.main')
+      .contains('Submit application')
       .should('exist')
       .click()
-      .wait('@submitApplication');
-    cy.contains('Thank you for submitting your application').should(
-      'be.visible',
-    );
+      .wait('@submitApplication')
+      .get('.main')
+      .contains('Thank you for submitting your application')
+      .should('be.visible')
+      .checkA11y('.main', null, terminalLog);
   });
 });
