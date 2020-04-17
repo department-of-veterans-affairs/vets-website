@@ -23,8 +23,11 @@ function alertContent(isLoggedIn) {
           If your separation date is before {ninetyDays} or after{' '}
           {oneHundredEightyDays},
         </strong>{' '}
-        you can’t file a BDD claim, but you can still begin the process of
-        filing your claim on eBenefits.
+        you can’t file a BDD claim.
+      </p>
+      <p>
+        <strong>If your separation date is before {ninetyDays},</strong> you can
+        still begin the process of filing your claim on eBenefits.
       </p>
       <a
         href={EBEN_526_URL}
