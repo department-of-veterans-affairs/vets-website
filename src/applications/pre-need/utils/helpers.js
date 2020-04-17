@@ -103,6 +103,25 @@ export const desiredCemeteryNoteDescription = (
   </div>
 );
 
+export const burdenStatement = (
+  <p>
+    Respondent Burden: This information is collected in accordance with section
+    3507 of the Paperwork Reduction Act of 1995. Accordingly, we may not conduct
+    or sponsor, and you are not required to respond to a collection of
+    information unless it displays a valid OMB number. We anticipate the time
+    expended by individuals who complete this form will average 20 minutes per
+    response, including the time to review instructions, search existing data
+    sources, gather the necessary data, and complete and review the collection
+    of information. Your response is voluntary and not required to obtain or
+    retain benefits to which you may be entitled. Send comments concerning the
+    accuracy of this burden estimate, including suggestion for reducing this
+    burden or any other aspect of this collection of information to the VA
+    Clearance Officer (005R1B), 810 Vermont Avenue, NW, Washington, DC 20420.
+    Please DO NOT send claims for, or correspondence regarding benefits to this
+    address.
+  </p>
+);
+
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
@@ -294,10 +313,10 @@ export const veteranUI = {
     },
   },
   placeOfBirth: {
-    'ui:title': 'Place of birth',
+    'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Gender',
+    'ui:title': 'Sex',
     'ui:widget': 'radio',
   },
   maritalStatus: {
@@ -311,6 +330,16 @@ export const veteranUI = {
         divorced: 'Divorced',
         widowed: 'Widowed',
       },
+    },
+  },
+  ethnicity: {
+    'ui:title': 'Race/Ethnicity',
+    'ui:options': {
+      1: 'American Indian or Alaska Native',
+      2: 'Black or African American',
+      3: 'Hispanic or Latino',
+      4: 'Native Hawaiian or Pacific Islander',
+      5: 'White',
     },
   },
   militaryStatus: {
