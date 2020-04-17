@@ -9,6 +9,7 @@
   }
 {% endcomment %}
 
-<div class="processed-content">
+<div data-template="paragraphs/wysiwyg" data-entity-id="{{ entity.entityId }}" class="processed-content">
     {{ entity.fieldWysiwyg.processed | drupalToVaPath }}
 </div>
+

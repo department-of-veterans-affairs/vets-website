@@ -33,7 +33,7 @@ const ProfileInfoTable = ({
     'padding-y--1p5',
   ]);
   const tableRowClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row', 'padding-x--3', 'padding-y--4'],
+    ['flex-direction--row', 'padding--4'],
     'medium',
   );
   const tableRowTitleClasses = prefixUtilityClasses([
@@ -52,9 +52,11 @@ const ProfileInfoTable = ({
 
   return (
     <div className={tableClasses.join(' ')} data-field-name={fieldName}>
-      <h3 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
-        {title}
-      </h3>
+      {title && (
+        <h3 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
+          {title}
+        </h3>
+      )}
       {data
         .map(element => (dataTransformer ? dataTransformer(element) : element))
         .map((row, index) => (
@@ -82,7 +84,7 @@ const ProfileInfoTable = ({
 };
 
 ProfileInfoTable.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   fieldName: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
