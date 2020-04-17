@@ -17,7 +17,6 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  START_DIRECT_SCHEDULE_FLOW,
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
@@ -558,71 +557,6 @@ describe('VAOS reducer: newAppointment', () => {
   });
 
   describe('open clinic page reducers', () => {
-    it('should save past appointments to state', () => {
-      const appointments = [
-        {
-          id: 'ade93d5b68dc06fb47bddfab6548fc64',
-          type: 'va_appointments',
-          attributes: {
-            startDate: '2019-10-07T14:00:00Z',
-            clinicId: '455',
-            clinicFriendlyName: null,
-            facilityId: '983',
-            communityCare: false,
-            vdsAppointments: [
-              {
-                bookingNote: null,
-                appointmentLength: '60',
-                appointmentTime: '2019-10-07T14:00:00Z',
-                clinic: {
-                  name: 'CHY PC CASSIDY',
-                  askForCheckIn: false,
-                  facilityCode: '983',
-                },
-                type: 'SERVICE CONNECTED',
-                currentStatus: 'FUTURE',
-              },
-            ],
-            vvsAppointments: [],
-          },
-        },
-        {
-          id: '8f9792ed196a9112fb17ed2f5fa2996b',
-          type: 'va_appointments',
-          attributes: {
-            startDate: '2019-10-07T16:00:00Z',
-            clinicId: '308',
-            clinicFriendlyName: null,
-            facilityId: '983',
-            communityCare: false,
-            vdsAppointments: [
-              {
-                bookingNote: null,
-                appointmentLength: null,
-                appointmentTime: '2019-10-07T16:00:00Z',
-                clinic: {
-                  name: 'CHY OPT VAR1',
-                  askForCheckIn: false,
-                  facilityCode: '983',
-                },
-                type: 'REGULAR',
-                currentStatus: 'FUTURE',
-              },
-            ],
-            vvsAppointments: [],
-          },
-        },
-      ];
-
-      const action = {
-        type: START_DIRECT_SCHEDULE_FLOW,
-        appointments,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.pastAppointments).to.deep.equal(action.appointments);
-    });
     it('should set single clinic list in schema', () => {
       const state = {
         ...defaultState,
