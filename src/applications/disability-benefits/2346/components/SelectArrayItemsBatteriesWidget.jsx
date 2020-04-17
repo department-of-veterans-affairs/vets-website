@@ -31,52 +31,68 @@ class SelectArrayItemsBatteriesWidget extends Component {
     const { supplies } = this.props;
     const { selectedItems } = this.state;
 
-    return supplies.map(
-      supply =>
-        supply.productGroup === HEARING_AID_BATTERIES ? (
-          <div key={supply.productId} className="vads-u-color--gray-lightest">
-            <p className="vads-u-font-size--md vads-u-font-weight--bold">
-              {supply.productName}
-            </p>
-            <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
-              <div className="usa-alert-body vads-u-padding-left--1">
-                <p className="vads-u-margin--1px">
-                  <span className="vads-u-font-weight--bold">Battery: </span>
-                  {supply.productId}
-                </p>
-                <p className="vads-u-margin--1px">
-                  <span className="vads-u-font-weight--bold">Quantity: </span>
-                  {supply.quantity} <br />
-                  Approximately {supply.quantity} months supply
-                </p>
-                <p className="vads-u-margin--1px">
-                  <span className="vads-u-font-weight--bold">
-                    Last order date:{' '}
-                  </span>{' '}
-                  {moment(supply.lastOrderDate).format('MM/DD/YYYY')}
-                </p>
+    return (
+      <>
+        <h4>Select the hearing aids that need batteries</h4>
+        <p>
+          You'll be sent a 6-month supply of batteries for each device you
+          choose below.
+        </p>
+        {supplies.map(
+          supply =>
+            supply.productGroup === HEARING_AID_BATTERIES ? (
+              <div
+                key={supply.productId}
+                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4"
+              >
+                <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
+                  {supply.productName}
+                </h4>
+                <p>Prescribed 1/18/2018</p>
+                <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
+                  <div className="usa-alert-body vads-u-padding-left--1">
+                    <p className="vads-u-margin--1px vads-u-margin-y--1">
+                      <span className="vads-u-font-weight--bold">
+                        Battery:{' '}
+                      </span>
+                      {supply.productId}
+                    </p>
+                    <p className="vads-u-margin--1px vads-u-margin-y--1">
+                      <span className="vads-u-font-weight--bold">
+                        Quantity:{' '}
+                      </span>
+                      {supply.quantity}
+                    </p>
+                    <p className="vads-u-margin--1px vads-u-margin-y--1">
+                      <span className="vads-u-font-weight--bold">
+                        Last order date:{' '}
+                      </span>{' '}
+                      {moment(supply.lastOrderDate).format('MM/DD/YYYY')}
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className={
+                    selectedItems.includes(supply.productId)
+                      ? BLUE_BACKGROUND
+                      : WHITE_BACKGROUND
+                  }
+                >
+                  <input
+                    name={supply.productId}
+                    type="checkbox"
+                    onChange={this.handleChecked}
+                  />
+                  <label htmlFor={supply.productId} className="main">
+                    Order batteries for this device
+                  </label>
+                </div>
               </div>
-            </div>
-            <div
-              className={
-                selectedItems.includes(supply.productId)
-                  ? BLUE_BACKGROUND
-                  : WHITE_BACKGROUND
-              }
-            >
-              <input
-                name={supply.productId}
-                type="checkbox"
-                onChange={this.handleChecked}
-              />
-              <label htmlFor={supply.productId} className="main">
-                Order batteries for this device
-              </label>
-            </div>
-          </div>
-        ) : (
-          ''
-        ),
+            ) : (
+              ''
+            ),
+        )}
+      </>
     );
   }
 }

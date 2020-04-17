@@ -1,10 +1,9 @@
 import React from 'react';
-import OrderSupplyPageContent from '../../components/OrderSupplyPageContent';
 import OrderAccessoriesPageContent from '../../components/OrderAccessoriesPageContent';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
-import { showNewAddressForm, getRadioLabelText } from '../../helpers';
+import { getRadioLabelText, showNewAddressForm } from '../../helpers';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
@@ -20,6 +19,10 @@ const emailUIDescription = (
     </p>
     <p>Email address</p>
   </>
+);
+
+const addBatteriesUITitle = (
+  <h4 className="vads-u-display--inline ">Add batteries to your order</h4>
 );
 
 export default {
@@ -79,15 +82,23 @@ export default {
       },
     },
     addBatteriesUI: {
-      'ui:title': 'Add batteries to your order',
-      'ui:description': OrderSupplyPageContent,
+      'ui:title': addBatteriesUITitle,
+      'ui:description': 'Do you need to order hearing aid batteries?',
       'ui:widget': 'radio',
+      'ui:required': () => true,
       'ui:options': {
         labels: {
-          yes: 'Yes, I need to order hearing aid batteries.',
-          no: "No, I don't need to order hearing aid batteries.",
+          yes: 'Yes, I need batteries.',
+          no: "No, I don't need batteries.",
         },
         hideOnReview: true,
+      },
+    },
+    batteriesUI: {
+      'ui:field': SelectArrayItemsBatteriesWidget,
+      'ui:options': {
+        expandUnder: viewAddBatteriesField,
+        expandUnderCondition: 'yes',
       },
     },
     addAccessoriesUI: {
@@ -100,16 +111,6 @@ export default {
           no: "No, I don't need to order hearing aid accessories.",
         },
         hideOnReview: true,
-      },
-    },
-    batteriesUI: {
-      'ui:title': 'Which hearing aid do you need batteries for?',
-      'ui:description':
-        'You will be sent a 6 month supply of batteries for each device you select below.',
-      'ui:field': SelectArrayItemsBatteriesWidget,
-      'ui:options': {
-        expandUnder: viewAddBatteriesField,
-        expandUnderCondition: 'yes',
       },
     },
     accessoriesUI: {
