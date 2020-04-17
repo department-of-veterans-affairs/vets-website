@@ -5,6 +5,11 @@ import addHomepageBannerListeners from './addHomepageBannerListeners';
 
 const pageListenersMap = new Map();
 
+/**
+ * Use pageListenersMap.set(<page path>, <array of functions>) to register
+ * listeners onto certain pages. If global, just execute the listener directly.
+ */
+
 pageListenersMap.set('/coronavirus-veteran-frequently-asked-questions/', [
   addJumplinkListeners,
   addQaSectionListeners,
