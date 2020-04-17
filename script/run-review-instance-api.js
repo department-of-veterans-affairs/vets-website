@@ -102,7 +102,7 @@ const buildReviewInstanceApiUrl = environmentUrl =>
 
 // Run the watch task with the build pointing to the review instance API.
 const runWatch = apiUrl =>
-  execSync(`yarn watch --api=${apiUrl}`, { stdio: 'inherit' });
+  execSync(`yarn watch --env.api=${apiUrl}`, { stdio: 'inherit' });
 
 const logError = error => {
   console.error(error);
