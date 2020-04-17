@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-unresolved
+import fullSchema from 'vets-json-schema/dist/686c-674-schema.json';
+
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
@@ -66,7 +69,7 @@ const formConfig = {
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'New 686',
-  defaultDefinitions: {},
+  defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
       title: '686c Options',
