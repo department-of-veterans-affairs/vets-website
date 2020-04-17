@@ -44,6 +44,10 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     firstProgram.phoneNumber,
   );
 
+  const prodFlagPreferredProvider = environment.isProduction()
+    ? ''
+    : 'additional-resources-preferred-provider';
+
   const prodFlagHeader = environment.isProduction()
     ? 'usa-width-two-thirds medium-8 small-12 column'
     : 'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
@@ -127,7 +131,9 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <VetTecAdditionalResources />
+        <div className={prodFlagPreferredProvider}>
+          <VetTecAdditionalResources />
+        </div>
       </div>
     </div>
   );
