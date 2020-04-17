@@ -58,6 +58,7 @@ describe('HCA form', () => {
       // Fill out the personal information section
       cy.log('fill out the personal information section');
 
+      // ID Form page
       cy.get('#root_firstName')
         .type(testData.veteranFullName.first)
         .get('#root_lastName')
@@ -70,7 +71,7 @@ describe('HCA form', () => {
         .click()
         .wait('@getApplication');
 
-      // Information page
+      // Personal information page
       cy.get('#root_veteranFullName_first')
         .should('have.value', testData.veteranFullName.first)
         .get('#root_veteranFullName_last')
@@ -86,7 +87,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Date of Birth Page
+      // Birth information page
       const [
         vetDobYear,
         vetDobMonth,
@@ -113,7 +114,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Demographics Page
+      // Demographics information Page
       cy.get('#root_gender')
         .select(testData.gender)
         .should('have.value', testData.gender)
@@ -129,7 +130,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Permanent Address Page
+      // Veteran address Page
       cy.get('#root_veteranAddress_country')
         .should('have.value', testData.veteranAddress.country)
         .get('#root_veteranAddress_street')
@@ -149,7 +150,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Contact Information Page
+      // Contact information Page
       cy.get('[type="email"]')
         .each($input => {
           cy.wrap($input).type(testData.email);
@@ -162,7 +163,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // fills out the military service section
+      // Military service page
       cy.get('#root_lastServiceBranch')
         .select(testData.lastServiceBranch)
         .should('have.value', testData.lastServiceBranch)
@@ -175,7 +176,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Service History Page
+      // Military service additional information page
       cy.get('[type="checkbox"]')
         .each($checkbox => {
           // use cypress commands on it
@@ -183,15 +184,16 @@ describe('HCA form', () => {
         })
         .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
-        .click()
-        // Upload Discharge Papers
-        // TODO
+        .click();
+
+      // Military service documents page
+      // TODO
+      cy.get('[type=file]')
         .checkA11y('.main', null, terminalLog)
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // fills out the VA benefits section
-      // Current compensation
+      // Financial disclosure page
       cy.get('[type="radio"]')
         .check(testData.vaCompensationType)
         .checkA11y('.main', null, terminalLog)
@@ -203,7 +205,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Spouses Information
+      // Spouses information page
       cy.get('#root_spouseFullName_first')
         .type(testData.spouseFullName.first)
         .get('#root_spouseFullName_middle')
@@ -270,7 +272,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Dependent information
+      // Dependent information page
       cy.get('[type="radio"]')
         .check('Y')
         .checkA11y('.main', null, terminalLog)
@@ -312,7 +314,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Annual income
+      // Annual income page
       cy.get('#root_veteranGrossIncome')
         .type(testData.veteranGrossIncome)
         .get('#root_veteranNetIncome')
@@ -345,7 +347,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Previous year's deductible expenses
+      // Deductible expenses page
       cy.get('#root_deductibleMedicalExpenses')
         .type(testData.deductibleMedicalExpenses)
         .get('#root_deductibleFuneralExpenses')
@@ -356,9 +358,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // fills out the insurance information section
-
-      // Insurance information
+      // Insurance information page
       cy.get('#root_isMedicaidEligibleYes')
         .click()
         .get('#root_isEnrolledMedicarePartAYes')
@@ -371,7 +371,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // Other Coverage
+      // Other Coverage page
       cy.get('#root_isCoveredByHealthInsuranceYes')
         .click()
         .get('#root_providers_0_insuranceName')
@@ -386,7 +386,7 @@ describe('HCA form', () => {
         .get('.form-panel .usa-button-primary')
         .click();
 
-      // VA facility
+      // VA facility page
       cy.get('#root_isEssentialAcaCoverage')
         .click()
         // State
@@ -404,13 +404,12 @@ describe('HCA form', () => {
         .click();
     });
 
-    // submit application
+    // Review and Submit Page
     cy.get('[type="checkbox"]')
       .click()
       .checkA11y('.main', null, terminalLog)
       .get('.main')
       .contains('Submit application')
-      .should('exist')
       .click()
       .wait('@submitApplication')
       .get('.main')
