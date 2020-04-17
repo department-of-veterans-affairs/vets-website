@@ -54,11 +54,28 @@ export default {
       },
     },
     temporaryAddressUI: {
-      ...addressUISchema(
-        true,
-        tempAddressField,
-        formData => formData.temporaryAddress,
-      ),
+      ...addressUISchema(true, tempAddressField, formData => {
+        const {
+          street,
+          city,
+          state,
+          country,
+          postalCode,
+          internationalPostalCode,
+        } = formData.temporaryAddress;
+
+        if (
+          !street &&
+          !city &&
+          !state &&
+          !country &&
+          !postalCode &&
+          !internationalPostalCode
+        ) {
+          return false;
+        }
+        return true;
+      }),
       'ui:title': 'Temporary address',
       'ui:field': ReviewCardField,
       'ui:options': {

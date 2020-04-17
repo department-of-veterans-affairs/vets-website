@@ -1,7 +1,4 @@
-import {
-  getDefaultFormState,
-  getDefaultRegistry,
-} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { getDefaultFormState, getDefaultRegistry } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
@@ -273,6 +270,8 @@ export default class ReviewCardField extends React.Component {
       'vads-u-width--auto',
     ].join(' ');
 
+    const { street, city, country } = this.props.formData;
+
     return (
       <div className="review-card">
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
@@ -280,16 +279,32 @@ export default class ReviewCardField extends React.Component {
         </div>
         <div className={bodyClasses}>
           <ViewComponent formData={this.props.formData} />
-          {!volatileData && (
-            <a
-              className={`usa-button-secondary ${editLink}`}
-              style={{ minWidth: '8rem' }}
-              onClick={this.startEditing}
-              aria-label={`Edit ${title.toLowerCase()}`}
-            >
-              Edit {title.toLowerCase()}
-            </a>
-          )}
+          {!volatileData &&
+            street &&
+            city &&
+            country && (
+              <a
+                className={`usa-button-secondary ${editLink}`}
+                style={{ minWidth: '8rem' }}
+                onClick={this.startEditing}
+                aria-label={`Edit ${title.toLowerCase()}`}
+              >
+                Edit {title.toLowerCase()}
+              </a>
+            )}
+          {!volatileData &&
+            !street &&
+            !city &&
+            !country && (
+              <a
+                className={`usa-button-secondary ${editLink}`}
+                style={{ minWidth: '8rem' }}
+                onClick={this.startEditing}
+                aria-label={`Add a ${title.toLowerCase()}`}
+              >
+                Add a {title.toLowerCase()}
+              </a>
+            )}
         </div>
         {volatileData && (
           <button
