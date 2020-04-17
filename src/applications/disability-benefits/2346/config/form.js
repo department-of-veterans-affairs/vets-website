@@ -1,42 +1,53 @@
+import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullSchemaMDOT from '../2346-schema.json';
-import personalInfoBox from '../components/personalInfoBox';
-import orderSupplyPageContent from '../components/orderSupplyPageContent';
-import orderAccessoriesPageContent from '../components/orderAccessoriesPageContent';
-import SelectArrayItemsBatteriesWidget from '../components/SelectArrayItemsBatteriesWidget';
-import SelectArrayItemsAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
+import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../containers/IntroductionPage';
-import UIDefinitions from '../definitions/2346UI';
+import IntroductionPage from '../components/IntroductionPage';
+import FooterInfo from '../components/FooterInfo';
+import fullSchemaMDOT from '../schemas/2346-schema.json';
+import { buildAddressSchema } from '../schemas/address-schema';
+import UIDefinitions from '../schemas/definitions/2346UI';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+
+const { email, supplies } = fullSchemaMDOT.definitions;
+
+const { currentAddress, selectedAddress } = fullSchemaMDOT.properties;
 
 const {
-  email,
-  date,
-  gender,
-  address,
-  supplies,
-  accessories,
-  yesOrNo,
-} = fullSchemaMDOT.definitions;
+  emailField,
+  suppliesField,
+  viewAddAccessoriesField,
+  viewAddBatteriesField,
+  currentAddressField,
+  newAddressField,
+  selectedAddressField,
+} = schemaFields;
 
-const { permAddressField, tempAddressField, emailField } = schemaFields;
+const {
+  emailUI,
+  addAccessoriesUI,
+  addBatteriesUI,
+  batteriesUI,
+  accessoriesUI,
+  currentAddressUI,
+  newAddressUI,
+  selectedAddressUI,
+} = UIDefinitions.sharedUISchemas;
 
-const { permanentAddress, temporaryAddress } = fullSchemaMDOT.properties;
-
-const { emailUI, permAddressUI, tempAddressUI } = UIDefinitions.sharedUISchemas;
-
-const formChapters = {
+const formChapterTitles = {
   veteranInformation: 'Veteran Information',
   orderSupplies: 'Order your supplies',
 };
 
-const formPages = {
+const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping Address',
-  orderSuppliesPage: 'Add batteries to your order',
-  orderAccessoriesPage: 'Add accessories to your order',
+  addBatteriesPage: 'Add batteries to your order',
+  addAccessoriesPage: 'Add accessories to your order',
 };
+
+const addressSchema = buildAddressSchema(true);
 
 const formConfig = {
   urlPrefix: '/',
@@ -44,70 +55,76 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'va-2346a-',
+  verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
-  title: 'Order Hearing Aid Batteries and Accessories',
+  title: 'Order hearing aid batteries and accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   defaultDefinitions: {
-    accessories,
     email,
-    date,
-    address,
-    gender,
     supplies,
-    yesOrNo,
+    currentAddress,
+    selectedAddress,
   },
   chapters: {
     veteranInformationChapter: {
-      title: formChapters.veteranInformation,
+      title: formChapterTitles.veteranInformation,
       pages: {
-        [formPages.personalDetails]: {
+        [formPageTitlesLookup.personalDetails]: {
           path: 'veteran-information',
-          title: formPages.personalDetails,
+          title: formPageTitlesLookup.personalDetails,
           uiSchema: {
-            'ui:description': personalInfoBox,
+            'ui:description': ({ formData }) => (
+              <PersonalInfoBox formData={formData} />
+            ),
+            [schemaFields.fullName]: fullNameUI,
           },
           schema: {
+            required: [],
             type: 'object',
             properties: {},
           },
         },
-        [formPages.address]: {
+        [formPageTitlesLookup.address]: {
           path: 'veteran-information/addresses',
-          title: formPages.address,
+          title: formPageTitlesLookup.address,
           uiSchema: {
-            [permAddressField]: permAddressUI,
-            [tempAddressField]: tempAddressUI,
+            [currentAddressField]: currentAddressUI,
+            [newAddressField]: newAddressUI,
+            [selectedAddressField]: selectedAddressUI,
             [emailField]: emailUI,
           },
           schema: {
             type: 'object',
+            required: [],
             properties: {
-              permanentAddress,
-              temporaryAddress,
-              email,
+              [currentAddressField]: currentAddress,
+              [newAddressField]: addressSchema,
+              [selectedAddressField]: selectedAddress,
+              [emailField]: email,
             },
           },
         },
       },
     },
     orderSuppliesChapter: {
-      title: formChapters.orderSupplies,
+      title: formChapterTitles.orderSupplies,
       pages: {
-        [formPages.orderSuppliesPage]: {
-          path: 'supplies',
-          title: formPages.orderSuppliesPage,
+        [formPageTitlesLookup.addBatteriesPage]: {
+          path: 'batteries',
+          title: formPageTitlesLookup.addBatteriesPage,
           schema: {
             type: 'object',
             properties: {
-              'view:addBatteries': {
+              [viewAddBatteriesField]: {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
@@ -115,66 +132,26 @@ const formConfig = {
             },
           },
           uiSchema: {
-            'view:addBatteries': {
-              'ui:title': 'Add batteries to your order',
-              'ui:description': orderSupplyPageContent,
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes, I need to order hearing aid batteries.',
-                  no: "No, I don't need to order hearing aid batteries.",
-                },
-                hideOnReview: true,
-              },
-            },
-            supplies: {
-              'ui:title': 'Which hearing aid do you need batteries for?',
-              'ui:description':
-                'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:field': SelectArrayItemsBatteriesWidget,
-              'ui:options': {
-                expandUnder: 'view:addBatteries',
-                expandUnderCondition: 'yes',
-              },
-            },
+            [viewAddBatteriesField]: addBatteriesUI,
+            [suppliesField]: batteriesUI,
           },
         },
-        [formPages.orderAccessoriesPage]: {
+        [formPageTitlesLookup.addAccessoriesPage]: {
           path: 'accessories',
-          title: formPages.orderAccessoriesPage,
+          title: formPageTitlesLookup.addAccessoriesPage,
           schema: {
             type: 'object',
             properties: {
-              'view:addAccessories': {
+              [viewAddAccessoriesField]: {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              accessories,
+              supplies,
             },
           },
           uiSchema: {
-            'view:addAccessories': {
-              'ui:title': 'Add hearing aid accessories to your order',
-              'ui:description': orderAccessoriesPageContent,
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes, I need to order hearing aid accessories.',
-                  no: "No, I don't need to order hearing aid accessories.",
-                },
-                hideOnReview: true,
-              },
-            },
-            accessories: {
-              'ui:title': 'Which hearing aid do you need batteries for?',
-              'ui:description':
-                'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:field': SelectArrayItemsAccessoriesWidget,
-              'ui:options': {
-                expandUnder: 'view:addAccessories',
-                expandUnderCondition: 'yes',
-              },
-            },
+            [viewAddAccessoriesField]: addAccessoriesUI,
+            [suppliesField]: accessoriesUI,
           },
         },
       },

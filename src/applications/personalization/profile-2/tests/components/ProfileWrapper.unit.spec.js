@@ -15,17 +15,20 @@ describe('ProfileWrapper', () => {
   let defaultProps;
   let fetchFullNameSpy;
   let fetchMilitaryInfoSpy;
+  let fetchMHVAccountSpy;
   let fetchPaymentInfoSpy;
   let fetchPersonalInfoSpy;
 
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
     fetchMilitaryInfoSpy = sinon.spy();
+    fetchMHVAccountSpy = sinon.spy();
     fetchPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
 
     defaultProps = {
       fetchFullName: fetchFullNameSpy,
+      fetchMHVAccount: fetchMHVAccountSpy,
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
       fetchPaymentInformation: fetchPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
@@ -72,6 +75,12 @@ describe('ProfileWrapper', () => {
       wrapper.unmount();
     });
 
+    it('should fetch the My HealtheVet data', () => {
+      const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+      expect(fetchMHVAccountSpy.called).to.be.true;
+      wrapper.unmount();
+    });
+
     describe('when `shouldFetchDirectDepositInformation` is `true`', () => {
       it('should fetch the payment information data', () => {
         const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
@@ -108,6 +117,11 @@ describe('mapStateToProps', () => {
   const makeDefaultProfileState = () => ({
     multifactor: true,
     services: ['evss-claims'],
+    mhvAccount: {
+      accountState: 'needs_terms_acceptance',
+      errors: null,
+      loading: false,
+    },
   });
   const makeDefaultVaProfileState = () => ({
     hero: {
@@ -209,9 +223,13 @@ describe('mapStateToProps', () => {
         expect(props.showLoader).to.be.false;
       });
 
-      it('is `false` when all required data calls have either resolved successfully or errored', () => {
+      it('is `false` when all required data calls have errored', () => {
         const state = makeDefaultState();
-        state.vaProfile.paymentInformation.error = {};
+        state.vaProfile.paymentInformation = { error: {} };
+        state.vaProfile.userFullName = { error: {} };
+        state.vaProfile.personalInformation = { error: {} };
+        state.vaProfile.militaryInformation = { error: {} };
+        state.user.profile.mhvAccount = { errors: [] };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.false;
       });
@@ -240,6 +258,17 @@ describe('mapStateToProps', () => {
       it('is `true` when the call to fetch the full name has not resolved but all others have', () => {
         const state = makeDefaultState();
         delete state.vaProfile.hero;
+        const props = mapStateToProps(state);
+        expect(props.showLoader).to.be.true;
+      });
+
+      it('is `true` when the call to fetch MHV info has not resolved but all others have', () => {
+        const state = makeDefaultState();
+        state.user.profile.mhvAccount = {
+          accountState: null,
+          errors: null,
+          loading: false,
+        };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });
@@ -283,6 +312,16 @@ describe('mapStateToProps', () => {
 
       it('is `true` when the call to fetch the full name has not resolved', () => {
         delete state.vaProfile.hero;
+        const props = mapStateToProps(state);
+        expect(props.showLoader).to.be.true;
+      });
+
+      it('is `true` when the call to fetch MHV info has not resolved', () => {
+        state.user.profile.mhvAccount = {
+          accountState: null,
+          errors: null,
+          loading: false,
+        };
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
       });
