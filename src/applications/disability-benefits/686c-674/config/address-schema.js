@@ -20,6 +20,8 @@
  */
 
 import React from 'react';
+// eslint-disable-next-line import/no-unresolved
+// import fullSchema from 'vets-json-schema/dist/686c-674-schema.json';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
