@@ -9,7 +9,6 @@ import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
 import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
 import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
 import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
-import fullSchemaVIC from 'applications/vic-v2/config/form';
 import fullSchema527EZ from 'applications/pensions/config/form';
 import fullSchema526AllClaims from 'applications/disability-benefits/all-claims/config/form';
 import fullSchema530 from 'applications/burials/config/form';
@@ -41,7 +40,6 @@ const mappedIds = [
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
-  VA_FORM_IDS.VIC,
   fullSchema1010CG,
   VA_FORM_IDS.FORM_VA_2346A,
 ];
@@ -65,7 +63,6 @@ const configs = [
   fullSchema5495,
   fullSchema10007,
   fullSchemaFeedbackTool,
-  fullSchemaVIC,
   fullSchema1010CG,
   fullSchemaMDOT,
 ];
@@ -82,6 +79,7 @@ const excludedForms = new Set([
   'constants',
   'vaMedicalFacilities',
   '22-10203',
+  'caregiverProgramFacilities',
 ]);
 
 describe('form:', () => {

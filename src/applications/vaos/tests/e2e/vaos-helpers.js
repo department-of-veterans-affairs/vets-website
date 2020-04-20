@@ -150,6 +150,26 @@ function appointmentSubmittedTest(client) {
   return client;
 }
 
+function mockSingleSystem(token, id) {
+  mock(token, {
+    path: '/v0/vaos/facilities',
+    verb: 'get',
+    value: {
+      data: facilities.data.filter(f => f.id === id),
+    },
+  });
+}
+
+function mockSingleFacility(token, systemId, facilityId) {
+  mock(token, {
+    path: `/v0/vaos/systems/${systemId}/direct_scheduling_facilities`,
+    verb: 'get',
+    value: {
+      data: facilities983.data.filter(f => f.id === facilityId),
+    },
+  });
+}
+
 function initAppointmentListMock(token) {
   mock(token, {
     path: '/v0/feature_toggles',
@@ -219,11 +239,6 @@ function initAppointmentListMock(token) {
   });
   mock(token, {
     path: '/v0/vaos/facilities',
-    verb: 'get',
-    value: facilities,
-  });
-  mock(token, {
-    path: '/v0/vaos/facilities/va',
     verb: 'get',
     value: facilities,
   });
@@ -400,6 +415,21 @@ function getUserDataWithFacilities() {
   return response;
 }
 
+function getUserDataWithSingleSystem(id) {
+  const response = Auth.getDefaultUserResponse(3);
+
+  /* eslint-disable camelcase */
+  response.data.attributes.va_profile.facilities = [
+    {
+      facility_id: id,
+      isCerner: false,
+    },
+  ];
+  /* eslint-enable camelcase */
+
+  return response;
+}
+
 module.exports = {
   initAppointmentListMock,
   newAppointmentTest,
@@ -410,4 +440,7 @@ module.exports = {
   reviewAppointmentTest,
   appointmentSubmittedTest,
   getUserDataWithFacilities,
+  getUserDataWithSingleSystem,
+  mockSingleFacility,
+  mockSingleSystem,
 };
