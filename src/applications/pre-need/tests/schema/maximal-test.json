@@ -72,6 +72,7 @@
         "vaClaimNumber": "23444444",
         "placeOfBirth": "Amherst, MA",
         "gender": "Female",
+        "ethnicity": "white",
         "maritalStatus": "Married",
         "militaryStatus": "A",
         "isDeceased": "yes",
