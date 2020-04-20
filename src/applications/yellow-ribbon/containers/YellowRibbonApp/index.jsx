@@ -9,7 +9,10 @@ import SearchResultsPage from '../../components/SearchResultsPage';
 import manifest from '../../manifest.json';
 
 export const YellowRibbonApp = ({ hasFetchedOnce }) => (
-  <div className="vads-l-grid-container vads-u-padding-x--1p5 vads-u-padding-bottom--4">
+  <div
+    className="vads-l-grid-container vads-u-padding-x--1p5 vads-u-padding-bottom--4"
+    data-e2e-id="yellow-ribbon-app"
+  >
     {/* Breadcrumbs */}
     <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
       <a href="/">Home</a>

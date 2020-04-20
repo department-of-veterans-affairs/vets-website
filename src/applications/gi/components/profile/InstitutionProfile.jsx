@@ -20,6 +20,7 @@ export class InstitutionProfile extends React.Component {
     constants: PropTypes.object,
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
+    eduSection103: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -32,7 +33,7 @@ export class InstitutionProfile extends React.Component {
   };
 
   render() {
-    const { profile, isOJT, constants, showModal } = this.props;
+    const { profile, isOJT, constants, showModal, eduSection103 } = this.props;
     return (
       <div>
         <HeadingSummary
@@ -88,6 +89,7 @@ export class InstitutionProfile extends React.Component {
                 institution={profile.attributes}
                 onShowModal={showModal}
                 constants={constants}
+                eduSection103={eduSection103}
               />
             </AccordionItem>
           </ul>

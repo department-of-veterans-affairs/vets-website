@@ -126,6 +126,7 @@ export class SearchForm extends Component {
             'vads-u-display--none': !showMobileForm,
           },
         )}
+        data-e2e-id="search-form"
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >

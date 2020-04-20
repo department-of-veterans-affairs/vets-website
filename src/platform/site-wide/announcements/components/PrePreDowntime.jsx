@@ -23,10 +23,12 @@ class PrePreDowntime extends Component {
 
     // Derive the message.
     const formattedStartsAt = moment(downtimeStartsAt).format(
-      'MMM D [at] h:mm a',
+      'ddd. M/D, h:mm a',
     );
-    const formattedExpiresAt = moment(downtimeExpiresAt).format('h:mm a');
-    const message = `We'll be doing site maintenance on ${formattedStartsAt} until ${formattedExpiresAt} You won’t be able to sign in or use some tools during this time.`;
+    const formattedExpiresAt = moment(downtimeExpiresAt).format(
+      'ddd. M/D, h:mm a',
+    );
+    const message = `DS Logon will be unavailable from ${formattedStartsAt} to ${formattedExpiresAt} Please use ID.me or MyHealtheVet to sign in or use online tools during this time.`;
 
     return (
       <PromoBanner
