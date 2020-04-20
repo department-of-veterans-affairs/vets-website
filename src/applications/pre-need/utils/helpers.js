@@ -294,10 +294,10 @@ export const veteranUI = {
     },
   },
   placeOfBirth: {
-    'ui:title': 'Place of birth',
+    'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Gender',
+    'ui:title': 'Sex',
     'ui:widget': 'radio',
   },
   maritalStatus: {
@@ -310,6 +310,19 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+      },
+    },
+  },
+  ethnicity: {
+    'ui:title': 'Race/Ethnicity',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        americanIndian: 'American Indian or Alaska Native',
+        blackOrAfrican: 'Black or African American',
+        hispanicOrLatino: 'Hispanic or Latino',
+        nativeHawaiianOrIslander: 'Native Hawaiian or Pacific Islander',
+        white: 'White',
       },
     },
   },
