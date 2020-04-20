@@ -4,7 +4,7 @@ import FacilityDirectionsLink from './FacilityDirectionsLink';
 import FacilityHours from './FacilityHours';
 import { FETCH_STATUS } from '../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { lowerCase } from '../utils/appointment';
+import { lowerCase } from '../utils/formatters';
 
 export default function NoValidVAFacilities({ formContext }) {
   const {

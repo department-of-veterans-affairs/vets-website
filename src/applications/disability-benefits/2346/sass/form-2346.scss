@@ -7,24 +7,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.order-background {
-  background-color: #f1f1f1;
-  padding-left: 2em;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-}
-.gray-color {
-  background-color: #f1f1f1;
-}
-
-.form-expanding-group {
-  margin-bottom: 25px;
-}
-.mdot-alert-body {
-  padding-left: 1rem;
-}
-
 .button-dimensions {
   margin-top: 2rem;
   width: 267px;
@@ -39,8 +21,8 @@ label {
 }
 
 [type="checkbox"]:checked + label::before {
-  background: #fff !important;
-  color: #0071bb !important;
+  background: $color-white !important;
+  color: $color-primary !important;
   content: "\2713";
 }
 
@@ -52,13 +34,8 @@ label {
   margin-top: 0;
 }
 
-.required {
-  color: red;
-  font-weight: normal;
-}
-
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-   background-color: #fff;
+   background-color: $color-white;
 }
 
 .blue-bar-block {
@@ -69,6 +46,12 @@ label {
     margin: 0.5em 0;
   }
 }
+//Radio button selection color
+
+[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
+  background-color: $color-primary
+}
+
 
 // ReviewCardField styles
 .review-card {
@@ -95,6 +78,10 @@ label {
 
     .review-card--title {
       margin: 1.5rem 0 2.5rem;
+    }
+
+    input[type="text"]:disabled {
+      background-color: $color-gray-lightest;
     }
 
     .update-button,

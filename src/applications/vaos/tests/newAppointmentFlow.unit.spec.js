@@ -256,8 +256,16 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const dispatch = sinon.spy();
+
+        const nextState = newAppointmentFlow.typeOfFacility.next(
+          state,
+          dispatch,
+        );
         expect(nextState).to.equal('requestDateTime');
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
+        );
       });
 
       it('should be vaFacility page if they chose VA', () => {
@@ -331,39 +339,6 @@ describe('VAOS newAppointmentFlow', () => {
           'newAppointment/START_DIRECT_SCHEDULE_FLOW',
         );
         expect(nextState).to.equal('clinicChoice');
-
-        resetFetch();
-      });
-      it('should be requestDateTime page if past appointments request errors', async () => {
-        mockFetch();
-        setFetchJSONFailure(global.fetch, {});
-        const state = {
-          ...defaultState,
-          newAppointment: {
-            ...defaultState.newAppointment,
-            eligibility: {
-              '983_323': {
-                directSupported: true,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: true,
-                requestPastVisit: true,
-                requestLimit: true,
-              },
-            },
-          },
-        };
-        const dispatch = sinon.spy();
-
-        const nextState = await newAppointmentFlow.vaFacility.next(
-          state,
-          dispatch,
-        );
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
-        );
-        expect(nextState).to.equal('requestDateTime');
 
         resetFetch();
       });

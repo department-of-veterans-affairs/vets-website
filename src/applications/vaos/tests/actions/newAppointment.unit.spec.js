@@ -24,6 +24,8 @@ import {
   onCalendarChange,
   hideTypeOfCareUnavailableModal,
   startNewAppointmentFlow,
+  startDirectScheduleFlow,
+  startRequestAppointmentFlow,
   requestAppointmentDateChoice,
   FORM_PAGE_OPENED,
   FORM_DATA_UPDATED,
@@ -55,6 +57,7 @@ import {
   FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   START_REQUEST_APPOINTMENT_FLOW,
+  START_DIRECT_SCHEDULE_FLOW,
 } from '../../actions/newAppointment';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -65,6 +68,7 @@ import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
 import facilityDetails from '../../api/facility_details_983.json';
+import pastAppointments from '../../api/confirmed_va.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -646,7 +650,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
-      setFetchJSONResponse(global.fetch, {
+      setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           attributes: {
             durationInMonths: 0,
@@ -671,7 +675,11 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
-      setFetchJSONResponse(global.fetch.onCall(4), facilityDetails);
+      setFetchJSONResponse(global.fetch.onCall(4), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(5), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(6), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(7), pastAppointments);
+      setFetchJSONResponse(global.fetch.onCall(8), facilityDetails);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -703,6 +711,7 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS,
       );
+
       expect(dispatch.thirdCall.args[0].type).to.equal(
         FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
       );
@@ -812,6 +821,31 @@ describe('VAOS newAppointment actions', () => {
       );
 
       expect(action.type).to.equal(FORM_REASON_FOR_APPOINTMENT_CHANGED);
+    });
+  });
+
+  describe('startDirectScheduleFlow', () => {
+    it('should return START_DIRECT_SCHEDULE_FLOW action and record direct schedule event', () => {
+      const action = startDirectScheduleFlow();
+      expect(action.type).to.equal(START_DIRECT_SCHEDULE_FLOW);
+      const dataLayer = global.window.dataLayer;
+      expect(dataLayer[0].event).to.equal('vaos-direct-path-started');
+    });
+  });
+
+  describe('startRequestAppointmentFlow', () => {
+    it('should return START_REQUEST_APPOINTMENT_FLOW action and expected record request event if isCommunityCare === true', () => {
+      const action = startRequestAppointmentFlow(true);
+      expect(action.type).to.equal(START_REQUEST_APPOINTMENT_FLOW);
+      const dataLayer = global.window.dataLayer;
+      expect(dataLayer[0].event).to.equal('vaos-community-care-path-started');
+    });
+
+    it('should return START_REQUEST_APPOINTMENT_FLOW action and record expected request event if isCommunityCare === false', () => {
+      const action = startRequestAppointmentFlow();
+      expect(action.type).to.equal(START_REQUEST_APPOINTMENT_FLOW);
+      const dataLayer = global.window.dataLayer;
+      expect(dataLayer[0].event).to.equal('vaos-request-path-started');
     });
   });
 

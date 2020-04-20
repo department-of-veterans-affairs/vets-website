@@ -1,10 +1,12 @@
 import * as Sentry from '@sentry/browser';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
+import localStorage from '../../utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
 import { sanitizeForm } from '../helpers';
 
 export function removeFormApi(formId) {
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -12,6 +14,7 @@ export function removeFormApi(formId) {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
+      'X-CSRF-Token': csrfTokenStored,
     },
   })
     .then(res => {
@@ -50,6 +53,7 @@ export function saveFormApi(
     },
     formData,
   });
+  const csrfTokenStored = localStorage.getItem('csrfToken');
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'PUT',
@@ -58,6 +62,7 @@ export function saveFormApi(
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
+      'X-CSRF-Token': csrfTokenStored,
     },
     body,
   })

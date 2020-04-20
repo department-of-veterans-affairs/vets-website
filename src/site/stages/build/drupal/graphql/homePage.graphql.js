@@ -45,6 +45,7 @@ const query = `
     ... on EntitySubqueueHomePagePromos {
       itemsOfEntitySubqueueHomePagePromos {
          entity {
+          entityId
           ... on BlockContentPromo {
             entityId
             entityLabel

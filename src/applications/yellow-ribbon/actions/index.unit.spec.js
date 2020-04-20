@@ -7,15 +7,11 @@ import {
   fetchResultsFailure,
   fetchResultsSuccess,
   fetchResultsThunk,
-  updatePageAction,
-  addSchoolToCompareAction,
 } from './index';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
-  UPDATE_PAGE,
-  ADD_SCHOOL_TO_COMPARE,
 } from '../constants';
 
 describe('Yellow Ribbon actions', () => {
@@ -57,33 +53,6 @@ describe('Yellow Ribbon actions', () => {
       expect(action).to.be.deep.equal({
         response,
         type: FETCH_RESULTS_SUCCESS,
-      });
-    });
-  });
-
-  describe('addSchoolToCompareAction', () => {
-    it('should return an action in the shape we expect', () => {
-      const school = {
-        id: 'asdf',
-        name: 'qwer',
-      };
-      const action = addSchoolToCompareAction(school);
-
-      expect(action).to.be.deep.equal({
-        school,
-        type: ADD_SCHOOL_TO_COMPARE,
-      });
-    });
-  });
-
-  describe('updatePageAction', () => {
-    it('should return an action in the shape we expect', () => {
-      const page = 1;
-      const action = updatePageAction(page);
-
-      expect(action).to.be.deep.equal({
-        page,
-        type: UPDATE_PAGE,
       });
     });
   });
