@@ -79,6 +79,7 @@ const excludedForms = new Set([
   'constants',
   'vaMedicalFacilities',
   '22-10203',
+  'caregiverProgramFacilities',
 ]);
 
 describe('form:', () => {
