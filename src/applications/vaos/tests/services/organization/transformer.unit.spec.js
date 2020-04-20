@@ -1,0 +1,40 @@
+import { expect } from 'chai';
+
+import facilities from '../../../api/facilities.json';
+import transformParentFacilities from '../../../services/organization/transformer';
+
+const facilitiesParsed = facilities.data.map(f => ({
+  ...f.attributes,
+  id: f.id,
+}));
+
+describe('VAOS Organization transformer', () => {
+  describe('transformParentFacilities', () => {
+    it('should map id', () => {
+      const data = transformParentFacilities(facilitiesParsed);
+      expect(data.entry[0].identifier[0].value).to.equal(
+        facilitiesParsed[0].id,
+      );
+    });
+
+    it('should map name', () => {
+      const data = transformParentFacilities(facilitiesParsed);
+      expect(data.entry[0].name).to.equal(
+        facilitiesParsed[0].authoritativeName,
+      );
+    });
+
+    it('should map address', () => {
+      const data = transformParentFacilities(facilitiesParsed);
+      expect(data.entry[1].address[0].city).to.equal(facilitiesParsed[1].city);
+      expect(data.entry[1].address[0].state).to.equal(
+        facilitiesParsed[1].stateAbbrev,
+      );
+    });
+
+    it('should map partOf field for non-root parents', () => {
+      const data = transformParentFacilities(facilitiesParsed);
+      expect(data.entry[2].partOf.reference).to.equal('Organization/var983');
+    });
+  });
+});
