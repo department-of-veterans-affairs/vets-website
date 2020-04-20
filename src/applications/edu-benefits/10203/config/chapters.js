@@ -1,6 +1,6 @@
-import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
-
+import createContactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
@@ -8,13 +8,11 @@ import { display10203StemFlow, displayStemEligibility } from '../helpers';
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 
-const { serviceBefore1977 } = fullSchema1995.definitions;
-
 export const chapters = {
   applicantInformation: {
     title: 'Applicant Information',
     pages: {
-      applicantInformation: createApplicantInformationPage(fullSchema1995, {
+      applicantInformation: createApplicantInformationPage(fullSchema10203, {
         isVeteran: true,
         fields: [
           'veteranFullName',
@@ -69,23 +67,8 @@ export const chapters = {
   personalInformation: {
     title: 'Personal Information',
     pages: {
-      dependents: {
-        title: 'Dependents',
-        path: 'personal-information/dependents',
-        depends: form =>
-          !display10203StemFlow(form) &&
-          form['view:hasServiceBefore1978'] === true,
-        uiSchema: {
-          serviceBefore1977: serviceBefore1977UI,
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            serviceBefore1977,
-          },
-        },
-      },
-      directDeposit: createDirectDepositChangePage(fullSchema1995),
+      contactInformation: createContactInformationPage(fullSchema10203),
+      directDeposit: createDirectDepositChangePage(fullSchema10203),
     },
   },
 };
