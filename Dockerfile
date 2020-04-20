@@ -8,6 +8,7 @@ RUN groupadd -g $userid vets-website \
   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
 ENV YARN_VERSION 1.21.1
+ENV NODE_VERSION 10.15.3
 ENV NODE_ENV production
 
 RUN apt-get update && apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
