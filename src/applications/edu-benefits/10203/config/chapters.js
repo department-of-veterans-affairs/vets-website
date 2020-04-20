@@ -1,5 +1,4 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import createContactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
