@@ -15,8 +15,9 @@ function attachDataToAnchorTags() {
     const anchors = faq.querySelectorAll('a');
 
     [...anchors].forEach(anchor => {
-      anchor.dataset.faqSection = faq.dataset.analyticsFaqSection; // eslint-disable-line no-param-reassign
-      anchor.dataset.faqText = faq.dataset.analyticsFaqText; // eslint-disable-line no-param-reassign
+      const { dataset: anchorData } = anchor;
+      anchorData.faqSection = faq.dataset.analyticsFaqSection;
+      anchorData.faqText = faq.dataset.analyticsFaqText;
     });
   });
 }
