@@ -1,4 +1,5 @@
 import 'botframework-webchat';
+import { apiRequest } from '../../platform/utilities/api';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
@@ -39,12 +40,8 @@ const startChat = (user, webchatOptions) => {
   window.WebChat.renderWebChat(webchatOptions, root);
 };
 
-const initBotConversation = () => {
-  if (this.status >= 400) {
-    return;
-  }
+const initBotConversation = jsonWebToken => {
   // extract the data from the JWT
-  const jsonWebToken = this.response;
   const tokenPayload = JSON.parse(atob(jsonWebToken.split('.')[1]));
   const user = {
     id: tokenPayload.userId,
@@ -130,9 +127,7 @@ export const requestChatBot = loc => {
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
     : defaultLocale;
-  const oReq = new XMLHttpRequest();
-  oReq.addEventListener('load', initBotConversation);
-  let path = `https://va-covid19-chatbot-dev.azurewebsites.net/chatBot?locale=${locale}`;
+  let path = `/coronavirus_chatbot/tokens?locale=${locale}`;
 
   if (loc) {
     path += `&lat=${loc.lat}&long=${loc.long}`;
@@ -143,12 +138,14 @@ export const requestChatBot = loc => {
   if (params.has('userName')) {
     path += `&userName=${params.get('userName')}`;
   }
-  oReq.open('POST', path);
-  // add Access-Control-Allow-Origin header on POST
-  oReq.setRequestHeader('Access-Control-Allow-Origin', '*');
-  oReq.send();
-};
 
+  return apiRequest(path, { method: 'POST' })
+    .then(({ token }) => initBotConversation(token))
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    });
+};
 const chatRequested = scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
