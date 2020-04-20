@@ -32,19 +32,17 @@ export const chapters = {
         uiSchema: benefitSelection.uiSchema,
         schema: benefitSelection.schema,
       },
-      // related to 1995-STEM
       stem: {
         title: 'Rogers STEM Scholarship',
         path: 'benefits/stem',
         uiSchema: stem.uiSchema,
         schema: stem.schema,
       },
-      // related to 1995-STEM
       stemEligibility: {
         title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
         pageClass: 'vads-u-max-width--100 vads-u-vads-u-width--full',
-        depends: form => displayStemEligibility(form), // 1995-STEM related
+        depends: form => displayStemEligibility(form),
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
       },
@@ -53,11 +51,10 @@ export const chapters = {
   militaryService: {
     title: 'Military History',
     pages: {
-      // 1995-STEM related
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: display10203StemFlow, // 1995-STEM related
+        depends: display10203StemFlow,
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
