@@ -5,6 +5,8 @@ import * as Sentry from '@sentry/browser';
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
