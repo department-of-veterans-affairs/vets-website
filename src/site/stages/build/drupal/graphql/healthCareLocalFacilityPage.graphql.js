@@ -7,6 +7,7 @@ module.exports = `
     changed
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
+    title
     fieldIntroText
     fieldOperatingStatusFacility
     fieldLocationServices {
