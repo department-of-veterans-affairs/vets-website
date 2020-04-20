@@ -35,6 +35,7 @@
           }
         ],
         "gender": "Male",
+        "ethnicity": "white",
         "maritalStatus": "Single",
         "militaryStatus": "A",
         "currentName": {},
