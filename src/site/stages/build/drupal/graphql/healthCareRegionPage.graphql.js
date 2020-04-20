@@ -14,6 +14,7 @@ module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
     fieldNicknameForThisFacility
+    title
     fieldMedia {
       entity {
         ... on MediaImage {
