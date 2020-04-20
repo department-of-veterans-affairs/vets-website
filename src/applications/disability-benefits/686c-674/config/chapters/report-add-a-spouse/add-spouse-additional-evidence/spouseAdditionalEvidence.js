@@ -2,20 +2,12 @@ import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { marriageTypeInformation } from '../current-marriage-information/helpers';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
-import { genericSchemas } from '../../../generic-schema';
+// import { genericSchemas } from '../../../generic-schema';
+import { addSpouse } from '../../../utilities';
 
-const { fileSchema } = genericSchemas;
+// const { fileSchema } = genericSchemas;
 
-export const schema = {
-  type: 'object',
-  properties: {
-    'view:additionalEvidenceDescription': {
-      type: 'object',
-      properties: {},
-    },
-    supportingDocuments: fileSchema,
-  },
-};
+export const schema = addSpouse.marriageAdditionalEvidence;
 
 export const uiSchema = {
   'ui:title': 'Additional evidence needed to add spouse',

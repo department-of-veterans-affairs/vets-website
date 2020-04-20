@@ -21,7 +21,7 @@
 
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
-// import fullSchema from 'vets-json-schema/dist/686c-674-schema.json';
+import fullSchema from 'vets-json-schema/dist/686c-674-schema.json';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
@@ -68,58 +68,58 @@ const MilitaryBaseInfo = () => (
   </div>
 );
 
-const addressSchema = {
-  type: 'object',
-  properties: {
-    'view:livesOnMilitaryBase': {
-      type: 'boolean',
-    },
-    'view:livesOnMilitaryBaseInfo': {
-      type: 'object',
-      properties: {},
-    },
-    countryName: {
-      type: 'string',
-      enum: countries.map(country => country.label),
-    },
-    addressLine1: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: '^.*\\S.*',
-    },
-    addressLine2: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: '^.*\\S.*',
-    },
-    addressLine3: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: '^.*\\S.*',
-    },
-    city: {
-      type: 'string',
-    },
-    stateCode: {
-      type: 'string',
-      enum: states50AndDC.map(state => state.value),
-      enumNames: states50AndDC.map(state => state.label),
-    },
-    province: {
-      type: 'string',
-    },
-    zipCode: {
-      type: 'string',
-      pattern: '^\\d{5}$',
-    },
-    internationalPostalCode: {
-      type: 'string',
-    },
-  },
-};
+// const addressSchema = {
+//   type: 'object',
+//   properties: {
+//     'view:livesOnMilitaryBase': {
+//       type: 'boolean',
+//     },
+//     'view:livesOnMilitaryBaseInfo': {
+//       type: 'object',
+//       properties: {},
+//     },
+//     countryName: {
+//       type: 'string',
+//       enum: countries.map(country => country.label),
+//     },
+//     addressLine1: {
+//       type: 'string',
+//       minLength: 1,
+//       maxLength: 100,
+//       pattern: '^.*\\S.*',
+//     },
+//     addressLine2: {
+//       type: 'string',
+//       minLength: 1,
+//       maxLength: 100,
+//       pattern: '^.*\\S.*',
+//     },
+//     addressLine3: {
+//       type: 'string',
+//       minLength: 1,
+//       maxLength: 100,
+//       pattern: '^.*\\S.*',
+//     },
+//     city: {
+//       type: 'string',
+//     },
+//     stateCode: {
+//       type: 'string',
+//       enum: states50AndDC.map(state => state.value),
+//       enumNames: states50AndDC.map(state => state.label),
+//     },
+//     province: {
+//       type: 'string',
+//     },
+//     zipCode: {
+//       type: 'string',
+//       pattern: '^\\d{5}$',
+//     },
+//     internationalPostalCode: {
+//       type: 'string',
+//     },
+//   },
+// };
 
 /**
  * Builds address schema based on isMilitaryAddress.
@@ -127,8 +127,9 @@ const addressSchema = {
  * @returns {object} an object containing the necessary properties for a domestic US address, foreign US military address, and international address.
  */
 export const buildAddressSchema = isMilitaryBaseAddress => {
-  if (isMilitaryBaseAddress) return cloneDeep(addressSchema);
-  const schema = cloneDeep(addressSchema);
+  const addSchema = fullSchema.definitions.addressSchema;
+  if (isMilitaryBaseAddress) return cloneDeep(addSchema);
+  const schema = cloneDeep(addSchema);
   delete schema.properties['view:livesOnMilitaryBase'];
   delete schema.properties['view:livesOnMilitaryBaseInfo'];
   return schema;
