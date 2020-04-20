@@ -2,9 +2,9 @@ const fetch = require('node-fetch');
 const fs = require('fs-extra');
 const path = require('path');
 
-const BUCKETS = require('../../site/constants/buckets');
-const ENVIRONMENTS = require('../../site/constants/environments');
-const HOSTNAMES = require('../../site/constants/hostnames');
+const BUCKETS = require('site/constants/buckets');
+const ENVIRONMENTS = require('site/constants/environments');
+const HOSTNAMES = require('site/constants/hostnames');
 
 const vaGovCache = {};
 
