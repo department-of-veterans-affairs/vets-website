@@ -13,7 +13,6 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const silverSmith = require('./silversmith');
-const getOptions = require('./options');
 
 const assetSources = require('../../constants/assetSources');
 
@@ -93,7 +92,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   };
 }
 
-function defaultBuild(BUILD_OPTIONS) {
+function build(BUILD_OPTIONS) {
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -257,6 +256,7 @@ function defaultBuild(BUILD_OPTIONS) {
    * changes will be overwritten during the outputHtml step.
    */
   smith.use(parseHtml, 'Parse HTML files');
+
   /**
    * Add nonce attribute with substition string to all inline script tags
    * Convert onclick event handles into nonced script tags
@@ -280,9 +280,4 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-async function main() {
-  const buildOptions = await getOptions();
-  defaultBuild(buildOptions);
-}
-
-module.exports = main;
+module.exports = build;

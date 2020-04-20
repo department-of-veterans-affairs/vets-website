@@ -1,8 +1,9 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import FormFooter from 'platform/forms/components/FormFooter';
+import Footer from '../components/Footer';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -97,7 +98,9 @@ const formConfig = {
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
-  footerContent: FormFooter,
+  footerContent: ({ currentLocation }) => (
+    <Footer formConfig={formConfig} currentLocation={currentLocation} />
+  ),
   getHelp: GetFormHelp,
   errorText: ErrorText,
   defaultDefinitions: {
@@ -187,7 +190,12 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: ['gender', 'maritalStatus', 'militaryStatus'],
+                    required: [
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                      'ethnicity',
+                    ],
                     properties: _.set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -201,6 +209,7 @@ const formConfig = {
                           'vaClaimNumber',
                           'placeOfBirth',
                           'gender',
+                          'ethnicity',
                           'maritalStatus',
                           'militaryStatus',
                         ],
@@ -310,6 +319,7 @@ const formConfig = {
                     required: [
                       'ssn',
                       'gender',
+                      'ethnicity',
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
@@ -323,6 +333,7 @@ const formConfig = {
                         'vaClaimNumber',
                         'placeOfBirth',
                         'gender',
+                        'ethnicity',
                         'maritalStatus',
                         'militaryStatus',
                         'isDeceased',
