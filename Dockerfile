@@ -1,6 +1,6 @@
 # based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
 
-FROM node:10.15.3
+FROM node:10
 
 # default case is Jenkins, but we want to be able to overwrite this
 ARG userid=504
@@ -8,7 +8,6 @@ RUN groupadd -g $userid vets-website \
   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
 ENV YARN_VERSION 1.21.1
-ENV NODE_VERSION 10.15.3
 ENV NODE_ENV production
 
 RUN apt-get update && apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
@@ -26,9 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
   && apt-get update \
   && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont \
     --no-install-recommends \
-  && npm install -g yarn@$YARN_VERSION \
-  && npm install -g s3-cli \
-  && chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
+  && npm install -g s3-cli
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
