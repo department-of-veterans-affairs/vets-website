@@ -95,6 +95,7 @@ function createE2eTest(beginApplication) {
   return {
     'Begin application': client => {
       overrideSmoothScrolling(client);
+      disableAnnouncements(client);
       beginApplication(client);
       client.end();
     },
