@@ -158,5 +158,5 @@ const chatRequested = scenario => {
 
 export default function initializeChatbot(_root) {
   root = _root;
-  chatRequested('va_covid_chatbot_wrapper');
+  chatRequested('va_coronavirus_chatbot');
 }
