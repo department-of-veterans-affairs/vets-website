@@ -13,9 +13,7 @@ function PrePreDowntime(props) {
   } = props;
 
   // Derive the message.
-  const formattedStartsAt = moment(downtimeStartsAt).format(
-    'ddd. M/D, h:mm a',
-  );
+  const formattedStartsAt = moment(downtimeStartsAt).format('ddd. M/D, h:mm a');
   const formattedExpiresAt = moment(downtimeExpiresAt).format(
     'ddd. M/D, h:mm a',
   );
