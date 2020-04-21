@@ -5,6 +5,7 @@ import sinon from 'sinon';
 
 import { mockEventListeners } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
+import * as authUtils from 'platform/user/authentication/utilities';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { Main, mapStateToProps } from '../../containers/Main';
 
@@ -28,7 +29,7 @@ describe('<Main>', () => {
     toggleSearchHelpUserMenu: sinon.spy(),
     updateLoggedInStatus: sinon.spy(),
     initializeProfile: sinon.spy(),
-    ssoe: sinon.spy(),
+    useSSOe: false,
   };
 
   const oldWindow = global.window;
@@ -84,6 +85,27 @@ describe('<Main>', () => {
       global.window.simulate('load');
       expect(props.initializeProfile.calledOnce).to.be.true;
       expect(props.updateLoggedInStatus.called).to.be.false;
+      wrapper.unmount();
+    });
+
+    it('should automatically initiate a session log in if a SSOe-flagged user has an active SSOe session but no vets-website session', () => {
+      localStorage.setItem('hasSessionSSO', true);
+      props.useSSOe = true;
+      authUtils.autoLogin = sinon.spy();
+      sessionStorage.setItem = sinon.spy();
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      expect(authUtils.autoLogin.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should automatically log out if a SSOe-flagged user has an active vets-website session but inactive SSOe session', () => {
+      localStorage.setItem('hasSession', true);
+      props.useSSOe = true;
+      authUtils.autoLogout = sinon.spy();
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      expect(authUtils.autoLogout.called).to.be.true;
       wrapper.unmount();
     });
 
