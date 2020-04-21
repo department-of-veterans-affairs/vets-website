@@ -264,7 +264,7 @@ module.exports = env => {
         // Only create a new landing page if one doesn't already exist from a
         // previous build. This is useful for using the content build page for
         // testing.
-        .filter(manifest => fs.existsSync(landingPagePath(manifest.rootUrl)))
+        .filter(manifest => !fs.existsSync(landingPagePath(manifest.rootUrl)))
         .map(
           manifest =>
             new HtmlWebpackPlugin({
