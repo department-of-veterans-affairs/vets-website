@@ -151,7 +151,6 @@ export default {
           yes: 'Yes, I need batteries.',
           no: "No, I don't need batteries.",
         },
-        hideOnReview: true,
       },
     },
     batteriesUI: {
