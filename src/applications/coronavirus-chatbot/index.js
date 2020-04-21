@@ -1,5 +1,5 @@
-import 'botframework-webchat';
 import { apiRequest } from '../../platform/utilities/api';
+import { watchForButtonClicks } from './utils';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
@@ -102,11 +102,6 @@ const initBotConversation = jsonWebToken => {
             });
           });
         }
-        setTimeout(() => {
-          document.querySelector(
-            'div.css-y1c0xs',
-          ).scrollTop = document.querySelector('div.css-y1c0xs').scrollHeight;
-        });
       }
       return next(action);
     },
@@ -158,5 +153,6 @@ const chatRequested = scenario => {
 
 export default function initializeChatbot(_root) {
   root = _root;
+  watchForButtonClicks();
   chatRequested('va_coronavirus_chatbot');
 }
