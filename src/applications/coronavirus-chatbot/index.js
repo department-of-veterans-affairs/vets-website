@@ -153,6 +153,6 @@ const chatRequested = scenario => {
 
 export default function initializeChatbot(_root) {
   root = _root;
-  watchForButtonClicks();
+  watchForButtonClicks(root);
   chatRequested('va_coronavirus_chatbot');
 }
