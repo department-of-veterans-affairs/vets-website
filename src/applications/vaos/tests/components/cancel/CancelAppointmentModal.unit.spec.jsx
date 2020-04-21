@@ -3,7 +3,11 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import CancelAppointmentModal from '../../../components/cancel/CancelAppointmentModal';
-import { FETCH_STATUS } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../../utils/constants';
 
 describe('VAOS <CancelAppointmentModal>', () => {
   it('should not render modal if showCancelModal is false', () => {
@@ -33,7 +37,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
-          appointmentTime: '01/22/2020',
+          appointmentType: APPOINTMENT_TYPES.ccAppointment,
         }}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}
       />,
@@ -50,7 +54,8 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
-          vvsAppointments: [{}],
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          videoType: VIDEO_TYPES.videoConnect,
         }}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}
       />,
@@ -66,9 +71,9 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
           clinicId: '123',
-          startDate: '11/20/2018',
-          clinicFriendlyName: 'Testing',
+          clinicName: 'Testing',
           facilityId: '123',
         }}
         cernerFacilities={['123']}
@@ -100,10 +105,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
         showCancelModal
         cancelAppointmentStatus={FETCH_STATUS.failed}
         appointmentToCancel={{
-          clinicId: '123',
-          startDate: '11/20/2018',
-          clinicFriendlyName: 'Testing',
-          facilityId: '983',
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
         }}
       />,
     );

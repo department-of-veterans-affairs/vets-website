@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
+import { getRealFacilityId } from '../utils/appointment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   cancelAppointment,
@@ -19,7 +20,6 @@ import {
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
-import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import TabNav from './TabNav';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
@@ -84,9 +84,7 @@ export class FutureAppointmentsList extends React.Component {
           )}
           <ul className="usa-unstyled-list" id="appointments-list">
             {future.map((appt, index) => {
-              const type = getAppointmentType(appt);
-
-              switch (type) {
+              switch (appt.appointmentType) {
                 case APPOINTMENT_TYPES.ccRequest:
                 case APPOINTMENT_TYPES.request:
                   return (
@@ -94,7 +92,6 @@ export class FutureAppointmentsList extends React.Component {
                       key={index}
                       index={index}
                       appointment={appt}
-                      type={type}
                       facility={
                         facilityData[
                           getRealFacilityId(appt.facility?.facilityCode)
@@ -113,7 +110,6 @@ export class FutureAppointmentsList extends React.Component {
                       key={index}
                       index={index}
                       appointment={appt}
-                      type={type}
                       facility={
                         systemClinicToFacilityMap[
                           `${appt.facilityId}_${appt.clinicId}`

@@ -18,18 +18,6 @@ nav.profile-side-nav {
   }
 }
 
-.headerNameWrapper {
-  width: 100%;
-  text-align: center;
-  h3 {
-    margin-top: 0;
-  }
-  @media (min-width: $medium-screen) {
-    width: 60%;
-    text-align: left;
-  }
-}
-
-.profileServiceBadge {
+.profile-service-badge {
   max-height: 108px;
 }

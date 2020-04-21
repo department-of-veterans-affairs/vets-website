@@ -12,6 +12,19 @@ export const APPOINTMENT_TYPES = {
   ccRequest: 'ccRequest',
 };
 
+export const APPOINTMENT_STATUS = {
+  pending: 'pending',
+  booked: 'booked',
+  cancelled: 'cancelled',
+  fulfilled: 'fulfilled',
+  noshow: 'noshow',
+};
+
+export const VIDEO_TYPES = {
+  videoConnect: 'videoConnect',
+  gfe: 'gfe',
+};
+
 export const TIME_TEXT = {
   AM: 'in the morning',
   PM: 'in the afternoon',
@@ -293,3 +306,5 @@ export const GA_FLOWS = {
   VA_REQUEST: 'va-request',
   CC_REQUEST: 'cc-request',
 };
+
+export const VHA_FHIR_ID = 'urn:oid:2.16.840.1.113883.6.233';

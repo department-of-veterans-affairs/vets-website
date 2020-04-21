@@ -4,6 +4,7 @@
 
 const NEWS_STORIES_RESULTS = `
   entities {
+    entityId
     ... on NodeNewsStory {
       title
       fieldFeatured

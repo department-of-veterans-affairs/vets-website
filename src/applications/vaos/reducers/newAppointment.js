@@ -170,17 +170,19 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_DATA_UPDATED: {
       let newPages = state.pages;
+      let actionData = action.data;
       if (
-        action.data.typeOfCareId !== state.data.typeOfCareId &&
-        state.pages.vaFacility
+        actionData.typeOfCareId !== state.data.typeOfCareId &&
+        (state.pages.vaFacility || state.data.vaFacility)
       ) {
         newPages = unset('vaFacility', newPages);
+        actionData = unset('vaFacility', actionData);
       }
 
       const { data, schema } = updateSchemaAndData(
         state.pages[action.page],
         action.uiSchema,
-        action.data,
+        actionData,
       );
 
       return {
@@ -322,6 +324,8 @@ export default function formReducer(state = initialState, action) {
 
       let eligibility = state.eligibility;
       let clinics = state.clinics;
+      let pastAppointments;
+
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
           getSystemFromFacility(facilities, newData.vaFacility),
@@ -340,6 +344,8 @@ export default function formReducer(state = initialState, action) {
             [`${data.vaFacility}_${action.typeOfCareId}`]: action
               .eligibilityData.clinics,
           };
+
+          pastAppointments = action.eligibilityData.pastAppointments;
         }
       }
 
@@ -358,6 +364,7 @@ export default function formReducer(state = initialState, action) {
         },
         eligibility,
         clinics,
+        pastAppointments,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_FAILED:
@@ -486,6 +493,7 @@ export default function formReducer(state = initialState, action) {
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
+        pastAppointments: action.eligibilityData.pastAppointments,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
@@ -497,7 +505,6 @@ export default function formReducer(state = initialState, action) {
     case START_DIRECT_SCHEDULE_FLOW:
       return {
         ...state,
-        pastAppointments: action.appointments,
         data: {
           ...state.data,
           calendarData: {},

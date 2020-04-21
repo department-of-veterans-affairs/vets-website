@@ -15,23 +15,23 @@ import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
 
 // Derive when downtime will start and expire.
-const downtimeStartAtDate = moment.utc('2020-03-01T02:00:00.000Z').local();
-const downtimeExpiresAtDate = moment.utc('2020-03-01T02:30:00.000Z').local();
+const downtimeStartAtDate = moment.utc('2020-04-25T13:00:00.000Z').local();
+const downtimeExpiresAtDate = moment.utc('2020-04-26T13:00:00.000Z').local();
 
 const config = {
   announcements: [
     {
-      name: 'pre-pre-downtime',
+      name: `pre-pre-downtime-${downtimeStartAtDate.toISOString()}`,
       paths: /(.)/,
       component: PrePreDowntime,
-      startsAt: downtimeStartAtDate.clone().subtract(12, 'hours'),
+      startsAt: downtimeStartAtDate.clone().subtract(5, 'days'),
       expiresAt: downtimeStartAtDate.clone().subtract(1, 'hours'),
       // The following key-value pairs are just used as props, not in selectors.js.
       downtimeStartsAt: downtimeStartAtDate.toISOString(),
       downtimeExpiresAt: downtimeExpiresAtDate.toISOString(),
     },
     {
-      name: 'pre-downtime',
+      name: `pre-downtime-${downtimeStartAtDate.toISOString()}`,
       paths: /(.)/,
       component: PreDowntime,
       startsAt: downtimeStartAtDate.clone().subtract(1, 'hours'),
@@ -40,7 +40,7 @@ const config = {
       downtimeStartsAt: downtimeStartAtDate.toISOString(),
     },
     {
-      name: 'downtime',
+      name: `downtime-${downtimeStartAtDate.toISOString()}`,
       paths: /(.)/,
       component: Downtime,
       startsAt: downtimeStartAtDate.toISOString(),

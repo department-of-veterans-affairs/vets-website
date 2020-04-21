@@ -16,13 +16,19 @@ $corner-size: 4px;
 
     h4 {
       @include media($medium-screen) {
-        width: 216px;
+        width: 208px;
         flex-shrink: 0;
       }
     }
   }
 
-  div.table-row:last-of-type {
+  div.table-row:first-child {
+    border: 1px solid;
+    border-top-left-radius: $corner-size;
+    border-top-right-radius: $corner-size;
+  }
+
+  div.table-row:last-child {
     border-bottom-left-radius: $corner-size;
     border-bottom-right-radius: $corner-size;
   }
