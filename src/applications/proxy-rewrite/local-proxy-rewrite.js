@@ -1,3 +1,5 @@
+// eslint was disabled bacause it's causing webpack to fail
+/* eslint-disable va/use-resolved-path */
 const fetch = require('node-fetch');
 const fs = require('fs-extra');
 const path = require('path');
