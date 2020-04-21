@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import facilities from '../../../api/facilities.json';
-import transformParentFacilities from '../../../services/organization/transformer';
+import { transformParentFacilities } from '../../../services/organization/transformers';
 
 const facilitiesParsed = facilities.data.map(f => ({
   ...f.attributes,
