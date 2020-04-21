@@ -1,5 +1,5 @@
 import _ from 'platform/utilities/data';
-import { militaryCities, militaryStates } from '../constants';
+import { militaryCities, militaryStates, schemaFields } from '../constants';
 
 /**
  * Returns the path with any ':index' substituted with the actual index.
@@ -9,6 +9,8 @@ import { militaryCities, militaryStates } from '../constants';
  */
 
 export const pathWithIndex = (path, index) => path.replace(':index', index);
+
+const { newAddressField } = schemaFields;
 
 // Validation functions
 
@@ -73,11 +75,10 @@ export function validateZIP(errors, zip) {
 }
 
 export const showNewAddressForm = formData =>
-  Object.values(formData?.newAddress).every(entry => Boolean(entry));
+  formData?.selectedAddress === newAddressField;
 
 export const getRadioLabelText = (formData, name) => {
   const address = formData?.[name] || {};
-  return Object.values(address)
-    .filter(entry => Boolean(entry))
-    .join(' ');
+  const { street, street2 = '', city, state, postalCode } = address;
+  return `${street} ${street2} ${city}, ${state}, ${postalCode}`;
 };
