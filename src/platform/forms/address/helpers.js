@@ -129,6 +129,7 @@ export function formatAddress(address) {
   let street = address.addressOne || '';
   if (address.addressOne && address.addressTwo) street += ', ';
   if (address.addressTwo) street += address.addressTwo;
+  if (address.addressTwo && address.addressThree) street += ',';
   if (address.addressThree) street += ' ' + address.addressThree;
 
   const country =
