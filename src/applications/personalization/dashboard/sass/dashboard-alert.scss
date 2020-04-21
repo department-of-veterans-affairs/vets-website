@@ -1,14 +1,15 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@fortawesome/fontawesome-free/scss/variables";
-@import "../../../../platform/forms/sass/m-applications";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@fortawesome/fontawesome-free/scss/variables';
+@import 'platform/forms/sass/m-applications';
 
-@mixin make-status-styles($status,
+@mixin make-status-styles(
+  $status,
   $color,
   $icon: $fa-var-exclamation,
   $top: 1px,
   $left: 7.5px,
-  $size: 13px) {
-
+  $size: 13px
+) {
   &-#{$status} section.status {
     border-color: $color;
 
@@ -57,7 +58,7 @@
         border-radius: 50%;
 
         &::before {
-          font-family: "Font Awesome 5 Free";
+          font-family: 'Font Awesome 5 Free';
           font-style: normal;
           font-weight: 900;
           position: absolute;
@@ -82,38 +83,29 @@
     margin-bottom: 0;
   }
 
-  @include make-status-styles(
-    $status: "closed",
-    $color: $color-black,
-  );
+  @include make-status-styles($status: 'closed', $color: $color-black);
+
+  @include make-status-styles($status: 'decision', $color: $color-red);
 
   @include make-status-styles(
-    $status: "decision",
-    $color: $color-red,
-  );
-
-  @include make-status-styles(
-    $status: "enrolled",
+    $status: 'enrolled',
     $color: $color-green,
     $icon: $fa-var-check,
     $top: 1px,
     $left: 2.5px,
-    $size: 14px,
+    $size: 14px
   );
 
   @include make-status-styles(
-    $status: "in-progress",
+    $status: 'in-progress',
     $color: $color-light-blue,
     $icon: $fa-var-file,
     $top: 2px,
     $left: 6px,
-    $size: 11px,
+    $size: 11px
   );
 
-  @include make-status-styles(
-    $status: "update",
-    $color: $color-gold-light,
-  );
+  @include make-status-styles($status: 'update', $color: $color-gold-light);
 
   section.content {
     padding: 0;

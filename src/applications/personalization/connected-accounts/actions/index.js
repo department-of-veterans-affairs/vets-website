@@ -1,6 +1,6 @@
-import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
-export * from '../../../../platform/user/profile/actions';
+export * from 'platform/user/profile/actions';
 
 export const LOADING_CONNECTED_ACCOUNTS = 'LOADING_CONNECTED_ACCOUNTS';
 export const FINISHED_CONNECTED_ACCOUNTS = 'FINISHED_CONNECTED_ACCOUNTS';
