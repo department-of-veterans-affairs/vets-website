@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
 import CautionFlagHeading from '../../components/profile/CautionFlagHeading';
+import sinon from 'sinon';
 
 describe('<CautionFlagHeading>', () => {
   it('renders', () => {
@@ -84,6 +85,46 @@ describe('<CautionFlagHeading>', () => {
         .at(0)
         .text(),
     ).to.equal(cautionFlags[1].title);
+    wrapper.unmount();
+  });
+
+  it('calls onViewWarnings onClick', () => {
+    const onViewWarnings = sinon.spy();
+
+    const wrapper = mount(
+      <CautionFlagHeading
+        cautionFlags={[{ title: 'Test flag', id: 1 }]}
+        onViewWarnings={onViewWarnings}
+      />,
+    );
+
+    wrapper
+      .find('a')
+      .at(0)
+      .simulate('click');
+
+    expect(onViewWarnings.called).to.be.true;
+
+    wrapper.unmount();
+  });
+
+  it('tracks onViewWarnings click', () => {
+    const wrapper = mount(
+      <CautionFlagHeading
+        cautionFlags={[{ title: 'Test flag', id: 1 }]}
+        onViewWarnings={() => {}}
+      />,
+    );
+
+    wrapper
+      .find('a')
+      .at(0)
+      .simulate('click');
+
+    expect(global.window.dataLayer[0].alertBoxHeading).to.eq(
+      'Jumplink - This school has a cautionary warning',
+    );
+
     wrapper.unmount();
   });
 });
