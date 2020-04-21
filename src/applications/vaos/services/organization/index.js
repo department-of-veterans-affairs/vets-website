@@ -4,7 +4,7 @@
  */
 import { getParentFacilities } from '../../api';
 import { mapToFHIRErrors } from '../../utils/fhir';
-import transformParentFacilities from './transformer';
+import { transformParentFacilities } from './transformers';
 
 /**
  * Fetch details about the facilities given, typically the VistA sites

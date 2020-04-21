@@ -4,10 +4,11 @@ import { VHA_FHIR_ID } from '../../utils/constants';
  * Transforms /vaos/facilities?facility_codes[]=983&facility_codes[]=984 to
  * /Organization?identifier=983,984
  *
+ * @export
  * @param {Array} parentFacilities A list of parent facilities from var-resources
  * @returns {Object} A FHIR searchset of Organization resources
  */
-export default function transformParentFacilities(parentFacilities) {
+export function transformParentFacilities(parentFacilities) {
   return {
     resourceType: 'Bundle',
     id: 'fake-id',
