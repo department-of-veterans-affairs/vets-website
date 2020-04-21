@@ -8,6 +8,8 @@ export default function addHomepageBannerListeners() {
 
   const container = document.querySelector(selectors.template);
 
+  if (!container) return;
+
   container.addEventListener('click', event => {
     if (!isAnchor(event.target)) {
       return;
