@@ -385,6 +385,9 @@
     "email": {
       "$ref": "#/definitions/email"
     },
+    "confirmationEmail": {
+      "$ref": "#/definitions/email"
+    },
     "dateOfBirth": {
       "$ref": "#/definitions/date"
     },
@@ -405,12 +408,6 @@
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
-    },
-    "currentAddress": {
-      "type": "string",
-      "enum": [
-        "Add new address"
-      ]
     },
     "selectedAddress": {
       "type": "string",
