@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '../AlertBox';
 
 const CautionFlagDetails = ({ cautionFlags }) => {
@@ -30,6 +31,12 @@ const CautionFlagDetails = ({ cautionFlags }) => {
                       <a
                         href={flag.linkUrl}
                         target="_blank"
+                        onClick={() => {
+                          recordEvent({
+                            event: 'nav-warning-alert-box-content-link-click',
+                            alertBoxHeading: flag.title,
+                          });
+                        }}
                         rel="noopener noreferrer"
                       >
                         {flag.linkText}
