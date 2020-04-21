@@ -37,21 +37,15 @@ label {
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
    background-color: $color-white;
 }
-
-.blue-bar-block {
-  border-left: 7px solid $color-primary;
-  padding-left: 1em;
-
-  p {
-    margin: 0.5em 0;
-  }
-}
 //Radio button selection color
 
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
   background-color: $color-primary
 }
 
+.schemaform-label {
+  max-width: 100% !important;
+}
 
 // ReviewCardField styles
 .review-card {
@@ -70,7 +64,6 @@ label {
   }
 
   .review-card--body {
-    padding: 1.5rem;
     border: 2px solid $color-gray-lightest;
     // Remove the top border because it looks like it just extends the header
     border-top: none;
