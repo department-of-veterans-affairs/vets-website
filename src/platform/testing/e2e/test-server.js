@@ -12,7 +12,7 @@ const fallback = require('express-history-api-fallback');
 const path = require('path');
 const morgan = require('morgan');
 const appSettings = require('../../../../config/parse-app-settings');
-const ENVIRONMENTS = require('site/constants/environments');
+const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: ENVIRONMENTS.VAGOVDEV },
