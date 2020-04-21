@@ -12,8 +12,6 @@ import UIDefinitions from '../schemas/definitions/2346UI';
 
 const { email, supplies } = fullSchemaMDOT.definitions;
 
-const { selectedAddress } = fullSchemaMDOT.properties;
-
 const {
   emailField,
   confirmationEmailField,
@@ -22,7 +20,6 @@ const {
   viewAddBatteriesField,
   permAddressField,
   tempAddressField,
-  selectedAddressField,
 } = schemaFields;
 
 const {
@@ -31,7 +28,6 @@ const {
   addAccessoriesUI,
   addBatteriesUI,
   batteriesUI,
-  selectedAddressUI,
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
@@ -73,7 +69,6 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
-    selectedAddress,
     addressSchema,
   },
   chapters: {
@@ -101,7 +96,6 @@ const formConfig = {
           uiSchema: {
             [permAddressField]: permanentAddressUI,
             [tempAddressField]: temporaryAddressUI,
-            [selectedAddressField]: selectedAddressUI,
             [emailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
           },
@@ -110,7 +104,6 @@ const formConfig = {
             properties: {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
-              [selectedAddressField]: selectedAddress,
               [emailField]: email,
               [confirmationEmailField]: email,
             },

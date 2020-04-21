@@ -35,12 +35,15 @@ label {
 }
 
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-   background-color: $color-white;
+  background-color: $color-white;
+  border: $color-white;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary;
 }
 //Radio button selection color
 
-[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-  background-color: $color-primary
+[type=checkbox]:not(:checked) + label::before, [type=radio]:not(:checked) + label::before {
+  background-color: $color-white;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px $color-primary;
 }
 
 .schemaform-label {

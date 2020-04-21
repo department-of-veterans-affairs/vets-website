@@ -10,6 +10,9 @@ import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { BLUE_BACKGROUND, WHITE_BACKGROUND } from '../constants';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -30,7 +33,7 @@ import React from 'react';
  *   itemName      - The name of the set of data in the card. This shows up on the "New X" button if
  *                   volatileData is set to true.
  */
-export default class ReviewCardField extends React.Component {
+class ReviewCardField extends React.Component {
   static defaultProps = {
     uiSchema: {},
     errorSchema: {},
@@ -85,6 +88,11 @@ export default class ReviewCardField extends React.Component {
       oldData: props.formData,
     };
   }
+
+  onChange = (field, data) => {
+    const newData = set(field, data, this.props.data);
+    return this.props.setData(newData);
+  };
 
   onPropertyChange(name) {
     return value => {
@@ -308,6 +316,23 @@ export default class ReviewCardField extends React.Component {
                 Add a {title.toLowerCase()}
               </a>
             )}
+          <div
+            className={
+              this.props.currentAddress === this.props.name
+                ? BLUE_BACKGROUND
+                : WHITE_BACKGROUND
+            }
+          >
+            <input
+              id={this.props.name}
+              type="radio"
+              checked={this.props.currentAddress === this.props.name}
+              onChange={() => this.onChange('currentAddress', this.props.name)}
+            />
+            <label htmlFor={this.props.name}>
+              Send my order to this address
+            </label>
+          </div>
         </div>
         {volatileData && (
           <button
@@ -454,3 +479,17 @@ ReviewCardField.propTypes = {
     onError: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+const mapStateToProps = state => ({
+  data: state.form?.data,
+  currentAddress: state.form?.data?.currentAddress,
+});
+
+const mapDispatchToProps = {
+  setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewCardField);
