@@ -18,7 +18,6 @@ import fullSchema526EZ from 'applications/disability-benefits/526EZ/config/form'
 import fullSchema527EZ from 'applications/pensions/config/form';
 import fullSchema530 from 'applications/burials/config/form';
 import fullSchema10007 from 'applications/pre-need/config/form';
-import fullSchemaVIC from 'applications/vic-v2/config/form';
 import fullSchema686 from 'applications/disability-benefits/686/config/form';
 
 const configs = [
@@ -36,7 +35,6 @@ const configs = [
   fullSchema527EZ,
   fullSchema530,
   fullSchema10007,
-  fullSchemaVIC,
 ];
 
 describe('profile helpers:', () => {
