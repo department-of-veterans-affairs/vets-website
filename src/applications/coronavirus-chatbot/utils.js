@@ -1,8 +1,10 @@
 const scrollToNewMessage = () => {
-  const messages = document.getElementsByClassName('webchat__stackedLayout--fromUser');
+  const messages = document.getElementsByClassName(
+    'webchat__stackedLayout--fromUser',
+  );
   const lastMessageFromUser = messages[messages.length - 1];
-  lastMessageFromUser.scrollIntoView({behavior: 'smooth'});
-}
+  lastMessageFromUser.scrollIntoView({ behavior: 'smooth' });
+};
 
 const disableButtons = event => {
   // if user clicked the div, bubble up to parent to disable the button
