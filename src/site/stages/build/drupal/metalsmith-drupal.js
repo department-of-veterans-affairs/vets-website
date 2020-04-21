@@ -160,8 +160,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   if (skippedContent.emptyEntities) {
     log(`Skipped ${skippedContent.emptyEntities} empty entities`);
   }
-
-  addHomeContent(contentData, files);
 }
 
 async function loadDrupal(buildOptions) {
@@ -273,6 +271,7 @@ function getDrupalContent(buildOptions) {
 
       await loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      addHomeContent(drupalData, files, metalsmith, buildOptions);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
       done();

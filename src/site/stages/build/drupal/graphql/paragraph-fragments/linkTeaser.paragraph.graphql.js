@@ -3,6 +3,7 @@
  */
 module.exports = `
   fragment linkTeaser on ParagraphLinkTeaser {
+    entityId
     fieldLink {
       url {
         path

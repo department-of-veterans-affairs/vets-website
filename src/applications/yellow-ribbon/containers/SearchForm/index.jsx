@@ -7,7 +7,7 @@ import map from 'lodash/map';
 import { connect } from 'react-redux';
 // Relative imports.
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import STATES from 'platform/static-data/STATES.json';
+import { states as STATES } from 'vets-json-schema/dist/constants.json';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk } from '../../actions';
 
@@ -126,6 +126,7 @@ export class SearchForm extends Component {
             'vads-u-display--none': !showMobileForm,
           },
         )}
+        data-e2e-id="search-form"
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
@@ -159,8 +160,11 @@ export class SearchForm extends Component {
             value={state}
           >
             <option value="">- Select -</option>
-            {map(STATES, provincialState => (
-              <option key={provincialState?.code} value={provincialState?.code}>
+            {map(STATES.USA, provincialState => (
+              <option
+                key={provincialState?.value}
+                value={provincialState?.value}
+              >
                 {provincialState?.label}
               </option>
             ))}
@@ -185,21 +189,23 @@ export class SearchForm extends Component {
           />
         </div>
 
-        {/* Unlimited Contribution Amount */}
-        <ErrorableCheckbox
-          checked={contributionAmount === 'unlimited'}
-          label="Only show schools that fund all tuition and fees not covered by Post-9/11 GI Bill benefits"
-          onValueChange={onCheckboxChange('contributionAmount')}
-          required={false}
-        />
+        <div>
+          {/* Unlimited Contribution Amount */}
+          <ErrorableCheckbox
+            checked={contributionAmount === 'unlimited'}
+            label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
+            onValueChange={onCheckboxChange('contributionAmount')}
+            required={false}
+          />
 
-        {/* Unlimited Number of Students */}
-        <ErrorableCheckbox
-          checked={numberOfStudents === 'unlimited'}
-          label="Only show schools that provide funding to all eligible students"
-          onValueChange={onCheckboxChange('numberOfStudents')}
-          required={false}
-        />
+          {/* Unlimited Number of Students */}
+          <ErrorableCheckbox
+            checked={numberOfStudents === 'unlimited'}
+            label="Only show schools that provide funding to all eligible students"
+            onValueChange={onCheckboxChange('numberOfStudents')}
+            required={false}
+          />
+        </div>
 
         {/* Submit Button */}
         <button
