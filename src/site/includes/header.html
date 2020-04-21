@@ -86,7 +86,7 @@
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if homepage_banner %}
+  {% if homepage_banner and homepage_banner.visible %}
     {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
   {% endif %}
 
