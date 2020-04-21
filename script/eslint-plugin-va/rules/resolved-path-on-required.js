@@ -1,4 +1,4 @@
-const MESSAGE = 'Use resolved path and remove unnecessary parent path';
+const MESSAGE = 'Use resolved path if it is a babel alias';
 const DEFAULTS = ['applications'];
 
 function isIncluded(val, aliases) {
@@ -41,18 +41,9 @@ module.exports = {
     const aliases = configuration.aliases || DEFAULTS;
 
     return {
-      ImportDeclaration(node) {
-        const value = node.source.value;
-        if (isIncluded(value, aliases)) {
-          context.report({
-            node,
-            message: MESSAGE,
-          });
-        }
-      },
       CallExpression(node) {
         const callee = node.callee.name || node.callee.type;
-        if (callee === 'Import') {
+        if (callee === 'require') {
           const value = node.arguments[0].value;
           if (isIncluded(value, aliases)) {
             context.report({
