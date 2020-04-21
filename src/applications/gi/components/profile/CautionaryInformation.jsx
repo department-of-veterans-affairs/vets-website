@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '../AlertBox';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
@@ -67,6 +67,12 @@ export class CautionaryInformation extends React.Component {
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                recordEvent({
+                  event: 'education-navigation',
+                  'edu-action': 'about-this-tool',
+                });
+              }}
             >
               visit the About this Tool Page
             </a>
@@ -117,6 +123,12 @@ export class CautionaryInformation extends React.Component {
         href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses"
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => {
+          recordEvent({
+            event: 'education-navigation',
+            'edu-action': 'all-campuses',
+          });
+        }}
       >
         All campuses
       </a>
@@ -192,6 +204,12 @@ export class CautionaryInformation extends React.Component {
                 href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  recordEvent({
+                    event: 'education-navigation',
+                    'edu-action': 'student-complaints',
+                  });
+                }}
               >
                 student complaints
               </a>{' '}

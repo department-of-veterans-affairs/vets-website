@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 
 /*
 These lists were created by taking the list of supported facilities from
@@ -178,6 +179,13 @@ export const COVID19Alert = ({ facilityId }) => (
       className="usa-button-primary"
       href="https://mobile.va.gov/app/va-health-chat"
       rel="noopener noreferrer"
+      onClick={() => {
+        recordEvent({
+          event: 'dashboard-navigation',
+          'dashboard-action': 'view-link',
+          'dashboard-product': 'learn-more-chat',
+        });
+      }}
     >
       Learn more about VA health chat
     </a>
