@@ -28,7 +28,7 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
                       className="headingFlag vads-u-margin-left--1p5"
                       key={flag.id}
                     >
-                      <div>{flag.title}</div>
+                      {flag.title}
                     </li>
                   ))}
               </ul>

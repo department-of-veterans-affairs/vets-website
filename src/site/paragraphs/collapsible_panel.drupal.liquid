@@ -26,11 +26,11 @@
 {% if entity.fieldCollapsiblePanelBordered %}
     {% assign accordionClass = 'usa-accordion-bordered' %}
 {% endif %}
-<div class="{{ accordionClass }}" data-multiselectable="{{ entity.fieldCollapsiblePanelMulti }}">
+<div data-template="paragraphs/collapsible_panel" data-entity-id="{{ entity.entityId }}" class="{{ accordionClass }}" data-multiselectable="{{ entity.fieldCollapsiblePanelMulti }}">
     <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
             {% assign item = accordionItem.entity %}
-            <li>
+            <li data-entity-id="{{ item.entityId }}">
                 <button
                         class="usa-accordion-button usa-button-unstyled"
                         aria-expanded="{{ entity.fieldCollapsiblePanelExpand }}"

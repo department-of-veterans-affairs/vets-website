@@ -16,12 +16,10 @@ const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
-const processEntryNames = require('../build/plugins/process-entry-names');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 const parseHtml = require('../build/plugins/parse-html');
 const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
 const injectAxeCore = require('../build/plugins/inject-axe-core');
-const injectValeLinter = require('../build/plugins/inject-vale-linter');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -137,11 +135,9 @@ async function createPipeline(options) {
   Convert onclick event handles into nonced script tags
   */
   smith.use(addNonceToScripts);
-  smith.use(processEntryNames(BUILD_OPTIONS));
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
   smith.use(injectAxeCore(BUILD_OPTIONS));
-  smith.use(injectValeLinter(BUILD_OPTIONS));
   smith.use(replaceContentsWithDom);
 
   return smith;
