@@ -66,6 +66,7 @@
     "watch": "NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/webpack.config.js --env.watch=true --progress",
     "watch:content": "node --max-old-space-size=4096 script/build-content.js --watch",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build-content.js --watch --local-css-sourcemaps",
+    "watch:review": "node ./script/run-review-instance-api.js",
     "watch:static": "concurrently -n metalsmith,webpack \"npm:watch:content\" \"npm run watch -- --env.entry=static-pages --progress=false\""
   },
   "repository": {
@@ -131,11 +132,12 @@
     "babel-plugin-react-transform": "^2.0.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.2",
     "body-parser": "^1.15.2",
+    "botframework-webchat": "^4.8.0",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
-    "chokidar": "2",
+    "chokidar": "^3.3.1",
     "choma": "^1.1.0",
     "chromedriver": "^2.38.1",
     "cli-table": "^0.3.1",
@@ -162,7 +164,7 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-scanjs-rules": "^0.1.4",
     "eslint-plugin-sonarjs": "^0.5.0",
-    "eslint-plugin-va-enzyme": "./script/custom-eslint/va-enzyme",
+    "eslint-plugin-va": "./script/eslint-plugin-va",
     "eslint-stats": "^1.0.0",
     "exports-loader": "^0.6.3",
     "express-history-api-fallback": "^2.0.0",
@@ -278,7 +280,6 @@
     "prop-types": "^15.6.1",
     "raven": "^2.6.4",
     "react": "^16.7.0",
-    "react-cropper": "^1.0.1",
     "react-dom": "^16.7.0",
     "react-dropzone": "^4.2.5",
     "react-leaflet": "^2.2.0",
@@ -297,7 +298,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#448c1990dae9aa3485753987ed8cdcd88b9faaa6",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8025abc19511403f06343c0228d5ec47f184ae83",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

@@ -1,16 +1,17 @@
-import { countries, states } from 'platform/forms/address';
+import { states } from 'platform/forms/address';
 
 export const schemaFields = {
   fullName: 'vetFullName',
   permAddressField: 'permanentAddress',
   tempAddressField: 'temporaryAddress',
   emailField: 'email',
+  confirmationEmailField: 'confirmationEmail',
   suppliesField: 'supplies',
   viewAddBatteriesField: 'view:AddBatteries',
   viewAddAccessoriesField: 'view:AddAccessories',
-  currentAddressField: 'currentAddress',
-  newAddressField: 'newAddress',
   selectedAddressField: 'selectedAddress',
+  newAddressField: 'newAddress',
+  typeOfNewAddressField: 'typeOfNewAddress',
 };
 
 export const militaryStates = states.USA.filter(
@@ -22,14 +23,6 @@ export const militaryLabels = states.USA.filter(
 ).map(state => state.label);
 
 export const militaryCities = ['APO', 'DPO', 'FPO'];
-export const countryValues = countries.map(object => object.value);
-export const countryNames = countries.map(object => object.label);
-export const usaStates = states.USA.map(state => state.value);
-export const usaLabels = states.USA.map(state => state.label);
-export const canProvinces = states.CAN.map(state => state.value);
-export const canLabels = states.CAN.map(state => state.label);
-export const mexStates = states.MEX.map(state => state.value);
-export const mexLabels = states.MEX.map(state => state.label);
 export const USA = 'USA';
 export const CAN = 'CAN';
 export const MEX = 'MEX';

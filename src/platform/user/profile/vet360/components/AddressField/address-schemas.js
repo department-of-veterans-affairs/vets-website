@@ -20,6 +20,8 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   {},
 );
 
+const STREET_LINE_MAX_LENGTH = 35;
+
 const formSchema = {
   type: 'object',
   properties: {
@@ -38,19 +40,19 @@ const formSchema = {
     addressLine1: {
       type: 'string',
       minLength: 1,
-      maxLength: 100,
+      maxLength: STREET_LINE_MAX_LENGTH,
       pattern: '^.*\\S.*',
     },
     addressLine2: {
       type: 'string',
       minLength: 1,
-      maxLength: 100,
+      maxLength: STREET_LINE_MAX_LENGTH,
       pattern: '^.*\\S.*',
     },
     addressLine3: {
       type: 'string',
       minLength: 1,
-      maxLength: 100,
+      maxLength: STREET_LINE_MAX_LENGTH,
       pattern: '^.*\\S.*',
     },
     city: {
@@ -126,7 +128,7 @@ const uiSchema = {
     'ui:title': 'Street address',
     'ui:errorMessages': {
       required: 'Street address is required',
-      pattern: 'Street address must be under 100 characters',
+      pattern: `Street address must be under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   addressLine2: {
