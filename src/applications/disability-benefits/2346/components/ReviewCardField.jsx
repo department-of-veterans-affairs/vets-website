@@ -318,7 +318,7 @@ class ReviewCardField extends React.Component {
             )}
           <div
             className={
-              this.props.currentAddress === this.props.name
+              this.props.name === this.props.currentAddress
                 ? BLUE_BACKGROUND
                 : WHITE_BACKGROUND
             }
@@ -329,7 +329,10 @@ class ReviewCardField extends React.Component {
               checked={this.props.currentAddress === this.props.name}
               onChange={() => this.onChange('currentAddress', this.props.name)}
             />
-            <label htmlFor={this.props.name}>
+            <label
+              className="vads-u-font-weight--bold"
+              htmlFor={this.props.name}
+            >
               Send my order to this address
             </label>
           </div>
