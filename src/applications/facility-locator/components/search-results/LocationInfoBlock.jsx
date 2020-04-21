@@ -1,38 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { LocationType } from '../../constants';
+import { LocationType, OperatingStatus } from '../../constants';
 import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import { isVADomain } from '../../utils/helpers';
 
-const showOperationStatus = operationStatus => {
-  if (!operationStatus) {
-    return null;
-  }
+const showOperationStatus = operatingStatus => {
   let infoMsg;
   let classNameAlert;
-  if (operationStatus === 1) {
+  let iconType;
+  if (operatingStatus.code === OperatingStatus.NOTICE) {
     infoMsg = 'Facility notice';
     classNameAlert = 'usa-alert-info';
+    iconType = 'circle';
   }
-  if (operationStatus === 2) {
+  if (operatingStatus.code === OperatingStatus.LIMITED) {
     infoMsg = 'Limited services and hours';
     classNameAlert = 'usa-alert-warning';
+    iconType = 'triangle';
   }
-  if (operationStatus === 3) {
+  if (operatingStatus.code === OperatingStatus.CLOSED) {
     infoMsg = 'Facility Closed';
     classNameAlert = 'usa-alert-error';
+    iconType = 'circle';
   }
   return (
     <div
-      className={`usa-alert ${classNameAlert} background-color-only notice-op-hr`}
+      className={`usa-alert ${classNameAlert} background-color-only notice-marg-pad`}
     >
       <i
-        className={`fa fa-exclamation-${
-          operationStatus === 1 || operationStatus === 3 ? 'circle' : 'triangle'
-        }`}
+        className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}
       />
       <div className="usa-alert-body">{infoMsg}</div>
     </div>
@@ -40,7 +39,7 @@ const showOperationStatus = operationStatus => {
 };
 
 const LocationInfoBlock = ({ location, from, query }) => {
-  const { name, website, operationStatus } = location.attributes;
+  const { name, website, operatingStatus } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const distance = location.distance;
   return (
@@ -91,7 +90,9 @@ const LocationInfoBlock = ({ location, from, query }) => {
           )}
         </span>
       )}
-      {operationStatus && showOperationStatus(operationStatus)}
+      {operatingStatus &&
+        operatingStatus.code !== OperatingStatus.NORMAL &&
+        showOperationStatus(operatingStatus)}
       <p>
         <LocationAddress location={location} />
       </p>

@@ -14,6 +14,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
+import { OperatingStatus } from '../constants';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line
@@ -42,21 +43,21 @@ class FacilityDetail extends Component {
     document.title = this.__previousDocTitle;
   }
 
-  showOperationStatus(operationStatus, website) {
-    if (!operationStatus) {
+  showOperationStatus(operatingStatus, website) {
+    if (!operatingStatus || operatingStatus.code === 'NORMAL') {
       return null;
     }
     let operationStatusTitle;
     let alertClass;
-    if (operationStatus === 1) {
+    if (operatingStatus.code === OperatingStatus.NOTICE) {
       operationStatusTitle = 'Facility notice';
       alertClass = 'info';
     }
-    if (operationStatus === 2) {
+    if (operatingStatus.code === OperatingStatus.LIMITED) {
       operationStatusTitle = 'Limited services and hours';
       alertClass = 'warning';
     }
-    if (operationStatus === 3) {
+    if (operatingStatus.code === OperatingStatus.CLOSED) {
       operationStatusTitle = 'Facility Closed';
       alertClass = 'error';
     }
@@ -65,21 +66,15 @@ class FacilityDetail extends Component {
         headline={`${operationStatusTitle}`}
         content={
           <div>
-            <p>
-              Operating status text, 300 character limit. Aenean laoreet ac dui
-              non pretium. Nullam at mauris cursus ipsum sagittis venenatis.
-              Cras vitae maximus orci, in laoreet risus. Phasellus Phasellus vel
-              tempor elit. Duis id gravida leo. Curabitur ex eleifend quis
-              turpis at, pharetra viverra fusce.
-            </p>
-            {/* Will remove this logic before merging */}
-            {website ||
-              (true && (
-                <p>
-                  Visit the <a href={website || 'http://va.gov'}>website</a> to
-                  learn more about hours
-                </p>
-              ))}
+            {operatingStatus.additionalInfo && (
+              <p>{operatingStatus.additionalInfo} </p>
+            )}
+            {website && (
+              <p>
+                Visit the <a href={website}>website</a> to learn more about
+                hours and services.
+              </p>
+            )}
           </div>
         }
         status={`${alertClass}`}
@@ -89,12 +84,12 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, website, phone, operationStatus } = facility.attributes;
+    const { name, website, phone, operatingStatus } = facility.attributes;
 
     return (
       <div>
         <h1>{name}</h1>
-        {this.showOperationStatus(operationStatus, website)}
+        {this.showOperationStatus(operatingStatus, website)}
         <div className="p1">
           <FacilityTypeDescription location={facility} />
           <LocationAddress location={facility} />
