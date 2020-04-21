@@ -7,9 +7,19 @@ import { NavItemPropTypes } from '../prop-types';
 const LabelText = ({ item }) => {
   // Derive item properties.
   const label = get(item, 'label', '');
+  // Is level 4 or deeper
+  const isLevelFourOrDeeper = !!(item.depth >= 4);
 
   // Return the normal label element.
-  return <div className="va-sidenav-item-label-text">{label}</div>;
+  return (
+    <div
+      className={`va-sidenav-item-label-text${
+        isLevelFourOrDeeper ? ' grandchild-left-line' : ''
+      }`}
+    >
+      {label}
+    </div>
+  );
 };
 
 LabelText.propTypes = {

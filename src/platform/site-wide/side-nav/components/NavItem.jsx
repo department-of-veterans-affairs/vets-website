@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 // Relative
-import DuplicateLineLabel from './DuplicateLineLabel';
+// import DuplicateLineLabel from './DuplicateLineLabel';
 import NavItemRow from './NavItemRow';
 import { NavItemPropTypes } from '../prop-types';
 
@@ -25,7 +25,6 @@ const NavItem = ({
 
   // Determine if we are the last nav item.
   const isLastNavItem = index === sortedNavItems.length - 1;
-
   return (
     <li className={`va-sidenav-level-${depth}`} key={id}>
       {/* Nav Item Row */}
@@ -35,11 +34,9 @@ const NavItem = ({
         toggleItemExpanded={toggleItemExpanded}
       />
 
-      {/* Duplicate Line + Label when Expanded */}
-      <DuplicateLineLabel depth={depth} item={item} />
-
       {/* Child Items */}
-      {expanded && hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
+      {(expanded || depth >= 3) &&
+        hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
 
       {/* Ending Line */}
       {isFirstLevel && !isLastNavItem && <div className="line" />}

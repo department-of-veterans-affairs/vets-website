@@ -75,17 +75,44 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
     text-transform: uppercase;
     transition: background 0.5s ease;
     width: 100%;
+    border: 2px solid transparent;
+    border-left: 8px solid transparent;
 
-    &.selected {
-      color: $color-gray-dark;
+    &.va-sidenav-item-label-underlined {
+      text-decoration: underline;
+    }
 
-      &.va-sidenav-item-label-underlined {
-        text-decoration: underline;
-      }
+    &.open {
+      color: #323a45;
+      background-color: #f8f8f8;
+      border-left: 8px solid #323a45;
+    }
+
+    &.expanded {
+      color: #323a45;
+      border-top: 2px solid #323a45;
+    }
+
+    &.grandchild-open {
+      margin-left: 10px;
+      border-left: 10px solid #d6d7d9;
     }
 
     &:hover {
-      background: $side-nav-color-gray-lightest;
+      background-color: #ffffff !important;
+      border: 2px solid #0071bc !important;
+      border-left: 8px solid #0071bc !important;
+    }
+    &:active {
+      color: #323a45;
+      border: 2px solid #323a45 !important;
+      border-left: 8px solid #323a45 !important;
+    }
+    &.selected {
+      color: #323a45;
+      background-color: #f8f8f8 !important;
+      border-top: 2px solid #323a45;
+      border-left: 8px solid #323a45;
     }
   }
 
@@ -97,6 +124,11 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
     }
   }
 
+  .grandchild-left-line{
+    border-left: 2px solid $color-gray-lighter;
+    padding-left: 15px;
+  }
+
   .va-sidenav-level-2 {
     a, button {
       color: $color-primary;
@@ -105,10 +137,6 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
       line-height: 1.38;
       text-transform: none;
       transition: color 0.5s ease;
-
-      &:hover {
-        color: $color-gray-dark;
-      }
     }
   }
 }
