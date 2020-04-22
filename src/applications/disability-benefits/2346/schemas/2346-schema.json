@@ -10,6 +10,11 @@
         true
       ]
     },
+    "currentAddress": {
+      "type": "string",
+      "enum": ["permanentAddress", "temporaryAddress"],
+      "default": "permanentAddress"
+    },
     "fullName": {
       "type": "object",
       "properties": {

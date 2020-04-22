@@ -9,7 +9,7 @@ export const schemaFields = {
   suppliesField: 'supplies',
   viewAddBatteriesField: 'view:AddBatteries',
   viewAddAccessoriesField: 'view:AddAccessories',
-  selectedAddressField: 'selectedAddress',
+  currentAddressField: 'currentAddress',
   newAddressField: 'newAddress',
   typeOfNewAddressField: 'typeOfNewAddress',
 };

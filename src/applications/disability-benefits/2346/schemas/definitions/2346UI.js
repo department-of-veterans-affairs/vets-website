@@ -76,6 +76,11 @@ export default {
         viewComponent: AddressViewField,
       },
     },
+    currentAddressUI: {
+      'ui:options': {
+        hideIf: () => true,
+      },
+    },
     emailUI: {
       'ui:title': emailUITitle,
       'ui:description': emailUIDescription,

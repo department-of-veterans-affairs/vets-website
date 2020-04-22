@@ -10,7 +10,7 @@ import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies } = fullSchemaMDOT.definitions;
+const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
 
 const {
   emailField,
@@ -20,6 +20,7 @@ const {
   viewAddBatteriesField,
   permAddressField,
   tempAddressField,
+  currentAddressField,
 } = schemaFields;
 
 const {
@@ -31,6 +32,7 @@ const {
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
+  currentAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -70,6 +72,7 @@ const formConfig = {
     email,
     supplies,
     addressSchema,
+    currentAddress,
   },
   chapters: {
     veteranInformationChapter: {
@@ -98,6 +101,7 @@ const formConfig = {
             [tempAddressField]: temporaryAddressUI,
             [emailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
+            [currentAddressField]: currentAddressUI,
           },
           schema: {
             type: 'object',
@@ -106,6 +110,7 @@ const formConfig = {
               [tempAddressField]: addressSchema,
               [emailField]: email,
               [confirmationEmailField]: email,
+              [currentAddressField]: currentAddress,
             },
           },
         },
