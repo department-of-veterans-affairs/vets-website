@@ -35,25 +35,23 @@ function AppContent({ children, isDataAvailable }) {
   return <div>{view}</div>;
 }
 
-class Post911GIBStatusApp extends React.Component {
-  render() {
-    return (
-      <RequiredLoginView
-        verify
-        serviceRequired={backendServices.EVSS_CLAIMS}
-        user={this.props.user}
+function Post911GIBStatusApp({ user, children }) {
+  return (
+    <RequiredLoginView
+      verify
+      serviceRequired={backendServices.EVSS_CLAIMS}
+      user={user}
+    >
+      <DowntimeNotification
+        appTitle="Post-9/11 GI Bill benefits tracking tool"
+        dependencies={[externalServices.evss]}
       >
-        <DowntimeNotification
-          appTitle="Post-9/11 GI Bill benefits tracking tool"
-          dependencies={[externalServices.evss]}
-        >
-          <AppContent>
-            <Main>{this.props.children}</Main>
-          </AppContent>
-        </DowntimeNotification>
-      </RequiredLoginView>
-    );
-  }
+        <AppContent>
+          <Main>{children}</Main>
+        </AppContent>
+      </DowntimeNotification>
+    </RequiredLoginView>
+  );
 }
 
 function mapStateToProps(state) {
