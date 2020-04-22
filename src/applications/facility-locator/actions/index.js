@@ -16,6 +16,7 @@ import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -114,6 +115,10 @@ const fetchLocations = async (
       serviceType,
       page,
     );
+    // Record event as soon as API return results
+    if (data.data && data.data.length > 0) {
+      recordEvent({ event: 'fl-search-results' });
+    }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
@@ -137,7 +142,12 @@ export const searchWithBounds = ({
   serviceType,
   page = 1,
 }) => {
-  const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
+  const needsAddress = [
+    LocationType.CC_PROVIDER,
+    LocationType.ALL,
+    LocationType.URGENT_CARE_FARMACIES,
+    LocationType.URGENT_CARE,
+  ];
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -195,7 +205,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality'];
+    let types = ['place', 'region', 'postcode', 'locality', 'address'];
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 

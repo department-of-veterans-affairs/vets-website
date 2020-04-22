@@ -28,18 +28,21 @@ Example data:
 {% if node != empty %}
 
     {% assign timezone = "America/New_York" %}
-    {% if node.uid.entity.timezone != empty %}
-        {% assign timezone = uid.entity.timezone %}
+    {% comment %}
+    Ultimately, we will allow check to use user timezone.
+    {% if uid.entity.timezone != empty %}
+    {% assign timezone = uid.entity.timezone %}
     {% endif %}
+    {% endcomment %}
 
-    {% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
-    {% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D" %}
+    {% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY" %}
+    {% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D YYYY" %}
 
     {% assign start_time = node.fieldDate.startDate | timeZone: timezone, "h:mm A" %}
     {% assign end_time = node.fieldDate.endDate | timeZone: timezone, "h:mm A" %}
 
-    {% assign start_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-    {% assign end_date_full = node.fieldDate.endDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+    {% assign start_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY, h:mm A" %}
+    {% assign end_date_full = node.fieldDate.endDate | timeZone: timezone, "dddd, MMM D YYYY, h:mm A" %}
 
     {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
         {% assign date_type = "start_date_only" %}
@@ -55,7 +58,7 @@ Example data:
       {% assign header = "h4" %}
   {% endif %}
   {% assign isEventsPage = entityUrl.path | isPage: "events" %}
-  <div class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
+  <div data-template="teasers/event" class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
       <{{ header }} class="vads-u-margin-top--0 vad-u-margin-bottom-1 {% if isEventsPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %}"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
       <p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
       <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">

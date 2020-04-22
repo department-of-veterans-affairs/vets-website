@@ -6,6 +6,7 @@ import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { ssoe } from 'platform/user/authentication/selectors';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -123,7 +124,7 @@ export class CallToActionWidget extends React.Component {
       return (
         <Verify
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={verify}
+          primaryButtonHandler={this.verifyHandler}
         />
       );
     }
@@ -133,7 +134,14 @@ export class CallToActionWidget extends React.Component {
         return this.getMviErrorContent();
       }
 
-      return <VAOnlineScheduling appId={this.props.appId} />;
+      return (
+        <VAOnlineScheduling
+          appId={this.props.appId}
+          isCommunityCareEnabled={
+            this.props.featureToggles.vaOnlineSchedulingCommunityCare
+          }
+        />
+      );
     }
 
     return null;
@@ -166,7 +174,7 @@ export class CallToActionWidget extends React.Component {
         return (
           <MFA
             serviceDescription={this._serviceDescription}
-            primaryButtonHandler={mfa}
+            primaryButtonHandler={this.mfaHandler}
           />
         );
       }
@@ -189,7 +197,7 @@ export class CallToActionWidget extends React.Component {
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
-        return <NotAuthorized />;
+        return <NotAuthorized useSSOe={this.props.useSSOe} />;
       case 'NOT_FOUND':
         return <NotFound />;
       default:
@@ -217,7 +225,7 @@ export class CallToActionWidget extends React.Component {
         return (
           <Verify
             serviceDescription={this._serviceDescription}
-            primaryButtonHandler={verify}
+            primaryButtonHandler={this.verifyHandler}
           />
         );
 
@@ -364,9 +372,22 @@ export class CallToActionWidget extends React.Component {
     }
   };
 
+  authVersion() {
+    return this.props.useSSOe ? 'v1' : 'v0';
+  }
+
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
-    logout();
+    logout(this.authVersion());
+  };
+
+  mfaHandler = () => {
+    recordEvent({ event: 'multifactor-link-clicked' });
+    mfa(this.authVersion());
+  };
+
+  verifyHandler = () => {
+    verify(this.authVersion());
   };
 
   render() {
@@ -424,6 +445,7 @@ const mapStateToProps = state => {
     mhvAccount,
     mviStatus: status,
     featureToggles: state.featureToggles,
+    useSSOe: ssoe(state),
   };
 };
 

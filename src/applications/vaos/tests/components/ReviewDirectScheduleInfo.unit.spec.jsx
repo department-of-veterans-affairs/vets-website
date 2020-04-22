@@ -13,7 +13,8 @@ const defaultData = {
   calendarData: {
     selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
   },
-  vaSystem: '578',
+  vaParent: '983',
+  vaFacility: '983GB',
   typeOfCareId: '323',
 };
 
@@ -61,7 +62,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           .find(AppointmentDate)
           .find('h3')
           .text(),
-      ).to.equal('Friday, December 20, 2019 at 10:00 a.m. CT');
+      ).to.equal('Friday, December 20, 2019 at 10:00 a.m. MT');
     });
 
     it('should render type of care section', () => {
@@ -125,6 +126,10 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
       expect(tree.find('a[aria-label="Edit call back time"]')).to.have.lengthOf(
         1,
       );
+    });
+
+    it('should have aria labels for HR to hide from screen reader', () => {
+      expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
     });
   });
 });

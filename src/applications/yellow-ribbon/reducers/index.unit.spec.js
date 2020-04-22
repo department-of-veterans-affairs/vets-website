@@ -10,16 +10,15 @@ describe('Yellow Ribbon reducer', () => {
     const result = yellowRibbonReducer(undefined, emptyAction);
 
     expect(result).to.be.deep.equal({
-      city: '',
       error: '',
       fetching: false,
-      name: '',
+      hasFetchedOnce: false,
       page: 1,
       perPage: 10,
       results: undefined,
       schoolIDs: [],
       schoolsLookup: {},
-      state: '',
+      showMobileForm: true,
       totalResults: undefined,
     });
   });
@@ -37,16 +36,15 @@ describe('Yellow Ribbon reducer', () => {
     const state = yellowRibbonReducer(undefined, action);
 
     expect(state).to.be.deep.equal({
-      city: 'boulder',
       error: '',
       fetching: false,
-      name: 'university',
+      hasFetchedOnce: true,
       page: 1,
       perPage: 10,
       results: undefined,
       schoolIDs: [],
       schoolsLookup: {},
-      state: 'CO',
+      showMobileForm: false,
       totalResults: undefined,
     });
   });

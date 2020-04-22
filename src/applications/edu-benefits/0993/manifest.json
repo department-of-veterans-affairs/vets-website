@@ -16,6 +16,10 @@
         "name": "Education and training"
       },
       {
+        "path": "education/opt-out-information-sharing/",
+        "name": "Opt out of information sharing"
+      },
+      {
         "path": "education/opt-out-information-sharing/opt-out-form-0993",
         "name": "Opt out of sharing your information with schools"
       }

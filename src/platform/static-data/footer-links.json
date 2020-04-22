@@ -25,14 +25,16 @@
     "href": "https://www.ptsd.va.gov",
     "order": 4,
     "target": "",
-    "title": "PTSD"
+    "title": "PTSD",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 1,
     "href": "https://www.mentalhealth.va.gov",
     "order": 5,
     "target": "",
-    "title": "Mental health"
+    "title": "Mental health",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 1,
@@ -46,7 +48,8 @@
     "href": "https://www.nrd.gov",
     "order": 7,
     "target": "_blank",
-    "title": "National Resource Directory"
+    "title": "National Resource Directory",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 2,
@@ -60,7 +63,8 @@
     "href": "https://www.mobile.va.gov/appstore/",
     "order": 2,
     "target": "_blank",
-    "title": "Get VA mobile apps"
+    "title": "Get VA mobile apps",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 2,
@@ -88,7 +92,8 @@
     "href": "https://www.accesstocare.va.gov/ourproviders/",
     "order": 6,
     "target": "_blank",
-    "title": "Find a VA health care provider"
+    "title": "Find a VA health care provider",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 2,
@@ -116,49 +121,56 @@
     "href": "https://www.blogs.va.gov/VAntage/",
     "order": 1,
     "target": "_blank",
-    "title": "VAntage Point blog"
+    "title": "VAntage Point blog",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
     "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
     "order": 2,
     "target": "_blank",
-    "title": "Email updates"
+    "title": "Email updates",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
     "href": "https://www.facebook.com/VeteransAffairs",
     "order": 3,
     "target": "_blank",
-    "title": "Facebook"
+    "title": "Facebook",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
     "href": "https://www.instagram.com/deptvetaffairs/",
     "order": 4,
     "target": "_blank",
-    "title": "Instagram"
+    "title": "Instagram",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
     "href": "https://www.twitter.com/DeptVetAffairs/",
     "order": 5,
     "target": "_blank",
-    "title": "Twitter"
+    "title": "Twitter",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
     "href": "https://www.flickr.com/photos/VeteransAffairs/",
     "order": 6,
     "target": "_blank",
-    "title": "Flickr"
+    "title": "Flickr",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
     "href": "https://www.youtube.com/user/DeptVetAffairs",
     "order": 7,
     "target": "_blank",
-    "title": "YouTube"
+    "title": "YouTube",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 3,
@@ -179,7 +191,8 @@
     "href": "https://iris.custhelp.va.gov/app/ask",
     "order": 2,
     "target": null,
-    "title": "Ask a question"
+    "title": "Ask a question",
+    "rel": "noopener noreferrer"
   },
   {
     "column": 4,
@@ -199,7 +212,8 @@
     "href": "https://www.section508.va.gov",
     "order": 1,
     "target": null,
-    "title": "Accessibility"
+    "title": "Accessibility",
+    "rel": "noopener noreferrer"
   },
   {
     "column": "bottom_rail",
@@ -248,7 +262,8 @@
     "href": "https://www.usa.gov/",
     "order": 8,
     "target": "_blank",
-    "title": "USA.gov"
+    "title": "USA.gov",
+    "rel": "noopener noreferrer"
   },
   {
     "column": "bottom_rail",

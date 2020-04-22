@@ -1,4 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { selectPatientFacilities } from 'platform/user/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
@@ -8,6 +9,7 @@ import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
+  TYPES_OF_EYE_CARE,
   FETCH_STATUS,
 } from './constants';
 
@@ -23,6 +25,10 @@ export function getFlowType(state) {
   return getNewAppointment(state).flowType;
 }
 
+export function getAppointmentLength(state) {
+  return getNewAppointment(state).appointmentLength;
+}
+
 export function getFormPageInfo(state, pageKey) {
   return {
     schema: getNewAppointment(state).pages[pageKey],
@@ -31,11 +37,21 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
+export const selectCernerFacilities = state =>
+  selectPatientFacilities(state)
+    ?.filter(f => f.isCerner)
+    .map(f => f.facilityId) || [];
+
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const EYE_CARE = 'EYE';
 export function getTypeOfCare(data) {
   if (data.typeOfCareId === SLEEP_CARE) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
+  }
+
+  if (data.typeOfCareId === EYE_CARE) {
+    return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
   }
 
   if (
@@ -53,13 +69,18 @@ export function getTypeOfCare(data) {
 export function getCCEType(state) {
   const data = getFormData(state);
 
-  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+  let typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+  if (typeOfCare.id === 'EYE') {
+    typeOfCare = TYPES_OF_EYE_CARE.find(
+      care => care.id === data.typeOfEyeCareId,
+    );
+  }
 
   return typeOfCare?.cceType;
 }
 
-export function getSystems(state) {
-  return getNewAppointment(state).systems;
+export function getParentFacilities(state) {
+  return getNewAppointment(state).parentFacilities;
 }
 
 export function getChosenFacilityInfo(state) {
@@ -67,16 +88,40 @@ export function getChosenFacilityInfo(state) {
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
+    facilities[`${typeOfCareId}_${data.vaParent}`]?.find(
       facility => facility.institutionCode === data.vaFacility,
     ) || null
   );
 }
 
+export function getSystemFromChosenFacility(state) {
+  const facility = getChosenFacilityInfo(state);
+
+  return facility?.rootStationCode;
+}
+
+export function getSystemFromParent(state, parentId) {
+  const facility = getParentFacilities(state)?.find(
+    parent => parent.institutionCode === parentId,
+  );
+
+  return facility?.rootStationCode;
+}
+
+export function getParentOfChosenFacility(state) {
+  const facility = getChosenFacilityInfo(state);
+
+  return facility?.parentStationCode;
+}
+
 export function getChosenFacilityDetails(state) {
   const data = getFormData(state);
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
-  return facilityDetails[data.vaFacility] || null;
+
+  return isCommunityCare
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
@@ -106,6 +151,7 @@ export function getDateTimeSelect(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
   const eligibilityStatus = getEligibilityStatus(state);
+  const systemId = getSystemFromChosenFacility(state);
 
   const availableDates = availableSlots?.reduce((acc, s) => {
     if (!acc.includes(s.date)) {
@@ -114,9 +160,7 @@ export function getDateTimeSelect(state, pageKey) {
     return acc;
   }, []);
 
-  const timezone = data.vaSystem
-    ? getTimezoneDescBySystemId(data.vaSystem)
-    : null;
+  const timezone = systemId ? getTimezoneDescBySystemId(systemId) : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {
@@ -136,9 +180,9 @@ export function hasSingleValidVALocation(state) {
   const formInfo = getFormPageInfo(state, 'vaFacility');
 
   return (
-    !formInfo.schema?.properties.vaSystem &&
+    !formInfo.schema?.properties.vaParent &&
     !formInfo.schema?.properties.vaFacility &&
-    !!formInfo.data.vaSystem &&
+    !!formInfo.data.vaParent &&
     !!formInfo.data.vaFacility
   );
 }
@@ -152,8 +196,9 @@ export function getFacilityPageInfo(state) {
   return {
     ...formInfo,
     facility: getChosenFacilityInfo(state),
-    loadingSystems:
-      newAppointment.systemsStatus === FETCH_STATUS.loading || !formInfo.schema,
+    loadingParentFacilities:
+      newAppointment.parentFacilitiesStatus === FETCH_STATUS.loading ||
+      !formInfo.schema,
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
     loadingEligibility:
       newAppointment.eligibilityStatus === FETCH_STATUS.loading,
@@ -161,18 +206,21 @@ export function getFacilityPageInfo(state) {
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     singleValidVALocation: hasSingleValidVALocation(state),
-    noValidVASystems:
-      !data.vaSystem && formInfo.schema && !formInfo.schema.properties.vaSystem,
+    noValidVAParentFacilities:
+      !data.vaParent && formInfo.schema && !formInfo.schema.properties.vaParent,
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
-      newAppointment.systemsStatus === FETCH_STATUS.failed ||
+      newAppointment.parentFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
     hasEligibilityError:
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
-    systemDetails: newAppointment?.facilityDetails[data.vaSystem],
+    parentDetails: newAppointment?.facilityDetails[data.vaParent],
+    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
+    parentOfChosenFacility: getParentOfChosenFacility(state),
+    cernerFacilities: selectCernerFacilities(state),
   };
 }
 
@@ -213,19 +261,31 @@ export function getClinicPageInfo(state, pageKey) {
 }
 
 export function getCancelInfo(state) {
+  const cernerFacilities = selectCernerFacilities(state);
   const {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
     facilityData,
+    systemClinicToFacilityMap,
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel) {
+  if (appointmentToCancel?.clinicId) {
+    // Confirmed in person VA appts
+    facility =
+      systemClinicToFacilityMap[
+        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+      ];
+  } else if (appointmentToCancel?.facility) {
+    // Requests
     facility =
       facilityData[
-        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+        getRealFacilityId(appointmentToCancel.facility.facilityCode)
       ];
+  } else if (appointmentToCancel) {
+    // Video visits
+    facility = facilityData[getRealFacilityId(appointmentToCancel.facilityId)];
   }
 
   return {
@@ -233,6 +293,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cernerFacilities,
   };
 }
 
@@ -259,4 +320,14 @@ export const vaosCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
+export const vaosPastAppts = state =>
+  toggleValues(state).vaOnlineSchedulingPast;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+
+export const isWelcomeModalDismissed = state =>
+  state.announcements.dismissed.some(
+    announcement => announcement === 'welcome-to-new-vaos',
+  );
+
+export const selectSystemIds = state =>
+  selectPatientFacilities(state)?.map(f => f.facilityId) || null;

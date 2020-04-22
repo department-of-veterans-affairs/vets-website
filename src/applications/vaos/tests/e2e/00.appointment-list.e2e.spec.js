@@ -9,18 +9,28 @@ module.exports = E2eHelpers.createE2eTest(client => {
   VAOSHelpers.initAppointmentListMock(token);
   E2eHelpers.overrideVetsGovApi(client);
 
+  // init announcements
+  client.execute(() => {
+    // window.localStorage.clear();
+    window.localStorage.setItem(
+      'DISMISSED_ANNOUNCEMENTS',
+      '["welcome-to-new-vaos"]',
+    );
+  });
+
   Auth.logIn(
     token,
     client,
     '/health-care/schedule-view-va-appointments/appointments/',
     3,
+    VAOSHelpers.getUserDataWithFacilities(),
   )
     .waitForElementVisible('#appointments-list', Timeouts.slow)
     .axeCheck('.main');
 
   client
     .click('.vaos-appts__cancel-btn')
-    .waitForElementVisible('#cancelAppt', Timeouts.normal)
+    .waitForElementVisible('#cancelAppt', Timeouts.slow)
     .axeCheck('.main')
     .click('#cancelAppt .usa-button')
     .waitForElementVisible('.usa-alert-success', Timeouts.normal)

@@ -5,6 +5,8 @@ import * as Sentry from '@sentry/browser';
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
@@ -15,15 +17,18 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import renderHomepageBanner from './renderHomepageBanner';
+import createHomepageBanner from './homepage-banner/createHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-va-forms/createFindVaForms';
-import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+} from '../find-forms/createFindVaForms';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createPost911GiBillStatusWidget, {
+  post911GIBillStatusReducer,
+} from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -42,6 +47,7 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -52,6 +58,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
+  ...post911GIBillStatusReducer,
 });
 
 Sentry.withScope(scope => {
@@ -115,10 +122,17 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createPost911GiBillStatusWidget(
+  store,
+  widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
+);
+
+createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
+
+createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
 
 // homepage widgets
 if (location.pathname === '/') {
-  renderHomepageBanner();
   createMyVALoginWidget(store);
 }
 

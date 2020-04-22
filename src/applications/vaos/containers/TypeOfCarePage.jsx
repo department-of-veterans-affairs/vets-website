@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
-import { TYPES_OF_CARE } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
@@ -14,12 +14,13 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+import {
+  getFormPageInfo,
+  getNewAppointment,
+  vaosDirectScheduling,
+} from '../utils/selectors';
 
-const sortedCare = TYPES_OF_CARE.sort(
-  (careA, careB) =>
-    careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
-);
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -27,19 +28,14 @@ const initialSchema = {
   properties: {
     typeOfCareId: {
       type: 'string',
-      enum: sortedCare.map(care => care.id || care.ccId),
-      enumNames: sortedCare.map(care => care.label || care.name),
     },
   },
 };
 
 const uiSchema = {
   typeOfCareId: {
-    'ui:title': 'What type of care do you need?',
+    'ui:title': 'Please choose a type of care',
     'ui:widget': 'radio',
-    'ui:options': {
-      hideLabelText: true,
-    },
   },
 };
 
@@ -50,6 +46,7 @@ export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   onChange = newData => {
@@ -57,7 +54,9 @@ export class TypeOfCarePage extends React.Component {
     // kick off the past appointments fetch, which takes a while
     // This could get called multiple times, but the function is memoized
     // and returns the previous promise if it eixsts
-    getLongTermAppointmentHistory();
+    if (this.props.showDirectScheduling) {
+      getLongTermAppointmentHistory();
+    }
 
     this.props.updateFormData(pageKey, uiSchema, newData);
   };
@@ -78,13 +77,17 @@ export class TypeOfCarePage extends React.Component {
       showToCUnavailableModal,
     } = this.props;
 
+    if (!schema) {
+      return null;
+    }
+
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Type of care"
           title="Type of care"
-          schema={schema || initialSchema}
+          schema={schema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={this.onChange}
@@ -111,6 +114,8 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showDirectScheduling: vaosDirectScheduling(state),
   };
 }
 

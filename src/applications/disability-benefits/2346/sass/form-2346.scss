@@ -1,0 +1,92 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.button-dimensions {
+  margin-top: 2rem;
+  width: 267px;
+  height: 42px;
+  line-height: 36px;
+  padding-left: 15px;
+  border-radius: 4px;
+}
+
+label {
+  margin-top: 0.1rem !important;
+}
+
+[type="checkbox"]:checked + label::before {
+  background: $color-white !important;
+  color: $color-primary !important;
+  content: "\2713";
+}
+
+[type="checkbox"]:focus + label::before {
+  outline: none;
+}
+
+.schemaform-field-container.schemaform-block {
+  margin-top: 0;
+}
+
+[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
+   background-color: $color-white;
+}
+//Radio button selection color
+
+[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
+  background-color: $color-primary
+}
+
+.schemaform-label {
+  max-width: 100% !important;
+}
+
+// ReviewCardField styles
+.review-card {
+  .review-card--header {
+    background-color: $color-gray-lightest;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 5rem;
+
+    .review-card--title {
+      margin: 0;
+      display: inline-block;
+    }
+  }
+
+  .review-card--body {
+    border: 2px solid $color-gray-lightest;
+    // Remove the top border because it looks like it just extends the header
+    border-top: none;
+    margin-bottom: 1em;
+
+    .review-card--title {
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    input[type="text"]:disabled {
+      background-color: $color-gray-lightest;
+    }
+
+    .update-button,
+    .cancel-button {
+      width: auto;
+      margin-top: 1rem;
+    }
+  }
+
+  .edit-button {
+    width: auto;
+    min-width: 8rem;
+    margin-right: 0;
+  }
+}

@@ -15,18 +15,27 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-const USE_MOCK_DATA = environment.isLocalhost();
+const USE_MOCK_DATA =
+  environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
 
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
     if (type === 'va') {
-      promise = import('./confirmed_va.json').then(
-        module => (module.default ? module.default : module),
+      promise = new Promise(resolve =>
+        setTimeout(() => {
+          import('./confirmed_va.json').then(module => {
+            resolve(module.default ? module.default : module);
+          });
+        }, 500),
       );
     } else {
-      promise = import('./confirmed_cc.json').then(
-        module => (module.default ? module.default : module),
+      promise = new Promise(resolve =>
+        setTimeout(() => {
+          import('./confirmed_cc.json').then(module => {
+            resolve(module.default ? module.default : module);
+          });
+        }, 500),
       );
     }
   } else {
@@ -85,7 +94,7 @@ export const getLongTermAppointmentHistory = (() => {
   const MAX_HISTORY = 24;
   const MONTH_CHUNK = 6;
   let promise = null;
-  // eslint-disable-next-line no-unused-vars
+
   return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];
@@ -125,37 +134,7 @@ export const getLongTermAppointmentHistory = (() => {
   };
 })();
 
-export const getUserIdentifiers = (() => {
-  let promise = null;
-
-  return () => {
-    if (promise && navigator.userAgent !== 'node.js') {
-      return promise;
-    }
-
-    if (USE_MOCK_DATA) {
-      promise = import('./systems.json').then(
-        module => (module.default ? module.default : module),
-      );
-    } else {
-      promise = apiRequest('/vaos/systems');
-    }
-
-    promise = promise.then(json => json.data.map(item => item.attributes));
-
-    return promise;
-  };
-})();
-
-export function getSystemIdentifiers() {
-  return getUserIdentifiers().then(data =>
-    data
-      .filter(id => id.assigningAuthority.startsWith('dfn-'))
-      .map(id => id.assigningCode),
-  );
-}
-
-export function getSystemDetails(systemIds) {
+export function getParentFacilities(systemIds) {
   let promise;
 
   if (USE_MOCK_DATA) {
@@ -169,19 +148,23 @@ export function getSystemDetails(systemIds) {
   }
 
   return promise.then(resp =>
-    resp.data
-      .map(item => ({ ...item.attributes, id: item.id }))
-      // Sometimes facilities that aren't in our codes list come back, because they're
-      // marked as parents. We don't want this, so we're filtering them out
-      .filter(item => item.rootStationCode === item.institutionCode),
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
 
-export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
+export function getFacilitiesBySystemAndTypeOfCare(
+  systemId,
+  parentId,
+  typeOfCareId,
+) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (systemId === '984') {
+    if (parentId === '984') {
       promise = import('./facilities_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else if (parentId === '983A6') {
+      promise = import('./facilities_983A6.json').then(
         module => (module.default ? module.default : module),
       );
     } else {
@@ -191,7 +174,7 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}`,
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
     );
   }
 
@@ -217,8 +200,6 @@ export function getCommunityCare(typeOfCare) {
   return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
-// GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
-// eslint-disable-next-line no-unused-vars
 export function checkPastVisits(
   systemId,
   facilityId,
@@ -297,7 +278,7 @@ export function getClinicInstitutions(systemId, clinicIds) {
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId === '983') {
+    if (facilityId === '983A6') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
@@ -454,7 +435,17 @@ export function updateAppointment(appt) {
 export function updateRequest(req) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve();
+    promise = import('./requests.json')
+      .then(module => (module.default ? module.default : module))
+      .then(data => ({
+        data: {
+          id: req.id,
+          attributes: {
+            ...data.data.find(item => item.id === req.id).attributes,
+            status: 'Cancelled',
+          },
+        },
+      }));
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${req.id}`, {
       method: 'PUT',
@@ -463,7 +454,10 @@ export function updateRequest(req) {
     });
   }
 
-  return promise;
+  return promise.then(resp => ({
+    ...resp.data.attributes,
+    id: resp.data.id,
+  }));
 }
 
 export function submitRequest(type, request) {

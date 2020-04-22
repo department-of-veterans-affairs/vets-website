@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -10,31 +10,10 @@ import PaymentInformationEditModal from '../../components/PaymentInformationEdit
 
 describe('<PaymentInformationEditModal/>', () => {
   const defaultProps = {
-    fields: {
-      financialInstitutionRoutingNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountNumber: {
-        field: {
-          value: '',
-          dirty: false,
-        },
-      },
-      accountType: {
-        value: {
-          value: ACCOUNT_TYPES_OPTIONS.checking,
-          dirty: false,
-        },
-      },
-    },
     isEditing: true,
     isSaving: false,
     onClose() {},
     onSubmit() {},
-    editModalFieldChanged() {},
     responseError: null,
   };
 
@@ -54,20 +33,18 @@ describe('<PaymentInformationEditModal/>', () => {
   it('submits', () => {
     const onSubmit = sinon.spy();
 
-    let props = set('fields.accountNumber.field.value', '123456', defaultProps);
-    props = set(
-      'fields.financialInstitutionRoutingNumber.field.value',
-      '123456789',
-      props,
-    );
-    props = set('onSubmit', onSubmit, props);
+    const props = set('onSubmit', onSubmit, defaultProps);
 
-    const wrapper = shallow(<PaymentInformationEditModal {...props} />);
-    const event = {
-      preventDefault() {},
-    };
+    const wrapper = mount(<PaymentInformationEditModal {...props} />);
+    wrapper.setState({
+      formData: {
+        accountNumber: '123456',
+        routingNumber: '123456789',
+        accountType: ACCOUNT_TYPES_OPTIONS.checking,
+      },
+    });
 
-    wrapper.find('form').simulate('submit', event);
+    wrapper.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
 
@@ -86,20 +63,39 @@ describe('<PaymentInformationEditModal/>', () => {
   it('does not submit when input is invalid', () => {
     const onSubmit = sinon.spy();
 
-    let props = set(
-      'fields.accountNumber.field.value',
-      'INVALID',
-      defaultProps,
-    );
-    props = set('onSubmit', onSubmit, props);
+    const props = set('onSubmit', onSubmit, defaultProps);
 
-    const wrapper = shallow(<PaymentInformationEditModal {...props} />);
-    const event = {
-      preventDefault() {},
-    };
+    const wrapper = mount(<PaymentInformationEditModal {...props} />);
+    wrapper.setState({
+      formData: {
+        accountNumber: 'invalid',
+        routingNumber: '123456789',
+        accountType: ACCOUNT_TYPES_OPTIONS.checking,
+      },
+    });
 
-    wrapper.find('form').simulate('submit', event);
+    wrapper.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('clears its state when the modal opens', () => {
+    const props = set('isEditing', false, defaultProps);
+    const wrapper = shallow(<PaymentInformationEditModal {...props} />);
+
+    wrapper.setState({
+      formData: {
+        accountNumber: '123456',
+        routingNumber: '123456789',
+        accountType: ACCOUNT_TYPES_OPTIONS.checking,
+      },
+    });
+    wrapper.setProps({ isEditing: true });
+
+    const state = wrapper.state();
+
+    expect(state).to.deep.equal({ formData: {} });
+
     wrapper.unmount();
   });
 });

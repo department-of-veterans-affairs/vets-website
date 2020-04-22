@@ -15,28 +15,6 @@ export const openModal = (modal, modalData = null) => ({
 
 export const closeModal = () => ({ type: OPEN_MODAL });
 
-export const updateFormField = (
-  fieldName,
-  convertNextValueToCleanData,
-  validateCleanData,
-  value,
-  property,
-  skipValidation = false,
-) => {
-  const cleanValue = convertNextValueToCleanData(value);
-  const validations = skipValidation
-    ? {}
-    : validateCleanData(cleanValue, property);
-  return {
-    type: UPDATE_PROFILE_FORM_FIELD,
-    field: fieldName,
-    newState: {
-      value: cleanValue,
-      validations,
-    },
-  };
-};
-
 export const updateFormFieldWithSchema = (
   fieldName,
   value,

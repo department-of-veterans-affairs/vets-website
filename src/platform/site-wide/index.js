@@ -11,7 +11,6 @@ import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startSideNav from './side-nav';
-import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
@@ -57,5 +56,4 @@ export default function startSitewideComponents(commonStore) {
     window.VetsGov.headerFooter.footerData,
     addFocusBehaviorToCrisisLineModal,
   );
-  startMetrics();
 }

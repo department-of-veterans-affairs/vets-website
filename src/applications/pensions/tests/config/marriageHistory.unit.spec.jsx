@@ -77,7 +77,12 @@ describe('Pensions marriage history', () => {
       expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('First marriage');
     });
     it('uses number when at index ten or greater', () => {
-      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Marriage 11');
+      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal(
+        'Eleventh marriage',
+      );
+    });
+    it('uses word for index', () => {
+      expect(pageTitle({}, { pagePerItemIndex: 49 })).to.equal('50th marriage');
     });
   });
 

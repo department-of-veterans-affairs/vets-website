@@ -7,7 +7,6 @@ import { showAddressValidationModal } from '../../utilities';
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
-  addCountryCodeIso3ToAddress,
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
@@ -34,6 +33,7 @@ export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
 export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
+export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
 
 export function clearTransactionStatus() {
   return {
@@ -151,7 +151,6 @@ export function createTransaction(
         'Content-Type': 'application/json',
       },
     };
-
     try {
       dispatch({
         type: VET360_TRANSACTION_REQUESTED,
@@ -163,10 +162,14 @@ export function createTransaction(
         ? await apiRequest(route, options)
         : await localVet360.createTransaction();
 
-      recordEvent({
-        event: method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
-        'profile-section': analyticsSectionName,
-      });
+      // We want the validateAddresses method handling dataLayer events for saving / updating addresses.
+      if (!fieldName.toLowerCase().includes('address')) {
+        recordEvent({
+          event:
+            method === 'DELETE' ? 'profile-deleted' : 'profile-transaction',
+          'profile-section': analyticsSectionName,
+        });
+      }
 
       dispatch({
         type: VET360_TRANSACTION_REQUEST_SUCCEEDED,
@@ -190,7 +193,7 @@ export const validateAddress = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
-  const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
+  const userEnteredAddress = { address: { ...payload } };
   dispatch({
     type: ADDRESS_VALIDATION_INITIALIZE,
     fieldName,
@@ -233,8 +236,6 @@ export const validateAddress = (
       ...confirmedSuggestions[0],
     };
 
-    const selectedAddressId = confirmedSuggestions.length > 0 ? '0' : null;
-
     // always select first address as default if there are any
     let selectedAddress = confirmedSuggestions[0];
 
@@ -247,6 +248,21 @@ export const validateAddress = (
     // to show the modal because the only time we will skip the modal is if one
     // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
+
+    let selectedAddressId = null;
+    if (showModal) {
+      selectedAddressId = confirmedSuggestions.length > 0 ? '0' : 'userEntered';
+    }
+
+    // push data to dataLayer for analytics
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'update-button',
+      'profile-section': analyticsSectionName,
+      'profile-addressValidationAlertShown': showModal ? 'yes' : 'no',
+      'profile-addressSuggestionProvided':
+        showModal && confirmedSuggestions.length ? 'yes' : 'no',
+    });
 
     // show the modal if the API doesn't find a single solid match for the address
     if (showModal) {
@@ -261,6 +277,11 @@ export const validateAddress = (
         confirmedSuggestions,
       });
     }
+    recordEvent({
+      event: 'profile-transaction',
+      'profile-section': analyticsSectionName,
+      'profile-addressSuggestionUsed': 'no',
+    });
     // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(
@@ -272,11 +293,18 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
+    recordEvent({
+      event: 'profile-edit-failure',
+      'profile-action': 'address-suggestion-failure',
+      'profile-section': analyticsSectionName,
+    });
+
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
-      addressValidationType: fieldName,
       addressValidationError: true,
       addressFromUser: { ...payload },
+      fieldName,
+      error,
     });
   }
 };
@@ -288,8 +316,12 @@ export const updateValidationKeyAndSave = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
+  dispatch({
+    type: ADDRESS_VALIDATION_UPDATE,
+    fieldName,
+  });
   try {
-    const addressPayload = { address: addCountryCodeIso3ToAddress(payload) };
+    const addressPayload = { address: { ...payload } };
     const options = {
       body: JSON.stringify(addressPayload),
       method: 'POST',

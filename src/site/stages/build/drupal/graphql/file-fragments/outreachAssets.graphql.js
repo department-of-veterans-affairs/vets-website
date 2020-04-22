@@ -9,7 +9,7 @@ module.exports = `
         fieldFormat
         fieldBenefits
         fieldDescription
-        fieldOffice {
+        fieldListing {
           targetId
         }
         fieldMedia {

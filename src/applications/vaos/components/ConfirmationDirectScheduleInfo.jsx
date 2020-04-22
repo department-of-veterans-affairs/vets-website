@@ -1,7 +1,13 @@
 import React from 'react';
-import moment from 'moment';
+import moment from '../utils/moment-tz.js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import FacilityAddress from './FacilityAddress';
+import AddToCalendar from './AddToCalendar';
+import { formatFacilityAddress } from '../utils/formatters';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+} from './../utils/timezone';
 import { PURPOSE_TEXT } from '../utils/constants';
 
 export default function ConfirmationDirectScheduleInfo({
@@ -9,7 +15,15 @@ export default function ConfirmationDirectScheduleInfo({
   facilityDetails,
   clinic,
   pageTitle,
+  appointmentLength,
+  systemId,
 }) {
+  const dateTime = data.calendarData.selectedDates[0].datetime;
+  const timezone = getTimezoneBySystemId(systemId);
+  const momentDate = timezone
+    ? moment(dateTime).tz(timezone.timezone, true)
+    : moment(dateTime);
+
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
@@ -24,12 +38,11 @@ export default function ConfirmationDirectScheduleInfo({
           VA Appointment
         </div>
         <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
-          {moment(data.calendarData.selectedDates[0].datetime).format(
-            'MMMM D, YYYY [at] hh:mm a',
-          )}{' '}
+          {momentDate.format('MMMM D, YYYY [at] hh:mm a')}
+          {` ${getTimezoneAbbrBySystemId(systemId)}`}
         </h2>
         <div className="vads-u-margin-top--2">
-          <i className="fas fa-check-circle" />
+          <i aria-hidden="true" className="fas fa-check-circle" />
           <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
             Confirmed
             <span className="sr-only"> appointment</span>
@@ -37,7 +50,7 @@ export default function ConfirmationDirectScheduleInfo({
         </div>
 
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
@@ -53,7 +66,7 @@ export default function ConfirmationDirectScheduleInfo({
               </dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2">
+          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {
@@ -66,6 +79,17 @@ export default function ConfirmationDirectScheduleInfo({
             </dl>
           </div>
         </div>
+        {facilityDetails && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendar
+              summary="VA Appointment"
+              description=""
+              location={formatFacilityAddress(facilityDetails)}
+              startDateTime={momentDate.toDate()}
+              duation={appointmentLength}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

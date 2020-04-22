@@ -9,11 +9,8 @@ const { spawn } = require('child_process');
 const packageJSON = require('../package.json');
 
 const exceptionSet = new Set([
-  'https://npmjs.com/advisories/577',
-  'https://npmjs.com/advisories/157',
-  'https://npmjs.com/advisories/788',
-  'https://npmjs.com/advisories/813',
   'https://npmjs.com/advisories/996',
+  'https://npmjs.com/advisories/1488',
 ]);
 
 const severitySet = new Set(['high', 'critical', 'moderate']);
@@ -72,6 +69,7 @@ function runAudit() {
   let auditOutput = '';
 
   child.stdout.setEncoding('utf8');
+  child.stderr.setEncoding('utf8');
 
   child.stdout.on('data', data => {
     auditOutput += data;

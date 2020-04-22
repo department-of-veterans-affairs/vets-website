@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -22,7 +23,8 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
-import { renderVetTecLogo } from '../utils/render';
+import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
+import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -61,7 +63,7 @@ export class VetTecSearchPage extends React.Component {
   }
 
   getQueryFilterFields = () => {
-    const booleanFilterParams = ['preferredProvider'];
+    const booleanFilterParams = ['preferredProvider', 'excludeCautionFlags'];
 
     const stringFilterParams = ['version', 'country', 'state', 'type'];
 
@@ -135,6 +137,7 @@ export class VetTecSearchPage extends React.Component {
     ) {
       return;
     }
+    this.props.clearAutocompleteSuggestions();
 
     // Reset to the first page upon a filter change.
     delete query.page;
@@ -148,6 +151,16 @@ export class VetTecSearchPage extends React.Component {
       delete query[field];
     }
     this.props.router.push({ ...this.props.location, query });
+  };
+
+  autocomplete = (value, version) => {
+    if (value) {
+      this.props.fetchProgramAutocompleteSuggestions(
+        value,
+        _.omit(this.props.search.query, 'name'),
+        version,
+      );
+    }
   };
 
   filterResultsByProvider = result =>
@@ -214,13 +227,6 @@ export class VetTecSearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => (
-    <h1 tabIndex={-1}>
-      {!search.inProgress &&
-        `${(search.count || 0).toLocaleString()} Search Results`}
-    </h1>
-  );
-
   render() {
     const { search, filters } = this.props;
 
@@ -235,46 +241,53 @@ export class VetTecSearchPage extends React.Component {
 
     const searchResults = this.searchResults();
 
+    const prodFlagSearchLogo = environment.isProduction()
+      ? 'vettec-logo'
+      : 'vettec-logo-search';
+
     return (
       <ScrollElement name="searchPage" className="search-page">
-        <div>
-          <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
-            {renderVetTecLogo(classNames('vettec-logo'))}
-          </div>
-          <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end vads-u-margin-top--neg3">
-            <div className="vads-l-col--9 search-results-count">
-              {this.renderSearchResultsHeader(this.props.search)}
+        {search.error ? (
+          <ServiceError />
+        ) : (
+          <div>
+            <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
+              {renderVetTecLogo(classNames(prodFlagSearchLogo))}
             </div>
-            <div className="vads-l-col--3">
-              <div className="vads-u-display--none single-column-display-block vettec-logo-container">
-                {renderVetTecLogo(classNames('vettec-logo'))}
+            <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end vads-u-margin-top--neg3">
+              <div className="vads-l-col--9 search-results-count">
+                {renderSearchResultsHeader(this.props.search)}
+              </div>
+              <div className="vads-l-col--3">
+                <div className="vads-u-display--none single-column-display-block vettec-logo-container">
+                  {renderVetTecLogo(classNames(prodFlagSearchLogo))}
+                </div>
               </div>
             </div>
+
+            <VetTecSearchForm
+              filtersClass={filtersClass}
+              search={this.props.search}
+              autocomplete={this.props.autocomplete}
+              location={this.props.location}
+              clearAutocompleteSuggestions={
+                this.props.clearAutocompleteSuggestions
+              }
+              fetchAutocompleteSuggestions={this.autocomplete}
+              handleFilterChange={this.handleFilterChange}
+              handleProviderFilterChange={this.handleProviderFilterChange}
+              updateAutocompleteSearchTerm={
+                this.props.updateAutocompleteSearchTerm
+              }
+              filters={filters}
+              toggleFilter={this.props.toggleFilter}
+              searchResults={searchResults}
+              eligibility={this.props.eligibility}
+              showModal={this.props.showModal}
+              eligibilityChange={this.props.eligibilityChange}
+            />
           </div>
-          <VetTecSearchForm
-            filtersClass={filtersClass}
-            search={this.props.search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchProgramAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            handleProviderFilterChange={this.handleProviderFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        </div>
+        )}
       </ScrollElement>
     );
   }

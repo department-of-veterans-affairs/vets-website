@@ -10,6 +10,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getPreferredDate } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 const initialSchema = {
@@ -38,6 +39,7 @@ export class PreferredDatePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle}  | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   goBack = () => {
@@ -54,10 +56,6 @@ export class PreferredDatePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <legend className="schemaform-label vads-u-max-width--none vads-u-margin-bottom--1p5">
-          When is the earliest you want to be seen?
-          <span className="schemaform-required-span">(*Required)</span>
-        </legend>
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"

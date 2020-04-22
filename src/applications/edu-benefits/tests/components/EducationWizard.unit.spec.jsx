@@ -1,127 +1,269 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { mount } from 'enzyme';
+import createCommonStore from 'platform/startup/store';
 
 import EducationWizard from '../../components/EducationWizard';
 
 function getQuestion(tree, name) {
-  return tree
-    .everySubTree('ErrorableRadioButtons')
-    .find(i => i.props.name === name);
+  return tree.find(name);
 }
 
 function answerQuestion(tree, name, value) {
-  getQuestion(tree, name).props.onValueChange({ value });
+  getQuestion(tree, name).simulate('change', { target: { value } });
 }
 
 describe('<EducationWizard>', () => {
-  it('should show button and no questions', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+  const defaultProps = {
+    store: createCommonStore(),
+  };
 
-    expect(tree.subTree('button')).not.to.be.false;
-    expect(tree.subTree('#wizardOptions').props.className).to.contain(
-      'wizard-content-closed',
-    );
+  it('should show button and no questions', () => {
+    const tree = mount(<EducationWizard {...defaultProps} />);
+
+    expect(tree.find('button').length).to.eq(1);
+    expect(tree.find('.wizard-content-closed').length).to.eq(1);
+    tree.unmount();
   });
   it('should show button and first question', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
-
-    tree.getMountedInstance().setState({ open: true });
-    expect(tree.subTree('button')).not.to.be.false;
-    expect(tree.subTree('#wizardOptions').props.className).not.to.contain(
-      'wizard-content-closed',
-    );
-    expect(tree.everySubTree('ErrorableRadioButtons')).not.to.be.empty;
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    tree.setState({ open: true });
+    expect(tree.find('button').length).to.eq(1);
+    expect(tree.find('.wizard-content-closed').length).to.eq(1);
+    expect(tree.find('ErrorableRadioButtons').length).to.eq(1);
+    tree.unmount();
   });
   it('should show own service question for new benefit', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    tree.getMountedInstance().setState({ open: true });
-    expect(getQuestion(tree, 'newBenefit')).not.to.be.undefined;
-    answerQuestion(tree, 'newBenefit', 'yes');
+    tree.setState({ open: true });
+    expect(getQuestion(tree, '#newBenefit-0').length).to.eq(1);
+    answerQuestion(tree, '#newBenefit-0', 'yes');
     expect(getQuestion(tree, 'serviceBenefitBasedOn')).not.to.be.undefined;
+    tree.unmount();
   });
   it('should show 1990 button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    answerQuestion(tree, 'newBenefit', 'yes');
-    answerQuestion(tree, 'serviceBenefitBasedOn', 'own');
-    answerQuestion(tree, 'nationalCallToService', 'no');
-    answerQuestion(tree, 'vetTecBenefit', 'no');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('1990')).to.be
-      .true;
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
+    answerQuestion(tree, '#nationalCallToService-1', 'no');
+    answerQuestion(tree, '#vetTecBenefit-1', 'no');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('1990'),
+    ).to.be.true;
+    tree.unmount();
   });
   it('should show 0994 button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    answerQuestion(tree, 'newBenefit', 'yes');
-    answerQuestion(tree, 'serviceBenefitBasedOn', 'own');
-    answerQuestion(tree, 'nationalCallToService', 'no');
-    answerQuestion(tree, 'vetTecBenefit', 'yes');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('0994')).to.be
-      .true;
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
+    answerQuestion(tree, '#nationalCallToService-1', 'no');
+    answerQuestion(tree, '#vetTecBenefit-0', 'yes');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('0994'),
+    ).to.be.true;
+    tree.unmount();
   });
   it('should show 1995 button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
-    answerQuestion(tree, 'newBenefit', 'extend');
-    answerQuestion(tree, 'applyForScholarship', 'yes');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('1995')).to.be
-      .true;
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    answerQuestion(tree, '#newBenefit-2', 'extend');
+    answerQuestion(tree, '#applyForScholarship-0', 'yes');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('1995'),
+    ).to.be.true;
+    tree.unmount();
   });
-  it('should show 1995 button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
 
-    answerQuestion(tree, 'newBenefit', 'no');
-    answerQuestion(tree, 'transferredEduBenefits', 'own');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('1995')).to.be
-      .true;
+  it('should show 1995 button', () => {
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    answerQuestion(tree, '#newBenefit-1', 'no');
+    answerQuestion(tree, '#transferredEduBenefits-0', 'own');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('1995'),
+    ).to.be.true;
+    tree.unmount();
   });
   it('should show 5495 button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
-
-    answerQuestion(tree, 'newBenefit', 'no');
-    answerQuestion(tree, 'transferredEduBenefits', 'fry');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('5495')).to.be
-      .true;
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    answerQuestion(tree, '#newBenefit-1', 'no');
+    answerQuestion(tree, '#transferredEduBenefits-2', 'fry');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('5495'),
+    ).to.be.true;
+    tree.unmount();
   });
   it('should show 1990N button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    answerQuestion(tree, 'newBenefit', 'yes');
-    answerQuestion(tree, 'serviceBenefitBasedOn', 'own');
-    answerQuestion(tree, 'nationalCallToService', 'yes');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('1990N')).to.be
-      .true;
-    expect(tree.subTree('.usa-alert-warning')).not.be.be.false;
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
+    answerQuestion(tree, '#nationalCallToService-0', 'yes');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('1990N'),
+    ).to.be.true;
+    expect(tree.find('.usa-alert-warning')).not.be.be.false;
+    tree.unmount();
   });
   it('should show 5490 button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    answerQuestion(tree, 'newBenefit', 'yes');
-    answerQuestion(tree, 'serviceBenefitBasedOn', 'other');
-    answerQuestion(tree, 'sponsorDeceasedDisabledMIA', 'yes');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('5490')).to.be
-      .true;
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-0', 'yes');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('5490'),
+    ).to.be.true;
+    tree.unmount();
   });
   it('should show 1990E button', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    answerQuestion(tree, 'newBenefit', 'yes');
-    answerQuestion(tree, 'serviceBenefitBasedOn', 'other');
-    answerQuestion(tree, 'sponsorDeceasedDisabledMIA', 'no');
-    answerQuestion(tree, 'sponsorTransferredBenefits', 'yes');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('1990E')).to.be
-      .true;
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
+    answerQuestion(tree, '#sponsorTransferredBenefits-0', 'yes');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('1990E'),
+    ).to.be.true;
+    tree.unmount();
   });
   it('should show transfer warning', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = mount(<EducationWizard {...defaultProps} />);
 
-    answerQuestion(tree, 'newBenefit', 'yes');
-    answerQuestion(tree, 'serviceBenefitBasedOn', 'other');
-    answerQuestion(tree, 'sponsorDeceasedDisabledMIA', 'no');
-    answerQuestion(tree, 'sponsorTransferredBenefits', 'no');
-    expect(tree.subTree('#apply-now-link').props.href.endsWith('1990E')).to.be
-      .true;
-    expect(tree.subTree('.usa-alert-warning')).not.be.be.false;
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
+    answerQuestion(tree, '#sponsorTransferredBenefits-1', 'no');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('1990E'),
+    ).to.be.true;
+    expect(tree.find('.usa-alert-warning')).not.be.be.false;
+    tree.unmount();
+  });
+  it('should record user events for newBenefit', () => {
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    expect(global.window.dataLayer.length).to.equal(1);
+    expect(global.window.dataLayer[0].event).to.equal(
+      'edu-howToApply-formChange',
+    );
+    expect(global.window.dataLayer[0]['edu-form-field']).to.equal(
+      'benefitUpdate',
+    );
+    expect(global.window.dataLayer[0]['edu-form-value']).to.equal('new');
+    answerQuestion(tree, '#newBenefit-1', 'no');
+    expect(global.window.dataLayer.length).to.equal(2);
+    expect(global.window.dataLayer[1].event).to.equal(
+      'edu-howToApply-formChange',
+    );
+    expect(global.window.dataLayer[1]['edu-form-field']).to.equal(
+      'benefitUpdate',
+    );
+    expect(global.window.dataLayer[1]['edu-form-value']).to.equal('update');
+    tree.unmount();
+  });
+
+  it('should record user events for STEM section links', () => {
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, '#newBenefit-2', 'extend');
+    expect(global.window.dataLayer.length).to.equal(1);
+    const edithNourseLink = tree.find({
+      href: 'https://benefits.va.gov/gibill/fgib/stem.asp',
+    });
+    const remainingBenefitsLink = tree.find({
+      href: '../gi-bill/post-9-11/ch-33-benefit/',
+    });
+    const approvedBenefitsLink = tree.find({
+      href: 'https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf',
+    });
+
+    edithNourseLink.simulate('click');
+    expect(global.window.dataLayer.length).to.equal(2);
+    expect(global.window.dataLayer[1].event).to.equal('edu-navigation');
+    expect(global.window.dataLayer[1]['edu-action']).to.equal(
+      'stem-scholarship',
+    );
+
+    remainingBenefitsLink.simulate('click');
+    expect(global.window.dataLayer.length).to.equal(3);
+    expect(global.window.dataLayer.length).to.equal(3);
+    expect(global.window.dataLayer[2].event).to.equal('edu-navigation');
+    expect(global.window.dataLayer[2]['edu-action']).to.equal(
+      'check-remaining-benefits',
+    );
+
+    approvedBenefitsLink.simulate('click');
+    expect(global.window.dataLayer.length).to.equal(4);
+    expect(global.window.dataLayer[3].event).to.equal('edu-navigation');
+    expect(global.window.dataLayer[3]['edu-action']).to.equal(
+      'see-approved-stem-programs',
+    );
+    tree.unmount();
+  });
+
+  it('should record user events on application submission', () => {
+    const tree = mount(<EducationWizard {...defaultProps} />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, '#newBenefit-2', 'extend');
+    expect(global.window.dataLayer.length).to.equal(1);
+
+    answerQuestion(tree, '#applyForScholarship-0', 'yes');
+    const applyNowLink = tree.find('#apply-now-link');
+    applyNowLink.simulate('click');
+
+    expect(global.window.dataLayer[1].event).to.equal(
+      'edu-howToApply-applyNow',
+    );
+    expect(global.window.dataLayer[1]['edu-benefitUpdate']).to.equal(
+      'stem-scholarship',
+    );
+    expect(global.window.dataLayer[1]['edu-isBenefitClaimForSelf']).to.equal(
+      null,
+    );
+    expect(
+      global.window.dataLayer[1]['edu-isNationalCallToServiceBenefit'],
+    ).to.equal(null);
+    expect(global.window.dataLayer[1]['edu-isVetTec']).to.equal(null);
+    expect(
+      global.window.dataLayer[1]['edu-hasSponsorTransferredBenefits'],
+    ).to.equal(null);
+    expect(
+      global.window.dataLayer[1]['edu-isReceivingSponsorBenefits'],
+    ).to.equal(null);
+    expect(global.window.dataLayer[1]['edu-isSponsorReachable']).to.equal(null);
+    expect(global.window.dataLayer[1]['edu-stemApplicant']).to.equal('yes');
+    expect(global.window.dataLayer.length).to.equal(2);
+    tree.unmount();
   });
 });

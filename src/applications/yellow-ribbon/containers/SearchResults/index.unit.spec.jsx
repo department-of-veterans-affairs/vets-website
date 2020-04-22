@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { times } from 'lodash';
+import times from 'lodash/times';
 // Relative imports.
 import { SearchResults } from './index';
 
@@ -54,7 +54,6 @@ describe('Yellow Ribbon container <SearchResults>', () => {
         'Warning or Equivalent-Factors Affecting Academic Quality (Concerns about issues affecting academic quality)',
       city: 'ABILENE',
       closure109: null,
-      country: 'USA',
       createdAt: '2019-12-11T17:31:21.000Z',
       distanceLearning: true,
       dodBah: 1062,

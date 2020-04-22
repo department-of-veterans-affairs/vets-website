@@ -1,50 +1,65 @@
 [
-  {
-    "name": "Webinar on December 11 – Office Hours – For State Approving Agencies (SAAs)",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191205",
-    "date": "2019-12-05",
-    "displayStartDate": "2019-12-05",
-    "displayEndDate": "2019-12-13"
+  {    
+    "name": "Temporary relief from your GI Bill benefit debt",
+    "url": "https://www.facebook.com/gibillEducation/posts/10156986880046615?__tn__=-R",
+    "date": "2020-04-15",
+    "displayStartDate": "2020-04-15",
+    "displayEndDate": "2020-05-15"
   },
-
-  {
-    "name": "Webinar on December 12 – Office Hours – For State Certifying Officials (SCOs)",
-    "url": "https://benefits.va.gov/gibill/index.asp#201912052",
-    "date": "2019-12-05",
-    "displayStartDate": "2019-12-05",
-    "displayEndDate": "2019-12-13"
+  {    
+    "name": "COVID-19 FAQs for School Certifying Officials (SCOs)",
+    "url": "https://benefits.va.gov/gibill/covid19faqs.asp",
+    "date": "2020-04-02",
+    "displayStartDate": "2020-04-02",
+    "displayEndDate": "2020-05-02"
   },
-  
-  {
-    "name": "Revised GI Bill Monthly Housing Allowance (MHA) Toolkit is now available",
-    "url": "https://benefits.va.gov/gibill/index.asp#201911212",
-    "date": "2019-11-21",
-    "displayStartDate": "2019-12-03"
+  {    
+    "name": "Important GI Bill Benefits Update - Congress Passes New Legislation due to COVID-19",
+    "url": "https://www.benefits.va.gov/gibill/#20200320",
+    "date": "2020-03-23",
+    "displayStartDate": "2020-03-23",
+    "displayEndDate": "2020-04-23"
   },
-      
-  {
-    "name": "Webinar Slides Are Available for the 10/30 and 10/31 - STEM Scholarship and SCO Training Requirements for SCOS",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191121",
-    "date": "2019-11-21",
-    "displayStartDate": "2019-12-03"
+  {    
+    "name": "Yellow Ribbon Program Open Season for the 2020-2021 Academic Year",
+    "url": "https://www.benefits.va.gov/gibill/#20200319",
+    "date": "2020-03-23",
+    "displayStartDate": "2020-03-23",
+    "displayEndDate": "2020-04-23"
   },
-    
-  {
-    "name": "Veterans Affairs (VA) California State Approving Agency (SAA) Open House, November 7 at 10:00 am PST",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191104",
-    "date": "2019-11-04",
-    "displayStartDate": "2019-10-01"
-  },
-  {
-    "name": "Veterans Affairs (VA) California State Approving Agency (SAA) Open House - November 5, 10:00a PST",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191030",
-    "date": "2019-10-30",
-    "displayStartDate": "2019-10-01"
+  {    
+    "name": "Reschduled Webinar to March 26 – Office Hours – For State Certifying Officials (SCOs) to Discuss COVID-19 Impact",
+    "url": "https://www.benefits.va.gov/gibill/#202003132",
+    "date": "2020-03-13",
+    "displayStartDate": "2020-03-13",
+    "displayEndDate": "2020-04-13"
   },
   {
-    "name": "Veterans Affairs (VA) California State Approving Agency (SAA) Open House - November 1, 10a PST",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191029",
-    "date": "2019-10-29",
-    "displayStartDate": "2019-10-01"
+    "name": "Webinar Slides Are Available for the VBA Education February SCO/SAA Office Hours",
+    "url": "https://www.benefits.va.gov/gibill/#20200313",
+    "date": "2020-03-13",
+    "displayStartDate": "2020-03-13",
+    "displayEndDate": "2020-04-13"
+  },
+  {
+    "name": "COVID-19 Virus Concerns and How It Affects Your Benefits",
+    "url": "https://www.benefits.va.gov/gibill/#20200312",
+    "date": "2020-03-12",
+    "displayStartDate": "2020-03-12",
+    "displayEndDate": "2020-04-12"
+  },
+  {
+    "name": "Recertification for Schools Impacted by Colmery Act, Section 107",
+    "url": "https://www.benefits.va.gov/gibill/#20200310",
+    "date": "2020-03-10",
+    "displayStartDate": "2020-03-10",
+    "displayEndDate": "2020-04-10"
+  },
+  {
+    "name": "Suspension of VA Benefits to Five Schools for Deceptive Practices",
+    "url": "https://www.benefits.va.gov/gibill/#20200309",
+    "date": "2020-03-09",
+    "displayStartDate": "2020-03-09",
+    "displayEndDate": "2020-04-09"
   }
 ]

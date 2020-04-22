@@ -1,0 +1,66 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+<div class="interior" id="content">
+  <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      <div class="usa-width-three-fourths">
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        <article class="usa-content">
+          <h1 class="vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+            {{title}}</h1>
+          <div class="va-introtext">
+            {% if fieldIntroText %}
+              <p class="events-show" id="office-events-description">
+                {{ fieldIntroText }}
+              </p>
+            {% endif %}
+          </div>
+
+          <div class="usa-grid usa-grid-full vads-u-margin-top--0p5 vads-u-margin-bottom--4">
+            <div class="usa-grid usa-grid-full vads-u-margin-y--0 vads-u-margin-bottom--0">
+              {% assign basePath = entityUrl.path | regionBasePath %}
+              {% include "src/site/facilities/facilities_health_services_buttons.drupal.liquid" with path = basePath %}
+            </div>
+          </div>
+
+          <section id="table-of-contents">
+            <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+            <ul class="usa-unstyled-list"></ul>
+          </section>
+
+          {% if fieldFeaturedContentHealthser.length %}
+            <section class="featured-services" id="featured-services">
+              <h3>In the spotlight at
+                {{ fieldOffice.entity.title }}</h3>
+              <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+                {% for featuredService in fieldFeaturedContentHealthser %}
+                  {% include "src/site/paragraphs/link_teaser_featured_content.drupal.liquid" with linkTeaser = featuredService.entity %}
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
+
+          {% for healthServiceGroup in clinicalHealthServices %}
+            {% assign groupName = healthServiceGroup.0.fieldServiceNameAndDescripti.entity.parent.0.entity.name %}
+            <section>
+              <h2>{{groupName}}</h2>
+              {% for service in healthServiceGroup %}
+                {% include "src/site/facilities/health_service.drupal.liquid" with healthService = service %}
+              {% endfor %}
+            </section>
+          {% endfor %}
+
+          {% if clinicalHealthServices == false %}
+            <div>No health services at this time.</div>
+          {% endif %}
+
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

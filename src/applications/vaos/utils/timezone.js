@@ -48,3 +48,13 @@ export function getTimezoneDescBySystemId(id) {
 
   return abbreviation;
 }
+
+export function getTimezoneDescFromAbbr(abbreviation) {
+  const label = TIMEZONE_LABELS[abbreviation];
+
+  if (label) {
+    return label;
+  }
+
+  return abbreviation;
+}

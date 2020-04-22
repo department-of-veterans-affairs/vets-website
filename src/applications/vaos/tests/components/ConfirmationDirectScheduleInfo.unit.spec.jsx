@@ -6,20 +6,40 @@ import ConfirmationDirectScheduleInfo from '../../components/ConfirmationDirectS
 
 describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
   it('should render', () => {
-    const data = {
-      calendarData: {
-        selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
+    const props = {
+      appointmentLength: 20,
+      facilityDetails: {
+        id: 'vha_983',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+            address2: null,
+            address3: null,
+          },
+        },
       },
+      data: {
+        calendarData: {
+          selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
+        },
+      },
+      systemId: '983',
     };
     const pageTitle = 'Your appointment has been scheduled';
 
     const tree = mount(
-      <ConfirmationDirectScheduleInfo data={data} pageTitle={pageTitle} />,
+      <ConfirmationDirectScheduleInfo {...props} pageTitle={pageTitle} />,
     );
 
-    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m.');
+    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m. MT');
 
     expect(tree.find('h1').text()).to.equal(pageTitle);
+
+    expect(tree.find('.vaos-u-word-break--break-word').exists()).to.be.true;
 
     tree.unmount();
   });

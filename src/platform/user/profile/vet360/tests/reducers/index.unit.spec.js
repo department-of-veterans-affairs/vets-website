@@ -6,6 +6,7 @@ import {
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
+  ADDRESS_VALIDATION_UPDATE,
 } from '../../actions';
 
 describe('vet360 reducer', () => {
@@ -89,7 +90,7 @@ describe('vet360 reducer', () => {
       },
     );
 
-    expect(state.modal, 'The modal was closed').to.be.null;
+    expect(state.modal, 'The modal remains open').to.not.be.null;
     expect(state.transactions.length).to.eql(1);
     expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
     expect(state.fieldTransactionMap).to.eql({
@@ -239,6 +240,7 @@ describe('vet360 reducer', () => {
     );
 
     expect(state.metadata.mostRecentErroredTransactionId).to.eql(null);
+    expect(state.modal).to.be.null;
     expect(state.transactions.length).to.eql(0);
   });
 
@@ -323,9 +325,10 @@ describe('vet360 reducer', () => {
       };
       const action = {
         type: 'ADDRESS_VALIDATION_ERROR',
-        addressValidationError: true,
-        addressValidationType: 'mailingAddress',
         addressFromUser: { street: '987 main' },
+        addressValidationError: true,
+        fieldName: 'mailingAddress',
+        error: 'Foo',
       };
       const expectedState = {
         ...state,
@@ -340,9 +343,13 @@ describe('vet360 reducer', () => {
           validationKey: null,
         },
         fieldTransactionMap: {
-          mailingAddress: { isPending: false },
+          mailingAddress: {
+            isPending: false,
+            isFailed: true,
+            error: 'Foo',
+          },
         },
-        modal: 'addressValidation',
+        modal: 'mailingAddress',
       };
       expect(vet360(state, action)).to.eql(expectedState);
     });
@@ -460,6 +467,26 @@ describe('vet360 reducer', () => {
         fieldTransactionMap: {
           mailingAddress: { isPending: true },
         },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('ADDRESS_VALIDATION_UPDATE action', () => {
+    it('sets inProgress to true', () => {
+      const expectedState = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: true },
+        },
+      };
+      const state = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: false },
+        },
+      };
+      const action = {
+        type: ADDRESS_VALIDATION_UPDATE,
+        fieldName: 'mailingAddress',
       };
       expect(vet360(state, action)).to.eql(expectedState);
     });

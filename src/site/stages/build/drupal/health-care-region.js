@@ -10,6 +10,77 @@ const {
 const _ = require('lodash');
 const moment = require('moment');
 
+/**
+ * Sort services.
+ *
+ * @param sortItem The services array.
+ * @return []
+ */
+function sortServices(sortItem) {
+  return _(sortItem)
+    .sortBy('fieldServiceNameAndDescripti.entity.weight')
+    .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
+    .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
+    .value();
+}
+
+// Creates the past-events listing pages
+function createPastEventListPages(page, drupalPagePath, files) {
+  const sidebar = page.facilitySidebar;
+  // Events listing page
+  const allEvents = page.pastEvents;
+
+  // store past & current events
+  const pastEventTeasers = {
+    entities: [],
+  };
+
+  // separate current events from past events;
+  allEvents.entities.forEach(eventTeaser => {
+    const startDate = eventTeaser.fieldDate.startDate;
+    const isPast = moment().diff(startDate, 'days');
+    if (isPast >= 1) {
+      pastEventTeasers.entities.push(eventTeaser);
+    }
+  });
+
+  // sort past events into reverse chronological order by start date
+  pastEventTeasers.entities = _.orderBy(
+    pastEventTeasers.entities,
+    ['fieldDate.startDate'],
+    ['desc'],
+  );
+
+  // Past Events listing page
+  const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
+
+  const pastEventsObj = {
+    allEventTeasers: pastEventTeasers,
+    eventTeasers: pastEventTeasers,
+    fieldIntroText: page.fieldIntroText,
+    facilitySidebar: sidebar,
+    entityUrl: pastEventsEntityUrl,
+    title: page.title,
+    alert: page.alert,
+  };
+  const pastEventsPage = updateEntityUrlObj(
+    pastEventsObj,
+    drupalPagePath,
+    'Past events',
+  );
+  const pastEventsPagePath = pastEventsPage.entityUrl.path;
+  pastEventsPage.regionOrOffice = page.title;
+  pastEventsPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
+
+  paginatePages(
+    pastEventsPage,
+    files,
+    'allEventTeasers',
+    'event_listing.drupal.liquid',
+    'past-events',
+  );
+}
+
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
@@ -62,12 +133,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
-  if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
-      .sortBy('fieldServiceNameAndDescripti.entity.weight')
-      .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
-      .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
-      .value();
+  if (page.fieldClinicalHealthServices) {
+    const clinicalHealthServices = sortServices(
+      page.fieldClinicalHealthServices.entities,
+    );
 
     const hsEntityUrl = createEntityUrlObj(drupalPagePath);
     const hsObj = {
@@ -149,88 +218,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'news stories',
   );
 
-  // Events listing page
-  const allEvents = page.allEventTeasers;
-
-  // store past & current events
-  const pastEventTeasers = {
-    entities: [],
-  };
-  const currentEventTeasers = {
-    entities: [],
-  };
-
-  // separate current events from past events;
-  _.forEach(allEvents.entities, value => {
-    const eventTeaser = value;
-    const startDate = eventTeaser.fieldDate.startDate;
-    const isPast = moment().diff(startDate, 'days');
-    if (isPast >= 1) {
-      pastEventTeasers.entities.push(eventTeaser);
-    } else {
-      currentEventTeasers.entities.push(eventTeaser);
-    }
-  });
-
-  // sort past events into reverse chronological order by start date
-  pastEventTeasers.entities = _.orderBy(
-    pastEventTeasers.entities,
-    ['fieldDate.startDate'],
-    ['desc'],
-  );
-
-  const eventEntityUrl = createEntityUrlObj(drupalPagePath);
-  const eventObj = Object.assign(
-    { allEventTeasers: currentEventTeasers },
-    { eventTeasers: page.eventTeasers },
-    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
-    { facilitySidebar: sidebar },
-    { entityUrl: eventEntityUrl },
-    { title: page.title },
-    { alert: page.alert },
-  );
-  const eventPage = updateEntityUrlObj(eventObj, drupalPagePath, 'Events');
-  const eventPagePath = eventPage.entityUrl.path;
-  eventPage.regionOrOffice = page.title;
-  eventPage.entityUrl = generateBreadCrumbs(eventPagePath);
-
-  paginatePages(
-    eventPage,
-    files,
-    'allEventTeasers',
-    'events_page.drupal.liquid',
-    'events',
-  );
-
-  // Past Events listing page
-  const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}/events`);
-
-  const pastEventsObj = Object.assign(
-    { allEventTeasers: pastEventTeasers },
-    { eventTeasers: page.eventTeasers },
-    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
-    { facilitySidebar: sidebar },
-    { entityUrl: pastEventsEntityUrl },
-    { title: page.title },
-    { alert: page.alert },
-  );
-  const pastEventsPage = updateEntityUrlObj(
-    pastEventsObj,
-    `${drupalPagePath}/events`,
-    'Past events',
-  );
-  const pastEventsPagePath = pastEventsPage.entityUrl.path;
-  pastEventsPage.regionOrOffice = page.title;
-  pastEventsPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
-
-  paginatePages(
-    pastEventsPage,
-    files,
-    'allEventTeasers',
-    'events_page.drupal.liquid',
-    'past-events',
-  );
-
   // Staff bio listing page
   const bioEntityUrl = createEntityUrlObj(drupalPagePath);
   page.allStaffProfiles = {
@@ -256,7 +243,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     bioListingPage,
     files,
     'allStaffProfiles',
-    'bios_page.drupal.liquid',
+    'leadership_listing.drupal.liquid',
     'bio',
   );
 }
@@ -285,4 +272,68 @@ function addGetUpdatesFields(page, pages) {
   }
 }
 
-module.exports = { createHealthCareRegionListPages, addGetUpdatesFields };
+/**
+ * Sorts items from oldest to newest, removing expired items.
+ *
+ * @param {items} array The items array.
+ * @param {field} string The target date field.
+ * @param {reverse} bool Sorting order set to default false.
+ * @param {stale} bool Remove expired date items set to default false.
+ * @return Filtered array of sorted items.
+ */
+function itemSorter(items = [], field, reverse = false, stale = true) {
+  let sorted = items.entities.sort((a, b) => {
+    const start1 = moment(a[field].value);
+    const start2 = moment(b[field].value);
+    return reverse ? start2 - start1 : start1 - start2;
+  });
+
+  if (stale) {
+    sorted = sorted.filter(item => moment(item[field].value).isAfter(moment()));
+  }
+
+  return sorted;
+}
+/**
+ * Add pagers to cms content listing pages.
+ *
+ * @param {page} page The page object.
+ * @param {files} files The generated file.
+ * @param {field} field The target field.
+ * @param {template} template The template for output formatting.
+ * @param {files} files The acessibility aria.
+ * @return nothing
+ */
+function addPager(page, files, field, template, aria) {
+  // Sort events and remove stale items.
+  if (page.allEventTeasers) {
+    page.allEventTeasers.entities = itemSorter(
+      page.allEventTeasers,
+      'fieldDate',
+    );
+  }
+  // Sort news teasers.
+  if (page.allPressReleaseTeasers) {
+    page.allPressReleaseTeasers.entities = itemSorter(
+      page.allPressReleaseTeasers,
+      'fieldReleaseDate',
+      true,
+      false,
+    );
+  }
+  // Add our pager to page output.
+  const pagingObject = paginatePages(page, files, field, template, aria);
+
+  if (pagingObject[0]) {
+    page.pagedItems = pagingObject[0].pagedItems;
+    page.paginator = pagingObject[0].paginator;
+  }
+}
+
+module.exports = {
+  createHealthCareRegionListPages,
+  createPastEventListPages,
+  addGetUpdatesFields,
+  addPager,
+  sortServices,
+};

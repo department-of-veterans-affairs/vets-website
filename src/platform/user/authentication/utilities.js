@@ -8,25 +8,25 @@ export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
-const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
+function sessionTypeUrl(type = '', version = 'v0', application = null) {
+  const SESSIONS_URI =
+    version === 'v1'
+      ? `${environment.API_URL}/v1/sessions`
+      : `${environment.API_URL}/sessions`;
 
-const SIGNUP_URL = sessionTypeUrl('signup');
-const MHV_URL = sessionTypeUrl('mhv');
-const DSLOGON_URL = sessionTypeUrl('dslogon');
-const IDME_URL = sessionTypeUrl('idme');
-const MFA_URL = sessionTypeUrl('mfa');
-const VERIFY_URL = sessionTypeUrl('verify');
-const LOGOUT_URL = sessionTypeUrl('slo');
+  return `${SESSIONS_URI}/${type}/new${
+    application ? `?application=${application}` : ''
+  }`;
+}
 
-const loginUrl = policy => {
+const loginUrl = (policy, version, application) => {
   switch (policy) {
     case 'mhv':
-      return MHV_URL;
+      return sessionTypeUrl('mhv', version, application);
     case 'dslogon':
-      return DSLOGON_URL;
+      return sessionTypeUrl('dslogon', version, application);
     default:
-      return IDME_URL;
+      return sessionTypeUrl('idme', version, application);
   }
 };
 
@@ -64,7 +64,12 @@ function redirectWithGAClientId(redirectUrl) {
 
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
+  // If the user is coming via the standalone sign-in, redirect to the home page.
+  const returnUrl =
+    window.location.pathname === '/sign-in/'
+      ? window.location.origin
+      : window.location;
+  sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
   if (redirectUrl.includes('idme')) {
@@ -74,23 +79,29 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy) {
-  return redirect(loginUrl(policy), 'login-link-clicked-modal');
+export function login(policy, version = 'v0', application = null) {
+  return redirect(
+    loginUrl(policy, version, application),
+    'login-link-clicked-modal',
+  );
 }
 
-export function mfa() {
-  return redirect(MFA_URL, 'multifactor-link-clicked');
+export function mfa(version = 'v0') {
+  return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
 }
 
-export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked');
+export function verify(version = 'v0') {
+  return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
 }
 
-export function logout() {
+export function logout(version = 'v0') {
   clearSentryLoginType();
-  return redirect(LOGOUT_URL, 'logout-link-clicked');
+  return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
 }
 
-export function signup() {
-  return redirect(SIGNUP_URL, 'register-link-clicked');
+export function signup(version = 'v0', application = null) {
+  return redirect(
+    sessionTypeUrl('signup', version, application),
+    'register-link-clicked',
+  );
 }

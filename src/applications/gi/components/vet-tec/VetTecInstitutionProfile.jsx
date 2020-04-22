@@ -6,10 +6,20 @@ import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedPrograms from './VetTecApprovedPrograms';
 import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
-import VetTecContactInformation from './VetTecContactInformation';
+import ContactInformation from '../profile/ContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
+
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
+import environment from 'platform/utilities/environment';
+
+const classNameProdFlag = environment.isProduction()
+  ? 'vads-u-display--block small-screen:vads-u-display--none vettec-logo-container'
+  : 'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
+
+const prodFlagLogoClass = environment.isProduction()
+  ? 'vettec-logo'
+  : 'vettec-logo-profile';
 
 const VetTecInstitutionProfile = ({
   institution,
@@ -17,9 +27,11 @@ const VetTecInstitutionProfile = ({
   preSelectedProgram,
 }) => (
   <div>
-    <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
-      {renderVetTecLogo(classNames('vettec-logo'))}
-    </div>
+    {
+      <div className={classNameProdFlag}>
+        {renderVetTecLogo(classNames(prodFlagLogoClass))}
+      </div>
+    }
     <VetTecHeadingSummary institution={institution} showModal={showModal} />
     <div className="usa-accordion">
       <ul>
@@ -42,7 +54,7 @@ const VetTecInstitutionProfile = ({
           <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
         <AccordionItem button="Contact details">
-          <VetTecContactInformation institution={institution} />
+          <ContactInformation institution={institution} />
         </AccordionItem>
         <AccordionItem button="Additional information">
           <VetTecAdditionalInformation

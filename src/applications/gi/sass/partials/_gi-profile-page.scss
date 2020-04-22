@@ -27,13 +27,80 @@
     padding-bottom: 0.5em;
   }
 
-  .caution-flag {
-    background-color: $color-gold;
+  .additional-resources-preferred-provider {
+    position: relative;
+    top: 2em;
   }
 
   .additional-resources {
     @include media-maxwidth($medium-large-screen - 1) {
       display: none;
+    }
+  }
+
+  @media (max-width: $medium-screen -1) {
+    .additional-resources-profile {
+      padding-top: 2em;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .additional-resources-responsive {
+      margin-top: 2em;
+    }
+    .vettec-logo-profile {
+      height: 60px;
+      width: 126px;
+    }
+    .additional-resources-vettec {
+      margin-top: 1em;
+    }
+    .vettec-logo-additional-resources {
+      display: none;
+    }
+    .logo-container {
+      display: none;
+    }
+    .additional-resources-preferred-provider {
+      margin-bottom: 23em;
+    }
+  }
+
+  @media (min-width: 641px) {
+    .additional-resources-vettec {
+      margin-top: -14em;
+    }
+    .vettec-logo-profile {
+      display: none;
+    }
+    .vettec-logo-additional-resources {
+      height: 85px;
+      width: 179px;
+    }
+    .additional-resources-preferred-provider {
+      position: relative;
+      top: 2em;
+    }
+  }
+
+  @media (min-width: 920px) {
+    .logo-container {
+      width: 180px;
+      margin-bottom: 2em;
+      margin-left: 4em;
+    }
+  }
+  @media (max-width: 919px) {
+    .logo-container {
+      width: 180px;
+      margin-bottom: 3em;
+      padding-right: 10px;
+      text-align: right;
+    }
+  }
+  @media screen and (max-width: $small-screen) {
+    .usa-alert {
+      padding-right: 3.2rem;
     }
   }
 
@@ -272,5 +339,9 @@
     .locations-table {
       display: none;
     }
+  }
+
+  .sco-list {
+    list-style: none;
   }
 }

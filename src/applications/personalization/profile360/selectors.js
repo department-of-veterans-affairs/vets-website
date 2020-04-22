@@ -8,13 +8,13 @@ export const directDepositInformation = state =>
   state.vaProfile?.paymentInformation;
 
 export const directDepositAccountInformation = state =>
-  directDepositInformation(state)?.responses[0]?.paymentAccount;
+  directDepositInformation(state)?.responses?.[0]?.paymentAccount;
 
 export const directDepositIsSetUp = state =>
   !!directDepositAccountInformation(state)?.accountNumber;
 
 export const directDepositAddressInformation = state =>
-  directDepositInformation(state)?.responses[0]?.paymentAddress;
+  directDepositInformation(state)?.responses?.[0]?.paymentAddress;
 
 export const directDepositAddressIsSetUp = state => {
   const addressInfo = directDepositAddressInformation(state);
@@ -23,4 +23,11 @@ export const directDepositAddressIsSetUp = state => {
     addressInfo?.city &&
     addressInfo?.stateCode
   );
+};
+
+export const directDepositIsBlocked = state => {
+  const controlInfo = directDepositInformation(state)?.responses?.[0]
+    ?.controlInformation;
+  if (!controlInfo) return false;
+  return controlInfo.canUpdateAddress !== true;
 };

@@ -141,11 +141,11 @@ function randomInt(min, max) {
 }
 
 export function generateMockSlots() {
-  const slots = [];
+  const times = [];
   const today = moment();
   const minuteSlots = ['00:00', '20:00', '40:00'];
 
-  while (slots.length < 300) {
+  while (times.length < 300) {
     const daysToAdd = randomInt(1, 365);
     const date = today
       .clone()
@@ -154,13 +154,15 @@ export function generateMockSlots() {
     const hour = `0${randomInt(9, 16)}`.slice(-2);
     const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
     const startDateTime = `${date}T${hour}:${minutes}.000+00:00`;
-    slots.push({
-      startDateTime,
-      bookingStatus: '1',
-      remainingAllowedOverBookings: '3',
-      availability: true,
-    });
+    if (!times.includes(startDateTime)) {
+      times.push(startDateTime);
+    }
   }
 
-  return slots;
+  return times.sort().map(startDateTime => ({
+    startDateTime,
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+  }));
 }

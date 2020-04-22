@@ -28,7 +28,7 @@ export const mockContactInformation = {
     id: 123,
     isInternational: false,
     isTextable: true,
-    isTextPermitted: false,
+    isTextPermitted: null,
     isTty: true,
     isVoicemailable: true,
     phoneNumber: '5551234',
@@ -159,6 +159,21 @@ export default {
         },
       },
     });
+  },
+  createTransactionFailure() {
+    return asyncReturn(
+      {
+        errors: [
+          {
+            title: 'Service unavailable',
+            detail: 'Backend Service Outage',
+            code: '503',
+            status: '503',
+          },
+        ],
+      },
+      1000,
+    );
   },
   updateTransactionRandom(...args) {
     return asyncReturn(

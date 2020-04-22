@@ -14,13 +14,14 @@ import {
 import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
 import AddressEditModal from './AddressEditModal';
+import AddressValidationModal from '../../containers/AddressValidationModal';
 import AddressView from './AddressView';
 
 import { getFormSchema, getUiSchema } from './address-schemas';
 
-export const inferAddressType = (countryName, stateCode) => {
+export const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
-  if (countryName !== USA.COUNTRY_NAME) {
+  if (countryCodeIso3 !== USA.COUNTRY_ISO3_CODE) {
     addressType = ADDRESS_TYPES.INTERNATIONAL;
   } else if (ADDRESS_FORM_VALUES.MILITARY_STATES.has(stateCode)) {
     addressType = ADDRESS_TYPES.OVERSEAS_MILITARY;
@@ -37,7 +38,7 @@ export const convertNextValueToCleanData = value => {
     addressLine3,
     addressPou,
     city,
-    countryName,
+    countryCodeIso3,
     stateCode,
     zipCode,
     internationalPostalCode,
@@ -45,7 +46,7 @@ export const convertNextValueToCleanData = value => {
     'view:livesOnMilitaryBase': livesOnMilitaryBase,
   } = value;
 
-  const addressType = inferAddressType(countryName, stateCode);
+  const addressType = inferAddressType(countryCodeIso3, stateCode);
 
   return {
     id,
@@ -55,7 +56,9 @@ export const convertNextValueToCleanData = value => {
     addressPou,
     addressType,
     city,
-    countryName: livesOnMilitaryBase ? USA.COUNTRY_NAME : countryName,
+    countryCodeIso3: livesOnMilitaryBase
+      ? USA.COUNTRY_ISO3_CODE
+      : countryCodeIso3,
     province: addressType === ADDRESS_TYPES.INTERNATIONAL ? province : null,
     stateCode: addressType === ADDRESS_TYPES.INTERNATIONAL ? null : stateCode,
     zipCode: addressType !== ADDRESS_TYPES.INTERNATIONAL ? zipCode : null,
@@ -64,57 +67,6 @@ export const convertNextValueToCleanData = value => {
         ? internationalPostalCode
         : null,
     'view:livesOnMilitaryBase': livesOnMilitaryBase,
-  };
-};
-
-const validateZipCode = zipCode => {
-  let result = '';
-  if (!zipCode) {
-    result = 'Postal code is required';
-  } else if (!zipCode.match(/\d{5}/)) {
-    result = 'Postal code must be 5 digits';
-  }
-  return result;
-};
-
-export const validateCleanData = (
-  {
-    addressLine1,
-    city,
-    stateCode,
-    internationalPostalCode,
-    zipCode,
-    countryName,
-  },
-  property,
-) => {
-  const isInternational =
-    inferAddressType(countryName, stateCode) === ADDRESS_TYPES.INTERNATIONAL;
-  const validateAll = !property;
-
-  return {
-    addressLine1:
-      (property === 'addressLine1' || validateAll) && !addressLine1
-        ? 'Street address is required'
-        : '',
-    city:
-      (property === 'city' || validateAll) && !city ? 'City is required' : '',
-    stateCode:
-      (property === 'stateCode' || validateAll) &&
-      !isInternational &&
-      !stateCode
-        ? 'State is required'
-        : '',
-    zipCode:
-      (property === 'zipCode' || validateAll) &&
-      !isInternational &&
-      validateZipCode(zipCode),
-    internationalPostalCode:
-      (property === 'internationalPostalCode' || validateAll) &&
-      isInternational &&
-      !internationalPostalCode
-        ? 'Postal code is required'
-        : '',
   };
 };
 
@@ -128,7 +80,7 @@ export const convertCleanDataToPayload = (data, fieldName) => {
       addressLine3: cleanData.addressLine3,
       addressType: cleanData.addressType,
       city: cleanData.city,
-      countryName: cleanData.countryName,
+      countryCodeIso3: cleanData.countryCodeIso3,
       stateCode: cleanData.stateCode,
       internationalPostalCode: cleanData.internationalPostalCode,
       zipCode: cleanData.zipCode,
@@ -142,31 +94,30 @@ export const convertCleanDataToPayload = (data, fieldName) => {
   );
 };
 
-export default class AddressField extends React.Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    deleteDisabled: PropTypes.bool,
-    fieldName: PropTypes.oneOf([
-      FIELD_NAMES.MAILING_ADDRESS,
-      FIELD_NAMES.RESIDENTIAL_ADDRESS,
-    ]).isRequired,
-  };
-
-  render() {
-    return (
-      <Vet360ProfileField
-        title={this.props.title}
-        fieldName={this.props.fieldName}
-        apiRoute={API_ROUTES.ADDRESSES}
-        convertNextValueToCleanData={convertNextValueToCleanData}
-        validateCleanData={validateCleanData}
-        convertCleanDataToPayload={convertCleanDataToPayload}
-        deleteDisabled={this.props.deleteDisabled}
-        Content={AddressView}
-        EditModal={AddressEditModal}
-        formSchema={getFormSchema(this.props.fieldName)}
-        uiSchema={getUiSchema(this.props.fieldName)}
-      />
-    );
-  }
+function AddressField({ title, fieldName, deleteDisabled }) {
+  return (
+    <Vet360ProfileField
+      title={title}
+      fieldName={fieldName}
+      apiRoute={API_ROUTES.ADDRESSES}
+      convertCleanDataToPayload={convertCleanDataToPayload}
+      deleteDisabled={deleteDisabled}
+      Content={AddressView}
+      EditModal={AddressEditModal}
+      ValidationModal={AddressValidationModal}
+      formSchema={getFormSchema(fieldName)}
+      uiSchema={getUiSchema(fieldName)}
+    />
+  );
 }
+
+AddressField.propTypes = {
+  title: PropTypes.string.isRequired,
+  deleteDisabled: PropTypes.bool,
+  fieldName: PropTypes.oneOf([
+    FIELD_NAMES.MAILING_ADDRESS,
+    FIELD_NAMES.RESIDENTIAL_ADDRESS,
+  ]).isRequired,
+};
+
+export default AddressField;

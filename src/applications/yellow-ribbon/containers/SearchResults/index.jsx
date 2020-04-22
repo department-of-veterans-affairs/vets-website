@@ -5,11 +5,12 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk, updatePageAction } from '../../actions';
+import { fetchResultsThunk } from '../../actions';
+import { focusElement } from 'platform/utilities/ui';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -18,10 +19,12 @@ export class SearchResults extends Component {
     fetching: PropTypes.bool.isRequired,
     results: PropTypes.arrayOf(
       PropTypes.shape({
-        // Original form data key-value pairs.
-        name: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
         city: PropTypes.string.isRequired,
+        contributionAmount: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        insturl: PropTypes.string,
+        nameOfInstitution: PropTypes.string.isRequired,
+        numberOfStudents: PropTypes.number.isRequired,
         state: PropTypes.string.isRequired,
       }).isRequired,
     ),
@@ -30,21 +33,38 @@ export class SearchResults extends Component {
     totalResults: PropTypes.number,
   };
 
+  componentDidUpdate(prevProps) {
+    const justRefreshed = prevProps.fetching && !this.props.fetching;
+
+    if (justRefreshed) {
+      focusElement('[data-display-results-header]');
+    }
+  }
+
   onPageSelect = page => {
-    const { fetchResults, perPage, updatePage } = this.props;
+    const { fetchResults, perPage } = this.props;
 
     // Derive the current name params.
     const queryParams = new URLSearchParams(window.location.search);
 
     // Derive the state values from our query params.
+    const city = queryParams.get('city') || '';
+    const contributionAmount = queryParams.get('contributionAmount') || '';
     const name = queryParams.get('name') || '';
+    const numberOfStudents = queryParams.get('numberOfStudents') || '';
     const state = queryParams.get('state') || '';
 
-    // Update the page.
-    updatePage(page);
-
     // Refetch results.
-    fetchResults({ page, perPage, name, hideFetchingState: true, state });
+    fetchResults({
+      city,
+      contributionAmount,
+      hideFetchingState: true,
+      name,
+      numberOfStudents,
+      page,
+      perPage,
+      state,
+    });
 
     // Scroll to top.
     scrollToTop();
@@ -95,7 +115,7 @@ export class SearchResults extends Component {
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading search results..." />;
+      return <LoadingIndicator setFocus message="Loading search results..." />;
     }
 
     // Show the error alert box if there was an error.
@@ -117,7 +137,10 @@ export class SearchResults extends Component {
     // Show no results found message.
     if (!results.length) {
       return (
-        <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        <h2
+          className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-display-results-header
+        >
           No results found.
         </h2>
       );
@@ -129,17 +152,27 @@ export class SearchResults extends Component {
 
     return (
       <>
-        <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Displaying {resultsStartNumber}-{resultsEndNumber} out of{' '}
-          {totalResults} results
+        <h2
+          className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          data-display-results-header
+        >
+          Displaying {resultsStartNumber}
+          <span className="vads-u-visibility--screen-reader">through</span>
+          <span aria-hidden="true" role="presentation">
+            &ndash;
+          </span>
+          {resultsEndNumber} of {totalResults} results
         </h2>
 
         {/* Table of Results */}
-        <div className="search-results vads-u-margin-top--2">
+        <ul
+          className="search-results vads-u-margin-top--2 vads-u-padding--0"
+          data-e2e-id="search-results"
+        >
           {map(results, school => (
             <SearchResult key={school?.id} school={school} />
           ))}
-        </div>
+        </ul>
 
         {/* Pagination */}
         <Pagination
@@ -166,7 +199,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchResults: options => fetchResultsThunk(options)(dispatch),
-  updatePage: page => dispatch(updatePageAction(page)),
 });
 
 export default connect(

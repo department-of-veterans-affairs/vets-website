@@ -9,28 +9,26 @@ describe('VAOS <NeedHelp>', () => {
     const tree = shallow(<NeedHelp />);
 
     expect(tree.find('h2').text()).to.contain('Need help?');
-    expect(tree.hasClass('vads-u-margin-top--9')).to.equal(true);
+    expect(tree.hasClass('vads-u-margin-top--9')).be.true;
 
     const links = tree.find('a');
-    expect(links.length).to.equal(5);
-    expect(links.at(0).props().href).to.equal('tel:8772228387');
-    expect(links.at(0).text()).to.equal('877-222-8387');
-    expect(links.at(1).props().href).to.equal('tel:8008778339');
-    expect(links.at(1).text()).to.equal('800-877-8339');
-    expect(links.at(2).props().href).to.equal('tel:8772228387');
-    expect(links.at(2).text()).to.equal('877-222-8387');
-    expect(links.at(3).props().href).to.equal('tel:8008778339');
-    expect(links.at(3).text()).to.equal('800-877-8339');
-    expect(links.at(4).props().href).to.equal(
+    expect(links.length).to.equal(4);
+    expect(links.at(0).props().href).to.equal('tel:8774705947');
+    expect(links.at(0).text()).to.equal('877-470-5947');
+    expect(links.at(1).props().href).to.equal('tel:8666513180');
+    expect(links.at(1).text()).to.equal('866-651-3180');
+    expect(links.at(2).props().href).to.equal(
       'https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE',
     );
-    expect(links.at(4).text()).to.equal('Leave feedback for this application');
+    expect(links.at(3).props().href).to.equal(
+      'https://veteran.mobile.va.gov/var/v4/',
+    );
     tree.unmount();
   });
-  it('should render extra margin space', () => {
+  it('should have aria labels to hide from screen reader', () => {
     const tree = shallow(<NeedHelp />);
 
-    expect(tree.hasClass('vads-u-margin-top--9')).to.equal(true);
+    expect(tree.find('hr[aria-hidden="true"]').exists()).to.be.true;
     tree.unmount();
   });
 });

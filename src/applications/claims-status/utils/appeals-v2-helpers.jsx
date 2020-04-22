@@ -281,7 +281,7 @@ function getHearingType(type) {
 export function getStatusContents(appeal, name = {}) {
   const { status, aoj, programArea } = appeal.attributes;
   const appealType = appeal.type;
-  const statusType = status.type;
+  const statusType = status.type || status;
   const details = status.details || {};
   const amaDocket = _.get(appeal, 'attributes.docket.type');
   const aojDescription = getAojDescription(aoj);
@@ -947,6 +947,7 @@ export function getEventContent(event) {
         description: '',
       };
     case EVENT_TYPES.failureToRespond:
+    case EVENT_TYPES.otherClose:
       return {
         title: 'Your appeal was closed',
         description: '',
@@ -974,11 +975,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.vacated:
       return {
         title: 'Board of Veterans’ Appeals vacated a previous decision',
-        description: '',
-      };
-    case EVENT_TYPES.otherClose:
-      return {
-        title: 'Your appeal was closed',
         description: '',
       };
     case EVENT_TYPES.amaNod:
@@ -1552,17 +1548,6 @@ export function getNextEvents(appeal) {
       };
     }
     case STATUS_TYPES.bvaDevelopment:
-      return {
-        header: '', // intentionally empty
-        events: [
-          {
-            title: 'The Board will make a decision',
-            description: makeDecisionReviewContent(),
-            durationText: '',
-            cardDescription: '',
-          },
-        ],
-      };
     case STATUS_TYPES.stayed:
       return {
         header: '', // intentionally empty

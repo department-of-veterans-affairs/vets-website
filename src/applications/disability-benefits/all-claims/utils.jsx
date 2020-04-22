@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
@@ -6,9 +7,9 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
-import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import _ from '../../../platform/utilities/data';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
@@ -17,7 +18,8 @@ import {
   validateMilitaryState,
   validateZIP,
 } from './validations';
-import ReviewCardField from './components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 
 import {
   DATA_PATHS,
@@ -89,7 +91,7 @@ export const hasGuardOrReservePeriod = formData => {
   return serviceHistory.reduce((isGuardReserve, { serviceBranch }) => {
     // For a new service period, service branch defaults to undefined
     if (!serviceBranch) {
-      return false;
+      return isGuardReserve;
     }
     const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
     return (
@@ -284,42 +286,6 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankRoutingNumber',
     'view:bankAccount.bankName',
   ]);
-
-export const AddressViewField = ({ formData }) => {
-  const {
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    city,
-    country,
-    state,
-    zipCode,
-  } = formData;
-  let zipString;
-  if (zipCode) {
-    const firstFive = zipCode.slice(0, 5);
-    const lastChunk = zipCode.length > 5 ? `-${zipCode.slice(5)}` : '';
-    zipString = `${firstFive}${lastChunk}`;
-  }
-
-  let lastLine;
-  if (country === USA) {
-    lastLine = `${city}, ${state} ${zipString}`;
-  } else {
-    lastLine = `${city}, ${country}`;
-  }
-  return (
-    <p className="blue-bar-block">
-      {addressLine1 && addressLine1}
-      <br />
-      {addressLine2 && addressLine2}
-      {addressLine2 && <br />}
-      {addressLine3 && addressLine3}
-      {addressLine3 && <br />}
-      {lastLine}
-    </p>
-  );
-};
 
 /**
  * Returns the path with any ':index' substituted with the actual index.

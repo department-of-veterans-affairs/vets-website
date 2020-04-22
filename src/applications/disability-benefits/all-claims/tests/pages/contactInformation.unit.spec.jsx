@@ -39,8 +39,8 @@ describe('Disability benefits 526EZ contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(6);
+    // street 1, 2, 3, city, phone, email, and overseas address checkbox
+    expect(form.find('input').length).to.equal(7);
     form.unmount();
   });
 
@@ -62,8 +62,8 @@ describe('Disability benefits 526EZ contact information', () => {
 
     // country, state
     expect(form.find('select').length).to.equal(2);
-    // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(7);
+    // street 1, 2, 3, city, zip, phone, email, and overseas address checkbox
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 
@@ -85,8 +85,8 @@ describe('Disability benefits 526EZ contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(6);
+    // street 1, 2, 3, city, phone, email, and overseas address checkbox
+    expect(form.find('input').length).to.equal(7);
     form.unmount();
   });
 
@@ -201,6 +201,33 @@ describe('Disability benefits 526EZ contact information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('disables the country dropdown when overseas address is checked', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          mailingAddress: {
+            'view:livesOnMilitaryBase': true,
+            country: 'USA',
+          },
+          phoneAndEmail: {},
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    // country
+    expect(
+      form
+        .find('select')
+        .at(0)
+        .prop('disabled'),
+    ).to.be.true;
     form.unmount();
   });
 

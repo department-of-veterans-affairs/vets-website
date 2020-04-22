@@ -31,49 +31,6 @@
   margin-bottom: 1em;
 }
 
-/* Opt out of old appeals styles */
-article[data-location="opt-out-of-old-appeals"] {
-  /* Hide form progression & step number to match design */
-  .progress-bar-segmented,
-  .schemaform-chapter-progress,
-  /* Hide title & (*Required) label above opt-out checkbox */
-  #root_legacyOptInApproved-label,
-  /* Hide save form link */
-  .form-progress-buttons + div {
-    display: none;
-  }
-
-  /* Reduce opt-out title spacing */
-  .confirmation-page-title {
-    margin-top: 0;
-  }
-
-  /* Remove left padding to align left side, per design */
-  .progress-box {
-    padding-left: 0;
-  }
-
-  /* Move checkbox error message _below_ the checkbox, per spec:
-   * https://design.va.gov/patterns/form-feedback#errors-on-checkboxes;
-   * necessary for this custom checkbox widget
-   */
-  .usa-input-error{
-    display: flex;
-    flex-direction: column;
-    flex-flow: column-reverse;
-  }
-
-  /* Maintain margin above checkbox with error */
-  .schemaform-first-field > .usa-input-error {
-    margin-top: 1.8em;
-  }
-
-  /* Reduce padding below footer link and site footer */
-  .help-footer-box {
-    padding-bottom: 0;
-  }
-}
-
 /* Step 1a */
 /* Veteran details block */
 .blue-bar-block {
@@ -98,67 +55,7 @@ article[data-location="opt-out-of-old-appeals"] {
   }
 }
 
-/* Step 1b */
-/* Contact information review cards & forwarding address block */
-.schemaform-block,
-.review-card--title {
-  margin-top: .5em;
-}
-
-/* */
-.usa-button-primary.update-button,
-.usa-button-secondary.edit-button {
-  margin-top: 1em;
-  width: auto;
-}
-
-/* ReviewCardField styles (copied from 526ez form)
-  * shouldn't this be centralized?
-  */
-.review-card {
-  .review-card--header {
-    background-color: $color-gray-lightest;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .review-card--title {
-      margin: 0;
-      display: inline-block;
-    }
-
-    .edit-button {
-      width: 8rem;
-      margin-right: 0;
-    }
-  }
-
-  .review-card--body {
-    padding: 1.5rem;
-    border: 2px solid $color-gray-lightest;
-    /* Remove the top border because it looks like it just extends the header */
-    border-top: none;
-    margin-bottom: 1em;
-
-    .review-card--title {
-      margin: 1.5rem 0 2.5rem;
-    }
-
-    .update-button {
-      margin-top: 1rem;
-      width: 15rem;
-    }
-
-    /* Remove blue border (with this, it's not consistent across the site) */
-    .blue-bar-block {
-      border-left: none;
-      padding-left: 0;
-    }
-  }
-}
-
-/* Step 2a */
+/* Step 2 */
 /*** Contested issues block ***/
 .usa-button-secondary.btn-see-all-issues {
   width: auto;
@@ -221,21 +118,13 @@ article[data-location="opt-out-of-old-appeals"] {
   }
 }
 
-/* Step 2c */
-article[data-location^="contested-issues/"] {
-  /* Add space above AdditionalInfo block */
-  .form-expanding-group {
-    margin-top: 2em;
-  }
-
-  .usa-input-error label {
-    font-weight: bold;
-  }
-}
-
 /* Step 3 */
 /* Informal conference */
 article[data-location="request-informal-conference"] {
+  .schemaform-block-header {
+    margin-bottom: 1.5em;
+  }
+
   .form-expanding-group-open {
     .schemaform-field-template,
     .schemaform-field-container {
@@ -245,6 +134,7 @@ article[data-location="request-informal-conference"] {
 
   /* Remove extra spacing between form elements */
   .form-expanding-group {
+    .schemaform-first-field,
     .usa-input-error {
       margin-top: 0;
     }
@@ -252,6 +142,10 @@ article[data-location="request-informal-conference"] {
     .schemaform-block-header {
       margin-bottom: 0;
     }
+  }
+
+  .schemaform-label.usa-input-error-label {
+    font-weight: bold;
   }
 
   #root_scheduleTimes-label {
@@ -274,6 +168,21 @@ article[data-location="review-and-submit"] {
   /* checkbox group "Required" lable (added to */
   #root_scheduleTimes-label {
     display: none;
+  }
+
+  /* tweak second entry */
+  .scheduled-time + .scheduled-time {
+    padding-top: 0;
+    margin-top: -0.5rem;
+    border-top-width: 0;
+
+    /* hide duplicate label */
+    .time-contact {
+      display: none;
+    }
+  }
+  .normal-weight-in-review {
+    font-weight: normal;
   }
 }
 

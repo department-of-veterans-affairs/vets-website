@@ -8,7 +8,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
-import ENVIRONMENTS from '../../../site/constants/environments';
+import ENVIRONMENTS from 'site/constants/environments';
 
 // import sinon from 'sinon'
 
@@ -25,6 +25,12 @@ export default function setupJSDom() {
   // if (global.document || global.window) {
   //   throw new Error('Refusing to override existing document and window.');
   // }
+
+  // Prevent warnings from displaying
+  /* eslint-disable no-console */
+  console.error = () => {};
+  console.warn = () => {};
+  /* eslint-enable no-console */
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>');

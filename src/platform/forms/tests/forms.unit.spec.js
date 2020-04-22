@@ -9,13 +9,14 @@ import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
 import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
 import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
 import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
-import fullSchemaVIC from 'applications/vic-v2/config/form';
 import fullSchema527EZ from 'applications/pensions/config/form';
 import fullSchema526AllClaims from 'applications/disability-benefits/all-claims/config/form';
 import fullSchema530 from 'applications/burials/config/form';
 import fullSchema10007 from 'applications/pre-need/config/form';
 import fullSchema686 from 'applications/disability-benefits/686/config/form';
 import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
+import fullSchema1010CG from 'applications/caregivers/config/form';
+import fullSchemaMDOT from 'applications/disability-benefits/2346/config/form';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -39,7 +40,8 @@ const mappedIds = [
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
-  VA_FORM_IDS.VIC,
+  fullSchema1010CG,
+  VA_FORM_IDS.FORM_VA_2346A,
 ];
 
 const configs = [
@@ -61,7 +63,8 @@ const configs = [
   fullSchema5495,
   fullSchema10007,
   fullSchemaFeedbackTool,
-  fullSchemaVIC,
+  fullSchema1010CG,
+  fullSchemaMDOT,
 ];
 
 // These forms do not have formConfig but are found in vets-json-schema/dist/schemas
@@ -69,11 +72,15 @@ const excludedForms = new Set([
   '28-1900',
   '28-8832',
   '24-0296',
+  '10-10CG-example',
+  '686C-674', // Until we import the schema
   VA_FORM_IDS.FORM_21_526EZ, // old
   VA_FORM_IDS.FORM_22_1995S,
   'definitions',
   'constants',
   'vaMedicalFacilities',
+  '22-10203',
+  'caregiverProgramFacilities',
 ]);
 
 describe('form:', () => {
