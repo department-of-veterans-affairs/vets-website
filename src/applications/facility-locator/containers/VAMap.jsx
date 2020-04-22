@@ -33,7 +33,7 @@ import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 

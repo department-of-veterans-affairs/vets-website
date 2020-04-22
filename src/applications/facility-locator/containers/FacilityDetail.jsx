@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results/LocationAddress';
 import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
