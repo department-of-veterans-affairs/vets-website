@@ -126,11 +126,10 @@ export function getStateName(abbreviation = '') {
 export function formatAddress(address) {
   /* eslint-disable prefer-template */
 
-  let street = address.addressOne || '';
-  if (address.addressOne && address.addressTwo) street += ', ';
-  if (address.addressTwo) street += address.addressTwo;
-  if (address.addressTwo && address.addressThree) street += ',';
-  if (address.addressThree) street += ' ' + address.addressThree;
+  const street =
+    [address.addressOne, address.addressTwo, address.addressThree]
+      .filter(item => item)
+      .join(', ') || '';
 
   const country =
     address.type === ADDRESS_TYPES.international ? address.countryName : '';
