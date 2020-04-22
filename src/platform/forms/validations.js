@@ -226,6 +226,15 @@ function getFileError(file) {
   return null;
 }
 
+// validator to prevent users from entering just whitespace on required fields
+function validateWhiteSpace(errors, input) {
+  if (typeof input !== 'undefined') {
+    if (!/\S/.test(input)) {
+      errors.addError('Please provide a response');
+    }
+  }
+}
+
 /**
  * Returns a validator that checks the input length.
  * Used like: 'ui:validations': [validateLength(50)]
@@ -235,17 +244,11 @@ function validateLength(
   message = `This field should be less than ${length} characters.`,
 ) {
   return function hasValidLength(errors, input) {
-    if (input.length > length) errors.addError(message);
-  };
-}
-
-// validator to prevent users from entering just whitespace on required fields
-function validateWhiteSpace(errors, input) {
-  if (typeof input !== 'undefined') {
-    if (!/\S/.test(input)) {
-      errors.addError('Please provide a response');
+    if (input.length > length) {
+      errors.addError(message);
     }
-  }
+    validateWhiteSpace(errors, input);
+  };
 }
 
 export {

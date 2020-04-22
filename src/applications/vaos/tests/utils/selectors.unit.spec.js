@@ -20,7 +20,7 @@ import {
   selectCernerFacilities,
 } from '../../utils/selectors';
 
-import { selectIsCernerOnlyPatient } from '../../../../platform/user/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
