@@ -40,7 +40,7 @@ const military = {
 describe('formatAddress', () => {
   it('formats domestic addresses with three street lines', () => {
     const expectedResult = {
-      street: '140 Rock Creek Church Rd NW, Apt 57 Area Name',
+      street: '140 Rock Creek Church Rd NW, Apt 57, Area Name',
       cityStateZip: 'Springfield, Oregon 97477',
       country: '',
     };
@@ -73,7 +73,7 @@ describe('formatAddress', () => {
 
   it('formats military addresses', () => {
     const expectedResult = {
-      street: '57 Columbus Strassa, Line2 Ben Franklin Village',
+      street: '57 Columbus Strassa, Line2, Ben Franklin Village',
       cityStateZip: 'APO, AE 09028',
       country: '',
     };
@@ -83,7 +83,7 @@ describe('formatAddress', () => {
 
   it('formats international addresses', () => {
     const expectedResult = {
-      street: '2 Avenue Gabriel, Line2 Line3',
+      street: '2 Avenue Gabriel, Line2, Line3',
       cityStateZip: 'Paris',
       country: 'France',
     };

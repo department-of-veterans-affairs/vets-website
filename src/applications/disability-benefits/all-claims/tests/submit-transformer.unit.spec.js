@@ -3,7 +3,7 @@ import path from 'path';
 
 import { expect } from 'chai';
 
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 import formConfig from '../config/form';
 

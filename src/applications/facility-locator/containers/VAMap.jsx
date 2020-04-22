@@ -730,6 +730,12 @@ class VAMap extends Component {
             health care providers.
           </p>
           <p>
+            <strong>Coronavirus update:</strong> Many VA and community provider
+            locations have changing hours and services due to COVID-19. For your
+            safety, please call before visiting any location to ask about
+            getting help by phone or video.
+          </p>
+          <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
             Select Urgent care under facility type, then select either VA or
             community providers as the service type.

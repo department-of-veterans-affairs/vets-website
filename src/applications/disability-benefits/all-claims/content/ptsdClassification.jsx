@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 export const getPtsdClassification = (formData, formType) => {
   const isCombat = _.get(

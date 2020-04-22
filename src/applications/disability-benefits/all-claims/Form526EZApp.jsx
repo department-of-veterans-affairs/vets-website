@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RoutedSavableApp from '../../../platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
 
 import ITFWrapper from './containers/ITFWrapper';

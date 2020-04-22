@@ -1,7 +1,7 @@
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import set from '../../../../platform/utilities/data/set';
-import get from '../../../../platform/utilities/data/get';
-import omit from '../../../../platform/utilities/data/omit';
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
 import disabilityLabels from '../content/disabilityLabels';
 import {
   descriptionInfo,
