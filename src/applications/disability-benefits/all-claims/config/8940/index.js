@@ -19,7 +19,7 @@ import {
   medicalCare,
   hospitalizationHistory,
 } from '../../pages';
-import environment from '../../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,

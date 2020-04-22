@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import environment from '../../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 import {
   instructionalPart1,

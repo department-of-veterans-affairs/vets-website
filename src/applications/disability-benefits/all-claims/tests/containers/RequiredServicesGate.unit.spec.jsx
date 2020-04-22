@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 
 import { RequiredServicesGate } from '../../containers/RequiredServicesGate';
 
-import backendServices from '../../../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 describe('RequiredServicesGate', () => {
   const disallowedUser = {
