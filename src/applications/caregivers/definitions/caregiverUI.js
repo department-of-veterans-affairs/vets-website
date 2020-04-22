@@ -37,6 +37,31 @@ export default {
       'ui:title': 'Email Address',
       'ui:widget': 'email',
     },
+    confirmationEmailUI: {
+      'ui:title': 'Re-enter email address',
+      'ui:widget': 'email',
+      'ui:errorMessages': {
+        pattern: 'Please enter an email address using this format: X@X.com',
+        required: 'Please enter an email address',
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-large',
+        inputType: 'email',
+      },
+      'ui:validations': [
+        {
+          validator: (errors, fieldData, formData, label) => {
+            const emailMatcher = () => formData[label] === fieldData;
+            const doesEmailMatch = emailMatcher();
+            if (!doesEmailMatch) {
+              errors.addError(
+                'This email does not match your previously entered email',
+              );
+            }
+          },
+        },
+      ],
+    },
     genderUI: {
       'ui:title': 'Sex',
       'ui:widget': 'radio',
@@ -217,3 +242,30 @@ export default {
     },
   },
 };
+
+export const confirmationEmail = label => ({
+  'ui:title': 'Re-enter email address',
+  'ui:widget': 'email',
+  'ui:errorMessages': {
+    pattern: 'Please enter an email address using this format: X@X.com',
+    required: 'Please enter an email address',
+  },
+  'ui:options': {
+    widgetClassNames: 'va-input-large',
+    inputType: 'email',
+  },
+  'ui:validations': [
+    {
+      validator: (errors, fieldData, formData) => {
+        const emailMatcher = () =>
+          formData[label] === formData[`view:${label}`];
+        const doesEmailMatch = emailMatcher();
+        if (!doesEmailMatch) {
+          errors.addError(
+            'This email does not match your previously entered email',
+          );
+        }
+      },
+    },
+  ],
+});

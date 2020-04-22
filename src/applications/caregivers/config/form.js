@@ -17,7 +17,7 @@ import {
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
-import definitions from '../definitions/caregiverUI';
+import definitions, { confirmationEmail } from '../definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 
@@ -134,6 +134,7 @@ const formConfig = {
             [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [vetFields.email]: emailUI,
+            [vetFields.verifyEmail]: confirmationEmail(vetFields.email),
           },
           schema: {
             type: 'object',
@@ -143,6 +144,7 @@ const formConfig = {
               [vetFields.primaryPhoneNumber]: phone,
               [vetFields.alternativePhoneNumber]: phone,
               [vetFields.email]: veteranProps.email,
+              [vetFields.verifyEmail]: veteranProps.email,
             },
           },
         },
@@ -243,6 +245,9 @@ const formConfig = {
             [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [primaryCaregiverFields.email]: emailUI,
+            [primaryCaregiverFields.verifyEmail]: confirmationEmail(
+              primaryCaregiverFields.email,
+            ),
             [primaryCaregiverFields.vetRelationship]: vetRelationshipUI,
           },
           schema: {
@@ -261,6 +266,7 @@ const formConfig = {
               [primaryCaregiverFields.alternativePhoneNumber]:
                 primaryCaregiverProps.alternativePhoneNumber,
               [primaryCaregiverFields.email]: primaryCaregiverProps.email,
+              [primaryCaregiverFields.verifyEmail]: primaryCaregiverProps.email,
               [primaryCaregiverFields.vetRelationship]:
                 primaryCaregiverProps.vetRelationship,
             },
@@ -374,6 +380,10 @@ const formConfig = {
               .alternativePhoneNumber]: alternativePhoneNumberUI,
             [secondaryCaregiverFields.secondaryOne.email]: emailUI,
             [secondaryCaregiverFields.secondaryOne
+              .verifyEmail]: confirmationEmail(
+              secondaryCaregiverFields.secondaryOne.email,
+            ),
+            [secondaryCaregiverFields.secondaryOne
               .vetRelationship]: vetRelationshipUI,
             [secondaryCaregiverFields.secondaryOne
               .hasSecondaryTwoCaregiverView]: hasSecondaryTwoCaregiverUI,
@@ -393,6 +403,8 @@ const formConfig = {
               [secondaryCaregiverFields.secondaryOne.alternativePhoneNumber]:
                 secondaryOneCaregiverProps.alternativePhoneNumber,
               [secondaryCaregiverFields.secondaryOne.email]:
+                secondaryOneCaregiverProps.email,
+              [secondaryCaregiverFields.secondaryOne.verifyEmail]:
                 secondaryOneCaregiverProps.email,
               [secondaryCaregiverFields.secondaryOne.vetRelationship]:
                 secondaryOneCaregiverProps.vetRelationship,
@@ -455,6 +467,10 @@ const formConfig = {
               secondaryCaregiverUI.secondaryTwo.alternativePhoneNumberUI,
             [secondaryCaregiverFields.secondaryTwo.email]:
               secondaryCaregiverUI.secondaryTwo.emailUI,
+            [secondaryCaregiverFields.secondaryTwo
+              .verifyEmail]: confirmationEmail(
+              secondaryCaregiverFields.secondaryTwo.email,
+            ),
             [secondaryCaregiverFields.secondaryTwo.vetRelationship]:
               secondaryCaregiverUI.secondaryTwo.vetRelationshipUI,
           },
@@ -473,6 +489,8 @@ const formConfig = {
               [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
                 secondaryTwoCaregiverProps.alternativePhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.email]:
+                secondaryTwoCaregiverProps.email,
+              [secondaryCaregiverFields.secondaryTwo.verifyEmail]:
                 secondaryTwoCaregiverProps.email,
               [secondaryCaregiverFields.secondaryTwo.vetRelationship]:
                 secondaryTwoCaregiverProps.vetRelationship,
