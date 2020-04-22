@@ -15,8 +15,6 @@ const disableButtons = event => {
   for (let i = 0; i < siblingButtons.length; i++) {
     siblingButtons[i].disabled = true;
   }
-
-  scrollToNewMessage();
 };
 
 export const watchForButtonClicks = () => {
@@ -24,6 +22,7 @@ export const watchForButtonClicks = () => {
     const buttons = document.getElementsByClassName('ac-pushButton');
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener('click', disableButtons);
+      buttons[i].addEventListener('click', scrollToNewMessage);
     }
   }, 10);
 };
