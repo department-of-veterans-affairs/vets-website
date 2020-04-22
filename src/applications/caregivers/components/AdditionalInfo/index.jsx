@@ -4,11 +4,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import { links } from 'applications/caregivers/definitions/content';
 
 export const VetInfo = () => (
-  <p>
-    Complete the following information about the Veteran or Service member. You
-    aren’t required to fill in all fields, but we can review your application
-    faster if you provide more information.
-  </p>
+  <p>Please complete all of the following information</p>
 );
 
 export const PrimaryCaregiverInfo = ({ additionalInfo }) => (

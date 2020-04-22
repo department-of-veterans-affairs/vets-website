@@ -97,7 +97,7 @@ const formConfig = {
   },
   chapters: {
     veteranChapter: {
-      title: 'VETERAN/SERVICE MEMBER',
+      title: 'Veteran/service member information',
       pages: {
         veteranInfoOne: {
           path: 'service-member-1',
@@ -148,9 +148,11 @@ const formConfig = {
         },
         veteranInfoThree: {
           path: 'service-member-3',
-          title: 'Veteran Information',
+          title: 'Veteran Information (Continued)',
           uiSchema: {
             'ui:description': VetInfo,
+            [vetFields.previousTreatmentFacility]:
+              vetUI.previousTreatmentFacilityUI,
             [vetFields.preferredFacilityView]: {
               ...vetUI[vetFields.preferredFacilityView],
             },
@@ -159,6 +161,21 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              // TODO: update using full schema
+              [vetFields.previousTreatmentFacility]: {
+                type: 'object',
+                additionalProperties: false,
+                required: ['name', 'type'],
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['hospital', 'clinic'],
+                  },
+                },
+              },
               // dynamic properties for filtering facilities dropDown
               [vetFields.preferredFacilityView]: {
                 type: 'object',
@@ -254,9 +271,14 @@ const formConfig = {
           title: 'Primary Caregiver Information (Continued)',
           uiSchema: {
             'ui:description': PrimaryCaregiverInfo,
-            'view:primaryHealthCareEnrollment': {
-              ...primaryCaregiverUI['view:primaryHealthCareEnrollment'],
-            },
+            [primaryCaregiverFields.medicaidEnrolled]:
+              primaryCaregiverUI.medicaidEnrolledUI,
+            [primaryCaregiverFields.medicareEnrolled]:
+              primaryCaregiverUI.medicareEnrolledUI,
+            [primaryCaregiverFields.tricareEnrolled]:
+              primaryCaregiverUI.tricareEnrolledUI,
+            [primaryCaregiverFields.champvaEnrolled]:
+              primaryCaregiverUI.champvaEnrolledUI,
             [primaryCaregiverFields.otherHealthInsurance]:
               primaryCaregiverUI.otherHealthInsuranceUI,
             [primaryCaregiverFields.otherHealthInsuranceName]:
@@ -266,19 +288,14 @@ const formConfig = {
             type: 'object',
             required: [primaryCaregiverFields.otherHealthInsurance],
             properties: {
-              [primaryCaregiverFields.primaryHealthCareEnrollmentView]: {
-                type: 'object',
-                properties: {
-                  [primaryCaregiverFields.medicaidEnrolled]:
-                    primaryCaregiverProps.medicaidEnrolled,
-                  [primaryCaregiverFields.medicareEnrolled]:
-                    primaryCaregiverProps.medicareEnrolled,
-                  [primaryCaregiverFields.tricareEnrolled]:
-                    primaryCaregiverProps.tricareEnrolled,
-                  [primaryCaregiverFields.champvaEnrolled]:
-                    primaryCaregiverProps.champvaEnrolled,
-                },
-              },
+              [primaryCaregiverFields.medicaidEnrolled]:
+                primaryCaregiverProps.medicaidEnrolled,
+              [primaryCaregiverFields.medicareEnrolled]:
+                primaryCaregiverProps.medicareEnrolled,
+              [primaryCaregiverFields.tricareEnrolled]:
+                primaryCaregiverProps.tricareEnrolled,
+              [primaryCaregiverFields.champvaEnrolled]:
+                primaryCaregiverProps.champvaEnrolled,
               [primaryCaregiverFields.otherHealthInsurance]: {
                 type: 'boolean',
               },

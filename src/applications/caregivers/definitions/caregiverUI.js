@@ -4,10 +4,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import {
-  FacilityInfo,
-  PrimaryHealthCoverage,
-} from 'applications/caregivers/components/AdditionalInfo';
+import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
@@ -51,22 +48,6 @@ export default {
         },
       },
     },
-    previousTreatmentFacilityUI: {
-      'ui:title': 'Name of facility where you last received medical treatment:',
-      'ui:order': ['type', 'name'],
-      name: {
-        'ui:title': 'Facility Name',
-      },
-      type: {
-        'ui:title': 'Facility Type',
-        'ui:options': {
-          labels: {
-            hospital: 'Hospital',
-            clinic: 'Clinic',
-          },
-        },
-      },
-    },
     vetRelationshipUI: {
       'ui:title':
         'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
@@ -87,9 +68,25 @@ export default {
   vetUI: {
     ssnUI: {
       ...ssnUI,
-      'ui:title': 'Social Security number or Tax Identification number',
+      'ui:title': `Veteran's Social Security Number/Tax Identification Number`,
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+      },
+    },
+    previousTreatmentFacilityUI: {
+      'ui:title': 'Name of facility where you last received medical treatment:',
+      'ui:order': ['name', 'type'],
+      name: {
+        'ui:title': 'Facility Name',
+      },
+      type: {
+        'ui:title': 'Facility Type',
+        'ui:options': {
+          labels: {
+            hospital: 'Hospital',
+            clinic: 'Clinic',
+          },
+        },
       },
     },
     [vetFields.preferredFacilityView]: {
@@ -136,20 +133,21 @@ export default {
         widgetClassNames: 'usa-input-medium',
       },
     },
-    'view:primaryHealthCareEnrollment': {
-      'ui:description': PrimaryHealthCoverage,
-      [primaryCaregiverFields.medicaidEnrolled]: {
-        'ui:title': 'Enrolled in Medicaid?',
-      },
-      [primaryCaregiverFields.medicareEnrolled]: {
-        'ui:title': 'Enrolled in Medicare?',
-      },
-      [primaryCaregiverFields.tricareEnrolled]: {
-        'ui:title': 'Enrolled in Tricare?',
-      },
-      [primaryCaregiverFields.champvaEnrolled]: {
-        'ui:title': 'Enrolled in CHAMPVA?',
-      },
+    medicaidEnrolledUI: {
+      'ui:title': 'Enrolled in Medicaid?',
+      'ui:widget': 'yesNo',
+    },
+    medicareEnrolledUI: {
+      'ui:title': 'Enrolled in Medicare?',
+      'ui:widget': 'yesNo',
+    },
+    tricareEnrolledUI: {
+      'ui:title': 'Enrolled in Tricare?',
+      'ui:widget': 'yesNo',
+    },
+    champvaEnrolledUI: {
+      'ui:title': 'Enrolled in CHAMPVA?',
+      'ui:widget': 'yesNo',
     },
     otherHealthInsuranceUI: {
       'ui:title': 'Other Health Insurance?',
