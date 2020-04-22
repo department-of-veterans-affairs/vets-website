@@ -26,3 +26,5 @@ export const watchForButtonClicks = () => {
     }
   }, 10);
 };
+
+export const GA_PREFIX = 'chatbot';
