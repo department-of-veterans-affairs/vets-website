@@ -57,10 +57,16 @@ const IntroductionPage = ({ route, router }) => {
                 Where can I get help filling out the form and answers to
                 questions?
               </h4>
+
+              <span>
+                You may use any of the following to request assistance:
+              </span>
+
               <ul>
                 <li>
                   Ask VA to help you fill out the form by calling us at
-                  877-222-VETS (8387)
+                  {''}
+                  <a href="#">877-222-VETS (8387)</a>
                 </li>
                 <li>
                   Locate and contact the Caregiver Support Coordinator at your
@@ -118,9 +124,10 @@ const IntroductionPage = ({ route, router }) => {
             <p>
               If you aren’t eligible for PCAFC you may be eligible for the
               Program of General Caregiver Support Services (PGCSS). To find out
-              more, contact VA’s Caregiver Support Line at 855-260-3274, visit
-              www.va.caregiver.com or discuss these options with your local
-              Caregiver Support Coordinator.
+              more, contact VA’s Caregiver Support Line at{' '}
+              <a href="#">855-260-3274</a>, visit www.va.caregiver.com or
+              discuss these options with your local Caregiver Support
+              Coordinator.
             </p>
           </section>
         </div>
