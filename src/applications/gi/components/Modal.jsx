@@ -94,6 +94,9 @@ class Modal extends React.Component {
     const focusableElement = this.element.querySelector(
       this.props.focusSelector,
     );
+    if (this.state.lastFocus) {
+      this.state.lastFocus.focus();
+    }
     if (focusableElement) {
       focusableElement.focus();
     }
@@ -106,6 +109,9 @@ class Modal extends React.Component {
     const focusableModalElements = Array.from(allFocusableElements).filter(el =>
       this.element.contains(el),
     );
+    if (this.state.lastFocus) {
+      this.state.lastFocus.focus();
+    }
     if (focusableModalElements.length) {
       focusableModalElements[focusableModalElements.length - 1].focus();
     }
