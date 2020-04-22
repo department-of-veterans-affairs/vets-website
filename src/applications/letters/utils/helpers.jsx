@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import { formatDateShort } from '../../../platform/utilities/date';
+import { apiRequest as commonApiClient } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import { formatDateShort } from 'platform/utilities/date';
 import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
 
 import recordEvent from 'platform/monitoring/record-event';
