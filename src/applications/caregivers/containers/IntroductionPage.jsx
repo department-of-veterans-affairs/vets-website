@@ -66,7 +66,7 @@ const IntroductionPage = ({ route, router }) => {
                 <li>
                   Ask VA to help you fill out the form by calling us at
                   {''}
-                  <a href="#">877-222-VETS (8387)</a>
+                  <a href={links.VAHelpLine.label}>877-222-VETS (8387)</a>
                 </li>
                 <li>
                   Locate and contact the Caregiver Support Coordinator at your
@@ -77,7 +77,9 @@ const IntroductionPage = ({ route, router }) => {
                   Contact the VA National Caregiver Support Line by calling
                   855-260-3274 or a Veterans Service Organization
                 </li>
-                <a href="#">Get help filling out your application</a>
+                <a href={links.caregiverHelp.link}>
+                  {links.caregiverHelp.label}
+                </a>
               </ul>
               <p>
                 An accredited representative, like a Veterans Service Officer
@@ -125,9 +127,11 @@ const IntroductionPage = ({ route, router }) => {
               If you aren’t eligible for PCAFC you may be eligible for the
               Program of General Caregiver Support Services (PGCSS). To find out
               more, contact VA’s Caregiver Support Line at{' '}
-              <a href="#">855-260-3274</a>, visit www.va.caregiver.com or
-              discuss these options with your local Caregiver Support
-              Coordinator.
+              <a href={links.caregiverHelp.phoneLink}>
+                {links.caregiverHelp.phoneLabel}
+              </a>
+              , visit www.va.caregiver.com or discuss these options with your
+              local Caregiver Support Coordinator.
             </p>
           </section>
         </div>
@@ -139,17 +143,14 @@ const IntroductionPage = ({ route, router }) => {
     <div className="schemaform-intro">
       <FormTitle title="Apply for Caregiver Benefits" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
-
       <p>
         We recognize the important role of family caregivers in supporting the
         health and wellness of Veterans.
       </p>
-
       <a href="#">
         Learn more about the Program of Comprehensive Assistance for Family
         Caregivers (PCAFC) and find out if you may be eligible
       </a>
-
       <button
         style={{ display: 'inherit ' }}
         className="va-button-primary vads-u-margin-y--5"
@@ -157,16 +158,13 @@ const IntroductionPage = ({ route, router }) => {
       >
         Start your application
       </button>
-
       <ProcessTimeline />
-
       <button
         className="va-button-primary vads-u-margin-bottom--5"
         onClick={startForm}
       >
         Start your Application
       </button>
-
       <div className="omb-info--container vads-u-padding-left--0">
         <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2018" />
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { links } from 'applications/caregivers/definitions/content';
+import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = () => (
   <footer className="need-help-footer row vads-u-padding-x--1p5">
@@ -8,18 +8,26 @@ const NeedHelpFooter = () => (
       <hr />
       <p>
         You can call the VA Caregiver Support Line at{' '}
-        <a href="#">855-260-3274</a>. We’re here Monday through Friday, 8:00
-        a.m. to 8:00 p.m. ET.
+        <a href={links.caregiverHelp.phoneLink}>
+          {links.caregiverHelp.phoneLabel}
+        </a>
+        . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
 
       <p>
         You can also call our main VA information line at{' '}
-        <a href="#">877-222-8387</a>, or contact your local Caregiver Support
-        Coordinator.
+        <a href={links.VAHelpLine.label}>{links.VAHelpLine.link}</a>, or contact
+        your local Caregiver Support Coordinator.
       </p>
 
       <span>
-        <a href="">Use our online Caregiver Support Coordinator search tool</a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href={links.caregiverHelp.link}
+        >
+          Use our online Caregiver Support Coordinator search tool
+        </a>
       </span>
 
       <p>

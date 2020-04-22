@@ -34,10 +34,10 @@ export const links = {
     link: 'https://www.caregiver.va.gov/help_landing.asp',
     label: 'Get help filing your claim.',
     phoneLink: 'tel:18552603274',
-    phoneLabel: '1-855-260-3274',
+    phoneLabel: '855-260-3274',
   },
   VAHelpLine: {
-    link: '1-877-222-8387',
+    link: '877-222-8387',
     label: 'tel:18772228387',
     linkTTL: 'tel:18008778339',
     labelTTL: '1-800-877-8339',
