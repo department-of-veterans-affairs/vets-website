@@ -4,7 +4,6 @@ import moment from 'moment';
 import Downtime from '../components/Downtime';
 import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
-import PersonalizationBanner from '../components/PersonalizationBanner';
 import PreDowntime from '../components/PreDowntime';
 import PrePreDowntime from '../components/PrePreDowntime';
 import Profile360Intro from '../components/Profile360Intro';
@@ -93,11 +92,6 @@ const config = {
       name: 'single-sign-on-intro',
       paths: /(.)/,
       component: SingleSignOnInfoModal,
-    },
-    {
-      name: 'personalization',
-      paths: /(.)/,
-      component: PersonalizationBanner,
     },
   ],
 };
