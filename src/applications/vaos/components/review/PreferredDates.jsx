@@ -7,8 +7,7 @@ function PreferredDates(props) {
       {formatDateLong(selected.date)}
       {selected.optionTime?.toLowerCase() === 'am'
         ? ' in the morning'
-        : ' in the evening'}
-      <br />
+        : ' in the afternoon'}
     </li>
   ));
 

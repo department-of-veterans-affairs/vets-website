@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import localStorage from 'platform/utilities/storage/localStorage';
 import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
@@ -39,9 +40,15 @@ export class NewAppointmentLayout extends React.Component {
   }
 
   onBeforeUnload = e => {
-    e.preventDefault();
-    e.returnValue =
-      'Are you sure you wish to leave this application? All progress will be lost.';
+    const expirationDate = localStorage.getItem('sessionExpiration');
+
+    // If there's no expiration date, then the session has already expired
+    // and keeping a person on the form won't save their data
+    if (expirationDate) {
+      e.preventDefault();
+      e.returnValue =
+        'Are you sure you wish to leave this application? All progress will be lost.';
+    }
   };
 
   removeBeforeUnloadHook = () => {

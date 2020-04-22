@@ -5,6 +5,7 @@
   "rootUrl": "/profile-2",
   "production": "false",
   "template": {
+    "vagovprod": false,
     "title": "Your Profile",
     "layout": "page-react.html",
     "includeBreadcrumbs": true,

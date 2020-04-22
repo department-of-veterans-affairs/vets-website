@@ -14,7 +14,6 @@ describe('<PaymentInformationEditModal/>', () => {
     isSaving: false,
     onClose() {},
     onSubmit() {},
-    editModalFieldChanged() {},
     responseError: null,
   };
 

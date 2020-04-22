@@ -23,7 +23,6 @@ import {
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
-  vaProfileUseAddressValidation,
 } from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
@@ -59,7 +58,14 @@ class Vet360ProfileField extends React.Component {
     if (modalOpenInPrevProps && modalIsClosed) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
     }
+    // Just close the edit modal if it takes more than 5 seconds for the update
+    // transaction to resolve. ie, give it 5 seconds before reverting to the old
+    // behavior of showing the "we're saving your new information..." message on
+    // the Profile page
     if (!prevProps.transaction && this.props.transaction) {
+      setTimeout(() => this.props.openModal(), 5000);
+    }
+    if (this.justClosedModal(prevProps, this.props) && this.props.transaction) {
       focusElement(`div#${this.props.fieldName}-transaction-status`);
     }
   }
@@ -106,12 +112,7 @@ class Vet360ProfileField extends React.Component {
   };
 
   onSubmit = () => {
-    // The validateAddress thunk will handle its own dataLayer additions
-    if (this.props.useAddressValidation) {
-      if (!this.props.fieldName.toLowerCase().includes('address')) {
-        this.captureEvent('update-button');
-      }
-    } else {
+    if (!this.props.fieldName.toLowerCase().includes('address')) {
       this.captureEvent('update-button');
     }
 
@@ -125,10 +126,7 @@ class Vet360ProfileField extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    if (
-      this.props.fieldName.toLowerCase().includes('address') &&
-      this.props.useAddressValidation
-    ) {
+    if (this.props.fieldName.toLowerCase().includes('address')) {
       this.props.validateAddress(
         this.props.apiRoute,
         method,
@@ -147,6 +145,13 @@ class Vet360ProfileField extends React.Component {
       this.props.analyticsSectionName,
     );
   };
+
+  justClosedModal(prevProps, props) {
+    return (
+      (prevProps.isEditing && !props.isEditing) ||
+      (prevProps.showValidationModal && !props.showValidationModal)
+    );
+  }
 
   clearErrors = () => {
     this.props.clearTransactionRequest(this.props.fieldName);
@@ -180,7 +185,12 @@ class Vet360ProfileField extends React.Component {
     if (this.props.transaction) {
       transactionPending = isPendingTransaction(this.props.transaction);
     }
-    return !this.props.isEmpty && !transactionPending;
+    return (
+      !this.props.isEmpty &&
+      (!transactionPending ||
+        this.props.isEditing ||
+        this.props.showValidationModal)
+    );
   };
 
   render() {
@@ -221,12 +231,14 @@ class Vet360ProfileField extends React.Component {
         {isEditing && <EditModal {...childProps} />}
         {showValidationModal && (
           <ValidationModal
-            title={title}
+            transaction={transaction}
             transactionRequest={transactionRequest}
+            title={title}
             clearErrors={this.clearErrors}
           />
         )}
         <Vet360Transaction
+          isModalOpen={isEditing || showValidationModal}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -260,11 +272,9 @@ export const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
-  const useAddressValidation = vaProfileUseAddressValidation(state);
   const addressValidationType =
     state.vet360.addressValidation.addressValidationType;
   const showValidationModal =
-    useAddressValidation &&
     ownProps.ValidationModal &&
     addressValidationType === fieldName &&
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
@@ -279,7 +289,6 @@ export const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
-    useAddressValidation,
   };
 };
 

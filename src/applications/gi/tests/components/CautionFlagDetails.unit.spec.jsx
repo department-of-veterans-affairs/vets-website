@@ -22,6 +22,22 @@ describe('<CautionFlagDetails>', () => {
     wrapper.unmount();
   });
 
+  it('sorts caution flags by title', () => {
+    const cautionFlags = [
+      { title: 'Test flag z', id: 1 },
+      { title: 'Test flag a', id: 2 },
+    ];
+
+    const wrapper = mount(<CautionFlagDetails cautionFlags={cautionFlags} />);
+    expect(
+      wrapper
+        .find('.usa-alert-heading')
+        .at(0)
+        .text(),
+    ).to.equal(cautionFlags[1].title);
+    wrapper.unmount();
+  });
+
   it('displays caution flag data correctly', () => {
     const cautionFlag = {
       id: 1,
@@ -64,6 +80,26 @@ describe('<CautionFlagDetails>', () => {
     const wrapper = mount(<CautionFlagDetails cautionFlags={[cautionFlag]} />);
     expect(wrapper.find('a').length).to.equal(0);
     expect(wrapper.html()).to.contain(cautionFlag.linkText);
+    wrapper.unmount();
+  });
+
+  it('tracks link click', () => {
+    const cautionFlag = {
+      id: 1,
+      title: 'Test flag',
+      linkText: 'LINK',
+      linkUrl: 'https://va.gov',
+    };
+
+    const wrapper = mount(<CautionFlagDetails cautionFlags={[cautionFlag]} />);
+
+    wrapper
+      .find('a')
+      .at(0)
+      .simulate('click');
+
+    expect(global.window.dataLayer[0].alertBoxHeading).to.eq(cautionFlag.title);
+
     wrapper.unmount();
   });
 });

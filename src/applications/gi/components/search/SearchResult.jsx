@@ -8,7 +8,7 @@ import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -25,7 +25,6 @@ export class SearchResult extends React.Component {
       version,
       schoolClosing,
       schoolClosingOn,
-      cautionFlags,
       estimated,
       facilityCode,
       name,
@@ -33,12 +32,13 @@ export class SearchResult extends React.Component {
       state,
       country,
       studentCount,
+      cautionFlag,
+      cautionFlags,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
-
     const linkTo = {
       pathname: `profile/${facilityCode}`,
       query: version ? { version } : {},
@@ -68,11 +68,11 @@ export class SearchResult extends React.Component {
                 </h2>
               </div>
             </div>
-            {(schoolClosing || cautionFlags.length > 0) && (
+            {(schoolClosing || cautionFlag) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {renderCautionAlert({ cautionFlags })}
+                  {renderCautionAlert({ cautionFlag, cautionFlags })}
                 </div>
               </div>
             )}

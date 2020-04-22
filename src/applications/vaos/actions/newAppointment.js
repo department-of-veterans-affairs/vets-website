@@ -176,14 +176,21 @@ export function updateFacilityType(facilityType) {
   };
 }
 
-export function startDirectScheduleFlow(appointments) {
+export function startDirectScheduleFlow() {
+  recordEvent({ event: 'vaos-direct-path-started' });
+
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
-    appointments,
   };
 }
 
-export function startRequestAppointmentFlow() {
+export function startRequestAppointmentFlow(isCommunityCare) {
+  recordEvent({
+    event: `vaos-${
+      isCommunityCare ? 'community-care' : 'request'
+    }-path-started`,
+  });
+
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
   };
@@ -292,7 +299,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId = eligibleFacilities[0].institutionCode;
       }
 
-      if (!eligibleFacilities?.length) {
+      if (parentId && !eligibleFacilities?.length) {
         recordEligibilityFailure('supported-facilities');
       }
 
@@ -335,7 +342,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         }
       }
     } catch (e) {
-      captureError(e);
+      captureError(e, false, 'facility page');
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
       });
@@ -382,7 +389,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         });
       } catch (e) {
-        captureError(e);
+        captureError(e, false, 'facility page');
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_FAILED,
         });
@@ -434,7 +441,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           captureError(e);
         }
       } catch (e) {
-        captureError(e);
+        captureError(e, false, 'facility page');
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_FAILED,
         });

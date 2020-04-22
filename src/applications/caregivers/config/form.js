@@ -9,7 +9,7 @@ import {
   VetInfo,
   PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
-} from 'applications/caregivers/components/AdditionalInfo/formInfo';
+} from 'applications/caregivers/components/AdditionalInfo';
 import {
   primaryCaregiverFields,
   secondaryCaregiverFields,
@@ -352,11 +352,11 @@ const formConfig = {
         secondaryOneCaregiverThree: {
           path: 'secondaryOne-caregiver-2',
           title: 'Secondary Caregiver Information',
+          depends: formData => hasSecondaryOneCaregiver(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
-            [secondaryCaregiverFields.secondaryOne.address]:
-              secondaryCaregiverUI.secondaryOne.addressUI,
+            [secondaryCaregiverFields.secondaryOne.address]: addressUI,
             [secondaryCaregiverFields.secondaryOne
               .primaryPhoneNumber]: primaryPhoneNumberUI,
             [secondaryCaregiverFields.secondaryOne
@@ -407,8 +407,7 @@ const formConfig = {
               secondaryCaregiverUI.secondaryTwo.dateOfBirthUI,
             [secondaryCaregiverFields.secondaryTwo.gender]:
               secondaryCaregiverUI.secondaryTwo.genderUI,
-            [secondaryCaregiverFields.secondaryTwo.address]:
-              secondaryCaregiverUI.secondaryTwo.addressUI,
+            [secondaryCaregiverFields.secondaryTwo.address]: addressUI,
           },
           schema: {
             type: 'object',
@@ -438,8 +437,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI
-            [secondaryCaregiverFields.secondaryTwo.address]:
-              secondaryCaregiverUI.secondaryTwo.addressUI,
+            [secondaryCaregiverFields.secondaryTwo.address]: addressUI,
             [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
               secondaryCaregiverUI.secondaryTwo.primaryPhoneNumberUI,
             [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:

@@ -104,6 +104,7 @@ describe('<Vet360ProfileField/>', () => {
     props.showValidationModal = true;
     props.ValidationModal = () => <ValidationModal />;
     const expectedProps = {
+      transaction: props.transaction,
       title: props.title,
       transactionRequest: props.transactionRequest,
       clearErrors: props.clearErrors,
@@ -186,17 +187,6 @@ describe('mapStateToProps', () => {
           ValidationModal: () => {},
         });
         expect(mappedProps.showValidationModal).to.be.true;
-      });
-    });
-    describe('when the feature flag is not set', () => {
-      it('sets `showValidationModal` to `false`', () => {
-        const state = showValidationModalState();
-        state.featureToggles = {};
-        const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
-          ValidationModal: () => {},
-        });
-        expect(mappedProps.showValidationModal).to.be.false;
       });
     });
     describe('when the address validation modal is not open', () => {

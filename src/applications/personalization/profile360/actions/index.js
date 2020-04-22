@@ -1,4 +1,6 @@
 import { getData } from '../util';
+import environment from 'platform/utilities/environment';
+import { asyncFetchMilitaryInformation } from '../../profile-2/helpers';
 
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
@@ -33,7 +35,9 @@ export function fetchMilitaryInformation() {
     dispatch({
       type: FETCH_MILITARY_INFORMATION_SUCCESS,
       militaryInformation: {
-        serviceHistory: await getData('/profile/service_history'),
+        serviceHistory: environment.isLocalhost()
+          ? await asyncFetchMilitaryInformation()
+          : await getData('/profile/service_history'),
       },
     });
   };

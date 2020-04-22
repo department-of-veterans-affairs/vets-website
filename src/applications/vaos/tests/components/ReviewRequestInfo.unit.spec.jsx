@@ -19,7 +19,7 @@ const defaultData = {
     selectedDates: [
       {
         date: '2019-11-25',
-        optionTime: 'AM',
+        optionTime: 'PM',
       },
       {
         date: '2019-11-26',
@@ -81,7 +81,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render preferred date and time section', () => {
-      expect(text).to.contain('November 25, 2019 in the morning');
+      expect(text).to.contain('November 25, 2019 in the afternoon');
     });
 
     it('should render contact details section', () => {
@@ -156,7 +156,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render preferred date section', () => {
-      expect(text).to.contain('November 25, 2019 in the morning');
+      expect(text).to.contain('November 25, 2019 in the afternoon');
     });
 
     it('should render multiple preferred dates', () => {
