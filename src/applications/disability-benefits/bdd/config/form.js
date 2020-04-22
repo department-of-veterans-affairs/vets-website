@@ -1,28 +1,66 @@
-// import fullSchema from 'vets-json-schema/dist/21-526EZ-schema.json';
+import environment from 'platform/utilities/environment';
+
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+
+import submitFormFor from '../../all-claims/config/submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
-// const { } = fullSchema.properties;
+import { directToCorrectForm } from '../../all-claims/utils';
 
-// const { } = fullSchema.definitions;
+import prefillTransformer from '../../all-claims/prefill-transformer';
+
+import { transform } from '../../all-claims/submit-transformer';
+
+import migrations from '../../all-claims/migrations';
+
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  trackingPrefix: 'bdd-21-526ez',
+  intentToFileUrl: '/evss_claims/intent_to_file/compensation',
+  submitUrl: `${
+    environment.API_URL
+  }/v0/disability_compensation_form/submit_all_claim`,
+  submit: submitFormFor('disability-526EZ'),
+  trackingPrefix: 'disability-526EZ-',
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+  },
+  formId: VA_FORM_IDS.FORM_21_526EZ,
+  onFormLoaded: directToCorrectForm,
+  version: migrations.length,
+  migrations,
+  prefillTransformer,
+  prefillEnabled: true,
+  verifyRequiredPrefill: true,
+  savedFormMessages: {
+    notFound: 'Please start over to file for benefits delivery at discharge.',
+    noAuth:
+      'Please sign in again to resume your application for benefits delivery at discharge.',
+  },
+  formSavedPage: FormSavedPage,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-526EZ',
-  version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for benefits delivery at discharge.',
-    noAuth:
-      'Please sign in again to continue your application for benefits delivery at discharge.',
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
+  defaultDefinitions: {
+    ...fullSchema.definitions,
   },
-  title: '21-526EZ Benefits Delivery at Discharge',
-  defaultDefinitions: {},
+  title: 'File for Benefits Delivery at Discharge',
+  subTitle: 'Benefits Delivery at Discharge (BDD)',
+  preSubmitInfo,
   chapters: {
     chapter1: {
       title: 'Chapter 1',
