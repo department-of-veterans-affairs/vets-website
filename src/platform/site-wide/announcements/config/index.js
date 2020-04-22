@@ -7,7 +7,6 @@ import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import PreDowntime from '../components/PreDowntime';
 import PrePreDowntime from '../components/PrePreDowntime';
-import Profile360Intro from '../components/Profile360Intro';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
@@ -81,12 +80,6 @@ const config = {
       name: 'find-benefits-intro',
       paths: /^(\/my-va\/)$/,
       component: FindVABenefitsIntro,
-      relatedAnnouncements: ['personalization'],
-    },
-    {
-      name: 'profile-360-intro',
-      paths: /^(\/profile\/)$/,
-      component: Profile360Intro,
       relatedAnnouncements: ['personalization'],
     },
     {
