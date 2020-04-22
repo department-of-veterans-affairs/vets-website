@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -7,29 +8,36 @@ import {
   HEARING_AID_BATTERIES,
   WHITE_BACKGROUND,
 } from '../constants';
+
 // TODO: Safety checks for `selected` callback and `label` element
 
 class SelectArrayItemsBatteriesWidget extends Component {
-  state = {
-    selectedItems: [],
-  };
-
-  handleChecked = e => {
-    e.persist();
-    if (e.target.checked) {
-      this.setState(prevState => ({
-        selectedItems: prevState.selectedItems.concat(e.target.name),
-      }));
+  handleChecked = (productId, checked) => {
+    const { selectedBatteries, formData } = this.props;
+    let updatedSelectedBatteries;
+    if (checked) {
+      updatedSelectedBatteries = [...selectedBatteries, productId];
     } else {
-      this.setState(prevState => ({
-        selectedItems: prevState.selectedItems.filter(i => i !== e.target.name),
-      }));
+      updatedSelectedBatteries = selectedBatteries.filter(
+        selectedBattery => selectedBattery !== productId,
+      );
     }
+    const updatedFormData = {
+      ...formData,
+      selectedBatteries: updatedSelectedBatteries,
+    };
+
+    // const newSupplyData = set(key, value, supply);
+    // const newSupplies = set(  ,newSupplyData, this.props.supplies)
+    // const newFormData = {
+    //   ...this.props.formData,
+    //   newSupplyData,
+    // };
+    return this.props.setData(updatedFormData);
   };
 
   render() {
-    const { supplies } = this.props;
-    const { selectedItems } = this.state;
+    const { supplies, selectedBatteries } = this.props;
 
     return (
       <>
@@ -73,15 +81,16 @@ class SelectArrayItemsBatteriesWidget extends Component {
                 </div>
                 <div
                   className={
-                    selectedItems.includes(supply.productId)
-                      ? BLUE_BACKGROUND
-                      : WHITE_BACKGROUND
+                    supply.selected ? BLUE_BACKGROUND : WHITE_BACKGROUND
                   }
                 >
                   <input
-                    name={supply.productId}
+                    id={supply.productId}
                     type="checkbox"
-                    onChange={this.handleChecked}
+                    onChange={e => {
+                      this.handleChecked(supply.productId, e.target.checked);
+                    }}
+                    checked={selectedBatteries.includes(supply.productId)}
                   />
                   <label htmlFor={supply.productId} className="main">
                     Order batteries for this device
@@ -96,6 +105,12 @@ class SelectArrayItemsBatteriesWidget extends Component {
     );
   }
 }
+
+SelectArrayItemsBatteriesWidget.defaultProps = {
+  formData: {},
+  supplies: [],
+  selectedBatteries: [],
+};
 
 SelectArrayItemsBatteriesWidget.propTypes = {
   supplies: PropTypes.arrayOf(
@@ -115,6 +130,15 @@ SelectArrayItemsBatteriesWidget.propTypes = {
 
 const mapStateToProps = state => ({
   supplies: state.form?.loadedData?.formData?.supplies,
+  formData: state.form?.data,
+  selectedBatteries: state.form?.data?.selectedBatteries,
 });
 
-export default connect(mapStateToProps)(SelectArrayItemsBatteriesWidget);
+const mapDispatchToProps = {
+  setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SelectArrayItemsBatteriesWidget);

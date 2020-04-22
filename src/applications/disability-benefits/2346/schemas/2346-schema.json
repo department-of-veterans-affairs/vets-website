@@ -346,26 +346,34 @@
       "type": "string"
     },
     "supplies": {
-      "type": "object",
-      "properties": {
-        "productName": {
-          "type": "string"
-        },
-        "productGroup": {
-          "type": "string"
-        },
-        "productId": {
-          "type": "number"
-        },
-        "availableForReorder": {
-          "type": "boolean"
-        },
-        "lastOrderDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "quantity": {
-          "type": "number"
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "properties": {
+          "deviceName": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productGroup": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "number"
+          },
+          "availableForReorder": {
+            "type": "boolean"
+          },
+          "lastOrderDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "quantity": {
+            "type": "number"
+          }
         }
       }
     },
@@ -408,6 +416,12 @@
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
+    },
+    "selectedBatteries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "selectedAddress": {
       "type": "string",

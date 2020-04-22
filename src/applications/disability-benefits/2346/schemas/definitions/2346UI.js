@@ -92,6 +92,12 @@ export default {
         widgetClassNames: 'vads-u-margin-top--4',
       },
     },
+    selectedBatteriesUI: {
+      'ui:options': {
+        widgetClassNames: 'vads-u-display--none',
+        viewField: () => <div className="vads-u-display--none" />,
+      },
+    },
     emailUI: {
       'ui:title': emailUITitle,
       'ui:description': emailUIDescription,
