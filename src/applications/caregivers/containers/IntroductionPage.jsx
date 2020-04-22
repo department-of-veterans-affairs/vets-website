@@ -6,11 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
-import {
-  CaregiverSupportInfo,
-  PowerOfAttorneyInfo,
-  RepresentativeInfo,
-} from 'applications/caregivers/components/AdditionalInfo';
+import { CaregiverSupportInfo } from 'applications/caregivers/components/AdditionalInfo';
 
 const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
@@ -23,51 +19,60 @@ const IntroductionPage = ({ route, router }) => {
     return router.push(pageList[1].path);
   };
 
-  const FamilyBenefits = () => (
-    <>
-      <p>
-        If you’re a family member caring for a Veteran with disabilities, we
-        want to support you. We recognize that family caregivers enhance the
-        health and well-being of Veterans they care for in their home.
-      </p>
-
-      <a
-        href={links.caregiverBenefits.link}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {links.caregiverBenefits.label}
-      </a>
-    </>
-  );
-
   const ProcessTimeline = () => (
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
-        Follow the steps below to apply for Caregiver benefits
+        Follow the steps below to apply for the Program of Comprehensive
+        Assistance of Family Caregivers:
       </h2>
       <article className="schemaform-process vads-u-padding-bottom--2p5">
         <div>
           {/* prepare */}
           <section className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Prepare</h3>
-            <p>
-              To fill out this application, you'll need the Veteran and
-              Caregiver(s):
-            </p>
 
+            <p>
+              To fill out this application, the Veteran and each family
+              caregiver applicant will need to provide specific information.
+              You’ll need:
+            </p>
             <ul>
               <li>Address</li>
-              <li>Phone Number</li>
+              <li>Telephone Number</li>
+              <li>Date of birth</li>
               <li>Email address</li>
-              <li>Social Security number or tax identification number.</li>
-              <li>Health care coverage information</li>
+              <li>Social Security number or tax identification number</li>
+            </ul>
+
+            <p>You will also need:</p>
+            <ul>
+              <li>The VA medical center where the Veteran will receive care</li>
+              <li>
+                Health insurance information for the Primary Family Caregiver
+              </li>
             </ul>
 
             <div>
               <h4 className="vads-u-font-size--h6">
-                What if I need help filling out my application?
+                Where can I get help filling out the form and answers to
+                questions?
               </h4>
+              <ul>
+                <li>
+                  Ask VA to help you fill out the form by calling us at
+                  877-222-VETS (8387)
+                </li>
+                <li>
+                  Locate and contact the Caregiver Support Coordinator at your
+                  nearest VA health care facility. You may use the online
+                  Caregiver Support Coordinator locator
+                </li>
+                <li>
+                  Contact the VA National Caregiver Support Line by calling
+                  855-260-3274 or a Veterans Service Organization
+                </li>
+                <a href="#">Get help filling out your application</a>
+              </ul>
               <p>
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.
@@ -88,51 +93,36 @@ const IntroductionPage = ({ route, router }) => {
           <section className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Apply</h3>
             <p>
-              Complete this Caregiver benefits form or have a Power of
-              Attorney/Representative complete form. You’ll get a confirmation
-              message after submitting the form. You can print this for your
-              records.
+              Each applicant needs to complete all form fields before submitting
+              the form. Once the form is submitted, you’ll receive a
+              confirmation message. You can print this for your records.
             </p>
 
-            <div className="vads-u-margin-bottom--2p5">
-              <PowerOfAttorneyInfo />
-            </div>
-            <RepresentativeInfo />
+            <p>
+              Note: If the Veteran isn’t enrolled in VA health care or is
+              currently on active duty with a medical discharge, they’ll need to
+              fill out an Application for Health Benefits (VA Form 10-10EZ).
+            </p>
           </section>
 
-          {/* Review */}
+          {/* Next Steps */}
           <section className="process-step list-three">
-            <h3 className="vads-u-font-size--h4">VA Review</h3>
+            <h3 className="vads-u-font-size--h4">Next Steps</h3>
             <p>
-              A caregiver support coordinator will review the application and
-              contact you or your caregiver about your eligibility.
+              A member of the Caregiver Support Program at the VA medical center
+              where the Veteran plans to receive care will contact you to
+              discuss your application and next steps to determine your
+              eligibility.
             </p>
 
-            <strong>
-              If the Veteran initially meets eligibility requirements, the next
-              steps are:
-            </strong>
-
-            <ul>
-              <li>
-                You or your caregiver will visit the medical center where you
-                receive care
-              </li>
-              <li>Your caregiver will receive education and training</li>
-              <li>
-                A caregiver support coordinator will schedule a visit to your
-                home
-              </li>
-            </ul>
+            <p>
+              If you aren’t eligible for PCAFC you may be eligible for the
+              Program of General Caregiver Support Services (PGCSS). To find out
+              more, contact VA’s Caregiver Support Line at 855-260-3274, visit
+              www.va.caregiver.com or discuss these options with your local
+              Caregiver Support Coordinator.
+            </p>
           </section>
-          {/* Decision */}
-          <div className="process-step list-four vads-u-padding-bottom--0">
-            <h3 className="vads-u-font-size--h4">Decision</h3>
-            <p>
-              Once we’ve reviewed your application, you’ll get a notice in the
-              mail with our decision.
-            </p>
-          </div>
         </div>
       </article>
     </>
@@ -143,15 +133,30 @@ const IntroductionPage = ({ route, router }) => {
       <FormTitle title="Apply for Caregiver Benefits" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
 
-      <FamilyBenefits />
+      <p>
+        We recognize the important role of family caregivers in supporting the
+        health and wellness of Veterans.
+      </p>
 
-      <button className="vads-u-margin-top--5" onClick={startForm}>
-        Start your Application
+      <a href="#">
+        Learn more about the Program of Comprehensive Assistance for Family
+        Caregivers (PCAFC) and find out if you may be eligible
+      </a>
+
+      <button
+        style={{ display: 'inherit ' }}
+        className="va-button-primary vads-u-margin-y--5"
+        onClick={startForm}
+      >
+        Start your application
       </button>
 
       <ProcessTimeline />
 
-      <button className="vads-u-margin-bottom--5" onClick={startForm}>
+      <button
+        className="va-button-primary vads-u-margin-bottom--5"
+        onClick={startForm}
+      >
         Start your Application
       </button>
 
