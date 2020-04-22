@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-function PreviewBanner({ version, onViewLiveVersion, toolUrl }) {
+function PreviewBanner({ version, onViewLiveVersion, toolUrl = '/gids' }) {
   const when = moment(version.createdAt).format(
     'MMM D, YYYY [at] h:mm a [EST]',
   );
@@ -37,10 +37,6 @@ PreviewBanner.propTypes = {
   version: PropTypes.object.isRequired,
   toolUrl: PropTypes.string.isRequired,
   onViewLiveVersion: PropTypes.func.isRequired,
-};
-
-PreviewBanner.defaultProps = {
-  toolUrl: '/gids',
 };
 
 export default PreviewBanner;
