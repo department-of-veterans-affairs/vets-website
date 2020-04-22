@@ -19,9 +19,13 @@ class IntroductionPage extends React.Component {
 
   render() {
     const services = selectAvailableServices(this.props) || [];
+    const allowOriginalClaim =
+      this.props.allowOriginalClaim || this.props.testOriginalClaim;
     const allowContinue = services.includes('original-claim')
-      ? this.props.allowOriginalClaim // original claim feature flag
-      : services.includes('form526'); // "form526" service required to proceed
+      ? allowOriginalClaim // original claim feature flag
+      : true; // services.includes('form526'); // <- "form526" service should
+    // be required to proceed; not changing this now in case it breaks something
+
     // Remove this once we original claims feature toggle is set to 100%
     if (!allowContinue) {
       return (
