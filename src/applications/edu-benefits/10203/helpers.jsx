@@ -1,4 +1,3 @@
-// 1995-STEM related
 const isEdithNourseRogersScholarship = form =>
   form.isEdithNourseRogersScholarship;
 
