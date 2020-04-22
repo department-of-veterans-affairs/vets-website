@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { formatDateLong } from '../../../platform/utilities/date';
-import { displayPercent } from '../../../platform/utilities/ui';
+import { formatDateLong } from 'platform/utilities/date';
+import { displayPercent } from 'platform/utilities/ui';
 import FacilityApiAlert from './FacilityApiAlert';
 import { connect } from 'react-redux';
 
