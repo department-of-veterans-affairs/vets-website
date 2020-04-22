@@ -73,8 +73,11 @@ export class Main extends React.Component {
   }
 
   checkLoggedInStatus = () => {
-    ssoKeepAliveSession();
     const canCallSSO = this.props.useSSOe && !environment.isLocalhost();
+
+    if (canCallSSO) {
+      ssoKeepAliveSession();
+    }
 
     if (hasSession()) {
       if (canCallSSO && !hasSessionSSO()) {
