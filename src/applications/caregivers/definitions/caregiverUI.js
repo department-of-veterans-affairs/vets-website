@@ -41,12 +41,13 @@ export default {
       'ui:widget': 'email',
     },
     genderUI: {
-      'ui:title': 'Gender',
+      'ui:title': 'Sex',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
           F: 'Female',
           M: 'Male',
+          U: 'Unknown',
         },
       },
     },
@@ -188,12 +189,13 @@ export default {
         ...fullNameUI,
       },
       genderUI: {
-        'ui:title': 'Gender',
+        'ui:title': 'Sex',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
             F: 'Female',
             M: 'Male',
+            U: 'Unknown',
           },
         },
       },

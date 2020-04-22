@@ -1,6 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import * as getAddressSchema from 'platform/forms-system/src/js/definitions/address';
-
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { states } from 'platform/forms/address';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
@@ -83,12 +82,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '10-10CG',
   version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for caregiver benefits.',
-    noAuth:
-      'Please sign in again to continue your application for caregiver benefits.',
-  },
+  prefillEnabled: false,
   title: 'Apply for family caregiver benefits',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
