@@ -204,7 +204,7 @@ IntroductionPage.propTypes = {
     pageList: PropTypes.array.isRequired,
   }).isRequired,
   user: PropTypes.shape({}),
-  allowOriginalClaim: PropTypes.func,
+  allowOriginalClaim: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);
