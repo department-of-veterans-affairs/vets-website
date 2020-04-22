@@ -25,7 +25,7 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
-import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
@@ -47,7 +47,7 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-import createCoronavirusChatbot from '../covid19-chatbot/createCoronavirusChatbot';
+import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';

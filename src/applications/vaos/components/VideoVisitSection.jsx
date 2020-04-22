@@ -35,6 +35,7 @@ export default function VideoVisitSection({ appointment }) {
               ? `description-join-link-${appointment.id}`
               : undefined
           }
+          aria-disabled={disableVideoLink ? 'true' : 'false'}
           href={appointment.videoLink}
           target="_blank"
           rel="noopener noreferrer"

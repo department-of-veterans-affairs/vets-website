@@ -1,3 +1,5 @@
+import '@testing-library/cypress/add-commands';
+
 // import './commands';
 
 // Workaround to allow Cypress to intercept requests made with the Fetch API.

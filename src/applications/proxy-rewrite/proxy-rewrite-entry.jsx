@@ -1,11 +1,11 @@
 import 'platform/polyfills';
 import cookie from 'cookie';
 
-import buckets from '../../site/constants/buckets';
-import environments from '../../site/constants/environments';
+import buckets from 'site/constants/buckets';
+import environments from 'site/constants/environments';
 
-import createCommonStore from '../../platform/startup/store';
-import environment from '../../platform/utilities/environment';
+import createCommonStore from 'platform/startup/store';
+import environment from 'platform/utilities/environment';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
@@ -17,11 +17,9 @@ import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 
 // import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
-import startVAFooter, {
-  footerElemementId,
-} from '../../platform/site-wide/va-footer';
+import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
-import addFocusBehaviorToCrisisLineModal from '../../platform/site-wide/accessible-VCL-modal';
+import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 

@@ -1,38 +1,40 @@
-import React from 'react';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import React from 'react';
+import FooterInfo from '../components/FooterInfo';
+import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IntroductionPage from '../components/IntroductionPage';
-import FooterInfo from '../components/FooterInfo';
 import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 
 const { email, supplies } = fullSchemaMDOT.definitions;
 
-const { currentAddress, selectedAddress } = fullSchemaMDOT.properties;
+const { selectedAddress } = fullSchemaMDOT.properties;
 
 const {
   emailField,
+  confirmationEmailField,
   suppliesField,
   viewAddAccessoriesField,
   viewAddBatteriesField,
-  currentAddressField,
-  newAddressField,
+  permAddressField,
+  tempAddressField,
   selectedAddressField,
 } = schemaFields;
 
 const {
   emailUI,
+  confirmationEmailUI,
   addAccessoriesUI,
   addBatteriesUI,
   batteriesUI,
-  accessoriesUI,
-  currentAddressUI,
-  newAddressUI,
   selectedAddressUI,
+  accessoriesUI,
+  permanentAddressUI,
+  temporaryAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -71,8 +73,8 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
-    currentAddress,
     selectedAddress,
+    addressSchema,
   },
   chapters: {
     veteranInformationChapter: {
@@ -97,19 +99,20 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
           uiSchema: {
-            [currentAddressField]: currentAddressUI,
-            [newAddressField]: newAddressUI,
+            [permAddressField]: permanentAddressUI,
+            [tempAddressField]: temporaryAddressUI,
             [selectedAddressField]: selectedAddressUI,
             [emailField]: emailUI,
+            [confirmationEmailField]: confirmationEmailUI,
           },
           schema: {
             type: 'object',
-            required: [],
             properties: {
-              [currentAddressField]: currentAddress,
-              [newAddressField]: addressSchema,
+              [permAddressField]: addressSchema,
+              [tempAddressField]: addressSchema,
               [selectedAddressField]: selectedAddress,
               [emailField]: email,
+              [confirmationEmailField]: email,
             },
           },
         },

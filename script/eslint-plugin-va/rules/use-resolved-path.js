@@ -52,7 +52,7 @@ module.exports = {
       },
       CallExpression(node) {
         const callee = node.callee.name || node.callee.type;
-        if (callee === 'Import' || callee === 'require') {
+        if (callee === 'Import') {
           const value = node.arguments[0].value;
           if (isIncluded(value, aliases)) {
             context.report({
