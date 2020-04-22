@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import mountWidgets from '../../../site/assets/js/static-page-widgets';
+import mountWidgets from 'site/assets/js/static-page-widgets';
 
 const widgetContent = `
 <div id="testRoot" data-widget-type="pension-app-status" data-widget-timeout="1">

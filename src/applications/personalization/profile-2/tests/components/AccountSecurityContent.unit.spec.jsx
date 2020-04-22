@@ -76,6 +76,7 @@ describe('AccountSecurityContent', () => {
     });
     describe('when `showMHVTermsAndConditions` is `false`', () => {
       it('should pass in two rows of data', () => {
+        props = makeDefaultProps();
         props.showMHVTermsAndConditions = false;
         wrapper = shallow(<AccountSecurityContent {...props} />);
         infoTableData = wrapper.find('ProfileInfoTable').prop('data');
