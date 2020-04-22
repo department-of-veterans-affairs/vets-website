@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { selectAvailableServices } from 'platform/user/selectors';
+
 import { itfNotice } from '../content/introductionPage';
+import { originalClaimsFeature } from '../config/selectors';
+import FileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -14,6 +18,19 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const services = selectAvailableServices(this.props) || [];
+    const allowContinue = services.includes('original-claim')
+      ? this.props.allowOriginalClaim // original claim feature flag
+      : services.includes('form526'); // "form526" service required to proceed
+    // Remove this once we original claims feature toggle is set to 100%
+    if (!allowContinue) {
+      return (
+        <div className="schemaform-intro">
+          <FormTitle title="File for disability compensation" />
+          <FileOriginalClaimPage.component props={this.props} />
+        </div>
+      );
+    }
     return (
       <div className="schemaform-intro">
         <FormTitle title="File for disability compensation" />
@@ -168,9 +185,11 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { formId: state.form.formId };
-}
+const mapStateToProps = state => ({
+  formId: state.form.formId,
+  user: state.user,
+  allowOriginalClaim: originalClaimsFeature(state),
+});
 
 IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
@@ -180,6 +199,8 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
+  user: PropTypes.shape({}),
+  allowOriginalClaim: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);
