@@ -15,16 +15,13 @@ export function FacilityDetailWidget({ loading, error, facility }) {
     return <FacilityApiAlert />;
   }
 
-  const facilityDetail = facility;
   const CLINICAL_HOURS_COLUMN_MODIFIER = 5;
 
   // Sort and compile facility hours into a list
-  const hours = facilityDetail.attributes.hours;
+  const hours = facility.attributes.hours;
   const builtHours = buildHours(hours, true);
   const clinicalHours = builtHours.map((day, index) => {
-    const splitDay = day.split(': ');
-    const abbrvDay = splitDay[0];
-    const times = splitDay[1];
+    const [abbrvDay, times] = day.split(': ');
 
     return (
       <li key={index}>
@@ -34,18 +31,18 @@ export function FacilityDetailWidget({ loading, error, facility }) {
   });
 
   return (
-    <div key={facilityDetail.id} className="vads-c-facility-detail">
+    <div key={facility.id} className="vads-c-facility-detail">
       <section className="vads-facility-detail">
         <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
           Address
         </h3>
         <div className="vads-u-margin-bottom--3">
-          <FacilityAddress facility={facilityDetail} />
+          <FacilityAddress facility={facility} />
         </div>
         <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
           Phone numbers
         </h3>
-        <FacilityPhone facility={facilityDetail} />
+        <FacilityPhone facility={facility} />
         <div className="vads-u-margin-bottom--0">
           <div className="clinicalhours">
             <h3 className="vads-u-margin-top--2p5 vads-u-margin-bottom--1">
