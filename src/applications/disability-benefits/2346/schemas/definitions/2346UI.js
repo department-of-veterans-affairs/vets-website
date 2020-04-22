@@ -78,7 +78,7 @@ export default {
     },
     currentAddressUI: {
       'ui:options': {
-        hideIf: () => true,
+        classNames: 'vads-u-display--none',
       },
     },
     emailUI: {
