@@ -130,21 +130,22 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
-        {this.props.eduSection103 && (
-          <div>
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'section103')}
-              >
-                Protection against late VA payments:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.section103Message}
-          </div>
-        )}
+        {this.props.eduSection103 &&
+          institution.section103Message && (
+            <div className="section-103-message">
+              <strong>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'section103')}
+                >
+                  Protection against late VA payments:
+                </button>
+              </strong>
+              &nbsp;
+              {institution.section103Message}
+            </div>
+          )}
       </div>
     );
   }
