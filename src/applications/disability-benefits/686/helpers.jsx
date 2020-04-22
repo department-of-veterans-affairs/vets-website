@@ -2,7 +2,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import React from 'react';
 import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-// import { apiRequest } from '../../../platform/utilities/api';
+// import { apiRequest } from 'platform/utilities/api';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
 
