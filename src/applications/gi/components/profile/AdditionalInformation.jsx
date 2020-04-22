@@ -290,6 +290,7 @@ export class AdditionalInformation extends React.Component {
 }
 
 AdditionalInformation.propTypes = {
+  constants: PropTypes.object,
   institution: PropTypes.object,
   onShowModal: PropTypes.func,
   eduSection103: PropTypes.bool,
