@@ -69,12 +69,13 @@ class FacilityDetail extends Component {
             {operatingStatus.additionalInfo && (
               <p>{operatingStatus.additionalInfo} </p>
             )}
-            {website && (
-              <p>
-                Visit the <a href={website}>website</a> to learn more about
-                hours and services.
-              </p>
-            )}
+            {website &&
+              website !== 'NULL' && (
+                <p>
+                  Visit the <a href={website}>website</a> to learn more about
+                  hours and services.
+                </p>
+              )}
           </div>
         }
         status={`${alertClass}`}
