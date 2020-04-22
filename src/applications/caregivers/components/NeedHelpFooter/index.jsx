@@ -32,7 +32,7 @@ const NeedHelpFooter = () => (
 
       <p>
         If this form isn't working right for you, please call us at at{' '}
-        <a href="#">855-574-7286.</a>{' '}
+        <a href={links.reportLine.link}>{links.reportLine.label}</a>{' '}
         <span>If you have hearing loss, call TTY: 711</span>
       </p>
     </div>
