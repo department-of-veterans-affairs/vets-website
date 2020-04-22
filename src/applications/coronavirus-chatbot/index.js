@@ -119,6 +119,7 @@ const initBotConversation = jsonWebToken => {
     startChat(user, webchatOptions);
     recordEvent({
       event: `${GA_PREFIX}-connection-successful`,
+      'error-key': undefined,
     });
   } catch (error) {
     recordEvent({

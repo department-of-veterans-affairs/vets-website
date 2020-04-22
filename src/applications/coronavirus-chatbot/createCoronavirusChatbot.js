@@ -19,6 +19,7 @@ export default (_store, widgetType) => {
     .then(res => {
       recordEvent({
         event: `${GA_PREFIX}-load-successful`,
+        'error-key': undefined,
       });
     })
     // eslint-disable-next-line no-unused-vars
