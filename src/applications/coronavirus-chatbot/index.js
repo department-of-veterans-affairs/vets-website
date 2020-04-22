@@ -63,6 +63,7 @@ const initBotConversation = jsonWebToken => {
     userAvatarInitials: 'You',
     backgroundColor: '#F8F8F8',
     primaryFont: 'Source Sans Pro, sans-serif',
+    bubbleMinWidth: 100,
   };
 
   const webchatStore = window.WebChat.createStore(
