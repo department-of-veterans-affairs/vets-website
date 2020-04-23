@@ -83,7 +83,8 @@ export default {
             postalCode,
             internationalPostalCode,
           } = formData.temporaryAddress;
-          return (
+
+          const shouldHideTempAddressField =
             [
               street,
               city,
@@ -91,8 +92,9 @@ export default {
               country,
               postalCode,
               internationalPostalCode,
-            ].filter(addr => Boolean(addr)).length < 1
-          );
+            ].filter(addr => Boolean(addr)).length < 1;
+
+          return shouldHideTempAddressField;
         },
       },
     },
