@@ -1,11 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { links } from 'applications/caregivers/definitions/content';
+import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export const VetInfo = () => (
   <p>Please complete all of the following information</p>
 );
+
+export const LearnMoreFamilyCaregiver = () => {
+  const [isModalVisible, toggleModal] = useState(false);
+
+  return (
+    <>
+      <Modal
+        title="Primary Family Caregiver"
+        id="primary-family-caregiver-info"
+        cssClass="caregiver-modal"
+        visible={isModalVisible}
+        onClose={() => toggleModal(false)}
+      >
+        <>
+          <p>
+            For the purpose of the program, Primary Family Caregivers are people
+            designated as a primary provider of personal care services to a
+            Veteran. They can be the Veteran’s or service member’s:
+          </p>
+
+          <ul>
+            <li>Parent</li>
+            <li>Spouse</li>
+            <li>Son or daughter</li>
+            <li>Step-family member</li>
+            <li>Extended family member</li>
+            <li>
+              Someone who is not a family member but resides with the Veteran or
+              will do so upon approval
+            </li>
+          </ul>
+        </>
+      </Modal>
+
+      <button
+        className="va-button-link"
+        onClick={() => toggleModal(!isModalVisible)}
+      >
+        Learn more about what this means
+      </button>
+    </>
+  );
+};
 
 export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
   <div>
@@ -37,13 +81,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
               {links.familyCaregiver.label}
             </a>
           </p>
-          <a
-            href={links.caregiverBenefits.link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {links.caregiverBenefits.label}
-          </a>
+          <LearnMoreFamilyCaregiver />
         </AdditionalInfo>
       </section>
     )}
