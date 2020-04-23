@@ -20,7 +20,13 @@ describe('VAOS Slot service', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, slots);
-      data = await getSlots(983, 323, 308, '2020-05-01', '2020-06-30');
+      data = await getSlots({
+        vistaFacilityId: '983',
+        vistaTypeOfCareId: '323',
+        vistaClinicId: '308',
+        startDate: '2020-05-01',
+        endDate: '2020-06-30',
+      });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
@@ -36,7 +42,13 @@ describe('VAOS Slot service', () => {
 
       let error;
       try {
-        data = await getSlots(983, 323, 308, '2020-05-01', '2020-06-30');
+        data = await getSlots({
+          vistaFacilityId: '983',
+          vistaTypeOfCareId: '323',
+          vistaClinicId: '308',
+          startDate: '2020-05-01',
+          endDate: '2020-06-30',
+        });
       } catch (e) {
         error = e;
       }
