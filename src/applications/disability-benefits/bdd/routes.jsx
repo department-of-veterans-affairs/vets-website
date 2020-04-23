@@ -1,4 +1,4 @@
-import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import BDDApp from './BDDApp';
 import formConfig from './config/form';
