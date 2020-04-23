@@ -20,9 +20,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
         // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-        if (!environment.isProduction()) {
-          checkAndUpdateSSOeSession();
-        }
+        checkAndUpdateSSOeSession();
       }
       return response;
     });
