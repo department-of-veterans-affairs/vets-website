@@ -42,6 +42,50 @@ export const LearnMoreFamilyCaregiver = () => {
       </Modal>
 
       <button
+        type="button"
+        className="va-button-link"
+        onClick={() => toggleModal(!isModalVisible)}
+      >
+        Learn more about what this means
+      </button>
+    </>
+  );
+};
+
+export const LearnMoreSecondaryCaregiver = () => {
+  const [isModalVisible, toggleModal] = useState(false);
+
+  return (
+    <>
+      <Modal
+        title="Secondary Family Caregiver"
+        id="primary-family-caregiver-info"
+        cssClass="caregiver-modal"
+        visible={isModalVisible}
+        onClose={() => toggleModal(false)}
+      >
+        <>
+          <p>
+            Secondary Family Caregivers can be the Veteran’s or service
+            member’s:
+          </p>
+
+          <ul>
+            <li>Parent</li>
+            <li>Spouse</li>
+            <li>Son or daughter</li>
+            <li>Step-family member</li>
+            <li>Extended family member</li>
+            <li>
+              Someone who is not a family member but resides with the Veteran or
+              will do so upon approval
+            </li>
+          </ul>
+        </>
+      </Modal>
+
+      <button
+        type="button"
         className="va-button-link"
         onClick={() => toggleModal(!isModalVisible)}
       >
@@ -97,11 +141,15 @@ PrimaryCaregiverInfo.defaultProps = {
 };
 
 export const SecondaryCaregiverInfo = () => (
-  <p>
-    Complete the following information about the Secondary Caregiver or Family
-    member who is helping the Veteran or Service member. You can include
-    information about up to two Secondary Family Caregivers.
-  </p>
+  <>
+    <p>
+      Complete the following information about the Secondary Caregiver or Family
+      member who is helping the Veteran or Service member. You can include
+      information about up to two Secondary Family Caregivers.
+    </p>
+
+    <LearnMoreSecondaryCaregiver />
+  </>
 );
 
 export const FacilityInfo = () => (
