@@ -74,6 +74,26 @@ export default {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        hideIf: formData => {
+          const {
+            street,
+            city,
+            state,
+            country,
+            postalCode,
+            internationalPostalCode,
+          } = formData.temporaryAddress;
+          return (
+            [
+              street,
+              city,
+              state,
+              country,
+              postalCode,
+              internationalPostalCode,
+            ].filter(addr => Boolean(addr)).length < 1
+          );
+        },
       },
     },
     currentAddressUI: {
