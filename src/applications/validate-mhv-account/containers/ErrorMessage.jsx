@@ -17,7 +17,7 @@ export default function ErrorMessage({ params }) {
     : undefined;
 
   // Capitalize in case of mvi error
-  if (errorCode && errorCode.startsWith('mvi_error')) {
+  if (errorCode?.startsWith('mvi_error')) {
     errorCode = errorCode.replace('mvi_error_', '').toUpperCase();
   }
 
