@@ -108,22 +108,18 @@ const getDerivedValues = createSelector(
         : +cumulativeService;
 
     const oldGiBill =
-      giBillChapter === 30 ||
-      giBillChapter === 1607 ||
-      giBillChapter === 1606 ||
-      giBillChapter === 35;
+      giBillChapter === 30 || giBillChapter === 1606 || giBillChapter === 35;
 
     // Determines whether monthly benefit can only be spent on tuition/fees
-    const activeDutyThirtyOr1607 =
-      militaryStatus === 'active duty' &&
-      (giBillChapter === 30 || giBillChapter === 1607);
+    const activeDutyThirty =
+      militaryStatus === 'active duty' && giBillChapter === 30;
     const correspondenceOrFlightUnderOldGiBill =
       isFlightOrCorrespondence && oldGiBill;
     const ropOldAndChapter =
       ['less than half', 'quarter'].includes(inputs.enrolledOld) &&
-      [30, 35, 1607].includes(giBillChapter);
+      [30, 35].includes(giBillChapter);
     const onlyTuitionFees =
-      activeDutyThirtyOr1607 ||
+      activeDutyThirty ||
       correspondenceOrFlightUnderOldGiBill ||
       ropOldAndChapter;
 
@@ -134,11 +130,6 @@ const getDerivedValues = createSelector(
           (enlistmentService === '3'
             ? constant.MGIB3YRRATE
             : constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
-        break;
-      }
-      case 1607: {
-        monthlyRate =
-          constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
         break;
       }
       case 1606: {
@@ -546,17 +537,12 @@ const getDerivedValues = createSelector(
       housingAllowTerm1 = monthlyRateFinal;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
-    } else if ([1606, 1607].includes(giBillChapter) && isFlight) {
+    } else if (giBillChapter === 1606 && isFlight) {
       housingAllowTerm1 = Math.max(
         0,
-        Math.min(
-          totalHousingAllowance,
-          tuitionFeesPerTerm *
-            (giBillChapter === 1607 ? consecutiveService : 1) *
-            0.55,
-        ),
+        Math.min(totalHousingAllowance, tuitionFeesPerTerm * 0.55),
       );
-    } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
+    } else if (giBillChapter === 1606 && isCorrespondence) {
       housingAllowTerm1 = Math.max(
         0,
         Math.min(
@@ -615,17 +601,12 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = 0;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
-    } else if ([1606, 1607].includes(giBillChapter) && isFlight) {
+    } else if (giBillChapter === 1606 && isFlight) {
       housingAllowTerm2 = Math.max(
         0,
-        Math.min(
-          totalHousingAllowance,
-          tuitionFeesPerTerm *
-            (giBillChapter === 1607 ? consecutiveService : 1) *
-            0.55,
-        ),
+        Math.min(totalHousingAllowance, tuitionFeesPerTerm * 0.55),
       );
-    } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
+    } else if (giBillChapter === 1606 && isCorrespondence) {
       housingAllowTerm2 = Math.max(
         0,
         Math.min(
@@ -679,17 +660,12 @@ const getDerivedValues = createSelector(
       housingAllowTerm3 = 0;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
-    } else if ([1606, 1607].includes(giBillChapter) && isFlight) {
+    } else if (giBillChapter === 1606 && isFlight) {
       housingAllowTerm3 = Math.max(
         0,
-        Math.min(
-          totalHousingAllowance,
-          tuitionFeesPerTerm *
-            (giBillChapter === 1607 ? consecutiveService : 1) *
-            0.55,
-        ),
+        Math.min(totalHousingAllowance, tuitionFeesPerTerm * 0.55),
       );
-    } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
+    } else if (giBillChapter === 1606 && isCorrespondence) {
       housingAllowTerm3 = Math.max(
         0,
         Math.min(
@@ -842,9 +818,6 @@ const getDerivedValues = createSelector(
         break;
       case 1606:
         giBillTotalText = 'Total Select Reserve GI Bill Benefits';
-        break;
-      case 1607:
-        giBillTotalText = 'Total REAP GI Bill Benefits';
         break;
       default:
       // noop
