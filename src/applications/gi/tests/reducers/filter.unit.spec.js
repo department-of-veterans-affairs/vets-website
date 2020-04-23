@@ -15,6 +15,7 @@ const initialState = {
   independentStudy: false,
   stemIndicator: false,
   typeName: 'ALL',
+  excludeCautionAndSchoolClosureFlags: false,
 };
 
 describe('filter reducer', () => {
@@ -36,6 +37,7 @@ describe('filter reducer', () => {
         independentStudy: false,
         stemIndicator: true,
         typeName: 'ALL',
+        excludeCautionAndSchoolClosureFlags: true,
       },
     });
 
@@ -53,5 +55,6 @@ describe('filter reducer', () => {
     expect(state.eightKeysToVeteranSuccess).to.eql(false);
     expect(state.stemIndicator).to.eql(true);
     expect(state.typeName).to.eql('ALL');
+    expect(state.excludeCautionAndSchoolClosureFlags).to.eql(true);
   });
 });

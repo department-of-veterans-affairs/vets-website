@@ -1212,13 +1212,18 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('cautionaryWarnings')}
       >
-        <h3>Cautionary warnings</h3>
+        <h3>Cautionary warnings and school closings</h3>
         <p>
-          When Caution Flags are displayed for an institution, they indicate VA
-          or other federal agencies like the Department of Education or
-          Department of Defense have applied increased regulatory or legal
-          scrutiny to this program. Before enrolling in a program, VA recommends
-          potential students should consider these cautionary warnings.
+          VA applies caution flags when we, or another federal agency, have
+          increased regulatory or legal scrutiny of an educational program. We
+          recommend students consider these warnings before enrolling in flagged
+          programs.
+        </p>
+        <p>
+          When VA receives notice that a school or campus location will be
+          closing, we add a school closing flag to that profile. Once the
+          closing date passes, we remove the institution from the Comparison
+          Tool during the next system update.
         </p>
         <p>
           {' '}

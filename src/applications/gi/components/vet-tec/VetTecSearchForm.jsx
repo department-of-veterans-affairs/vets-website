@@ -161,7 +161,9 @@ class VetTecSearchForm extends React.Component {
               ''
             ) : (
               <CautionaryWarningsFilter
-                excludeCautionFlags={this.props.filters.excludeCautionFlags}
+                excludeCautionAndSchoolClosureFlags={
+                  this.props.filters.excludeCautionAndSchoolClosureFlags
+                }
                 onChange={this.handleCheckboxChange}
                 showModal={this.props.showModal}
               />
