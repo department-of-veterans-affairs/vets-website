@@ -83,7 +83,4 @@ describe('CTA helpers', () => {
       );
     });
   });
-
-  // need to cover both scheudling and cancelling
-  // (they go to the same URL)
 });

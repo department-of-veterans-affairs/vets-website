@@ -1,4 +1,4 @@
-import { ssoKeepAliveEndpoint } from './constants';
+import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
 
 export default function keepAlive() {
   return fetch(ssoKeepAliveEndpoint(), {
