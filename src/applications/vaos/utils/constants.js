@@ -306,3 +306,5 @@ export const GA_FLOWS = {
   VA_REQUEST: 'va-request',
   CC_REQUEST: 'cc-request',
 };
+
+export const VHA_FHIR_ID = 'urn:oid:2.16.840.1.113883.6.233';

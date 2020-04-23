@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   getPhaseDescription,
   isClaimComplete,

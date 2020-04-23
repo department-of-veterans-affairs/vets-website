@@ -93,7 +93,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
         title="Period of service"
         fieldName="serviceHistory"
       />
-      <div className="vads-u-margin-top--4 vads-u-margin-bottom--6">
+      <div className="vads-u-margin-top--4">
         <AdditionalInfo
           triggerText="What if my military service information doesn’t look right?"
           onClick={() => {

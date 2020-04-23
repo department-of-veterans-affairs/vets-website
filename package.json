@@ -66,6 +66,7 @@
     "watch": "NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/webpack.config.js --env.watch=true --progress",
     "watch:content": "node --max-old-space-size=4096 script/build-content.js --watch",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build-content.js --watch --local-css-sourcemaps",
+    "watch:review": "node ./script/run-review-instance-api.js",
     "watch:static": "concurrently -n metalsmith,webpack \"npm:watch:content\" \"npm run watch -- --env.entry=static-pages --progress=false\""
   },
   "repository": {
@@ -103,6 +104,7 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
     "@babel/plugin-proposal-function-sent": "^7.0.0",
     "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-numeric-separator": "^7.0.0",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/plugin-proposal-throw-expressions": "^7.0.0",
@@ -135,7 +137,7 @@
     "chai-as-promised": "^7.1.1",
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
-    "chokidar": "2",
+    "chokidar": "^3.3.1",
     "choma": "^1.1.0",
     "chromedriver": "^2.38.1",
     "cli-table": "^0.3.1",
@@ -162,7 +164,7 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-scanjs-rules": "^0.1.4",
     "eslint-plugin-sonarjs": "^0.5.0",
-    "eslint-plugin-va-enzyme": "./script/custom-eslint/va-enzyme",
+    "eslint-plugin-va": "./script/eslint-plugin-va",
     "eslint-stats": "^1.0.0",
     "exports-loader": "^0.6.3",
     "express-history-api-fallback": "^2.0.0",
@@ -247,6 +249,7 @@
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.7",
+    "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
     "express": "^4.14.0",
     "express-http-proxy": "^1.5.1",
@@ -278,7 +281,6 @@
     "prop-types": "^15.6.1",
     "raven": "^2.6.4",
     "react": "^16.7.0",
-    "react-cropper": "^1.0.1",
     "react-dom": "^16.7.0",
     "react-dropzone": "^4.2.5",
     "react-leaflet": "^2.2.0",
@@ -297,7 +299,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#147100c3a8e64184a07c75d87a55c8faeb342e31",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#08d3607b312334cb734466a09d058fc1e1143f35",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {

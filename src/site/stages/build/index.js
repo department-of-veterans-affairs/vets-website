@@ -13,7 +13,6 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const silverSmith = require('./silversmith');
-const getOptions = require('./options');
 
 const assetSources = require('../../constants/assetSources');
 
@@ -27,7 +26,6 @@ const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const downloadAssets = require('./plugins/download-assets');
 const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
-const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
@@ -94,7 +92,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   };
 }
 
-function defaultBuild(BUILD_OPTIONS) {
+function build(BUILD_OPTIONS) {
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -258,15 +256,12 @@ function defaultBuild(BUILD_OPTIONS) {
    * changes will be overwritten during the outputHtml step.
    */
   smith.use(parseHtml, 'Parse HTML files');
+
   /**
    * Add nonce attribute with substition string to all inline script tags
    * Convert onclick event handles into nonced script tags
    */
   smith.use(addNonceToScripts, 'Add nonce to script tags');
-  smith.use(
-    processEntryNames(BUILD_OPTIONS),
-    'Process [data-entry-name] attributes into Webpack asset paths',
-  );
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
@@ -285,9 +280,4 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-async function main() {
-  const buildOptions = await getOptions();
-  defaultBuild(buildOptions);
-}
-
-module.exports = main;
+module.exports = build;

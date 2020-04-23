@@ -13,7 +13,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   Auth.logIn(
     token,
     client,
-    '/disability-benefits/new-686/introduction',
+    '/view-change-dependents/add-remove-form-686c',
     3,
   ).waitForElementVisible('.process.schemaform-process', Timeouts.verySlow);
   client.click('.usa-button-primary.va-button-primary.schemaform-start-button');

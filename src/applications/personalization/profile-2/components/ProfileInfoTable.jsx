@@ -33,7 +33,7 @@ const ProfileInfoTable = ({
     'padding-y--1p5',
   ]);
   const tableRowClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row', 'padding-x--3', 'padding-y--4'],
+    ['flex-direction--row', 'padding--4'],
     'medium',
   );
   const tableRowTitleClasses = prefixUtilityClasses([

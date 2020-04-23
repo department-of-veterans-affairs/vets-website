@@ -44,6 +44,14 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     firstProgram.phoneNumber,
   );
 
+  const preferredProvider = institution.preferredProvider
+    ? ''
+    : 'additional-resources-preferred-provider';
+
+  const prodFlagPreferredProvider = environment.isProduction()
+    ? ''
+    : preferredProvider;
+
   const prodFlagHeader = environment.isProduction()
     ? 'usa-width-two-thirds medium-8 small-12 column'
     : 'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
@@ -59,6 +67,16 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
   const prodFlagLogoOuter = environment.isProduction()
     ? 'usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6'
     : 'usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg1';
+
+  const prodFlagLogo = environment.isProduction() ? (
+    <div className={prodFlagLogoOuter}>
+      <div className={prodFlagLogoInner}>
+        {renderVetTecLogo(classNames('vettec-logo'))}
+      </div>
+    </div>
+  ) : (
+    ''
+  );
 
   return (
     <div className="heading">
@@ -86,11 +104,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <div className={prodFlagLogoOuter}>
-          <div className={prodFlagLogoInner}>
-            {renderVetTecLogo(classNames('vettec-logo'))}
-          </div>
-        </div>
+        {prodFlagLogo}
       </div>
 
       <div className="row">
@@ -127,7 +141,11 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <VetTecAdditionalResources />
+        <div className={prodFlagPreferredProvider}>
+          <div className>
+            <VetTecAdditionalResources />
+          </div>
+        </div>
       </div>
     </div>
   );

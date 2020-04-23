@@ -53,7 +53,7 @@ import {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/21-686c`,
-  trackingPrefix: 'new-686-',
+  trackingPrefix: '686c-674-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,

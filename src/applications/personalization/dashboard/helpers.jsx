@@ -39,7 +39,6 @@ import edu0993Config from 'applications/edu-benefits/0993/config/form.js';
 import edu0994Config from 'applications/edu-benefits/0994/config/form.js';
 import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
-import vicV2Config from 'applications/vic-v2/config/form';
 import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
 
@@ -58,7 +57,6 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_22_5490]: edu5490Config,
   [VA_FORM_IDS.FORM_22_5495]: edu5495Config,
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
-  [VA_FORM_IDS.VIC]: vicV2Config,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
   [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
 };
@@ -78,7 +76,6 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
-  [VA_FORM_IDS.VIC]: 'Veteran ID Card',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
@@ -86,7 +83,7 @@ export const formBenefits = {
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   let formNumber;
-  if (key === VA_FORM_IDS.FORM_40_10007 || key === VA_FORM_IDS.VIC) {
+  if (key === VA_FORM_IDS.FORM_40_10007) {
     formNumber = '';
   } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
     formNumber = ' (10-10EZ)';
@@ -103,7 +100,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 export const formDescriptions = Object.keys(formBenefits).reduce(
   (descriptions, key) => {
     let formNumber;
-    if (key === VA_FORM_IDS.FORM_40_10007 || key === VA_FORM_IDS.VIC) {
+    if (key === VA_FORM_IDS.FORM_40_10007) {
       formNumber = '';
     } else if (key === VA_FORM_IDS.FORM_10_10EZ) {
       formNumber = '(10-10EZ)';
@@ -131,8 +128,6 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_40_10007]: `${preneedManifest.rootUrl}/`,
-  // VIC is not active, will need a new url if we start using this
-  [VA_FORM_IDS.VIC]: '/veteran-id-card/apply/',
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
@@ -152,7 +147,6 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
   [VA_FORM_IDS.FORM_22_5495]: 'edu-5495-',
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
-  [VA_FORM_IDS.VIC]: 'veteran-id-card-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
   [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
@@ -173,20 +167,17 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_40_10007,
-  VA_FORM_IDS.VIC,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself
 // prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
-// exceptions to this rule right now are the FEEDBACK-TOOL and VIC.
+// exception to this rule right now is the FEEDBACK-TOOL.
 export const presentableFormIDs = Object.keys(formBenefits).reduce(
   (prefixedIDs, formID) => {
     if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
       prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
-    } else if (formID === VA_FORM_IDS.VIC) {
-      prefixedIDs[formID] = 'VETERAN ID CARD'; // eslint-disable-line no-param-reassign
     } else {
       prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
     }

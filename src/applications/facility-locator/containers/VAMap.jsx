@@ -29,11 +29,14 @@ import {
 } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
-import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
+import {
+  isProduction,
+  toggleValues,
+} from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -717,6 +720,13 @@ class VAMap extends Component {
   };
 
   render() {
+    const chatbotLink = this.props.showCovidChatbotLink && (
+      <>
+        For answers to questions about how COVID-19 may affect your VA health
+        appointments, benefits, and services, use our VA{' '}
+        <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
+      </>
+    );
     return (
       <div>
         <div className="title-section">
@@ -728,6 +738,12 @@ class VAMap extends Component {
             Find one of VA's more than 2,000 health care, counseling, benefits,
             and cemeteries facilities, plus VA's nationwide network of community
             health care providers.
+          </p>
+          <p>
+            <strong>Coronavirus update:</strong> {chatbotLink} Many VA and
+            community provider locations have changing hours and services due to
+            COVID-19. For your safety, please call before visiting any location
+            to ask about getting help by phone or video.
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
@@ -753,6 +769,8 @@ function mapStateToProps(state) {
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,
+    showCovidChatbotLink: toggleValues(state)
+      .facilityLocatorShowCovid19ChatbotLink,
   };
 }
 

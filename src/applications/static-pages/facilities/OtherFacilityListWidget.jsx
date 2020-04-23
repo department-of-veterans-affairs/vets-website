@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiRequest } from '../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
 import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';

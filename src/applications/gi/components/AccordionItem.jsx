@@ -10,6 +10,7 @@ class AccordionItem extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       expanded: props.expanded,
+      button: props.button,
     };
     this.id = _.uniqueId('accordion-item-');
   }
@@ -26,11 +27,13 @@ class AccordionItem extends React.Component {
 
   render() {
     const expanded = this.state.expanded;
+    const label = this.state.button;
     const headerClasses = classNames('accordion-button-wrapper', {
       [this.props.headerClass]: this.props.headerClass,
     });
     return (
       <li
+        aria-label={label}
         id={`${this.props.button.toLowerCase().replace(/\s/g, '-')}-accordion`}
       >
         <h2 aria-live="off" className={headerClasses}>
@@ -61,6 +64,7 @@ AccordionItem.propTypes = {
   expanded: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   button: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 AccordionItem.defaultProps = {

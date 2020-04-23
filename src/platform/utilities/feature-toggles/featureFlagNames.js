@@ -1,5 +1,8 @@
 export default Object.freeze({
+  facilityLocatorShowCovid19ChatbotLink:
+    'facilityLocatorShowCovid19ChatbotLink',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
+  covid19FaqChatbotLink: 'covid19FaqChatbotLink',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowProfile2: 'profile_show_profile_2.0',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
@@ -12,6 +15,6 @@ export default Object.freeze({
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
-  eduSection103: 'eduSection103',
+  eduSection103: 'edu_section_103',
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
 });
