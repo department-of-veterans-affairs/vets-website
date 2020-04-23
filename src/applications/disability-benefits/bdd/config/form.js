@@ -20,6 +20,9 @@ import prefillTransformer from '../../all-claims/prefill-transformer';
 
 import { transform } from '../../all-claims/submit-transformer';
 
+import { veteranInfoDescription } from '../../all-claims/content/veteranDetails';
+import { alternateNames, contactInformation } from '../../all-claims/pages';
+
 import migrations from '../../all-claims/migrations';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -62,17 +65,26 @@ const formConfig = {
   subTitle: 'Benefits Delivery at Discharge (BDD)',
   preSubmitInfo,
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    veteranDetails: {
+      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Service Member`,
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+        veteranInformation: {
+          title: 'Veteran information',
+          path: 'veteran-information',
+          uiSchema: { 'ui:description': veteranInfoDescription },
+          schema: { type: 'object', properties: {} },
+        },
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
+        alternateNames: {
+          title: 'Service under another name',
+          path: 'alternate-names',
+          uiSchema: alternateNames.uiSchema,
+          schema: alternateNames.schema,
         },
       },
     },
