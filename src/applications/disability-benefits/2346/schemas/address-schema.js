@@ -286,6 +286,14 @@ export const addressUISchema = (
         'ui:errorMessages': {
           required: 'Please enter a state/province/region',
         },
+        'ui:required': (formData, index) => {
+          let countryNamePath = `${path}.country`;
+          if (typeof index === 'number') {
+            countryNamePath = insertArrayIndex(countryNamePath, index);
+          }
+          const countryName = get(countryNamePath, formData);
+          return countryName !== USA.value;
+        },
         'ui:options': {
           hideIf: (formData, index) => {
             let countryNamePath = `${path}.country`;
