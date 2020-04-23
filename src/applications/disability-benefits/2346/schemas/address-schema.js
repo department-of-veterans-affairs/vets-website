@@ -194,7 +194,7 @@ export const addressUISchema = (
         'ui:required': callback,
         'ui:title': 'Street address',
         'ui:errorMessages': {
-          required: 'Street address is required',
+          required: 'Please enter a street address',
           pattern: 'Street address must be under 100 characters',
         },
       },
@@ -207,7 +207,7 @@ export const addressUISchema = (
       city: {
         'ui:required': callback,
         'ui:errorMessages': {
-          required: 'City is required',
+          required: 'Please enter a city',
           pattern: 'City must be under 100 characters',
         },
         'ui:options': {
@@ -244,7 +244,7 @@ export const addressUISchema = (
         },
         'ui:title': 'State',
         'ui:errorMessages': {
-          required: 'State is required',
+          required: 'Please select a state',
         },
         'ui:options': {
           hideIf: (formData, index) => {
@@ -311,7 +311,7 @@ export const addressUISchema = (
         },
         'ui:title': 'Postal Code',
         'ui:errorMessages': {
-          required: 'Zip code is required',
+          required: 'Please enter a postal code',
           pattern: 'Zip code must be 5 digits',
         },
         'ui:options': {
@@ -343,7 +343,7 @@ export const addressUISchema = (
           const countryName = get(countryNamePath, formData);
           return countryName && countryName !== USA.value;
         },
-        'ui:title': 'International postal code',
+        'ui:title': 'Please enter an international postal code',
         'ui:errorMessages': {
           required: 'Postal code is required',
         },
