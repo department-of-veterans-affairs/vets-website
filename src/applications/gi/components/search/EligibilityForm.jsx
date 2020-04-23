@@ -164,23 +164,6 @@ export class EligibilityForm extends React.Component {
           onChange={this.props.eligibilityChange}
         />
         <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Length of longest active duty tour:',
-            modal: 'consecutiveService',
-            ariaLabel: ariaLabels.learnMore.reapActiveDuty,
-          })}
-          name="consecutiveService"
-          options={[
-            { value: '0.8', label: '2+ years of consecutive service: 80%' },
-            { value: '0.6', label: '1+ year of consecutive service: 60%' },
-            { value: '0.4', label: '90+ days of consecutive service: 40%' },
-          ]}
-          value={this.props.consecutiveService}
-          alt="Length of longest active duty tour:"
-          visible={this.props.giBillChapter === '1607'}
-          onChange={this.props.eligibilityChange}
-        />
-        <Dropdown
           label="Are you eligible for the Post-9/11 GI Bill?"
           name="eligForPostGiBill"
           options={[
