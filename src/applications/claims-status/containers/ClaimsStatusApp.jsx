@@ -18,21 +18,19 @@ function AppContent({ children, isDataAvailable }) {
   );
 }
 
-class ClaimsStatusApp extends React.Component {
-  render() {
-    return (
-      <RequiredLoginView
-        verify
-        serviceRequired={[
-          backendServices.EVSS_CLAIMS,
-          backendServices.APPEALS_STATUS,
-        ]}
-        user={this.props.user}
-      >
-        <AppContent>{this.props.children}</AppContent>
-      </RequiredLoginView>
-    );
-  }
+function ClaimsStatusApp({ user, children }) {
+  return (
+    <RequiredLoginView
+      verify
+      serviceRequired={[
+        backendServices.EVSS_CLAIMS,
+        backendServices.APPEALS_STATUS,
+      ]}
+      user={user}
+    >
+      <AppContent>{children}</AppContent>
+    </RequiredLoginView>
+  );
 }
 
 function mapStateToProps(state) {
