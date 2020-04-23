@@ -1,5 +1,6 @@
 import { apiRequest } from '../../platform/utilities/api';
-import { watchForButtonClicks } from './utils';
+import recordEvent from '../../platform/monitoring/record-event';
+import { watchForButtonClicks, GA_PREFIX } from './utils';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
@@ -62,6 +63,7 @@ const initBotConversation = jsonWebToken => {
     userAvatarInitials: 'You',
     backgroundColor: '#F8F8F8',
     primaryFont: 'Source Sans Pro, sans-serif',
+    bubbleMinWidth: 100,
   };
 
   const webchatStore = window.WebChat.createStore(
@@ -114,7 +116,18 @@ const initBotConversation = jsonWebToken => {
     username: user.name,
     locale: user.locale,
   };
-  startChat(user, webchatOptions);
+  try {
+    startChat(user, webchatOptions);
+    recordEvent({
+      event: `${GA_PREFIX}-connection-successful`,
+      'error-key': undefined,
+    });
+  } catch (error) {
+    recordEvent({
+      event: `${GA_PREFIX}-connection-failure`,
+      'error-key': 'XX_failed_to_start_chat',
+    });
+  }
 };
 
 export const requestChatBot = loc => {
@@ -133,12 +146,15 @@ export const requestChatBot = loc => {
   if (params.has('userName')) {
     path += `&userName=${params.get('userName')}`;
   }
-
   return apiRequest(path, { method: 'POST' })
     .then(({ token }) => initBotConversation(token))
     .catch(error => {
       // eslint-disable-next-line no-console
       console.log(error);
+      recordEvent({
+        event: `${GA_PREFIX}-connection-failure`,
+        'error-key': 'XX_failed_to_init_bot_convo',
+      });
     });
 };
 const chatRequested = scenario => {

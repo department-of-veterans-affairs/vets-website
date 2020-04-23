@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { itfNotice } from '../content/introductionPage';
 
 class IntroductionPage extends React.Component {

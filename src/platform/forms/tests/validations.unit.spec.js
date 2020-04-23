@@ -286,6 +286,12 @@ describe('Validations unit tests', () => {
       validateLength(40)(errors, 'Less than forty characters');
       expect(errors.addError.called).to.be.false;
     });
+    // validateLength now also calls validateWhiteSpace
+    it('should add an error if the input contains only whitespace', () => {
+      const errors = { addError: spy() };
+      validateLength(4)(errors, '  ');
+      expect(errors.addError.called).to.be.true;
+    });
   });
 
   describe('validateWhiteSpace', () => {

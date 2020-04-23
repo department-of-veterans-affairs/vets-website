@@ -2,11 +2,11 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import DowntimeBanner from '../../../platform/monitoring/DowntimeNotification/components/Banner';
-import CallVBACenter from '../../../platform/static-data/CallVBACenter';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import DowntimeBanner from 'platform/monitoring/DowntimeNotification/components/Banner';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 

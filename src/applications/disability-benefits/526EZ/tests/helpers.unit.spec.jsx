@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 import {
   validateDisability,

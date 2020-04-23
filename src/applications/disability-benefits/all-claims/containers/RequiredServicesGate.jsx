@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 import environment from 'platform/utilities/environment';
 
