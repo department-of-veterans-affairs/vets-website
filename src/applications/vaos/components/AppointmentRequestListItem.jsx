@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
-import {
-  getLocationHeader,
-  getAppointmentLocation,
-  getRequestDateOptions,
-  getRequestTimeToCall,
-  getPurposeOfVisit,
-  getAppointmentTypeHeader,
-  sentenceCase,
-} from '../utils/appointment';
+import ListBestTimeToCall from './ListBestTimeToCall';
+import { sentenceCase } from '../utils/formatters';
+
+import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
+import AppointmentStatus from './AppointmentStatus';
+import VAFacilityLocation from './VAFacilityLocation';
+import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -47,7 +45,7 @@ export default class AppointmentRequestListItem extends React.Component {
       facility,
     } = this.props;
     const { showMore } = this.state;
-    const canceled = appointment.status === 'Cancelled';
+    const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
     const firstMessage =
       messages?.[appointment.id]?.[0]?.attributes?.messageText;
 
@@ -55,8 +53,8 @@ export default class AppointmentRequestListItem extends React.Component {
       'vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
       {
         'vads-u-border-top--4px': true,
-        'vads-u-border-color--warning-message': !canceled,
-        'vads-u-border-color--secondary-dark': canceled,
+        'vads-u-border-color--warning-message': !cancelled,
+        'vads-u-border-color--secondary-dark': cancelled,
       },
     );
 
@@ -67,55 +65,49 @@ export default class AppointmentRequestListItem extends React.Component {
         className={itemClasses}
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-          {getAppointmentTypeHeader(appointment)}
+          {appointment.isCommunityCare && 'Community Care'}
+          {!appointment.isCommunityCare &&
+            !!appointment.videoType &&
+            'VA Video Connect'}
+          {!appointment.isCommunityCare &&
+            !appointment.videoType &&
+            'VA Appointment'}
         </div>
         <h3
           id={`card-${index}`}
           className="vads-u-font-size--h3 vads-u-margin-y--0"
         >
-          {sentenceCase(appointment.appointmentType)} appointment
+          {sentenceCase(appointment.typeOfCare)} appointment
         </h3>
-        <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
-          <div className="vads-u-margin-right--1">
-            {canceled ? (
-              <i aria-hidden="true" className="fas fa-exclamation-circle" />
-            ) : (
-              <i aria-hidden="true" className="fas fa-exclamation-triangle" />
+        <AppointmentStatus status={appointment.status} index={index} />
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
+            {appointment.isCommunityCare && (
+              <AppointmentRequestCommunityCareLocation
+                appointment={appointment}
+              />
+            )}
+            {!appointment.isCommunityCare && (
+              <VAFacilityLocation
+                facility={facility}
+                facilityName={appointment.facilityName}
+                facilityId={appointment.facility.facilityCode}
+              />
             )}
           </div>
-          <span className="vads-u-font-weight--bold vads-u-flex--1">
-            <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
-              {canceled ? (
-                <span id={`card-${index}-status`}>Canceled</span>
-              ) : (
-                <>
-                  <strong id={`card-${index}-status`}>Pending</strong>{' '}
-                  <div className="vads-u-font-weight--normal">
-                    The time and date of this appointment are still to be
-                    determined.
-                  </div>
-                </>
-              )}
-            </div>
-          </span>
-        </div>
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {getLocationHeader(appointment)}
-              </dt>
-              <dd>{getAppointmentLocation(appointment, facility)}</dd>
-            </dl>
-          </div>
-          <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
+          <div className="vads-u-flex--1 vaos-u-word-break--break-word">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 Preferred date and time
               </dt>
               <dd>
                 <ul className="usa-unstyled-list">
-                  {getRequestDateOptions(appointment)}
+                  {appointment.dateOptions.map((option, optionIndex) => (
+                    <li key={`${appointment.id}-option-${optionIndex}`}>
+                      {option.date.format('ddd, MMMM D, YYYY')}{' '}
+                      {TIME_TEXT[option.optionTime]}
+                    </li>
+                  ))}
                 </ul>
               </dd>
             </dl>
@@ -130,7 +122,7 @@ export default class AppointmentRequestListItem extends React.Component {
               <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold">
-                    {getPurposeOfVisit(appointment)}
+                    {appointment.purposeOfVisit}
                   </dt>
                   <dd>{firstMessage}</dd>
                 </dl>
@@ -146,7 +138,9 @@ export default class AppointmentRequestListItem extends React.Component {
                     {appointment.phoneNumber}
                     <br />
                     <span className="vads-u-font-style--italic">
-                      {getRequestTimeToCall(appointment)}
+                      <ListBestTimeToCall
+                        timesToCall={appointment.bestTimetoCall}
+                      />
                     </span>
                   </dd>
                 </dl>
@@ -155,7 +149,7 @@ export default class AppointmentRequestListItem extends React.Component {
           </AdditionalInfo>
         </div>
         {showCancelButton &&
-          !canceled && (
+          !cancelled && (
             <div className="vads-u-margin-top--2">
               <button
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"

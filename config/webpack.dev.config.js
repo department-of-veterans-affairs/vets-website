@@ -1,10 +1,8 @@
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
-const appSettings = require('./parse-app-settings');
+const manifestHelpers = require('./manifest-helpers');
 
 function generateWebpackDevConfig(buildOptions) {
-  appSettings.parseFromBuildOptions(buildOptions);
-
-  const routes = appSettings.getAllApplicationRoutes();
+  const routes = manifestHelpers.getAppRoutes();
   const appRewrites = routes
     .map(url => ({
       from: `^${url}(.*)`,
@@ -45,6 +43,8 @@ function generateWebpackDevConfig(buildOptions) {
       modules: false,
       warnings: true,
     },
+    // Needed to write the landing pages to disk so webpack-dev-server will actually serve them
+    writeToDisk: true,
     before: app => {
       // We're doing this because some of the pages
       // that we are redirecting end with asp and we want

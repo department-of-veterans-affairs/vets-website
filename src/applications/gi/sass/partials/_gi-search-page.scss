@@ -187,11 +187,11 @@
     }
   }
   .gi-checkbox-label:before {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px $color-gray-medium;
+    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-gray-medium;
   }
 
   .usa-alert {
-    background-color: white;
+    background-color: $color-white;
     padding: .5em 1em;
     margin-top: 1em;
   }

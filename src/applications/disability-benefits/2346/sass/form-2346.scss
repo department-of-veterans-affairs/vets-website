@@ -7,24 +7,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.order-background {
-  background-color: #f1f1f1;
-  padding-left: 2em;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-}
-.gray-color {
-  background-color: #f1f1f1;
-}
-
-.form-expanding-group {
-  margin-bottom: 25px;
-}
-.mdot-alert-body {
-  padding-left: 1rem;
-}
-
 .button-dimensions {
   margin-top: 2rem;
   width: 267px;
@@ -39,8 +21,8 @@ label {
 }
 
 [type="checkbox"]:checked + label::before {
-  background: #fff !important;
-  color: #0071bb !important;
+  background: $color-white !important;
+  color: $color-primary !important;
   content: "\2713";
 }
 
@@ -52,22 +34,19 @@ label {
   margin-top: 0;
 }
 
-.required {
-  color: red;
-  font-weight: normal;
-}
-
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-   background-color: #fff;
+  background-color: $color-white;
+  box-shadow: 0 0 0 2px #0071BB, 0 0 0 4px #ffffff;
+}
+//Radio button selection color
+
+[type=checkbox]:not(:checked) + label::before, [type=radio]:not(:checked) + label::before {
+  background-color: $color-white;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #0071BB;
 }
 
-.blue-bar-block {
-  border-left: 7px solid $color-primary;
-  padding-left: 1em;
-
-  p {
-    margin: 0.5em 0;
-  }
+.schemaform-label {
+  max-width: 100% !important;
 }
 
 // ReviewCardField styles
@@ -87,7 +66,6 @@ label {
   }
 
   .review-card--body {
-    padding: 1.5rem;
     border: 2px solid $color-gray-lightest;
     // Remove the top border because it looks like it just extends the header
     border-top: none;
@@ -95,6 +73,10 @@ label {
 
     .review-card--title {
       margin: 1.5rem 0 2.5rem;
+    }
+
+    input[type="text"]:disabled {
+      background-color: $color-gray-lightest;
     }
 
     .update-button,

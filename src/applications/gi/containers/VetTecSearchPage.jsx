@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -22,7 +23,7 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
-import { renderVetTecLogo } from '../utils/render';
+import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
 import ServiceError from '../components/ServiceError';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -226,13 +227,6 @@ export class VetTecSearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => (
-    <h1 tabIndex={-1}>
-      {!search.inProgress &&
-        `${(search.count || 0).toLocaleString()} Search Results`}
-    </h1>
-  );
-
   render() {
     const { search, filters } = this.props;
 
@@ -247,6 +241,10 @@ export class VetTecSearchPage extends React.Component {
 
     const searchResults = this.searchResults();
 
+    const prodFlagSearchLogo = environment.isProduction()
+      ? 'vettec-logo'
+      : 'vettec-logo-search';
+
     return (
       <ScrollElement name="searchPage" className="search-page">
         {search.error ? (
@@ -254,15 +252,15 @@ export class VetTecSearchPage extends React.Component {
         ) : (
           <div>
             <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
-              {renderVetTecLogo(classNames('vettec-logo'))}
+              {renderVetTecLogo(classNames(prodFlagSearchLogo))}
             </div>
             <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end vads-u-margin-top--neg3">
               <div className="vads-l-col--9 search-results-count">
-                {this.renderSearchResultsHeader(this.props.search)}
+                {renderSearchResultsHeader(this.props.search)}
               </div>
               <div className="vads-l-col--3">
                 <div className="vads-u-display--none single-column-display-block vettec-logo-container">
-                  {renderVetTecLogo(classNames('vettec-logo'))}
+                  {renderVetTecLogo(classNames(prodFlagSearchLogo))}
                 </div>
               </div>
             </div>

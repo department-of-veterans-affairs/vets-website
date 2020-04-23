@@ -7,6 +7,12 @@
 <html lang="en">
 <!--<![endif]-->
 
+<!--
+  layout: {{ layout }}
+  path: {{ path }}
+  entityId: {{ entityId | default: 'N/A' }}
+-->
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -21,7 +27,6 @@
   {% endif %}
 
   <script src="/js/record-event.js"></script>
-  <script src="/js/settings.js"></script>
 
   {% include 'src/site/includes/google-analytics' %}
 
@@ -43,8 +48,8 @@
   <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- CSS -->
-  <link rel="stylesheet" data-entry-name="style.css">
-  <link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
+  <link rel="stylesheet" href="/generated/style.css">
+  <link rel="stylesheet" href="/generated/{{ entryname | default: 'static-pages' }}.css">
 
   <!-- Old IE -->
 
@@ -52,9 +57,9 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-  <script defer nomodule data-entry-name="polyfills.js"></script>
-  <script defer data-entry-name="vendor.js"></script>
-  <script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
+  <script defer nomodule src="/generated/polyfills.entry.js"></script>
+  <script defer src="/generated/vendor.entry.js"></script>
+  <script defer src="/generated/{{ entryname | default: 'static-pages' }}.entry.js"></script>
 
   <!--
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.
@@ -80,8 +85,8 @@
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if path == '' or path == '/' %}
-  <div data-widget-type="homepage-banner"></div>
+  {% if homepage_banner and homepage_banner.visible %}
+    {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
   {% endif %}
 
   <script async src="/js/incompatible-browser.js"></script>

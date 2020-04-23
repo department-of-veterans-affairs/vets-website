@@ -1,5 +1,5 @@
 import React from 'react';
 
-const PersonalInformation = () => <h1>Personal Information</h1>;
+const PersonalInformation = () => <h2>Personal Information</h2>;
 
 export default PersonalInformation;

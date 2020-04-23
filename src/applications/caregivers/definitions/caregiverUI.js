@@ -7,7 +7,7 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   FacilityInfo,
   PrimaryHealthCoverage,
-} from 'applications/caregivers/components/AdditionalInfo/formInfo';
+} from 'applications/caregivers/components/AdditionalInfo';
 
 import { primaryCaregiverFields, vetFields } from './constants';
 import {

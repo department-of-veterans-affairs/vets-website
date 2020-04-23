@@ -5,6 +5,8 @@ import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
@@ -51,6 +53,7 @@ export class ProfilePage extends React.Component {
 
   handleViewWarnings = () => {
     this._cautionaryInfo.setState({ expanded: true });
+    focusElement('#viewWarnings');
   };
 
   render() {
@@ -81,6 +84,7 @@ export class ProfilePage extends React.Component {
             calculator={this.props.calculator}
             eligibility={this.props.eligibility}
             version={this.props.location.query.version}
+            eduSection103={this.props.eduSection103}
           />
         );
       }
@@ -104,7 +108,13 @@ const mapStateToProps = state => {
     calculator,
     eligibility,
   } = state;
-  return { constants, profile, calculator, eligibility };
+  return {
+    constants,
+    profile,
+    calculator,
+    eligibility,
+    eduSection103: toggleValues(state)[FEATURE_FLAG_NAMES.eduSection103],
+  };
 };
 
 const mapDispatchToProps = {

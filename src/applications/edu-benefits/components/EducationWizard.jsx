@@ -3,6 +3,8 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import { educationWizard10203 } from '../selectors/educationWizard';
+import { connect } from 'react-redux';
 
 const levels = [
   ['newBenefit'],
@@ -13,7 +15,7 @@ const levels = [
   ['applyForScholarship'],
 ];
 
-export default class EducationWizard extends React.Component {
+export class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -125,6 +127,10 @@ export default class EducationWizard extends React.Component {
       vetTecBenefit,
       applyForScholarship,
     } = this.state;
+
+    const { showSTEMScholarship } = this.props;
+
+    const form1995 = showSTEMScholarship ? '10203' : '1995';
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
@@ -418,7 +424,8 @@ export default class EducationWizard extends React.Component {
                   label="Based on the eligibility requirements above, do you want to apply for this scholarship?"
                 />
                 <div className="vads-u-padding-top--2">
-                  {(applyForScholarship === 'yes' && this.getButton('1995')) ||
+                  {(applyForScholarship === 'yes' &&
+                    this.getButton(form1995)) ||
                     (applyForScholarship === 'no' && (
                       <p>
                         Learn what other education benefits you may be eligible
@@ -459,3 +466,9 @@ export default class EducationWizard extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  showSTEMScholarship: educationWizard10203(state),
+});
+
+export default connect(mapStateToProps)(EducationWizard);
