@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export * from '../../../../platform/user/profile/actions';
 
