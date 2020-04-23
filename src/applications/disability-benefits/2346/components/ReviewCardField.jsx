@@ -316,26 +316,32 @@ class ReviewCardField extends React.Component {
                 Add a {title.toLowerCase()}
               </a>
             )}
-          <div
-            className={
-              this.props.name === this.props.currentAddress
-                ? BLUE_BACKGROUND
-                : WHITE_BACKGROUND
-            }
-          >
-            <input
-              id={this.props.name}
-              type="radio"
-              checked={this.props.currentAddress === this.props.name}
-              onChange={() => this.onChange('currentAddress', this.props.name)}
-            />
-            <label
-              className="vads-u-font-weight--bold"
-              htmlFor={this.props.name}
-            >
-              Send my order to this address
-            </label>
-          </div>
+          {street &&
+            city &&
+            country && (
+              <div
+                className={
+                  this.props.name === this.props.currentAddress
+                    ? BLUE_BACKGROUND
+                    : WHITE_BACKGROUND
+                }
+              >
+                <input
+                  id={this.props.name}
+                  type="radio"
+                  checked={this.props.currentAddress === this.props.name}
+                  onChange={() =>
+                    this.onChange('currentAddress', this.props.name)
+                  }
+                />
+                <label
+                  className="vads-u-font-weight--bold"
+                  htmlFor={this.props.name}
+                >
+                  Send my order to this address
+                </label>
+              </div>
+            )}
         </div>
         {volatileData && (
           <button
