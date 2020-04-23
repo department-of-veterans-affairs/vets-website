@@ -23,7 +23,6 @@ class TabItem extends React.Component {
 
     const tabClasses = classNames(
       'vaos-appts__tab',
-      'vads-u-background-color--gray-light-alt',
       'vads-u-display--inline-block',
       'vads-u-text-align--center',
       'vads-u-color--gray-dark',
