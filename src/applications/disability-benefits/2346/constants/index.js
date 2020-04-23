@@ -12,7 +12,6 @@ export const schemaFields = {
   selectedAddressField: 'selectedAddress',
   newAddressField: 'newAddress',
   typeOfNewAddressField: 'typeOfNewAddress',
-  selectedBatteriesField: 'selectedBatteries',
 };
 
 export const militaryStates = states.USA.filter(

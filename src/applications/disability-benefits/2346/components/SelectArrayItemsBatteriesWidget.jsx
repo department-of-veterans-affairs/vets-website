@@ -10,25 +10,28 @@ import {
 } from '../constants';
 
 class SelectArrayItemsBatteriesWidget extends Component {
-  handleChecked = (productId, checked) => {
-    const { selectedBatteries, formData } = this.props;
-    let updatedSelectedBatteries;
+  handleChecked = (productId, checked, supply) => {
+    const { selectedProducts, formData } = this.props;
+    let updatedSelectedProducts;
     if (checked) {
-      updatedSelectedBatteries = [...selectedBatteries, productId];
+      updatedSelectedProducts = [
+        ...selectedProducts,
+        { productId: supply.productId },
+      ];
     } else {
-      updatedSelectedBatteries = selectedBatteries.filter(
-        selectedBattery => selectedBattery !== productId,
+      updatedSelectedProducts = selectedProducts.filter(
+        selectedProduct => selectedProduct.productId !== supply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedBatteries: updatedSelectedBatteries,
+      selectedProducts: updatedSelectedProducts,
     };
     return this.props.setData(updatedFormData);
   };
 
   render() {
-    const { supplies, selectedBatteries } = this.props;
+    const { supplies, selectedProducts } = this.props;
 
     return (
       <>
@@ -72,16 +75,28 @@ class SelectArrayItemsBatteriesWidget extends Component {
                 </div>
                 <div
                   className={
-                    supply.selected ? BLUE_BACKGROUND : WHITE_BACKGROUND
+                    selectedProducts.find(
+                      selectedProduct =>
+                        selectedProduct.productId === supply.productId,
+                    )
+                      ? BLUE_BACKGROUND
+                      : WHITE_BACKGROUND
                   }
                 >
                   <input
                     id={supply.productId}
                     type="checkbox"
                     onChange={e => {
-                      this.handleChecked(supply.productId, e.target.checked);
+                      this.handleChecked(
+                        supply.productId,
+                        e.target.checked,
+                        supply,
+                      );
                     }}
-                    checked={selectedBatteries.includes(supply.productId)}
+                    checked={selectedProducts.find(
+                      selectedProduct =>
+                        selectedProduct.productId === supply.productId,
+                    )}
                   />
                   <label htmlFor={supply.productId} className="main">
                     Order batteries for this device
@@ -100,7 +115,7 @@ class SelectArrayItemsBatteriesWidget extends Component {
 SelectArrayItemsBatteriesWidget.defaultProps = {
   formData: {},
   supplies: [],
-  selectedBatteries: [],
+  selectedProducts: [],
 };
 
 SelectArrayItemsBatteriesWidget.propTypes = {
@@ -117,13 +132,17 @@ SelectArrayItemsBatteriesWidget.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  selectedBatteries: PropTypes.array,
+  selectedProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      productId: PropTypes.string,
+    }),
+  ),
 };
 
 const mapStateToProps = state => ({
   supplies: state.form?.loadedData?.formData?.supplies,
   formData: state.form?.data,
-  selectedBatteries: state.form?.data?.selectedBatteries,
+  selectedProducts: state.form?.data?.selectedProducts,
 });
 
 const mapDispatchToProps = {

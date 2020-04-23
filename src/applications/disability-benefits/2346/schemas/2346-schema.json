@@ -362,7 +362,7 @@
             "type": "string"
           },
           "productId": {
-            "type": "number"
+            "type": "string"
           },
           "availableForReorder": {
             "type": "boolean"
@@ -416,12 +416,6 @@
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
-    },
-    "selectedBatteries": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
     },
     "selectedAddress": {
       "type": "string",
