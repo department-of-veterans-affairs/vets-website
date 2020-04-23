@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
+
 const { fork } = require('child_process');
-const { Writable } = require('stream');
 const chokidar = require('chokidar');
 const util = require('util');
 const glob = util.promisify(require('glob'));
@@ -16,6 +17,30 @@ let pendingTests = [];
 // all unit test files
 const allUnitTests = glob.sync('{src,test}/**/*.unit.spec.js?(x)');
 
+function runMochaTests(tests) {
+  // fork mocha into a separate process
+  const forked = fork('./script/mocha.js');
+
+  return new Promise((fulfill, reject) => {
+    // send the mocha process the tests to run
+    forked.send({
+      tests,
+      showErrors,
+    });
+    forked.on('message', ({ error, requiredFiles, unitTestsForSrc }) => {
+      if (error) {
+        // mocha runner returned an error
+        reject(error);
+      } else {
+        // mocha runner returend a list of files it required and a map of unit tests to source files
+        fulfill({ requiredFiles, unitTestsForSrc });
+      }
+      // kill mocha
+      forked.kill('SIGHUP');
+    });
+  });
+}
+
 // runs array of test files passed in or all tests if no value provided
 async function runUnitTests(unitTests = allUnitTests) {
   if (busy) {
@@ -24,11 +49,11 @@ async function runUnitTests(unitTests = allUnitTests) {
   }
   console.log(chalk.cyan(`Running ${unitTests.length} unit test files`));
 
-  // watchedFiles: all of the project files that mocha required (no node_modules)
-  // list of source files and their associated unit tests
   busy = true;
-  let watchedFiles, unitTestsForSrc;
+  let unitTestsForSrc;
+  let requiredFiles;
   try {
+    // eslint-disable-next-line no-undef
     ({ requiredFiles, unitTestsForSrc } = await runMochaTests(unitTests));
   } catch (e) {
     if (!watcher) {
@@ -53,10 +78,10 @@ async function runUnitTests(unitTests = allUnitTests) {
     console.log(chalk.yellow('Changes detected during last run.'));
     console.log(chalk.yellow('======'));
     return;
-  } else {
-    console.log(chalk.yellow('Watching for changes'));
-    console.log(chalk.yellow('======\n\n'));
   }
+
+  console.log(chalk.yellow('Watching for changes'));
+  console.log(chalk.yellow('======\n\n'));
 
   // watcher is only created once- if new files are added, then watcher must be restarted
   if (!watcher) {
@@ -76,30 +101,6 @@ async function runUnitTests(unitTests = allUnitTests) {
       }
     });
   }
-}
-
-function runMochaTests(tests) {
-  // fork mocha into a separate process
-  const forked = fork('./script/mocha.js');
-
-  return new Promise((fulfill, reject) => {
-    // send the mocha process the tests to run
-    forked.send({
-      tests,
-      showErrors,
-    });
-    forked.on('message', ({ error, requiredFiles, unitTestsForSrc }) => {
-      if (error) {
-        // mocha runner returned an error
-        reject(error);
-      } else {
-        // mocha runner returend a list of files it required and a map of unit tests to source files
-        fulfill({ requiredFiles, unitTestsForSrc });
-      }
-      // kill mocha
-      forked.kill('SIGHUP');
-    });
-  });
 }
 
 runUnitTests();
