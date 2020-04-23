@@ -269,3 +269,33 @@ export const confirmationEmail = label => ({
     },
   ],
 });
+
+export const addressWithoutCountry = {
+  'ui:title': ' ',
+  'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
+  street: {
+    'ui:title': 'Street',
+    'ui:errorMessages': { required: 'Please enter a street address' },
+  },
+  street2: { 'ui:title': 'Line 2' },
+  city: {
+    'ui:title': 'City',
+    'ui:errorMessages': { required: 'Please enter a city' },
+  },
+  state: {
+    'ui:title': 'State',
+    'ui:options': {
+      labels: stateLabels,
+    },
+    'ui:errorMessages': { required: 'Please enter a state' },
+  },
+  postalCode: {
+    'ui:title': 'Postal code',
+    'ui:options': { widgetClassNames: 'usa-input-medium' },
+    'ui:errorMessages': {
+      required: 'Please enter a postal code',
+      pattern:
+        'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+    },
+  },
+};

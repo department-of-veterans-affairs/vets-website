@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import * as getAddressSchema from 'platform/forms-system/src/js/definitions/address';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { states } from 'platform/forms/address';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
@@ -17,7 +16,10 @@ import {
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import { medicalCentersByState } from 'applications/caregivers/helpers';
-import definitions, { confirmationEmail } from '../definitions/caregiverUI';
+import definitions, {
+  confirmationEmail,
+  addressWithoutCountry,
+} from '../definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 
@@ -44,7 +46,6 @@ const {
 } = fullSchema.definitions;
 
 const {
-  addressUI,
   alternativePhoneNumberUI,
   dateOfBirthUI,
   emailUI,
@@ -87,6 +88,7 @@ const formConfig = {
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
     address,
+    addressWithoutCountry,
     date,
     email,
     fullName,
@@ -130,7 +132,7 @@ const formConfig = {
           title: 'Veteran Information (Continued)',
           uiSchema: {
             'ui:description': VetInfo,
-            [vetFields.address]: addressUI,
+            [vetFields.address]: addressWithoutCountry,
             [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [vetFields.email]: emailUI,
@@ -140,7 +142,7 @@ const formConfig = {
             type: 'object',
             required: [vetFields.address],
             properties: {
-              [vetFields.address]: getAddressSchema.schema(fullSchema, true),
+              [vetFields.address]: address,
               [vetFields.primaryPhoneNumber]: phone,
               [vetFields.alternativePhoneNumber]: phone,
               [vetFields.email]: veteranProps.email,
@@ -241,7 +243,7 @@ const formConfig = {
           title: 'Primary Caregiver Information (Continued)',
           uiSchema: {
             'ui:description': PrimaryCaregiverInfo({ additionalInfo: true }),
-            [primaryCaregiverFields.address]: addressUI,
+            [primaryCaregiverFields.address]: addressWithoutCountry,
             [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
             [primaryCaregiverFields.email]: emailUI,
@@ -257,10 +259,7 @@ const formConfig = {
               primaryCaregiverFields.vetRelationship,
             ],
             properties: {
-              [primaryCaregiverFields.address]: getAddressSchema.schema(
-                fullSchema,
-                true,
-              ),
+              [primaryCaregiverFields.address]: address,
               [primaryCaregiverFields.primaryPhoneNumber]:
                 primaryCaregiverProps.primaryPhoneNumber,
               [primaryCaregiverFields.alternativePhoneNumber]:
@@ -373,7 +372,8 @@ const formConfig = {
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
-            [secondaryCaregiverFields.secondaryOne.address]: addressUI,
+            [secondaryCaregiverFields.secondaryOne
+              .address]: addressWithoutCountry,
             [secondaryCaregiverFields.secondaryOne
               .primaryPhoneNumber]: primaryPhoneNumberUI,
             [secondaryCaregiverFields.secondaryOne
@@ -396,8 +396,7 @@ const formConfig = {
             ],
             properties: {
               // secondaryOne properties
-              [secondaryCaregiverFields.secondaryOne
-                .address]: getAddressSchema.schema(fullSchema, true),
+              [secondaryCaregiverFields.secondaryOne.address]: address,
               [secondaryCaregiverFields.secondaryOne.primaryPhoneNumber]:
                 secondaryOneCaregiverProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryOne.alternativePhoneNumber]:
@@ -430,7 +429,8 @@ const formConfig = {
               secondaryCaregiverUI.secondaryTwo.dateOfBirthUI,
             [secondaryCaregiverFields.secondaryTwo.gender]:
               secondaryCaregiverUI.secondaryTwo.genderUI,
-            [secondaryCaregiverFields.secondaryTwo.address]: addressUI,
+            [secondaryCaregiverFields.secondaryTwo
+              .address]: addressWithoutCountry,
           },
           schema: {
             type: 'object',
@@ -460,7 +460,8 @@ const formConfig = {
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI
-            [secondaryCaregiverFields.secondaryTwo.address]: addressUI,
+            [secondaryCaregiverFields.secondaryTwo
+              .address]: addressWithoutCountry,
             [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
               secondaryCaregiverUI.secondaryTwo.primaryPhoneNumberUI,
             [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
@@ -482,8 +483,7 @@ const formConfig = {
             ],
             properties: {
               // secondaryTwo properties
-              [secondaryCaregiverFields.secondaryTwo
-                .address]: getAddressSchema.schema(fullSchema, true),
+              [secondaryCaregiverFields.secondaryTwo.address]: address,
               [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
                 secondaryTwoCaregiverProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
