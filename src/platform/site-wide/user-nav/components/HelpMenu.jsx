@@ -3,10 +3,10 @@ import React from 'react';
 
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/formation-react/IconHelp';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
-import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
+import facilityLocatorManifest from 'applications/facility-locator/manifest.json';
 
 const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 

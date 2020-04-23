@@ -25,10 +25,11 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
-import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import addLinkToCovidFAQ from './covidFaqLink';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -47,7 +48,7 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-import createCoronavirusChatbot from '../covid19-chatbot/createCoronavirusChatbot';
+import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -134,6 +135,10 @@ createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
+}
+
+if (location.pathname === '/coronavirus-veteran-frequently-asked-questions/') {
+  addLinkToCovidFAQ(store);
 }
 
 /* eslint-disable no-unused-vars,camelcase */

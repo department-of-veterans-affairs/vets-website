@@ -1,6 +1,6 @@
 import content from '../content/bddRedirect';
 import { activeServicePeriods } from '../utils';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export const depends = formData =>
   !environment.isProduction() && !!activeServicePeriods(formData).length;

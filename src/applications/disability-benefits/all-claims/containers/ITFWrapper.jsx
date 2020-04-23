@@ -33,7 +33,6 @@ export class ITFWrapper extends React.Component {
   // eslint-disable-next-line
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { itf, location } = nextProps;
-
     if (this.shouldBlockITF(location.pathname)) {
       return;
     }
@@ -154,7 +153,7 @@ ITFWrapper.propTypes = {
   fetchITF: PropTypes.func.isRequired,
   createITF: PropTypes.func.isRequired,
   noITFPages: PropTypes.arrayOf(
-    PropTypes.oneOf([PropTypes.string, PropTypes.instanceOf(RegExp)]),
+    PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   ),
 };
 

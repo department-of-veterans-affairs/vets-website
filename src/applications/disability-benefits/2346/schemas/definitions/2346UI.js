@@ -31,11 +31,6 @@ const emailUIDescription = (
 const addBatteriesUITitle = (
   <h4 className="vads-u-display--inline ">Add batteries to your order</h4>
 );
-const selectedAddressUITitle = (
-  <p className="vads-u-font-weight--bold vads-u-display--inline">
-    Select the address where you'd like to send your order:
-  </p>
-);
 
 export default {
   'ui:title': fullSchema.title,
@@ -84,12 +79,9 @@ export default {
         viewComponent: AddressViewField,
       },
     },
-    selectedAddressUI: {
-      'ui:title': selectedAddressUITitle,
-      'ui:widget': 'radio',
-      'ui:required': () => true,
+    currentAddressUI: {
       'ui:options': {
-        widgetClassNames: 'vads-u-margin-top--4',
+        classNames: 'vads-u-display--none',
       },
     },
     emailUI: {
