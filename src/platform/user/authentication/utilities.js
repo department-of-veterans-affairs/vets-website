@@ -3,9 +3,15 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
+import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
+};
+
+export const ssoKeepAliveEndpoint = () => {
+  const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+  return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
 function sessionTypeUrl(type = '', version = 'v0', application = null) {
