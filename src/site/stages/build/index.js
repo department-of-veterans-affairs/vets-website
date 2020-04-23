@@ -26,7 +26,6 @@ const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const downloadAssets = require('./plugins/download-assets');
 const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
-const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createHeaderFooter = require('./plugins/create-header-footer');
@@ -224,11 +223,6 @@ function build(BUILD_OPTIONS) {
   );
   smith.use(rewriteDrupalPages(BUILD_OPTIONS), 'Rewrite Drupal pages');
   smith.use(createDrupalDebugPage(BUILD_OPTIONS), 'Create Drupal debug page');
-
-  // Create the data passed from the content build to the assets compiler.
-  // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
-  // In the browser, it can be accessed at window.settings.
-  smith.use(createBuildSettings(BUILD_OPTIONS), 'Create build settings');
 
   smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 

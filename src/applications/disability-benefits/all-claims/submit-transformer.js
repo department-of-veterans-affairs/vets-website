@@ -1,10 +1,10 @@
-import _ from '../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 import {
   transformForSubmit,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
-import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
   causeTypes,
