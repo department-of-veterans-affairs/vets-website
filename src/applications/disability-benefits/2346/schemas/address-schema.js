@@ -280,6 +280,9 @@ export const addressUISchema = (
       },
       province: {
         'ui:title': 'State/Province/Region',
+        'ui:errorMessages': {
+          required: 'Please enter a state/province/region',
+        },
         'ui:options': {
           hideIf: (formData, index) => {
             let countryNamePath = `${path}.country`;
