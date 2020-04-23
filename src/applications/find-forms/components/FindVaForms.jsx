@@ -16,7 +16,7 @@ export default () => (
   <>
     <SearchForm />
     <SearchResults />
-    <h2>Frequently-used VA forms</h2>
+    <h2>Frequently used VA forms</h2>
     <p>
       You can now do many form-based tasks online, like filing a disability
       claim, applying for the GI Bill or for VA health care benefits. We’ll walk
@@ -47,7 +47,7 @@ export default () => (
         <b>Apply for the GI Bill and other education benefits</b>
         <hr className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary" />
         <p className="va-nav-linkslist-description">
-          Equal to VA Forms 22-1990 and 22-1995
+          Includes VA Forms 22-1990 and 22-1995
         </p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
