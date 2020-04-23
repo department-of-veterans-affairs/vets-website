@@ -43,7 +43,7 @@ const AddressViewField = ({ formData }) => {
   return (
     <>
       {street && city && country ? (
-        <div className="vads-u-border-left--7px vads-u-border-color--primary ">
+        <div className="vads-u-border-left--7px vads-u-border-color--primary">
           <p className="vads-u-margin-left--2 vads-u-margin-top--0">
             {addLine(street)}
             {addLine(street2)}
