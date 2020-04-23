@@ -125,17 +125,17 @@ const uiSchema = {
     },
   },
   addressLine1: {
-    'ui:title': 'Street address',
+    'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
     'ui:errorMessages': {
       required: 'Street address is required',
       pattern: `Street address must be under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   addressLine2: {
-    'ui:title': 'Street address',
+    'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
   },
   addressLine3: {
-    'ui:title': 'Street address',
+    'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
   },
   city: {
     'ui:errorMessages': {

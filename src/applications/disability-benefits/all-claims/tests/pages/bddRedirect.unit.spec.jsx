@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const dateFormat = 'YYYY-MM-DD';

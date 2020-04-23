@@ -1,4 +1,4 @@
-import environment from '../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';

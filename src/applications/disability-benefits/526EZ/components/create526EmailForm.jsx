@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { apiRequest } from '../../../../platform/utilities/api';
-import { requestStates } from '../../../../platform/utilities/constants';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import { apiRequest } from 'platform/utilities/api';
+import { requestStates } from 'platform/utilities/constants';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 class EmailForm extends React.Component {
   constructor(props) {
