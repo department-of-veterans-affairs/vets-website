@@ -191,7 +191,6 @@ export const addressUISchema = (
         },
         'ui:errorMessages': {
           required: 'Please select a country',
-          pattern: 'Street address must be under 100 characters',
         },
       },
       street: {
