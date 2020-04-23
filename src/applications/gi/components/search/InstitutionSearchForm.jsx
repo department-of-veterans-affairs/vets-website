@@ -4,7 +4,6 @@ import EligibilityForm from './EligibilityForm';
 import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
-import environment from 'platform/utilities/environment';
 
 class InstitutionSearchForm extends React.Component {
   render() {
