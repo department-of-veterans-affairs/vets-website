@@ -1,0 +1,28 @@
+.va-btn-sidebarnav-trigger {
+  margin: units-px(1) 0;
+
+  button {
+    background-color: $color-primary;
+    color: $color-white;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      z-index: $top-layer;
+    }
+
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+
+    &:focus,
+    &:hover {
+      svg {
+        fill: $color-white;
+      }
+    }
+  }
+}
