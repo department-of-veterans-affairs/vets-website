@@ -9,8 +9,6 @@ import {
   WHITE_BACKGROUND,
 } from '../constants';
 
-// TODO: Safety checks for `selected` callback and `label` element
-
 class SelectArrayItemsBatteriesWidget extends Component {
   handleChecked = (productId, checked) => {
     const { selectedBatteries, formData } = this.props;
@@ -26,13 +24,6 @@ class SelectArrayItemsBatteriesWidget extends Component {
       ...formData,
       selectedBatteries: updatedSelectedBatteries,
     };
-
-    // const newSupplyData = set(key, value, supply);
-    // const newSupplies = set(  ,newSupplyData, this.props.supplies)
-    // const newFormData = {
-    //   ...this.props.formData,
-    //   newSupplyData,
-    // };
     return this.props.setData(updatedFormData);
   };
 
@@ -126,6 +117,7 @@ SelectArrayItemsBatteriesWidget.propTypes = {
       size: PropTypes.string,
     }),
   ),
+  selectedBatteries: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
