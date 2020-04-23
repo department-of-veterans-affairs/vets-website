@@ -66,7 +66,6 @@ const mhvToEauthRoutes = {
   'web/myhealthevet/refill-prescriptions': 'prescription_refill',
   'secure-messaging': 'secure_messaging',
   appointments: 'appointments',
-  'labs-tests': 'lab-tests',
 };
 
 const mhvUrlNonSSO = subroute => `${mhvBaseUrl()}/mhv-portal-web/${subroute}`;
