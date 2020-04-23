@@ -12,6 +12,16 @@ const disableButtons = event => {
     event.target.tagName === 'BUTTON' ? event.target : event.target.parentNode;
   const siblingButtons = targetButton.parentNode.childNodes;
 
+  const inputs = document
+    .getElementById('webchat')
+    .getElementsByTagName('input');
+
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].type === 'checkbox') {
+      inputs[i].disabled = true;
+    }
+  }
+
   for (let i = 0; i < siblingButtons.length; i++) {
     siblingButtons[i].disabled = true;
   }
