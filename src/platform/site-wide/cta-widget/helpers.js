@@ -137,7 +137,8 @@ export const toolUrl = appId => {
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        url: mhvUrl('labs-tests'),
+        // TODO refactor to mhvUrl once unblocked by MHV team
+        url: mhvUrlNonSSO('labs-tests'),
         redirect: true,
       };
 

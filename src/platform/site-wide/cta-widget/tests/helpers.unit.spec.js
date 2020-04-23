@@ -48,6 +48,7 @@ describe('CTA helpers', () => {
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=appointments`,
       );
     });
+    // TODO add this test once we have a valid URL to check
     // it('Lab Tests', () => {
     //   expect(toolUrl(widgetTypes.LAB_AND_TEST_RESULTS).url).to.equal();
     // });
