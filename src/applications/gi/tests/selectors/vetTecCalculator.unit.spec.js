@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
-import { calculatorConstants } from '../data/calculator-constants.json';
 import createCommonStore from 'platform/startup/store';
 import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
+
+const calculatorConstants = require('../data/calculator-constants.json');
 
 let defaultState = createCommonStore(reducer).getState();
 

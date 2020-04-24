@@ -2,9 +2,10 @@ import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
 import reducer from '../../reducers';
-import { calculatorConstants } from '../data/calculator-constants.json';
 import createCommonStore from 'platform/startup/store';
 import { estimatedBenefits } from '../../selectors/estimator';
+
+const calculatorConstants = require('../data/calculator-constants.json');
 
 const defaultState = createCommonStore(reducer).getState();
 
