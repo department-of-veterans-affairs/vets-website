@@ -27,7 +27,7 @@ class CautionaryWarningsFilter extends React.Component {
           {this.renderProfileCautionFlagModal()}
         </p>
         <Checkbox
-          checked={this.props.excludeCautionAndSchoolClosureFlags}
+          checked={this.props.excludeWarnings}
           name="excludeCautionAndSchoolClosureFlags"
           label="Exclude results with warnings or closings"
           onChange={this.props.onChange}
