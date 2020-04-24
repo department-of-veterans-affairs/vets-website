@@ -50,7 +50,6 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
       promos: homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos, // Promo blocks.
     };
 
-    // eslint-disable-next-line camelcase
     metalsmith.metadata({ emergencyBanner, ...metalsmith.metadata() });
 
     // Let Metalsmith know we're here.
