@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -241,10 +240,6 @@ export class VetTecSearchPage extends React.Component {
 
     const searchResults = this.searchResults();
 
-    const prodFlagSearchLogo = environment.isProduction()
-      ? 'vettec-logo'
-      : 'vettec-logo-search';
-
     return (
       <ScrollElement name="searchPage" className="search-page">
         {search.error ? (
@@ -252,7 +247,7 @@ export class VetTecSearchPage extends React.Component {
         ) : (
           <div>
             <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
-              {renderVetTecLogo(classNames(prodFlagSearchLogo))}
+              {renderVetTecLogo(classNames('vettec-logo-search'))}
             </div>
             <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end vads-u-margin-top--neg3">
               <div className="vads-l-col--9 search-results-count">
@@ -260,7 +255,7 @@ export class VetTecSearchPage extends React.Component {
               </div>
               <div className="vads-l-col--3">
                 <div className="vads-u-display--none single-column-display-block vettec-logo-container">
-                  {renderVetTecLogo(classNames(prodFlagSearchLogo))}
+                  {renderVetTecLogo(classNames('vettec-logo-search'))}
                 </div>
               </div>
             </div>
