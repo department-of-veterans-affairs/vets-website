@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign, no-continue */
+const fs = require('fs-extra');
 const path = require('path');
+const yaml = require('js-yaml');
 const _ = require('lodash');
 const set = require('lodash/fp/set');
 
@@ -247,7 +249,7 @@ function getFacilitySidebar(page, contentData) {
   return { links: [] };
 }
 
-function compilePage(page, contentData) {
+function compilePage(page, contentData, metalsmith, buildOptions) {
   const {
     data: {
       burialsAndMemorialsBenefQuery: burialsHubSidebarNav = {},
@@ -305,6 +307,17 @@ function compilePage(page, contentData) {
   }
 
   let pageCompiled;
+
+  // Derive the homepage banner.
+  const fragmentsRoot = metalsmith.path(buildOptions.contentFragments);
+  const bannerLocation = path.join(fragmentsRoot, 'home/banner.yml');
+  const bannerFile = fs.readFileSync(bannerLocation);
+  const banner = yaml.safeLoad(bannerFile);
+
+  // Add the homepage banner.
+  if (banner) {
+    page.homepage_banner = banner;
+  }
 
   switch (entityBundle) {
     case 'office':

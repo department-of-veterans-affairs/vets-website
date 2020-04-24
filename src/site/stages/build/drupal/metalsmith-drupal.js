@@ -47,7 +47,12 @@ const shouldPullDrupal = buildOptions => {
   );
 };
 
-function pipeDrupalPagesIntoMetalsmith(contentData, files) {
+function pipeDrupalPagesIntoMetalsmith(
+  contentData,
+  files,
+  metalsmith,
+  buildOptions,
+) {
   const {
     data: {
       nodeQuery: { entities: pages },
@@ -78,7 +83,12 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       entityBundle,
     } = page;
 
-    const pageCompiled = compilePage(page, contentData);
+    const pageCompiled = compilePage(
+      page,
+      contentData,
+      metalsmith,
+      buildOptions,
+    );
     const drupalPageDir = path.join('.', drupalUrl);
     const drupalFileName = path.join(drupalPageDir, 'index.html');
 
@@ -270,7 +280,12 @@ function getDrupalContent(buildOptions) {
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
 
       await loadCachedDrupalFiles(buildOptions, files);
-      pipeDrupalPagesIntoMetalsmith(drupalData, files);
+      pipeDrupalPagesIntoMetalsmith(
+        drupalData,
+        files,
+        metalsmith,
+        buildOptions,
+      );
       addHomeContent(drupalData, files, metalsmith, buildOptions);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
