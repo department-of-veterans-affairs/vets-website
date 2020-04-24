@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { checkAndUpdateSSOeSession } from '../../api/ssoHelpers';
+import { checkAndUpdateSSOeSession } from '../sso';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0) {
   const response = new Response();
