@@ -22,6 +22,7 @@ import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import NeedHelp from '../components/NeedHelp';
+import TabNav from '../components/TabNav';
 
 const pageTitle = 'VA appointments';
 
@@ -58,6 +59,7 @@ export class AppointmentsPage extends Component {
       showCommunityCare,
       showDirectScheduling,
       isCernerOnlyPatient,
+      showPastAppointments,
     } = this.props;
 
     return (
@@ -74,6 +76,7 @@ export class AppointmentsPage extends Component {
                 startNewAppointmentFlow={this.startNewAppointmentFlow}
               />
             )}
+            {showPastAppointments && <TabNav />}
             {children}
             <NeedHelp />
           </div>

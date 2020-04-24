@@ -26,11 +26,12 @@
   cursor: pointer;
   bottom: -1px;
   text-decoration: none;
+  background: $color-gray-light-alt;
 
   &:hover, &:focus, &:active {
     color: $color-gray-dark;
     text-decoration: none;
-    outline: none;
+    background: $color-gray-lighter;
   }
 
   &.vaos-appts__tab--current {

@@ -28,9 +28,9 @@ function VetTecProgramSearchResult({ version, result, constants }) {
     ? formatCurrency(tuitionAmount)
     : 'TBD';
 
-  const cautionFlag = cautionFlags && cautionFlags.length > 0;
 
-  const displayHours = lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
+    const displayHours =
+      lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
 
   const linkTo = {
     pathname: `profile/${facilityCode}/${description}`,
@@ -67,16 +67,13 @@ function VetTecProgramSearchResult({ version, result, constants }) {
                 {renderCautionAlert({ cautionFlag, cautionFlags })}
               </div>
             </div>
-          )}
-          <div className="row vads-u-padding-top--1p5">
-            <div className="small-12 medium-7 columns">
-              <div style={{ position: 'relative', bottom: 0 }}>
-                <p className="institution-name vads-u-font-weight--bold">
-                  {institutionName}
-                </p>
-                <p className="institution-location">
-                  {locationInfo(city, state, country)}
-                </p>
+
+            {(schoolClosing || cautionFlags.length > 0) && (
+              <div className="row alert-row">
+                <div className="small-12 columns">
+                  {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
+                  {renderCautionAlert({ cautionFlags })}
+                </div>
               </div>
             </div>
             <div className="small-12 medium-5 columns estimated-benefits">
