@@ -13,17 +13,30 @@ export default (_store, widgetType) => {
   import(/* webpackChunkName: "chatbot" */ './index')
     .then(module => {
       const initializeChatbot = module.default;
-      initializeChatbot(root);
+      initializeChatbot()
+        .then(webchatOptions => {
+          window.WebChat.renderWebChat(webchatOptions, root);
+        })
+        .then(
+          recordEvent({
+            event: `${GA_PREFIX}-connection-successful`,
+            'error-key': undefined,
+          }),
+        )
+        .catch(() => {
+          recordEvent({
+            event: `${GA_PREFIX}-connection-failure`,
+            'error-key': 'XX_failed_to_start_chat',
+          });
+        });
     })
-    // eslint-disable-next-line no-unused-vars
-    .then(res => {
+    .then(() => {
       recordEvent({
         event: `${GA_PREFIX}-load-successful`,
         'error-key': undefined,
       });
     })
-    // eslint-disable-next-line no-unused-vars
-    .catch(error => {
+    .catch(() => {
       recordEvent({
         event: `${GA_PREFIX}-load-failure`,
         'error-key': undefined,
