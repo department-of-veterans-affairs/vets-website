@@ -14,6 +14,7 @@ import {
 } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 import get from '../../../platform/utilities/data/get';
+import { ssoe } from 'platform/user/authentication/selectors';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
@@ -113,12 +114,12 @@ export class AuthApp extends React.Component {
     this.setState({ error: true });
   };
 
-  handleAuthSuccess = async payload => {
+  handleAuthSuccess = payload => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const { type } = this.props.location.query;
     const authMetrics = new AuthMetrics(type, payload);
     authMetrics.run();
-    await setupProfileSession(authMetrics.userProfile);
+    setupProfileSession(authMetrics.userProfile, this.props.useSSOe);
     this.redirect();
   };
 
@@ -374,11 +375,15 @@ export class AuthApp extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  useSSOe: ssoe(state),
+});
+
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AuthApp);
