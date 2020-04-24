@@ -1,0 +1,355 @@
+[
+  {
+    "entryName": "auth",
+    "appName": "Authentication callback",
+    "rootUrl": "/auth/login/callback",
+    "template": {
+      "title": "Auth",
+      "layout": "page-react.html",
+      "loadingMessage": "Please wait while we log you in."
+    }
+  },
+  {
+    "entryName": "burials",
+    "appName": "21P-530 Burials benefits form",
+    "rootUrl": "/burials-and-memorials/application/530",
+    "template": {
+      "title": "Apply for Burial Benefits (VA Form 21P-530)",
+      "display_title": "Apply Now",
+      "layout": "page-react.html",
+      "description": "Use VA Form 21P-530 to apply for VA burial benefits online now. Get step-by-step instructions, and consider signing in to save your in-progress application if you need to come back to finish filling it out later.",
+      "order": 1,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "burials-memorials/",
+          "name": "Burials and memorials"
+        },
+        {
+          "path": "burials-memorials/veterans-burial-allowance",
+          "name": "Burial allowance"
+        },
+        {
+          "path": "burials-and-memorials/application/530",
+          "name": "Apply for burial benefits"
+        }
+      ]
+    }
+  },
+  {
+    "entryName": "caregivers",
+    "appName": "10-10CG",
+    "rootUrl": "/caregivers",
+    "template": {
+      "title": "Caregiver Application for Benefits",
+      "vagovprod": false,
+      "vagovstaging": true,
+      "vagovdev": true,
+      "localhost": true
+    }
+  },
+  {
+    "entryName": "claims-status",
+    "appName": "Claims Status",
+    "rootUrl": "/track-claims",
+    "template": {
+      "title": "Track Claims",
+      "layout": "page-react.html",
+      "description": "Track the status of your VA claims and appeals."
+    }
+  },
+  {
+    "entryName": "discharge-upgrade-instructions",
+    "appName": "Discharge Wizard",
+    "rootUrl": "/discharge-upgrade-instructions",
+    "template": {
+      "layout": "page-react.html",
+      "title": "How To Apply For A Discharge Upgrade",
+      "heading": "How to apply for a discharge upgrade",
+      "display_title": "Discharge upgrade",
+      "description": "Want to apply for a military discharge upgrade or correction? Get step-by-step instructions depending on your specific situation. If your discharge is upgraded, you'll be eligible for VA benefits you earned while serving.",
+      "keywords": "upgrade discharge, military discharge upgrade, discharge upgrade",
+      "order": 6,
+      "spoke": "Get records",
+      "collection": "records",
+      "includeBreadcrumbs": true
+    }
+  },
+  {
+    "entryName": "facilities",
+    "appName": "Facility Locator",
+    "rootUrl": "/find-locations",
+    "template": {
+      "title": "Find VA Locations",
+      "layout": "page-react.html",
+      "description": "Find a VA medical center, clinic, hospital, national cemetery, or VA regional office near you. You can search by city, state, postal code, or service. You'll get wait times and directions.",
+      "keywords": "VA location by zip code, VA clinic, VA near me"
+    }
+  },
+  {
+    "entryName": "gi",
+    "appName": "GI Bill Comparison Tool",
+    "rootUrl": "/gi-bill-comparison-tool",
+    "template": {
+      "title": "GI Bill Comparison Tool",
+      "display_title": "GI Bill school comparison",
+      "description": "Use our GI Bill Comparison Tool to help you decide which education program and school is best for you. Find out which benefits you’ll get at your chosen school.",
+      "layout": "page-react.html",
+      "collection": "education",
+      "spoke": "More resources",
+      "order": 1
+    }
+  },
+  {
+    "entryName": "hca",
+    "appName": "1010ez Health Care Application form",
+    "rootUrl": "/health-care/apply/application",
+    "template": {
+      "title": "Apply for Health Care",
+      "layout": "page-react.html",
+      "display_title": "Apply Now",
+      "description": "Apply for VA health care benefits. Find out which documents you’ll need, and start your online application today.",
+      "body_class": "page-healthcare",
+      "in_maintenance": false,
+      "maintenance_line1": "We’re sorry. The health care application is currently down while we fix a few things. We’ll be back up as soon as we can.",
+      "maintenance_line2": "In the meantime, you can call <a href=\"tel:+18772228387\">1-877-222-8387</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title=\"eastern time\">ET</abbr>) and press 2 to complete this application over the phone.",
+      "collection": "healthCare",
+      "spoke": "Get benefits",
+      "order": 4,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "health-care/",
+          "name": "Health Care"
+        },
+        {
+          "path": "health-care/how-to-apply/",
+          "name": "How to apply"
+        },
+        {
+          "path": "health-care/apply/application",
+          "name": "Apply for VA health care"
+        }
+      ]
+    }
+  },
+  {
+    "entryName": "id-card-beta",
+    "appName": "Veteran ID Card beta registration",
+    "rootUrl": "/id-card-beta",
+    "template": {
+      "title": "Your VA.gov Account",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true
+    }
+  },
+  {
+    "entryName": "letters",
+    "appName": "Letters",
+    "rootUrl": "/records/download-va-letters/letters",
+    "template": {
+      "title": "Download VA Letters and Documents",
+      "entryname": "letters",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "in_maintenance": false,
+      "maintenance_line1": "We’re sorry. The page you’re looking for is currently down while we fix a few things. We’ll get it back online as soon as we can.",
+      "maintenance_line2": "In the meantime, please try the search box above or one of the options listed below to find more information."
+    }
+  },
+  {
+    "entryName": "login-page",
+    "appName": "Login Page",
+    "rootUrl": "/sign-in",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": false,
+      "noNavOrLogin": true,
+      "noMegamenu": true
+    }
+  },
+  {
+    "entryName": "pensions",
+    "appName": "21-527EZ pension benefits form",
+    "rootUrl": "/pension/application/527EZ",
+    "template": {
+      "title": "Apply For Pension Benefits",
+      "heading": "Apply for pension benefits",
+      "display_title": "Apply now",
+      "description": "Submit your VA pension application (VA Form 21P-527EZ) online now. Get step-by-step instructions, and consider signing in to save your in-progress application if you need to come back later to finish filling it out.",
+      "layout": "page-react.html",
+      "spoke": "Get benefits",
+      "collection": "pension",
+      "order": 3,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "pension/",
+          "name": "Pension benefits"
+        },
+        {
+          "path": "pension/how-to-apply/",
+          "name": "How to apply"
+        },
+        {
+          "path": "pension/application/527EZ",
+          "name": "Apply for Veterans Pension"
+        }
+      ]
+    }
+  },
+  {
+    "entryName": "post-911-gib-status",
+    "appName": "Post 9/11 GI Bill Status",
+    "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit/status",
+    "template": {
+      "layout": "page-react.html",
+      "title": "Check Your Post-9/11 GI Bill Benefits Status",
+      "heading": "Check your Post-9/11 GI Bill benefits status",
+      "display_title": "Check Post-9/11 GI Bill benefits",
+      "collection": "education",
+      "spoke": "Manage benefits",
+      "order": 2,
+      "in_maintenance": false,
+      "maintenance_line1": "We’re sorry. Our system is temporarily down while we fix a few things. Please try again later.",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "education/",
+          "name": "Education and training"
+        },
+        {
+          "path": "education/about-gi-bill-benefits/",
+          "name": "GI Bill"
+        },
+        {
+          "path": "education/about-gi-bill-benefits/post-9-11/",
+          "name": "Post-9/11 GI Bill"
+        },
+        {
+          "path": "education/gi-bill/post-9-11/ch-33-benefit/",
+          "name": "Check Post-9/11 GI Bill benefits"
+        },
+        {
+          "path": "education/gi-bill/post-9-11/ch-33-benefit/status",
+          "name": "Post-9/11 GI Bill Statement of Benefits"
+        }
+      ]
+    }
+  },
+  {
+    "entryName": "pre-need",
+    "appName": "40-40007 pre need burial planning form",
+    "rootUrl": "/burials-and-memorials/pre-need/form-10007-apply-for-eligibility",
+    "template": {
+      "title": "Apply online for pre-need determination of eligibility in a VA National Cemetery",
+      "display_title": "Apply Now",
+      "entryname": "pre-need",
+      "layout": "page-react.html",
+      "order": 1,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "burials-memorials/",
+          "name": "Burials and Memorials"
+        },
+        {
+          "path": "burials-and-memorials/pre-need/form-10007-apply-for-eligibility/",
+          "name": "Pre-need Eligibility Determination"
+        }
+      ]
+    }
+  },
+  {
+    "entryName": "search",
+    "appName": "Search",
+    "rootUrl": "/search",
+    "template": {
+      "title": "Search Results",
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "entryName": "terms-and-conditions",
+    "appName": "Terms and Conditions",
+    "rootUrl": "/health-care/medical-information-terms-conditions",
+    "template": {
+      "title": "Terms and Conditions for Medical Information",
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true
+    }
+  },
+  {
+    "entryName": "my-health-account-validation",
+    "appName": "My Health Account Validation",
+    "rootUrl": "/health-care/my-health-account-validation",
+    "template": {
+      "title": "My Health Account Validation",
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "entryName": "vaos",
+    "appName": "VA Online Scheduling",
+    "rootUrl": "/health-care/schedule-view-va-appointments/appointments",
+    "template": {
+      "vagovprod": true,
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "entryName": "verify",
+    "appName": "Verify identity",
+    "rootUrl": "/verify",
+    "template": {
+      "title": "Verify",
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "entryName": "veteran-id-card",
+    "appName": "Veteran ID Card V1",
+    "rootUrl": "/records/get-veteran-id-cards/apply",
+    "template": {
+      "title": "Veteran ID Card",
+      "layout": "page-react.html",
+      "hideFromSidebar": true,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "records/",
+          "name": "Records"
+        },
+        {
+          "path": "records/get-veteran-id-cards/",
+          "name": "Types of Veteran ID cards"
+        },
+        {
+          "path": "records/get-veteran-id-cards/apply/",
+          "name": "Apply for an ID Card"
+        }
+      ]
+    }
+  },
+  {
+    "entryName": "veteran-representative",
+    "appName": "21-22 Appoint Veteran Service Officer as Representative",
+    "rootUrl": "/veteran-representative",
+    "template": {
+      "title": "Appoint VSO as representative",
+      "layout": "page-react.html",
+      "description": "Appoint a Veterans Service Officer to represent you.",
+      "vagovprod": false
+    }
+  },
+  {
+    "entryName": "yellow-ribbon",
+    "appName": "Yellow Ribbon Schools",
+    "rootUrl": "/education/yellow-ribbon-participating-schools",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
+  }
+]
