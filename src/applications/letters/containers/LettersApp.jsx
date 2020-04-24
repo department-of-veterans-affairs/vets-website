@@ -51,24 +51,22 @@ export class AppContent extends React.Component {
   }
 }
 
-export class LettersApp extends React.Component {
-  render() {
-    return (
-      <RequiredLoginView
-        verify
-        serviceRequired={backendServices.EVSS_CLAIMS}
-        user={this.props.user}
-      >
-        <AppContent>
-          <DowntimeBanner
-            appTitle="Letters Generator"
-            dependencies={[externalServices.evss]}
-          />
-          <div>{this.props.children}</div>
-        </AppContent>
-      </RequiredLoginView>
-    );
-  }
+export function LettersApp({ user, children }) {
+  return (
+    <RequiredLoginView
+      verify
+      serviceRequired={backendServices.EVSS_CLAIMS}
+      user={user}
+    >
+      <AppContent>
+        <DowntimeBanner
+          appTitle="Letters Generator"
+          dependencies={[externalServices.evss]}
+        />
+        <div>{children}</div>
+      </AppContent>
+    </RequiredLoginView>
+  );
 }
 
 function mapStateToProps(state) {
