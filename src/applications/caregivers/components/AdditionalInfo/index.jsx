@@ -171,71 +171,11 @@ export const FacilityInfo = () => (
   </>
 );
 
-export const PrimaryHealthCoverage = () => (
-  <>
-    <div className="vads-u-margin-bottom--4">
-      <p>Check all that the primary caregiver is currently enrolled in</p>
-      <div className="vads-u-margin-top--2">
-        <AdditionalInfo triggerText="Learn more about health coverage">
-          <p>
-            <b>Medicaid</b> is a government health program for eligible
-            low-income individuals and families and people with disabilities.
-          </p>
-
-          <p>
-            <b>Medicare</b> is a federal health insurance program providing
-            coverage for people who are 65 years or older or who meet who meet
-            special criteria. Part A insurance covers hospital care, skilled
-            nursing and nursing home care, hospice, and home health services.
-          </p>
-
-          <p>
-            <b>Tricare</b> is a cost-sharing program that covers the price of
-            some health care services and supplies
-          </p>
-        </AdditionalInfo>
-      </div>
-    </div>
-  </>
-);
-
 export const CaregiverSupportInfo = () => (
   <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
     A Caregiver Support Coordinator is a clinical professional who connects
     Veteran caregivers with VA and community resources that offer supportive
     programs and services. Caregiver Support Coordinators are located at every
     VA medical center and specialize in caregiving issues.
-  </AdditionalInfo>
-);
-
-export const PowerOfAttorneyInfo = () => (
-  <AdditionalInfo triggerText="What is power of attorney?">
-    Power of attorney authorizes someone to act on the behalf of a Veteran or
-    service member when completing this form.
-  </AdditionalInfo>
-);
-
-export const RepresentativeInfo = () => (
-  <AdditionalInfo triggerText="Who can be a representative?">
-    Refers to a Veteran&apos;s or Service member&apos;s court-appointed legal
-    guardian or special guardian Durable POA for Health Care, or other
-    designated health care agent. Attach POA/Representation documents to the
-    application if applicable.
-    <span>You can also:</span>
-    <ol>
-      <li>Call us at 877-222-VETS (877-222-8387)</li>
-      <li>
-        Find a{' '}
-        <a
-          href={links.caregiverSupportCoordinators.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {links.caregiverSupportCoordinators.label}
-        </a>
-      </li>
-      <li>Contact the National Caregiver Support line at 855-260-3274</li>
-      <li>Contact a Veterans Service Orginazation</li>
-    </ol>
   </AdditionalInfo>
 );
