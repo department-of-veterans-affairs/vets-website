@@ -200,17 +200,11 @@ export const PrimaryHealthCoverage = () => (
 );
 
 export const CaregiverSupportInfo = () => (
-  <AdditionalInfo triggerText="What is a caregiver support coordinator?">
-    Caregiver Support Coordinators (CSC) connect caregivers with VA and
-    community resources. They are located at every VA medical center and
-    specialize in caregiving issues.
-    <a
-      href={links.caregiverSupportCoordinators.link}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {links.caregiverSupportCoordinators.label}
-    </a>
+  <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
+    A Caregiver Support Coordinator is a clinical professional who connects
+    Veteran caregivers with VA and community resources that offer supportive
+    programs and services. Caregiver Support Coordinators are located at every
+    VA medical center and specialize in caregiving issues.
   </AdditionalInfo>
 );
 

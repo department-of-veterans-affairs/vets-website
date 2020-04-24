@@ -38,10 +38,10 @@ const IntroductionPage = ({ route, router }) => {
             </p>
             <ul>
               <li>Address</li>
-              <li>Telephone Number</li>
+              <li>Telephone number</li>
               <li>Date of birth</li>
               <li>Email address</li>
-              <li>Social Security number or tax identification number</li>
+              <li>Social Security Number or Tax Identification Number</li>
             </ul>
 
             <p>You will also need:</p>
@@ -66,32 +66,39 @@ const IntroductionPage = ({ route, router }) => {
                 <li>
                   Ask VA to help you fill out the form by calling us at
                   {''}
-                  <a href={links.VAHelpLine.label}>877-222-VETS (8387)</a>
+                  <a href={links.VAHelpLine.label}> 877-222-VETS (8387)</a>
                 </li>
                 <li>
                   Locate and contact the Caregiver Support Coordinator at your
-                  nearest VA health care facility. You may use the online
-                  Caregiver Support Coordinator locator
+                  nearest VA health care facility. You may use the online {''}
+                  <a
+                    href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Caregiver Support Coordinator locator
+                  </a>
                 </li>
                 <li>
                   Contact the VA National Caregiver Support Line by calling
-                  855-260-3274 or a Veterans Service Organization
+                  <a
+                    href="tel:8552603274"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    855-260-3274
+                  </a>{' '}
+                  or a Veterans Service Organization
                 </li>
-                <a href={links.caregiverHelp.link}>
-                  {links.caregiverHelp.label}
-                </a>
               </ul>
-              <p>
-                An accredited representative, like a Veterans Service Officer
-                (VSO), can help you fill out your claim.
-                <a
-                  href={links.caregiverHelp.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {links.caregiverHelp.label}
-                </a>
-              </p>
+
+              <a
+                href="https://www.va.gov/disability/get-help-filing-claim/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Get filing our your application
+              </a>
 
               <CaregiverSupportInfo />
             </div>
@@ -107,7 +114,7 @@ const IntroductionPage = ({ route, router }) => {
             </p>
 
             <p>
-              Note: If the Veteran isn’t enrolled in VA health care or is
+              <b>Note:</b> If the Veteran isn’t enrolled in VA health care or is
               currently on active duty with a medical discharge, they’ll need to
               fill out an Application for Health Benefits (VA Form 10-10EZ).
             </p>
@@ -141,16 +148,22 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for Caregiver Benefits" />
+      <FormTitle title="Apply for the Program of Comprehensive Assistance for Family Caregivers" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
       <p>
         We recognize the important role of family caregivers in supporting the
         health and wellness of Veterans.
       </p>
-      <a href="#">
+
+      <a
+        href="https://www.caregiver.va.gov/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Learn more about the Program of Comprehensive Assistance for Family
-        Caregivers (PCAFC) and find out if you may be eligible
+        Caregivers (PCAFC)
       </a>
+
       <button
         style={{ display: 'inherit ' }}
         className="va-button-primary vads-u-margin-y--5"

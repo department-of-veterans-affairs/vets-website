@@ -84,7 +84,8 @@ const formConfig = {
   formId: '10-10CG',
   version: 0,
   prefillEnabled: false,
-  title: 'Apply for family caregiver benefits',
+  title:
+    'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
     address,
