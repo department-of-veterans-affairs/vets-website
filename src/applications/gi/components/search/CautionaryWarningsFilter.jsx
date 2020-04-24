@@ -3,6 +3,7 @@ import Checkbox from '../Checkbox';
 import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
+import environment from 'platform/utilities/environment';
 
 class CautionaryWarningsFilter extends React.Component {
   static propTypes = {
@@ -18,8 +19,24 @@ class CautionaryWarningsFilter extends React.Component {
       ariaLabel: ariaLabels.learnMore.cautionaryWarning,
       component: this,
     });
-
   render() {
+    // prod flag for bah-8187. Remove after approval.
+    if (environment.isProduction()) {
+      return (
+        <div>
+          <p>
+            Cautionary warnings
+            {this.renderProfileCautionFlagModal()}
+          </p>
+          <Checkbox
+            checked={this.props.excludeWarnings}
+            name="excludeCautionFlags"
+            label="Exclude institutions with warnings"
+            onChange={this.props.onChange}
+          />
+        </div>
+      );
+    }
     return (
       <div>
         <p>
