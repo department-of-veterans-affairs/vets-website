@@ -316,6 +316,7 @@ function compilePage(page, contentData, metalsmith, buildOptions) {
 
   // Add the homepage banner.
   if (banner) {
+    // eslint-disable-next-line camelcase
     page.homepage_banner = banner;
   }
 
