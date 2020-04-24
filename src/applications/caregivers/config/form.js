@@ -7,6 +7,7 @@ import {
   VetInfo,
   PrimaryCaregiverInfo,
   SecondaryCaregiverInfo,
+  PrimaryHealthCoverage,
 } from 'applications/caregivers/components/AdditionalInfo';
 import {
   primaryCaregiverFields,
@@ -104,7 +105,7 @@ const formConfig = {
       pages: {
         veteranInfoOne: {
           path: 'service-member-1',
-          title: 'Veteran Information',
+          title: ' ',
           uiSchema: {
             'ui:description': VetInfo,
             [vetFields.fullName]: fullNameUI,
@@ -130,7 +131,7 @@ const formConfig = {
         },
         veteranInfoTwo: {
           path: 'service-member-2',
-          title: 'Veteran Information (Continued)',
+          title: 'Contact information',
           uiSchema: {
             'ui:description': VetInfo,
             [vetFields.address]: addressWithoutCountry,
@@ -153,7 +154,7 @@ const formConfig = {
         },
         veteranInfoThree: {
           path: 'service-member-3',
-          title: 'Veteran Information (Continued)',
+          title: 'VA medical center information',
           uiSchema: {
             'ui:description': VetInfo,
             [vetFields.previousTreatmentFacility]:
@@ -210,11 +211,11 @@ const formConfig = {
       },
     },
     primaryCaregiverChapter: {
-      title: 'PRIMARY FAMILY CAREGIVER',
+      title: 'Primary Family Caregiver information',
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-caregiver-1',
-          title: 'Primary Caregiver Information',
+          title: ' ',
           uiSchema: {
             'ui:description': () =>
               PrimaryCaregiverInfo({ additionalInfo: true }),
@@ -241,9 +242,8 @@ const formConfig = {
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-caregiver-2',
-          title: 'Primary Caregiver Information (Continued)',
+          title: 'Contact information',
           uiSchema: {
-            'ui:description': PrimaryCaregiverInfo({ additionalInfo: true }),
             [primaryCaregiverFields.address]: addressWithoutCountry,
             [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI,
             [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
@@ -274,9 +274,9 @@ const formConfig = {
         },
         primaryCaregiverInfoThree: {
           path: 'primary-caregiver-3',
-          title: 'Primary Caregiver Information (Continued)',
+          title: 'Health care coverage',
           uiSchema: {
-            'ui:description': PrimaryCaregiverInfo,
+            'ui:description': PrimaryHealthCoverage,
             [primaryCaregiverFields.medicaidEnrolled]:
               primaryCaregiverUI.medicaidEnrolledUI,
             [primaryCaregiverFields.medicareEnrolled]:
@@ -313,13 +313,13 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'SECONDARY CAREGIVERS',
+      title: 'Secondary Family Caregiver Information',
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondaryOne-caregiver-intro',
-          title: 'Secondary Caregiver Information',
+          title: ' ',
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({ additionalInfo: true }),
             [primaryCaregiverFields.hassecondaryCaregiverOneView]: hassecondaryCaregiverOneUI,
           },
           schema: {
@@ -415,9 +415,9 @@ const formConfig = {
             },
           },
         },
-        secondaryCaregiverTwoOne: {
+        secondaryCaregiverTwo: {
           path: 'secondaryTwo-caregiver-1',
-          title: 'Secondary Caregiver Information',
+          title: 'Secondary Family Caregiver Information',
           depends: formData => hassecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
@@ -456,7 +456,7 @@ const formConfig = {
         },
         secondaryCaregiverTwoTwo: {
           path: 'secondaryTwo-caregiver-2',
-          title: 'Secondary Caregiver Information',
+          title: 'Contact information',
           depends: formData => hassecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,

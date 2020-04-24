@@ -1,6 +1,6 @@
 export const links = {
   findLocations: {
-    label: 'Find locations with the VA facility locator',
+    label: 'Find locations with our facility locator tool',
     link: 'https://www.va.gov/find-locations',
   },
   caregiverEligibility: {

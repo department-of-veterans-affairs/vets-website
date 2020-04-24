@@ -24,7 +24,7 @@ const NeedHelpFooter = () => (
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href={links.caregiverHelp.link}
+          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
         >
           Use our online Caregiver Support Coordinator search tool
         </a>

@@ -99,13 +99,15 @@ export default {
       },
     },
     previousTreatmentFacilityUI: {
-      'ui:title': 'Name of facility where you last received medical treatment:',
+      'ui:title':
+        'Please enter the name of the medical facility where the Veteran last received medical treatment.',
+
       'ui:order': ['name', 'type'],
       name: {
         'ui:title': 'Facility Name',
       },
       type: {
-        'ui:title': 'Facility Type',
+        'ui:title': 'Was this a hospital or clinic?',
         'ui:options': {
           labels: {
             hospital: 'Hospital',
@@ -115,14 +117,19 @@ export default {
       },
     },
     [vetFields.preferredFacilityView]: {
+      'ui:description':
+        'Please select the VA medical center or clinic where the Veteran receives or plans to receive health care services.\n' +
+        'A member of the Caregiver Support Program team at the VA medical center where the Veteran receives or plans to receive care will review your application.',
       [vetFields.preferredFacilityStateView]: {
         'ui:title': 'Facility State',
+
         'ui:options': {
           labels: stateLabels,
         },
       },
       [vetFields.plannedClinic]: {
-        'ui:title': 'Preferred Clinic or Hospital',
+        'ui:title':
+          'VA medical center where the Veteran receives or plans to receive care',
         'ui:options': {
           labels: medicalCenterLabels,
           updateSchema: form => {
@@ -159,23 +166,28 @@ export default {
       },
     },
     medicaidEnrolledUI: {
-      'ui:title': 'Enrolled in Medicaid?',
+      'ui:title':
+        'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
       'ui:widget': 'yesNo',
     },
     medicareEnrolledUI: {
-      'ui:title': 'Enrolled in Medicare?',
+      'ui:title':
+        'Is the Primary Family Caregiver currently in enrolled in Medicare?',
       'ui:widget': 'yesNo',
     },
     tricareEnrolledUI: {
-      'ui:title': 'Enrolled in Tricare?',
+      'ui:title':
+        'Is the Primary Family Caregiver currently in enrolled in Tricare?',
       'ui:widget': 'yesNo',
     },
     champvaEnrolledUI: {
-      'ui:title': 'Enrolled in CHAMPVA?',
+      'ui:title':
+        'Is the Primary Family Caregiver currently in enrolled in CHAMPVA?',
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceUI: {
-      'ui:title': 'Other Health Insurance?',
+      'ui:title':
+        'Is the Primary Family Caregiver currently enrolled in other health care insurance?',
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceNameUI: {

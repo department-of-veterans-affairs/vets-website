@@ -116,7 +116,15 @@ const IntroductionPage = ({ route, router }) => {
             <p>
               <b>Note:</b> If the Veteran isn’t enrolled in VA health care or is
               currently on active duty with a medical discharge, they’ll need to
-              fill out an Application for Health Benefits (VA Form 10-10EZ).
+              fill out an
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.va.gov/health-care/how-to-apply/"
+              >
+                Application for Health Benefits
+              </a>
+              (VA Form 10-10EZ).
             </p>
           </section>
 
@@ -137,8 +145,16 @@ const IntroductionPage = ({ route, router }) => {
               <a href={links.caregiverHelp.phoneLink}>
                 {links.caregiverHelp.phoneLabel}
               </a>
-              , visit www.va.caregiver.com or discuss these options with your
-              local Caregiver Support Coordinator.
+              , visit{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.caregiver.va.gov/"
+              >
+                www.caregiver.va.gov
+              </a>{' '}
+              or discuss these options with your local Caregiver Support
+              Coordinator.
             </p>
           </section>
         </div>

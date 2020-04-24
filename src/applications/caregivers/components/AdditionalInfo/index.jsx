@@ -98,14 +98,13 @@ export const LearnMoreSecondaryCaregiver = () => {
 export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
   <div>
     <p>
-      Complete the following information about the Caregiver or Family member
-      who is helping the Veteran or Service member. You can also include
-      information about up to two Secondary Family Caregivers.
+      Please complete the following information about the Primary Family
+      Caregiver.
     </p>
 
     {additionalInfo && (
       <section>
-        <AdditionalInfo triggerText="What is a primary family caregiver">
+        <AdditionalInfo triggerText="What's a Primary Family Caregiver?">
           <p>
             A Family Member (defined herein), who is designated as a "primary
             provider of personal care services" under
@@ -140,22 +139,56 @@ PrimaryCaregiverInfo.defaultProps = {
   additionalInfo: false,
 };
 
-export const SecondaryCaregiverInfo = () => (
-  <>
+export const SecondaryCaregiverLegal = () => (
+  <AdditionalInfo triggerText="Learn more about Secondary Caregiver">
     <p>
-      Complete the following information about the Secondary Caregiver or Family
-      member who is helping the Veteran or Service member. You can include
-      information about up to two Secondary Family Caregivers.
+      An individual approved as a "provider of personal care services" for the
+      eligible Veteran under{' '}
+      <a
+        href="https://www.law.cornell.edu/uscode/text/38/1720G"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        38 U.S.C. §1720G(a)(7)(A);
+      </a>
+      meets the requirements of{' '}
+      <a
+        href="https://www.law.cornell.edu/cfr/text/38/71.25"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        38 C.F.R. §71.25;
+      </a>
+      and generally serves as a back-up to the Primary Family Caregiver.
     </p>
 
     <LearnMoreSecondaryCaregiver />
+  </AdditionalInfo>
+);
+
+export const SecondaryCaregiverInfo = ({ additionalInfo }) => (
+  <>
+    <p>
+      Please complete the following information about the Secondary Family
+      Caregiver.
+    </p>
+
+    {additionalInfo && <SecondaryCaregiverLegal />}
   </>
 );
+
+SecondaryCaregiverInfo.propTypes = {
+  additionalInfo: PropTypes.bool,
+};
+
+SecondaryCaregiverInfo.defaultProps = {
+  additionalInfo: false,
+};
 
 export const FacilityInfo = () => (
   <>
     <div className="vads-u-margin-bottom--4">
-      <AdditionalInfo triggerText="Can&apos;t find your clinic">
+      <AdditionalInfo triggerText="Can&apos;t find your medical center or clinic">
         We only include certain facilities. You should pick the medical center
         or clinic closest to your home.
       </AdditionalInfo>
@@ -178,4 +211,35 @@ export const CaregiverSupportInfo = () => (
     programs and services. Caregiver Support Coordinators are located at every
     VA medical center and specialize in caregiving issues.
   </AdditionalInfo>
+);
+
+export const PrimaryHealthCoverage = () => (
+  <>
+    <div className="vads-u-margin-bottom--4">
+      <p>
+        Please complete the following information about the Primary Family
+        Caregiver’s health coverage.
+      </p>
+      <div className="vads-u-margin-top--2">
+        <AdditionalInfo triggerText="Learn more about health coverage">
+          <p>
+            <b>Medicaid</b> is a government health program for eligible
+            low-income individuals and families and people with disabilities.
+          </p>
+
+          <p>
+            <b>Medicare</b> is a federal health insurance program providing
+            coverage for people who are 65 years or older or who meet who meet
+            special criteria. Part A insurance covers hospital care, skilled
+            nursing and nursing home care, hospice, and home health services.
+          </p>
+
+          <p>
+            <b>Tricare</b> is a cost-sharing program that covers the price of
+            some health care services and supplies
+          </p>
+        </AdditionalInfo>
+      </div>
+    </div>
+  </>
 );
