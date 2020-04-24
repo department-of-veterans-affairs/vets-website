@@ -93,10 +93,12 @@ class SelectArrayItemsBatteriesWidget extends Component {
                         supply,
                       );
                     }}
-                    checked={selectedProducts.find(
-                      selectedProduct =>
-                        selectedProduct.productId === supply.productId,
-                    )}
+                    checked={
+                      !!selectedProducts.find(
+                        selectedProduct =>
+                          selectedProduct.productId === supply.productId,
+                      )
+                    }
                   />
                   <label htmlFor={supply.productId} className="main">
                     Order batteries for this device
