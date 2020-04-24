@@ -30,7 +30,7 @@ describe('VAOS Organization service', () => {
       );
     });
 
-    describe('should return OperationOutcome error', async () => {
+    it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
