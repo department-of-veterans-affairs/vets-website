@@ -52,6 +52,10 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
       homepage_banner: banner,
     };
 
+    metalsmith.metadata({ homepage_banner: banner, ...metalsmith.metadata() });
+
+    console.log(metalsmith.metadata())
+
     // Let Metalsmith know we're here.
     files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
   }

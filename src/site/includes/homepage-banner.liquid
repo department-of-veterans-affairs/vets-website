@@ -1,3 +1,4 @@
+{% if banner and banner.visible %}
 <div
   data-template="includes/homepage-banner"
   data-alert-box-heading="{{ banner.title | escape }}"
@@ -11,3 +12,4 @@
     </div>
   </div>
 </div>
+{% endif %}
