@@ -1,9 +1,9 @@
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const autocomplete = require('./e2e/autocomplete.json');
-const institutionProfile = require('./e2e/institution-profile.json');
-const searchResults = require('./e2e/search-results.json');
-const calculatorConstants = require('./e2e/calculator-constants.json');
-const featureToggles = require('./e2e/feature-toggles.json');
+const autocomplete = require('./data/autocomplete.json');
+const institutionProfile = require('./data/institution-profile.json');
+const searchResults = require('./data/search-results.json');
+const calculatorConstants = require('./data/calculator-constants.json');
+const featureToggles = require('./data/feature-toggles.json');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const institutionAttributes = institutionProfile.data.attributes;

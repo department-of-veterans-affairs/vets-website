@@ -1,8 +1,8 @@
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
-const vetTecProfile = require('./e2e/vet-tec-profile.json');
-const vetTecSearchResults = require('./e2e/vet-tec-search-results.json');
-const calculatorConstants = require('./e2e/calculator-constants.json');
-const featureToggles = require('./e2e/feature-toggles.json');
+const vetTecProfile = require('./data/vet-tec-profile.json');
+const vetTecSearchResults = require('./data/vet-tec-search-results.json');
+const calculatorConstants = require('./data/calculator-constants.json');
+const featureToggles = require('./data/feature-toggles.json');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const vetTecAttributes = vetTecProfile.data.attributes;
