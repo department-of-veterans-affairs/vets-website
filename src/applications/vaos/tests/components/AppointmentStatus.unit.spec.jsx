@@ -42,4 +42,11 @@ describe('VAOS <AppointmentStatus>', () => {
 
     tree.unmount();
   });
+
+  it('should render null if status === null', () => {
+    const tree = shallow(<AppointmentStatus status={null} />);
+
+    expect(tree.type()).to.equal(null);
+    tree.unmount();
+  });
 });
