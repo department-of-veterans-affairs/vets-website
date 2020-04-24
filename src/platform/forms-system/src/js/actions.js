@@ -300,7 +300,6 @@ export function uploadFile(
     });
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
-    req.setRequestHeader('Content-Type', 'application/json');
     req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
     req.withCredentials = true;
     req.send(payload);
