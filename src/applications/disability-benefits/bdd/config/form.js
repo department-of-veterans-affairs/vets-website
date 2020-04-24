@@ -14,14 +14,24 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
-import { directToCorrectForm } from '../../all-claims/utils';
+import {
+  hasGuardOrReservePeriod,
+  directToCorrectForm,
+} from '../../all-claims/utils';
+
+import captureEvents from '../../all-claims/analytics-functions';
 
 import prefillTransformer from '../../all-claims/prefill-transformer';
 
 import { transform } from '../../all-claims/submit-transformer';
 
 import { veteranInfoDescription } from '../../all-claims/content/veteranDetails';
-import { alternateNames, contactInformation } from '../../all-claims/pages';
+import {
+  alternateNames,
+  contactInformation,
+  federalOrders,
+  militaryHistory,
+} from '../../all-claims/pages';
 
 import migrations from '../../all-claims/migrations';
 
@@ -85,6 +95,26 @@ const formConfig = {
           path: 'alternate-names',
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
+        },
+      },
+    },
+    militaryHistory: {
+      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Military History`,
+      pages: {
+        militaryHistory: {
+          title: 'Military service history',
+          path: 'military-service-history',
+          uiSchema: militaryHistory.uiSchema,
+          schema: militaryHistory.schema,
+          onContinue: captureEvents.militaryHistory,
+          appStateSelector: state => ({ dob: state.user.profile.dob }),
+        },
+        federalOrders: {
+          title: 'Federal orders',
+          path: 'federal-orders',
+          depends: form => hasGuardOrReservePeriod(form.serviceInformation),
+          uiSchema: federalOrders.uiSchema,
+          schema: federalOrders.schema,
         },
       },
     },
