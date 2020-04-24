@@ -1,6 +1,4 @@
-import { formatCurrency } from '../../utils/helpers';
-
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
+const UtilHelpers = require('../../utils/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const autocomplete = require('../data/autocomplete.json');
 const institutionProfile = require('../data/institution-profile.json');
@@ -108,80 +106,31 @@ const editEligibilityDetails = client => {
 const hideCalculatorFields = client => {
   expandCollapseAccordion(client, '.calculator-inputs');
 };
+
 const housingRate =
   '#gbct_housing_allowance > div.small-6.columns.vads-u-text-align--right > h5';
 
-// Search for an institution with Ch33 Benefit, select In Person or Online radio, and click result
-function searchCh33(client, inPersonOrOnlineRadio, search, result) {
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
-  client
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .waitForElementPresent(inPersonOrOnlineRadio, Timeouts.normal)
-    .click(inPersonOrOnlineRadio)
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', search)
-    .click('#search-button')
-    .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main')
-    .waitForElementVisible(result, Timeouts.normal)
-    .click('body')
-    .click(result)
-    .waitForElementVisible('body', 1000)
-    .axeCheck('.main');
-}
-// Selects VA rate or DOD rate, Verifies Housing rate
-function verifyCh33(client, expectedRateDOD, expectedRateVA, radioID) {
-  client
-    .waitForElementPresent(`#radio-buttons-${radioID}-0`, Timeouts.normal)
-    .click(`#radio-buttons-${radioID}-0`)
-    .waitForElementVisible(housingRate, Timeouts.normal)
-    .assert.containsText(housingRate, expectedRateVA)
-    .waitForElementPresent(`#radio-buttons-${radioID}-1`, Timeouts.normal)
-    .click(`#radio-buttons-${radioID}-1`)
-    .waitForElementVisible(housingRate, Timeouts.normal)
-    .assert.containsText(housingRate, expectedRateDOD);
-}
+const formatNumber = value => {
+  const str = (+value).toString();
+  return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
+};
 
-// Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
-function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
-  client
-    .waitForElementVisible('#giBillChapter', Timeouts.slow)
-    .selectDropdown('giBillChapter', '35')
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'washington dc')
-    .click('#search-button')
-    .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main');
-  client.expect.element(expectedResult).to.be.enabled.before(Timeouts.normal);
-  client.assert
-    .containsText(resultRate, expectedRate)
-    .click(expectedResult)
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main');
-}
-// Verify the expected DEA housing rate for the selected "Enrolled" option
-function verifyDEA(client, enrolledOption, expectedDEA) {
-  client
-    .selectDropdown('enrolledOld', enrolledOption)
-    .waitForElementVisible(housingRate, Timeouts.normal)
-    .assert.containsText(housingRate, expectedDEA);
-}
+const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
 
-function formatNumberHalf(value) {
+const formatNumberHalf = value => {
   const halfVal = Math.round(value / 2);
-  return formatCurrency(halfVal);
-}
+  return UtilHelpers.formatCurrency(halfVal);
+};
 
-function formatCurrencyHalf(value) {
-  return formatNumberHalf(Math.round(+value));
-}
+const formatCurrencyHalf = value => formatNumberHalf(Math.round(+value));
+
+const calculatorConstantsList = () => {
+  const constantsList = [];
+  calculatorConstants.data.forEach(c => {
+    constantsList[c.attributes.name] = c.attributes.value;
+  });
+  return constantsList;
+};
 
 module.exports = {
   expectLocation,
@@ -193,9 +142,9 @@ module.exports = {
   displayLearnMoreModal,
   editEligibilityDetails,
   hideCalculatorFields,
-  searchCh33,
-  verifyCh33,
-  searchAsDEA,
-  verifyDEA,
+  housingRate,
+  formatNumber,
+  formatCurrency,
   formatCurrencyHalf,
+  calculatorConstantsList,
 };

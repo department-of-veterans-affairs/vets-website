@@ -1,8 +1,7 @@
-import { calculatorConstantsList } from '../helpers';
-
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
+const DeaHelpers = require('./dea-helpers');
 
 const firstResult =
   '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
@@ -14,8 +13,6 @@ const secondResultRate =
   '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-five-twelfths.medium-5.columns.estimated-benefits > div:nth-child(3) > div > h4 > div';
 
 const deaEnrolledMax = 30;
-const housingRate =
-  '#gbct_housing_allowance > div.small-6.columns.vads-u-text-align--right > h5';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
@@ -25,67 +22,74 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.overrideSmoothScrolling(client);
   client.timeoutsAsyncScript(2000);
 
+  // Landing Page
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
 
-  GiHelpers.searchAsDEA(
+  DeaHelpers.searchAsDEA(
     client,
     firstResult,
     firstResultRate,
-    GiHelpers.formatCurrency(calculatorConstantsList.DEARATEOJT),
+    GiHelpers.formatCurrency(GiHelpers.calculatorConstantsList.DEARATEOJT),
   );
 
   // Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
   for (let i = 2; i <= deaEnrolledMax; i += 2) {
-    client.expect.element(housingRate).to.be.enabled.before(Timeouts.normal);
+    client.expect
+      .element(GiHelpers.housingRate)
+      .to.be.enabled.before(Timeouts.normal);
     client.selectDropdown('working', i);
     const value = Math.round(
       (i / deaEnrolledMax) *
-        GiHelpers.formatNumber(calculatorConstantsList.DEARATEOJT),
+        GiHelpers.formatNumber(GiHelpers.calculatorConstantsList.DEARATEOJT),
     );
-    client.assert.containsText(housingRate, `$${value}/mo`);
+    client.assert.containsText(GiHelpers.housingRate, `$${value}/mo`);
   }
 
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?
 
-  GiHelpers.searchAsDEA(
+  DeaHelpers.searchAsDEA(
     client,
     secondResult,
     secondResultRate,
-    GiHelpers.formatCurrency(calculatorConstantsList.DEARATEFULLTIME),
+    GiHelpers.formatCurrency(GiHelpers.calculatorConstantsList.DEARATEFULLTIME),
   );
 
-  GiHelpers.verifyDEA(
+  DeaHelpers.verifyDEA(
     client,
     'full',
-    `${GiHelpers.formatCurrency(calculatorConstantsList.DEARATEFULLTIME)}/mo`,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATEFULLTIME,
+    )}/mo`,
   );
-  GiHelpers.verifyDEA(
+  DeaHelpers.verifyDEA(
     client,
     'three quarters',
     `${GiHelpers.formatCurrency(
-      calculatorConstantsList.DEARATETHREEQUARTERS,
+      GiHelpers.calculatorConstantsList.DEARATETHREEQUARTERS,
     )}/mo`,
   );
-  GiHelpers.verifyDEA(
+  DeaHelpers.verifyDEA(
     client,
     'half',
-    `${GiHelpers.formatCurrency(calculatorConstantsList.DEARATEONEHALF)}/mo`,
+    `${GiHelpers.formatCurrency(
+      GiHelpers.calculatorConstantsList.DEARATEONEHALF,
+    )}/mo`,
   );
-  GiHelpers.verifyDEA(
+  DeaHelpers.verifyDEA(
     client,
     'less than half',
     `${GiHelpers.formatCurrency(
-      calculatorConstantsList.DEARATEUPTOONEHALF,
+      GiHelpers.calculatorConstantsList.DEARATEUPTOONEHALF,
     )}/mo`,
   );
-  GiHelpers.verifyDEA(
+  DeaHelpers.verifyDEA(
     client,
     'quarter',
     `${GiHelpers.formatCurrency(
-      calculatorConstantsList.DEARATEUPTOONEQUARTER,
+      GiHelpers.calculatorConstantsList.DEARATEUPTOONEQUARTER,
     )}/mo`,
   );
 
