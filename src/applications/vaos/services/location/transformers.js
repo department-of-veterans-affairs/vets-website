@@ -1,5 +1,3 @@
-import { VHA_FHIR_ID } from '../../utils/constants';
-
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
  * /Location?organization=Organization/var983
