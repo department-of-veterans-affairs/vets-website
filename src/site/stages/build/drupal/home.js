@@ -39,6 +39,10 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
     const bannerFile = fs.readFileSync(bannerLocation);
     const banner = yaml.safeLoad(bannerFile);
 
+    // Add the homepage_banner to metalsmith metadata.
+    // eslint-disable-next-line camelcase
+    metalsmith.metadata({ homepage_banner: banner, ...metalsmith.metadata() });
+
     homeEntityObj = {
       ...homeEntityObj,
       // Since homepage is not an independent node, we don't have a source for metatags. So we need to hard-code these for now.
