@@ -1,23 +1,10 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
-import reducer from '../../reducers';
-import createCommonStore from 'platform/startup/store';
 import { estimatedBenefits } from '../../selectors/estimator';
+import { getDefaultState } from '../helpers';
 
-const calculatorConstants = require('../data/calculator-constants.json');
-
-const defaultState = createCommonStore(reducer).getState();
-
-defaultState.constants = {
-  constants: {},
-  version: calculatorConstants.meta.version,
-  inProgress: false,
-};
-
-calculatorConstants.data.forEach(c => {
-  defaultState.constants.constants[c.attributes.name] = c.attributes.value;
-});
+const defaultState = getDefaultState();
 
 describe('estimatedBenefits', () => {
   it('lower DoD rate than VA should result in DoD rate displaying', () => {
