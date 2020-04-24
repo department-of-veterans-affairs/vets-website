@@ -4,21 +4,13 @@ import EligibilityForm from './EligibilityForm';
 import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
-import environment from 'platform/utilities/environment';
 
 class InstitutionSearchForm extends React.Component {
   render() {
     return (
       <div className="row">
         <div className={this.props.filtersClass}>
-          {/* prod flag for bah-7186 */}
-          <div
-            className={
-              environment.isProduction()
-                ? 'filters-sidebar-inner-old'
-                : 'filters-sidebar-inner'
-            }
-          >
+          <div className={'filters-sidebar-inner'}>
             {this.props.search.filterOpened && <h1>Filter your search</h1>}
             <h2>Keywords</h2>
             <KeywordSearch
