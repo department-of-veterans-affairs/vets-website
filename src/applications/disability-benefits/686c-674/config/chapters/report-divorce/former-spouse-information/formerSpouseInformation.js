@@ -1,39 +1,19 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { validateName } from '../../../utilities';
+import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 import { merge } from 'lodash';
-
-const {
-  fullName: formerSpouseName,
-  date: dateOfDivorce,
-  genericLocation: locationOfDivorce,
-} = genericSchemas;
 
 export const schema = {
   type: 'object',
   properties: {
-    reportDivorce: {
-      type: 'object',
-      properties: {
-        formerSpouseName,
-        dateOfDivorce,
-        locationOfDivorce,
-        isMarriageAnnulledOrVoid: { type: 'boolean' },
-        explanationOfAnnullmentOrVoid: {
-          type: 'string',
-          maxLength: 500,
-          pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*]+$',
-        },
-      },
-    },
+    reportDivorce,
   },
 };
 
 export const uiSchema = {
   reportDivorce: {
-    formerSpouseName: {
+    fullName: {
       'ui:validations': [validateName],
       first: {
         'ui:title': 'Former spouse’s first name',
@@ -56,11 +36,11 @@ export const uiSchema = {
         },
       },
     },
-    dateOfDivorce: merge(currentOrPastDateUI('Date of divorce'), {
+    date: merge(currentOrPastDateUI('Date of divorce'), {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
     }),
-    locationOfDivorce: {
+    location: {
       'ui:title': 'Where did this marriage end?',
       state: {
         'ui:title': 'State (or country if outside USA)',

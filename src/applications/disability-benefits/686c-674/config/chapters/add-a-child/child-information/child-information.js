@@ -1,33 +1,10 @@
-import { genericSchemas } from '../../../generic-schema';
-import { suffixes } from '../../../constants';
-import { childInfo } from './helpers';
-import { isChapterFieldRequired } from '../../../helpers';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { isChapterFieldRequired } from '../../../helpers';
+import { addChild } from '../../../utilities';
+import { childInfo } from './helpers';
 import { merge } from 'lodash/fp';
 
-export const schema = {
-  type: 'object',
-  properties: {
-    childrenToAdd: {
-      type: 'array',
-      minItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          first: genericSchemas.genericTextInput,
-          middle: genericSchemas.genericTextInput,
-          last: genericSchemas.genericTextInput,
-          suffix: {
-            type: 'string',
-            enum: suffixes,
-          },
-          ssn: genericSchemas.genericNumberAndDashInput,
-          birthDate: genericSchemas.date,
-        },
-      },
-    },
-  },
-};
+export const schema = addChild.properties.addChildInformation;
 
 export const uiSchema = {
   childrenToAdd: {
@@ -36,21 +13,25 @@ export const uiSchema = {
       viewField: childInfo,
     },
     items: {
-      first: {
-        'ui:title': 'Child’s first name',
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
-      },
-      middle: {
-        'ui:title': 'Child’s middle name',
-      },
-      last: {
-        'ui:title': 'Child’s last name',
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
-      },
-      suffix: {
-        'ui:title': 'Child’s suffix',
-        'ui:options': {
-          widgetClassNames: 'usa-input-medium',
+      fullName: {
+        first: {
+          'ui:title': 'Child’s first name',
+          'ui:required': formData =>
+            isChapterFieldRequired(formData, 'addChild'),
+        },
+        middle: {
+          'ui:title': 'Child’s middle name',
+        },
+        last: {
+          'ui:title': 'Child’s last name',
+          'ui:required': formData =>
+            isChapterFieldRequired(formData, 'addChild'),
+        },
+        suffix: {
+          'ui:title': 'Child’s suffix',
+          'ui:options': {
+            widgetClassNames: 'usa-input-medium',
+          },
         },
       },
       ssn: {

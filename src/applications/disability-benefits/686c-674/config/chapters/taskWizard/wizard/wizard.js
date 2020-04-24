@@ -1,27 +1,12 @@
 import { validateAtLeastOneSelected } from './helpers';
+import { optionSelection } from '../../../utilities';
 
 export const schema = {
   type: 'object',
   required: ['view:selectable686Options'],
   properties: {
     'view:selectable686Options': {
-      type: 'object',
-      properties: {
-        addChild: { type: 'boolean', default: false },
-        addSpouse: { type: 'boolean', default: false },
-        reportDivorce: { type: 'boolean', default: false },
-        reportDeath: { type: 'boolean', default: false },
-        reportStepchildNotInHousehold: { type: 'boolean', default: false },
-        reportMarriageOfChildUnder18: { type: 'boolean', default: false },
-        reportChild18OrOlderIsNotAttendingSchool: {
-          type: 'boolean',
-          default: false,
-        },
-        report674: {
-          type: 'boolean',
-          default: false,
-        },
-      },
+      ...optionSelection['view:selectable686Options'],
     },
   },
 };

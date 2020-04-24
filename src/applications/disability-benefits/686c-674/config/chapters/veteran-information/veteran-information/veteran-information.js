@@ -14,7 +14,7 @@ export const schema = {
 
 export const uiSchema = {
   veteranInformation: {
-    veteranFullName: {
+    fullName: {
       first: {
         'ui:title': 'Your first name',
         'ui:required': () => true,

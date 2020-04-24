@@ -1,25 +1,30 @@
-import { genericSchemas } from '../../../generic-schema';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { veteranInformation } from '../../../utilities';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+
+const veteranContactInformationSchema = cloneDeep(
+  veteranInformation.properties.veteranAddress,
+);
+
+veteranContactInformationSchema.properties.veteranAddress = buildAddressSchema(
+  true,
+);
 
 export const schema = {
   type: 'object',
-  required: [],
   properties: {
-    veteranAddress: buildAddressSchema(true),
-    moreVeteranInformation: {
-      type: 'object',
-      properties: {
-        phoneNumber: genericSchemas.phoneInput,
-        emailAddress: genericSchemas.emailInput,
-      },
-    },
+    veteranContactInformation: veteranContactInformationSchema,
   },
 };
 
 export const uiSchema = {
-  veteranAddress: addressUISchema(true, 'veteranAddress', () => true),
-  moreVeteranInformation: {
+  veteranContactInformation: {
+    veteranAddress: addressUISchema(
+      true,
+      'veteranContactInformation.veteranAddress',
+      () => true,
+    ),
     phoneNumber: {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
