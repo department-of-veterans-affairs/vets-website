@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs"],
+  "plugins": ["mocha", "jest", "react-hooks", "fp", "sonarjs", "va"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
@@ -36,8 +36,21 @@
     "no-restricted-imports": ["error", "raven"],
     "prefer-rest-params": 2,
 
-    /* || va-enzyme custom plugin || */
-    "va-enzyme/unmount": 2,
+    /* || va custom plugin || */
+    "va/proptypes-camel-cased": 2,
+    "va/enzyme-unmount": 2,
+    "va/use-resolved-path": [
+      0,
+      {
+        "aliases": ["applications", "platform", "site", "vet360"]
+      }
+    ],
+    "va/resolved-path-on-required": [
+      1,
+      {
+        "aliases": ["applications", "platform", "site", "vet360"]
+      }
+    ],
 
     /* || fp plugin || */
     "fp/no-proxy": 2, // IE 11 has no polyfill for Proxy

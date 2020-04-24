@@ -7,8 +7,8 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from '../../../../../platform/testing/unit/schemaform-utils';
-import { mockApiRequest } from '../../../../../platform/testing/unit/helpers';
+} from 'platform/testing/unit/schemaform-utils';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 

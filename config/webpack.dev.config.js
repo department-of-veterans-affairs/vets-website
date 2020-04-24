@@ -1,10 +1,8 @@
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
-const appSettings = require('./parse-app-settings');
+const manifestHelpers = require('./manifest-helpers');
 
 function generateWebpackDevConfig(buildOptions) {
-  appSettings.parseFromBuildOptions(buildOptions);
-
-  const routes = appSettings.getAllApplicationRoutes();
+  const routes = manifestHelpers.getAppRoutes();
   const appRewrites = routes
     .map(url => ({
       from: `^${url}(.*)`,

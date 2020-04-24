@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
-import ENVIRONMENTS from '../../../site/constants/environments';
+import ENVIRONMENTS from 'site/constants/environments';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';

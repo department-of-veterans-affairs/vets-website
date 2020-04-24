@@ -182,7 +182,13 @@ export function formatISOPartialDate({ month, day, year }) {
 
 export function formatReviewDate(dateString, monthYear = false) {
   if (dateString) {
-    const [year, month, day] = dateString.split('-', 3);
+    let [year, month, day] = dateString.split('-', 3);
+    // dates (e.g. dob) are sometimes in this pattern: 'YYYYMMDD'
+    if (year.length > 4) {
+      year = dateString.substring(0, 4);
+      month = dateString.substring(4, 6);
+      day = dateString.substring(6, 8);
+    }
 
     return monthYear
       ? `${formatDayMonth(month)}/${formatYear(year)}`

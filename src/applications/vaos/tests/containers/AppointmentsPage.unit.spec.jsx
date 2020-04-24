@@ -53,4 +53,20 @@ describe('VAOS <AppointmentsPage>', () => {
     );
     tree.unmount();
   });
+
+  it('should render tabs if showPastAppointments is true', () => {
+    const tree = shallow(
+      <AppointmentsPage showScheduleButton showPastAppointments />,
+    );
+
+    expect(tree.find('withRouter(TabNav)').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should not render tabs if showPastAppointments is false', () => {
+    const tree = shallow(<AppointmentsPage showScheduleButton />);
+
+    expect(tree.find('withRouter(TabNav)').exists()).to.be.false;
+    tree.unmount();
+  });
 });

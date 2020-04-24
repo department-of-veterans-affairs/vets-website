@@ -9,7 +9,7 @@ import {
   DefinitionTester,
   fillDate,
   fillData,
-} from '../../../../../platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('781 Unit Assignment Details', () => {

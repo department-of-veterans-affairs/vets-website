@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest, getStatus } from '../utils/helpers.jsx';
 import {
   BACKEND_AUTHENTICATION_ERROR,
