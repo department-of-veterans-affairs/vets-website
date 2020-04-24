@@ -97,7 +97,7 @@ const IntroductionPage = ({ route, router }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get filing our your application
+                Get help filing out your application
               </a>
 
               <CaregiverSupportInfo />
