@@ -33,7 +33,7 @@ export async function getSlots({
       endDate,
     );
 
-    return transformSlots(slots);
+    return transformSlots(slots, vistaFacilityId);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

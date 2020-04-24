@@ -8,9 +8,9 @@ import {
 import { getSlots } from '../../../services/slot';
 import slots from '../../../api/slots.json';
 
-const slotsParsed = slots.data.map(s => ({
-  ...s.attributes,
-  id: s.id,
+const slotsParsed = slots.data.attributes.appointmentTimeSlot.map(f => ({
+  ...f.attributes,
+  id: f.id,
 }));
 
 describe('VAOS Slot service', () => {

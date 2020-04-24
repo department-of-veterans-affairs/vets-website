@@ -1,28 +1,31 @@
 import { expect } from 'chai';
-
-import slots from '../../../api/slots.json';
 import { transformSlots } from '../../../services/slot/transformers';
 
-const slotsParsed = slots.data.map(f => ({
-  ...f.attributes,
-  id: f.id,
-}));
+const slots = [
+  {
+    startDateTime: '2020-04-06T14:00:00.000+00:00',
+    endDateTime: '2020-04-06T14:20:00.000+00:00',
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+  },
+];
 
 describe('VAOS Slot transformer', () => {
   describe('transformSlots', () => {
     it('should map status to "free"', () => {
-      const data = transformSlots(slotsParsed);
+      const data = transformSlots(slots, '983');
       expect(data[0].status).to.equal('free');
     });
 
-    it('should map start time', () => {
-      const data = transformSlots(slotsParsed);
-      expect(data.start).to.equal(slotsParsed[0].startDateTime);
+    it('should map start time and convert to UTC which is +6 compared to Denver', () => {
+      const data = transformSlots(slots, '983');
+      expect(data[0].start).to.equal('2020-04-06T20:00:00Z');
     });
 
-    it('should map end end', () => {
-      const data = transformSlots(slotsParsed);
-      expect(data.end).to.equal(slotsParsed[0].endDateTime);
+    it('should map end time', () => {
+      const data = transformSlots(slots, '983');
+      expect(data[0].end).to.equal('2020-04-06T20:20:00Z');
     });
   });
 });
