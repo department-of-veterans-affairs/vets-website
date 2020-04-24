@@ -1,0 +1,15 @@
+{% if emergencyBanner and banner.visible %}
+<div
+  data-template="includes/emergency-banner"
+  data-alert-box-heading="{{ emergencyBanner.title | escape }}"
+  class="usa-alert-full-width usa-alert-full-width-{{ emergencyBanner.type }}">
+  <div class="usa-alert usa-alert-{{ emergencyBanner.type }}">
+    <div class="usa-alert-body">
+      <h3 class="usa-alert-heading">{{ emergencyBanner.title }}</h3>
+      <div class="usa-alert-text">
+        {{ emergencyBanner.content }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

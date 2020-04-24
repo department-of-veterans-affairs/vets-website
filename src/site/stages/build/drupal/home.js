@@ -37,7 +37,7 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
     const fragmentsRoot = metalsmith.path(buildOptions.contentFragments);
     const bannerLocation = path.join(fragmentsRoot, 'home/banner.yml');
     const bannerFile = fs.readFileSync(bannerLocation);
-    const banner = yaml.safeLoad(bannerFile);
+    const emergencyBanner = yaml.safeLoad(bannerFile);
 
     homeEntityObj = {
       ...homeEntityObj,
@@ -48,12 +48,10 @@ function addHomeContent(contentData, files, metalsmith, buildOptions) {
       cards: homePageMenuQuery.links.slice(0, menuLength), // Top Tasks menu. We have a hard limit.
       hubs, // Full hub list.
       promos: homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos, // Promo blocks.
-      // eslint-disable-next-line camelcase
-      homepage_banner: banner,
     };
 
     // eslint-disable-next-line camelcase
-    metalsmith.metadata({ homepage_banner: banner, ...metalsmith.metadata() });
+    metalsmith.metadata({ emergencyBanner, ...metalsmith.metadata() });
 
     // Let Metalsmith know we're here.
     files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
