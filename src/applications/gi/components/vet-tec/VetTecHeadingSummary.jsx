@@ -2,12 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
-import environment from 'platform/utilities/environment';
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
-import { renderVetTecLogo } from '../../utils/render';
-import classNames from 'classnames';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -48,40 +45,16 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     ? ''
     : 'additional-resources-preferred-provider';
 
-  const prodFlagPreferredProvider = environment.isProduction()
-    ? ''
-    : preferredProvider;
+  const header =
+    'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
 
-  const prodFlagHeader = environment.isProduction()
-    ? 'usa-width-two-thirds medium-8 small-12 column'
-    : 'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
-
-  const prodFlagIcons = environment.isProduction()
-    ? 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2'
-    : 'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
-
-  const prodFlagLogoInner = environment.isProduction()
-    ? 'vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5'
-    : 'vads-u-margin-top--neg6 vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5';
-
-  const prodFlagLogoOuter = environment.isProduction()
-    ? 'usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6'
-    : 'usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg1';
-
-  const prodFlagLogo = environment.isProduction() ? (
-    <div className={prodFlagLogoOuter}>
-      <div className={prodFlagLogoInner}>
-        {renderVetTecLogo(classNames('vettec-logo'))}
-      </div>
-    </div>
-  ) : (
-    ''
-  );
+  const icons =
+    'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
 
   return (
     <div className="heading">
       <div className="row">
-        <div className={prodFlagHeader}>
+        <div className={header}>
           <h1 tabIndex={-1}>{institution.name}</h1>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
@@ -104,11 +77,10 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        {prodFlagLogo}
       </div>
 
       <div className="row">
-        <div className={prodFlagIcons}>
+        <div className={icons}>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
               icon="map-marker"
@@ -141,7 +113,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <div className={prodFlagPreferredProvider}>
+        <div className={preferredProvider}>
           <div className>
             <VetTecAdditionalResources />
           </div>
