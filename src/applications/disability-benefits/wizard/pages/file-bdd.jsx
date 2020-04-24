@@ -4,7 +4,7 @@ import { BDD_INFO_URL } from '../../constants';
 import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 
 const FileBDDClaim = () => (
-  <div>
+  <>
     <p>
       Based on your information, you may be eligible for the Benefits Delivery
       at Discharge program that allows service members to apply for VA
@@ -21,7 +21,7 @@ const FileBDDClaim = () => (
     >
       File a Benefits Delivery at Discharge claim
     </a>
-  </div>
+  </>
 );
 
 export default {
