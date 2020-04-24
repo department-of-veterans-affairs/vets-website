@@ -26,13 +26,13 @@ const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 const {
   veteran,
   primaryCaregiver,
-  secondaryOneCaregiver,
-  secondaryTwoCaregiver,
+  secondaryCaregiverOne,
+  secondaryCaregiverTwo,
 } = fullSchema.properties;
 const veteranProps = veteran.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
-const secondaryOneCaregiverProps = secondaryOneCaregiver.properties;
-const secondaryTwoCaregiverProps = secondaryTwoCaregiver.properties;
+const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
+const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
 
 const {
   address,
@@ -50,20 +50,20 @@ const {
   dateOfBirthUI,
   emailUI,
   genderUI,
-  hasSecondaryOneCaregiverUI,
-  hasSecondaryTwoCaregiverUI,
+  hassecondaryCaregiverOneUI,
+  hassecondaryCaregiverTwoUI,
   primaryPhoneNumberUI,
   vetRelationshipUI,
 } = definitions.sharedItems;
 
 const { vetUI, primaryCaregiverUI, secondaryCaregiverUI } = definitions;
 
-const hasSecondaryOneCaregiver = formData =>
-  formData[primaryCaregiverFields.hasSecondaryOneCaregiverView] === true;
+const hassecondaryCaregiverOne = formData =>
+  formData[primaryCaregiverFields.hassecondaryCaregiverOneView] === true;
 
-const hasSecondaryTwoCaregiver = formData =>
+const hassecondaryCaregiverTwo = formData =>
   formData[
-    secondaryCaregiverFields.secondaryOne.hasSecondaryTwoCaregiverView
+    secondaryCaregiverFields.secondaryOne.hassecondaryCaregiverTwoView
   ] === true;
 
 /* Chapters
@@ -315,26 +315,26 @@ const formConfig = {
     secondaryCaregiversChapter: {
       title: 'SECONDARY CAREGIVERS',
       pages: {
-        secondaryOneCaregiverIntro: {
+        secondaryCaregiverOneIntro: {
           path: 'secondaryOne-caregiver-intro',
           title: 'Secondary Caregiver Information',
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
-            [primaryCaregiverFields.hasSecondaryOneCaregiverView]: hasSecondaryOneCaregiverUI,
+            [primaryCaregiverFields.hassecondaryCaregiverOneView]: hassecondaryCaregiverOneUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [primaryCaregiverFields.hasSecondaryOneCaregiverView]: {
+              [primaryCaregiverFields.hassecondaryCaregiverOneView]: {
                 type: 'boolean',
               },
             },
           },
         },
-        secondaryOneCaregiver: {
+        secondaryCaregiverOne: {
           path: 'secondaryOne-caregiver-1',
           title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryOneCaregiver(formData),
+          depends: formData => hassecondaryCaregiverOne(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
@@ -356,20 +356,20 @@ const formConfig = {
             properties: {
               // secondaryOne properties
               [secondaryCaregiverFields.secondaryOne.fullName]:
-                secondaryOneCaregiverProps.fullName,
+                secondaryCaregiverOneProps.fullName,
               [secondaryCaregiverFields.secondaryOne.ssn]:
-                secondaryOneCaregiverProps.ssnOrTin,
+                secondaryCaregiverOneProps.ssnOrTin,
               [secondaryCaregiverFields.secondaryOne.dateOfBirth]:
-                secondaryOneCaregiverProps.dateOfBirth,
+                secondaryCaregiverOneProps.dateOfBirth,
               [secondaryCaregiverFields.secondaryOne.gender]:
-                secondaryOneCaregiverProps.gender,
+                secondaryCaregiverOneProps.gender,
             },
           },
         },
-        secondaryOneCaregiverThree: {
+        secondaryCaregiverOneThree: {
           path: 'secondaryOne-caregiver-2',
           title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryOneCaregiver(formData),
+          depends: formData => hassecondaryCaregiverOne(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
@@ -387,7 +387,7 @@ const formConfig = {
             [secondaryCaregiverFields.secondaryOne
               .vetRelationship]: vetRelationshipUI,
             [secondaryCaregiverFields.secondaryOne
-              .hasSecondaryTwoCaregiverView]: hasSecondaryTwoCaregiverUI,
+              .hassecondaryCaregiverTwoView]: hassecondaryCaregiverTwoUI,
           },
           schema: {
             type: 'object',
@@ -399,26 +399,26 @@ const formConfig = {
               // secondaryOne properties
               [secondaryCaregiverFields.secondaryOne.address]: address,
               [secondaryCaregiverFields.secondaryOne.primaryPhoneNumber]:
-                secondaryOneCaregiverProps.primaryPhoneNumber,
+                secondaryCaregiverOneProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryOne.alternativePhoneNumber]:
-                secondaryOneCaregiverProps.alternativePhoneNumber,
+                secondaryCaregiverOneProps.alternativePhoneNumber,
               [secondaryCaregiverFields.secondaryOne.email]:
-                secondaryOneCaregiverProps.email,
+                secondaryCaregiverOneProps.email,
               [secondaryCaregiverFields.secondaryOne.verifyEmail]:
-                secondaryOneCaregiverProps.email,
+                secondaryCaregiverOneProps.email,
               [secondaryCaregiverFields.secondaryOne.vetRelationship]:
-                secondaryOneCaregiverProps.vetRelationship,
+                secondaryCaregiverOneProps.vetRelationship,
               [secondaryCaregiverFields.secondaryOne
-                .hasSecondaryTwoCaregiverView]: {
+                .hassecondaryCaregiverTwoView]: {
                 type: 'boolean',
               },
             },
           },
         },
-        secondaryTwoCaregiverOne: {
+        secondaryCaregiverTwoOne: {
           path: 'secondaryTwo-caregiver-1',
           title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryTwoCaregiver(formData),
+          depends: formData => hassecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI
@@ -444,20 +444,20 @@ const formConfig = {
             properties: {
               // secondaryTwo properties
               [secondaryCaregiverFields.secondaryTwo.fullName]:
-                secondaryTwoCaregiverProps.fullName,
+                secondaryCaregiverTwoProps.fullName,
               [secondaryCaregiverFields.secondaryTwo.ssn]:
-                secondaryTwoCaregiverProps.ssnOrTin,
+                secondaryCaregiverTwoProps.ssnOrTin,
               [secondaryCaregiverFields.secondaryTwo.dateOfBirth]:
-                secondaryTwoCaregiverProps.dateOfBirth,
+                secondaryCaregiverTwoProps.dateOfBirth,
               [secondaryCaregiverFields.secondaryTwo.gender]:
-                secondaryTwoCaregiverProps.gender,
+                secondaryCaregiverTwoProps.gender,
             },
           },
         },
-        secondaryTwoCaregiverTwo: {
+        secondaryCaregiverTwoTwo: {
           path: 'secondaryTwo-caregiver-2',
           title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryTwoCaregiver(formData),
+          depends: formData => hassecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI
@@ -486,15 +486,15 @@ const formConfig = {
               // secondaryTwo properties
               [secondaryCaregiverFields.secondaryTwo.address]: address,
               [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
-                secondaryTwoCaregiverProps.primaryPhoneNumber,
+                secondaryCaregiverTwoProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
-                secondaryTwoCaregiverProps.alternativePhoneNumber,
+                secondaryCaregiverTwoProps.alternativePhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.email]:
-                secondaryTwoCaregiverProps.email,
+                secondaryCaregiverTwoProps.email,
               [secondaryCaregiverFields.secondaryTwo.verifyEmail]:
-                secondaryTwoCaregiverProps.email,
+                secondaryCaregiverTwoProps.email,
               [secondaryCaregiverFields.secondaryTwo.vetRelationship]:
-                secondaryTwoCaregiverProps.vetRelationship,
+                secondaryCaregiverTwoProps.vetRelationship,
             },
           },
         },
