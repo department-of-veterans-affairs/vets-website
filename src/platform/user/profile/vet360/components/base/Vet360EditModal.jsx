@@ -40,23 +40,6 @@ export default class Vet360EditModal extends React.Component {
     );
   }
 
-  componentDidUpdate(prevProps) {
-    const { transactionRequest } = this.props;
-
-    // We check if our new props contain a different transactionRequest prop
-    // as we're looking for a submission error
-    const hasNewError =
-      prevProps?.transactionRequest?.error !== transactionRequest?.error;
-
-    if (!transactionRequest?.error || !hasNewError) {
-      return;
-    }
-
-    // Scroll to new error.
-    const element = document.getElementById('profile-error');
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
-  }
-
   componentWillUnmount() {
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
