@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { renderVetTecLogo } from '../../utils/render';
 import { ariaLabels } from '../../constants';
-import environment from 'platform/utilities/environment';
 
 class LandingPageTypeOfInstitutionFilter extends React.Component {
   static propTypes = {
@@ -40,12 +39,8 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
         </span>
       );
 
-      const prodFlagLandingLogo = environment.isProduction()
-        ? 'vettec-logo'
-        : 'vettec-logo-landing';
-
       const imgClass = classNames(
-        prodFlagLandingLogo,
+        'vettec-logo-landing',
         'vads-u-padding-top--0p5',
         'vads-u-margin-bottom--neg1',
       );

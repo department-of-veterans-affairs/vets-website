@@ -11,15 +11,9 @@ import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
-import environment from 'platform/utilities/environment';
 
-const classNameProdFlag = environment.isProduction()
-  ? 'vads-u-display--block small-screen:vads-u-display--none vettec-logo-container'
-  : 'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
-
-const prodFlagLogoClass = environment.isProduction()
-  ? 'vettec-logo'
-  : 'vettec-logo-profile';
+const profileLogo =
+  'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
 
 const VetTecInstitutionProfile = ({
   institution,
@@ -28,8 +22,8 @@ const VetTecInstitutionProfile = ({
 }) => (
   <div>
     {
-      <div className={classNameProdFlag}>
-        {renderVetTecLogo(classNames(prodFlagLogoClass))}
+      <div className={profileLogo}>
+        {renderVetTecLogo(classNames('vettec-logo-profile'))}
       </div>
     }
     <VetTecHeadingSummary institution={institution} showModal={showModal} />
