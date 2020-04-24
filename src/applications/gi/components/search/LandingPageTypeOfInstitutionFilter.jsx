@@ -74,4 +74,5 @@ LandingPageTypeOfInstitutionFilter.propTypes = {
   category: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
+
 export default LandingPageTypeOfInstitutionFilter;
