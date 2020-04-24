@@ -143,6 +143,7 @@ export default {
           yes: 'Yes, I need batteries.',
           no: "No, I don't need batteries.",
         },
+        classNames: 'product-selection-radio-btns',
       },
     },
     batteriesUI: {
