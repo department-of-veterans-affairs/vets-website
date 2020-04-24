@@ -1,12 +1,13 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
-const institutionProfile = require('./data/institution-profile.json');
+const VetTecHelpers = require('./vet-tec-helpers');
+const vetTecProfile = require('./data/vet-tec-profile.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  const institutionAttributes = institutionProfile.data.attributes;
+  const vetTecAttributes = vetTecProfile.data.attributes;
 
-  GiHelpers.initApplicationMock();
+  VetTecHelpers.initApplicationMock();
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
@@ -18,22 +19,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
-  GiHelpers.searchForInstitution(client);
+
+  VetTecHelpers.searchForVetTec(client);
 
   // Search Page
-  GiHelpers.expectLocation(
-    client,
-    `/search?category=school&name=${institutionAttributes.name.replace(
-      /\s/g,
-      '+',
-    )}`,
-  );
+  GiHelpers.expectLocation(client, `/program-search`);
   GiHelpers.selectFirstSearchResult(client);
 
   // Profile Page
   GiHelpers.expectLocation(
     client,
-    `/profile/${institutionAttributes.facility_code}`,
+    `/profile/${vetTecAttributes.facility_code}/`,
   );
   client
     .waitForElementVisible('.profile-page', Timeouts.normal)
@@ -41,19 +37,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   GiHelpers.displayLearnMoreModal(client);
 
+  // Approved programs
+  GiHelpers.expandCollapseMainSection(client, 'Approved programs');
+
   // Estimate your benefits
   GiHelpers.expandCollapseMainSection(client, 'Estimate your benefits');
-  GiHelpers.editEligibilityDetails(client);
-  GiHelpers.hideCalculatorFields(client);
 
   // Veteran programs
   GiHelpers.expandCollapseMainSection(client, 'Veteran programs');
 
-  // School locations
-  GiHelpers.expandCollapseMainSection(client, 'School locations');
-
-  // Cautionary information
-  GiHelpers.expandCollapseMainSection(client, 'Cautionary information');
+  // Application process
+  GiHelpers.expandCollapseMainSection(client, 'Application process');
 
   // Contact details
   GiHelpers.expandCollapseMainSection(client, 'Contact details');
