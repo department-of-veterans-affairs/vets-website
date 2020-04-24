@@ -308,3 +308,10 @@ export const GA_FLOWS = {
 };
 
 export const VHA_FHIR_ID = 'urn:oid:2.16.840.1.113883.6.233';
+
+export const FREE_BUSY_TYPES = {
+  busy: 'busy',
+  free: 'free',
+  busyUnavailable: 'busy-unavailable',
+  busyTentative: 'busy-tentative',
+};

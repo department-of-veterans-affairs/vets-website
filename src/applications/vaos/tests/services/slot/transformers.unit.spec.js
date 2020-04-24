@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { transformSlots } from '../../../services/slot/transformers';
+import { FREE_BUSY_TYPES } from '../../../utils/constants';
 
 const slots = [
   {
@@ -13,9 +14,9 @@ const slots = [
 
 describe('VAOS Slot transformer', () => {
   describe('transformSlots', () => {
-    it('should map status to "free"', () => {
+    it('should map freeBusyType to "free"', () => {
       const data = transformSlots(slots, '983');
-      expect(data[0].status).to.equal('free');
+      expect(data[0].freeBusyType).to.equal(FREE_BUSY_TYPES.free);
     });
 
     it('should map start time and convert to UTC which is +6 compared to Denver', () => {

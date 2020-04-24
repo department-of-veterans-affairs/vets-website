@@ -1,5 +1,6 @@
 import moment from '../../utils/moment-tz';
 import { getTimezoneBySystemId } from '../../utils/timezone';
+import { FREE_BUSY_TYPES } from '../../utils/constants';
 
 /**
  *
@@ -32,7 +33,7 @@ export function transformSlots(slots, facilityId) {
   const timezone = getTimezoneBySystemId(facilityId);
 
   return slots.map(slot => ({
-    status: 'free',
+    freeBusyType: FREE_BUSY_TYPES.free,
     start: convertToUTC(slot.startDateTime, timezone),
     end: convertToUTC(slot.endDateTime, timezone),
   }));
