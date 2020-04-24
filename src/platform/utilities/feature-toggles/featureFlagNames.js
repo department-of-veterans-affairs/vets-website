@@ -17,4 +17,5 @@ export default Object.freeze({
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
   eduSection103: 'edu_section_103',
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
+  ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
 });
