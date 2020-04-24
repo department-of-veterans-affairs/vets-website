@@ -14,7 +14,6 @@ describe('CTA helpers', () => {
       localStorage.removeItem('hasSessionSSO');
     });
 
-    it('MHV home', () => {});
     it('Download my data', () => {
       expect(toolUrl(widgetTypes.HEALTH_RECORDS).url).to.equal(
         `https://${
@@ -54,7 +53,6 @@ describe('CTA helpers', () => {
     // });
   });
   describe('A signed-in non-SSO user', () => {
-    it('MHV home', () => {});
     it('Download my data', () => {
       expect(toolUrl(widgetTypes.HEALTH_RECORDS).url).to.equal(
         'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',

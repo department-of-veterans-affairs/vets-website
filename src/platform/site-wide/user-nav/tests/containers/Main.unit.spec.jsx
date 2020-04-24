@@ -90,20 +90,17 @@ describe('<Main>', () => {
 
     it('should automatically initiate a session log in if a SSOe-flagged user has an active SSOe session but no vets-website session', () => {
       localStorage.setItem('hasSessionSSO', true);
-      props.useSSOe = true;
       authUtils.autoLogin = sinon.spy();
-      sessionStorage.setItem = sinon.spy();
-      const wrapper = shallow(<Main {...props} />);
+      const wrapper = shallow(<Main {...props} useSSOe />);
       global.window.simulate('load');
       expect(authUtils.autoLogin.called).to.be.true;
       wrapper.unmount();
     });
 
-    it('should automatically log out if a SSOe-flagged user has an active vets-website session but inactive SSOe session', () => {
+    it('should automatically log out if a SSOe-flagged user has an active vets-website session but no SSOe session', () => {
       localStorage.setItem('hasSession', true);
-      props.useSSOe = true;
       authUtils.autoLogout = sinon.spy();
-      const wrapper = shallow(<Main {...props} />);
+      const wrapper = shallow(<Main {...props} useSSOe />);
       global.window.simulate('load');
       expect(authUtils.autoLogout.called).to.be.true;
       wrapper.unmount();
