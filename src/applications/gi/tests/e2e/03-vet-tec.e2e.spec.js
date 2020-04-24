@@ -1,8 +1,8 @@
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts');
+const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
+const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const VetTecHelpers = require('./vet-tec-helpers');
-const vetTecProfile = require('./data/vet-tec-profile.json');
+const vetTecProfile = require('../data/vet-tec-profile.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const vetTecAttributes = vetTecProfile.data.attributes;
