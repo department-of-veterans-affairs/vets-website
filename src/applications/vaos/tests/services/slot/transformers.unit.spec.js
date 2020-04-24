@@ -23,7 +23,7 @@ describe('VAOS Slot transformer', () => {
       expect(data[0].start).to.equal('2020-04-06T20:00:00Z');
     });
 
-    it('should map end time', () => {
+    it('should map end time and convert to UTC which is +6 compared to Denver', () => {
       const data = transformSlots(slots, '983');
       expect(data[0].end).to.equal('2020-04-06T20:20:00Z');
     });

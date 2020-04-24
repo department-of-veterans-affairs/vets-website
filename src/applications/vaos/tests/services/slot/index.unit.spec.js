@@ -8,11 +8,6 @@ import {
 import { getSlots } from '../../../services/slot';
 import slots from '../../../api/slots.json';
 
-const slotsParsed = slots.data.attributes.appointmentTimeSlot.map(f => ({
-  ...f.attributes,
-  id: f.id,
-}));
-
 describe('VAOS Slot service', () => {
   describe('getSlots', () => {
     let data;
@@ -20,6 +15,7 @@ describe('VAOS Slot service', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, slots);
+
       data = await getSlots({
         vistaFacilityId: '983',
         vistaTypeOfCareId: '323',
@@ -31,7 +27,7 @@ describe('VAOS Slot service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
       );
-      expect(data[0].start).to.equal(slotsParsed[0].startDateTime);
+      expect(data[0].start).to.equal('2020-02-06T21:00:00Z');
     });
 
     it('should return OperationOutcome error', async () => {

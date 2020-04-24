@@ -25,7 +25,7 @@ export async function getSlots({
   endDate,
 }) {
   try {
-    const slots = await getAvailableSlots(
+    const data = await getAvailableSlots(
       vistaFacilityId,
       vistaTypeOfCareId,
       vistaClinicId,
@@ -33,7 +33,7 @@ export async function getSlots({
       endDate,
     );
 
-    return transformSlots(slots, vistaFacilityId);
+    return transformSlots(data[0]?.appointmentTimeSlot || [], vistaFacilityId);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
