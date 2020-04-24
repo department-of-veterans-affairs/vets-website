@@ -30,6 +30,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import addLinkToCovidFAQ from './covidFaqLink';
+import createViewDependentsCTA from './686c-674/createViewDependentsCTA';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -131,6 +132,8 @@ createPost911GiBillStatusWidget(
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 
 createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
+
+createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {
