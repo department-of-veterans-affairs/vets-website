@@ -65,7 +65,7 @@ export class VetTecSearchPage extends React.Component {
   getQueryFilterFields = () => {
     const booleanFilterParams = [
       'preferredProvider',
-      'excludeCautionAndSchoolClosureFlags',
+      'excludeWarnings',
     ];
 
     const stringFilterParams = ['version', 'country', 'state', 'type'];

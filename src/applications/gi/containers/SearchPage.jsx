@@ -76,7 +76,7 @@ export class SearchPage extends React.Component {
       'priorityEnrollment',
       'independentStudy',
       'preferredProvider',
-      'excludeCautionAndSchoolClosureFlags',
+      'excludeWarnings',
     ];
 
     const stringFilterParams = [

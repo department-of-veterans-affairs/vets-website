@@ -13,7 +13,7 @@ const INITIAL_STATE = Object.freeze({
   typeName: 'ALL',
   preferredProvider: false,
   provider: [],
-  excludeCautionAndSchoolClosureFlags: false,
+  excludeWarnings: false,
 });
 
 export default function(state = INITIAL_STATE, action) {

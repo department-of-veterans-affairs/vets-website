@@ -1227,7 +1227,7 @@ export class Modals extends React.Component {
         </p>
         <p>
           {' '}
-          To learn more about Caution Flags,{' '}
+          To learn more about caution flags,{' '}
           <a
             href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
             target="_blank"

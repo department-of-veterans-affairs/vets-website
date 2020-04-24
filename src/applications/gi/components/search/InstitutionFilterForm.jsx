@@ -154,9 +154,7 @@ class InstitutionFilterForm extends React.Component {
           ''
         ) : (
           <CautionaryWarningsFilter
-            excludeCautionAndSchoolClosureFlags={
-              this.props.filters.excludeCautionAndSchoolClosureFlags
-            }
+            excludeWarnings={this.props.filters.excludeWarnings}
             onChange={this.handleCheckboxChange}
             showModal={this.props.showModal}
           />
@@ -184,7 +182,7 @@ InstitutionFilterForm.propTypes = {
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
-    excludeCautionAndSchoolClosureFlags: PropTypes.bool,
+    excludeWarnings: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -201,7 +199,7 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
-    excludeCautionAndSchoolClosureFlags: PropTypes.bool,
+    excludeWarnings: PropTypes.bool,
   }),
 };
 
