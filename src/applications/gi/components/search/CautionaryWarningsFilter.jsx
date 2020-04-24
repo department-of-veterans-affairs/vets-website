@@ -6,7 +6,7 @@ import { ariaLabels } from '../../constants';
 
 class CautionaryWarningsFilter extends React.Component {
   static propTypes = {
-    excludeCautionAndSchoolClosureFlags: PropTypes.bool.isRequired,
+    excludeWarnings: PropTypes.bool.isRequired,
     onChange: PropTypes.func,
     showModal: PropTypes.func.isRequired,
   };
@@ -28,7 +28,7 @@ class CautionaryWarningsFilter extends React.Component {
         </p>
         <Checkbox
           checked={this.props.excludeWarnings}
-          name="excludeCautionAndSchoolClosureFlags"
+          name="excludeWarnings"
           label="Exclude results with warnings or closings"
           onChange={this.props.onChange}
         />
