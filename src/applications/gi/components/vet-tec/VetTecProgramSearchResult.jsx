@@ -8,7 +8,8 @@ import {
   renderSchoolClosingAlert,
 } from '../../utils/render';
 
-function VetTecProgramSearchResult({ version, result, constants }) {
+function VetTecProgramSearchResult(props) {
+  const { version, result, constants } = props;
   const {
     facilityCode,
     description,
@@ -28,9 +29,7 @@ function VetTecProgramSearchResult({ version, result, constants }) {
     ? formatCurrency(tuitionAmount)
     : 'TBD';
 
-
-    const displayHours =
-      lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
+  const displayHours = lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
 
   const linkTo = {
     pathname: `profile/${facilityCode}/${description}`,
@@ -57,23 +56,26 @@ function VetTecProgramSearchResult({ version, result, constants }) {
               </h2>
             </div>
             <div className="small-12 medium-3 columns">
-              {renderPreferredProviderFlag(result)}
+              {renderPreferredProviderFlag(props.result)}
             </div>
           </div>
-          {(schoolClosing || cautionFlag) && (
+          {(schoolClosing || cautionFlags.length > 0) && (
             <div className="row alert-row">
               <div className="small-12 columns">
                 {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                {renderCautionAlert({ cautionFlag, cautionFlags })}
+                {renderCautionAlert({ cautionFlags })}
               </div>
             </div>
-
-            {(schoolClosing || cautionFlags.length > 0) && (
-              <div className="row alert-row">
-                <div className="small-12 columns">
-                  {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {renderCautionAlert({ cautionFlags })}
-                </div>
+          )}
+          <div className="row vads-u-padding-top--1p5">
+            <div className="small-12 medium-7 columns">
+              <div style={{ position: 'relative', bottom: 0 }}>
+                <p className="institution-name vads-u-font-weight--bold">
+                  {institutionName}
+                </p>
+                <p className="institution-location">
+                  {locationInfo(city, state, country)}
+                </p>
               </div>
             </div>
             <div className="small-12 medium-5 columns estimated-benefits">
