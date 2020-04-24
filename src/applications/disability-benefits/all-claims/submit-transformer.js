@@ -172,6 +172,24 @@ export function transformRelatedDisabilities(
   );
 }
 
+export const removeExtraData = formData => {
+  // EVSS no longer accepts some keys
+  const ratingKeysToRemove = ['ratingDecisionId'];
+  const clonedData = _.cloneDeep(formData);
+  const disabilities = clonedData.ratedDisabilities;
+  if (disabilities?.length) {
+    clonedData.ratedDisabilities = disabilities.map(disability =>
+      Object.keys(disability).reduce((acc, key) => {
+        if (!ratingKeysToRemove.includes(key)) {
+          acc[key] = disability[key];
+        }
+        return acc;
+      }, {}),
+    );
+  }
+  return clonedData;
+};
+
 /**
  * Returns an array of the maximum set of PTSD incident form data field names
  */
@@ -551,6 +569,7 @@ export function transform(formConfig, form) {
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
+    removeExtraData, // Removed data EVSS does't want
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,

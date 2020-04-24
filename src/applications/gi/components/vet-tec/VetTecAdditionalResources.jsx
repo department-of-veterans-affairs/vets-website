@@ -1,6 +1,5 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
@@ -65,23 +64,16 @@ export const VetTecAdditionalResourcesLinks = () => (
   </div>
 );
 
-const prodFlagAdditonalResources = environment.isProduction()
-  ? 'additional-resources usa-width-one-third medium-4 small-12 column vads-u-margin-top--neg7'
-  : 'additional-resources-vettec  usa-width-one-third medium-4 small-12 column';
-
-const prodFlagLogoToAdditionalResources = environment.isProduction() ? (
-  ''
-) : (
-  <div className="vads-u-margin-left--4">
-    <div className="logo-container">
-      {renderVetTecLogo(classNames('vettec-logo-additional-resources'))}
-    </div>
-  </div>
-);
+const additonalResources =
+  'additional-resources-vettec  usa-width-one-third medium-4 small-12 column';
 
 const VetTecAdditionalResources = () => (
-  <div className={prodFlagAdditonalResources}>
-    {prodFlagLogoToAdditionalResources}
+  <div className={additonalResources}>
+    <div className="vads-u-margin-left--4">
+      <div className="logo-container">
+        {renderVetTecLogo(classNames('vettec-logo-additional-resources'))}
+      </div>
+    </div>
     <h2 className="highlight vettec-additional-resources-header vads-u-font-size--h4">
       Additional resources
     </h2>
