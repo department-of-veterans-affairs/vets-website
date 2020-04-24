@@ -304,7 +304,7 @@ export const DISTANCES = [
 
 export const REASON_MAX_CHARS = {
   request: 100,
-  direct: 150,
+  direct: 100,
 };
 
 export const CALENDAR_INDICATOR_TYPES = {
