@@ -32,7 +32,10 @@ class AccordionItem extends React.Component {
       [this.props.headerClass]: this.props.headerClass,
     });
     return (
-      <li aria-label={label}>
+      <li
+        aria-label={label}
+        id={`${this.props.button.toLowerCase().replace(/\s/g, '-')}-accordion`}
+      >
         <h2 aria-live="off" className={headerClasses}>
           <button
             onClick={this.toggle}
