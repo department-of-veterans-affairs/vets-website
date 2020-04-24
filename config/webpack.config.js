@@ -58,29 +58,6 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-/**
- * The dev server requires settings.js for building the
- * redirects. This loads the settings for use in the watch commands.
- *
- * @return {Object} settings
- */
-function getDevServerSettings() {
-  const settings = {};
-  const manifests = getAppManifests();
-  settings.applications = manifests
-    // Manifests without rootUrls are excluded from the redirect settings
-    .filter(manifest => manifest.rootUrl)
-    .map(manifest => ({
-      contentProps: [
-        {
-          path: path.join('.', manifest.rootUrl),
-        },
-      ],
-    }));
-
-  return settings;
-}
-
 module.exports = env => {
   const buildOptions = {
     api: '',
@@ -93,7 +70,6 @@ module.exports = env => {
     get destination() {
       return path.resolve(__dirname, '../', 'build', this.buildtype);
     },
-    settings: getDevServerSettings(),
   };
 
   const apps = getEntryPoints(buildOptions.entry);

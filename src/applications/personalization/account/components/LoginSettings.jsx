@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 export default function LoginSettings() {

@@ -6,7 +6,6 @@ function createReactPages() {
   return (files, metalsmith, done) => {
     manifestHelpers
       .getAppManifests()
-      // Skip manifests that are mapping the url from settings.js
       .filter(m => m.rootUrl)
       .forEach(({ entryName, appName, rootUrl, template }) => {
         const trimmedUrl = path.join('.', rootUrl);
