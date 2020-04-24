@@ -35,7 +35,7 @@ describe('VAOS Organization transformer', () => {
 
     it('should not map partOf field for root parents', () => {
       const data = transformParentFacilities(facilitiesParsed);
-      expect(data[1].partOf.reference).to.be.undefined;
+      expect(data[1].partOf).to.be.undefined;
     });
   });
 });

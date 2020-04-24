@@ -8,11 +8,6 @@ import {
 import { getLocations } from '../../../services/location';
 import facilities983 from '../../../api/facilities_983.json';
 
-const facilitiesParsed = facilities983.data.map(f => ({
-  ...f.attributes,
-  id: f.id,
-}));
-
 describe('VAOS Location service', () => {
   describe('getLocations', () => {
     let data;
@@ -29,7 +24,7 @@ describe('VAOS Location service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
-      expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
+      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
     });
 
     describe('should return OperationOutcome error', async () => {
