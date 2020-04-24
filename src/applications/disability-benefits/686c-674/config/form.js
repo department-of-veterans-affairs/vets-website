@@ -1,11 +1,33 @@
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
+function fireAnalytics(formConfig, form) {
+  recordEvent({
+    event: 'disability-21-686c-submission-successful',
+    'disability-under18AndUnmarried':
+      form.data['view:selectable686Options'].reportMarriageOfChildUnder18,
+    'disability-childAttendingSchool':
+      form.data['view:selectable686Options']
+        .reportChild18OrOlderIsNotAttendingSchool,
+    'disability-reportingDivorce':
+      form.data['view:selectable686Options'].reportDivorce,
+    'disability-stepchildLeftHousehold':
+      form.data['view:selectable686Options'].reportStepchildNotInHousehold,
+    'disability-deathOfDependent':
+      form.data['view:selectable686Options'].reportDeath,
+    'disability-marriageOfChild':
+      form.data['view:selectable686Options'].reportStepchildNotInHousehold,
+    'disability-childStoppedAttendingSchool':
+      form.data['view:selectable686Options'].reportStepchildNotInHousehold,
+  });
+}
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -66,6 +88,7 @@ const formConfig = {
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'New 686',
+  transformForSubmit: fireAnalytics,
   defaultDefinitions: {},
   chapters: {
     optionSelection: {
