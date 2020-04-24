@@ -70,7 +70,6 @@ export const uiSchema = {
       'ui:title': 'Please give a brief explanation',
       'ui:required': formData =>
         formData?.reportDivorce?.isMarriageAnnulledOrVoid,
-      'ui:widget': 'textarea',
       'ui:options': { expandUnder: 'isMarriageAnnulledOrVoid' },
     },
   },
