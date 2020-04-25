@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 export default function createViewDependentsCTA(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "HomepageBanner" */
+    import(/* webpackChunkName: "ViewDependentsCTA" */
     './ViewDependentsCTA').then(module => {
-      const HomepageBanner = module.default;
-      ReactDOM.render(<HomepageBanner />, root);
+      const ViewDependentsCTA = module.default;
+      ReactDOM.render(<ViewDependentsCTA store={store} />, root);
     });
   }
 }
