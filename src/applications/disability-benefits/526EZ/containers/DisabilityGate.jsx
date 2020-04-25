@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import { PREFILL_STATUSES } from '../../../../platform/forms/save-in-progress/actions';
-import get from '../../../../platform/utilities/data/get';
+import { PREFILL_STATUSES } from 'platform/forms/save-in-progress/actions';
+import get from 'platform/utilities/data/get';
 
 /**
  * Gates rendering the form based on whether there are any eligible disabilities.

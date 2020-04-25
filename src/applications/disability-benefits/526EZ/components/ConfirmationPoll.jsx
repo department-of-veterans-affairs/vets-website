@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import get from '../../../../platform/utilities/data/get';
-import { apiRequest } from '../../../../platform/utilities/api';
+import get from 'platform/utilities/data/get';
+import { apiRequest } from 'platform/utilities/api';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';

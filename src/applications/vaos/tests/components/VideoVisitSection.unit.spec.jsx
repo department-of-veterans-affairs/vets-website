@@ -45,6 +45,7 @@ describe('Video visit', () => {
     const link = tree.find('.usa-button');
     expect(link.length).to.equal(1);
     expect(link.props()['aria-describedby']).to.equal(undefined);
+    expect(link.props()['aria-disabled']).to.equal('false');
     expect(tree.exists('span')).to.equal(false);
     expect(tree.exists('.usa-button-disabled')).to.equal(false);
     tree.unmount();
@@ -63,6 +64,7 @@ describe('Video visit', () => {
     const describedById = 'description-join-link-123';
     const link = tree.find('.usa-button');
     expect(link.props()['aria-describedby']).to.equal(describedById);
+    expect(link.props()['aria-disabled']).to.equal('true');
     expect(tree.exists(`span#${describedById}`)).to.be.true;
     tree.unmount();
   });

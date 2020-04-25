@@ -16,31 +16,29 @@ import {
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import ProfileView from '../components/ProfileView';
 
-class VAProfileApp extends React.Component {
-  render() {
-    return (
-      <div>
-        <RequiredLoginView
-          serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.user}
-        >
-          <ProfileView
-            profile={this.props.profile}
-            user={this.props.user}
-            fetchHero={this.props.fetchHero}
-            fetchMilitaryInformation={this.props.fetchMilitaryInformation}
-            fetchPersonalInformation={this.props.fetchPersonalInformation}
-            downtimeData={{
-              appTitle: 'profile',
-              isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
-              initializeDowntimeWarnings: this.props.initializeDowntimeWarnings,
-              dismissDowntimeWarning: this.props.dismissDowntimeWarning,
-            }}
-          />
-        </RequiredLoginView>
-      </div>
-    );
-  }
+function VAProfileApp(props) {
+  return (
+    <div>
+      <RequiredLoginView
+        serviceRequired={backendServices.USER_PROFILE}
+        user={props.user}
+      >
+        <ProfileView
+          profile={props.profile}
+          user={props.user}
+          fetchHero={props.fetchHero}
+          fetchMilitaryInformation={props.fetchMilitaryInformation}
+          fetchPersonalInformation={props.fetchPersonalInformation}
+          downtimeData={{
+            appTitle: 'profile',
+            isDowntimeWarningDismissed: props.isDowntimeWarningDismissed,
+            initializeDowntimeWarnings: props.initializeDowntimeWarnings,
+            dismissDowntimeWarning: props.dismissDowntimeWarning,
+          }}
+        />
+      </RequiredLoginView>
+    </div>
+  );
 }
 
 const mapStateToProps = state => ({

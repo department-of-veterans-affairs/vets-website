@@ -29,7 +29,7 @@
 
   {% if outputStatus == true %}
     <div data-template="components/fullwidth_banner_alerts" data-entity-id="{{ entity.entityId }}"
-      aria-labelledby="usa-alert-heading-{{ entity.entityId }}"
+      aria-labelledby="usa-alert-header-text-{{ entity.entityId }}"
       class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ alertType }}"
       id="usa-alert-full-width-{{ entity.entityId }}" role="region">
       <div class="usa-alert usa-alert-{{ alertType }}" role="alert">
@@ -42,7 +42,7 @@
           </button>
         {% endif %}
         <div class="usa-alert-body">
-          <h3 class="usa-alert-heading">
+          <h3 class="usa-alert-heading" id="usa-alert-header-text-{{ entity.entityId }}">
             {{ entity.title }}
           </h3>
           <div class="additional-info-content usa-alert-text">

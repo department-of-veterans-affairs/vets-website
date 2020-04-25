@@ -18,10 +18,13 @@ const ProfileHeader = ({
   // the outer full-width background of the header banner
   const wrapperClasses = prefixUtilityClasses([
     'background-color--gray-dark',
-    'margin-bottom--2',
+    'margin-bottom--0',
     'padding-y--2',
   ]);
-  const wrapperClassesMedium = prefixUtilityClasses(['padding-y--3'], 'medium');
+  const wrapperClassesMedium = prefixUtilityClasses(
+    ['padding-y--3', 'margin-bottom--2'],
+    'medium',
+  );
 
   // the inner content of the header banner
   const innerWrapperClasses = prefixUtilityClasses([
@@ -58,11 +61,11 @@ const ProfileHeader = ({
   const fullNameClasses = prefixUtilityClasses([
     'font-size--h3',
     'margin-top--0',
-    'margin-bottom--1p5',
+    'margin-bottom--0p5',
     'text-align--center',
   ]);
   const fullNameClassesMedium = prefixUtilityClasses(
-    ['text-align--left'],
+    ['text-align--left', 'margin-bottom--1p5'],
     'medium',
   );
 

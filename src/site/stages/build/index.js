@@ -13,7 +13,6 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const silverSmith = require('./silversmith');
-const getOptions = require('./options');
 
 const assetSources = require('../../constants/assetSources');
 
@@ -27,7 +26,6 @@ const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const downloadAssets = require('./plugins/download-assets');
 const readAssetsFromDisk = require('./plugins/read-assets-from-disk');
-const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createHeaderFooter = require('./plugins/create-header-footer');
@@ -93,7 +91,7 @@ function preserveWebpackOutput(metalsmithDestination, buildType) {
   };
 }
 
-function defaultBuild(BUILD_OPTIONS) {
+function build(BUILD_OPTIONS) {
   const smith = silverSmith();
 
   registerLiquidFilters();
@@ -226,11 +224,6 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(rewriteDrupalPages(BUILD_OPTIONS), 'Rewrite Drupal pages');
   smith.use(createDrupalDebugPage(BUILD_OPTIONS), 'Create Drupal debug page');
 
-  // Create the data passed from the content build to the assets compiler.
-  // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
-  // In the browser, it can be accessed at window.settings.
-  smith.use(createBuildSettings(BUILD_OPTIONS), 'Create build settings');
-
   smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 
   if (BUILD_OPTIONS['asset-source'] !== assetSources.LOCAL) {
@@ -257,6 +250,7 @@ function defaultBuild(BUILD_OPTIONS) {
    * changes will be overwritten during the outputHtml step.
    */
   smith.use(parseHtml, 'Parse HTML files');
+
   /**
    * Add nonce attribute with substition string to all inline script tags
    * Convert onclick event handles into nonced script tags
@@ -280,9 +274,4 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-async function main() {
-  const buildOptions = await getOptions();
-  defaultBuild(buildOptions);
-}
-
-module.exports = main;
+module.exports = build;

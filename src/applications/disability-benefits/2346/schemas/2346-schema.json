@@ -10,6 +10,11 @@
         true
       ]
     },
+    "currentAddress": {
+      "type": "string",
+      "enum": ["permanentAddress", "temporaryAddress"],
+      "default": "permanentAddress"
+    },
     "fullName": {
       "type": "object",
       "properties": {
@@ -385,6 +390,9 @@
     "email": {
       "$ref": "#/definitions/email"
     },
+    "confirmationEmail": {
+      "$ref": "#/definitions/email"
+    },
     "dateOfBirth": {
       "$ref": "#/definitions/date"
     },
@@ -405,23 +413,6 @@
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
-    },
-    "currentAddress": {
-      "type": "string",
-      "enum": [
-        "Add new address"
-      ]
-    },
-    "selectedAddress": {
-      "type": "string",
-      "enum": [
-        "permanentAddress",
-        "temporaryAddress"
-      ],
-      "enumNames": [
-        "Permanent Address",
-        "Temporary Address"
-      ]
     }
   },
   "required": [

@@ -1,6 +1,6 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { formatDateLong } from '../../../platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import FacilityApiAlert from './FacilityApiAlert';
 import { connect } from 'react-redux';
 import _ from 'lodash';

@@ -13,7 +13,10 @@ const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaf
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
+    ${healthCareRegionNewsStories}
+    ${healthCareRegionEvents}
     fieldNicknameForThisFacility
+    title
     fieldMedia {
       entity {
         ... on MediaImage {
@@ -103,11 +106,9 @@ module.exports = `
     fieldIntroTextNewsStories {
       processed
     }
-    ${healthCareRegionNewsStories}
     fieldIntroTextEventsPage {
       processed
     }
-    ${healthCareRegionEvents}
     fieldClinicalHealthCareServi {
       processed
     }
@@ -115,6 +116,80 @@ module.exports = `
     ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {
       processed
+    }
+    eventTeasersFeatured: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "event_listing"}]}) {
+      entities {
+        ... on NodeEventListing {
+          reverseFieldListingNode(limit: 1000, filter: {conditions: [{field: "type", value: "event"}, {field: "status", value: "1"}, {field: "field_featured", value: "1"}]}) {
+            entities {
+              ... on NodeEvent {
+                title
+                uid {
+                  targetId
+                  ... on FieldNodeUid {
+                    entity {
+                      name
+                      timezone
+                    }
+                  }
+                }
+                fieldDate {
+                  startDate
+                  value
+                  endDate
+                  endValue
+                }
+                fieldDescription
+                fieldLocationHumanreadable
+                fieldFacilityLocation {
+                  entity {
+                    title
+                    entityUrl {
+                      path
+                    }
+                  }
+                }
+              }
+              entityUrl {
+                path
+              }
+            }
+          }
+        }
+      }
+    }
+    newsStoryTeasersFeatured: reverseFieldOfficeNode(limit: 1000, filter: {conditions: [{field: "type", value: "story_listing"}]}) {
+      entities {
+        ... on NodeStoryListing {
+          reverseFieldListingNode(limit: 1000, filter: {conditions: [{field: "type", value: "news_story"}, {field: "status", value: "1"}, {field: "field_featured", value: "1"}]}) {
+            entities {
+              ... on NodeNewsStory {
+                title
+                fieldFeatured
+                fieldIntroText
+                fieldMedia {
+                  entity {
+                    ... on MediaImage {
+                      image {
+                        alt
+                        title
+                        derivative(style: _32MEDIUMTHUMBNAIL) {
+                          url
+                          width
+                          height
+                        }
+                      }
+                    }
+                  }
+                }
+                entityUrl {
+                  path
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
