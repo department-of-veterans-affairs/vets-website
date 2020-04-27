@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import {
   clearAutocompleteSuggestions,
@@ -161,20 +160,15 @@ export class SearchPage extends React.Component {
       pagination: { currentPage, totalPages },
     } = search;
 
-    // Prod flag for 7183
-    const resultsClass = environment.isProduction()
-      ? classNames(
-          'search-results',
-          'small-12',
-          'usa-width-three-fourths medium-9',
-          'columns',
-          {
-            opened: !search.filterOpened,
-          },
-        )
-      : classNames('search-results', 'small-12', 'medium-9', 'columns', {
-          opened: !search.filterOpened,
-        });
+    const resultsClass = classNames(
+      'search-results',
+      'small-12',
+      'medium-9',
+      'columns',
+      {
+        opened: !search.filterOpened,
+      },
+    );
 
     let searchResults;
 

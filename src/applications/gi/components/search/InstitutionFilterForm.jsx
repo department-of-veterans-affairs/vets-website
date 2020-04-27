@@ -9,7 +9,6 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
 } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 class InstitutionFilterForm extends React.Component {
@@ -150,15 +149,13 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
-        {environment.isProduction() ? (
-          ''
-        ) : (
+        {
           <CautionaryWarningsFilter
             excludeWarnings={this.props.filters.excludeWarnings}
             onChange={this.handleCheckboxChange}
             showModal={this.props.showModal}
           />
-        )}
+        }
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
