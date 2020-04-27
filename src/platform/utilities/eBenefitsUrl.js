@@ -1,5 +1,3 @@
-import { trimStart } from 'lodash';
-
 import {
   ssoe,
   ssoeEbenefitsLinks,
@@ -9,8 +7,15 @@ import environment from 'platform/utilities/environment';
 import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 
 const eauthPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+const eauthPathMap = {
+  'ebenefits-portal/ebenefits.portal': 'homepage',
+};
+function normalizePath(path) {
+  return path.startswith('/') ? path.substring(1) : path;
+}
 function eauthUrl(path = '') {
-  return `https://${eauthPrefix}eauth.va.gov/ebenefits/${trimStart(path, '/')}`;
+  const route = eauthPathMap[normalizePath(path)] || normalizePath(path);
+  return `https://${eauthPrefix}eauth.va.gov/ebenefits/${route}`;
 }
 
 export const eBenefitsUrlGenerator = state => {
@@ -21,5 +26,5 @@ export const eBenefitsUrlGenerator = state => {
   if (hasSessionSSO() && ssoe(state) && ssoeEbenefitsLinks(state)) {
     return eauthUrl;
   }
-  return path => `https://www.ebenefits.va.gov/${trimStart(path, '/')}`;
+  return path => `https://www.ebenefits.va.gov/${normalizePath(path)}`;
 };
