@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import set from '../../../../../platform/utilities/data/set';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import set from 'platform/utilities/data/set';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 

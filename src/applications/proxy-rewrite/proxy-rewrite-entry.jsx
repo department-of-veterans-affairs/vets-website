@@ -217,7 +217,6 @@ function getHostnameOverride() {
 }
 
 const scriptPaths = [
-  '/js/settings.js',
   '/generated/polyfills.entry.js',
   '/generated/vendor.entry.js',
   '/generated/proxy-rewrite.entry.js',
