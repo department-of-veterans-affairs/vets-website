@@ -72,6 +72,7 @@ export class ProfilePage extends React.Component {
             institution={profile.attributes}
             showModal={this.props.showModal}
             preSelectedProgram={this.props.params.preSelectedProgram}
+            gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
           />
         );
       } else {
