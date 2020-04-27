@@ -44,12 +44,8 @@ $side-nav-color-dark: #323a45;
 
   .line {
     background: $color-gray-lighter;
-    display: block;
     height: 1px;
-    border: 0;
-    border-top: 1px $side-nav-color-dark #ccc;
-    margin: 16px 23px;
-    padding: 0;
+    margin: 10px 23px;
   }
 
   .line-open {
@@ -57,7 +53,6 @@ $side-nav-color-dark: #323a45;
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px $side-nav-color-dark #ccc;
     margin: 16px 0;
     padding: 0;
   }
