@@ -5,17 +5,22 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
-import { getLocations } from '../../../services/location';
+import {
+  getLocations,
+  getLocation,
+  getLocationsByTypeOfCare,
+} from '../../../services/location';
 import facilities983 from '../../../api/facilities_983.json';
+import facilityDetails from '../../../api/facility_data.json';
 
 describe('VAOS Location service', () => {
-  describe('getLocations', () => {
+  describe('getLocationsByTypeOfCare', () => {
     let data;
 
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
-      data = await getLocations({
+      data = await getLocationsByTypeOfCare({
         systemId: 'var983',
         parentId: 'var983A6',
         typeOfCareId: '123',
@@ -27,7 +32,7 @@ describe('VAOS Location service', () => {
       expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
     });
 
-    describe('should return OperationOutcome error', async () => {
+    it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
@@ -35,7 +40,7 @@ describe('VAOS Location service', () => {
 
       let error;
       try {
-        data = await getLocations({
+        data = await getLocationsByTypeOfCare({
           systemId: 'var983',
           parentId: 'var983A6',
           typeOfCareId: '123',
@@ -46,6 +51,43 @@ describe('VAOS Location service', () => {
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
+      );
+      expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+  });
+  describe('getLocations', () => {
+    let data;
+
+    it('should make successful request', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, facilityDetails);
+      data = await getLocations({
+        facilityIds: ['var983A6'],
+      });
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/facilities/va?ids=vha_442A6',
+      );
+      expect(data[0].identifier[0].value).to.equal('urn:va:division:442:442');
+    });
+
+    it('should return OperationOutcome error', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch, {
+        errors: [],
+      });
+
+      let error;
+      try {
+        data = await getLocations({
+          facilityIds: ['var983'],
+        });
+      } catch (e) {
+        error = e;
+      }
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/facilities/va?ids=vha_442',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
