@@ -12,6 +12,7 @@ import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import ContactInformation from './ContactInformation';
+import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -33,7 +34,14 @@ export class InstitutionProfile extends React.Component {
   };
 
   render() {
-    const { profile, isOJT, constants, showModal, eduSection103 } = this.props;
+    const {
+      profile,
+      isOJT,
+      constants,
+      showModal,
+      eduSection103,
+      gibctEstimateYourBenefits,
+    } = this.props;
     return (
       <div>
         <HeadingSummary
@@ -44,7 +52,11 @@ export class InstitutionProfile extends React.Component {
         <div className="usa-accordion">
           <ul>
             <AccordionItem button="Estimate your benefits">
-              <Calculator />
+              {gibctEstimateYourBenefits ? (
+                <EstimateYourBenefits />
+              ) : (
+                <Calculator />
+              )}
             </AccordionItem>
             {!isOJT && (
               <AccordionItem button="Veteran programs">
