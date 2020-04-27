@@ -38,18 +38,16 @@ export function getDerivedAttributes(constant, eligibility, institution) {
   const isFlightOrCorrespondence =
     its.type === 'flight' || its.type === 'correspondence';
 
-  const oldGiBill =
-    chapter === 30 || chapter === 1607 || chapter === 1606 || chapter === 35;
+  const oldGiBill = chapter === 30 || chapter === 1606 || chapter === 35;
 
   // Determines whether monthly benefit can only be spent on tuition/fees
-  const activeDutyThirtyOr1607 =
-    your.militaryStatus === 'active duty' &&
-    (chapter === 30 || chapter === 1607);
+  const activeDutyThirty =
+    your.militaryStatus === 'active duty' && chapter === 30;
   const correspondenceOrFlightUnderOldGiBill =
     (its.type === 'correspondence' || its.type === 'flight') &&
     oldGiBill === true;
   const onlyTuitionFees =
-    activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill;
+    activeDutyThirty || correspondenceOrFlightUnderOldGiBill;
 
   // The monthly benefit rate for non-chapter 33 benefits
   const isOJT = its.type === 'ojt';
@@ -66,12 +64,6 @@ export function getDerivedAttributes(constant, eligibility, institution) {
         monthlyRate = isOJT
           ? constant.MGIB2YRRATE * 0.75
           : constant.MGIB2YRRATE;
-      }
-      break;
-    case 1607:
-      monthlyRate = constant.MGIB3YRRATE * Number(your.consecutiveService);
-      if (isOJT) {
-        monthlyRate *= 0.75;
       }
       break;
     case 1606:

@@ -130,6 +130,21 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
+        {this.props.eduSection103 && (
+          <div>
+            <strong>
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'section103')}
+              >
+                Protection against late VA payments:
+              </button>
+            </strong>
+            &nbsp;
+            {institution.section103Message}
+          </div>
+        )}
       </div>
     );
   }
@@ -276,6 +291,7 @@ export class AdditionalInformation extends React.Component {
 AdditionalInformation.propTypes = {
   institution: PropTypes.object,
   onShowModal: PropTypes.func,
+  eduSection103: PropTypes.bool,
 };
 
 export default AdditionalInformation;

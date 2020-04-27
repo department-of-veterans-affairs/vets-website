@@ -1,4 +1,4 @@
-<div class="usa-accordion-bordered service-accordion-output">
+<div data-template="facilities/health_service" class="usa-accordion-bordered service-accordion-output">
     <ul class="usa-unstyled-list">
         {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
         <li>
@@ -19,12 +19,12 @@
                 {% endif %}
 
                 {% if healthService.fieldLocalHealthCareService.length > 0 %}
-                    <h3>Available at these {{ regionNickname }} locations</h3>
+                    <h3>Available at these {{ regionOrOffice }} locations</h3>
                     <ul class="usa-unstyled-list">
                         {% for location in healthService.fieldLocalHealthCareService %}
                             {% assign facility = location.entity.fieldFacilityLocation.entity %}
                             {% if facility != empty %}<li class="vads-u-margin-bottom--2">
-                                <a href="{{ facility.entityUrl.path }}">{{ facility.fieldNicknameForThisFacility }}</a></li>{% endif %}
+                                <a href="{{ facility.entityUrl.path }}">{{ facility.title }}</a></li>{% endif %}
                         {% endfor %}
                     </ul>
                 {% endif %}

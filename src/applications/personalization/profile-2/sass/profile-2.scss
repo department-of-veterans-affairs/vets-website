@@ -1,35 +1,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "./profile-info-table";
+@import "./profile-sidenav";
 
-nav.profile-side-nav {
-  ul {
-    padding: 0;
-  }
-  li {
-    list-style: none;
-  }
-  a {
-    text-decoration: none;
-  }
-  a.is-active {
-    font-weight: bold;
-    color: $color-black;
-  }
-}
-
-.headerNameWrapper {
-  width: 100%;
-  text-align: center;
-  h3 {
-    margin-top: 0;
-  }
-  @media (min-width: $medium-screen) {
-    width: 60%;
-    text-align: left;
-  }
-}
-
-.profileServiceBadge {
+.profile-service-badge {
   max-height: 108px;
 }

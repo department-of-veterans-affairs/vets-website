@@ -165,7 +165,10 @@ export class SearchResults extends Component {
         </h2>
 
         {/* Table of Results */}
-        <ul className="search-results vads-u-margin-top--2 vads-u-padding--0">
+        <ul
+          className="search-results vads-u-margin-top--2 vads-u-padding--0"
+          data-e2e-id="search-results"
+        >
           {map(results, school => (
             <SearchResult key={school?.id} school={school} />
           ))}

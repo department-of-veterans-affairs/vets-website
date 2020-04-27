@@ -6,13 +6,9 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchPastAppointments } from '../actions/appointments';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import { vaosPastAppts } from '../utils/selectors';
-import {
-  getAppointmentType,
-  getPastAppointmentDateRangeOptions,
-} from '../utils/appointment';
+import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-import TabNav from './TabNav';
 
 const dateRangeOptions = getPastAppointmentDateRangeOptions();
 
@@ -71,9 +67,7 @@ export class PastAppointmentsList extends React.Component {
         <>
           <ul className="usa-unstyled-list" id="appointments-list">
             {past.map((appt, index) => {
-              const type = getAppointmentType(appt);
-
-              switch (type) {
+              switch (appt.appointmentType) {
                 case APPOINTMENT_TYPES.ccAppointment:
                 case APPOINTMENT_TYPES.vaAppointment:
                   return (
@@ -81,13 +75,11 @@ export class PastAppointmentsList extends React.Component {
                       key={index}
                       index={index}
                       appointment={appt}
-                      type={type}
                       facility={
                         systemClinicToFacilityMap[
                           `${appt.facilityId}_${appt.clinicId}`
                         ]
                       }
-                      isPastAppointment
                     />
                   );
                 default:
@@ -116,8 +108,7 @@ export class PastAppointmentsList extends React.Component {
     }
 
     return (
-      <>
-        <TabNav />
+      <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
         <h3>Past appointments</h3>
         <PastAppointmentsDateDropdown
           value={appointments.pastSelectedIndex}
@@ -125,7 +116,7 @@ export class PastAppointmentsList extends React.Component {
           options={dateRangeOptions}
         />
         {content}
-      </>
+      </div>
     );
   }
 }
