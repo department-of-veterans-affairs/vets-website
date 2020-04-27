@@ -8,7 +8,7 @@ const LabelText = ({ item }) => {
   // Derive item properties.
   const label = get(item, 'label', '');
   // Is level 4 or deeper
-  const isLevelFourOrDeeper = !!(item.depth > 3);
+  const isLevelFourOrDeeper = item.depth >= 4;
 
   // Return the normal label element.
   return (
