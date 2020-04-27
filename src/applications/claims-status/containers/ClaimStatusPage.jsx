@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl.js';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
@@ -73,6 +74,7 @@ class ClaimStatusPage extends React.Component {
             <ClaimsDecision
               completedDate={getCompletedDate(claim)}
               isLoggedIn={isLoggedIn}
+              eBenefitsUrl={this.props.eBenefitsUrl}
             />
           ) : null}
           {!claim.attributes.decisionLetterSent && !claim.attributes.open ? (
@@ -117,6 +119,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
     isLoggedIn: isLoggedInSelector(state),
+    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 

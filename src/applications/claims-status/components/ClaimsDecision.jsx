@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-function ClaimsDecision({ completedDate, isLoggedIn }) {
+function ClaimsDecision({ completedDate, isLoggedIn, eBenefitsUrl }) {
   return (
     <div className="usa-alert usa-alert-info claims-alert-status background-color-only">
       <h4 className="claims-alert-header">Your claim decision is ready</h4>
@@ -20,7 +20,7 @@ function ClaimsDecision({ completedDate, isLoggedIn }) {
         packet with the full details of your claim decision yet, you can see
         your rating by going to your disability page in eBenefits.{' '}
         <a
-          href="https://www.ebenefits.va.gov"
+          href={eBenefitsUrl()}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() =>
