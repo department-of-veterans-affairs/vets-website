@@ -24,7 +24,7 @@ const scrollToTop = () => {
 class ReviewPage extends React.Component {
   componentDidMount() {
     scrollToTop();
-    focusElement('h2');
+    focusElement('nav-header-schemaform');
   }
 
   render() {
