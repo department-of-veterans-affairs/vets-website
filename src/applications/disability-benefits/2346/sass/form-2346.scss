@@ -34,15 +34,33 @@ label {
   margin-top: 0;
 }
 
+//Radio button/ checkbox selection color
 [type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
   background-color: $color-white;
   box-shadow: 0 0 0 2px #0071BB, 0 0 0 4px #ffffff;
 }
-//Radio button selection color
+//using uiSchema className option to drill down to the radio buttons
+.product-selection-radio-btns>.schemaform-widget-wrapper>div>.form-radio-buttons>input[type=radio]:checked + label::before {
+  background-color: $color-primary;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0071BB;
+}
 
 [type=checkbox]:not(:checked) + label::before, [type=radio]:not(:checked) + label::before {
   background-color: $color-white;
   box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #0071BB;
+}
+
+[type=checkbox] + label::before {
+  height: 1.8rem;
+  line-height: 1.8rem;
+  margin-left: 1px;
+  margin-right: 0.7em;
+  width: 1.8rem;
+  border-radius: 0;
+}
+
+[type=checkbox] + label {
+  font-weight: bold
 }
 
 .schemaform-label {
