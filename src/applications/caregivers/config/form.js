@@ -2,23 +2,23 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { states } from 'platform/forms/address';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
+import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
+import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
+import { medicalCentersByState } from 'applications/caregivers/helpers';
 import {
-  VetInfo,
   PrimaryCaregiverInfo,
-  SecondaryCaregiverInfo,
   PrimaryHealthCoverage,
+  SecondaryCaregiverInfo,
+  VetInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import {
   primaryCaregiverFields,
   secondaryCaregiverFields,
   vetFields,
 } from 'applications/caregivers/definitions/constants';
-import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
-import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
 import definitions, {
-  confirmationEmailUI,
   addressWithoutCountryUI,
+  confirmationEmailUI,
 } from '../definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;

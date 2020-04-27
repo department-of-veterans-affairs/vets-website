@@ -4,15 +4,14 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo';
-
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import { states } from 'platform/forms/address';
+import get from 'platform/utilities/data/get';
 import { primaryCaregiverFields, vetFields } from './constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
 } from 'applications/caregivers/helpers';
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { states } from 'platform/forms/address';
-import get from 'platform/utilities/data/get';
 
 const emptyFacilityList = [];
 const stateLabels = createUSAStateLabels(states);
