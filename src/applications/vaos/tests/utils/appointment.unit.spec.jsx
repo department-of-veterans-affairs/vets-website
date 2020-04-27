@@ -1,44 +1,31 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import React from 'react';
-// import ReactDOMServer from 'react-dom/server';
 import {
   filterFutureConfirmedAppointments,
   filterRequests,
+  filterPastAppointments,
   generateICS,
-  getAppointmentAddress,
-  getAppointmentDate,
-  getAppointmentDateTime,
-  getAppointmentDuration,
-  getAppointmentInstructions,
-  getAppointmentInstructionsHeader,
-  getAppointmentLocation,
+  getAppointmentType,
   getAppointmentTimezoneAbbreviation,
   getAppointmentTimezoneDescription,
-  getAppointmentTitle,
-  getAppointmentType,
-  getAppointmentTypeHeader,
-  getLocationHeader,
   getMomentConfirmedDate,
   getMomentRequestOptionDate,
-  getPurposeOfVisit,
   getRealFacilityId,
-  getRequestDateOptions,
-  getRequestTimeToCall,
-  getVideoVisitLink,
-  hasInstructions,
-  isCommunityCare,
-  isGFEVideoVisit,
-  isVideoVisit,
-  lowerCase,
-  sentenceCase,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
-  titleCase,
   getPastAppointmentDateRangeOptions,
-  // getPastAppointmentDateRangeOptions,
+  transformAppointment,
+  transformPastAppointment,
+  transformRequest,
 } from '../../utils/appointment';
-import { APPOINTMENT_TYPES } from '../../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+  APPOINTMENT_STATUS,
+} from '../../utils/constants';
+import confirmedCC from '../../api/confirmed_cc.json';
+import confirmedVA from '../../api/confirmed_va.json';
+import requestData from '../../api/requests.json';
 
 describe('VAOS appointment helpers', () => {
   const now = moment();
@@ -84,290 +71,296 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('isCommunityCare', () => {
-    it('should return true for CC request', () => {
-      const appt = {
-        typeOfCareId: 'CC',
-      };
-      expect(isCommunityCare(appt)).to.be.true;
-    });
-
-    it('should return true CC appointments', () => {
-      const appt = {
-        appointmentTime: ' ',
-      };
-      expect(isCommunityCare(appt)).to.be.true;
-    });
-  });
-
-  describe('isGFEVideoVisit', () => {
-    const appt = {
-      vvsAppointments: [
-        {
-          appointmentKind: 'MOBILE_GFE',
-        },
-      ],
+  describe('transformAppointment', () => {
+    const ccData = {
+      ...confirmedCC.data[0].attributes,
+      id: confirmedCC.data[0].id,
     };
-    it('should be true', () => {
-      expect(isGFEVideoVisit(appt)).to.be.true;
-    });
-  });
-
-  describe('isVideoVisit', () => {
-    const appt = {
-      vvsAppointments: [
-        {
-          appointmentKind: 'MOBILE_GFE',
-        },
-      ],
+    const vaData = {
+      ...confirmedVA.data[0].attributes,
+      id: confirmedVA.data[0].id,
     };
-    it('should be true', () => {
-      expect(isVideoVisit(appt)).to.be.true;
-    });
-  });
 
-  describe('getVideoVisitLink', () => {
-    const appt = {
-      vvsAppointments: [
-        {
-          patients: [
-            {
-              virtualMeetingRoom: {
-                url: 'https://va.gov',
-              },
-            },
-          ],
-        },
-      ],
-    };
-    it('should be true', () => {
-      expect(getVideoVisitLink(appt)).to.equal('https://va.gov');
-    });
-  });
-
-  describe('titleCase', () => {
-    it('should return capitalize the 1st letter of each word in a sentence', () => {
-      expect(titleCase('THE cOw jumpeD over the moon')).to.equal(
-        'The Cow Jumped Over The Moon',
-      );
-    });
-  });
-
-  describe('sentenceCase', () => {
-    it('should return a string in sentence case', () => {
-      expect(sentenceCase('Apples and Oranges')).to.equal('Apples and oranges');
-    });
-
-    it('should ignore capital words', () => {
-      expect(sentenceCase('MOVE! Weight Management')).to.equal(
-        'MOVE! weight management',
-      );
-    });
-  });
-
-  describe('lowerCase', () => {
-    it('should lower the case of each word in a sentence', () => {
-      expect(lowerCase('The cOW jumpeD Over tHe moon')).to.equal(
-        'the cow jumped over the moon',
-      );
-    });
-    it('should ignore capital words', () => {
-      expect(lowerCase('The COW jumpeD Over tHe moon')).to.equal(
-        'the COW jumped over the moon',
-      );
-    });
-  });
-
-  describe('getLocationHeader', () => {
-    it('should return location header for community care request', () => {
-      expect(getLocationHeader(communityCareAppointmentRequest)).to.equal(
-        `Preferred provider`,
-      );
-    });
-
-    it('should return location header for community care appointment', () => {
-      const appt = {
-        ...communityCareAppointment,
-        providerPractice: 'Provider Practice',
-      };
-      expect(getLocationHeader(appt)).to.equal('Provider Practice');
-    });
-
-    it('should return location header for appointment request (Friendly Location Name)', () => {
-      const appt = {
-        ...vaAppointmentRequest,
-        friendlyLocationName: 'Friendly Location Name',
-      };
-      expect(getLocationHeader(appt)).to.equal('Friendly Location Name');
-    });
-
-    it('should return location header for appointment request (Facility Name)', () => {
-      const appt = {
-        ...vaAppointmentRequest,
-        facility: {
-          name: 'Facility Name',
-        },
-      };
-      expect(getLocationHeader(appt)).to.equal('Facility Name');
-    });
-
-    it('should return default location header (Clinic Friendly Name)', () => {
-      const appt = {
-        clinicFriendlyName: 'Clinic Friendly Name',
-      };
-      expect(getLocationHeader(appt)).to.equal('Clinic Friendly Name');
-    });
-
-    it('should return default location header (Clinic Name)', () => {
-      const appt = {
-        vdsAppointments: [
-          {
-            clinic: {
-              name: 'Clinic Name',
-            },
-          },
-        ],
-      };
-      expect(getLocationHeader(appt)).to.equal('Clinic Name');
-    });
-  });
-
-  describe('getAppointmentTitle', () => {
-    it('should return title for CC', () => {
-      const id = getAppointmentTitle({
-        appointmentTime: '1234',
-        providerPractice: 'Test Practice',
+    describe('status', () => {
+      it('should return booked status for cc appointment', () => {
+        expect(transformAppointment(communityCareAppointment).status).to.equal(
+          APPOINTMENT_STATUS.booked,
+        );
       });
-      expect(id).to.equal('Community Care appointment');
-    });
 
-    it('should return title for video appt', () => {
-      const id = getAppointmentTitle({
-        vvsAppointments: [
-          {
-            id: '1234',
-            providers: {
-              provider: [
+      it('should return pending status for request if not cancelled', () => {
+        expect(transformAppointment(vaAppointmentRequest).status).to.equal(
+          APPOINTMENT_STATUS.pending,
+        );
+      });
+
+      it('should return cancelled status for request if cancelled', () => {
+        expect(
+          transformAppointment({
+            ...vaAppointmentRequest,
+            status: 'Cancelled',
+          }).status,
+        ).to.equal(APPOINTMENT_STATUS.cancelled);
+      });
+
+      it('should return pending status for cc request if not cancelled', () => {
+        expect(
+          transformAppointment(communityCareAppointmentRequest).status,
+        ).to.equal(APPOINTMENT_STATUS.pending);
+      });
+
+      it('should return cancelled status for cc request if cancelled', () => {
+        expect(
+          transformAppointment({
+            ...communityCareAppointmentRequest,
+            status: 'Cancelled',
+          }).status,
+        ).to.equal(APPOINTMENT_STATUS.cancelled);
+      });
+
+      it('should return booked status for cc request if not cancelled', () => {
+        expect(transformAppointment(communityCareAppointment).status).to.equal(
+          APPOINTMENT_STATUS.booked,
+        );
+      });
+
+      it('should return booked status for confirmed va appointment', () => {
+        expect(transformAppointment(vaAppointment).status).to.equal(
+          APPOINTMENT_STATUS.booked,
+        );
+      });
+
+      it('should return cancelled status for cancelled va appointment', () => {
+        expect(
+          transformAppointment({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus: 'CANCELLED BY CLINIC',
+              },
+            ],
+          }).status,
+        ).to.equal(APPOINTMENT_STATUS.cancelled);
+      });
+
+      it('should return null for va appointment if in HIDE_STATUS_SET', () => {
+        expect(
+          transformAppointment({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus: 'CHECKED IN',
+              },
+            ],
+          }).status,
+        ).to.equal(null);
+      });
+
+      it('should not return null for future va appointment if not in HIDE_STATUS_SET', () => {
+        expect(
+          transformAppointment(
+            {
+              ...vaAppointment,
+              vdsAppointments: [
                 {
-                  name: {
-                    firstName: 'FIRST',
-                    lastName: 'LAST',
-                  },
+                  currentStatus: 'INPATIENT APPOINTMENT',
                 },
               ],
             },
-          },
-        ],
+            false,
+          ).status,
+        ).to.equal(APPOINTMENT_STATUS.booked);
       });
-      expect(id).to.equal('VA Video Connect');
+
+      it('should return null for past va appointment if in HIDE_STATUS_SET', () => {
+        expect(
+          transformPastAppointment({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus: 'INPATIENT APPOINTMENT',
+              },
+            ],
+          }).status,
+        ).to.equal(null);
+      });
     });
 
-    it('should return title for VA facility appt', () => {
-      const id = getAppointmentTitle({
-        vdsAppointments: [
-          {
-            clinic: {
-              name: 'UNREADABLE NAME',
-            },
-          },
-        ],
+    describe('isCommunityCare', () => {
+      it('should return true for CC request', () => {
+        const appointment = transformAppointment(ccData);
+        expect(appointment.isCommunityCare).to.be.true;
       });
-      expect(id).to.equal('VA visit');
-    });
-  });
 
-  describe('getAppointmentLocation', () => {
-    it('should return appointment location for video conference', () => {
-      expect(
-        getAppointmentLocation({
+      it('should return false for VA request', () => {
+        const appointment = transformAppointment(vaData);
+        expect(appointment.isCommunityCare).to.be.false;
+      });
+    });
+
+    describe('videoType', () => {
+      it('should be mobile gfe', () => {
+        const appointment = transformAppointment({
+          ...vaData,
           vvsAppointments: [
             {
               appointmentKind: 'MOBILE_GFE',
             },
           ],
-        }),
-      ).to.equal('Video conference');
-    });
-
-    it('should return appointment location for community care appointment', () => {
-      const component = getAppointmentLocation({
-        ...communityCareAppointment,
-        address: {
-          street: 'street',
-          city: 'city',
-          state: 'state',
-          zipCode: 'zipcode',
-        },
+        });
+        expect(appointment.videoType).to.equal(VIDEO_TYPES.gfe);
       });
 
-      expect(React.isValidElement(component)).to.be.true;
+      it('should be video connect', () => {
+        const appointment = transformAppointment({
+          ...vaData,
+          vvsAppointments: [{}],
+        });
+        expect(appointment.videoType).to.equal(VIDEO_TYPES.videoConnect);
+      });
+
+      it('should be null', () => {
+        const appointment = transformAppointment(ccData);
+        expect(appointment.videoType).to.null;
+      });
     });
 
-    it('should return "Not specified" for community care appointment request', () => {
-      expect(
-        getAppointmentLocation({
-          ...communityCareAppointmentRequest,
-        }),
-      ).to.equal('Not specified');
-    });
-
-    it('should return appointment location for community care appointment', () => {
-      const component = getAppointmentLocation({
-        ...communityCareAppointmentRequest,
-        ccAppointmentRequest: {
-          preferredProviders: [
+    describe('videoLink', () => {
+      it('should exist', () => {
+        const appointment = transformAppointment({
+          ...vaData,
+          vvsAppointments: [
             {
-              firstName: 'first name',
-              lastName: 'last name',
-              practiceName: 'practice name',
+              patients: [
+                {
+                  virtualMeetingRoom: {
+                    url: 'https://va.gov',
+                  },
+                },
+              ],
             },
           ],
-        },
+        });
+        expect(appointment.videoLink).to.equal('https://va.gov');
       });
-
-      expect(React.isValidElement(component)).to.be.true;
     });
 
-    it('should return appointment location for VA appointment', () => {
-      const component = getAppointmentLocation({
-        ...vaAppointment,
-        vvsAppointments: [],
+    describe('instructions', () => {
+      it('should return community care appointment instructions', () => {
+        const appt = transformAppointment({
+          ...ccData,
+          instructionsToVeteran: 'Instruction to veteran',
+        });
+        expect(appt.instructions.header).to.equal('Special instructions');
+        expect(appt.instructions.body).to.equal('Instruction to veteran');
       });
-      expect(React.isValidElement(component)).to.be.true;
+
+      it('should return VA instructions', () => {
+        const appt = transformAppointment({
+          ...vaData,
+          vdsAppointments: [
+            {
+              bookingNote: 'Follow-up/Routine: Testing',
+            },
+          ],
+        });
+        expect(appt.instructions.header).to.equal('Follow-up/Routine');
+        expect(appt.instructions.body).to.equal('Testing');
+      });
+      it('should return VA video instructions', () => {
+        const appt = transformAppointment({
+          ...vaData,
+          vdsAppointments: [
+            {
+              bookingNote: '',
+            },
+          ],
+          vvsAppointments: [
+            {
+              bookingNotes: 'Follow-up/Routine: Testing',
+            },
+          ],
+        });
+        expect(appt.instructions.header).to.equal('Follow-up/Routine');
+        expect(appt.instructions.body).to.equal('Testing');
+      });
+      it('should not return VA instructions without matching prefix', () => {
+        const appt = transformAppointment({
+          ...vaData,
+          vvsAppointments: [
+            {
+              bookingNotes: 'Testing',
+            },
+          ],
+        });
+        expect(appt.instructions).to.be.null;
+      });
     });
 
-    it('should return appointment location for a facility', () => {
-      const component = getAppointmentLocation(vaAppointmentRequest, {
-        address: {
-          physical: ' ',
-          phone: {
-            main: ' ',
-          },
-        },
+    describe('duration', () => {
+      it('should return the default appointment duration for CC', () => {
+        const appt = transformAppointment(ccData);
+        expect(appt.duration).to.equal(60);
       });
 
-      expect(React.isValidElement(component)).to.be.true;
+      it('should return the appointment duration for VA appointment', () => {
+        const appt = transformAppointment({
+          ...vaData,
+          vdsAppointments: [{ appointmentLength: 30 }],
+        });
+        expect(appt.duration).to.equal(30);
+      });
     });
+  });
 
-    it('should return appointment location for a VA appointment request', () => {
-      const component = getAppointmentLocation({
-        ...vaAppointmentRequest,
-        facility: {
-          facilityCode: '983',
-        },
+  describe('transformRequest', () => {
+    const ccData = {
+      ...requestData.data.find(req =>
+        req.attributes.typeOfCareId.startsWith('CC'),
+      ).attributes,
+      id: requestData.data.find(req =>
+        req.attributes.typeOfCareId.startsWith('CC'),
+      ).id,
+    };
+    const vaData = {
+      ...requestData.data.find(
+        req => !req.attributes.typeOfCareId.startsWith('CC'),
+      ).attributes,
+      id: requestData.data.find(
+        req => !req.attributes.typeOfCareId.startsWith('CC'),
+      ).id,
+    };
+    describe('dateOptions', () => {
+      it('should return array', () => {
+        const appt = transformRequest({
+          ...vaData,
+          optionDate1: now,
+          optionTime1: 'PM',
+          optionDate2: now,
+          optionTime2: 'AM',
+          optionDate3: moment().add(1, 'days'),
+          optionTime3: 'PM',
+        });
+        expect(appt.dateOptions[0].optionTime).to.equal('AM');
+        expect(appt.dateOptions.length).to.equal(3);
       });
-      expect(React.isValidElement(component)).to.be.true;
     });
-
-    it('should return appointment location for a community care appointment request', () => {
-      const component = getAppointmentLocation({
-        ...communityCareAppointmentRequest,
-        facilityId: '983',
-        ccAppointmentRequest: {
-          preferredProviders: [{}],
-        },
+    describe('purposeOfVisit', () => {
+      it('should be set for community care appointment request', () => {
+        const appt = transformRequest({
+          ...ccData,
+          purposeOfVisit: 'routine-follow-up',
+        });
+        expect(appt.purposeOfVisit).to.equal('Follow-up/Routine');
       });
-      expect(React.isValidElement(component)).to.be.true;
+
+      it('should be set for VA appointment request', () => {
+        const appt = transformRequest({
+          ...vaData,
+          purposeOfVisit: 'Routine Follow-up',
+        });
+        expect(appt.purposeOfVisit).to.equal('Follow-up/Routine');
+      });
     });
   });
 
@@ -452,131 +445,19 @@ describe('VAOS appointment helpers', () => {
 
   describe('getAppointmentTimezoneAbbreviation', () => {
     it('should return the timezone for a community care appointment', () => {
-      expect(
-        getAppointmentTimezoneAbbreviation({
-          ...communityCareAppointment,
-          timeZone: '-04:00 EDT',
-        }),
-      ).to.equal('ET');
+      expect(getAppointmentTimezoneAbbreviation('-04:00 EDT')).to.equal('ET');
     });
 
     it('should return the timezone for a community care appointment request', () => {
-      expect(
-        getAppointmentTimezoneAbbreviation({
-          ...communityCareAppointmentRequest,
-          facility: {
-            facilityCode: '578',
-          },
-        }),
-      ).to.equal('CT');
-    });
-
-    it('should return the timezone for a VA appointment', () => {
-      expect(
-        getAppointmentTimezoneAbbreviation({
-          ...vaAppointment,
-          facilityId: '578',
-        }),
-      ).to.equal('CT');
-    });
-
-    it('should return the timezone for a VA appointment request', () => {
-      expect(
-        getAppointmentTimezoneAbbreviation({
-          ...vaAppointmentRequest,
-          facility: {
-            facilityCode: '983',
-          },
-        }),
-      ).to.equal('MT');
-    });
-
-    it('should return empty string for invalid appointment', () => {
-      expect(getAppointmentTimezoneAbbreviation({})).to.equal('');
+      expect(getAppointmentTimezoneAbbreviation(null, '578')).to.equal('CT');
     });
   });
 
   describe('getAppointmentTimezoneDescription', () => {
     it('should return the timezone', () => {
-      expect(
-        getAppointmentTimezoneDescription({
-          ...communityCareAppointment,
-          timeZone: '-04:00 EDT',
-        }),
-      ).to.equal('Eastern time');
-    });
-  });
-
-  describe('getAppointmentDate', () => {
-    it('should return appointment date', () => {
-      expect(
-        getAppointmentDate({
-          ...communityCareAppointment,
-          appointmentTime: '01/02/2020 13:45:00',
-        }),
-      ).to.equal('January 2, 2020');
-    });
-  });
-
-  describe('getAppointmentDateTime', () => {
-    it('should return valid JSX markup', () => {
-      const component = getAppointmentDateTime({
-        ...communityCareAppointment,
-        appointmentTime: now,
-      });
-      expect(React.isValidElement(component)).to.be.true;
-    });
-  });
-
-  describe('getRequestDateOptions', () => {
-    it('should return valid JSX component', () => {
-      const component = getRequestDateOptions({
-        optionDate1: now,
-        optionTime1: 'AM',
-        optionDate2: now,
-        optionTime2: 'PM',
-        optionDate3: moment().add(1, 'days'),
-        optionTime3: 'PM',
-      });
-      expect(React.isValidElement(component[0])).to.be.true;
-    });
-  });
-
-  describe('getRequestTimeToCall', () => {
-    it('should return "Call in the morning"', () => {
-      expect(
-        getRequestTimeToCall({ bestTimetoCall: ['In the morning'] }),
-      ).to.equal('Call in the morning');
-    });
-
-    it('should return "Call in the evening"', () => {
-      expect(
-        getRequestTimeToCall({ bestTimetoCall: ['In the evening'] }),
-      ).to.equal('Call in the evening');
-    });
-
-    it('should return "Call in the morning or in the evening"', () => {
-      expect(
-        getRequestTimeToCall({
-          bestTimetoCall: ['In the morning', 'In the evening'],
-        }),
-      ).to.equal('Call in the morning or in the evening');
-    });
-
-    it('should return "Call in the morning, in the afternoon, or in the evening"', () => {
-      expect(
-        getRequestTimeToCall({
-          bestTimetoCall: [
-            'In the morning',
-            'In the afternoon',
-            'In the evening',
-          ],
-        }),
-      ).to.equal('Call in the morning, in the afternoon, or in the evening');
-    });
-
-    it('should return null', () => {
-      expect(getRequestTimeToCall({ bestTimetoCall: [] })).to.be.null;
+      expect(getAppointmentTimezoneDescription('-04:00 EDT')).to.equal(
+        'Eastern time',
+      );
     });
   });
 
@@ -617,7 +498,7 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('filterFutureConfirmedAppointments', () => {
+  describe('filterFutureCConfirmedAppointments', () => {
     it('should filter future confirmed appointments', () => {
       const confirmed = [
         { startDate: '2099-04-30T05:35:00', facilityId: '984' },
@@ -659,6 +540,16 @@ describe('VAOS appointment helpers', () => {
                 .format(),
             },
           ],
+          facilityId: '984',
+        },
+        // appointment with status 'NO-SHOW' should not show
+        {
+          vdsAppointments: [{ currentStatus: 'NO-SHOW' }],
+          facilityId: '984',
+        },
+        // appointment with status 'DELETED' should not show
+        {
+          vdsAppointments: [{ currentStatus: 'DELETED' }],
           facilityId: '984',
         },
       ];
@@ -754,6 +645,160 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
+  describe('filterPastAppointments', () => {
+    it('should filter appointments that are not within startDate, endDates', () => {
+      const today = moment().endOf('day');
+      const threeMonthsAgo = now
+        .clone()
+        .subtract(3, 'month')
+        .startOf('day');
+
+      const appointments = [
+        // appointment in future should not show
+        {
+          startDate: now
+            .clone()
+            .add(1, 'day')
+            .format(),
+          facilityId: '984',
+        },
+        // appointment before startDate should not show
+        {
+          startDate: now
+            .clone()
+            .subtract(100, 'day')
+            .format(),
+          facilityId: '984',
+        },
+      ];
+
+      const filtered = appointments.filter(appt =>
+        filterPastAppointments(appt, threeMonthsAgo, today),
+      );
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should not filter appointments that are not within startDate, endDates', () => {
+      const today = moment().endOf('day');
+      const threeMonthsAgo = now
+        .clone()
+        .subtract(3, 'month')
+        .startOf('day');
+
+      const appointments = [
+        // appointment within range should show
+        {
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          facilityId: '984',
+        },
+      ];
+
+      const filtered = appointments.filter(appt =>
+        filterPastAppointments(appt, threeMonthsAgo, today),
+      );
+      expect(filtered.length).to.equal(1);
+    });
+
+    it('should filter appointments that are in hidden status set', () => {
+      const today = moment().endOf('day');
+      const threeMonthsAgo = now
+        .clone()
+        .subtract(3, 'month')
+        .startOf('day');
+
+      const appointments = [
+        // appointment within range should show
+        {
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          facilityId: '984',
+        },
+        {
+          facilityId: '984',
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'FUTURE',
+            },
+          ],
+        },
+        {
+          facilityId: '984',
+          startDate: now
+            .clone()
+            .subtract(1, 'day')
+            .format(),
+          vdsAppointments: [
+            {
+              currentStatus: 'DELETED',
+            },
+          ],
+        },
+      ];
+
+      const filtered = appointments.filter(appt =>
+        filterPastAppointments(appt, threeMonthsAgo, today),
+      );
+      expect(filtered.length).to.equal(1);
+    });
+  });
+
+  it('should not filter appointments that are not in hidden status set', () => {
+    const today = moment().endOf('day');
+    const threeMonthsAgo = now
+      .clone()
+      .subtract(3, 'month')
+      .startOf('day');
+
+    const appointments = [
+      // appointment within range should show
+      {
+        startDate: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        facilityId: '984',
+      },
+      {
+        facilityId: '984',
+        startDate: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        vdsAppointments: [
+          {
+            currentStatus: 'NO-SHOW',
+          },
+        ],
+      },
+      {
+        facilityId: '984',
+        startDate: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        vdsAppointments: [
+          {
+            currentStatus: 'CHECKED IN',
+          },
+        ],
+      },
+    ];
+
+    const filtered = appointments.filter(appt =>
+      filterPastAppointments(appt, threeMonthsAgo, today),
+    );
+    expect(filtered.length).to.equal(3);
+  });
+
   xdescribe('sortMessages', () => {});
 
   describe('getRealFacilityId', () => {
@@ -763,285 +808,8 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('getAppointmentInstructions', () => {
-    it('should return community care appointment instructions', () => {
-      const appt = {
-        ...communityCareAppointment,
-        instructionsToVeteran: 'Instruction to veteran',
-      };
-      expect(getAppointmentInstructions(appt)).to.equal(
-        'Instruction to veteran',
-      );
-    });
-
-    it('should return 1st VA appointment booking note when vdsAppointment is defined', () => {
-      const appt = {
-        ...vaAppointment,
-        vdsAppointments: [
-          {
-            bookingNote: 'Header: Note1: Note2',
-          },
-        ],
-      };
-      expect(getAppointmentInstructions(appt)).to.equal('Note1');
-    });
-
-    it('should return 1st VA appointment booking note when vvsAppointment is defined', () => {
-      const appt = {
-        ...vaAppointment,
-        vvsAppointments: [
-          {
-            bookingNotes: 'Header: Note1: Note2',
-          },
-        ],
-      };
-      expect(getAppointmentInstructions(appt)).to.equal('Note1');
-    });
-
-    it('should return no appointment booking notes when vdsAppointment and vvsAppointment is not defined', () => {
-      expect(getAppointmentInstructions(vaAppointment)).to.equal('');
-    });
-
-    it('should return no appointment booking notes for VA appointment request', () => {
-      expect(getAppointmentInstructions(vaAppointmentRequest)).to.equal('');
-    });
-
-    it('should return no appointment booking notes for community care appointment request', () => {
-      expect(
-        getAppointmentInstructionsHeader(communityCareAppointmentRequest),
-      ).to.equal('');
-    });
-  });
-
-  describe('getAppointmentInstructionsHeader', () => {
-    it('should return instruction header for VA appointment when vdsAppointment is defined', () => {
-      const appt = {
-        ...vaAppointment,
-        vdsAppointments: [
-          {
-            bookingNote: 'Header:  Note1: Note2: Note3',
-          },
-        ],
-      };
-
-      expect(getAppointmentInstructionsHeader(appt)).to.equal('Header');
-    });
-
-    it('should return instruction header for VA appointment when vvsAppointment is defined', () => {
-      const appt = {
-        ...vaAppointment,
-        vvsAppointments: [
-          {
-            bookingNotes: 'Header: Note1: Note2: Note3',
-          },
-        ],
-      };
-      expect(getAppointmentInstructionsHeader(appt)).to.equal('Header');
-    });
-
-    it('should return instruction header for community care appointment', () => {
-      expect(
-        getAppointmentInstructionsHeader(communityCareAppointment),
-      ).to.equal('Special instructions');
-    });
-
-    it('should return no instruction header for VA appointment request', () => {
-      expect(getAppointmentInstructionsHeader(vaAppointmentRequest)).to.equal(
-        '',
-      );
-    });
-
-    it('should return no instruction header for community care appointment request', () => {
-      expect(
-        getAppointmentInstructionsHeader(communityCareAppointmentRequest),
-      ).to.equal('');
-    });
-  });
-
-  describe('hasInstructions', () => {
-    it('should return true when instructionToVeteran is defined', () => {
-      expect(
-        hasInstructions({ instructionsToVeteran: 'Instructions to veteran' }),
-      ).to.be.true;
-    });
-
-    it('should return true when vdsAppointments is defined', () => {
-      expect(
-        hasInstructions({
-          vdsAppointments: [{ bookingNote: 'Follow-up/Routine' }],
-        }),
-      ).to.be.true;
-    });
-
-    it('should return true when vvsAppointments is defined', () => {
-      expect(
-        hasInstructions({
-          vvsAppointments: [{ bookingNotes: 'Follow-up/Routine' }],
-        }),
-      ).to.be.true;
-    });
-  });
-
-  describe('getPurposeOfVisit', () => {
-    it('should return purpose of visit for community care appointment request', () => {
-      expect(
-        getPurposeOfVisit({
-          ...communityCareAppointmentRequest,
-          purposeOfVisit: 'routine-follow-up',
-        }),
-      ).to.equal('Follow-up/Routine');
-    });
-
-    it('should return purpose of visit for VA appointment request', () => {
-      const appt = {
-        ...vaAppointmentRequest,
-        purposeOfVisit: 'Routine Follow-up',
-      };
-      expect(getPurposeOfVisit(appt)).to.equal('Follow-up/Routine');
-    });
-
-    it('should return default purpose of visit', () => {
-      expect(
-        getPurposeOfVisit({ purposeOfVisit: 'Default purpose of visit' }),
-      ).to.equal('Default purpose of visit');
-    });
-  });
-
-  describe('getAppointmentTypeHeader', () => {
-    it('should return "Community Care" header for community care appointments', () => {
-      expect(
-        getAppointmentTypeHeader({ ...communityCareAppointment }),
-      ).to.equal('Community Care');
-    });
-
-    it('should return "Community Care" header for community care appointment requests', () => {
-      expect(
-        getAppointmentTypeHeader({ ...communityCareAppointmentRequest }),
-      ).to.equal('Community Care');
-    });
-
-    it('should return "VA Appointment" header for VA appointment request', () => {
-      expect(
-        getAppointmentTypeHeader({
-          ...vaAppointmentRequest,
-        }),
-      ).to.equal('VA Appointment');
-    });
-
-    it('should return "VA Video Connect" header for VA appointment request', () => {
-      expect(
-        getAppointmentTypeHeader({
-          ...vaAppointmentRequest,
-          visitType: 'Video Conference',
-        }),
-      ).to.equal('VA Video Connect');
-    });
-
-    it('should return "VA Appointment" header for VA appointments', () => {
-      expect(
-        getAppointmentTypeHeader({
-          clinicId: ' ',
-        }),
-      ).to.equal('VA Appointment');
-    });
-
-    it('should return "VA Video Connect" header for VA appointments', () => {
-      expect(
-        getAppointmentTypeHeader({
-          ...vaAppointment,
-        }),
-      ).to.equal('VA Video Connect');
-    });
-
-    it('should return default appointment type header', () => {
-      expect(
-        getAppointmentTypeHeader({ purposeOfVisit: 'Purpose of visit' }),
-      ).to.equal('Purpose of visit');
-    });
-  });
-
-  describe('getAppointmentDuration', () => {
-    it('should return the default appointment duration', () => {
-      expect(getAppointmentDuration({})).to.equal(60);
-    });
-    it('should return the appointment duration for VA appointment', () => {
-      expect(
-        getAppointmentDuration({
-          ...vaAppointment,
-          vdsAppointments: [{ appointmentLength: 30 }],
-        }),
-      ).to.equal(30);
-    });
-  });
-
-  describe('getAppointmentAddress', () => {
-    it('should return address for video appointment', () => {
-      const appt = {
-        vvsAppointments: [
-          {
-            dateTime: now,
-            appointmentKind: 'MOBILE_GFE',
-          },
-        ],
-      };
-      expect(getAppointmentAddress(appt)).to.equal('Video conference');
-    });
-
-    it('should return address for community care appointment', () => {
-      const appt = {
-        ...communityCareAppointment,
-        address: {
-          street: 'Street',
-          city: 'City',
-          state: 'State',
-          zipCode: 'Zipcode',
-        },
-      };
-      expect(getAppointmentAddress(appt)).to.equal(
-        'Street City, State Zipcode',
-      );
-    });
-
-    it('should return address for facility if defined', () => {
-      const facility = {
-        address: {
-          physical: {
-            address1: 'Address 1',
-            city: 'City',
-            state: 'State',
-            zip: 'Zip',
-          },
-        },
-      };
-      expect(getAppointmentAddress(vaAppointmentRequest, facility)).to.equal(
-        'Address 1 City, State Zip',
-      );
-    });
-
-    it('should return undefined for everything else', () => {
-      expect(getAppointmentAddress(vaAppointmentRequest, null)).to.be.undefined;
-    });
-  });
-
   describe('generateICS', () => {
     it('should generate valid ICS calendar commands', () => {
-      const appt = {
-        typeOfCareId: 'CC',
-        appointmentTime: now,
-        timeZone: '-04:00 EDT',
-      };
-
-      const facility = {
-        address: {
-          physical: {
-            address1: 'Address 1',
-            city: 'City',
-            state: 'State',
-            zip: 'Zip',
-          },
-        },
-      };
-
       const momentDate = moment(now);
       const dtStamp = momentDate.format('YYYYMMDDTHHmmss');
       const dtStart = momentDate.format('YYYYMMDDTHHmmss');
@@ -1050,126 +818,13 @@ describe('VAOS appointment helpers', () => {
         .add(60, 'minutes')
         .format('YYYYMMDDTHHmmss');
 
-      const summary = getAppointmentTypeHeader(appt);
-      const description = `${getAppointmentInstructionsHeader(
-        appt,
-      )}. ${getAppointmentInstructions(appt)}`;
-      const location = getAppointmentAddress(appt, facility);
-
-      const ics = generateICS(summary, description, location, dtStart, dtEnd);
-      expect(ics).to.contain('BEGIN:VCALENDAR');
-      expect(ics).to.contain('VERSION:2.0');
-      expect(ics).to.contain('PRODID:VA');
-      expect(ics).to.contain('BEGIN:VEVENT');
-      expect(ics).to.contain('UID:');
-      expect(ics).to.contain('SUMMARY:Community Care');
-      expect(ics).to.contain('DESCRIPTION:. ');
-      expect(ics).to.contain('LOCATION:Address 1 City, State Zip');
-      expect(ics).to.contain(`DTSTAMP:${dtStamp}`);
-      expect(ics).to.contain(`DTSTART:${dtStart}`);
-      expect(ics).to.contain(`DTEND:${dtEnd}`);
-      expect(ics).to.contain('END:VEVENT');
-      expect(ics).to.contain('END:VCALENDAR');
-    });
-  });
-
-  describe('getAppointmentDuration', () => {
-    it('should return the default appointment duration', () => {
-      expect(getAppointmentDuration({})).to.equal(60);
-    });
-    it('should return the appointment duration for VA appointment', () => {
-      expect(
-        getAppointmentDuration({
-          ...vaAppointment,
-          vdsAppointments: [{ appointmentLength: 30 }],
-        }),
-      ).to.equal(30);
-    });
-  });
-
-  describe('getAppointmentAddress', () => {
-    it('should return address for video appointment', () => {
-      const appt = {
-        vvsAppointments: [
-          {
-            dateTime: now,
-            appointmentKind: 'MOBILE_GFE',
-          },
-        ],
-      };
-      expect(getAppointmentAddress(appt)).to.equal('Video conference');
-    });
-
-    it('should return address for community care appointment', () => {
-      const appt = {
-        ...communityCareAppointment,
-        address: {
-          street: 'Street',
-          city: 'City',
-          state: 'State',
-          zipCode: 'Zipcode',
-        },
-      };
-      expect(getAppointmentAddress(appt)).to.equal(
-        'Street City, State Zipcode',
-      );
-    });
-
-    it('should return address for facility if defined', () => {
-      const facility = {
-        address: {
-          physical: {
-            address1: 'Address 1',
-            city: 'City',
-            state: 'State',
-            zip: 'Zip',
-          },
-        },
-      };
-      expect(getAppointmentAddress(vaAppointmentRequest, facility)).to.equal(
+      const ics = generateICS(
+        'Community Care',
+        '. ',
         'Address 1 City, State Zip',
+        dtStart,
+        dtEnd,
       );
-    });
-
-    it('should return undefined for everything else', () => {
-      expect(getAppointmentAddress(vaAppointmentRequest, null)).to.be.undefined;
-    });
-  });
-
-  describe('generateICS', () => {
-    it('should generate valid ICS calendar commands', () => {
-      const appt = {
-        typeOfCareId: 'CC',
-        appointmentTime: now,
-        timeZone: '-04:00 EDT',
-      };
-
-      const facility = {
-        address: {
-          physical: {
-            address1: 'Address 1',
-            city: 'City',
-            state: 'State',
-            zip: 'Zip',
-          },
-        },
-      };
-
-      const momentDate = moment(now);
-      const dtStamp = momentDate.format('YYYYMMDDTHHmmss');
-      const dtStart = momentDate.format('YYYYMMDDTHHmmss');
-      const dtEnd = momentDate
-        .clone()
-        .add(60, 'minutes')
-        .format('YYYYMMDDTHHmmss');
-
-      const summary = getAppointmentTypeHeader(appt);
-      const description = `${getAppointmentInstructionsHeader(
-        appt,
-      )}. ${getAppointmentInstructions(appt)}`;
-      const location = getAppointmentAddress(appt, facility);
-
-      const ics = generateICS(summary, description, location, dtStart, dtEnd);
       expect(ics).to.contain('BEGIN:VCALENDAR');
       expect(ics).to.contain('VERSION:2.0');
       expect(ics).to.contain('PRODID:VA');

@@ -1,13 +1,11 @@
 /* eslint-disable no-param-reassign, no-continue, no-console */
 const path = require('path');
-const manifestHelpers = require('../webpack/manifest-helpers');
+const manifestHelpers = require('../../../../../config/manifest-helpers');
 
 function createReactPages() {
   return (files, metalsmith, done) => {
-    const root = path.join(__dirname, '../../../../..');
     manifestHelpers
-      .getAppManifests(root)
-      // Skip manifests that are mapping the url from settings.js
+      .getAppManifests()
       .filter(m => m.rootUrl)
       .forEach(({ entryName, appName, rootUrl, template }) => {
         const trimmedUrl = path.join('.', rootUrl);

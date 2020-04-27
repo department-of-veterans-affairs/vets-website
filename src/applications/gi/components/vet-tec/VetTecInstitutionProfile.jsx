@@ -9,22 +9,25 @@ import VetTecHeadingSummary from './VetTecHeadingSummary';
 import ContactInformation from '../profile/ContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
-import VetTecVeteranPrograms from './VetTecVeteranPrograms';
-import environment from 'platform/utilities/environment';
 
-const classNameProdFlag = environment.isProduction()
-  ? 'vads-u-display--block small-screen:vads-u-display--none vettec-logo-container'
-  : 'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
+import VetTecVeteranPrograms from './VetTecVeteranPrograms';
+import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
+
+const profileLogo =
+  'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
 
 const VetTecInstitutionProfile = ({
   institution,
   showModal,
   preSelectedProgram,
+  gibctEstimateYourBenefits,
 }) => (
   <div>
-    <div className={classNameProdFlag}>
-      {renderVetTecLogo(classNames('vettec-logo'))}
-    </div>
+    {
+      <div className={profileLogo}>
+        {renderVetTecLogo(classNames('vettec-logo-profile'))}
+      </div>
+    }
     <VetTecHeadingSummary institution={institution} showModal={showModal} />
     <div className="usa-accordion">
       <ul>
@@ -35,7 +38,11 @@ const VetTecInstitutionProfile = ({
           />
         </AccordionItem>
         <AccordionItem button="Estimate your benefits">
-          <VetTecCalculator showModal={showModal} />
+          {gibctEstimateYourBenefits ? (
+            <VetTecEstimateYourBenefits showModal={showModal} />
+          ) : (
+            <VetTecCalculator showModal={showModal} />
+          )}
         </AccordionItem>
         <AccordionItem button="Veteran programs">
           <VetTecVeteranPrograms

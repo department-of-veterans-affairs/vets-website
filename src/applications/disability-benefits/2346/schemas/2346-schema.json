@@ -10,6 +10,11 @@
         true
       ]
     },
+    "currentAddress": {
+      "type": "string",
+      "enum": ["permanentAddress", "temporaryAddress"],
+      "default": "permanentAddress"
+    },
     "fullName": {
       "type": "object",
       "properties": {
@@ -346,26 +351,34 @@
       "type": "string"
     },
     "supplies": {
-      "type": "object",
-      "properties": {
-        "productName": {
-          "type": "string"
-        },
-        "productGroup": {
-          "type": "string"
-        },
-        "productId": {
-          "type": "number"
-        },
-        "availableForReorder": {
-          "type": "boolean"
-        },
-        "lastOrderDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "quantity": {
-          "type": "number"
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "properties": {
+          "deviceName": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productGroup": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "availableForReorder": {
+            "type": "boolean"
+          },
+          "lastOrderDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "quantity": {
+            "type": "number"
+          }
         }
       }
     },
@@ -383,6 +396,9 @@
   },
   "properties": {
     "email": {
+      "$ref": "#/definitions/email"
+    },
+    "confirmationEmail": {
       "$ref": "#/definitions/email"
     },
     "dateOfBirth": {
@@ -405,23 +421,6 @@
     },
     "supplies": {
       "$ref": "#/definitions/supplies"
-    },
-    "currentAddress": {
-      "type": "string",
-      "enum": [
-        "Add new address"
-      ]
-    },
-    "selectedAddress": {
-      "type": "string",
-      "enum": [
-        "permanentAddress",
-        "temporaryAddress"
-      ],
-      "enumNames": [
-        "Permanent Address",
-        "Temporary Address"
-      ]
     }
   },
   "required": [

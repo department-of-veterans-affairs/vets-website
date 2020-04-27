@@ -27,8 +27,15 @@ import {
   sortMessages,
   getRealFacilityId,
   sortPastAppointments,
+  transformRequest,
+  transformAppointment,
+  transformPastAppointment,
 } from '../utils/appointment';
-import { FETCH_STATUS } from '../utils/constants';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+} from '../utils/constants';
 
 const initialState = {
   future: null,
@@ -56,11 +63,14 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
         .filter(appt => filterFutureConfirmedAppointments(appt, action.today))
+        .map(transformAppointment)
         .sort(sortFutureConfirmedAppointments);
 
       const requestsFilteredAndSorted = [
         ...requests.filter(req => filterRequests(req, action.today)),
-      ].sort(sortFutureRequests);
+      ]
+        .map(transformRequest)
+        .sort(sortFutureRequests);
 
       return {
         ...state,
@@ -86,6 +96,7 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
         .filter(appt => filterPastAppointments(appt, startDate, endDate))
+        .map(transformPastAppointment)
         .sort(sortPastAppointments);
 
       return {
@@ -155,17 +166,25 @@ export default function appointmentsReducer(state = initialState, action) {
           return appt;
         }
 
-        // confirmed VA appt
-        if (state.appointmentToCancel.clinicId) {
-          return set(
-            'vdsAppointments[0].currentStatus',
+        let newAppt = appt;
+
+        if (
+          state.appointmentToCancel.appointmentType ===
+          APPOINTMENT_TYPES.vaAppointment
+        ) {
+          newAppt = set(
+            'apiData.vdsAppointments[0].currentStatus',
             'CANCELLED BY PATIENT',
-            appt,
+            newAppt,
           );
+        } else {
+          newAppt = {
+            ...newAppt,
+            apiData: action.apiData,
+          };
         }
 
-        // Appt request
-        return { ...appt, status: 'Cancelled' };
+        return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
       return {
         ...state,

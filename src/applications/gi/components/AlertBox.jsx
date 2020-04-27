@@ -33,7 +33,7 @@ class AlertBox extends React.Component {
   }
 
   render() {
-    if (!this.props.isVisible) return <div aria-live="polite" />;
+    if (!this.props.isVisible) return null;
 
     const alertClass = classNames(
       'usa-alert',
@@ -66,7 +66,6 @@ class AlertBox extends React.Component {
 
     return (
       <div
-        aria-live="polite"
         className={alertClass}
         ref={ref => {
           this._ref = ref;
