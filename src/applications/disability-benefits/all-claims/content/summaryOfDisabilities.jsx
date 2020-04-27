@@ -59,7 +59,10 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const showLink = environment.isProduction() ? (
     'go back to the beginning of this step and add it'
   ) : (
-    <Link aria-label="Add missing disabilities" to={orientationPath}>
+    <Link
+      aria-label="Add missing disabilities"
+      to={`${orientationPath}?redirect`}
+    >
       go back and add it
     </Link>
   );
