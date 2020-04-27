@@ -42,7 +42,7 @@ describe('renderCautionAlert', () => {
       { title: 'TEST B', id: 2 },
     ];
 
-    const tree = shallow(renderCautionAlert({ cautionFlags }));
+    const tree = shallow(renderCautionAlert(cautionFlags));
     expect(
       tree
         .find('li')
@@ -56,7 +56,7 @@ describe('renderCautionAlert', () => {
   it('should render single alert as text', () => {
     const cautionFlags = [{ title: 'TEST A', id: 1 }];
 
-    const tree = shallow(renderCautionAlert({ cautionFlags }));
+    const tree = shallow(renderCautionAlert(cautionFlags));
     expect(
       tree
         .find('p')
@@ -67,9 +67,7 @@ describe('renderCautionAlert', () => {
     tree.unmount();
   });
   it('should render correct heading for single flag', () => {
-    const tree = shallow(
-      renderCautionAlert({ cautionFlags: [{ title: 'TEST A', id: 1 }] }),
-    );
+    const tree = shallow(renderCautionAlert([{ title: 'TEST A', id: 1 }]));
     expect(tree.find('.usa-alert-heading').text()).to.equal(
       'This school has a cautionary warning',
     );
@@ -77,9 +75,10 @@ describe('renderCautionAlert', () => {
   });
   it('should render correct heading for multiple flag', () => {
     const tree = shallow(
-      renderCautionAlert({
-        cautionFlags: [{ title: 'TEST A', id: 1 }, { title: 'TEST B', id: 2 }],
-      }),
+      renderCautionAlert([
+        { title: 'TEST A', id: 1 },
+        { title: 'TEST B', id: 2 },
+      ]),
     );
     expect(tree.find('.usa-alert-heading').text()).to.equal(
       'This school has cautionary warnings',
@@ -92,7 +91,7 @@ describe('renderCautionAlert', () => {
       { title: 'TEST A', id: 2 },
     ];
 
-    const tree = shallow(renderCautionAlert({ cautionFlags }));
+    const tree = shallow(renderCautionAlert(cautionFlags));
     expect(
       tree
         .find('li')
