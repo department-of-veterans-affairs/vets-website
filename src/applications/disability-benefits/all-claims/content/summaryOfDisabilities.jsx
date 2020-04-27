@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import environment from 'platform/utilities/environment';
 import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 import formConfig from '../config/form';
@@ -55,15 +56,19 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const orientationPath =
     formConfig?.chapters.disabilities.pages.disabilitiesOrientation.path || '/';
 
+  const showLink = environment.isProduction() ? (
+    'go back to the beginning of this step and add it'
+  ) : (
+    <Link aria-label="Add missing disabilities" to={orientationPath}>
+      go back and add it
+    </Link>
+  );
+
   return (
     <>
       <p>
         Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please{' '}
-        <Link aria-label="Add missing disabilities" to={orientationPath}>
-          go back and add it
-        </Link>
-        .
+        If a disability is missing from the list, please {showLink}.
       </p>
       <ul>{selectedDisabilitiesList}</ul>
     </>
