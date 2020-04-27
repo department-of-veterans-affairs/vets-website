@@ -1,38 +1,35 @@
 import React, { Component } from 'react';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
 
-import FlipperContent from '../components/FlipperContent.jsx';
-
 class ViewDependentsCTA extends Component {
-  state = {
-    isIncludedInFlipper: true,
-    loginModalVisible: false,
-  };
-
-  closeLoginModal = () => {};
-
   toggleModal = () => {
     this.props.toggleLoginModal(true);
   };
 
   render() {
     let content;
-    if (this.state.isIncludedInFlipper === false) {
+    if (this.props.includedInFlipper === undefined) {
+      content = <p>Loading</p>;
+    } else if (this.props.includedInFlipper === false) {
       content = (
         <a
           className="usa-button-primary va-button-primary"
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
+          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"
         >
           Go to eBenefits to add or modify a dependent
         </a>
       );
     } else {
       content = (
-        <FlipperContent
-          toggleModal={this.toggleModal}
-          loggedIn={this.props.user.login.currentlyLoggedIn}
-        />
+        <a
+          href="/disability/view-dependents/"
+          className="usa-button-primary va-button-primary"
+        >
+          View your dependents
+        </a>
       );
     }
     return <div>{content}</div>;
@@ -47,6 +44,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = store => ({
   user: store.user,
+  includedInFlipper: toggleValues(store)[
+    FEATURE_FLAG_NAMES.vaViewDependentsAccess
+  ],
 });
 
 export default connect(
