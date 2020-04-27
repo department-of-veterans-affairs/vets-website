@@ -3,7 +3,10 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo';
+import {
+  FacilityInfo,
+  PleaseSelectVAFacility,
+} from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
@@ -125,9 +128,7 @@ export default {
       },
     },
     [vetFields.preferredFacilityView]: {
-      'ui:description':
-        'Please select the VA medical center or clinic where the Veteran receives or plans to receive health care services.\n' +
-        'A member of the Caregiver Support Program team at the VA medical center where the Veteran receives or plans to receive care will review your application.',
+      'ui:description': PleaseSelectVAFacility(),
       [vetFields.preferredFacilityStateView]: {
         'ui:title': 'Facility State',
 

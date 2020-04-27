@@ -243,3 +243,18 @@ export const PrimaryHealthCoverage = () => (
     </div>
   </>
 );
+
+export const PleaseSelectVAFacility = () => (
+  <div>
+    <p>
+      Please select the VA medical center or clinic where the Veteran receives
+      or plans to receive health care services.
+    </p>
+
+    <p>
+      A member of the Caregiver Support Program team at the VA medical center
+      where the Veteran receives or plans to receive care will review your
+      application.
+    </p>
+  </div>
+);
