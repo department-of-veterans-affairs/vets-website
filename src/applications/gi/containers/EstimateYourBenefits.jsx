@@ -9,10 +9,10 @@ import {
   beneficiaryZIPCodeChanged,
   showModal,
   eligibilityChange,
-} from '../../actions';
-import { getCalculatedBenefits } from '../../selectors/calculator';
-import EligibilityForm from '../search/EligibilityForm';
-import CalculatorForm from '../profile/CalculatorForm';
+} from '../actions';
+import { getCalculatedBenefits } from '../selectors/calculator';
+import EligibilityForm from '../components/search/EligibilityForm';
+import CalculatorForm from '../components/profile/CalculatorForm';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (

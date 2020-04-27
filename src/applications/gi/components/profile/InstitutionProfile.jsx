@@ -12,7 +12,7 @@ import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import ContactInformation from './ContactInformation';
-import { EstimateYourBenefits } from './EstimateYourBenefits';
+import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
