@@ -53,7 +53,7 @@ export class SearchResult extends React.Component {
       : 'small-12 medium-6 large-5 columns estimated-benefits';
 
     return (
-      <div className="search-result">
+      <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">
@@ -103,7 +103,7 @@ export class SearchResult extends React.Component {
                     <h4>
                       <i className="fa fa-home fa-search-result" />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div id={`housing-value-${facilityCode}`}>{housing}</div>
                     </h4>
                   </div>
                 </div>

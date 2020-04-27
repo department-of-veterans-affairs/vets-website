@@ -10,7 +10,7 @@ import {
 
 class VetTecProgramSearchResult extends React.Component {
   render() {
-    const { version, result, constants } = this.props;
+    const { version, result, constants, key } = this.props;
     const {
       facilityCode,
       description,
@@ -41,7 +41,7 @@ class VetTecProgramSearchResult extends React.Component {
     };
 
     return (
-      <div className="search-result">
+      <div id={`search-result-${key}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row vads-u-padding-top--1p5">

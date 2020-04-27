@@ -64,12 +64,12 @@ const searchForInstitution = client => {
     .click('#search-button');
 };
 
-const selectFirstSearchResult = client => {
+const selectSearchResult = (client, facilityCode) => {
   client
     .waitForElementVisible('.search-page', Timeouts.normal)
     .axeCheck('.main')
-    .waitForElementVisible('.search-result a', Timeouts.normal)
-    .click('.search-result a');
+    .waitForElementVisible(`#search-result-${facilityCode}`, Timeouts.normal)
+    .click(`#search-result-${facilityCode}`);
 };
 
 const expandCollapseAccordion = (client, id) =>
@@ -136,7 +136,7 @@ module.exports = {
   expectLocation,
   initApplicationMock,
   searchForInstitution,
-  selectFirstSearchResult,
+  selectSearchResult,
   expandCollapseAccordion,
   expandCollapseMainSection,
   displayLearnMoreModal,
