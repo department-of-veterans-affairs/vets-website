@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { states } from 'platform/forms/address';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
@@ -50,6 +49,7 @@ const {
   alternativePhoneNumberUI,
   dateOfBirthUI,
   emailUI,
+  fullNameUI,
   genderUI,
   hasSecondaryCaregiverOneUI,
   hasSecondaryCaregiverTwoUI,
@@ -58,12 +58,12 @@ const {
   vetRelationshipUI,
 } = definitions.sharedItems;
 
-const { vetUI, primaryCaregiverUI, secondaryCaregiverUI } = definitions;
+const { vetUI, primaryCaregiverUI } = definitions;
 
-const hassecondaryCaregiverOne = formData =>
+const hasSecondaryCaregiverOne = formData =>
   formData[primaryCaregiverFields.hassecondaryCaregiverOneView] === true;
 
-const hassecondaryCaregiverTwo = formData =>
+const hasSecondaryCaregiverTwo = formData =>
   formData[
     secondaryCaregiverFields.secondaryOne.hassecondaryCaregiverTwoView
   ] === true;
@@ -109,7 +109,7 @@ const formConfig = {
           title: ' ',
           uiSchema: {
             'ui:description': VetInfo,
-            [vetFields.fullName]: fullNameUI,
+            [vetFields.fullName]: fullNameUI('Veteran'),
             [vetFields.ssn]: ssnUI('Veteran'),
             [vetFields.dateOfBirth]: dateOfBirthUI('Veteran'),
             [vetFields.gender]: genderUI('Veteran'),
@@ -225,7 +225,9 @@ const formConfig = {
           uiSchema: {
             'ui:description': () =>
               PrimaryCaregiverInfo({ additionalInfo: true }),
-            [primaryCaregiverFields.fullName]: fullNameUI,
+            [primaryCaregiverFields.fullName]: fullNameUI(
+              'Primary Family Caregiver',
+            ),
             [primaryCaregiverFields.ssn]: ssnUI('Primary Family Caregiver'),
             [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(
               'Primary Family Caregiver',
@@ -353,12 +355,13 @@ const formConfig = {
         secondaryCaregiverOne: {
           path: 'secondaryOne-caregiver-1',
           title: 'Secondary Caregiver Information',
-          depends: formData => hassecondaryCaregiverOne(formData),
+          depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
-            [secondaryCaregiverFields.secondaryOne.fullName]:
-              secondaryCaregiverUI.secondaryOne.fullNameUI,
+            [secondaryCaregiverFields.secondaryOne.fullName]: fullNameUI(
+              'Secondary One Family Caregiver',
+            ),
             [secondaryCaregiverFields.secondaryOne.ssn]: ssnUI(
               'Secondary One Family Caregiver',
             ),
@@ -393,7 +396,7 @@ const formConfig = {
         secondaryCaregiverOneThree: {
           path: 'secondaryOne-caregiver-2',
           title: 'Secondary Caregiver Information',
-          depends: formData => hassecondaryCaregiverOne(formData),
+          depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
@@ -453,12 +456,13 @@ const formConfig = {
         secondaryCaregiverTwo: {
           path: 'secondaryTwo-caregiver-1',
           title: 'Secondary Family Caregiver Information',
-          depends: formData => hassecondaryCaregiverTwo(formData),
+          depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI
-            [secondaryCaregiverFields.secondaryTwo.fullName]:
-              secondaryCaregiverUI.secondaryTwo.fullNameUI,
+            [secondaryCaregiverFields.secondaryTwo.fullName]: fullNameUI(
+              'Secondary Two Family Caregiver',
+            ),
             [secondaryCaregiverFields.secondaryTwo.ssn]: ssnUI(
               'Secondary Two Family Caregiver',
             ),
@@ -497,7 +501,7 @@ const formConfig = {
         secondaryCaregiverTwoTwo: {
           path: 'secondaryTwo-caregiver-2',
           title: 'Contact information',
-          depends: formData => hassecondaryCaregiverTwo(formData),
+          depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI

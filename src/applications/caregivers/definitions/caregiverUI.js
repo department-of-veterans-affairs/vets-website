@@ -2,7 +2,6 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { FacilityInfo } from 'applications/caregivers/components/AdditionalInfo';
 
@@ -24,7 +23,23 @@ export default {
     hideTitle: false,
   },
   sharedItems: {
-    fullNameUI,
+    fullNameUI: label => ({
+      first: {
+        'ui:title': `${label}'s first name`,
+        'ui:errorMessages': {
+          required: `Please enter ${label}'s first name`,
+        },
+      },
+      last: {
+        'ui:title': `${label}'s last name`,
+        'ui:errorMessages': {
+          required: `Please enter ${label}'s last name`,
+        },
+      },
+      middle: {
+        'ui:title': `${label}'s middle name`,
+      },
+    }),
     dateOfBirthUI: label => currentOrPastDateUI(`${label}'s date of birth`),
     addressUI: address.uiSchema(' ', false),
     primaryPhoneNumberUI: label =>
@@ -92,13 +107,6 @@ export default {
     },
   },
   vetUI: {
-    ssnUI: {
-      ...ssnUI,
-      'ui:title': `Veteran's Social Security Number/Tax Identification Number`,
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
-    },
     previousTreatmentFacilityUI: {
       'ui:title':
         'Please enter the name of the medical facility where the Veteran last received medical treatment.',
@@ -159,13 +167,6 @@ export default {
     },
   },
   primaryCaregiverUI: {
-    ssnUI: {
-      ...ssnUI,
-      'ui:title': 'Social Security number or Tax Identification number',
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
-    },
     medicaidEnrolledUI: {
       'ui:title':
         'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
@@ -195,18 +196,6 @@ export default {
       'ui:title': 'Other Health Insurance Name?',
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
-      },
-    },
-  },
-  secondaryCaregiverUI: {
-    secondaryOne: {
-      fullNameUI: {
-        ...fullNameUI,
-      },
-    },
-    secondaryTwo: {
-      fullNameUI: {
-        ...fullNameUI,
       },
     },
   },
