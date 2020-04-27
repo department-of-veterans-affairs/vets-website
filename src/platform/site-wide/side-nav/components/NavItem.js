@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 // Relative
-// import DuplicateLineLabel from './DuplicateLineLabel';
 import NavItemRow from './NavItemRow';
 import { NavItemPropTypes } from '../prop-types';
 
