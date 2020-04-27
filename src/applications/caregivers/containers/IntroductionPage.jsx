@@ -94,8 +94,8 @@ const IntroductionPage = ({ route, router }) => {
 
               <a
                 href={links.getHelpFillingApplication.link}
-                target="_blank"
                 rel="noopener noreferrer"
+                target="_blank"
               >
                 {links.getHelpFillingApplication.label}
               </a>
@@ -118,8 +118,8 @@ const IntroductionPage = ({ route, router }) => {
               currently on active duty with a medical discharge, they’ll need to
               fill out an
               <a
-                target="_blank"
                 rel="noopener noreferrer"
+                target="_blank"
                 href={links.applyVAHealthCare.link}
               >
                 {links.applyVAHealthCare.label}

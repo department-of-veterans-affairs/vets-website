@@ -2,6 +2,7 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import email from 'platform/forms-system/src/js/definitions/email';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   FacilityInfo,
@@ -56,10 +57,7 @@ export default {
         widgetClassNames: 'usa-input-medium',
       },
     }),
-    emailUI: label => ({
-      'ui:title': `${label}'s email address`,
-      'ui:widget': 'email',
-    }),
+    emailUI: label => email(`${label}'s email address`),
     confirmationEmailUI: label => ({
       'ui:title': `${label}'s re-enter email address`,
       'ui:widget': 'email',
