@@ -14,6 +14,7 @@ export default function ButtonContainer(props) {
     isVerified,
     isLoggedIn,
     handleKeyPress,
+    eBenefitsUrl,
   } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
@@ -60,7 +61,9 @@ export default function ButtonContainer(props) {
       {atEbenefitsGuidance && (
         <a
           className="usa-button-primary"
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+          href={eBenefitsUrl(
+            'ebenefits/about/feature?feature=disability-compensation',
+          )}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() =>
@@ -96,4 +99,5 @@ ButtonContainer.propTypes = {
   goForward: PropTypes.func.isRequired,
   authenticate: PropTypes.func.isRequired,
   isVerified: PropTypes.bool.isRequired,
+  eBenefitsUrl: PropTypes.func.isRequired,
 };

@@ -9,6 +9,8 @@ import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 const eauthPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
 const eauthPathMap = {
   'ebenefits-portal/ebenefits.portal': 'homepage',
+  'ebenefits/about/feature?feature=disability-compensation':
+    'vdc?target=%2Fwssweb%2FVDC526%2Fcompensation.do',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;
