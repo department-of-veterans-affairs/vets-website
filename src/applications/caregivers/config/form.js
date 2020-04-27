@@ -148,7 +148,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [vetFields.address],
+            required: [
+              vetFields.address,
+              vetFields.email,
+              vetFields.verifyEmail,
+            ],
             properties: {
               [vetFields.address]: address,
               [vetFields.primaryPhoneNumber]: phone,
@@ -279,6 +283,8 @@ const formConfig = {
             required: [
               primaryCaregiverFields.address,
               primaryCaregiverFields.vetRelationship,
+              primaryCaregiverFields.email,
+              primaryCaregiverFields.verifyEmail,
             ],
             properties: {
               [primaryCaregiverFields.address]: address,
@@ -432,6 +438,8 @@ const formConfig = {
             required: [
               secondaryCaregiverFields.secondaryOne.address,
               secondaryCaregiverFields.secondaryOne.vetRelationship,
+              secondaryCaregiverFields.secondaryOne.email,
+              secondaryCaregiverFields.secondaryOne.verifyEmail,
             ],
             properties: {
               // secondaryOne properties
@@ -535,6 +543,8 @@ const formConfig = {
             required: [
               secondaryCaregiverFields.secondaryOne.address,
               secondaryCaregiverFields.secondaryOne.vetRelationship,
+              secondaryCaregiverFields.secondaryTwo.email,
+              secondaryCaregiverFields.secondaryTwo.verifyEmail,
             ],
             properties: {
               // secondaryTwo properties
