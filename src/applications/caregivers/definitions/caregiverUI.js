@@ -25,6 +25,7 @@ export default {
     hideTitle: false,
   },
   sharedItems: {
+    contactInfoTitle: 'Contact information',
     fullNameUI: label => ({
       first: {
         'ui:title': `${label}'s first name`,
@@ -109,6 +110,7 @@ export default {
     },
   },
   vetUI: {
+    vetInputLabel: 'Veteran',
     previousTreatmentFacilityUI: {
       'ui:title':
         'Please enter the name of the medical facility where the Veteran last received medical treatment.',
@@ -167,6 +169,7 @@ export default {
     },
   },
   primaryCaregiverUI: {
+    primaryInputLabel: 'Primary Family Caregiver',
     medicaidEnrolledUI: {
       'ui:title':
         'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
@@ -198,6 +201,10 @@ export default {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },
     },
+  },
+  secondaryCaregiversUI: {
+    secondaryOneInputLabel: 'Secondary Family Caregiver',
+    secondaryTwoInputLabel: 'Secondary Family Caregiver',
   },
 };
 

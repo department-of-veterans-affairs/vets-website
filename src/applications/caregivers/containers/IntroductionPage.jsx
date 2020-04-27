@@ -72,7 +72,7 @@ const IntroductionPage = ({ route, router }) => {
                   Locate and contact the Caregiver Support Coordinator at your
                   nearest VA health care facility. You may use the online {''}
                   <a
-                    href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+                    href={links.caregiverSupportCoordinators.link}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -93,11 +93,11 @@ const IntroductionPage = ({ route, router }) => {
               </ul>
 
               <a
-                href="https://www.va.gov/disability/get-help-filing-claim/"
+                href={links.getHelpFillingApplication.link}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Get help filing out your application
+                {links.getHelpFillingApplication.label}
               </a>
 
               <CaregiverSupportInfo />
@@ -120,9 +120,9 @@ const IntroductionPage = ({ route, router }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.va.gov/health-care/how-to-apply/"
+                href={links.applyVAHealthCare.link}
               >
-                Application for Health Benefits
+                {links.applyVAHealthCare.label}
               </a>
               (VA Form 10-10EZ).
             </p>
@@ -149,7 +149,7 @@ const IntroductionPage = ({ route, router }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.caregiver.va.gov/"
+                href={links.caregiverHelpPage.link}
               >
                 www.caregiver.va.gov
               </a>{' '}
@@ -172,7 +172,7 @@ const IntroductionPage = ({ route, router }) => {
       </p>
 
       <a
-        href="https://www.caregiver.va.gov/"
+        href={links.caregiverHelpPage.link}
         target="_blank"
         rel="noopener noreferrer"
       >

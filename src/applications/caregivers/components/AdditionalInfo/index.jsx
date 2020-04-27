@@ -156,19 +156,19 @@ export const SecondaryCaregiverLegal = () => (
       An individual approved as a "provider of personal care services" for the
       eligible Veteran under{' '}
       <a
-        href="https://www.law.cornell.edu/uscode/text/38/1720G"
+        href={links.caregiverDefinition.link}
         target="_blank"
         rel="noopener noreferrer"
       >
-        38 U.S.C. §1720G(a)(7)(A);
+        {links.caregiverDefinition.label}
       </a>
       meets the requirements of{' '}
       <a
-        href="https://www.law.cornell.edu/cfr/text/38/71.25"
+        href={links.familyCaregiver.link}
         target="_blank"
         rel="noopener noreferrer"
       >
-        38 C.F.R. §71.25;
+        {links.familyCaregiver.label}
       </a>
       and generally serves as a back-up to the Primary Family Caregiver.
     </p>
