@@ -4,6 +4,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 class ViewDependentsCTA extends Component {
   toggleModal = () => {
     this.props.toggleLoginModal(true);
@@ -12,7 +14,7 @@ class ViewDependentsCTA extends Component {
   render() {
     let content;
     if (this.props.includedInFlipper === undefined) {
-      content = <p>Loading</p>;
+      content = <LoadingIndicator message="Loading..." />;
     } else if (this.props.includedInFlipper === false) {
       content = (
         <a
