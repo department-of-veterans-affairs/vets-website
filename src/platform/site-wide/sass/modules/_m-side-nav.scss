@@ -116,7 +116,7 @@ $side-nav-color-dark: #323a45;
 
   .expanded {
     background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
             $color-white;
     background-repeat:no-repeat;
   }
@@ -124,7 +124,7 @@ $side-nav-color-dark: #323a45;
   .selected {
     color: $side-nav-color-dark !important;
     background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
             linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
             $side-nav-color-gray-lightest;
     background-repeat:no-repeat;
@@ -167,10 +167,10 @@ $side-nav-color-dark: #323a45;
       &:active {
         color: $side-nav-color-dark !important;
         background:
-                linear-gradient($side-nav-color-dark , $side-nav-color-dark)bottom / 100% 1px,
-                linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+                linear-gradient($side-nav-color-dark , $side-nav-color-dark)bottom / 100% 2px,
+                linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
                 linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-                linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 1px 100%,
+                linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 2px 100%,
                 $side-nav-color-gray-lightest;
         background-repeat:no-repeat;
         box-shadow: inset 0 0 0 1px $side-nav-color-dark
