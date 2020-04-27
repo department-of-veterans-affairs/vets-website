@@ -30,7 +30,7 @@ class CautionaryWarningsFilter extends React.Component {
           </p>
           <Checkbox
             checked={this.props.excludeWarnings}
-            name="excludeCautionFlags"
+            name="excludeWarnings"
             label="Exclude institutions with warnings"
             onChange={this.props.onChange}
           />
