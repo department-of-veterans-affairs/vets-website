@@ -41,7 +41,7 @@ export const uiSchema = {
     },
     typeOther: {
       'ui:required': formData =>
-        formData.currentMarriageInformation.type === 'OTHER',
+        formData?.currentMarriageInformation?.type === 'OTHER',
       'ui:title': 'Other type of marriage',
       'ui:options': {
         expandUnder: 'type',

@@ -40,7 +40,7 @@ export const uiSchema = {
         // The collapsed form will silently throw an error because some fields are required based on country.
         // manually clearning the required array fixes this issue.
         updateSchema: (formData, formSchema) =>
-          formData.spouseDoesLiveWithVeteran ? { required: [] } : formSchema,
+          formData?.spouseDoesLiveWithVeteran ? { required: [] } : formSchema,
       },
     },
   },
