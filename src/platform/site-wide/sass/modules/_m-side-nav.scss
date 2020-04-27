@@ -51,7 +51,7 @@ $side-nav-color-dark: #323a45;
   .line-open {
     background: $side-nav-color-dark;
     display: block;
-    height: 1px;
+    height: 0.5px;
     border: 0;
     margin: 16px 0;
     padding: 0;
@@ -111,7 +111,7 @@ $side-nav-color-dark: #323a45;
 
   .expanded {
     background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
             $color-white;
     background-repeat:no-repeat;
   }
@@ -119,7 +119,7 @@ $side-nav-color-dark: #323a45;
   .selected {
     color: $side-nav-color-dark !important;
     background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
             linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
             $side-nav-color-gray-lightest;
     background-repeat:no-repeat;
