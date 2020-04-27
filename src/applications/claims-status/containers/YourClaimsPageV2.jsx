@@ -172,7 +172,7 @@ class YourClaimsPageV2 extends React.Component {
           </div>
         );
       } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
-        content = <NoClaims />;
+        content = <NoClaims eBenefitsUrl={this.props.eBenefitsUrl} />;
       }
       content = <div className="va-tab-content">{content}</div>;
     }

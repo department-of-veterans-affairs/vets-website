@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 
-export default function NoClaims() {
+export default function NoClaims({ eBenefitsUrl }) {
   return (
     <div className="usa-alert usa-alert-info claims-alert background-color-only claims-alert-status">
       <h4 className="claims-alert-header usa-alert-heading">
@@ -11,7 +11,7 @@ export default function NoClaims() {
         This page shows only completed claim applications. If you started a
         claim but haven’t finished it yet, go to{' '}
         <a
-          href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
+          href={eBenefitsUrl('ebenefits-portal/ebenefits.portal')}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() =>
