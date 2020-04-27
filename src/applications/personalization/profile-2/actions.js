@@ -7,8 +7,9 @@ export const openSideNav = () => ({
   type: OPEN_SIDE_NAV,
 });
 
-export const closeSideNav = () => ({
+export const closeSideNav = (focusTriggerButton = false) => ({
   type: CLOSE_SIDE_NAV,
+  focusTriggerButton,
 });
 
 export const pinMenuTrigger = () => ({

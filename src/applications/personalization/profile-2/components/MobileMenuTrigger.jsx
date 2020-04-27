@@ -11,6 +11,7 @@ import {
 
 const MobileMenuTrigger = ({
   closeSideNav,
+  focusTriggerButton,
   openSideNav,
   isMenuTriggerPinned,
   pinMenuTrigger,
@@ -68,6 +69,10 @@ const MobileMenuTrigger = ({
     window.addEventListener('resize', handleResize);
     window.onscroll = handleScroll;
 
+    if (focusTriggerButton) {
+      button.current.focus();
+    }
+
     return () => {
       window.removeEventListener('resize', handleResize);
       window.onscroll = null;
@@ -112,6 +117,7 @@ export { MobileMenuTrigger };
 
 const mapStateToProps = state => ({
   isMenuTriggerPinned: state.profileUi?.isMenuTriggerPinned,
+  focusTriggerButton: state.profileUi?.focusTriggerButton,
 });
 
 const mapDispatchToProps = {

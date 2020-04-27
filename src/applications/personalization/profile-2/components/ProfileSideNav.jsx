@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import {
+  isEscape,
   isTab,
   isReverseTab,
   getTabbableElements,
@@ -13,7 +14,7 @@ import { childRoutes } from '../routes';
 
 import { closeSideNav as closeSideNavAction } from '../actions';
 
-const ProfileSideNav = ({ closeSideNav, isSideNavOpen, trigger }) => {
+const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
   const closeButton = useRef(null);
   const lastMenuItem = useRef(null);
 
@@ -39,6 +40,12 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, trigger }) => {
       lastMenuItem.current = Array.from(
         getTabbableElements(document.getElementById('va-profile-sidebar')),
       ).pop();
+      const closeOnEscape = e => {
+        if (isEscape(e)) {
+          e.preventDefault();
+          closeSideNav(true);
+        }
+      };
       if (isSideNavOpen) {
         closeButton.current.focus();
         document.body.style.overflow = 'hidden';
@@ -46,13 +53,15 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, trigger }) => {
         // open mobile sidenav
         closeButton.current.addEventListener('keydown', overrideShiftTab);
         lastMenuItem.current.addEventListener('keydown', overrideTab);
+        document.addEventListener('keydown', closeOnEscape);
       } else {
         document.body.style.overflow = 'initial';
         closeButton.current.removeEventListener('keydown', overrideShiftTab);
         lastMenuItem.current.removeEventListener('keydown', overrideTab);
+        document.removeEventListener('keydown', closeOnEscape);
       }
     },
-    [closeButton, isSideNavOpen, trigger],
+    [closeButton, closeSideNav, isSideNavOpen],
   );
 
   const sideNavClasses = classnames('va-sidebarnav', {
@@ -71,7 +80,9 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, trigger }) => {
           aria-label="Close this menu"
           className="va-btn-close-icon va-sidebarnav-close"
           ref={closeButton}
-          onClick={closeSideNav}
+          onClick={() => {
+            closeSideNav(true);
+          }}
         />
         <h4>Profile</h4>
         <ul>
@@ -80,7 +91,9 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, trigger }) => {
               <Link
                 activeClassName="is-active"
                 to={route.path}
-                onClick={closeSideNav}
+                onClick={() => {
+                  closeSideNav(false);
+                }}
               >
                 {route.name}
               </Link>
