@@ -67,11 +67,11 @@ export default class FormNav extends React.Component {
             aria-valuemax={chapters.length}
             className="nav-header nav-header-schemaform"
           >
-            <h2 className="vads-u-font-size--h4">
+            <h4 className="vads-u-font-size--h4">
               <span className="form-process-step current">{current}</span>{' '}
               <span className="form-process-total">of {chapters.length}</span>{' '}
               {chapterName}
-            </h2>
+            </h4>
           </div>
         </div>
       </div>
