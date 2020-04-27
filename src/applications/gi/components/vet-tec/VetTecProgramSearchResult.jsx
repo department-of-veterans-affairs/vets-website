@@ -63,7 +63,7 @@ function VetTecProgramSearchResult(props) {
             <div className="row alert-row">
               <div className="small-12 columns">
                 {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                {renderCautionAlert({ cautionFlags })}
+                {renderCautionAlert(cautionFlags)}
               </div>
             </div>
           )}

@@ -32,9 +32,7 @@ export const renderSchoolClosingAlert = result => {
   );
 };
 
-export const renderCautionAlert = result => {
-  const { cautionFlags } = result;
-
+export const renderCautionAlert = cautionFlags => {
   const validFlags = [...cautionFlags]
     .filter(flag => flag.title)
     .sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1));
