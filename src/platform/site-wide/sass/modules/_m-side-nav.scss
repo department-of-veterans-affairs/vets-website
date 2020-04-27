@@ -1,4 +1,5 @@
 $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our design utilities.
+$side-nav-color-dark: #323a45;
 
 .va-sidenav {
   background: $color-white;
@@ -43,8 +44,22 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
 
   .line {
     background: $color-gray-lighter;
+    display: block;
     height: 1px;
-    margin: 10px 23px;
+    border: 0;
+    border-top: 1px $side-nav-color-dark #ccc;
+    margin: 16px 23px;
+    padding: 0;
+  }
+
+  .line-open {
+    background: $side-nav-color-dark;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px $side-nav-color-dark #ccc;
+    margin: 16px 0;
+    padding: 0;
   }
 
   .va-sidenav-toggle-expand {
@@ -75,22 +90,9 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
     text-transform: uppercase;
     transition: background 0.5s ease;
     width: 100%;
-    border: 2px solid transparent;
-    border-left: 8px solid transparent;
 
     &.va-sidenav-item-label-underlined {
       text-decoration: underline;
-    }
-
-    &.open {
-      color: #323a45;
-      background-color: #f8f8f8;
-      border-left: 8px solid #323a45;
-    }
-
-    &.expanded {
-      color: #323a45;
-      border-top: 2px solid #323a45;
     }
 
     &.grandchild-open {
@@ -98,23 +100,36 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
       border-left: 10px solid #d6d7d9;
     }
 
-    &:hover {
-      background-color: #ffffff !important;
-      border: 2px solid #0071bc !important;
-      border-left: 8px solid #0071bc !important;
-    }
-    &:active {
-      color: #323a45;
-      border: 2px solid #323a45 !important;
-      border-left: 8px solid #323a45 !important;
-    }
-    &.selected {
-      color: #323a45;
-      background-color: #f8f8f8 !important;
-      border-top: 2px solid #323a45;
-      border-left: 8px solid #323a45;
-    }
   }
+
+  // Couldn't make use borders efficiently for the different item states
+  // applying borders directly makes the inside content jump and this is not desirable
+  // used backgrounds instead
+  .open {
+    color: $side-nav-color-dark !important;
+    background:
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
+            $side-nav-color-gray-lightest;
+    background-repeat:no-repeat;
+
+  }
+
+  .expanded {
+    background:
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+            $color-white;
+    background-repeat:no-repeat;
+  }
+
+  .selected {
+    color: $side-nav-color-dark !important;
+    background:
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
+            $side-nav-color-gray-lightest;
+    background-repeat:no-repeat;
+  }
+
 
   .va-sidenav-item-label-bold {
     font-weight: bold;
@@ -137,6 +152,29 @@ $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our des
       line-height: 1.38;
       text-transform: none;
       transition: color 0.5s ease;
+
+      &:hover {
+        color: $color-primary !important;
+        background:
+                linear-gradient($color-primary , $color-primary)bottom / 100% 2px,
+                linear-gradient($color-primary, $color-primary) 100% top / 100% 2px,
+                linear-gradient($color-primary, $color-primary) left/ 8px 100%,
+                linear-gradient($color-primary, $color-primary) right / 2px 100%,
+                $color-white;
+        background-repeat:no-repeat;
+        box-shadow: inset 0 0 0 1px $color-primary
+      }
+      &:active {
+        color: $side-nav-color-dark !important;
+        background:
+                linear-gradient($side-nav-color-dark , $side-nav-color-dark)bottom / 100% 1px,
+                linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+                linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
+                linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 1px 100%,
+                $side-nav-color-gray-lightest;
+        background-repeat:no-repeat;
+        box-shadow: inset 0 0 0 1px $side-nav-color-dark
+      }
     }
   }
 }

@@ -19,20 +19,28 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   const isFirstLevel = depth === 1;
   const isDeeperThanSecondLevel = depth >= 2;
 
-  // Caclculate the indentation for the child items.
+  // Calculate the indentation for the child items.
   const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
 
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
     // Expanded not selected
     const isExpanded = !!(get(item, 'expanded') && depth === 2 && !isSelected);
+    // Expanded beyond level 2 expanded and selected
+    const moreThanLevel2SelectedExpanded = !!(
+      get(item, 'expanded') &&
+      depth > 2 &&
+      isSelected
+    );
     return (
       <a
         aria-label={label}
         className={classNames('va-sidenav-item-label', {
           'va-sidenav-item-label-bold': isFirstLevel,
-          selected: !isExpanded && isSelected,
-          expanded: isExpanded,
+          selected:
+            !isExpanded && !moreThanLevel2SelectedExpanded && isSelected,
+          expanded: !moreThanLevel2SelectedExpanded && isExpanded,
+          open: moreThanLevel2SelectedExpanded,
         })}
         onClick={toggleItemExpanded(id)}
         rel="noopener noreferrer"

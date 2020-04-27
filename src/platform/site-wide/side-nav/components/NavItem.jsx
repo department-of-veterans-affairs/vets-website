@@ -39,7 +39,8 @@ const NavItem = ({
         hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
 
       {/* Ending Line */}
-      {isFirstLevel && !isLastNavItem && <div className="line" />}
+      {isFirstLevel &&
+        !isLastNavItem && <div id={`${item.id}-line`} className="line" />}
     </li>
   );
 };
