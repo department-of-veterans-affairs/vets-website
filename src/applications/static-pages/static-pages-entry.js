@@ -43,7 +43,7 @@ import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
-import createViewDependentsCTA from './view-modify-dependents/createViewDependentsCTA';
+import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 
 // School resources widgets
 import {
