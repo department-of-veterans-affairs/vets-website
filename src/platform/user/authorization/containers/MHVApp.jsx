@@ -15,7 +15,7 @@ import {
   createMHVAccount,
   fetchMHVAccount,
   upgradeMHVAccount,
-} from '../../../../platform/user/profile/actions';
+} from 'platform/user/profile/actions';
 
 /* eslint-disable camelcase */
 const INELIGIBLE_MESSAGES = {
