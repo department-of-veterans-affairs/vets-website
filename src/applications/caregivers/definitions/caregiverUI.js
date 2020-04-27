@@ -204,7 +204,9 @@ export default {
   },
   secondaryCaregiversUI: {
     secondaryOneInputLabel: 'Secondary Family Caregiver',
+    secondaryOneChapterTitle: 'Secondary Family Caregiver information',
     secondaryTwoInputLabel: 'Secondary Family Caregiver',
+    secondaryTwoChapterTitle: 'Secondary Family Caregiver (2) information',
   },
 };
 
