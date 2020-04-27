@@ -65,6 +65,7 @@ export class Calculator extends React.Component {
             <form>
               <EligibilityForm
                 eligibilityChange={this.props.eligibilityChange}
+                showHeader={false}
               />
             </form>
           ) : null}

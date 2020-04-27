@@ -9,6 +9,8 @@ import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { isLoggedIn } from 'platform/user/selectors';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -38,9 +40,14 @@ export class EligibilityForm extends React.Component {
     });
 
   render() {
+    const headerValue = this.props.gibctEstimateYourBenefits
+      ? 'Your benefits'
+      : 'Your eligibility';
+    const header = this.props.showHeader ? <h2>{headerValue}</h2> : null;
+
     return (
       <div className="eligibility-form">
-        <h2>Your eligibility</h2>
+        {header}
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
@@ -110,7 +117,7 @@ export class EligibilityForm extends React.Component {
                 Post 9/11 GI Bill
               </a>{' '}
               recipients serving on Active Duty (or transferee spouses of a
-              servicemember on active duty) are not eligible to receive a
+              service member on active duty) are not eligible to receive a
               monthly housing allowance.
             </div>
           )}
@@ -202,6 +209,9 @@ export class EligibilityForm extends React.Component {
 const mapStateToProps = state => ({
   ...state.eligibility,
   isLoggedIn: isLoggedIn(state),
+  gibctEstimateYourBenefits: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
+  ],
 });
 
 const mapDispatchToProps = {

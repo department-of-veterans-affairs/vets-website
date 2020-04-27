@@ -14,16 +14,20 @@ import EligibilityForm from '../components/search/EligibilityForm';
 import CalculatorForm from '../components/profile/CalculatorForm';
 import SectionItem from '../components/SectionItem';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
+import { createId } from '../utils/helpers';
 
 export class EstimateYourBenefits extends React.Component {
   renderYourBenefits = () => (
     <SectionItem
       title={'Your benefits'}
-      className={'eligibility-details'}
+      id={`eyb-${createId('Your benefits')}`}
       expanded
     >
       <form>
-        <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
+        <EligibilityForm
+          eligibilityChange={this.props.eligibilityChange}
+          showHeader={false}
+        />
       </form>
     </SectionItem>
   );
@@ -35,7 +39,11 @@ export class EstimateYourBenefits extends React.Component {
       calculated: { inputs: displayed },
     } = this.props;
     return (
-      <SectionItem title={'About your school'} className={'calculator-inputs'}>
+      <SectionItem
+        title={'About your school'}
+        id={`eyb-${createId('About your school')}`}
+        className={'calculator-inputs'}
+      >
         <CalculatorForm
           profile={profile}
           eligibility={this.props.eligibility}
@@ -51,11 +59,17 @@ export class EstimateYourBenefits extends React.Component {
   };
 
   renderLearningFormatAndSchedule = () => (
-    <SectionItem title={'Learning format and schedule'} />
+    <SectionItem
+      title={'Learning format and schedule'}
+      id={`eyb-${createId('Learning format and schedule')}`}
+    />
   );
 
   renderScholarshipsAndOtherFunding = () => (
-    <SectionItem title={'Scholarships and other funding'} />
+    <SectionItem
+      title={'Scholarships and other funding'}
+      id={`eyb-${createId('Scholarships and other funding')}`}
+    />
   );
 
   render() {

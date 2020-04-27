@@ -136,6 +136,7 @@ export class LandingPage extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm
                 eligibilityChange={this.handleEligibilityChange}
+                showHeader
               />
               <LandingPageTypeOfInstitutionFilter
                 category={this.props.filters.category}

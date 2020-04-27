@@ -27,7 +27,10 @@ function InstitutionSearchForm(props) {
             handleFilterChange={props.handleFilterChange}
             showModal={props.showModal}
           />
-          <EligibilityForm eligibilityChange={props.eligibilityChange} />
+          <EligibilityForm
+            eligibilityChange={props.eligibilityChange}
+            showHeader
+          />
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}
             onChange={props.eligibilityChange}

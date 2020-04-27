@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 class SectionItem extends React.Component {
   static propTypes = {
+    id: PropTypes.string.required,
     className: PropTypes.string,
     expanded: PropTypes.bool,
     title: PropTypes.string.required,
@@ -22,10 +23,10 @@ class SectionItem extends React.Component {
   };
 
   render() {
-    const { className, title } = this.props;
+    const { id, className, title } = this.props;
     const { expanded } = this.state;
     return (
-      <div aria-live="off" className={className}>
+      <div aria-live="off" id={id} className={className}>
         <button
           aria-expanded={expanded}
           onClick={this.toggleSection}

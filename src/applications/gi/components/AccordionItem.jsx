@@ -3,6 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import { createId } from '../utils/helpers';
 
 class AccordionItem extends React.Component {
   constructor(props) {
@@ -32,10 +33,7 @@ class AccordionItem extends React.Component {
       [this.props.headerClass]: this.props.headerClass,
     });
     return (
-      <li
-        aria-label={label}
-        id={`${this.props.button.toLowerCase().replace(/\s/g, '-')}-accordion`}
-      >
+      <li aria-label={label} id={`${createId(this.props.button)}-accordion`}>
         <h2 aria-live="off" className={headerClasses}>
           <button
             onClick={this.toggle}
