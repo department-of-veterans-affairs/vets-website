@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 
-export default function FeaturesWarning() {
+export default function FeaturesWarning({ eBenefitsUrl }) {
   return (
     <div>
       <h2 className="help-heading">Additional services</h2>
@@ -11,7 +11,7 @@ export default function FeaturesWarning() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
+          href={eBenefitsUrl('ebenefits-portal/ebenefits.portal')}
           onClick={() =>
             recordEvent({
               event: 'nav-ebenefits-click',
