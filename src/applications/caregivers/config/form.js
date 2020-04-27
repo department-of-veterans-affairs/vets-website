@@ -134,7 +134,7 @@ const formConfig = {
           path: 'service-member-2',
           title: 'Contact information',
           uiSchema: {
-            'ui:description': VetInfo,
+            'ui:description': VetInfo({ pageTitle: 'Contact information' }),
             [vetFields.address]: addressWithoutCountryUI('Veteran'),
             [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI('Veteran'),
             [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI(
@@ -166,7 +166,9 @@ const formConfig = {
           path: 'service-member-3',
           title: 'VA medical center information',
           uiSchema: {
-            'ui:description': VetInfo,
+            'ui:description': VetInfo({
+              pageTitle: 'VA medical center information',
+            }),
             [vetFields.previousTreatmentFacility]:
               vetUI.previousTreatmentFacilityUI,
             [vetFields.preferredFacilityView]: {
@@ -260,6 +262,8 @@ const formConfig = {
           path: 'primary-caregiver-2',
           title: 'Contact information',
           uiSchema: {
+            'ui:description': () =>
+              PrimaryCaregiverInfo({ pageTitle: 'Contact information' }),
             [primaryCaregiverFields.address]: addressWithoutCountryUI(
               'Primary Family Caregiver',
             ),
@@ -303,7 +307,9 @@ const formConfig = {
           path: 'primary-caregiver-3',
           title: 'Health care coverage',
           uiSchema: {
-            'ui:description': PrimaryHealthCoverage,
+            'ui:description': PrimaryHealthCoverage({
+              pageTitle: 'Health care coverage',
+            }),
             [primaryCaregiverFields.medicaidEnrolled]:
               primaryCaregiverUI.medicaidEnrolledUI,
             [primaryCaregiverFields.medicareEnrolled]:
@@ -340,7 +346,7 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'Secondary Family Caregiver Information',
+      title: 'Secondary Family Caregivers Information',
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondaryOne-caregiver-intro',
@@ -360,10 +366,12 @@ const formConfig = {
         },
         secondaryCaregiverOne: {
           path: 'secondaryOne-caregiver-1',
-          title: 'Secondary Caregiver Information',
+          title: 'Secondary Family Caregiver One Information',
           depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({
+              pageTitle: 'Secondary Caregiver One Information',
+            }),
             // secondaryOne UI
             [secondaryCaregiverFields.secondaryOne.fullName]: fullNameUI(
               'Secondary One Family Caregiver',
@@ -401,10 +409,12 @@ const formConfig = {
         },
         secondaryCaregiverOneThree: {
           path: 'secondaryOne-caregiver-2',
-          title: 'Secondary Caregiver Information',
+          title: 'Contact Information',
           depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({
+              pageTitle: 'Contact Information',
+            }),
             // secondaryOne UI
             [secondaryCaregiverFields.secondaryOne
               .address]: addressWithoutCountryUI(
@@ -463,7 +473,7 @@ const formConfig = {
         },
         secondaryCaregiverTwo: {
           path: 'secondaryTwo-caregiver-1',
-          title: 'Secondary Family Caregiver Information',
+          title: ' ',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
@@ -511,7 +521,9 @@ const formConfig = {
           title: 'Contact information',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({
+              pathTitle: 'Contact information',
+            }),
             // secondaryTwo UI
             [secondaryCaregiverFields.secondaryTwo
               .address]: addressWithoutCountryUI(

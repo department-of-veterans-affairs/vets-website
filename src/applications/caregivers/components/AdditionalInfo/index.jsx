@@ -4,9 +4,18 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import { links } from 'applications/caregivers/definitions/content';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-export const VetInfo = () => (
-  <p>Please complete all of the following information</p>
+export const VetInfo = ({ pageTitle }) => (
+  <>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    <p className="vads-u-margin-top--2">
+      Please complete all of the following information
+    </p>
+  </>
 );
+
+VetInfo.propTypes = {
+  pageTitle: PropTypes.string,
+};
 
 export const LearnMoreFamilyCaregiver = () => {
   const [isModalVisible, toggleModal] = useState(false);
@@ -95,9 +104,10 @@ export const LearnMoreSecondaryCaregiver = () => {
   );
 };
 
-export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
-  <div>
-    <p>
+export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+  <>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    <p className="vads-u-margin-top--2">
       Please complete the following information about the Primary Family
       Caregiver.
     </p>
@@ -128,11 +138,12 @@ export const PrimaryCaregiverInfo = ({ additionalInfo }) => (
         </AdditionalInfo>
       </section>
     )}
-  </div>
+  </>
 );
 
 PrimaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
+  pageTitle: PropTypes.string,
 };
 
 PrimaryCaregiverInfo.defaultProps = {
@@ -166,9 +177,10 @@ export const SecondaryCaregiverLegal = () => (
   </AdditionalInfo>
 );
 
-export const SecondaryCaregiverInfo = ({ additionalInfo }) => (
+export const SecondaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
   <>
-    <p>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    <p className="vads-u-margin-top--2">
       Please complete the following information about the Secondary Family
       Caregiver.
     </p>
@@ -179,10 +191,7 @@ export const SecondaryCaregiverInfo = ({ additionalInfo }) => (
 
 SecondaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
-};
-
-SecondaryCaregiverInfo.defaultProps = {
-  additionalInfo: false,
+  pageTitle: PropTypes.string,
 };
 
 export const FacilityInfo = () => (
@@ -213,13 +222,16 @@ export const CaregiverSupportInfo = () => (
   </AdditionalInfo>
 );
 
-export const PrimaryHealthCoverage = () => (
+export const PrimaryHealthCoverage = ({ pageTitle }) => (
   <>
-    <div className="vads-u-margin-bottom--4">
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+
+    <div className="vads-u-margin-bottom--4 vads-u-margin-top--2">
       <p>
         Please complete the following information about the Primary Family
         Caregiver’s health coverage.
       </p>
+
       <div className="vads-u-margin-top--2">
         <AdditionalInfo triggerText="Learn more about health coverage">
           <p>
