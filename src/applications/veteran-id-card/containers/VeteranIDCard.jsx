@@ -16,13 +16,11 @@ function createVicSettings() {
   const disableRateLimitedAuth = window.sessionStorage.getItem(
     'vicDisableRateLimitedAuth',
   );
-  const fromGlobal = window.settings.vic;
   const randomizer = Math.random();
 
   return {
-    serviceRateLimitedUnauthed: randomizer > fromGlobal.rateLimitUnauthed,
-    serviceRateLimitedAuthed:
-      !disableRateLimitedAuth && randomizer > fromGlobal.rateLimitAuthed,
+    serviceRateLimitedUnauthed: randomizer > 1,
+    serviceRateLimitedAuthed: !disableRateLimitedAuth && randomizer > 1,
   };
 }
 

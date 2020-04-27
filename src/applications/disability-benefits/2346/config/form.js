@@ -10,9 +10,7 @@ import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies } = fullSchemaMDOT.definitions;
-
-const { selectedAddress } = fullSchemaMDOT.properties;
+const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
 
 const {
   emailField,
@@ -22,7 +20,7 @@ const {
   viewAddBatteriesField,
   permAddressField,
   tempAddressField,
-  selectedAddressField,
+  currentAddressField,
 } = schemaFields;
 
 const {
@@ -31,10 +29,10 @@ const {
   addAccessoriesUI,
   addBatteriesUI,
   batteriesUI,
-  selectedAddressUI,
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
+  currentAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -73,8 +71,8 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
-    selectedAddress,
     addressSchema,
+    currentAddress,
   },
   chapters: {
     veteranInformationChapter: {
@@ -101,18 +99,18 @@ const formConfig = {
           uiSchema: {
             [permAddressField]: permanentAddressUI,
             [tempAddressField]: temporaryAddressUI,
-            [selectedAddressField]: selectedAddressUI,
             [emailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
+            [currentAddressField]: currentAddressUI,
           },
           schema: {
             type: 'object',
             properties: {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
-              [selectedAddressField]: selectedAddress,
               [emailField]: email,
               [confirmationEmailField]: email,
+              [currentAddressField]: currentAddress,
             },
           },
         },
@@ -131,7 +129,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {
@@ -149,7 +147,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {

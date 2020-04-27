@@ -76,7 +76,7 @@ const ProfileInfoTable = ({
             >
               {row.title}
             </h4>
-            <p className={tableRowDataClasses.join(' ')}>{row.value}</p>
+            <div className={tableRowDataClasses.join(' ')}>{row.value}</div>
           </div>
         ))}
     </div>
