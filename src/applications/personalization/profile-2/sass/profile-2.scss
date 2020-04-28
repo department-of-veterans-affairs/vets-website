@@ -7,3 +7,7 @@
 .profile-service-badge {
   max-height: 108px;
 }
+
+[tabindex="-1"]:focus {
+  outline: 0;
+}

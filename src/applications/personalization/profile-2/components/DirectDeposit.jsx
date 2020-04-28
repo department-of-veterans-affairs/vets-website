@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const DirectDeposit = () => (
-  <h2
-    tabIndex="-1"
-    className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-  >
-    Direct Deposit
-  </h2>
-);
+import { focusElement } from 'platform/utilities/ui';
+
+const DirectDeposit = () => {
+  useEffect(() => {
+    focusElement('h2.profile-section-title');
+  }, []);
+
+  return (
+    <h2
+      tabIndex="-1"
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4 profile-section-title"
+    >
+      Direct Deposit
+    </h2>
+  );
+};
 
 export default DirectDeposit;

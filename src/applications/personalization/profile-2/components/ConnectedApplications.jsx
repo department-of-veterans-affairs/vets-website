@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 
-const ConnectedApplications = () => (
-  <h2
-    tabIndex="-1"
-    className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-  >
-    Connected Applications
-  </h2>
-);
+const ConnectedApplications = () => {
+  useEffect(() => {
+    focusElement('h2.profile-section-title');
+  }, []);
+
+  return (
+    <h2
+      tabIndex="-1"
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4 profile-section-title"
+    >
+      Connected Applications
+    </h2>
+  );
+};
 
 export default ConnectedApplications;
