@@ -71,9 +71,9 @@ larger space in the Fayette Plaza at 627 Pittsburgh Road, Suite 2, Uniontown,
             </div>
             {% for pr in pagedItems %}
             <section class="vads-u-margin-bottom--4">
-              <h3
+              <h2
                 class="vads-u-margin-bottom--1p5 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-                <a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
+                <a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h2>
               <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
               <p class="vads-u-margin-top--0">
                 {{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>

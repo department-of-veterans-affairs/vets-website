@@ -129,7 +129,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {
@@ -147,7 +147,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {

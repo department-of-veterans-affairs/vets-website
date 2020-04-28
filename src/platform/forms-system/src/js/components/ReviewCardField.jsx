@@ -167,9 +167,23 @@ export default class ReviewCardField extends React.Component {
       'vads-u-margin-x--0',
     ].join(' ');
 
-    const buttonClasses = ['vads-u-margin-top--1', 'vads-u-width--auto'].join(
-      ' ',
-    );
+    const updateButtonClasses = [
+      'update-button',
+      'usa-button-primary',
+      'vads-u-margin-top--1',
+      'vads-u-margin-right--1p5',
+      'vads-u-width--auto',
+    ].join(' ');
+
+    const cancelButtonClasses = [
+      'cancel-button',
+      // keeping secondary style, but it has a shadow box outline; removed by
+      // inline styling. And we can't use `va-button-link` because when hovered,
+      // it removes all padding & add a background color (using !important)
+      'usa-button-secondary',
+      'vads-u-text-decoration--underline',
+      'vads-u-width--auto',
+    ].join(' ');
 
     return (
       <div className="review-card">
@@ -191,17 +205,13 @@ export default class ReviewCardField extends React.Component {
             readonly={readonly}
           />
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
-            <button
-              className={`update-button usa-button-primary ${buttonClasses} vads-u-margin-right--2p5`}
-              style={{ minWidth: '12rem' }}
-              onClick={this.update}
-            >
-              {volatileData ? 'Save' : 'Done'}
+            <button className={updateButtonClasses} onClick={this.update}>
+              Save
             </button>
             {((volatileData && this.state.canCancel) || !volatileData) && (
               <button
-                className={`cancel-button usa-button-secondary ${buttonClasses}`}
-                style={{ minWidth: '12rem' }}
+                className={cancelButtonClasses}
+                style={{ boxShadow: 'none' }}
                 onClick={this.cancelUpdate}
               >
                 Cancel

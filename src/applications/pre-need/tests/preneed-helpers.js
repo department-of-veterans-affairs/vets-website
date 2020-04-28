@@ -62,10 +62,6 @@ function completeVeteranInformation(client, data) {
       data.application.veteran.gender,
     )
     .selectRadio(
-      'root_application_veteran_ethnicity',
-      data.application.veteran.ethnicity,
-    )
-    .selectRadio(
       'root_application_veteran_maritalStatus',
       data.application.veteran.maritalStatus,
     )
