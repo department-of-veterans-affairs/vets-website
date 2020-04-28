@@ -355,10 +355,6 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
   };
 }
 
-export function calculateBenefits() {
-  return { type: FILTER_TOGGLED };
-}
-
 export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
