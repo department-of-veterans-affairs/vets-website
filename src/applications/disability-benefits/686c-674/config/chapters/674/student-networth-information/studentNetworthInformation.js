@@ -1,32 +1,9 @@
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
+import { report674 } from '../../../utilities';
 import { StudentNameHeader } from '../helpers';
 
-const { currencyInput } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    studentDoesHaveNetworth: {
-      type: 'boolean',
-    },
-    networthInformation: {
-      type: 'object',
-      properties: {
-        savings: currencyInput,
-        securities: currencyInput,
-        realEstate: currencyInput,
-        otherAssets: currencyInput,
-        remarks: {
-          type: 'string',
-          maxLength: 500,
-          pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*]+$',
-        },
-      },
-    },
-  },
-};
+export const schema = report674.properties.studentNetworthInformation;
 
 export const uiSchema = {
   'ui:title': StudentNameHeader,
@@ -36,7 +13,7 @@ export const uiSchema = {
     'ui:title': 'Does the student have savings, investments, property, etc?',
     'ui:widget': 'yesNo',
   },
-  networthInformation: {
+  studentNetworthInformation: {
     'ui:options': {
       expandUnder: 'studentDoesHaveNetworth',
       expandUnderCondition: true,
