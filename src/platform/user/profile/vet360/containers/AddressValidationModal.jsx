@@ -150,14 +150,13 @@ class AddressValidationModal extends React.Component {
       countryCodeIso3,
     } = address;
 
-    // Check what's desired for military base
-    // countryCodeIso3: livesOnMilitaryBase
-    // ? USA.COUNTRY_ISO3_CODE
-    // : countryCodeIso3,
-
+    // We display the country except for US addresses (including military bases)
     const displayCountry = countries.find(
-      country => country.countryCodeISO3 === countryCodeIso3,
+      country =>
+        country.countryCodeISO3 === countryCodeIso3 &&
+        countryCodeIso3 !== 'USA',
     );
+
     const displayCountryName = displayCountry?.countryName;
 
     const isAddressFromUser = id === 'userEntered';
@@ -174,17 +173,18 @@ class AddressValidationModal extends React.Component {
         key={id}
         className="vads-u-margin-bottom--1p5 address-validation-container"
       >
-        {isFirstOptionOrEnabled && hasConfirmedSuggestions && (
-          <input
-            className="address-validation-input"
-            type="radio"
-            id={id}
-            onChange={
-              isFirstOptionOrEnabled && this.onChangeHandler(address, id)
-            }
-            checked={selectedAddressId === id}
-          />
-        )}
+        {isFirstOptionOrEnabled &&
+          hasConfirmedSuggestions && (
+            <input
+              className="address-validation-input"
+              type="radio"
+              id={id}
+              onChange={
+                isFirstOptionOrEnabled && this.onChangeHandler(address, id)
+              }
+              checked={selectedAddressId === id}
+            />
+          )}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
@@ -194,24 +194,30 @@ class AddressValidationModal extends React.Component {
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
 
-            {city && stateCode && zipCode && (
-              <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
-            )}
-            {city && province && internationalPostalCode && (
-              <span>{` ${city}, ${province}, ${internationalPostalCode}`}</span>
-            )}
+            {city &&
+              stateCode &&
+              zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
+            {city &&
+              province &&
+              internationalPostalCode && (
+                <span
+                >{` ${city}, ${province}, ${internationalPostalCode}`}</span>
+              )}
             {/* State/Province/Region is not required with international addresses */}
-            {city && !province && internationalPostalCode && (
-              <span>{` ${city}, ${internationalPostalCode}`}</span>
-            )}
+            {city &&
+              !province &&
+              internationalPostalCode && (
+                <span>{` ${city}, ${internationalPostalCode}`}</span>
+              )}
 
             {displayCountryName && <span>{displayCountryName}</span>}
 
-            {isAddressFromUser && showEditLink && (
-              <button className="va-button-link" onClick={this.onEditClick}>
-                Edit Address
-              </button>
-            )}
+            {isAddressFromUser &&
+              showEditLink && (
+                <button className="va-button-link" onClick={this.onEditClick}>
+                  Edit Address
+                </button>
+              )}
           </div>
         </label>
       </div>
