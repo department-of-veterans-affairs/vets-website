@@ -12,15 +12,8 @@ import {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { isServerError, isClientError } from '../util';
 import { errorFragment, infoFragment, breadcrumbLinks } from './helpers';
-import recordEvent from 'platform/monitoring/record-event';
 
 class ViewDependentsLayout extends Component {
-  fireAnalyticsEvent = () => {
-    recordEvent({
-      event: 'cta-primary-button-click',
-    });
-  };
-
   render() {
     let mainContent;
 
@@ -47,9 +40,7 @@ class ViewDependentsLayout extends Component {
       <div className="vads-l-grid-container vads-u-padding--2">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            <ViewDependentsHeader
-              fireAnalyticsEvent={this.fireAnalyticsEvent}
-            />
+            <ViewDependentsHeader />
             {mainContent}
           </div>
           <div className="vads-l-col--12 medium-screen:vads-l-col--4">
