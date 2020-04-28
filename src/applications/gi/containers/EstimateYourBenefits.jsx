@@ -11,22 +11,22 @@ import {
 } from '../actions';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import CalculatorForm from '../components/profile/CalculatorForm';
-import SectionItem from '../components/SectionItem';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import { createId } from '../utils/helpers';
 import BenefitsForm from '../components/search/BenefitsForm';
+import AccordionItem from '../components/AccordionItem';
 
 export class EstimateYourBenefits extends React.Component {
   renderYourBenefits = () => (
-    <SectionItem
-      title={'Your benefits'}
+    <AccordionItem
+      button={'Your benefits'}
       id={`eyb-${createId('Your benefits')}`}
-      expanded
+      section
     >
       <form>
         <BenefitsForm eligibilityChange={this.props.eligibilityChange} />
       </form>
-    </SectionItem>
+    </AccordionItem>
   );
 
   renderAboutYourSchool = () => {
@@ -36,10 +36,11 @@ export class EstimateYourBenefits extends React.Component {
       calculated: { inputs: displayed },
     } = this.props;
     return (
-      <SectionItem
-        title={'About your school'}
+      <AccordionItem
+        button={'About your school'}
         id={`eyb-${createId('About your school')}`}
-        className={'calculator-inputs'}
+        expanded={false}
+        section
       >
         <CalculatorForm
           profile={profile}
@@ -51,21 +52,25 @@ export class EstimateYourBenefits extends React.Component {
           onInputChange={this.props.calculatorInputChange}
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
         />
-      </SectionItem>
+      </AccordionItem>
     );
   };
 
   renderLearningFormatAndSchedule = () => (
-    <SectionItem
-      title={'Learning format and schedule'}
+    <AccordionItem
+      button={'Learning format and schedule'}
       id={`eyb-${createId('Learning format and schedule')}`}
+      expanded={false}
+      section
     />
   );
 
   renderScholarshipsAndOtherFunding = () => (
-    <SectionItem
-      title={'Scholarships and other funding'}
+    <AccordionItem
+      button={'Scholarships and other funding'}
       id={`eyb-${createId('Scholarships and other funding')}`}
+      expanded={false}
+      section
     />
   );
 
@@ -82,10 +87,12 @@ export class EstimateYourBenefits extends React.Component {
       <div className="row calculate-your-benefits">
         <div className={fraction}>
           <p>Use the fields below to calculate your benefits:</p>
-          {this.renderYourBenefits()}
-          {this.renderAboutYourSchool()}
-          {this.renderLearningFormatAndSchedule()}
-          {this.renderScholarshipsAndOtherFunding()}
+          <ul className="eyb-inputs-ul vads-u-padding--0">
+            {this.renderYourBenefits()}
+            {this.renderAboutYourSchool()}
+            {this.renderLearningFormatAndSchedule()}
+            {this.renderScholarshipsAndOtherFunding()}
+          </ul>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={calculator} />
