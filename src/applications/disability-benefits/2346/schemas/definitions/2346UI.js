@@ -105,6 +105,7 @@ export default {
         required: 'Please enter an email address',
       },
       'ui:options': {
+        classNames: 'vads-u-margin-bottom--3',
         widgetClassNames: 'va-input-large',
         inputType: 'email',
       },
