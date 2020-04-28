@@ -4,6 +4,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import { focusElement } from '../../../platform/utilities/ui';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
@@ -62,7 +63,9 @@ class StatusPage extends React.Component {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                href={this.props.eBenefitsUrl(
+                  'ebenefits/about/feature?feature=payment-history',
+                )}
                 onClick={() =>
                   recordEvent({
                     event: 'nav-ebenefits-click',
@@ -91,6 +94,7 @@ class StatusPage extends React.Component {
 function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
+    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 

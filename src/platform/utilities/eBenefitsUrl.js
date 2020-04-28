@@ -15,6 +15,7 @@ const eauthPathMap = {
     'ebenefits/vre',
   'ebenefits/about/feature?feature=direct-deposit-and-contact-information':
     'ebenefits/manage/contact',
+  'ebenefits/about/feature?feature=payment-history': 'ebenefits/payments',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;

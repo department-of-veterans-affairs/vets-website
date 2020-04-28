@@ -299,7 +299,7 @@ class PaymentInformation extends React.Component {
           <DirectDepositDownAlert />
           <AdditionalInfos
             recordProfileNavEvent={recordProfileNavEvent}
-            eBenfitsUrl={this.props.eBenfitsUrl}
+            eBenefitsUrl={this.props.eBenefitsUrl}
           />
           {content}
         </DowntimeNotification>
@@ -334,7 +334,7 @@ const mapStateToProps = state => {
       isEvssAvailable &&
       !isDirectDepositBlocked &&
       (isDirectDepositSetUp || isEligibleToSignUp),
-    eBenfitsUrl: eBenefitsUrlGenerator(state),
+    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 };
 
