@@ -5,5 +5,4 @@ src/applications/**/README.md
 coverage/*
 temp/*
 .nyc_output/*
-script/watch.js
 script/mocha.js

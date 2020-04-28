@@ -6,7 +6,7 @@ import {
 } from '../../authentication/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import { ssoKeepAliveSession } from 'platform/utilities/api/ssoHelpers';
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
 
 import {
   ADDRESS_VALIDATION_TYPES,
@@ -133,11 +133,13 @@ export const hasSession = () => localStorage.getItem('hasSession');
 
 export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
 
-export async function setupProfileSession(userProfile) {
+export function setupProfileSession(userProfile, useSSOe) {
   const { firstName, signIn } = userProfile;
   const loginType = (signIn && signIn.serviceName) || null;
   localStorage.setItem('hasSession', true);
-  await ssoKeepAliveSession();
+  if (useSSOe) {
+    ssoKeepAliveSession();
+  }
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.

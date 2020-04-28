@@ -351,26 +351,34 @@
       "type": "string"
     },
     "supplies": {
-      "type": "object",
-      "properties": {
-        "productName": {
-          "type": "string"
-        },
-        "productGroup": {
-          "type": "string"
-        },
-        "productId": {
-          "type": "number"
-        },
-        "availableForReorder": {
-          "type": "boolean"
-        },
-        "lastOrderDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "quantity": {
-          "type": "number"
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "properties": {
+          "deviceName": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productGroup": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "availableForReorder": {
+            "type": "boolean"
+          },
+          "lastOrderDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "quantity": {
+            "type": "number"
+          }
         }
       }
     },

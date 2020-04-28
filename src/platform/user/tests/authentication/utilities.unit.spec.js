@@ -6,6 +6,8 @@ import {
   verify,
   logout,
   signup,
+  autoLogin,
+  autoLogout,
 } from '../../authentication/utilities';
 
 let oldSessionStorage;
@@ -86,5 +88,15 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
+  });
+
+  it.skip('should redirect for SSO auto-login', () => {
+    autoLogin();
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it.skip('should redirect for SSO auto-logout', () => {
+    autoLogout();
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 });
