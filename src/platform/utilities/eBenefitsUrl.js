@@ -11,6 +11,8 @@ const eauthPathMap = {
   'ebenefits-portal/ebenefits.portal': 'homepage',
   'ebenefits/about/feature?feature=disability-compensation':
     'vdc?target=%2Fwssweb%2FVDC526%2Fcompensation.do',
+  'ebenefits/about/feature?feature=vocational-rehabilitation-and-employment':
+    'vre',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;

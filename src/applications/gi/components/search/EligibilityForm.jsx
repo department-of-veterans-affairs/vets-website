@@ -9,6 +9,7 @@ import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { isLoggedIn } from 'platform/user/selectors';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -119,7 +120,9 @@ export class EligibilityForm extends React.Component {
             <i className="fa fa-info-circle" />
             To apply for VR&E benefits, please{' '}
             <a
-              href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
+              href={this.props.eBenefitsUrl(
+                'ebenefits/about/feature?feature=vocational-rehabilitation-and-employment',
+              )}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -202,6 +205,7 @@ export class EligibilityForm extends React.Component {
 const mapStateToProps = state => ({
   ...state.eligibility,
   isLoggedIn: isLoggedIn(state),
+  eBenefitsUrl: eBenefitsUrlGenerator(state),
 });
 
 const mapDispatchToProps = {
