@@ -105,8 +105,8 @@ class SelectArrayItemsBatteriesWidget extends Component {
                         selectedProduct =>
                           selectedProduct.productId === supply.productId,
                       )
-                        ? `${BLUE_BACKGROUND} accessory-page-order-btns accessory-page`
-                        : `${WHITE_BACKGROUND} accessory-page-order-btns`
+                        ? BLUE_BACKGROUND
+                        : WHITE_BACKGROUND
                     }
                   >
                     <input
