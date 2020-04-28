@@ -31,13 +31,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectFirstSearchResult(client);
 
   // Profile Page
+  client
+    .waitForElementVisible('.profile-page', Timeouts.normal)
+    .axeCheck('.main');
   GiHelpers.expectLocation(
     client,
     `/profile/${institutionAttributes.facility_code}`,
   );
-  client
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main'); // commented out until 7727 is fixed
 
   GiHelpers.displayLearnMoreModal(client);
 
