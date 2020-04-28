@@ -92,10 +92,6 @@ function applyDefaultOptions(options) {
       destination: './',
     },
     destination: path.resolve(projectRoot, 'build', options.buildtype),
-    appAssets: {
-      source: '../../assets',
-      destination: './',
-    },
     layouts,
     collections: require('./data/collections.json'),
     watchPaths: [
