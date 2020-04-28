@@ -55,6 +55,8 @@ export default {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        hideOnReview: formData =>
+          formData.currentAddress !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
@@ -84,6 +86,8 @@ export default {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        hideOnReview: formData =>
+          formData.currentAddress !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
