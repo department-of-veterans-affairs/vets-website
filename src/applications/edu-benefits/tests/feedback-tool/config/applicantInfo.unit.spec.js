@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-} from '../../../../../platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool applicant info', () => {

@@ -121,8 +121,13 @@
 
     <!-- TODO: Add breadcrumbs -->
 
-    <script async src="/js/incompatible-browser.js"></script>
-
+    <script type="text/javascript">
+    (function() {
+      var module = {};
+      {% include "src/site/assets/js/incompatible-browser.js" %}
+      checkBrowserCompatibility();
+    })();
+    </script>
 
     <!-- React root -->
     <div id="content">
