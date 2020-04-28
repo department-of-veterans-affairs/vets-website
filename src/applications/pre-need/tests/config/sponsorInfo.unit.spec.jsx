@@ -66,7 +66,6 @@ describe('Pre-need sponsor information', () => {
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
     selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'white');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
     selectRadio(form, 'root_application_veteran_isDeceased', 'no');

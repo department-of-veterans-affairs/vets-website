@@ -60,7 +60,6 @@ describe('Pre-need veteran information', () => {
     );
 
     selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'americanIndian');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
@@ -93,7 +92,6 @@ describe('Pre-need veteran information', () => {
       'Amherst, MA',
     );
     selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'americanIndian');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
