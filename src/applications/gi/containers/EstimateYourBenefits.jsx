@@ -7,9 +7,15 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  hideModal,
   eligibilityChange,
+  updateEstimatedBenefits,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
 import { getCalculatedBenefits } from '../selectors/calculator';
+import BenefitsForm from '../components/profile/EybEligibilityForm';
+import EybCalculatorForm from '../components/profile/EybCalculatorForm';
 import CalculatorForm from '../components/profile/CalculatorForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import { createId } from '../utils/helpers';
@@ -25,6 +31,8 @@ export class EstimateYourBenefits extends React.Component {
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
     };
+
+    this.updateEstimatedBenefits();
   }
 
   toggleYourBenefits = expanded => {
@@ -81,6 +89,11 @@ export class EstimateYourBenefits extends React.Component {
     });
   };
 
+  updateEstimatedBenefits = () => {
+    this.props.updateEstimatedBenefits(this.props.calculated.outputs);
+    focusElement('#estimated-benefits');
+  };
+
   renderYourBenefits = () => (
     <AccordionItem
       button={'Your benefits'}
@@ -90,7 +103,13 @@ export class EstimateYourBenefits extends React.Component {
       onClick={this.toggleYourBenefits}
     >
       <form>
-        <BenefitsForm eligibilityChange={this.props.eligibilityChange} />
+        <BenefitsForm
+          eligibilityChange={this.props.eligibilityChange}
+          eligibility={this.props.eligibility}
+          isLoggedIn={this.props.isLoggedIn}
+          hideModal={this.props.hideModal}
+          showModal={this.props.showModal}
+        />
       </form>
     </AccordionItem>
   );
@@ -109,7 +128,7 @@ export class EstimateYourBenefits extends React.Component {
         section
         onClick={this.toggleAboutYourSchool}
       >
-        <CalculatorForm
+        <EybCalculatorForm
           profile={profile}
           eligibility={this.props.eligibility}
           eligibilityChange={this.props.eligibilityChange}
@@ -118,6 +137,7 @@ export class EstimateYourBenefits extends React.Component {
           onShowModal={this.props.showModal}
           onInputChange={this.props.calculatorInputChange}
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+          estimatedBenefits={this.props.estimatedBenefits}
         />
       </AccordionItem>
     );
@@ -144,12 +164,12 @@ export class EstimateYourBenefits extends React.Component {
   );
 
   render() {
-    if (isEmpty(this.props.calculated)) {
+    if (isEmpty(this.props.estimatedBenefits)) {
       return <LoadingIndicator message="Loading your estimated benefits..." />;
     }
 
     const fraction = 'usa-width-one-eigth medium-5 columns';
-    const { outputs } = this.props.calculated;
+    const outputs = this.props.estimatedBenefits;
     const { calculator } = this.props;
 
     return (
@@ -162,6 +182,12 @@ export class EstimateYourBenefits extends React.Component {
             {this.renderLearningFormatAndSchedule()}
             {this.renderScholarshipsAndOtherFunding()}
           </ul>
+          <button
+            className="usa-primary-button"
+            onClick={this.updateEstimatedBenefits}
+          >
+            Calculate Your Benefits
+          </button>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={calculator} />
@@ -175,13 +201,17 @@ const mapStateToProps = (state, props) => ({
   profile: state.profile,
   calculated: getCalculatedBenefits(state, props),
   eligibility: state.eligibility,
+  estimatedBenefits: state.calculator.estimatedBenefits,
+  isLoggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  hideModal,
   eligibilityChange,
+  updateEstimatedBenefits,
 };
 
 export default connect(

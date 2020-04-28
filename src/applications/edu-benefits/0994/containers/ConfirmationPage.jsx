@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 const scroller = Scroll.scroller;

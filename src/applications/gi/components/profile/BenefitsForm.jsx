@@ -1,14 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { showModal, hideModal } from '../../actions';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { isLoggedIn } from 'platform/user/selectors';
+import PropTypes from 'prop-types';
 
 export class BenefitsForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -38,10 +35,9 @@ export class BenefitsForm extends React.Component {
     });
 
   render() {
-    const showHeader = this.props.showHeader || false;
     return (
       <div className="eligibility-form">
-        {showHeader && <h2>Your benefits</h2>}
+        <h2>Your eligibility</h2>
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
@@ -111,7 +107,7 @@ export class BenefitsForm extends React.Component {
                 Post 9/11 GI Bill
               </a>{' '}
               recipients serving on Active Duty (or transferee spouses of a
-              service member on active duty) are not eligible to receive a
+              servicemember on active duty) are not eligible to receive a
               monthly housing allowance.
             </div>
           )}
@@ -200,17 +196,13 @@ export class BenefitsForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state.eligibility,
-  isLoggedIn: isLoggedIn(state),
-});
-
-const mapDispatchToProps = {
-  showModal,
-  hideModal,
+BenefitsForm.propTypes = {
+  eligibility: PropTypes.object,
+  estimatedBenefits: PropTypes.object,
+  showModal: PropTypes.func,
+  hideModal: PropTypes.func,
+  onHideModal: PropTypes.func,
+  eligibilityChange: PropTypes.func,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BenefitsForm);
+export default BenefitsForm;
