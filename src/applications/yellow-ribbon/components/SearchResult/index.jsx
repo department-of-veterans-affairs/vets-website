@@ -82,7 +82,7 @@ export const deriveInstURLLabel = (school = {}) => {
 
   // Show the school's website URL.
   return (
-    <a href={school?.insturl} rel="noreferrer noopener">
+    <a href={`//${school?.insturl}`} rel="noreferrer noopener" target="_blank">
       {toLower(school?.insturl)}
     </a>
   );
