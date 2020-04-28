@@ -41,6 +41,21 @@ const INITIAL_STATE = {
   vetTecScholarships: null,
   vetTecProgramName: '',
   classesOutsideUS: false,
+  calculated: {
+    bookStipend: { visible: false },
+    giBillPaysToSchool: { visible: false },
+    housingAllowance: { visible: false },
+    outOfPocketTuition: { visible: false },
+    totalPaidToYou: { visible: false },
+    tuitionAndFeesCharged: { visible: false },
+    yourScholarships: { visible: false },
+    perTerm: {
+      tuitionFees: {},
+      yellowRibbon: {},
+      housingAllowance: {},
+      bookStipend: {},
+    },
+  },
 };
 
 export default function(state = INITIAL_STATE, action) {
