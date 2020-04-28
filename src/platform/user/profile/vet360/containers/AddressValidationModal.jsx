@@ -17,6 +17,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 import recordEvent from 'platform/monitoring/record-event';
+import countries from 'platform/user/profile/vet360/constants/countries.json';
 
 import * as VET360 from '../constants';
 
@@ -144,7 +145,20 @@ class AddressValidationModal extends React.Component {
       city,
       stateCode,
       zipCode,
+      internationalPostalCode,
+      province,
+      countryCodeIso3,
     } = address;
+
+    // Check what's desired for military base
+    // countryCodeIso3: livesOnMilitaryBase
+    // ? USA.COUNTRY_ISO3_CODE
+    // : countryCodeIso3,
+
+    const displayCountry = countries.find(
+      country => country.countryCodeISO3 === countryCodeIso3,
+    );
+    const displayCountryName = displayCountry?.countryName;
 
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
@@ -160,18 +174,17 @@ class AddressValidationModal extends React.Component {
         key={id}
         className="vads-u-margin-bottom--1p5 address-validation-container"
       >
-        {isFirstOptionOrEnabled &&
-          hasConfirmedSuggestions && (
-            <input
-              className="address-validation-input"
-              type="radio"
-              id={id}
-              onChange={
-                isFirstOptionOrEnabled && this.onChangeHandler(address, id)
-              }
-              checked={selectedAddressId === id}
-            />
-          )}
+        {isFirstOptionOrEnabled && hasConfirmedSuggestions && (
+          <input
+            className="address-validation-input"
+            type="radio"
+            id={id}
+            onChange={
+              isFirstOptionOrEnabled && this.onChangeHandler(address, id)
+            }
+            checked={selectedAddressId === id}
+          />
+        )}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
@@ -180,15 +193,25 @@ class AddressValidationModal extends React.Component {
             {addressLine1 && <span>{addressLine1}</span>}
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
-            {city &&
-              stateCode &&
-              zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
-            {isAddressFromUser &&
-              showEditLink && (
-                <button className="va-button-link" onClick={this.onEditClick}>
-                  Edit Address
-                </button>
-              )}
+
+            {city && stateCode && zipCode && (
+              <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
+            )}
+            {city && province && internationalPostalCode && (
+              <span>{` ${city}, ${province}, ${internationalPostalCode}`}</span>
+            )}
+            {/* State/Province/Region is not required with international addresses */}
+            {city && !province && internationalPostalCode && (
+              <span>{` ${city}, ${internationalPostalCode}`}</span>
+            )}
+
+            {displayCountryName && <span>{displayCountryName}</span>}
+
+            {isAddressFromUser && showEditLink && (
+              <button className="va-button-link" onClick={this.onEditClick}>
+                Edit Address
+              </button>
+            )}
           </div>
         </label>
       </div>
