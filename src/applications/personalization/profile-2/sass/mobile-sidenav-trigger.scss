@@ -18,11 +18,9 @@
       background-color: $color-primary-darker;
     }
 
-    &:focus,
-    &:hover {
-      svg {
-        fill: $color-white;
-      }
+    & img {
+      height: 10px;
+      width: auto;
     }
   }
 }
