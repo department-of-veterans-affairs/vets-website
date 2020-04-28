@@ -25,12 +25,10 @@ describe('VAOS Organization service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/facilities?facility_codes[]=983&facility_codes[]=984',
       );
-      expect(data.entry[0].identifier[0].value).to.equal(
-        facilitiesParsed[0].id,
-      );
+      expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
     });
 
-    describe('should return OperationOutcome error', async () => {
+    it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],

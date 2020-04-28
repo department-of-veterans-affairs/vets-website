@@ -10,7 +10,7 @@ const { preferredContactMethod } = schemaDefinitions;
 
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import * as address from '../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 
 export default function createContactInformationPage(
   schema,

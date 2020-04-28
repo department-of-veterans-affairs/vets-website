@@ -64,32 +64,20 @@ describe('686 current marriage information', () => {
         onSubmit={onSubmit}
       />,
     );
-    changeDropdown(
-      form,
-      'select#root_currentMarriageDetails_dateOfMarriageMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentMarriageDetails_dateOfMarriageDay',
-      1,
-    );
+    changeDropdown(form, 'select#root_currentMarriageInformation_dateMonth', 1);
+    changeDropdown(form, 'select#root_currentMarriageInformation_dateDay', 1);
+    fillData(form, 'input#root_currentMarriageInformation_dateYear', '2010');
     fillData(
       form,
-      'input#root_currentMarriageDetails_dateOfMarriageYear',
-      '2010',
-    );
-    fillData(
-      form,
-      'input#root_currentMarriageDetails_locationOfMarriage_state',
+      'input#root_currentMarriageInformation_location_state',
       'California',
     );
     fillData(
       form,
-      'input#root_currentMarriageDetails_locationOfMarriage_city',
+      'input#root_currentMarriageInformation_location_city',
       'Los Angeles',
     );
-    selectRadio(form, 'root_currentMarriageDetails_marriageType', 'CEREMONIAL');
+    selectRadio(form, 'root_currentMarriageInformation_type', 'CEREMONIAL');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

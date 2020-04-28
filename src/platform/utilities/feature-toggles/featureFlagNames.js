@@ -18,4 +18,5 @@ export default Object.freeze({
   eduSection103: 'edu_section_103',
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
+  form526OriginalClaims: 'form526OriginalClaims',
 });

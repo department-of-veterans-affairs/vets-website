@@ -28,7 +28,7 @@
       ]
     },
     "veteranDomesticAddress": {
-      "countryName": "United States",
+      "countryName": "USA",
       "addressLine1": "123 at home dr",
       "city": "The City",
       "stateCode": "AL",
@@ -55,7 +55,7 @@
         "personChildLivesWithDetails": {
           "firstName": "Bob",
           "lastName": "Sacamano",
-          "countryName": "United States",
+          "countryName": "USA",
           "addressLine1": "123 at home dr",
           "city": "The City",
           "stateCode": "AL",
@@ -102,9 +102,9 @@
       "spouseWasMarriedBeforeNo": "N",
       "doesLiveWithVeteranYes": "Y",
       "doesLiveWithVeteranNo": "N",
-      "reasonForSeparation": "a reason",
+      "reasonForSeparation": "Other",
       "spouseAddress": {
-        "countryName": "United States",
+        "countryName": "USA",
         "addressLine1": "123 at home dr",
         "city": "The City",
         "stateCode": "AL",
