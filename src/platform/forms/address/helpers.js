@@ -22,9 +22,9 @@ export const ADDRESS_TYPES = {
  * @typedef {object} Address
  * @property {AddressType} type
  * @property {string} countryName
- * @property {string} [addressOne]
- * @property {string} [addressTwo]
- * @property {string} [addressThree]
+ * @property {string} [addressLine1]
+ * @property {string} [addressLine2]
+ * @property {string} [addressLine3]
  * @property {string} [addressEffectiveAt]
  * @property {string} [city]
  * @property {string} [stateCode]
@@ -126,32 +126,52 @@ export function getStateName(abbreviation = '') {
 export function formatAddress(address) {
   /* eslint-disable prefer-template */
 
+  const {
+    addressLine1,
+    addressLine3,
+    addressLine2,
+    city,
+    countryName,
+    internationalPostalCode,
+    militaryPostOfficeTypeCode,
+    militaryStateCode,
+    province,
+    stateCode,
+    type,
+    zipCode,
+  } = address;
+
+  const country = type === ADDRESS_TYPES.international ? countryName : '';
+  let cityStateZip = '';
+
   const street =
-    [address.addressOne, address.addressTwo, address.addressThree]
+    [addressLine1, addressLine2, addressLine3]
       .filter(item => item)
       .join(', ') || '';
 
-  const country =
-    address.type === ADDRESS_TYPES.international ? address.countryName : '';
-  let cityStateZip = '';
-
-  switch (address.type) {
+  switch (type) {
     case ADDRESS_TYPES.domestic:
-      cityStateZip = address.city || '';
-      if (address.city && address.stateCode) cityStateZip += ', ';
-      if (address.stateCode) cityStateZip += getStateName(address.stateCode);
-      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
+      cityStateZip = city || '';
+      if (city && stateCode) cityStateZip += ', ';
+      if (stateCode) cityStateZip += getStateName(stateCode);
+      if (zipCode) cityStateZip += ' ' + zipCode;
       break;
 
     case ADDRESS_TYPES.military:
-      cityStateZip = address.militaryPostOfficeTypeCode || '';
-      if (address.militaryPostOfficeTypeCode && address.militaryStateCode)
-        cityStateZip += ', ';
-      if (address.militaryStateCode) cityStateZip += address.militaryStateCode;
-      if (address.zipCode) cityStateZip += ' ' + address.zipCode;
+      cityStateZip = militaryPostOfficeTypeCode || '';
+      if (militaryPostOfficeTypeCode && militaryStateCode) cityStateZip += ', ';
+      if (militaryStateCode) cityStateZip += militaryStateCode;
+      if (zipCode) cityStateZip += ' ' + zipCode;
       break;
 
+    // For international addresses we add a comma after the province
     case ADDRESS_TYPES.international:
+      cityStateZip =
+        [city, province, internationalPostalCode]
+          .filter(item => item)
+          .join(', ') || '';
+      break;
+
     default:
       cityStateZip = address.city;
   }
