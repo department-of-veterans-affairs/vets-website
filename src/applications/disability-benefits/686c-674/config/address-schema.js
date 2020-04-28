@@ -108,7 +108,7 @@ export const addressUISchema = (
     return {
       'view:livesOnMilitaryBase': {
         'ui:title':
-          'I live on a United States military base outside of the United States',
+          'I live on a United States military base outside of the U.S.',
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
         },
@@ -147,7 +147,7 @@ export const addressUISchema = (
       },
       addressLine1: {
         'ui:required': callback,
-        'ui:title': 'Street address',
+        'ui:title': 'Street',
         'ui:errorMessages': {
           required: 'Street address is required',
           pattern: 'Street address must be under 100 characters',
@@ -263,10 +263,10 @@ export const addressUISchema = (
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
-        'ui:title': 'Zip Code',
+        'ui:title': 'Postal Code',
         'ui:errorMessages': {
-          required: 'Zip code is required',
-          pattern: 'Zip code must be 5 digits',
+          required: 'Postal code is required',
+          pattern: 'Postal code must be 5 digits',
         },
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
@@ -298,7 +298,7 @@ export const addressUISchema = (
         },
         'ui:title': 'International postal code',
         'ui:errorMessages': {
-          required: 'Postal code is required',
+          required: 'International postal code is required',
         },
         'ui:options': {
           widgetClassNames: 'usa-input-medium',

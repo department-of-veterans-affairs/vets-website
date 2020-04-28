@@ -13,7 +13,7 @@ export const uiSchema = {
   'view:selectable686Options': {
     'ui:options': { showFieldLabel: true },
     'ui:validations': [validateAtLeastOneSelected],
-    'ui:title': 'What would you like to do? (Check all that apply)',
+    'ui:title': 'What do you want to do?',
     addChild: {
       'ui:title': 'Claim additional benefits for a child',
     },

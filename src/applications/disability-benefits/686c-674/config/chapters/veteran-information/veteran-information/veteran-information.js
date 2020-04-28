@@ -28,6 +28,7 @@ export const uiSchema = {
         'ui:required': () => true,
       },
       suffix: {
+        'ui:title': 'Suffix',
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
         },

@@ -15,7 +15,7 @@ export const uiSchema = {
       location: {
         'ui:title': 'Place of death',
         city: {
-          'ui:title': 'City (or APO/FPO/DPO)',
+          'ui:title': 'City or county',
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
         },
