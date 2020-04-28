@@ -200,8 +200,7 @@ class AddressValidationModal extends React.Component {
             {city &&
               province &&
               internationalPostalCode && (
-                <span
-                >{` ${city}, ${province}, ${internationalPostalCode}`}</span>
+                <span >{` ${city}, ${province}, ${internationalPostalCode}`}</span>
               )}
             {/* State/Province/Region is not required with international addresses */}
             {city &&
