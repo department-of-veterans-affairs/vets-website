@@ -152,8 +152,12 @@ export default {
       },
     },
     batteriesUI: {
-      'ui:field': SelectArrayItemsBatteriesWidget,
+      'ui:title': ' ',
+      'ui:field': 'StringField',
+      'ui:widget': SelectArrayItemsBatteriesWidget,
+      'ui:reviewWidget': () => <span>FOO</span>,
       'ui:options': {
+        keepInPageOnReview: true,
         expandUnder: viewAddBatteriesField,
         expandUnderCondition: 'yes',
       },
