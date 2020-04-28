@@ -42,6 +42,8 @@ export class EstimateYourBenefits extends React.Component {
       showEligibilityForm: false,
       showCalculatorForm: true,
     };
+
+    this.updateEstimatedBenefits();
   }
 
   toggleEligibilityForm() {
