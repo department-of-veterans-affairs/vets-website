@@ -177,11 +177,14 @@ export default {
       },
     },
     accessoriesUI: {
-      'ui:title': 'Which hearing aid do you need accessories for?',
+      'ui:title': ' ',
+      'ui:field': 'StringField',
       'ui:description':
         'You will be sent a 6 month supply of batteries for each device you select below.',
-      'ui:field': SelectArrayItemsAccessoriesWidget,
+      'ui:widget': SelectArrayItemsAccessoriesWidget,
+      'ui:reviewWidget': () => <span>foo</span>,
       'ui:options': {
+        keepInPageOnReview: true,
         expandUnder: viewAddAccessoriesField,
         expandUnderCondition: 'yes',
       },
