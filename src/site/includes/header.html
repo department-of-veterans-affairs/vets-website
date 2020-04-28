@@ -26,7 +26,9 @@
   {% include "src/site/includes/metatags.liquid" %}
   {% endif %}
 
-  <script src="/js/record-event.js"></script>
+  <script>
+    {% include "src/site/assets/js/record-event.js" %}
+  </script>
 
   {% include 'src/site/includes/google-analytics' %}
 
