@@ -4,7 +4,7 @@ import EligibilityForm from './EligibilityForm';
 import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
-import BenefitsForm from './BenefitsForm';
+import BenefitsForm from '../profile/BenefitsForm';
 
 function InstitutionSearchForm(props) {
   return (

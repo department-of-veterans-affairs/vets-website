@@ -13,7 +13,7 @@ import { getCalculatedBenefits } from '../selectors/calculator';
 import CalculatorForm from '../components/profile/CalculatorForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import { createId } from '../utils/helpers';
-import BenefitsForm from '../components/search/BenefitsForm';
+import BenefitsForm from '../components/profile/BenefitsForm';
 import AccordionItem from '../components/AccordionItem';
 
 export class EstimateYourBenefits extends React.Component {

@@ -24,7 +24,7 @@ import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
-import BenefitsForm from '../components/search/BenefitsForm';
+import BenefitsForm from '../components/profile/BenefitsForm';
 
 export class LandingPage extends React.Component {
   constructor(props) {
