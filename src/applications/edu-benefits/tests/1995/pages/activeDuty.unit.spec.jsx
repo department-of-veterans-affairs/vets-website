@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../../1995/config/form.js';
 

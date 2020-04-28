@@ -4,9 +4,9 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
-import dataUtils from '../../../platform/utilities/data/index';
-import { apiRequest } from '../../../platform/utilities/api';
-import recordEvent from '../../../platform/monitoring/record-event';
+import dataUtils from 'platform/utilities/data/index';
+import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
