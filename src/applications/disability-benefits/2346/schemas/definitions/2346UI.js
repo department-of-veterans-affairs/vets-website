@@ -3,6 +3,7 @@ import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
 import ReviewCardField from '../../components/ReviewCardField';
 import ReviewPageBatteries from '../../components/ReviewPageBatteries';
+import ReviewPageAccessories from '../../components/ReviewPageAccessories';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
@@ -182,7 +183,7 @@ export default {
       'ui:description':
         'You will be sent a 6 month supply of batteries for each device you select below.',
       'ui:widget': SelectArrayItemsAccessoriesWidget,
-      'ui:reviewWidget': () => <span>foo</span>,
+      'ui:reviewWidget': ReviewPageAccessories,
       'ui:options': {
         keepInPageOnReview: true,
         expandUnder: viewAddAccessoriesField,
