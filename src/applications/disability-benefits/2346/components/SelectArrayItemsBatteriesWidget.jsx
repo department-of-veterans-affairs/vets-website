@@ -75,7 +75,7 @@ class SelectArrayItemsBatteriesWidget extends Component {
                     </p>
                   </div>
                 </div>
-                {currentDate.diff(supply.nextAvailabilityDate, 'days') > 0 ? (
+                {currentDate.diff(supply.nextAvailabilityDate, 'days') < 0 ? (
                   <AlertBox
                     className="vads-u-color--black vads-u-background-color--white"
                     headline={`You can't reorder batteries for this device until ${moment(
