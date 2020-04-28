@@ -60,6 +60,8 @@ export const uiSchema = {
       },
     },
     isMarriageAnnulledOrVoid: {
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       'ui:title': 'Was the marriage annulled or declared void?',
       'ui:widget': 'yesNo',
       'ui:errorMessages': {
