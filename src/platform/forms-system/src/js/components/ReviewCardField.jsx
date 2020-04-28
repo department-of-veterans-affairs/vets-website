@@ -219,17 +219,21 @@ export default class ReviewCardField extends React.Component {
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
-            <button className={updateButtonClasses} onClick={this.update}>
-              Save
-            </button>
-            {((volatileData && this.state.canCancel) || !volatileData) && (
-              <button
-                className={cancelButtonClasses}
-                style={{ boxShadow: 'none' }}
-                onClick={this.cancelUpdate}
-              >
-                Cancel
-              </button>
+            {!formContext.reviewMode && (
+              <>
+                <button className={updateButtonClasses} onClick={this.update}>
+                  Save
+                </button>
+                {((volatileData && this.state.canCancel) || !volatileData) && (
+                  <button
+                    className={cancelButtonClasses}
+                    style={{ boxShadow: 'none' }}
+                    onClick={this.cancelUpdate}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
