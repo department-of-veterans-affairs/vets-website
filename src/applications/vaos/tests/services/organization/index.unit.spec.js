@@ -28,7 +28,7 @@ describe('VAOS Organization service', () => {
       expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
     });
 
-    describe('should return OperationOutcome error', async () => {
+    it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { EducationGate } from '../../../0994/containers/EducationGate';
-import backendServices from '../../../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 const user = {
   login: {

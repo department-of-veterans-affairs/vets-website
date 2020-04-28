@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
 
-import { focusElement } from '../../../../platform/utilities/ui';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
+import { focusElement } from 'platform/utilities/ui';
+import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
