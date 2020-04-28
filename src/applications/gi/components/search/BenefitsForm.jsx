@@ -10,7 +10,7 @@ import Dropdown from '../Dropdown';
 import recordEvent from 'platform/monitoring/record-event';
 import { isLoggedIn } from 'platform/user/selectors';
 
-export class EligibilityForm extends React.Component {
+export class BenefitsForm extends React.Component {
   cumulativeServiceOptions = () => [
     { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
     { value: '0.9', label: '30 months: 90% (includes BASIC)' },
@@ -38,9 +38,10 @@ export class EligibilityForm extends React.Component {
     });
 
   render() {
+    const showHeader = this.props.showHeader || false;
     return (
       <div className="eligibility-form">
-        <h2>Your eligibility</h2>
+        {showHeader && <h2>Your benefits</h2>}
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
@@ -110,7 +111,7 @@ export class EligibilityForm extends React.Component {
                 Post 9/11 GI Bill
               </a>{' '}
               recipients serving on Active Duty (or transferee spouses of a
-              servicemember on active duty) are not eligible to receive a
+              service member on active duty) are not eligible to receive a
               monthly housing allowance.
             </div>
           )}
@@ -212,4 +213,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(EligibilityForm);
+)(BenefitsForm);

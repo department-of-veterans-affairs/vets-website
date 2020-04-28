@@ -10,11 +10,11 @@ import {
   eligibilityChange,
 } from '../actions';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import EligibilityForm from '../components/search/EligibilityForm';
 import CalculatorForm from '../components/profile/CalculatorForm';
 import SectionItem from '../components/SectionItem';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import { createId } from '../utils/helpers';
+import BenefitsForm from '../components/search/BenefitsForm';
 
 export class EstimateYourBenefits extends React.Component {
   renderYourBenefits = () => (
@@ -24,10 +24,7 @@ export class EstimateYourBenefits extends React.Component {
       expanded
     >
       <form>
-        <EligibilityForm
-          eligibilityChange={this.props.eligibilityChange}
-          showHeader={false}
-        />
+        <BenefitsForm eligibilityChange={this.props.eligibilityChange} />
       </form>
     </SectionItem>
   );
