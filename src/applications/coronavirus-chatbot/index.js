@@ -131,9 +131,7 @@ export const requestChatBot = loc => {
   }
   return apiRequest(path, { method: 'POST' })
     .then(({ token }) => initBotConversation(token))
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error);
+    .catch(() => {
       recordEvent({
         event: `${GA_PREFIX}-connection-failure`,
         'error-key': 'XX_failed_to_init_bot_convo',
