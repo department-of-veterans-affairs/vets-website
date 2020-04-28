@@ -19,7 +19,7 @@ export default () => (
     <h2>Frequently used VA forms</h2>
     <p>
       You can now do many forms-based tasks online, like filing a disability
-      claim and applying for the GI Bill or VA health care. We'll walk you
+      claim and applying for the GI Bill or VA health care. We&apos;ll walk you
       through the process step-by-step.
     </p>
     <ul className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
