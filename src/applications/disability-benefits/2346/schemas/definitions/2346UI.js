@@ -93,6 +93,7 @@ export default {
     currentAddressUI: {
       'ui:options': {
         classNames: 'vads-u-display--none',
+        hideOnReview: true,
       },
     },
     emailUI: {
@@ -104,7 +105,6 @@ export default {
         required: 'Please enter an email address',
       },
       'ui:options': {
-        classNames: 'vads-u-margin-bottom--3',
         widgetClassNames: 'va-input-large',
         inputType: 'email',
       },
@@ -129,6 +129,7 @@ export default {
       'ui:options': {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
+        hideOnReview: true,
       },
       'ui:validations': [
         {
