@@ -7,15 +7,15 @@ import _ from 'lodash/fp';
 import { FormPage } from './FormPage';
 import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 
-import SaveFormLink from '../../../../platform/forms/save-in-progress/SaveFormLink';
-import SaveStatus from '../../../../platform/forms/save-in-progress/SaveStatus';
+import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
+import SaveStatus from 'platform/forms/save-in-progress/SaveStatus';
 import {
   saveErrors,
   autoSaveForm,
   saveAndRedirectToReturnUrl,
-} from '../../../../platform/forms/save-in-progress/actions';
-import { getFormContext } from '../../../../platform/forms/save-in-progress/selectors';
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+} from 'platform/forms/save-in-progress/actions';
+import { getFormContext } from 'platform/forms/save-in-progress/selectors';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 class RoutedSavableFormPage extends React.Component {
   constructor(props) {
