@@ -2,11 +2,11 @@ import { apiRequest } from '../../platform/utilities/api';
 import recordEvent from '../../platform/monitoring/record-event';
 import { GA_PREFIX, addEventListenerToButtons } from './utils';
 
-export const defaultLocale = 'en-US';
+const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
 let chatBotScenario = 'unknown';
 
-export const extractLocale = localeParam => {
+const extractLocale = localeParam => {
   if (localeParam === 'autodetect') {
     return navigator.language;
   }
@@ -18,7 +18,7 @@ export const extractLocale = localeParam => {
   return defaultLocale;
 };
 
-export const getUserLocation = callback => {
+const getUserLocation = callback => {
   navigator.geolocation.getCurrentPosition(
     position => {
       const latitude = position.coords.latitude;
@@ -41,7 +41,6 @@ const initBotConversation = jsonWebToken => {
   const tokenPayload = JSON.parse(atob(jsonWebToken.split('.')[1]));
   const user = {
     id: tokenPayload.userId,
-    name: tokenPayload.userName,
     locale: tokenPayload.locale,
   };
   let domain = undefined;
@@ -108,12 +107,11 @@ const initBotConversation = jsonWebToken => {
     styleOptions,
     store: webchatStore,
     userID: user.id,
-    username: user.name,
     locale: user.locale,
   };
 };
 
-export const requestChatBot = loc => {
+const requestChatBot = loc => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
