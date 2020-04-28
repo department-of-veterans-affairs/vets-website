@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
 
+// single checkbox
 const SignatureCheckbox = ({
   fullName,
   label,
@@ -40,8 +41,9 @@ const SignatureCheckbox = ({
   );
 };
 
+// checkbox group
 const PreSubmitCheckboxes = ({
-  sectionCompleted,
+  onSectionComplete,
   showError,
   preSubmitInfo,
   checked,
@@ -62,7 +64,7 @@ const PreSubmitCheckboxes = ({
         obj => Boolean(obj) === false,
       ).length;
 
-      if (!unSignedLength) sectionCompleted(true);
+      if (!unSignedLength) onSectionComplete(true);
 
       const hasSecondaryOne =
         formData?.secondaryOneFullName?.first &&
@@ -77,7 +79,14 @@ const PreSubmitCheckboxes = ({
         hasSecondaryTwo,
       });
     },
-    [checked, formData, sectionCompleted, preSubmitInfo, showError, signatures],
+    [
+      checked,
+      formData,
+      onSectionComplete,
+      preSubmitInfo,
+      showError,
+      signatures,
+    ],
   );
 
   const CaregiverCopy = ({ label }) => {

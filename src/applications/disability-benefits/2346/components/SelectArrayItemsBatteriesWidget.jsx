@@ -1,3 +1,4 @@
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import {
 } from '../constants';
 
 class SelectArrayItemsBatteriesWidget extends Component {
-  handleChecked = (productId, checked, supply) => {
+  handleChecked = (checked, supply) => {
     const { selectedProducts, formData } = this.props;
     let updatedSelectedProducts;
     if (checked) {
@@ -32,6 +33,7 @@ class SelectArrayItemsBatteriesWidget extends Component {
 
   render() {
     const { supplies, selectedProducts } = this.props;
+    const currentDate = moment();
 
     return (
       <>
@@ -45,10 +47,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
             supply.productGroup === HEARING_AID_BATTERIES ? (
               <div
                 key={supply.productId}
-                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4"
+                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4 battery-page"
               >
                 <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
-                  {supply.productName}
+                  {supply.deviceName}
                 </h4>
                 <p>Prescribed 1/18/2018</p>
                 <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
@@ -73,37 +75,58 @@ class SelectArrayItemsBatteriesWidget extends Component {
                     </p>
                   </div>
                 </div>
-                <div
-                  className={
-                    selectedProducts.find(
-                      selectedProduct =>
-                        selectedProduct.productId === supply.productId,
-                    )
-                      ? BLUE_BACKGROUND
-                      : WHITE_BACKGROUND
-                  }
-                >
-                  <input
-                    id={supply.productId}
-                    type="checkbox"
-                    onChange={e => {
-                      this.handleChecked(
-                        supply.productId,
-                        e.target.checked,
-                        supply,
-                      );
-                    }}
-                    checked={
-                      !!selectedProducts.find(
+                {currentDate.diff(supply.nextAvailabilityDate, 'days') < 0 ? (
+                  <AlertBox
+                    className="vads-u-color--black vads-u-background-color--white"
+                    headline={`You can't reorder batteries for this device until ${moment(
+                      supply.nextAvailabilityDate,
+                    ).format('MMMM D, YYYY')}`}
+                    content={
+                      <>
+                        <p>
+                          You can only order batteries for each device once
+                          every 5 months. Each battery order comes with a
+                          6-month supply.
+                        </p>
+                        <p>
+                          If you need batteries sooner, please call the DLC
+                          Customer Service Station at{' '}
+                          <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+                          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                        </p>
+                      </>
+                    }
+                    status="warning"
+                  />
+                ) : (
+                  <div
+                    className={
+                      selectedProducts.find(
                         selectedProduct =>
                           selectedProduct.productId === supply.productId,
                       )
+                        ? BLUE_BACKGROUND
+                        : WHITE_BACKGROUND
                     }
-                  />
-                  <label htmlFor={supply.productId} className="main">
-                    Order batteries for this device
-                  </label>
-                </div>
+                  >
+                    <input
+                      name={supply.productId}
+                      type="checkbox"
+                      onChange={e =>
+                        this.handleChecked(e.target.checked, supply)
+                      }
+                      checked={
+                        !!selectedProducts.find(
+                          selectedProduct =>
+                            selectedProduct.productId === supply.productId,
+                        )
+                      }
+                    />
+                    <label htmlFor={supply.productId} className="main">
+                      Order batteries for this device
+                    </label>
+                  </div>
+                )}
               </div>
             ) : (
               ''
