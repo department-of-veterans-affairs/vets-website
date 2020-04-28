@@ -1,6 +1,5 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, report674 } from '../../../utilities';
 import { NotificationText } from './helpers';

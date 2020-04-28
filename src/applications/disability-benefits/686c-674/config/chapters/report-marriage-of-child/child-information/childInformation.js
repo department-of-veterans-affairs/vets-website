@@ -1,8 +1,8 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
 import { validateName, reportChildMarriage } from '../../../utilities';
 import { isChapterFieldRequired } from '../../../helpers';
-import { merge } from 'lodash';
 
 export const schema = {
   type: 'object',

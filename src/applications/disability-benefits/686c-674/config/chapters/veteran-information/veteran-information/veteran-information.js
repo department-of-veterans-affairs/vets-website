@@ -1,7 +1,8 @@
-import { veteranInformation } from '../../../utilities';
+import merge from 'lodash/merge';
+import unset from 'lodash/unset';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import _ from 'lodash/fp';
+import { veteranInformation } from '../../../utilities';
 
 export const schema = {
   type: 'object',
@@ -32,7 +33,7 @@ export const uiSchema = {
         },
       },
     },
-    ssn: _.merge(_.unset('ui:title', ssnUI), {
+    ssn: merge(unset('ui:title', ssnUI), {
       'ui:title': 'Your Social Security number',
       'ui:required': () => true,
     }),
@@ -54,7 +55,7 @@ export const uiSchema = {
         widgetClassNames: 'usa-input-medium',
       },
     },
-    birthDate: _.merge(currentOrPastDateUI('Your date of birth'), {
+    birthDate: merge(currentOrPastDateUI('Your date of birth'), {
       'ui:required': () => true,
     }),
   },

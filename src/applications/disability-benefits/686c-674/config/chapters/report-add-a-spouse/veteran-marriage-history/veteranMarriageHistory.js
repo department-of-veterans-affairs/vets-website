@@ -1,7 +1,7 @@
+import SpouseViewField from '../../../../components/SpouseViewField';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
 import { SpouseItemHeader } from './helpers';
-import SpouseViewField from '../../../../components/SpouseViewField';
 
 export const schema = addSpouse.properties.veteranMarriageHistory;
 

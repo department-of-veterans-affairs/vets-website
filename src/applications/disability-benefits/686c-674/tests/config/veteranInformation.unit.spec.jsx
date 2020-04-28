@@ -66,7 +66,7 @@ describe('686 veteran information', () => {
     );
     fillData(form, 'input#root_veteranInformation_fullName_first', 'Bill');
     fillData(form, 'input#root_veteranInformation_fullName_last', 'Bob');
-    fillData(form, 'input#root_veteranInformation_ssn', '555-55-5551');
+    fillData(form, 'input#root_veteranInformation_ssn', '555555551');
     changeDropdown(form, 'select#root_veteranInformation_birthDateMonth', 1);
     changeDropdown(form, 'select#root_veteranInformation_birthDateDay', 1);
     fillData(form, 'input#root_veteranInformation_birthDateYear', '2002');

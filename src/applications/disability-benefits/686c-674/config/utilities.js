@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import fullSchema from 'vets-json-schema/dist/686c-674-schema.json';
+import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 const validateName = (errors, pageData) => {

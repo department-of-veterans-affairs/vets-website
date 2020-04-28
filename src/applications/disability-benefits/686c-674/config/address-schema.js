@@ -20,13 +20,11 @@
  */
 
 import React from 'react';
-// eslint-disable-next-line import/no-unresolved
-import fullSchema from 'vets-json-schema/dist/686c-674-schema.json';
+import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
-// import { countries, states50AndDC, militaryCities } from './constants';
 import {
   countries,
   states50AndDC,

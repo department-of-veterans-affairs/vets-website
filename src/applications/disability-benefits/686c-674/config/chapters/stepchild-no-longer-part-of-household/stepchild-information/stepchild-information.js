@@ -2,9 +2,9 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { TASK_KEYS } from '../../../constants';
 import { reportStepchildNotInHousehold } from '../../../utilities';
-import { StepchildTitle } from './helpers';
-import { StepchildInfo } from '../stepchildren/helpers';
 import { isChapterFieldRequired } from '../../../helpers';
+import { StepchildInfo } from '../stepchildren/helpers';
+import { StepchildTitle } from './helpers';
 
 const stepchildInformationSchema = cloneDeep(
   reportStepchildNotInHousehold.properties.stepchildInformation,

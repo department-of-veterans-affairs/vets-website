@@ -1,11 +1,11 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { childInfo } from '../child-information/helpers';
-import { childStatusDescription } from './childStatusDescription';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
-import { merge } from 'lodash/fp';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { childInfo } from '../child-information/helpers';
+import { childStatusDescription } from './childStatusDescription';
 
 export const schema = addChild.properties.addChildPlaceOfBirth;
 

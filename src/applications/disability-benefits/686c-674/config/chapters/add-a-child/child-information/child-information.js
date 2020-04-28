@@ -1,8 +1,9 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { isChapterFieldRequired } from '../../../helpers';
+import { TASK_KEYS } from '../../../constants';
 import { addChild } from '../../../utilities';
 import { childInfo } from './helpers';
-import { merge } from 'lodash/fp';
 
 export const schema = addChild.properties.addChildInformation;
 
@@ -17,7 +18,7 @@ export const uiSchema = {
         first: {
           'ui:title': 'Child’s first name',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
         middle: {
           'ui:title': 'Child’s middle name',
@@ -25,7 +26,7 @@ export const uiSchema = {
         last: {
           'ui:title': 'Child’s last name',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'addChild'),
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
         },
         suffix: {
           'ui:title': 'Child’s suffix',
@@ -39,10 +40,12 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
         },
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.addChild),
       },
       birthDate: merge(currentOrPastDateUI("Child's date of birth"), {
-        'ui:required': formData => isChapterFieldRequired(formData, 'addChild'),
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.addChild),
       }),
     },
   },

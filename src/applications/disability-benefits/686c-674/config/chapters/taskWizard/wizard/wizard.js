@@ -5,9 +5,7 @@ export const schema = {
   type: 'object',
   required: ['view:selectable686Options'],
   properties: {
-    'view:selectable686Options': {
-      ...optionSelection['view:selectable686Options'],
-    },
+    'view:selectable686Options': optionSelection['view:selectable686Options'],
   },
 };
 
