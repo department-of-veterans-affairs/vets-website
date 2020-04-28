@@ -10,7 +10,7 @@ import {
   showModal,
   eligibilityChange,
 } from '../actions';
-import { getCalculatedBenefits } from '../selectors/calculator';
+import { getCalculatedBenefits } from '../selectors/benefitCalculator';
 import EligibilityForm from '../components/search/EligibilityForm';
 import CalculatorForm from '../components/profile/CalculatorForm';
 
