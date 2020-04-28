@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import { showSchoolAddress } from '../utils/helpers';
-import * as address from '../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import educationTypeUISchema from './educationType';
 
 export const uiSchema = {

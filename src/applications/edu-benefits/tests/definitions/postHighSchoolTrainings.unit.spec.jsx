@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../definitions/postHighSchoolTrainings';
 import definitions from 'vets-json-schema/dist/definitions.json';
 
