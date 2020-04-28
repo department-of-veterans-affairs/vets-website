@@ -19,7 +19,7 @@ const NeedsVAPatient = () => {
           </strong>
         </p>
         <p>
-          Call MyVA311 (<a href="tel:844-698-2311">844-698-2311</a>
+          Call VA311 (<a href="tel:844-698-2311">844-698-2311</a>
           ), and select 3 to reach your nearest VA medical center. If you have
           hearing loss, call TTY: 711.
         </p>
