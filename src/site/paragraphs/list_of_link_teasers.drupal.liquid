@@ -5,12 +5,11 @@
         "fieldVaParagraphs":[...]
     }
 {% endcomment %}
+{% assign header = "h2" %}
 {% if parentFieldName === "field_spokes" %}
-    {% assign header = "h2" %}
     {% assign headerClass = "hub-page-link-list__title" %}
     {% assign ulClass = "hub-page-link-list" %}
 {% else %}
-    {% assign header = "h3" %}
     {% assign headerClass = "va-nav-linkslist-heading" %}
     {% assign ulClass = "va-nav-linkslist-list" %}
 {% endif %}

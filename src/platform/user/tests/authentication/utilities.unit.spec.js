@@ -90,12 +90,12 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
-  it('should redirect for SSO auto-login', () => {
+  it.skip('should redirect for SSO auto-login', () => {
     autoLogin();
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
-  it('should redirect for SSO auto-logout', () => {
+  it.skip('should redirect for SSO auto-logout', () => {
     autoLogout();
     expect(global.window.location).to.include('/v1/sessions/slo/new');
   });

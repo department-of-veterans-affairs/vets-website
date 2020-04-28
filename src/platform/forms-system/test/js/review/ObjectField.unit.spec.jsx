@@ -208,6 +208,40 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
   });
+  it('should hide fields that are hide on review using callback', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean',
+        },
+      },
+    };
+    const formData = {
+      test: true,
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          hideOnReview: () => formData.test,
+        },
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.everySubTree('SchemaField')).to.be.empty;
+  });
   it('should hide false fields that are hide on review false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
