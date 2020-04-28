@@ -25,15 +25,15 @@ class AccordionItem extends React.Component {
     this.id = _.uniqueId('accordion-item-');
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.expanded !== this.props.expanded) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ expanded: this.props.expanded });
+  expanded = () => {
+    if (this.props.section) {
+      return this.props.expanded;
     }
-  }
+    return this.state.expanded;
+  };
 
   toggle = () => {
-    const expanded = !this.state.expanded;
+    const expanded = !this.expanded();
     this.setState({ expanded });
 
     if (this.props.onClick) {
@@ -47,7 +47,7 @@ class AccordionItem extends React.Component {
   };
 
   renderHeader = () => {
-    const expanded = this.state.expanded;
+    const expanded = this.expanded();
     const { section, button, headerClass } = this.props;
     if (section) {
       return (
@@ -83,7 +83,7 @@ class AccordionItem extends React.Component {
   };
 
   render() {
-    const expanded = this.state.expanded;
+    const expanded = this.expanded();
     const { button, section, children } = this.props;
 
     const childrenClassName = section ? null : 'usa-accordion-content';
