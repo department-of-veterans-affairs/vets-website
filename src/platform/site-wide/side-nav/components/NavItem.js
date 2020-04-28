@@ -6,6 +6,29 @@ import { get } from 'lodash';
 import NavItemRow from './NavItemRow';
 import { NavItemPropTypes } from '../prop-types';
 
+/*
+ Detects expanded children to modify the ending line style
+ with a short delay.
+ This is looks a bit tricky but ending line will have to render always first
+ for level 1 items and then because of the recursive way of rendering children
+ after this we can detect that children has been expanded and apply
+ the style by finding it by its parentID.
+*/
+const shouldModifyEndingLine = (item, depth) => {
+  const expanded = get(item, 'expanded');
+  const hasChildren = get(item, 'hasChildren');
+  const shouldShowLineOpen = !!(depth === 2 && expanded && hasChildren);
+  if (shouldShowLineOpen) {
+    setTimeout(() => {
+      const element = document.getElementById(`${item.parentID}-line`);
+      if (element) {
+        element.className = 'line-open';
+      }
+    }, 1);
+  }
+  return null;
+};
+
 const NavItem = ({
   depth,
   item,
@@ -40,6 +63,7 @@ const NavItem = ({
       {/* Ending Line */}
       {isFirstLevel &&
         !isLastNavItem && <div id={`${item.id}-line`} className="line" />}
+      {shouldModifyEndingLine(item, depth)}
     </li>
   );
 };

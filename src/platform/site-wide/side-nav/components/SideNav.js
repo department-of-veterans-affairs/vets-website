@@ -46,28 +46,6 @@ class SideNav extends Component {
     });
   };
 
-  /*
-   Detects expanded children to modify the ending line style
-   with a short delay.
-   This is looks a bit tricky but ending will have to render always first
-   for level 1 items and then because of the recursive way of rendering children
-   after this we can detect that children has been expanded and apply
-   the style by finding it by its parentID.
-  */
-  shouldModifyEndingLine = (item, depth) => {
-    const expanded = get(item, 'expanded');
-    const hasChildren = get(item, 'hasChildren');
-    const shouldShowLineOpen = !!(depth === 2 && expanded && hasChildren);
-    if (shouldShowLineOpen) {
-      setTimeout(() => {
-        const element = document.getElementById(`${item.parentID}-line`);
-        if (element) {
-          element.className = 'line-open';
-        }
-      }, 1);
-    }
-  };
-
   renderChildItems = (parentID, depth) => {
     const { navItemsLookup } = this.state;
 
@@ -80,20 +58,17 @@ class SideNav extends Component {
     // Sort the items by `order`.
     const sortedNavItems = orderBy(filteredNavItems, 'order', 'asc');
 
-    return map(sortedNavItems, (item, index) => {
-      this.shouldModifyEndingLine(item, depth);
-      return (
-        <NavItem
-          depth={depth}
-          index={index}
-          item={item}
-          key={get(item, 'id')}
-          renderChildItems={this.renderChildItems}
-          sortedNavItems={sortedNavItems}
-          toggleItemExpanded={this.toggleItemExpanded}
-        />
-      );
-    });
+    return map(sortedNavItems, (item, index) => (
+      <NavItem
+        depth={depth}
+        index={index}
+        item={item}
+        key={get(item, 'id')}
+        renderChildItems={this.renderChildItems}
+        sortedNavItems={sortedNavItems}
+        toggleItemExpanded={this.toggleItemExpanded}
+      />
+    ));
   };
 
   render() {

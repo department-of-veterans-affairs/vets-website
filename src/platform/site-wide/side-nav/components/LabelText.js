@@ -1,6 +1,7 @@
 // Dependencies
 import React from 'react';
 import { get } from 'lodash';
+import classNames from 'classnames';
 // Relative
 import { NavItemPropTypes } from '../prop-types';
 
@@ -14,9 +15,9 @@ const LabelText = ({ item }) => {
   // Return the normal label element.
   return (
     <div
-      className={`va-sidenav-item-label-text${
-        isLevelFourOrDeeper && !isSelected ? ' grandchild-left-line' : ''
-      }`}
+      className={classNames('va-sidenav-item-label-text', {
+        'grandchild-left-line': isLevelFourOrDeeper && !isSelected,
+      })}
     >
       {label}
     </div>

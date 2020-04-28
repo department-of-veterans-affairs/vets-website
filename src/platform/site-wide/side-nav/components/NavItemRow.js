@@ -25,13 +25,10 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
     // Expanded not selected
-    const isExpanded = !!(get(item, 'expanded') && depth === 2 && !isSelected);
+    const isExpanded = get(item, 'expanded') && depth === 2 && !isSelected;
     // Expanded beyond level 2 expanded and selected
-    const moreThanLevel2SelectedExpanded = !!(
-      get(item, 'expanded') &&
-      depth > 2 &&
-      isSelected
-    );
+    const moreThanLevel2SelectedExpanded =
+      get(item, 'expanded') && depth > 2 && isSelected;
     return (
       <a
         aria-label={label}
