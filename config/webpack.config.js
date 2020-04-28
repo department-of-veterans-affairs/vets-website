@@ -222,7 +222,10 @@ module.exports = env => {
       }),
       new MiniCssExtractPlugin({ filename: '[name].css' }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new CopyPlugin([{ from: 'src/site/assets/js', to: './assets/js' }]),
+      new CopyPlugin([
+        { from: 'src/site/assets/js', to: './assets/js' },
+        { from: 'src/site/assets/robots.txt', to: './' },
+      ]),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
