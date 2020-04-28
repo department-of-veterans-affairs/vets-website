@@ -31,6 +31,10 @@ function InstitutionSearchForm(props) {
           {props.gibctEstimateYourBenefits ? (
             <BenefitsForm
               eligibilityChange={props.eligibilityChange}
+              {...props.eligibility}
+              isLoggedIn={props.isLoggedIn}
+              hideModal={props.hideModal}
+              showModal={props.showModal}
               showHeader
             />
           ) : (

@@ -6,8 +6,25 @@ import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
+import RadioButtons from '../RadioButtons';
 
 export class BenefitsForm extends React.Component {
+  static propTypes = {
+    eligibility: PropTypes.object,
+    estimatedBenefits: PropTypes.object,
+    showModal: PropTypes.func,
+    hideModal: PropTypes.func,
+    onHideModal: PropTypes.func,
+    eligibilityChange: PropTypes.func,
+    showGbBenefit: PropTypes.bool,
+    showHeader: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showGbBenefit: false,
+    showHeader: false,
+  };
+
   cumulativeServiceOptions = () => [
     { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
     { value: '0.9', label: '30 months: 90% (includes BASIC)' },
@@ -25,6 +42,11 @@ export class BenefitsForm extends React.Component {
     { value: 'purple heart', label: 'Purple Heart Service: 100%' },
   ];
 
+  handleInputChange = event => {
+    const { name: field, value } = event.target;
+    this.props.onInputChange({ field, value });
+  };
+
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
@@ -34,11 +56,39 @@ export class BenefitsForm extends React.Component {
       component: this,
     });
 
+  renderGbBenefit = () => {
+    if (
+      !this.props.displayedInputs?.giBillBenefit ||
+      !this.props.showGbBenefit
+    ) {
+      return null;
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text:
+              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
+            modal: 'whenUsedGiBill',
+            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  };
+
   render() {
-    const showHeader = this.props.showHeader || false;
     return (
       <div className="eligibility-form">
-        {showHeader && <h2>Your eligibility</h2>}
+        {this.props.showHeader && <h2>Your eligibility</h2>}
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
@@ -192,18 +242,10 @@ export class BenefitsForm extends React.Component {
           }
           onChange={this.props.eligibilityChange}
         />
+        {this.renderGbBenefit()}
       </div>
     );
   }
 }
-
-BenefitsForm.propTypes = {
-  eligibility: PropTypes.object,
-  estimatedBenefits: PropTypes.object,
-  showModal: PropTypes.func,
-  hideModal: PropTypes.func,
-  onHideModal: PropTypes.func,
-  eligibilityChange: PropTypes.func,
-};
 
 export default BenefitsForm;
