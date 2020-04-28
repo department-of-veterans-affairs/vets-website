@@ -7,7 +7,7 @@ import Dropdown from '../Dropdown';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 
-export class EybEligibilityForm extends React.Component {
+export class BenefitsForm extends React.Component {
   cumulativeServiceOptions = () => [
     { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
     { value: '0.9', label: '30 months: 90% (includes BASIC)' },
@@ -35,9 +35,10 @@ export class EybEligibilityForm extends React.Component {
     });
 
   render() {
+    const showHeader = this.props.showHeader || false;
     return (
       <div className="eligibility-form">
-        <h2>Your eligibility</h2>
+        {showHeader && <h2>Your eligibility</h2>}
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
@@ -196,7 +197,7 @@ export class EybEligibilityForm extends React.Component {
   }
 }
 
-EybEligibilityForm.propTypes = {
+BenefitsForm.propTypes = {
   eligibility: PropTypes.object,
   estimatedBenefits: PropTypes.object,
   showModal: PropTypes.func,
@@ -205,4 +206,4 @@ EybEligibilityForm.propTypes = {
   eligibilityChange: PropTypes.func,
 };
 
-export default EybEligibilityForm;
+export default BenefitsForm;
