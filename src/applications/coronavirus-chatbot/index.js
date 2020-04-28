@@ -1,6 +1,6 @@
 import { apiRequest } from '../../platform/utilities/api';
 import recordEvent from '../../platform/monitoring/record-event';
-import { GA_PREFIX, watchForButtonClicks } from './utils';
+import { GA_PREFIX, addEventListenerToButtons } from './utils';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
@@ -149,6 +149,6 @@ const chatRequested = scenario => {
 };
 
 export default function initializeChatbot() {
-  watchForButtonClicks();
+  addEventListenerToButtons();
   return chatRequested('va_coronavirus_chatbot');
 }
