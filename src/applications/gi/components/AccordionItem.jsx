@@ -31,11 +31,19 @@ class AccordionItem extends React.Component {
   toggle = () => {
     this.setState({ expanded: !this.state.expanded });
 
-    recordEvent({
-      event: this.state.expanded
-        ? 'nav-accordion-collapse'
-        : 'nav-accordion-expand',
-    });
+    if (this.state.section) {
+      recordEvent({
+        event: this.state.expanded
+          ? 'nav-section-collapse'
+          : 'nav-section-expand',
+      });
+    } else {
+      recordEvent({
+        event: this.state.expanded
+          ? 'nav-accordion-collapse'
+          : 'nav-accordion-expand',
+      });
+    }
   };
 
   renderHeader = () => {
