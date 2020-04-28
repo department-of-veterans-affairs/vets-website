@@ -27,7 +27,7 @@ describe('VAOS Location service', () => {
       expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
     });
 
-    describe('should return OperationOutcome error', async () => {
+    it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
