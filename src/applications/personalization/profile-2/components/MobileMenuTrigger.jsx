@@ -9,6 +9,8 @@ import {
   unpinMenuTrigger as unpinMenuTriggerAction,
 } from '../actions';
 
+import { BREAKPOINTS } from '../constants';
+
 const MobileMenuTrigger = ({
   closeSideNav,
   focusTriggerButton,
@@ -20,46 +22,51 @@ const MobileMenuTrigger = ({
   const button = useRef(null);
   const placeholder = useRef(null);
 
-  const [mobileBreakpoint] = useState(767);
   const [isMobile, setIsMobile] = useState(false);
   const [triggerPosition, setTriggerPosition] = useState(null);
   const [triggerHeight, setTriggerHeight] = useState(null);
 
   // init some local state
-  useEffect(
-    () => {
-      setTriggerHeight(window.getComputedStyle(button.current).height);
-      setTriggerPosition(placeholder.current.offsetTop);
-      setIsMobile(window.innerWidth <= mobileBreakpoint);
-    },
-    [mobileBreakpoint],
-  );
+  useEffect(() => {
+    setTriggerHeight(window.getComputedStyle(button.current).height);
+    setTriggerPosition(placeholder.current.offsetTop);
+    setIsMobile(window.innerWidth < BREAKPOINTS.medium);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth <= mobileBreakpoint;
-      if (!mobile) {
-        if (isMobile) {
-          setIsMobile(false);
-          closeSideNav();
-        }
-        return;
-      }
+      const mobile = window.innerWidth < BREAKPOINTS.medium;
+      const justSwitchedToMobile = mobile && !isMobile;
+      const justSwitchedToDesktop = isMobile && !mobile;
+
       // The position of the trigger might move up or down as the window width
       // changes and elements above it compress and take up more vertical space
       // so we need to reset it on window resize
-      setTriggerPosition(placeholder.current.offsetTop);
-      if (!isMobile) {
+      if (mobile) {
+        setTriggerPosition(placeholder.current.offsetTop);
+      }
+
+      if (justSwitchedToMobile) {
         setIsMobile(true);
       }
+
+      if (justSwitchedToDesktop) {
+        setIsMobile(false);
+        closeSideNav();
+      }
     };
-    // pin or unpin the mobile trigger
+
+    // pin or unpin the mobile trigger on scroll
     const handleScroll = () => {
       if (!isMobile) return;
+      // if the user just scrolled down the page far enough that the menu
+      // trigger would go off the top of the page
       if (window.pageYOffset >= triggerPosition && !isMenuTriggerPinned) {
         pinMenuTrigger();
         placeholder.current.style.height = triggerHeight;
       }
+      // if the user just scrolled up the page far enough that the menu
+      // trigger's position would come back into view
       if (window.pageYOffset < triggerPosition && isMenuTriggerPinned) {
         unpinMenuTrigger();
         placeholder.current.style.height = 0;
@@ -90,7 +97,7 @@ const MobileMenuTrigger = ({
       <button
         type="button"
         className={buttonClasses}
-        aria-controls="va-detailpage-sidebar"
+        aria-controls="va-profile-sidebar"
         onClick={openSideNav}
         ref={button}
       >
