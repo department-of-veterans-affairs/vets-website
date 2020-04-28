@@ -55,6 +55,7 @@ describe('VAOS Location service', () => {
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
   });
+
   describe('getLocations', () => {
     let data;
 
@@ -88,6 +89,44 @@ describe('VAOS Location service', () => {
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/facilities/va?ids=vha_442',
+      );
+      expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+  });
+
+  describe('getLocation', () => {
+    let data;
+
+    it('should make successful request', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, { data: facilityDetails.data[0] });
+      data = await getLocation({
+        facilityId: 'var983A6',
+      });
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/facilities/va/vha_442A6',
+      );
+      expect(data.identifier[0].value).to.equal('urn:va:division:442:442');
+    });
+
+    it('should return OperationOutcome error', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch, {
+        errors: [],
+      });
+
+      let error;
+      try {
+        data = await getLocation({
+          facilityId: 'var983',
+        });
+      } catch (e) {
+        error = e;
+      }
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/facilities/va/vha_442',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
