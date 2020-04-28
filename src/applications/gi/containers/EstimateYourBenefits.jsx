@@ -14,12 +14,10 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import BenefitsForm from '../components/profile/EybEligibilityForm';
+import BenefitsForm from '../components/profile/BenefitsForm';
 import EybCalculatorForm from '../components/profile/EybCalculatorForm';
-import CalculatorForm from '../components/profile/CalculatorForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import { createId } from '../utils/helpers';
-import BenefitsForm from '../components/profile/BenefitsForm';
 import AccordionItem from '../components/AccordionItem';
 
 export class EstimateYourBenefits extends React.Component {
