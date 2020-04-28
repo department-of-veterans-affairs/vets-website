@@ -11,6 +11,7 @@ import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
+import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
 
 const profileLogo =
   'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
@@ -19,6 +20,7 @@ const VetTecInstitutionProfile = ({
   institution,
   showModal,
   preSelectedProgram,
+  gibctEstimateYourBenefits,
 }) => (
   <div>
     {
@@ -36,7 +38,11 @@ const VetTecInstitutionProfile = ({
           />
         </AccordionItem>
         <AccordionItem button="Estimate your benefits">
-          <VetTecCalculator showModal={showModal} />
+          {gibctEstimateYourBenefits ? (
+            <VetTecEstimateYourBenefits showModal={showModal} />
+          ) : (
+            <VetTecCalculator showModal={showModal} />
+          )}
         </AccordionItem>
         <AccordionItem button="Veteran programs">
           <VetTecVeteranPrograms

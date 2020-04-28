@@ -32,9 +32,7 @@ export const renderSchoolClosingAlert = result => {
   );
 };
 
-export const renderCautionAlert = result => {
-  const { cautionFlags } = result;
-
+export const renderCautionAlert = cautionFlags => {
   const validFlags = [...cautionFlags]
     .filter(flag => flag.title)
     .sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1));
@@ -47,10 +45,10 @@ export const renderCautionAlert = result => {
           {validFlags.length === 1 && <p>{validFlags[0].title}</p>}
           {validFlags.length > 1 && (
             <ul className="vads-u-margin-top--0">
-              {validFlags.map(flag => (
+              {validFlags.map((flag, index) => (
                 <li
                   className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
-                  key={flag.id}
+                  key={`caution-flag-alert-${index}`}
                 >
                   {flag.title}
                 </li>
