@@ -13,7 +13,7 @@ import AccountSecurityContent from './AccountSecurityContent';
 // trouble than it's worth
 class AccountSecurity extends Component {
   componentDidMount() {
-    focusElement('h2.profile-section-title');
+    focusElement('[data-focus-target]');
   }
 
   render() {
@@ -21,7 +21,8 @@ class AccountSecurity extends Component {
       <>
         <h2
           tabIndex="-1"
-          className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4 profile-section-title"
+          className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+          data-focus-target
         >
           Account security
         </h2>

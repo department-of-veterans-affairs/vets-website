@@ -19,7 +19,7 @@ import { transformServiceHistoryEntryIntoTableRow } from '../helpers';
 
 const MilitaryInformationContent = ({ militaryInformation }) => {
   useEffect(() => {
-    focusElement('h2.profile-section-title');
+    focusElement('[data-focus-target]');
   }, []);
 
   const {
@@ -148,7 +148,8 @@ const MilitaryInformation = ({ militaryInformation }) => (
   <>
     <h2
       tabIndex="-1"
-      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4 profile-section-title"
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+      data-focus-target
     >
       Military information
     </h2>

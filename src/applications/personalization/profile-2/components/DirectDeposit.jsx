@@ -4,13 +4,14 @@ import { focusElement } from 'platform/utilities/ui';
 
 const DirectDeposit = () => {
   useEffect(() => {
-    focusElement('h2.profile-section-title');
+    focusElement('[data-focus-target]');
   }, []);
 
   return (
     <h2
       tabIndex="-1"
-      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4 profile-section-title"
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+      data-focus-target
     >
       Direct Deposit
     </h2>
