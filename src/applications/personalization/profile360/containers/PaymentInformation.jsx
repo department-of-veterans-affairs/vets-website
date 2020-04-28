@@ -14,6 +14,7 @@ import {
   isMultifactorEnabled,
 } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -92,7 +93,9 @@ const AdditionalInfos = props => (
         <a
           rel="noopener noreferrer"
           target="_blank"
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
+          href={props.eBenefitsUrl(
+            'ebenefits/about/feature?feature=direct-deposit-and-contact-information',
+          )}
           onClick={() =>
             recordEvent({
               event: 'nav-ebenefits-click',
@@ -294,7 +297,10 @@ class PaymentInformation extends React.Component {
         >
           {/* Show this alert until EVSS issues are resolved */}
           <DirectDepositDownAlert />
-          <AdditionalInfos recordProfileNavEvent={recordProfileNavEvent} />
+          <AdditionalInfos
+            recordProfileNavEvent={recordProfileNavEvent}
+            eBenfitsUrl={this.props.eBenfitsUrl}
+          />
           {content}
         </DowntimeNotification>
       </>
@@ -328,6 +334,7 @@ const mapStateToProps = state => {
       isEvssAvailable &&
       !isDirectDepositBlocked &&
       (isDirectDepositSetUp || isEligibleToSignUp),
+    eBenfitsUrl: eBenefitsUrlGenerator(state),
   };
 };
 

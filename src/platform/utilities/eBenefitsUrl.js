@@ -13,6 +13,8 @@ const eauthPathMap = {
     'vdc?target=%2Fwssweb%2FVDC526%2Fcompensation.do',
   'ebenefits/about/feature?feature=vocational-rehabilitation-and-employment':
     'vre',
+  'ebenefits/about/feature?feature=direct-deposit-and-contact-information':
+    'manage/contact',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;
