@@ -8,7 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 function FileOriginalClaimPage({ isLoggedIn }) {
   return (
     <AlertBox
-      status="error"
+      status="warning"
       headline="You’ll need to file a claim on eBenefits"
       content={
         <>
