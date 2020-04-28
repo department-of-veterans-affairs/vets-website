@@ -8,11 +8,15 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  hideModal,
   eligibilityChange,
+  updateEstimatedBenefits,
 } from '../actions';
-import { getCalculatedBenefits } from '../selectors/benefitCalculator';
-import EligibilityForm from '../components/search/EligibilityForm';
-import CalculatorForm from '../components/profile/CalculatorForm';
+import { focusElement } from 'platform/utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
+import { getCalculatedBenefits } from '../selectors/calculator';
+import EybEligibilityForm from '../components/profile/EybEligibilityForm';
+import EybCalculatorForm from '../components/profile/EybCalculatorForm';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
@@ -48,6 +52,11 @@ export class EstimateYourBenefits extends React.Component {
     this.setState({ showCalculatorForm: !this.state.showCalculatorForm });
   }
 
+  updateEstimatedBenefits = () => {
+    this.props.updateEstimatedBenefits(this.props.calculated.outputs);
+    focusElement('#estimated-benefits');
+  };
+
   renderEligibilityForm() {
     const expanded = this.state.showEligibilityForm;
 
@@ -63,8 +72,12 @@ export class EstimateYourBenefits extends React.Component {
         <div>
           {expanded ? (
             <form>
-              <EligibilityForm
+              <EybEligibilityForm
                 eligibilityChange={this.props.eligibilityChange}
+                eligibility={this.props.eligibility}
+                isLoggedIn={this.props.isLoggedIn}
+                hideModal={this.props.hideModal}
+                showModal={this.props.showModal}
               />
             </form>
           ) : null}
@@ -74,9 +87,8 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   renderCalculatorForm() {
+    const { profile, calculator: inputs } = this.props;
     const {
-      profile,
-      calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
     const expanded = this.state.showCalculatorForm;
@@ -94,7 +106,7 @@ export class EstimateYourBenefits extends React.Component {
         </div>
         <div>
           {expanded ? (
-            <CalculatorForm
+            <EybCalculatorForm
               profile={profile}
               eligibility={this.props.eligibility}
               eligibilityChange={this.props.eligibilityChange}
@@ -103,6 +115,7 @@ export class EstimateYourBenefits extends React.Component {
               onShowModal={this.props.showModal}
               onInputChange={this.props.calculatorInputChange}
               onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+              estimatedBenefits={this.props.estimatedBenefits}
             />
           ) : null}
         </div>
@@ -111,7 +124,7 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   renderPerTermSections() {
-    const { perTerm } = this.props.calculated.outputs;
+    const { perTerm } = this.props.estimatedBenefits;
 
     const sections = Object.keys(perTerm).map(section => {
       const {
@@ -119,7 +132,7 @@ export class EstimateYourBenefits extends React.Component {
         title,
         learnMoreAriaLabel,
         terms,
-      } = this.props.calculated.outputs.perTerm[section];
+      } = this.props.estimatedBenefits.perTerm[section];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
@@ -164,22 +177,30 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   render() {
-    if (isEmpty(this.props.calculated)) {
+    if (isEmpty(this.props.estimatedBenefits)) {
       return <LoadingIndicator message="Loading your estimated benefits..." />;
     }
 
-    // const it = this.props.profile.attributes;
-    const { outputs } = this.props.calculated;
+    const outputs = this.props.estimatedBenefits;
+
     const fraction = 'usa-width-one-eigth medium-5 columns';
     return (
       <div className="row calculate-your-benefits">
         <div className={fraction}>
           {this.renderEligibilityForm()}
           {this.renderCalculatorForm()}
+          <button
+            className="usa-primary-button"
+            onClick={this.updateEstimatedBenefits}
+          >
+            Calculate Your Benefits
+          </button>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
         <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
-          <h3>Your estimated benefits</h3>
+          <h3 id="estimated-benefits" tabIndex="-1">
+            Your estimated benefits
+          </h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow
               label="GI Bill pays to school"
@@ -237,13 +258,17 @@ const mapStateToProps = (state, props) => ({
   profile: state.profile,
   calculated: getCalculatedBenefits(state, props),
   eligibility: state.eligibility,
+  estimatedBenefits: state.calculator.estimatedBenefits,
+  isLoggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  hideModal,
   eligibilityChange,
+  updateEstimatedBenefits,
 };
 
 export default connect(
