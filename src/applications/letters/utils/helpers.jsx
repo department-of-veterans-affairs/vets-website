@@ -18,7 +18,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     .catch(error);
 }
 
-export const recordsNotFound = (
+export const recordsNotFound = eBenefitsUrl => (
   <div id="records-not-found">
     <header>
       <h1>We couldn’t find your VA letters or documents</h1>
@@ -29,7 +29,7 @@ export const recordsNotFound = (
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://www.ebenefits.va.gov/ebenefits/download-letters"
+            href={eBenefitsUrl('ebenefits/download-letters')}
             onClick={() =>
               recordEvent({
                 event: 'nav-ebenefits-click',

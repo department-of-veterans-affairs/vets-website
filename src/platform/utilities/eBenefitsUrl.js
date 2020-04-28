@@ -8,20 +8,20 @@ import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 
 const eauthPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
 const eauthPathMap = {
-  'ebenefits-portal/ebenefits.portal': 'homepage',
+  'ebenefits-portal/ebenefits.portal': 'ebenefits/homepage',
   'ebenefits/about/feature?feature=disability-compensation':
-    'vdc?target=%2Fwssweb%2FVDC526%2Fcompensation.do',
+    'ebenefits/vdc?target=%2Fwssweb%2FVDC526%2Fcompensation.do',
   'ebenefits/about/feature?feature=vocational-rehabilitation-and-employment':
-    'vre',
+    'ebenefits/vre',
   'ebenefits/about/feature?feature=direct-deposit-and-contact-information':
-    'manage/contact',
+    'ebenefits/manage/contact',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;
 }
 function eauthUrl(path = '') {
   const route = eauthPathMap[normalizePath(path)] || normalizePath(path);
-  return `https://${eauthPrefix}eauth.va.gov/ebenefits/${route}`;
+  return `https://${eauthPrefix}eauth.va.gov/${route}`;
 }
 
 export const eBenefitsUrlGenerator = state => {
