@@ -567,11 +567,7 @@ class VAMap extends Component {
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div
-                aria-live="polite"
-                aria-relevant="additions text"
-                className="facility-search-results"
-              >
+              <div className="facility-search-results">
                 <ResultsList
                   isMobile
                   updateUrlParams={this.updateUrlParams}
@@ -678,11 +674,7 @@ class VAMap extends Component {
             style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
-            <div
-              aria-live="polite"
-              aria-relevant="additions text"
-              className="facility-search-results"
-            >
+            <div className="facility-search-results">
               <div>
                 <ResultsList
                   updateUrlParams={this.updateUrlParams}
