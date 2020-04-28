@@ -10,7 +10,6 @@ class AccordionItem extends React.Component {
     expanded: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     button: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -22,34 +21,35 @@ class AccordionItem extends React.Component {
     super(props);
     this.state = {
       expanded: props.expanded,
-      button: props.button,
-      section: props.section,
     };
     this.id = _.uniqueId('accordion-item-');
   }
 
-  toggle = () => {
-    this.setState({ expanded: !this.state.expanded });
-
-    if (this.state.section) {
-      recordEvent({
-        event: this.state.expanded
-          ? 'nav-section-collapse'
-          : 'nav-section-expand',
-      });
-    } else {
-      recordEvent({
-        event: this.state.expanded
-          ? 'nav-accordion-collapse'
-          : 'nav-accordion-expand',
-      });
+  componentDidUpdate(prevProps) {
+    if (prevProps.expanded !== this.props.expanded) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ expanded: this.props.expanded });
     }
+  }
+
+  toggle = () => {
+    const expanded = !this.state.expanded;
+    this.setState({ expanded });
+
+    if (this.props.onClick) {
+      this.props.onClick(expanded);
+    }
+
+    const type = this.props.section ? 'section' : 'accordion';
+    recordEvent({
+      event: expanded ? `nav-${type}-collapse` : `nav-${type}-expand`,
+    });
   };
 
   renderHeader = () => {
     const expanded = this.state.expanded;
-
-    if (this.state.section) {
+    const { section, button, headerClass } = this.props;
+    if (section) {
       return (
         <button
           aria-expanded={expanded}
@@ -57,13 +57,13 @@ class AccordionItem extends React.Component {
           onClick={this.toggle}
           className="usa-button-secondary"
         >
-          {this.props.button}
+          {button}
         </button>
       );
     }
 
     const headerClasses = classNames('accordion-button-wrapper', {
-      [this.props.headerClass]: this.props.headerClass,
+      [headerClass]: headerClass,
     });
 
     return (
@@ -75,7 +75,7 @@ class AccordionItem extends React.Component {
           aria-controls={this.id}
         >
           <span className="vads-u-font-family--serif accordion-button-text">
-            {this.props.button}
+            {button}
           </span>
         </button>
       </h2>
@@ -84,15 +84,14 @@ class AccordionItem extends React.Component {
 
   render() {
     const expanded = this.state.expanded;
-    const label = this.state.button;
-    const childrenClassName = this.state.section
-      ? null
-      : 'usa-accordion-content';
+    const { button, section, children } = this.props;
+
+    const childrenClassName = section ? null : 'usa-accordion-content';
     return (
-      <li aria-label={label} id={`${createId(this.props.button)}-accordion`}>
+      <li aria-label={button} id={`${createId(button)}-accordion`}>
         {this.renderHeader()}
         <div id={this.id} className={childrenClassName} aria-hidden={!expanded}>
-          {expanded ? this.props.children : null}
+          {expanded ? children : null}
         </div>
       </li>
     );

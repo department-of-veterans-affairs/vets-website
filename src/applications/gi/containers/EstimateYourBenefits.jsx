@@ -17,11 +17,77 @@ import BenefitsForm from '../components/search/BenefitsForm';
 import AccordionItem from '../components/AccordionItem';
 
 export class EstimateYourBenefits extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      yourBenefitsExpanded: true,
+      aboutYourSchoolExpanded: false,
+      learningFormatAndScheduleExpanded: false,
+      scholarshipsAndOtherFundingExpanded: false,
+    };
+  }
+
+  toggleYourBenefits = expanded => {
+    this.setState({
+      yourBenefitsExpanded: expanded,
+      aboutYourSchoolExpanded: expanded
+        ? false
+        : this.state.aboutYourSchoolExpanded,
+      learningFormatAndScheduleExpanded: expanded
+        ? false
+        : this.state.learningFormatAndScheduleExpanded,
+      scholarshipsAndOtherFundingExpanded: expanded
+        ? false
+        : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+  };
+
+  toggleAboutYourSchool = expanded => {
+    this.setState({
+      yourBenefitsExpanded: expanded ? false : this.state.yourBenefitsExpanded,
+      aboutYourSchoolExpanded: expanded,
+      learningFormatAndScheduleExpanded: expanded
+        ? false
+        : this.state.learningFormatAndScheduleExpanded,
+      scholarshipsAndOtherFundingExpanded: expanded
+        ? false
+        : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+  };
+
+  toggleLearningFormatAndSchedule = expanded => {
+    this.setState({
+      yourBenefitsExpanded: expanded ? false : this.state.yourBenefitsExpanded,
+      aboutYourSchoolExpanded: expanded
+        ? false
+        : this.state.aboutYourSchoolExpanded,
+      learningFormatAndScheduleExpanded: expanded,
+      scholarshipsAndOtherFundingExpanded: expanded
+        ? false
+        : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+  };
+
+  toggleScholarshipsAndOtherFunding = expanded => {
+    this.setState({
+      yourBenefitsExpanded: expanded ? false : this.state.yourBenefitsExpanded,
+      aboutYourSchoolExpanded: expanded
+        ? false
+        : this.state.aboutYourSchoolExpanded,
+      learningFormatAndScheduleExpanded: expanded
+        ? false
+        : this.state.learningFormatAndScheduleExpanded,
+      scholarshipsAndOtherFundingExpanded: expanded,
+    });
+  };
+
   renderYourBenefits = () => (
     <AccordionItem
       button={'Your benefits'}
       id={`eyb-${createId('Your benefits')}`}
       section
+      expanded={this.state.yourBenefitsExpanded}
+      onClick={this.toggleYourBenefits}
     >
       <form>
         <BenefitsForm eligibilityChange={this.props.eligibilityChange} />
@@ -39,8 +105,9 @@ export class EstimateYourBenefits extends React.Component {
       <AccordionItem
         button={'About your school'}
         id={`eyb-${createId('About your school')}`}
-        expanded={false}
+        expanded={this.state.aboutYourSchoolExpanded}
         section
+        onClick={this.toggleAboutYourSchool}
       >
         <CalculatorForm
           profile={profile}
@@ -60,8 +127,9 @@ export class EstimateYourBenefits extends React.Component {
     <AccordionItem
       button={'Learning format and schedule'}
       id={`eyb-${createId('Learning format and schedule')}`}
-      expanded={false}
+      expanded={this.state.learningFormatAndScheduleExpanded}
       section
+      onClick={this.toggleLearningFormatAndSchedule}
     />
   );
 
@@ -69,8 +137,9 @@ export class EstimateYourBenefits extends React.Component {
     <AccordionItem
       button={'Scholarships and other funding'}
       id={`eyb-${createId('Scholarships and other funding')}`}
-      expanded={false}
+      expanded={this.state.scholarshipsAndOtherFundingExpanded}
       section
+      onClick={this.toggleScholarshipsAndOtherFunding}
     />
   );
 
