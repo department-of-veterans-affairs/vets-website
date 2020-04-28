@@ -110,87 +110,89 @@ export function isContentExpanded(data, matcher) {
  * The path parameter will contain the path, relative to formData, to the
  * form data corresponding to the current schema object
  */
-export function setHiddenFields(schema, uiSchema, formData, path = []) {
-  if (!uiSchema) {
-    return schema;
-  }
-
-  // expandUnder fields are relative to the parent object of the current
-  // field, so get that object using path here
-  const containingObject = get(path.slice(0, -1), formData) || formData;
-
-  let updatedSchema = schema;
-  const hideIf = get(['ui:options', 'hideIf'], uiSchema);
-  const index = path.reduce(
-    (current, next) => (typeof next === 'number' ? next : current),
-    null,
-  );
-
-  if (hideIf && hideIf(formData, index)) {
-    if (!updatedSchema['ui:hidden']) {
-      updatedSchema = _.set('ui:hidden', true, updatedSchema);
-    }
-  } else if (updatedSchema['ui:hidden']) {
-    updatedSchema = _.unset('ui:hidden', updatedSchema);
-  }
-
-  const expandUnder = get(['ui:options', 'expandUnder'], uiSchema);
-  const expandUnderCondition = get(
-    ['ui:options', 'expandUnderCondition'],
-    uiSchema,
-  );
-  if (
-    expandUnder &&
-    !isContentExpanded(containingObject[expandUnder], expandUnderCondition)
-  ) {
-    if (!updatedSchema['ui:collapsed']) {
-      updatedSchema = _.set('ui:collapsed', true, updatedSchema);
-    }
-  } else if (updatedSchema['ui:collapsed']) {
-    updatedSchema = _.unset('ui:collapsed', updatedSchema);
-  }
-
-  if (updatedSchema.type === 'object') {
-    const newProperties = Object.keys(updatedSchema.properties).reduce(
-      (current, next) => {
-        const newSchema = setHiddenFields(
-          updatedSchema.properties[next],
-          uiSchema[next],
-          formData,
-          path.concat(next),
-        );
-
-        if (newSchema !== updatedSchema.properties[next]) {
-          return _.set(next, newSchema, current);
-        }
-
-        return current;
-      },
-      updatedSchema.properties,
-    );
-
-    if (newProperties !== updatedSchema.properties) {
-      return _.set('properties', newProperties, updatedSchema);
-    }
-  }
-
-  if (updatedSchema.type === 'array') {
-    // each item has its own schema, so we need to update the required fields on those schemas
-    // and then check for differences
-    const newItemSchemas = updatedSchema.items.map((item, idx) =>
-      setHiddenFields(item, uiSchema.items, formData, path.concat(idx)),
-    );
-
-    if (
-      newItemSchemas.some(
-        (newItem, idx) => newItem !== updatedSchema.items[idx],
-      )
-    ) {
-      return _.set('items', newItemSchemas, updatedSchema);
-    }
-  }
-
-  return updatedSchema;
+export function setHiddenFields(schema) {
+  // uiSchema, formData, path = []
+  return schema;
+  // if (!uiSchema) {
+  //   return schema;
+  // }
+  //
+  // // expandUnder fields are relative to the parent object of the current
+  // // field, so get that object using path here
+  // const containingObject = get(path.slice(0, -1), formData) || formData;
+  //
+  // let updatedSchema = schema;
+  // const hideIf = get(['ui:options', 'hideIf'], uiSchema);
+  // const index = path.reduce(
+  //   (current, next) => (typeof next === 'number' ? next : current),
+  //   null,
+  // );
+  //
+  // if (hideIf && hideIf(formData, index)) {
+  //   if (!updatedSchema['ui:hidden']) {
+  //     updatedSchema = _.set('ui:hidden', true, updatedSchema);
+  //   }
+  // } else if (updatedSchema['ui:hidden']) {
+  //   updatedSchema = _.unset('ui:hidden', updatedSchema);
+  // }
+  //
+  // const expandUnder = get(['ui:options', 'expandUnder'], uiSchema);
+  // const expandUnderCondition = get(
+  //   ['ui:options', 'expandUnderCondition'],
+  //   uiSchema,
+  // );
+  // if (
+  //   expandUnder &&
+  //   !isContentExpanded(containingObject[expandUnder], expandUnderCondition)
+  // ) {
+  //   if (!updatedSchema['ui:collapsed']) {
+  //     updatedSchema = _.set('ui:collapsed', true, updatedSchema);
+  //   }
+  // } else if (updatedSchema['ui:collapsed']) {
+  //   updatedSchema = _.unset('ui:collapsed', updatedSchema);
+  // }
+  //
+  // if (updatedSchema.type === 'object') {
+  //   const newProperties = Object.keys(updatedSchema.properties).reduce(
+  //     (current, next) => {
+  //       const newSchema = setHiddenFields(
+  //         updatedSchema.properties[next],
+  //         uiSchema[next],
+  //         formData,
+  //         path.concat(next),
+  //       );
+  //
+  //       if (newSchema !== updatedSchema.properties[next]) {
+  //         return _.set(next, newSchema, current);
+  //       }
+  //
+  //       return current;
+  //     },
+  //     updatedSchema.properties,
+  //   );
+  //
+  //   if (newProperties !== updatedSchema.properties) {
+  //     return _.set('properties', newProperties, updatedSchema);
+  //   }
+  // }
+  //
+  // if (updatedSchema.type === 'array') {
+  //   // each item has its own schema, so we need to update the required fields on those schemas
+  //   // and then check for differences
+  //   const newItemSchemas = updatedSchema.items.map((item, idx) =>
+  //     setHiddenFields(item, uiSchema.items, formData, path.concat(idx)),
+  //   );
+  //
+  //   if (
+  //     newItemSchemas.some(
+  //       (newItem, idx) => newItem !== updatedSchema.items[idx],
+  //     )
+  //   ) {
+  //     return _.set('items', newItemSchemas, updatedSchema);
+  //   }
+  // }
+  //
+  // return updatedSchema;
 }
 
 /*
