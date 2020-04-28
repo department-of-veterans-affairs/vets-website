@@ -11,7 +11,7 @@ import {
 } from '../constants';
 
 class SelectArrayItemsBatteriesWidget extends Component {
-  handleChecked = (productId, checked, supply) => {
+  handleChecked = (checked, supply) => {
     const { selectedProducts, formData } = this.props;
     let updatedSelectedProducts;
     if (checked) {
@@ -47,7 +47,7 @@ class SelectArrayItemsBatteriesWidget extends Component {
             supply.productGroup === HEARING_AID_BATTERIES ? (
               <div
                 key={supply.productId}
-                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4"
+                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4 battery-page"
               >
                 <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
                   {supply.deviceName}
@@ -101,7 +101,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
                 ) : (
                   <div
                     className={
-                      selectedProducts.includes(supply.productId)
+                      selectedProducts.find(
+                        selectedProduct =>
+                          selectedProduct.productId === supply.productId,
+                      )
                         ? BLUE_BACKGROUND
                         : WHITE_BACKGROUND
                     }
@@ -109,7 +112,15 @@ class SelectArrayItemsBatteriesWidget extends Component {
                     <input
                       name={supply.productId}
                       type="checkbox"
-                      onChange={this.handleChecked}
+                      onChange={e =>
+                        this.handleChecked(e.target.checked, supply)
+                      }
+                      checked={
+                        !!selectedProducts.find(
+                          selectedProduct =>
+                            selectedProduct.productId === supply.productId,
+                        )
+                      }
                     />
                     <label htmlFor={supply.productId} className="main">
                       Order batteries for this device
