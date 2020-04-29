@@ -928,14 +928,7 @@ class EstimateYourBenefitsForm extends React.Component {
       enrolledOld,
     } = this.props.displayedInputs;
 
-    if (
-      !inState &&
-      !tuition &&
-      !books &&
-      !calendar &&
-      !enrolled &&
-      !enrolledOld
-    )
+    if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
       return null;
 
     return (
@@ -980,7 +973,7 @@ class EstimateYourBenefitsForm extends React.Component {
       buyUp,
       scholarships,
     } = this.props.displayedInputs;
-    if (!yellowRibbon && !tuitionAssist && !kicker && !buyUp && !scholarships)
+    if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
       return null;
 
     return (
