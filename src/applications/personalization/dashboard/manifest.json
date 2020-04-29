@@ -2,10 +2,5 @@
   "appName": "Dashboard",
   "entryFile": "./dashboard-entry.jsx",
   "entryName": "dashboard",
-  "rootUrl": "/my-va",
-  "hideInvitation": true,
-  "template": {
-    "title": "My VA",
-    "layout": "page-react.html"
-  }
+  "rootUrl": "/my-va"
 }

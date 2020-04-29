@@ -2,11 +2,5 @@
   "appName": "Verify identity",
   "entryFile": "./verify-entry.jsx",
   "entryName": "verify",
-  "rootUrl": "/verify",
-  "noRouting": true,
-  "production": true,
-  "template": {
-    "title": "Verify",
-    "layout": "page-react.html"
-  }
+  "rootUrl": "/verify"
 }

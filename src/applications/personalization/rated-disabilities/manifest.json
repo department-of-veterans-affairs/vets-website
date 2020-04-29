@@ -2,9 +2,5 @@
   "appName": "Rated Disabilities",
   "entryFile": "./rated-disabilities-entry.jsx",
   "entryName": "disability-my-rated-disabilities",
-  "rootUrl": "/disability/view-disability-rating/rating",
-  "template": {
-    "layout": "page-react.html",
-    "vagovprod": true
-  }
+  "rootUrl": "/disability/view-disability-rating/rating"
 }

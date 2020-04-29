@@ -2,33 +2,5 @@
   "appName": "1010ez Health Care Application form",
   "entryFile": "./hca-entry.jsx",
   "entryName": "hca",
-  "rootUrl": "/health-care/apply/application",
-  "template": {
-    "title": "Apply for Health Care",
-    "layout": "page-react.html",
-    "display_title": "Apply Now",
-    "description": "Apply for VA health care benefits. Find out which documents you’ll need, and start your online application today.",
-    "body_class": "page-healthcare",
-    "in_maintenance": false,
-    "maintenance_line1": "We’re sorry. The health care application is currently down while we fix a few things. We’ll be back up as soon as we can.",
-    "maintenance_line2": "In the meantime, you can call <a href=\"tel:+18772228387\">1-877-222-8387</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title=\"eastern time\">ET</abbr>) and press 2 to complete this application over the phone.",
-    "collection": "healthCare",
-    "spoke": "Get benefits",
-    "order": 4,
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "health-care/",
-        "name": "Health Care"
-      },
-      {
-        "path": "health-care/how-to-apply/",
-        "name": "How to apply"
-      },
-      {
-        "path": "health-care/apply/application",
-        "name": "Apply for VA health care"
-      }
-    ]
-  }
+  "rootUrl": "/health-care/apply/application"
 }

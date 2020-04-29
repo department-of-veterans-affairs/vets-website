@@ -2,22 +2,5 @@
   "appName": "21-526EZ disability compensation claim form",
   "entryFile": "./form-entry.jsx",
   "entryName": "526EZ-all-claims",
-  "rootUrl": "/disability/file-disability-claim-form-21-526ez",
-  "template": {
-    "title": "File for disability benefits",
-    "layout": "page-react.html",
-    "description": "Learn how to apply online for disability compensation.",
-    "hideFromSidebar": true,
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Disability Benefits",
-        "path": "disability/"
-      },
-      {
-        "name": "File for Disability Compensation",
-        "path": "disability/file-disability-claim-form-21-526ez"
-      }
-    ]
-  }
+  "rootUrl": "/disability/file-disability-claim-form-21-526ez"
 }

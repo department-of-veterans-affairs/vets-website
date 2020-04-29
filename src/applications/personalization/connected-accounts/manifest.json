@@ -2,21 +2,5 @@
   "appName": "Connected Accounts",
   "entryFile": "./connected-accounts-entry.jsx",
   "entryName": "connected-accounts",
-  "rootUrl": "/account/connected-accounts",
-  "production": true,
-  "template": {
-    "title": "Connected Accounts",
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "account/",
-        "name": "Your account settings"
-      },
-      {
-        "path": "account/connected-accounts/",
-        "name": "Connected Accounts"
-      }
-    ]
-  }
+  "rootUrl": "/account/connected-accounts"
 }

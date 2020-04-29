@@ -2,9 +2,5 @@
   "appName": "View Dependents",
   "entryFile": "./view-dependents-entry.jsx",
   "entryName": "dependents-view-dependents",
-  "rootUrl": "/disability/view-dependents",
-  "template": {
-    "layout": "page-react.html",
-    "vagovprod": false
-  }
+  "rootUrl": "/disability/view-dependents"
 }

@@ -1,6 +1,5 @@
 {
   "appName": "Beta Enrollment",
   "entryFile": "./beta-enrollment-entry.jsx",
-  "entryName": "beta-enrollment",
-  "production": true
+  "entryName": "beta-enrollment"
 }
