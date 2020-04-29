@@ -2,5 +2,6 @@
   "appName": "Order hearing aid batteries and accessories",
   "entryFile": "./app-entry.jsx",
   "entryName": "hearing-aid-batteries-and-accessories",
-  "rootUrl": "/hearing-aid-batteries-and-accessories"
+  "rootUrl": "/hearing-aid-batteries-and-accessories",
+  "e2eTestsDisabled": true
 }
