@@ -5,6 +5,8 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
+import { fireAnalytics } from '../analytics/helpers.js';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -23,7 +25,7 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { submission } = this.props.form;
     const { response } = submission;
-
+    fireAnalytics(submission);
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>

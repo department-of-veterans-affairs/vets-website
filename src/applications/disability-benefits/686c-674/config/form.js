@@ -7,8 +7,6 @@ import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { fireAnalytics } from '../analytics//helpers.js';
-
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
 import {
@@ -68,7 +66,6 @@ const formConfig = {
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'New 686',
-  transformForSubmit: fireAnalytics,
   defaultDefinitions: {},
   chapters: {
     optionSelection: {

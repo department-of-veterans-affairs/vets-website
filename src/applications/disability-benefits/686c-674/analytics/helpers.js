@@ -1,6 +1,8 @@
 import recordEvent from 'platform/monitoring/record-event';
 
-export const fireAnalytics = (formConfig, form) => {
+export const fireAnalytics = submission => {
+  console.log(submission);
+  /*
   recordEvent({
     event: 'disability-21-686c-submission-successful',
     'disability-under18AndUnmarried':
@@ -19,6 +21,5 @@ export const fireAnalytics = (formConfig, form) => {
     'disability-childStoppedAttendingSchool':
       form.data['view:selectable686Options'].reportStepchildNotInHousehold,
   });
-
-  return form.data;
+  */
 };
