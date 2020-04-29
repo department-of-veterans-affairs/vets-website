@@ -49,7 +49,7 @@ describe('686 add child - child additional information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
 

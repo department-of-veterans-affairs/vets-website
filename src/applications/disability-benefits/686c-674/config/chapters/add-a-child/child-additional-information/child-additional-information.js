@@ -5,7 +5,7 @@ import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { childInfo } from '../child-information/helpers';
 
-const addressSchema = buildAddressSchema(false);
+const addressSchema = buildAddressSchema(true);
 
 const additionalInformationSchema = cloneDeep(
   addChild.properties.addChildAdditionalInformation,
@@ -53,7 +53,7 @@ export const uiSchema = {
         address: {
           ...{ 'ui:title': "Child's address" },
           ...addressUISchema(
-            false,
+            true,
             'childrenToAdd[INDEX].childAddressInfo.address',
             (formData, index) =>
               formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,
