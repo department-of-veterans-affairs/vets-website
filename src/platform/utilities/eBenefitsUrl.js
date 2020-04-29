@@ -18,6 +18,20 @@ const eauthPathMap = {
   'ebenefits/about/feature?feature=payment-history': 'ebenefits/payments',
   'ebenefits/about/feature?feature=dependent-compensation':
     'ebenefits/vdc?target=%2Fwssweb%2Fwss-686-webparts%2Fdependent.do',
+  // NOTE: Future use
+  'ebenefits/about/feature?feature=request-vso-representative':
+    'ebenefits/vdc?target=%2Fwssweb%2FVDC2122%2Frepresentative.do',
+  'ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks':
+    'ebenefits/OrderMedicalEquip',
+  'ebenefits/about/feature?feature=sah-grant': 'ebenefits/SAH',
+  'ebenefits/about/feature?feature=cert-of-eligibility-home-loan':
+    'ebenefits/coe',
+  'ebenefits/about/feature?feature=vgli-policy-management':
+    'isam/sps/saml20idp/saml20/logininitial?PartnerId=https://fedsso-qa.prudential.com/cu&Target=https://giosgli-stage.prudential.com/osgli/Controller/eBenefitsUser',
+  // 'ebenefits/vso-search': 'ebenefits/vso-search',
+  // 'ebenefits/vso-search': 'ebenefits/vso-search',
+  // 'ebenefits/manage/representative': 'ebenefits/manage/representative',
+  // 'ebenefits/download-letters': 'ebenefits/download-letters',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;
