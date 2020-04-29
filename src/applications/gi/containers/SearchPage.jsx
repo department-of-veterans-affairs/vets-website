@@ -17,6 +17,7 @@ import {
   updateAutocompleteSearchTerm,
   eligibilityChange,
   showModal,
+  hideModal,
 } from '../actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -28,6 +29,7 @@ import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
+import { isLoggedIn } from 'platform/user/selectors';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -77,6 +79,7 @@ export class SearchPage extends React.Component {
       'priorityEnrollment',
       'independentStudy',
       'preferredProvider',
+      'excludeWarnings',
       'excludeCautionFlags',
     ];
 
@@ -258,6 +261,8 @@ export class SearchPage extends React.Component {
         showModal={this.props.showModal}
         eligibilityChange={this.props.eligibilityChange}
         gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
+        isLoggedIn={this.props.isLoggedIn}
+        hideModal={this.props.hideModal}
       />
     </div>
   );
@@ -296,6 +301,7 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
+  isLoggedIn: isLoggedIn(state),
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
   ],
@@ -313,6 +319,7 @@ const mapDispatchToProps = {
   updateAutocompleteSearchTerm,
   eligibilityChange,
   showModal,
+  hideModal,
 };
 
 export default withRouter(

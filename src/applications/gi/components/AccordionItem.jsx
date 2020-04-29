@@ -67,7 +67,7 @@ class AccordionItem extends React.Component {
     });
 
     return (
-      <h2 aria-live="off" className={headerClasses}>
+      <h2 className={headerClasses}>
         <button
           onClick={this.toggle}
           className="usa-accordion-button"
@@ -88,7 +88,7 @@ class AccordionItem extends React.Component {
 
     const childrenClassName = section ? null : 'usa-accordion-content';
     return (
-      <li aria-label={button} id={`${createId(button)}-accordion`}>
+      <li id={`${createId(button)}-accordion`}>
         {this.renderHeader()}
         <div id={this.id} className={childrenClassName} aria-hidden={!expanded}>
           {expanded ? children : null}
