@@ -2,6 +2,8 @@ import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
 import ReviewCardField from '../../components/ReviewCardField';
+import ReviewPageBatteries from '../../components/ReviewPageBatteries';
+import ReviewPageAccessories from '../../components/ReviewPageAccessories';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
@@ -53,6 +55,8 @@ export default {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        hideOnReview: formData =>
+          formData.currentAddress !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
@@ -82,11 +86,14 @@ export default {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        hideOnReview: formData =>
+          formData.currentAddress !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
       'ui:options': {
         classNames: 'vads-u-display--none',
+        hideOnReview: true,
       },
     },
     emailUI: {
@@ -123,6 +130,7 @@ export default {
       'ui:options': {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
+        hideOnReview: true,
       },
       'ui:validations': [
         {
@@ -152,8 +160,12 @@ export default {
       },
     },
     batteriesUI: {
-      'ui:field': SelectArrayItemsBatteriesWidget,
+      'ui:title': ' ',
+      'ui:field': 'StringField',
+      'ui:widget': SelectArrayItemsBatteriesWidget,
+      'ui:reviewWidget': ReviewPageBatteries,
       'ui:options': {
+        keepInPageOnReview: true,
         expandUnder: viewAddBatteriesField,
         expandUnderCondition: 'yes',
       },
@@ -172,11 +184,14 @@ export default {
       },
     },
     accessoriesUI: {
-      'ui:title': 'Which hearing aid do you need accessories for?',
+      'ui:title': ' ',
+      'ui:field': 'StringField',
       'ui:description':
         'You will be sent a 6 month supply of batteries for each device you select below.',
-      'ui:field': SelectArrayItemsAccessoriesWidget,
+      'ui:widget': SelectArrayItemsAccessoriesWidget,
+      'ui:reviewWidget': ReviewPageAccessories,
       'ui:options': {
+        keepInPageOnReview: true,
         expandUnder: viewAddAccessoriesField,
         expandUnderCondition: 'yes',
       },

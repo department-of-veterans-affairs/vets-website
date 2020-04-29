@@ -8,6 +8,19 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 
 export class BenefitsForm extends React.Component {
+  static propTypes = {
+    showModal: PropTypes.func,
+    hideModal: PropTypes.func,
+    eligibilityChange: PropTypes.func,
+    showHeader: PropTypes.bool,
+    isLoggedIn: PropTypes.object,
+  };
+
+  static defaultProps = {
+    showGbBenefit: false,
+    showHeader: false,
+  };
+
   cumulativeServiceOptions = () => [
     { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
     { value: '0.9', label: '30 months: 90% (includes BASIC)' },
@@ -35,10 +48,9 @@ export class BenefitsForm extends React.Component {
     });
 
   render() {
-    const showHeader = this.props.showHeader || false;
     return (
       <div className="eligibility-form">
-        {showHeader && <h2>Your eligibility</h2>}
+        {this.props.showHeader && <h2>Your benefits</h2>}
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
@@ -192,18 +204,10 @@ export class BenefitsForm extends React.Component {
           }
           onChange={this.props.eligibilityChange}
         />
+        {this.props.children}
       </div>
     );
   }
 }
-
-BenefitsForm.propTypes = {
-  eligibility: PropTypes.object,
-  estimatedBenefits: PropTypes.object,
-  showModal: PropTypes.func,
-  hideModal: PropTypes.func,
-  onHideModal: PropTypes.func,
-  eligibilityChange: PropTypes.func,
-};
 
 export default BenefitsForm;
