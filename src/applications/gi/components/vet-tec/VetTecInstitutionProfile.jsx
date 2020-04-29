@@ -4,6 +4,7 @@ import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
 import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedPrograms from './VetTecApprovedPrograms';
+import NewVetTecApprovedPrograms from './NewVetTecApprovedPrograms';
 import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
 import ContactInformation from '../profile/ContactInformation';
@@ -32,10 +33,17 @@ const VetTecInstitutionProfile = ({
     <div className="usa-accordion">
       <ul>
         <AccordionItem button="Approved programs">
-          <VetTecApprovedPrograms
-            institution={institution}
-            preSelectedProgram={preSelectedProgram}
-          />
+          {gibctEstimateYourBenefits ? (
+            <NewVetTecApprovedPrograms
+              institution={institution}
+              preSelectedProgram={preSelectedProgram}
+            />
+          ) : (
+            <VetTecApprovedPrograms
+              institution={institution}
+              preSelectedProgram={preSelectedProgram}
+            />
+          )}
         </AccordionItem>
         <AccordionItem button="Estimate your benefits">
           {gibctEstimateYourBenefits ? (

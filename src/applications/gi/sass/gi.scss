@@ -113,6 +113,14 @@
     display: flex;
   }
 }
+.program-description {
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+  label {
+    margin-left: 1.7rem;
+  }
+}
+
 .form-expanding-group-open {
   border-left: none;
 }
