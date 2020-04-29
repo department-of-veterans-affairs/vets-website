@@ -14,41 +14,35 @@ export default (store, widgetType) => {
     return;
   }
   // webpackChunkName: "chatbot"
-  import('./chatbot-entry')
-    .then(module => {
-      const { CoronavirusChatbot } = module.default;
-      initializeChatbot()
-        .then(webchatOptions => {
-          ReactDOM.render(
-            <Provider store={store}>
-              <CoronavirusChatbot config={webchatOptions} />
-            </Provider>,
-            root,
-          );
-        })
-        .then(
-          recordEvent({
-            event: `${GA_PREFIX}-connection-successful`,
-            'error-key': undefined,
-          }),
-        )
-        .catch(() => {
-          recordEvent({
-            event: `${GA_PREFIX}-connection-failure`,
-            'error-key': 'XX_failed_to_start_chat',
-          });
+  import('./chatbot-entry').then(module => {
+    const { CoronavirusChatbot } = module.default;
+    initializeChatbot()
+      .then(webchatOptions => {
+        recordEvent({
+          event: `${GA_PREFIX}-connection-successful`,
+          'error-key': undefined,
         });
-    })
-    .then(() => {
-      recordEvent({
-        event: `${GA_PREFIX}-load-successful`,
-        'error-key': undefined,
+        recordEvent({
+          event: `${GA_PREFIX}-load-successful`,
+          'error-key': undefined,
+        });
+
+        ReactDOM.render(
+          <Provider store={store}>
+            <CoronavirusChatbot config={webchatOptions} />
+          </Provider>,
+          root,
+        );
+      })
+      .catch(() => {
+        recordEvent({
+          event: `${GA_PREFIX}-connection-failure`,
+          'error-key': 'XX_failed_to_start_chat',
+        });
+        recordEvent({
+          event: `${GA_PREFIX}-load-failure`,
+          'error-key': undefined,
+        });
       });
-    })
-    .catch(() => {
-      recordEvent({
-        event: `${GA_PREFIX}-load-failure`,
-        'error-key': undefined,
-      });
-    });
+  });
 };
