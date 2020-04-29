@@ -866,6 +866,7 @@ class EstimateYourBenefitsForm extends React.Component {
       showModal={this.props.showModal}
     />
   );
+
   renderGbBenefit = () => {
     if (!this.props.displayedInputs?.giBillBenefit) {
       return null;
@@ -918,7 +919,25 @@ class EstimateYourBenefitsForm extends React.Component {
   );
 
   renderAboutYourSchool = () => {
-    if (!this.props.displayedInputs) return null;
+    const {
+      inState,
+      tuition,
+      books,
+      calendar,
+      enrolled,
+      enrolledOld,
+    } = this.props.displayedInputs;
+
+    if (
+      !inState &&
+      !tuition &&
+      !books &&
+      !calendar &&
+      !enrolled &&
+      !enrolledOld
+    )
+      return null;
+
     return (
       <AccordionItem
         button={'About your school'}
@@ -931,16 +950,8 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderInState()}
           {this.renderTuition()}
           {this.renderBooks()}
-          {this.renderYellowRibbon()}
-          {this.renderScholarships()}
-          {this.renderTuitionAssist()}
-          {this.renderEnrolled()}
           {this.renderCalendar()}
-          {this.renderOnlineClasses()}
-          {this.renderExtensionBeneficiaryZIP()}
-          {this.renderKicker()}
-          {this.renderBuyUp()}
-          {this.renderWorking()}
+          {this.renderEnrolled()}
         </div>
       </AccordionItem>
     );
@@ -953,7 +964,12 @@ class EstimateYourBenefitsForm extends React.Component {
       expanded={this.state.learningFormatAndScheduleExpanded}
       section
       onClick={this.toggleLearningFormatAndSchedule}
-    />
+    >
+      <div className="calculator-form">
+        {this.renderOnlineClasses()}
+        {this.renderExtensionBeneficiaryZIP()}
+      </div>
+    </AccordionItem>
   );
 
   renderScholarshipsAndOtherFunding = () => (
@@ -997,7 +1013,7 @@ EstimateYourBenefitsForm.propTypes = {
   calculatorInputChange: PropTypes.func,
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  isLoggedIn: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 };
 
 export default EstimateYourBenefitsForm;
