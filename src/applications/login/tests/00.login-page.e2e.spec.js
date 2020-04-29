@@ -1,6 +1,7 @@
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const manifest = require('../manifest.json');
+const environments = require('../../../site/constants/environments');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   client
@@ -11,5 +12,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.end();
 });
 
+// TODO: Remove this when CI builds temporary landing pages to run e2e tests
 module.exports['@disabled'] =
-  !manifest.production || __BUILDTYPE__ !== 'production';
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
