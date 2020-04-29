@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
+import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 import { activeServicePeriods } from '../utils';
 
-export default ({ formData }) => {
+function bddRedirect({ formData, eBenefitsUrl }) {
   const endDates = activeServicePeriods(formData).map(
     sp =>
       sp.dateRange.to ? moment(sp.dateRange.to) : moment().add(200, 'days'),
@@ -20,7 +22,7 @@ export default ({ formData }) => {
     <div style={{ marginBottom: '1em' }}>
       <a
         className="usa-button-primary va-button-primary"
-        href={EBEN_526_URL}
+        href={eBenefitsUrl(EBEN_526_PATH)}
         onClick={() =>
           recordEvent({
             event: 'nav-ebenefits-click',
@@ -99,4 +101,14 @@ export default ({ formData }) => {
       <AlertBox headline={headline} content={content} status="error" />
     </>
   );
-};
+}
+
+function mapStateToProps(state) {
+  return {
+    eBenefitsUrl: eBenefitsUrlGenerator(state),
+  };
+}
+
+export default connect(mapStateToProps)(bddRedirect);
+
+export { bddRedirect };
