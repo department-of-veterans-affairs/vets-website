@@ -79,6 +79,7 @@ export class SearchPage extends React.Component {
       'priorityEnrollment',
       'independentStudy',
       'preferredProvider',
+      'excludeWarnings',
       'excludeCautionFlags',
     ];
 
