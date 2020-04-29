@@ -10,36 +10,30 @@ export default (_store, widgetType) => {
     return;
   }
 
-  import(/* webpackChunkName: "chatbot" */ './index')
-    .then(module => {
-      const initializeChatbot = module.default;
-      initializeChatbot()
-        .then(webchatOptions => {
-          window.WebChat.renderWebChat(webchatOptions, root);
-        })
-        .then(
-          recordEvent({
-            event: `${GA_PREFIX}-connection-successful`,
-            'error-key': undefined,
-          }),
-        )
-        .catch(() => {
-          recordEvent({
-            event: `${GA_PREFIX}-connection-failure`,
-            'error-key': 'XX_failed_to_start_chat',
-          });
+  import(/* webpackChunkName: "chatbot" */ './index').then(module => {
+    const initializeChatbot = module.default;
+    initializeChatbot()
+      .then(webchatOptions => {
+        recordEvent({
+          event: `${GA_PREFIX}-connection-successful`,
+          'error-key': undefined,
         });
-    })
-    .then(() => {
-      recordEvent({
-        event: `${GA_PREFIX}-load-successful`,
-        'error-key': undefined,
+        recordEvent({
+          event: `${GA_PREFIX}-load-successful`,
+          'error-key': undefined,
+        });
+
+        window.WebChat.renderWebChat(webchatOptions, root);
+      })
+      .catch(() => {
+        recordEvent({
+          event: `${GA_PREFIX}-connection-failure`,
+          'error-key': 'XX_failed_to_start_chat',
+        });
+        recordEvent({
+          event: `${GA_PREFIX}-load-failure`,
+          'error-key': undefined,
+        });
       });
-    })
-    .catch(() => {
-      recordEvent({
-        event: `${GA_PREFIX}-load-failure`,
-        'error-key': undefined,
-      });
-    });
+  });
 };
