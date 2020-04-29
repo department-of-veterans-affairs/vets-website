@@ -1,10 +1,8 @@
 const Auth = require('platform/testing/e2e/auth');
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const ErrorMockData = require('../mockdata/error-response.json');
-const manifest = require('../../manifest.json');
 const Mock = require('platform/testing/e2e/mock-helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
-const environments = require('site/constants/environments');
 
 function runRatedDisabilitiesTest(browser) {
   // Because error states for total rating and list are separate but contain identical classes,
@@ -78,7 +76,3 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
-
-// TODO: Remove this when CI builds temporary landing pages to run e2e tests
-module.exports['@disabled'] =
-  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
