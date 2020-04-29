@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 import recordEvent from 'platform/monitoring/record-event';
 
-function FileOriginalClaimPage({ isLoggedIn }) {
+function FileOriginalClaimPage({ isLoggedIn, eBenefitsUrl }) {
   return (
     <AlertBox
       status="error"
@@ -17,7 +18,9 @@ function FileOriginalClaimPage({ isLoggedIn }) {
             website.
           </p>
           <a
-            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+            href={eBenefitsUrl(
+              'ebenefits/about/feature?feature=disability-compensation',
+            )}
             className="usa-button-primary va-button-primary"
             onClick={() =>
               isLoggedIn &&
@@ -37,6 +40,7 @@ function FileOriginalClaimPage({ isLoggedIn }) {
 function mapStateToProps(state) {
   return {
     isLoggedIn: isLoggedInSelector(state),
+    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 
