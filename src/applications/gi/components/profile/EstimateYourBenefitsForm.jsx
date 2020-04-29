@@ -972,15 +972,35 @@ class EstimateYourBenefitsForm extends React.Component {
     </AccordionItem>
   );
 
-  renderScholarshipsAndOtherFunding = () => (
-    <AccordionItem
-      button={'Scholarships and other funding'}
-      id={`eyb-${createId('Scholarships and other funding')}`}
-      expanded={this.state.scholarshipsAndOtherFundingExpanded}
-      section
-      onClick={this.toggleScholarshipsAndOtherFunding}
-    />
-  );
+  renderScholarshipsAndOtherFunding = () => {
+    const {
+      yellowRibbon,
+      tuitionAssist,
+      kicker,
+      buyUp,
+      scholarships,
+    } = this.props.displayedInputs;
+    if (!yellowRibbon && !tuitionAssist && !kicker && !buyUp && !scholarships)
+      return null;
+
+    return (
+      <AccordionItem
+        button={'Scholarships and other funding'}
+        id={`eyb-${createId('Scholarships and other funding')}`}
+        expanded={this.state.scholarshipsAndOtherFundingExpanded}
+        section
+        onClick={this.toggleScholarshipsAndOtherFunding}
+      >
+        <div className="calculator-form">
+          {this.renderYellowRibbon()}
+          {this.renderTuitionAssist()}
+          {this.renderKicker()}
+          {this.renderBuyUp()}
+          {this.renderScholarships()}
+        </div>
+      </AccordionItem>
+    );
+  };
 
   render() {
     return (
