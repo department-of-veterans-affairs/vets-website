@@ -16,6 +16,8 @@ const eauthPathMap = {
   'ebenefits/about/feature?feature=direct-deposit-and-contact-information':
     'ebenefits/manage/contact',
   'ebenefits/about/feature?feature=payment-history': 'ebenefits/payments',
+  'ebenefits/about/feature?feature=dependent-compensation':
+    'ebenefits/vdc?target=%2Fwssweb%2Fwss-686-webparts%2Fdependent.do',
 };
 function normalizePath(path) {
   return path.startswith('/') ? path.substring(1) : path;
