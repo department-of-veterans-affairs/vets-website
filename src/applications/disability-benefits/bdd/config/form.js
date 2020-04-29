@@ -16,13 +16,17 @@ import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   hasGuardOrReservePeriod,
+  hasVAEvidence,
+  hasPrivateEvidence,
   capitalizeEachWord,
+  hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
   isAnswering781Questions,
   isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
+  isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   isDisabilityPtsd,
   directToCorrectForm,
@@ -35,16 +39,20 @@ import prefillTransformer from '../../all-claims/prefill-transformer';
 import { transform } from '../../all-claims/submit-transformer';
 
 import { veteranInfoDescription } from '../../all-claims/content/veteranDetails';
+import { supportingEvidenceOrientation } from '../../all-claims/content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
   addDisabilities,
   additionalBehaviorChanges,
+  additionalDocuments,
   additionalRemarks781,
   aidAndAttendance,
   alternateNames,
   ancillaryFormsWizardSummary,
   choosePtsdType,
+  claimExamsInfo,
   contactInformation,
+  evidenceTypes,
   federalOrders,
   finalIncident,
   individualUnemployability,
@@ -54,14 +62,18 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   physicalHealthChanges,
+  privateMedicalRecords,
+  privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
   ptsdWalkthroughChoice781a,
   secondaryFinalIncident,
   socialBehaviorChanges,
   summaryOfDisabilities,
+  summaryOfEvidence,
   uploadPersonalPtsdDocuments,
   uploadPtsdDocuments,
+  vaMedicalRecords,
   workBehaviorChanges,
 } from '../../all-claims/pages';
 
@@ -127,7 +139,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Service member information',
-          path: 'veteran-information',
+          path: 'service-member-information',
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
@@ -394,6 +406,65 @@ const formConfig = {
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
+        },
+      },
+    },
+    supportingEvidence: {
+      title: 'Supporting Evidence',
+      pages: {
+        orientation: {
+          title: '',
+          path: 'supporting-evidence/orientation',
+          uiSchema: { 'ui:description': supportingEvidenceOrientation },
+          schema: { type: 'object', properties: {} },
+        },
+        evidenceTypes: {
+          title: 'Supporting evidence types',
+          path: 'supporting-evidence/evidence-types',
+          uiSchema: evidenceTypes.uiSchema,
+          schema: evidenceTypes.schema,
+        },
+        vaMedicalRecords: {
+          title: 'VA medical records',
+          path: 'supporting-evidence/va-medical-records',
+          depends: hasVAEvidence,
+          uiSchema: vaMedicalRecords.uiSchema,
+          schema: vaMedicalRecords.schema,
+        },
+        privateMedicalRecords: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records',
+          depends: hasPrivateEvidence,
+          uiSchema: privateMedicalRecords.uiSchema,
+          schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsRelease: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-release',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          schema: privateMedicalRecordsRelease.schema,
+        },
+        additionalDocuments: {
+          title: 'Lay statements and other evidence',
+          path: 'supporting-evidence/additional-evidence',
+          depends: hasOtherEvidence,
+          uiSchema: additionalDocuments.uiSchema,
+          schema: additionalDocuments.schema,
+        },
+        summaryOfEvidence: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/summary',
+          uiSchema: summaryOfEvidence.uiSchema,
+          schema: summaryOfEvidence.schema,
+        },
+        howClaimsWork: {
+          title: 'How claim exams work',
+          path: 'how-claim-exams-work',
+          uiSchema: claimExamsInfo.uiSchema,
+          schema: claimExamsInfo.schema,
         },
       },
     },
