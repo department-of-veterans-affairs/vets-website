@@ -5,18 +5,6 @@ import moment from 'moment';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 
-// Helper to check if the URL is the same as our current origin.
-const isURLSameOrigin = url => {
-  const matches = url.match(/^(https?:)?\/\/([^/]+)/);
-
-  // If URI is not absolute or protocol-relative then it is always same-origin.
-  if (!matches) {
-    return true;
-  }
-
-  return window.location.host === matches[2];
-};
-
 // Helper to handle downloads on IE.
 const onDownloadClick = url => event => {
   event.preventDefault();
@@ -36,7 +24,7 @@ const onDownloadClick = url => event => {
 const deriveLinkProps = form => {
   const linkProps = {};
 
-  const isSameOrigin = isURLSameOrigin(form?.attributes?.url);
+  const isSameOrigin = form?.attributes?.url.startsWith(window.location.origin);
   const isPDF = form?.attributes?.url.toLowerCase().includes('.pdf');
   const isInternetExplorer = !!navigator.msSaveBlob;
 
