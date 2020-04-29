@@ -1,2 +1,2 @@
 export const doesLiveTogether = formData =>
-  formData.spouseDoesLiveWithVeteran === false;
+  formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran === false;

@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import nonMilitaryJobsUi from '../../../platform/forms/definitions/nonMilitaryJobs';
+import nonMilitaryJobsUi from 'platform/forms/definitions/nonMilitaryJobs';
 
 export default function employmentHistoryPage(
   schema,

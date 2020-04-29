@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import DowntimeNotification, {
   externalServices,
@@ -36,37 +35,6 @@ import {
   directDepositIsBlocked,
   directDepositIsSetUp,
 } from '../selectors';
-
-/**
- * This Alert is being shown for all DD users on a temporary basis due to some
- * issues with the EVSS upstream service
- * */
-const DirectDepositDownAlert = () => (
-  <AlertBox
-    headline="The direct deposit feature isn't available right&nbsp;now"
-    status="error"
-    className="vads-u-margin-bottom--2"
-  >
-    <p>
-      You may have trouble updating your direct deposit information at this
-      time. We’re working to fix this. If you need to update your direct deposit
-      information, please call us at{' '}
-      <a
-        href="tel:1-800-827-1000"
-        aria-label="800. 8 2 7. 1000."
-        title="Dial the telephone number 800-827-1000"
-        className="no-wrap"
-      >
-        800-827-1000
-      </a>{' '}
-      (TTY:{' '}
-      <a href="tel:1-800-829-4833" className="no-wrap">
-        800-829-4833
-      </a>
-      ).
-    </p>
-  </AlertBox>
-);
 
 const AdditionalInfos = props => (
   <>
@@ -295,8 +263,6 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          {/* Show this alert until EVSS issues are resolved */}
-          <DirectDepositDownAlert />
           <AdditionalInfos
             recordProfileNavEvent={recordProfileNavEvent}
             eBenefitsUrl={this.props.eBenefitsUrl}

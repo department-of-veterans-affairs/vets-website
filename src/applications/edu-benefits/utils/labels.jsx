@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { states } from '../../../platform/forms/address';
+import { states } from 'platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 
 export const chapterNames = {

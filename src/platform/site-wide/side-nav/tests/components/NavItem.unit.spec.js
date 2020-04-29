@@ -79,7 +79,9 @@ describe('<NavItem>', () => {
     };
 
     const wrapper = shallow(<NavItem {...defaultProps} />);
-    expect(wrapper.contains(<div className="line" />)).to.equal(true);
+    expect(
+      wrapper.contains(<div className="line" id={`${item.id}-line`} />),
+    ).to.equal(true);
     wrapper.unmount();
   });
 });

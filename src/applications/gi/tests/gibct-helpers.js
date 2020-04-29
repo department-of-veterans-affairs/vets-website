@@ -77,13 +77,15 @@ const expandCollapseAccordion = (client, id) =>
     .click(`${id} button`)
     .click(`${id} button`);
 
+const createId = name => name.toLowerCase().replace(/\s/g, '-');
+
 /**
  * Main sections are expanded on page load, this collapses then expands a section
  * @param client
  * @param name
  */
 const expandCollapseMainSection = (client, name) => {
-  const id = `#${name.toLowerCase().replace(/\s/g, '-')}-accordion`;
+  const id = `#${createId(name)}-accordion`;
   expandCollapseAccordion(client, id);
 };
 

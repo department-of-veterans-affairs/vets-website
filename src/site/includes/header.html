@@ -26,7 +26,9 @@
   {% include "src/site/includes/metatags.liquid" %}
   {% endif %}
 
-  <script src="/js/record-event.js"></script>
+  <script>
+    {% include "src/site/assets/js/record-event.js" %}
+  </script>
 
   {% include 'src/site/includes/google-analytics' %}
 
@@ -65,7 +67,7 @@
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.
   https://github.com/digital-analytics-program/gov-wide-code
 -->
-  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
+  <script async type="text/javascript" nonce="**CSP_NONCE**" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
     id="_fed_an_ua_tag"></script>
 
   <script type="text/javascript">
@@ -89,4 +91,10 @@
     {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
   {% endif %}
 
-  <script async src="/js/incompatible-browser.js"></script>
+  <script type="text/javascript">
+  (function() {
+    var module = {};
+    {% include "src/site/assets/js/incompatible-browser.js" %}
+    checkBrowserCompatibility();
+  })();
+  </script>

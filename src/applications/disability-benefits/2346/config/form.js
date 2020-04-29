@@ -42,7 +42,7 @@ const formChapterTitles = {
 
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
-  address: 'Shipping Address',
+  address: 'Shipping address',
   addBatteriesPage: 'Add batteries to your order',
   addAccessoriesPage: 'Add accessories to your order',
 };
@@ -129,7 +129,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {
@@ -147,7 +147,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {
