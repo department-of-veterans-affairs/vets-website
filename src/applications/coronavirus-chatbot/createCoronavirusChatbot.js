@@ -1,7 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import initializeChatbot from './index';
 import recordEvent from '../../platform/monitoring/record-event';
 import { GA_PREFIX } from './utils';
 
-export default (_store, widgetType) => {
+export default (store, widgetType) => {
   // Derive the element to render our widget.
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
@@ -9,13 +13,18 @@ export default (_store, widgetType) => {
   if (!root) {
     return;
   }
-
-  import(/* webpackChunkName: "chatbot" */ './index')
+  // webpackChunkName: "chatbot"
+  import('./chatbot-entry')
     .then(module => {
-      const initializeChatbot = module.default;
+      const { CoronavirusChatbot } = module.default;
       initializeChatbot()
         .then(webchatOptions => {
-          window.WebChat.renderWebChat(webchatOptions, root);
+          ReactDOM.render(
+            <Provider store={store}>
+              <CoronavirusChatbot config={webchatOptions} />
+            </Provider>,
+            root,
+          );
         })
         .then(
           recordEvent({

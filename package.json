@@ -133,6 +133,7 @@
     "babel-plugin-react-transform": "^2.0.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.2",
     "body-parser": "^1.15.2",
+    "botframework-webchat": "^4.8.1",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "chalk": "^2.4.2",
