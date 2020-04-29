@@ -11,6 +11,7 @@ import {
   institutionFilterChange,
   eligibilityChange,
   showModal,
+  hideModal,
 } from '../actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -25,6 +26,7 @@ import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import BenefitsForm from '../components/profile/BenefitsForm';
+import { isLoggedIn } from 'platform/user/selectors';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -140,6 +142,10 @@ export class LandingPage extends React.Component {
               {this.props.gibctEstimateYourBenefits ? (
                 <BenefitsForm
                   eligibilityChange={this.handleEligibilityChange}
+                  {...this.props.eligibility}
+                  isLoggedIn={this.props.isLoggedIn}
+                  hideModal={this.props.hideModal}
+                  showModal={this.props.showModal}
                 />
               ) : (
                 <EligibilityForm
@@ -200,6 +206,7 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
   eligibility: state.eligibility,
+  isLoggedIn: isLoggedIn(state),
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
   ],
@@ -213,6 +220,7 @@ const mapDispatchToProps = {
   institutionFilterChange,
   eligibilityChange,
   showModal,
+  hideModal,
 };
 
 export default withRouter(

@@ -92,25 +92,35 @@ export class EstimateYourBenefits extends React.Component {
     focusElement('#estimated-benefits');
   };
 
-  renderYourBenefits = () => (
-    <AccordionItem
-      button={'Your benefits'}
-      id={`eyb-${createId('Your benefits')}`}
-      section
-      expanded={this.state.yourBenefitsExpanded}
-      onClick={this.toggleYourBenefits}
-    >
-      <form>
-        <BenefitsForm
-          eligibilityChange={this.props.eligibilityChange}
-          eligibility={this.props.eligibility}
-          isLoggedIn={this.props.isLoggedIn}
-          hideModal={this.props.hideModal}
-          showModal={this.props.showModal}
-        />
-      </form>
-    </AccordionItem>
-  );
+  renderYourBenefits = () => {
+    const {
+      calculator: inputs,
+      calculated: { inputs: displayed },
+    } = this.props;
+    return (
+      <AccordionItem
+        button={'Your benefits'}
+        id={`eyb-${createId('Your benefits')}`}
+        section
+        expanded={this.state.yourBenefitsExpanded}
+        onClick={this.toggleYourBenefits}
+      >
+        <form>
+          <BenefitsForm
+            eligibilityChange={this.props.eligibilityChange}
+            {...this.props.eligibility}
+            isLoggedIn={this.props.isLoggedIn}
+            hideModal={this.props.hideModal}
+            showModal={this.props.showModal}
+            inputs={inputs}
+            displayedInputs={displayed}
+            onInputChange={this.props.calculatorInputChange}
+            showGbBenefit
+          />
+        </form>
+      </AccordionItem>
+    );
+  };
 
   renderAboutYourSchool = () => {
     const {
