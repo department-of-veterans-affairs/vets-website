@@ -62,16 +62,28 @@ describe('686 report a child has stopped attending school', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    fillData(form, 'input#root_childNoLongerAtSchoolName_first', 'john');
-    const month = form.find('select#root_dateChildLeftSchoolMonth');
-    const day = form.find('select#root_dateChildLeftSchoolDay');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_first',
+      'john',
+    );
+    const month = form.find(
+      'select#root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
+    );
+    const day = form.find(
+      'select#root_childStoppedAttendingSchool_dateChildLeftSchoolDay',
+    );
     month.simulate('change', {
       target: { value: '1' },
     });
     day.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_dateChildLeftSchoolYear', '2010');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_dateChildLeftSchoolYear',
+      '2010',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -90,8 +102,16 @@ describe('686 report a child has stopped attending school', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childNoLongerAtSchoolName_first', 'john');
-    fillData(form, 'input#root_childNoLongerAtSchoolName_last', 'doe');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_first',
+      'john',
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_last',
+      'doe',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -109,17 +129,33 @@ describe('686 report a child has stopped attending school', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childNoLongerAtSchoolName_first', 'john');
-    fillData(form, 'input#root_childNoLongerAtSchoolName_last', 'doe');
-    const month = form.find('select#root_dateChildLeftSchoolMonth');
-    const day = form.find('select#root_dateChildLeftSchoolDay');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_first',
+      'john',
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_last',
+      'doe',
+    );
+    const month = form.find(
+      'select#root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
+    );
+    const day = form.find(
+      'select#root_childStoppedAttendingSchool_dateChildLeftSchoolDay',
+    );
     month.simulate('change', {
       target: { value: '1' },
     });
     day.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_dateChildLeftSchoolYear', '2010');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_dateChildLeftSchoolYear',
+      '2010',
+    );
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     form.unmount();
@@ -136,22 +172,44 @@ describe('686 report a child has stopped attending school', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childNoLongerAtSchoolName_first', 'john');
-    fillData(form, 'input#root_childNoLongerAtSchoolName_middle', 'jeffrey');
-    fillData(form, 'input#root_childNoLongerAtSchoolName_last', 'doe');
-    const suffix = form.find('select#root_childNoLongerAtSchoolName_suffix');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_first',
+      'john',
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_middle',
+      'jeffrey',
+    );
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_fullName_last',
+      'doe',
+    );
+    const suffix = form.find(
+      'select#root_childStoppedAttendingSchool_fullName_suffix',
+    );
     suffix.simulate('change', {
       target: { value: 'II' },
     });
-    const month = form.find('select#root_dateChildLeftSchoolMonth');
-    const day = form.find('select#root_dateChildLeftSchoolDay');
+    const month = form.find(
+      'select#root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
+    );
+    const day = form.find(
+      'select#root_childStoppedAttendingSchool_dateChildLeftSchoolDay',
+    );
     month.simulate('change', {
       target: { value: '1' },
     });
     day.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_dateChildLeftSchoolYear', '2010');
+    fillData(
+      form,
+      'input#root_childStoppedAttendingSchool_dateChildLeftSchoolYear',
+      '2010',
+    );
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     form.unmount();

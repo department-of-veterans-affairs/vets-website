@@ -2,7 +2,12 @@
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "./profile-info-table";
 @import "./profile-sidenav";
+@import "./mobile-sidenav-trigger";
 
 .profile-service-badge {
   max-height: 108px;
+}
+
+[tabindex="-1"]:focus {
+  outline: 0;
 }
