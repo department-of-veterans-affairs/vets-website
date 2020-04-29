@@ -10,8 +10,13 @@ const disableButtons = event => {
 };
 
 const disableCheckboxes = () => {
-[...document.querySelectorAll('#webchat input[type="checkbox"]')]
-    .forEach(input => input.disabled = true);
+  [...document.querySelectorAll('#webchat input[type="checkbox"]')].forEach(
+    input => {
+      const currentInput = input;
+      currentInput.disabled = true;
+      return currentInput;
+    },
+  );
 };
 
 const scrollToNewMessage = () => {
