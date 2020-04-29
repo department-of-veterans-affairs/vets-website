@@ -76,17 +76,14 @@ class RatedDisabilityList extends React.Component {
 
   // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData(data) {
-    const formalizedDisabilityData = data.map(d => {
+    return data.map(d => {
       const effectiveDate = {
         effectiveDate: d.effectiveDate
           ? moment(d.effectiveDate).format('DD/MM/YYYY')
           : null,
       };
-      const disability = Object.assign({}, d, effectiveDate);
-      return disability;
+      return Object.assign({}, d, effectiveDate);
     });
-
-    return formalizedDisabilityData;
   }
 
   render() {
