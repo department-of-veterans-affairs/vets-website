@@ -2,5 +2,6 @@
   "appName": "10-10CG",
   "entryFile": "./app-entry.jsx",
   "entryName": "caregivers",
-  "rootUrl": "/caregivers"
+  "rootUrl": "/caregivers",
+  "e2eTestsDisabled": true
 }
