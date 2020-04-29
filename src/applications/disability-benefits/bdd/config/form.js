@@ -16,6 +16,15 @@ import FormSavedPage from '../../all-claims/containers/FormSavedPage';
 
 import {
   hasGuardOrReservePeriod,
+  capitalizeEachWord,
+  needsToEnter781,
+  needsToEnter781a,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
+  isUploading781Form,
+  isUploading781aForm,
+  hasNewPtsdDisability,
+  isDisabilityPtsd,
   directToCorrectForm,
 } from '../../all-claims/utils';
 
@@ -27,11 +36,48 @@ import { transform } from '../../all-claims/submit-transformer';
 
 import { veteranInfoDescription } from '../../all-claims/content/veteranDetails';
 import {
+  adaptiveBenefits,
+  addDisabilities,
+  additionalBehaviorChanges,
+  additionalRemarks781,
+  aidAndAttendance,
   alternateNames,
+  ancillaryFormsWizardSummary,
+  choosePtsdType,
   contactInformation,
   federalOrders,
+  finalIncident,
+  individualUnemployability,
+  mentalHealthChanges,
   militaryHistory,
+  newDisabilities,
+  newDisabilityFollowUp,
+  newPTSDFollowUp,
+  physicalHealthChanges,
+  ptsd781aChangesIntro,
+  ptsdWalkthroughChoice781,
+  ptsdWalkthroughChoice781a,
+  secondaryFinalIncident,
+  socialBehaviorChanges,
+  summaryOfDisabilities,
+  uploadPersonalPtsdDocuments,
+  uploadPtsdDocuments,
+  workBehaviorChanges,
 } from '../../all-claims/pages';
+
+import { ancillaryFormsWizardDescription } from '../../all-claims/content/ancillaryFormsWizardIntro';
+
+import { ptsd781NameTitle } from '../../all-claims/content/ptsdClassification';
+import { ptsdFirstIncidentIntro } from '../../all-claims/content/ptsdFirstIncidentIntro';
+
+import {
+  createFormConfig781,
+  createFormConfig781a,
+} from '../../all-claims/config/781';
+
+import createformConfig8940 from '../../all-claims/config/8940';
+
+import { PTSD_INCIDENT_ITERATION } from '../../all-claims/constants';
 
 import migrations from '../../all-claims/migrations';
 
@@ -76,16 +122,17 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     veteranDetails: {
-      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Service Member`,
+      title: isReviewPage =>
+        `${isReviewPage ? 'Review ' : ''}Service Member Details`,
       pages: {
         veteranInformation: {
-          title: 'Veteran information',
+          title: 'Service member information',
           path: 'veteran-information',
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
         contactInformation: {
-          title: 'Veteran contact information',
+          title: 'Service member contact information',
           path: 'contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
@@ -96,11 +143,6 @@ const formConfig = {
           uiSchema: alternateNames.uiSchema,
           schema: alternateNames.schema,
         },
-      },
-    },
-    militaryHistory: {
-      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Military History`,
-      pages: {
         militaryHistory: {
           title: 'Military service history',
           path: 'military-service-history',
@@ -115,6 +157,243 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+      },
+    },
+    disabilities: {
+      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Disabilities`,
+      pages: {
+        newDisabilities: {
+          title: 'New disabilities',
+          path: 'new-disabilities',
+          uiSchema: newDisabilities.uiSchema,
+          schema: newDisabilities.schema,
+        },
+        addDisabilities: {
+          title: 'Add a new disability',
+          path: 'new-disabilities/add',
+          uiSchema: addDisabilities.uiSchema,
+          schema: addDisabilities.schema,
+          updateFormData: addDisabilities.updateFormData,
+        },
+        newDisabilityFollowUp: {
+          title: formData => capitalizeEachWord(formData.condition),
+          path: 'new-disabilities/follow-up/:index',
+          showPagePerItem: true,
+          itemFilter: item => !isDisabilityPtsd(item.condition),
+          arrayPath: 'newDisabilities',
+          uiSchema: newDisabilityFollowUp.uiSchema,
+          schema: newDisabilityFollowUp.schema,
+        },
+        followUpPageBreak: {
+          title: '',
+          depends: () => false,
+          path: 'new-disabilities/page-break',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        // 781/a - 1. REVIEW INTRODUCTION PAGE
+        newPTSDFollowUp: {
+          title: formData => capitalizeEachWord(formData.condition),
+          path: 'new-disabilities/ptsd-intro',
+          depends: hasNewPtsdDisability,
+          uiSchema: newPTSDFollowUp.uiSchema,
+          schema: newPTSDFollowUp.schema,
+        },
+        // 781/a - 2. SELECT ONE (OR ALL) OF THE PTSD TYPES LISTED
+        choosePtsdType: {
+          title: 'Factors that contributed to PTSD',
+          path: 'new-disabilities/ptsd-type',
+          depends: hasNewPtsdDisability,
+          uiSchema: choosePtsdType.uiSchema,
+          schema: choosePtsdType.schema,
+        },
+        // 781 - 2a.  SELECT UPLOAD OPTION
+        // 781 - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
+        ptsdWalkthroughChoice781: {
+          title: 'Answer online questions or upload paper 21-0781',
+          path: 'new-disabilities/walkthrough-781-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+          uiSchema: ptsdWalkthroughChoice781.uiSchema,
+          schema: ptsdWalkthroughChoice781.schema,
+        },
+        incidentIntro: {
+          title: 'PTSD intro to questions',
+          path: 'new-disabilities/ptsd-intro-to-questions',
+          depends: isAnswering781Questions(0),
+          uiSchema: {
+            'ui:title': ptsd781NameTitle,
+            'ui:description': ptsdFirstIncidentIntro,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        // 781 - Pages 3 - 12 (Event Loop)
+        ...createFormConfig781(PTSD_INCIDENT_ITERATION),
+        // 781 - ?. ???
+        uploadPtsdDocuments781: {
+          title: 'Upload PTSD documents - 781',
+          path: 'new-disabilities/ptsd-781-upload',
+          depends: formData =>
+            needsToEnter781(formData) && isUploading781Form(formData),
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
+        },
+        // 781 - 13. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
+        finalIncident: {
+          path: 'new-disabilities/ptsd-additional-incident',
+          title: 'Additional PTSD event',
+          depends: isAnswering781Questions(PTSD_INCIDENT_ITERATION),
+          uiSchema: finalIncident.uiSchema,
+          schema: finalIncident.schema,
+        },
+        // 781 - 14. ADDITIONAL REMARKS
+        additionalRemarks781: {
+          title: 'Additional remarks',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: isAnswering781Questions(0),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
+        },
+        // 781a - 2a. SELECT UPLOAD OPTION
+        // 781a - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
+        ptsdWalkthroughChoice781a: {
+          title: 'Answer online questions or upload paper 21-0781A?',
+          path: 'new-disabilities/walkthrough-781a-choice',
+          depends: needsToEnter781a,
+          uiSchema: ptsdWalkthroughChoice781a.uiSchema,
+          schema: ptsdWalkthroughChoice781a.schema,
+        },
+        // 781a - Pages 3 - 10 (Event Loop)
+        ...createFormConfig781a(PTSD_INCIDENT_ITERATION),
+        // 781a - ?. ???
+        uploadPtsdDocuments781a: {
+          title: 'Upload PTSD documents - 781a',
+          path: 'new-disabilities/ptsd-781a-upload',
+          depends: formData =>
+            needsToEnter781a(formData) && isUploading781aForm(formData),
+          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
+          schema: uploadPersonalPtsdDocuments.schema,
+        },
+        // 781a - 11. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
+        secondaryFinalIncident: {
+          path: 'new-disabilities/ptsd-assault-additional-incident',
+          title: 'Additional assault PTSD event',
+          depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
+          uiSchema: secondaryFinalIncident.uiSchema,
+          schema: secondaryFinalIncident.schema,
+        },
+        ptsd781ChangesIntro: {
+          title: 'Additional changes in behavior - physical',
+          path: 'new-disabilities/ptsd-781a-changes-intoduction',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: ptsd781aChangesIntro.uiSchema,
+          schema: ptsd781aChangesIntro.schema,
+        },
+        // 781a - 12. BEHAVIOR CHANGES: PHYSICAL
+        physicalHealthChanges: {
+          title: 'Additional changes in behavior - physical',
+          path: 'new-disabilities/ptsd-781a-physical-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: physicalHealthChanges.uiSchema,
+          schema: physicalHealthChanges.schema,
+        },
+        // 781a - 13. BEHAVIOR CHANGES: MENTAL/SUBSTANCE ABUSE
+        mentalHealthChanges: {
+          title: 'Additional changes in behavior - mental/substance abuse',
+          path: 'new-disabilities/ptsd-781a-mental-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: mentalHealthChanges.uiSchema,
+          schema: mentalHealthChanges.schema,
+        },
+        // 781a - 14. BEHAVIOR CHANGES: AT WORK
+        workBehaviorChanges: {
+          title: 'Additional changes in behavior - work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
+        },
+        // 781a - 15. BEHAVIOR CHANGES: SOCIAL
+        socialBehaviorChanges: {
+          title: 'Additional changes in behavior - social',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
+        },
+        // 781a - 16. BEHAVIOR CHANGES: ADDITIONAL INFORMATION
+        additionalBehaviorChanges: {
+          title: 'Additional changes in behavior - more information',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
+        },
+        // Ancillary forms wizard
+        ancillaryFormsWizardIntro: {
+          title: 'Additional disability benefits',
+          path: 'additional-disability-benefits',
+          uiSchema: {
+            'ui:title': 'Additional disability benefits',
+            'ui:description': ancillaryFormsWizardDescription,
+            'view:ancillaryFormsWizard': {
+              'ui:title':
+                'Would you like to learn more about additional benefits?',
+              'ui:widget': 'yesNo',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:ancillaryFormsWizardIntro': {
+                type: 'object',
+                properties: {},
+              },
+              'view:ancillaryFormsWizard': {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        adaptiveBenefits: {
+          title: 'Automobile allowance and adaptive benefits',
+          path: 'adaptive-benefits',
+          depends: formData => formData['view:ancillaryFormsWizard'],
+          uiSchema: adaptiveBenefits.uiSchema,
+          schema: adaptiveBenefits.schema,
+        },
+        aidAndAttendance: {
+          title: 'Aid and attendance benefits',
+          path: 'aid-and-attendance',
+          depends: formData => formData['view:ancillaryFormsWizard'],
+          uiSchema: aidAndAttendance.uiSchema,
+          schema: aidAndAttendance.schema,
+        },
+        individualUnemployability: {
+          title: 'Individual Unemployability',
+          path: 'individual-unemployability',
+          depends: formData => formData['view:ancillaryFormsWizard'],
+          uiSchema: individualUnemployability.uiSchema,
+          schema: individualUnemployability.schema,
+        },
+        ...createformConfig8940(),
+        ancillaryFormsWizardSummary: {
+          title: 'Summary of additional benefits',
+          path: 'additional-disability-benefits-summary',
+          depends: ancillaryFormsWizardSummary.depends,
+          uiSchema: ancillaryFormsWizardSummary.uiSchema,
+          schema: ancillaryFormsWizardSummary.schema,
+        },
+        // End ancillary forms wizard
+        summaryOfDisabilities: {
+          title: 'Summary of disabilities',
+          path: 'disabilities/summary',
+          uiSchema: summaryOfDisabilities.uiSchema,
+          schema: summaryOfDisabilities.schema,
         },
       },
     },
