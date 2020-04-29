@@ -10,10 +10,10 @@ export default (_store, widgetType) => {
     return;
   }
 
-  import(/* webpackChunkName: "chatbot" */ './index').then(module => {
+  import(/* webpackChunkName: "chatbot" */ './index').then(async module => {
     const initializeChatbot = module.default;
-    initializeChatbot()
-      .then(webchatOptions => {
+    try {
+        const webchatOptions = await initializeChatbot();
         recordEvent({
           event: `${GA_PREFIX}-connection-successful`,
           'error-key': undefined,
@@ -22,11 +22,9 @@ export default (_store, widgetType) => {
           event: `${GA_PREFIX}-load-successful`,
           'error-key': undefined,
         });
-
         window.WebChat.renderWebChat(webchatOptions, root);
-      })
-      .catch(() => {
-        recordEvent({
+    } catch(err) {
+      recordEvent({
           event: `${GA_PREFIX}-connection-failure`,
           'error-key': 'XX_failed_to_start_chat',
         });
@@ -34,6 +32,7 @@ export default (_store, widgetType) => {
           event: `${GA_PREFIX}-load-failure`,
           'error-key': undefined,
         });
+    }
       });
   });
 };
