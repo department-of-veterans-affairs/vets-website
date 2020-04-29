@@ -1,5 +1,24 @@
 @Library('va.gov-devops-jenkins-lib') _
 
+// NOTE this job is expected to run in two contexts:
+//
+// 1. This job will be triggered by the vets-website production
+// release pipeline also known as the daily auto-deploy
+// http://jenkins.vfs.va.gov/job/deploys/job/vets-gov-autodeploy-vets-website/
+// When run in this context the ref parameter will be populated with
+// the ref of the latest release.
+//
+// 2. This job will be triggered by the CMS (va-cms-bot) in order to
+// run a content build and deploy to dev or staging. In this context
+// the ref parameter will not be provided and this job will retrieve
+// the latest commit SHA from the master branch and wait for a valid
+// commit status indicated that it has been deployed and can therefore
+// be rebuilt and deployed by this job.
+//
+// Under no circumstances should this job trigger a production
+// deployment. At this point in time all deployments to production
+// should be handled through the daily deploy job referenced above.
+
 node('vetsgov-general-purpose') {
   refStatusState = ""
   ref = params.ref

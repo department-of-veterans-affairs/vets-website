@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
-import { isValidDateRange } from '../../platform/forms/validations';
+import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
-import { isValidCentralMailPostalCode } from '../../platform/forms/address/validations';
+import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
 export default [
   // 0 -> 1, we've added some date validation and need to move users back to particular pages

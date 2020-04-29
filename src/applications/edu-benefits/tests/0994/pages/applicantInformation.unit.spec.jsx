@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../../0994/config/form.js';
 
