@@ -24,12 +24,12 @@ Example data:
   },
 {% endcomment %}
 {% if header == empty %}
-    {% assign header = "h4" %}
+    {% assign header = "h2" %}
 {% endif %}
 {% assign isStoriesPage = entityUrl.path | isPage: "stories" %}
 <div data-template="teasers/news_story" class="region-list usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
     <div class="region-grid vads-u-margin-right--2 {% if isStoriesPage %}stories-list{% endif %}">
-        <{{ header }} class="{% if isStoriesPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %} vads-u-margin-top--0 medium-screen:vads-u-margin-bottom--0p5"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+        <{{ header }} class="vads-u-font-size--md medium-screen:vads-u-font-size--lg vads-u-margin-top--0 medium-screen:vads-u-margin-bottom--0p5"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
         <p class="vads-u-margin-y--0">{{ node.fieldIntroText | truncatewords: 60, "..." }}</p>
     </div>
     <div class="region-grid {% if isStoriesPage %}stories-list{% endif %} vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">

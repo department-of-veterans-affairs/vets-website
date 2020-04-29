@@ -85,14 +85,10 @@ describe('686 veteran former partner names', () => {
     selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
     fillData(
       form,
-      'input#root_veteranMarriageHistory_0_formerSpouseName_first',
+      'input#root_veteranMarriageHistory_0_fullName_first',
       'jane',
     );
-    fillData(
-      form,
-      'input#root_veteranMarriageHistory_0_formerSpouseName_last',
-      'doe',
-    );
+    fillData(form, 'input#root_veteranMarriageHistory_0_fullName_last', 'doe');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

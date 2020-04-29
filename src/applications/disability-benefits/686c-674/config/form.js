@@ -1,3 +1,5 @@
+import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
+
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
@@ -66,7 +68,7 @@ const formConfig = {
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'New 686',
-  defaultDefinitions: {},
+  defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
       title: '686c Options',
@@ -204,8 +206,9 @@ const formConfig = {
         },
         marriageAdditionalEvidence: {
           depends: formData =>
-            typeof formData.marriageType === 'string' &&
-            formData.marriageType !== MARRIAGE_TYPES.ceremonial,
+            typeof formData?.currentMarriageInformation?.type === 'string' &&
+            formData?.currentMarriageInformation?.type !==
+              MARRIAGE_TYPES.ceremonial,
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
           uiSchema: marriageAdditionalEvidence.uiSchema,
