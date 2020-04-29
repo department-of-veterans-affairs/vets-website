@@ -76,6 +76,7 @@ export class SearchPage extends React.Component {
       'independentStudy',
       'preferredProvider',
       'excludeWarnings',
+      'excludeCautionFlags',
     ];
 
     const stringFilterParams = [

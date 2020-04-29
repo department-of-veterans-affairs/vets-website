@@ -8,6 +8,7 @@ import environment from 'platform/utilities/environment';
 class CautionaryWarningsFilter extends React.Component {
   static propTypes = {
     excludeWarnings: PropTypes.bool.isRequired,
+    excludeCautionFlags: PropTypes.bool.isRequired,
     onChange: PropTypes.func,
     showModal: PropTypes.func.isRequired,
   };
@@ -29,8 +30,8 @@ class CautionaryWarningsFilter extends React.Component {
             {this.renderProfileCautionFlagModal()}
           </p>
           <Checkbox
-            checked={this.props.excludeWarnings}
-            name="excludeWarnings"
+            checked={this.props.excludeCautionFlags}
+            name="excludeCautionFlags"
             label="Exclude institutions with warnings"
             onChange={this.props.onChange}
           />

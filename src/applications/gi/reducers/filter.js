@@ -14,6 +14,7 @@ const INITIAL_STATE = Object.freeze({
   preferredProvider: false,
   provider: [],
   excludeWarnings: false,
+  excludeCautionFlags: false,
 });
 
 export default function(state = INITIAL_STATE, action) {
