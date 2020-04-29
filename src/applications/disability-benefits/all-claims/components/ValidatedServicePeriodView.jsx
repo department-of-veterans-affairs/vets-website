@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 import recordEvent from 'platform/monitoring/record-event';
-import { EBEN_526_URL } from '../../constants';
+import { EBEN_526_PATH } from '../../constants';
 
-export default function ValidatedServicePeriodView({ formData, onEdit }) {
+function ValidatedServicePeriodView({ formData, onEdit, eBenefitsUrl }) {
   let from = '';
   let to = '';
   if (formData.dateRange) {
@@ -27,7 +29,7 @@ export default function ValidatedServicePeriodView({ formData, onEdit }) {
           claim.
         </p>
         <a
-          href={EBEN_526_URL}
+          href={eBenefitsUrl(EBEN_526_PATH)}
           className="usa-button-primary va-button-primary"
           onClick={() =>
             recordEvent({
@@ -66,3 +68,13 @@ export default function ValidatedServicePeriodView({ formData, onEdit }) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    eBenefitsUrl: eBenefitsUrlGenerator(state),
+  };
+}
+
+export default connect(mapStateToProps)(ValidatedServicePeriodView);
+
+export { ValidatedServicePeriodView };
