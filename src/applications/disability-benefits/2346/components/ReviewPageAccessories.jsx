@@ -21,7 +21,7 @@ const ReviewPageAccessories = ({ selectedProductInfo, accessorySupplies }) => (
           <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
             {product.productName}
           </h5>
-          <span>Quanity: {product.quantity}</span>
+          <span>Quantity: {product.quantity}</span>
         </div>
       ))}
     </div>

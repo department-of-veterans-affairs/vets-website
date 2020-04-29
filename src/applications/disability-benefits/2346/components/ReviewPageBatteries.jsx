@@ -21,7 +21,7 @@ const ReviewPageBatteries = ({ selectedProductInfo, batterySupplies }) => (
             {product.deviceName}
           </h5>
           <span>
-            {product.productName} batteries (Quanity: {product.quantity})
+            {product.productName} batteries (Quantity: {product.quantity})
           </span>
         </div>
       ))}
