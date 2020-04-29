@@ -101,8 +101,13 @@ class ObjectField extends React.Component {
       const hideOnReviewIfFalse =
         _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) ===
         true;
-      const hideOnReview =
-        _.get([propName, 'ui:options', 'hideOnReview'], uiSchema) === true;
+      let hideOnReview = _.get(
+        [propName, 'ui:options', 'hideOnReview'],
+        uiSchema,
+      );
+      if (typeof hideOnReview === 'function') {
+        hideOnReview = hideOnReview(formData, formContext);
+      }
       return (
         (!hideOnReviewIfFalse || !!formData[propName]) &&
         !hideOnReview &&

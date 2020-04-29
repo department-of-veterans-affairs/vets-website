@@ -1,3 +1,4 @@
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -11,7 +12,7 @@ import {
 } from '../constants';
 
 class SelectArrayItemsBatteriesWidget extends Component {
-  handleChecked = (productId, checked, supply) => {
+  handleChecked = (checked, supply) => {
     const { selectedProducts, formData } = this.props;
     let updatedSelectedProducts;
     if (checked) {
@@ -47,7 +48,7 @@ class SelectArrayItemsBatteriesWidget extends Component {
             supply.productGroup === HEARING_AID_BATTERIES ? (
               <div
                 key={supply.productId}
-                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4"
+                className="vads-u-background-color--gray-lightest vads-u-padding-left--4 vads-u-padding-top--1 vads-u-padding-bottom--4 battery-page vads-u-margin-y--3"
               >
                 <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
                   {supply.deviceName}
@@ -89,8 +90,8 @@ class SelectArrayItemsBatteriesWidget extends Component {
                           6-month supply.
                         </p>
                         <p>
-                          If you need batteries sooner, please call the DLC
-                          Customer Service Station at{' '}
+                          If you need batteries sooner, call the DLC Customer
+                          Service Station at{' '}
                           <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
                           <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                         </p>
@@ -101,7 +102,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
                 ) : (
                   <div
                     className={
-                      selectedProducts.includes(supply.productId)
+                      selectedProducts.find(
+                        selectedProduct =>
+                          selectedProduct.productId === supply.productId,
+                      )
                         ? BLUE_BACKGROUND
                         : WHITE_BACKGROUND
                     }
@@ -109,7 +113,15 @@ class SelectArrayItemsBatteriesWidget extends Component {
                     <input
                       name={supply.productId}
                       type="checkbox"
-                      onChange={this.handleChecked}
+                      onChange={e =>
+                        this.handleChecked(e.target.checked, supply)
+                      }
+                      checked={
+                        !!selectedProducts.find(
+                          selectedProduct =>
+                            selectedProduct.productId === supply.productId,
+                        )
+                      }
                     />
                     <label htmlFor={supply.productId} className="main">
                       Order batteries for this device
@@ -121,6 +133,15 @@ class SelectArrayItemsBatteriesWidget extends Component {
               ''
             ),
         )}
+        <AdditionalInfo triggerText="What if I don't see my hearing aid?">
+          <p>
+            You'll need to call your audiologist to update your record with all
+            your hearing devices.
+          </p>
+          <a href="https://www.va.gov/find-locations/">
+            Find contact information for your local VA medical center
+          </a>
+        </AdditionalInfo>
       </>
     );
   }

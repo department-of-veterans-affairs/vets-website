@@ -50,7 +50,7 @@ function alertContent(isLoggedIn) {
 
 const BDDPage = ({ isLoggedIn }) => (
   <AlertBox
-    status="error"
+    status="warning"
     headline="You’ll need to file a claim on eBenefits"
     content={alertContent(isLoggedIn)}
   />
