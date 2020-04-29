@@ -69,11 +69,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
   });
 
   return (
-    <nav
-      className={sideNavClasses}
-      aria-hidden={!isSideNavOpen}
-      id="va-profile-sidebar"
-    >
+    <nav className={sideNavClasses} id="va-profile-sidebar">
       <div>
         <button
           type="button"
