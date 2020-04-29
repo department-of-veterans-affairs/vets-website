@@ -4,6 +4,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import createMockEndpoint from 'platform/testing/e2e/mock-helpers';
 import manifest from './manifest.json';
 import stub from './constants/stub.json';
+import environments from 'site/constants/environments';
 
 const SELECTORS = {
   APP: '[data-e2e-id="yellow-ribbon-app"]',
@@ -87,5 +88,6 @@ module.exports = E2eHelpers.createE2eTest(browser => {
   });
 });
 
+// TODO: Remove this when CI builds temporary landing pages to run e2e tests
 module.exports['@disabled'] =
-  manifest.template[process.env.BUILDTYPE] === false;
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
