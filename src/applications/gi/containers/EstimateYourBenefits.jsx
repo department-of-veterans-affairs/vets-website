@@ -53,6 +53,7 @@ export class EstimateYourBenefits extends React.Component {
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           estimatedBenefits={this.props.estimatedBenefits}
           isLoggedIn={this.props.isLoggedIn}
+          updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
         <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
