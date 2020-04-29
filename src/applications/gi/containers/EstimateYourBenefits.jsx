@@ -15,9 +15,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import BenefitsForm from '../components/profile/BenefitsForm';
-import AboutYourSchoolForm from '../components/profile/AboutYourSchoolForm';
-import LearningFormatAndScheduleForm from '../components/profile/LearningFormatAndScheduleForm';
-import ScholarshipsAndOtherFundingForm from '../components/profile/ScholarshipsAndOtherFundingForm';
+import EybCalculatorForm from '../components/profile/EybCalculatorForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import { createId } from '../utils/helpers';
 import AccordionItem from '../components/AccordionItem';
@@ -138,7 +136,7 @@ export class EstimateYourBenefits extends React.Component {
         section
         onClick={this.toggleAboutYourSchool}
       >
-        <AboutYourSchoolForm
+        <EybCalculatorForm
           profile={profile}
           eligibility={this.props.eligibility}
           eligibilityChange={this.props.eligibilityChange}
@@ -153,63 +151,25 @@ export class EstimateYourBenefits extends React.Component {
     );
   };
 
-  renderLearningFormatAndSchedule = () => {
-    const {
-      profile,
-      calculator: inputs,
-      calculated: { inputs: displayed },
-    } = this.props;
-    return (
-      <AccordionItem
-        button={'Learning format and schedule'}
-        id={`eyb-${createId('Learning format and schedule')}`}
-        expanded={this.state.learningFormatAndScheduleExpanded}
-        section
-        onClick={this.toggleLearningFormatAndSchedule}
-      >
-        <LearningFormatAndScheduleForm
-          profile={profile}
-          eligibility={this.props.eligibility}
-          eligibilityChange={this.props.eligibilityChange}
-          inputs={inputs}
-          displayedInputs={displayed}
-          onShowModal={this.props.showModal}
-          onInputChange={this.props.calculatorInputChange}
-          onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-          estimatedBenefits={this.props.estimatedBenefits}
-        />
-      </AccordionItem>
-    );
-  };
+  renderLearningFormatAndSchedule = () => (
+    <AccordionItem
+      button={'Learning format and schedule'}
+      id={`eyb-${createId('Learning format and schedule')}`}
+      expanded={this.state.learningFormatAndScheduleExpanded}
+      section
+      onClick={this.toggleLearningFormatAndSchedule}
+    />
+  );
 
-  renderScholarshipsAndOtherFunding = () => {
-    const {
-      profile,
-      calculator: inputs,
-      calculated: { inputs: displayed },
-    } = this.props;
-    return (
-      <AccordionItem
-        button={'Scholarships and other funding'}
-        id={`eyb-${createId('Scholarships and other funding')}`}
-        expanded={this.state.scholarshipsAndOtherFundingExpanded}
-        section
-        onClick={this.toggleScholarshipsAndOtherFunding}
-      >
-        <ScholarshipsAndOtherFundingForm
-          profile={profile}
-          eligibility={this.props.eligibility}
-          eligibilityChange={this.props.eligibilityChange}
-          inputs={inputs}
-          displayedInputs={displayed}
-          onShowModal={this.props.showModal}
-          onInputChange={this.props.calculatorInputChange}
-          onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-          estimatedBenefits={this.props.estimatedBenefits}
-        />
-      </AccordionItem>
-    );
-  };
+  renderScholarshipsAndOtherFunding = () => (
+    <AccordionItem
+      button={'Scholarships and other funding'}
+      id={`eyb-${createId('Scholarships and other funding')}`}
+      expanded={this.state.scholarshipsAndOtherFundingExpanded}
+      section
+      onClick={this.toggleScholarshipsAndOtherFunding}
+    />
+  );
 
   render() {
     if (isEmpty(this.props.estimatedBenefits)) {
