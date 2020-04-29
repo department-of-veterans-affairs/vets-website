@@ -24,7 +24,7 @@ Example data:
   },
 {% endcomment %}
 {% if header == empty %}
-    {% assign header = "h4" %}
+    {% assign header = "h2" %}
 {% endif %}
 {% assign isStoriesPage = entityUrl.path | isPage: "stories" %}
 

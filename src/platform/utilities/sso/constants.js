@@ -1,4 +1,4 @@
-import ENVIRONMENTS from '../../../site/constants/environments';
+import ENVIRONMENTS from 'site/constants/environments';
 
 export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.LOCALHOST]: 'pint.',

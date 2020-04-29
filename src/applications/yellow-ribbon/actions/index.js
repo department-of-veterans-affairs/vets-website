@@ -1,5 +1,6 @@
 // Dependencies.
 import URLSearchParams from 'url-search-params';
+import recordEvent from 'platform/monitoring/record-event';
 // Relative imports.
 import { fetchResultsApi } from '../api';
 import {
@@ -98,6 +99,17 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
       page,
       perPage,
       state,
+    });
+
+    // Track the API request.
+    recordEvent({
+      event: 'edu-yellow-ribbon-search',
+      'edu-yellow-ribbon-name': name || undefined,
+      'edu-yellow-ribbon-state': state || undefined,
+      'edu-yellow-ribbon-city': city || undefined,
+      'edu-yellow-ribbon-contribution-amount': contributionAmount || undefined,
+      'edu-yellow-ribbon-number-of-students': numberOfStudents || undefined,
+      'edu-yellow-ribbon-number-of-search-results': response?.totalResults,
     });
 
     // If we are here, the API request succeeded.

@@ -1,29 +1,20 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
+import { validateName, reportChildMarriage } from '../../../utilities';
 import { isChapterFieldRequired } from '../../../helpers';
-import { merge } from 'lodash';
-
-const { fullName, date } = genericSchemas;
 
 export const schema = {
   type: 'object',
   properties: {
-    childMarriage: {
-      type: 'object',
-      properties: {
-        marriedChildName: fullName,
-        dateChildMarried: date,
-      },
-    },
+    childMarriage: reportChildMarriage,
   },
 };
 
 export const uiSchema = {
   childMarriage: {
     'ui:title': 'Child who is now married',
-    marriedChildName: {
+    fullName: {
       'ui:validations': [validateName],
       first: {
         'ui:title': 'Child’s first name',
@@ -49,7 +40,7 @@ export const uiSchema = {
         'ui:options': { widgetClassNames: 'form-select-medium' },
       },
     },
-    dateChildMarried: merge(currentOrPastDateUI('Date of marriage'), {
+    dateMarried: merge(currentOrPastDateUI('Date of marriage'), {
       'ui:required': formData =>
         isChapterFieldRequired(
           formData,

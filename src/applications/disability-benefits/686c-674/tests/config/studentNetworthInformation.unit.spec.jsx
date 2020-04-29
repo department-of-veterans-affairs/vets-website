@@ -20,13 +20,22 @@ describe('Report 674 student networth information', () => {
     'view:selectable686Options': {
       report674: true,
     },
-    studentFullName: {
-      first: 'John',
-      last: 'Doe',
+    studentNameAndSSN: {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
     },
-    studentAddress: {
-      countryName: '',
+    studentAddressMarriageTuition: {
+      address: {
+        countryName: '',
+      },
     },
+    programInformation: {
+      studentIsEnrolledFullTime: '',
+    },
+    studentDoesEarnIncome: '',
+    studentWillEarnIncome: '',
     studentDoesHaveNetworth: '',
   };
 
@@ -108,13 +117,13 @@ describe('Report 674 student networth information', () => {
       />,
     );
     selectRadio(form, 'root_studentDoesHaveNetworth', 'Y');
-    fillData(form, 'input#root_networthInformation_savings', '2000');
-    fillData(form, 'input#root_networthInformation_securities', '2000');
-    fillData(form, 'input#root_networthInformation_realEstate', '2000');
-    fillData(form, 'input#root_networthInformation_otherAssets', '2000');
+    fillData(form, 'input#root_studentNetworthInformation_savings', '2000');
+    fillData(form, 'input#root_studentNetworthInformation_securities', '2000');
+    fillData(form, 'input#root_studentNetworthInformation_realEstate', '2000');
+    fillData(form, 'input#root_studentNetworthInformation_otherAssets', '2000');
     fillData(
       form,
-      'textarea#root_networthInformation_remarks',
+      'textarea#root_studentNetworthInformation_remarks',
       'I have a networth',
     );
     form.find('form').simulate('submit');
