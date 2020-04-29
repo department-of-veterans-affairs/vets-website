@@ -31,6 +31,8 @@ import createPost911GiBillStatusWidget, {
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import addLinkToCovidFAQ from './covidFaqLink';
 
+import create686CTA from './view-modify-dependent/686-cta/create686CTA.js';
+
 // No-react styles.
 import './sass/static-pages.scss';
 
@@ -131,6 +133,8 @@ createPost911GiBillStatusWidget(
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 
 createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
+
+create686CTA(store, widgetTypes.FORM_686_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {
