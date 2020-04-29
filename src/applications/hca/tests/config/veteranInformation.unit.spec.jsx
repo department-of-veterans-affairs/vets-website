@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   submitForm,
-} from '../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('HCA veteranInformation', () => {

@@ -1,5 +1,5 @@
-import { apiRequest } from '../../platform/utilities/api';
-import recordEvent from '../../platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 import { watchForButtonClicks, GA_PREFIX } from './utils';
 
 export const defaultLocale = 'en-US';
