@@ -13,6 +13,7 @@ const INITIAL_STATE = Object.freeze({
   typeName: 'ALL',
   preferredProvider: false,
   provider: [],
+  excludeWarnings: false,
   excludeCautionFlags: false,
 });
 
