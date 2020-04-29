@@ -4,6 +4,7 @@ const manifest = require('../../manifest.json');
 const Mock = require('platform/testing/e2e/mock-helpers');
 const SuccessMockData = require('../mockdata/200-response.json');
 const Timeouts = require('platform/testing/e2e/timeouts');
+const environments = require('site/constants/environments');
 
 function runRatedDisabilitiesTest(browser) {
   browser.assert.containsText(
@@ -42,5 +43,7 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
+
+// TODO: Remove this when CI builds temporary landing pages to run e2e tests
 module.exports['@disabled'] =
-  manifest.template[process.env.BUILDTYPE] === false;
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
