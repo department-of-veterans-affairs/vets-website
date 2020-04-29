@@ -41,8 +41,8 @@ const getRedirectLink = formData => {
   if (pages.ratedDisabilities.depends(formData)) {
     // start from rated disabilities page
     destinationPath = pages.ratedDisabilities.path;
-  } else if (pages.newDisabilities.depends(formData)) {
-    destinationPath = pages.newDisabilities.path;
+  } else if (pages.addDisabilities.depends(formData)) {
+    destinationPath = pages.addDisabilities.path;
   }
   return (
     <Link
