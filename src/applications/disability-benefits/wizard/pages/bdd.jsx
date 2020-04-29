@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 import recordEvent from 'platform/monitoring/record-event';
 import { pageNames } from './pageList';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
+import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 
 // TODO: Add in the dates for 180 and 90 days in the future
 const dateFormat = 'MMMM DD, YYYY';
@@ -16,7 +17,7 @@ const oneHundredEightyDays = moment()
   .add(180, 'd')
   .format(dateFormat);
 
-function alertContent(isLoggedIn) {
+function alertContent(isLoggedIn, eBenefitsUrl) {
   return (
     <>
       <p>
@@ -33,7 +34,7 @@ function alertContent(isLoggedIn) {
         your claim on eBenefits.
       </p>
       <a
-        href={EBEN_526_URL}
+        href={eBenefitsUrl(EBEN_526_PATH)}
         className="usa-button-primary va-button-primary"
         onClick={() =>
           isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
@@ -58,6 +59,7 @@ const BDDPage = ({ isLoggedIn }) => (
 
 const mapStateToProps = state => ({
   isLoggedIn: isLoggedInSelector(state),
+  eBenefitsUrl: eBenefitsUrlGenerator(state),
 });
 
 export default {
