@@ -6,18 +6,14 @@ import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
-import RadioButtons from '../RadioButtons';
 
 export class BenefitsForm extends React.Component {
   static propTypes = {
-    eligibility: PropTypes.object,
-    estimatedBenefits: PropTypes.object,
     showModal: PropTypes.func,
     hideModal: PropTypes.func,
-    onHideModal: PropTypes.func,
     eligibilityChange: PropTypes.func,
-    showGbBenefit: PropTypes.bool,
     showHeader: PropTypes.bool,
+    isLoggedIn: PropTypes.object,
   };
 
   static defaultProps = {
@@ -42,11 +38,6 @@ export class BenefitsForm extends React.Component {
     { value: 'purple heart', label: 'Purple Heart Service: 100%' },
   ];
 
-  handleInputChange = event => {
-    const { name: field, value } = event.target;
-    this.props.onInputChange({ field, value });
-  };
-
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
@@ -55,35 +46,6 @@ export class BenefitsForm extends React.Component {
       showModal: this.props.showModal,
       component: this,
     });
-
-  renderGbBenefit = () => {
-    if (
-      !this.props.displayedInputs?.giBillBenefit ||
-      !this.props.showGbBenefit
-    ) {
-      return null;
-    }
-
-    return (
-      <div>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text:
-              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
-            modal: 'whenUsedGiBill',
-            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
-          })}
-          name="giBillBenefit"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.inputs.giBillBenefit}
-          onChange={this.handleInputChange}
-        />
-      </div>
-    );
-  };
 
   render() {
     return (
@@ -242,7 +204,7 @@ export class BenefitsForm extends React.Component {
           }
           onChange={this.props.eligibilityChange}
         />
-        {this.renderGbBenefit()}
+        {this.props.children}
       </div>
     );
   }

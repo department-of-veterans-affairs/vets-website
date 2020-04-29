@@ -866,6 +866,31 @@ class EstimateYourBenefitsForm extends React.Component {
       showModal={this.props.showModal}
     />
   );
+  renderGbBenefit = () => {
+    if (!this.props.displayedInputs?.giBillBenefit) {
+      return null;
+    }
+
+    return (
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text:
+              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
+            modal: 'whenUsedGiBill',
+            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  };
 
   renderYourBenefits = () => (
     <AccordionItem
@@ -883,10 +908,11 @@ class EstimateYourBenefitsForm extends React.Component {
           hideModal={this.props.hideModal}
           showModal={this.props.showModal}
           inputs={this.props.inputs}
-          displayedInputs={this.props.inputs.displayed}
+          displayedInputs={this.props.displayedInputs}
           onInputChange={this.props.calculatorInputChange}
-          showGbBenefit
-        />
+        >
+          {this.renderGbBenefit()}
+        </BenefitsForm>
       </form>
     </AccordionItem>
   );
@@ -962,12 +988,16 @@ class EstimateYourBenefitsForm extends React.Component {
 }
 
 EstimateYourBenefitsForm.propTypes = {
+  profile: PropTypes.object,
+  eligibility: PropTypes.object,
+  eligibilityChange: PropTypes.func,
   inputs: PropTypes.object,
   displayedInputs: PropTypes.object,
   showModal: PropTypes.func,
   calculatorInputChange: PropTypes.func,
-  profile: PropTypes.object,
+  onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
+  isLoggedIn: PropTypes.object,
 };
 
 export default EstimateYourBenefitsForm;
