@@ -2,5 +2,6 @@
   "appName": "28-1900 Vocational Rehab Chapter 31 form",
   "entryFile": "./chapter31-entry.jsx",
   "entryName": "chapter31-vre",
-  "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter31"
+  "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter31",
+  "e2eTestsDisabled": true
 }
