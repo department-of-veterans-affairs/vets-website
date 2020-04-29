@@ -181,7 +181,7 @@ InstitutionFilterForm.propTypes = {
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
     excludeWarnings: PropTypes.bool,
-    excludeCautionFlags: PropTypes.bool
+    excludeCautionFlags: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -199,7 +199,7 @@ InstitutionFilterForm.propTypes = {
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
     excludeWarnings: PropTypes.bool,
-    excludeCautionFlags: PropTypes.bool
+    excludeCautionFlags: PropTypes.bool,
   }),
 };
 
