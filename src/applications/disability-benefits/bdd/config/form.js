@@ -61,6 +61,7 @@ import {
   newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
+  paymentInformation,
   physicalHealthChanges,
   privateMedicalRecords,
   privateMedicalRecordsRelease,
@@ -465,6 +466,18 @@ const formConfig = {
           path: 'how-claim-exams-work',
           uiSchema: claimExamsInfo.uiSchema,
           schema: claimExamsInfo.schema,
+        },
+      },
+    },
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        paymentInformation: {
+          title: 'Payment information',
+          path: 'payment-information',
+          uiSchema: paymentInformation.uiSchema,
+          schema: paymentInformation.schema,
+          onContinue: captureEvents.paymentInformation,
         },
       },
     },
