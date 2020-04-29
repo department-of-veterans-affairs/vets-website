@@ -88,7 +88,7 @@ export class BenefitsForm extends React.Component {
   render() {
     return (
       <div className="eligibility-form">
-        {this.props.showHeader && <h2>Your eligibility</h2>}
+        {this.props.showHeader && <h2>Your benefits</h2>}
         <Dropdown
           label="What's your military status?"
           name="militaryStatus"
