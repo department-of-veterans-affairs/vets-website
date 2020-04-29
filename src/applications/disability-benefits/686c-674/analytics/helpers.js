@@ -6,20 +6,20 @@ export const fireAnalytics = submission => {
   recordEvent({
     event: 'disability-21-686c-submission-successful',
     'disability-under18AndUnmarried':
-      form.data['view:selectable686Options'].reportMarriageOfChildUnder18,
+      submission['view:selectable686Options'].reportMarriageOfChildUnder18,
     'disability-childAttendingSchool':
-      form.data['view:selectable686Options']
+      submission['view:selectable686Options']
         .reportChild18OrOlderIsNotAttendingSchool,
     'disability-reportingDivorce':
-      form.data['view:selectable686Options'].reportDivorce,
+      submission['view:selectable686Options'].reportDivorce,
     'disability-stepchildLeftHousehold':
-      form.data['view:selectable686Options'].reportStepchildNotInHousehold,
+      submission['view:selectable686Options'].reportStepchildNotInHousehold,
     'disability-deathOfDependent':
-      form.data['view:selectable686Options'].reportDeath,
+      submission['view:selectable686Options'].reportDeath,
     'disability-marriageOfChild':
-      form.data['view:selectable686Options'].reportStepchildNotInHousehold,
+      submission['view:selectable686Options'].reportStepchildNotInHousehold,
     'disability-childStoppedAttendingSchool':
-      form.data['view:selectable686Options'].reportStepchildNotInHousehold,
+      submission['view:selectable686Options'].reportStepchildNotInHousehold,
   });
   */
 };
