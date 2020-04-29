@@ -20,12 +20,13 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
+    fireAnalytics(this.props.form.data);
   }
 
   render() {
     const { submission } = this.props.form;
     const { response } = submission;
-    fireAnalytics(submission);
+
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
