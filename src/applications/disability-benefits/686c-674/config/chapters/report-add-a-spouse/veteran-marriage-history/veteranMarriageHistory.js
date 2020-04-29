@@ -17,6 +17,7 @@ export const uiSchema = {
       expandUnder: 'veteranWasMarriedBefore',
       expandUnderCondition: true,
       keepInPageOnReview: true,
+      itemName: 'former spouse',
       updateSchema: () => ({
         minItems: 1,
       }),

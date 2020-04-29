@@ -71,10 +71,10 @@ const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
-      title: '686c Options',
+      title: 'What do you want to do?',
       pages: {
         wizard: {
-          title: '686c Options',
+          title: 'What do you want to do?',
           path: '686-options-selection',
           uiSchema: wizard.uiSchema,
           schema: wizard.schema,
