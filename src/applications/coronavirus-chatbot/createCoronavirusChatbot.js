@@ -1,4 +1,4 @@
-import recordEvent from '../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from './utils';
 
 export default (_store, widgetType) => {
