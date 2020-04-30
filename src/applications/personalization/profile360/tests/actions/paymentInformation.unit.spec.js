@@ -25,11 +25,7 @@ const setup = ({ mockGA }) => {
     global.ga.getAll = sinon.stub();
     global.ga.getAll.returns([
       {
-        get: key => {
-          const value =
-            key === 'clientId' ? '1234567890:0987654321' : undefined;
-          return value;
-        },
+        get: key => (key === 'clientId' ? '1234567890:0987654321' : undefined),
       },
     ]);
   }

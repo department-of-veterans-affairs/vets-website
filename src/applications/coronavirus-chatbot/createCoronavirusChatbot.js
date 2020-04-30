@@ -1,4 +1,4 @@
-import recordEvent from '../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from './utils';
 
 export default (_store, widgetType) => {
@@ -10,23 +10,28 @@ export default (_store, widgetType) => {
     return;
   }
 
-  import(/* webpackChunkName: "chatbot" */ './index')
-    .then(module => {
-      const initializeChatbot = module.default;
-      initializeChatbot(root);
-    })
-    // eslint-disable-next-line no-unused-vars
-    .then(res => {
+  import(/* webpackChunkName: "chatbot" */ './index').then(async module => {
+    const initializeChatbot = module.default;
+    try {
+      const webchatOptions = await initializeChatbot();
+      recordEvent({
+        event: `${GA_PREFIX}-connection-successful`,
+        'error-key': undefined,
+      });
       recordEvent({
         event: `${GA_PREFIX}-load-successful`,
         'error-key': undefined,
       });
-    })
-    // eslint-disable-next-line no-unused-vars
-    .catch(error => {
+      window.WebChat.renderWebChat(webchatOptions, root);
+    } catch (err) {
+      recordEvent({
+        event: `${GA_PREFIX}-connection-failure`,
+        'error-key': 'XX_failed_to_start_chat',
+      });
       recordEvent({
         event: `${GA_PREFIX}-load-failure`,
         'error-key': undefined,
       });
-    });
+    }
+  });
 };
