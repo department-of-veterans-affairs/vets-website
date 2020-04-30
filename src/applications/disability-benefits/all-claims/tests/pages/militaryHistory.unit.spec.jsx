@@ -1,6 +1,8 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import createCommonStore from 'platform/startup/store';
 import {
   DefinitionTester,
   fillData,
@@ -8,6 +10,8 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+
+const defaultStore = createCommonStore();
 
 describe('Military history', () => {
   const {
@@ -103,15 +107,17 @@ describe('Military history', () => {
   it('should add another service period', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-        appStateData={appStateData}
-      />,
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={{}}
+          onSubmit={onSubmit}
+          appStateData={appStateData}
+        />
+      </Provider>,
     );
 
     fillData(
