@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import localStorage from '../../../platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { board, venueAddress, branchOfService } from '../utils';
 
 class RequestDD214 extends React.Component {
