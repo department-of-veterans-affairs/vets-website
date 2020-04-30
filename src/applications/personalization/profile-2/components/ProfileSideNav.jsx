@@ -13,6 +13,7 @@ import {
 import { childRoutes } from '../routes';
 
 import { closeSideNav as closeSideNavAction } from '../actions';
+import { selectIsSideNavOpen } from '../selectors';
 
 const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
   const closeButton = useRef(null);
@@ -69,11 +70,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
   });
 
   return (
-    <nav
-      className={sideNavClasses}
-      aria-hidden={!isSideNavOpen}
-      id="va-profile-sidebar"
-    >
+    <nav className={sideNavClasses} id="va-profile-sidebar">
       <div>
         <button
           type="button"
@@ -106,7 +103,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
 };
 
 const mapStateToProps = state => ({
-  isSideNavOpen: state.profileUi?.isSideNavOpen,
+  isSideNavOpen: selectIsSideNavOpen(state),
 });
 
 const mapDispatchToProps = {
