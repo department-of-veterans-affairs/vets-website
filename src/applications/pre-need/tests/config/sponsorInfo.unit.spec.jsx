@@ -25,7 +25,7 @@ describe('Pre-need sponsor information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(24);
+    expect(form.find('input').length).to.equal(19);
     expect(form.find('select').length).to.equal(4);
     form.unmount();
   });
@@ -43,7 +43,7 @@ describe('Pre-need sponsor information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(8);
+    expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -66,7 +66,6 @@ describe('Pre-need sponsor information', () => {
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
     selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'white');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
     selectRadio(form, 'root_application_veteran_isDeceased', 'no');
@@ -88,11 +87,11 @@ describe('Pre-need sponsor information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(24);
+    expect(form.find('input').length).to.equal(19);
     expect(form.find('select').length).to.equal(4);
 
     selectRadio(form, 'root_application_veteran_isDeceased', 'yes');
-    expect(form.find('input').length).to.equal(25);
+    expect(form.find('input').length).to.equal(20);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });

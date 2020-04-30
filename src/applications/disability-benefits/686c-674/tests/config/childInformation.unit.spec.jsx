@@ -64,9 +64,9 @@ describe('686 add child - child information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childrenToAdd_0_first', 'Bill');
-    fillData(form, 'input#root_childrenToAdd_0_last', 'Bob');
-    fillData(form, 'input#root_childrenToAdd_0_ssn', '555-55-5551');
+    fillData(form, 'input#root_childrenToAdd_0_fullName_first', 'Bill');
+    fillData(form, 'input#root_childrenToAdd_0_fullName_last', 'Bob');
+    fillData(form, 'input#root_childrenToAdd_0_ssn', '555555551');
     changeDropdown(form, 'select#root_childrenToAdd_0_birthDateMonth', 1);
     changeDropdown(form, 'select#root_childrenToAdd_0_birthDateDay', 1);
     fillData(form, 'input#root_childrenToAdd_0_birthDateYear', '2002');

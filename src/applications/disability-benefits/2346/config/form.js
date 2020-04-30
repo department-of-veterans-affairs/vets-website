@@ -42,7 +42,7 @@ const formChapterTitles = {
 
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
-  address: 'Shipping Address',
+  address: 'Shipping address',
   addBatteriesPage: 'Add batteries to your order',
   addAccessoriesPage: 'Add accessories to your order',
 };

@@ -6,9 +6,9 @@ import appendQuery from 'append-query';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { hasSession } from '../../../platform/user/profile/utilities';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import { hasSession } from 'platform/user/profile/utilities';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import {
   acceptTerms,
