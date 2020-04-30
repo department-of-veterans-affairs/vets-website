@@ -74,6 +74,7 @@ function ClaimsDecision({ completedDate, isLoggedIn, eBenefitsUrl }) {
 ClaimsDecision.propTypes = {
   completedDate: PropTypes.string,
   isLoggedIn: PropTypes.bool,
+  eBenefitsUrl: PropTypes.func.isRequired,
 };
 
 export default ClaimsDecision;

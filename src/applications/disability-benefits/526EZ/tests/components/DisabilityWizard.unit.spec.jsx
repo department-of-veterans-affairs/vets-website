@@ -10,6 +10,7 @@ const { chooseUpdate, applyGuidance } = layouts;
 const defaultProps = {
   isLoggedIn: false,
   isVerified: false,
+  eBenefitsUrl: path => path,
 };
 
 describe('<DisabilityWizard>', () => {

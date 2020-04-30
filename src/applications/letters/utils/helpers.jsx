@@ -18,7 +18,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     .catch(error);
 }
 
-export const recordsNotFound = eBenefitsUrl => (
+export const recordsNotFound = ({ eBenefitsUrl }) => (
   <div id="records-not-found">
     <header>
       <h1>We couldn’t find your VA letters or documents</h1>

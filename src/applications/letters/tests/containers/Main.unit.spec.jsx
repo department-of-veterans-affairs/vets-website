@@ -36,6 +36,7 @@ const defaultProps = {
   optionsAvailable: {},
   getLetterListAndBSLOptions: () => {},
   children: childElement,
+  eBenefitsUrl: path => path,
 };
 
 describe('<Main>', () => {
