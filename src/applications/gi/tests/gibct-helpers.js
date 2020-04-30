@@ -134,6 +134,7 @@ module.exports = {
   initApplicationMock,
   searchForInstitution,
   selectSearchResult,
+  createId,
   expandCollapseAccordion,
   displayLearnMoreModal,
   yourBenefits,

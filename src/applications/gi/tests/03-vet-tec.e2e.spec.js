@@ -2,10 +2,10 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const VetTecHelpers = require('./vet-tec-helpers');
-const vetTecProfile = require('./data/vet-tec-profile.json');
+const vetTecSearchResults = require('./data/vet-tec-search-results.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  const vetTecAttributes = vetTecProfile.data.attributes;
+  const vetTecAttributes = vetTecSearchResults.data[0].attributes;
 
   VetTecHelpers.initApplicationMock();
 
@@ -26,7 +26,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.expectLocation(client, `/program-search`);
   GiHelpers.selectSearchResult(
     client,
-    `${vetTecAttributes.facility_code}-${vetTecAttributes.description}`,
+    GiHelpers.createId(
+      `${vetTecAttributes.facility_code}-${vetTecAttributes.description}`,
+    ),
   );
 
   // Profile Page
