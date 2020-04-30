@@ -3,14 +3,6 @@ import reducer from '../reducers';
 
 const calculatorConstants = require('./data/calculator-constants.json');
 
-export const calculatorConstantsList = () => {
-  const constantsList = [];
-  calculatorConstants.data.forEach(c => {
-    constantsList[c.attributes.name] = c.attributes.value;
-  });
-  return constantsList;
-};
-
 export const getDefaultState = () => {
   const defaultState = createCommonStore(reducer).getState();
 
