@@ -13,6 +13,7 @@ import {
 import { childRoutes } from '../routes';
 
 import { closeSideNav as closeSideNavAction } from '../actions';
+import { selectIsSideNavOpen } from '../selectors';
 
 const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
   const closeButton = useRef(null);
@@ -102,7 +103,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
 };
 
 const mapStateToProps = state => ({
-  isSideNavOpen: state.profileUi?.isSideNavOpen,
+  isSideNavOpen: selectIsSideNavOpen(state),
 });
 
 const mapDispatchToProps = {
