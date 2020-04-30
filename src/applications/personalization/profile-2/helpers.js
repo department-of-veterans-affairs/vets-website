@@ -62,9 +62,9 @@ export const getServiceBranchDisplayName = serviceBranch => {
  */
 export const transformServiceHistoryEntryIntoTableRow = entry => ({
   title: getServiceBranchDisplayName(entry.branchOfService),
-  value: `${moment(entry.beginDate).format('ll')} – ${moment(
+  value: `${moment(entry.beginDate).format('LL')} – ${moment(
     entry.endDate,
-  ).format('ll')}`,
+  ).format('LL')}`,
 });
 
 /**

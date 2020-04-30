@@ -58,6 +58,8 @@ describe('transformServiceHistoryEntryIntoTableRow', () => {
     expect(transformedData.title).to.equal(
       `United States ${serviceHistory.branchOfService}`,
     );
-    expect(transformedData.value).to.equal('Jan. 31, 2000 – Dec. 25, 2010');
+    expect(transformedData.value).to.equal(
+      'January 31, 2000 – December 25, 2010',
+    );
   });
 });
