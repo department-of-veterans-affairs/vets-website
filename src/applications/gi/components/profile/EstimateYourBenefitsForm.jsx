@@ -968,6 +968,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <div className="calculator-form">
           {this.renderOnlineClasses()}
           {this.renderExtensionBeneficiaryZIP()}
+          {this.renderWorking()}
         </div>
       </AccordionItem>
     );
