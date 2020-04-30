@@ -3,7 +3,7 @@ import React from 'react';
 
 const IneligibleBatteriesAlert = () => (
   <AlertBox
-    headline="You're devices aren't eligible for battery resupply"
+    headline="Your devices aren't eligible for battery resupply"
     content={
       <>
         <p>You can't order batteries for your devices because:</p>{' '}
