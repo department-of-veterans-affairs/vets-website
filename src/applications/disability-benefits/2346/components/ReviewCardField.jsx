@@ -224,7 +224,11 @@ class ReviewCardField extends React.Component {
       const dataType = this.props.schema.type;
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
-        return <ObjectField {...this.props} />;
+        return (
+          this.props.name === this.props.currentAddress && (
+            <ObjectField {...this.props} />
+          )
+        );
       } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
         return <ArrayField {...this.props} />;
