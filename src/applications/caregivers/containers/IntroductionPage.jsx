@@ -20,15 +20,15 @@ const IntroductionPage = ({ route, router }) => {
   };
 
   const ProcessTimeline = () => (
-    <>
+    <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
         Follow the steps below to apply for the Program of Comprehensive
         Assistance of Family Caregivers:
       </h2>
-      <article className="schemaform-process vads-u-padding-bottom--2p5">
-        <div>
-          {/* prepare */}
-          <section className="process-step list-one">
+      <div className="process schemaform-process">
+        <ol>
+          {/* Prepare */}
+          <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Prepare</h3>
 
             <p>
@@ -102,10 +102,10 @@ const IntroductionPage = ({ route, router }) => {
 
               <CaregiverSupportInfo />
             </div>
-          </section>
+          </li>
 
           {/* Apply */}
-          <section className="process-step list-two">
+          <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Apply</h3>
             <p>
               Each applicant needs to complete all form fields before submitting
@@ -126,10 +126,10 @@ const IntroductionPage = ({ route, router }) => {
               </a>
               (VA Form 10-10EZ).
             </p>
-          </section>
+          </li>
 
           {/* Next Steps */}
-          <section className="process-step list-three">
+          <li className="process-step list-three">
             <h3 className="vads-u-font-size--h4">Next Steps</h3>
             <p>
               A member of the Caregiver Support Program at the VA medical center
@@ -156,10 +156,10 @@ const IntroductionPage = ({ route, router }) => {
               or discuss these options with your local Caregiver Support
               Coordinator.
             </p>
-          </section>
-        </div>
-      </article>
-    </>
+          </li>
+        </ol>
+      </div>
+    </div>
   );
 
   return (
