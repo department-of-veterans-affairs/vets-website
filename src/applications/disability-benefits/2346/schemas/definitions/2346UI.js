@@ -1,7 +1,6 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
-import IneligibleBatteriesAlert from '../../components/IneligibleBatteriesAlert';
 import ReviewCardField from '../../components/ReviewCardField';
 import ReviewPageAccessories from '../../components/ReviewPageAccessories';
 import ReviewPageBatteries from '../../components/ReviewPageBatteries';
@@ -13,7 +12,6 @@ import { addressUISchema } from '../address-schema';
 
 const {
   viewAddAccessoriesField,
-  // viewEligibleBatteriesPromptField,
   permAddressField,
   tempAddressField,
 } = schemaFields;
@@ -28,10 +26,6 @@ const emailUIDescription = (
     </p>
     <p>Email address</p>
   </>
-);
-
-const addBatteriesUITitle = (
-  <h4 className="vads-u-display--inline ">Add batteries to your order</h4>
 );
 
 const addAccessoriesUITitle = (
@@ -147,20 +141,7 @@ export default {
         },
       ],
     },
-    eligibleBatteriesPromptUI: {
-      'ui:title': addBatteriesUITitle,
-      'ui:description': 'Do you need to order hearing aid batteries?',
-      'ui:widget': 'radio',
-      'ui:required': () => true,
-      'ui:options': {
-        labels: {
-          yes: 'Yes, I need batteries.',
-          no: "No, I don't need batteries.",
-        },
-        classNames: 'product-selection-radio-btns',
-      },
-    },
-    eligibleBatteriesDisplayUI: {
+    batteriesDisplayUI: {
       'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsBatteriesWidget,
@@ -168,15 +149,7 @@ export default {
       'ui:reviewWidget': ReviewPageBatteries,
       'ui:options': {
         keepInPageOnReview: true,
-        // expandUnder: viewEligibleBatteriesPromptField,
-        // expandUnderCondition: 'yes',
       },
-    },
-    ineligibleBatteriesAlertUI: {
-      'ui:field': IneligibleBatteriesAlert,
-    },
-    ineligibleBatteriesDisplayUI: {
-      'ui:field': SelectArrayItemsBatteriesWidget,
     },
     addAccessoriesUI: {
       'ui:title': addAccessoriesUITitle,

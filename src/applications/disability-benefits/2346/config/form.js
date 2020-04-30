@@ -17,8 +17,6 @@ const {
   confirmationEmailField,
   suppliesField,
   viewAddAccessoriesField,
-  // viewEligibleBatteriesPromptField,
-  // viewIneligibleBatteriesAlertField,
   permAddressField,
   tempAddressField,
   currentAddressField,
@@ -28,10 +26,7 @@ const {
   emailUI,
   confirmationEmailUI,
   addAccessoriesUI,
-  // eligibleBatteriesPromptUI,
-  eligibleBatteriesDisplayUI,
-  // ineligibleBatteriesAlertUI,
-  // ineligibleBatteriesDisplayUI,
+  batteriesDisplayUI,
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
@@ -47,7 +42,6 @@ const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping Address',
   batteriesPage: 'Add batteries to your order',
-  // ineligibleBatteriesPage: 'You are ineligible to order batteries',
   addAccessoriesPage: 'Add accessories to your order',
 };
 
@@ -126,60 +120,16 @@ const formConfig = {
         [formPageTitlesLookup.batteriesPage]: {
           path: 'batteries',
           title: formPageTitlesLookup.batteriesPage,
-          // depends: formData => {
-          //   if (formData.supplies) {
-          //     const batterySupplies = formData.supplies?.filter(
-          //       supply => supply.productGroup === 'hearing aid batteries',
-          //     );
-          //     return !batterySupplies.some(
-          //       batterySupply => batterySupply.availableForReorder === true,
-          //     );
-          //   }
-          //   return true;
-          // },
           schema: {
             type: 'object',
             properties: {
-              // [viewEligibleBatteriesPromptField]: {
-              //   type: 'string',
-              //   enum: ['yes', 'no'],
-              // },
               [suppliesField]: supplies,
             },
           },
           uiSchema: {
-            // [viewEligibleBatteriesPromptField]: eligibleBatteriesPromptUI,
-            [suppliesField]: eligibleBatteriesDisplayUI,
+            [suppliesField]: batteriesDisplayUI,
           },
         },
-        // [formPageTitlesLookup.batteriesPage]: {
-        //   path: 'batteries',
-        //   title: formPageTitlesLookup.batteriesPage,
-        //   depends: formData => {
-        //     if (formData.supplies) {
-        //       const batterySupplies = formData.supplies?.filter(
-        //         supply => supply.productGroup === 'hearing aid batteries',
-        //       );
-        //       return !batterySupplies.some(
-        //         batterySupply => batterySupply.availableForReorder === false,
-        //       );
-        //     }
-        //     return false;
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       // [viewIneligibleBatteriesAlertField]: {
-        //       //   type: 'string',
-        //       // },
-        //       [suppliesField]: supplies,
-        //     },
-        //   },
-        //   uiSchema: {
-        //     [viewIneligibleBatteriesAlertField]: ineligibleBatteriesAlertUI,
-        //     [suppliesField]: ineligibleBatteriesDisplayUI,
-        //   },
-        // },
         [formPageTitlesLookup.addAccessoriesPage]: {
           path: 'accessories',
           title: formPageTitlesLookup.addAccessoriesPage,
