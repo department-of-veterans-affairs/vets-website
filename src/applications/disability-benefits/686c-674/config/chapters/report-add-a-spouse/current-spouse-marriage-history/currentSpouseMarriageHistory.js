@@ -1,6 +1,5 @@
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
-import { SpouseItemHeader } from '../veteran-marriage-history/helpers';
 import SpouseViewField from '../../../../components/SpouseViewField';
 
 export const schema = addSpouse.properties.spouseMarriageHistory;
@@ -26,7 +25,6 @@ export const uiSchema = {
       }),
     },
     items: {
-      'ui:title': SpouseItemHeader,
       fullName: {
         'ui:validations': [validateName],
         first: {
