@@ -52,14 +52,14 @@ const initApplicationMock = () => {
   });
 };
 
-const searchForInstitution = client => {
+const searchForInstitution = (client, name) => {
   client
     .waitForElementVisible(
       '.keyword-search input[type="text"]',
       Timeouts.normal,
     )
     .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', institutionAttributes.name)
+    .setValue('.keyword-search input[type="text"]', name)
     .click('#search-button');
 };
 
@@ -121,6 +121,13 @@ const displayLearnMoreModal = client => {
     .click('.va-modal-close');
 };
 
+const eybAccordionExpandedCheck = (client, sections, section) => {
+  checkAccordionIsExpanded(client, section);
+  Object.values(sections)
+    .filter(value => value !== section)
+    .forEach(value => checkAccordionIsNotExpanded(client, value));
+};
+
 const eybSections = {
   yourBenefits: 'Your benefits',
   aboutYourSchool: 'About your school',
@@ -128,37 +135,39 @@ const eybSections = {
   scholarshipsAndOtherFunding: 'Scholarships and other funding',
 };
 
-const eybAccordionExpandedCheck = (client, section) => {
-  checkAccordionIsExpanded(client, section);
-  Object.values(eybSections)
-    .filter(value => value !== section)
-    .forEach(value => checkAccordionIsNotExpanded(client, value));
-};
-
 /**
  * This is expanded by default
  * @param client
+ * @param sections defaults to all sections, allows for passing in a smaller set of sections
  */
-const yourBenefits = client => {
-  const id = createAccordionId(eybSections.yourBenefits);
+const yourBenefits = (client, sections = eybSections) => {
+  const id = createAccordionId(sections.yourBenefits);
 
   client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
-  eybAccordionExpandedCheck(client, eybSections.yourBenefits);
+  eybAccordionExpandedCheck(client, sections, sections.yourBenefits);
 };
 
-const aboutYourSchool = client => {
-  clickAccordion(client, eybSections.aboutYourSchool);
-  eybAccordionExpandedCheck(client, eybSections.aboutYourSchool);
+const aboutYourSchool = (client, sections = eybSections) => {
+  clickAccordion(client, sections.aboutYourSchool);
+  eybAccordionExpandedCheck(client, sections, sections.aboutYourSchool);
 };
 
-const learningFormatAndSchedule = client => {
-  clickAccordion(client, eybSections.learningFormatAndSchedule);
-  eybAccordionExpandedCheck(client, eybSections.learningFormatAndSchedule);
+const learningFormatAndSchedule = (client, sections = eybSections) => {
+  clickAccordion(client, sections.learningFormatAndSchedule);
+  eybAccordionExpandedCheck(
+    client,
+    sections,
+    sections.learningFormatAndSchedule,
+  );
 };
 
-const scholarshipsAndOtherFunding = client => {
-  clickAccordion(client, eybSections.scholarshipsAndOtherFunding);
-  eybAccordionExpandedCheck(client, eybSections.scholarshipsAndOtherFunding);
+const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
+  clickAccordion(client, sections.scholarshipsAndOtherFunding);
+  eybAccordionExpandedCheck(
+    client,
+    sections,
+    sections.scholarshipsAndOtherFunding,
+  );
 };
 
 module.exports = {
@@ -167,8 +176,13 @@ module.exports = {
   searchForInstitution,
   selectSearchResult,
   createId,
+  createAccordionId,
+  clickAccordion,
+  checkAccordionIsExpanded,
+  checkAccordionIsNotExpanded,
   expandCollapseAccordion,
   displayLearnMoreModal,
+  eybAccordionExpandedCheck,
   yourBenefits,
   aboutYourSchool,
   learningFormatAndSchedule,
