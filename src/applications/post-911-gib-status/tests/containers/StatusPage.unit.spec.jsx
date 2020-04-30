@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import StatusPage from '../../containers/StatusPage';
 
 import reducer from '../../reducers/index.js';
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 
 const store = createCommonStore(reducer);
 const defaultProps = store.getState();
