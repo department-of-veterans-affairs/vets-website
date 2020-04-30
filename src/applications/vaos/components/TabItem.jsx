@@ -23,7 +23,6 @@ export default function TabItem({
 
   const tabClasses = classNames(
     'vaos-appts__tab',
-    'vads-u-display--inline-block',
     'vads-u-text-align--center',
     'vads-u-color--gray-dark',
   );
@@ -31,7 +30,7 @@ export default function TabItem({
   return (
     <li
       role="presentation"
-      className="vads-u-display--inline-block vads-u-margin--0"
+      className="vads-u-margin--0"
     >
       <IndexLink
         id={`tab${id}`}
