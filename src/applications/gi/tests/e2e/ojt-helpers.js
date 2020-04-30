@@ -4,7 +4,7 @@ const ojtProfile = require('../data/ojt-profile.json');
 const ojtSearchResults = require('../data/ojt-search-results.json');
 const calculatorConstants = require('../data/calculator-constants.json');
 const featureToggles = require('../data/feature-toggles.json');
-const mock = require('../../../../platform/testing/e2e/mock-helpers');
+const mock = require('platform/testing/e2e/mock-helpers');
 
 const ojtAttributes = ojtProfile.data.attributes;
 

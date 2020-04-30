@@ -1,10 +1,10 @@
-const Timeouts = require('../../../../platform/testing/e2e/timeouts');
+const Timeouts = require('platform/testing/e2e/timeouts');
 const autocomplete = require('../data/autocomplete.json');
 const institutionProfile = require('../data/institution-profile.json');
 const searchResults = require('../data/search-results.json');
 const calculatorConstants = require('../data/calculator-constants.json');
 const featureToggles = require('../data/feature-toggles.json');
-const mock = require('../../../../platform/testing/e2e/mock-helpers');
+const mock = require('platform/testing/e2e/mock-helpers');
 
 const institutionAttributes = institutionProfile.data.attributes;
 
