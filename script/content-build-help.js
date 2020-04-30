@@ -8,7 +8,7 @@ const defaultCmsExportDir = path.join(parentDir, 'cms-export/content');
 
 const helpSections = [
   {
-    header: 'Main Options',
+    header: 'Options',
     optionList: [
       {
         name: 'buildtype',
