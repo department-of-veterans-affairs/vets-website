@@ -230,9 +230,9 @@ const testConfig = {
     // Pre-fill with the expected ratedDisabilities, but nix view:selected
     // since that's not pre-filled
 
-    const sanitizedRatedDisabilities = (testData.ratedDisabilities || []).map(
-      ({ 'view:selected': _, ...obj }) => obj,
-    );
+    const sanitizedRatedDisabilities = (
+      testData.data.ratedDisabilities || []
+    ).map(({ 'view:selected': _, ...obj }) => obj);
 
     cy.route('GET', 'v0/in_progress_forms/21-526EZ', {
       formData: {
