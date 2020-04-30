@@ -3,13 +3,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-
-const Form686CTA = props => {
-  let content;
-  if (props.includedInFlipper === undefined) {
-    content = <LoadingIndicator message="Loading..." />;
-  } else if (props.includedInFlipper === true) {
+const Form686ContentReveal = props => {
+  let content = <></>;
+  if (props.showContent === true) {
     content = (
       <>
         <p className="vads-u-font-size--xl vads-u-font-family--serif vads-u-font-weight--bold">
@@ -39,17 +35,13 @@ const Form686CTA = props => {
         </a>
       </>
     );
-  } else {
-    content = <></>;
   }
   return <div>{content}</div>;
 };
 
 const mapStateToProps = store => ({
   user: store.user,
-  includedInFlipper: toggleValues(store)[
-    FEATURE_FLAG_NAMES.vaViewDependentsAccess
-  ],
+  showContent: toggleValues(store)[FEATURE_FLAG_NAMES.vaViewDependentsAccess],
 });
 
-export default connect(mapStateToProps)(Form686CTA);
+export default connect(mapStateToProps)(Form686ContentReveal);
