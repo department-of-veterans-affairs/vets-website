@@ -127,9 +127,14 @@ class ObjectField extends React.Component {
         );
         // Use div or dl to wrap content for array type schemas (e.g. bank info)
         // fixes axe issue on review-and-submit
-        divWrapper = objectFields.some(
-          name => uiSchema?.[name]?.['ui:options']?.volatileData,
-        );
+        divWrapper = objectFields.some(name => {
+          const options = uiSchema?.[name]?.['ui:options'] || {};
+          return (
+            options.volatileData || // ReviewCardField
+            options.customTitle || // SelectArrayItemsWidget
+            options.addAnotherLabel // fileUiSchema
+          );
+        });
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields.filter(showField).map(renderField);
         }

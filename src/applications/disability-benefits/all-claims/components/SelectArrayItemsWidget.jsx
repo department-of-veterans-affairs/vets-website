@@ -20,7 +20,7 @@ export default class SelectArrayItemsWidget extends React.Component {
   defaultSelectedPropName = 'view:selected';
 
   render() {
-    const { value: items, id, options, required } = this.props;
+    const { value: items, id, options, required, formContext } = this.props;
     // Need customTitle to set error message above title.
     const { label: Label, selectedPropName, disabled, customTitle } = options;
 
@@ -48,8 +48,19 @@ export default class SelectArrayItemsWidget extends React.Component {
               { selected: itemIsSelected },
             );
 
+            // ObjectField is set to be wrapped in a div instead of a dl, so we move
+            // that dl wrap to here; this change fixes an accessibility issue
+            const Tag =
+              // Wrap in DL only if on review page & in review mode
+              formContext.onReviewPage &&
+              formContext.reviewMode &&
+              // volatileData is for arrays, which displays separate blocks
+              customTitle
+                ? 'dl'
+                : 'div';
+
             return (
-              <div key={index}>
+              <Tag key={index}>
                 <dt className={widgetClasses}>
                   <input
                     type="checkbox"
@@ -71,7 +82,7 @@ export default class SelectArrayItemsWidget extends React.Component {
                   </label>
                 </dt>
                 <dd />
-              </div>
+              </Tag>
             );
           })}
       </>
