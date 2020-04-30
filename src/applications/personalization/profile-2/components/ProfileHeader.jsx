@@ -59,7 +59,10 @@ const ProfileHeader = ({
   const titleClassesMedium = prefixUtilityClasses(['display--flex'], 'medium');
 
   const fullNameClasses = prefixUtilityClasses([
+    'font-family--serif',
     'font-size--h3',
+    'font-weight--bold',
+    'line-height--3',
     'margin-top--0',
     'margin-bottom--0p5',
     'text-align--center',
@@ -73,6 +76,7 @@ const ProfileHeader = ({
     'font-family--sans',
     'font-size--base',
     'font-weight--normal',
+    'line-height--3',
     'margin--0',
     'text-align--center',
   ]);
@@ -110,21 +114,27 @@ const ProfileHeader = ({
           <h1 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
             Your Profile
           </h1>
-          <h2
-            className={[...fullNameClasses, ...fullNameClassesMedium].join(' ')}
-          >
-            {fullName}
-          </h2>
-          {latestBranchOfService && (
-            <h3
-              className={[
-                ...latestBranchClasses,
-                ...latestBranchClassesMedium,
-              ].join(' ')}
+          <dl className="vads-u-margin-y--0">
+            <dt className="sr-only">Name: </dt>
+            <dd
+              className={[...fullNameClasses, ...fullNameClassesMedium].join(
+                ' ',
+              )}
             >
-              {getServiceBranchDisplayName(latestBranchOfService)}
-            </h3>
-          )}
+              {fullName}
+            </dd>
+            {latestBranchOfService && (
+              <dd
+                className={[
+                  ...latestBranchClasses,
+                  ...latestBranchClassesMedium,
+                ].join(' ')}
+              >
+                <dfn className="sr-only">Branch of service: </dfn>
+                {getServiceBranchDisplayName(latestBranchOfService)}
+              </dd>
+            )}
+          </dl>
         </div>
       </div>
     </div>
