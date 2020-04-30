@@ -56,7 +56,6 @@ const config = {
       component: ExploreVAModal,
       disabled: !ExploreVAModal.isEnabled(),
       showEverytime: true,
-      relatedAnnouncements: ['welcome-to-new-va'],
     },
     {
       name: 'welcome-to-new-vaos',
