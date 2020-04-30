@@ -29,6 +29,34 @@ const mapDisabilityName = (disabilityName, formData, index) => {
   return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
 };
 
+const getRedirectLink = formData => {
+  if (environment.isProduction() || !formConfig) {
+    return 'go back to the beginning of this step and add it';
+  }
+  const pages = formConfig.chapters.disabilities.pages;
+  // Start from orientation page; assuming user has both existing & new
+  // disabilities selected
+  let destinationPath = pages.disabilitiesOrientation.path;
+
+  if (pages.ratedDisabilities.depends(formData)) {
+    // start from rated disabilities page
+    destinationPath = pages.ratedDisabilities.path;
+  } else if (pages.addDisabilities.depends(formData)) {
+    destinationPath = pages.addDisabilities.path;
+  }
+  return (
+    <Link
+      aria-label="Add missing disabilities"
+      to={{
+        pathname: destinationPath || '/',
+        search: '?redirect',
+      }}
+    >
+      go back and add it
+    </Link>
+  );
+};
+
 export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const { ratedDisabilities, newDisabilities } = formData;
   const ratedDisabilityNames = ratedDisabilities
@@ -53,19 +81,8 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
-  const orientationPath =
-    formConfig?.chapters.disabilities.pages.disabilitiesOrientation.path || '/';
 
-  const showLink = environment.isProduction() ? (
-    'go back to the beginning of this step and add it'
-  ) : (
-    <Link
-      aria-label="Add missing disabilities"
-      to={`${orientationPath}?redirect`}
-    >
-      go back and add it
-    </Link>
-  );
+  const showLink = getRedirectLink(formData);
 
   return (
     <>

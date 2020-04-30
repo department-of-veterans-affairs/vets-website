@@ -8,7 +8,7 @@ module.exports = `
  fragment storyListingPage on NodeStoryListing {
     ${entityElementsFromPages}
     fieldIntroText
-    reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "type", value: "news_story"}, {field: "status", value: "1", operator: EQUAL}]}, sort: {field: "changed", direction: DESC}) {
+    reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "type", value: "news_story"}, {field: "status", value: "1", operator: EQUAL}]}, sort: {field: "created", direction: DESC}) {
       entities {
         ... on NodeNewsStory {
           entityId
