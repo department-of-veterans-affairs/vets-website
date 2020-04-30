@@ -24,7 +24,5 @@ export const fetchFormsApi = async (query, options = {}) => {
   }
 
   const forms = response?.data;
-  const sortedForms = sortBy(forms, 'id');
-
-  return sortedForms;
+  return sortBy(forms, 'id');
 };

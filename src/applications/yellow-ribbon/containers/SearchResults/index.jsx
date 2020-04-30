@@ -92,10 +92,7 @@ export class SearchResults extends Component {
     const endNumber = page * perPage;
 
     // Derive the start number.
-    const startNumber = endNumber - (perPage - 1);
-
-    // Show the start number.
-    return startNumber;
+    return endNumber - (perPage - 1);
   };
 
   render() {
