@@ -100,9 +100,7 @@ export const keyMap = {
 export const validateIdString = (urlObj, urlPrefixString) => {
   const regex = '/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
   const unparsedString = `${urlPrefixString}${regex}`;
-  const validString = urlObj.match(unparsedString);
-
-  return validString;
+  return urlObj.match(unparsedString);
 };
 
 /**
