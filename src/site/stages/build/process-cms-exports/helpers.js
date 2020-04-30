@@ -9,7 +9,7 @@ const get = require('lodash/get');
  */
 const contentDir = path.join(
   __dirname,
-  '../../../../../../tome-sync-output/content/',
+  '../../../../../../cms-export/content/',
 );
 
 /**
