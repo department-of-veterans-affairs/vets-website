@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
-import eBenefitsUrlGenerator from 'platform/utilities/eBenefitsUrl.js';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
-function CallToAction({ cta, eBenefitUrl }) {
+function CallToAction({ cta, eBenefitsUrl }) {
   const { description, link, text, gaTag, isEbenefitUrl } = cta;
   const hasLinkAndText = link && text;
   return (
@@ -13,7 +13,7 @@ function CallToAction({ cta, eBenefitUrl }) {
       {hasLinkAndText && (
         <a
           className="usa-button va-button-primary"
-          href={isEbenefitUrl ? eBenefitUrl(link) : link}
+          href={isEbenefitUrl ? eBenefitsUrl(link) : link}
           onClick={() =>
             recordEvent({
               event: 'dashboard-navigation',
@@ -30,7 +30,7 @@ function CallToAction({ cta, eBenefitUrl }) {
 }
 
 const mapStateToProps = state => ({
-  eBenefitUrl: eBenefitsUrlGenerator(state),
+  eBenefitsUrl: eBenefitsUrlGenerator(state),
 });
 
 export default connect(mapStateToProps)(CallToAction);

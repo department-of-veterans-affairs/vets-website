@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl.js';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
