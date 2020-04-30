@@ -70,7 +70,11 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
   });
 
   return (
-    <nav className={sideNavClasses} id="va-profile-sidebar">
+    <nav
+      className={sideNavClasses}
+      id="va-profile-sidebar"
+      aria-label="Secondary"
+    >
       <div>
         <button
           type="button"
