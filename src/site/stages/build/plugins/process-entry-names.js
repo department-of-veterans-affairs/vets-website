@@ -93,7 +93,7 @@ function processEntryNames(buildOptions) {
         // Ensure we have valid options and that the entry exists.
         const entryExists = files[hashedEntryName.slice(1)];
         if (
-          !buildOptions.watch &&
+          buildOptions.buildtype !== environments.LOCALHOST &&
           !buildOptions.isPreviewServer &&
           !buildOptions.entry &&
           !entryExists
