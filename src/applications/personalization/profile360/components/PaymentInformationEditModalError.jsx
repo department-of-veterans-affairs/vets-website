@@ -25,7 +25,7 @@ function FlaggedAccount() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (TTY: <span className="no-wrap">800-829-4833</span>
+        (TTY: <span className="no-wrap">711</span>
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
@@ -42,7 +42,7 @@ function FlaggedRoutingNumber() {
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
         </span>{' '}
-        (TTY: <span className="no-wrap">800-829-4833</span>
+        (TTY: <span className="no-wrap">711</span>
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>
