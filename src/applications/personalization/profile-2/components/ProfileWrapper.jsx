@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -60,23 +61,60 @@ class ProfileWrapper extends Component {
     </div>
   );
 
+  createBreadCrumbAttributes = () => {
+    const { location, route } = this.props;
+    const activeLocation = location?.pathname.replace('/', '');
+    const childRoutes = route?.childRoutes;
+    const activeRoute = childRoutes.find(
+      childRoute => childRoute.path === activeLocation,
+    );
+
+    const activeRouteName = activeRoute?.name;
+    const activeRouteAriaLabel = `View your ${activeRouteName} details`;
+
+    return { activeLocation, activeRouteAriaLabel, activeRouteName };
+  };
+
   // content to show after data has loaded
   // note that `children` will be passed in via React Router.
-  mainContent = () => (
-    <>
-      <MobileMenuTrigger />
-      <div className="mobile-fixed-spacer" />
-      <ProfileHeader />
-      <div className="usa-grid usa-grid-full">
-        <div className="usa-width-one-fourth">
-          <ProfileSideNav />
+  mainContent = () => {
+    const {
+      activeLocation,
+      activeRouteAriaLabel,
+      activeRouteName,
+    } = this.createBreadCrumbAttributes();
+
+    return (
+      <>
+        <MobileMenuTrigger />
+
+        {/* Breadcrumbs */}
+        <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+          <a href="/" aria-label="back to VA Home page">
+            Home
+          </a>
+          <a href="/profile-2/" aria-label="back to the Profile page">
+            Profile
+          </a>
+          <a href={activeLocation} aria-label={activeRouteAriaLabel}>
+            {activeRouteName}
+          </a>
+        </Breadcrumbs>
+
+        <div className="mobile-fixed-spacer" />
+        <ProfileHeader />
+
+        <div className="usa-grid usa-grid-full">
+          <div className="usa-width-one-fourth">
+            <ProfileSideNav />
+          </div>
+          <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
+            {this.props.children}
+          </div>
         </div>
-        <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
-          {this.props.children}
-        </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  };
 
   renderContent = () => {
     if (this.props.showLoader) {
