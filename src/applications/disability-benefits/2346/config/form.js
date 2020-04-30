@@ -126,17 +126,7 @@ const formConfig = {
         [formPageTitlesLookup.eligibleBatteries]: {
           path: 'eligible-batteries',
           title: formPageTitlesLookup.eligibleBatteries,
-          depends: formData => {
-            if (formData.supplies) {
-              const batterySupplies = formData.supplies?.filter(
-                supply => supply.productGroup === 'hearing aid batteries',
-              );
-              return !batterySupplies.some(
-                batterySupply => batterySupply.availableForReorder === true,
-              );
-            }
-            return true;
-          },
+          // depends: formData => formData.eligibility?.batteries,
           schema: {
             type: 'object',
             properties: {
@@ -155,17 +145,7 @@ const formConfig = {
         [formPageTitlesLookup.ineligibleBatteries]: {
           path: 'ineligible-batteries',
           title: formPageTitlesLookup.ineligibleBatteries,
-          depends: formData => {
-            if (formData.supplies) {
-              const batterySupplies = formData.supplies?.filter(
-                supply => supply.productGroup === 'hearing aid batteries',
-              );
-              return !batterySupplies.some(
-                batterySupply => batterySupply.availableForReorder === true,
-              );
-            }
-            return false;
-          },
+          // depends: formData => !formData.eligibility?.batteries,
           schema: {
             type: 'object',
             properties: {
