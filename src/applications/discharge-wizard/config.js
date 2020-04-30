@@ -1,4 +1,4 @@
-import * as options from '../../platform/static-data/options-for-select';
+import * as options from 'platform/static-data/options-for-select';
 
 export const labels = {
   drb: 'Discharge Review Board',

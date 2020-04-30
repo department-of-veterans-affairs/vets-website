@@ -6,7 +6,7 @@ import InfoPair from './InfoPair';
 import {
   formatDateShort,
   formatDateParsedZoneLong,
-} from '../../../platform/utilities/date';
+} from 'platform/utilities/date';
 import {
   formatPercent,
   formatVAFileNumber,
