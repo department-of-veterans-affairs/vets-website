@@ -1,7 +1,7 @@
-export const OPEN_SIDE_NAV = 'OPEN_SIDE_NAV';
-export const CLOSE_SIDE_NAV = 'CLOSE_SIDE_NAV';
-export const PIN_MENU_TRIGGER = 'PIN_MENU_TRIGGER';
-export const UNPIN_MENU_TRIGGER = 'UNPIN_MENU_TRIGGER';
+export const OPEN_SIDE_NAV = 'profile/OPEN_SIDE_NAV';
+export const CLOSE_SIDE_NAV = 'profile/CLOSE_SIDE_NAV';
+export const PIN_MENU_TRIGGER = 'profile/PIN_MENU_TRIGGER';
+export const UNPIN_MENU_TRIGGER = 'profile/UNPIN_MENU_TRIGGER';
 
 export const openSideNav = () => ({
   type: OPEN_SIDE_NAV,
