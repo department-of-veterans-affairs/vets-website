@@ -9,7 +9,7 @@ import {
 } from '../../utils/render';
 
 function VetTecProgramSearchResult(props) {
-  const { version, result, constants } = props;
+  const { version, result, constants, key } = props;
   const {
     facilityCode,
     description,
@@ -37,7 +37,7 @@ function VetTecProgramSearchResult(props) {
   };
 
   return (
-    <div className="search-result">
+    <div id={`search-result-${key}`} className="search-result">
       <div className="outer">
         <div className="inner">
           <div className="row vads-u-padding-top--1p5">

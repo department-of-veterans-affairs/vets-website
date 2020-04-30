@@ -24,7 +24,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Search Page
   GiHelpers.expectLocation(client, `/program-search`);
-  GiHelpers.selectFirstSearchResult(client);
+  GiHelpers.selectSearchResult(
+    client,
+    `${vetTecAttributes.facility_code}-${vetTecAttributes.description}`,
+  );
 
   // Profile Page
   client

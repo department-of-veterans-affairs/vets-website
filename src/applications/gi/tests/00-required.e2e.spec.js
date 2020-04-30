@@ -28,7 +28,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       '+',
     )}`,
   );
-  GiHelpers.selectFirstSearchResult(client);
+  GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
   // Profile Page
   client
