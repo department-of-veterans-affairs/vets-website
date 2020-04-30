@@ -81,7 +81,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
             closeSideNav(true);
           }}
         />
-        <h4>Profile</h4>
+        <h2 className="vads-u-font-size--h4">Profile</h2>
         <ul>
           {Object.values(childRoutes).map((route, i) => (
             <li key={i}>
