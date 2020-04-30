@@ -1,44 +1,27 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
-
+import { addSpouse } from '../../../utilities';
 import { marriageTypeInformation } from './helpers';
 
-const { date, genericLocation, genericTextInput } = genericSchemas;
+const { currentMarriageInformation } = addSpouse.properties;
 
 export const schema = {
   type: 'object',
   properties: {
-    currentMarriageDetails: {
-      type: 'object',
-      properties: {
-        dateOfMarriage: date,
-        locationOfMarriage: genericLocation,
-        marriageType: {
-          type: 'string',
-          enum: ['CEREMONIAL', 'COMMON-LAW', 'TRIBAL', 'PROXY', 'OTHER'],
-          enumNames: ['Ceremonial', 'Common-law', 'Tribal', 'Proxy', 'Other'],
-        },
-        marriageTypeOther: genericTextInput,
-        'view:marriageTypeInformation': {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
+    currentMarriageInformation,
   },
 };
 
 export const uiSchema = {
-  currentMarriageDetails: {
-    dateOfMarriage: {
+  currentMarriageInformation: {
+    date: {
       ...currentOrPastDateUI('Date of marriage'),
       ...{
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
       },
     },
-    locationOfMarriage: {
+    location: {
       'ui:title': 'Where were you married?',
       state: {
         'ui:required': formData =>
@@ -51,16 +34,17 @@ export const uiSchema = {
         'ui:title': 'City or county',
       },
     },
-    marriageType: {
+    type: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
       'ui:title': 'Type of marriage',
       'ui:widget': 'radio',
     },
-    marriageTypeOther: {
-      'ui:required': formData => formData.marriageType === 'OTHER',
+    typeOther: {
+      'ui:required': formData =>
+        formData?.currentMarriageInformation?.type === 'OTHER',
       'ui:title': 'Other type of marriage',
       'ui:options': {
-        expandUnder: 'marriageType',
+        expandUnder: 'type',
         expandUnderCondition: 'OTHER',
         showFieldLabel: true,
         keepInPageOnReview: true,

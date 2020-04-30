@@ -431,10 +431,6 @@ class ReviewCardField extends React.Component {
   };
 
   render() {
-    const pageTitle = (
-      <h4 className="vads-u-display--inline">Shipping address</h4>
-    );
-
     const pageDescription = (
       <>
         <p className="vads-u-margin-top--2">
@@ -450,12 +446,7 @@ class ReviewCardField extends React.Component {
 
     return (
       <>
-        {this.props.name === 'permanentAddress' ? (
-          <>
-            {pageTitle}
-            {pageDescription}
-          </>
-        ) : null}
+        {this.props.name === 'permanentAddress' ? <>{pageDescription}</> : null}
         {description}
         {viewOrEditCard}
       </>

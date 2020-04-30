@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { get } from 'lodash';
 // Relative
-import ExpandCollapseIcon from './ExpandCollapseIcon';
 import LabelText from './LabelText';
 import { NavItemPropTypes } from '../prop-types';
 
@@ -20,32 +19,34 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   const isFirstLevel = depth === 1;
   const isDeeperThanSecondLevel = depth >= 2;
 
-  // Caclculate the indentation for the child items.
+  // Calculate the indentation for the child items.
   const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
 
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
+    // Expanded not selected
+    const isExpanded = get(item, 'expanded') && depth === 2 && !isSelected;
+    // Expanded beyond level 2 expanded and selected
+    const moreThanLevel2SelectedExpanded =
+      get(item, 'expanded') && depth > 2 && isSelected;
     return (
-      <button
+      <a
         aria-label={label}
-        className={classNames(
-          'va-sidenav-item-label',
-          'va-sidenav-item-label',
-          'va-sidenav-item-label-underlined',
-          {
-            'va-sidenav-item-label-bold': isFirstLevel,
-            selected: isSelected,
-          },
-        )}
+        className={classNames('va-sidenav-item-label', {
+          'va-sidenav-item-label-bold': isFirstLevel,
+          selected:
+            !isExpanded && !moreThanLevel2SelectedExpanded && isSelected,
+          expanded: !moreThanLevel2SelectedExpanded && isExpanded,
+          open: moreThanLevel2SelectedExpanded,
+        })}
         onClick={toggleItemExpanded(id)}
+        rel="noopener noreferrer"
+        href={href}
         style={{ paddingLeft: indentation }}
       >
         {/* Label */}
         <LabelText item={item} />
-
-        {/* Expand/Collapse Button */}
-        <ExpandCollapseIcon depth={depth} item={item} />
-      </button>
+      </a>
     );
   }
 
@@ -53,10 +54,9 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
     <a
       className={classNames(
         'va-sidenav-item-label',
-        'va-sidenav-item-label',
         'va-sidenav-item-label-underlined',
         {
-          selected: isSelected,
+          open: !!(depth >= 2 && isSelected),
         },
       )}
       rel="noopener noreferrer"

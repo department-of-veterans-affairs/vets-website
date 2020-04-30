@@ -34,6 +34,7 @@ export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 
 export function updateRoute(location) {
   return { type: UPDATE_ROUTE, location };
@@ -352,4 +353,8 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
       beneficiaryZIPFetched: beneficiaryZIP,
     });
   };
+}
+
+export function updateEstimatedBenefits(estimatedBenefits) {
+  return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
