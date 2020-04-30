@@ -13,7 +13,7 @@ import { addressUISchema } from '../address-schema';
 
 const {
   viewAddAccessoriesField,
-  viewEligibleBatteriesPromptField,
+  // viewEligibleBatteriesPromptField,
   permAddressField,
   tempAddressField,
 } = schemaFields;
@@ -164,11 +164,12 @@ export default {
       'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsBatteriesWidget,
+      'ui:required': () => true,
       'ui:reviewWidget': ReviewPageBatteries,
       'ui:options': {
         keepInPageOnReview: true,
-        expandUnder: viewEligibleBatteriesPromptField,
-        expandUnderCondition: 'yes',
+        // expandUnder: viewEligibleBatteriesPromptField,
+        // expandUnderCondition: 'yes',
       },
     },
     ineligibleBatteriesAlertUI: {

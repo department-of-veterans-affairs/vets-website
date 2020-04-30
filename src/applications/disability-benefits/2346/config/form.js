@@ -17,8 +17,8 @@ const {
   confirmationEmailField,
   suppliesField,
   viewAddAccessoriesField,
-  viewEligibleBatteriesPromptField,
-  viewIneligibleBatteriesAlertField,
+  // viewEligibleBatteriesPromptField,
+  // viewIneligibleBatteriesAlertField,
   permAddressField,
   tempAddressField,
   currentAddressField,
@@ -28,10 +28,10 @@ const {
   emailUI,
   confirmationEmailUI,
   addAccessoriesUI,
-  eligibleBatteriesPromptUI,
+  // eligibleBatteriesPromptUI,
   eligibleBatteriesDisplayUI,
-  ineligibleBatteriesAlertUI,
-  ineligibleBatteriesDisplayUI,
+  // ineligibleBatteriesAlertUI,
+  // ineligibleBatteriesDisplayUI,
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
@@ -126,60 +126,60 @@ const formConfig = {
         [formPageTitlesLookup.batteriesPage]: {
           path: 'batteries',
           title: formPageTitlesLookup.batteriesPage,
-          depends: formData => {
-            if (formData.supplies) {
-              const batterySupplies = formData.supplies?.filter(
-                supply => supply.productGroup === 'hearing aid batteries',
-              );
-              return !batterySupplies.some(
-                batterySupply => batterySupply.availableForReorder === true,
-              );
-            }
-            return true;
-          },
+          // depends: formData => {
+          //   if (formData.supplies) {
+          //     const batterySupplies = formData.supplies?.filter(
+          //       supply => supply.productGroup === 'hearing aid batteries',
+          //     );
+          //     return !batterySupplies.some(
+          //       batterySupply => batterySupply.availableForReorder === true,
+          //     );
+          //   }
+          //   return true;
+          // },
           schema: {
             type: 'object',
             properties: {
-              [viewEligibleBatteriesPromptField]: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
+              // [viewEligibleBatteriesPromptField]: {
+              //   type: 'string',
+              //   enum: ['yes', 'no'],
+              // },
               [suppliesField]: supplies,
             },
           },
           uiSchema: {
-            [viewEligibleBatteriesPromptField]: eligibleBatteriesPromptUI,
+            // [viewEligibleBatteriesPromptField]: eligibleBatteriesPromptUI,
             [suppliesField]: eligibleBatteriesDisplayUI,
           },
         },
-        [formPageTitlesLookup.batteriesPage]: {
-          path: 'batteries',
-          title: formPageTitlesLookup.batteriesPage,
-          depends: formData => {
-            if (formData.supplies) {
-              const batterySupplies = formData.supplies?.filter(
-                supply => supply.productGroup === 'hearing aid batteries',
-              );
-              return !batterySupplies.some(
-                batterySupply => batterySupply.availableForReorder === false,
-              );
-            }
-            return false;
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [viewIneligibleBatteriesAlertField]: {
-                type: 'string',
-              },
-              [suppliesField]: supplies,
-            },
-          },
-          uiSchema: {
-            [viewIneligibleBatteriesAlertField]: ineligibleBatteriesAlertUI,
-            [suppliesField]: ineligibleBatteriesDisplayUI,
-          },
-        },
+        // [formPageTitlesLookup.batteriesPage]: {
+        //   path: 'batteries',
+        //   title: formPageTitlesLookup.batteriesPage,
+        //   depends: formData => {
+        //     if (formData.supplies) {
+        //       const batterySupplies = formData.supplies?.filter(
+        //         supply => supply.productGroup === 'hearing aid batteries',
+        //       );
+        //       return !batterySupplies.some(
+        //         batterySupply => batterySupply.availableForReorder === false,
+        //       );
+        //     }
+        //     return false;
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {
+        //       // [viewIneligibleBatteriesAlertField]: {
+        //       //   type: 'string',
+        //       // },
+        //       [suppliesField]: supplies,
+        //     },
+        //   },
+        //   uiSchema: {
+        //     [viewIneligibleBatteriesAlertField]: ineligibleBatteriesAlertUI,
+        //     [suppliesField]: ineligibleBatteriesDisplayUI,
+        //   },
+        // },
         [formPageTitlesLookup.addAccessoriesPage]: {
           path: 'accessories',
           title: formPageTitlesLookup.addAccessoriesPage,
