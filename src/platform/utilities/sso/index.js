@@ -10,9 +10,8 @@ const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
 let ssoSessionLength = 9000; // milliseconds
 
 export async function ssoKeepAliveSession() {
-  const res = await keepAlive();
-
   try {
+    const res = await keepAlive();
     const hasSSOsession = res.headers.get('session-alive');
     if (hasSSOsession === 'true') {
       // 'session-timeout' is in seconds, convert to milliseconds

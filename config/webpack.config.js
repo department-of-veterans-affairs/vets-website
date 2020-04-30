@@ -21,21 +21,25 @@ const headerFooterData = require('../src/platform/landing-pages/header-footer-da
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
+const sharedModules = [
+  getAbsolutePath('src/platform/polyfills'),
+  'react',
+  'react-dom',
+  'react-redux',
+  'redux',
+  'redux-thunk',
+  '@sentry/browser',
+];
+
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
-  vendor: [
-    getAbsolutePath('src/platform/polyfills'),
-    'react',
-    'react-dom',
-    'react-redux',
-    'redux',
-    'redux-thunk',
-    '@sentry/browser',
-  ],
+  vendor: sharedModules,
+  // This is to solve the issue of the vendor file being cached
+  'shared-modules': sharedModules,
 };
 
 /**
