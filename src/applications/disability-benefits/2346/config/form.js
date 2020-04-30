@@ -17,7 +17,8 @@ const {
   confirmationEmailField,
   suppliesField,
   viewAddAccessoriesField,
-  viewAddBatteriesField,
+  viewEligibleBatteriesPromptField,
+  viewIneligibleBatteriesAlertField,
   permAddressField,
   tempAddressField,
   currentAddressField,
@@ -27,8 +28,10 @@ const {
   emailUI,
   confirmationEmailUI,
   addAccessoriesUI,
-  addBatteriesUI,
-  batteriesUI,
+  eligibleBatteriesPromptUI,
+  eligibleBatteriesDisplayUI,
+  ineligibleBatteriesAlertUI,
+  ineligibleBatteriesDisplayUI,
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
@@ -43,7 +46,8 @@ const formChapterTitles = {
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping Address',
-  addBatteriesPage: 'Add batteries to your order',
+  batteriesPage: 'Add batteries to your order',
+  // ineligibleBatteriesPage: 'You are ineligible to order batteries',
   addAccessoriesPage: 'Add accessories to your order',
 };
 
@@ -119,13 +123,24 @@ const formConfig = {
     orderSuppliesChapter: {
       title: formChapterTitles.orderSupplies,
       pages: {
-        [formPageTitlesLookup.addBatteriesPage]: {
+        [formPageTitlesLookup.batteriesPage]: {
           path: 'batteries',
-          title: formPageTitlesLookup.addBatteriesPage,
+          title: formPageTitlesLookup.batteriesPage,
+          depends: formData => {
+            if (formData.supplies) {
+              const batterySupplies = formData.supplies?.filter(
+                supply => supply.productGroup === 'hearing aid batteries',
+              );
+              return !batterySupplies.some(
+                batterySupply => batterySupply.availableForReorder === true,
+              );
+            }
+            return true;
+          },
           schema: {
             type: 'object',
             properties: {
-              [viewAddBatteriesField]: {
+              [viewEligibleBatteriesPromptField]: {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
@@ -133,8 +148,36 @@ const formConfig = {
             },
           },
           uiSchema: {
-            [viewAddBatteriesField]: addBatteriesUI,
-            [suppliesField]: batteriesUI,
+            [viewEligibleBatteriesPromptField]: eligibleBatteriesPromptUI,
+            [suppliesField]: eligibleBatteriesDisplayUI,
+          },
+        },
+        [formPageTitlesLookup.batteriesPage]: {
+          path: 'batteries',
+          title: formPageTitlesLookup.batteriesPage,
+          depends: formData => {
+            if (formData.supplies) {
+              const batterySupplies = formData.supplies?.filter(
+                supply => supply.productGroup === 'hearing aid batteries',
+              );
+              return !batterySupplies.some(
+                batterySupply => batterySupply.availableForReorder === false,
+              );
+            }
+            return false;
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              [viewIneligibleBatteriesAlertField]: {
+                type: 'string',
+              },
+              [suppliesField]: supplies,
+            },
+          },
+          uiSchema: {
+            [viewIneligibleBatteriesAlertField]: ineligibleBatteriesAlertUI,
+            [suppliesField]: ineligibleBatteriesDisplayUI,
           },
         },
         [formPageTitlesLookup.addAccessoriesPage]: {

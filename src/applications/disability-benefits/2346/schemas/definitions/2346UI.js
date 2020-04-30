@@ -1,6 +1,7 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
+import IneligibleBatteriesAlert from '../../components/IneligibleBatteriesAlert';
 import ReviewCardField from '../../components/ReviewCardField';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
@@ -10,7 +11,7 @@ import { addressUISchema } from '../address-schema';
 
 const {
   viewAddAccessoriesField,
-  viewAddBatteriesField,
+  viewEligibleBatteriesPromptField,
   permAddressField,
   tempAddressField,
 } = schemaFields;
@@ -138,7 +139,7 @@ export default {
         },
       ],
     },
-    addBatteriesUI: {
+    eligibleBatteriesPromptUI: {
       'ui:title': addBatteriesUITitle,
       'ui:description': 'Do you need to order hearing aid batteries?',
       'ui:widget': 'radio',
@@ -151,12 +152,18 @@ export default {
         classNames: 'product-selection-radio-btns',
       },
     },
-    batteriesUI: {
+    eligibleBatteriesDisplayUI: {
       'ui:field': SelectArrayItemsBatteriesWidget,
       'ui:options': {
-        expandUnder: viewAddBatteriesField,
+        expandUnder: viewEligibleBatteriesPromptField,
         expandUnderCondition: 'yes',
       },
+    },
+    ineligibleBatteriesAlertUI: {
+      'ui:field': IneligibleBatteriesAlert,
+    },
+    ineligibleBatteriesDisplayUI: {
+      'ui:field': SelectArrayItemsBatteriesWidget,
     },
     addAccessoriesUI: {
       'ui:title': addAccessoriesUITitle,
