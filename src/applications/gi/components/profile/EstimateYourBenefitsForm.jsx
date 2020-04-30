@@ -980,7 +980,7 @@ class EstimateYourBenefitsForm extends React.Component {
           className="calculate-button"
           onClick={this.props.updateEstimatedBenefits}
         >
-          Calculate Benefits
+          Calculate benefits
         </button>
       </div>
     );
