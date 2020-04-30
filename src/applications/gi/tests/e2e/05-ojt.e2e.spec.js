@@ -3,11 +3,12 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const OjtHelpers = require('./ojt-helpers');
 const ojtProfile = require('../data/ojt-profile.json');
+const ojtSearchResults = require('../data/ojt-search-results.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const ojtAttributes = ojtProfile.data.attributes;
 
-  OjtHelpers.initApplicationMock();
+  GiHelpers.initApplicationMock(ojtProfile, ojtSearchResults);
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 

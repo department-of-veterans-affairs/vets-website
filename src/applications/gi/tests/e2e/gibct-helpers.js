@@ -7,37 +7,23 @@ const calculatorConstants = require('../data/calculator-constants.json');
 const featureToggles = require('../data/feature-toggles.json');
 const mock = require('platform/testing/e2e/mock-helpers');
 
-const institutionAttributes = institutionProfile.data.attributes;
-
-// Expects navigation lands at a path containing the given `urlSubstring`.
+/**
+ * Expects navigation lands at a path containing the given `urlSubstring`.
+ * @param client
+ * @param urlSubstring
+ */
 const expectLocation = (client, urlSubstring) => {
   client.assert.urlContains(urlSubstring);
 };
 
-// Create API routes
-const initApplicationMock = () => {
-  mock(null, {
-    path: '/v0/gi/institutions/search',
-    verb: 'get',
-    value: searchResults,
-  });
-
-  mock(null, {
-    path: `/v0/gi/institutions/${institutionAttributes.facility_code}`,
-    verb: 'get',
-    value: institutionProfile,
-  });
-
+/**
+ * These calls are common regardless of path through CT
+ */
+const initCommonMock = () => {
   mock(null, {
     path: '/v0/gi/calculator_constants',
     verb: 'get',
     value: calculatorConstants,
-  });
-
-  mock(null, {
-    path: '/v0/gi/institutions/autocomplete',
-    verb: 'get',
-    value: autocomplete,
   });
 
   mock(null, {
@@ -51,6 +37,41 @@ const initApplicationMock = () => {
     verb: 'get',
     value: {},
   });
+};
+
+/**
+ * Mocks the call for the profile
+ * @param profile
+ */
+const initMockProfile = profile => {
+  const facilityCode = profile.data.attributes.facility_code;
+
+  mock(null, {
+    path: `/v0/gi/institutions/${facilityCode}`,
+    verb: 'get',
+    value: profile,
+  });
+};
+
+// Create API routes
+const initApplicationMock = (
+  profile = institutionProfile,
+  results = searchResults,
+) => {
+  mock(null, {
+    path: '/v0/gi/institutions/autocomplete',
+    verb: 'get',
+    value: autocomplete,
+  });
+
+  mock(null, {
+    path: '/v0/gi/institutions/search',
+    verb: 'get',
+    value: results,
+  });
+
+  initMockProfile(profile);
+  initCommonMock();
 };
 
 const searchForInstitution = (client, name) => {
@@ -74,6 +95,7 @@ const selectSearchResult = (client, facilityCode) => {
 
 const createId = name => name.toLowerCase().replace(/\s/g, '-');
 const createAccordionId = name => `#${createId(name)}-accordion`;
+
 /**
  * Expand or collapse an AccordionItem and perform axe check
  * @param client
@@ -197,6 +219,8 @@ const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
 };
 
 module.exports = {
+  initCommonMock,
+  initMockProfile,
   expectLocation,
   initApplicationMock,
   searchForInstitution,
