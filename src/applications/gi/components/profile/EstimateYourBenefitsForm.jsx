@@ -893,30 +893,33 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderYourBenefits = () => (
-    <AccordionItem
-      button={'Your benefits'}
-      id={`eyb-${createId('Your benefits')}`}
-      section
-      expanded={this.state.yourBenefitsExpanded}
-      onClick={this.toggleYourBenefits}
-    >
-      <form>
-        <BenefitsForm
-          eligibilityChange={this.props.eligibilityChange}
-          {...this.props.eligibility}
-          isLoggedIn={this.props.isLoggedIn}
-          hideModal={this.props.hideModal}
-          showModal={this.props.showModal}
-          inputs={this.props.inputs}
-          displayedInputs={this.props.displayedInputs}
-          onInputChange={this.props.calculatorInputChange}
-        >
-          {this.renderGbBenefit()}
-        </BenefitsForm>
-      </form>
-    </AccordionItem>
-  );
+  renderYourBenefits = () => {
+    const name = 'Your benefits';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        section
+        expanded={this.state.yourBenefitsExpanded}
+        onClick={this.toggleYourBenefits}
+      >
+        <form>
+          <BenefitsForm
+            eligibilityChange={this.props.eligibilityChange}
+            {...this.props.eligibility}
+            isLoggedIn={this.props.isLoggedIn}
+            hideModal={this.props.hideModal}
+            showModal={this.props.showModal}
+            inputs={this.props.inputs}
+            displayedInputs={this.props.displayedInputs}
+            onInputChange={this.props.calculatorInputChange}
+          >
+            {this.renderGbBenefit()}
+          </BenefitsForm>
+        </form>
+      </AccordionItem>
+    );
+  };
 
   renderAboutYourSchool = () => {
     const {
@@ -931,10 +934,12 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
       return null;
 
+    const name = 'About your school';
+
     return (
       <AccordionItem
-        button={'About your school'}
-        id={`eyb-${createId('About your school')}`}
+        button={name}
+        id={`eyb-${createId(name)}`}
         expanded={this.state.aboutYourSchoolExpanded}
         section
         onClick={this.toggleAboutYourSchool}
@@ -950,20 +955,23 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderLearningFormatAndSchedule = () => (
-    <AccordionItem
-      button={'Learning format and schedule'}
-      id={`eyb-${createId('Learning format and schedule')}`}
-      expanded={this.state.learningFormatAndScheduleExpanded}
-      section
-      onClick={this.toggleLearningFormatAndSchedule}
-    >
-      <div className="calculator-form">
-        {this.renderOnlineClasses()}
-        {this.renderExtensionBeneficiaryZIP()}
-      </div>
-    </AccordionItem>
-  );
+  renderLearningFormatAndSchedule = () => {
+    const name = 'Learning format and schedule';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        expanded={this.state.learningFormatAndScheduleExpanded}
+        section
+        onClick={this.toggleLearningFormatAndSchedule}
+      >
+        <div className="calculator-form">
+          {this.renderOnlineClasses()}
+          {this.renderExtensionBeneficiaryZIP()}
+        </div>
+      </AccordionItem>
+    );
+  };
 
   renderScholarshipsAndOtherFunding = () => {
     const {
@@ -975,11 +983,11 @@ class EstimateYourBenefitsForm extends React.Component {
     } = this.props.displayedInputs;
     if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
       return null;
-
+    const name = 'Scholarships and other funding';
     return (
       <AccordionItem
-        button={'Scholarships and other funding'}
-        id={`eyb-${createId('Scholarships and other funding')}`}
+        button={name}
+        id={`eyb-${createId(name)}`}
         expanded={this.state.scholarshipsAndOtherFundingExpanded}
         section
         onClick={this.toggleScholarshipsAndOtherFunding}

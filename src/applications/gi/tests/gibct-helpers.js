@@ -71,22 +71,30 @@ const selectFirstSearchResult = client => {
     .click('.search-result a');
 };
 
-const expandCollapseAccordion = (client, id) =>
-  client
-    .waitForElementVisible(id, Timeouts.normal)
-    .click(`${id} button`)
-    .click(`${id} button`);
-
 const createId = name => name.toLowerCase().replace(/\s/g, '-');
 
 /**
- * Main sections are expanded on page load, this collapses then expands a section
+ * Expand or collapse an AccordionItem and perform axe check
  * @param client
- * @param name
+ * @param name button property of the AccordionItem
  */
-const expandCollapseMainSection = (client, name) => {
+const clickAccordion = (client, name) => {
   const id = `#${createId(name)}-accordion`;
-  expandCollapseAccordion(client, id);
+  client
+    .waitForElementVisible(id, Timeouts.normal)
+    .click(`${id} button`)
+    .axeCheck(id);
+};
+
+/**
+ * Main sections are expanded on page load,
+ * this collapses then expands an AccordionItem
+ * @param client
+ * @param name button property of the AccordionItem
+ */
+const expandCollapseAccordion = (client, name) => {
+  clickAccordion(client, name);
+  clickAccordion(client, name);
 };
 
 const displayLearnMoreModal = client => {
@@ -97,15 +105,28 @@ const displayLearnMoreModal = client => {
     .click('.va-modal-close');
 };
 
-const editEligibilityDetails = client => {
+const yourBenefits = client => {
+  const name = 'Your benefits';
+  const id = `#${createId(name)}-accordion`;
+
   client
-    .waitForElementVisible('.eligibility-details', Timeouts.normal)
-    .click('.eligibility-details button')
+    .waitForElementVisible(id, Timeouts.normal)
     .axeCheck('.eligibility-details');
 };
 
-const hideCalculatorFields = client => {
-  expandCollapseAccordion(client, '.calculator-inputs');
+const aboutYourSchool = client => {
+  const name = 'About your school';
+  clickAccordion(client, name);
+};
+
+const learningFormatAndSchedule = client => {
+  const name = 'Learning format and schedule';
+  clickAccordion(client, name);
+};
+
+const scholarshipsAndOtherFunding = client => {
+  const name = 'Scholarships and other funding';
+  clickAccordion(client, name);
 };
 
 module.exports = {
@@ -114,8 +135,9 @@ module.exports = {
   searchForInstitution,
   selectFirstSearchResult,
   expandCollapseAccordion,
-  expandCollapseMainSection,
   displayLearnMoreModal,
-  editEligibilityDetails,
-  hideCalculatorFields,
+  yourBenefits,
+  aboutYourSchool,
+  learningFormatAndSchedule,
+  scholarshipsAndOtherFunding,
 };
