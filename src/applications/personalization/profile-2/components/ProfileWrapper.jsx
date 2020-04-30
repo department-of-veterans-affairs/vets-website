@@ -86,10 +86,8 @@ class ProfileWrapper extends Component {
 
     return (
       <>
-        <MobileMenuTrigger />
-
         {/* Breadcrumbs */}
-        <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/" aria-label="back to VA Home page">
             Home
           </a>
@@ -100,6 +98,8 @@ class ProfileWrapper extends Component {
             {activeRouteName}
           </a>
         </Breadcrumbs>
+
+        <MobileMenuTrigger />
 
         <div className="mobile-fixed-spacer" />
         <ProfileHeader />
