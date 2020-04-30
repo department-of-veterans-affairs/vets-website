@@ -844,9 +844,9 @@
     to-fast-properties "^2.0.0"
 
 "@department-of-veterans-affairs/formation-react@^5.2.0":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.2.3.tgz#ed66897924be577abc6f4b1a653035740980a2ad"
-  integrity sha512-AvDLyOuZIV6Ppcey7D40qFdi+UYGpXaBZmdrfBX/C1aqAbihlA60JV1Mr3ir4Z91nkC7260nmkUGm51HmGsNrw==
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.2.4.tgz#65ca940bf0e7866cb7315602ede3a0cb8eb7d65d"
+  integrity sha512-1aNbSK9/9TNFi7XMkkh8IYDKmWzln7wGiPHu6/KGGejeBkZcLJfHyP+elvTXyHjSgZnA71D09UEuzhJtEqDFoA==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
