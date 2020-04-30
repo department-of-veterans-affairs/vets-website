@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 class InstructionsPage extends React.Component {
   constructor(props) {

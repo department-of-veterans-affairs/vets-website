@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
@@ -9,6 +9,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { focusElement } from 'platform/utilities/ui';
 import LoadFail from 'applications/personalization/profile360/components/LoadFail';
 import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
@@ -17,6 +18,10 @@ import ProfileInfoTable from './ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../helpers';
 
 const MilitaryInformationContent = ({ militaryInformation }) => {
+  useEffect(() => {
+    focusElement('[data-focus-target]');
+  }, []);
+
   const {
     serviceHistory: { serviceHistory, error },
   } = militaryInformation;
@@ -141,7 +146,11 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
 
 const MilitaryInformation = ({ militaryInformation }) => (
   <>
-    <h2 tabIndex="-1" className="vads-u-margin-y--4">
+    <h2
+      tabIndex="-1"
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+      data-focus-target
+    >
       Military information
     </h2>
     <DowntimeNotification

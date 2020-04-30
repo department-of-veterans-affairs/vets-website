@@ -9,7 +9,6 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
 } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 class InstitutionFilterForm extends React.Component {
@@ -150,15 +149,14 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
-        {environment.isProduction() ? (
-          ''
-        ) : (
+        {
           <CautionaryWarningsFilter
             excludeCautionFlags={this.props.filters.excludeCautionFlags}
+            excludeWarnings={this.props.filters.excludeWarnings}
             onChange={this.handleCheckboxChange}
             showModal={this.props.showModal}
           />
-        )}
+        }
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
@@ -182,6 +180,7 @@ InstitutionFilterForm.propTypes = {
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
+    excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
@@ -199,6 +198,7 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
+    excludeWarnings: PropTypes.bool,
     excludeCautionFlags: PropTypes.bool,
   }),
 };

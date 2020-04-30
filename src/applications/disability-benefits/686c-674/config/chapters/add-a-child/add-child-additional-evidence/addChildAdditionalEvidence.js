@@ -1,21 +1,10 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import { addChild } from '../../../utilities';
 import { childStatusDescription } from '../child-place-of-birth/childStatusDescription';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
-import { genericSchemas } from '../../../generic-schema';
 
-const { fileSchema } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    'view:additionalEvidenceDescription': {
-      type: 'object',
-      properties: {},
-    },
-    supportingDocuments: fileSchema,
-  },
-};
+export const schema = addChild.properties.childAdditionalEvidence;
 
 export const uiSchema = {
   'ui:title': 'Additional evidence needed to add child',

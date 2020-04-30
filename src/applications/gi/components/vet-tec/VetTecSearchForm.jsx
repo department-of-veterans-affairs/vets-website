@@ -6,7 +6,6 @@ import { addAllOption, getStateNameForCode } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
-import environment from 'platform/utilities/environment';
 import CautionaryWarningsFilter from '../search/CautionaryWarningsFilter';
 
 class VetTecSearchForm extends React.Component {
@@ -157,15 +156,14 @@ class VetTecSearchForm extends React.Component {
 
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
-            {environment.isProduction() ? (
-              ''
-            ) : (
+            {
               <CautionaryWarningsFilter
+                excludeWarnings={this.props.filters.excludeWarnings}
                 excludeCautionFlags={this.props.filters.excludeCautionFlags}
                 onChange={this.handleCheckboxChange}
                 showModal={this.props.showModal}
               />
-            )}
+            }
             {this.renderFilterBy()}
           </div>
           <div className="results-button">

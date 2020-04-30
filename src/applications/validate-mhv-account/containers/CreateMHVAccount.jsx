@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ssoe } from '../../../platform/user/authentication/selectors';
-import { logout } from '../../../platform/user/authentication/utilities';
+import { ssoe } from 'platform/user/authentication/selectors';
+import { logout } from 'platform/user/authentication/utilities';
 import MessageTemplate from './../components/MessageTemplate';
 
-import { createAndUpgradeMHVAccount } from '../../../platform/user/profile/actions';
+import { createAndUpgradeMHVAccount } from 'platform/user/profile/actions';
 
 class CreateMHVAccount extends React.Component {
   logoutHandler = () => {

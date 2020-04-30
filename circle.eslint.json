@@ -11,8 +11,9 @@
     "va/use-resolved-path": [
       2,
       {
-        "aliases": ["applications", "site", "vet360"]
+        "aliases": ["applications", "platform", "site", "vet360"]
       }
-    ]
+    ],
+    "react/prefer-stateless-function": 2
   }
 }

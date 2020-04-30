@@ -1,27 +1,8 @@
 import { isChapterFieldRequired } from '../../../helpers';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
+import { validateName, addSpouse } from '../../../utilities';
 import SpouseViewField from '../../../../components/SpouseViewField';
 
-const { fullName } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    spouseWasMarriedBefore: {
-      type: 'boolean',
-    },
-    spouseMarriageHistory: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          formerSpouseName: fullName,
-        },
-      },
-    },
-  },
-};
+export const schema = addSpouse.properties.spouseMarriageHistory;
 
 export const uiSchema = {
   spouseWasMarriedBefore: {
@@ -43,7 +24,7 @@ export const uiSchema = {
       }),
     },
     items: {
-      formerSpouseName: {
+      fullName: {
         'ui:title': 'Former spouse’s information',
         'ui:validations': [validateName],
         first: {

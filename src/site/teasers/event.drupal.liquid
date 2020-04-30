@@ -25,8 +25,8 @@ Example data:
         }
       }
 {% endcomment %}
-{% if node != empty %}
 
+{% if node != empty %}
     {% assign timezone = "America/New_York" %}
     {% comment %}
     Ultimately, we will allow check to use user timezone.
@@ -55,11 +55,11 @@ Example data:
     {% endif %}
 
   {% if header == empty %}
-      {% assign header = "h4" %}
+      {% assign header = "h2" %}
   {% endif %}
   {% assign isEventsPage = entityUrl.path | isPage: "events" %}
   <div data-template="teasers/event" class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
-      <{{ header }} class="vads-u-margin-top--0 vad-u-margin-bottom-1 {% if isEventsPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %}"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
+      <{{ header }} class="vads-u-margin-top--0 vad-u-margin-bottom-1 vads-u-font-size--md medium-screen:vads-u-font-size--lg"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
       <p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">{{ node.fieldDescription | truncatewords: 60, "..." }}</p>
       <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
         <div class="vads-u-margin-right--2 when-where-width">

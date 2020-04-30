@@ -20,11 +20,16 @@
  */
 
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
-import { countries, states50AndDC, militaryCities } from './constants';
+import {
+  countries,
+  states50AndDC,
+  militaryCities,
+} from 'vets-json-schema/dist/constants.json';
 
 /**
  * CONSTANTS:
@@ -49,7 +54,7 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
 
 const USA = {
   value: 'USA',
-  name: 'United States',
+  label: 'United States',
 };
 
 const MilitaryBaseInfo = () => (
@@ -66,67 +71,15 @@ const MilitaryBaseInfo = () => (
   </div>
 );
 
-const addressSchema = {
-  type: 'object',
-  properties: {
-    'view:livesOnMilitaryBase': {
-      type: 'boolean',
-    },
-    'view:livesOnMilitaryBaseInfo': {
-      type: 'object',
-      properties: {},
-    },
-    countryName: {
-      type: 'string',
-      enum: countries.map(country => country.label),
-    },
-    addressLine1: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: '^.*\\S.*',
-    },
-    addressLine2: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: '^.*\\S.*',
-    },
-    addressLine3: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: '^.*\\S.*',
-    },
-    city: {
-      type: 'string',
-    },
-    stateCode: {
-      type: 'string',
-      enum: states50AndDC.map(state => state.value),
-      enumNames: states50AndDC.map(state => state.label),
-    },
-    province: {
-      type: 'string',
-    },
-    zipCode: {
-      type: 'string',
-      pattern: '^\\d{5}$',
-    },
-    internationalPostalCode: {
-      type: 'string',
-    },
-  },
-};
-
 /**
  * Builds address schema based on isMilitaryAddress.
  * @param {boolean} isMilitaryBaseAddress represents whether or not the form page requires the address to support the option of military address.
  * @returns {object} an object containing the necessary properties for a domestic US address, foreign US military address, and international address.
  */
 export const buildAddressSchema = isMilitaryBaseAddress => {
-  if (isMilitaryBaseAddress) return cloneDeep(addressSchema);
-  const schema = cloneDeep(addressSchema);
+  const addSchema = fullSchema.definitions.addressSchema;
+  if (isMilitaryBaseAddress) return cloneDeep(addSchema);
+  const schema = cloneDeep(addSchema);
   delete schema.properties['view:livesOnMilitaryBase'];
   delete schema.properties['view:livesOnMilitaryBaseInfo'];
   return schema;
@@ -176,16 +129,18 @@ export const addressUISchema = (
             const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               countryUI['ui:disabled'] = true;
-              countryFormData.countryName = USA.name;
+              countryFormData.countryName = USA.value;
               return {
-                enum: [USA.name],
-                default: USA.name,
+                enum: [USA.value],
+                enumNames: [USA.label],
+                default: USA.value,
               };
             }
             countryUI['ui:disabled'] = false;
             return {
               type: 'string',
-              enum: countries.map(country => country.label),
+              enum: countries.map(country => country.value),
+              enumNames: countries.map(country => country.label),
             };
           },
         },
@@ -217,7 +172,8 @@ export const addressUISchema = (
               return {
                 type: 'string',
                 title: 'APO/FPO/DPO',
-                enum: militaryCities,
+                enum: militaryCities.map(city => city.value),
+                enumNames: militaryCities.map(city => city.label),
               };
             }
             return {
@@ -239,7 +195,7 @@ export const addressUISchema = (
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
-            (countryName && countryName === USA.name) || livesOnMilitaryBase
+            (countryName && countryName === USA.value) || livesOnMilitaryBase
           );
         },
         'ui:title': 'State',
@@ -260,7 +216,7 @@ export const addressUISchema = (
               return false;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName && countryName !== USA.name;
+            return countryName && countryName !== USA.value;
           },
           updateSchema: formData => {
             const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
@@ -290,7 +246,7 @@ export const addressUISchema = (
               return true;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName === USA.name || !countryName;
+            return countryName === USA.value || !countryName;
           },
         },
       },
@@ -303,7 +259,7 @@ export const addressUISchema = (
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
-            (countryName && countryName === USA.name) ||
+            (countryName && countryName === USA.value) ||
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
@@ -327,7 +283,7 @@ export const addressUISchema = (
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return false;
             }
-            return countryName && countryName !== USA.name;
+            return countryName && countryName !== USA.value;
           },
         },
       },
@@ -338,7 +294,7 @@ export const addressUISchema = (
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const countryName = get(countryNamePath, formData);
-          return countryName && countryName !== USA.name;
+          return countryName && countryName !== USA.value;
         },
         'ui:title': 'International postal code',
         'ui:errorMessages': {
@@ -356,7 +312,7 @@ export const addressUISchema = (
               return true;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName === USA.name || !countryName;
+            return countryName === USA.value || !countryName;
           },
         },
       },
