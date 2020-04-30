@@ -1,13 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
+import createCommonStore from 'platform/startup/store';
 import PreferenceItem from '../../components/PreferenceItem';
 import { benefitChoices } from '../../helpers';
 
 const handleViewToggle = spy();
 const handleRemove = spy();
+
+const defaultStore = createCommonStore();
 
 const props = {
   handleViewToggle,
@@ -18,7 +22,12 @@ const props = {
 describe('<PreferenceItem>', () => {
   it('should render', () => {
     props.isRemoving = false;
-    const component = shallow(<PreferenceItem {...props} />);
+    const component = mount(
+      <Provider store={defaultStore}>
+        <PreferenceItem {...props} />
+      </Provider>,
+    );
+
     // Display benefit-specific Heading
     expect(component.find('.title-container').html()).to.contain('Health care');
     // Display benefit-specific introduction
