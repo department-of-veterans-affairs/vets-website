@@ -2,6 +2,7 @@ import moment from 'moment';
 
 import { VA_FORM_IDS } from '../../../../platform/forms/constants';
 import testData from './data/minimal-test.json';
+import testForm from '../../../../platform/testing/e2e/cypress/support/form-tester';
 
 /* eslint-disable camelcase */
 const mockUser = {
@@ -214,11 +215,48 @@ const testConfig = {
     },
   */
   },
+  setup: () => {
+    // Set up signed in session.
+    window.localStorage.setItem('hasSession', true);
+
+    // Set up mock API.
+    cy.server();
+    cy.route('GET', '/v0/user', mockUser);
+    cy.route('GET', '/v0/intent_to_file', mockItf);
+    cy.route('GET', '/v0/upload_supporting_evidence', mockDocumentUpload);
+    cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInformation);
+  },
+  setupPerTest: () => {
+    // Pre-fill with the expected ratedDisabilities, but nix view:selected
+    // since that's not pre-filled
+
+    const sanitizedRatedDisabilities = (testData.ratedDisabilities || []).map(
+      ({ 'view:selected': _, ...obj }) => obj,
+    );
+
+    cy.route('GET', 'v0/in_progress_forms/21-526EZ', {
+      formData: {
+        veteran: {
+          primaryPhone: '4445551212',
+          emailAddress: 'test2@test1.net',
+        },
+        disabilities: sanitizedRatedDisabilities,
+      },
+      metadata: {
+        version: 0,
+        prefill: true,
+        returnUrl: '/veteran-information',
+      },
+    });
+  },
   testData,
   url:
     'localhost:3001/disability/file-disability-claim-form-21-526ez/introduction',
 };
 
+testForm('523 all claims', testConfig);
+
+/*
 describe('523 all claims', () => {
   before(() => {
     // Set up signed in session.
@@ -237,3 +275,4 @@ describe('523 all claims', () => {
     cy.testForm(testConfig);
   });
 });
+*/
