@@ -67,7 +67,10 @@ import {
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
-import { getRootOrganization } from '../services/organization';
+import {
+  getRootOrganization,
+  getOrganizationBySiteId,
+} from '../services/organization';
 
 const initialState = {
   pages: {},
@@ -723,7 +726,10 @@ export default function formReducer(state = initialState, action) {
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
-          communityCareSystemId: state.ccEnabledSystems[0],
+          communityCareSystemId: getOrganizationBySiteId(
+            state.parentFacilities,
+            state.ccEnabledSystems[0],
+          ),
         };
         initialSchema = unset(
           'properties.communityCareSystemId',

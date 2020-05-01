@@ -38,6 +38,7 @@ export async function getOrganizations(siteIds) {
 export function getSiteIdFromOrganization(organization) {
   return organization.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
 }
+
 /**
  * Returns the root organization of a given id
  * Assumes that the list of orgs always includes the root and that there
@@ -57,4 +58,18 @@ export function getRootOrganization(organizations, organizationId) {
   }
 
   return organization;
+}
+
+/**
+ * Returns the organization given a VistA site id
+ *
+ * @export
+ * @param {Array} organizations The list of organizations to search
+ * @param {String} siteId The site id to use
+ * @returns {Object} The matching organization
+ */
+export function getOrganizationBySiteId(organizations, siteId) {
+  return organizations.find(org =>
+    org.identifer.some(id => id.value === siteId),
+  );
 }
