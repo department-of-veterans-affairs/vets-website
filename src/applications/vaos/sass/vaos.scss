@@ -4,12 +4,14 @@
 .vaos-appts__tabs {
   padding: 0;
   border-bottom: 1px solid $color-gray-light;
+  display: flex;
 }
 
 .vaos-appts__tabs li {
   width: 50%;
+  display: flex;
 
-  @include media($medium-screen) {
+  @include media($medium-screen) { 
     width: 200px;
   }
 }
@@ -17,16 +19,18 @@
 .vaos-appts__tab {
   width: 100%;
   font-size: 14px;
-  border-color: $color-gray-light;
   border: solid 1px $color-gray-light;
   border-radius: 0 !important;
   position: relative;
   list-style: none;
-  padding: 6px 9px;
+  padding: 6px 0px;
   cursor: pointer;
   bottom: -1px;
   text-decoration: none;
-  background: $color-gray-light-alt;
+  background-color: $color-gray-light-alt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover, &:focus, &:active {
     color: $color-gray-dark;
@@ -42,7 +46,6 @@
   }
 
   @include media($medium-screen) {
-    padding: 6px 12px;  
     font-size: 16px;
   }
 }
