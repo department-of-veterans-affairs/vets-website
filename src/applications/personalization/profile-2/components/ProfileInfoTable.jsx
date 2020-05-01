@@ -57,28 +57,32 @@ const ProfileInfoTable = ({
           {title}
         </h3>
       )}
-      {data
-        .map(element => (dataTransformer ? dataTransformer(element) : element))
-        .map((row, index) => (
-          <div
-            key={index}
-            className={`'table-row' ${[
-              'table-row',
-              ...tableRowClasses,
-              ...tableRowClassesMedium,
-            ].join(' ')}`}
-          >
-            <h4
-              className={[
-                ...tableRowTitleClasses,
-                ...tableRowTitleMediumClasses,
-              ].join(' ')}
+      <dl className="vads-u-margin--0">
+        {data
+          .map(
+            element => (dataTransformer ? dataTransformer(element) : element),
+          )
+          .map((row, index) => (
+            <div
+              key={index}
+              className={`'table-row' ${[
+                'table-row',
+                ...tableRowClasses,
+                ...tableRowClassesMedium,
+              ].join(' ')}`}
             >
-              {row.title}
-            </h4>
-            <div className={tableRowDataClasses.join(' ')}>{row.value}</div>
-          </div>
-        ))}
+              <dt
+                className={[
+                  ...tableRowTitleClasses,
+                  ...tableRowTitleMediumClasses,
+                ].join(' ')}
+              >
+                {row.title}
+              </dt>
+              <dd className={tableRowDataClasses.join(' ')}>{row.value}</dd>
+            </div>
+          ))}
+      </dl>
     </div>
   );
 };
