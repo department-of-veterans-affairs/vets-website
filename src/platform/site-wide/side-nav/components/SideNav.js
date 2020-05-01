@@ -85,7 +85,7 @@ class SideNav extends Component {
     }
 
     return (
-      <ul className="usa-width-one-fourth va-sidenav">
+      <ul className="usa-width-one-fourth va-sidenav vads-u-margin--1 medium-screen:vads-u-margin-y--0 medium-screen:vads-u-margin-left--0 medium-screen:vads-u-margin-right--2p5">
         {/* Render all the items recursively. */}
         {renderChildItems(parentMostID, 1)}
       </ul>
