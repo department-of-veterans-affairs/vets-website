@@ -65,8 +65,7 @@ const ProfileInfoTable = ({
           .map((row, index) => (
             <div
               key={index}
-              className={`'table-row' ${[
-                'table-row',
+              className={`table-row ${[
                 ...tableRowClasses,
                 ...tableRowClassesMedium,
               ].join(' ')}`}
