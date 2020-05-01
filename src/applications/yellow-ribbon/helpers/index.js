@@ -24,10 +24,7 @@ export const updateQueryParams = (
   const queryParams = new URLSearchParams(location.search);
 
   // Set/Delete query params.
-  Object.keys(queryParamsLookup).forEach(key => {
-    // Derive the value.
-    const value = queryParamsLookup[key];
-
+  Object.entries(queryParamsLookup).forEach(([key, value]) => {
     // Set the query param.
     if (value) {
       queryParams.set(key, value);
