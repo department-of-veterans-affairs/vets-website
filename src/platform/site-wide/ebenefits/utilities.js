@@ -1,8 +1,3 @@
-import {
-  ssoe,
-  ssoeEbenefitsLinks,
-} from 'platform/user/authentication/selectors';
-import { hasSessionSSO } from 'platform/user/profile/utilities';
 import environment from 'platform/utilities/environment';
 import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 
@@ -38,21 +33,14 @@ function normalizePath(path) {
   // remove the leading '/' prefix if it exists
   return path.startsWith('/') ? path.substring(1) : path;
 }
-function eauthUrl(path = 'ebenefits') {
+function proxyUrl(path = 'ebenefits') {
   // render an absolute url to the given path under the proxy server.
   // if a path mapping can't be found, use it as is
   const route = eauthPathMap[normalizePath(path)] || normalizePath(path);
   return `https://${eauthPrefix}eauth.va.gov/${route}`;
 }
+function defaultUrl(path = '') {
+  return `https://www.ebenefits.va.gov/${normalizePath(path)}`;
+}
 
-export const eBenefitsUrlGenerator = state => {
-  // based on the state, return a function to generated ebenefits absolute
-  // urls. the following criteria must be true for the proxied/eauth function
-  // a) user is authenticated
-  // b) the SSOe feature flag enabled
-  // c) the SSOe eBenefits links feature flag enabled
-  if (hasSessionSSO() && ssoe(state) && ssoeEbenefitsLinks(state)) {
-    return eauthUrl;
-  }
-  return (path = '') => `https://www.ebenefits.va.gov/${normalizePath(path)}`;
-};
+export { proxyUrl, defaultUrl };
