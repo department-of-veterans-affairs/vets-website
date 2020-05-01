@@ -70,9 +70,8 @@ class ProfileWrapper extends Component {
     );
 
     const activeRouteName = activeRoute?.name;
-    const activeRouteAriaLabel = `View your ${activeRouteName} details`;
 
-    return { activeLocation, activeRouteAriaLabel, activeRouteName };
+    return { activeLocation, activeRouteName };
   };
 
   // content to show after data has loaded
@@ -80,7 +79,6 @@ class ProfileWrapper extends Component {
   mainContent = () => {
     const {
       activeLocation,
-      activeRouteAriaLabel,
       activeRouteName,
     } = this.createBreadCrumbAttributes();
 
@@ -88,15 +86,9 @@ class ProfileWrapper extends Component {
       <>
         {/* Breadcrumbs */}
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
-          <a href="/" aria-label="back to VA Home page">
-            Home
-          </a>
-          <a href="/profile-2/" aria-label="back to the Profile page">
-            Profile
-          </a>
-          <a href={activeLocation} aria-label={activeRouteAriaLabel}>
-            {activeRouteName}
-          </a>
+          <a href="/">Home</a>
+          <a href="/profile-2/">Profile</a>
+          <a href={activeLocation}>{activeRouteName}</a>
         </Breadcrumbs>
 
         <MobileMenuTrigger />

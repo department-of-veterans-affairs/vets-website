@@ -45,26 +45,6 @@ describe('ProfileWrapper', () => {
             key: 'personal-information',
             name: 'Personal and contact Information',
           },
-          {
-            path: 'military-information',
-            key: 'military-information',
-            name: 'Military information',
-          },
-          {
-            path: 'direct-deposit',
-            key: 'direct-deposit',
-            name: 'Direct deposit information',
-          },
-          {
-            path: 'account-security',
-            key: 'account-security',
-            name: 'Account security',
-          },
-          {
-            path: 'connected-applications',
-            key: 'connected-applications',
-            name: 'Connected applications',
-          },
         ],
       },
     };
