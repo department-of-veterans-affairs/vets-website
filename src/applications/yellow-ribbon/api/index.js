@@ -39,7 +39,5 @@ export const fetchResultsApi = async (options = {}) => {
   }
 
   // Normalize the response from the API.
-  const normalizedResponse = normalizeResponse(response);
-
-  return normalizedResponse;
+  return normalizeResponse(response);
 };
