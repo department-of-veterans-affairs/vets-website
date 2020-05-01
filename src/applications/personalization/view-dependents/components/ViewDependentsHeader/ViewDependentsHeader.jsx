@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl.js';
+import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 const ViewDependentsHeader = ({ eBenefitsUrl }) => (
   <div className="vads-l-row">
@@ -27,6 +27,7 @@ const ViewDependentsHeader = ({ eBenefitsUrl }) => (
 const mapStateToProps = state => ({
   eBenefitsUrl: eBenefitsUrlGenerator(state),
 });
+
 export default connect(mapStateToProps)(ViewDependentsHeader);
 
 export { ViewDependentsHeader };
