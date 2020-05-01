@@ -1,16 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import moment from 'moment';
 import { expect } from 'chai';
-import createCommonStore from 'platform/startup/store';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const dateFormat = 'YYYY-MM-DD';
-
-const defaultStore = createCommonStore();
 
 describe('526 bddRedirect page', () => {
   const {
@@ -47,17 +43,15 @@ describe('526 bddRedirect page', () => {
 
   it('should show the right content when the separation date is < 90 days in the future', () => {
     const tree = mount(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          data={formData(
-            moment()
-              .add(1, 'days')
-              .format(dateFormat),
-          )}
-        />
-      </Provider>,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData(
+          moment()
+            .add(1, 'days')
+            .format(dateFormat),
+        )}
+      />,
     );
 
     expect(tree.text()).to.contain(
@@ -69,30 +63,26 @@ describe('526 bddRedirect page', () => {
 
   it('should show the right content when the separation date is between 90 and 180 days in the future', () => {
     const ninetyDays = mount(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          data={formData(
-            moment()
-              .add(90, 'days')
-              .format(dateFormat),
-          )}
-        />
-      </Provider>,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData(
+          moment()
+            .add(90, 'days')
+            .format(dateFormat),
+        )}
+      />,
     );
     const oneEightyDays = mount(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          data={formData(
-            moment()
-              .add(180, 'days')
-              .format(dateFormat),
-          )}
-        />
-      </Provider>,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData(
+          moment()
+            .add(180, 'days')
+            .format(dateFormat),
+        )}
+      />,
     );
 
     expect(ninetyDays.text()).to.contain(
@@ -108,17 +98,15 @@ describe('526 bddRedirect page', () => {
 
   it('should show the right content when the separation date is > 180 days in the future', () => {
     const tree = mount(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          data={formData(
-            moment()
-              .add(181, 'days')
-              .format(dateFormat),
-          )}
-        />
-      </Provider>,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData(
+          moment()
+            .add(181, 'days')
+            .format(dateFormat),
+        )}
+      />,
     );
 
     const text = tree.text();

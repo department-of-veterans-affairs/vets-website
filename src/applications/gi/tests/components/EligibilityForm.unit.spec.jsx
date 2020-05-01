@@ -9,7 +9,6 @@ import reducer from '../../reducers';
 const defaultProps = {
   ...createCommonStore(reducer).getState().eligibility,
   showModal: () => {},
-  eBenefitsUrl: path => path,
 };
 
 const checkExpectedDropdowns = (tree, expected) => {
