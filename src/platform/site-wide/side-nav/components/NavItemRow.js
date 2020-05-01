@@ -35,7 +35,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
         className={classNames('va-sidenav-item-label', {
           'va-sidenav-item-label-bold': isFirstLevel,
         })}
-        style={{ paddingLeft: indentation, 'font-size': '13px' }}
+        style={{ paddingLeft: indentation, fontSize: '13px' }}
       >
         {label}
       </h2>
