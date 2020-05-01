@@ -7,6 +7,9 @@ import environment from 'platform/utilities/environment';
 import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 
 const eauthPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+// mapping of the www.ebenefits.va.gov/<path> path to the same page behind
+// the eauth.va.gov/<path> proxy. NOTE: if the path mapping is not defined
+// it is assumed that the paths between the two domains are the same
 const eauthPathMap = {
   'ebenefits-portal/ebenefits.portal': 'ebenefits/homepage',
   'ebenefits/about/feature?feature=disability-compensation':
@@ -20,7 +23,9 @@ const eauthPathMap = {
     'ebenefits/vdc?target=%2Fwssweb%2Fwss-686-webparts%2Fdependent.do',
   'ebenefits/about/feature?feature=cert-of-eligibility-home-loan':
     'ebenefits/coe',
-  // NOTE: Future use
+  // NOTE: Future use; these links only exist in the content repo, so they
+  // can't be dynamically created.  However if those pages get moved over
+  // they we will have them mapped
   'ebenefits/about/feature?feature=request-vso-representative':
     'ebenefits/vdc?target=%2Fwssweb%2FVDC2122%2Frepresentative.do',
   'ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks':
@@ -30,18 +35,22 @@ const eauthPathMap = {
     'isam/sps/saml20idp/saml20/logininitial?PartnerId=https://fedsso-qa.prudential.com/cu&Target=https://giosgli-stage.prudential.com/osgli/Controller/eBenefitsUser',
 };
 function normalizePath(path) {
+  // remove the leading '/' prefix if it exists
   return path.startsWith('/') ? path.substring(1) : path;
 }
 function eauthUrl(path = 'ebenefits') {
+  // render an absolute url to the given path under the proxy server.
+  // if a path mapping can't be found, use it as is
   const route = eauthPathMap[normalizePath(path)] || normalizePath(path);
   return `https://${eauthPrefix}eauth.va.gov/${route}`;
 }
 
 export const eBenefitsUrlGenerator = state => {
-  // only proxy the eBenefit URL through eauth.va.gov if the user
-  // a) is authenticated
-  // b) has the SSOe feature flag enabled
-  // c) has the SSOe eBenefits links feature flag enabled
+  // based on the state, return a function to generated ebenefits absolute
+  // urls. the following criteria must be true for the proxied/eauth function
+  // a) user is authenticated
+  // b) the SSOe feature flag enabled
+  // c) the SSOe eBenefits links feature flag enabled
   if (hasSessionSSO() && ssoe(state) && ssoeEbenefitsLinks(state)) {
     return eauthUrl;
   }
