@@ -43,7 +43,7 @@ export class SearchResult extends React.Component {
     };
 
     return (
-      <div className="search-result">
+      <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">

@@ -57,7 +57,7 @@ class AccordionItem extends React.Component {
           onClick={this.toggle}
           className="usa-button-secondary"
         >
-          {button}
+          <span className="section-button">{button}</span>
         </button>
       );
     }
