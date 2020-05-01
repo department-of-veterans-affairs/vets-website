@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -90,4 +90,14 @@ describe('<TabItem>', () => {
     expect(document.activeElement.id).to.equal('tabpaneltitle');
     tree.unmount();
   });
+
+  it('should render flex css for tab', () => {
+    const tree = mount(
+      <TabItem id="title" title="Title Here" tabpath="upcoming" />,
+    );
+    expect(tree.find('IndexLink').props().className).to.contain('vaos-appts__tab');
+
+    tree.unmount();
+  });
+
 });
