@@ -3,7 +3,7 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 const autocomplete = require('../data/autocomplete.json');
 const institutionProfile = require('../data/institution-profile.json');
 const searchResults = require('../data/search-results.json');
-const calculatorConstants = require('../data/calculator-constants.json');
+const calculatorConstantsJson = require('../data/calculator-constants.json');
 const featureToggles = require('../data/feature-toggles.json');
 const mock = require('platform/testing/e2e/mock-helpers');
 
@@ -23,7 +23,7 @@ const initCommonMock = () => {
   mock(null, {
     path: '/v0/gi/calculator_constants',
     verb: 'get',
-    value: calculatorConstants,
+    value: calculatorConstantsJson,
   });
 
   mock(null, {
@@ -90,8 +90,8 @@ const verifySearchResults = (client, results = searchResults) => {
     .waitForElementVisible('.search-page', Timeouts.normal)
     .axeCheck('.main');
 
-  results.data.forEach(result => {
-    const id = `#search-result-${result.attributes.facility_code}`;
+  results.data.forEach(({ attributes: profile }) => {
+    const id = `#search-result-${profile.facility_code}`;
     client.waitForElementVisible(id, Timeouts.normal);
   });
 };
@@ -174,13 +174,14 @@ const formatNumberHalf = value => {
 
 const formatCurrencyHalf = value => formatNumberHalf(Math.round(+value));
 
-const calculatorConstantsList = () => {
+const createCalculatorConstants = () => {
   const constantsList = [];
-  calculatorConstants.data.forEach(c => {
+  calculatorConstantsJson.data.forEach(c => {
     constantsList[c.attributes.name] = c.attributes.value;
   });
   return constantsList;
 };
+const calculatorConstants = createCalculatorConstants();
 
 const eybSections = {
   yourBenefits: 'Your benefits',
@@ -243,7 +244,7 @@ module.exports = {
   formatNumber,
   formatCurrency,
   formatCurrencyHalf,
-  calculatorConstantsList,
+  calculatorConstants,
   yourBenefits,
   aboutYourSchool,
   learningFormatAndSchedule,
