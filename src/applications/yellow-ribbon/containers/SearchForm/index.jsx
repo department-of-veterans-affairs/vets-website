@@ -98,6 +98,7 @@ export class SearchForm extends Component {
       numberOfStudents,
       page: 1,
       state,
+      trackSearch: true,
     });
 
     // Scroll to top.
@@ -229,7 +230,4 @@ const mapDispatchToProps = {
   fetchResultsThunk,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
