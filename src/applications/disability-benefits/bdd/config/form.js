@@ -135,8 +135,7 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     veteranDetails: {
-      title: isReviewPage =>
-        `${isReviewPage ? 'Review ' : ''}Service Member Details`,
+      title: 'Service Member Details',
       pages: {
         veteranInformation: {
           title: 'Service member information',
@@ -174,7 +173,7 @@ const formConfig = {
       },
     },
     disabilities: {
-      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Disabilities`,
+      title: 'Disabilities',
       pages: {
         newDisabilities: {
           title: 'New disabilities',
@@ -470,7 +469,7 @@ const formConfig = {
       },
     },
     additionalInformation: {
-      title: 'Additional information',
+      title: 'Additional Information',
       pages: {
         paymentInformation: {
           title: 'Payment information',
