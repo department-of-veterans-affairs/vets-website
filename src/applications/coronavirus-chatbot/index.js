@@ -131,17 +131,16 @@ export const requestChatBot = loc => {
   if (params.has('userName')) {
     path += `&userName=${params.get('userName')}`;
   }
-  return ensureCSRFTokenIsSet()
-    .then(() =>
-      apiRequest(path, { method: 'POST' })
-        .then(({ token }) => initBotConversation(token))
-        .catch(error => {
-          recordEvent({
-            event: `${GA_PREFIX}-connection-failure`,
-            'error-key': 'XX_failed_to_init_bot_convo',
-          });
-        }),
-    );
+  return ensureCSRFTokenIsSet().then(() =>
+    apiRequest(path, { method: 'POST' })
+      .then(({ token }) => initBotConversation(token))
+      .catch(() => {
+        recordEvent({
+          event: `${GA_PREFIX}-connection-failure`,
+          'error-key': 'XX_failed_to_init_bot_convo',
+        });
+      }),
+  );
 };
 
 const chatRequested = scenario => {
