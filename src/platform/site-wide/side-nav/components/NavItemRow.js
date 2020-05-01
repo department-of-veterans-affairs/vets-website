@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { get } from 'lodash';
 // Relative
-import LabelText from './LabelText';
 import { NavItemPropTypes } from '../prop-types';
 
 const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
@@ -22,13 +21,29 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   // Calculate the indentation for the child items.
   const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
 
+  // Expanded not selected
+  const isExpanded = get(item, 'expanded') && depth === 2 && !isSelected;
+  // Expanded beyond level 2 expanded and selected
+  const moreThanLevel2SelectedExpanded =
+    get(item, 'expanded') && depth > 2 && isSelected;
+  //
+  const isLevelFourOrDeeper = item.depth >= 4;
+  if (isFirstLevel) {
+    return (
+      <h2
+        aria-label={label}
+        className={classNames('va-sidenav-item-label', {
+          'va-sidenav-item-label-bold': isFirstLevel,
+        })}
+        style={{ paddingLeft: indentation, 'font-size': '13px' }}
+      >
+        {label}
+      </h2>
+    );
+  }
+
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
-    // Expanded not selected
-    const isExpanded = get(item, 'expanded') && depth === 2 && !isSelected;
-    // Expanded beyond level 2 expanded and selected
-    const moreThanLevel2SelectedExpanded =
-      get(item, 'expanded') && depth > 2 && isSelected;
     return (
       <a
         aria-label={label}
@@ -44,27 +59,38 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
         href={href}
         style={{ paddingLeft: indentation }}
       >
-        {/* Label */}
-        <LabelText item={item} />
+        {/* Label text */}
+        <span
+          className={classNames({
+            'grandchild-left-line': isLevelFourOrDeeper && !isSelected,
+          })}
+        >
+          {' '}
+          {label}{' '}
+        </span>
       </a>
     );
   }
 
   return (
     <a
-      className={classNames(
-        'va-sidenav-item-label',
-        'va-sidenav-item-label-underlined',
-        {
-          open: !!(depth >= 2 && isSelected),
-        },
-      )}
+      aria-label={label}
+      className={classNames('va-sidenav-item-label', {
+        open: !!(depth >= 2 && isSelected),
+      })}
       rel="noopener noreferrer"
       href={href}
       style={{ paddingLeft: indentation }}
     >
-      {/* Label */}
-      <LabelText item={item} />
+      {/* Label text */}
+      <span
+        className={classNames({
+          'grandchild-left-line': isLevelFourOrDeeper && !isSelected,
+        })}
+      >
+        {' '}
+        {label}{' '}
+      </span>
     </a>
   );
 };

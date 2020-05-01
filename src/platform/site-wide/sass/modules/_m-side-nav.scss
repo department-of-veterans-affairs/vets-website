@@ -157,7 +157,7 @@ $side-nav-color-dark: #323a45;
                 linear-gradient($color-primary, $color-primary) right / 2px 100%,
                 $color-white;
         background-repeat:no-repeat;
-        box-shadow: inset 0 0 0 1px $color-primary
+        box-shadow: 0 0 0 1px $color-primary
       }
       &:active {
         color: $side-nav-color-dark !important;
@@ -168,7 +168,7 @@ $side-nav-color-dark: #323a45;
                 linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 2px 100%,
                 $side-nav-color-gray-lightest;
         background-repeat:no-repeat;
-        box-shadow: inset 0 0 0 1px $side-nav-color-dark
+        box-shadow:  0 0 0 1px $side-nav-color-dark
       }
     }
   }
