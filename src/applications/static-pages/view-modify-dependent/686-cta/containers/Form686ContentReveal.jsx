@@ -9,7 +9,7 @@ const Form686ContentReveal = props => {
     content = (
       <>
         <p className="vads-u-font-size--xl vads-u-font-family--serif vads-u-font-weight--bold">
-          How do I add or change a dependent on my VA disability benenfits?
+          How do I add or change a dependent on my VA disability benefits?
         </p>
         <p>
           You could receive additional disability compensation for a spouse,
