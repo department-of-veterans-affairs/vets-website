@@ -230,4 +230,7 @@ const mapDispatchToProps = {
   fetchResultsThunk,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchForm);
