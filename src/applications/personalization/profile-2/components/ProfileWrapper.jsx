@@ -82,12 +82,15 @@ class ProfileWrapper extends Component {
       activeRouteName,
     } = this.createBreadCrumbAttributes();
 
+    const onPersonalInformationPage =
+      this.props?.location?.pathname === '/personal-information';
+
     return (
       <>
         {/* Breadcrumbs */}
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          <a href="/profile-2/">Profile</a>
+          {!onPersonalInformationPage && <a href="/profile-2/">Profile</a>}
           <a href={activeLocation}>{activeRouteName}</a>
         </Breadcrumbs>
 
