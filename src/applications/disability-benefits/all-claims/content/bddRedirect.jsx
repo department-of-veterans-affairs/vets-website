@@ -103,11 +103,9 @@ function bddRedirect({ formData, eBenefitsUrl }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
-  };
-}
+const mapStateToProps = state => ({
+  eBenefitsUrl: eBenefitsUrlGenerator(state),
+});
 
 export default connect(mapStateToProps)(bddRedirect);
 
