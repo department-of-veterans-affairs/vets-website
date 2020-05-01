@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { EBEN_526_PATH } from '../../constants';
 
 export default function ValidatedServicePeriodView({ formData, onEdit }) {
@@ -26,12 +26,12 @@ export default function ValidatedServicePeriodView({ formData, onEdit }) {
           information here. Or you can go to eBenefits to file your disability
           claim.
         </p>
-        <ebenefitsLink
+        <EbenefitsLink
           path={EBEN_526_PATH}
           className="usa-button-primary va-button-primary"
         >
           Go to eBenefits
-        </ebenefitsLink>{' '}
+        </EbenefitsLink>{' '}
         <p>
           <strong className="vads-u-display--block vads-u-margin-bottom--3">
             OR

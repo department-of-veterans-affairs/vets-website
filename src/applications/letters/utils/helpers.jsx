@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
@@ -25,10 +25,10 @@ export const recordsNotFound = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-heading">
-          <ebenefitsLink path="ebenefits/download-letters">
+          <EbenefitsLink path="ebenefits/download-letters">
             If you’re a dependent, please go to eBenefits to look for your
             letters.
-          </ebenefitsLink>
+          </EbenefitsLink>
         </p>
       </div>
     </div>

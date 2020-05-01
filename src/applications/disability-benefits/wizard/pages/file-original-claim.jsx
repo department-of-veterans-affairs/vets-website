@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 function FileOriginalClaimPage() {
   return (
@@ -14,12 +14,12 @@ function FileOriginalClaimPage() {
             To file your first disability claim, please go to our eBenefits
             website.
           </p>
-          <ebenefitsLink
+          <EbenefitsLink
             path="ebenefits/about/feature?feature=disability-compensation"
             className="usa-button-primary va-button-primary"
           >
             Go to eBenefits
-          </ebenefitsLink>
+          </EbenefitsLink>
         </>
       }
     />

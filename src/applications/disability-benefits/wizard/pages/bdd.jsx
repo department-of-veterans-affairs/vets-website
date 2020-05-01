@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { pageNames } from './pageList';
 import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 
@@ -30,12 +30,12 @@ function alertContent() {
         can’t file a BDD claim, but you can still begin the process of filing
         your claim on eBenefits.
       </p>
-      <ebenefitsLink
+      <EbenefitsLink
         path={EBEN_526_PATH}
         className="usa-button-primary va-button-primary"
       >
         Go to eBenefits
-      </ebenefitsLink>
+      </EbenefitsLink>
       <p>
         <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
       </p>

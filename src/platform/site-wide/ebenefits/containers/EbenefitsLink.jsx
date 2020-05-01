@@ -8,7 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { shouldUseProxyUrl } from '../selectors';
 import { proxyUrl, defaultUrl } from '../utilities';
 
-class ebenefitsLink extends React.Component {
+class EbenefitsLink extends React.Component {
   static propTypes = {
     path: PropTypes.string,
     emitEvent: PropTypes.bool,
@@ -20,18 +20,19 @@ class ebenefitsLink extends React.Component {
 
   render() {
     const url = this.props.useProxyUrl ? proxyUrl : defaultUrl;
-    const defaults = {
-      href: url(this.props.path),
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      onClick: () =>
-        this.props.emitEvent &&
-        isLoggedIn &&
-        recordEvent({ event: 'nav-ebenefits-click' }),
+    const click = () =>
+      this.props.emitEvent &&
+      isLoggedIn &&
+      recordEvent({ event: 'nav-ebenefits-click' });
+    const attrs = {
+      href: this.props.href || url(this.props.path),
+      className: this.props.className || '',
+      target: this.props.target || '_blank',
+      rel: this.props.rel || 'noopener noreferrer',
+      onClick: this.props.onClick || click,
     };
-    const data = { ...defaults, ...this.props };
 
-    return <a {...data}>{this.props.children}</a>;
+    return <a {...attrs}>{this.props.children}</a>;
   }
 }
 
@@ -39,6 +40,6 @@ const mapStateToProps = state => ({
   useProxyUrl: shouldUseProxyUrl(state),
 });
 
-export default connect(mapStateToProps)(ebenefitsLink);
+export default connect(mapStateToProps)(EbenefitsLink);
 
-export { ebenefitsLink };
+export { EbenefitsLink };

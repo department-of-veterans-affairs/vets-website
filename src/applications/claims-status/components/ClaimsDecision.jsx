@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 function ClaimsDecision({ completedDate }) {
   return (
@@ -19,9 +19,9 @@ function ClaimsDecision({ completedDate }) {
         arrive before contacting a VA call center. If you haven’t received the
         packet with the full details of your claim decision yet, you can see
         your rating by going to your disability page in eBenefits.{' '}
-        <ebenefitsLink>
+        <EbenefitsLink>
           Check your disability page in eBenefits for your rating
-        </ebenefitsLink>
+        </EbenefitsLink>
         .
       </p>
       <h5 className="claims-paragraph-header">Next steps</h5>

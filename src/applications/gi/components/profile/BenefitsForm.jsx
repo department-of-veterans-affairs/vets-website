@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
@@ -127,9 +127,9 @@ export class BenefitsForm extends React.Component {
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
             To apply for VR&E benefits, please{' '}
-            <ebenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
+            <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
               visit this site
-            </ebenefitsLink>
+            </EbenefitsLink>
             .
           </div>
         )}

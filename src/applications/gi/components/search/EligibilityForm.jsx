@@ -7,7 +7,7 @@ import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -117,9 +117,9 @@ export class EligibilityForm extends React.Component {
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
             To apply for VR&E benefits, please{' '}
-            <ebenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
+            <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
               visit this site
-            </ebenefitsLink>
+            </EbenefitsLink>
             .
           </div>
         )}

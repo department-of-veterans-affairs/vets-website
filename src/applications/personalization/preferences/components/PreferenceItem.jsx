@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -25,9 +25,9 @@ const CallToAction = ({ cta }) => {
       <div>
         {description}
         {hasLinkAndText && (
-          <ebenefitsLink path={link} {...props}>
+          <EbenefitsLink path={link} {...props}>
             {text}
-          </ebenefitsLink>
+          </EbenefitsLink>
         )}
       </div>
     );

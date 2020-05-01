@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 const ViewDependentsHeader = () => (
   <div className="vads-l-row">
@@ -11,12 +11,12 @@ const ViewDependentsHeader = () => (
         claim for additional disability compensation whenever you add a new
         dependent.
       </p>
-      <ebenefitsLink
+      <EbenefitsLink
         path="ebenefits/about/feature?feature=dependent-compensation"
         className="usa-button-primary va-button-primary"
       >
         Add or remove a dependent
-      </ebenefitsLink>
+      </EbenefitsLink>
     </div>
   </div>
 );

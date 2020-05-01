@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function ButtonContainer(props) {
   const {
@@ -58,13 +58,13 @@ export default function ButtonContainer(props) {
           </a>
         )}
       {atEbenefitsGuidance && (
-        <ebenefitsLink
+        <EbenefitsLink
           path="ebenefits/about/feature?feature=disability-compensation"
           className="usa-button-primary"
         >
           Go to eBenefits
           <span className="button-icon"> »</span>
-        </ebenefitsLink>
+        </EbenefitsLink>
       )}
       {!atGuidance() && (
         <button

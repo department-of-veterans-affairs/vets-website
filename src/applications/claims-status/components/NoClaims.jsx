@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function NoClaims() {
   return (
@@ -11,9 +11,9 @@ export default function NoClaims() {
       <p>
         This page shows only completed claim applications. If you started a
         claim but haven’t finished it yet, go to{' '}
-        <ebenefitsLink path="ebenefits-portal/ebenefits.portal">
+        <EbenefitsLink path="ebenefits-portal/ebenefits.portal">
           eBenefits
-        </ebenefitsLink>{' '}
+        </EbenefitsLink>{' '}
         to work on it.
       </p>
     </div>

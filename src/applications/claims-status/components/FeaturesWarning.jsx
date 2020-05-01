@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function FeaturesWarning() {
   return (
@@ -9,9 +9,9 @@ export default function FeaturesWarning() {
       <p>
         To update your personal information, get help filing claims or appeals,
         or view your uploaded documents, go to{' '}
-        <ebenefitsLink path="ebenefits-portal/ebenefits.portal">
+        <EbenefitsLink path="ebenefits-portal/ebenefits.portal">
           eBenefits
-        </ebenefitsLink>
+        </EbenefitsLink>
         .
       </p>
     </div>
