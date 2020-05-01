@@ -1,0 +1,7 @@
+{
+  "appName": "1111",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "new-form",
+  "rootUrl": "/new-form",
+  "production": false
+}
