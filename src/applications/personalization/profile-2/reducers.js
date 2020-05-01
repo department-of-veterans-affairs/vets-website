@@ -31,6 +31,4 @@ function profileUi(state = initialState, action) {
   }
 }
 
-export default {
-  profileUi,
-};
+export default profileUi;
