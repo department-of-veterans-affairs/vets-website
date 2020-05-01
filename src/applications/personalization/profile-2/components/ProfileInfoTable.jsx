@@ -9,6 +9,7 @@ const ProfileInfoTable = ({
   fieldName,
   title,
   className,
+  list,
 }) => {
   const tableClasses = ['profile-info-table', className];
   const titleClasses = prefixUtilityClasses([
@@ -51,13 +52,14 @@ const ProfileInfoTable = ({
   const tableRowDataClasses = ['vads-u-margin--0'];
 
   return (
-    <div className={tableClasses.join(' ')} data-field-name={fieldName}>
+    <section className={tableClasses.join(' ')} data-field-name={fieldName}>
       {title && (
         <h3 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
           {title}
         </h3>
       )}
-      <dl className="vads-u-margin--0">
+      {/* This syntax is kind of ugly. But it's simply adding `role="list"` if `list` is truthy` */}
+      <dl className="vads-u-margin--0" {...{ ...(list && { role: 'list' }) }}>
         {data
           .map(
             element => (dataTransformer ? dataTransformer(element) : element),
@@ -75,6 +77,8 @@ const ProfileInfoTable = ({
                   ...tableRowTitleClasses,
                   ...tableRowTitleMediumClasses,
                 ].join(' ')}
+                // again this is weird syntax but it's adding `role="listitem"` if the `list` prop is truthy
+                {...{ ...(list && { role: 'listitem' }) }}
               >
                 {row.title}
               </dt>
@@ -82,7 +86,7 @@ const ProfileInfoTable = ({
             </div>
           ))}
       </dl>
-    </div>
+    </section>
   );
 };
 
@@ -92,6 +96,11 @@ ProfileInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
+  /**
+   * When `list` is truthy, additional a11y markup will be applied to the
+   * rendered table to treat it like a list
+   */
+  list: PropTypes.bool,
 };
 
 export { prefixUtilityClasses };
