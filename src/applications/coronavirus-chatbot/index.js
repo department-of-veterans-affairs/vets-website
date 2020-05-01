@@ -1,7 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX, addEventListenerToButtons } from './utils';
-import * as Sentry from '@sentry/browser';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
