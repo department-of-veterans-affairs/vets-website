@@ -104,9 +104,11 @@ const ProfileHeader = ({
         >
           {showBadgeImage && (
             <img
-              className="profile-service-badge"
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
-              alt="service badge"
+              alt={`${latestBranchOfService} seal`}
+              className="profile-service-badge"
+              aria-hidden="true"
+              role="presentation"
             />
           )}
         </div>
