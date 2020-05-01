@@ -32,6 +32,7 @@ import {
 import {
   getOrganizations,
   getSiteIdFromOrganization,
+  getRootOrganization,
 } from '../services/organization';
 import {
   FACILITY_TYPES,
@@ -272,6 +273,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     let eligibilityData = null;
     let parentId = newAppointment.data.vaParent;
     let facilityId = newAppointment.data.vaFacility;
+    let rootOrg = null;
 
     try {
       // If we have the VA parent in our state, we don't need to
@@ -286,15 +288,19 @@ export function openFacilityPage(page, uiSchema, schema) {
         parentId = parentFacilities[0].id;
       }
 
-      const systemId = parentFacilities?.find(parent => parent.id === parentId)
-        ?.rootStationCode;
+      if (parentId) {
+        rootOrg = getRootOrganization(parentFacilities, parentId);
+      }
+
       facilities =
         newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
 
       if (canShowFacilities && !facilities) {
         facilities = await getFacilitiesBySystemAndTypeOfCare(
-          systemId,
-          parentId,
+          // Remove parse function when converting this call to FHIR service
+          parseFakeFHIRId(rootOrg.id),
+          // Remove parse function when converting this call to FHIR service
+          parseFakeFHIRId(parentId),
           typeOfCareId,
         );
       }
@@ -320,11 +326,16 @@ export function openFacilityPage(page, uiSchema, schema) {
             facility => facility.institutionCode === facilityId,
           ),
           typeOfCareId,
-          systemId,
+          // Remove parse function when converting this call to FHIR service
+          parseFakeFHIRId(rootOrg.id),
           directSchedulingEnabled,
         );
 
-        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
+        recordEligibilityGAEvents(
+          eligibilityData,
+          typeOfCareId,
+          getSiteIdFromOrganization(rootOrg),
+        );
       }
 
       dispatch({

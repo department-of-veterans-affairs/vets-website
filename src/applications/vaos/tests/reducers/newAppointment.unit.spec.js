@@ -47,10 +47,14 @@ import {
   PURPOSE_TEXT,
 } from '../../utils/constants';
 
-const parentFacilitiesParsed = parentFacilities.data.map(item => ({
-  ...item.attributes,
-  id: item.id,
-}));
+import { transformParentFacilities } from '../../services/organization/transformers';
+
+const parentFacilitiesParsed = transformParentFacilities(
+  parentFacilities.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+);
 
 const defaultState = {
   data: {},
@@ -209,7 +213,7 @@ describe('VAOS reducer: newAppointment', () => {
         properties: {
           vaParent: {
             type: 'string',
-            enum: ['983', '984', '983A6'],
+            enum: ['var983', 'var984', 'var983A6'],
             enumNames: [
               'CHYSHR-Cheyenne VA Medical Center',
               'DAYTSHR -Dayton VA Medical Center',
@@ -233,9 +237,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.data.vaParent).to.equal(
-        action.parentFacilities[0].institutionCode,
-      );
+      expect(newState.data.vaParent).to.equal(action.parentFacilities[0].id);
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
         properties: {
@@ -269,9 +271,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.data.vaParent).to.equal(
-        action.parentFacilities[0].institutionCode,
-      );
+      expect(newState.data.vaParent).to.equal(action.parentFacilities[0].id);
       expect(newState.data.vaFacility).to.equal(
         action.facilities[0].institutionCode,
       );
@@ -325,7 +325,7 @@ describe('VAOS reducer: newAppointment', () => {
     const defaultFacilityState = {
       ...defaultState,
       data: {
-        vaParent: '983',
+        vaParent: 'var983',
         typeOfCareId: '323',
       },
       pages: {
@@ -380,7 +380,7 @@ describe('VAOS reducer: newAppointment', () => {
           'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
         ],
       });
-      expect(newState.facilities['323_983']).to.equal(facilities983Parsed);
+      expect(newState.facilities['323_var983']).to.equal(facilities983Parsed);
     });
 
     it('should update facility choices if system changed and we have the list in state', () => {
@@ -391,10 +391,10 @@ describe('VAOS reducer: newAppointment', () => {
       const state = {
         ...defaultFacilityState,
         data: {
-          vaParent: '983',
+          vaParent: 'var983',
         },
         facilities: {
-          '323_983': facilities983Parsed,
+          '323_var983': facilities983Parsed,
         },
       };
 
@@ -422,11 +422,11 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultFacilityState,
         parentFacilities: [
           {
-            institutionCode: '983',
+            id: 'var983',
           },
         ],
         facilities: {
-          '323_983': facilities983Parsed.slice(0, 1),
+          '323_var983': facilities983Parsed.slice(0, 1),
         },
       };
 
@@ -472,7 +472,7 @@ describe('VAOS reducer: newAppointment', () => {
       const state = {
         ...defaultState,
         facilities: {
-          '323_983': facilities983Parsed,
+          '323_var983': facilities983Parsed,
         },
         parentFacilities: parentFacilitiesParsed,
         data: {
@@ -502,7 +502,7 @@ describe('VAOS reducer: newAppointment', () => {
       const state = {
         ...defaultState,
         facilities: {
-          '323_983': facilities983Parsed,
+          '323_var983': facilities983Parsed,
         },
         parentFacilities: parentFacilitiesParsed,
         data: {
@@ -582,7 +582,7 @@ describe('VAOS reducer: newAppointment', () => {
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
-          vaParent: '983',
+          vaParent: 'var983',
           vaFacility: '983',
         },
       };
@@ -641,7 +641,7 @@ describe('VAOS reducer: newAppointment', () => {
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
-          vaParent: '983',
+          vaParent: 'var983',
           vaFacility: '983',
         },
       };
@@ -913,7 +913,7 @@ describe('VAOS reducer: newAppointment', () => {
         newState.pages.ccPreferences.properties.communityCareSystemId,
       ).to.deep.equal({
         type: 'string',
-        enum: ['983', '984'],
+        enum: ['var983', 'var984'],
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
     });

@@ -12,10 +12,7 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
 } from './constants';
-import {
-  getSiteIdFromOrganization,
-  getRootOrganization,
-} from '../services/organization';
+import { getRootOrganization } from '../services/organization';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -108,12 +105,6 @@ export function getRootOrganizationFromChosenParent(state, parentId) {
   return getRootOrganization(
     getParentFacilities(state),
     parentId || getFormData(state).vaParent,
-  );
-}
-
-export function getRootSiteFromChosenParent(state, parentId) {
-  return getSiteIdFromOrganization(
-    getRootSiteFromChosenParent(state, parentId),
   );
 }
 

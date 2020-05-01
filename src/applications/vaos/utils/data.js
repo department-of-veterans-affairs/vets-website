@@ -8,7 +8,7 @@ import {
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
-  getRootSiteFromChosenParent,
+  getRootOrganizationFromChosenParent,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
@@ -42,11 +42,12 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentOrg = state.parentFacilities.find(
+  const parentOrg = getParentFacilities(state).find(
     parent => parent.id === data.vaParent,
   );
   const parentSiteId = getSiteIdFromOrganization(parentOrg);
-  const rootSiteId = getRootSiteFromChosenParent(state);
+  const rootOrg = getRootOrganizationFromChosenParent(state);
+  const rootSiteId = getSiteIdFromOrganization(rootOrg);
 
   return {
     typeOfCare: typeOfCare.id,
