@@ -9,6 +9,11 @@ import {
   unpinMenuTrigger as unpinMenuTriggerAction,
 } from '../actions';
 
+import {
+  selectFocusTriggerButton,
+  selectIsMenuTriggerPinned,
+} from '../selectors';
+
 import { BREAKPOINTS } from '../constants';
 
 const MobileMenuTrigger = ({
@@ -76,15 +81,22 @@ const MobileMenuTrigger = ({
     window.addEventListener('resize', handleResize);
     window.onscroll = handleScroll;
 
-    if (focusTriggerButton) {
-      button.current.focus();
-    }
-
     return () => {
       window.removeEventListener('resize', handleResize);
       window.onscroll = null;
     };
   });
+
+  // When the value of focusTriggerButton has changed, we might want to set the
+  // focus on the trigger button
+  useEffect(
+    () => {
+      if (focusTriggerButton) {
+        button.current.focus();
+      }
+    },
+    [focusTriggerButton],
+  );
 
   const buttonClasses = classnames({ fixed: isMenuTriggerPinned });
 
@@ -113,8 +125,8 @@ const MobileMenuTrigger = ({
 export { MobileMenuTrigger };
 
 const mapStateToProps = state => ({
-  isMenuTriggerPinned: state.profileUi?.isMenuTriggerPinned,
-  focusTriggerButton: state.profileUi?.focusTriggerButton,
+  isMenuTriggerPinned: selectIsMenuTriggerPinned(state),
+  focusTriggerButton: selectFocusTriggerButton(state),
 });
 
 const mapDispatchToProps = {

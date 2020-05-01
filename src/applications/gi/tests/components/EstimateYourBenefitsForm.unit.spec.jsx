@@ -1,14 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-
 import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
 
 const props = {
   eligibility: {
     onlineClasses: 'no',
   },
-
   profile: {
     attributes: {
       facilityCode: '11900146',
@@ -29,7 +27,6 @@ const props = {
     },
   },
 };
-
 const state = {
   invalidZip: '',
   yourBenefitsExpanded: true,
@@ -37,7 +34,6 @@ const state = {
   learningFormatAndScheduleExpanded: false,
   scholarshipsAndOtherFundingExpanded: false,
 };
-
 describe('<EstimateYourBenefitsForm>', () => {
   it('should display error message when beneficiary zip is less than 5 digits', () => {
     const invalidInput = {
@@ -66,22 +62,18 @@ describe('<EstimateYourBenefitsForm>', () => {
       yourBenefitsExpanded: false,
       learningFormatAndScheduleExpanded: true,
     });
-
     const textBox = tree.find('input[name="beneficiaryZIPCode"]');
     textBox.simulate('blur');
     const errorMessage = tree.find('.usa-input-error-message').text();
     tree.unmount();
-
     expect(errorMessage).to.equal('Error Postal code must be a 5-digit number');
   });
 });
-
 describe('<EstimateYourBenefitsForm> Valid', () => {
   const validInput = {
     beneficiaryLocationQuestion: 'other',
     beneficiaryZIP: '60641',
   };
-
   it('should display empty string when beneficiary zip is a valid 5 digit zipcode', () => {
     const treeValid = mount(
       <EstimateYourBenefitsForm
@@ -104,12 +96,10 @@ describe('<EstimateYourBenefitsForm> Valid', () => {
       yourBenefitsExpanded: false,
       learningFormatAndScheduleExpanded: true,
     });
-
     const textBox2 = treeValid.find('input[name="beneficiaryZIPCode"]');
     textBox2.simulate('blur');
     const errorMessage = treeValid.find('.usa-input-error-message');
     treeValid.unmount();
-
     expect(errorMessage.length).to.equal(0);
   });
 });

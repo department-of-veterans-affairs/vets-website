@@ -5,5 +5,8 @@ export default function keepAlive() {
     method: 'GET',
     credentials: 'include',
     cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 }
