@@ -32,10 +32,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, ojtAttributes.facility_code);
 
   // Profile Page
-  client
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main');
-  GiHelpers.expectLocation(client, `/profile/${ojtAttributes.facility_code}`);
 
   // Estimate your benefits
   GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');

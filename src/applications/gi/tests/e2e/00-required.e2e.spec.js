@@ -32,14 +32,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
   // Profile Page
-  client
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main');
-  GiHelpers.expectLocation(
-    client,
-    `/profile/${institutionAttributes.facility_code}`,
-  );
-
   GiHelpers.displayLearnMoreModal(client);
 
   // Estimate your benefits

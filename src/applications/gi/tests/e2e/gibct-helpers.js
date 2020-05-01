@@ -96,14 +96,16 @@ const verifySearchResults = (client, results = searchResults) => {
   });
 };
 
-const selectSearchResult = (client, facilityCode) => {
+const selectSearchResult = (client, facilityCode, checkLocation = true) => {
   client
     .waitForElementVisible(`#search-result-${facilityCode}`, Timeouts.normal)
-    .click(`#search-result-${facilityCode} a`);
+    .click(`#search-result-${facilityCode} a`)
+    .waitForElementVisible('.profile-page', Timeouts.normal)
+    .axeCheck('.main');
+  if (checkLocation) expectLocation(client, `/profile/${facilityCode}`);
 };
 
-const createId = name => name.toLowerCase().replace(/\s/g, '-');
-const createAccordionId = name => `#${createId(name)}-accordion`;
+const createAccordionId = name => `#${UtilHelpers.createId(name)}-accordion`;
 
 /**
  * Expand or collapse an AccordionItem and perform axe check
@@ -119,6 +121,11 @@ const clickAccordion = (client, name) => {
 };
 
 const checkAccordionIsExpanded = (client, name) => {
+  client.waitForElementVisible(
+    `${createAccordionId(name)} button`,
+    Timeouts.normal,
+  );
+
   client.assert.attributeEquals(
     `${createAccordionId(name)} button`,
     'aria-expanded',
@@ -127,6 +134,10 @@ const checkAccordionIsExpanded = (client, name) => {
 };
 
 const checkAccordionIsNotExpanded = (client, name) => {
+  client.waitForElementVisible(
+    `${createAccordionId(name)} button`,
+    Timeouts.normal,
+  );
   client.assert.attributeEquals(
     `${createAccordionId(name)} button`,
     'aria-expanded',
@@ -192,22 +203,52 @@ const eybSections = {
 
 /**
  * This is expanded by default
+ * Generic check for section, question checks should be in yourBenefits
  * @param client
  * @param sections defaults to all sections, allows for passing in a smaller set of sections
  */
-const yourBenefits = (client, sections = eybSections) => {
+const checkYourBenefits = (client, sections) => {
   const id = createAccordionId(sections.yourBenefits);
 
   client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
   eybAccordionExpandedCheck(client, sections, sections.yourBenefits);
 };
 
-const aboutYourSchool = (client, sections = eybSections) => {
+/**
+ * This is expanded by default
+ * Goes through questions for section
+ * @param client
+ */
+const yourBenefits = client => {
+  checkYourBenefits(client, eybSections);
+};
+
+/**
+ * Opens section and performs checks
+ * Generic check for section, question checks should be in aboutYourSchool
+ * @param client
+ * @param sections
+ */
+const openAboutYourSchool = (client, sections) => {
   clickAccordion(client, sections.aboutYourSchool);
   eybAccordionExpandedCheck(client, sections, sections.aboutYourSchool);
 };
 
-const learningFormatAndSchedule = (client, sections = eybSections) => {
+/**
+ * Opens section and goes through questions
+ * @param client
+ */
+const aboutYourSchool = client => {
+  openAboutYourSchool(client, eybSections);
+};
+
+/**
+ * Opens section and performs checks
+ * Generic check for section, question checks should be in learningFormatAndSchedule
+ * @param client
+ * @param sections
+ */
+const openLearningFormatAndSchedule = (client, sections) => {
   clickAccordion(client, sections.learningFormatAndSchedule);
   eybAccordionExpandedCheck(
     client,
@@ -216,13 +257,35 @@ const learningFormatAndSchedule = (client, sections = eybSections) => {
   );
 };
 
-const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
+/**
+ * Opens section and goes through questions
+ * @param client
+ */
+const learningFormatAndSchedule = client => {
+  openLearningFormatAndSchedule(client, eybSections);
+};
+
+/**
+ * Opens section and performs checks
+ * Generic check for section, question checks should be in scholarshipsAndOtherFunding
+ * @param client
+ * @param sections
+ */
+const openScholarshipsAndOtherFunding = (client, sections) => {
   clickAccordion(client, sections.scholarshipsAndOtherFunding);
   eybAccordionExpandedCheck(
     client,
     sections,
     sections.scholarshipsAndOtherFunding,
   );
+};
+
+/**
+ * Opens section and goes through questions
+ * @param client
+ */
+const scholarshipsAndOtherFunding = client => {
+  openScholarshipsAndOtherFunding(client, eybSections);
 };
 
 module.exports = {
@@ -233,7 +296,6 @@ module.exports = {
   searchForInstitution,
   verifySearchResults,
   selectSearchResult,
-  createId,
   createAccordionId,
   clickAccordion,
   checkAccordionIsExpanded,
@@ -245,8 +307,12 @@ module.exports = {
   formatCurrency,
   formatCurrencyHalf,
   calculatorConstants,
+  checkYourBenefits,
   yourBenefits,
+  openAboutYourSchool,
   aboutYourSchool,
+  openLearningFormatAndSchedule,
   learningFormatAndSchedule,
+  openScholarshipsAndOtherFunding,
   scholarshipsAndOtherFunding,
 };
