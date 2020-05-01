@@ -107,14 +107,6 @@
   font-weight: inherit !important;
 }
 
-.calculate-button {
-  background-image: none !important;
-  background-color: $color-primary !important;
-  border-radius: $button-border-radius !important;
-  color: $color-white !important;
-  width: auto !important;
-}
-
 .gids-radio-buttons {
   position: relative;
   @include media($small-screen) {
