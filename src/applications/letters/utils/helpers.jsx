@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
 import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
-
-import recordEvent from 'platform/monitoring/record-event';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -18,7 +17,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     .catch(error);
 }
 
-export const recordsNotFound = ({ eBenefitsUrl }) => (
+export const recordsNotFound = (
   <div id="records-not-found">
     <header>
       <h1>We couldn’t find your VA letters or documents</h1>
@@ -26,19 +25,10 @@ export const recordsNotFound = ({ eBenefitsUrl }) => (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-heading">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={eBenefitsUrl('ebenefits/download-letters')}
-            onClick={() =>
-              recordEvent({
-                event: 'nav-ebenefits-click',
-              })
-            }
-          >
+          <ebenefitsLink path="ebenefits/download-letters">
             If you’re a dependent, please go to eBenefits to look for your
             letters.
-          </a>
+          </ebenefitsLink>
         </p>
       </div>
     </div>

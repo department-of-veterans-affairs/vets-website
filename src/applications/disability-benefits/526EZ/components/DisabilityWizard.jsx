@@ -8,7 +8,6 @@ import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation-re
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 import {
   isLoggedIn as isLoggedInSelector,
@@ -258,7 +257,6 @@ class DisabilityWizard extends React.Component {
                 goForward={this.goForward}
                 authenticate={this.authenticate}
                 handleKeyPress={this.handleKeyPress}
-                eBenefitsUrl={this.props.eBenefitsUrl}
               />
             }
           </div>
@@ -271,7 +269,6 @@ class DisabilityWizard extends React.Component {
 const mapStateToProps = state => ({
   isLoggedIn: isLoggedInSelector(state),
   isVerified: isLOA3(state),
-  eBenefitsUrl: eBenefitsUrlGenerator(state),
 });
 
 const mapDispatchToProps = dispatch => ({

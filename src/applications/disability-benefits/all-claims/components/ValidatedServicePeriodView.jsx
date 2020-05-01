@@ -1,12 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
-import recordEvent from 'platform/monitoring/record-event';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 import { EBEN_526_PATH } from '../../constants';
 
-function ValidatedServicePeriodView({ formData, onEdit, eBenefitsUrl }) {
+export default function ValidatedServicePeriodView({ formData, onEdit }) {
   let from = '';
   let to = '';
   if (formData.dateRange) {
@@ -28,17 +26,12 @@ function ValidatedServicePeriodView({ formData, onEdit, eBenefitsUrl }) {
           information here. Or you can go to eBenefits to file your disability
           claim.
         </p>
-        <a
-          href={eBenefitsUrl(EBEN_526_PATH)}
+        <ebenefitsLink
+          path={EBEN_526_PATH}
           className="usa-button-primary va-button-primary"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
         >
           Go to eBenefits
-        </a>
+        </ebenefitsLink>{' '}
         <p>
           <strong className="vads-u-display--block vads-u-margin-bottom--3">
             OR
@@ -68,11 +61,3 @@ function ValidatedServicePeriodView({ formData, onEdit, eBenefitsUrl }) {
     </div>
   );
 }
-
-const mapStateToProps = state => ({
-  eBenefitsUrl: eBenefitsUrlGenerator(state),
-});
-
-export default connect(mapStateToProps)(ValidatedServicePeriodView);
-
-export { ValidatedServicePeriodView };

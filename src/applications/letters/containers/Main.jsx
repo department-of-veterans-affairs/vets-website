@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { systemDownMessage } from 'platform/static-data/error-messages';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
 
@@ -44,7 +43,7 @@ export class Main extends React.Component {
         appContent = <LoadingIndicator message="Loading your letters..." />;
         break;
       case backendAuthenticationError:
-        appContent = recordsNotFound({ eBenefitsUrl: this.props.eBenefitsUrl });
+        appContent = recordsNotFound;
         break;
       case letterEligibilityError:
         appContent = this.props.children;
@@ -71,7 +70,6 @@ function mapStateToProps(state) {
     },
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(state.user.profile.vet360.mailingAddress),
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 

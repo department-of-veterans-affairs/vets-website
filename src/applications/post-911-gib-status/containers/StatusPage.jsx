@@ -4,7 +4,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import { focusElement } from '../../../platform/utilities/ui';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
@@ -60,20 +60,9 @@ class StatusPage extends React.Component {
             <div>
               If you've received education benefit payments through this
               program,{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={this.props.eBenefitsUrl(
-                  'ebenefits/about/feature?feature=payment-history',
-                )}
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-ebenefits-click',
-                  })
-                }
-              >
+              <ebenefitsLink path="ebenefits/about/feature?feature=payment-history">
                 you can see your payment history on eBenefits
-              </a>
+              </ebenefitsLink>
               .
             </div>
             <EnrollmentHistory enrollmentData={enrollmentData} />
@@ -94,7 +83,6 @@ class StatusPage extends React.Component {
 function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 

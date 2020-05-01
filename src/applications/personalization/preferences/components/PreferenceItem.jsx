@@ -1,10 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import CallToAction from './CallToAction';
+const CallToAction = ({ cta }) => {
+  const { description, link, text, gaTag, isEbenefitUrl } = cta;
+  const hasLinkAndText = link && text;
+  const props = {
+    className: 'usa-button va-button-primary',
+    onClick: () => {
+      recordEvent({
+        event: 'dashboard-navigation',
+        'dashboard-action': 'view-button',
+        'dashboard-product': gaTag,
+      });
+    },
+  };
+  if (isEbenefitUrl) {
+    return (
+      <div>
+        {description}
+        {hasLinkAndText && (
+          <ebenefitsLink path={link} {...props}>
+            {text}
+          </ebenefitsLink>
+        )}
+      </div>
+    );
+  }
+  return (
+    <div>
+      {description}
+      {hasLinkAndText && (
+        <a href={link} {...props}>
+          {text}
+        </a>
+      )}
+    </div>
+  );
+};
 
 const FAQItem = ({ faq }) => {
   const { title, component: FAQComponent } = faq;

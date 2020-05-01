@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
@@ -172,7 +171,7 @@ class YourClaimsPageV2 extends React.Component {
           </div>
         );
       } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
-        content = <NoClaims eBenefitsUrl={this.props.eBenefitsUrl} />;
+        content = <NoClaims />;
       }
       content = <div className="va-tab-content">{content}</div>;
     }
@@ -221,7 +220,7 @@ class YourClaimsPageV2 extends React.Component {
               {content}
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
-              <FeaturesWarning eBenefitsUrl={this.props.eBenefitsUrl} />
+              <FeaturesWarning />
               <AskVAQuestions />
               <div>
                 <h2 className="help-heading">Can’t find your appeal?</h2>
@@ -273,7 +272,6 @@ function mapStateToProps(state) {
     canAccessAppeals,
     canAccessClaims,
     fullName: state.user.profile.userFullName,
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 

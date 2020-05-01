@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 
-const ViewDependentsHeader = ({ eBenefitsUrl }) => (
+const ViewDependentsHeader = () => (
   <div className="vads-l-row">
     <div className="vads-l-col--12">
       <h1>Your VA Dependents</h1>
@@ -12,22 +11,14 @@ const ViewDependentsHeader = ({ eBenefitsUrl }) => (
         claim for additional disability compensation whenever you add a new
         dependent.
       </p>
-      <a
-        href={eBenefitsUrl(
-          'ebenefits/about/feature?feature=dependent-compensation',
-        )}
+      <ebenefitsLink
+        path="ebenefits/about/feature?feature=dependent-compensation"
         className="usa-button-primary va-button-primary"
       >
         Add or remove a dependent
-      </a>
+      </ebenefitsLink>
     </div>
   </div>
 );
 
-const mapStateToProps = state => ({
-  eBenefitsUrl: eBenefitsUrlGenerator(state),
-});
-
-export default connect(mapStateToProps)(ViewDependentsHeader);
-
-export { ViewDependentsHeader };
+export default ViewDependentsHeader;

@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
@@ -51,7 +49,7 @@ class ClaimStatusPage extends React.Component {
       : `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading, message, synced, isLoggedIn } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
@@ -71,11 +69,7 @@ class ClaimStatusPage extends React.Component {
             <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
           ) : null}
           {claim.attributes.decisionLetterSent && !claim.attributes.open ? (
-            <ClaimsDecision
-              completedDate={getCompletedDate(claim)}
-              isLoggedIn={isLoggedIn}
-              eBenefitsUrl={this.props.eBenefitsUrl}
-            />
+            <ClaimsDecision completedDate={getCompletedDate(claim)} />
           ) : null}
           {!claim.attributes.decisionLetterSent && !claim.attributes.open ? (
             <ClaimComplete completedDate={getCompletedDate(claim)} />
@@ -118,8 +112,6 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    isLoggedIn: isLoggedInSelector(state),
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 }
 

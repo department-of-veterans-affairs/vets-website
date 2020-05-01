@@ -1,12 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
-import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
-import recordEvent from 'platform/monitoring/record-event';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 
-function FileOriginalClaimPage({ isLoggedIn, eBenefitsUrl }) {
+function FileOriginalClaimPage() {
   return (
     <AlertBox
       status="warning"
@@ -17,34 +14,19 @@ function FileOriginalClaimPage({ isLoggedIn, eBenefitsUrl }) {
             To file your first disability claim, please go to our eBenefits
             website.
           </p>
-          <a
-            href={eBenefitsUrl(
-              'ebenefits/about/feature?feature=disability-compensation',
-            )}
+          <ebenefitsLink
+            path="ebenefits/about/feature?feature=disability-compensation"
             className="usa-button-primary va-button-primary"
-            onClick={() =>
-              isLoggedIn &&
-              recordEvent({
-                event: 'nav-ebenefits-click',
-              })
-            }
           >
             Go to eBenefits
-          </a>
+          </ebenefitsLink>
         </>
       }
     />
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    isLoggedIn: isLoggedInSelector(state),
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
-  };
-}
-
 export default {
   name: pageNames.fileOriginalClaim,
-  component: connect(mapStateToProps)(FileOriginalClaimPage),
+  component: FileOriginalClaimPage,
 };

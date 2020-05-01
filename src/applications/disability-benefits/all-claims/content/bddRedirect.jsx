@@ -1,14 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 import { activeServicePeriods } from '../utils';
 
-function bddRedirect({ formData, eBenefitsUrl }) {
+export default ({ formData }) => {
   const endDates = activeServicePeriods(formData).map(
     sp =>
       sp.dateRange.to ? moment(sp.dateRange.to) : moment().add(200, 'days'),
@@ -20,17 +18,12 @@ function bddRedirect({ formData, eBenefitsUrl }) {
   let content;
   const eBenLink = (
     <div style={{ marginBottom: '1em' }}>
-      <a
+      <ebenefitsLink
+        path={EBEN_526_PATH}
         className="usa-button-primary va-button-primary"
-        href={eBenefitsUrl(EBEN_526_PATH)}
-        onClick={() =>
-          recordEvent({
-            event: 'nav-ebenefits-click',
-          })
-        }
       >
         Go to eBenefits
-      </a>
+      </ebenefitsLink>
     </div>
   );
   const learnMoreLink = (
@@ -101,12 +94,4 @@ function bddRedirect({ formData, eBenefitsUrl }) {
       <AlertBox headline={headline} content={content} status="error" />
     </>
   );
-}
-
-const mapStateToProps = state => ({
-  eBenefitsUrl: eBenefitsUrlGenerator(state),
-});
-
-export default connect(mapStateToProps)(bddRedirect);
-
-export { bddRedirect };
+};

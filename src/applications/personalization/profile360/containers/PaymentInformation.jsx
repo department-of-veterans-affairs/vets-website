@@ -13,9 +13,9 @@ import {
   isMultifactorEnabled,
 } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { eBenefitsUrlGenerator } from 'platform/utilities/eBenefitsUrl';
 
 import recordEvent from 'platform/monitoring/record-event';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 
 import ProfileFieldHeading from 'vet360/components/base/Vet360ProfileFieldHeading';
 
@@ -58,20 +58,9 @@ const AdditionalInfos = props => (
           or upgrade your Basic account to Premium. Your MyHealtheVet or ID.me
           credentials won’t work on eBenefits.
         </p>
-        <a
-          rel="noopener noreferrer"
-          target="_blank"
-          href={props.eBenefitsUrl(
-            'ebenefits/about/feature?feature=direct-deposit-and-contact-information',
-          )}
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <ebenefitsLink path="ebenefits/about/feature?feature=direct-deposit-and-contact-information">
           Go to eBenefits to change your information
-        </a>
+        </ebenefitsLink>
         <br />
         <a href="/change-direct-deposit/#are-there-other-ways-to-change">
           Find out how to change your information by mail or phone
@@ -263,10 +252,7 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          <AdditionalInfos
-            recordProfileNavEvent={recordProfileNavEvent}
-            eBenefitsUrl={this.props.eBenefitsUrl}
-          />
+          <AdditionalInfos recordProfileNavEvent={recordProfileNavEvent} />
           {content}
         </DowntimeNotification>
       </>
@@ -300,7 +286,6 @@ const mapStateToProps = state => {
       isEvssAvailable &&
       !isDirectDepositBlocked &&
       (isDirectDepositSetUp || isEligibleToSignUp),
-    eBenefitsUrl: eBenefitsUrlGenerator(state),
   };
 };
 

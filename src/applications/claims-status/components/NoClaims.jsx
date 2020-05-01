@@ -1,7 +1,8 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 
-export default function NoClaims({ eBenefitsUrl }) {
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+
+export default function NoClaims() {
   return (
     <div className="usa-alert usa-alert-info claims-alert background-color-only claims-alert-status">
       <h4 className="claims-alert-header usa-alert-heading">
@@ -10,18 +11,9 @@ export default function NoClaims({ eBenefitsUrl }) {
       <p>
         This page shows only completed claim applications. If you started a
         claim but haven’t finished it yet, go to{' '}
-        <a
-          href={eBenefitsUrl('ebenefits-portal/ebenefits.portal')}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <ebenefitsLink path="ebenefits-portal/ebenefits.portal">
           eBenefits
-        </a>{' '}
+        </ebenefitsLink>{' '}
         to work on it.
       </p>
     </div>

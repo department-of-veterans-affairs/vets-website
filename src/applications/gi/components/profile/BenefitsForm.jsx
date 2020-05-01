@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
+
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
-
 import Dropdown from '../Dropdown';
-
-import recordEvent from 'platform/monitoring/record-event';
-import PropTypes from 'prop-types';
 
 export class BenefitsForm extends React.Component {
   static propTypes = {
@@ -128,19 +128,9 @@ export class BenefitsForm extends React.Component {
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
             To apply for VR&E benefits, please{' '}
-            <a
-              href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                this.props.isLoggedIn &&
-                recordEvent({
-                  event: 'nav-ebenefits-click',
-                })
-              }
-            >
+            <ebenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
               visit this site
-            </a>
+            </ebenefitsLink>
             .
           </div>
         )}

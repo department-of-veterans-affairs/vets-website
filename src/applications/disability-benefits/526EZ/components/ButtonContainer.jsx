@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import ebenefitsLink from 'platform/site-wide/ebenefits/containers/ebenefitsLink';
 
 export default function ButtonContainer(props) {
   const {
@@ -14,7 +14,6 @@ export default function ButtonContainer(props) {
     isVerified,
     isLoggedIn,
     handleKeyPress,
-    eBenefitsUrl,
   } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
@@ -59,23 +58,13 @@ export default function ButtonContainer(props) {
           </a>
         )}
       {atEbenefitsGuidance && (
-        <a
+        <ebenefitsLink
+          path="ebenefits/about/feature?feature=disability-compensation"
           className="usa-button-primary"
-          href={eBenefitsUrl(
-            'ebenefits/about/feature?feature=disability-compensation',
-          )}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() =>
-            isLoggedIn &&
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
         >
           Go to eBenefits
           <span className="button-icon"> »</span>
-        </a>
+        </ebenefitsLink>
       )}
       {!atGuidance() && (
         <button
