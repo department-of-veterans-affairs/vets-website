@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -92,12 +92,13 @@ describe('<TabItem>', () => {
   });
 
   it('should render flex css for tab', () => {
-    const tree = mount(
+    const tree = shallow(
       <TabItem id="title" title="Title Here" tabpath="upcoming" />,
     );
-    expect(tree.find('IndexLink').props().className).to.contain('vaos-appts__tab');
+    expect(tree.find('IndexLink').props().className).to.contain(
+      'vaos-appts__tab',
+    );
 
     tree.unmount();
   });
-
 });

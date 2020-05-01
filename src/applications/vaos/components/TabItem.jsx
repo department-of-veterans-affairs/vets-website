@@ -28,10 +28,7 @@ export default function TabItem({
   );
 
   return (
-    <li
-      role="presentation"
-      className="vads-u-margin--0"
-    >
+    <li role="presentation" className="vads-u-margin--0">
       <IndexLink
         id={`tab${id}`}
         aria-controls={isActive ? `tabpanel${id}` : null}
