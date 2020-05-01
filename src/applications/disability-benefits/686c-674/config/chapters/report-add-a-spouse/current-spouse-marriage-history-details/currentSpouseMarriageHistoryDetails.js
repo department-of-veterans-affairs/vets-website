@@ -15,7 +15,7 @@ export const uiSchema = {
         },
       },
       startLocation: {
-        'ui:title': 'Place of marriage to former spouse?',
+        'ui:title': 'Place of marriage to former spouse',
         state: {
           'ui:required': formData => formData.spouseWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
