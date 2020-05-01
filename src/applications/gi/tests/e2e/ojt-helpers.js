@@ -1,4 +1,9 @@
+const Timeouts = require('platform/testing/e2e/timeouts');
+const UtilHelpers = require('../../utils/helpers');
+
 const GiHelpers = require('./gibct-helpers');
+
+const deaEnrolledMax = 30;
 
 const selectOJTType = client => {
   client.selectRadio('category', 'employer');
@@ -12,28 +17,51 @@ const eybSections = {
 };
 
 /**
- * This is expanded by default than category=schools
- * Inputs will be different
+ * This is expanded by default
+ * Inputs will be different than category=schools
  * @param client
+ * @param sections depending on selected GI Bill Benefit not all OJT sections display
  */
-const yourBenefits = client => {
-  GiHelpers.yourBenefits(client, eybSections);
+const yourBenefits = (client, sections = eybSections) => {
+  GiHelpers.yourBenefits(client, sections);
 };
 
 /**
- * Inputs will be different than category=schools
+ * Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
  * @param client
  */
-const learningFormatAndSchedule = client => {
-  GiHelpers.learningFormatAndSchedule(client, eybSections);
+const willBeWorking = client => {
+  const housingRateId = `calculator-result-row-${UtilHelpers.createId(
+    'Housing allowance',
+  )}`;
+  for (let i = 2; i <= deaEnrolledMax; i += 2) {
+    const value = Math.round(
+      (i / deaEnrolledMax) *
+        GiHelpers.formatNumber(GiHelpers.calculatorConstants.DEARATEOJT),
+    );
+    client.waitForElementVisible(housingRateId, Timeouts.normal);
+    client.selectDropdown('working', i);
+    client.assert.containsText(housingRateId, `$${value}/mo`);
+  }
 };
 
 /**
- * Inputs will be different than category=schools
+ * Questions will be different than category=schools
  * @param client
+ * @param sections depending on selected GI Bill Benefit not all OJT sections display
  */
-const scholarshipsAndOtherFunding = client => {
-  GiHelpers.scholarshipsAndOtherFunding(client, eybSections);
+const learningFormatAndSchedule = (client, sections = eybSections) => {
+  GiHelpers.openLearningFormatAndSchedule(client, sections);
+  willBeWorking(client);
+};
+
+/**
+ * Questions will be different than category=schools
+ * @param client
+ * @param sections depending on selected GI Bill Benefit not all OJT sections display
+ */
+const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
+  GiHelpers.openScholarshipsAndOtherFunding(client, sections);
 };
 
 module.exports = {

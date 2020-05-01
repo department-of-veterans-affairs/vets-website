@@ -4,7 +4,6 @@ const deaSearchResults = require('../data/dea-search-results.json');
 const institutionProfile = require('../data/institution-profile.json');
 const ojtProfile = require('../data/ojt-profile.json');
 
-// const deaEnrolledMax = 30;
 const searchString = 'WISCONSIN';
 
 // Create API routes

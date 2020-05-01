@@ -2,11 +2,16 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const DeaHelpers = require('./dea-helpers');
+const OjtHelpers = require('./ojt-helpers');
 // const institutionProfile = require('../data/institution-profile.json');
-// const ojtProfile = require('../data/ojt-profile.json');
+const ojtProfile = require('../data/ojt-profile.json');
 
 // const institutionAttributes = institutionProfile.data.attributes;
-// const ojtAttributes = ojtProfile.data.attributes;
+const ojtAttributes = ojtProfile.data.attributes;
+const eybSections = {
+  yourBenefits: 'Your benefits',
+  learningFormatAndSchedule: 'Learning format and schedule',
+};
 
 module.exports = E2eHelpers.createE2eTest(client => {
   DeaHelpers.initApplicationMock();
@@ -30,19 +35,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     client,
     `/search?category=ALL&name=${DeaHelpers.searchString}`,
   );
-  // GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
-  //
-  // // Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
-  // const housingRateId = `housing-value-${institutionAttributes.facility_code}`;
-  // for (let i = 2; i <= deaEnrolledMax; i += 2) {
-  //   const value = Math.round(
-  //     (i / deaEnrolledMax) *
-  //       GiHelpers.formatNumber(GiHelpers.calculatorConstants.DEARATEOJT),
-  //   );
-  //   client.expect.element(housingRateId).to.be.enabled.before(Timeouts.normal);
-  //   client.selectDropdown('working', i);
-  //   client.assert.containsText(housingRateId, `$${value}/mo`);
-  // }
+  GiHelpers.selectSearchResult(client, ojtAttributes.facility_code);
+
+  // OJT Profile Page
+
+  OjtHelpers.yourBenefits(client, eybSections);
+  OjtHelpers.learningFormatAndSchedule(client, eybSections);
 
   // client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?
 
