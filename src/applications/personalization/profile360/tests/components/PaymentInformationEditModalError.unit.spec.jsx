@@ -277,7 +277,7 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. The bank routing number you entered requires additional verification before we can save your information. To use this bank routing number, you’ll need to call us at <span class="no-wrap"><a href="tel:1-800-827-1000">800-827-1000</a></span> (TTY: <span class="no-wrap">800-829-4833</span>). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+      'We’re sorry. The bank routing number you entered requires additional verification before we can save your information. To use this bank routing number, you’ll need to call us at <span class="no-wrap"><a href="tel:1-800-827-1000">800-827-1000</a></span> (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
     );
     wrapper.unmount();
   });
