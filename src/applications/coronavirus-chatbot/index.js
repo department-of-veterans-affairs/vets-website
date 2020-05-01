@@ -143,8 +143,7 @@ export const requestChatBot = loc => {
             'error-key': 'XX_failed_to_init_bot_convo',
           });
         }),
-    )
-    .catch(error => Sentry.captureException(error));
+    );
 };
 
 const chatRequested = scenario => {
