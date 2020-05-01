@@ -100,7 +100,7 @@ class SelectArrayItemsAccessoriesWidget extends Component {
                   }
                 >
                   <input
-                    name={supply.productId}
+                    id={supply.productId}
                     type="checkbox"
                     onChange={e => this.handleChecked(e.target.checked, supply)}
                     checked={
