@@ -723,13 +723,15 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
       let initialSchema = action.schema;
+      const parentFacilities =
+        action.parentFacilities || state.parentFacilities;
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
           communityCareSystemId: getOrganizationBySiteId(
-            state.parentFacilities,
+            parentFacilities,
             state.ccEnabledSystems[0],
-          ),
+          ).id,
         };
         initialSchema = unset(
           'properties.communityCareSystemId',
@@ -758,7 +760,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         parentFacilitiesStatus: FETCH_STATUS.succeeded,
-        parentFacilities: action.parentFacilities,
+        parentFacilities,
         data,
         pages: {
           ...state.pages,

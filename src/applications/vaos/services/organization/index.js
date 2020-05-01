@@ -70,6 +70,6 @@ export function getRootOrganization(organizations, organizationId) {
  */
 export function getOrganizationBySiteId(organizations, siteId) {
   return organizations.find(org =>
-    org.identifer.some(id => id.value === siteId),
+    org.identifier.some(id => id.value === siteId),
   );
 }

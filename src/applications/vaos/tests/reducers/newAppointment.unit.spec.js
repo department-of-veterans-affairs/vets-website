@@ -45,6 +45,7 @@ import {
   FLOW_TYPES,
   REASON_MAX_CHARS,
   PURPOSE_TEXT,
+  VHA_FHIR_ID,
 } from '../../utils/constants';
 
 import { transformParentFacilities } from '../../services/organization/transformers';
@@ -866,6 +867,17 @@ describe('VAOS reducer: newAppointment', () => {
         },
         page: 'ccPreferences',
         uiSchema: {},
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+          },
+        ],
       };
       const state = {
         ...defaultState,
@@ -879,7 +891,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
         .be.undefined;
-      expect(newState.data.communityCareSystemId).to.equal('983');
+      expect(newState.data.communityCareSystemId).to.equal('var983');
     });
 
     it('should fill in enum props if more than one cc system', () => {
