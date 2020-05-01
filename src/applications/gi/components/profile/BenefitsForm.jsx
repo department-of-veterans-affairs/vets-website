@@ -13,7 +13,6 @@ export class BenefitsForm extends React.Component {
     hideModal: PropTypes.func,
     eligibilityChange: PropTypes.func,
     showHeader: PropTypes.bool,
-    isLoggedIn: PropTypes.object,
   };
 
   static defaultProps = {

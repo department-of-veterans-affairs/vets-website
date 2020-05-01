@@ -904,7 +904,6 @@ class EstimateYourBenefitsForm extends React.Component {
         <BenefitsForm
           eligibilityChange={this.props.eligibilityChange}
           {...this.props.eligibility}
-          isLoggedIn={this.props.isLoggedIn}
           hideModal={this.props.hideModal}
           showModal={this.props.showModal}
           inputs={this.props.inputs}
@@ -997,7 +996,6 @@ EstimateYourBenefitsForm.propTypes = {
   calculatorInputChange: PropTypes.func,
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  isLoggedIn: PropTypes.object,
 };
 
 export default EstimateYourBenefitsForm;
