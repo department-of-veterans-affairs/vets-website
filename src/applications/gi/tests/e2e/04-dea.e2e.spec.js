@@ -37,16 +37,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
   // Loops through all "Enrolled" options for an ojt facility and verifies the DEA housing rate
+  const housingRateId = `housing-value-${institutionAttributes.facility_code}`;
   for (let i = 2; i <= deaEnrolledMax; i += 2) {
-    client.expect
-      .element(GiHelpers.housingRate)
-      .to.be.enabled.before(Timeouts.normal);
-    client.selectDropdown('working', i);
     const value = Math.round(
       (i / deaEnrolledMax) *
         GiHelpers.formatNumber(GiHelpers.calculatorConstantsList.DEARATEOJT),
     );
-    client.assert.containsText(GiHelpers.housingRate, `$${value}/mo`);
+    client.expect.element(housingRateId).to.be.enabled.before(Timeouts.normal);
+    client.selectDropdown('working', i);
+    client.assert.containsText(housingRateId, `$${value}/mo`);
   }
 
   // client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?

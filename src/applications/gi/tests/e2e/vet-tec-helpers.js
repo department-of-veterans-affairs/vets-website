@@ -26,7 +26,21 @@ const searchForVetTec = client => {
     .click('#search-button');
 };
 
+const verifySearchResults = (client, results = vetTecSearchResults) => {
+  client
+    .waitForElementVisible('.search-page', Timeouts.normal)
+    .axeCheck('.main');
+
+  results.data.forEach(result => {
+    const id = `#search-result-${result.attributes.facility_code}-${
+      result.attributes.description
+    }`;
+    client.waitForElementVisible(GiHelpers.createId(id), Timeouts.normal);
+  });
+};
+
 module.exports = {
   initApplicationMock,
   searchForVetTec,
+  verifySearchResults,
 };

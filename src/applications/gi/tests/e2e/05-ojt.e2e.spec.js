@@ -24,6 +24,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.searchForInstitution(client, ojtAttributes.name);
 
   // Search Page
+  GiHelpers.verifySearchResults(client, ojtSearchResults);
   GiHelpers.expectLocation(
     client,
     `/search?category=employer&name=${ojtAttributes.name.replace(/\s/g, '+')}`,

@@ -24,12 +24,7 @@ const verifySearchResults = (
   resultRate,
   expectedRate,
 ) => {
-  const expectedResult = `${facilityCode}-search-result`;
-
-  client
-    .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main');
-  client.expect.element(expectedResult).to.be.enabled.before(Timeouts.normal);
+  GiHelpers.verifySearchResults(client);
   client.assert.containsText(resultRate, expectedRate);
 };
 

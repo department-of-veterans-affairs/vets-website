@@ -23,6 +23,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   VetTecHelpers.searchForVetTec(client);
 
   // Search Page
+  VetTecHelpers.verifySearchResults(client);
   GiHelpers.expectLocation(client, `/program-search`);
   GiHelpers.selectSearchResult(
     client,

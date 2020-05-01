@@ -85,10 +85,19 @@ const searchForInstitution = (client, name) => {
     .click('#search-button');
 };
 
-const selectSearchResult = (client, facilityCode) => {
+const verifySearchResults = (client, results = searchResults) => {
   client
     .waitForElementVisible('.search-page', Timeouts.normal)
-    .axeCheck('.main')
+    .axeCheck('.main');
+
+  results.data.forEach(result => {
+    const id = `#search-result-${result.attributes.facility_code}`;
+    client.waitForElementVisible(id, Timeouts.normal);
+  });
+};
+
+const selectSearchResult = (client, facilityCode) => {
+  client
     .waitForElementVisible(`#search-result-${facilityCode}`, Timeouts.normal)
     .click(`#search-result-${facilityCode} a`);
 };
@@ -150,9 +159,6 @@ const eybAccordionExpandedCheck = (client, sections, section) => {
     .filter(value => value !== section)
     .forEach(value => checkAccordionIsNotExpanded(client, value));
 };
-
-const housingRate =
-  '#gbct_housing_allowance > div.small-6.columns.vads-u-text-align--right > h5';
 
 const formatNumber = value => {
   const str = (+value).toString();
@@ -224,6 +230,7 @@ module.exports = {
   expectLocation,
   initApplicationMock,
   searchForInstitution,
+  verifySearchResults,
   selectSearchResult,
   createId,
   createAccordionId,
@@ -233,7 +240,6 @@ module.exports = {
   expandCollapseAccordion,
   displayLearnMoreModal,
   eybAccordionExpandedCheck,
-  housingRate,
   formatNumber,
   formatCurrency,
   formatCurrencyHalf,

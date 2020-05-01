@@ -21,6 +21,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.searchForInstitution(client, institutionAttributes.name);
 
   // Search Page
+  GiHelpers.verifySearchResults(client);
   GiHelpers.expectLocation(
     client,
     `/search?category=school&name=${institutionAttributes.name.replace(
