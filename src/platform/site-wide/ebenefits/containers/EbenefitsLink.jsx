@@ -12,9 +12,6 @@ class EbenefitsLink extends React.Component {
   static propTypes = {
     path: PropTypes.string,
   };
-  static defaultProps = {
-    path: '',
-  };
 
   render() {
     const url = this.props.useProxyUrl ? proxyUrl : defaultUrl;
@@ -27,7 +24,6 @@ class EbenefitsLink extends React.Component {
       rel: this.props.rel || 'noopener noreferrer',
       onClick: this.props.onClick || click,
     };
-
     return <a {...attrs}>{this.props.children}</a>;
   }
 }
