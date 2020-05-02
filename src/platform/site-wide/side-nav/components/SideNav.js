@@ -73,7 +73,6 @@ class SideNav extends Component {
         key={get(item, 'id')}
         renderChildItems={this.renderChildItems}
         sortedNavItems={sortedNavItems}
-        toggleItemExpanded={this.toggleItemExpanded}
       />
     ));
   };
