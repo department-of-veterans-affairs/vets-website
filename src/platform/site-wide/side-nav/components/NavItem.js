@@ -28,6 +28,7 @@ const NavItem = ({ depth, item, renderChildItems, toggleItemExpanded }) => {
   return (
     <li
       className={classNames(`va-sidenav-level-${depth}`, {
+        active: isSelected,
         selected:
           (!isExpanded &&
             !moreThanLevel2SelectedExpanded &&

@@ -223,7 +223,9 @@ h1 {
         display: none;
       }
       border-bottom: thin solid $side-nav-color-dark;
-      pointer-events: none;
+      &.active {
+        pointer-events: none;
+      }
       &.hasChildren {
         padding-bottom: 20px;
         margin-bottom: 20px;
@@ -232,7 +234,7 @@ h1 {
     .va-sidenav-level-3 {
       pointer-events: initial;
       cursor: pointer;
-      &.isSelected {
+      &.isSelected, &.active {
         pointer-events: none;
       }
     }
