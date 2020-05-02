@@ -32,10 +32,17 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
     return (
       <h2
         aria-label={label}
-        className={classNames('va-sidenav-item-label', {
-          'va-sidenav-item-label-bold': isFirstLevel,
-        })}
-        style={{ paddingLeft: indentation, fontSize: '13px' }}
+        className={classNames(
+          'va-sidenav-item-label, vads-u-font-family--sans',
+          {
+            'va-sidenav-item-label-bold': isFirstLevel,
+          },
+        )}
+        style={{
+          paddingLeft: indentation,
+          fontSize: '15px',
+          textTransform: 'uppercase',
+        }}
       >
         {label}
       </h2>
