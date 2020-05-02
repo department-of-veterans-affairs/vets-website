@@ -11,19 +11,15 @@ import { proxyUrl, defaultUrl } from '../utilities';
 class EbenefitsLink extends React.Component {
   static propTypes = {
     path: PropTypes.string,
-    emitEvent: PropTypes.bool,
   };
   static defaultProps = {
     path: '',
-    emitEvent: true,
   };
 
   render() {
     const url = this.props.useProxyUrl ? proxyUrl : defaultUrl;
     const click = () =>
-      this.props.emitEvent &&
-      isLoggedIn &&
-      recordEvent({ event: 'nav-ebenefits-click' });
+      isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' });
     const attrs = {
       href: this.props.href || url(this.props.path),
       className: this.props.className || '',
