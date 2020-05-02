@@ -1,5 +1,21 @@
 $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our design utilities.
 $side-nav-color-dark: #323a45;
+h1 {
+  height: 0;
+  opacity: 0;
+}
+.header-transition {
+  opacity: 1;
+  height: auto;
+  transition: opacity .5s;
+  transition: height .5s;
+}
+@include media($medium-screen) {
+  h1 {
+    height: auto;
+    opacity: 1;
+  }
+}
 
 .va-sidenav {
   background: $color-white;

@@ -7,6 +7,7 @@ import './legacy/menu'; // Used in the footer.
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
+import './mobile-sidebar-placement';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
