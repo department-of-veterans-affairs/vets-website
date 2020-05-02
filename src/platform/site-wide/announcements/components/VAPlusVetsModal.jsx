@@ -3,11 +3,7 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export default class VAPlusVetsModal extends React.Component {
   static isEnabled() {
-    const wasRedirectedFromVets = /^https:\/\/((dev|staging|www)\.)?vets\.gov/.test(
-      document.referrer,
-    );
-
-    return wasRedirectedFromVets;
+    return /^https:\/\/((dev|staging|www)\.)?vets\.gov/.test(document.referrer);
   }
 
   render() {

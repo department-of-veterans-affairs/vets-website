@@ -13,7 +13,7 @@ import manifest from './manifest.json';
 
 startApp({
   url: manifest.rootUrl,
-  reducer: { ...reducer, ...profileUi },
+  reducer: { ...reducer, profileUi },
   routes,
   entryName: manifest.entryName,
 });

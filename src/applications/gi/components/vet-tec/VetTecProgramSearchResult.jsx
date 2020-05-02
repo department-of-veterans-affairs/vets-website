@@ -1,7 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { formatCurrency, isPresent, locationInfo } from '../../utils/helpers';
+import {
+  formatCurrency,
+  isPresent,
+  locationInfo,
+  createId,
+} from '../../utils/helpers';
 import {
   renderPreferredProviderFlag,
   renderCautionAlert,
@@ -9,7 +14,7 @@ import {
 } from '../../utils/render';
 
 function VetTecProgramSearchResult(props) {
-  const { version, result, constants } = props;
+  const { version, result, constants, id } = props;
   const {
     facilityCode,
     description,
@@ -37,7 +42,7 @@ function VetTecProgramSearchResult(props) {
   };
 
   return (
-    <div className="search-result">
+    <div id={`search-result-${createId(id)}`} className="search-result">
       <div className="outer">
         <div className="inner">
           <div className="row vads-u-padding-top--1p5">

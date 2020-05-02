@@ -23,16 +23,12 @@ export default function TabItem({
 
   const tabClasses = classNames(
     'vaos-appts__tab',
-    'vads-u-display--inline-block',
     'vads-u-text-align--center',
     'vads-u-color--gray-dark',
   );
 
   return (
-    <li
-      role="presentation"
-      className="vads-u-display--inline-block vads-u-margin--0"
-    >
+    <li role="presentation" className="vads-u-margin--0">
       <IndexLink
         id={`tab${id}`}
         aria-controls={isActive ? `tabpanel${id}` : null}
