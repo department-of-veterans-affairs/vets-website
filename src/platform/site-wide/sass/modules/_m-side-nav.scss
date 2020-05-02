@@ -7,8 +7,8 @@ h1 {
 .header-transition {
   opacity: 1;
   height: auto;
-  transition: opacity .5s;
-  transition: height .5s;
+  transition: opacity 0.5s;
+  transition: height 0.5s;
 }
 @include media($medium-screen) {
   h1 {
@@ -142,7 +142,7 @@ h1 {
     background-repeat: no-repeat;
   }
 
-  .selected {
+  a.selected {
     color: $side-nav-color-dark !important;
     background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
       linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%, $side-nav-color-gray-lightest;
@@ -190,6 +190,13 @@ h1 {
           linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 2px 100%, $side-nav-color-gray-lightest;
         background-repeat: no-repeat;
         box-shadow: 0 0 0 1px $side-nav-color-dark;
+      }
+    }
+    &.selected {
+      border-bottom: thin solid $side-nav-color-dark;
+      &.hasChildren {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
       }
     }
   }
