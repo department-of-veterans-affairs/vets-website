@@ -161,7 +161,34 @@ h1 {
     border-left: 2px solid $color-gray-lighter;
     padding-left: 15px;
   }
+  .va-sidenav-level-1 {
+    &:last-child {
+      .va-sidenav-level-2 {
+        &:last-child {
+          padding-bottom: 0;
+          margin-bottom: 0;
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
   .va-sidenav-level-2 {
+    &:last-child {
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      &::after {
+        content: "\A";
+        height: 1px;
+        width: 80%;
+        display: block;
+        margin: auto;
+        background: $color-gray-lighter;
+        position: relative;
+        top: 15px;
+      }
+    }
     a,
     button {
       color: $color-primary;
@@ -192,6 +219,9 @@ h1 {
       }
     }
     &.selected {
+      &:last-child::after {
+        display: none;
+      }
       border-bottom: thin solid $side-nav-color-dark;
       pointer-events: none;
       &.hasChildren {
