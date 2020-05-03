@@ -203,9 +203,8 @@ h1 {
           background: linear-gradient($color-primary, $color-primary) bottom / 100% 2px,
             linear-gradient($color-primary, $color-primary) 100% top / 100% 2px,
             linear-gradient($color-primary, $color-primary) left/ 8px 100%,
-            linear-gradient($color-primary, $color-primary) right / 2px 100%, $color-white;
+            linear-gradient($color-primary, $color-primary) right / 3px 100%, $color-white;
           background-repeat: no-repeat;
-          box-shadow: 0 0 0 1px $color-primary;
         }
       }
       &:active {
@@ -213,9 +212,8 @@ h1 {
         background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) bottom / 100% 2px,
           linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
           linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-          linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 2px 100%, $side-nav-color-gray-lightest;
+          linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 3px 100%, $side-nav-color-gray-lightest;
         background-repeat: no-repeat;
-        box-shadow: 0 0 0 1px $side-nav-color-dark;
       }
     }
     &.selected {
