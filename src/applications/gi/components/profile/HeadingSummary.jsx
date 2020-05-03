@@ -91,24 +91,25 @@ class HeadingSummary extends React.Component {
 
             <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
+                {'   '}
                 On-the-job training
               </IconWithInfo>
               <IconWithInfo
                 icon="university"
                 present={it.type && it.type !== 'ojt'}
               >
-                {'  '}
+                {'   '}
                 {_.capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo
                 icon="map"
                 present={it.localeType && it.type && it.type !== 'ojt'}
               >
-                {'  '}
+                {'   '}
                 {_.capitalize(it.localeType)} locale
               </IconWithInfo>
               <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
-                {' '}
+                {'   '}
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </div>
