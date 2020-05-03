@@ -68,17 +68,20 @@ class HeadingSummary extends React.Component {
           <div>
             <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="map-marker" present={addressPresent}>
+                {'  '}
                 {formattedAddress}
               </IconWithInfo>
               <IconWithInfo icon="globe" present={it.website}>
                 <a href={it.website} target="_blank" rel="noopener noreferrer">
+                  {'  '}
                   {it.website}
                 </a>
               </IconWithInfo>
               <IconWithInfo
-                icon="calendar-o"
+                icon="calendar"
                 present={it.type !== 'ojt' && it.highestDegree}
               >
+                {'  '}
                 {_.isFinite(it.highestDegree)
                   ? `${it.highestDegree} year`
                   : it.highestDegree}{' '}
@@ -91,18 +94,21 @@ class HeadingSummary extends React.Component {
                 On-the-job training
               </IconWithInfo>
               <IconWithInfo
-                icon="institution"
+                icon="university"
                 present={it.type && it.type !== 'ojt'}
               >
+                {'  '}
                 {_.capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo
                 icon="map"
                 present={it.localeType && it.type && it.type !== 'ojt'}
               >
+                {'  '}
                 {_.capitalize(it.localeType)} locale
               </IconWithInfo>
-              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
+              <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
+                {' '}
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </div>
