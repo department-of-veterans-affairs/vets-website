@@ -2,8 +2,8 @@ import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
 import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageBatteries from '../../components/ReviewPageBatteries';
 import ReviewPageAccessories from '../../components/ReviewPageAccessories';
+import ReviewPageBatteries from '../../components/ReviewPageBatteries';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
@@ -86,6 +86,8 @@ export default {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        startInEdit: formData =>
+          Object.values(formData).every(prop => Boolean(prop)),
         hideOnReview: formData =>
           formData.currentAddress !== 'temporaryAddress',
       },
