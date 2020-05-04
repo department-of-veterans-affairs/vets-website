@@ -71,13 +71,23 @@ export default function(state = INITIAL_STATE, action) {
         [field]: convertedValue,
       };
 
+      if (field === 'EYBVetTecProgram') {
+        newState = {
+          ...newState,
+          vetTecProgramName: value.vetTecProgramName,
+          vetTecTuitionFees: value.vetTecTuitionFees,
+          vetTecScholarships: value.vetTecScholarships,
+          vetTecProgramFacilityCode: value.vetTecProgramFacilityCode,
+          selectedProgram: value.vetTecProgramName,
+        };
+      }
+
       if (field === 'vetTecProgram') {
         newState = {
           ...newState,
           vetTecProgramName: value.vetTecProgramName,
           vetTecTuitionFees: value.vetTecTuitionFees,
           vetTecProgramFacilityCode: value.vetTecProgramFacilityCode,
-          selectedProgram: value.vetTecProgramName,
         };
       }
 

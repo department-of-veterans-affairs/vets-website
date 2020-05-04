@@ -12,16 +12,17 @@ import RadioButtons from '../RadioButtons';
 class EybVetTecCalculatorForm extends React.Component {
   constructor(props) {
     super(props);
+    const selectedProgram =
+      this.props.selectedProgram !== ''
+        ? this.props.selectedProgram
+        : this.props.preSelectedProgram;
+
     this.state = {
       tuitionFees: 0,
       scholarships: 0,
+      programName: selectedProgram,
     };
   }
-
-  handleInputChange = event => {
-    const { name: field, value } = event.target;
-    this.props.calculatorInputChange({ field, value });
-  };
 
   setProgramFields = programName => {
     if (programName) {
@@ -29,10 +30,11 @@ class EybVetTecCalculatorForm extends React.Component {
         p => p.description.toLowerCase() === programName.toLowerCase(),
       );
       if (program) {
-        const field = 'vetTecProgram';
+        const field = 'EYBVetTecProgram';
         const value = {
-          vetTecTuitionFees: program.tuitionAmount,
-          vetTecProgramName: program.description,
+          vetTecTuitionFees: this.state.tuitionFees,
+          vetTecProgramName: this.state.programName,
+          vetTecScholarships: this.state.scholarships,
           vetTecProgramFacilityCode: this.props.institution.facilityCode,
         };
         this.props.calculatorInputChange({ field, value });
@@ -42,7 +44,16 @@ class EybVetTecCalculatorForm extends React.Component {
 
   handleApprovedProgramsChange = event => {
     const vetTecProgramName = event.target.value;
-    this.setProgramFields(vetTecProgramName);
+    const program = this.props.institution.programs.find(
+      p => p.description.toLowerCase() === vetTecProgramName.toLowerCase(),
+    );
+
+    this.setState({
+      programName: vetTecProgramName,
+      tuitionFees: program.tuitionAmount,
+    });
+
+    this.props.calculatorInputChange({ vetTecProgramName });
   };
 
   trackChange = (fieldName, event) => {
@@ -53,6 +64,12 @@ class EybVetTecCalculatorForm extends React.Component {
       'gibct-form-field': fieldName,
       'gibct-form-value': value,
     });
+  };
+
+  calculateBenefitsOnClick = event => {
+    event.preventDefault();
+    this.setProgramFields(this.state.programName);
+    document.getElementById('estimated-benefits-header').focus();
   };
 
   renderScholarships = onShowModal => (
@@ -76,8 +93,8 @@ class EybVetTecCalculatorForm extends React.Component {
         aria-labelledby="scholarships-label"
         type="text"
         name="vetTecScholarships"
-        value={formatCurrency(this.props.inputs.vetTecScholarships)}
-        onChange={this.handleInputChange}
+        value={formatCurrency(this.state.scholarships)}
+        onChange={e => this.setState({ scholarships: e.target.value })}
         onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
@@ -103,21 +120,16 @@ class EybVetTecCalculatorForm extends React.Component {
       </button>
       <input
         aria-labelledby="tuition-fees-label"
-        type="text"
         name="vetTecTuitionFees"
-        value={formatCurrency(this.props.inputs.vetTecTuitionFees)}
-        onChange={this.handleInputChange}
+        type="text"
+        value={formatCurrency(this.state.tuitionFees)}
+        onChange={e => this.setState({ tuitionFees: e.target.value })}
         onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>
   );
 
   renderApprovedProgramsSelector = institution => {
-    const selectedProgram =
-      this.props.selectedProgram !== ''
-        ? this.props.selectedProgram
-        : this.props.preSelectedProgram;
-
     const options = institution.programs.map(program => ({
       value: program.description,
       label: program.description,
@@ -127,7 +139,7 @@ class EybVetTecCalculatorForm extends React.Component {
         label="Choose the training program you'd like to attend"
         name="approvedPrograms"
         options={options}
-        value={selectedProgram}
+        value={this.state.programName}
         onChange={e => this.handleApprovedProgramsChange(e)}
       />
     ) : (
@@ -136,21 +148,11 @@ class EybVetTecCalculatorForm extends React.Component {
         name="approvedPrograms"
         alt="Choose the training program you'd like to attend"
         options={options}
-        value={selectedProgram}
+        value={this.state.programName}
         onChange={e => this.handleApprovedProgramsChange(e)}
         visible
       />
     );
-  };
-
-  calculateBenefitsOnClick = event => {
-    event.preventDefault();
-    const selectedProgram =
-      this.props.selectedProgram !== ''
-        ? this.props.selectedProgram
-        : this.props.preSelectedProgram;
-    this.setProgramFields(selectedProgram);
-    document.getElementById('estimated-benefits-header').focus();
   };
 
   render() {
