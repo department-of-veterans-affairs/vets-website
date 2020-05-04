@@ -41,7 +41,8 @@ class SelectArrayItemsBatteriesWidget extends Component {
         <h4>Select the hearing aids that need batteries</h4>
         <p>
           You'll be sent a 6-month supply of batteries for each device you
-          choose below.
+          choose below. You can only order batteries for each device once every
+          5 months.
         </p>
         {supplies.map(
           supply =>
