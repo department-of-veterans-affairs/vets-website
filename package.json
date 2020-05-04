@@ -18,7 +18,7 @@
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
-    "lint:circle": "eslint --quiet --ext .js --ext .jsx -c circle.eslint.json .",
+    "lint:circle": "eslint --ext .js --ext .jsx -c circle.eslint.json .",
     "lint:js:fix": "eslint --fix --quiet --ext .js --ext .jsx .",
     "lint:js:changed": "LIST=`git diff-index --name-only --cached HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:js:changed:fix": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
@@ -239,7 +239,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "^6.9.1",
-    "@department-of-veterans-affairs/formation-react": "^5.2.0",
+    "@department-of-veterans-affairs/formation-react": "5.2.6",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.9.0",

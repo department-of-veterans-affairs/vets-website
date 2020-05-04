@@ -1,7 +1,8 @@
 // Dependencies.
-import URLSearchParams from 'url-search-params';
+import recordEvent from 'platform/monitoring/record-event';
 // Relative imports.
 import { fetchResultsApi } from '../api';
+import { updateQueryParams } from '../helpers';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
@@ -42,13 +43,14 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   const city = options?.city || null;
   const contributionAmount = options?.contributionAmount || null;
   const hideFetchingState = options?.hideFetchingState;
-  const history = options?.history || window.history;
-  const location = options?.location || window.location;
+  const history = options?.history;
+  const location = options?.location;
   const name = options?.name || null;
   const numberOfStudents = options?.numberOfStudents || null;
   const page = options?.page || 1;
   const perPage = options?.perPage || 10;
   const state = options?.state || null;
+  const trackSearch = options?.trackSearch || false;
 
   const queryParamsLookup = {
     city,
@@ -67,26 +69,8 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     }),
   );
 
-  // Derive the current query params.
-  const queryParams = new URLSearchParams(location.search);
-
-  // Set/Delete query params.
-  Object.keys(queryParamsLookup).forEach(key => {
-    // Derive the value.
-    const value = queryParamsLookup[key];
-
-    // Set the query param.
-    if (value) {
-      queryParams.set(key, value);
-      return;
-    }
-
-    // Remove the query param.
-    queryParams.delete(key);
-  });
-
-  // Update the URL with the new query params.
-  history.replaceState({}, '', `${location.pathname}?${queryParams}`);
+  // Update query params.
+  updateQueryParams(history, location, queryParamsLookup);
 
   try {
     // Attempt to make the API request to retreive results.
@@ -99,6 +83,20 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
       perPage,
       state,
     });
+
+    // Track the API request.
+    if (trackSearch) {
+      recordEvent({
+        event: 'edu-yellow-ribbon-search',
+        'edu-yellow-ribbon-name': name || undefined,
+        'edu-yellow-ribbon-state': state || undefined,
+        'edu-yellow-ribbon-city': city || undefined,
+        'edu-yellow-ribbon-contribution-amount':
+          contributionAmount || undefined,
+        'edu-yellow-ribbon-number-of-students': numberOfStudents || undefined,
+        'edu-yellow-ribbon-number-of-search-results': response?.totalResults,
+      });
+    }
 
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));

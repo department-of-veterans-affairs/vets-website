@@ -5,6 +5,7 @@ import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import {
+  createId,
   formatCurrency,
   isCountryInternational,
   locationInfo,
@@ -14,12 +15,18 @@ import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
+import AccordionItem from '../AccordionItem';
+import BenefitsForm from './BenefitsForm';
 
-class EybCalculatorForm extends React.Component {
+class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       invalidZip: '',
+      yourBenefitsExpanded: true,
+      aboutYourSchoolExpanded: false,
+      learningFormatAndScheduleExpanded: false,
+      scholarshipsAndOtherFundingExpanded: false,
     };
   }
 
@@ -114,13 +121,13 @@ class EybCalculatorForm extends React.Component {
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
-    this.props.onInputChange({ field, value });
+    this.props.calculatorInputChange({ field, value });
   };
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
     const { profile } = this.props;
-    this.props.onInputChange({ field, value });
+    this.props.calculatorInputChange({ field, value });
 
     if (value === 'extension' || value === profile.attributes.name) {
       recordEvent({
@@ -151,11 +158,69 @@ class EybCalculatorForm extends React.Component {
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
-      this.props.onInputChange({
+      this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
       });
     }
+  };
+
+  toggleYourBenefits = expanded => {
+    this.setState({
+      ...this.state,
+      yourBenefitsExpanded: expanded,
+      aboutYourSchoolExpanded: expanded
+        ? false
+        : this.state.aboutYourSchoolExpanded,
+      learningFormatAndScheduleExpanded: expanded
+        ? false
+        : this.state.learningFormatAndScheduleExpanded,
+      scholarshipsAndOtherFundingExpanded: expanded
+        ? false
+        : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+  };
+
+  toggleAboutYourSchool = expanded => {
+    this.setState({
+      ...this.state,
+      yourBenefitsExpanded: expanded ? false : this.state.yourBenefitsExpanded,
+      aboutYourSchoolExpanded: expanded,
+      learningFormatAndScheduleExpanded: expanded
+        ? false
+        : this.state.learningFormatAndScheduleExpanded,
+      scholarshipsAndOtherFundingExpanded: expanded
+        ? false
+        : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+  };
+
+  toggleLearningFormatAndSchedule = expanded => {
+    this.setState({
+      ...this.state,
+      yourBenefitsExpanded: expanded ? false : this.state.yourBenefitsExpanded,
+      aboutYourSchoolExpanded: expanded
+        ? false
+        : this.state.aboutYourSchoolExpanded,
+      learningFormatAndScheduleExpanded: expanded,
+      scholarshipsAndOtherFundingExpanded: expanded
+        ? false
+        : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+  };
+
+  toggleScholarshipsAndOtherFunding = expanded => {
+    this.setState({
+      ...this.state,
+      yourBenefitsExpanded: expanded ? false : this.state.yourBenefitsExpanded,
+      aboutYourSchoolExpanded: expanded
+        ? false
+        : this.state.aboutYourSchoolExpanded,
+      learningFormatAndScheduleExpanded: expanded
+        ? false
+        : this.state.learningFormatAndScheduleExpanded,
+      scholarshipsAndOtherFundingExpanded: expanded,
+    });
   };
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
@@ -164,7 +229,7 @@ class EybCalculatorForm extends React.Component {
       <button
         type="button"
         className="va-button-link learn-more-button"
-        onClick={this.props.onShowModal.bind(this, modal)}
+        onClick={this.props.showModal.bind(this, modal)}
         aria-label={ariaLabel || ''}
       >
         Learn more
@@ -183,31 +248,6 @@ class EybCalculatorForm extends React.Component {
         value={this.props.inputs.inState}
         onChange={this.handleInputChange}
       />
-    );
-  };
-
-  renderGbBenefit = () => {
-    if (!this.props.displayedInputs.giBillBenefit) {
-      return null;
-    }
-    return (
-      <div>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text:
-              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
-            modal: 'whenUsedGiBill',
-            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
-          })}
-          name="giBillBenefit"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.inputs.giBillBenefit}
-          onChange={this.handleInputChange}
-        />
-      </div>
     );
   };
 
@@ -246,7 +286,7 @@ class EybCalculatorForm extends React.Component {
         <button
           type="button"
           className="va-button-link learn-more-button vads-u-margin-left--0p5"
-          onClick={this.props.onShowModal.bind(this, 'calcTuition')}
+          onClick={this.props.showModal.bind(this, 'calcTuition')}
           aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
         >
           (Learn more)
@@ -603,7 +643,7 @@ class EybCalculatorForm extends React.Component {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
     }
-    const { profile, inputs, onShowModal } = this.props;
+    const { profile, inputs, showModal } = this.props;
     const extensions = this.getExtensions();
 
     let amountInput;
@@ -714,7 +754,7 @@ class EybCalculatorForm extends React.Component {
                 aria-atomic="true"
                 type="button"
                 className="va-button-link learn-more-button"
-                onClick={onShowModal.bind(
+                onClick={showModal.bind(
                   this,
                   'calcBeneficiaryLocationQuestion',
                 )}
@@ -823,40 +863,178 @@ class EybCalculatorForm extends React.Component {
     <OnlineClassesFilter
       onlineClasses={this.props.eligibility.onlineClasses}
       onChange={this.props.eligibilityChange}
-      showModal={this.props.onShowModal}
+      showModal={this.props.showModal}
     />
   );
 
-  render() {
-    if (!this.props.displayedInputs) return null;
+  renderGbBenefit = () => {
+    if (!this.props.displayedInputs?.giBillBenefit) {
+      return null;
+    }
+
     return (
-      <div className="calculator-form">
-        {this.renderInState()}
-        {this.renderTuition()}
-        {this.renderBooks()}
-        {this.renderYellowRibbon()}
-        {this.renderScholarships()}
-        {this.renderTuitionAssist()}
-        {this.renderEnrolled()}
-        {this.renderCalendar()}
-        {this.renderOnlineClasses()}
-        {this.renderExtensionBeneficiaryZIP()}
-        {this.renderKicker()}
-        {this.renderGbBenefit()}
-        {this.renderBuyUp()}
-        {this.renderWorking()}
+      <div>
+        <RadioButtons
+          label={this.renderLearnMoreLabel({
+            text:
+              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
+            modal: 'whenUsedGiBill',
+            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
+          })}
+          name="giBillBenefit"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.giBillBenefit}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  };
+
+  renderYourBenefits = () => {
+    const name = 'Your benefits';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        section
+        expanded={this.state.yourBenefitsExpanded}
+        onClick={this.toggleYourBenefits}
+      >
+        <form>
+          <BenefitsForm
+            eligibilityChange={this.props.eligibilityChange}
+            {...this.props.eligibility}
+            hideModal={this.props.hideModal}
+            showModal={this.props.showModal}
+            inputs={this.props.inputs}
+            displayedInputs={this.props.displayedInputs}
+            onInputChange={this.props.calculatorInputChange}
+          >
+            {this.renderGbBenefit()}
+          </BenefitsForm>
+        </form>
+      </AccordionItem>
+    );
+  };
+
+  renderAboutYourSchool = () => {
+    const {
+      inState,
+      tuition,
+      books,
+      calendar,
+      enrolled,
+      enrolledOld,
+    } = this.props.displayedInputs;
+
+    if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
+      return null;
+
+    const name = 'About your school';
+
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        expanded={this.state.aboutYourSchoolExpanded}
+        section
+        onClick={this.toggleAboutYourSchool}
+      >
+        <div className="calculator-form">
+          {this.renderInState()}
+          {this.renderTuition()}
+          {this.renderBooks()}
+          {this.renderCalendar()}
+          {this.renderEnrolled()}
+        </div>
+      </AccordionItem>
+    );
+  };
+
+  renderLearningFormatAndSchedule = () => {
+    const name = 'Learning format and schedule';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        expanded={this.state.learningFormatAndScheduleExpanded}
+        section
+        onClick={this.toggleLearningFormatAndSchedule}
+      >
+        <div className="calculator-form">
+          {this.renderOnlineClasses()}
+          {this.renderExtensionBeneficiaryZIP()}
+          {this.renderWorking()}
+        </div>
+      </AccordionItem>
+    );
+  };
+
+  renderScholarshipsAndOtherFunding = () => {
+    const {
+      yellowRibbon,
+      tuitionAssist,
+      kicker,
+      buyUp,
+      scholarships,
+    } = this.props.displayedInputs;
+    if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
+      return null;
+    const name = 'Scholarships and other funding';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        expanded={this.state.scholarshipsAndOtherFundingExpanded}
+        section
+        onClick={this.toggleScholarshipsAndOtherFunding}
+      >
+        <div className="calculator-form">
+          {this.renderYellowRibbon()}
+          {this.renderTuitionAssist()}
+          {this.renderKicker()}
+          {this.renderBuyUp()}
+          {this.renderScholarships()}
+        </div>
+      </AccordionItem>
+    );
+  };
+
+  render() {
+    return (
+      <div className="usa-width-one-eigth medium-5 columns">
+        <p>Use the fields below to calculate your benefits:</p>
+        <ul className="eyb-inputs-ul vads-u-padding--0">
+          {this.renderYourBenefits()}
+          {this.renderAboutYourSchool()}
+          {this.renderLearningFormatAndSchedule()}
+          {this.renderScholarshipsAndOtherFunding()}
+        </ul>
+        <button
+          className="calculate-button"
+          onClick={this.props.updateEstimatedBenefits}
+        >
+          Calculate benefits
+        </button>
       </div>
     );
   }
 }
 
-EybCalculatorForm.propTypes = {
+EstimateYourBenefitsForm.propTypes = {
+  profile: PropTypes.object,
+  eligibility: PropTypes.object,
+  eligibilityChange: PropTypes.func,
   inputs: PropTypes.object,
   displayedInputs: PropTypes.object,
-  onShowModal: PropTypes.func,
-  onInputChange: PropTypes.func,
-  profile: PropTypes.object,
+  showModal: PropTypes.func,
+  calculatorInputChange: PropTypes.func,
+  onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
 };
 
-export default EybCalculatorForm;
+export default EstimateYourBenefitsForm;

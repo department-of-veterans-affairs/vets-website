@@ -23,8 +23,10 @@ describe('686 add child - child place of birth', () => {
     },
     childrenToAdd: [
       {
-        first: 'Bill',
-        last: 'Bob',
+        fullName: {
+          first: 'Bill',
+          last: 'Bob',
+        },
         ssn: '370947141',
         birthDate: '1997-04-02',
       },

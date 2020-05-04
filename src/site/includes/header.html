@@ -50,8 +50,8 @@
   <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/generated/style.css">
-  <link rel="stylesheet" href="/generated/{{ entryname | default: 'static-pages' }}.css">
+  <link rel="stylesheet" data-entry-name="style.css">
+  <link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
 
   <!-- Old IE -->
 
@@ -59,9 +59,13 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-  <script defer nomodule src="/generated/polyfills.entry.js"></script>
-  <script defer src="/generated/vendor.entry.js"></script>
-  <script defer src="/generated/{{ entryname | default: 'static-pages' }}.entry.js"></script>
+  {% if botframework_cdn %}
+    <script src="{{ botframework_cdn }}"></script>
+  {% endif %}
+
+  <script defer nomodule data-entry-name="polyfills.js"></script>
+  <script defer data-entry-name="vendor.js"></script>
+  <script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
 
   <!--
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.

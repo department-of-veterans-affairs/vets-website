@@ -2,7 +2,7 @@ import Scroll from 'react-scroll';
 
 const scroller = Scroll.animateScroll;
 
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 export function scrollToTop() {
   scroller.scrollToTop(getScrollOptions());

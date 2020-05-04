@@ -7,13 +7,6 @@
   "template": {
     "vagovprod": false,
     "title": "Your Profile",
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "profile-2/",
-        "name": "Your profile"
-      }
-    ]
+    "layout": "page-react.html"
   }
 }

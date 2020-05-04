@@ -2,6 +2,8 @@ import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
 import ReviewCardField from '../../components/ReviewCardField';
+import ReviewPageAccessories from '../../components/ReviewPageAccessories';
+import ReviewPageBatteries from '../../components/ReviewPageBatteries';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
@@ -37,6 +39,22 @@ const addAccessoriesUITitle = (
   </h4>
 );
 
+const addressDescription = (
+  <>
+    <p>
+      Any updates you make here to your address will apply only to this
+      application.
+    </p>
+    <p>
+      To update your address for all of your VA accounts, you’ll need to go to
+      your profile page.{' '}
+      <a href="va.gov/profile">
+        View the address that's on file in your profile.
+      </a>
+    </p>
+  </>
+);
+
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
@@ -50,9 +68,12 @@ export default {
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
+      'ui:subtitle': addressDescription,
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        hideOnReview: formData =>
+          formData.currentAddress !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
@@ -79,14 +100,20 @@ export default {
         return true;
       }),
       'ui:title': 'Temporary address',
+      'ui:subtitle': addressDescription,
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
+        startInEdit: formData =>
+          Object.values(formData).every(prop => Boolean(prop)),
+        hideOnReview: formData =>
+          formData.currentAddress !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
       'ui:options': {
         classNames: 'vads-u-display--none',
+        hideOnReview: true,
       },
     },
     emailUI: {
@@ -123,6 +150,7 @@ export default {
       'ui:options': {
         widgetClassNames: 'va-input-large',
         inputType: 'email',
+        hideOnReview: true,
       },
       'ui:validations': [
         {
@@ -152,8 +180,12 @@ export default {
       },
     },
     batteriesUI: {
-      'ui:field': SelectArrayItemsBatteriesWidget,
+      'ui:title': ' ',
+      'ui:field': 'StringField',
+      'ui:widget': SelectArrayItemsBatteriesWidget,
+      'ui:reviewWidget': ReviewPageBatteries,
       'ui:options': {
+        keepInPageOnReview: true,
         expandUnder: viewAddBatteriesField,
         expandUnderCondition: 'yes',
       },
@@ -172,11 +204,14 @@ export default {
       },
     },
     accessoriesUI: {
-      'ui:title': 'Which hearing aid do you need accessories for?',
+      'ui:title': ' ',
+      'ui:field': 'StringField',
       'ui:description':
         'You will be sent a 6 month supply of batteries for each device you select below.',
-      'ui:field': SelectArrayItemsAccessoriesWidget,
+      'ui:widget': SelectArrayItemsAccessoriesWidget,
+      'ui:reviewWidget': ReviewPageAccessories,
       'ui:options': {
+        keepInPageOnReview: true,
         expandUnder: viewAddAccessoriesField,
         expandUnderCondition: 'yes',
       },

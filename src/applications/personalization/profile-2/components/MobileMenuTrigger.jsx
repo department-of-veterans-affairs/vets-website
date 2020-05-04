@@ -9,6 +9,11 @@ import {
   unpinMenuTrigger as unpinMenuTriggerAction,
 } from '../actions';
 
+import {
+  selectFocusTriggerButton,
+  selectIsMenuTriggerPinned,
+} from '../selectors';
+
 import { BREAKPOINTS } from '../constants';
 
 const MobileMenuTrigger = ({
@@ -48,6 +53,7 @@ const MobileMenuTrigger = ({
 
       if (justSwitchedToMobile) {
         setIsMobile(true);
+        setTriggerHeight(window.getComputedStyle(button.current).height);
       }
 
       if (justSwitchedToDesktop) {
@@ -76,20 +82,27 @@ const MobileMenuTrigger = ({
     window.addEventListener('resize', handleResize);
     window.onscroll = handleScroll;
 
-    if (focusTriggerButton) {
-      button.current.focus();
-    }
-
     return () => {
       window.removeEventListener('resize', handleResize);
       window.onscroll = null;
     };
   });
 
+  // When the value of focusTriggerButton has changed, we might want to set the
+  // focus on the trigger button
+  useEffect(
+    () => {
+      if (focusTriggerButton) {
+        button.current.focus();
+      }
+    },
+    [focusTriggerButton],
+  );
+
   const buttonClasses = classnames({ fixed: isMenuTriggerPinned });
 
   return (
-    <div className="va-btn-sidebarnav-trigger">
+    <div className="va-btn-mobile-nav-trigger">
       {/*
       This invisible placeholder fills the vertical space normally taken up by the `button` when the `button`'s position is fixed and it is pulled out of the normal page flow.
       */}
@@ -101,10 +114,8 @@ const MobileMenuTrigger = ({
         onClick={openSideNav}
         ref={button}
       >
-        <span>
-          <b>Profile Menu</b>
-          <img src="/img/arrow-right-white.svg" alt="" />
-        </span>
+        <b>Profile Menu</b>
+        <img src="/img/arrow-right-white.svg" alt="" />
       </button>
     </div>
   );
@@ -113,8 +124,8 @@ const MobileMenuTrigger = ({
 export { MobileMenuTrigger };
 
 const mapStateToProps = state => ({
-  isMenuTriggerPinned: state.profileUi?.isMenuTriggerPinned,
-  focusTriggerButton: state.profileUi?.focusTriggerButton,
+  isMenuTriggerPinned: selectIsMenuTriggerPinned(state),
+  focusTriggerButton: selectFocusTriggerButton(state),
 });
 
 const mapDispatchToProps = {

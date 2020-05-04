@@ -11,6 +11,7 @@ import {
   institutionFilterChange,
   eligibilityChange,
   showModal,
+  hideModal,
 } from '../actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -140,6 +141,9 @@ export class LandingPage extends React.Component {
               {this.props.gibctEstimateYourBenefits ? (
                 <BenefitsForm
                   eligibilityChange={this.handleEligibilityChange}
+                  {...this.props.eligibility}
+                  hideModal={this.props.hideModal}
+                  showModal={this.props.showModal}
                 />
               ) : (
                 <EligibilityForm
@@ -213,6 +217,7 @@ const mapDispatchToProps = {
   institutionFilterChange,
   eligibilityChange,
   showModal,
+  hideModal,
 };
 
 export default withRouter(
