@@ -1015,10 +1015,10 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderScholarshipsAndOtherFunding()}
         </ul>
         <button
-          className="usa-primary-button"
-          onClick={this.updateEstimatedBenefits}
+          className="calculate-button"
+          onClick={this.props.updateEstimatedBenefits}
         >
-          Calculate Your Benefits
+          Calculate benefits
         </button>
       </div>
     );
@@ -1036,6 +1036,7 @@ EstimateYourBenefitsForm.propTypes = {
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
   isLoggedIn: PropTypes.bool,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
 };
 
 export default EstimateYourBenefitsForm;
