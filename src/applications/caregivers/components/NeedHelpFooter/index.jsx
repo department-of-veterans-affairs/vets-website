@@ -7,17 +7,22 @@ const NeedHelpFooter = () => (
       <h5>Need Help?</h5>
       <hr />
       <p>
-        You can call the VA Caregiver Support Line at{' '}
-        <a href={links.caregiverHelp.phoneLink}>
+        You can call the VA Caregiver Support Line at
+        <a
+          href={links.caregiverHelp.phoneLink}
+          className="vads-u-margin-left--0p5"
+        >
           {links.caregiverHelp.phoneLabel}
         </a>
         . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
 
       <p>
-        You can also call our main VA information line at{' '}
-        <a href={links.VAHelpLine.label}>{links.VAHelpLine.link}</a>, or contact
-        your local Caregiver Support Coordinator.
+        You can also call our main VA information line at
+        <a href={links.VAHelpLine.label} className="vads-u-margin-left--0p5">
+          {links.VAHelpLine.link}
+        </a>
+        , or contact your local Caregiver Support Coordinator.
       </p>
 
       <span>
@@ -25,14 +30,17 @@ const NeedHelpFooter = () => (
           target="_blank"
           rel="noopener noreferrer"
           href={links.caregiverSupportCoordinators.link}
+          className="vads-u-margin-x--0p5"
         >
           Use our online Caregiver Support Coordinator search tool
         </a>
       </span>
 
       <p>
-        If this form isn't working right for you, please call us at at{' '}
-        <a href={links.reportLine.link}>{links.reportLine.label}</a>{' '}
+        If this form isn't working right for you, please call us at at
+        <a href={links.reportLine.link} className="vads-u-margin-x--0p5">
+          {links.reportLine.label}
+        </a>
         <span>If you have hearing loss, call TTY: 711</span>
       </p>
     </div>

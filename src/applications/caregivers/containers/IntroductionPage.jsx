@@ -8,6 +8,12 @@ import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
 import { CaregiverSupportInfo } from 'applications/caregivers/components/AdditionalInfo';
 
+// little margin left and right
+// vads-u-margin-x--0p5
+
+// margin top and bottom
+// vads-u-margin-y--2
+
 const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -65,16 +71,21 @@ const IntroductionPage = ({ route, router }) => {
               <ul>
                 <li>
                   Ask VA to help you fill out the form by calling us at
-                  {''}
-                  <a href={links.VAHelpLine.label}> 877-222-VETS (8387)</a>
+                  <a
+                    href={links.VAHelpLine.label}
+                    className="vads-u-margin-x--0p5"
+                  >
+                    877-222-VETS (8387)
+                  </a>
                 </li>
                 <li>
                   Locate and contact the Caregiver Support Coordinator at your
-                  nearest VA health care facility. You may use the online {''}
+                  nearest VA health care facility. You may use the online
                   <a
                     href={links.caregiverSupportCoordinators.link}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="vads-u-margin-x--0p5"
                   >
                     Caregiver Support Coordinator locator
                   </a>
@@ -85,9 +96,10 @@ const IntroductionPage = ({ route, router }) => {
                     href="tel:8552603274"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="vads-u-margin-x--0p5"
                   >
                     855-260-3274
-                  </a>{' '}
+                  </a>
                   or a Veterans Service Organization
                 </li>
               </ul>
@@ -96,6 +108,7 @@ const IntroductionPage = ({ route, router }) => {
                 href={links.getHelpFillingApplication.link}
                 rel="noopener noreferrer"
                 target="_blank"
+                className="vads-u-margin-x--0p5"
               >
                 {links.getHelpFillingApplication.label}
               </a>
@@ -121,6 +134,7 @@ const IntroductionPage = ({ route, router }) => {
                 rel="noopener noreferrer"
                 target="_blank"
                 href={links.applyVAHealthCare.link}
+                className="vads-u-margin-x--0p5"
               >
                 {links.applyVAHealthCare.label}
               </a>
@@ -141,18 +155,22 @@ const IntroductionPage = ({ route, router }) => {
             <p>
               If you aren’t eligible for PCAFC you may be eligible for the
               Program of General Caregiver Support Services (PGCSS). To find out
-              more, contact VA’s Caregiver Support Line at{' '}
-              <a href={links.caregiverHelp.phoneLink}>
+              more, contact VA’s Caregiver Support Line at
+              <a
+                href={links.caregiverHelp.phoneLink}
+                className="vads-u-margin-left--0p5"
+              >
                 {links.caregiverHelp.phoneLabel}
               </a>
-              , visit{' '}
+              , visit
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href={links.caregiverHelpPage.link}
+                className="vads-u-margin-x--0p5"
               >
                 www.caregiver.va.gov
-              </a>{' '}
+              </a>
               or discuss these options with your local Caregiver Support
               Coordinator.
             </p>
@@ -175,6 +193,7 @@ const IntroductionPage = ({ route, router }) => {
         href={links.caregiverHelpPage.link}
         target="_blank"
         rel="noopener noreferrer"
+        className="vads-u-margin-x--0p5"
       >
         Learn more about the Program of Comprehensive Assistance for Family
         Caregivers (PCAFC)
