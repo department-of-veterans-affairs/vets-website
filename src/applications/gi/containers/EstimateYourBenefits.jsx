@@ -99,7 +99,7 @@ export class EstimateYourBenefits extends React.Component {
         />
         <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
-        {true && (
+        {
           <div
             className={classNames(
               'vads-u-display--block',
@@ -120,7 +120,7 @@ export class EstimateYourBenefits extends React.Component {
               }
             />
           </div>
-        )}
+        }
       </div>
     );
   }
