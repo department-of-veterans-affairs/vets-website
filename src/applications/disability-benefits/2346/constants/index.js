@@ -8,7 +8,6 @@ export const schemaFields = {
   confirmationEmailField: 'confirmationEmail',
   suppliesField: 'supplies',
   viewAddBatteriesField: 'view:AddBatteries',
-  viewAddAccessoriesField: 'view:AddAccessories',
   currentAddressField: 'currentAddress',
   newAddressField: 'newAddress',
   typeOfNewAddressField: 'typeOfNewAddress',
