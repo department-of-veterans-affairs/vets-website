@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { shouldUseProxyUrl } from '../selectors';
@@ -16,7 +16,7 @@ class EbenefitsLink extends React.Component {
   render() {
     const url = this.props.useProxyUrl ? proxyUrl : defaultUrl;
     const click = () =>
-      isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' });
+      this.props.isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' });
     const attrs = {
       href: this.props.href || url(this.props.path),
       className: this.props.className || '',
@@ -29,6 +29,7 @@ class EbenefitsLink extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  isLoggedIn: isLoggedInSelector(state),
   useProxyUrl: shouldUseProxyUrl(state),
 });
 
