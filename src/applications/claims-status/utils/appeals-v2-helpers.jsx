@@ -2074,9 +2074,7 @@ export const getErrorStatus = response => {
  */
 const getAppealDate = appeal => {
   const { events } = appeal.attributes;
-  const dateString =
-    events && events.length ? events[events.length - 1].date : '0';
-  return dateString;
+  return events && events.length ? events[events.length - 1].date : '0';
 };
 
 /**
@@ -2086,8 +2084,7 @@ const getAppealDate = appeal => {
  */
 const getClaimDate = claim => {
   const { phaseChangeDate } = claim.attributes;
-  const dateString = phaseChangeDate || '0';
-  return dateString;
+  return phaseChangeDate || '0';
 };
 
 /**
