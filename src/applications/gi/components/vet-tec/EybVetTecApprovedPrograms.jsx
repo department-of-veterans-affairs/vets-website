@@ -26,17 +26,25 @@ class EybVetTecApprovedPrograms extends React.Component {
           program.description.toLowerCase() === selectedProgram.toLowerCase();
         return (
           <tr key={index}>
-            <td className="vads-u-padding-y--0">
-              <div className="program-description">
-                <i
-                  className={
-                    checked
-                      ? 'fas fa-check vads-u-padding-right--0p5 vads-u-color--green'
-                      : 'vads-u-padding-right--2p5'
-                  }
-                />
-
-                {program.description}
+            <td className="vads-u-padding-left--0 vads-l-grid-container">
+              <div className="program-description vads-l-row">
+                <div className="vads-l-col--2 checked-program">
+                  <i
+                    className={
+                      checked
+                        ? 'fas fa-check vads-u-padding-right--0p5 vads-u-color--green'
+                        : 'vads-u-padding-right--2p5'
+                    }
+                  />
+                </div>
+                <div className="vads-l-col--10 ">
+                  {program.description}{' '}
+                  {checked ? (
+                    <span className="sr-only">selectedProgram</span>
+                  ) : (
+                    ''
+                  )}
+                </div>
               </div>
             </td>
             <td className="vads-u-padding-y--0 program-length">
@@ -58,9 +66,7 @@ class EybVetTecApprovedPrograms extends React.Component {
             </colgroup>
             <thead>
               <tr>
-                <th className="vads-u-padding-left--5" id="program-name-header">
-                  Program name
-                </th>
+                <th id="program-name-header">Program name</th>
                 <th>Length</th>
                 <th>Tuition & Fees</th>
               </tr>
