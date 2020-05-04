@@ -403,7 +403,7 @@ export function transformAppointment(appointment) {
     isPastAppointment: false,
     instructions:
       appointment.instructionsToVeteran ||
-      appointment.vdsAppointments?.[0].bookingNote,
+      appointment.vdsAppointments?.[0]?.bookingNote,
     duration: getAppointmentDuration(appointment),
     appointmentDate: getMomentConfirmedDate(appointment),
     status: getAppointmentStatus(appointment),
