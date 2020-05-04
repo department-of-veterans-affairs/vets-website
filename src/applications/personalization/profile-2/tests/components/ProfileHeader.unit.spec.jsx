@@ -51,7 +51,7 @@ describe('<ProfileHeader>', () => {
     const component = mount(<ProfileHeader store={fakeStore} />);
     expect(
       component
-        .find('h2')
+        .find('dd')
         .first()
         .text(),
     ).to.contain('Johnnie Leonard Weaver');
@@ -62,8 +62,8 @@ describe('<ProfileHeader>', () => {
     const component = mount(<ProfileHeader store={fakeStore} />);
     expect(
       component
-        .find('h3')
-        .first()
+        .find('dd')
+        .at(1)
         .text(),
     ).to.contain('United States Coast Guard');
     component.unmount();
