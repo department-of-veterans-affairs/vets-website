@@ -11,7 +11,11 @@ function AboutThisTool() {
         >
           About this Tool
         </a>
-        <a href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx">
+
+        <a
+          className="about-this-tool-mobile"
+          href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
+        >
           Download Data on All Schools (Excel)
         </a>
       </div>

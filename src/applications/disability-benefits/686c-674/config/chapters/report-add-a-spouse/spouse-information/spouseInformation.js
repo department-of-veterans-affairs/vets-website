@@ -18,16 +18,16 @@ export const uiSchema = {
       first: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': 'Your spouse’s first name',
+        'ui:title': 'Spouse’s first name',
         'ui:errorMessages': { required: 'Please enter a first name' },
       },
       middle: {
-        'ui:title': 'Your spouse’s middle name',
+        'ui:title': 'Spouse’s middle name',
       },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': 'Your spouse’s last name',
+        'ui:title': 'Spouse’s last name',
         'ui:errorMessages': { required: 'Please enter a last name' },
       },
       suffix: {

@@ -53,6 +53,7 @@ const MobileMenuTrigger = ({
 
       if (justSwitchedToMobile) {
         setIsMobile(true);
+        setTriggerHeight(window.getComputedStyle(button.current).height);
       }
 
       if (justSwitchedToDesktop) {

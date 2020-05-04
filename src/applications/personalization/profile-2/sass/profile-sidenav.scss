@@ -78,7 +78,7 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
     }
   }
 
-  h4 {
+  h2 {
     border: 1px solid $color-gray-lighter;
     border-left: none;
     border-right: none;
@@ -106,7 +106,6 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
       &:focus {
         background-color: $color-primary-alt-lightest;
         border-color: $color-link-default;
-        padding-left: 14px;
         transition: background-color 0.1s ease-in-out,
           border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
       }

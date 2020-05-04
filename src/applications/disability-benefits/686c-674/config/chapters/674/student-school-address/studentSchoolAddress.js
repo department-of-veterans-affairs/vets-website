@@ -3,7 +3,6 @@ import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
-import { StudentNameHeader } from '../helpers';
 
 const addressSchema = buildAddressSchema(false);
 
@@ -15,7 +14,6 @@ schoolInformationSchema.properties.schoolInformation.properties.address = addres
 export const schema = schoolInformationSchema;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   schoolInformation: {
     'ui:title': 'School student will attend',
     name: {
