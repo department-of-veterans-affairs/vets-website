@@ -229,7 +229,10 @@ h1 {
         margin-bottom: 20px;
       }
     }
-    .va-sidenav-level-3 {
+    .va-sidenav-level-3,
+    .va-sidenav-level-4,
+    .va-sidenav-level-5,
+    .va-sidenav-level-6 {
       pointer-events: initial;
       cursor: pointer;
       &.isSelected, &.active {
