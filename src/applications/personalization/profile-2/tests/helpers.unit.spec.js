@@ -1,3 +1,5 @@
+import React from 'react';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import {
@@ -46,18 +48,70 @@ describe('prefixUtilityClasses', () => {
 });
 
 describe('transformServiceHistoryEntryIntoTableRow', () => {
+  // this FragmentWrapper is needed so we can use Enzyme to mount the
+  // React.Fragments that our helper generates. A little bit of info on the
+  // problem can be found in this GitHub issue
+  // https://github.com/enzymejs/enzyme/issues/2327
+  const FragmentWrapper = ({ children }) => <>{children}</>;
+  const serviceHistory = {
+    branchOfService: 'Army',
+    beginDate: '2000-01-31',
+    endDate: '2010-12-25',
+  };
+  let transformedData;
+
   it('should convert military service history into the format the ProfileInfoTable expects', () => {
-    const serviceHistory = {
-      branchOfService: 'Army',
-      beginDate: '2000-01-31',
-      endDate: '2010-12-25',
-    };
-    const transformedData = transformServiceHistoryEntryIntoTableRow(
-      serviceHistory,
-    );
-    expect(transformedData.title).to.equal(
-      `United States ${serviceHistory.branchOfService}`,
-    );
-    expect(transformedData.value).to.equal('Jan. 31, 2000 – Dec. 25, 2010');
+    transformedData = transformServiceHistoryEntryIntoTableRow(serviceHistory);
+    expect(transformedData.title).not.to.be.undefined;
+    expect(transformedData.value).not.to.be.undefined;
+  });
+  describe('title prop', () => {
+    let title;
+    beforeEach(() => {
+      transformedData = transformServiceHistoryEntryIntoTableRow(
+        serviceHistory,
+      );
+      title = shallow(
+        <FragmentWrapper>{transformedData.title}</FragmentWrapper>,
+      );
+    });
+    afterEach(() => {
+      title.unmount();
+    });
+    it('should have a hidden `dfn` element', () => {
+      const titleDfn = title.find('dfn');
+      expect(titleDfn.text()).to.equal('Service branch: ');
+      expect(titleDfn.props().className).to.equal('sr-only');
+    });
+    it('should have the correct text', () => {
+      expect(
+        title
+          .text()
+          .includes(`United States ${serviceHistory.branchOfService}`),
+      ).to.be.true;
+    });
+  });
+  describe('value prop', () => {
+    let value;
+    beforeEach(() => {
+      transformedData = transformServiceHistoryEntryIntoTableRow(
+        serviceHistory,
+      );
+      value = shallow(
+        <FragmentWrapper>{transformedData.value}</FragmentWrapper>,
+      );
+    });
+    afterEach(() => {
+      value.unmount();
+    });
+    it('should have a hidden `dfn` element', () => {
+      const titleDfn = value.find('dfn');
+      expect(titleDfn.text()).to.equal('Dates of service: ');
+      expect(titleDfn.props().className).to.equal('sr-only');
+    });
+    it('should have the correct text', () => {
+      expect(value.text().includes('January 31, 2000 – December 25, 2010')).to
+        .be.true;
+    });
   });
 });

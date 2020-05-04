@@ -98,6 +98,7 @@ export class SearchForm extends Component {
       numberOfStudents,
       page: 1,
       state,
+      trackSearch: true,
     });
 
     // Scroll to top.
