@@ -150,7 +150,7 @@ function hasDirectFailed(eligibilityData) {
  * one block of checks is successful, we can still let a user continue on that,
  * even if another path is blocked.
 */
-export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
+export function getEligibilityChecks(eligibilityData) {
   // If we're missing this property, it means no DS checks were made
   // because it's disabled
   const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
