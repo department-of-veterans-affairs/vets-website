@@ -1,10 +1,24 @@
 import React from 'react';
-
-import { focusElement } from 'platform/utilities/ui';
+import { connect } from 'react-redux';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
+const VerifiedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        <strong>Note:</strong> Since you’re signed in to your account and your
+        account is verified, we can prefill part of your application based on
+        your account details. You can also save your form in progress and come
+        back later to finish filling it out.
+      </div>
+    </div>
+    <br />
+  </div>
+);
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -20,11 +34,13 @@ class IntroductionPage extends React.Component {
           School Attendance)
         </p>
         <SaveInProgressIntro
+          {...this.props}
           hideUnauthedStartLink
+          verifiedPrefillAlert={VerifiedAlert}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Add or remove a dependent"
         >
           Please complete the 21-686 form to apply for declare or remove a
           dependent.
@@ -186,9 +202,11 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          verifiedPrefillAlert={VerifiedAlert}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Add or remove a dependent"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0043" expDate="09/30/2021" />
@@ -198,4 +216,19 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+function mapStateToProps(state) {
+  const { form, user } = state;
+  return {
+    form,
+    user,
+  };
+}
+
+const mapDispatchToProps = { toggleLoginModal };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
+
+export { IntroductionPage };
