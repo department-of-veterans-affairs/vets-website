@@ -9,7 +9,7 @@ const { queries, getQuery } = require('./queries');
 const syswidecas = require('syswide-cas');
 
 const {
-  contentDir,
+  getContentDir,
   readAllNodeNames,
   readEntity,
 } = require('../process-cms-exports/helpers');
@@ -125,11 +125,11 @@ function getDrupalClient(buildOptions) {
     },
 
     getExportedPages() {
-      const exportDir = buildOptions['cms-export-dir'] || contentDir;
+      const exportDir = buildOptions['cms-export-dir'];
       const entities = readAllNodeNames(exportDir).map(entityDetails =>
         readEntity(exportDir, ...entityDetails),
       );
-      const assembleEntityTree = entityTreeFactory(exportDir || contentDir);
+      const assembleEntityTree = entityTreeFactory(getContentDir(exportDir));
 
       const modifiedEntities = entities.map(entity =>
         assembleEntityTree(entity),
