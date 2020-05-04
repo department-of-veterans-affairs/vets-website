@@ -116,11 +116,16 @@ module.exports = {
   },
 
   /**
-   * Get all the starting nodes
+   * Get all the starting node IDs.
+   *
+   * @param {String} dir - The path to the directory with the content JSON files
+   * @return {String[][]} - An array of tuples consisting of the entity type
+   *                        (always "node") and UUID.
+   *                        E.g. [["node", "123"], ["node", "456"]]
    */
-  readAllNodeNames(dirName = contentDir) {
+  readAllNodeNames(dir) {
     return fs
-      .readdirSync(dirName)
+      .readdirSync(dir)
       .filter(name => name.startsWith('node'))
       .map(name => name.split('.').slice(0, 2));
   },
