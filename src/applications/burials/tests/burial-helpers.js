@@ -1,5 +1,5 @@
-const mock = require('../../../platform/testing/e2e/mock-helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const mock = require('platform/testing/e2e/mock-helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 function completeClaimantInformation(client, data) {
   client
