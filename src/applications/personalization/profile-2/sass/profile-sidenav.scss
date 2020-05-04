@@ -1,0 +1,121 @@
+$nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
+
+.va-sidebarnav {
+  border-bottom: 1px solid $color-gray-lighter;
+  display: block;
+
+  // We would normally include all of the mobile style declarations the default
+  // values since we learn towards doing mobile-first. But that would require
+  // doing a lot of resetting/unsetting values to something "normal" at >=
+  // medium screens, which seems like more trouble than it's worth in this case.
+  @include media-maxwidth($medium-screen - 1) {
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow: scroll;
+    padding: 1.6rem;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    width: 100%;
+
+    // The overlay that covers the entire page behind the open menu
+    &::before {
+      background: $color-link-default-hover;
+      content: "\00A0";
+      display: block;
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    // The actual background behind the side nav menu on mobile
+    > div {
+      -webkit-transition: 100ms transform linear;
+      background: $color-white;
+      border-left: 1px solid $color-gray-light;
+      height: 100%;
+      max-width: 30rem;
+      overflow: auto;
+      padding: units-px(4) units-px(2) units-px(2);
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translateX(100%);
+      transition: 100ms transform linear;
+      visibility: visible;
+      width: 80%;
+      z-index: 2;
+    }
+
+    &--opened {
+      display: block;
+      position: fixed;
+      visibility: visible;
+      z-index: $top-layer;
+
+      & > div {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  button.va-sidebarnav-close {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+
+    &:hover,
+    &:focus {
+      background-color: $color-gray-lightest;
+    }
+
+    @include media($medium-screen) {
+      display: none;
+    }
+  }
+
+  h2 {
+    border: 1px solid $color-gray-lighter;
+    border-left: none;
+    border-right: none;
+    color: $color-black;
+    margin-bottom: units-px(2);
+    margin-top: units-px(4);
+    padding: $nav-item-padding;
+  }
+
+  ul {
+    padding: 0;
+  }
+  li {
+    list-style: none;
+    margin-bottom: 0;
+
+    a {
+      border-left: 4px solid transparent;
+      display: inline-block;
+      padding: $nav-item-padding;
+      text-decoration: none;
+      width: 100%;
+
+      &:hover,
+      &:focus {
+        background-color: $color-primary-alt-lightest;
+        border-color: $color-link-default;
+        transition: background-color 0.1s ease-in-out,
+          border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
+      }
+      &.is-active {
+        background-color: $color-gray-lightest;
+        border-left: 4px solid $color-base;
+        color: $color-black;
+        font-weight: bold;
+        padding-left: units-px(1.5);
+      }
+    }
+  }
+}

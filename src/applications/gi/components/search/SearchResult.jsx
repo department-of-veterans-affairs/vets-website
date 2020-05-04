@@ -23,7 +23,7 @@ export class SearchResult extends React.Component {
     const {
       version,
       schoolClosing,
-      cautionFlag,
+      schoolClosingOn,
       estimated,
       facilityCode,
       name,
@@ -31,43 +31,43 @@ export class SearchResult extends React.Component {
       state,
       country,
       studentCount,
+      cautionFlags,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
-
     const linkTo = {
       pathname: `profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
     return (
-      <div className="search-result">
+      <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <a
-                    href={linkTo.pathname}
+                  <Link
+                    to={linkTo}
                     aria-label={`${name} ${locationInfo(city, state, country)}`}
                   >
                     {name}
-                  </a>
+                  </Link>
                 </h2>
               </div>
             </div>
-            {(schoolClosing || cautionFlag) && (
+            {(schoolClosing || cautionFlags.length > 0) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
-                  {renderSchoolClosingAlert({ schoolClosing })}
-                  {renderCautionAlert({ cautionFlag })}
+                  {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
+                  {renderCautionAlert(cautionFlags)}
                 </div>
               </div>
             )}
             <div className="row">
-              <div className="small-12 usa-width-seven-twelfths medium-7 columns">
+              <div className={'small-12  medium-6 large-7 columns'}>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality" id={`location-${facilityCode}`}>
                     {locationInfo(city, state, country)}
@@ -77,7 +77,11 @@ export class SearchResult extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
+              <div
+                className={
+                  'small-12 medium-6 large-5 columns estimated-benefits'
+                }
+              >
                 <h3>You may be eligible for up to:</h3>
                 <div className="row">
                   <div className="columns">

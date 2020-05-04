@@ -16,9 +16,10 @@ import {
   getSystemFromParent,
   getSystemFromChosenFacility,
   vaosCommunityCare,
+  selectSystemIds,
+  getEligibilityStatus,
 } from '../utils/selectors';
 import {
-  getSystemIdentifiers,
   getParentFacilities,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
@@ -47,6 +48,8 @@ import {
   getEligibleFacilities,
   recordEligibilityGAEvents,
 } from '../utils/eligibility';
+
+import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
 
 import { captureError } from '../utils/error';
 
@@ -173,14 +176,21 @@ export function updateFacilityType(facilityType) {
   };
 }
 
-export function startDirectScheduleFlow(appointments) {
+export function startDirectScheduleFlow() {
+  recordEvent({ event: 'vaos-direct-path-started' });
+
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
-    appointments,
   };
 }
 
-export function startRequestAppointmentFlow() {
+export function startRequestAppointmentFlow(isCommunityCare) {
+  recordEvent({
+    event: `vaos-${
+      isCommunityCare ? 'community-care' : 'request'
+    }-path-started`,
+  });
+
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
   };
@@ -243,9 +253,11 @@ export function fetchFacilityDetails(facilityId) {
 */
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
-    const directSchedulingEnabled = vaosDirectScheduling(getState());
-    const newAppointment = getState().newAppointment;
+    const initialState = getState();
+    const directSchedulingEnabled = vaosDirectScheduling(initialState);
+    const newAppointment = initialState.newAppointment;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+    const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;
@@ -256,7 +268,6 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        const userSystemIds = await getSystemIdentifiers();
         parentFacilities = await getParentFacilities(userSystemIds);
       }
 
@@ -280,10 +291,16 @@ export function openFacilityPage(page, uiSchema, schema) {
         );
       }
 
-      const eligibilityDataNeeded = !!facilityId || facilities?.length === 1;
+      const eligibleFacilities = getEligibleFacilities(facilities);
+      const eligibilityDataNeeded =
+        !!facilityId || eligibleFacilities?.length === 1;
 
       if (eligibilityDataNeeded && !facilityId) {
-        facilityId = facilities[0].institutionCode;
+        facilityId = eligibleFacilities[0].institutionCode;
+      }
+
+      if (parentId && !eligibleFacilities?.length) {
+        recordEligibilityFailure('supported-facilities');
       }
 
       const eligibilityChecks =
@@ -291,7 +308,9 @@ export function openFacilityPage(page, uiSchema, schema) {
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
-          facilities.find(facility => facility.institutionCode === facilityId),
+          eligibleFacilities.find(
+            facility => facility.institutionCode === facilityId,
+          ),
           typeOfCareId,
           systemId,
           directSchedulingEnabled,
@@ -310,8 +329,20 @@ export function openFacilityPage(page, uiSchema, schema) {
         typeOfCareId,
         eligibilityData,
       });
+
+      if (facilityId) {
+        try {
+          const eligibility = getEligibilityStatus(getState());
+          if (!eligibility.direct && !eligibility.request) {
+            const thunk = fetchFacilityDetails(facilityId);
+            await thunk(dispatch, getState);
+          }
+        } catch (e) {
+          captureError(e);
+        }
+      }
     } catch (e) {
-      captureError(e);
+      captureError(e, false, 'facility page');
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
       });
@@ -348,6 +379,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         // If no available facilities, fetch system details to display contact info
         if (!availableFacilities?.length) {
           dispatch(fetchFacilityDetails(data.vaParent));
+          recordEligibilityFailure('supported-facilities');
         }
 
         dispatch({
@@ -357,7 +389,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         });
       } catch (e) {
-        captureError(e);
+        captureError(e, false, 'facility page');
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_FAILED,
         });
@@ -398,8 +430,18 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
           eligibilityData,
         });
+
+        try {
+          const eligibility = getEligibilityStatus(getState());
+          if (!eligibility.direct && !eligibility.request) {
+            const thunk = fetchFacilityDetails(data.vaFacility);
+            await thunk(dispatch, getState);
+          }
+        } catch (e) {
+          captureError(e);
+        }
       } catch (e) {
-        captureError(e);
+        captureError(e, false, 'facility page');
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_FAILED,
         });
@@ -643,6 +685,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
@@ -657,6 +700,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
       }
     } else {
       const isCommunityCare =
@@ -703,6 +747,7 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
         captureError(error, true);
@@ -723,8 +768,16 @@ export function submitAppointmentOrRequest(router) {
           flow,
           ...additionalEventData,
         });
+        resetDataLayer();
       }
     }
+  };
+}
+
+export function requestAppointmentDateChoice(router) {
+  return dispatch => {
+    dispatch(startRequestAppointmentFlow());
+    router.replace('/new-appointment/request-date');
   };
 }
 

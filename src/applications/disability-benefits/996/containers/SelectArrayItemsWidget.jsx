@@ -25,7 +25,8 @@ export default class SelectArrayItemsWidget extends React.Component {
     const { label: Label, selectedPropName, disabled, customTitle } = options;
     const { formContext } = registry;
 
-    // Review mode = true; review page view, not in edit mode
+    // inReviewMode = true (review page view, not in edit mode)
+    // inReviewMode = false (in edit mode)
     const inReviewMode = formContext.onReviewPage && formContext.reviewMode;
     const hasSelections = items?.reduce(
       (result, item) =>
@@ -33,73 +34,77 @@ export default class SelectArrayItemsWidget extends React.Component {
       false,
     );
 
-    // console.log('arrayitems widget', this.props, this.props.registry.formContext, hasSelections)
-
-    // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
         {customTitle && items && <h5 className="title">{customTitle}</h5>}
-        {!inReviewMode || (inReviewMode && hasSelections)
-          ? items.map((item, index) => {
-              const itemIsSelected = !!get(
-                selectedPropName || this.defaultSelectedPropName,
-                item,
-              );
+        {!inReviewMode || (inReviewMode && hasSelections) ? (
+          items.map((item, index) => {
+            const itemIsSelected = !!get(
+              selectedPropName || this.defaultSelectedPropName,
+              item,
+            );
 
-              // Don't show unselected items
-              if (inReviewMode && !itemIsSelected) {
-                return null;
-              }
+            // Don't show unselected items
+            if (inReviewMode && !itemIsSelected) {
+              return null;
+            }
 
-              const itemIsDisabled =
-                typeof disabled === 'function' ? disabled(item) : false;
-              const elementId = `${id}_${index}`;
-              const labelWithData = (
-                <Label
-                  {...item}
-                  name={item.name || item.condition}
-                  for={elementId}
-                />
-              );
+            const itemIsDisabled =
+              typeof disabled === 'function' ? disabled(item) : false;
+            const elementId = `${id}_${index}`;
+            const labelWithData = (
+              <Label
+                {...item}
+                name={item.name || item.condition}
+                for={elementId}
+              />
+            );
 
-              const widgetClasses = inReviewMode
-                ? ''
-                : classNames('form-checkbox', options.widgetClassNames, {
-                    selected: itemIsSelected,
-                  });
+            const widgetClasses = inReviewMode
+              ? ''
+              : classNames('form-checkbox', options.widgetClassNames, {
+                  selected: itemIsSelected,
+                });
 
-              const input = inReviewMode ? null : (
-                <input
-                  type="checkbox"
-                  id={elementId}
-                  name={elementId}
-                  checked={
-                    typeof itemIsSelected === 'undefined'
-                      ? false
-                      : itemIsSelected
-                  }
-                  required={required}
-                  disabled={itemIsDisabled}
-                  onChange={event => this.onChange(index, event.target.checked)}
-                />
-              );
+            const input = inReviewMode ? null : (
+              <input
+                type="checkbox"
+                id={elementId}
+                name={elementId}
+                checked={
+                  typeof itemIsSelected === 'undefined' ? false : itemIsSelected
+                }
+                required={required}
+                disabled={itemIsDisabled}
+                onChange={event => this.onChange(index, event.target.checked)}
+              />
+            );
 
-              return (
-                <div key={elementId} className="review-row">
-                  <dt className={widgetClasses}>
-                    {input}
-                    <label
-                      className="schemaform-label vads-u-margin-top--0"
-                      htmlFor={elementId}
-                    >
-                      {labelWithData}
-                    </label>
-                  </dt>
-                  <dd />
-                </div>
-              );
-            })
-          : 'No selections have been made'}
+            // Fix axe issue on page, but not mess up review & submit page
+            // a <dl class="review"> wraps this content on review & submit page
+            const Tag = inReviewMode ? 'div' : 'dl';
+
+            return (
+              <Tag key={elementId} className="review-row">
+                <dt className={widgetClasses}>
+                  {input}
+                  <label
+                    className="schemaform-label vads-u-margin-top--0"
+                    htmlFor={elementId}
+                  >
+                    {labelWithData}
+                  </label>
+                </dt>
+                <dd />
+              </Tag>
+            );
+          })
+        ) : (
+          <div className="review-row" role="presentation">
+            <dt>No selections have been made</dt>
+            <dd />
+          </div>
+        )}
       </>
     );
   }

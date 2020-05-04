@@ -119,16 +119,12 @@ module.exports = function registerFilters() {
 
   liquid.filters.outputLinks = data => {
     // Change phone to tap to dial.
-    const replacePattern = /(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/;
-
-    if (data.match(replacePattern)) {
-      const number = data.match(replacePattern)[0];
-      const replacedText = data.replace(
+    const replacePattern = /((\d{3}-))?\d{3}-\d{3}-\d{4}(?!([^<]*>)|(((?!<a).)*<\/a>))/g;
+    if (data) {
+      return data.replace(
         replacePattern,
-        `<a target="_blank" href="tel:${number}">Phone: ${number}</a>`,
+        '<a target="_blank" href="tel:$&">$&</a>',
       );
-
-      return replacedText;
     }
 
     return data;
@@ -237,26 +233,14 @@ module.exports = function registerFilters() {
     item ? item.sort((a, b) => a.entityId - b.entityId) : undefined;
 
   liquid.filters.eventSorter = item => {
-    const sorted = item.sort((a, b) => {
-      const aTime = Math.floor(
-        new Date(a.fieldDate.startDate).getTime() / 1000,
-      );
-      const bTime = Math.floor(
-        new Date(b.fieldDate.startDate).getTime() / 1000,
-      );
-      // Sort order needs to be oldest first.
-      const sorter = aTime - bTime;
-      return sorter;
-    });
+    const sorted =
+      item &&
+      item.sort((a, b) => {
+        const start1 = moment(a.fieldDate.startDate);
+        const start2 = moment(b.fieldDate.startDate);
+        return start1.isAfter(start2);
+      });
     return sorted;
-  };
-
-  liquid.filters.pastPresent = (items, url) => {
-    const isPast = value =>
-      moment().diff(value.fieldDate.startDate, 'days') >= 1;
-    const isCurrent = value => !isPast(value);
-    const filter = url.split('/').includes('past-events') ? isPast : isCurrent;
-    return items.filter(filter);
   };
 
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children

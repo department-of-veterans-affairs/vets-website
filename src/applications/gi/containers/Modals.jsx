@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '../components/Modal';
 import environment from 'platform/utilities/environment';
 
 export class Modals extends React.Component {
@@ -600,6 +600,48 @@ export class Modals extends React.Component {
           beneficiaries.
         </p>
       </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('section103')}
+      >
+        <h3>Protection against late VA payments</h3>
+        <p>
+          If VA payments to institutions are delayed, schools receiving GI Bill
+          benefits must allow beneficiaries to continue attending their classes
+          if they have sufficient proof of eligibility on file.
+        </p>
+        <p>Schools may require proof of GI Bill eligibility in the form of:</p>
+        <ul>
+          <li>
+            Certificate of Eligibility (COE) <strong>or</strong>
+          </li>
+          <li>Certificate of Eligibility (COE) and additional criteria</li>
+        </ul>
+        <p>
+          <strong>
+            Schools can't impose late fees, deny access to facilities or
+            classes, or otherwise penalize beneficiaries if VA is late with
+            tuition and/or fees payments.
+          </strong>{' '}
+          The restriction on penalties doesn't apply if the beneficiary owes
+          additional fees to the school beyond the tuition and fees that VA
+          pays. Students are protected up to 90 days from the beginning of the
+          term from these penalties.
+        </p>
+        <p>
+          Contact this institution's school certifying official to learn more
+          about their policy or{' '}
+          <a
+            href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            learn more about the Transition Act
+          </a>
+          .
+        </p>
+      </Modal>
     </span>
   );
 
@@ -656,17 +698,16 @@ export class Modals extends React.Component {
           or legal scrutiny to this program. VA will display other categories of
           caution flags in future versions of the GI Bill Comparison Tool.
         </p>
-        {!environment.isProduction() && (
-          <p>
-            <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#phoenix"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Suspension of VA Benefits to Five Schools for Deceptive Practices
-            </a>
-          </p>
-        )}
+        <p>
+          <a
+            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#suspension"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Suspension of VA Benefits to Five Schools for Deceptive Practices
+          </a>
+        </p>
+
         <p>
           <a
             href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
@@ -1168,9 +1209,68 @@ export class Modals extends React.Component {
           doesn't find meaningful employment within 180 days.
         </p>
       </Modal>
+      {/* prod flag for bah-8187. Remove after approval. */}
+      {environment.isProduction() ? (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('cautionaryWarnings')}
+        >
+          <h3>Cautionary warnings</h3>
+          <p>
+            When Caution Flags are displayed for an institution, they indicate
+            VA or other federal agencies like the Department of Education or
+            Department of Defense have applied increased regulatory or legal
+            scrutiny to this program. Before enrolling in a program, VA
+            recommends potential students should consider these cautionary
+            warnings.
+          </p>
+          <p>
+            {' '}
+            To learn more about Caution Flags,{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit the About this Tool page
+            </a>
+            .
+          </p>
+        </Modal>
+      ) : (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('cautionaryWarnings')}
+        >
+          <h3>Cautionary warnings and school closings</h3>
+          <p>
+            VA applies caution flags when we, or another federal agency, have
+            increased regulatory or legal scrutiny of an educational program. We
+            recommend students consider these warnings before enrolling in
+            flagged programs.
+          </p>
+          <p>
+            When VA receives notice that a school or campus location will be
+            closing, we add a school closing flag to that profile. Once the
+            closing date passes, we remove the institution from the Comparison
+            Tool during the next system update.
+          </p>
+          <p>
+            {' '}
+            To learn more about caution flags,{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit the About this Tool page
+            </a>
+            .
+          </p>
+        </Modal>
+      )}
     </span>
   );
-
   render() {
     return (
       <span>

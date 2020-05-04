@@ -14,7 +14,6 @@ function runEmailTest(
   const editForm = `${fieldWrapper} #profile-edit-modal form.rjsf`;
   const emailInput = `${fieldWrapper} input[name=root_emailAddress]`;
   const saveEditButton = `${fieldWrapper} button[data-action="save-edit"]`;
-  const transactionPending = `${fieldWrapper} [data-transaction-pending]`;
 
   browser.assert.containsText(fieldWrapper, initialValue);
   browser.click(editButton);
@@ -24,7 +23,9 @@ function runEmailTest(
   browser.setValue(emailInput, 'anything@gmail.com');
 
   browser.click(saveEditButton);
-  browser.waitForElementVisible(transactionPending, Timeouts.normal);
+
+  // the edit modal and form will go away after a save occurs
+  browser.waitForElementNotPresent(editForm, Timeouts.normal);
 
   // Edit button should become visible again after transaction finishes
   browser.waitForElementVisible(editButton, Timeouts.slow);
@@ -106,7 +107,7 @@ function begin(browser) {
       // There's so much data loading async that it's easiest to just do a slow timeout
       // and not try to wait for all elements to finish loading.
       browser.pause(Timeouts.slow);
-      beginTests(browser, token);
+      beginTests(browser);
       done();
     });
   });

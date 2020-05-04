@@ -19,7 +19,7 @@ describe('user selectors', () => {
         state.user.profile.vet360,
       );
     });
-    it('returns undefined if there is not vet360 on the profile', () => {
+    it('returns undefined if there is no vet360 on the profile', () => {
       const state = {
         user: {
           profile: {},
@@ -242,6 +242,92 @@ describe('user selectors', () => {
           '4158453210x1234',
         );
       });
+    });
+  });
+
+  describe('selectPatientFacilities', () => {
+    it('pulls out the state.profile.facilities array', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '983', isCerner: false },
+              { facilityId: '984', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectors.selectPatientFacilities(state)).to.deep.equal(
+        state.user.profile.facilities,
+      );
+    });
+    it('returns undefined if there is no facilities on the profile', () => {
+      const state = {
+        user: {
+          profile: {},
+        },
+      };
+      expect(selectors.selectPatientFacilities(state)).to.be.null;
+    });
+  });
+  describe('selectIsCernerOnlyPatient', () => {
+    it('should return true if Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerOnlyPatient(state)).to.be.true;
+    });
+    it('should return false if not Cerner only', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
+    });
+  });
+  describe('selectIsCernerPatient', () => {
+    it('should return true if single cerner response', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerPatient(state)).to.be.true;
+    });
+    it('should return true if atleast 1 cerner facility', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '123', isCerner: true },
+              { facilityId: '124', isCerner: false },
+            ],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerPatient(state)).to.be.true;
+    });
+    it('should return false if no cerner facilities', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '124', isCerner: false }],
+          },
+        },
+      };
+      expect(selectors.selectIsCernerPatient(state)).to.be.false;
     });
   });
 });

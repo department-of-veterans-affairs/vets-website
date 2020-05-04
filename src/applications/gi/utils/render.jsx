@@ -1,27 +1,68 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '../components/AlertBox';
 
 export const renderSchoolClosingAlert = result => {
-  const { schoolClosing } = result;
+  const { schoolClosing, schoolClosingOn } = result;
+
   if (!schoolClosing) return null;
+
+  if (schoolClosingOn) {
+    const currentDate = new Date();
+    const schoolClosingDate = new Date(schoolClosingOn);
+    if (currentDate > schoolClosingDate) {
+      return (
+        <AlertBox
+          className="vads-u-margin-top--1"
+          headline="School closed"
+          content={<p>School has closed</p>}
+          isVisible={!!schoolClosing}
+          status="warning"
+        />
+      );
+    }
+  }
   return (
     <AlertBox
-      content={<p>Upcoming campus closure</p>}
-      headline="School closure"
+      className="vads-u-margin-top--1"
+      content={<p>School will be closing soon</p>}
+      headline="School closing"
       isVisible={!!schoolClosing}
       status="warning"
     />
   );
 };
 
-export const renderCautionAlert = result => {
-  const { cautionFlag } = result;
-  if (!cautionFlag) return null;
+export const renderCautionAlert = cautionFlags => {
+  const validFlags = [...cautionFlags]
+    .filter(flag => flag.title)
+    .sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1));
+
   return (
     <AlertBox
-      content={<p>This school has cautionary warnings</p>}
-      headline="Caution"
-      isVisible={!!cautionFlag}
+      className="vads-u-margin-top--1"
+      content={
+        <React.Fragment>
+          {validFlags.length === 1 && <p>{validFlags[0].title}</p>}
+          {validFlags.length > 1 && (
+            <ul className="vads-u-margin-top--0">
+              {validFlags.map((flag, index) => (
+                <li
+                  className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
+                  key={`caution-flag-alert-${index}`}
+                >
+                  {flag.title}
+                </li>
+              ))}
+            </ul>
+          )}
+        </React.Fragment>
+      }
+      headline={
+        validFlags.length > 1
+          ? 'This school has cautionary warnings'
+          : 'This school has a cautionary warning'
+      }
+      isVisible={validFlags.length > 0}
       status="warning"
     />
   );
@@ -65,3 +106,14 @@ export const renderVetTecLogo = classNames => (
     alt="Vet Tec Logo"
   />
 );
+
+export const renderSearchResultsHeader = search => {
+  const header = search.count === 1 ? 'Search Result' : 'Search Results';
+
+  return (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} ${header}`}
+    </h1>
+  );
+};

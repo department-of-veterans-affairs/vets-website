@@ -33,12 +33,10 @@ import {
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
   hasNewDisabilities,
-  newConditionsOnly,
   increaseOnly,
-  newAndIncrease,
-  noClaimTypeSelected,
   isDisabilityPtsd,
   directToCorrectForm,
+  DISABILITY_SHARED_CONFIG,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -262,18 +260,15 @@ const formConfig = {
       pages: {
         disabilitiesOrientation: {
           title: '',
-          path: 'disabilities/orientation',
-          // Only show the page if both (or potentially neither) options are chosen on the claim-type page
-          depends: formData =>
-            newAndIncrease(formData) || noClaimTypeSelected(formData),
+          path: DISABILITY_SHARED_CONFIG.orientation.path,
+          depends: DISABILITY_SHARED_CONFIG.orientation.depends,
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
           title: 'Existing conditions (rated disabilities)',
-          path: 'disabilities/rated-disabilities',
-          depends: formData =>
-            hasRatedDisabilities(formData) && !newConditionsOnly(formData),
+          path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
+          depends: DISABILITY_SHARED_CONFIG.ratedDisabilities.depends,
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
@@ -286,8 +281,8 @@ const formConfig = {
         },
         addDisabilities: {
           title: 'Add a new disability',
-          path: 'new-disabilities/add',
-          depends: hasNewDisabilities,
+          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,

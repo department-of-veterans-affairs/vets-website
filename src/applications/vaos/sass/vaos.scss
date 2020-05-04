@@ -1,6 +1,55 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-schemaform";
 
+.vaos-appts__tabs {
+  padding: 0;
+  border-bottom: 1px solid $color-gray-light;
+  display: flex;
+}
+
+.vaos-appts__tabs li {
+  width: 50%;
+  display: flex;
+
+  @include media($medium-screen) { 
+    width: 200px;
+  }
+}
+
+.vaos-appts__tab {
+  width: 100%;
+  font-size: 14px;
+  border: solid 1px $color-gray-light;
+  border-radius: 0 !important;
+  position: relative;
+  list-style: none;
+  padding: 6px 0px;
+  cursor: pointer;
+  bottom: -1px;
+  text-decoration: none;
+  background-color: $color-gray-light-alt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover, &:focus, &:active {
+    color: $color-gray-dark;
+    text-decoration: none;
+    background: $color-gray-lighter;
+  }
+
+  &.vaos-appts__tab--current {
+    border-top: solid 3px $color-primary;
+    background: $color-white !important;
+    border-bottom: solid 1px $color-white;
+    margin: 0;
+  }
+
+  @include media($medium-screen) {
+    font-size: 16px;
+  }
+}
+
 .vaos-option-list__icon {
   display: inline-block;
   font-size: 19px;
@@ -104,7 +153,7 @@
   background-color: $color-primary;
   border-color: $color-primary;
   color: $color-white;
-  
+
   &:hover {
     border: 1px solid $color-primary-darker;
   }

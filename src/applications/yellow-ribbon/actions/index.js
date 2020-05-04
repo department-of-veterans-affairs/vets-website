@@ -1,28 +1,14 @@
 // Dependencies.
-import URLSearchParams from 'url-search-params';
+import recordEvent from 'platform/monitoring/record-event';
 // Relative imports.
 import { fetchResultsApi } from '../api';
+import { updateQueryParams } from '../helpers';
 import {
-  ADD_SCHOOL_TO_COMPARE,
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
-  REMOVE_SCHOOL_FROM_COMPARE,
-  UPDATE_PAGE,
+  TOGGLE_SHOW_MOBILE_FORM,
 } from '../constants';
-
-// ============
-// Add/Remove School from comparison
-// ============
-export const addSchoolToCompareAction = school => ({
-  school,
-  type: ADD_SCHOOL_TO_COMPARE,
-});
-
-export const removeSchoolFromCompareAction = school => ({
-  school,
-  type: REMOVE_SCHOOL_FROM_COMPARE,
-});
 
 // ============
 // Fetch Results (via API)
@@ -43,11 +29,10 @@ export const fetchResultsSuccess = response => ({
 });
 
 // ============
-// Update page
+// Toggle showMobileForm
 // ============
-export const updatePageAction = page => ({
-  page,
-  type: UPDATE_PAGE,
+export const toggleShowMobileFormAction = () => ({
+  type: TOGGLE_SHOW_MOBILE_FORM,
 });
 
 // ============
@@ -57,62 +42,61 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
   const city = options?.city || null;
   const contributionAmount = options?.contributionAmount || null;
-  const country = options?.country || null;
   const hideFetchingState = options?.hideFetchingState;
-  const history = options?.history || window.history;
-  const location = options?.location || window.location;
+  const history = options?.history;
+  const location = options?.location;
   const name = options?.name || null;
   const numberOfStudents = options?.numberOfStudents || null;
   const page = options?.page || 1;
   const perPage = options?.perPage || 10;
   const state = options?.state || null;
+  const trackSearch = options?.trackSearch || false;
 
-  const fetchOptions = {
+  const queryParamsLookup = {
     city,
     contributionAmount,
-    country,
-    hideFetchingState,
     name,
     numberOfStudents,
     state,
   };
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction(fetchOptions));
+  dispatch(
+    fetchResultsAction({
+      ...queryParamsLookup,
+      hideFetchingState,
+      page,
+    }),
+  );
 
-  // Derive the current query params.
-  const queryParams = new URLSearchParams(location.search);
-
-  // Set/Delete query params.
-  Object.keys(fetchOptions).forEach(key => {
-    // Derive the value.
-    const value = fetchOptions[key];
-
-    // Set the query param.
-    if (value) {
-      queryParams.set(key, value);
-      return;
-    }
-
-    // Remove the query param.
-    queryParams.delete(key);
-  });
-
-  // Update the URL with the new query params.
-  history.replaceState({}, '', `${location.pathname}?${queryParams}`);
+  // Update query params.
+  updateQueryParams(history, location, queryParamsLookup);
 
   try {
     // Attempt to make the API request to retreive results.
     const response = await fetchResultsApi({
       city,
       contributionAmount,
-      country,
       name,
       numberOfStudents,
       page,
       perPage,
       state,
     });
+
+    // Track the API request.
+    if (trackSearch) {
+      recordEvent({
+        event: 'edu-yellow-ribbon-search',
+        'edu-yellow-ribbon-name': name || undefined,
+        'edu-yellow-ribbon-state': state || undefined,
+        'edu-yellow-ribbon-city': city || undefined,
+        'edu-yellow-ribbon-contribution-amount':
+          contributionAmount || undefined,
+        'edu-yellow-ribbon-number-of-students': numberOfStudents || undefined,
+        'edu-yellow-ribbon-number-of-search-results': response?.totalResults,
+      });
+    }
 
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));

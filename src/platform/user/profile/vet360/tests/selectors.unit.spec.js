@@ -340,24 +340,3 @@ describe('selectVet360InitializationStatus', () => {
     );
   });
 });
-
-describe('vaProfileUseAddressValidation', () => {
-  it('returns `true` if the feature flag is set', () => {
-    expect(
-      selectors.vaProfileUseAddressValidation({
-        featureToggles: {
-          vaProfileAddressValidation: true,
-        },
-      }),
-    ).to.be.true;
-  });
-  it('returns `undefined` if the feature flag is not set', () => {
-    expect(
-      selectors.vaProfileUseAddressValidation({
-        featureToggles: {
-          anotherFeatureFlag: true,
-        },
-      }),
-    ).to.be.undefined;
-  });
-});

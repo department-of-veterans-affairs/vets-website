@@ -1,3 +1,12 @@
 {
-  "rules": {}
+  "rules": {
+    "va/use-resolved-path": [
+      2,
+      {
+        "aliases": ["applications", "platform", "site", "vet360"]
+      }
+    ],
+    "react/prefer-stateless-function": 2,
+    "sonarjs/cognitive-complexity": [1, 50]
+  }
 }

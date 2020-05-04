@@ -1,0 +1,130 @@
+{
+  "data": {
+    "optionsSelection": {
+      "addChild": true,
+      "addSpouse": true
+    },
+    "veteranInformation": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "ssn": "123121234",
+      "dobMonth": "2",
+      "dobDay": "2",
+      "dobYear": "1991",
+      "marriageHistory": [
+        {
+          "firstName": "Jenny",
+          "lastName": "Doe",
+          "marriageStartDateMonth": "1",
+          "marriageStartDateDay": "1",
+          "marriageStartDateYear": "2011",
+          "marriageEndDateMonth": "1",
+          "marriageEndDateDay": "1",
+          "marriageEndDateYear": "2012",
+          "locationState": "California",
+          "locationCity": "San Diego",
+          "reasonMarriageEnded": "DIVORCE"
+        }
+      ]
+    },
+    "veteranDomesticAddress": {
+      "countryName": "USA",
+      "addressLine1": "123 at home dr",
+      "city": "The City",
+      "stateCode": "AL",
+      "zipCode": "12345",
+      "phoneNumber": "1231231234"
+    },
+    "childInformation": [
+      {
+        "firstName": "James",
+        "lastName": "Doe",
+        "ssn": "321324321",
+        "dobMonth": "1",
+        "dobDay": "1",
+        "dobYear": "2010",
+        "birthLocationState": "California",
+        "birthLocationCity": "Los Angeles",
+        "status": {
+          "biological": true
+        },
+        "previouslyMarriedNo": "No",
+        "previouslyMarriedYes": "Yes",
+        "doesChildLiveWithYouYes": "Y",
+        "doesChildLiveWithYouNo": "N",
+        "personChildLivesWithDetails": {
+          "firstName": "Bob",
+          "lastName": "Sacamano",
+          "countryName": "USA",
+          "addressLine1": "123 at home dr",
+          "city": "The City",
+          "stateCode": "AL",
+          "zipCode": "12345"
+        },
+        "previousMarriageInformation": {
+          "monthEnded": "1",
+          "dayEnded": "1",
+          "yearEnded": "2010",
+          "reasonMarriageEnded": "Divorce"
+        }
+      }
+    ],
+    "spouseInformation": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "ssn": "123211234",
+      "dobMonth": "3",
+      "dobDay": "3",
+      "dobYear": "1991",
+      "isVeteran": "Y",
+      "vaFileNumber": "123123123",
+      "serviceNumber": "234234234",
+      "marriageHistory": [
+        {
+          "firstName": "Jason",
+          "lastName": "Doe",
+          "marriageStartDateMonth": "1",
+          "marriageStartDateDay": "1",
+          "marriageStartDateYear": "2011",
+          "marriageEndDateMonth": "1",
+          "marriageEndDateDay": "1",
+          "marriageEndDateYear": "2012",
+          "locationState": "California",
+          "locationCity": "San Diego",
+          "reasonMarriageEnded": "DIVORCE"
+        }
+      ]
+    },
+    "currentMarriageInformation": {
+      "veteranWasMarriedBeforeYes": "Y",
+      "veteranWasMarriedBeforeNo": "N",
+      "spouseWasMarriedBeforeYes": "Y",
+      "spouseWasMarriedBeforeNo": "N",
+      "doesLiveWithVeteranYes": "Y",
+      "doesLiveWithVeteranNo": "N",
+      "reasonForSeparation": "Other",
+      "spouseAddress": {
+        "countryName": "USA",
+        "addressLine1": "123 at home dr",
+        "city": "The City",
+        "stateCode": "AL",
+        "zipCode": "12345"
+      },
+      "dateOfMarriage": {
+        "month": "3",
+        "day": "3",
+        "year": "2008"
+      },
+      "locationOfMarriage": {
+        "state": "California",
+        "city": "Los Angeles"
+      },
+      "typeOfMarriage": "TRIBAL"
+    },
+    "testUploadFile": {
+      "filePath": "/src/platform/testing/",
+      "fileName": "example-upload.png",
+      "fileTypeSelection": "7"
+    }
+  }
+}

@@ -1,8 +1,8 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import { getMomentConfirmedDate, isCommunityCare } from '../utils/appointment';
+import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { resetDataLayer } from '../utils/events';
 
 import {
   getConfirmedAppointments,
@@ -23,6 +23,12 @@ export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_SUCCEEDED';
+
+export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
+export const FETCH_PAST_APPOINTMENTS_FAILED =
+  'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
+export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 
 export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
 export const FETCH_REQUEST_MESSAGES_FAILED =
@@ -222,6 +228,56 @@ export function fetchFutureAppointments() {
   };
 }
 
+export function fetchPastAppointments(startDate, endDate, selectedIndex) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex,
+    });
+
+    try {
+      const data = await Promise.all([
+        getConfirmedAppointments(
+          'va',
+          moment(startDate).toISOString(),
+          moment(endDate).toISOString(),
+        ),
+        getConfirmedAppointments('cc', startDate, endDate),
+      ]);
+
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+        data,
+        startDate,
+        endDate,
+      });
+
+      try {
+        const {
+          clinicInstitutionList,
+          facilityData,
+        } = await getAdditionalFacilityInfo(getState().appointments.past);
+
+        if (facilityData) {
+          dispatch({
+            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+            clinicInstitutionList,
+            facilityData,
+          });
+        }
+      } catch (error) {
+        captureError(error);
+      }
+    } catch (error) {
+      captureError(error);
+      dispatch({
+        type: FETCH_PAST_APPOINTMENTS_FAILED,
+        error,
+      });
+    }
+  };
+}
+
 const UNABLE_TO_KEEP_APPT = '5';
 const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
 
@@ -232,17 +288,20 @@ export function cancelAppointment(appointment) {
   };
 }
 
-const SUBMITTED_REQUEST = 'Submitted';
 const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
-    const isPendingRequest = appointment.status === SUBMITTED_REQUEST;
+    const isConfirmedAppointment =
+      appointment.appointmentType === APPOINTMENT_TYPES.vaAppointment;
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
-      appointmentType: isPendingRequest ? 'pending' : 'confirmed',
-      facilityType: isCommunityCare(appointment) ? 'cc' : 'va',
+      appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
+      facilityType: appointment.isCommunityCare ? 'cc' : 'va',
     };
+    let apiData = appointment.apiData;
+    let cancelReasons = null;
+    let cancelReason = null;
 
     try {
       recordEvent({
@@ -254,37 +313,40 @@ export function confirmCancelAppointment() {
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      if (isPendingRequest) {
-        await updateRequest({
-          ...appointment,
+      if (!isConfirmedAppointment) {
+        apiData = await updateRequest({
+          ...appointment.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
         const cancelData = {
-          appointmentTime: getMomentConfirmedDate(appointment).format(
+          appointmentTime: appointment.appointmentDate.format(
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,
           facilityId: appointment.facilityId,
           remarks: '',
-          clinicName: appointment.vdsAppointments[0].clinic.name,
+          // Grabbing this from the api data because it's not clear if
+          // we have to send the real name or if the friendly name is ok
+          clinicName: appointment.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        const cancelReasons = await getCancelReasons(appointment.facilityId);
+        cancelReasons = await getCancelReasons(appointment.facilityId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
         ) {
+          cancelReason = UNABLE_TO_KEEP_APPT;
           await updateAppointment({
             ...cancelData,
-            cancelReason: UNABLE_TO_KEEP_APPT,
+            cancelReason,
           });
         } else if (
           cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
         ) {
-          const cancelReason = cancelReasons.find(reason =>
+          cancelReason = cancelReasons.find(reason =>
             VALID_CANCEL_CODES.has(reason.number),
           );
           await updateAppointment({
@@ -298,14 +360,25 @@ export function confirmCancelAppointment() {
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData,
       });
 
       recordEvent({
         event: `${eventPrefix}-successful`,
         ...additionalEventdata,
       });
+      resetDataLayer();
     } catch (e) {
-      captureError(e, true);
+      if (e?.errors?.[0]?.code === 'VAOS_400') {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', e);
+          scope.setExtra('cancelReasons', cancelReasons);
+          scope.setExtra('cancelReason', cancelReason);
+          Sentry.captureMessage('Cancel failed due to bad request');
+        });
+      } else {
+        captureError(e, true);
+      }
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
@@ -314,6 +387,7 @@ export function confirmCancelAppointment() {
         event: `${eventPrefix}-failed`,
         ...additionalEventdata,
       });
+      resetDataLayer();
     }
   };
 }

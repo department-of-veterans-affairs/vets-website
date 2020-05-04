@@ -17,13 +17,19 @@ import {
   updateAutocompleteSearchTerm,
   eligibilityChange,
   showModal,
+  hideModal,
 } from '../actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
+import ServiceError from '../components/ServiceError';
+import { renderSearchResultsHeader } from '../utils/render';
+import { isLoggedIn } from 'platform/user/selectors';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -73,6 +79,8 @@ export class SearchPage extends React.Component {
       'priorityEnrollment',
       'independentStudy',
       'preferredProvider',
+      'excludeWarnings',
+      'excludeCautionFlags',
     ];
 
     const stringFilterParams = [
@@ -160,9 +168,11 @@ export class SearchPage extends React.Component {
     const resultsClass = classNames(
       'search-results',
       'small-12',
-      'usa-width-three-fourths medium-9',
+      'medium-9',
       'columns',
-      { opened: !search.filterOpened },
+      {
+        opened: !search.filterOpened,
+      },
     );
 
     let searchResults;
@@ -201,10 +211,12 @@ export class SearchPage extends React.Component {
                 zip={result.zip}
                 country={result.country}
                 cautionFlag={result.cautionFlag}
+                cautionFlags={result.cautionFlags}
                 studentCount={result.studentCount}
                 bah={result.bah}
                 dodBah={result.dodBah}
                 schoolClosing={result.schoolClosing}
+                schoolClosingOn={result.schoolClosingOn}
                 tuitionInState={result.tuitionInState}
                 tuitionOutOfState={result.tuitionOutOfState}
                 books={result.books}
@@ -228,17 +240,10 @@ export class SearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => (
-    <h1 tabIndex={-1}>
-      {!search.inProgress &&
-        `${(search.count || 0).toLocaleString()} Search Results`}
-    </h1>
-  );
-
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>
       <div className="vads-l-col--10 search-results-count">
-        {this.renderSearchResultsHeader(this.props.search)}
+        {renderSearchResultsHeader(this.props.search)}
       </div>
       <InstitutionSearchForm
         filtersClass={filtersClass}
@@ -255,6 +260,9 @@ export class SearchPage extends React.Component {
         eligibility={this.props.eligibility}
         showModal={this.props.showModal}
         eligibilityChange={this.props.eligibilityChange}
+        gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
+        isLoggedIn={this.props.isLoggedIn}
+        hideModal={this.props.hideModal}
       />
     </div>
   );
@@ -265,7 +273,6 @@ export class SearchPage extends React.Component {
     const filtersClass = classNames(
       'filters-sidebar',
       'small-12',
-      'usa-width-one-fourth',
       'medium-3',
       'columns',
       { opened: search.filterOpened },
@@ -276,7 +283,11 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {this.renderInstitutionSearchForm(searchResults, filtersClass)}
+        {search.error ? (
+          <ServiceError />
+        ) : (
+          this.renderInstitutionSearchForm(searchResults, filtersClass)
+        )}
       </ScrollElement>
     );
   }
@@ -290,6 +301,10 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
+  isLoggedIn: isLoggedIn(state),
+  gibctEstimateYourBenefits: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
+  ],
 });
 
 const mapDispatchToProps = {
@@ -304,6 +319,7 @@ const mapDispatchToProps = {
   updateAutocompleteSearchTerm,
   eligibilityChange,
   showModal,
+  hideModal,
 };
 
 export default withRouter(

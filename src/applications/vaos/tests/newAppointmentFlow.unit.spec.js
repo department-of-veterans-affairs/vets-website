@@ -9,11 +9,27 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import past from '../api/past.json';
-import systems from '../api/systems.json';
 import supportedSites from '../api/sites-supporting-var.json';
 
 import newAppointmentFlow from '../newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../utils/constants';
+
+const userState = {
+  user: {
+    profile: {
+      facilities: [
+        {
+          facilityId: '983',
+          isCerner: false,
+        },
+        {
+          facilityId: '984',
+          isCerner: false,
+        },
+      ],
+    },
+  },
+};
 
 describe('VAOS newAppointmentFlow', () => {
   describe('typeOfCare page', () => {
@@ -48,10 +64,10 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be vaFacility page if CC check has an error', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, systems);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONFailure(global.fetch.onCall(2), {});
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONFailure(global.fetch.onCall(1), {});
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -59,7 +75,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
           newAppointment: {
             data: {
-              typeOfCareId: 'tbd-podiatry',
+              typeOfCareId: '323',
             },
           },
         };
@@ -73,12 +89,12 @@ describe('VAOS newAppointmentFlow', () => {
         resetFetch();
       });
 
-      it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
+      it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, {
-          data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
-        });
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONFailure(global.fetch.onCall(1), {});
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -100,16 +116,43 @@ describe('VAOS newAppointmentFlow', () => {
         resetFetch();
       });
 
+      it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
+        const state = {
+          user: {
+            profile: {
+              facilities: [{ facilityId: '000' }],
+            },
+          },
+          featureToggles: {
+            loading: false,
+            vaOnlineSchedulingDirect: true,
+            vaOnlineSchedulingCommunityCare: true,
+          },
+          newAppointment: {
+            data: {
+              typeOfCareId: 'tbd-podiatry',
+            },
+          },
+        };
+
+        const dispatch = sinon.spy();
+        const nextState = await newAppointmentFlow.typeOfCare.next(
+          state,
+          dispatch,
+        );
+        expect(nextState).to.equal('typeOfCare');
+      });
+
       it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, systems);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(1), {
           data: {
             attributes: { eligible: true },
           },
         });
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -155,14 +198,14 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, systems);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {
+        setFetchJSONResponse(global.fetch, supportedSites);
+        setFetchJSONResponse(global.fetch.onCall(1), {
           data: {
             attributes: { eligible: true },
           },
         });
         const state = {
+          ...userState,
           featureToggles: {
             loading: false,
             vaOnlineSchedulingDirect: true,
@@ -213,8 +256,16 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const dispatch = sinon.spy();
+
+        const nextState = newAppointmentFlow.typeOfFacility.next(
+          state,
+          dispatch,
+        );
         expect(nextState).to.equal('requestDateTime');
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
+        );
       });
 
       it('should be vaFacility page if they chose VA', () => {
@@ -291,39 +342,6 @@ describe('VAOS newAppointmentFlow', () => {
 
         resetFetch();
       });
-      it('should be requestDateTime page if past appointments request errors', async () => {
-        mockFetch();
-        setFetchJSONFailure(global.fetch, {});
-        const state = {
-          ...defaultState,
-          newAppointment: {
-            ...defaultState.newAppointment,
-            eligibility: {
-              '983_323': {
-                directSupported: true,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: true,
-                requestPastVisit: true,
-                requestLimit: true,
-              },
-            },
-          },
-        };
-        const dispatch = sinon.spy();
-
-        const nextState = await newAppointmentFlow.vaFacility.next(
-          state,
-          dispatch,
-        );
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
-        );
-        expect(nextState).to.equal('requestDateTime');
-
-        resetFetch();
-      });
       it('should throw error if not eligible for requests or direct', async () => {
         const state = {
           ...defaultState,
@@ -349,11 +367,6 @@ describe('VAOS newAppointmentFlow', () => {
           // Should throw an error above
           expect(false).to.be.true;
         } catch (e) {
-          expect(
-            global.window.dataLayer.filter(
-              event => event.event === 'vaos-eligibility-failed',
-            ).length,
-          ).to.equal(1);
           expect(e.message).to.equal(
             'Veteran not eligible for direct scheduling or requests',
           );
@@ -788,14 +801,14 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
-      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(2), {
+      setFetchJSONResponse(global.fetch, supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(1), {
         data: {
           attributes: { eligible: true },
         },
       });
       const state = {
+        ...userState,
         featureToggles: {
           loading: false,
           vaOnlineSchedulingDirect: true,
@@ -821,14 +834,14 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be vaFacility page when Ophthalmology selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
-      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(2), {
+      setFetchJSONResponse(global.fetch, supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(1), {
         data: {
           attributes: { eligible: true },
         },
       });
       const state = {
+        ...userState,
         featureToggles: {
           loading: false,
           vaOnlineSchedulingDirect: true,

@@ -1,7 +1,8 @@
 import * as Sentry from '@sentry/browser';
 import { recordVaosError } from './events';
+import environment from 'platform/utilities/environment';
 
-export function captureError(err, skipRecordEvent) {
+export function captureError(err, skipRecordEvent = false, customTitle) {
   let eventErrorKey;
 
   if (err instanceof Error) {
@@ -10,7 +11,7 @@ export function captureError(err, skipRecordEvent) {
   } else {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
-      const errorTitle = err?.errors?.[0]?.title;
+      const errorTitle = customTitle || err?.errors?.[0]?.title;
       const message = `vaos_server_error${errorTitle ? `: ${errorTitle}` : ''}`;
       eventErrorKey = message;
       // the apiRequest helper returns the errors array, instead of an exception
@@ -20,5 +21,10 @@ export function captureError(err, skipRecordEvent) {
 
   if (!skipRecordEvent) {
     recordVaosError(eventErrorKey);
+  }
+
+  if (!environment.isProduction()) {
+    // eslint-disable-next-line no-console
+    console.error(err);
   }
 }

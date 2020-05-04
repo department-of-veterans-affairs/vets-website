@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
 
+// single checkbox
 const SignatureCheckbox = ({
   fullName,
   label,
@@ -23,7 +24,7 @@ const SignatureCheckbox = ({
   );
 
   return (
-    <article className="signature-box">
+    <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--1p5 vads-u-padding-top--1px vads-u-margin-bottom--7">
       {children && <header>{children}</header>}
 
       <SignatureInput
@@ -40,8 +41,9 @@ const SignatureCheckbox = ({
   );
 };
 
+// checkbox group
 const PreSubmitCheckboxes = ({
-  sectionCompleted,
+  onSectionComplete,
   showError,
   preSubmitInfo,
   checked,
@@ -62,7 +64,7 @@ const PreSubmitCheckboxes = ({
         obj => Boolean(obj) === false,
       ).length;
 
-      if (!unSignedLength) sectionCompleted(true);
+      if (!unSignedLength) onSectionComplete(true);
 
       const hasSecondaryOne =
         formData?.secondaryOneFullName?.first &&
@@ -77,16 +79,23 @@ const PreSubmitCheckboxes = ({
         hasSecondaryTwo,
       });
     },
-    [checked, formData, sectionCompleted, preSubmitInfo, showError, signatures],
+    [
+      checked,
+      formData,
+      onSectionComplete,
+      preSubmitInfo,
+      showError,
+      signatures,
+    ],
   );
 
   const CaregiverCopy = ({ label }) => {
     const header = title => `${title} or Family Member Statement of Truth`;
     return (
       <>
-        <h3>{header(label)}</h3>
+        <h3 className="vads-u-margin-top--4">{header(label)}</h3>
 
-        <p className="age-clause">
+        <p className="vads-u-margin-y--4">
           I certify that I am at least 18 years of age.
         </p>
 

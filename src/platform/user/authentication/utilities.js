@@ -3,33 +3,36 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
+import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
-function sessionTypeUrl(type, version = 'v0') {
+export const ssoKeepAliveEndpoint = () => {
+  const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+  return `https://${envPrefix}eauth.va.gov/keepalive`;
+};
+
+function sessionTypeUrl(type = '', version = 'v0', application = null) {
   const SESSIONS_URI =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
 
-  return `${SESSIONS_URI}/${type}/new`;
+  return `${SESSIONS_URI}/${type}/new${
+    application ? `?application=${application}` : ''
+  }`;
 }
 
-const SIGNUP_URL = sessionTypeUrl('signup');
-const MFA_URL = sessionTypeUrl('mfa');
-const VERIFY_URL = sessionTypeUrl('verify');
-const LOGOUT_URL = sessionTypeUrl('slo');
-
-const loginUrl = (policy, version) => {
+const loginUrl = (policy, version, application) => {
   switch (policy) {
     case 'mhv':
-      return sessionTypeUrl('mhv', version);
+      return sessionTypeUrl('mhv', version, application);
     case 'dslogon':
-      return sessionTypeUrl('dslogon', version);
+      return sessionTypeUrl('dslogon', version, application);
     default:
-      return sessionTypeUrl('idme', version);
+      return sessionTypeUrl('idme', version, application);
   }
 };
 
@@ -82,23 +85,37 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy, version = 'v0') {
-  return redirect(loginUrl(policy, version), 'login-link-clicked-modal');
+export function login(policy, version = 'v0', application = null) {
+  return redirect(
+    loginUrl(policy, version, application),
+    'login-link-clicked-modal',
+  );
 }
 
-export function mfa() {
-  return redirect(MFA_URL, 'multifactor-link-clicked');
+export function autoLogin() {
+  return redirect(sessionTypeUrl('idme', 'v1'), 'sso-automatic-login');
 }
 
-export function verify() {
-  return redirect(VERIFY_URL, 'verify-link-clicked');
+export function mfa(version = 'v0') {
+  return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
 }
 
-export function logout() {
+export function verify(version = 'v0') {
+  return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
+}
+
+export function logout(version = 'v0') {
   clearSentryLoginType();
-  return redirect(LOGOUT_URL, 'logout-link-clicked');
+  return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
 }
 
-export function signup() {
-  return redirect(SIGNUP_URL, 'register-link-clicked');
+export function autoLogout() {
+  return redirect(sessionTypeUrl('slo', 'v1'), 'sso-automatic-logout');
+}
+
+export function signup(version = 'v0', application = null) {
+  return redirect(
+    sessionTypeUrl('signup', version, application),
+    'register-link-clicked',
+  );
 }

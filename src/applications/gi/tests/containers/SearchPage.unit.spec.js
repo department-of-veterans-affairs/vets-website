@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import { SearchPage } from '../../containers/SearchPage';
 import reducer from '../../reducers';
 
@@ -70,6 +70,25 @@ describe('<SearchPage>', () => {
     expect(defaultProps.setPageTitle.called).to.be.true;
     tree.unmount();
   });
+});
+
+it('should render error message', () => {
+  const props = {
+    ...defaultProps,
+    search: {
+      ...defaultProps.search,
+      inProgress: true,
+      error: 'Service Unavailable',
+    },
+  };
+  const tree = mount(
+    <Provider store={defaultStore}>
+      <SearchPage {...props} />
+    </Provider>,
+  );
+
+  expect(tree.find('ServiceError')).to.be.ok;
+  tree.unmount();
 });
 
 describe('<SearchPage> functions', () => {

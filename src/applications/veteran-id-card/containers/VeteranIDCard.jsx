@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../platform/monitoring/record-event';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+} from 'platform/monitoring/DowntimeNotification';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
@@ -16,13 +16,11 @@ function createVicSettings() {
   const disableRateLimitedAuth = window.sessionStorage.getItem(
     'vicDisableRateLimitedAuth',
   );
-  const fromGlobal = window.settings.vic;
   const randomizer = Math.random();
 
   return {
-    serviceRateLimitedUnauthed: randomizer > fromGlobal.rateLimitUnauthed,
-    serviceRateLimitedAuthed:
-      !disableRateLimitedAuth && randomizer > fromGlobal.rateLimitAuthed,
+    serviceRateLimitedUnauthed: randomizer > 1,
+    serviceRateLimitedAuthed: !disableRateLimitedAuth && randomizer > 1,
   };
 }
 

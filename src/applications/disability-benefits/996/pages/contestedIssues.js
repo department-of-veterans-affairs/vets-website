@@ -7,8 +7,14 @@ import {
   disabilitiesExplanation,
   contestedIssuesAlert,
 } from '../content/contestedIssues';
+import {
+  OfficeForReviewTitle,
+  OfficeForReviewDescription,
+  OfficeForReviewAlert,
+} from '../content/OfficeForReview';
 
 import { requireRatedDisability } from '../validations';
+import SameOfficeReviewField from '../containers/SameOfficeReviewField';
 
 const { contestedIssues } = fullSchema.properties;
 
@@ -31,16 +37,31 @@ const contestedIssuesPage = {
     'view:contestedIssuesAlert': {
       'ui:description': contestedIssuesAlert,
       'ui:options': {
-        hideIf: formData => {
-          const hasSelection = formData.contestedIssues?.some(
-            entry => entry['view:selected'],
-          );
-          return hasSelection;
-        },
+        hideIf: formData =>
+          formData.contestedIssues?.some(entry => entry['view:selected']),
       },
     },
     'view:disabilitiesExplanation': {
       'ui:description': disabilitiesExplanation,
+    },
+    sameOffice: {
+      'ui:title': OfficeForReviewTitle,
+      // including a description here would add it _above_ the checkbox
+      'ui:widget': 'checkbox',
+      'ui:reviewField': SameOfficeReviewField,
+      'ui:options': {
+        hideLabelText: true,
+      },
+    },
+    'view:sameOfficeDescription': {
+      'ui:title': '',
+      'ui:description': OfficeForReviewDescription,
+    },
+    sameOfficeAlert: {
+      'ui:title': OfficeForReviewAlert,
+      'ui:options': {
+        hideIf: formData => formData?.sameOffice !== true,
+      },
     },
   },
 
@@ -53,6 +74,17 @@ const contestedIssuesPage = {
         properties: {},
       },
       'view:disabilitiesExplanation': {
+        type: 'object',
+        properties: {},
+      },
+      sameOffice: {
+        type: 'boolean',
+      },
+      'view:sameOfficeDescription': {
+        type: 'object',
+        properties: {},
+      },
+      sameOfficeAlert: {
         type: 'object',
         properties: {},
       },

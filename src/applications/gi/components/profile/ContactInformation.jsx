@@ -26,9 +26,9 @@ export const ContactInformation = ({ institution }) => {
     institution.physicalAddress1 && (
       <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h3 className="vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0">
             Physical address
-          </h4>
+          </h3>
         </div>
         <div className="vads-l-col--9">
           <div>
@@ -54,9 +54,9 @@ export const ContactInformation = ({ institution }) => {
     institution.address1 && (
       <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h3 className="vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0">
             Mailing address
-          </h4>
+          </h3>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -75,9 +75,9 @@ export const ContactInformation = ({ institution }) => {
     firstProgram.providerEmailAddress && (
       <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h3 className="vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0">
             Email address
-          </h4>
+          </h3>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -100,9 +100,9 @@ export const ContactInformation = ({ institution }) => {
     return (
       <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h3 className="vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0">
             Phone number
-          </h4>
+          </h3>
         </div>
         <div className="vads-l-col--9 ">
           <div>

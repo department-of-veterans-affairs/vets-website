@@ -15,12 +15,19 @@ describe('686 report the marriage of a child', () => {
     uiSchema,
   } = formConfig.chapters.reportChildMarriage.pages.childInformation;
 
+  const formData = {
+    'view:selectable686Options': {
+      reportMarriageOfChildUnder18: true,
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
     expect(form.find('input').length).to.equal(4);
@@ -35,6 +42,7 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
     form.find('form').simulate('submit');
@@ -51,18 +59,19 @@ describe('686 report the marriage of a child', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
-    fillData(form, 'input#root_marriedChildName_first', 'john');
-    const month = form.find('select#root_dateChildMarriedMonth');
-    const day = form.find('select#root_dateChildMarriedDay');
+    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
+    const month = form.find('select#root_childMarriage_dateMarriedMonth');
+    const day = form.find('select#root_childMarriage_dateMarriedDay');
     month.simulate('change', {
       target: { value: '1' },
     });
     day.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_dateChildMarriedYear', '2010');
+    fillData(form, 'input#root_childMarriage_dateMarriedYear', '2010');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -78,10 +87,11 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
-    fillData(form, 'input#root_marriedChildName_first', 'john');
-    fillData(form, 'input#root_marriedChildName_last', 'doe');
+    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
+    fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
@@ -96,19 +106,20 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
-    fillData(form, 'input#root_marriedChildName_first', 'john');
-    fillData(form, 'input#root_marriedChildName_last', 'doe');
-    const month = form.find('select#root_dateChildMarriedMonth');
-    const day = form.find('select#root_dateChildMarriedDay');
+    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
+    fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
+    const month = form.find('select#root_childMarriage_dateMarriedMonth');
+    const day = form.find('select#root_childMarriage_dateMarriedDay');
     month.simulate('change', {
       target: { value: '1' },
     });
     day.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_dateChildMarriedYear', '2010');
+    fillData(form, 'input#root_childMarriage_dateMarriedYear', '2010');
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     form.unmount();
@@ -122,24 +133,25 @@ describe('686 report the marriage of a child', () => {
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
+        data={formData}
       />,
     );
-    fillData(form, 'input#root_marriedChildName_first', 'john');
-    fillData(form, 'input#root_marriedChildName_middle', 'jeffrey');
-    fillData(form, 'input#root_marriedChildName_last', 'doe');
-    const suffix = form.find('select#root_marriedChildName_suffix');
+    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
+    fillData(form, 'input#root_childMarriage_fullName_middle', 'jeffrey');
+    fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
+    const suffix = form.find('select#root_childMarriage_fullName_suffix');
     suffix.simulate('change', {
       target: { value: 'II' },
     });
-    const month = form.find('select#root_dateChildMarriedMonth');
-    const day = form.find('select#root_dateChildMarriedDay');
+    const month = form.find('select#root_childMarriage_dateMarriedMonth');
+    const day = form.find('select#root_childMarriage_dateMarriedDay');
     month.simulate('change', {
       target: { value: '1' },
     });
     day.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_dateChildMarriedYear', '2010');
+    fillData(form, 'input#root_childMarriage_dateMarriedYear', '2010');
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     form.unmount();

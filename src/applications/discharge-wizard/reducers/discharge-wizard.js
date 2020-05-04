@@ -127,41 +127,40 @@ function form(state = initialState, action) {
     return parseInt(num, 10) <= parseInt(nextNum, 10);
   };
 
-  switch (action.type) {
-    case DW_UPDATE_FIELD:
-      // no-op if clicking on the same value
-      if (action.value === state[action.key]) {
-        return state;
-      }
+  if (action.type === DW_UPDATE_FIELD) {
+    // no-op if clicking on the same value
+    if (action.value === state[action.key]) {
+      return state;
+    }
 
-      if (nextQuestion(action.key, action.value, state) === 'END') {
-        return {
-          ...state,
-          [action.key]: action.value,
-          questions: state.questions
-            .filter(isPastOrCurrentStep)
-            .concat([nextQuestion(action.key, action.value, state)]),
-        };
-      }
+    if (nextQuestion(action.key, action.value, state) === 'END') {
       return {
         ...state,
-        // reset answers for subsequent questions
-        ...Object.keys(initialState).reduce((a, k) => {
-          const num = k.split('_')[0];
-          const nextNum = action.key.split('_')[0];
-          if (parseInt(num, 10) > parseInt(nextNum, 10)) {
-            return _.set(a, k, initialState[k]);
-          }
-          return a;
-        }, {}),
         [action.key]: action.value,
         questions: state.questions
           .filter(isPastOrCurrentStep)
           .concat([nextQuestion(action.key, action.value, state)]),
       };
-    default:
-      return state;
+    }
+
+    return {
+      ...state,
+      // reset answers for subsequent questions
+      ...Object.keys(initialState).reduce((a, k) => {
+        const num = k.split('_')[0];
+        const nextNum = action.key.split('_')[0];
+        if (parseInt(num, 10) > parseInt(nextNum, 10)) {
+          return _.set(a, k, initialState[k]);
+        }
+        return a;
+      }, {}),
+      [action.key]: action.value,
+      questions: state.questions
+        .filter(isPastOrCurrentStep)
+        .concat([nextQuestion(action.key, action.value, state)]),
+    };
   }
+  return state;
 }
 
 export default form;

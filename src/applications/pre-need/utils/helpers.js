@@ -294,10 +294,10 @@ export const veteranUI = {
     },
   },
   placeOfBirth: {
-    'ui:title': 'Place of birth',
+    'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Gender',
+    'ui:title': 'Sex',
     'ui:widget': 'radio',
   },
   maritalStatus: {

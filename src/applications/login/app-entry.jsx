@@ -1,7 +1,6 @@
-import '../../platform/polyfills';
-import './sass/login-page.scss';
+import 'platform/polyfills';
 
-import startApp from '../../platform/startup';
+import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';

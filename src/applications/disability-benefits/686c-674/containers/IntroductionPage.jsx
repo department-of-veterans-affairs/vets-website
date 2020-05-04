@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -16,6 +16,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="New 686" />
         <p>qual to VA Form 21-686 (New 686).</p>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}

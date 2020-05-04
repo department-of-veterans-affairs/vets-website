@@ -17,8 +17,14 @@ import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 import recordEvent from 'platform/monitoring/record-event';
+import countries from 'platform/user/profile/vet360/constants/countries.json';
 
 import * as VET360 from '../constants';
+
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from 'vet360/util/transactions';
 
 import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
@@ -139,7 +145,19 @@ class AddressValidationModal extends React.Component {
       city,
       stateCode,
       zipCode,
+      internationalPostalCode,
+      province,
+      countryCodeIso3,
     } = address;
+
+    // We display the country except for US addresses (including military bases)
+    const displayCountry = countries.find(
+      country =>
+        country.countryCodeISO3 === countryCodeIso3 &&
+        countryCodeIso3 !== 'USA',
+    );
+
+    const displayCountryName = displayCountry?.countryName;
 
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
@@ -175,9 +193,26 @@ class AddressValidationModal extends React.Component {
             {addressLine1 && <span>{addressLine1}</span>}
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
+
             {city &&
               stateCode &&
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
+            {city &&
+              province &&
+              internationalPostalCode && (
+                <span>
+                  {`${city}, ${province}, ${internationalPostalCode}`}
+                </span>
+              )}
+            {/* State/Province/Region is not required with international addresses */}
+            {city &&
+              !province &&
+              internationalPostalCode && (
+                <span>{` ${city}, ${internationalPostalCode}`}</span>
+              )}
+
+            {displayCountryName && <span>{displayCountryName}</span>}
+
             {isAddressFromUser &&
               showEditLink && (
                 <button className="va-button-link" onClick={this.onEditClick}>
@@ -199,6 +234,7 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       resetAddressValidation,
       confirmedSuggestions,
+      transaction,
       transactionRequest,
       title,
       clearErrors,
@@ -221,7 +257,9 @@ class AddressValidationModal extends React.Component {
 
     const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
-    const error = transactionRequest?.error;
+    const error =
+      transactionRequest?.error ||
+      (isFailedTransaction(transaction) ? {} : null);
 
     return (
       <Modal
@@ -276,14 +314,16 @@ class AddressValidationModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  const { transaction } = ownProps;
   const addressValidationType =
     state.vet360.addressValidation.addressValidationType;
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
-      state.vet360.fieldTransactionMap[addressValidationType]?.isPending,
+      state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
+      isPendingTransaction(transaction),
     addressValidationError:
       state.vet360.addressValidation.addressValidationError,
     suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,

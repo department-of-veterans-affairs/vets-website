@@ -1,10 +1,45 @@
 [
   {    
-    "name": "Rescheduled Webinar to March 27 – Office Hours – For State Certifying Officials (SCOs) to Discuss COVID-19 Impact",
-    "url": "https://www.benefits.va.gov/gibill/#20200317",
-    "date": "2020-03-17",
-    "displayStartDate": "2020-03-17",
-    "displayEndDate": "2020-04-17"
+    "name": "COVID-19 Paperless Guidance",
+    "url": "https://benefits.va.gov/gibill/covid19paperlessguidance.asp",
+    "date": "2020-04-22",
+    "displayStartDate": "2020-04-22",
+    "displayEndDate": "2020-05-22"
+  },
+  {    
+    "name": "107 Recertification Information for School Certifying Officials Webinar Page",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/presentations.asp",
+    "date": "2020-04-22",
+    "displayStartDate": "2020-04-22",
+    "displayEndDate": "2020-05-22"
+  },
+  {    
+    "name": "Temporary relief from your GI Bill benefit debt",
+    "url": "https://www.facebook.com/gibillEducation/posts/10156986880046615?__tn__=-R",
+    "date": "2020-04-15",
+    "displayStartDate": "2020-04-15",
+    "displayEndDate": "2020-05-15"
+  },
+  {    
+    "name": "COVID-19 FAQs for School Certifying Officials (SCOs)",
+    "url": "https://benefits.va.gov/gibill/covid19faqs.asp",
+    "date": "2020-04-02",
+    "displayStartDate": "2020-04-02",
+    "displayEndDate": "2020-05-02"
+  },
+  {    
+    "name": "Important GI Bill Benefits Update - Congress Passes New Legislation due to COVID-19",
+    "url": "https://www.benefits.va.gov/gibill/#20200320",
+    "date": "2020-03-23",
+    "displayStartDate": "2020-03-23",
+    "displayEndDate": "2020-04-23"
+  },
+  {    
+    "name": "Yellow Ribbon Program Open Season for the 2020-2021 Academic Year",
+    "url": "https://www.benefits.va.gov/gibill/#20200319",
+    "date": "2020-03-23",
+    "displayStartDate": "2020-03-23",
+    "displayEndDate": "2020-04-23"
   },
   {    
     "name": "Reschduled Webinar to March 26 – Office Hours – For State Certifying Officials (SCOs) to Discuss COVID-19 Impact",
@@ -33,13 +68,6 @@
     "date": "2020-03-10",
     "displayStartDate": "2020-03-10",
     "displayEndDate": "2020-04-10"
-  },
-  {
-    "name": "COVID-19 Virus Concerns and How It Affects Your Benefits",
-    "url": "https://www.benefits.va.gov/gibill/#20200312",
-    "date": "2020-03-12",
-    "displayStartDate": "2020-03-12",
-    "displayEndDate": "2020-04-12"
   },
   {
     "name": "Suspension of VA Benefits to Five Schools for Deceptive Practices",

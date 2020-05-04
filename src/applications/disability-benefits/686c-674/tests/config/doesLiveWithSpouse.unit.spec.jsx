@@ -47,7 +47,7 @@ describe('686 current marriage co-habitation status', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_spouseDoesLiveWithVeteran', 'Y');
+    selectRadio(form, 'root_doesLiveWithSpouse_spouseDoesLiveWithVeteran', 'Y');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -65,9 +65,9 @@ describe('686 current marriage co-habitation status', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_spouseDoesLiveWithVeteran', 'N');
+    selectRadio(form, 'root_doesLiveWithSpouse_spouseDoesLiveWithVeteran', 'N');
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -83,37 +83,29 @@ describe('686 current marriage co-habitation status', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_spouseDoesLiveWithVeteran', 'N');
-    fillData(
+    selectRadio(form, 'root_doesLiveWithSpouse_spouseDoesLiveWithVeteran', 'N');
+    changeDropdown(
       form,
-      'input#root_currentSpouseReasonForSeparation',
-      'This is an explanation',
+      'select#root_doesLiveWithSpouse_currentSpouseReasonForSeparation',
+      'Other',
     );
     changeDropdown(
       form,
-      'select#root_currentSpouseAddress_currentSpouseCountry',
-      'United States',
+      'select#root_doesLiveWithSpouse_address_countryName',
+      'USA',
     );
     fillData(
       form,
-      'input#root_currentSpouseAddress_currentSpouseStreet',
+      'input#root_doesLiveWithSpouse_address_addressLine1',
       '123 Back St',
     );
-    fillData(
+    fillData(form, 'input#root_doesLiveWithSpouse_address_city', 'SomeCity');
+    changeDropdown(
       form,
-      'input#root_currentSpouseAddress_currentSpouseCity',
-      'SomeCity',
+      'select#root_doesLiveWithSpouse_address_stateCode',
+      'AL',
     );
-    fillData(
-      form,
-      'input#root_currentSpouseAddress_currentSpouseState',
-      'SomeState',
-    );
-    fillData(
-      form,
-      'input#root_currentSpouseAddress_currentSpousePostalCode',
-      '12345',
-    );
+    fillData(form, 'input#root_doesLiveWithSpouse_address_zipCode', '12345');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

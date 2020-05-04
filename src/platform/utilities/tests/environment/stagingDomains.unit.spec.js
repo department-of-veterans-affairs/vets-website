@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { replaceDomainsInData } from '../../environment/stagingDomains';
-import HOSTNAMES from '../../../../site/constants/hostnames';
+import HOSTNAMES from 'site/constants/hostnames';
 
 const currentEnv = `https://${HOSTNAMES[global.__BUILDTYPE__]}`;
 

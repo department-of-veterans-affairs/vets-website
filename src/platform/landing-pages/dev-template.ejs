@@ -1,0 +1,174 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script>
+      {% include "src/site/assets/js/record-event.js" %}
+    </script>
+
+
+    <!-- Icons -->
+    <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+    <link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+    <link href="/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+    <link href="/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+    <link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
+
+    <meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
+    <meta name="msapplication-TileColor" content="#144073">
+
+    <!-- Preload main fonts -->
+
+    <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/generated/style.css">
+    <link rel="stylesheet" href="/generated/<%= entryName %>.css">
+
+
+    <script defer nomodule src="/generated/polyfills.entry.js"></script>
+    <script defer src="/generated/vendor.entry.js"></script>
+    <script defer src="/generated/<%= entryName %>.entry.js"></script>
+
+    <script type="text/javascript">
+      window.VetsGov = window.VetsGov || {};
+      window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
+    </script>
+
+  </head>
+
+  <body class="merger">
+    <a class="show-on-focus" href="#content">Skip to Content</a>
+
+    <header class="header">
+      <div class="incompatible-browser-warning">
+        <div class="row full">
+          <div class="small-12">
+            Your browser is out of date. To use this website, please <a href="https://browsehappy.com/">update your browser</a> or use a different device.
+          </div>
+        </div>
+      </div>
+
+      <!-- USA website banner -->
+      <div class="va-notice--banner">
+        <div class="va-notice--banner-inner">
+          <div class="usa-banner">
+            <div class="usa-accordion">
+              <div class="usa-banner-header">
+                <div class="usa-grid usa-banner-inner">
+                  <img src="/img/tiny-usa-flag.png" alt="U.S. flag">
+                  <p>An official website of the United States government</p>
+                  <button id="usa-banner-toggle" class="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
+                    <span class="usa-banner-button-text">Here’s how you know</span>
+                  </button>
+                </div>
+              </div>
+              <div class="usa-banner-content usa-grid usa-accordion-content" id="gov-banner" aria-hidden="true">
+                <div class="usa-banner-guidance-gov usa-width-one-half">
+                  <img class="usa-banner-icon usa-media_block-img" src="/img/icon-dot-gov.svg" alt="Dot gov">
+                  <div class="usa-media_block-body">
+                    <p>
+                      <strong>The .gov means it’s official.</strong>
+                      <br>
+                      Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you're on a federal government site.
+                    </p>
+                  </div>
+                </div>
+                <div class="usa-banner-guidance-ssl usa-width-one-half">
+                  <img class="usa-banner-icon usa-media_block-img" src="/img/icon-https.svg" alt="SSL">
+                  <div class="usa-media_block-body">
+                    <p>
+                      <strong>The site is secure.</strong>
+                      <br> The <strong>https://</strong> ensures that you're connecting to the official website and that any information you provide is encrypted and sent securely.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>        </div>
+        <div class="va-crisis-line-container">
+          <button onclick="recordEvent({ event: 'nav-crisis-header' })" data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
+            <div class="va-crisis-line-inner">
+              <span class="va-crisis-line-icon" aria-hidden="true"></span>
+              <span class="va-crisis-line-text" onClick="recordEvent({ event: 'nav-jumplink-click' });">Talk to the <strong>Veterans Crisis Line</strong> now</span>
+              <img class="va-crisis-line-arrow" src="/img/arrow-right-white.svg" aria-hidden="true"/>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- End USA website banner -->
+
+      <div class="row va-flex usa-grid usa-grid-full" id="va-header-logo-menu">
+        <div class="va-header-logo-wrapper">
+          <a href="/" class="va-header-logo">
+            <img src="/img/header-logo.png" alt="Go to VA.gov"/>
+          </a>
+        </div>
+        <div id="va-nav-controls"></div>
+        <div id="login-root" class="vet-toolbar"></div>
+      </div>
+      <div class="usa-grid usa-grid-full">
+        <div id="menu-rule" class="usa-one-whole"></div>
+        <div id="mega-menu"></div>
+        <!-- for the mega-menu, but if you add the ID the css breaks rn -->
+      </div>
+    </header>
+
+    <!-- TODO: Add breadcrumbs -->
+
+    <script type="text/javascript">
+    (function() {
+      var module = {};
+      {% include "src/site/assets/js/incompatible-browser.js" %}
+      checkBrowserCompatibility();
+    })();
+    </script>
+
+    <!-- React root -->
+    <div id="content">
+      <main id="main" class="main">
+        <div class="section">
+          <div id="react-root">
+            <div class="vads-u-margin-y--5">
+              <div class="loading-indicator-container">
+                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabIndex="0">
+                </div>
+                <%= loadingMessage %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <div id="announcement-root"></div>
+    <footer class="footer" role="contentinfo">
+      <div id="footerNav"></div> <!-- let's try this React thing -->
+    </footer>
+
+    <!--
+        “To care for him who shall have borne the battle and for his widow, and his orphan.”
+        - Abraham Lincoln
+      -->
+
+    <!--
+    <script type="text/javascript">
+      (function() {
+      var module = {};
+      {% include "src/site/assets/js/static-page-widgets.js" %}
+      mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
+      })();
+    </script>
+    -->
+
+
+  </body>
+</html>

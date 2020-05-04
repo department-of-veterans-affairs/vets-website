@@ -24,11 +24,11 @@ Example data:
   },
 {% endcomment %}
 {% if header == empty %}
-    {% assign header = "h4" %}
+    {% assign header = "h2" %}
 {% endif %}
 {% assign isStoriesPage = entityUrl.path | isPage: "stories" %}
 
-<div class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+<div data-template="teasers/new_story_page" class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
     <div class="usa-width-two-thirds">
         <{{ header }} class="{% if isStoriesPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %} medium-screen:vads-u-margin-bottom--0p5"><a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
         <p class="vads-u-margin-y--0">{{ node.fieldIntroText | truncatewords: 60, "..." }}</p>

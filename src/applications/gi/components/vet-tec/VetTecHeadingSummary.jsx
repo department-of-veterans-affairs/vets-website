@@ -2,12 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
-
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
-import { renderVetTecLogo } from '../../utils/render';
-import classNames from 'classnames';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -44,10 +41,20 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     firstProgram.phoneNumber,
   );
 
+  const preferredProvider = institution.preferredProvider
+    ? ''
+    : 'additional-resources-preferred-provider';
+
+  const header =
+    'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
+
+  const icons =
+    'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
+
   return (
     <div className="heading">
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 small-12 column">
+        <div className={header}>
           <h1 tabIndex={-1}>{institution.name}</h1>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
@@ -70,15 +77,10 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6">
-          <div className="vads-u-display--none medium-screen:vads-u-display--block vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5">
-            {renderVetTecLogo(classNames('vettec-logo'))}
-          </div>
-        </div>
       </div>
 
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
+        <div className={icons}>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
               icon="map-marker"
@@ -111,7 +113,11 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <VetTecAdditionalResources />
+        <div className={preferredProvider}>
+          <div className>
+            <VetTecAdditionalResources />
+          </div>
+        </div>
       </div>
     </div>
   );

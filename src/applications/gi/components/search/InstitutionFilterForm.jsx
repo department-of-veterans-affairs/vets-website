@@ -9,6 +9,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
 } from '../../utils/helpers';
+import CautionaryWarningsFilter from './CautionaryWarningsFilter';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -148,6 +149,14 @@ class InstitutionFilterForm extends React.Component {
         {this.renderCategoryFilter()}
         {this.renderCountryFilter()}
         {this.renderStateFilter()}
+        {
+          <CautionaryWarningsFilter
+            excludeCautionFlags={this.props.filters.excludeCautionFlags}
+            excludeWarnings={this.props.filters.excludeWarnings}
+            onChange={this.handleCheckboxChange}
+            showModal={this.props.showModal}
+          />
+        }
         {this.renderProgramFilters()}
         {this.renderTypeFilter()}
       </div>
@@ -156,6 +165,7 @@ class InstitutionFilterForm extends React.Component {
 }
 
 InstitutionFilterForm.propTypes = {
+  showModal: PropTypes.func,
   filters: PropTypes.shape({
     category: PropTypes.string,
     distanceLearning: PropTypes.bool,
@@ -170,6 +180,8 @@ InstitutionFilterForm.propTypes = {
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
     stemIndicator: PropTypes.bool,
+    excludeWarnings: PropTypes.bool,
+    excludeCautionFlags: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -186,6 +198,8 @@ InstitutionFilterForm.propTypes = {
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
     stemIndicator: PropTypes.object,
+    excludeWarnings: PropTypes.bool,
+    excludeCautionFlags: PropTypes.bool,
   }),
 };
 

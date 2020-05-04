@@ -1,92 +1,49 @@
-import { genericSchemas } from '../../../generic-schema';
-
+import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import { addSpouse } from '../../../utilities';
 import { doesLiveTogether } from './helpers';
 
-const {
-  countryDropdown,
-  genericTextInput,
-  genericNumberAndDashInput: numberAndDashInput,
-} = genericSchemas;
+const livingStatusSchema = cloneDeep(addSpouse.properties.doesLiveWithSpouse);
+livingStatusSchema.properties.address = buildAddressSchema(false);
 
 export const schema = {
   type: 'object',
   properties: {
-    spouseDoesLiveWithVeteran: {
-      type: 'boolean',
-    },
-    currentSpouseReasonForSeparation: genericTextInput,
-    currentSpouseAddress: {
-      type: 'object',
-      properties: {
-        currentSpouseCountry: countryDropdown,
-        currentSpouseStreet: genericTextInput,
-        currentSpouseLine2: genericTextInput,
-        currentSpouseLine3: genericTextInput,
-        currentSpouseCity: genericTextInput,
-        currentSpouseState: genericTextInput,
-        currentSpousePostalCode: numberAndDashInput,
-      },
-    },
+    doesLiveWithSpouse: livingStatusSchema,
   },
 };
 
 export const uiSchema = {
-  spouseDoesLiveWithVeteran: {
-    'ui:required': () => true,
-    'ui:title': 'Does your spouse live with you?',
-    'ui:widget': 'yesNo',
-    'ui:errorMessages': { required: 'Please select an option' },
-  },
-  currentSpouseReasonForSeparation: {
-    'ui:required': doesLiveTogether,
-    'ui:title': 'Reason for separation',
-    'ui:options': {
-      expandUnder: 'spouseDoesLiveWithVeteran',
-      expandUnderCondition: false,
+  doesLiveWithSpouse: {
+    spouseDoesLiveWithVeteran: {
+      'ui:required': () => true,
+      'ui:title': 'Does your spouse live with you?',
+      'ui:widget': 'yesNo',
+      'ui:errorMessages': { required: 'Please select an option' },
     },
-    'ui:errorMessages': { required: 'Please give a brief explanation' },
-  },
-  currentSpouseAddress: {
-    'ui:title': 'Your spouse’s address',
-    'ui:options': {
-      expandUnder: 'spouseDoesLiveWithVeteran',
-      expandUnderCondition: false,
-    },
-    currentSpouseCountry: {
-      'ui:title': 'Country',
+    currentSpouseReasonForSeparation: {
       'ui:required': doesLiveTogether,
-      'ui:errorMessages': { required: 'Please select a country' },
-    },
-    currentSpouseStreet: {
-      'ui:title': 'Street',
-      'ui:required': doesLiveTogether,
-      'ui:errorMessages': { required: 'Please enter a street address' },
-    },
-    currentSpouseLine2: {
-      'ui:title': 'Line 2',
-    },
-    currentSpouseLine3: {
-      'ui:title': 'Line 3',
-    },
-    currentSpouseCity: {
-      'ui:title': 'City',
-      'ui:required': doesLiveTogether,
-      'ui:errorMessages': { required: 'Please enter a city' },
-    },
-    currentSpouseState: {
-      'ui:title': 'State',
-      'ui:required': doesLiveTogether,
-      'ui:errorMessages': {
-        required: 'Please enter a state, or country if outside the U.S.',
-      },
-    },
-    currentSpousePostalCode: {
-      'ui:required': doesLiveTogether,
+      'ui:title': 'Reason for separation',
       'ui:options': {
-        widgetClassNames: 'usa-input-medium',
+        expandUnder: 'spouseDoesLiveWithVeteran',
+        expandUnderCondition: false,
       },
-      'ui:title': 'Postal Code',
-      'ui:errorMessages': { required: 'Please enter a postal code' },
+      'ui:errorMessages': { required: 'Please give a brief explanation' },
+    },
+    address: {
+      ...addressUISchema(false, 'doesLiveWithSpouse.address', doesLiveTogether),
+      'ui:title': 'Your spouse’s address',
+      'ui:options': {
+        expandUnder: 'spouseDoesLiveWithVeteran',
+        expandUnderCondition: false,
+        // if someone selects a country, and then changes their mind and selects 'yes' for spouseDoesLiveWithVeteran,
+        // The collapsed form will silently throw an error because some fields are required based on country.
+        // manually clearning the required array fixes this issue.
+        updateSchema: (formData, formSchema) =>
+          formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran
+            ? { required: [] }
+            : formSchema,
+      },
     },
   },
 };

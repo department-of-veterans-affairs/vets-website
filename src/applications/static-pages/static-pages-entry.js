@@ -5,6 +5,8 @@ import * as Sentry from '@sentry/browser';
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
@@ -22,11 +24,14 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-va-forms/createFindVaForms';
-import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
+} from '../find-forms/createFindVaForms';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import addLinkToCovidFAQ from './covidFaqLink';
+
+import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -40,11 +45,14 @@ import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
+import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
+
 // School resources widgets
 import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -124,11 +132,20 @@ createPost911GiBillStatusWidget(
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
 );
 
+createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
+
 createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
+
+createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
+create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
+}
+
+if (location.pathname === '/coronavirus-veteran-frequently-asked-questions/') {
+  addLinkToCovidFAQ(store);
 }
 
 /* eslint-disable no-unused-vars,camelcase */

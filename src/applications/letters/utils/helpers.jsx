@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import { formatDateShort } from '../../../platform/utilities/date';
+import { apiRequest as commonApiClient } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import { formatDateShort } from 'platform/utilities/date';
 import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -439,12 +439,12 @@ export const getStatus = response =>
     : 'unknown';
 
 // NOTE: It "shouldn't" ever happen...but it did. In production.
-export function isAddressEmpty(address = {}) {
+export function isAddressEmpty(address) {
   // An address will always have:
   //  type because it errors out on the api if it doesn't exist (pretty sure)
   //  countryName because of toGenericAddress() adds it
   const fieldsToIgnore = ['type', 'countryName'];
-  return Object.keys(address).reduce(
+  return Object.keys(address || {}).reduce(
     (emptySoFar, nextField) =>
       emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]),
     true,

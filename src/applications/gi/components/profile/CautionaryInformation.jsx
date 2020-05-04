@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
+import CautionFlagDetails from './CautionFlagDetails';
+import SchoolClosingDetails from './SchoolClosingDetails';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -33,46 +34,70 @@ const ListRow = ({ description, value }) => {
 };
 
 export class CautionaryInformation extends React.Component {
+  renderCautionFlags = () => {
+    const it = this.props.institution;
+    if (!it.schoolClosing && it.cautionFlags.length === 0) {
+      return null;
+    }
+
+    return (
+      <div>
+        <h3 tabIndex="-1" id="viewWarnings">
+          Alerts from VA and other federal agencies
+        </h3>
+        <SchoolClosingDetails
+          schoolClosing={it.schoolClosing}
+          schoolClosingOn={it.schoolClosingOn}
+          schoolWebsite={it.website}
+        />
+        <CautionFlagDetails cautionFlags={it.cautionFlags} />
+        <div className="vads-u-margin-bottom--5">
+          <p>
+            Before enrolling in a program at this institution, VA recommends
+            that potential students consider these cautionary warnings. Caution
+            flags indicate that VA or other federal agencies like the Department
+            of Defense (DoD) or Department of Education (ED) have applied
+            increased regulatory or legal scrutiny to this program.
+          </p>
+          <p>
+            To learn more about Caution Flags,{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                recordEvent({
+                  event: 'education-navigation',
+                  'edu-action': 'about-this-tool',
+                });
+              }}
+            >
+              visit the About this Tool Page
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const it = this.props.institution;
     if (!it.complaints) {
       return null;
     }
 
-    // If Ashford, show specific link.
-    const schoolSpecificLink = (it.facilityCode === '21007103' ||
-      it.website === 'http://www.ashford.edu') && (
-      <a
-        href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        More information on Ashford University
-      </a>
-    );
-
-    const flagContent = (
-      <div>
-        <p>
-          {it.cautionFlagReason} {schoolSpecificLink}
-        </p>
-        <p>
-          <button
-            type="button"
-            className="va-button-link learn-more-button"
-            onClick={this.props.onShowModal.bind(this, 'cautionInfo')}
-          >
-            Learn more about these warnings
-          </button>
-        </p>
-      </div>
-    );
-
     const allCampusesLink = (
       <a
         href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses"
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => {
+          recordEvent({
+            event: 'education-navigation',
+            'edu-action': 'all-campuses',
+          });
+        }}
       >
         All campuses
       </a>
@@ -123,15 +148,11 @@ export class CautionaryInformation extends React.Component {
 
     return (
       <div className="cautionary-information">
-        <div className="caution-flag">
-          <AlertBox
-            content={flagContent}
-            isVisible={!!it.cautionFlag}
-            status="warning"
-          />
-        </div>
+        {this.renderCautionFlags()}
 
         <div className="student-complaints">
+          <h3>Student feedback</h3>
+
           <div className="link-header">
             <h3>
               {+it.complaints.mainCampusRollUp}
@@ -140,6 +161,12 @@ export class CautionaryInformation extends React.Component {
                 href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  recordEvent({
+                    event: 'education-navigation',
+                    'edu-action': 'student-complaints',
+                  });
+                }}
               >
                 student complaints
               </a>{' '}

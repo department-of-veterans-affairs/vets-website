@@ -1,24 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import moment from 'moment';
 import sinon from 'sinon';
 
 import AppointmentRequestListItem from '../../components/AppointmentRequestListItem';
-import { APPOINTMENT_TYPES } from '../../utils/constants';
+import { APPOINTMENT_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 
 describe('VAOS <AppointmentRequestListItem>', () => {
   it('should render pending VA appointment request', () => {
     const appointment = {
-      appointmentType: 'Testing',
-      optionDate1: '05/22/2019',
-      optionTime1: 'PM',
-      optionDate2: '05/23/2019',
-      optionTime2: 'AM',
-      typeOfCareId: '1',
-      friendlyLocationName: 'Some location',
-      status: 'Submitted',
+      appointmentType: APPOINTMENT_TYPES.request,
+      isCommunityCare: false,
+      typeOfCare: 'Testing',
+      dateOptions: [
+        {
+          date: moment('2019-05-22'),
+          optionTime: 'PM',
+        },
+        {
+          date: moment('2019-05-23'),
+          optionTime: 'AM',
+        },
+      ],
+      facilityName: 'Some location',
+      status: APPOINTMENT_STATUS.pending,
       bestTimetoCall: ['Morning'],
-      purposeOfVisit: 'Routine Follow-up',
+      purposeOfVisit: 'Follow-up/Routine',
       facility: {
         city: 'Northampton',
         state: 'MA',
@@ -39,13 +47,12 @@ describe('VAOS <AppointmentRequestListItem>', () => {
 
     const fetchMessages = sinon.spy();
 
-    const tree = shallow(
+    const tree = mount(
       <AppointmentRequestListItem
         appointment={appointment}
         fetchMessages={fetchMessages}
         messages={messages}
         showCancelButton
-        type={APPOINTMENT_TYPES.request}
       />,
     );
 
@@ -59,8 +66,10 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       'Cancel appointment',
     );
 
-    const toggleExpand = tree.find('AdditionalInfo');
-    toggleExpand.props().onClick();
+    const toggleExpand = tree
+      .find('AdditionalInfo')
+      .find('.additional-info-button');
+    toggleExpand.simulate('click');
 
     const preferredDates = tree.find('ul li');
 
@@ -83,12 +92,16 @@ describe('VAOS <AppointmentRequestListItem>', () => {
 
   it('should render cancelled VA appointment request', () => {
     const appointment = {
-      appointmentType: 'Audiology (hearing Aid Support)',
-      optionDate1: '05/22/2019',
-      optionTime1: 'PM',
-      typeOfCareId: '1',
-      friendlyLocationName: 'Some location',
-      status: 'Cancelled',
+      appointmentType: APPOINTMENT_TYPES.request,
+      typeOfCare: 'Audiology (hearing Aid Support)',
+      dateOptions: [
+        {
+          date: moment('2019-05-22'),
+          optionTime: 'PM',
+        },
+      ],
+      facilityName: 'Some location',
+      status: APPOINTMENT_STATUS.cancelled,
       bestTimetoCall: [],
       facility: {
         city: 'Northampton',
@@ -97,11 +110,8 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       },
       id: 'guid',
     };
-    const tree = shallow(
-      <AppointmentRequestListItem
-        appointment={appointment}
-        type={APPOINTMENT_TYPES.request}
-      />,
+    const tree = mount(
+      <AppointmentRequestListItem appointment={appointment} />,
     );
 
     expect(tree.text()).to.contain('Canceled');
@@ -116,30 +126,36 @@ describe('VAOS <AppointmentRequestListItem>', () => {
 
   it('should render pending CC appointment request', () => {
     const appointment = {
-      appointmentType: 'Testing',
-      optionDate1: '05/22/2019',
-      optionTime1: 'PM',
-      optionDate2: '05/23/2019',
-      optionTime2: 'AM',
-      typeOfCareId: 'CCAUD',
-      friendlyLocationName: 'Some location',
-      status: 'Submitted',
+      appointmentType: APPOINTMENT_TYPES.ccRequest,
+      isCommunityCare: true,
+      typeOfCare: 'Testing',
+      dateOptions: [
+        {
+          date: moment('2019-05-22'),
+          optionTime: 'PM',
+        },
+        {
+          date: moment('2019-05-23'),
+          optionTime: 'AM',
+        },
+      ],
+      facilityName: 'Some location',
+      status: APPOINTMENT_STATUS.pending,
       bestTimetoCall: ['Morning'],
+      purposeOfVisit: 'Routine Follow-up',
       facility: {
         city: 'Northampton',
         state: 'MA',
         facilityCode: '983',
       },
       id: 'guid',
-      ccAppointmentRequest: {
-        preferredProviders: [
-          {
-            firstName: 'Jane',
-            lastName: 'Doe',
-            practiceName: 'Test Practice',
-          },
-        ],
-      },
+      preferredProviders: [
+        {
+          firstName: 'Jane',
+          lastName: 'Doe',
+          practiceName: 'Test Practice',
+        },
+      ],
     };
 
     const messages = {
@@ -154,13 +170,12 @@ describe('VAOS <AppointmentRequestListItem>', () => {
 
     const fetchMessages = sinon.spy();
 
-    const tree = shallow(
+    const tree = mount(
       <AppointmentRequestListItem
         appointment={appointment}
         fetchMessages={fetchMessages}
         messages={messages}
         showCancelButton
-        type={APPOINTMENT_TYPES.ccRequest}
       />,
     );
 

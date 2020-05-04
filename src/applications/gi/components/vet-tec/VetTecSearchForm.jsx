@@ -6,6 +6,7 @@ import { addAllOption, getStateNameForCode } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
+import CautionaryWarningsFilter from '../search/CautionaryWarningsFilter';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -42,6 +43,11 @@ class VetTecSearchForm extends React.Component {
         value: learningFormat,
       },
     });
+  };
+
+  handleCheckboxChange = e => {
+    const { name: field, checked: value } = e.target;
+    this.props.handleFilterChange(field, value);
   };
 
   renderLearningFormat = () => {
@@ -150,6 +156,14 @@ class VetTecSearchForm extends React.Component {
 
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
+            {
+              <CautionaryWarningsFilter
+                excludeWarnings={this.props.filters.excludeWarnings}
+                excludeCautionFlags={this.props.filters.excludeCautionFlags}
+                onChange={this.handleCheckboxChange}
+                showModal={this.props.showModal}
+              />
+            }
             {this.renderFilterBy()}
           </div>
           <div className="results-button">

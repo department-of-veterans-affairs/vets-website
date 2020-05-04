@@ -10,7 +10,7 @@ import {
   disabilityNameTitle,
 } from '../content/newDisabilityFollowUp';
 
-import { validateLength } from '../../../../platform/forms/validations';
+import { validateLength } from 'platform/forms/validations';
 
 import { NULL_CONDITION_STRING } from '../constants';
 
