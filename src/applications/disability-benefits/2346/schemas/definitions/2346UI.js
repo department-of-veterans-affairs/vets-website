@@ -2,8 +2,8 @@ import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
 import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageBatteries from '../../components/ReviewPageBatteries';
 import ReviewPageAccessories from '../../components/ReviewPageAccessories';
+import ReviewPageBatteries from '../../components/ReviewPageBatteries';
 import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
 import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
@@ -39,6 +39,22 @@ const addAccessoriesUITitle = (
   </h4>
 );
 
+const addressDescription = (
+  <>
+    <p>
+      Any updates you make here to your address will apply only to this
+      application.
+    </p>
+    <p>
+      To update your address for all of your VA accounts, you’ll need to go to
+      your profile page.{' '}
+      <a href="va.gov/profile">
+        View the address that's on file in your profile.
+      </a>
+    </p>
+  </>
+);
+
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
@@ -52,6 +68,7 @@ export default {
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
+      'ui:subtitle': addressDescription,
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
@@ -83,6 +100,7 @@ export default {
         return true;
       }),
       'ui:title': 'Temporary address',
+      'ui:subtitle': addressDescription,
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
