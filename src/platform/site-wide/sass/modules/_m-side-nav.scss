@@ -15,7 +15,7 @@ $side-nav-color-dark: #323a45;
     height: auto;
   }
   .va-sidenav-default-trigger {
-    padding: 0 10px;
+    padding: 0 22px;
     color: $color-primary;
     font-weight: bold;
     cursor: pointer;
@@ -165,7 +165,10 @@ $side-nav-color-dark: #323a45;
       &::after {
         content: "\A";
         height: 1px;
-        width: 80%;
+        width: 92%;
+        @include media($medium-screen) {
+          width: 82%;
+        }
         display: block;
         margin: auto;
         background: $color-gray-lighter;
