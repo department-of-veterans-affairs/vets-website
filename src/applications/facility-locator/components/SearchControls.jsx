@@ -35,11 +35,9 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType) {
-        focusElement('#service-type-ahead-input');
-        return;
-      }
+    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
+      focusElement('#service-type-ahead-input');
+      return;
     }
 
     // Report event here to only send analytics event when a user clicks on the button
