@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { isWideScreen } from 'platform/utilities/accessibility/index';
+import { connect } from 'react-redux';
+
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
   selectProfile,
 } from 'platform/user/selectors';
-
 import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -82,15 +82,17 @@ class ProfileWrapper extends Component {
       activeRouteName,
     } = this.createBreadCrumbAttributes();
 
-    const onPersonalInformationPage =
-      this.props?.location?.pathname === '/personal-information';
+    // We do not want to display 'Profile' on the mobile personal-information route
+    const onPersonalInformationMobile =
+      this.props?.location?.pathname === '/personal-information' &&
+      !isWideScreen();
 
     return (
       <>
         {/* Breadcrumbs */}
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          {!onPersonalInformationPage && <a href="/profile-2/">Profile</a>}
+          {!onPersonalInformationMobile && <a href="/profile-2/">Profile</a>}
           <a href={activeLocation}>{activeRouteName}</a>
         </Breadcrumbs>
 
