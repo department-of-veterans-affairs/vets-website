@@ -2,17 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { get } from 'lodash';
 // Relative
 import { NavItemPropTypes } from '../prop-types';
 
 const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   // Derive item properties.
-  const hasChildren = get(item, 'hasChildren');
-  const href = get(item, 'href');
-  const id = get(item, 'id');
-  const isSelected = get(item, 'isSelected');
-  const label = get(item, 'label', '');
+  const { expanded, hasChildren, href, id, isSelected, label } = item;
 
   // Derive depth booleans.
   const isFirstLevel = depth === 1;
@@ -22,11 +17,10 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
 
   // Expanded not selected
-  const isExpanded = get(item, 'expanded') && depth === 2 && !isSelected;
+  const isExpanded = expanded && depth === 2 && !isSelected;
   // Expanded beyond level 2 expanded and selected
-  const moreThanLevel2SelectedExpanded =
-    get(item, 'expanded') && depth > 2 && isSelected;
-  //
+  const moreThanLevel2SelectedExpanded = expanded && depth > 2 && isSelected;
+
   const isLevelFourOrDeeper = item.depth >= 4;
   if (isFirstLevel) {
     return (

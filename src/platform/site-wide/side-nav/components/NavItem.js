@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import classNames from 'classnames';
 // Relative
 import NavItemRow from './NavItemRow';
@@ -9,32 +8,30 @@ import { NavItemPropTypes } from '../prop-types';
 
 const NavItem = ({ depth, item, renderChildItems, toggleItemExpanded }) => {
   // Derive the item properties.
-  const expanded = get(item, 'expanded');
-  const hasChildren = get(item, 'hasChildren');
-  const id = get(item, 'id');
-  const isSelected = get(item, 'isSelected');
+  const { expanded, hasChildren, id, isSelected } = item;
+
   // Expanded not selected
-  const isExpanded = get(item, 'expanded') && depth === 2 && !isSelected;
+  const isExpanded = expanded && depth === 2 && !isSelected;
   // Expanded beyond level 2 expanded and selected
-  const moreThanLevel2SelectedExpanded =
-    get(item, 'expanded') && depth > 2 && isSelected;
+  const moreThanLevel2SelectedExpanded = expanded && depth > 2 && isSelected;
 
   const isExpandedNotSelected = !!(
     isExpanded &&
     !moreThanLevel2SelectedExpanded &&
     hasChildren
   );
+  const shouldHaveSelectedClassName =
+    (!isExpanded &&
+      !moreThanLevel2SelectedExpanded &&
+      hasChildren &&
+      isSelected) ||
+    isExpandedNotSelected;
 
   return (
     <li
       className={classNames(`va-sidenav-level-${depth}`, {
         active: isSelected,
-        selected:
-          (!isExpanded &&
-            !moreThanLevel2SelectedExpanded &&
-            hasChildren &&
-            isSelected) ||
-          isExpandedNotSelected,
+        selected: shouldHaveSelectedClassName,
       })}
       key={id}
     >
