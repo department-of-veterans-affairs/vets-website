@@ -132,10 +132,10 @@ export const benefitChoices = [
       'We may be able to help you buy or build a home, or repair or refinance your current home. If you have a service-connected disability, you may want to consider applying for a grant to help you make changes to your home that will help you live more independently. ',
     cta: {
       description: components.housingCTADescription,
-      link:
-        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan',
+      link: 'ebenefits/about/feature?feature=cert-of-eligibility-home-loan',
       text: 'Apply for a home loan COE',
       gaTag: 'recommendations-home-loan-apply-now',
+      isEbenefitUrl: true,
     },
     faqs: [
       {

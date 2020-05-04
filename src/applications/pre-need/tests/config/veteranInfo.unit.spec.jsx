@@ -25,7 +25,7 @@ describe('Pre-need veteran information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(15);
+    expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(1);
     form.unmount();
   });
@@ -43,7 +43,7 @@ describe('Pre-need veteran information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -60,7 +60,6 @@ describe('Pre-need veteran information', () => {
     );
 
     selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'americanIndian');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 
@@ -93,7 +92,6 @@ describe('Pre-need veteran information', () => {
       'Amherst, MA',
     );
     selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectRadio(form, 'root_application_veteran_ethnicity', 'americanIndian');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
 

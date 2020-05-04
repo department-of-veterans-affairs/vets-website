@@ -14,7 +14,11 @@ export default Object.freeze({
   vaOnlineSchedulingPast: 'vaOnlineSchedulingPast',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
+  ssoeInbound: 'ssoeInbound',
+  ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
   eduBenefitsStemScholarship: 'eduBenefitsStemScholarship',
   eduSection103: 'edu_section_103',
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
+  form526OriginalClaims: 'form526OriginalClaims',
+  vaViewDependentsAccess: 'vaViewDependentsAccess',
 });

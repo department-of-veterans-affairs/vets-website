@@ -200,8 +200,12 @@ export class VetTecEstimateYourBenefits extends React.Component {
         </div>
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           <div className=" your-estimated-benefits">
-            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-            <h3 id="estimated-benefits-header" className="estimated-benefits-header" tabIndex="0">
+            <h3
+              id="estimated-benefits-header"
+              className="estimated-benefits-header"
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+              tabIndex="0"
+            >
               Your estimated benefits
             </h3>
             <div className="program-name">

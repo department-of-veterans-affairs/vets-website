@@ -4,6 +4,7 @@ import EligibilityForm from './EligibilityForm';
 import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
+import BenefitsForm from '../profile/BenefitsForm';
 
 function InstitutionSearchForm(props) {
   return (
@@ -27,7 +28,17 @@ function InstitutionSearchForm(props) {
             handleFilterChange={props.handleFilterChange}
             showModal={props.showModal}
           />
-          <EligibilityForm eligibilityChange={props.eligibilityChange} />
+          {props.gibctEstimateYourBenefits ? (
+            <BenefitsForm
+              eligibilityChange={props.eligibilityChange}
+              {...props.eligibility}
+              hideModal={props.hideModal}
+              showModal={props.showModal}
+              showHeader
+            />
+          ) : (
+            <EligibilityForm eligibilityChange={props.eligibilityChange} />
+          )}
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}
             onChange={props.eligibilityChange}

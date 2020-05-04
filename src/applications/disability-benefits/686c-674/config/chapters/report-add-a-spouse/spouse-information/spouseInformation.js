@@ -1,53 +1,33 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-
 import { isChapterFieldRequired } from '../../../helpers';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
-
-const {
-  fullName,
-  genericNumberAndDashInput: identificationPattern,
-  date,
-} = genericSchemas;
+import { validateName, addSpouse } from '../../../utilities';
 
 export const schema = {
   type: 'object',
   properties: {
-    spouseInformation: {
-      type: 'object',
-      properties: {
-        spouseFullName: fullName,
-        spouseSSN: identificationPattern,
-        spouseDOB: date,
-        isSpouseVeteran: {
-          type: 'boolean',
-        },
-        spouseVAFileNumber: identificationPattern,
-        spouseServiceNumber: identificationPattern,
-      },
-    },
+    spouseInformation: addSpouse.properties.spouseNameInformation,
   },
 };
 
 export const uiSchema = {
   spouseInformation: {
     'ui:title': 'Your spouse’s information',
-    spouseFullName: {
+    fullName: {
       'ui:validations': [validateName],
       first: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': 'Your spouse’s first name',
+        'ui:title': 'Spouse’s first name',
         'ui:errorMessages': { required: 'Please enter a first name' },
       },
       middle: {
-        'ui:title': 'Your spouse’s middle name',
+        'ui:title': 'Spouse’s middle name',
       },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
-        'ui:title': 'Your spouse’s last name',
+        'ui:title': 'Spouse’s last name',
         'ui:errorMessages': { required: 'Please enter a last name' },
       },
       suffix: {
@@ -57,7 +37,7 @@ export const uiSchema = {
         },
       },
     },
-    spouseSSN: {
+    ssn: {
       ...ssnUI,
       ...{
         'ui:title': 'Spouse’s Social Security number',
@@ -65,32 +45,32 @@ export const uiSchema = {
           isChapterFieldRequired(formData, 'addSpouse'),
       },
     },
-    spouseDOB: {
+    birthDate: {
       ...currentOrPastDateUI('Spouse’s date of birth'),
       ...{
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
       },
     },
-    isSpouseVeteran: {
+    isVeteran: {
       'ui:title': 'Is your spouse a veteran?',
       'ui:widget': 'yesNo',
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
     },
-    spouseVAFileNumber: {
+    VAFileNumber: {
       'ui:title': 'Spouse’s VA file number',
       'ui:errorMessages': { pattern: 'Please enter a valid VA File number' },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
-        expandUnder: 'isSpouseVeteran',
+        expandUnder: 'isVeteran',
       },
     },
-    spouseServiceNumber: {
+    serviceNumber: {
       'ui:title': 'Spouse’s service number',
       'ui:errorMessages': { pattern: 'Please enter a valid Service Number' },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
-        expandUnder: 'isSpouseVeteran',
+        expandUnder: 'isVeteran',
       },
     },
   },

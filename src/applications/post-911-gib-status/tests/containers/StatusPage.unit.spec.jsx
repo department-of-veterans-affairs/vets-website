@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { findDOMNode } from 'react-dom';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
@@ -7,7 +8,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import StatusPage from '../../containers/StatusPage';
 
 import reducer from '../../reducers/index.js';
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 
 const store = createCommonStore(reducer);
 const defaultProps = store.getState();
@@ -34,7 +35,9 @@ describe('<StatusPage>', () => {
     window.dataLayer = [];
     const node = findDOMNode(
       ReactTestUtils.renderIntoDocument(
-        <StatusPage store={store} {...defaultProps} />,
+        <Provider store={store}>
+          <StatusPage {...defaultProps} />
+        </Provider>,
       ),
     );
     expect(node.querySelector('.schemaform-title').textContent).to.contain(

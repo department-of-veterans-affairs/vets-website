@@ -35,6 +35,18 @@ describe('ProfileWrapper', () => {
       shouldFetchDirectDepositInformation: true,
       showLoader: false,
       user: {},
+      location: {
+        pathname: '/personal-information',
+      },
+      route: {
+        childRoutes: [
+          {
+            path: 'personal-information',
+            key: 'personal-information',
+            name: 'Personal and contact Information',
+          },
+        ],
+      },
     };
   });
 
@@ -78,6 +90,25 @@ describe('ProfileWrapper', () => {
     it('should fetch the My HealtheVet data', () => {
       const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
       expect(fetchMHVAccountSpy.called).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should render BreadCrumbs', () => {
+      const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+      expect(wrapper.find('Breadcrumbs')).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+
+    it('should render the correct breadcrumb (Personal and contact Information)', () => {
+      const wrapper = shallow(<ProfileWrapper {...defaultProps} />);
+      const BreadCrumbs = wrapper.find('Breadcrumbs');
+      const activeRouteText = BreadCrumbs.find('a')
+        .last()
+        .text();
+
+      expect(activeRouteText).to.include(
+        defaultProps.route.childRoutes[0].name,
+      );
       wrapper.unmount();
     });
 

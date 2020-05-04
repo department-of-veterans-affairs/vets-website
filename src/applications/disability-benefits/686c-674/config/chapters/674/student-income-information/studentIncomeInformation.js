@@ -1,42 +1,10 @@
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
-import { StudentNameHeader } from '../helpers';
+import { report674 } from '../../../utilities';
 
-const { currencyInput } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    studentDoesEarnIncome: {
-      type: 'boolean',
-    },
-    studentEarningsFromSchoolYear: {
-      type: 'object',
-      properties: {
-        earningsFromAllEmployment: currencyInput,
-        annualSocialSecurityPayments: currencyInput,
-        otherAnnuitiesIncome: currencyInput,
-        allOtherIncome: currencyInput,
-      },
-    },
-    studentWillEarnIncomeNextYear: {
-      type: 'boolean',
-    },
-    studentExpectedEarningsNextYear: {
-      type: 'object',
-      properties: {
-        earningsFromAllEmployment: currencyInput,
-        annualSocialSecurityPayments: currencyInput,
-        otherAnnuitiesIncome: currencyInput,
-        allOtherIncome: currencyInput,
-      },
-    },
-  },
-};
+export const schema = report674.properties.studentIncomeInformation;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDoesEarnIncome: {
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),

@@ -8,6 +8,7 @@ import {
   FETCH_BAH_STARTED,
   FETCH_BAH_SUCCEEDED,
   FETCH_PROFILE_SUCCEEDED,
+  UPDATE_ESTIMATED_BENEFITS,
 } from '../actions';
 
 const beneficiaryZIPRegExTester = /^\d{1,5}$/;
@@ -42,6 +43,21 @@ const INITIAL_STATE = {
   vetTecProgramName: '',
   selectedProgram: '',
   classesOutsideUS: false,
+  estimatedBenefits: {
+    bookStipend: { visible: false },
+    giBillPaysToSchool: { visible: false },
+    housingAllowance: { visible: false },
+    outOfPocketTuition: { visible: false },
+    totalPaidToYou: { visible: false },
+    tuitionAndFeesCharged: { visible: false },
+    yourScholarships: { visible: false },
+    perTerm: {
+      tuitionFees: { visible: false },
+      yellowRibbon: { visible: false },
+      housingAllowance: { visible: false },
+      bookStipend: { visible: false },
+    },
+  },
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -381,6 +397,14 @@ export default function(state = INITIAL_STATE, action) {
         vetTecProgramName,
         vetTecTuitionFees,
         selectedProgram: vetTecProgramName || '',
+      };
+    }
+
+    case UPDATE_ESTIMATED_BENEFITS: {
+      const { estimatedBenefits } = action;
+      return {
+        ...state,
+        estimatedBenefits,
       };
     }
 

@@ -1,41 +1,19 @@
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
-
-import { StudentNameHeader } from '../helpers';
-
-const { date, genericTextInput } = genericSchemas;
+import { report674 } from '../../../utilities';
 
 const addressSchema = buildAddressSchema(false);
 
-export const schema = {
-  type: 'object',
-  properties: {
-    studentDidAttendSchoolLastTerm: {
-      type: 'boolean',
-    },
-    lastTermSchoolInformation: {
-      type: 'object',
-      properties: {
-        schoolName: genericTextInput,
-        schoolAddress: addressSchema,
-        dateTermBegan: date,
-        dateTermEnded: date,
-        classesPerWeek: {
-          type: 'number',
-        },
-        hoursPerWeek: {
-          type: 'number',
-        },
-      },
-    },
-  },
-};
+const lastTermSchema = cloneDeep(report674.properties.studentLastTerm);
+
+lastTermSchema.properties.lastTermSchoolInformation.properties.address = addressSchema;
+
+export const schema = lastTermSchema;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDidAttendSchoolLastTerm: {
     'ui:title': 'Did student attend school last term?',
     'ui:widget': 'yesNo',
@@ -48,11 +26,11 @@ export const uiSchema = {
       expandUnderCondition: true,
     },
     'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-    schoolName: {
+    name: {
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Last term school’s name',
     },
-    schoolAddress: {
+    address: {
       'ui:title': 'Last term school’s address',
       'ui:options': {
         updateSchema: (formData, formSchema) =>
@@ -62,11 +40,11 @@ export const uiSchema = {
       },
       ...addressUISchema(
         false,
-        'lastTermSchoolInformation.schoolAddress',
+        'lastTermSchoolInformation.address',
         formData => formData.studentDidAttendSchoolLastTerm,
       ),
     },
-    dateTermBegan: {
+    termBegin: {
       ...currentOrPastDateUI('Date term began'),
       ...{
         'ui:required': formData => formData.studentDidAttendSchoolLastTerm,

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import recordEvent from 'platform/monitoring/record-event';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
-function ClaimsDecision({ completedDate, isLoggedIn }) {
+function ClaimsDecision({ completedDate }) {
   return (
     <div className="usa-alert usa-alert-info claims-alert-status background-color-only">
       <h4 className="claims-alert-header">Your claim decision is ready</h4>
@@ -19,19 +19,9 @@ function ClaimsDecision({ completedDate, isLoggedIn }) {
         arrive before contacting a VA call center. If you haven’t received the
         packet with the full details of your claim decision yet, you can see
         your rating by going to your disability page in eBenefits.{' '}
-        <a
-          href="https://www.ebenefits.va.gov"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() =>
-            isLoggedIn &&
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <EbenefitsLink>
           Check your disability page in eBenefits for your rating
-        </a>
+        </EbenefitsLink>
         .
       </p>
       <h5 className="claims-paragraph-header">Next steps</h5>
@@ -73,7 +63,6 @@ function ClaimsDecision({ completedDate, isLoggedIn }) {
 
 ClaimsDecision.propTypes = {
   completedDate: PropTypes.string,
-  isLoggedIn: PropTypes.bool,
 };
 
 export default ClaimsDecision;

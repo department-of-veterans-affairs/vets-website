@@ -23,8 +23,10 @@ describe('686 add child - child place of birth', () => {
     },
     childrenToAdd: [
       {
-        first: 'Bill',
-        last: 'Bob',
+        fullName: {
+          first: 'Bill',
+          last: 'Bob',
+        },
         ssn: '370947141',
         birthDate: '1997-04-02',
       },
@@ -78,8 +80,8 @@ describe('686 add child - child place of birth', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childPlaceOfBirth_state', 'California');
-    fillData(form, 'input#root_childPlaceOfBirth_city', 'Someplace');
+    fillData(form, 'input#root_placeOfBirth_state', 'California');
+    fillData(form, 'input#root_placeOfBirth_city', 'Someplace');
     selectCheckbox(form, 'root_childStatus_biological', true);
 
     form.find('form').simulate('submit');

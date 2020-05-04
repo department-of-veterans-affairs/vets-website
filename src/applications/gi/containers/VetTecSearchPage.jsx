@@ -62,7 +62,11 @@ export class VetTecSearchPage extends React.Component {
   }
 
   getQueryFilterFields = () => {
-    const booleanFilterParams = ['preferredProvider', 'excludeCautionFlags'];
+    const booleanFilterParams = [
+      'preferredProvider',
+      'excludeWarnings',
+      'excludeCautionFlags',
+    ];
 
     const stringFilterParams = ['version', 'country', 'state', 'type'];
 
@@ -207,6 +211,7 @@ export class VetTecSearchPage extends React.Component {
             {search.results.filter(this.filterResultsByProvider).map(result => (
               <VetTecProgramSearchResult
                 version={this.props.location.query.version}
+                id={`${result.facilityCode}-${result.description}`}
                 key={`${result.facilityCode}-${result.description}`}
                 result={result}
                 constants={this.props.constants}

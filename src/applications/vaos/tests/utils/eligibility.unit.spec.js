@@ -163,7 +163,7 @@ describe('VAOS scheduling eligibility logic', () => {
   });
   describe('getEligibilityChecks', () => {
     it('should calculate failing statuses', () => {
-      const eligibilityChecks = getEligibilityChecks('983', '323', {
+      const eligibilityChecks = getEligibilityChecks({
         clinics: [],
         directSupported: true,
         requestSupported: true,
@@ -197,7 +197,7 @@ describe('VAOS scheduling eligibility logic', () => {
     });
 
     it('should calculate successful statuses', () => {
-      const eligibilityChecks = getEligibilityChecks('983', '323', {
+      const eligibilityChecks = getEligibilityChecks({
         hasMatchingClinics: true,
         pastAppointments: [{}],
         clinics: [{}],
@@ -232,7 +232,7 @@ describe('VAOS scheduling eligibility logic', () => {
       });
     });
     it('should skip direct status on direct failure', () => {
-      const eligibilityChecks = getEligibilityChecks('983', '323', {
+      const eligibilityChecks = getEligibilityChecks({
         pacTeam: [],
         clinics: [],
         directSupported: true,
@@ -262,7 +262,7 @@ describe('VAOS scheduling eligibility logic', () => {
       });
     });
     it('should skip request status on request failure', () => {
-      const eligibilityChecks = getEligibilityChecks('983', '323', {
+      const eligibilityChecks = getEligibilityChecks({
         pacTeam: [],
         clinics: [],
         directSupported: true,

@@ -4,7 +4,7 @@ export function StepchildInfo({ formData }) {
   return (
     <div className="vads-u-padding--2">
       <strong>
-        {formData.first} {formData.last}
+        {formData.fullName.first} {formData.fullName.last}
       </strong>
       <br />
     </div>

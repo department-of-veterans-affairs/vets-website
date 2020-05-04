@@ -1,48 +1,44 @@
-import { validateAtLeastOneSelected } from './helpers';
+import {
+  validateAtLeastOneSelected,
+  DescriptionText,
+  AddChildTitle,
+  Student674Title,
+  StepchildTitle,
+} from './helpers';
+import { optionSelection } from '../../../utilities';
 
 export const schema = {
   type: 'object',
   required: ['view:selectable686Options'],
   properties: {
-    'view:selectable686Options': {
+    'view:686Information': {
       type: 'object',
-      properties: {
-        addChild: { type: 'boolean', default: false },
-        addSpouse: { type: 'boolean', default: false },
-        reportDivorce: { type: 'boolean', default: false },
-        reportDeath: { type: 'boolean', default: false },
-        reportStepchildNotInHousehold: { type: 'boolean', default: false },
-        reportMarriageOfChildUnder18: { type: 'boolean', default: false },
-        reportChild18OrOlderIsNotAttendingSchool: {
-          type: 'boolean',
-          default: false,
-        },
-        report674: {
-          type: 'boolean',
-          default: false,
-        },
-      },
+      properties: {},
     },
+    'view:selectable686Options': optionSelection['view:selectable686Options'],
   },
 };
 
 export const uiSchema = {
+  'view:686Information': {
+    'ui:options': { showFieldLabel: false },
+    'ui:description': DescriptionText,
+  },
   'view:selectable686Options': {
+    'ui:title': 'What would you like to do?',
     'ui:options': { showFieldLabel: true },
     'ui:validations': [validateAtLeastOneSelected],
-    'ui:title': 'What would you like to do? (Check all that apply)',
     addChild: {
-      'ui:title': 'Claim additional benefits for a child',
+      'ui:title': AddChildTitle,
     },
     addSpouse: {
-      'ui:title': 'Claim additional benefits for a spouse',
+      'ui:title': 'Claim benefits for a spouse',
     },
     reportDivorce: {
       'ui:title': 'Report a divorce',
     },
     reportStepchildNotInHousehold: {
-      'ui:title':
-        'Report that a stepchild is no longer a member of your household',
+      'ui:title': StepchildTitle,
     },
     reportDeath: {
       'ui:title': 'Report the death of a spouse, child or dependent parent',
@@ -52,10 +48,10 @@ export const uiSchema = {
     },
     reportChild18OrOlderIsNotAttendingSchool: {
       'ui:title':
-        'Report that a child 18 or older has stopped attending school',
+        'Report that a child 18 to 23 years old has stopped attending school',
     },
     report674: {
-      'ui:title': 'Request approval of school attendance for child 18 or older',
+      'ui:title': Student674Title,
     },
   },
 };

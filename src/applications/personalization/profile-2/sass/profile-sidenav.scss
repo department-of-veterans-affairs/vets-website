@@ -22,7 +22,7 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
     // The overlay that covers the entire page behind the open menu
     &::before {
       background: $color-link-default-hover;
-      content: '\00A0';
+      content: "\00A0";
       display: block;
       height: 100%;
       left: 0;
@@ -78,7 +78,7 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
     }
   }
 
-  h4 {
+  h2 {
     border: 1px solid $color-gray-lighter;
     border-left: none;
     border-right: none;
@@ -106,7 +106,6 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
       &:focus {
         background-color: $color-primary-alt-lightest;
         border-color: $color-link-default;
-        padding-left: 14px;
         transition: background-color 0.1s ease-in-out,
           border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
       }
@@ -118,32 +117,5 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
         padding-left: units-px(1.5);
       }
     }
-  }
-}
-
-// This is the trigger-button on mobile
-.va-btn-sidebarnav-trigger {
-  background-color: $color-primary;
-  color: $color-white;
-  margin: units-px(1) 0;
-  width: 100%;
-
-  &:hover {
-    background-color: $color-primary-darker;
-  }
-
-  &:focus,
-  &:hover {
-    svg {
-      fill: $color-white;
-    }
-  }
-
-  &.fixed-trigger {
-    margin: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: $top-layer;
   }
 }
