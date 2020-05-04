@@ -97,6 +97,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
         dataTransformer={transformServiceHistoryEntryIntoTableRow}
         title="Period of service"
         fieldName="serviceHistory"
+        list
       />
       <div className="vads-u-margin-top--4">
         <AdditionalInfo
