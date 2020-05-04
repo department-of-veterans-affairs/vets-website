@@ -13,8 +13,12 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="21-686c" />
-        <p>Equal to VA Form 21-686c.</p>
+        <FormTitle title="Add or remove dependents from your VA benefits" />
+        <p>
+          Equal to VA Form 21-686c (Application Request to Add And/Or Remove
+          Dependents) and/or Equal to VA Form 21-674 (Request for Approval of
+          School Attendance)
+        </p>
         <SaveInProgressIntro
           hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
