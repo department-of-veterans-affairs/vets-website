@@ -6,7 +6,7 @@ import formConfig from './config/form';
 import ITFWrapper from '../all-claims/containers/ITFWrapper';
 import RequiredServicesGate from '../all-claims/containers/RequiredServicesGate';
 
-export default function Form526Entry({ location, children }) {
+export default function BDDEntry({ location, children }) {
   // wraps the app and redirects user if they are not enrolled
   return (
     <RequiredServicesGate location={location}>
