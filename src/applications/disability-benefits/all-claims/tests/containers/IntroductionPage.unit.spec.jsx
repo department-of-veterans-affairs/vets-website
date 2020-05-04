@@ -61,7 +61,7 @@ describe('<IntroductionPage/>', () => {
       wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
     ).to.equal(2);
     expect(wrapper.find('FormTitle').length).to.equal(1);
-    expect(wrapper.find('Connect(FileOriginalClaimPage)').length).to.equal(0);
+    expect(wrapper.find('FileOriginalClaimPage').length).to.equal(0);
     wrapper.unmount();
   });
   it('should block original claim & show alert', () => {
@@ -72,7 +72,7 @@ describe('<IntroductionPage/>', () => {
       wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
     ).to.equal(0);
     expect(wrapper.find('FormTitle').length).to.equal(1);
-    expect(wrapper.find('Connect(FileOriginalClaimPage)').length).to.equal(1);
+    expect(wrapper.find('FileOriginalClaimPage').length).to.equal(1);
     wrapper.unmount();
   });
 });
