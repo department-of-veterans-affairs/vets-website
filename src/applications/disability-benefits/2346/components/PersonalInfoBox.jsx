@@ -51,7 +51,7 @@ PersonalInfoBox.propTypes = {
     fullName: PropTypes.shape({
       first: PropTypes.string.isRequired,
       last: PropTypes.string.isRequired,
-      middle: PropTypes.string.isRequired,
+      middle: PropTypes.string,
     }).isRequired,
     gender: PropTypes.string.isRequired,
     dateOfBirth: PropTypes.string.isRequired,
