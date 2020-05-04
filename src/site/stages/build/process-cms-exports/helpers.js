@@ -4,13 +4,14 @@ const path = require('path');
 const get = require('lodash/get');
 
 /**
- * This assumes the tome-sync output is sibling to the vets-website
- * directory.
+ * Where to find the cms-export
  */
-const contentDir = path.join(
+const exportDir = path.join(
   __dirname,
-  '../../../../../../cms-export/content/',
+  `../../../../../.cache/${process.env.buildOptions &&
+    process.env.buildOptions.buildType}/cms-export/`,
 );
+const contentDir = path.join(exportDir, 'content');
 
 /**
  * The sub-type can be found in a few different properties, depending
@@ -39,6 +40,7 @@ function getContentModelType(entity) {
 }
 
 module.exports = {
+  exportDir,
   contentDir,
   typeProperties,
   getContentModelType,
