@@ -7,7 +7,10 @@ export const schema = deceasedDependents.properties.dependentInformation;
 
 export const uiSchema = {
   deaths: {
-    'ui:options': { viewField: DependentViewField },
+    'ui:options': {
+      viewField: DependentViewField,
+      itemName: 'deceased dependent',
+    },
     items: {
       fullName: {
         'ui:validations': [validateName],
