@@ -13,7 +13,6 @@ import {
   updateEstimatedBenefits,
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
-import { isLoggedIn } from 'platform/user/selectors';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
@@ -95,7 +94,7 @@ export class EstimateYourBenefits extends React.Component {
           calculatorInputChange={this.props.calculatorInputChange}
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           estimatedBenefits={this.props.estimatedBenefits}
-          isLoggedIn={this.props.isLoggedIn}
+          updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
         <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
@@ -132,7 +131,6 @@ const mapStateToProps = (state, props) => ({
   calculated: getCalculatedBenefits(state, props),
   eligibility: state.eligibility,
   estimatedBenefits: state.calculator.estimatedBenefits,
-  isLoggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {

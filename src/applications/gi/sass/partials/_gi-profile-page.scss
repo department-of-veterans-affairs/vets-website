@@ -379,4 +379,16 @@
       background-image: url('/img/arrow-down.svg');
     }
   }
+
+  #estimated-benefits {
+    outline: none;
+  }
+
+  button.calculate-button {
+    background-image: none;
+    background-color: $color-primary;
+    border-radius: $button-border-radius;
+    color: $color-white;
+    width: auto;
+  }
 }

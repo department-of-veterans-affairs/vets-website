@@ -1,5 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from './utils';
+import * as Sentry from '@sentry/browser';
 
 export default (_store, widgetType) => {
   // Derive the element to render our widget.
@@ -24,6 +25,7 @@ export default (_store, widgetType) => {
       });
       window.WebChat.renderWebChat(webchatOptions, root);
     } catch (err) {
+      Sentry.captureException(err);
       recordEvent({
         event: `${GA_PREFIX}-connection-failure`,
         'error-key': 'XX_failed_to_start_chat',

@@ -45,12 +45,6 @@
         "aliases": ["applications", "platform", "site", "vet360"]
       }
     ],
-    "va/resolved-path-on-required": [
-      1,
-      {
-        "aliases": ["applications", "platform", "site", "vet360"]
-      }
-    ],
 
     /* || fp plugin || */
     "fp/no-proxy": 2, // IE 11 has no polyfill for Proxy
@@ -86,6 +80,14 @@
     "sonarjs/prefer-object-literal": 2,
     "sonarjs/prefer-single-boolean-return": 2,
     "sonarjs/prefer-while": 2,
+    "sonarjs/no-extra-arguments": 2,
+    "sonarjs/no-identical-expressions": 2,
+    "sonarjs/max-switch-cases": [2, 40],
+    "sonarjs/no-duplicated-branches": 2,
+    "sonarjs/no-inverted-boolean-check": 2,
+    "sonarjs/no-redundant-boolean": 2,
+    "sonarjs/no-unused-collection": 2,
+    "sonarjs/no-small-switch": 2,
 
     /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
