@@ -4,7 +4,6 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 const VerifiedAlert = (
   <div>
@@ -224,11 +223,6 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = { toggleLoginModal };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPage);
 
 export { IntroductionPage };
