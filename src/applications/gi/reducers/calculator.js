@@ -40,6 +40,7 @@ const INITIAL_STATE = {
   vetTecTuitionFees: null,
   vetTecScholarships: null,
   vetTecProgramName: '',
+  selectedProgram: '',
   classesOutsideUS: false,
 };
 
@@ -76,6 +77,7 @@ export default function(state = INITIAL_STATE, action) {
           vetTecProgramName: value.vetTecProgramName,
           vetTecTuitionFees: value.vetTecTuitionFees,
           vetTecProgramFacilityCode: value.vetTecProgramFacilityCode,
+          selectedProgram: value.vetTecProgramName,
         };
       }
 
@@ -368,6 +370,7 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonProgramIndex,
         vetTecProgramName,
         vetTecTuitionFees,
+        selectedProgram: vetTecProgramName || '',
       };
     }
 

@@ -112,7 +112,9 @@
   @include media($small-screen) {
     display: flex;
   }
+  padding-left: .50rem;
 }
+
 .program-description {
   margin-top: 1.0rem;
   margin-bottom: 1.0rem;

@@ -1,47 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import ContactInformation from '../profile/ContactInformation';
-import { calculatorInputChange } from '../../actions';
 import { formatCurrency, isPresent } from '../../utils/helpers';
+import { connect } from 'react-redux';
 
-class NewVetTecApprovedPrograms extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { selectedProgram: props.preSelectedProgram };
-    this.setProgramFields(props.preSelectedProgram);
-  }
-
-  setProgramFields = programName => {
-    if (programName) {
-      const program = this.props.institution.programs.find(
-        p => p.description.toLowerCase() === programName.toLowerCase(),
-      );
-      if (program) {
-        const field = 'vetTecProgram';
-        const value = {
-          vetTecTuitionFees: program.tuitionAmount,
-          vetTecProgramName: program.description,
-          vetTecProgramFacilityCode: this.props.institution.facilityCode,
-        };
-        this.props.calculatorInputChange({ field, value });
-      }
-    }
-  };
-
-  handleInputChange = (event, index, vetTecProgramName) => {
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': 'Program Name Radio Button',
-      'gibct-form-value': vetTecProgramName,
-    });
-    this.setState({ selectedProgram: vetTecProgramName });
-    this.setProgramFields(vetTecProgramName);
-  };
-
+class EybVetTecApprovedPrograms extends React.Component {
   render() {
     const programs = this.props.institution.programs;
+    const selectedProgram =
+      this.props.selectedProgram !== ''
+        ? this.props.selectedProgram
+        : this.props.preSelectedProgram;
+
     if (programs && programs.length) {
       const programRows = programs.map((program, index) => {
         const programLength =
@@ -52,15 +22,21 @@ class NewVetTecApprovedPrograms extends React.Component {
           ? formatCurrency(program.tuitionAmount)
           : 'TBD';
         const checked =
-          this.state.selectedProgram &&
-          program.description.toLowerCase() ===
-            this.state.selectedProgram.toLowerCase();
+          selectedProgram &&
+          program.description.toLowerCase() === selectedProgram.toLowerCase();
         return (
           <tr key={index}>
             <td className="vads-u-padding-y--0">
               <div className="program-description">
-                {checked ? <i className="fas fa-check" /> : ''}
-                program.description}
+                <i
+                  className={
+                    checked
+                      ? 'fas fa-check vads-u-padding-right--0p5 vads-u-color--green'
+                      : 'vads-u-padding-right--2p5'
+                  }
+                />
+
+                {program.description}
               </div>
             </td>
             <td className="vads-u-padding-y--0 program-length">
@@ -113,14 +89,16 @@ class NewVetTecApprovedPrograms extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  selectedProgram: state.calculator.selectedProgram,
+});
+
 ContactInformation.propTypes = {
   institution: PropTypes.object,
   preSelectedProgram: PropTypes.string,
 };
 
-const mapDispatchToProps = { calculatorInputChange };
-
 export default connect(
+  mapStateToProps,
   null,
-  mapDispatchToProps,
-)(NewVetTecApprovedPrograms);
+)(EybVetTecApprovedPrograms);

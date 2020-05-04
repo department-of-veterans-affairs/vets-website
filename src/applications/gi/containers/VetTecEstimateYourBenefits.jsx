@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { calculatorInputChange, beneficiaryZIPCodeChanged } from '../actions';
+import { beneficiaryZIPCodeChanged } from '../actions';
 import { getCalculatedBenefits } from '../selectors/vetTecCalculator';
-import VetTecCalculatorForm from '../components/vet-tec/VetTecCalculatorForm';
+import EybVetTecCalculatorForm from '../components/vet-tec/EybVetTecCalculatorForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../constants';
 
@@ -31,12 +31,15 @@ export class VetTecEstimateYourBenefits extends React.Component {
     return (
       <div className="calculator-inputs vads-u-margin-x--neg1p5">
         <div>
-          <VetTecCalculatorForm
+          <EybVetTecCalculatorForm
             inputs={inputs}
             displayedInputs={displayed}
-            onInputChange={this.props.calculatorInputChange}
             onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
             onShowModal={this.props.showModal}
+            institution={this.props.institution}
+            preSelectedProgram={this.props.preSelectedProgram}
+            selectedProgram={this.props.calculator.selectedProgram}
+            handleSelectedProgram={this.handleSelectedProgram}
           />
         </div>
       </div>
@@ -197,7 +200,10 @@ export class VetTecEstimateYourBenefits extends React.Component {
         </div>
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           <div className=" your-estimated-benefits">
-            <h3>Your estimated benefits</h3>
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+            <h3 id="estimated-benefits-header" className="estimated-benefits-header" tabIndex="0">
+              Your estimated benefits
+            </h3>
             <div className="program-name">
               {this.props.calculator.vetTecProgramName}
             </div>
@@ -223,12 +229,13 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-  calculatorInputChange,
   beneficiaryZIPCodeChanged,
 };
 
 VetTecEstimateYourBenefits.propTypes = {
   showModal: PropTypes.func,
+  institution: PropTypes.object,
+  preSelectedProgram: PropTypes.string,
 };
 
 export default connect(
