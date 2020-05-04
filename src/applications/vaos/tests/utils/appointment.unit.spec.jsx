@@ -245,58 +245,6 @@ describe('VAOS appointment helpers', () => {
       });
     });
 
-    describe('instructions', () => {
-      it('should return community care appointment instructions', () => {
-        const appt = transformAppointment({
-          ...ccData,
-          instructionsToVeteran: 'Instruction to veteran',
-        });
-        expect(appt.instructions.header).to.equal('Special instructions');
-        expect(appt.instructions.body).to.equal('Instruction to veteran');
-      });
-
-      it('should return VA instructions', () => {
-        const appt = transformAppointment({
-          ...vaData,
-          vdsAppointments: [
-            {
-              bookingNote: 'Follow-up/Routine: Testing',
-            },
-          ],
-        });
-        expect(appt.instructions.header).to.equal('Follow-up/Routine');
-        expect(appt.instructions.body).to.equal('Testing');
-      });
-      it('should return VA video instructions', () => {
-        const appt = transformAppointment({
-          ...vaData,
-          vdsAppointments: [
-            {
-              bookingNote: '',
-            },
-          ],
-          vvsAppointments: [
-            {
-              bookingNotes: 'Follow-up/Routine: Testing',
-            },
-          ],
-        });
-        expect(appt.instructions.header).to.equal('Follow-up/Routine');
-        expect(appt.instructions.body).to.equal('Testing');
-      });
-      it('should not return VA instructions without matching prefix', () => {
-        const appt = transformAppointment({
-          ...vaData,
-          vvsAppointments: [
-            {
-              bookingNotes: 'Testing',
-            },
-          ],
-        });
-        expect(appt.instructions).to.be.null;
-      });
-    });
-
     describe('duration', () => {
       it('should return the default appointment duration for CC', () => {
         const appt = transformAppointment(ccData);

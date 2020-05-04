@@ -1,3 +1,4 @@
+import React from 'react';
 import moment from 'moment';
 import { USA_MILITARY_BRANCHES } from './constants';
 
@@ -54,17 +55,26 @@ export const getServiceBranchDisplayName = serviceBranch => {
 /**
  *
  * Transforms a service history object into an object with `title` and `value`
- * keys, which the format required by a single row in a `ProfileInfoTable`
+ * keys, which is the format required by a single row in a `ProfileInfoTable`
  *
  * @param {Object} entry - a service history object with `branchOfService`,
  * `beginDate`, and `endDate` keys
  * @returns {Object} An object with `title` and `value` keys
  */
 export const transformServiceHistoryEntryIntoTableRow = entry => ({
-  title: getServiceBranchDisplayName(entry.branchOfService),
-  value: `${moment(entry.beginDate).format('ll')} – ${moment(
-    entry.endDate,
-  ).format('ll')}`,
+  title: (
+    <>
+      <dfn className="sr-only">Service branch: </dfn>
+      {getServiceBranchDisplayName(entry.branchOfService)}
+    </>
+  ),
+  value: (
+    <>
+      <dfn className="sr-only">Dates of service: </dfn>
+      {moment(entry.beginDate).format('LL')} –{' '}
+      {moment(entry.endDate).format('LL')}
+    </>
+  ),
 });
 
 /**

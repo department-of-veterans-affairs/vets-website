@@ -16,6 +16,7 @@ export const uiSchema = {
       expandUnder: 'spouseWasMarriedBefore',
       expandUnderCondition: true,
       keepInPageOnReview: true,
+      itemName: 'former spouse',
       // ui:required doesn't play well with expandUnder, possibly because the markup isn't added to the dom until the expandUnder condition is met.
       // Because of this, a user can progress past the below fields, even if they're technically mandatory.
       // Using updateSchema and ensuring at least one item needs to be in the array causes the validations to fire properly.
@@ -25,7 +26,6 @@ export const uiSchema = {
     },
     items: {
       fullName: {
-        'ui:title': 'Former spouse’s information',
         'ui:validations': [validateName],
         first: {
           'ui:title': 'Former spouse’s first name',

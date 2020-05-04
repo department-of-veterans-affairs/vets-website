@@ -14,7 +14,7 @@ $corner-size: 4px;
     border: 1px solid;
     border-top: 0;
 
-    h4 {
+    dt {
       @include media($medium-screen) {
         width: 208px;
         flex-shrink: 0;
@@ -22,10 +22,12 @@ $corner-size: 4px;
     }
   }
 
-  div.table-row:first-child {
-    border: 1px solid;
-    border-top-left-radius: $corner-size;
-    border-top-right-radius: $corner-size;
+  dl:first-child {
+    div.table-row:first-child {
+      border: 1px solid;
+      border-top-left-radius: $corner-size;
+      border-top-right-radius: $corner-size;
+    }
   }
 
   div.table-row:last-child {
