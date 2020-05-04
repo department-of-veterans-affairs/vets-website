@@ -25,7 +25,6 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   if (isFirstLevel) {
     return (
       <h2
-        aria-label={label}
         className={classNames(
           'va-sidenav-item-label, vads-u-font-family--sans',
           {
