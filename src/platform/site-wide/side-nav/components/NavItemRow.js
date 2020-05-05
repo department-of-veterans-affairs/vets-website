@@ -20,12 +20,10 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   const isExpanded = expanded && depth === 2 && !isSelected;
   // Expanded beyond level 2 expanded and selected
   const moreThanLevel2SelectedExpanded = expanded && depth > 2 && isSelected;
-
   const isLevelFourOrDeeper = item.depth >= 4;
   if (isFirstLevel) {
     return (
       <h2
-        aria-label={label}
         className={classNames(
           'va-sidenav-item-label, vads-u-font-family--sans',
           {
@@ -47,6 +45,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   if (hasChildren) {
     return (
       <a
+        aria-current={isSelected ? 'page' : undefined}
         aria-label={label}
         className={classNames('va-sidenav-item-label', {
           'va-sidenav-item-label-bold': isFirstLevel,
