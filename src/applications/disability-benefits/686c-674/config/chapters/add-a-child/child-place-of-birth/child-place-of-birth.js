@@ -4,6 +4,7 @@ import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
+import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
 
@@ -16,6 +17,7 @@ export const uiSchema = {
       viewField: childInfo,
     },
     items: {
+      'ui:title': ChildNameHeader,
       placeOfBirth: {
         'ui:title': "Child's place of birth",
         state: {

@@ -103,12 +103,12 @@ export const addressUISchema = (
   // The two constants below are paths used to retrieve the values in those other fields.
   const livesOnMilitaryBasePath = `${path}${MILITARY_BASE_PATH}`;
   const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
+  const checkBoxTitleState = path.includes('veteran') ? 'I' : 'They';
 
   return (function returnAddressUI() {
     return {
       'view:livesOnMilitaryBase': {
-        'ui:title':
-          'I live on a United States military base outside of the United States',
+        'ui:title': `${checkBoxTitleState} live on a United States military base outside of the U.S.`,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
         },
@@ -123,10 +123,19 @@ export const addressUISchema = (
         'ui:required': callback,
         'ui:title': 'Country',
         'ui:options': {
-          updateSchema: (formData, schema, uiSchema) => {
+          updateSchema: (formData, schema, uiSchema, index) => {
+            let militaryBasePath = livesOnMilitaryBasePath;
+            let countryPath = path;
+            if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
+              countryPath = insertArrayIndex(path, index);
+            }
             const countryUI = uiSchema;
-            const countryFormData = get(path, formData);
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const countryFormData = get(countryPath, formData);
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               countryUI['ui:disabled'] = true;
               countryFormData.countryName = USA.value;
@@ -147,7 +156,7 @@ export const addressUISchema = (
       },
       addressLine1: {
         'ui:required': callback,
-        'ui:title': 'Street address',
+        'ui:title': 'Street',
         'ui:errorMessages': {
           required: 'Street address is required',
           pattern: 'Street address must be under 100 characters',
@@ -166,8 +175,15 @@ export const addressUISchema = (
           pattern: 'City must be under 100 characters',
         },
         'ui:options': {
-          replaceSchema: formData => {
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+          replaceSchema: (formData, schema, uiSchema, index) => {
+            let militaryBasePath = livesOnMilitaryBasePath;
+            if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
+            }
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return {
                 type: 'string',
@@ -208,18 +224,30 @@ export const addressUISchema = (
             // We have to check this when a user selects a non-US country and then selects
             // the military base checkbox.
             let countryNamePath = `${path}.countryName`;
+            let militaryBasePath = livesOnMilitaryBasePath;
             if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
               countryNamePath = insertArrayIndex(countryNamePath, index);
             }
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return false;
             }
             const countryName = get(countryNamePath, formData);
             return countryName && countryName !== USA.value;
           },
-          updateSchema: formData => {
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+          updateSchema: (formData, schema, uiSchema, index) => {
+            let militaryBasePath = livesOnMilitaryBasePath;
+            if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
+            }
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return {
                 enum: Object.keys(MILITARY_STATES),
@@ -237,11 +265,16 @@ export const addressUISchema = (
         'ui:title': 'State/Province/Region',
         'ui:options': {
           hideIf: (formData, index) => {
+            let militaryBasePath = livesOnMilitaryBasePath;
             let countryNamePath = `${path}.countryName`;
             if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
               countryNamePath = insertArrayIndex(countryNamePath, index);
             }
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return true;
             }
@@ -252,21 +285,23 @@ export const addressUISchema = (
       },
       zipCode: {
         'ui:required': (formData, index) => {
+          let militaryBasePath = livesOnMilitaryBasePath;
           let countryNamePath = `${path}.countryName`;
           if (typeof index === 'number') {
+            militaryBasePath = insertArrayIndex(livesOnMilitaryBasePath, index);
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
-          const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+          const livesOnMilitaryBase = get(militaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
             (countryName && countryName === USA.value) ||
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
-        'ui:title': 'Zip Code',
+        'ui:title': 'Postal Code',
         'ui:errorMessages': {
-          required: 'Zip code is required',
-          pattern: 'Zip code must be 5 digits',
+          required: 'Postal code is required',
+          pattern: 'Postal code must be 5 digits',
         },
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
@@ -274,11 +309,16 @@ export const addressUISchema = (
             // Because we have to update countryName manually in formData above,
             // We have to check this when a user selects a non-US country and then selects
             // the military base checkbox.
+            let militaryBasePath = livesOnMilitaryBasePath;
             let countryNamePath = `${path}.countryName`;
             if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
               countryNamePath = insertArrayIndex(countryNamePath, index);
             }
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             const countryName = get(countryNamePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return false;
@@ -298,16 +338,21 @@ export const addressUISchema = (
         },
         'ui:title': 'International postal code',
         'ui:errorMessages': {
-          required: 'Postal code is required',
+          required: 'International postal code is required',
         },
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
           hideIf: (formData, index) => {
+            let militaryBasePath = livesOnMilitaryBasePath;
             let countryNamePath = `${path}.countryName`;
             if (typeof index === 'number') {
+              militaryBasePath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
               countryNamePath = insertArrayIndex(countryNamePath, index);
             }
-            const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return true;
             }

@@ -40,7 +40,7 @@ module.exports = {
   },
   'Choose a VA location for your appointment': client => {
     client
-      .click('[value="983"]')
+      .click('[value="var983"]')
       .waitForElementPresent(
         '[name = "root_vaFacility"][value = "983GB"]',
         Timeouts.slow,

@@ -15,7 +15,7 @@ export const uiSchema = {
         },
       },
       startLocation: {
-        'ui:title': 'Where did this marriage take place?',
+        'ui:title': 'Place of marriage to former spouse',
         state: {
           'ui:required': formData => formData.veteranWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
@@ -49,7 +49,7 @@ export const uiSchema = {
         },
       },
       endLocation: {
-        'ui:title': 'Where did this marriage end?',
+        'ui:title': 'Place marriage with former spouse ended?',
         state: {
           'ui:required': formData => formData.veteranWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
