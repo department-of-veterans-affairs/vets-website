@@ -57,7 +57,7 @@ class SelectArrayItemsAccessoriesWidget extends Component {
 
     return (
       <>
-        {!areAccessorySuppliesIneligible && (
+        {areAccessorySuppliesIneligible && (
           <>
             <AlertBox
               headline="You can't reorder your items at this time"
@@ -70,7 +70,7 @@ class SelectArrayItemsAccessoriesWidget extends Component {
             </p>
           </>
         )}
-        {areAccessorySuppliesIneligible && (
+        {!areAccessorySuppliesIneligible && (
           <>
             <h4>Select the hearing aid accessories you need</h4>
             <p>
