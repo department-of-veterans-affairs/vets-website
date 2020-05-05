@@ -1,5 +1,4 @@
-const path = require('path');
-const fs = require('fs-extra');
+const tar = require('tar-fs');
 const moment = require('moment');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
@@ -117,11 +116,6 @@ function getDrupalClient(buildOptions) {
       /* eslint-disable no-console */
       const say = log ? console.log : () => {};
 
-      // Assumes the buildtype is in the cms-export-dir path to avoid naming collision
-      const contentParentPath = path.join(buildOptions['cms-export-dir'], '..');
-      const pathToContentTar = path.join(contentParentPath, `content.tar`);
-      const fileStream = fs.createWriteStream(pathToContentTar);
-
       say(
         chalk.green('Fetching content export from'),
         chalk.blue.underline(contentExportUri),
@@ -135,16 +129,19 @@ function getDrupalClient(buildOptions) {
       say('Status code:', response.status);
 
       if (response.ok) {
-        say(`Writing file to ${chalk.blue(pathToContentTar)}`);
+        say(
+          `Downloading and untarring CMS export to ${chalk.blue(
+            buildOptions['cms-export-dir'],
+          )}`,
+        );
         await new Promise(resolve => {
-          response.body.pipe(fileStream);
+          response.body.pipe(tar.extract(buildOptions['cms-export-dir']));
           response.body.on('end', () => {
             console.timeEnd(timer);
             process.exit(0);
             resolve();
           });
         });
-        // TODO: Untar it
       } else {
         throw new Error('Failed to fetch the CMS export tarball');
       }
