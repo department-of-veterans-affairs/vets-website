@@ -8,7 +8,8 @@ const ReviewPageBatteries = ({ selectedProductInfo, batterySupplies }) => (
         You have requested to receive batteries for the following hearing aids:
       </span>
       <span>
-        ({selectedProductInfo.length} out of {batterySupplies.length} selected)
+        ({selectedProductInfo?.length || 0} out of{' '}
+        {batterySupplies?.length || 0} selected)
       </span>
     </div>
     <div className="vads-u-margin-bottom--3">
