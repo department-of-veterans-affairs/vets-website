@@ -6,11 +6,7 @@ export const formatNumber = value => {
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 };
 
-export const formatCurrency = value => {
-  const output =
-    value !== null ? value.toString().replace(/([^0-9])+/g, '') : 0;
-  return `$${formatNumber(Math.round(+output))}`;
-};
+export const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
 
 export const isVetTecSelected = filters => filters.category === 'vettec';
 

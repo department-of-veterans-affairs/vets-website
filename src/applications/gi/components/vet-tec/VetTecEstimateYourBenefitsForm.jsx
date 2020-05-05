@@ -44,6 +44,12 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  formatDollarAmount = value => {
+    const output =
+      value !== null ? value.toString().replace(/([^0-9].)+/g, '') : 0;
+    return formatCurrency(output);
+  };
+
   handleApprovedProgramsChange = event => {
     const vetTecProgramName = event.target.value;
     const program = this.getProgramByName(vetTecProgramName);
@@ -93,7 +99,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         aria-labelledby="scholarships-label"
         type="text"
         name="vetTecScholarships"
-        value={formatCurrency(this.state.scholarships)}
+        value={this.formatDollarAmount(this.state.scholarships)}
         onChange={e => this.setState({ scholarships: e.target.value })}
         onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
@@ -122,7 +128,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
         type="text"
-        value={formatCurrency(this.state.tuitionFees)}
+        value={this.formatDollarAmount(this.state.tuitionFees)}
         onChange={e => this.setState({ tuitionFees: e.target.value })}
         onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
