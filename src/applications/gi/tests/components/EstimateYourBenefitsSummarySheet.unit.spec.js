@@ -35,7 +35,7 @@ const outputs = {
 };
 
 describe('<EstimateYourBenefitsSummarySheet>', () => {
-  it('should render for IHL', () => {
+  it('should render expanded for IHL', () => {
     const tree = mount(
       <EstimateYourBenefitsSummarySheet
         outputs={outputs}
@@ -49,11 +49,38 @@ describe('<EstimateYourBenefitsSummarySheet>', () => {
     tree.unmount();
   });
 
-  it('should render for OJT', () => {
+  it('should render collapsed for IHL', () => {
+    const tree = mount(
+      <EstimateYourBenefitsSummarySheet
+        outputs={outputs}
+        expandEybSheet={false}
+        toggleEybExpansion={() => sinon.spy()}
+        type={'PUBLIC'}
+        yellowRibbon
+      />,
+    );
+    expect(tree).to.not.be.undefined;
+    tree.unmount();
+  });
+
+  it('should render expanded for OJT', () => {
     const tree = mount(
       <EstimateYourBenefitsSummarySheet
         outputs={outputs}
         expandEybSheet
+        toggleEybExpansion={() => sinon.spy()}
+        type={'OJT'}
+        yellowRibbon
+      />,
+    );
+    expect(tree).to.not.be.undefined;
+    tree.unmount();
+  });
+  it('should render collapsed for OJT', () => {
+    const tree = mount(
+      <EstimateYourBenefitsSummarySheet
+        outputs={outputs}
+        expandEybSheet={false}
         toggleEybExpansion={() => sinon.spy()}
         type={'OJT'}
         yellowRibbon
