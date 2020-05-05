@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs-extra');
 const moment = require('moment');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
@@ -37,6 +39,7 @@ function getDrupalClient(buildOptions) {
 
   const { address, user, password } = drupalConfig;
   const drupalUri = `${address}/graphql`;
+  const contentExportUri = `${address}/cms-export/content`;
   const encodedCredentials = encodeCredentials({ user, password });
   const headers = {
     Authorization: `Basic ${encodedCredentials}`,
@@ -103,6 +106,49 @@ function getDrupalClient(buildOptions) {
       }
 
       throw new Error(`HTTP error: ${response.status}: ${response.statusText}`);
+    },
+
+    /**
+     * Fetches and untars the CMS export.
+     *
+     * @return {String} - The path to the untarred CMS export.
+     */
+    async fetchExportContent({ log } = { log: true }) {
+      /* eslint-disable no-console */
+      const say = log ? console.log : () => {};
+
+      // Assumes the buildtype is in the cms-export-dir path to avoid naming collision
+      const contentParentPath = path.join(buildOptions['cms-export-dir'], '..');
+      const pathToContentTar = path.join(contentParentPath, `content.tar`);
+      const fileStream = fs.createWriteStream(pathToContentTar);
+
+      say(
+        chalk.green('Fetching content export from'),
+        chalk.blue.underline(contentExportUri),
+      );
+
+      const timer = `${chalk.blue(contentExportUri)} reponse time`;
+      console.time(timer);
+
+      const response = await this.proxyFetch(contentExportUri);
+
+      say('Status code:', response.status);
+
+      if (response.ok) {
+        say(`Writing file to ${chalk.blue(pathToContentTar)}`);
+        await new Promise(resolve => {
+          response.body.pipe(fileStream);
+          response.body.on('end', () => {
+            console.timeEnd(timer);
+            process.exit(0);
+            resolve();
+          });
+        });
+        // TODO: Untar it
+      } else {
+        throw new Error('Failed to fetch the CMS export tarball');
+      }
+      /* eslint-enable no-console */
     },
 
     getAllPages(onlyPublishedContent = true) {

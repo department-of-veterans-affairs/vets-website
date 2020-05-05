@@ -227,6 +227,9 @@ async function getContentFromExport(buildOptions) {
 
   if (shouldPullDrupal(buildOptions)) {
     // TODO: Download and untar the latest content export
+    await contentApi.fetchExportContent();
+    // TODO: Time the response time and log it
+    // May do this as by passing a { log: true } to fetchExportContents
   }
 
   const drupalPages = await contentApi.getNonNodeContent();
