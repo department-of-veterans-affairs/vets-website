@@ -4,7 +4,7 @@ import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
 import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedPrograms from './VetTecApprovedPrograms';
-import EybVetTecApprovedPrograms from './EybVetTecApprovedPrograms';
+import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
 import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
 import ContactInformation from '../profile/ContactInformation';
@@ -22,6 +22,7 @@ const VetTecInstitutionProfile = ({
   showModal,
   preSelectedProgram,
   gibctEstimateYourBenefits,
+  selectedProgram,
 }) => (
   <div>
     {
@@ -33,9 +34,10 @@ const VetTecInstitutionProfile = ({
     <ul className="profile-accordion-list">
       <AccordionItem button="Approved programs">
         {gibctEstimateYourBenefits ? (
-          <EybVetTecApprovedPrograms
+          <VetTecApprovedProgramsList
             institution={institution}
             preSelectedProgram={preSelectedProgram}
+            selectedProgram={selectedProgram}
           />
         ) : (
           <VetTecApprovedPrograms

@@ -87,7 +87,7 @@ export default function(state = INITIAL_STATE, action) {
         [field]: convertedValue,
       };
 
-      if (field === 'EYBVetTecProgram') {
+      if (field === 'EstimateYourBenefitsFields') {
         newState = {
           ...newState,
           vetTecProgramName: value.vetTecProgramName,

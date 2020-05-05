@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { beneficiaryZIPCodeChanged } from '../actions';
 import { getCalculatedBenefits } from '../selectors/vetTecCalculator';
-import EybVetTecCalculatorForm from '../components/vet-tec/EybVetTecCalculatorForm';
+import VetTecEstimateYourBenefitsForm from '../components/vet-tec/VetTecEstimateYourBenefitsForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../constants';
 
@@ -31,7 +31,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
     return (
       <div className="calculator-inputs vads-u-margin-x--neg1p5">
         <div>
-          <EybVetTecCalculatorForm
+          <VetTecEstimateYourBenefitsForm
             inputs={inputs}
             displayedInputs={displayed}
             onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
@@ -203,8 +203,6 @@ export class VetTecEstimateYourBenefits extends React.Component {
             <h3
               id="estimated-benefits-header"
               className="estimated-benefits-header"
-              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-              tabIndex="0"
             >
               Your estimated benefits
             </h3>

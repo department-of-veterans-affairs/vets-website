@@ -8,8 +8,9 @@ import Dropdown from '../Dropdown';
 import { calculatorInputChange } from '../../actions';
 import { connect } from 'react-redux';
 import RadioButtons from '../RadioButtons';
+import { focusElement } from 'platform/utilities/ui';
 
-class EybVetTecCalculatorForm extends React.Component {
+class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
     const selectedProgram =
@@ -24,13 +25,16 @@ class EybVetTecCalculatorForm extends React.Component {
     };
   }
 
+  getProgramByName = programName =>
+    this.props.institution.programs.find(
+      p => p.description.toLowerCase() === programName.toLowerCase(),
+    );
+
   setProgramFields = programName => {
     if (programName) {
-      const program = this.props.institution.programs.find(
-        p => p.description.toLowerCase() === programName.toLowerCase(),
-      );
+      const program = this.getProgramByName(programName);
       if (program) {
-        const field = 'EYBVetTecProgram';
+        const field = 'EstimateYourBenefitsFields';
         const value = {
           vetTecTuitionFees: this.state.tuitionFees,
           vetTecProgramName: this.state.programName,
@@ -44,9 +48,7 @@ class EybVetTecCalculatorForm extends React.Component {
 
   handleApprovedProgramsChange = event => {
     const vetTecProgramName = event.target.value;
-    const program = this.props.institution.programs.find(
-      p => p.description.toLowerCase() === vetTecProgramName.toLowerCase(),
-    );
+    const program = this.getProgramByName(vetTecProgramName);
 
     this.setState({
       programName: vetTecProgramName,
@@ -69,7 +71,7 @@ class EybVetTecCalculatorForm extends React.Component {
   calculateBenefitsOnClick = event => {
     event.preventDefault();
     this.setProgramFields(this.state.programName);
-    document.getElementById('estimated-benefits-header').focus();
+    focusElement('.estimated-benefits-header');
   };
 
   renderScholarships = onShowModal => (
@@ -174,7 +176,7 @@ class EybVetTecCalculatorForm extends React.Component {
   }
 }
 
-EybVetTecCalculatorForm.propTypes = {
+VetTecEstimateYourBenefitsForm.propTypes = {
   inputs: PropTypes.object,
   displayedInputs: PropTypes.object,
   onShowModal: PropTypes.func,
@@ -188,4 +190,4 @@ const mapDispatchToProps = { calculatorInputChange };
 export default connect(
   null,
   mapDispatchToProps,
-)(EybVetTecCalculatorForm);
+)(VetTecEstimateYourBenefitsForm);

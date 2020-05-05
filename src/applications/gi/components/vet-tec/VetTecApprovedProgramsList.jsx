@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ContactInformation from '../profile/ContactInformation';
 import { formatCurrency, isPresent } from '../../utils/helpers';
-import { connect } from 'react-redux';
 
-class EybVetTecApprovedPrograms extends React.Component {
+class VetTecApprovedProgramsList extends React.Component {
   render() {
     const programs = this.props.institution.programs;
     const selectedProgram =
@@ -40,7 +39,7 @@ class EybVetTecApprovedPrograms extends React.Component {
                 <div className="vads-l-col--10 ">
                   {program.description}{' '}
                   {checked ? (
-                    <span className="sr-only">selectedProgram</span>
+                    <span className="sr-only">Selected program</span>
                   ) : (
                     ''
                   )}
@@ -95,16 +94,10 @@ class EybVetTecApprovedPrograms extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  selectedProgram: state.calculator.selectedProgram,
-});
-
 ContactInformation.propTypes = {
   institution: PropTypes.object,
   preSelectedProgram: PropTypes.string,
+  selectedProgram: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(EybVetTecApprovedPrograms);
+export default VetTecApprovedProgramsList;
