@@ -100,7 +100,7 @@ class SideNav extends Component {
         )}
       >
         <button
-          type="text"
+          type="button"
           aria-describedby="va-sidenav-ul-container"
           className={classNames(
             `vads-u-color--primary medium-screen:vads-u-display--none va-sidenav-default-trigger`,
