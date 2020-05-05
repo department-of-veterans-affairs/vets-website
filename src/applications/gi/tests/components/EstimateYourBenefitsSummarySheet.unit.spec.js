@@ -23,7 +23,7 @@ const outputs = {
 };
 
 describe('<EstimateYourBenefitsSummarySheet>', () => {
-  it('should render', () => {
+  it('should render for IHL', () => {
     const tree = mount(
       <EstimateYourBenefitsSummarySheet
         outputs={outputs}
@@ -34,7 +34,20 @@ describe('<EstimateYourBenefitsSummarySheet>', () => {
       />,
     );
     expect(tree).to.not.be.undefined;
+    tree.unmount();
+  });
 
+  it('should render for OJT', () => {
+    const tree = mount(
+      <EstimateYourBenefitsSummarySheet
+        outputs={outputs}
+        expandEybSheet
+        toggleEybExpansion={() => sinon.spy()}
+        type={'OJT'}
+        yellowRibbon
+      />,
+    );
+    expect(tree).to.not.be.undefined;
     tree.unmount();
   });
 });
