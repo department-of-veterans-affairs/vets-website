@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { beneficiaryZIPCodeChanged } from '../actions';
+import { beneficiaryZIPCodeChanged, calculatorInputChange } from '../actions';
 import { getCalculatedBenefits } from '../selectors/vetTecCalculator';
 import VetTecEstimateYourBenefitsForm from '../components/vet-tec/VetTecEstimateYourBenefitsForm';
 import PropTypes from 'prop-types';
@@ -34,12 +34,12 @@ export class VetTecEstimateYourBenefits extends React.Component {
           <VetTecEstimateYourBenefitsForm
             inputs={inputs}
             displayedInputs={displayed}
-            onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
             onShowModal={this.props.showModal}
             institution={this.props.institution}
             preSelectedProgram={this.props.preSelectedProgram}
             selectedProgram={this.props.calculator.selectedProgram}
             handleSelectedProgram={this.handleSelectedProgram}
+            calculatorInputChange={this.props.calculatorInputChange}
           />
         </div>
       </div>
@@ -232,6 +232,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = {
   beneficiaryZIPCodeChanged,
+  calculatorInputChange,
 };
 
 VetTecEstimateYourBenefits.propTypes = {

@@ -5,8 +5,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { formatCurrency } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
-import { calculatorInputChange } from '../../actions';
-import { connect } from 'react-redux';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -183,11 +181,7 @@ VetTecEstimateYourBenefitsForm.propTypes = {
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
   preSelectedProgram: PropTypes.string,
+  calculatorInputChange: PropTypes.func,
 };
 
-const mapDispatchToProps = { calculatorInputChange };
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(VetTecEstimateYourBenefitsForm);
+export default VetTecEstimateYourBenefitsForm;
