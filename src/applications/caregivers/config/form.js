@@ -251,6 +251,7 @@ const formConfig = {
             type: 'object',
             required: [
               primaryCaregiverFields.fullName,
+              primaryCaregiverFields.ssn,
               primaryCaregiverFields.dateOfBirth,
               primaryCaregiverFields.gender,
             ],
