@@ -68,7 +68,13 @@ export default class SelectArrayItemsWidget extends React.Component {
                 }
               />
             );
-            const elementId = `${id}_${index}`;
+            // On the review & submit page, there may be more than one
+            // of these components in edit mode with the same content, e.g. 526
+            // ratedDisabilities & unemployabilityDisabilities causing
+            // duplicate input ids/names... an `appendId` value is added to the
+            // ui:options
+            const appendId = options.appendId ? `_${options.appendId}` : '';
+            const elementId = `${id}_${index}${appendId}`;
 
             const widgetClasses = classNames(
               'form-checkbox',
