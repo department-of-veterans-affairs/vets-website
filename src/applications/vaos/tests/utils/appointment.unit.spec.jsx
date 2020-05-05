@@ -435,12 +435,12 @@ describe('VAOS appointment helpers', () => {
       expect(ranges[3].endDate).to.include('2019-05-31T23:59:59');
 
       expect(ranges[4].value).to.equal(4);
-      expect(ranges[4].label).to.equal('Show all of 2020');
+      expect(ranges[4].label).to.equal('All of 2020');
       expect(ranges[4].startDate).to.include('2020-01-01T00:00:00');
       expect(ranges[4].endDate).to.include('2020-02-02T00:00:00');
 
       expect(ranges[5].value).to.equal(5);
-      expect(ranges[5].label).to.equal('Show all of 2019');
+      expect(ranges[5].label).to.equal('All of 2019');
       expect(ranges[5].startDate).to.include('2019-01-01T00:00:00');
       expect(ranges[5].endDate).to.include('2019-12-31T23:59:59');
     });

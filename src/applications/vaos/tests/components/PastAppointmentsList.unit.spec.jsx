@@ -12,10 +12,6 @@ import {
 import { getPastAppointmentDateRangeOptions } from '../../utils/appointment';
 
 describe('VAOS <PastAppointmentsList>', () => {
-  const dateRangeOptions = getPastAppointmentDateRangeOptions(
-    moment('2020-02-02'),
-  );
-
   const appointments = {
     pastStatus: FETCH_STATUS.succeeded,
     pastSelectedIndex: 0,
@@ -65,6 +61,9 @@ describe('VAOS <PastAppointmentsList>', () => {
   });
 
   it('should fetch past appointments', () => {
+    const dateRangeOptions = getPastAppointmentDateRangeOptions(
+      moment('2020-02-02'),
+    );
     const defaultProps = {
       appointments: {
         past: [],
@@ -87,10 +86,10 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
     expect(fetchPastAppointments.called).to.be.true;
     expect(fetchPastAppointments.firstCall.args[0]).to.equal(
-      tree.state('selectedDateRange').startDate,
+      dateRangeOptions[defaultProps.appointments.pastSelectedIndex].startDate,
     );
     expect(fetchPastAppointments.firstCall.args[1]).to.equal(
-      tree.state('selectedDateRange').endDate,
+      dateRangeOptions[defaultProps.appointments.pastSelectedIndex].endDate,
     );
     tree.unmount();
   });
@@ -188,7 +187,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
 
     const instance = tree.instance();
-    instance.onDateRangeChange({ target: { value: 1 } });
+    instance.onDateRangeChange('1');
     expect(fetchPastAppointments.callCount).to.equal(2);
     tree.unmount();
   });

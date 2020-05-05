@@ -10,24 +10,22 @@ import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
-const dateRangeOptions = getPastAppointmentDateRangeOptions();
-
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedDateRange:
-        dateRangeOptions[this.props.appointments.pastSelectedIndex],
-    };
+    this.dateRangeOptions =
+      props.dateRangeOptions || getPastAppointmentDateRangeOptions();
   }
 
   componentDidMount() {
     const { appointments, router, showPastAppointments } = this.props;
-    const { selectedDateRange } = this.state;
 
     if (!showPastAppointments) {
       router.push('/');
     } else if (appointments.pastStatus === FETCH_STATUS.notStarted) {
+      const selectedDateRange = this.dateRangeOptions[
+        appointments.pastSelectedIndex
+      ];
       this.props.fetchPastAppointments(
         selectedDateRange.startDate,
         selectedDateRange.endDate,
@@ -36,13 +34,8 @@ export class PastAppointmentsList extends React.Component {
     }
   }
 
-  onDateRangeChange = e => {
-    const index = Number(e.target.value);
-    const selectedDateRange = dateRangeOptions[index];
-
-    this.setState({
-      selectedDateRange,
-    });
+  onDateRangeChange = index => {
+    const selectedDateRange = this.dateRangeOptions[index];
 
     this.props.fetchPastAppointments(
       selectedDateRange.startDate,
@@ -111,9 +104,9 @@ export class PastAppointmentsList extends React.Component {
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
         <h3>Past appointments</h3>
         <PastAppointmentsDateDropdown
-          value={appointments.pastSelectedIndex}
+          currentRange={appointments.pastSelectedIndex}
           onChange={this.onDateRangeChange}
-          options={dateRangeOptions}
+          options={this.dateRangeOptions}
         />
         {content}
       </div>
