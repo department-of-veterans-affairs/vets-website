@@ -13,7 +13,7 @@ import fullSchema527EZ from 'applications/pensions/config/form';
 import fullSchema526AllClaims from 'applications/disability-benefits/all-claims/config/form';
 import fullSchema530 from 'applications/burials/config/form';
 import fullSchema10007 from 'applications/pre-need/config/form';
-import fullSchema686 from 'applications/disability-benefits/686/config/form';
+import fullSchema686 from 'applications/disability-benefits/686c-674/config/form';
 import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/config/form';
 import fullSchema1010CG from 'applications/caregivers/config/form';
 import fullSchemaMDOT from 'applications/disability-benefits/2346/config/form';
