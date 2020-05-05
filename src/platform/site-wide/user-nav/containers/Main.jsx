@@ -43,6 +43,11 @@ export class Main extends React.Component {
   }
 
   componentDidUpdate() {
+    // NOTE: does this check need to be called more often, for example if a
+    // user is just idle on the page, no components will be re-rendered, yet
+    // we may have to run this.  Maybe we should have this invoked in the same
+    // way that the 30 minute timeout logout works?
+    this.checkStatusInboundSSO();
     if (this.props.currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
@@ -72,20 +77,23 @@ export class Main extends React.Component {
     }
   }
 
-  checkLoggedInStatus = () => {
-    const canCallSSO = this.props.useSSOe && !environment.isLocalhost();
+  checkStatusInboundSSO = () => {
+    const { useSSOe, useInboundSSOe } = this.props;
 
-    if (canCallSSO) {
-      ssoKeepAliveSession();
+    if (useSSOe && useInboundSSOe) {
+      ssoKeepAliveSession().then(() => {
+        if (hasSession() && hasSessionSSO() === 'false') {
+          autoLogout();
+        } else if (!hasSession() && hasSessionSSO() === 'true') {
+          autoLogin();
+        }
+      });
     }
+  };
 
+  checkLoggedInStatus = () => {
     if (hasSession()) {
-      if (canCallSSO && this.props.useAutoLoginLogout && !hasSessionSSO()) {
-        autoLogout();
-      }
       this.props.initializeProfile();
-    } else if (canCallSSO && this.props.useAutoLoginLogout && hasSessionSSO()) {
-      autoLogin();
     } else {
       this.props.updateLoggedInStatus(false);
       if (this.getNextParameter()) this.openLoginModal();
@@ -212,7 +220,7 @@ export const mapStateToProps = state => {
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
     useSSOe: ssoe(state),
-    useAutoLoginLogout: ssoeInbound(state),
+    useInbountSSOe: ssoeInbound(state),
     ...state.navigation,
   };
 };
