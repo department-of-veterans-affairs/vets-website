@@ -512,12 +512,12 @@ describe('VAOS appointment helpers', () => {
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
       const confirmed = [
-        { startDate: '2099-04-30T05:35:00', facilityId: '984' },
-        { startDate: '2099-04-27T05:35:00', facilityId: '984' },
+        { appointmentDate: moment('2099-04-30T05:35:00'), facilityId: '984' },
+        { appointmentDate: moment('2099-04-27T05:35:00'), facilityId: '983' },
       ];
 
       const sorted = confirmed.sort(sortFutureConfirmedAppointments);
-      expect(sorted[0].startDate).to.equal('2099-04-27T05:35:00');
+      expect(sorted[0].facilityId).to.equal('983');
     });
   });
 
@@ -569,27 +569,26 @@ describe('VAOS appointment helpers', () => {
     it('should sort future requests', () => {
       const requests = [
         {
-          appointmentType: 'Primary Care',
-          optionDate1: '12/13/2019',
+          id: 'third',
+          typeOfCare: 'Primary Care',
+          dateOptions: [{ date: moment('12/13/2019', 'MM/DD/YYYY') }],
         },
         {
-          appointmentType: 'Primary Care',
-          optionDate1: '12/12/2019',
+          id: 'first',
+          typeOfCare: 'Audiology (hearing aid support)',
+          dateOptions: [{ date: moment('12/12/2019', 'MM/DD/YYYY') }],
         },
         {
-          appointmentType: 'Audiology (hearing aid support)',
-          optionDate1: '12/12/2019',
+          id: 'second',
+          typeOfCare: 'Primary Care',
+          dateOptions: [{ date: moment('12/12/2019', 'MM/DD/YYYY') }],
         },
       ];
 
       const sortedRequests = requests.sort(sortFutureRequests);
-      expect(sortedRequests[0].appointmentType).to.equal(
-        'Audiology (hearing aid support)',
-      );
-      expect(sortedRequests[1].appointmentType).to.equal('Primary Care');
-      expect(sortedRequests[1].optionDate1).to.equal('12/12/2019');
-      expect(sortedRequests[2].appointmentType).to.equal('Primary Care');
-      expect(sortedRequests[2].optionDate1).to.equal('12/13/2019');
+      expect(sortedRequests[0].id).to.equal('first');
+      expect(sortedRequests[1].id).to.equal('second');
+      expect(sortedRequests[2].id).to.equal('third');
     });
   });
 
