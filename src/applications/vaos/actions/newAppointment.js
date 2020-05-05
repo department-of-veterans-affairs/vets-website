@@ -408,7 +408,11 @@ export function updateFacilityPageData(page, uiSchema, data) {
         if (!availableFacilities?.length) {
           // Remove parse function when converting this call to FHIR service
           dispatch(fetchFacilityDetails(parseFakeFHIRId(data.vaParent)));
-          recordEligibilityFailure('supported-facilities');
+          recordEligibilityFailure(
+            'supported-facilities',
+            typeOfCareId,
+            parseFakeFHIRId(data.vaParent),
+          );
         }
 
         dispatch({
