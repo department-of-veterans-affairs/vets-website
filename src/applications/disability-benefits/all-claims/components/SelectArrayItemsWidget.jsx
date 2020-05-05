@@ -24,21 +24,49 @@ export default class SelectArrayItemsWidget extends React.Component {
     // Need customTitle to set error message above title.
     const { label: Label, selectedPropName, disabled, customTitle } = options;
 
+    // inReviewMode = true (review page view, not in edit mode)
+    // inReviewMode = false (in edit mode)
+    const onReviewPage = formContext.onReviewPage;
+    const inReviewMode = onReviewPage && formContext.reviewMode;
+
+    const hasSelections = items?.reduce(
+      (result, item) =>
+        result || !!get(selectedPropName || this.defaultSelectedPropName, item),
+      false,
+    );
+
     // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
-        {customTitle &&
-          items && <h5 className="all-disabilities-title">{customTitle}</h5>}
-        {items &&
+        {customTitle?.trim() && items && <h5>{customTitle}</h5>}
+        {!inReviewMode || (inReviewMode && hasSelections) ? (
           items.map((item, index) => {
             const itemIsSelected = !!get(
               selectedPropName || this.defaultSelectedPropName,
               item,
             );
+
+            // Don't show un-selected ratings in review mode
+            if (inReviewMode && !itemIsSelected) {
+              return null;
+            }
+
+            const checkboxVisible =
+              !onReviewPage || (onReviewPage && !inReviewMode);
+
             const itemIsDisabled =
               typeof disabled === 'function' ? disabled(item) : false;
+
             const labelWithData = (
-              <Label {...item} name={item.name || item.condition} />
+              <Label
+                {...item}
+                name={item.name || item.condition}
+                className={
+                  checkboxVisible
+                    ? 'vads-u-display--inline'
+                    : 'vads-u-margin-top--0p5'
+                }
+              />
             );
             const elementId = `${id}_${index}`;
 
@@ -48,20 +76,18 @@ export default class SelectArrayItemsWidget extends React.Component {
               { selected: itemIsSelected },
             );
 
-            // ObjectField is set to be wrapped in a div instead of a dl, so we move
-            // that dl wrap to here; this change fixes an accessibility issue
-            const Tag =
-              // Wrap in DL only if on review page & in review mode
-              formContext.onReviewPage &&
-              formContext.reviewMode &&
-              // volatileData is for arrays, which displays separate blocks
-              customTitle
-                ? 'dl'
-                : 'div';
+            const labelClass = [
+              'schemaform-label',
+              checkboxVisible ? '' : 'vads-u-margin-top--0',
+            ].join(' ');
 
+            // When a `customTitle` option is included, the ObjectField is set
+            // to wrap its contents in a div instead of a dl, so we don't need
+            // a include dt and dd elements in the markup; this change fixes an
+            // accessibility issue
             return (
-              <Tag key={index}>
-                <dt className={widgetClasses}>
+              <div key={index} className={widgetClasses}>
+                {checkboxVisible && (
                   <input
                     type="checkbox"
                     id={elementId}
@@ -77,14 +103,16 @@ export default class SelectArrayItemsWidget extends React.Component {
                       this.onChange(index, event.target.checked)
                     }
                   />
-                  <label className="schemaform-label" htmlFor={elementId}>
-                    {labelWithData}
-                  </label>
-                </dt>
-                <dd />
-              </Tag>
+                )}
+                <label className={labelClass} htmlFor={elementId}>
+                  {labelWithData}
+                </label>
+              </div>
             );
-          })}
+          })
+        ) : (
+          <p>No items selected</p>
+        )}
       </>
     );
   }
