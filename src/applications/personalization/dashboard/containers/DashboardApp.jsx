@@ -380,11 +380,7 @@ class DashboardApp extends React.Component {
           </>
         )}
 
-        {showProfile2 && (
-          <>
-            <ViewYourProfile2 />
-          </>
-        )}
+        {showProfile2 && <ViewYourProfile2 />}
       </>
     );
 
