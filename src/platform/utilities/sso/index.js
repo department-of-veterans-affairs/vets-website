@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/browser';
-
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
@@ -7,44 +5,33 @@ import mockKeepAlive from './mockKeepAliveSSO';
 import liveKeepAlive from './keepAliveSSO';
 
 const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
-let ssoSessionLength = 9000; // milliseconds
+const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes
 
 export async function ssoKeepAliveSession() {
-  try {
-    const res = await keepAlive();
-    const hasSSOsession = res.headers.get('session-alive');
-    if (hasSSOsession === 'true') {
-      // 'session-timeout' is in seconds, convert to milliseconds
-      ssoSessionLength = res.headers.get('session-timeout') * 1000;
-
+  return keepAlive().then(ttl => {
+    if (ttl > 0) {
+      // ttl is positive, user has an active session
       const expirationTime = new Date();
-      expirationTime.setTime(expirationTime.getTime() + ssoSessionLength);
+      // 'ttl' is in seconds, convert to milliseconds
+      expirationTime.setTime(expirationTime.getTime() + ttl * 1000);
       localStorage.setItem('sessionExpirationSSO', expirationTime);
       localStorage.setItem('hasSessionSSO', true);
+    } else if (ttl === 0) {
+      // ttl is 0, user has an inactive session
+      localStorage.setItem('hasSessionSSO', false);
     } else {
+      // ttl is null, we can't determine if the user has a session or not
       localStorage.removeItem('hasSessionSSO');
     }
-  } catch (err) {
-    Sentry.withScope(scope => {
-      scope.setExtra('error', err);
-      Sentry.captureMessage(`SSOe error: ${err.message}`);
-    });
-  }
+  });
 }
 export function checkAndUpdateSSOeSession() {
-  if (hasSessionSSO()) {
+  if (hasSessionSSO() === 'true') {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
-    // We want to minimize external keepalive calls, so this functions as self-enforced rate limiting
-    const percentageOfTimeoutThreshold = 0.67;
     const remainingSessionTime = Date.parse(sessionExpiration) - Date.now();
-    if (
-      remainingSessionTime / ssoSessionLength >
-      percentageOfTimeoutThreshold
-    ) {
-      return;
+    if (remainingSessionTime <= keepAliveThreshold) {
+      ssoKeepAliveSession();
     }
-
-    ssoKeepAliveSession();
   }
 }
