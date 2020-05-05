@@ -10,11 +10,7 @@ import { schemaFields } from '../../constants';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
-const {
-  viewAddAccessoriesField,
-  permAddressField,
-  tempAddressField,
-} = schemaFields;
+const { permAddressField, tempAddressField } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -26,12 +22,6 @@ const emailUIDescription = (
     </p>
     <p>Email address</p>
   </>
-);
-
-const addAccessoriesUITitle = (
-  <h4 className="vads-u-display--inline">
-    Add hearing aid accessories to your order
-  </h4>
 );
 
 const addressDescription = (
@@ -169,30 +159,15 @@ export default {
         keepInPageOnReview: true,
       },
     },
-    addAccessoriesUI: {
-      'ui:title': addAccessoriesUITitle,
-      'ui:description': ' Do you need to order hearing aid accessories?',
-      'ui:required': () => true,
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          yes: 'Yes, I need accessories.',
-          no: "No, I don't need accessories.",
-        },
-        classNames: 'product-selection-radio-btns',
-      },
-    },
     accessoriesUI: {
-      'ui:title': ' ',
-      'ui:field': 'StringField',
+      'ui:title': 'Select the hearing aid accessories you need.',
       'ui:description':
-        'You will be sent a 6 month supply of batteries for each device you select below.',
+        'You can only order each hearing aid accessory once every 5 months.',
+      'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsAccessoriesWidget,
       'ui:reviewWidget': ReviewPageAccessories,
       'ui:options': {
         keepInPageOnReview: true,
-        expandUnder: viewAddAccessoriesField,
-        expandUnderCondition: 'yes',
       },
     },
   },

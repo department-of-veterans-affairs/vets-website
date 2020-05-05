@@ -67,7 +67,7 @@ function getMessage(path, name, uiSchema, errorArgument) {
  * It also replaces the error messages with any form specific messages.
  */
 export function transformErrors(errors, uiSchema) {
-  const newErrors = errors.map(error => {
+  return errors.map(error => {
     if (error.name === 'required') {
       const path = `${error.property}.${error.argument}`;
       return _.assign(error, {
@@ -88,8 +88,6 @@ export function transformErrors(errors, uiSchema) {
 
     return error;
   });
-
-  return newErrors;
 }
 
 /**
