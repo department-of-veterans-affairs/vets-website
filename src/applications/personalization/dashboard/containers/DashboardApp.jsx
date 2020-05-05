@@ -193,7 +193,7 @@ const ManageYourAccount = () => (
 
 const ViewYourProfile2 = () => (
   <>
-    <h2>View Your Profile</h2>
+    <h2>View your profile</h2>
     <p>
       Go to your profile to view the information you need to manage your VA
       benefits. You can make updates to your personal, military, and financial
