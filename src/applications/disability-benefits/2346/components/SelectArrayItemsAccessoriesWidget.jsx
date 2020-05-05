@@ -41,35 +41,8 @@ class SelectArrayItemsAccessoriesWidget extends Component {
       accessorySupply => accessorySupply.availableForReorder === false,
     );
 
-    const ineligibleAccessoriesAlertContent = (
-      <>
-        <p>
-          Our records show that your items aren't available for reorder until.
-          You can only order items once every 5 months.
-        </p>
-        <p>
-          If you need an item sooner, call the DLC Customer Service Station at{' '}
-          <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-        </p>
-      </>
-    );
-
     return (
       <>
-        {areAccessorySuppliesIneligible && (
-          <>
-            <AlertBox
-              headline="You can't reorder your items at this time"
-              content={ineligibleAccessoriesAlertContent}
-              status="info"
-              isVisible
-            />
-            <p>
-              These are the hearing aid accessories we have on file for you:
-            </p>
-          </>
-        )}
         {!areAccessorySuppliesIneligible && (
           <>
             <h4>Select the hearing aid accessories you need</h4>
