@@ -96,9 +96,13 @@ export default function FieldTemplate(props) {
     </label>
   );
 
+  // Don't render empty labels - prevents duplicate IDs on review & submit page
+  const renderLabel =
+    typeof label === 'string' && (requiredSpan || label.trim());
+
   const content = (
     <>
-      {!hideLabelText && labelElement}
+      {!hideLabelText && renderLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
         <DescriptionField options={uiSchema['ui:options']} />
