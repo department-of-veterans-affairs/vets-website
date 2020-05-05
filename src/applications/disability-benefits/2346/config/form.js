@@ -39,8 +39,8 @@ const formChapterTitles = {
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping address',
-  addAccessoriesPage: ' ',
-  addBatteriesPage: ' ',
+  addAccessoriesPage: 'Add accessories to your order',
+  addBatteriesPage: 'Add batteries to your order',
 };
 
 const addressSchema = buildAddressSchema(true);
