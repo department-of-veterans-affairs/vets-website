@@ -164,7 +164,13 @@ class ResultsList extends Component {
               result.attributes.long,
             )
           : null;
-        return { ...result, distance, resultItem: true, markerText };
+        return {
+          ...result,
+          distance,
+          resultItem: true,
+          markerText,
+          searchString,
+        };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
