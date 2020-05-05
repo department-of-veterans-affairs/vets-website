@@ -17,7 +17,6 @@ const {
   confirmationEmailField,
   suppliesField,
   viewAddAccessoriesField,
-  viewAddBatteriesField,
   permAddressField,
   tempAddressField,
   currentAddressField,
@@ -27,7 +26,6 @@ const {
   emailUI,
   confirmationEmailUI,
   addAccessoriesUI,
-  addBatteriesUI,
   batteriesUI,
   accessoriesUI,
   permanentAddressUI,
@@ -43,7 +41,7 @@ const formChapterTitles = {
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping address',
-  addBatteriesPage: 'Add batteries to your order',
+  addBatteriesPage: ' ',
   addAccessoriesPage: 'Add accessories to your order',
 };
 
@@ -125,15 +123,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [viewAddBatteriesField]: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
               [suppliesField]: supplies,
             },
           },
           uiSchema: {
-            [viewAddBatteriesField]: addBatteriesUI,
             [suppliesField]: batteriesUI,
           },
         },
