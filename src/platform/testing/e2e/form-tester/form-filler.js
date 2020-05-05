@@ -14,8 +14,7 @@ const findData = (fieldSelector, testData) => {
     .replace(/^root_/, '')
     .replace(/_/g, '.')
     .replace(/\._(\d+)\./g, (match, number) => `[${number}]`);
-  const result = _.get(dataPath, testData);
-  return result;
+  return _.get(dataPath, testData);
 };
 
 const getElementSelector = (field, fieldData) => {

@@ -23,7 +23,7 @@ export default function SystemsRadioWidget({
         const isCerner = cernerFacilities.some(facilityId =>
           option.value.startsWith(facilityId),
         );
-        const radioButton = (
+        return (
           <div className="form-radio-buttons" key={option.value}>
             <input
               type="radio"
@@ -55,8 +55,6 @@ export default function SystemsRadioWidget({
             </label>
           </div>
         );
-
-        return radioButton;
       })}
     </div>
   );

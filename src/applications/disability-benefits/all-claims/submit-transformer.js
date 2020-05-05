@@ -174,7 +174,12 @@ export function transformRelatedDisabilities(
 
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
-  const ratingKeysToRemove = ['ratingDecisionId'];
+  const ratingKeysToRemove = [
+    'ratingDecisionId',
+    'decisionCode',
+    'decisionText',
+    'ratingPercentage',
+  ];
   const clonedData = _.cloneDeep(formData);
   const disabilities = clonedData.ratedDisabilities;
   if (disabilities?.length) {

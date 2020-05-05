@@ -16,8 +16,7 @@ function getMiddleware(
   getErrorOutput = _getErrorOutput,
 ) {
   if (buildOptions.watch) {
-    const noop = () => {};
-    return noop;
+    return () => {};
   }
 
   return (files, metalsmith, done) => {

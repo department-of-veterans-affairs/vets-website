@@ -12,10 +12,8 @@ function coerceNumber(e) {
  * @return {Array}
  */
 export default function deconstructPath(path) {
-  const arrayPath = path
+  return path
     .split(/[.[\]]/)
     .filter(e => e !== '')
     .map(coerceNumber);
-
-  return arrayPath;
 }

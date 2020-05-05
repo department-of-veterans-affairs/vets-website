@@ -6,8 +6,7 @@ function rewriteDrupalPages(options) {
     !DRUPALS.ENABLED_ENVIRONMENTS.has(options.buildtype) ||
     !DRUPALS.PREFIXED_ENVIRONMENTS.has(options.buildtype)
   ) {
-    const noop = () => {};
-    return noop;
+    return () => {};
   }
 
   return (files, metalsmith, done) => {
