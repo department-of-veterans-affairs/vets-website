@@ -109,6 +109,7 @@ export class EstimateYourBenefits extends React.Component {
               },
             )}
           >
+            {console.log('OUTPUTS:' + JSON.stringify(outputs))}
             <EstimateYourBenefitsSummarySheet
               outputs={outputs}
               expandEybSheet={this.state.expandEybSheet}

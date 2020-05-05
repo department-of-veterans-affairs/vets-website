@@ -2,7 +2,7 @@ import React from 'react';
 import { CalculatorResultRow } from '../components/profile/EstimatedBenefits';
 
 export const EstimateYourBenefitsSummarySheet = props => (
-  <div>
+  <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
     <button
       aria-expanded={props.expandEybSheet ? 'true' : 'false'}
       className="eyb-button usa-accordion-button"
@@ -12,8 +12,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
     </button>
     <div className="vads-u-margin-x--2p5">
       {props.expandEybSheet ? (
-        // Expanded view of the sheet
-        <div className="max-eyb-sheet">
+        <div>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow
               label="GI Bill pays to school"
@@ -88,28 +87,25 @@ export const EstimateYourBenefitsSummarySheet = props => (
           )}
         </div>
       ) : (
-        // Collapsed view of the sheet
-        <div className="min-eyb-sheet">
-          <div className="min-eyb-sheet">
-            <CalculatorResultRow
-              label="GI Bill pays to school"
-              value={props.outputs.giBillPaysToSchool.value}
-              bold
-              visible={props.outputs.giBillPaysToSchool.visible}
-            />
-            <CalculatorResultRow
-              label="Housing allowance"
-              value={props.outputs.housingAllowance.value}
-              bold
-              visible={props.outputs.housingAllowance.visible}
-            />
-            <CalculatorResultRow
-              label="Book stipend"
-              value={props.outputs.bookStipend.value}
-              bold
-              visible={props.outputs.bookStipend.visible}
-            />
-          </div>
+        <div>
+          <CalculatorResultRow
+            label="GI Bill pays to school"
+            value={props.outputs.giBillPaysToSchool.value}
+            bold
+            visible={props.outputs.giBillPaysToSchool.visible}
+          />
+          <CalculatorResultRow
+            label="Housing allowance"
+            value={props.outputs.housingAllowance.value}
+            bold
+            visible={props.outputs.housingAllowance.visible}
+          />
+          <CalculatorResultRow
+            label="Book stipend"
+            value={props.outputs.bookStipend.value}
+            bold
+            visible={props.outputs.bookStipend.visible}
+          />
         </div>
       )}
     </div>
