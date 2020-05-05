@@ -5,18 +5,20 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+
 const ViewDependentsCTA = props => {
   let content;
   if (props.includedInFlipper === undefined) {
     content = <LoadingIndicator message="Loading..." />;
   } else if (props.includedInFlipper === false) {
     content = (
-      <a
+      <EbenefitsLink
+        path="ebenefits/about/feature?feature=dependent-compensation"
         className="usa-button-primary va-button-primary"
-        href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"
       >
         Go to eBenefits to add or modify a dependent
-      </a>
+      </EbenefitsLink>
     );
   } else {
     content = (

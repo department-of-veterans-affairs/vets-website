@@ -1,6 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+
 export default function LogoutAlert() {
   const content = (
     <>
@@ -19,13 +21,9 @@ export default function LogoutAlert() {
       >
         My HealtheVet
       </a>
-      <a
-        href="https://www.ebenefits.va.gov"
-        className="vads-u-display--block vads-u-margin-y--1"
-        target="blank"
-      >
+      <EbenefitsLink className="vads-u-display--block vads-u-margin-y--1">
         eBenefits
-      </a>
+      </EbenefitsLink>
     </>
   );
   return (

@@ -1,57 +1,17 @@
 {
   "proxyRewriteWhitelist": [
     {
-      "hostname": "www.choose.va.gov",
+      "hostname": "localhost",
       "pathnameBeginning": "/",
       "cookieOnly": false
     },
     {
-      "hostname": "www.benefits.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": false
-    },
-    {
-      "hostname": "benefits.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": false
-    },
-    {
-      "hostname": "www.oprm.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": false
-    },
-    {
-      "hostname": "www.telehealth.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "www.volunteer.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "www.ptsd.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "www.nutrition.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "vaww.w2k8.testing.internet.webops.va.gov",
+      "hostname": "www.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": false
     },
     {
       "hostname": "dev.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": false
-    },
-    {
-      "hostname": "localhost",
       "pathnameBeginning": "/",
       "cookieOnly": false
     },
@@ -66,12 +26,28 @@
       "cookieOnly": false
     },
     {
-      "hostname": "www.va.gov",
+      "hostname": "vaww.w2k8.testing.internet.webops.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "benefits.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.benefits.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": false
     },
     {
       "hostname": "www.cem.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+
+    {
+      "hostname": "www.choose.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": false
     },
@@ -121,6 +97,11 @@
       "cookieOnly": true
     },
     {
+      "hostname": "www.oprm.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
       "hostname": "www.osp.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
@@ -161,7 +142,17 @@
       "cookieOnly": true
     },
     {
+      "hostname": "www.telehealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
       "hostname": "www.vetcenter.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.volunteer.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
     }
