@@ -231,7 +231,7 @@ describe('Schemaform actions:', () => {
       const thunk = submitForm(formConfig, form);
       const dispatch = sinon.spy();
 
-      const promise = thunk(dispatch).then(() => {
+      return thunk(dispatch).then(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
@@ -245,8 +245,6 @@ describe('Schemaform actions:', () => {
           response: response.data,
         });
       });
-
-      return promise;
     });
   });
   describe('uploadFile', () => {

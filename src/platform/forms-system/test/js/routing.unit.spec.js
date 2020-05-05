@@ -4,7 +4,7 @@ import { getNextPagePath, getPreviousPagePath } from '../../src/js/routing';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {
-    const pageList = [
+    return [
       {
         pageKey: 'blah',
         path: 'a-path',
@@ -27,7 +27,6 @@ describe('Schemaform routing', () => {
         path: '/testing/last-page',
       },
     ];
-    return pageList;
   }
 
   it("getNextPagePath should get next page when it's an array page", () => {

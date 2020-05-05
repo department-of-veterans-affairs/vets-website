@@ -119,7 +119,7 @@ export class MhvTermsAndConditions extends React.Component {
     if (shouldHideSection) {
       return null;
     }
-    const submitButton = (
+    return (
       <button
         className="usa-button submit-button"
         disabled={loading.acceptance}
@@ -127,8 +127,6 @@ export class MhvTermsAndConditions extends React.Component {
         Accept terms and conditions
       </button>
     );
-
-    return submitButton;
   };
 
   /* eslint-disable react/no-danger */

@@ -107,7 +107,7 @@ export function getAppointmentTimezoneDescription(timezone, facilityId) {
 }
 
 function getRequestDateOptions(appt) {
-  const options = [
+  return [
     {
       date: getMomentRequestOptionDate(appt.optionDate1),
       optionTime: appt.optionTime1,
@@ -129,8 +129,6 @@ function getRequestDateOptions(appt) {
 
       return a.date.isBefore(b.date) ? -1 : 1;
     });
-
-  return options;
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
