@@ -144,8 +144,7 @@ Example data:
 
           <div
             class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
-            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}"
-              title="{{ image.title }}" width="100%">
+            <img src="{{ image.derivative.url }}" aria-hidden="true" role="presentation" alt="" width="100%">
           </div>
 
           <div
@@ -263,13 +262,15 @@ Example data:
             {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
           </div>
 
+          {% assign header = "h3" %}
           <!-- Stories -->
-          {% if newsStoryTeasers.entities.length %}
+          {% if newsStoryTeasersFeatured.entities.0.reverseFieldListingNode.entities.length %}
           <section>
             <h2
               class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">
               Stories</h2>
-            {% for story in newsStoryTeasers.entities %}
+            {% for story in newsStoryTeasersFeatured.entities.0.reverseFieldListingNode.entities %}
+            {% assign node = story %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
             {% endfor %}
             <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
@@ -282,19 +283,15 @@ Example data:
           {% endif %}
 
           <!-- Events -->
-          {% if eventTeasers.entities.length %}
+          {% if eventTeasersFeatured.entities.0.reverseFieldListingNode.entities.length %}
           <section>
             <h2
               class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
               Events</h2>
-            <div
-              class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-              {% for event in eventTeasers.entities %}
-              <div class="region-grid event">
-                {% include "src/site/teasers/event.drupal.liquid" with node = event %}
-              </div>
+              {% for event in eventTeasersFeatured.entities.0.reverseFieldListingNode.entities %}
+                {% assign node = event %}
+                {% include "src/site/teasers/event.drupal.liquid" %}
               {% endfor %}
-            </div>
             <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
               class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
               href="{{ entityUrl.path }}/events">

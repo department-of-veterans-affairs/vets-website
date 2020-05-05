@@ -7,6 +7,10 @@ import {
   VIDEO_TYPES,
   APPOINTMENT_STATUS,
   CANCELLED_APPOINTMENT_SET,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
+  PAST_APPOINTMENTS_HIDDEN_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
 } from './constants';
 
 import {
@@ -103,7 +107,7 @@ export function getAppointmentTimezoneDescription(timezone, facilityId) {
 }
 
 function getRequestDateOptions(appt) {
-  const options = [
+  return [
     {
       date: getMomentRequestOptionDate(appt.optionDate1),
       optionTime: appt.optionTime1,
@@ -125,8 +129,6 @@ function getRequestDateOptions(appt) {
 
       return a.date.isBefore(b.date) ? -1 : 1;
     });
-
-  return options;
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
@@ -205,6 +207,9 @@ export function filterFutureConfirmedAppointments(appt, today) {
   const threshold = isVideoVisit(appt) ? 240 : 60;
   const apptDateTime = getMomentConfirmedDate(appt);
   return (
+    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(
+      appt.vdsAppointments?.[0]?.currentStatus,
+    ) &&
     apptDateTime.isValid() &&
     apptDateTime.add(threshold, 'minutes').isAfter(today)
   );
@@ -217,6 +222,9 @@ export function sortFutureConfirmedAppointments(a, b) {
 export function filterPastAppointments(appt, startDate, endDate) {
   const apptDateTime = getMomentConfirmedDate(appt);
   return (
+    !PAST_APPOINTMENTS_HIDDEN_SET.has(
+      appt.vdsAppointments?.[0]?.currentStatus,
+    ) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)
@@ -344,60 +352,7 @@ function getVideoType(appt) {
   return null;
 }
 
-function hasInstructions(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  return (
-    !!bookingNotes &&
-    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
-  );
-}
-
-function getAppointmentInstructions(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  const instructions = bookingNotes?.split(': ', 2);
-
-  if (instructions && instructions.length > 1) {
-    return instructions[1];
-  }
-
-  return null;
-}
-
-function getAppointmentInstructionsHeader(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  const instructions = bookingNotes?.split(': ', 2);
-
-  return instructions ? instructions[0] : '';
-}
-
-function getInstructions(appointment) {
-  if (appointment.instructionsToVeteran) {
-    return {
-      header: 'Special instructions',
-      body: appointment.instructionsToVeteran,
-    };
-  }
-
-  if (hasInstructions(appointment)) {
-    return {
-      header: getAppointmentInstructionsHeader(appointment),
-      body: getAppointmentInstructions(appointment),
-    };
-  }
-
-  return null;
-}
-
-function getAppointmentStatus(appointment) {
+function getAppointmentStatus(appointment, isPastAppointment) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
@@ -408,9 +363,17 @@ function getAppointmentStatus(appointment) {
         : APPOINTMENT_STATUS.pending;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
-      const cancelled = CANCELLED_APPOINTMENT_SET.has(
-        appointment.vdsAppointments?.[0]?.currentStatus,
-      );
+      const currentStatus = appointment.vdsAppointments?.[0]?.currentStatus;
+      if (
+        (isPastAppointment &&
+          PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
+        (!isPastAppointment &&
+          FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
+      ) {
+        return null;
+      }
+
+      const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
 
       return cancelled
         ? APPOINTMENT_STATUS.cancelled
@@ -436,7 +399,9 @@ export function transformAppointment(appointment) {
     ...appointmentTypes,
     apiData: appointment,
     isPastAppointment: false,
-    instructions: getInstructions(appointment),
+    instructions:
+      appointment.instructionsToVeteran ||
+      appointment.vdsAppointments?.[0]?.bookingNote,
     duration: getAppointmentDuration(appointment),
     appointmentDate: getMomentConfirmedDate(appointment),
     status: getAppointmentStatus(appointment),
@@ -466,6 +431,7 @@ export function transformAppointment(appointment) {
 export function transformPastAppointment(appointment) {
   return {
     ...transformAppointment(appointment),
+    status: getAppointmentStatus(appointment, true),
     isPastAppointment: true,
   };
 }

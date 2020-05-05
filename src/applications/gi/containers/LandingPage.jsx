@@ -11,7 +11,10 @@ import {
   institutionFilterChange,
   eligibilityChange,
   showModal,
+  hideModal,
 } from '../actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
@@ -22,6 +25,7 @@ import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import BenefitsForm from '../components/profile/BenefitsForm';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -134,9 +138,18 @@ export class LandingPage extends React.Component {
             </p>
 
             <form onSubmit={this.handleSubmit}>
-              <EligibilityForm
-                eligibilityChange={this.handleEligibilityChange}
-              />
+              {this.props.gibctEstimateYourBenefits ? (
+                <BenefitsForm
+                  eligibilityChange={this.handleEligibilityChange}
+                  {...this.props.eligibility}
+                  hideModal={this.props.hideModal}
+                  showModal={this.props.showModal}
+                />
+              ) : (
+                <EligibilityForm
+                  eligibilityChange={this.handleEligibilityChange}
+                />
+              )}
               <LandingPageTypeOfInstitutionFilter
                 category={this.props.filters.category}
                 showModal={this.props.showModal}
@@ -191,6 +204,9 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
   eligibility: state.eligibility,
+  gibctEstimateYourBenefits: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
+  ],
 });
 
 const mapDispatchToProps = {
@@ -201,6 +217,7 @@ const mapDispatchToProps = {
   institutionFilterChange,
   eligibilityChange,
   showModal,
+  hideModal,
 };
 
 export default withRouter(

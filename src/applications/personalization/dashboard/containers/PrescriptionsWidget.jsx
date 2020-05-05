@@ -9,8 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { recordDashboardClick } from '../helpers';
 import PrescriptionCard from '../components/PrescriptionCard';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
-import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
-import environment from 'platform/utilities/environment';
+import { mhvUrl } from 'platform/site-wide/cta-widget/helpers';
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
@@ -67,9 +66,7 @@ class PrescriptionsWidget extends React.Component {
         <div>{content}</div>
         <p>
           <a
-            href={`${mhvBaseUrl()}/mhv-portal-web/${
-              environment.isProduction() ? 'web/myhealthevet/' : ''
-            }refill-prescriptions`}
+            href={mhvUrl('web/myhealthevet/refill-prescriptions')}
             onClick={recordDashboardClick('view-all-prescriptions')}
             rel="noopener noreferrer"
             target="_blank"

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import SelectArrayItemsWidget from '../../../all-claims/components/SelectArrayItemsWidget';
 
-import get from '../../../../../platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 
 describe('<SelectArrayItemsWidget>', () => {
   let defaultProps = {};

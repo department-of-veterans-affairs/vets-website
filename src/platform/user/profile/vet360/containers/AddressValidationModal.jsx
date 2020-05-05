@@ -17,6 +17,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 import recordEvent from 'platform/monitoring/record-event';
+import countries from 'platform/user/profile/vet360/constants/countries.json';
 
 import * as VET360 from '../constants';
 
@@ -144,7 +145,19 @@ class AddressValidationModal extends React.Component {
       city,
       stateCode,
       zipCode,
+      internationalPostalCode,
+      province,
+      countryCodeIso3,
     } = address;
+
+    // We display the country except for US addresses (including military bases)
+    const displayCountry = countries.find(
+      country =>
+        country.countryCodeISO3 === countryCodeIso3 &&
+        countryCodeIso3 !== 'USA',
+    );
+
+    const displayCountryName = displayCountry?.countryName;
 
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
@@ -180,9 +193,26 @@ class AddressValidationModal extends React.Component {
             {addressLine1 && <span>{addressLine1}</span>}
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
+
             {city &&
               stateCode &&
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
+            {city &&
+              province &&
+              internationalPostalCode && (
+                <span>
+                  {`${city}, ${province}, ${internationalPostalCode}`}
+                </span>
+              )}
+            {/* State/Province/Region is not required with international addresses */}
+            {city &&
+              !province &&
+              internationalPostalCode && (
+                <span>{` ${city}, ${internationalPostalCode}`}</span>
+              )}
+
+            {displayCountryName && <span>{displayCountryName}</span>}
+
             {isAddressFromUser &&
               showEditLink && (
                 <button className="va-button-link" onClick={this.onEditClick}>

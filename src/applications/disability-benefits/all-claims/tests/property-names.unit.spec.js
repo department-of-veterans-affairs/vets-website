@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import get from '../../../../platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 import * as pages from '../pages';
 
 // Some pages have duplicate properties on purpose. These pages add new information to existing

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../platform/monitoring/record-event';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
@@ -20,7 +20,6 @@ import {
   getVisibleRows,
 } from '../utils/appeals-v2-helpers';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
-// import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -110,15 +109,6 @@ class YourClaimsPageV2 extends React.Component {
         return <ClaimsAppealsUnavailable />;
       }
     }
-
-    // TO-DO: Figure out if this is still something we want
-    // if (canAccessClaims) {
-    //   if (claimsAvailable !== claimsAvailability.AVAILABLE) {
-    //     return <ClaimsUnavailable/>;
-    //   } else if (!claimsAuthorized) {
-    //     return <ClaimsUnauthorized/>;
-    //   }
-    // }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
       return <ClaimsUnavailable />;

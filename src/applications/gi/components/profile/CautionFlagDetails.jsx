@@ -13,14 +13,14 @@ const CautionFlagDetails = ({ cautionFlags }) => {
           .sort(
             (a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1),
           )
-          .map(flag => (
+          .map((flag, index) => (
             <AlertBox
               headline={
                 <h4 className="vads-u-font-size--h3 usa-alert-heading">
                   {flag.title}
                 </h4>
               }
-              key={flag.id}
+              key={`caution-flag-detail-${index}`}
               status="warning"
               content={
                 <div className="flagDetail">

@@ -93,7 +93,6 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnauthorized').length).to.equal(0);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
     wrapper.unmount();
   });
@@ -103,7 +102,6 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnauthorized').length).to.equal(0);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
     wrapper.unmount();
   });

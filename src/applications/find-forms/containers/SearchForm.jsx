@@ -61,7 +61,7 @@ export class SearchForm extends Component {
         onSubmit={onSubmitHandler}
       >
         <label htmlFor="va-form-query" className="vads-u-margin--0">
-          Keyword, form name, or number
+          Enter a keyword, form name, or number
         </label>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-margin-right--2 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">

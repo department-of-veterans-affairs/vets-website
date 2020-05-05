@@ -8,7 +8,6 @@ import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
-import environment from 'platform/utilities/environment';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -32,7 +31,6 @@ export class SearchResult extends React.Component {
       state,
       country,
       studentCount,
-      cautionFlag,
       cautionFlags,
     } = this.props;
 
@@ -44,16 +42,8 @@ export class SearchResult extends React.Component {
       query: version ? { version } : {},
     };
 
-    // Prod flags for 7183
-    const searchResultContentClassnamesLeft = environment.isProduction()
-      ? 'small-12 usa-width-seven-twelfths medium-7 columns'
-      : 'small-12  medium-6 large-7 columns';
-    const searchResultContentClassnamesRight = environment.isProduction()
-      ? 'small-12 usa-width-five-twelfths medium-5 columns estimated-benefits'
-      : 'small-12 medium-6 large-5 columns estimated-benefits';
-
     return (
-      <div className="search-result">
+      <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">
@@ -68,16 +58,16 @@ export class SearchResult extends React.Component {
                 </h2>
               </div>
             </div>
-            {(schoolClosing || cautionFlag) && (
+            {(schoolClosing || cautionFlags.length > 0) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {renderCautionAlert({ cautionFlag, cautionFlags })}
+                  {renderCautionAlert(cautionFlags)}
                 </div>
               </div>
             )}
             <div className="row">
-              <div className={searchResultContentClassnamesLeft}>
+              <div className={'small-12  medium-6 large-7 columns'}>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality" id={`location-${facilityCode}`}>
                     {locationInfo(city, state, country)}
@@ -87,7 +77,11 @@ export class SearchResult extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className={searchResultContentClassnamesRight}>
+              <div
+                className={
+                  'small-12 medium-6 large-5 columns estimated-benefits'
+                }
+              >
                 <h3>You may be eligible for up to:</h3>
                 <div className="row">
                   <div className="columns">

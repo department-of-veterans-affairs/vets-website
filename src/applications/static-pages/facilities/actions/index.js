@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const FETCH_FACILITY_STARTED = 'FETCH_FACILITY_STARTED';
 

@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillDate,
-} from '../../../../../platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('781 Incident Date', () => {

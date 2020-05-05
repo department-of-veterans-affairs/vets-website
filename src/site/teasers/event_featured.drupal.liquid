@@ -56,12 +56,12 @@ Example data:
   {% endif %}
 
   {% if header == empty %}
-    {% assign header = "h4" %}
+    {% assign header = "h2" %}
   {% endif %}
   {% assign isEventsPage = entityUrl.path | isPage: "events" %}
 
   <div data-template="teasers/event_featured">
-    <{{header}} class="vads-u-margin-top--0 vad-u-margin-bottom-1 {% if isEventsPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %}">
+    <{{header}} class="vads-u-margin-top--0 vad-u-margin-bottom-1 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
       <a href="{{ node.entityUrl.path }}">{{ node.title }}</a>
     </{{header}}>
     <p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">

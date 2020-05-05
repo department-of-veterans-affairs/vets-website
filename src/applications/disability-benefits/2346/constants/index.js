@@ -8,8 +8,7 @@ export const schemaFields = {
   confirmationEmailField: 'confirmationEmail',
   suppliesField: 'supplies',
   viewAddBatteriesField: 'view:AddBatteries',
-  viewAddAccessoriesField: 'view:AddAccessories',
-  selectedAddressField: 'selectedAddress',
+  currentAddressField: 'currentAddress',
   newAddressField: 'newAddress',
   typeOfNewAddressField: 'typeOfNewAddress',
 };
@@ -83,6 +82,6 @@ export const states50AndDC = [
 export const HEARING_AID_ACCESSORIES = 'hearing aid accessories';
 export const HEARING_AID_BATTERIES = 'hearing aid batteries';
 export const BLUE_BACKGROUND =
-  'vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px';
+  'radio-button vads-u-background-color--primary button-dimensions vads-u-color--white vads-u-border-color--primary vads-u-border--2px';
 export const WHITE_BACKGROUND =
-  'vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px';
+  'radio-button vads-u-background-color--white vads-u-color--link-default button-dimensions vads-u-border-color--primary vads-u-border--2px';

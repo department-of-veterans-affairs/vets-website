@@ -8,30 +8,27 @@ import SegmentedProgressBar from '@department-of-veterans-affairs/formation-reac
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
-export class DownloadLetters extends React.Component {
-  render() {
-    const { children, location } = this.props;
-    const currentPageIndex = findIndex(['path', location.pathname], chapters);
-    const currentStep = currentPageIndex + 1;
+export function DownloadLetters({ children, location }) {
+  const currentPageIndex = findIndex(['path', location.pathname], chapters);
+  const currentStep = currentPageIndex + 1;
 
-    return (
-      <div className="usa-width-three-fourths letters">
-        <FormTitle title="VA letters and documents" />
-        <p className="va-introtext">
-          To receive some benefits, Veterans need a letter proving their status.
-          You can download some of these benefit letters and documents online.
-        </p>
-        <SegmentedProgressBar total={chapters.length} current={currentStep} />
-        <StepHeader
-          name={chapters[currentPageIndex].name}
-          current={currentStep}
-          steps="2"
-        >
-          {children}
-        </StepHeader>
-      </div>
-    );
-  }
+  return (
+    <div className="usa-width-three-fourths letters">
+      <FormTitle title="VA letters and documents" />
+      <p className="va-introtext">
+        To receive some benefits, Veterans need a letter proving their status.
+        You can download some of these benefit letters and documents online.
+      </p>
+      <SegmentedProgressBar total={chapters.length} current={currentStep} />
+      <StepHeader
+        name={chapters[currentPageIndex].name}
+        current={currentStep}
+        steps="2"
+      >
+        {children}
+      </StepHeader>
+    </div>
+  );
 }
 
 function mapStateToProps(state) {

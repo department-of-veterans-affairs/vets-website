@@ -62,8 +62,8 @@ describe('686 stepchildren', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    fillData(form, 'input#root_stepChildren_0_first', 'Bill');
-    fillData(form, 'input#root_stepChildren_0_last', 'Bob');
+    fillData(form, 'input#root_stepChildren_0_fullName_first', 'Bill');
+    fillData(form, 'input#root_stepChildren_0_fullName_last', 'Bob');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

@@ -523,9 +523,6 @@ const schema = {
           ratedDisabilityId: {
             type: 'string',
           },
-          ratingDecisionId: {
-            type: 'string',
-          },
           diagnosticCode: {
             type: 'number',
           },
@@ -550,9 +547,6 @@ const schema = {
                   $ref: '#/definitions/specialIssues',
                 },
                 ratedDisabilityId: {
-                  type: 'string',
-                },
-                ratingDecisionId: {
                   type: 'string',
                 },
                 diagnosticCode: {

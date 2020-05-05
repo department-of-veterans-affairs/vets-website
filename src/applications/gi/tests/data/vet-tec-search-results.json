@@ -1,0 +1,139 @@
+{
+  "data": [
+    {
+      "id": "6675",
+      "type": "institution_programs",
+      "attributes": {
+        "program_type": "NCD",
+        "description": "HACK REACTOR SOFTWARE ENGINEERING ONLINE",
+        "length_in_hours": "576",
+        "length_in_weeks": 576,
+        "facility_code": "2V000105",
+        "tuition_amount": null,
+        "institution_name": "GALVANIZE INC",
+        "city": "LOS ANGELES",
+        "state": "CA",
+        "country": "USA",
+        "preferred_provider": true,
+        "va_bah": 3005,
+        "dod_bah": 2916,
+        "school_closing": false,
+        "school_closing_on": null,
+        "caution_flags": []
+      }
+    }
+  ],
+  "links": {
+    "self": "https://staging-api.va.gov/gids/v0/institution_programs?",
+    "first": "https://staging-api.va.gov/gids/v0/institution_programs?page=1&per_page=10",
+    "prev": null,
+    "next": "https://staging-api.va.gov/gids/v0/institution_programs?page=2&per_page=10",
+    "last": "https://staging-api.va.gov/gids/v0/institution_programs?page=14&per_page=10"
+  },
+  "meta": {
+    "version": {
+      "number": 134,
+      "created_at": "2020-04-10T14:05:32.175Z",
+      "preview": false
+    },
+    "count": 136,
+    "facets": {
+      "type": {
+        "ncd": 136
+      },
+      "state": {
+        "az": 2,
+        "ca": 12,
+        "co": 17,
+        "fl": 12,
+        "ga": 1,
+        "il": 2,
+        "mi": 7,
+        "mn": 1,
+        "mo": 2,
+        "ny": 2,
+        "or": 2,
+        "tn": 43,
+        "tx": 17,
+        "va": 10,
+        "wa": 6
+      },
+      "provider": [
+        {
+          "name": "CLAIM ACADEMY",
+          "count": 2
+        },
+        {
+          "name": "CODE FELLOWS",
+          "count": 4
+        },
+        {
+          "name": "CODE PLATOON",
+          "count": 2
+        },
+        {
+          "name": "DIGITALCRAFTS ATLANTA",
+          "count": 1
+        },
+        {
+          "name": "DIGITALCRAFTS HOUSTON",
+          "count": 1
+        },
+        {
+          "name": "DIVERGENCE ACADEMY",
+          "count": 2
+        },
+        {
+          "name": "DSDT",
+          "count": 2
+        },
+        {
+          "name": "GALVANIZE INC",
+          "count": 18
+        },
+        {
+          "name": "GLOBAL INFORMATION TECHNOLOGY",
+          "count": 5
+        },
+        {
+          "name": "INTELLECTUAL POINT",
+          "count": 10
+        },
+        {
+          "name": "LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - MEMPHIS",
+          "count": 21
+        },
+        {
+          "name": "LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE",
+          "count": 22
+        },
+        {
+          "name": "LEADERQUEST",
+          "count": 36
+        },
+        {
+          "name": "PDX CODE GUILD LLC",
+          "count": 2
+        },
+        {
+          "name": "PRIME DIGITAL ACADEMY",
+          "count": 1
+        },
+        {
+          "name": "SABIO ENTERPRISES INC",
+          "count": 6
+        },
+        {
+          "name": "SKILL DISTILLERY",
+          "count": 1
+        }
+      ],
+      "country": [
+        {
+          "name": "USA",
+          "count": 136
+        }
+      ]
+    }
+  }
+}

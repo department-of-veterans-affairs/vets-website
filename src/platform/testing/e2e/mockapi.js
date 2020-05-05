@@ -97,6 +97,10 @@ function makeMockApiRouter(opts) {
       const match = queryStrings.find(qs => RegExp(qs).test(currentQuery));
       if (match) {
         result = result[match];
+        res.append(
+          'X-CSRF-Token',
+          'bU8YgEOBwIvjJvQ9oT0ix/uz2P5JT23DINkOMNREEvxLu/+RY4FC7qAUdpuVjVzokyB5GA402elnaZm/nkx6Gw==',
+        );
       } else {
         res.status(500);
         result = {

@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
-import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const ITF_FETCH_INITIATED = 'ITF_FETCH_INITIATED';
 export const ITF_FETCH_SUCCEEDED = 'ITF_FETCH_SUCCEEDED';

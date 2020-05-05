@@ -1,18 +1,17 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
 
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
 
-@import "partials/gi-vet-tec";
-@import "partials/gi-preview-banner";
-@import "partials/gi-autocomplete";
-@import "partials/gi-modal";
-@import "partials/gi-landing-page";
-@import "partials/gi-search-page";
-@import "partials/gi-profile-page";
+@import 'partials/gi-vet-tec';
+@import 'partials/gi-preview-banner';
+@import 'partials/gi-autocomplete';
+@import 'partials/gi-modal';
+@import 'partials/gi-landing-page';
+@import 'partials/gi-search-page';
+@import 'partials/gi-profile-page';
 
 .gi-app {
-
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -51,10 +50,10 @@
         line-height: 1.2rem;
       }
 
-      a.link{
+      a.link {
         @include media-maxwidth($small-screen) {
           margin-left: 1rem;
-          padding: .5rem;
+          padding: 0.5rem;
         }
       }
     }
@@ -70,14 +69,14 @@
   }
 
   select.hide-arrows {
-    background-image: none
+    background-image: none;
   }
 
   .search-result {
     i.fa {
       background: initial;
       color: initial;
-   }
+    }
   }
 
   .benefit-notification {
@@ -88,16 +87,10 @@
     outline: none;
   }
 }
-
-.gibct-legend-old {
-  margin-top: 3rem;
-  display: block;
-  font-weight: inherit;
-  font-size: inherit;
-  color: inherit;
-  line-height: inherit;
-  max-width: 46rem;
-  padding-bottom: 0;
+@media (max-width: 481px) {
+  .about-this-tool-mobile {
+    padding-left: 20px;
+  }
 }
 
 .gibct-legend {

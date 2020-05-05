@@ -961,6 +961,15 @@ describe('Schemaform helpers:', () => {
     it('should format month year date', () => {
       expect(formatReviewDate('2010-01-XX', true)).to.equal('01/2010');
     });
+    it('should format full date (no dashes)', () => {
+      expect(formatReviewDate('20100102')).to.equal('01/02/2010');
+    });
+    it('should format partial date (no dashes)', () => {
+      expect(formatReviewDate('201001XX')).to.equal('01/XX/2010');
+    });
+    it('should format month year date (no dashes)', () => {
+      expect(formatReviewDate('201001XX', true)).to.equal('01/2010');
+    });
   });
   describe('omitRequired', () => {
     it('should omit all required arrays', () => {

@@ -9,13 +9,13 @@ const permalinks = require('metalsmith-permalinks');
 const registerLiquidFilters = require('../../filters/liquid');
 
 const getOptions = require('../build/options');
-const createBuildSettings = require('../build/plugins/create-build-settings');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
 const addNonceToScripts = require('../build/plugins/add-nonce-to-scripts');
 const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-levels');
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
+const processEntryNames = require('../build/plugins/process-entry-names');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 const parseHtml = require('../build/plugins/parse-html');
 const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
@@ -117,11 +117,6 @@ async function createPipeline(options) {
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
   smith.use(rewriteAWSUrls(BUILD_OPTIONS));
 
-  // Create the data passed from the content build to the assets compiler.
-  // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
-  // In the browser, it can be accessed at window.settings.
-  smith.use(createBuildSettings(BUILD_OPTIONS));
-
   /**
    * Parse the HTML into a JS data structure for use in later plugins.
    * Important: Only plugins that use the parsedContent to modify the
@@ -135,6 +130,7 @@ async function createPipeline(options) {
   Convert onclick event handles into nonced script tags
   */
   smith.use(addNonceToScripts);
+  smith.use(processEntryNames(BUILD_OPTIONS));
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
   smith.use(injectAxeCore(BUILD_OPTIONS));

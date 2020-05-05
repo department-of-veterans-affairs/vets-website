@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { isLoggedIn, selectProfile } from '../../../platform/user/selectors';
-import get from '../../../platform/utilities/data/get';
-import environment from '../../../platform/utilities/environment/index';
-import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import get from 'platform/utilities/data/get';
+import environment from 'platform/utilities/environment/index';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
 
 /**

@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import AlertBox from '../AlertBox';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
-import environment from 'platform/utilities/environment';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -36,7 +34,7 @@ const ListRow = ({ description, value }) => {
 };
 
 export class CautionaryInformation extends React.Component {
-  renderNewCautionFlags = () => {
+  renderCautionFlags = () => {
     const it = this.props.institution;
     if (!it.schoolClosing && it.cautionFlags.length === 0) {
       return null;
@@ -88,35 +86,6 @@ export class CautionaryInformation extends React.Component {
     if (!it.complaints) {
       return null;
     }
-
-    // If Ashford, show specific link.
-    const schoolSpecificLink = (it.facilityCode === '21007103' ||
-      it.website === 'http://www.ashford.edu') && (
-      <a
-        href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        More information on Ashford University
-      </a>
-    );
-
-    const flagContent = (
-      <div>
-        <p>
-          {it.cautionFlagReason} {schoolSpecificLink}
-        </p>
-        <p>
-          <button
-            type="button"
-            className="va-button-link learn-more-button"
-            onClick={this.props.onShowModal.bind(this, 'cautionInfo')}
-          >
-            Learn more about these warnings
-          </button>
-        </p>
-      </div>
-    );
 
     const allCampusesLink = (
       <a
@@ -179,22 +148,10 @@ export class CautionaryInformation extends React.Component {
 
     return (
       <div className="cautionary-information">
-        {// #6805 prod flag
-        environment.isProduction() ? (
-          <div className="caution-flag">
-            <AlertBox
-              content={flagContent}
-              isVisible={!!it.cautionFlag}
-              status="warning"
-            />
-          </div>
-        ) : (
-          this.renderNewCautionFlags()
-        )}
+        {this.renderCautionFlags()}
 
         <div className="student-complaints">
-          {// #6805 prod flag
-          !environment.isProduction() && <h3>Student feedback</h3>}
+          <h3>Student feedback</h3>
 
           <div className="link-header">
             <h3>

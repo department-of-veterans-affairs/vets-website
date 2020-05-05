@@ -24,10 +24,10 @@ const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {
                     (a, b) =>
                       a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
                   )
-                  .map(flag => (
+                  .map((flag, index) => (
                     <li
                       className="headingFlag vads-u-margin-left--1p5"
-                      key={flag.id}
+                      key={`caution-flag-heading-${index}`}
                     >
                       {flag.title}
                     </li>

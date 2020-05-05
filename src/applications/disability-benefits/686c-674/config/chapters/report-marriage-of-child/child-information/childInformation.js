@@ -1,32 +1,23 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
+import { validateName, reportChildMarriage } from '../../../utilities';
 import { isChapterFieldRequired } from '../../../helpers';
-import { merge } from 'lodash';
-
-const { fullName, date } = genericSchemas;
 
 export const schema = {
   type: 'object',
   properties: {
-    childMarriage: {
-      type: 'object',
-      properties: {
-        marriedChildName: fullName,
-        dateChildMarried: date,
-      },
-    },
+    childMarriage: reportChildMarriage,
   },
 };
 
 export const uiSchema = {
   childMarriage: {
     'ui:title': 'Child who is now married',
-    marriedChildName: {
+    fullName: {
       'ui:validations': [validateName],
       first: {
-        'ui:title': 'Child’s first name',
+        'ui:title': 'First name',
         'ui:errorMessages': { required: 'Please enter a first name' },
         'ui:required': formData =>
           isChapterFieldRequired(
@@ -34,9 +25,9 @@ export const uiSchema = {
             TASK_KEYS.reportMarriageOfChildUnder18,
           ),
       },
-      middle: { 'ui:title': 'Child’s middle name' },
+      middle: { 'ui:title': 'Middle name' },
       last: {
-        'ui:title': 'Child’s last name',
+        'ui:title': 'Last name before marriage',
         'ui:errorMessages': { required: 'Please enter a last name' },
         'ui:required': formData =>
           isChapterFieldRequired(
@@ -45,11 +36,11 @@ export const uiSchema = {
           ),
       },
       suffix: {
-        'ui:title': 'Child’s suffix',
+        'ui:title': 'Suffix',
         'ui:options': { widgetClassNames: 'form-select-medium' },
       },
     },
-    dateChildMarried: merge(currentOrPastDateUI('Date of marriage'), {
+    dateMarried: merge(currentOrPastDateUI('Date of marriage'), {
       'ui:required': formData =>
         isChapterFieldRequired(
           formData,

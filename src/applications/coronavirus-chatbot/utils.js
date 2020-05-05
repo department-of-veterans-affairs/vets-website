@@ -9,11 +9,37 @@ const disableButtons = event => {
   }
 };
 
-export const watchForButtonClicks = () => {
+const disableCheckboxes = () => {
+  [...document.querySelectorAll('#webchat input[type="checkbox"]')].forEach(
+    input => {
+      const currentInput = input;
+      currentInput.disabled = true;
+      return currentInput;
+    },
+  );
+};
+
+const scrollToNewMessage = () => {
+  const messages = document.getElementsByClassName(
+    'webchat__stackedLayout--fromUser',
+  );
+  const lastMessageFromUser = messages[messages.length - 1];
+  lastMessageFromUser.scrollIntoView({ behavior: 'smooth' });
+};
+
+const handleDisableAndScroll = event => {
+  disableButtons(event);
+  disableCheckboxes();
+  scrollToNewMessage();
+};
+
+export const addEventListenerToButtons = () => {
   setInterval(() => {
     const buttons = document.getElementsByClassName('ac-pushButton');
     for (let i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', disableButtons);
+      buttons[i].addEventListener('click', handleDisableAndScroll);
     }
   }, 10);
 };
+
+export const GA_PREFIX = 'chatbot';

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
-import { isValidDateRange } from '../../platform/forms/validations';
+import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
-import { isValidCentralMailPostalCode } from '../../platform/forms/address/validations';
+import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
 export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
   const fromDate = convertToDateField(formData.dateOfMarriage);

@@ -16,6 +16,10 @@
     margin: 0;
   }
 
+  .section-button {
+      letter-spacing: 0.4px;
+  }
+
   .link-header {
     h3,
     h4,
@@ -78,8 +82,8 @@
       width: 179px;
     }
     .additional-resources-preferred-provider {
-      position: relative;
-      top: 2em;
+      top: 2.5em;
+      padding-bottom: 9.5em;
     }
   }
 
@@ -343,5 +347,21 @@
 
   .sco-list {
     list-style: none;
+  }
+
+  .eyb-inputs-ul {
+    list-style-type: none !important;
+  }
+
+  #estimated-benefits{
+    outline: none;
+  }
+
+  button.calculate-button {
+    background-image: none;
+    background-color: $color-primary;
+    border-radius: $button-border-radius;
+    color: $color-white;
+    width: auto;
   }
 }

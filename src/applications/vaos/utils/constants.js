@@ -238,15 +238,31 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
 ];
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
-  'NO-SHOW',
-  'CANCELLED BY CLINIC',
-  'NO-SHOW & AUTO RE-BOOK',
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
-  'INPATIENT APPOINTMENT',
-  'CANCELLED BY PATIENT',
+  'CANCELLED BY CLINIC',
   'CANCELLED BY PATIENT & AUTO-REBOOK',
-  'NO ACTION TAKEN',
+  'CANCELLED BY PATIENT',
 ]);
+
+// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
+export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  'CHECKED IN',
+  'CHECKED OUT',
+  'NO ACTION TAKEN',
+  'NO-SHOW & AUTO RE-BOOK',
+  'ACTION REQUIRED',
+]);
+
+export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
+  ...FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  'NO-SHOW',
+  'INPATIENT APPOINTMENT',
+  'NON-COUNT',
+]);
+
+// Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
+export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+export const PAST_APPOINTMENTS_HIDDEN_SET = new Set(['FUTURE', 'DELETED']);
 
 export const FLOW_TYPES = {
   DIRECT: 'direct',
@@ -308,3 +324,10 @@ export const GA_FLOWS = {
 };
 
 export const VHA_FHIR_ID = 'urn:oid:2.16.840.1.113883.6.233';
+
+export const FREE_BUSY_TYPES = {
+  busy: 'busy',
+  free: 'free',
+  busyUnavailable: 'busy-unavailable',
+  busyTentative: 'busy-tentative',
+};

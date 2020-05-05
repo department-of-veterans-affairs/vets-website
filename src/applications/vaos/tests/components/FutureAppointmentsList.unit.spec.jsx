@@ -96,54 +96,6 @@ describe('VAOS <FutureAppointmentsList>', () => {
     tree.unmount();
   });
 
-  it('should render tabs if showPastAppointments is true', () => {
-    const defaultProps = {
-      appointments: {
-        future: [],
-        futureStatus: FETCH_STATUS.loading,
-        facilityData: {},
-      },
-    };
-
-    const fetchFutureAppointments = sinon.spy();
-
-    const tree = shallow(
-      <FutureAppointmentsList
-        fetchFutureAppointments={fetchFutureAppointments}
-        showPastAppointments
-        {...defaultProps}
-      />,
-    );
-
-    expect(tree.find('TabNav').exists()).to.be.true;
-    tree.unmount();
-  });
-
-  it('should not render tabs if showPastAppointments is false', () => {
-    const defaultProps = {
-      appointments: {
-        future: [],
-        futureStatus: FETCH_STATUS.loading,
-        facilityData: {},
-      },
-      router: {
-        push: sinon.spy(),
-      },
-    };
-
-    const fetchFutureAppointments = sinon.spy();
-
-    const tree = shallow(
-      <FutureAppointmentsList
-        fetchFutureAppointments={fetchFutureAppointments}
-        {...defaultProps}
-      />,
-    );
-
-    expect(tree.find('TabNav').exists()).to.be.false;
-    tree.unmount();
-  });
-
   it('should show past appointments link if showPastAppointmentLinks is true', () => {
     const defaultProps = {
       appointments: {

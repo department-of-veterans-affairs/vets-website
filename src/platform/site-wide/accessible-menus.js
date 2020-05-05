@@ -18,10 +18,7 @@ function findNearestAncestor(element, testCB) {
   if (!parent) {
     return null;
   }
-  const returnVal = testCB(parent)
-    ? parent
-    : findNearestAncestor(parent, testCB);
-  return returnVal;
+  return testCB(parent) ? parent : findNearestAncestor(parent, testCB);
 }
 
 // Reduce code duplication
@@ -88,11 +85,10 @@ function isVisible(element) {
           isScript(e) || !hiddenDisplays.includes(getComputedStyle(e).display),
       )
     : true;
-  const visible =
+  return (
     !hiddenDisplays.includes(getComputedStyle(element).display) &&
-    childrenAreVisible;
-
-  return visible;
+    childrenAreVisible
+  );
 }
 
 /**

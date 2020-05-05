@@ -394,7 +394,7 @@ export function updateUiSchema(uiSchema, formData) {
 
   const newUiSchemaProps = uiSchemaUpdater(formData);
 
-  const updatedUiSchema = Object.entries(newUiSchemaProps).reduce(
+  return Object.entries(newUiSchemaProps).reduce(
     (modifiedUiSchema, [key, value]) => {
       if (value !== uiSchema[key]) {
         return { ...modifiedUiSchema, [key]: value };
@@ -404,8 +404,6 @@ export function updateUiSchema(uiSchema, formData) {
     },
     uiSchema,
   );
-
-  return updatedUiSchema;
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
@@ -430,7 +428,7 @@ export function replaceRefSchemas(schema, definitions, path = '') {
   }
 
   if (schema.type === 'object') {
-    const newSchema = Object.keys(schema.properties).reduce((current, next) => {
+    return Object.keys(schema.properties).reduce((current, next) => {
       const nextProp = replaceRefSchemas(
         schema.properties[next],
         definitions,
@@ -443,8 +441,6 @@ export function replaceRefSchemas(schema, definitions, path = '') {
 
       return current;
     }, schema);
-
-    return newSchema;
   }
 
   if (schema.type === 'array') {
@@ -516,7 +512,7 @@ export function updateItemsSchema(schema, fieldData = null) {
   }
 
   if (schema.type === 'object') {
-    const newSchema = Object.keys(schema.properties).reduce((current, next) => {
+    return Object.keys(schema.properties).reduce((current, next) => {
       const nextProp = updateItemsSchema(
         schema.properties[next],
         fieldData ? fieldData[next] : null,
@@ -528,8 +524,6 @@ export function updateItemsSchema(schema, fieldData = null) {
 
       return current;
     }, schema);
-
-    return newSchema;
   }
 
   return schema;

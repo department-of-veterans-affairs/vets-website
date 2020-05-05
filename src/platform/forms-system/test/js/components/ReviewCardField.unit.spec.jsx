@@ -236,6 +236,44 @@ describe('Schemaform: ReviewCardField', () => {
       tree.unmount();
     });
 
+    it('should remove the save button in review mode', () => {
+      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      expect(tree.find('.update-button').length).to.equal(0);
+      tree.unmount();
+    });
+
+    it('should render a dl wrapper in review mode', () => {
+      const props = set(
+        'uiSchema.ui:options.startInEdit',
+        true,
+        defaultVDProps,
+      );
+      const tree = mount(
+        <ReviewCardField
+          {...props}
+          formContext={{ onReviewPage: true, reviewMode: true }}
+        />,
+      );
+      expect(tree.find('dl.review').length).to.equal(1);
+      tree.unmount();
+    });
+
+    it('should not render a dl wrapper in edit mode', () => {
+      const props = set(
+        'uiSchema.ui:options.startInEdit',
+        true,
+        defaultVDProps,
+      );
+      const tree = mount(
+        <ReviewCardField
+          {...props}
+          formContext={{ onReviewPage: true, reviewMode: false }}
+        />,
+      );
+      expect(tree.find('.review').length).to.equal(0);
+      tree.unmount();
+    });
+
     it('should add a "New X" button in review mode', () => {
       const tree = shallow(<ReviewCardField {...defaultVDProps} />);
       const editButtons = tree.find('.edit-button');
@@ -266,10 +304,11 @@ describe('Schemaform: ReviewCardField', () => {
       tree.unmount();
     });
 
-    it('should add a cancel button in edit mode', () => {
+    it('should add a save & cancel button in edit mode', () => {
       const tree = shallow(<ReviewCardField {...defaultVDProps} />);
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
+      expect(tree.find('.update-button').length).to.equal(1);
       expect(tree.find('.cancel-button').length).to.equal(1);
       tree.unmount();
     });

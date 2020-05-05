@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
-import { months } from '../../../platform/static-data/options-for-select.js';
-import { focusElement } from '../../../platform/utilities/ui';
+import { months } from 'platform/static-data/options-for-select.js';
+import { focusElement } from 'platform/utilities/ui';
 import {
   questionLabels,
   prevApplicationYearCutoff,

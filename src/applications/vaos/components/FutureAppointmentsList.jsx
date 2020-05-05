@@ -20,7 +20,6 @@ import {
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
 import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
-import TabNav from './TabNav';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
@@ -153,12 +152,24 @@ export class FutureAppointmentsList extends React.Component {
       );
     }
 
+    const header = (
+      <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+    );
+
+    if (!showPastAppointments) {
+      return (
+        <>
+          {header}
+          {content}
+        </>
+      );
+    }
+
     return (
-      <>
-        {showPastAppointments && <TabNav />}
-        <h3 className="vads-u-margin-y--4">Upcoming appointments</h3>
+      <div role="tabpanel" aria-labelledby="tabupcoming" id="tabpanelupcoming">
+        {header}
         {content}
-      </>
+      </div>
     );
   }
 }

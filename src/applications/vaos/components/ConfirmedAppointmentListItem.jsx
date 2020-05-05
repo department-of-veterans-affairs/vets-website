@@ -7,6 +7,7 @@ import AddToCalendar from './AddToCalendar';
 import VAFacilityLocation from './VAFacilityLocation';
 import AppointmentDateTime from './AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
+import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 
@@ -27,6 +28,9 @@ export default function ConfirmedAppointmentListItem({
 }) {
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.isPastAppointment;
+  const isInPersonVAAppointment =
+    !appointment.videoType && !appointment.isCommunityCare;
+  const isVideoAppointment = !!appointment.videoType;
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -39,7 +43,7 @@ export default function ConfirmedAppointmentListItem({
 
   let header;
   let location;
-  if (appointment.videoType) {
+  if (isVideoAppointment) {
     header = 'VA Video Connect';
     location = 'Video conference';
   } else if (appointment.isCommunityCare) {
@@ -70,26 +74,32 @@ export default function ConfirmedAppointmentListItem({
           facilityId={appointment.facilityId}
         />
       </h3>
-      {(!isPastAppointment || cancelled) && (
-        <AppointmentStatus status={appointment.status} index={index} />
-      )}
+      <AppointmentStatus
+        status={appointment.status}
+        isPastAppointment={isPastAppointment}
+        index={index}
+      />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           {appointment.isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
           )}
-          {!!appointment.videoType && (
+          {isVideoAppointment && (
             <VideoVisitSection appointment={appointment} />
           )}
-          {!appointment.isCommunityCare &&
-            !appointment.videoType && (
-              <VAFacilityLocation
-                facility={facility}
-                clinicName={appointment.clinicName}
-              />
-            )}
+          {isInPersonVAAppointment && (
+            <VAFacilityLocation
+              facility={facility}
+              clinicName={appointment.clinicName}
+            />
+          )}
         </div>
-        <AppointmentInstructions instructions={appointment.instructions} />
+        {appointment.isCommunityCare && (
+          <CommunityCareInstructions instructions={appointment.instructions} />
+        )}
+        {isInPersonVAAppointment && (
+          <AppointmentInstructions instructions={appointment.instructions} />
+        )}
       </div>
 
       {!cancelled &&

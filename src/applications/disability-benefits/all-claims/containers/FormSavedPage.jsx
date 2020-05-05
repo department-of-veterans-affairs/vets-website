@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import FormSaved from '../../../../platform/forms/save-in-progress/FormSaved';
+import FormSaved from 'platform/forms/save-in-progress/FormSaved';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 

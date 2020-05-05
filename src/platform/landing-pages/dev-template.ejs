@@ -6,8 +6,9 @@
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="/js/record-event.js"></script>
-    <script src="/js/settings.js"></script>
+    <script>
+      {% include "src/site/assets/js/record-event.js" %}
+    </script>
 
 
     <!-- Icons -->
@@ -122,8 +123,13 @@
 
     <!-- TODO: Add breadcrumbs -->
 
-    <script async src="/js/incompatible-browser.js"></script>
-
+    <script type="text/javascript">
+    (function() {
+      var module = {};
+      {% include "src/site/assets/js/incompatible-browser.js" %}
+      checkBrowserCompatibility();
+    })();
+    </script>
 
     <!-- React root -->
     <div id="content">

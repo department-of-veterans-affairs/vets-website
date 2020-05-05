@@ -71,13 +71,13 @@ class ClaimsAppealsWidget extends React.Component {
       return null;
     }
 
-    if (canAccessAppeals && canAccessClaims) {
-      if (
-        claimsAvailable !== claimsAvailability.AVAILABLE &&
-        appealsAvailable !== appealsAvailability.AVAILABLE
-      ) {
-        return <ClaimsAppealsUnavailable />;
-      }
+    if (
+      canAccessAppeals &&
+      canAccessClaims &&
+      (claimsAvailable !== claimsAvailability.AVAILABLE &&
+        appealsAvailable !== appealsAvailability.AVAILABLE)
+    ) {
+      return <ClaimsAppealsUnavailable />;
     }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {

@@ -9,7 +9,6 @@ import { vaosPastAppts } from '../utils/selectors';
 import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-import TabNav from './TabNav';
 
 const dateRangeOptions = getPastAppointmentDateRangeOptions();
 
@@ -109,8 +108,7 @@ export class PastAppointmentsList extends React.Component {
     }
 
     return (
-      <>
-        <TabNav />
+      <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
         <h3>Past appointments</h3>
         <PastAppointmentsDateDropdown
           value={appointments.pastSelectedIndex}
@@ -118,7 +116,7 @@ export class PastAppointmentsList extends React.Component {
           options={dateRangeOptions}
         />
         {content}
-      </>
+      </div>
     );
   }
 }

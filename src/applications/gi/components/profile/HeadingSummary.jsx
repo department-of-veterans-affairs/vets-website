@@ -2,13 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import AlertBox from '../AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber, locationInfo } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import CautionFlagHeading from './CautionFlagHeading';
 import SchoolClosingHeading from './SchoolClosingHeading';
-import environment from 'platform/utilities/environment';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -42,54 +40,15 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1 tabIndex={-1}>{it.name}</h1>
-          {// #6805 prod flag
-          environment.isProduction() ? (
-            <AlertBox
-              content={
-                <p>
-                  Are you enrolled in this school?{' '}
-                  <a
-                    href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Find out if you qualify to have your benefits restored.
-                  </a>
-                </p>
-              }
-              headline="This school is closing soon"
-              isVisible={!!it.schoolClosing}
-              status="warning"
-            />
-          ) : (
-            <SchoolClosingHeading
-              schoolClosing={it.schoolClosing}
-              schoolClosingOn={it.schoolClosingOn}
-            />
-          )}
+          <SchoolClosingHeading
+            schoolClosing={it.schoolClosing}
+            schoolClosingOn={it.schoolClosingOn}
+          />
           <div className="caution-flag">
-            {// #6805 prod flag
-            environment.isProduction() ? (
-              <AlertBox
-                content={
-                  <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
-                    View cautionary information about this school
-                  </a>
-                }
-                headline={
-                  <h2 className="vads-u-font-size--h3 usa-alert-heading">
-                    This school has cautionary warnings
-                  </h2>
-                }
-                isVisible={!!it.cautionFlag}
-                status="warning"
-              />
-            ) : (
-              <CautionFlagHeading
-                cautionFlags={it.cautionFlags}
-                onViewWarnings={this.props.onViewWarnings}
-              />
-            )}
+            <CautionFlagHeading
+              cautionFlags={it.cautionFlags}
+              onViewWarnings={this.props.onViewWarnings}
+            />
           </div>
           <div className="column">
             <p>
@@ -109,17 +68,20 @@ class HeadingSummary extends React.Component {
           <div>
             <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="map-marker" present={addressPresent}>
+                {'  '}
                 {formattedAddress}
               </IconWithInfo>
               <IconWithInfo icon="globe" present={it.website}>
                 <a href={it.website} target="_blank" rel="noopener noreferrer">
+                  {'  '}
                   {it.website}
                 </a>
               </IconWithInfo>
               <IconWithInfo
-                icon="calendar-o"
+                icon="calendar"
                 present={it.type !== 'ojt' && it.highestDegree}
               >
+                {'  '}
                 {_.isFinite(it.highestDegree)
                   ? `${it.highestDegree} year`
                   : it.highestDegree}{' '}
@@ -129,21 +91,25 @@ class HeadingSummary extends React.Component {
 
             <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
+                {'   '}
                 On-the-job training
               </IconWithInfo>
               <IconWithInfo
-                icon="institution"
+                icon="university"
                 present={it.type && it.type !== 'ojt'}
               >
+                {'   '}
                 {_.capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo
                 icon="map"
                 present={it.localeType && it.type && it.type !== 'ojt'}
               >
+                {'   '}
                 {_.capitalize(it.localeType)} locale
               </IconWithInfo>
-              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
+              <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
+                {'   '}
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </div>

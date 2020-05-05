@@ -16,18 +16,11 @@
   {% endif %}
 
   {% case template %}
-    {% when 'level2-index' %}
-      {% include "src/site/includes/level2-index.html" %}
-
     {% when 'detail-page' %}
       {% include "src/site/includes/detail-page.html" %}
 
-    {% when 'topic-landing' %}
-      {% include "src/site/includes/topic-landing.html" %}
-
     {% when 'education-sco' %}
       {% include "src/site/includes/education-sco.html" %}
-
   {% else %}
     {{ contents }}
   {% endcase %}

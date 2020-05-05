@@ -5,16 +5,19 @@ import URLSearchParams from 'url-search-params';
 
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
-import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
-import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
-import { hasSession } from 'platform/user/profile/utilities';
-import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
+import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
+import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { ssoe, ssoeInbound } from 'platform/user/authentication/selectors';
+import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
 
+import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
@@ -70,8 +73,19 @@ export class Main extends React.Component {
   }
 
   checkLoggedInStatus = () => {
+    const canCallSSO = this.props.useSSOe && !environment.isLocalhost();
+
+    if (canCallSSO) {
+      ssoKeepAliveSession();
+    }
+
     if (hasSession()) {
+      if (canCallSSO && this.props.useAutoLoginLogout && !hasSessionSSO()) {
+        autoLogout();
+      }
       this.props.initializeProfile();
+    } else if (canCallSSO && this.props.useAutoLoginLogout && hasSessionSSO()) {
+      autoLogin();
     } else {
       this.props.updateLoggedInStatus(false);
       if (this.getNextParameter()) this.openLoginModal();
@@ -197,6 +211,8 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
+    useSSOe: ssoe(state),
+    useAutoLoginLogout: ssoeInbound(state),
     ...state.navigation,
   };
 };

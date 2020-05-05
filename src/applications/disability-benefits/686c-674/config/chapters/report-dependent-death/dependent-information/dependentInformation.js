@@ -1,53 +1,16 @@
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import DependentViewField from '../../../../components/DependentViewField';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
+import { validateName, deceasedDependents } from '../../../utilities';
 
-export const schema = {
-  type: 'object',
-  properties: {
-    deaths: {
-      type: 'array',
-      minItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          fullName: genericSchemas.fullName,
-          dependentType: {
-            type: 'string',
-            enum: ['SPOUSE', 'DEPENDENT_PARENT', 'CHILD'],
-            enumNames: ['Spouse', 'Dependent Parent', 'Child'],
-          },
-          childStatus: {
-            type: 'object',
-            properties: {
-              childUnder18: {
-                type: 'boolean',
-              },
-              stepChild: {
-                type: 'boolean',
-              },
-              adopted: {
-                type: 'boolean',
-              },
-              disabled: {
-                type: 'boolean',
-              },
-              childOver18InSchool: {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
+export const schema = deceasedDependents.properties.dependentInformation;
 
 export const uiSchema = {
   deaths: {
-    'ui:options': { viewField: DependentViewField },
+    'ui:options': {
+      viewField: DependentViewField,
+      itemName: 'deceased dependent',
+    },
     items: {
       fullName: {
         'ui:validations': [validateName],

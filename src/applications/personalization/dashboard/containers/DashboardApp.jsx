@@ -20,6 +20,7 @@ import {
   hasServerError as hasESRServerError,
   isEnrolledInVAHealthCare,
 } from 'applications/hca/selectors';
+import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
 
 import { recordDashboardClick } from '../helpers';
 import {
@@ -190,6 +191,26 @@ const ManageYourAccount = () => (
   </>
 );
 
+const ViewYourProfile2 = () => (
+  <>
+    <h2>View Your Profile</h2>
+    <p>
+      Go to your profile to view the information you need to manage your VA
+      benefits. You can make updates to your personal, military, and financial
+      information, as well as update your account settings to access more online
+      tools and services.
+      <br />
+      <a
+        className="usa-button-primary"
+        href={profileManifest.rootUrl}
+        onClick={recordDashboardClick('view-your-profile', 'view-button')}
+      >
+        Go to your profile
+      </a>
+    </p>
+  </>
+);
+
 class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
@@ -305,9 +326,10 @@ class DashboardApp extends React.Component {
       canAccessMessaging,
       canAccessAppeals,
       profile,
-      showManageYourVAHealthCare,
-      showServerError,
       showCOVID19Alert,
+      showManageYourVAHealthCare,
+      showProfile2,
+      showServerError,
       vaHealthChatEligibleSystemId,
     } = this.props;
     const availableWidgetsCount = [
@@ -350,8 +372,15 @@ class DashboardApp extends React.Component {
 
         {showManageYourVAHealthCare && <ManageYourVAHealthCare />}
         <ManageBenefitsOrRequestRecords />
-        <ViewYourProfile />
-        <ManageYourAccount />
+
+        {!showProfile2 && (
+          <>
+            <ViewYourProfile />
+            <ManageYourAccount />
+          </>
+        )}
+
+        {showProfile2 && <ViewYourProfile2 />}
       </>
     );
 
@@ -369,6 +398,7 @@ class DashboardApp extends React.Component {
 
 export const mapStateToProps = state => {
   const profileState = selectProfile(state);
+  const showProfile2 = selectShowProfile2(state);
   const canAccessRx = profileState.services.includes(backendServices.RX);
   const canAccessMessaging = profileState.services.includes(
     backendServices.MESSAGING,
@@ -399,6 +429,7 @@ export const mapStateToProps = state => {
     canAccessAppeals,
     canAccessClaims,
     profile: profileState,
+    showProfile2,
     showManageYourVAHealthCare:
       isEnrolledInVAHealthCare(state) || canAccessRx || canAccessMessaging,
     showServerError,
