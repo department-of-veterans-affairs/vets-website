@@ -91,21 +91,28 @@ class SideNav extends Component {
     }
 
     return (
-      <ul
+      <div
+        id="va-sidenav-wrapper"
         className={`usa-width-one-fourth va-sidenav vads-u-margin--1 medium-screen:vads-u-height--auto medium-screen:vads-u-margin-y--0 medium-screen:vads-u-margin-left--0 medium-screen:vads-u-margin-right--2p5 ${
           this.state.active ? `va-sidenav-height` : null
         }`}
       >
-        <span
+        <button
+          aria-describedby="va-sidenav-ul-container"
           className="vads-u-color--primary medium-screen:vads-u-display--none va-sidenav-default-trigger"
           onClick={this.toggleUlClass}
         >
           In this section <i className="fa fa-bars" />
-        </span>
-        <div className="va-sidenav-display-onclick-line medium-screen:vads-u-display--none line" />
-        {/* Render all the items recursively. */}
-        {renderChildItems(parentMostID, 1)}
-      </ul>
+        </button>
+        <ul
+          id="va-sidenav-ul-container"
+          className="va-sidenav vads-u-margin-top--0 vads-u-padding--0"
+        >
+          <div className="va-sidenav-display-onclick-line medium-screen:vads-u-display--none line" />
+          {/* Render all the items recursively. */}
+          {renderChildItems(parentMostID, 1)}
+        </ul>
+      </div>
     );
   }
 }
