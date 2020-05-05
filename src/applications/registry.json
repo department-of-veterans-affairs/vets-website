@@ -208,16 +208,6 @@
     }
   },
   {
-    "appName": "Veteran ID Card beta registration",
-    "entryName": "id-card-beta",
-    "rootUrl": "/id-card-beta",
-    "template": {
-      "title": "Your VA.gov Account",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true
-    }
-  },
-  {
     "appName": "21P-530 Burials benefits form",
     "entryName": "burials",
     "rootUrl": "/burials-and-memorials/application/530",
