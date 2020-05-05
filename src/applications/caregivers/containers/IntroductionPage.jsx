@@ -8,12 +8,6 @@ import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
 import { CaregiverSupportInfo } from 'applications/caregivers/components/AdditionalInfo';
 
-// little margin left and right
-// vads-u-margin-x--0p5
-
-// margin top and bottom
-// vads-u-margin-y--2
-
 const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -42,7 +36,7 @@ const IntroductionPage = ({ route, router }) => {
               caregiver applicant will need to provide specific information.
               You’ll need:
             </p>
-            <ul>
+            <ul className="process-lists">
               <li>Address</li>
               <li>Telephone number</li>
               <li>Date of birth</li>
@@ -51,7 +45,7 @@ const IntroductionPage = ({ route, router }) => {
             </ul>
 
             <p>You will also need:</p>
-            <ul>
+            <ul className="process-lists">
               <li>The VA medical center where the Veteran will receive care</li>
               <li>
                 Health insurance information for the Primary Family Caregiver
@@ -68,7 +62,7 @@ const IntroductionPage = ({ route, router }) => {
                 You may use any of the following to request assistance:
               </span>
 
-              <ul>
+              <ul className="process-lists">
                 <li>
                   Ask VA to help you fill out the form by calling us at
                   <a
@@ -181,7 +175,7 @@ const IntroductionPage = ({ route, router }) => {
   );
 
   return (
-    <div className="schemaform-intro">
+    <div className="caregivers-intro schemaform-intro">
       <FormTitle title="Apply for the Program of Comprehensive Assistance for Family Caregivers" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
       <p>
@@ -201,14 +195,14 @@ const IntroductionPage = ({ route, router }) => {
 
       <button
         style={{ display: 'inherit ' }}
-        className="va-button-primary vads-u-margin-y--5"
+        className="usa-button vads-u-margin-y--5"
         onClick={startForm}
       >
         Start your application
       </button>
       <ProcessTimeline />
       <button
-        className="va-button-primary vads-u-margin-bottom--5"
+        className="usa-button vads-u-margin-bottom--5"
         onClick={startForm}
       >
         Start your Application
