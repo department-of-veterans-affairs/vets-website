@@ -42,41 +42,15 @@ class SelectArrayItemsBatteriesWidget extends Component {
       batterySupply => batterySupply.availableForReorder === false,
     );
 
-    const ineligibleBatteriesAlertContent = (
-      <>
-        <p>You can't order batteries for your devices because:</p>
-        <ul>
-          <li>They don't require batteries, or</li>
-          <li>
-            You recently reordered batteries for this device. You can only order
-            batteries for each device once every 5 months.
-          </li>
-        </ul>
-      </>
-    );
-
     return (
       <>
-        {areBatterySuppliesIneligible && (
-          <>
-            <AlertBox
-              headline="Your devices aren't eligible for battery supply"
-              content={ineligibleBatteriesAlertContent}
-              status="info"
-              isVisible
-            />
-            <p>
-              These are the hearing aid accessories we have on file for you:
-            </p>
-          </>
-        )}
         {!areBatterySuppliesIneligible && (
           <>
             <h4>Select the hearing aids that need batteries</h4>
             <p>
-              You'll be sent a 6-month supply of batteries for each device you
-              choose below. You can only order batteries for each device once
-              every 5 months.
+              You&apos;ll be sent a 6-month supply of batteries for each device
+              you choose below. You can only order batteries for each device
+              once every 5 months.
             </p>
           </>
         )}

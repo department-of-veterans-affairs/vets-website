@@ -162,9 +162,6 @@ export default {
       ],
     },
     batteriesUI: {
-      'ui:title': 'Select the hearing aids that need batteries',
-      'ui:description':
-        "You'll be sent a 6-month supply of batteries for each device you choose below",
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsBatteriesWidget,
       'ui:reviewWidget': ReviewPageBatteries,
