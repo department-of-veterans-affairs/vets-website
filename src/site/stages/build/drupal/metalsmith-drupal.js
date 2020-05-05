@@ -255,8 +255,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 function getDrupalContent(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
-    const noop = () => {};
-    return noop;
+    return () => {};
   }
 
   // Declared above the middleware scope so that it's cached during the watch task.

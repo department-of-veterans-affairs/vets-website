@@ -16,7 +16,7 @@ const tmp = require('tmp');
  *
  */
 function runValeCheck(contentFilename) {
-  const promise = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const output = {};
     const vale = spawn('vale', [
       '--config=script/vale/.vale.ini',
@@ -40,7 +40,6 @@ function runValeCheck(contentFilename) {
       resolve(output);
     });
   });
-  return promise;
 }
 
 /**

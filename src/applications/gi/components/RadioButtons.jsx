@@ -38,7 +38,7 @@ class RadioButtons extends React.Component {
   renderOptions = () => {
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value;
-    const optionElements = options.map((obj, index) => {
+    return options.map((obj, index) => {
       let optionLabel;
       let optionValue;
       let optionAdditional;
@@ -105,8 +105,6 @@ class RadioButtons extends React.Component {
 
       return output;
     });
-
-    return optionElements;
   };
 
   render() {

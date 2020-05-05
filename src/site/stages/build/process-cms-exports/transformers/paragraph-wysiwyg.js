@@ -3,7 +3,7 @@ const { getDrupalValue, getWysiwygString } = require('./helpers');
 function wysiwygTransform(entity) {
   const { fieldWysiwyg } = entity;
 
-  const transformed = {
+  return {
     entity: {
       entityType: 'paragraph',
       entityBundle: 'wysiwyg',
@@ -13,8 +13,6 @@ function wysiwygTransform(entity) {
       },
     },
   };
-
-  return transformed;
 }
 
 module.exports = {

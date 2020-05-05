@@ -61,8 +61,7 @@ function applyPrefixToFiles(files) {
 
 function addDrupalPrefix(buildOptions) {
   if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
-    const noop = () => {};
-    return noop;
+    return () => {};
   }
 
   return (files, smith, done) => {

@@ -66,13 +66,11 @@ function FlipperClient({
     */
     const { data } = await _fetchToggleValues();
     const { features = [] } = data;
-    const toggleValues = features.reduce((acc, toggle) => {
+    return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
 
       return acc;
     }, {});
-
-    return toggleValues;
   };
 
   const removeSubscriberCallback = index => {
