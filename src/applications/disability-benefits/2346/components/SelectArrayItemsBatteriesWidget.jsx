@@ -80,7 +80,6 @@ class SelectArrayItemsBatteriesWidget extends Component {
             </p>
           </>
         )}
-        ;
         {batterySupplies.map(
           supply =>
             supply.productGroup === HEARING_AID_BATTERIES ? (
