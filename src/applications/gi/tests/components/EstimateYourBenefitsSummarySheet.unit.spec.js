@@ -19,6 +19,18 @@ const outputs = {
       title: 'Yellow Ribbon',
       terms: [{ label: 'Total per year', value: '$0', visible: true }],
     },
+    housingAllowance: {
+      visible: true,
+      title: 'Housing allowance',
+      learnMoreAriaLabel:
+        'Learn more about how we calculate your housing allowance',
+      terms: [
+        { label: 'Months 1-6', value: '$1,143/mo', visible: true },
+        { label: 'Months 7-12', value: '$914/mo', visible: true },
+        { label: 'Months 13-18', value: '$686/mo', visible: true },
+        { label: 'Months 19-24', value: '$457/mo', visible: true },
+      ],
+    },
   },
 };
 
