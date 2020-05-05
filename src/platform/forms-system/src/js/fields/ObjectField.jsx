@@ -67,7 +67,7 @@ class ObjectField extends React.Component {
   componentDidMount() {
     setFirstFields(this.props.idSchema.$id);
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.schema !== nextProps.schema ||
