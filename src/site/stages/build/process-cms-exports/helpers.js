@@ -4,24 +4,16 @@ const path = require('path');
 const get = require('lodash/get');
 
 /**
- * The path to the CMS export.
+ * The path to the CMS export content.
  *
  * @param {String} buildtype - The build type
- * @return {String} - The path to the saved CMS export directory
+ * @return {String} - The path to the saved CMS export content
  */
-const exportDir = buildtype =>
-  path.join(__dirname, `../../../../../.cache/${buildtype}/cms-export/`);
-
-/**
- * The path to the directory with all the JSON files from the CMS export.
- *
- * NOTE: This is just a subdirectory of the cmsExportDirectory.
- *
- * @param {String} cmsExportDirectory - The path to the extracted cms export
- * @return {String} - The path to the content/ subdirectory in the cms export directory
- */
-const getContentDir = cmsExportDirectory =>
-  path.join(cmsExportDirectory, 'content');
+const defaultCMSExportContentDir = buildtype =>
+  path.join(
+    __dirname,
+    `../../../../../.cache/${buildtype}/cms-export-content/`,
+  );
 
 /**
  * The sub-type can be found in a few different properties, depending
@@ -50,8 +42,7 @@ function getContentModelType(entity) {
 }
 
 module.exports = {
-  exportDir,
-  getContentDir,
+  defaultCMSExportContentDir,
   typeProperties,
   getContentModelType,
 

@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs-extra');
 const tar = require('tar-fs');
 const moment = require('moment');
 const fetch = require('node-fetch');
@@ -10,7 +12,6 @@ const { queries, getQuery } = require('./queries');
 const syswidecas = require('syswide-cas');
 
 const {
-  getContentDir,
   readAllNodeNames,
   readEntity,
 } = require('../process-cms-exports/helpers');
@@ -135,10 +136,23 @@ function getDrupalClient(buildOptions) {
           )}`,
         );
         await new Promise(resolve => {
-          response.body.pipe(tar.extract(buildOptions['cms-export-dir']));
+          const parentPath = path.join(buildOptions['cms-export-dir'], '..');
+          // This untars to parentDir/cms-export-content/ because the tarball
+          // contains a single directory named cms-export-content.
+          response.body.pipe(tar.extract(parentPath));
           response.body.on('end', () => {
+            // We now have to move it to the directory expected by the
+            // cms-export-dir option. The default will be 'cms-export-dir/', but
+            // if a non-default --cms-export-dir is specified, we have to move
+            // rename the directory to whatever the CLI option says it should be.
+            fs.moveSync(
+              path.join(parentPath, 'cms-export-content'),
+              path.join(
+                parentPath,
+                path.basename(buildOptions['cms-export-dir']),
+              ),
+            );
             console.timeEnd(timer);
-            process.exit(0);
             resolve();
           });
         });
@@ -168,11 +182,11 @@ function getDrupalClient(buildOptions) {
     },
 
     getExportedPages() {
-      const exportDir = buildOptions['cms-export-dir'];
-      const entities = readAllNodeNames(exportDir).map(entityDetails =>
-        readEntity(exportDir, ...entityDetails),
+      const contentDir = buildOptions['cms-export-dir'];
+      const entities = readAllNodeNames(contentDir).map(entityDetails =>
+        readEntity(contentDir, ...entityDetails),
       );
-      const assembleEntityTree = entityTreeFactory(getContentDir(exportDir));
+      const assembleEntityTree = entityTreeFactory(contentDir);
 
       const modifiedEntities = entities.map(entity =>
         assembleEntityTree(entity),

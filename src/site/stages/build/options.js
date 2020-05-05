@@ -14,7 +14,7 @@ const defaultContentDir = '../../../../../vagov-content/pages';
 
 const getDrupalClient = require('./drupal/api');
 const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
-const { exportDir } = require('./process-cms-exports/helpers');
+const { defaultCMSExportContentDir } = require('./process-cms-exports/helpers');
 const { logDrupal } = require('./drupal/utilities-drupal');
 const { useFlags } = require('./drupal/load-saved-flags');
 
@@ -63,7 +63,7 @@ function gatherFromCommandLine() {
 
   // Set defaults which require the value of other options
   options['cms-export-dir'] =
-    options['cms-export-dir'] || exportDir(options.buildtype);
+    options['cms-export-dir'] || defaultCMSExportContentDir(options.buildtype);
 
   if (options.unexpected && options.unexpected.length !== 0) {
     throw new Error(`Unexpected arguments: '${options.unexpected}'`);
