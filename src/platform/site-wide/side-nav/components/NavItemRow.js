@@ -45,9 +45,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   if (hasChildren) {
     return (
       <a
-        {...!isExpanded &&
-          !moreThanLevel2SelectedExpanded &&
-          isSelected && { 'aria-current': 'page' }}
+        aria-current={isSelected ? 'page' : undefined}
         aria-label={label}
         className={classNames('va-sidenav-item-label', {
           'va-sidenav-item-label-bold': isFirstLevel,
