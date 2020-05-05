@@ -57,7 +57,6 @@ import {
   finalIncident,
   individualUnemployability,
   mentalHealthChanges,
-  militaryHistory,
   newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -77,6 +76,8 @@ import {
   vaMedicalRecords,
   workBehaviorChanges,
 } from '../../all-claims/pages';
+
+import { militaryHistory } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../../all-claims/content/ancillaryFormsWizardIntro';
 
