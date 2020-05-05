@@ -32,7 +32,6 @@ function InstitutionSearchForm(props) {
             <BenefitsForm
               eligibilityChange={props.eligibilityChange}
               {...props.eligibility}
-              isLoggedIn={props.isLoggedIn}
               hideModal={props.hideModal}
               showModal={props.showModal}
               showHeader

@@ -48,18 +48,6 @@ const uiSchema = {
     'ui:title':
       'Appointments are available at the following locations. Some types of care are only available at certain locations. Please choose your preferred location.',
     'ui:widget': 'radio',
-    'ui:validations': [
-      (errors, vaFacility, data) => {
-        if (
-          vaFacility &&
-          !vaFacility.startsWith(data.vaParent.substring(0, 3))
-        ) {
-          errors.addError(
-            'Please choose a facility that is in the selected VA health system',
-          );
-        }
-      },
-    ],
     'ui:options': {
       hideIf: data => !data.vaParent,
     },

@@ -1,7 +1,6 @@
 import SpouseViewField from '../../../../components/SpouseViewField';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
-import { SpouseItemHeader } from './helpers';
 
 export const schema = addSpouse.properties.veteranMarriageHistory;
 
@@ -17,12 +16,12 @@ export const uiSchema = {
       expandUnder: 'veteranWasMarriedBefore',
       expandUnderCondition: true,
       keepInPageOnReview: true,
+      itemName: 'former spouse',
       updateSchema: () => ({
         minItems: 1,
       }),
     },
     items: {
-      'ui:title': SpouseItemHeader,
       fullName: {
         'ui:validations': [validateName],
         first: {

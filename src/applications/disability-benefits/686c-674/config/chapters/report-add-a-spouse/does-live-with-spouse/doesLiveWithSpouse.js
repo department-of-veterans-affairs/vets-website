@@ -4,7 +4,7 @@ import { addSpouse } from '../../../utilities';
 import { doesLiveTogether } from './helpers';
 
 const livingStatusSchema = cloneDeep(addSpouse.properties.doesLiveWithSpouse);
-livingStatusSchema.properties.address = buildAddressSchema(false);
+livingStatusSchema.properties.address = buildAddressSchema(true);
 
 export const schema = {
   type: 'object',
@@ -31,7 +31,7 @@ export const uiSchema = {
       'ui:errorMessages': { required: 'Please give a brief explanation' },
     },
     address: {
-      ...addressUISchema(false, 'doesLiveWithSpouse.address', doesLiveTogether),
+      ...addressUISchema(true, 'doesLiveWithSpouse.address', doesLiveTogether),
       'ui:title': 'Your spouse’s address',
       'ui:options': {
         expandUnder: 'spouseDoesLiveWithVeteran',

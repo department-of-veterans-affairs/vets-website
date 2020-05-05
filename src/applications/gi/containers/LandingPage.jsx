@@ -26,7 +26,6 @@ import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import BenefitsForm from '../components/profile/BenefitsForm';
-import { isLoggedIn } from 'platform/user/selectors';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -143,7 +142,6 @@ export class LandingPage extends React.Component {
                 <BenefitsForm
                   eligibilityChange={this.handleEligibilityChange}
                   {...this.props.eligibility}
-                  isLoggedIn={this.props.isLoggedIn}
                   hideModal={this.props.hideModal}
                   showModal={this.props.showModal}
                 />
@@ -206,7 +204,6 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: calculateFilters(state.filters),
   eligibility: state.eligibility,
-  isLoggedIn: isLoggedIn(state),
   gibctEstimateYourBenefits: toggleValues(state)[
     FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
   ],
