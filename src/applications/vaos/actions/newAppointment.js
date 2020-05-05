@@ -314,7 +314,11 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId && !eligibleFacilities?.length) {
-        recordEligibilityFailure('supported-facilities');
+        recordEligibilityFailure(
+          'supported-facilities',
+          typeOfCareId,
+          parentId,
+        );
       }
 
       const eligibilityChecks =
