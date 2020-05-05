@@ -46,7 +46,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 
   formatDollarAmount = value => {
     const output =
-      value !== null ? value.toString().replace(/([^0-9].)+/g, '') : 0;
+      value !== null ? value.toString().replace(/([^0-9])+/g, '') : 0;
     return formatCurrency(output);
   };
 
