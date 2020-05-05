@@ -205,7 +205,7 @@ const ViewYourProfile2 = () => (
         href={profileManifest.rootUrl}
         onClick={recordDashboardClick('view-your-profile', 'view-button')}
       >
-        View your profile
+        Go to your profile
       </a>
     </p>
   </>
