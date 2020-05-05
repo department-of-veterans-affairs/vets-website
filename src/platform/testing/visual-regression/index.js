@@ -63,9 +63,7 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
     // await page.goto('about:blank')
   }
   table.push(...results.map(tableFormatter));
-  /* eslint-disable  no-console */
-  console.log(table.toString());
-  /* eslint-enable */
+  console.log(table.toString()); // eslint-disable-line no-console
 }
 
 // A wrapper around the login helper to return a promise
@@ -109,9 +107,7 @@ async function setup() {
   try {
     await beginApplication(browser);
   } catch (e) {
-    /* eslint-disable */
-    console.error(e, e.stack);
-    /* eslint-enable */
+    console.error(e, e.stack); // eslint-disable-line no-console
   }
   await browser.close();
 }
@@ -119,6 +115,5 @@ async function setup() {
 try {
   setup();
 } catch (e) {
-  /* eslint-disable */
-  console.log(e);
+  console.log(e); // eslint-disable-line no-console
 }
