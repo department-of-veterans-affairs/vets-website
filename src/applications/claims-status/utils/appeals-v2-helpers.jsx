@@ -257,8 +257,8 @@ export function formatDate(date) {
 function getHearingType(type) {
   const typeMaps = {
     video: 'videoconference',
-    travel_board: 'travel board', // eslint-disable-line
-    central_office: 'Washington, DC central office', // eslint-disable-line
+    travel_board: 'travel board', // eslint-disable-line camelcase
+    central_office: 'Washington, DC central office', // eslint-disable-line camelcase
   };
 
   return typeMaps[type] || type;
