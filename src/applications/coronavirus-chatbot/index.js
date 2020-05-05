@@ -87,19 +87,18 @@ const initBotConversation = jsonWebToken => {
             },
           },
         });
-      } else if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
-        if (
-          action.payload?.activity?.type === 'event' &&
-          action.payload?.activity?.name === 'ShareLocationEvent'
-        ) {
-          // share
-          getUserLocation(location => {
-            store.dispatch({
-              type: 'WEB_CHAT/SEND_POST_BACK',
-              payload: { value: JSON.stringify(location) },
-            });
+      } else if (
+        action.type === 'DIRECT_LINE/INCOMING_ACTIVITY' &&
+        action.payload?.activity?.type === 'event' &&
+        action.payload?.activity?.name === 'ShareLocationEvent'
+      ) {
+        // share
+        getUserLocation(location => {
+          store.dispatch({
+            type: 'WEB_CHAT/SEND_POST_BACK',
+            payload: { value: JSON.stringify(location) },
           });
-        }
+        });
       }
       return next(action);
     },

@@ -52,15 +52,14 @@ function updateExternalLinks() {
             typeof link.attr('data-same-tab') === 'undefined' &&
             !isNonVADomainThatOpensInSameTab(hrefAttr) &&
             ((!hrefAttr.includes('va.gov') && !hrefAttr.includes('vets.gov')) ||
-              isVADomainThatOpensInNewTab(hrefAttr))
+              isVADomainThatOpensInNewTab(hrefAttr)) &&
+            (!targetAttr && targetAttr !== '_blank')
           ) {
-            if (!targetAttr && targetAttr !== '_blank') {
-              linkUpdated = true;
-              link.attr('target', '_blank');
+            linkUpdated = true;
+            link.attr('target', '_blank');
 
-              if (!relAttr || !relAttr.includes('noopener')) {
-                link.attr('rel', `noopener ${relAttr || ''}`);
-              }
+            if (!relAttr || !relAttr.includes('noopener')) {
+              link.attr('rel', `noopener ${relAttr || ''}`);
             }
           }
         });

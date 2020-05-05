@@ -95,10 +95,8 @@ export function libraryCurrent() {
     } else {
       element.classList.remove('pager-hide');
     }
-    if (activePage === undefined) {
-      if (numVal > itemsPerPage) {
-        element.classList.add('pager-hide');
-      }
+    if (activePage === undefined && numVal > itemsPerPage) {
+      element.classList.add('pager-hide');
     }
   });
 }

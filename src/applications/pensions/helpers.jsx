@@ -153,16 +153,14 @@ export function submit(form, formConfig) {
       });
     })
     .catch(respOrError => {
-      if (respOrError instanceof Response) {
-        if (respOrError.status === 429) {
-          const error = new Error('vets_throttled_error_pensions');
-          error.extra = parseInt(
-            respOrError.headers.get('x-ratelimit-reset'),
-            10,
-          );
+      if (respOrError instanceof Response && respOrError.status === 429) {
+        const error = new Error('vets_throttled_error_pensions');
+        error.extra = parseInt(
+          respOrError.headers.get('x-ratelimit-reset'),
+          10,
+        );
 
-          return Promise.reject(error);
-        }
+        return Promise.reject(error);
       }
       return Promise.reject(respOrError);
     });

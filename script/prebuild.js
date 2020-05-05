@@ -10,11 +10,9 @@ if (process.env.INSTALL_HOOKS !== 'no') {
   ['pre-commit'].forEach(hook => {
     const src = path.join(__dirname, `hooks/${hook}`);
     const dest = path.join(__dirname, `../.git/hooks/${hook}`);
-    if (fs.existsSync(src)) {
-      if (!fs.existsSync(dest)) {
-        // Install hooks
-        fs.linkSync(src, dest);
-      }
+    if (fs.existsSync(src) && !fs.existsSync(dest)) {
+      // Install hooks
+      fs.linkSync(src, dest);
     }
   });
 }

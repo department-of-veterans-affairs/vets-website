@@ -57,14 +57,15 @@ export default {
         'missing-field-question':
           'Education - Form 22-0994 - High Tech Work Experience - Current High Tech Employment',
       });
-    } else if (!_.get(formData, 'currentHighTechnologyEmployment', {})) {
-      if (!_.isBoolean(_.get(formData, 'pastHighTechnologyEmployment', {}))) {
-        recordEvent({
-          event: 'edu-0994--response-missing',
-          'missing-field-question':
-            'Education - Form 22-0994 - High Tech Work Experience - Past High Tech Employment',
-        });
-      }
+    } else if (
+      !_.get(formData, 'currentHighTechnologyEmployment', {}) &&
+      !_.isBoolean(_.get(formData, 'pastHighTechnologyEmployment', {}))
+    ) {
+      recordEvent({
+        event: 'edu-0994--response-missing',
+        'missing-field-question':
+          'Education - Form 22-0994 - High Tech Work Experience - Past High Tech Employment',
+      });
     }
   },
   contactInformation: formData => {

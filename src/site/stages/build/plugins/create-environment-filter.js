@@ -8,10 +8,11 @@ function createEnvironmentFilter(options) {
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
 
-      if (environmentName !== ENVIRONMENTS.LOCALHOST) {
-        if (file.status === 'draft') {
-          delete files[fileName];
-        }
+      if (
+        environmentName !== ENVIRONMENTS.LOCALHOST &&
+        file.status === 'draft'
+      ) {
+        delete files[fileName];
       }
 
       if (file[environmentName] === false) {
