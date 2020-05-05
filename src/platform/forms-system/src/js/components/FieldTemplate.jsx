@@ -27,7 +27,7 @@ export default function FieldTemplate(props) {
   const requiredSpan = required ? (
     <span className="schemaform-required-span">(*Required)</span>
   ) : null;
-  const label = uiSchema['ui:title'] || props.label;
+  const label = uiSchema['ui:title'] || props.label || '';
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel =
     uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
@@ -98,7 +98,7 @@ export default function FieldTemplate(props) {
 
   // Don't render empty labels - prevents duplicate IDs on review & submit page
   const renderLabel =
-    typeof label === 'string' && (requiredSpan || label.trim());
+    typeof label !== 'string' || (requiredSpan || label.trim());
 
   const content = (
     <>

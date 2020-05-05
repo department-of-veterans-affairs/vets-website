@@ -32,6 +32,33 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.everySubTree('.field-child')).not.to.be.empty;
     expect(tree.everySubTree('.usa-input-error-message')).to.be.empty;
   });
+  it('should render a label if JSX is provided', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': <span>Title</span>,
+    };
+    const formContext = {
+      touched: {},
+    };
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}
+      >
+        <div className="field-child" />
+      </FieldTemplate>,
+    );
+
+    expect(tree.subTree('label').text()).to.equal('Title');
+    expect(tree.everySubTree('.field-child')).not.to.be.empty;
+    expect(tree.everySubTree('.usa-input-error-message')).to.be.empty;
+  });
   it('should render object', () => {
     const schema = {
       type: 'object',
@@ -269,7 +296,28 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.subTree('label').text()).to.equal('Title');
     expect(tree.subTree('fieldset')).to.be.false;
   });
+  it('should not render a label if no title provided', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {};
+    const formContext = {
+      touched: {},
+    };
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}
+      />,
+    );
 
+    expect(tree.subTree('label')).to.be.false;
+    expect(tree.everySubTree('.usa-input-error-message')).to.be.empty;
+  });
   it('should not render a label if empty or whitespace only title provided', () => {
     const schema = {
       type: 'string',
