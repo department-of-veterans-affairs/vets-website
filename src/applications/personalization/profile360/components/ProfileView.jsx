@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -185,6 +187,12 @@ class ProfileView extends React.Component {
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
+          {/* Breadcrumbs */}
+          <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--2">
+            <a href="/">Home</a>
+            <a href="/">Your profile</a>
+          </Breadcrumbs>
+
           {content}
         </div>
       </div>
