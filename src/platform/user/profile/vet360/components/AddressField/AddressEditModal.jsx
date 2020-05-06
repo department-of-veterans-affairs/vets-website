@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import pickBy from 'lodash/pickBy';
 import { focusElement } from 'platform/utilities/ui';
 
-import { ADDRESS_POU, ADDRESS_TYPES, FIELD_NAMES, USA } from 'vet360/constants';
-
+import { ADDRESS_POU, FIELD_NAMES, USA } from 'vet360/constants';
 import Vet360EditModal from '../base/Vet360EditModal';
-
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
-
 import ContactInfoForm from '../ContactInfoForm';
+
+const MILITARY_CITY_VALUES = ['APO', 'DPO', 'FPO'];
+const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 
 class AddressEditModal extends React.Component {
   componentWillUnmount() {
@@ -64,7 +64,8 @@ class AddressEditModal extends React.Component {
   selectLivesOnMilitaryBaseCheckbox = data => {
     if (
       data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
-      data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY
+      MILITARY_STATE_VALUES.includes(data?.stateCode) &&
+      MILITARY_CITY_VALUES.includes(data?.city)
     ) {
       return { ...data, 'view:livesOnMilitaryBase': true };
     }
