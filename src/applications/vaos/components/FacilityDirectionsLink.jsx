@@ -56,7 +56,8 @@ class FacilityDirectionsLink extends Component {
             href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
             rel="noopener noreferrer"
             target="_blank"
-            aria-label={`Directions to ${location.name}`}
+            aria-label={`Directions to ${location.name ||
+              location.providerPractice}`}
           >
             Directions
           </a>
