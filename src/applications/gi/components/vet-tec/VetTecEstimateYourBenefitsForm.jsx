@@ -140,7 +140,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       value: program.description,
       label: program.description,
     }));
-    return options.length <= 6 ? (
+    return options.length <= 5 ? (
       <RadioButtons
         label="Choose the training program you'd like to attend"
         name="approvedPrograms"
