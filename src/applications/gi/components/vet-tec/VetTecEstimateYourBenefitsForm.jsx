@@ -11,15 +11,18 @@ import { focusElement } from 'platform/utilities/ui';
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
-    const selectedProgram =
+    const selectedProgramName =
       this.props.selectedProgram !== ''
         ? this.props.selectedProgram
         : this.props.preSelectedProgram;
 
+    const selectedProgram = this.props.institution.programs.filter(
+      program => program.description === selectedProgramName,
+    );
     this.state = {
-      tuitionFees: 0,
+      tuitionFees: selectedProgram[0].tuitionAmount,
       scholarships: 0,
-      programName: selectedProgram,
+      programName: selectedProgramName,
     };
   }
 

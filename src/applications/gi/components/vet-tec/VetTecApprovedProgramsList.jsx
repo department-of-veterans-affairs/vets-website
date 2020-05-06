@@ -6,12 +6,12 @@ import { formatCurrency, isPresent } from '../../utils/helpers';
 class VetTecApprovedProgramsList extends React.Component {
   render() {
     const programs = this.props.institution.programs;
-    const selectedProgram =
-      this.props.selectedProgram !== ''
-        ? this.props.selectedProgram
-        : this.props.preSelectedProgram;
 
     if (programs && programs.length) {
+      const selectedProgram =
+        this.props.selectedProgram !== ''
+          ? this.props.selectedProgram
+          : this.props.preSelectedProgram;
       const programRows = programs.map((program, index) => {
         const programLength =
           isPresent(program.lengthInHours) && program.lengthInHours !== '0'
