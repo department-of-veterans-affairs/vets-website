@@ -9,10 +9,7 @@ import SessionTimeoutModal from 'platform/user/authentication/components/Session
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
 import environment from 'platform/utilities/environment';
-import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
-import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
-import { ssoe, ssoeInbound } from 'platform/user/authentication/selectors';
+import { hasSession } from 'platform/user/profile/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
 
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
@@ -26,6 +23,7 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
+import AutoSSO from './AutoSSO';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -43,11 +41,6 @@ export class Main extends React.Component {
   }
 
   componentDidUpdate() {
-    // NOTE: does this check need to be called more often, for example if a
-    // user is just idle on the page, no components will be re-rendered, yet
-    // we may have to run this.  Maybe we should have this invoked in the same
-    // way that the 30 minute timeout logout works?
-    this.checkStatusInboundSSO();
     if (this.props.currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
@@ -76,20 +69,6 @@ export class Main extends React.Component {
       window.location.replace(redirectUrl);
     }
   }
-
-  checkStatusInboundSSO = () => {
-    const { useSSOe, useInboundSSOe } = this.props;
-
-    if (useSSOe && useInboundSSOe) {
-      ssoKeepAliveSession().then(() => {
-        if (hasSession() && hasSessionSSO() === 'false') {
-          autoLogout();
-        } else if (!hasSession() && hasSessionSSO() === 'true') {
-          autoLogin();
-        }
-      });
-    }
-  };
 
   checkLoggedInStatus = () => {
     if (hasSession()) {
@@ -192,6 +171,7 @@ export class Main extends React.Component {
             onExtendSession={this.props.initializeProfile}
           />
         )}
+        <AutoSSO />
       </div>
     );
   }
@@ -219,8 +199,6 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
-    useSSOe: ssoe(state),
-    useInbountSSOe: ssoeInbound(state),
     ...state.navigation,
   };
 };
