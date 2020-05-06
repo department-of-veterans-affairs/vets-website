@@ -59,7 +59,10 @@ const ProfileHeader = ({
   const titleClassesMedium = prefixUtilityClasses(['display--flex'], 'medium');
 
   const fullNameClasses = prefixUtilityClasses([
+    'font-family--serif',
     'font-size--h3',
+    'font-weight--bold',
+    'line-height--3',
     'margin-top--0',
     'margin-bottom--0p5',
     'text-align--center',
@@ -73,6 +76,7 @@ const ProfileHeader = ({
     'font-family--sans',
     'font-size--base',
     'font-weight--normal',
+    'line-height--3',
     'margin--0',
     'text-align--center',
   ]);
@@ -81,50 +85,52 @@ const ProfileHeader = ({
     'medium',
   );
 
+  const classes = {
+    wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
+    innerWrapper: [
+      ...innerWrapperClasses,
+      ...innerWrapperClassesMedium,
+      'usa-grid',
+      'usa-grid-full',
+    ].join(' '),
+    serviceBadge: [
+      ...serviceBadgeClasses,
+      ...serviceBadgeClassesMedium,
+      'usa-width-one-fourth',
+    ].join(' '),
+    title: [...titleClasses, ...titleClassesMedium].join(' '),
+    fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
+    latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
+      ' ',
+    ),
+  };
+
   return (
-    <div className={[...wrapperClasses, ...wrapperClassesMedium].join(' ')}>
-      <div
-        className={[
-          ...innerWrapperClasses,
-          ...innerWrapperClassesMedium,
-          'usa-grid',
-          'usa-grid-full',
-        ].join(' ')}
-      >
-        <div
-          className={[
-            ...serviceBadgeClasses,
-            ...serviceBadgeClassesMedium,
-            'usa-width-one-fourth',
-          ].join(' ')}
-        >
+    <div className={classes.wrapper}>
+      <div className={classes.innerWrapper}>
+        <div className={classes.serviceBadge}>
           {showBadgeImage && (
             <img
-              className="profile-service-badge"
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
-              alt="service badge"
+              alt={`${latestBranchOfService} seal`}
+              className="profile-service-badge"
+              aria-hidden="true"
+              role="presentation"
             />
           )}
         </div>
         <div className="name-and-title-wrapper">
-          <h1 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
-            Your Profile
-          </h1>
-          <h2
-            className={[...fullNameClasses, ...fullNameClassesMedium].join(' ')}
-          >
-            {fullName}
-          </h2>
-          {latestBranchOfService && (
-            <h3
-              className={[
-                ...latestBranchClasses,
-                ...latestBranchClassesMedium,
-              ].join(' ')}
-            >
-              {getServiceBranchDisplayName(latestBranchOfService)}
-            </h3>
-          )}
+          <h1 className={classes.title}>Your Profile</h1>
+          <dl className="vads-u-margin-y--0">
+            <dt className="sr-only">Name: </dt>
+            <dd className={classes.fullName}>{fullName}</dd>
+            {latestBranchOfService && (
+              <dd className={classes.latestBranch}>
+                <dfn className="sr-only">Branch of service: </dfn>
+                {getServiceBranchDisplayName(latestBranchOfService)}
+              </dd>
+            )}
+          </dl>
         </div>
       </div>
     </div>

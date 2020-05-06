@@ -2,12 +2,9 @@ import { validateDate } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
-import { StudentNameHeader } from '../helpers';
-
 export const schema = report674.properties.studentTermDates;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   currentTermDates: {
     'ui:title': 'Term or course dates',
     officialSchoolStartDate: {

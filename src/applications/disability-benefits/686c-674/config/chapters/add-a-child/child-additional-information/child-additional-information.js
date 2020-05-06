@@ -3,9 +3,10 @@ import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
+import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 
-const addressSchema = buildAddressSchema(false);
+const addressSchema = buildAddressSchema(true);
 
 const additionalInformationSchema = cloneDeep(
   addChild.properties.addChildAdditionalInformation,
@@ -22,6 +23,7 @@ export const uiSchema = {
       viewField: childInfo,
     },
     items: {
+      'ui:title': ChildNameHeader,
       doesChildLiveWithYou: {
         'ui:widget': 'yesNo',
         'ui:title': 'Does this child live with you?',
@@ -53,7 +55,7 @@ export const uiSchema = {
         address: {
           ...{ 'ui:title': "Child's address" },
           ...addressUISchema(
-            false,
+            true,
             'childrenToAdd[INDEX].childAddressInfo.address',
             (formData, index) =>
               formData.childrenToAdd[`${index}`].doesChildLiveWithYou === false,

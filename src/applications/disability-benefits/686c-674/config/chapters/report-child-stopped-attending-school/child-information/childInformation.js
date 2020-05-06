@@ -23,21 +23,21 @@ export const uiSchema = {
             formData,
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
-        'ui:title': 'Child’s first name',
+        'ui:title': 'First name',
         'ui:errorMessages': { required: 'Please enter a first name' },
       },
-      middle: { 'ui:title': 'Child’s middle name' },
+      middle: { 'ui:title': 'Middle name' },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(
             formData,
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
-        'ui:title': 'Child’s last name',
+        'ui:title': 'Last name',
         'ui:errorMessages': { required: 'Please enter a last name' },
       },
       suffix: {
-        'ui:title': 'Child’s suffix',
+        'ui:title': 'Suffix',
         'ui:options': { widgetClassNames: 'form-select-medium' },
       },
     },

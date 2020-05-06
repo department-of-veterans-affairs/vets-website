@@ -2,5 +2,11 @@
   "appName": "VA Profile",
   "entryFile": "./profile-2-entry.jsx",
   "entryName": "profile-2",
-  "rootUrl": "/profile-2"
+  "rootUrl": "/profile-2",
+  "production": "false",
+  "template": {
+    "vagovprod": false,
+    "title": "Your Profile",
+    "layout": "page-react.html"
+  }
 }

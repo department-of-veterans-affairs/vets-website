@@ -52,7 +52,10 @@
 
             {% if entity.fieldAlertOperatingStatusCta == true %}
               <p>
-                <a href="{{ statusUrl }}">Get
+                <a href="{{ statusUrl }}" onclick="recordEvent({
+                  'event':'nav-warning-alert-box-content-link-click',
+                  'alertBoxHeading': '{{entity.title}}'
+                  });">Get
                   updates on affected services and facilities</a>
               </p>
             {% endif %}

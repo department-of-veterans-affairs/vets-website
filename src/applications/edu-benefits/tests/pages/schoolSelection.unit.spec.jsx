@@ -20,7 +20,7 @@ import formConfig5490 from '../../5490/config/form';
 const configs = {
   '1990n': formConfig1990n,
   '1990e': formConfig1990e,
-  '5490': formConfig5490, // eslint-disable-line
+  '5490': formConfig5490,
 };
 
 // Describe the tests for each form

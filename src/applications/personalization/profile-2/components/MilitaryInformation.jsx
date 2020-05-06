@@ -97,6 +97,7 @@ const MilitaryInformationContent = ({ militaryInformation }) => {
         dataTransformer={transformServiceHistoryEntryIntoTableRow}
         title="Period of service"
         fieldName="serviceHistory"
+        list
       />
       <div className="vads-u-margin-top--4">
         <AdditionalInfo
@@ -148,7 +149,7 @@ const MilitaryInformation = ({ militaryInformation }) => (
   <>
     <h2
       tabIndex="-1"
-      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+      className="vads-u-line-height--1  vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
       data-focus-target
     >
       Military information

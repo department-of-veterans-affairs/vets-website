@@ -45,7 +45,7 @@ class PreferencesWidget extends React.Component {
 
     this.state = {};
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchUserSelectedBenefits();
     if (!isEmpty(this.props.preferences.dashboard)) {

@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import unset from 'lodash/unset';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { veteranInformation } from '../../../utilities';
@@ -28,15 +27,19 @@ export const uiSchema = {
         'ui:required': () => true,
       },
       suffix: {
+        'ui:title': 'Suffix',
         'ui:options': {
           widgetClassNames: 'usa-input-medium',
         },
       },
     },
-    ssn: merge(unset('ui:title', ssnUI), {
-      'ui:title': 'Your Social Security number',
-      'ui:required': () => true,
-    }),
+    ssn: {
+      ...ssnUI,
+      ...{
+        'ui:title': 'Your Social Security number',
+        'ui:required': () => true,
+      },
+    },
     vaFileNumber: {
       'ui:title': 'Your VA file number',
       'ui:errorMessages': {

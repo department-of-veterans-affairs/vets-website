@@ -124,14 +124,7 @@
     "template": {
       "vagovprod": false,
       "title": "Your Profile",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "profile-2/",
-          "name": "Your profile"
-        }
-      ]
+      "layout": "page-react.html"
     }
   },
   {
@@ -212,16 +205,6 @@
     "template": {
       "vagovprod": false,
       "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "Veteran ID Card beta registration",
-    "entryName": "id-card-beta",
-    "rootUrl": "/id-card-beta",
-    "template": {
-      "title": "Your VA.gov Account",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true
     }
   },
   {

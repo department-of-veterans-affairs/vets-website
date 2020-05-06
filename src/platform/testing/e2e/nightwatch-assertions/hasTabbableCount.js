@@ -31,11 +31,7 @@ exports.assertion = function hasTabbableCount(
         const allItems = target.querySelectorAll(
           'a[href], button, details, input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="url"], input[type="radio"]:checked, input[type="checkbox"], select, textarea, [tabindex]:not([tabindex="-1"]',
         );
-        const tabbableItems = Array.from(allItems).filter(
-          el => !el.hasAttribute('disabled'),
-        );
-
-        return tabbableItems;
+        return Array.from(allItems).filter(el => !el.hasAttribute('disabled'));
       },
       [selector],
       callback,

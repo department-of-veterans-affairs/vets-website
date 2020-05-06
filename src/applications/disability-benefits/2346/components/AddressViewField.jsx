@@ -67,8 +67,8 @@ const AddressViewField = ({ formData }) => {
 
 AddressViewField.propTypes = {
   formData: PropTypes.shape({
-    country: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
+    country: PropTypes.string,
+    city: PropTypes.string,
     state: PropTypes.string,
 
     street: PropTypes.string,

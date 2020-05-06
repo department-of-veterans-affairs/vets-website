@@ -9,8 +9,8 @@ const ProfileInfoTable = ({
   fieldName,
   title,
   className,
+  list,
 }) => {
-  const tableClasses = ['profile-info-table', className];
   const titleClasses = prefixUtilityClasses([
     'background-color--gray-lightest',
     'border--1px',
@@ -24,6 +24,7 @@ const ProfileInfoTable = ({
     ['padding-x--3', 'padding-y--2'],
     'medium',
   );
+
   const tableRowClasses = prefixUtilityClasses([
     'border-color--gray-lighter',
     'color-gray-dark',
@@ -36,6 +37,7 @@ const ProfileInfoTable = ({
     ['flex-direction--row', 'padding--4'],
     'medium',
   );
+
   const tableRowTitleClasses = prefixUtilityClasses([
     'font-family--sans',
     'font-size--base',
@@ -44,42 +46,49 @@ const ProfileInfoTable = ({
     'margin--0',
     'margin-bottom--1',
   ]);
-  const tableRowTitleMediumClasses = prefixUtilityClasses(
+  const tableRowTitleClassesMedium = prefixUtilityClasses(
     ['margin-bottom--0', 'margin-right--2'],
     'medium',
   );
+
   const tableRowDataClasses = ['vads-u-margin--0'];
 
+  // an object where each value is a string of space-separated class names that
+  // can be passed directly to a `className` attribute
+  const classes = {
+    table: ['profile-info-table', className].join(' '),
+    title: [...titleClasses, ...titleClassesMedium].join(' '),
+    tableRow: ['table-row', ...tableRowClasses, ...tableRowClassesMedium].join(
+      ' ',
+    ),
+    tableRowTitle: [
+      ...tableRowTitleClasses,
+      ...tableRowTitleClassesMedium,
+    ].join(' '),
+    tableRowData: [...tableRowDataClasses].join(' '),
+  };
+
+  const dlAttributes = list ? { role: 'list' } : null;
+  const dtAttributes = list ? { role: 'listitem' } : null;
+
   return (
-    <div className={tableClasses.join(' ')} data-field-name={fieldName}>
-      {title && (
-        <h3 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
-          {title}
-        </h3>
-      )}
-      {data
-        .map(element => (dataTransformer ? dataTransformer(element) : element))
-        .map((row, index) => (
-          <div
-            key={index}
-            className={`'table-row' ${[
-              'table-row',
-              ...tableRowClasses,
-              ...tableRowClassesMedium,
-            ].join(' ')}`}
-          >
-            <h4
-              className={[
-                ...tableRowTitleClasses,
-                ...tableRowTitleMediumClasses,
-              ].join(' ')}
-            >
-              {row.title}
-            </h4>
-            <div className={tableRowDataClasses.join(' ')}>{row.value}</div>
-          </div>
-        ))}
-    </div>
+    <section className={classes.table} data-field-name={fieldName}>
+      {title && <h3 className={classes.title}>{title}</h3>}
+      <dl className="vads-u-margin--0" {...dlAttributes}>
+        {data
+          .map(
+            element => (dataTransformer ? dataTransformer(element) : element),
+          )
+          .map((row, index) => (
+            <div key={index} className={classes.tableRow}>
+              <dt className={classes.tableRowTitle} {...dtAttributes}>
+                {row.title}
+              </dt>
+              <dd className={classes.tableRowData}>{row.value}</dd>
+            </div>
+          ))}
+      </dl>
+    </section>
   );
 };
 
@@ -89,6 +98,11 @@ ProfileInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
+  /**
+   * When `list` is truthy, additional a11y markup will be applied to the
+   * rendered table to treat it like a list
+   */
+  list: PropTypes.bool,
 };
 
 export { prefixUtilityClasses };

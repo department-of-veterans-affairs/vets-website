@@ -4,7 +4,7 @@ import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
-import { StudentNameHeader } from '../helpers';
+import { StudentAddressDescription } from './helpers';
 
 const addressSchema = buildAddressSchema(true);
 
@@ -22,10 +22,12 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
+  'ui:title': 'Student’s Address',
   studentAddressMarriageTuition: {
     address: {
-      ...{ 'ui:title': 'Student’s Address' },
+      ...{
+        'ui:description': StudentAddressDescription,
+      },
       ...addressUISchema(
         true,
         'studentAddressMarriageTuition.address',

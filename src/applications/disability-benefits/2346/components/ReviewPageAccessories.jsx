@@ -8,8 +8,8 @@ const ReviewPageAccessories = ({ selectedProductInfo, accessorySupplies }) => (
         You have requested to receive the following accessories:
       </span>
       <span>
-        ({selectedProductInfo.length} out of {accessorySupplies.length}{' '}
-        selected)
+        ({selectedProductInfo?.length || 0} out of{' '}
+        {accessorySupplies?.length || 0} selected)
       </span>
     </div>
     <div className="vads-u-margin-bottom--3">
@@ -31,13 +31,13 @@ const ReviewPageAccessories = ({ selectedProductInfo, accessorySupplies }) => (
 
 const mapStateToProps = state => {
   const supplies = state.form?.loadedData?.formData?.supplies;
-  const accessorySupplies = supplies.filter(supply =>
-    supply.productGroup.includes('accessories'),
+  const accessorySupplies = supplies?.filter(supply =>
+    supply.productGroup?.includes('accessories'),
   );
   const selectedProducts = state.form?.data?.selectedProducts;
-  const productIdArray = selectedProducts.map(product => product.productId);
-  const selectedProductInfo = accessorySupplies.filter(supply =>
-    productIdArray.includes(supply.productId),
+  const productIdArray = selectedProducts?.map(product => product.productId);
+  const selectedProductInfo = accessorySupplies?.filter(supply =>
+    productIdArray?.includes(supply.productId),
   );
 
   return {
