@@ -59,7 +59,7 @@
     {
       "hostname": "www.healthquality.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.hepatitis.va.gov",
