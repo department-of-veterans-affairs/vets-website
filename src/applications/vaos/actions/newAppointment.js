@@ -317,7 +317,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         recordEligibilityFailure(
           'supported-facilities',
           typeOfCareId,
-          parentId,
+          parseFakeFHIRId(parentId),
         );
       }
 
