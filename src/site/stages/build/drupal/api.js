@@ -23,7 +23,9 @@ function encodeCredentials({ user, password }) {
   return credentialsEncoded;
 }
 
-function getDrupalClient(buildOptions) {
+const defaultClientOptions = { verbose: true };
+
+function getDrupalClient(buildOptions, clientOptionsArg) {
   const buildArgs = {
     address: buildOptions['drupal-address'],
     user: buildOptions['drupal-user'],
@@ -33,6 +35,11 @@ function getDrupalClient(buildOptions) {
   Object.keys(buildArgs).forEach(key => {
     if (!buildArgs[key]) delete buildArgs[key];
   });
+
+  const clientOptions = { ...defaultClientOptions, ...clientOptionsArg };
+  // Set up debug logging
+  // eslint-disable-next-line no-console
+  const say = clientOptions.verbose ? console.log : () => {};
 
   const envConfig = DRUPALS[buildOptions.buildtype];
   const drupalConfig = Object.assign({}, envConfig, buildArgs);
@@ -113,16 +120,14 @@ function getDrupalClient(buildOptions) {
      *
      * @return {String} - The path to the untarred CMS export.
      */
-    async fetchExportContent({ debug } = { debug: false }) {
-      /* eslint-disable no-console */
-      const say = debug ? console.log : () => {};
-
+    async fetchExportContent() {
       say(
         chalk.green('Fetching content export from'),
         chalk.blue.underline(contentExportUri),
       );
 
       const timer = `${chalk.blue(contentExportUri)} reponse time`;
+      // eslint-disable-next-line no-console
       console.time(timer);
 
       const response = await this.proxyFetch(contentExportUri);
@@ -153,6 +158,7 @@ function getDrupalClient(buildOptions) {
                 path.basename(buildOptions['cms-export-dir']),
               ),
             );
+            // eslint-disable-next-line no-console
             console.timeEnd(timer);
             resolve();
           });
@@ -160,7 +166,6 @@ function getDrupalClient(buildOptions) {
       } else {
         throw new Error('Failed to fetch the CMS export tarball');
       }
-      /* eslint-enable no-console */
     },
 
     getAllPages(onlyPublishedContent = true) {
@@ -173,14 +178,7 @@ function getDrupalClient(buildOptions) {
       });
     },
 
-    getNonNodeContent(
-      { onlyPublishedContent, debug } = {
-        onlyPublishedContent: true,
-        debug: false,
-      },
-    ) {
-      // eslint-disable-next-line no-console
-      const say = debug ? console.log : () => {};
+    getNonNodeContent(onlyPublishedContent = true) {
       say('Querying for non-node content');
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
@@ -190,9 +188,7 @@ function getDrupalClient(buildOptions) {
       });
     },
 
-    getExportedPages({ debug } = { debug: true }) {
-      // eslint-disable-next-line no-console
-      const say = debug ? console.log : () => {};
+    getExportedPages() {
       say('Transforming CMS export');
       const contentDir = buildOptions['cms-export-dir'];
       const entities = readAllNodeNames(contentDir).map(entityDetails =>

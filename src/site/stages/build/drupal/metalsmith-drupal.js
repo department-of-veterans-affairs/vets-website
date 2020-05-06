@@ -225,12 +225,12 @@ async function getContentFromExport(buildOptions) {
   const contentApi = getApiClient(buildOptions);
 
   if (shouldPullDrupal(buildOptions)) {
-    await contentApi.fetchExportContent({ debug: true });
+    await contentApi.fetchExportContent();
   }
 
-  const drupalPages = await contentApi.getNonNodeContent({ debug: true });
+  const drupalPages = await contentApi.getNonNodeContent();
   drupalPages.data.nodeQuery = {
-    entities: contentApi.getExportedPages({ debug: true }),
+    entities: contentApi.getExportedPages(),
   };
 
   return drupalPages;
