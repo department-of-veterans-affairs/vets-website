@@ -41,8 +41,7 @@ const getDrupalCachePath = buildOptions =>
 // the content is not available in the cache.
 const shouldPullDrupal = buildOptions =>
   buildOptions[PULL_DRUPAL_BUILD_ARG] ||
-  (!fs.existsSync(getDrupalCachePath(buildOptions)) &&
-    buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST); // Don't require a cache to build locally.
+  !fs.existsSync(getDrupalCachePath(buildOptions));
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
