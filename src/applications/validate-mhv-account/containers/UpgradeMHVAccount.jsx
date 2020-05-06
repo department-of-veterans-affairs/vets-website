@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MessageTemplate from '../components/MessageTemplate';
 
-import { upgradeMHVAccount } from '../../../platform/user/profile/actions';
+import { upgradeMHVAccount } from 'platform/user/profile/actions';
 
 function UpgradeMHVAccount(props) {
   const content = {

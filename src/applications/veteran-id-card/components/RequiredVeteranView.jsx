@@ -3,7 +3,7 @@ import React from 'react';
 
 import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
 
-import EmailVICHelp from '../../../platform/static-data/EmailVICHelp';
+import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 
 function RequiredVeteranView({ userProfile, children }) {
   let view;

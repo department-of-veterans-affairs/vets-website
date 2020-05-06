@@ -18,7 +18,7 @@
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
-    "lint:circle": "eslint --quiet --ext .js --ext .jsx -c circle.eslint.json .",
+    "lint:circle": "eslint --ext .js --ext .jsx -c circle.eslint.json .",
     "lint:js:fix": "eslint --fix --quiet --ext .js --ext .jsx .",
     "lint:js:changed": "LIST=`git diff-index --name-only --cached HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:js:changed:fix": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",

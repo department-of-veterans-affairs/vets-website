@@ -1,11 +1,10 @@
-import { apiRequest } from '../../platform/utilities/api';
-import recordEvent from '../../platform/monitoring/record-event';
-import { watchForButtonClicks, GA_PREFIX } from './utils';
+import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
+import { GA_PREFIX, addEventListenerToButtons } from './utils';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
 let chatBotScenario = 'unknown';
-let root = null;
 
 export const extractLocale = localeParam => {
   if (localeParam === 'autodetect') {
@@ -35,10 +34,6 @@ export const getUserLocation = callback => {
       callback();
     },
   );
-};
-
-const startChat = (user, webchatOptions) => {
-  window.WebChat.renderWebChat(webchatOptions, root);
 };
 
 const initBotConversation = jsonWebToken => {
@@ -108,7 +103,7 @@ const initBotConversation = jsonWebToken => {
       return next(action);
     },
   );
-  const webchatOptions = {
+  return {
     directLine: botConnection,
     styleOptions,
     store: webchatStore,
@@ -116,18 +111,6 @@ const initBotConversation = jsonWebToken => {
     username: user.name,
     locale: user.locale,
   };
-  try {
-    startChat(user, webchatOptions);
-    recordEvent({
-      event: `${GA_PREFIX}-connection-successful`,
-      'error-key': undefined,
-    });
-  } catch (error) {
-    recordEvent({
-      event: `${GA_PREFIX}-connection-failure`,
-      'error-key': 'XX_failed_to_start_chat',
-    });
-  }
 };
 
 export const requestChatBot = loc => {
@@ -148,27 +131,24 @@ export const requestChatBot = loc => {
   }
   return apiRequest(path, { method: 'POST' })
     .then(({ token }) => initBotConversation(token))
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error);
+    .catch(() => {
       recordEvent({
         event: `${GA_PREFIX}-connection-failure`,
         'error-key': 'XX_failed_to_init_bot_convo',
       });
     });
 };
+
 const chatRequested = scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
   if (params.has('shareLocation')) {
     getUserLocation(requestChatBot);
-  } else {
-    requestChatBot();
   }
+  return requestChatBot();
 };
 
-export default function initializeChatbot(_root) {
-  root = _root;
-  watchForButtonClicks();
-  chatRequested('va_coronavirus_chatbot');
+export default function initializeChatbot() {
+  addEventListenerToButtons();
+  return chatRequested('va_coronavirus_chatbot');
 }

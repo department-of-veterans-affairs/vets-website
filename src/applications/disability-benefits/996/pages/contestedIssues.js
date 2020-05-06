@@ -37,12 +37,8 @@ const contestedIssuesPage = {
     'view:contestedIssuesAlert': {
       'ui:description': contestedIssuesAlert,
       'ui:options': {
-        hideIf: formData => {
-          const hasSelection = formData.contestedIssues?.some(
-            entry => entry['view:selected'],
-          );
-          return hasSelection;
-        },
+        hideIf: formData =>
+          formData.contestedIssues?.some(entry => entry['view:selected']),
       },
     },
     'view:disabilitiesExplanation': {

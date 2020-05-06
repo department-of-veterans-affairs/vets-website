@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { isValidCentralMailPostalCode } from '../../platform/forms/address/validations';
+import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
 export function validateBurialAndDeathDates(errors, page) {
   const { burialDate, deathDate, veteranDateOfBirth } = page;

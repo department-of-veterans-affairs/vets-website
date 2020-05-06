@@ -63,6 +63,7 @@ class FacilityDetail extends Component {
     }
     return (
       <AlertBox
+        level={2}
         headline={`${operationStatusTitle}`}
         content={
           <div>

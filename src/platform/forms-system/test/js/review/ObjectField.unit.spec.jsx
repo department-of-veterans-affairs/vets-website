@@ -337,6 +337,9 @@ describe('Schemaform review: ObjectField', () => {
       tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn')
         .props['aria-label'],
     ).to.equal('Edit Page Title');
+    const review = tree.props.children[1];
+    expect(review.type).to.equal('dl');
+    expect(review.props.className).to.equal('review');
   });
   it('should render aria-label on edit button using value from config', () => {
     const onChange = sinon.spy();
@@ -369,5 +372,43 @@ describe('Schemaform review: ObjectField', () => {
       tree.subTree('.form-review-panel-page-header-row').subTree('.edit-btn')
         .props['aria-label'],
     ).to.equal('Custom label');
+  });
+
+  it('should render a div when rendering a ReviewCardField content with volatileData', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          volatileData: true,
+        },
+      },
+    };
+    const formData = {
+      test: { foo: 'test' },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ pageTitle: 'Blah' }}
+        idSchema={{ $id: 'root' }}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+    // expecting a "div.review" instead of a "dl.review"
+    const review = tree.props.children[1];
+    expect(review.type).to.equal('div');
+    expect(review.props.className).to.equal('review');
   });
 });

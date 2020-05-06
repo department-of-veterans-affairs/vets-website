@@ -5,15 +5,15 @@ import * as Sentry from '@sentry/browser';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { toggleLoginModal } from '../../../platform/site-wide/user-nav/actions';
-import { authnSettings } from '../../../platform/user/authentication/utilities';
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { authnSettings } from 'platform/user/authentication/utilities';
 import {
   hasSession,
   setupProfileSession,
-} from '../../../platform/user/profile/utilities';
-import { apiRequest } from '../../../platform/utilities/api';
-import get from '../../../platform/utilities/data/get';
+} from 'platform/user/profile/utilities';
+import { apiRequest } from 'platform/utilities/api';
+import get from 'platform/utilities/data/get';
 import { ssoe } from 'platform/user/authentication/selectors';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(

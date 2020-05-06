@@ -9,7 +9,6 @@ import PrePreDowntime from '../components/PrePreDowntime';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
-import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
 
 // Derive when downtime will start and expire.
@@ -57,12 +56,6 @@ const config = {
       component: ExploreVAModal,
       disabled: !ExploreVAModal.isEnabled(),
       showEverytime: true,
-      relatedAnnouncements: ['welcome-to-new-va'],
-    },
-    {
-      name: 'welcome-to-new-va',
-      paths: /^\/$/,
-      component: WelcomeToNewVAModal,
     },
     {
       name: 'welcome-to-new-vaos',

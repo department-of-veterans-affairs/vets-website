@@ -43,6 +43,8 @@ import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
+import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
+
 // School resources widgets
 import {
   createScoEventsWidget,
@@ -131,6 +133,8 @@ createPost911GiBillStatusWidget(
 createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 
 createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
+
+createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {

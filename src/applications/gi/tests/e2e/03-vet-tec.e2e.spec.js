@@ -1,11 +1,11 @@
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const VetTecHelpers = require('./vet-tec-helpers');
-const vetTecProfile = require('./data/vet-tec-profile.json');
+const vetTecSearchResults = require('../data/vet-tec-search-results.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  const vetTecAttributes = vetTecProfile.data.attributes;
+  const vetTecAttributes = vetTecSearchResults.data[0].attributes;
 
   VetTecHelpers.initApplicationMock();
 
@@ -24,7 +24,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Search Page
   GiHelpers.expectLocation(client, `/program-search`);
-  GiHelpers.selectFirstSearchResult(client);
+  GiHelpers.selectSearchResult(
+    client,
+    GiHelpers.createId(
+      `${vetTecAttributes.facility_code}-${vetTecAttributes.description}`,
+    ),
+  );
 
   // Profile Page
   client
@@ -38,22 +43,22 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.displayLearnMoreModal(client);
 
   // Approved programs
-  GiHelpers.expandCollapseMainSection(client, 'Approved programs');
+  GiHelpers.expandCollapseAccordion(client, 'Approved programs');
 
   // Estimate your benefits
-  GiHelpers.expandCollapseMainSection(client, 'Estimate your benefits');
+  GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
 
   // Veteran programs
-  GiHelpers.expandCollapseMainSection(client, 'Veteran programs');
+  GiHelpers.expandCollapseAccordion(client, 'Veteran programs');
 
   // Application process
-  GiHelpers.expandCollapseMainSection(client, 'Application process');
+  GiHelpers.expandCollapseAccordion(client, 'Application process');
 
   // Contact details
-  GiHelpers.expandCollapseMainSection(client, 'Contact details');
+  GiHelpers.expandCollapseAccordion(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseMainSection(client, 'Additional information');
+  GiHelpers.expandCollapseAccordion(client, 'Additional information');
 
   client.end();
 });

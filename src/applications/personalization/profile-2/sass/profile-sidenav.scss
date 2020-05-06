@@ -22,7 +22,7 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
     // The overlay that covers the entire page behind the open menu
     &::before {
       background: $color-link-default-hover;
-      content: '\00A0';
+      content: "\00A0";
       display: block;
       height: 100%;
       left: 0;

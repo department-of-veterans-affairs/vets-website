@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
@@ -14,7 +14,7 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions } from 'platform/utilities/ui';
 import {
   validateIfDirty,
   isNotBlank,

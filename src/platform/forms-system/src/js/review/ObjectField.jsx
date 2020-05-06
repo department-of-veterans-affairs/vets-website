@@ -115,6 +115,7 @@ class ObjectField extends React.Component {
         !collapsedOnSchema
       );
     };
+    let divWrapper = false;
 
     const renderedProperties = this.orderAndFilterProperties(properties).map(
       (objectFields, index) => {
@@ -123,6 +124,11 @@ class ObjectField extends React.Component {
         // we can check if its expanded by seeing if there are any visible "children"
         const visible = rest.filter(
           prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
+        );
+        // Use div or dl to wrap content for array type schemas (e.g. bank info)
+        // fixes axe issue on review-and-submit
+        divWrapper = objectFields.some(
+          name => uiSchema?.[name]?.['ui:options']?.volatileData,
         );
         if (objectFields.length > 1 && visible.length > 0) {
           return objectFields.filter(showField).map(renderField);
@@ -140,6 +146,8 @@ class ObjectField extends React.Component {
       const editLabel =
         _.get('ui:options.ariaLabelForEditButtonOnReview', uiSchema) ||
         `Edit ${title}`;
+
+      const Tag = divWrapper ? 'div' : 'dl';
 
       return (
         <>
@@ -159,7 +167,7 @@ class ObjectField extends React.Component {
               </button>
             </div>
           )}
-          <dl className="review">{renderedProperties}</dl>
+          <Tag className="review">{renderedProperties}</Tag>
         </>
       );
     }

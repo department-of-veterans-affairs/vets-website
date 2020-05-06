@@ -866,6 +866,7 @@ class EstimateYourBenefitsForm extends React.Component {
       showModal={this.props.showModal}
     />
   );
+
   renderGbBenefit = () => {
     if (!this.props.displayedInputs?.giBillBenefit) {
       return null;
@@ -892,37 +893,53 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderYourBenefits = () => (
-    <AccordionItem
-      button={'Your benefits'}
-      id={`eyb-${createId('Your benefits')}`}
-      section
-      expanded={this.state.yourBenefitsExpanded}
-      onClick={this.toggleYourBenefits}
-    >
-      <form>
-        <BenefitsForm
-          eligibilityChange={this.props.eligibilityChange}
-          {...this.props.eligibility}
-          isLoggedIn={this.props.isLoggedIn}
-          hideModal={this.props.hideModal}
-          showModal={this.props.showModal}
-          inputs={this.props.inputs}
-          displayedInputs={this.props.displayedInputs}
-          onInputChange={this.props.calculatorInputChange}
-        >
-          {this.renderGbBenefit()}
-        </BenefitsForm>
-      </form>
-    </AccordionItem>
-  );
-
-  renderAboutYourSchool = () => {
-    if (!this.props.displayedInputs) return null;
+  renderYourBenefits = () => {
+    const name = 'Your benefits';
     return (
       <AccordionItem
-        button={'About your school'}
-        id={`eyb-${createId('About your school')}`}
+        button={name}
+        id={`eyb-${createId(name)}`}
+        section
+        expanded={this.state.yourBenefitsExpanded}
+        onClick={this.toggleYourBenefits}
+      >
+        <form>
+          <BenefitsForm
+            eligibilityChange={this.props.eligibilityChange}
+            {...this.props.eligibility}
+            isLoggedIn={this.props.isLoggedIn}
+            hideModal={this.props.hideModal}
+            showModal={this.props.showModal}
+            inputs={this.props.inputs}
+            displayedInputs={this.props.displayedInputs}
+            onInputChange={this.props.calculatorInputChange}
+          >
+            {this.renderGbBenefit()}
+          </BenefitsForm>
+        </form>
+      </AccordionItem>
+    );
+  };
+
+  renderAboutYourSchool = () => {
+    const {
+      inState,
+      tuition,
+      books,
+      calendar,
+      enrolled,
+      enrolledOld,
+    } = this.props.displayedInputs;
+
+    if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
+      return null;
+
+    const name = 'About your school';
+
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
         expanded={this.state.aboutYourSchoolExpanded}
         section
         onClick={this.toggleAboutYourSchool}
@@ -931,40 +948,61 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderInState()}
           {this.renderTuition()}
           {this.renderBooks()}
-          {this.renderYellowRibbon()}
-          {this.renderScholarships()}
-          {this.renderTuitionAssist()}
-          {this.renderEnrolled()}
           {this.renderCalendar()}
+          {this.renderEnrolled()}
+        </div>
+      </AccordionItem>
+    );
+  };
+
+  renderLearningFormatAndSchedule = () => {
+    const name = 'Learning format and schedule';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        expanded={this.state.learningFormatAndScheduleExpanded}
+        section
+        onClick={this.toggleLearningFormatAndSchedule}
+      >
+        <div className="calculator-form">
           {this.renderOnlineClasses()}
           {this.renderExtensionBeneficiaryZIP()}
-          {this.renderKicker()}
-          {this.renderBuyUp()}
           {this.renderWorking()}
         </div>
       </AccordionItem>
     );
   };
 
-  renderLearningFormatAndSchedule = () => (
-    <AccordionItem
-      button={'Learning format and schedule'}
-      id={`eyb-${createId('Learning format and schedule')}`}
-      expanded={this.state.learningFormatAndScheduleExpanded}
-      section
-      onClick={this.toggleLearningFormatAndSchedule}
-    />
-  );
-
-  renderScholarshipsAndOtherFunding = () => (
-    <AccordionItem
-      button={'Scholarships and other funding'}
-      id={`eyb-${createId('Scholarships and other funding')}`}
-      expanded={this.state.scholarshipsAndOtherFundingExpanded}
-      section
-      onClick={this.toggleScholarshipsAndOtherFunding}
-    />
-  );
+  renderScholarshipsAndOtherFunding = () => {
+    const {
+      yellowRibbon,
+      tuitionAssist,
+      kicker,
+      buyUp,
+      scholarships,
+    } = this.props.displayedInputs;
+    if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
+      return null;
+    const name = 'Scholarships and other funding';
+    return (
+      <AccordionItem
+        button={name}
+        id={`eyb-${createId(name)}`}
+        expanded={this.state.scholarshipsAndOtherFundingExpanded}
+        section
+        onClick={this.toggleScholarshipsAndOtherFunding}
+      >
+        <div className="calculator-form">
+          {this.renderYellowRibbon()}
+          {this.renderTuitionAssist()}
+          {this.renderKicker()}
+          {this.renderBuyUp()}
+          {this.renderScholarships()}
+        </div>
+      </AccordionItem>
+    );
+  };
 
   render() {
     return (
@@ -997,7 +1035,7 @@ EstimateYourBenefitsForm.propTypes = {
   calculatorInputChange: PropTypes.func,
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  isLoggedIn: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 };
 
 export default EstimateYourBenefitsForm;

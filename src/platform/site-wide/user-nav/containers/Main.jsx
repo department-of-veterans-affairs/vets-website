@@ -12,7 +12,7 @@ import environment from 'platform/utilities/environment';
 import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
 import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { ssoe, ssoeInbound } from 'platform/user/authentication/selectors';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
 
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
@@ -80,11 +80,11 @@ export class Main extends React.Component {
     }
 
     if (hasSession()) {
-      if (canCallSSO && !hasSessionSSO()) {
+      if (canCallSSO && this.props.useAutoLoginLogout && !hasSessionSSO()) {
         autoLogout();
       }
       this.props.initializeProfile();
-    } else if (canCallSSO && hasSessionSSO()) {
+    } else if (canCallSSO && this.props.useAutoLoginLogout && hasSessionSSO()) {
       autoLogin();
     } else {
       this.props.updateLoggedInStatus(false);
@@ -212,6 +212,7 @@ export const mapStateToProps = state => {
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
     useSSOe: ssoe(state),
+    useAutoLoginLogout: ssoeInbound(state),
     ...state.navigation,
   };
 };

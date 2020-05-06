@@ -7,9 +7,9 @@ import { expect } from 'chai';
 const domestic = {
   type: 'DOMESTIC',
   countryName: 'USA',
-  addressOne: '140 Rock Creek Church Rd NW',
-  addressTwo: 'Apt 57',
-  addressThree: 'Area Name',
+  addressLine1: '140 Rock Creek Church Rd NW',
+  addressLine2: 'Apt 57',
+  addressLine3: 'Area Name',
   city: 'Springfield',
   stateCode: 'OR',
   zipCode: '97477',
@@ -19,18 +19,20 @@ const domestic = {
 const international = {
   type: 'INTERNATIONAL',
   countryName: 'France',
-  addressOne: '2 Avenue Gabriel',
-  addressTwo: 'Line2',
-  addressThree: 'Line3',
+  addressLine1: '2 Avenue Gabriel',
+  addressLine2: 'Line2',
+  addressLine3: 'Line3',
   city: 'Paris',
+  province: 'Ile-de-France',
+  internationalPostalCode: '75000',
 };
 
 // 'countryName' is NOT part of the Military Address model.
 const military = {
   type: 'MILITARY',
-  addressOne: '57 Columbus Strassa',
-  addressTwo: 'Line2',
-  addressThree: 'Ben Franklin Village',
+  addressLine1: '57 Columbus Strassa',
+  addressLine2: 'Line2',
+  addressLine3: 'Ben Franklin Village',
   militaryPostOfficeTypeCode: 'APO',
   militaryStateCode: 'AE',
   zipCode: '09028',
@@ -55,7 +57,7 @@ describe('formatAddress', () => {
       country: '',
     };
     const address = { ...domestic };
-    address.addressThree = '';
+    address.addressLine3 = '';
     expect(addressUtils.formatAddress(address)).to.deep.equal(expectedResult);
   });
 
@@ -66,8 +68,8 @@ describe('formatAddress', () => {
       country: '',
     };
     const address = { ...domestic };
-    address.addressTwo = '';
-    address.addressThree = '';
+    address.addressLine2 = '';
+    address.addressLine3 = '';
     expect(addressUtils.formatAddress(address)).to.deep.equal(expectedResult);
   });
 
@@ -84,7 +86,7 @@ describe('formatAddress', () => {
   it('formats international addresses', () => {
     const expectedResult = {
       street: '2 Avenue Gabriel, Line2, Line3',
-      cityStateZip: 'Paris',
+      cityStateZip: 'Paris, Ile-de-France, 75000',
       country: 'France',
     };
 
@@ -119,9 +121,9 @@ describe('consolidateAddress', () => {
     const expectedResult = {
       type: 'MILITARY',
       countryName: 'USA',
-      addressOne: military.addressOne,
-      addressTwo: military.addressTwo,
-      addressThree: military.addressThree,
+      addressLine1: military.addressLine1,
+      addressLine2: military.addressLine2,
+      addressLine3: military.addressLine3,
       city: military.militaryPostOfficeTypeCode,
       stateCode: military.militaryStateCode,
       zipCode: military.zipCode,
