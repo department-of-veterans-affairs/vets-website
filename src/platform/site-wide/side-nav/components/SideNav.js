@@ -28,7 +28,6 @@ class SideNav extends Component {
     const hasChildren = get(navItem, 'hasChildren');
     const expanded = get(navItem, 'expanded');
     const depth = get(navItem, 'depth');
-    const label = get(navItem, 'label');
     const parentID = get(navItem, 'parentID');
 
     // Derive the parent item and its properties.
@@ -45,12 +44,6 @@ class SideNav extends Component {
 
     // Escape early if the item has children.
     if (hasChildren) {
-      // Track expand/collapse.
-      recordEvent({
-        event: `nav-sidenav-dropdown-${expanded ? 'collapse' : 'expand'}`,
-        'sidenav-dropdown-header': label,
-      });
-
       // Flip the item's expanded property.
       this.setState({
         navItemsLookup: {
