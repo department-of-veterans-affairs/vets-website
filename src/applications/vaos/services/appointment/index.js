@@ -1,4 +1,4 @@
-import { getConfirmedAppointments as getConfirmedVistaAppointments } from '../../api';
+import { getConfirmedAppointments } from '../../api';
 import { transformConfirmedAppointments } from './transformers';
 import { mapToFHIRErrors } from '../../utils/fhir';
 
@@ -11,7 +11,7 @@ import { mapToFHIRErrors } from '../../utils/fhir';
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {
-    const appointments = await getConfirmedVistaAppointments(
+    const appointments = await getConfirmedAppointments(
       'va',
       startDate,
       endDate,

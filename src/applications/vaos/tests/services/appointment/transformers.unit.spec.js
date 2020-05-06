@@ -106,10 +106,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.resourceType).to.equal('Appointment');
       });
 
-      it('should map id', () => {
-        expect(data.id).to.equal('var22cdc6741c00ac67b6cbf6b972d084c0');
-      });
-
       it('should set status to "booked"', () => {
         expect(data.status).to.equal('booked');
       });
@@ -142,10 +138,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.resourceType).to.equal('Appointment');
       });
 
-      it('should map id', () => {
-        expect(data.id).to.equal('var05760f00c80ae60ce49879cf37a05fc8');
-      });
-
       it('should set status to "booked"', () => {
         expect(data.status).to.equal('booked');
       });
@@ -163,16 +155,21 @@ describe('VAOS Appointment transformer', () => {
         expect(data.participant[0].actor.reference).to.contain('Location/var');
       });
 
-      it('should set clinic as HealthcareService', () => {
-        expect(data.participant[1].actor.reference).to.contain(
-          'HealthcareService/var',
-        );
+      it('should not set clinic as HealthcareService', () => {
+        expect(data.participant[1]).to.equal(undefined);
       });
 
       it('should set video url in HealthcareService.telecom', () => {
-        expect(data.participant[1].actor.telecom[0].value).to.equal(
+        expect('contained' in data).to.equal(true);
+        expect(data.contained[0].resourceType).to.equal('HealthcareService');
+        expect(data.contained[0].id).to.contain(
+          `var${videoAppt.vvsAppointments[0].id}`,
+        );
+        expect(data.contained[0].telecom[0].value).to.equal(
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
         );
+        expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
+        expect(data.contained[0].telecom[0].period.end).to.equal(data.end);
       });
     });
   });

@@ -1,6 +1,12 @@
 import moment from '../../utils/moment-tz';
 
-import { APPOINTMENT_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  CANCELLED_APPOINTMENT_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+} from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 
 /**
@@ -55,6 +61,43 @@ function isVideoVisit(appt) {
 }
 
 /**
+ *  Returns an appointment status
+ *
+ * @param {Object} appointment A VAR appointment object
+ * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
+ */
+function getAppointmentStatus(appointment, isPastAppointment) {
+  switch (getAppointmentType(appointment)) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return APPOINTMENT_STATUS.booked;
+    case APPOINTMENT_TYPES.ccRequest:
+    case APPOINTMENT_TYPES.request: {
+      return appointment.status === 'Cancelled'
+        ? APPOINTMENT_STATUS.cancelled
+        : APPOINTMENT_STATUS.pending;
+    }
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const currentStatus = appointment.vdsAppointments?.[0]?.currentStatus;
+      if (
+        (isPastAppointment &&
+          PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
+        (!isPastAppointment &&
+          FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
+      ) {
+        return null;
+      }
+
+      const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
+
+      return cancelled
+        ? APPOINTMENT_STATUS.cancelled
+        : APPOINTMENT_STATUS.booked;
+    }
+    default:
+      return APPOINTMENT_STATUS.booked;
+  }
+}
+/**
  * Finds the datetime of the appointment depending on the appointment type
  * and returns it as a moment object
  *
@@ -93,7 +136,7 @@ function getVideoVisitLink(appt) {
 /**
  * Returns appointment duration in minutes. The default is 60 minutes.
  *
- * @param {*} appt
+ * @param {Object} appt VAR appointment object
  * @returns
  */
 function getAppointmentDuration(appt) {
@@ -105,23 +148,27 @@ function getAppointmentDuration(appt) {
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
+/**
+ * Builds participant arraw for FHIR Appointment object which usually contains
+ * Location (Facility) and HealthcareService (Clinic)
+ *
+ * @param {Object} appt  VAR appointment object
+ */
 function buildParticipant(appt) {
-  const isVideo = isVideoVisit(appt);
-
-  return [
+  const participant = [
     {
       actor: {
         reference: `Location/var${appt.facilityId}`,
       },
     },
-    {
+  ];
+
+  if (!isVideoVisit(appt)) {
+    participant.push({
       actor: {
-        reference: `HealthcareService/var${
-          isVideo ? appt.vvsAppointments[0].id : appt.clinicId
-        }`,
-        display: isVideo
-          ? null
-          : appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
+        reference: `HealthcareService/var${appt.clinicId}`,
+        display:
+          appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
         telecom: isVideoVisit(appt)
           ? [
               {
@@ -131,27 +178,58 @@ function buildParticipant(appt) {
             ]
           : null,
       },
-    },
-  ];
+    });
+  }
+
+  return participant;
 }
 
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
-    const start = getMomentConfirmedDate(appt);
+    const start = getMomentConfirmedDate(appt).format();
+    const end = getMomentConfirmedDate(appt)
+      .add(minutesDuration, 'minutes')
+      .format();
+    const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
 
-    return {
+    const transformed = {
       resourceType: 'Appointment',
-      id: `var${appt.id}`,
-      status: APPOINTMENT_STATUS.booked,
-      start: start.format(),
-      end: start.add(minutesDuration, 'minutes').format(),
+      status: getAppointmentStatus(appt, isPastAppointment),
+      start,
+      end,
       minutesDuration,
       participant: buildParticipant(appt),
       comment:
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNote,
+        appt.vvsAppointments?.[0]?.bookingNotes,
     };
+
+    if (isVideoVisit(appt)) {
+      transformed.contained = [
+        {
+          resourceType: 'HealthcareService',
+          id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+          type: [
+            {
+              text: 'Patient Virtual Meeting Room',
+            },
+          ],
+          telecom: [
+            {
+              system: 'url',
+              value: getVideoVisitLink(appt),
+              period: {
+                start,
+                end,
+              },
+            },
+          ],
+        },
+      ];
+    }
+
+    return transformed;
   });
 }
