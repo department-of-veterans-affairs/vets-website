@@ -54,7 +54,7 @@
     {
       "hostname": "www.ethics.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.healthquality.va.gov",
