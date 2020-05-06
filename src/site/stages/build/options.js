@@ -69,8 +69,6 @@ function gatherFromCommandLine() {
     throw new Error(`Unexpected arguments: '${options.unexpected}'`);
   }
 
-  process.env.buildOptions = options;
-
   return options;
 }
 
