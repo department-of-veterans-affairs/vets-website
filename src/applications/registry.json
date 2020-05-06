@@ -350,7 +350,8 @@
           "name": "File for Benefits Delivery at Discharge",
           "path": "disability/file-benefits-delivery-at-discharge-form-21-526ez"
         }
-      ]
+      ],
+      "vagovprod": false
     }
   },
   {
