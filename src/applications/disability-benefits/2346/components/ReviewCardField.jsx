@@ -3,6 +3,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
@@ -11,7 +12,6 @@ import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { BLUE_BACKGROUND, WHITE_BACKGROUND } from '../constants';
 
 /**
@@ -241,7 +241,6 @@ class ReviewCardField extends React.Component {
       });
       // Fall back to the ViewComponent
     }
-
     const {
       viewComponent: ViewComponent,
       volatileData,
@@ -284,8 +283,13 @@ class ReviewCardField extends React.Component {
       'vads-u-margin-top--1',
       'vads-u-width--auto',
     ].join(' ');
-
+    const { data } = this.props;
     const { street, city, country } = this.props.formData;
+    const copyOfTempAddress = data.temporaryAddress;
+    delete copyOfTempAddress['view:livesOnMilitaryBaseInfo'];
+    const isTempAddressMissing = Object.values(copyOfTempAddress).every(
+      prop => !prop,
+    );
 
     return (
       <div className="review-card">
@@ -320,7 +324,24 @@ class ReviewCardField extends React.Component {
                 Add a {title.toLowerCase()}
               </a>
             )}
-          {street &&
+          {isTempAddressMissing &&
+            street &&
+            city &&
+            country && (
+              <div className="vads-u-width-267px">
+                <button
+                  id={this.props.name}
+                  className="vads-u-font-weight--bold"
+                  onChange={() =>
+                    this.onChange('currentAddress', this.props.name)
+                  }
+                >
+                  Send my order to this address
+                </button>
+              </div>
+            )}
+          {!isTempAddressMissing &&
+            street &&
             city &&
             country && (
               <div
