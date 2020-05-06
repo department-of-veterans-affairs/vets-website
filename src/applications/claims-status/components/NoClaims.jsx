@@ -1,5 +1,6 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function NoClaims() {
   return (
@@ -10,18 +11,9 @@ export default function NoClaims() {
       <p>
         This page shows only completed claim applications. If you started a
         claim but haven’t finished it yet, go to{' '}
-        <a
-          href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <EbenefitsLink path="ebenefits-portal/ebenefits.portal">
           eBenefits
-        </a>{' '}
+        </EbenefitsLink>{' '}
         to work on it.
       </p>
     </div>

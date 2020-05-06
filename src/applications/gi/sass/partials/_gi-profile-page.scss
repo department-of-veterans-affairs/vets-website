@@ -352,4 +352,16 @@
   .eyb-inputs-ul {
     list-style-type: none !important;
   }
+
+  #estimated-benefits{
+    outline: none;
+  }
+
+  button.calculate-button {
+    background-image: none;
+    background-color: $color-primary;
+    border-radius: $button-border-radius;
+    color: $color-white;
+    width: auto;
+  }
 }

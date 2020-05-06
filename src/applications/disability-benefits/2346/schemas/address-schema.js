@@ -292,7 +292,7 @@ export const addressUISchema = (
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const countryName = get(countryNamePath, formData);
-          return countryName !== USA.value;
+          return countryName && countryName !== USA.value;
         },
         'ui:options': {
           hideIf: (formData, index) => {

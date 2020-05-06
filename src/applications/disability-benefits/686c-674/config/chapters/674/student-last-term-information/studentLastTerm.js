@@ -4,7 +4,6 @@ import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
-import { StudentNameHeader } from '../helpers';
 
 const addressSchema = buildAddressSchema(false);
 
@@ -15,7 +14,6 @@ lastTermSchema.properties.lastTermSchoolInformation.properties.address = address
 export const schema = lastTermSchema;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDidAttendSchoolLastTerm: {
     'ui:title': 'Did student attend school last term?',
     'ui:widget': 'yesNo',

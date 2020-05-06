@@ -16,7 +16,7 @@
     </script>
 
     {% comment %} React Widget located in `src/platform/site-wide/side-nav` {% endcomment %}
-    <div data-template="navigation/facility_sidebar_nav" data-widget-type="side-nav"></div>
+    <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
 {% else %}
     {% comment %} Legacy sidebar nav {% endcomment %}
     <nav data-template="navigation/facility_sidebar_nav" id="va-detailpage-sidebar" {% if depth != 1 %} data-drupal-sidebar {% endif %} class="va-c-facility-sidebar usa-width-one-fourth va-sidebarnav">

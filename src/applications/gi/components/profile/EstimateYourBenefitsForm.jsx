@@ -907,7 +907,6 @@ class EstimateYourBenefitsForm extends React.Component {
           <BenefitsForm
             eligibilityChange={this.props.eligibilityChange}
             {...this.props.eligibility}
-            isLoggedIn={this.props.isLoggedIn}
             hideModal={this.props.hideModal}
             showModal={this.props.showModal}
             inputs={this.props.inputs}
@@ -1015,10 +1014,10 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderScholarshipsAndOtherFunding()}
         </ul>
         <button
-          className="usa-primary-button"
-          onClick={this.updateEstimatedBenefits}
+          className="calculate-button"
+          onClick={this.props.updateEstimatedBenefits}
         >
-          Calculate Your Benefits
+          Calculate benefits
         </button>
       </div>
     );
@@ -1035,7 +1034,7 @@ EstimateYourBenefitsForm.propTypes = {
   calculatorInputChange: PropTypes.func,
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  isLoggedIn: PropTypes.bool,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
 };
 
 export default EstimateYourBenefitsForm;

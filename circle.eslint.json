@@ -1,19 +1,13 @@
 {
   "rules": {
-    "sonarjs/no-extra-arguments": 2,
-    "sonarjs/no-identical-expressions": 2,
-    "sonarjs/max-switch-cases": [2, 40],
-    "sonarjs/no-duplicated-branches": 2,
-    "sonarjs/no-inverted-boolean-check": 2,
-    "sonarjs/no-redundant-boolean": 2,
-    "sonarjs/no-unused-collection": 2,
-    "sonarjs/no-small-switch": 2,
     "va/use-resolved-path": [
       2,
       {
         "aliases": ["applications", "platform", "site", "vet360"]
       }
     ],
-    "react/prefer-stateless-function": 2
+    "react/prefer-stateless-function": 2,
+    "sonarjs/cognitive-complexity": [1, 50],
+    "sonarjs/prefer-immediate-return": 2
   }
 }

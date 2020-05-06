@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { pageNames } from './pageList';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
+import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 
 // TODO: Add in the dates for 180 and 90 days in the future
 const dateFormat = 'MMMM DD, YYYY';
@@ -16,7 +14,7 @@ const oneHundredEightyDays = moment()
   .add(180, 'd')
   .format(dateFormat);
 
-function alertContent(isLoggedIn) {
+function alertContent() {
   return (
     <>
       <p>
@@ -32,15 +30,12 @@ function alertContent(isLoggedIn) {
         can’t file a BDD claim, but you can still begin the process of filing
         your claim on eBenefits.
       </p>
-      <a
-        href={EBEN_526_URL}
+      <EbenefitsLink
+        path={EBEN_526_PATH}
         className="usa-button-primary va-button-primary"
-        onClick={() =>
-          isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
-        }
       >
         Go to eBenefits
-      </a>
+      </EbenefitsLink>
       <p>
         <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
       </p>
@@ -48,19 +43,15 @@ function alertContent(isLoggedIn) {
   );
 }
 
-const BDDPage = ({ isLoggedIn }) => (
+const BDDPage = () => (
   <AlertBox
     status="warning"
     headline="You’ll need to file a claim on eBenefits"
-    content={alertContent(isLoggedIn)}
+    content={alertContent()}
   />
 );
 
-const mapStateToProps = state => ({
-  isLoggedIn: isLoggedInSelector(state),
-});
-
 export default {
   name: pageNames.bdd,
-  component: connect(mapStateToProps)(BDDPage),
+  component: BDDPage,
 };

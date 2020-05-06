@@ -73,7 +73,9 @@ import {
   FACILITY_TYPES,
   FETCH_STATUS,
   FLOW_TYPES,
+  VHA_FHIR_ID,
 } from '../../utils/constants';
+import { transformParentFacilities } from '../../services/organization/transformers';
 
 const testFlow = {
   page1: {
@@ -94,10 +96,12 @@ const facilities983Parsed = facilities983.data.map(item => ({
   id: item.id,
 }));
 
-const parentFacilitiesParsed = parentFacilities.data.map(item => ({
-  ...item.attributes,
-  id: item.id,
-}));
+const parentFacilitiesParsed = transformParentFacilities(
+  parentFacilities.data.map(item => ({
+    ...item.attributes,
+    id: item.id,
+  })),
+);
 
 const userState = {
   user: {
@@ -350,7 +354,7 @@ describe('VAOS newAppointment actions', () => {
     it('should fetch facilities if system was selected already', async () => {
       setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaParent', '983', defaultState);
+      const state = set('newAppointment.data.vaParent', 'var983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -382,11 +386,11 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: '983',
+            vaParent: 'var983',
             vaFacility: '983',
           },
           facilities: {
-            '323_983': facilities983Parsed,
+            '323_var983': facilities983Parsed,
           },
         },
       };
@@ -417,10 +421,10 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: '983',
+            vaParent: 'var983',
           },
           facilities: {
-            '323_983': [
+            '323_var983': [
               {
                 institutionCode: '983',
                 rootStationCode: '983',
@@ -453,7 +457,7 @@ describe('VAOS newAppointment actions', () => {
     it('should skip eligibility request and succeed if facility list is empty', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaParent', '983', defaultState);
+      const state = set('newAppointment.data.vaParent', 'var983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -510,11 +514,11 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           ...defaultState.newAppointment,
           facilities: {
-            '323_983': facilities983Parsed,
+            '323_var983': facilities983Parsed,
           },
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: '983',
+            vaParent: 'var983',
           },
         },
       });
@@ -524,7 +528,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: '983',
+          vaParent: 'var983',
         },
       );
       await thunk(dispatch, getState);
@@ -538,7 +542,7 @@ describe('VAOS newAppointment actions', () => {
         set(
           'newAppointment.facilities',
           {
-            '323_983': facilities983Parsed,
+            '323_var983': facilities983Parsed,
           },
           defaultState,
         );
@@ -548,7 +552,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: '983',
+          vaParent: 'var983',
         },
       );
       await thunk(dispatch, getState);
@@ -567,7 +571,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: '983',
+          vaParent: 'var983',
         },
       );
       await thunk(dispatch, getState);
@@ -599,7 +603,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: '983',
+          vaParent: 'var983',
         },
       );
       await thunk(dispatch, getState);
@@ -635,7 +639,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaParent: '983',
+          vaParent: 'var983',
         },
       );
       await thunk(dispatch, getState);
@@ -687,10 +691,10 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: '983',
+            vaParent: 'var983',
           },
           facilities: {
-            '323_983': facilities983Parsed,
+            '323_var983': facilities983Parsed,
           },
         },
       };
@@ -740,11 +744,11 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaParent: '983',
+            vaParent: 'var983',
           },
           facilities: {
             // This is an unexpected data type that causes an error
-            '323_983': {},
+            '323_var983': {},
           },
         },
       };
@@ -876,13 +880,15 @@ describe('VAOS newAppointment actions', () => {
           data: {
             preferredDate: '2019-01-01',
             vaFacility: '983GC',
-            vaParent: '983A6',
+            vaParent: 'var983A6',
             typeOfCareId: '323',
             clinicId: '1234',
           },
           fetchedAppointmentSlotMonths: [],
           facilities: {
-            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+            '323_var983A6': [
+              { institutionCode: '983GC', rootStationCode: '983' },
+            ],
           },
         },
       };
@@ -927,13 +933,15 @@ describe('VAOS newAppointment actions', () => {
           data: {
             preferredDate: '2019-01-01',
             vaFacility: '983GC',
-            vaParent: '983A6',
+            vaParent: 'var983A6',
             typeOfCareId: '323',
             clinicId: '1234',
           },
           fetchedAppointmentSlotMonths: [],
           facilities: {
-            '323_983A6': [{ institutionCode: '983GC', rootStationCode: '983' }],
+            '323_var983A6': [
+              { institutionCode: '983GC', rootStationCode: '983' },
+            ],
           },
         },
       };
@@ -1067,7 +1075,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             typeOfCareId: '323',
             facilityType: 'vamc',
-            vaParent: '983',
+            vaParent: 'var983',
             vaFacility: '983',
             calendarData: {
               selectedDates: [],
@@ -1075,8 +1083,20 @@ describe('VAOS newAppointment actions', () => {
             reasonForAppointment: 'routine-follow-up',
             bestTimeToCall: [],
           },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+              address: [{}],
+            },
+          ],
           facilities: {
-            '323_983': [
+            '323_var983': [
               {
                 institutionCode: '983',
                 name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -1136,11 +1156,18 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           parentFacilities: [
             {
-              institutionCode: '983',
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+              address: [{}],
             },
           ],
           data: {
-            communityCareSystemId: '983',
+            communityCareSystemId: 'var983',
             typeOfCareId: '323',
             facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             reasonForAppointment: 'routine-follow-up',
@@ -1177,14 +1204,14 @@ describe('VAOS newAppointment actions', () => {
             ],
           },
           facilities: {
-            '323_983': [
+            '323_var983': [
               {
                 institutionCode: '983',
               },
             ],
           },
           data: {
-            vaParent: '983',
+            vaParent: 'var983',
             vaFacility: '983',
             typeOfCareId: '323',
             clinicId: '123',
@@ -1222,7 +1249,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             typeOfCareId: '323',
             facilityType: 'vamc',
-            vaParent: '983',
+            vaParent: 'var983',
             vaFacility: '983',
             calendarData: {
               selectedDates: [],
@@ -1231,8 +1258,20 @@ describe('VAOS newAppointment actions', () => {
             reasonAdditionalInfo: 'test',
             bestTimeToCall: [],
           },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+              address: [{}],
+            },
+          ],
           facilities: {
-            '323_983': [
+            '323_var983': [
               {
                 institutionCode: '983',
                 name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -1287,14 +1326,26 @@ describe('VAOS newAppointment actions', () => {
             ],
           },
           facilities: {
-            '323_983': [
+            '323_var983': [
               {
                 institutionCode: '983',
               },
             ],
           },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+              address: [{}],
+            },
+          ],
           data: {
-            vaParent: '983',
+            vaParent: 'var983',
             vaFacility: '983',
             typeOfCareId: '323',
             clinicId: '123',

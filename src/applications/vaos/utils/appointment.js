@@ -107,7 +107,7 @@ export function getAppointmentTimezoneDescription(timezone, facilityId) {
 }
 
 function getRequestDateOptions(appt) {
-  const options = [
+  return [
     {
       date: getMomentRequestOptionDate(appt.optionDate1),
       optionTime: appt.optionTime1,
@@ -129,8 +129,6 @@ function getRequestDateOptions(appt) {
 
       return a.date.isBefore(b.date) ? -1 : 1;
     });
-
-  return options;
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
@@ -354,59 +352,6 @@ function getVideoType(appt) {
   return null;
 }
 
-function hasInstructions(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  return (
-    !!bookingNotes &&
-    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
-  );
-}
-
-function getAppointmentInstructions(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  const instructions = bookingNotes?.split(': ', 2);
-
-  if (instructions && instructions.length > 1) {
-    return instructions[1];
-  }
-
-  return null;
-}
-
-function getAppointmentInstructionsHeader(appt) {
-  const bookingNotes =
-    appt.vdsAppointments?.[0]?.bookingNote ||
-    appt.vvsAppointments?.[0]?.bookingNotes;
-
-  const instructions = bookingNotes?.split(': ', 2);
-
-  return instructions ? instructions[0] : '';
-}
-
-function getInstructions(appointment) {
-  if (appointment.instructionsToVeteran) {
-    return {
-      header: 'Special instructions',
-      body: appointment.instructionsToVeteran,
-    };
-  }
-
-  if (hasInstructions(appointment)) {
-    return {
-      header: getAppointmentInstructionsHeader(appointment),
-      body: getAppointmentInstructions(appointment),
-    };
-  }
-
-  return null;
-}
-
 function getAppointmentStatus(appointment, isPastAppointment) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
@@ -454,7 +399,9 @@ export function transformAppointment(appointment) {
     ...appointmentTypes,
     apiData: appointment,
     isPastAppointment: false,
-    instructions: getInstructions(appointment),
+    instructions:
+      appointment.instructionsToVeteran ||
+      appointment.vdsAppointments?.[0]?.bookingNote,
     duration: getAppointmentDuration(appointment),
     appointmentDate: getMomentConfirmedDate(appointment),
     status: getAppointmentStatus(appointment),

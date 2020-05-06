@@ -593,4 +593,30 @@ describe('calculator reducer', () => {
       giBillBenefit: 'no',
     });
   });
+
+  it('UPDATE_ESTIMATED_BENEFITS updates estimatedBenefits', () => {
+    const updatedBenefits = {
+      bookStipend: { visible: true },
+      giBillPaysToSchool: { visible: true },
+      housingAllowance: { visible: true },
+      outOfPocketTuition: { visible: true },
+      totalPaidToYou: { visible: true },
+      tuitionAndFeesCharged: { visible: true },
+      yourScholarships: { visible: true },
+      perTerm: {
+        tuitionFees: { visible: true },
+        yellowRibbon: { visible: true },
+        housingAllowance: { visible: true },
+        bookStipend: { visible: true },
+      },
+    };
+    const state = calculatorReducer(
+      {},
+      {
+        type: 'UPDATE_ESTIMATED_BENEFITS',
+        estimatedBenefits: updatedBenefits,
+      },
+    );
+    expect(state.estimatedBenefits).to.eq(updatedBenefits);
+  });
 });

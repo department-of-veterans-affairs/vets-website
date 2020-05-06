@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { isWideScreen } from 'platform/utilities/accessibility/index';
+import { connect } from 'react-redux';
+
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
   selectProfile,
 } from 'platform/user/selectors';
-
 import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -60,23 +61,57 @@ class ProfileWrapper extends Component {
     </div>
   );
 
+  createBreadCrumbAttributes = () => {
+    const { location, route } = this.props;
+    const activeLocation = location?.pathname.replace('/', '');
+    const childRoutes = route?.childRoutes;
+    const activeRoute = childRoutes.find(
+      childRoute => childRoute.path === activeLocation,
+    );
+
+    const activeRouteName = activeRoute?.name;
+
+    return { activeLocation, activeRouteName };
+  };
+
   // content to show after data has loaded
   // note that `children` will be passed in via React Router.
-  mainContent = () => (
-    <>
-      <MobileMenuTrigger />
-      <div className="mobile-fixed-spacer" />
-      <ProfileHeader />
-      <div className="usa-grid usa-grid-full">
-        <div className="usa-width-one-fourth">
-          <ProfileSideNav />
+  mainContent = () => {
+    const {
+      activeLocation,
+      activeRouteName,
+    } = this.createBreadCrumbAttributes();
+
+    // We do not want to display 'Profile' on the mobile personal-information route
+    const onPersonalInformationMobile =
+      this.props?.location?.pathname === '/personal-information' &&
+      !isWideScreen();
+
+    return (
+      <>
+        {/* Breadcrumbs */}
+        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+          <a href="/">Home</a>
+          {!onPersonalInformationMobile && <a href="/profile-2/">Profile</a>}
+          <a href={activeLocation}>{activeRouteName}</a>
+        </Breadcrumbs>
+
+        <MobileMenuTrigger />
+
+        <div className="mobile-fixed-spacer" />
+        <ProfileHeader />
+
+        <div className="usa-grid usa-grid-full">
+          <div className="usa-width-one-fourth">
+            <ProfileSideNav />
+          </div>
+          <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
+            {this.props.children}
+          </div>
         </div>
-        <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
-          {this.props.children}
-        </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  };
 
   renderContent = () => {
     if (this.props.showLoader) {

@@ -27,8 +27,7 @@ const getDateFromButtonId = button => {
   const buttonId = button.render().attr('id');
 
   // Get date from button id
-  const selectedDate = buttonId.slice(-10);
-  return selectedDate;
+  return buttonId.slice(-10);
 };
 
 describe('VAOS <CalendarWidget>', () => {

@@ -64,7 +64,9 @@ const perTermSections = (outputs, calculator) => {
 
 export const EstimatedBenefits = ({ outputs, calculator }) => (
   <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
-    <h3>Your estimated benefits</h3>
+    <h3 id="estimated-benefits" tabIndex="-1">
+      Your estimated benefits
+    </h3>
     <div className="out-of-pocket-tuition">
       <CalculatorResultRow
         label="GI Bill pays to school"

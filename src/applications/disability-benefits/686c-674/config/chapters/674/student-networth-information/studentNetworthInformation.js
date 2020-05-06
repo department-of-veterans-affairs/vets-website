@@ -1,12 +1,10 @@
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
-import { StudentNameHeader } from '../helpers';
 
 export const schema = report674.properties.studentNetworthInformation;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDoesHaveNetworth: {
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),

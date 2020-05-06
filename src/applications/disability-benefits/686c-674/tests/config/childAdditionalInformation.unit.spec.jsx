@@ -23,8 +23,10 @@ describe('686 add child - child additional information', () => {
     },
     childrenToAdd: [
       {
-        first: 'Bill',
-        last: 'Bob',
+        fullName: {
+          first: 'Bill',
+          last: 'Bob',
+        },
         ssn: '370947141',
         birthDate: '1997-04-02',
         childPlaceOfBirth: {
@@ -49,7 +51,7 @@ describe('686 add child - child additional information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
 

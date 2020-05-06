@@ -87,6 +87,11 @@
     outline: none;
   }
 }
+@media (max-width: 481px) {
+  .about-this-tool-mobile {
+    padding-left: 20px;
+  }
+}
 
 .gibct-legend {
   margin-top: 1rem;
