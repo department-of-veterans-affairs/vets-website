@@ -303,6 +303,7 @@ function getDrupalContent(buildOptions) {
       log('Failed to pipe Drupal content into Metalsmith!');
       if (
         buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+        buildOptions[USE_CMS_EXPORT_BUILD_ARG] ||
         buildOptions['drupal-fail-fast']
       ) {
         done(err);
