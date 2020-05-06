@@ -111,7 +111,8 @@ export function getRootOrganizationFromChosenParent(state, parentId) {
 export function getParentOfChosenFacility(state) {
   const facility = getChosenFacilityInfo(state);
 
-  return facility?.parentStationCode;
+  // This should be removed when we use FHIR based locations/facilities
+  return `var${facility?.parentStationCode}`;
 }
 
 export function getChosenFacilityDetails(state) {

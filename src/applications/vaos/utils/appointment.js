@@ -173,7 +173,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   // All of current year
   options.push({
     value: 4,
-    label: `Show all of ${today.format('YYYY')}`,
+    label: `All of ${today.format('YYYY')}`,
     startDate: today
       .clone()
       .startOf('year')
@@ -186,7 +186,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 
   options.push({
     value: 5,
-    label: `Show all of ${lastYear.format('YYYY')}`,
+    label: `All of ${lastYear.format('YYYY')}`,
     startDate: lastYear.startOf('year').format(),
     endDate: lastYear
       .clone()
