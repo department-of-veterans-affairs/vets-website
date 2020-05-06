@@ -113,9 +113,9 @@ function getDrupalClient(buildOptions) {
      *
      * @return {String} - The path to the untarred CMS export.
      */
-    async fetchExportContent({ log } = { log: true }) {
+    async fetchExportContent({ debug } = { debug: false }) {
       /* eslint-disable no-console */
-      const say = log ? console.log : () => {};
+      const say = debug ? console.log : () => {};
 
       say(
         chalk.green('Fetching content export from'),
@@ -172,7 +172,15 @@ function getDrupalClient(buildOptions) {
       });
     },
 
-    getNonNodeContent(onlyPublishedContent = true) {
+    getNonNodeContent(
+      { onlyPublishedContent, debug } = {
+        onlyPublishedContent: true,
+        debug: false,
+      },
+    ) {
+      // eslint-disable-next-line no-console
+      const say = debug ? console.log : () => {};
+      say('Querying for non-node content');
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
         variables: {
@@ -181,7 +189,10 @@ function getDrupalClient(buildOptions) {
       });
     },
 
-    getExportedPages() {
+    getExportedPages({ debug } = { debug: true }) {
+      // eslint-disable-next-line no-console
+      const say = debug ? console.log : () => {};
+      say('Transforming CMS export');
       const contentDir = buildOptions['cms-export-dir'];
       const entities = readAllNodeNames(contentDir).map(entityDetails =>
         readEntity(contentDir, ...entityDetails),

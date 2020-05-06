@@ -226,15 +226,12 @@ async function getContentFromExport(buildOptions) {
   const contentApi = getApiClient(buildOptions);
 
   if (shouldPullDrupal(buildOptions)) {
-    // TODO: Download and untar the latest content export
-    await contentApi.fetchExportContent();
-    // TODO: Time the response time and log it
-    // May do this as by passing a { log: true } to fetchExportContents
+    await contentApi.fetchExportContent({ debug: true });
   }
 
-  const drupalPages = await contentApi.getNonNodeContent();
+  const drupalPages = await contentApi.getNonNodeContent({ debug: true });
   drupalPages.data.nodeQuery = {
-    entities: contentApi.getExportedPages(),
+    entities: contentApi.getExportedPages({ debug: true }),
   };
 
   return drupalPages;
