@@ -11,6 +11,27 @@ export class AdditionalInformation extends React.Component {
     const { institution } = this.props;
     const isOJT = institution.type.toLowerCase() === 'ojt';
 
+    if (this.props.eduSection103 && isOJT && institution.section103Message) {
+      return (
+        <div className="institution-summary">
+          <h3>Institution summary</h3>
+          <div className="section-103-message">
+            <strong>
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'section103')}
+              >
+                Protection against late VA payments:
+              </button>
+            </strong>
+            &nbsp;
+            {institution.section103Message}
+          </div>
+        </div>
+      );
+    }
+
     if (isOJT) return null;
 
     const typeOfAccreditation = institution.accredited &&
