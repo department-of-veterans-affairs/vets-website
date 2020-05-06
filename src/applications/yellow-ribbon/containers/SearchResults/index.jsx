@@ -6,7 +6,6 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
-
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
