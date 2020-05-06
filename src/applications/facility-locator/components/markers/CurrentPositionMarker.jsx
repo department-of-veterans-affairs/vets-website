@@ -2,16 +2,16 @@ import DivMarker from './DivMarker';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function HereMarker({ position }) {
+function CurrentPositionMarker({ position }) {
   return (
     <DivMarker position={position} onClick={null}>
-      <div className="here-pin"> {null}</div>
+      <div className="current-pos-pin" />
     </DivMarker>
   );
 }
 
-HereMarker.propTypes = {
+CurrentPositionMarker.propTypes = {
   position: PropTypes.array,
 };
 
-export default HereMarker;
+export default CurrentPositionMarker;

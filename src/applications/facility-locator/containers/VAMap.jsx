@@ -20,7 +20,7 @@ import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
-import HereMarker from '../components/markers/HereMarker';
+import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { facilityTypes } from '../config';
 import {
   LocationType,
@@ -517,7 +517,7 @@ class VAMap extends Component {
       }
     });
     mapMarkers.push(
-      <HereMarker
+      <CurrentPositionMarker
         key={`${currentQuery.position.latitude}-${
           currentQuery.position.longitude
         }`}
