@@ -13,7 +13,7 @@ const Element = Scroll.Element;
  * Primary component for a schema generated form app.
  */
 class FormApp extends React.Component {
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     const { additionalRoutes } = this.props.formConfig;
     this.nonFormPages = [];

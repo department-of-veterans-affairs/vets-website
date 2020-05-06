@@ -12,7 +12,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setPreSubmit, setSubmission, submitForm } from '../actions';
 
 class SubmitController extends React.Component {
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
     const nextStatus = nextProps.form.submission.status;
     const previousStatus = this.props.form.submission.status;

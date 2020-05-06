@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line
+'use strict'; // eslint-disable-line strict
 
 // Simple test server to serve up the build files.
 
