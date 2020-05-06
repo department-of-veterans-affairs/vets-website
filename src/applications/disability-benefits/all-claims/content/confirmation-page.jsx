@@ -48,7 +48,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
 
   return (
     <div>
-      <h5>Please print this page for your records.</h5>
+      <h2 className="vads-u-font-size--h5">
+        Please print this page for your records.
+      </h2>
 
       <AlertBox
         isVisible
@@ -58,10 +60,10 @@ const template = (props, title, content, submissionMessage, messageType) => {
       />
 
       <div className="inset">
-        <h4>
+        <h3 className="vads-u-font-size--h4">
           Disability Compensation Claim{' '}
           <span className="additional">(Form 21-526EZ)</span>
-        </h4>
+        </h3>
         <span>
           For {first} {middle} {last} {suffix}
         </span>
@@ -71,25 +73,27 @@ const template = (props, title, content, submissionMessage, messageType) => {
             <br />
             <span>{moment(submittedAt).format('MMM D, YYYY')}</span>
           </li>
-          <strong>Conditions claimed</strong>
-          <br />
-          <ul className="disability-list">
-            {disabilities.map((disability, i) => (
-              <li key={i}>
-                {typeof disability === 'string'
-                  ? capitalizeEachWord(disability)
-                  : NULL_CONDITION_STRING}
-              </li>
-            ))}
-          </ul>
-          {submissionMessage}
+          <li>
+            <strong>Conditions claimed</strong>
+            <br />
+            <ul className="disability-list">
+              {disabilities.map((disability, i) => (
+                <li key={i}>
+                  {typeof disability === 'string'
+                    ? capitalizeEachWord(disability)
+                    : NULL_CONDITION_STRING}
+                </li>
+              ))}
+            </ul>
+            {submissionMessage}
+          </li>
         </ul>
       </div>
 
       <div className="confirmation-guidance-container">
-        <h4 className="confirmation-guidance-heading">
+        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
           How long will it take VA to make a decision on my claim?
-        </h4>
+        </h3>
         <p className="confirmation-guidance-message">
           We process applications in the order we receive them. The amount of
           time it takes us to review you claim depends on:
@@ -107,23 +111,26 @@ const template = (props, title, content, submissionMessage, messageType) => {
           </li>
         </ul>
 
-        <h4 className="confirmation-guidance-heading">
+        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
           How can I check the status of my claim?
-        </h4>
+        </h3>
         <p className="confirmation-guidance-message">
           You can check the status of your claim online. Please allow 24 hours
           for your disability claim to show up there. If you don’t see your
           disability claim online after 24 hours, please call Veterans Benefits
-          Assistance at <a href="tel:+18008271000">800-827-1000</a>, Monday –
-          Friday, 8:30 a.m. – 4:30 p.m. ET.
+          Assistance at{' '}
+          <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
+            800-827-1000
+          </a>
+          , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET.
         </p>
         <p>
           <a href="/track-claims">Check the status of your claim</a>
         </p>
 
-        <h4 className="confirmation-guidance-heading">
+        <h3 className="confirmation-guidance-heading vads-u-font-size--h4">
           What happens after I file a claim for disability compensation?
-        </h4>
+        </h3>
         <p className="confirmation-guidance-message">
           <a href="/disability/after-you-file-claim/">
             Learn more about what happens after you file a disability claim
@@ -153,9 +160,12 @@ export const retryableErrorContent = props =>
         <strong>
           If you don’t see your disability claim online after 24 hours,
         </strong>{' '}
-        please call Veterans Benefits Assistance at 800-827-1000, Monday –
-        Friday, 8:30 a.m. – 4:30 p.m. ET and provide this reference number{' '}
-        {props.jobId}.
+        please call Veterans Benefits Assistance at{' '}
+        <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
+          800-827-1000
+        </a>
+        , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET and provide this
+        reference number {props.jobId}.
       </p>
     </div>,
     checkLaterMessage(props.jobId),
@@ -180,8 +190,11 @@ export const submitErrorContent = props =>
       <ul>
         <li>
           Please call Veterans Benefits Assistance at{' '}
-          <a href="tel:+18008271000">800-827-1000</a>, Monday – Friday, 8:30
-          a.m. – 4:30 p.m. ET, <strong>or</strong>
+          <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
+            800-827-1000
+          </a>
+          , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET,{' '}
+          <strong>or</strong>
         </li>
         <li>
           Get in touch with your nearest Veterans Service Officer (VSO).{' '}
