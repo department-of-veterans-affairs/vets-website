@@ -3,6 +3,9 @@ import moment from 'moment';
 import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import { pageNames } from './pageList';
 
+import environment from 'platform/utilities/environment';
+import unableToFileBDD from './unable-to-file-bdd';
+
 // Figure out which page to go to based on the date entered
 const findNextPage = state => {
   const dateDischarge = moment({
@@ -48,6 +51,11 @@ const BDDPage = ({ setPageState, state = defaultState }) => {
       pageState,
       isDateComplete(pageState) ? findNextPage(pageState) : undefined,
     );
+
+  if (environment.isProduction()) {
+    return <unableToFileBDD.component />;
+  }
+
   return (
     <ErrorableDate
       label="Date or anticipated date of release from active duty"

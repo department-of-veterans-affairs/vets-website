@@ -7,6 +7,8 @@ import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
 
+import environment from 'platform/utilities/environment';
+
 const dateFormat = 'MMMM DD, YYYY';
 const ninetyDays = moment()
   .add(90, 'days')
@@ -16,6 +18,37 @@ const oneHundredEightyDays = moment()
   .format(dateFormat);
 
 function alertContent(isLoggedIn) {
+  if (environment.isProduction()) {
+    return (
+      <>
+        <p>
+          <strong>
+            If your separation date is between {ninetyDays} and{' '}
+            {oneHundredEightyDays}
+          </strong>{' '}
+          (90 and 180 days from today), you can file a disability claim through
+          the Benefits Delivery at Discharge (BDD) program.
+        </p>
+        <p>
+          <strong>If your separation date is before {ninetyDays},</strong> you
+          can't file a BDD claim, but you can still begin the process of filing
+          your claim on eBenefits.
+        </p>
+        <a
+          href={EBEN_526_URL}
+          className="usa-button-primary va-button-primary"
+          onClick={() =>
+            isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
+          }
+        >
+          Go to eBenefits
+        </a>
+        <p>
+          <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
+        </p>
+      </>
+    );
+  }
   return (
     <>
       <p>
@@ -47,7 +80,7 @@ function alertContent(isLoggedIn) {
 
 const UnableToFileBDDPage = ({ isLoggedIn }) => (
   <AlertBox
-    status="error"
+    status="warning"
     headline="You’ll need to file a claim on eBenefits"
     content={alertContent(isLoggedIn)}
   />
