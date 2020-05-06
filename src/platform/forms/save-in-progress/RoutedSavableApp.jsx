@@ -40,7 +40,7 @@ class RoutedSavableApp extends React.Component {
     super(props);
     this.location = props.location || window.location;
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
@@ -78,7 +78,7 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.

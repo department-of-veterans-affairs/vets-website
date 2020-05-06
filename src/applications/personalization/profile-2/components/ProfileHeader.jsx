@@ -85,23 +85,30 @@ const ProfileHeader = ({
     'medium',
   );
 
+  const classes = {
+    wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
+    innerWrapper: [
+      ...innerWrapperClasses,
+      ...innerWrapperClassesMedium,
+      'usa-grid',
+      'usa-grid-full',
+    ].join(' '),
+    serviceBadge: [
+      ...serviceBadgeClasses,
+      ...serviceBadgeClassesMedium,
+      'usa-width-one-fourth',
+    ].join(' '),
+    title: [...titleClasses, ...titleClassesMedium].join(' '),
+    fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
+    latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
+      ' ',
+    ),
+  };
+
   return (
-    <div className={[...wrapperClasses, ...wrapperClassesMedium].join(' ')}>
-      <div
-        className={[
-          ...innerWrapperClasses,
-          ...innerWrapperClassesMedium,
-          'usa-grid',
-          'usa-grid-full',
-        ].join(' ')}
-      >
-        <div
-          className={[
-            ...serviceBadgeClasses,
-            ...serviceBadgeClassesMedium,
-            'usa-width-one-fourth',
-          ].join(' ')}
-        >
+    <div className={classes.wrapper}>
+      <div className={classes.innerWrapper}>
+        <div className={classes.serviceBadge}>
           {showBadgeImage && (
             <img
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
@@ -113,25 +120,12 @@ const ProfileHeader = ({
           )}
         </div>
         <div className="name-and-title-wrapper">
-          <h1 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
-            Your Profile
-          </h1>
+          <h1 className={classes.title}>Your Profile</h1>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
-            <dd
-              className={[...fullNameClasses, ...fullNameClassesMedium].join(
-                ' ',
-              )}
-            >
-              {fullName}
-            </dd>
+            <dd className={classes.fullName}>{fullName}</dd>
             {latestBranchOfService && (
-              <dd
-                className={[
-                  ...latestBranchClasses,
-                  ...latestBranchClassesMedium,
-                ].join(' ')}
-              >
+              <dd className={classes.latestBranch}>
                 <dfn className="sr-only">Branch of service: </dfn>
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>

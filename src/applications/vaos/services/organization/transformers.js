@@ -16,7 +16,7 @@ export function transformParentFacilities(parentFacilities) {
     // it depends on how the FHIR calls work
     if (facility.rootStationCode !== facility.id) {
       partOf = {
-        reference: `Organization/var${facility.parentStationCode}`,
+        reference: `Organization/var${facility.rootStationCode}`,
       };
     }
 

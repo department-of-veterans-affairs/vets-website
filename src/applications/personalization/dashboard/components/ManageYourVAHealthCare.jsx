@@ -15,7 +15,7 @@ import {
 
 import { selectIsCernerPatient } from 'platform/user/selectors';
 
-// import MessagingWidget from '../containers/MessagingWidget';
+import MessagingWidget from '../containers/MessagingWidget';
 import PrescriptionsWidget from '../containers/PrescriptionsWidget';
 import ESRError, { ESR_ERROR_TYPES } from './ESRError';
 
@@ -123,8 +123,7 @@ const ManageYourVAHealthCare = ({
       isVisible={isEnrolledInHealthCare}
       className="background-color-only"
     />
-    {/* hide the messaging widget until this is resolved https://github.com/department-of-veterans-affairs/va.gov-team/issues/3271 */}
-    {/* <DowntimeNotification
+    <DowntimeNotification
       appTitle="messaging"
       dependencies={[externalServices.mvi, externalServices.mhv]}
       render={renderWidgetDowntimeNotification(
@@ -133,7 +132,7 @@ const ManageYourVAHealthCare = ({
       )}
     >
       <MessagingWidget />
-    </DowntimeNotification> */}
+    </DowntimeNotification>
 
     <DowntimeNotification
       appTitle="rx"

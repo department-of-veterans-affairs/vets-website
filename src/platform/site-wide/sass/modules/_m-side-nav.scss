@@ -1,7 +1,6 @@
 $side-nav-color-gray-lightest: #f8f8f8; // I could not find the color in our design utilities.
 $side-nav-color-dark: #323a45;
-
-.va-sidenav {
+.va-sidenav-wrapper {
   background: $color-white;
   border: 1px solid $color-gray-lighter;
   border-radius: 5px;
@@ -9,166 +8,229 @@ $side-nav-color-dark: #323a45;
   flex-direction: column;
   padding: 10px 0;
   margin: 0 20px 0 0;
-
-  li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  height: 45px;
+  overflow: hidden;
+  &.va-sidenav-height {
+    height: auto;
   }
-
-  ul {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
-  a, button {
-    background: none;
-    border-radius: none;
-    color: $color-gray-dark;
-    font-size: 15px;
-    font-weight: normal;
-    letter-spacing: 0.3px;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-
-  .fa {
-    color: $color-primary;
-  }
-
-  .line {
-    background: $color-gray-lighter;
-    height: 1px;
-    margin: 10px 23px;
-  }
-
-  .line-open {
-    background: $side-nav-color-dark;
-    display: block;
-    height: 0.5px;
-    border: 0;
-    margin: 16px 0;
-    padding: 0;
-  }
-
-  .va-sidenav-toggle-expand {
-    align-items: center;
-    background: $color-gray-lightest;
-    border-radius: 4px;
-    color: $color-primary;
-    display: flex;
-    height: 24px;
-    justify-content: center;
-    width: 24px;
-  }
-
-  .va-sidenav-item-label {
-    align-items: center;
-    background: none;
-    border-radius: 0;
-    color: $color-gray-dark;
-    display: flex;
-    font-size: 15px;
-    justify-content: space-between;
-    letter-spacing: 0.3px;
-    line-height: 1.5;
-    margin: 0;
-    padding: 10px 23px;
-    text-align: left;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: background 0.5s ease;
-    width: 100%;
-
-    &.va-sidenav-item-label-underlined {
-      text-decoration: underline;
-    }
-
-    &.grandchild-open {
-      margin-left: 10px;
-      border-left: 10px solid #d6d7d9;
-    }
-
-  }
-
-  // Couldn't make use borders efficiently for the different item states
-  // applying borders directly makes the inside content jump and this is not desirable
-  // used backgrounds instead
-  .open {
-    color: $side-nav-color-dark !important;
-    background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-            $side-nav-color-gray-lightest;
-    background-repeat:no-repeat;
-
-  }
-
-  .expanded {
-    background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
-            $color-white;
-    background-repeat:no-repeat;
-  }
-
-  .selected {
-    color: $side-nav-color-dark !important;
-    background:
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
-            linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-            $side-nav-color-gray-lightest;
-    background-repeat:no-repeat;
-  }
-
-
-  .va-sidenav-item-label-bold {
+  .va-sidenav-default-trigger {
+    padding: 5px 0 0 22px;
+    background-color: transparent;
     font-weight: bold;
-
-    &:hover {
-      background: $color-white;
+    cursor: pointer;
+    text-align: left;
+    margin-bottom: 5px;
+    position: relative;
+    cursor: pointer;
+    width: calc(100% - 25px);
+    i.fa {
+      font-size: inherit;
+      float: right;
+      position: absolute;
+      right: 0;
     }
   }
+  .va-sidenav {
+    li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-  .grandchild-left-line{
-    border-left: 2px solid $color-gray-lighter;
-    padding-left: 15px;
-  }
+    ul {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
 
-  .va-sidenav-level-2 {
-    a, button {
-      color: $color-primary;
+    a,
+    button {
+      background: none;
+      border-radius: none;
+      color: $color-gray-dark;
+      font-size: 15px;
       font-weight: normal;
-      letter-spacing: 0;
-      line-height: 1.38;
-      text-transform: none;
-      transition: color 0.5s ease;
+      letter-spacing: 0.3px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .fa {
+      color: $color-primary;
+    }
+
+    .line {
+      background: $color-gray-lighter;
+      height: 1px;
+      margin: 10px 23px;
+    }
+
+    .line-open {
+      background: $side-nav-color-dark;
+      display: block;
+      height: 0.5px;
+      border: 0;
+      margin: 16px 0;
+      padding: 0;
+    }
+
+    .va-sidenav-toggle-expand {
+      align-items: center;
+      background: $color-gray-lightest;
+      border-radius: 4px;
+      color: $color-primary;
+      display: flex;
+      height: 24px;
+      justify-content: center;
+      width: 24px;
+    }
+
+    .va-sidenav-item-label {
+      align-items: center;
+      background: none;
+      border-radius: 0;
+      color: $color-gray-dark;
+      display: flex;
+      font-size: 15px;
+      justify-content: space-between;
+      letter-spacing: 0.3px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 10px 23px;
+      text-align: left;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.5s ease;
+      width: 100%;
+
+      &.va-sidenav-item-label-underlined {
+        text-decoration: underline;
+      }
+
+      &.grandchild-open {
+        margin-left: 10px;
+        border-left: 10px solid #d6d7d9;
+      }
+    }
+
+    // Couldn't make use borders efficiently for the different item states
+    // applying borders directly makes the inside content jump and this is not desirable
+    // used backgrounds instead
+    .open {
+      color: $side-nav-color-dark !important;
+      background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
+        $side-nav-color-gray-lightest;
+      background-repeat: no-repeat;
+    }
+
+    .expanded {
+      background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px, $color-white;
+      background-repeat: no-repeat;
+    }
+
+    a.selected {
+      color: $side-nav-color-dark !important;
+      background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
+        linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%, $side-nav-color-gray-lightest;
+      background-repeat: no-repeat;
+    }
+
+    .va-sidenav-item-label-bold {
+      font-weight: bold;
 
       &:hover {
-        color: $color-primary !important;
-        background:
-                linear-gradient($color-primary , $color-primary)bottom / 100% 2px,
-                linear-gradient($color-primary, $color-primary) 100% top / 100% 2px,
-                linear-gradient($color-primary, $color-primary) left/ 8px 100%,
-                linear-gradient($color-primary, $color-primary) right / 2px 100%,
-                $color-white;
-        background-repeat:no-repeat;
-        box-shadow: inset 0 0 0 1px $color-primary
+        background: $color-white;
       }
-      &:active {
-        color: $side-nav-color-dark !important;
-        background:
-                linear-gradient($side-nav-color-dark , $side-nav-color-dark)bottom / 100% 2px,
-                linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
-                linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
-                linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 2px 100%,
-                $side-nav-color-gray-lightest;
-        background-repeat:no-repeat;
-        box-shadow: inset 0 0 0 1px $side-nav-color-dark
+    }
+
+    .grandchild-left-line {
+      border-left: 2px solid $color-gray-lighter;
+      padding-left: 15px;
+    }
+    .va-sidenav-level-1 {
+      &:last-child {
+        .va-sidenav-level-2 {
+          &:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            &::after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+    .va-sidenav-level-2 {
+      touch-action: none;
+      &:last-child {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        &::after {
+          content: "\A";
+          height: 1px;
+          width: calc(100% - 40px);
+          display: block;
+          margin: auto;
+          background: $color-gray-lighter;
+          position: relative;
+          top: 15px;
+        }
+      }
+      a,
+      button {
+        color: $color-primary;
+        font-weight: normal;
+        letter-spacing: 0;
+        line-height: 1.38;
+        text-transform: none;
+        transition: color 0.5s ease;
+        @include media($medium-screen) {
+          &:hover {
+            color: $color-primary !important;
+            background: linear-gradient($color-primary, $color-primary) bottom / 100% 2px,
+              linear-gradient($color-primary, $color-primary) 100% top / 100% 2px,
+              linear-gradient($color-primary, $color-primary) left/ 8px 100%,
+              linear-gradient($color-primary, $color-primary) right / 3px 100%, $color-white;
+            background-repeat: no-repeat;
+          }
+        }
+        &:active {
+          color: $side-nav-color-dark !important;
+          background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) bottom / 100% 2px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 2px,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) left/ 8px 100%,
+            linear-gradient($side-nav-color-dark, $side-nav-color-dark) right / 3px 100%, $side-nav-color-gray-lightest;
+          background-repeat: no-repeat;
+        }
+      }
+      &.selected {
+        &:last-child::after {
+          display: none;
+        }
+        border-bottom: thin solid $side-nav-color-dark;
+        &.active {
+          pointer-events: none;
+        }
+        &.hasChildren {
+          padding-bottom: 20px;
+          margin-bottom: 20px;
+        }
+      }
+      .va-sidenav-level-3,
+      .va-sidenav-level-4,
+      .va-sidenav-level-5,
+      .va-sidenav-level-6 {
+        pointer-events: initial;
+        cursor: pointer;
+        &.isSelected,
+        &.active {
+          pointer-events: none;
+        }
       }
     }
   }

@@ -12,6 +12,7 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
 } from './constants';
+import { getRootOrganization } from '../services/organization';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -100,18 +101,18 @@ export function getSystemFromChosenFacility(state) {
   return facility?.rootStationCode;
 }
 
-export function getSystemFromParent(state, parentId) {
-  const facility = getParentFacilities(state)?.find(
-    parent => parent.institutionCode === parentId,
+export function getRootOrganizationFromChosenParent(state, parentId) {
+  return getRootOrganization(
+    getParentFacilities(state),
+    parentId || getFormData(state).vaParent,
   );
-
-  return facility?.rootStationCode;
 }
 
 export function getParentOfChosenFacility(state) {
   const facility = getChosenFacilityInfo(state);
 
-  return facility?.parentStationCode;
+  // This should be removed when we use FHIR based locations/facilities
+  return `var${facility?.parentStationCode}`;
 }
 
 export function getChosenFacilityDetails(state) {

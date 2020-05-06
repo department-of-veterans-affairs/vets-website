@@ -1,5 +1,6 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function FeaturesWarning() {
   return (
@@ -8,18 +9,9 @@ export default function FeaturesWarning() {
       <p>
         To update your personal information, get help filing claims or appeals,
         or view your uploaded documents, go to{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <EbenefitsLink path="ebenefits-portal/ebenefits.portal">
           eBenefits
-        </a>
+        </EbenefitsLink>
         .
       </p>
     </div>

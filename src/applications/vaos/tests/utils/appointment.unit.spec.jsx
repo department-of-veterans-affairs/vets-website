@@ -245,58 +245,6 @@ describe('VAOS appointment helpers', () => {
       });
     });
 
-    describe('instructions', () => {
-      it('should return community care appointment instructions', () => {
-        const appt = transformAppointment({
-          ...ccData,
-          instructionsToVeteran: 'Instruction to veteran',
-        });
-        expect(appt.instructions.header).to.equal('Special instructions');
-        expect(appt.instructions.body).to.equal('Instruction to veteran');
-      });
-
-      it('should return VA instructions', () => {
-        const appt = transformAppointment({
-          ...vaData,
-          vdsAppointments: [
-            {
-              bookingNote: 'Follow-up/Routine: Testing',
-            },
-          ],
-        });
-        expect(appt.instructions.header).to.equal('Follow-up/Routine');
-        expect(appt.instructions.body).to.equal('Testing');
-      });
-      it('should return VA video instructions', () => {
-        const appt = transformAppointment({
-          ...vaData,
-          vdsAppointments: [
-            {
-              bookingNote: '',
-            },
-          ],
-          vvsAppointments: [
-            {
-              bookingNotes: 'Follow-up/Routine: Testing',
-            },
-          ],
-        });
-        expect(appt.instructions.header).to.equal('Follow-up/Routine');
-        expect(appt.instructions.body).to.equal('Testing');
-      });
-      it('should not return VA instructions without matching prefix', () => {
-        const appt = transformAppointment({
-          ...vaData,
-          vvsAppointments: [
-            {
-              bookingNotes: 'Testing',
-            },
-          ],
-        });
-        expect(appt.instructions).to.be.null;
-      });
-    });
-
     describe('duration', () => {
       it('should return the default appointment duration for CC', () => {
         const appt = transformAppointment(ccData);
@@ -487,12 +435,12 @@ describe('VAOS appointment helpers', () => {
       expect(ranges[3].endDate).to.include('2019-05-31T23:59:59');
 
       expect(ranges[4].value).to.equal(4);
-      expect(ranges[4].label).to.equal('Show all of 2020');
+      expect(ranges[4].label).to.equal('All of 2020');
       expect(ranges[4].startDate).to.include('2020-01-01T00:00:00');
       expect(ranges[4].endDate).to.include('2020-02-02T00:00:00');
 
       expect(ranges[5].value).to.equal(5);
-      expect(ranges[5].label).to.equal('Show all of 2019');
+      expect(ranges[5].label).to.equal('All of 2019');
       expect(ranges[5].startDate).to.include('2019-01-01T00:00:00');
       expect(ranges[5].endDate).to.include('2019-12-31T23:59:59');
     });
@@ -564,12 +512,12 @@ describe('VAOS appointment helpers', () => {
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
       const confirmed = [
-        { startDate: '2099-04-30T05:35:00', facilityId: '984' },
-        { startDate: '2099-04-27T05:35:00', facilityId: '984' },
+        { appointmentDate: moment('2099-04-30T05:35:00'), facilityId: '984' },
+        { appointmentDate: moment('2099-04-27T05:35:00'), facilityId: '983' },
       ];
 
       const sorted = confirmed.sort(sortFutureConfirmedAppointments);
-      expect(sorted[0].startDate).to.equal('2099-04-27T05:35:00');
+      expect(sorted[0].facilityId).to.equal('983');
     });
   });
 
@@ -621,27 +569,26 @@ describe('VAOS appointment helpers', () => {
     it('should sort future requests', () => {
       const requests = [
         {
-          appointmentType: 'Primary Care',
-          optionDate1: '12/13/2019',
+          id: 'third',
+          typeOfCare: 'Primary Care',
+          dateOptions: [{ date: moment('12/13/2019', 'MM/DD/YYYY') }],
         },
         {
-          appointmentType: 'Primary Care',
-          optionDate1: '12/12/2019',
+          id: 'first',
+          typeOfCare: 'Audiology (hearing aid support)',
+          dateOptions: [{ date: moment('12/12/2019', 'MM/DD/YYYY') }],
         },
         {
-          appointmentType: 'Audiology (hearing aid support)',
-          optionDate1: '12/12/2019',
+          id: 'second',
+          typeOfCare: 'Primary Care',
+          dateOptions: [{ date: moment('12/12/2019', 'MM/DD/YYYY') }],
         },
       ];
 
       const sortedRequests = requests.sort(sortFutureRequests);
-      expect(sortedRequests[0].appointmentType).to.equal(
-        'Audiology (hearing aid support)',
-      );
-      expect(sortedRequests[1].appointmentType).to.equal('Primary Care');
-      expect(sortedRequests[1].optionDate1).to.equal('12/12/2019');
-      expect(sortedRequests[2].appointmentType).to.equal('Primary Care');
-      expect(sortedRequests[2].optionDate1).to.equal('12/13/2019');
+      expect(sortedRequests[0].id).to.equal('first');
+      expect(sortedRequests[1].id).to.equal('second');
+      expect(sortedRequests[2].id).to.equal('third');
     });
   });
 

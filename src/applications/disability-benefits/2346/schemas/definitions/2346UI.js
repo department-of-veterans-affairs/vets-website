@@ -10,12 +10,7 @@ import { schemaFields } from '../../constants';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 
-const {
-  viewAddAccessoriesField,
-  viewAddBatteriesField,
-  permAddressField,
-  tempAddressField,
-} = schemaFields;
+const { permAddressField, tempAddressField } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -29,14 +24,20 @@ const emailUIDescription = (
   </>
 );
 
-const addBatteriesUITitle = (
-  <h4 className="vads-u-display--inline ">Add batteries to your order</h4>
-);
-
-const addAccessoriesUITitle = (
-  <h4 className="vads-u-display--inline">
-    Add hearing aid accessories to your order
-  </h4>
+const addressDescription = (
+  <>
+    <p>
+      Any updates you make here to your address will apply only to this
+      application.
+    </p>
+    <p>
+      To update your address for all of your VA accounts, you’ll need to go to
+      your profile page.{' '}
+      <a href="va.gov/profile">
+        View the address that's on file in your profile.
+      </a>
+    </p>
+  </>
 );
 
 export default {
@@ -52,6 +53,7 @@ export default {
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
+      'ui:subtitle': addressDescription,
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
@@ -83,6 +85,7 @@ export default {
         return true;
       }),
       'ui:title': 'Temporary address',
+      'ui:subtitle': addressDescription,
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
@@ -148,54 +151,23 @@ export default {
         },
       ],
     },
-    addBatteriesUI: {
-      'ui:title': addBatteriesUITitle,
-      'ui:description': 'Do you need to order hearing aid batteries?',
-      'ui:widget': 'radio',
-      'ui:required': () => true,
-      'ui:options': {
-        labels: {
-          yes: 'Yes, I need batteries.',
-          no: "No, I don't need batteries.",
-        },
-        classNames: 'product-selection-radio-btns',
-      },
-    },
     batteriesUI: {
-      'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsBatteriesWidget,
       'ui:reviewWidget': ReviewPageBatteries,
       'ui:options': {
         keepInPageOnReview: true,
-        expandUnder: viewAddBatteriesField,
-        expandUnderCondition: 'yes',
-      },
-    },
-    addAccessoriesUI: {
-      'ui:title': addAccessoriesUITitle,
-      'ui:description': ' Do you need to order hearing aid accessories?',
-      'ui:required': () => true,
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          yes: 'Yes, I need accessories.',
-          no: "No, I don't need accessories.",
-        },
-        classNames: 'product-selection-radio-btns',
       },
     },
     accessoriesUI: {
-      'ui:title': ' ',
-      'ui:field': 'StringField',
+      'ui:title': 'Select the hearing aid accessories you need.',
       'ui:description':
-        'You will be sent a 6 month supply of batteries for each device you select below.',
+        'You can only order each hearing aid accessory once every 5 months.',
+      'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsAccessoriesWidget,
       'ui:reviewWidget': ReviewPageAccessories,
       'ui:options': {
         keepInPageOnReview: true,
-        expandUnder: viewAddAccessoriesField,
-        expandUnderCondition: 'yes',
       },
     },
   },

@@ -1,4 +1,4 @@
-.va-btn-sidebarnav-trigger {
+.va-btn-mobile-nav-trigger {
   margin: units-px(1) 0;
 
   button {
@@ -7,6 +7,9 @@
     width: 100%;
     margin: 0;
     border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &.fixed {
       position: fixed;
@@ -22,5 +25,8 @@
       height: 10px;
       width: auto;
     }
+  }
+  @include media($medium-screen) {
+    display: none;
   }
 }

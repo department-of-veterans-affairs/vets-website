@@ -1,6 +1,8 @@
 import recordEvent from 'platform/monitoring/record-event';
 import React, { Component } from 'react';
 
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+
 class ViewDependentsHeader extends Component {
   handleClick = () => {
     recordEvent({
@@ -18,13 +20,13 @@ class ViewDependentsHeader extends Component {
             a claim for additional disability compensation whenever you add a
             new dependent.
           </p>
-          <a
-            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"
+          <EbenefitsLink
+            path="ebenefits/about/feature?feature=dependent-compensation"
             className="usa-button-primary va-button-primary"
             onClick={this.handleClick}
           >
             Add or remove a dependent
-          </a>
+          </EbenefitsLink>
         </div>
       </div>
     );

@@ -6,7 +6,7 @@ export default function asyncLoader(getComponent, message) {
   return class AsyncComponent extends React.Component {
     static Component = null;
     state = { Component: AsyncComponent.Component };
-    // eslint-disable-next-line
+    /* eslint-disable-next-line camelcase */
     UNSAFE_componentWillMount() {
       if (!this.state.Component) {
         this.componentPromise = getComponent()
