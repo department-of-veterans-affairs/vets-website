@@ -12,9 +12,9 @@ export default function PastAppointmentsDateDropdown({
       <label
         className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-right--2"
         htmlFor="options"
-        aria-label="Show appointments that were scheduled in the chosen date range"
+        aria-label="Select a date range for your appointments"
       >
-        Show
+        Select a date range
       </label>
       <select
         className="usa-select usa-select vads-u-display--inline-block vads-u-width--auto"
@@ -32,7 +32,7 @@ export default function PastAppointmentsDateDropdown({
       <button
         type="button"
         className="vads-u-display--inline-block vads-u-margin-left--2"
-        aria-label="Update list to show appointments in selected date range"
+        aria-label="Update my appointments list"
         disabled={currentRange === dateRangeIndex}
         onClick={() => onChange(dateRangeIndex)}
       >
