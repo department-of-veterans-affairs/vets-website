@@ -60,7 +60,7 @@
 <![endif]-->
 
   {% if botframework_cdn %}
-    <script src="{{ botframework_cdn }}"></script>
+    <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
   {% endif %}
 
   <script defer nomodule data-entry-name="polyfills.js"></script>

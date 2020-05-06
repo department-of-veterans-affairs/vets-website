@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
@@ -55,11 +55,11 @@ import {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/21-686c`,
-  trackingPrefix: '686c-674-',
+  trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,
-  formId: '21-686',
+  formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
