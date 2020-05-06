@@ -11,7 +11,8 @@ import {
   eligibilityChange,
   updateEstimatedBenefits,
 } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
+import { scroller } from 'react-scroll';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { getCalculatedBenefits } from '../selectors/calculator';
 import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
@@ -24,6 +25,7 @@ export class EstimateYourBenefits extends React.Component {
 
   updateEstimatedBenefits = () => {
     this.props.updateEstimatedBenefits(this.props.calculated.outputs);
+    scroller.scrollTo('estimated-benefits', getScrollOptions());
     focusElement('#estimated-benefits');
   };
 
