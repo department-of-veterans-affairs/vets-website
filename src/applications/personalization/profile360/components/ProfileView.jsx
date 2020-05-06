@@ -114,12 +114,6 @@ class ProfileView extends React.Component {
             ]}
           >
             <div>
-              {/* Breadcrumbs */}
-              <Breadcrumbs className="medium-screen:vads-u-padding-y--2">
-                <a href="/">Home</a>
-                <a href="/">Your profile</a>
-              </Breadcrumbs>
-
               <Vet360TransactionReporter />
               {directDepositIsBlocked && <PaymentInformationBlocked />}
               <Hero
@@ -193,6 +187,11 @@ class ProfileView extends React.Component {
     return (
       <div className="va-profile-wrapper row" style={{ marginBottom: 35 }}>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
+          {/* Breadcrumbs */}
+          <Breadcrumbs className="medium-screen:vads-u-padding-y--2">
+            <a href="/">Home</a>
+            <a href="/">Your profile</a>
+          </Breadcrumbs>
           {content}
         </div>
       </div>
