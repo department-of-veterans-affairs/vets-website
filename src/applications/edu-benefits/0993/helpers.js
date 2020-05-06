@@ -35,3 +35,4 @@ export const tabIndexedTitle = title => (
     <p>{title}</p>
   </div>
 );
+/* eslint-enable */
