@@ -137,6 +137,7 @@ function getDrupalClient(buildOptions) {
         );
         await new Promise(resolve => {
           const parentPath = path.join(buildOptions['cms-export-dir'], '..');
+          fs.ensureDirSync(parentPath);
           // This untars to parentDir/cms-export-content/ because the tarball
           // contains a single directory named cms-export-content.
           response.body.pipe(tar.extract(parentPath));
