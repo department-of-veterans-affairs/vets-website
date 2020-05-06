@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as Sentry from '@sentry/browser';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
@@ -274,6 +275,138 @@ export class AuthApp extends React.Component {
           <>
             <p>Please sign in again.</p>
             <button onClick={this.props.openLoginModal}>Sign in</button>
+          </>
+        );
+        break;
+
+      // Multiple MHV ID error
+      case '101':
+        alertContent = (
+          <p>
+            We're sorry. We found more than one My HealtheVet account identifier
+            for you.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>You can fix this issue in one of these ways:</p>
+            <AdditionalInfo triggerText="Call the My HealtheVet help desk">
+              <p>
+                Call us at <a href="tel:877-327-0022">877-327-0022</a>. We’re
+                here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you
+                have hearing loss, call TTY: 800-877-3399.
+              </p>
+              <p>
+                Tell the representative that you tried to sign in to use VA.gov,
+                but received an error message telling you that you have more
+                than one My HealtheVet account.
+              </p>
+            </AdditionalInfo>
+            <AdditionalInfo triggerText="Or submit an online help request to My HealtheVet">
+              <p>
+                Use the My HealtheVet contact form to submit an online request
+                for help online.
+              </p>
+              <p>
+                <strong>Fill in the form fields as below:</strong>
+              </p>
+              <ul>
+                <li>
+                  <strong>Topic: </strong>
+                  Select <strong>Account Login</strong>.
+                </li>
+                <li>
+                  <strong>Category: </strong>
+                  Select <strong>Request for Assistance</strong>.
+                </li>
+                <li>
+                  <strong>Comments: </strong> Type, or copy and paste, the
+                  message below:
+                  <p>
+                    “When I tried to sign in to use VA.gov, I received an error
+                    message telling me I have more than one MyHealtheVet
+                    account.”
+                  </p>
+                </li>
+              </ul>
+              <p>
+                Then, complete the rest of the form and click{' '}
+                <strong>Submit</strong>.
+              </p>
+              <p>
+                <a
+                  href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Go to the My HealtheVet contact form
+                </a>
+              </p>
+            </AdditionalInfo>
+          </>
+        );
+        break;
+
+      // Multiple EDIPI error
+      case '102':
+        alertContent = (
+          <p>
+            We're sorry. We found more than one DoD ID number (EDIPI) for you.
+          </p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>
+                Please use our online form to submit a request for help.
+              </strong>
+            </p>
+            <p>Type, or copy and paste, the message below:</p>
+            <p>
+              “When I tried to sign in to use VA.gov, I received an error
+              message telling me I have more than one DoD ID number (EDIPI) on
+              my account.”
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
+          </>
+        );
+        break;
+
+      // ICN mismatch error
+      case '103':
+        alertContent = (
+          <p>We're sorry. We found a mis-match in your account records.</p>
+        );
+        troubleshootingContent = (
+          <>
+            <p>
+              <strong>
+                Please use our online form to submit a request for help.
+              </strong>
+            </p>
+            <p>Type, or copy and paste, the message below:</p>
+            <p>
+              “When I tried to sign in to use VA.gov, I received an error
+              message telling me the ICN number on my My HealtheVet account does
+              not match the one on my VA.gov account."
+            </p>
+            <p>
+              <a
+                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Submit a request to get help signing in
+              </a>
+            </p>
           </>
         );
         break;
