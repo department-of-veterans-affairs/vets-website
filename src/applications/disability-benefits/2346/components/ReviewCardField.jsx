@@ -335,6 +335,7 @@ class ReviewCardField extends React.Component {
                   onChange={() =>
                     this.onChange('currentAddress', this.props.name)
                   }
+                  type="button"
                 >
                   Send my order to this address
                 </button>
