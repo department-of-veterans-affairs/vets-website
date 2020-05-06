@@ -4,6 +4,11 @@ import environment from 'platform/utilities/environment';
 export const AdditionalResourcesLinks = () => (
   <div>
     <p>
+      <a href="/education/yellow-ribbon-participating-schools/">
+        Find Yellow Ribbon Schools
+      </a>
+    </p>
+    <p>
       <a
         href="https://va.careerscope.net/gibill"
         target="_blank"
