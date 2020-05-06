@@ -9,7 +9,7 @@ export const schoolSelectionOptionsFor = {
   '1990n': {
     fields: ['educationProgram', 'educationObjective'],
   },
-  '5490': { // eslint-disable-line
+  '5490': {
     fields: [
       'educationProgram',
       'educationObjective',
