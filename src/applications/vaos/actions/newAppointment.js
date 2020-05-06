@@ -266,6 +266,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const initialState = getState();
     const directSchedulingEnabled = vaosDirectScheduling(initialState);
     const newAppointment = initialState.newAppointment;
+    const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
@@ -316,7 +317,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       if (parentId && !eligibleFacilities?.length) {
         recordEligibilityFailure(
           'supported-facilities',
-          typeOfCareId,
+          typeOfCare,
           parseFakeFHIRId(parentId),
         );
       }
@@ -377,6 +378,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const previousNewAppointmentState = getState().newAppointment;
+    const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
     const rootOrg = getRootOrganizationFromChosenParent(
       getState(),
@@ -410,7 +412,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           dispatch(fetchFacilityDetails(parseFakeFHIRId(data.vaParent)));
           recordEligibilityFailure(
             'supported-facilities',
-            typeOfCareId,
+            typeOfCare,
             parseFakeFHIRId(data.vaParent),
           );
         }
