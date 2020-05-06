@@ -56,7 +56,7 @@ class VetTecApprovedProgramsList extends React.Component {
 
       return (
         <div className="vads-u-margin-top--2">
-          <span>Select a program below to view your estimated benefits.</span>
+          <span>The following training programs are approved for VET TEC:</span>
           <table className="vet-tec-programs-table">
             <colgroup>
               <col className="name-col" />
