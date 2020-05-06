@@ -44,6 +44,8 @@ class SideNav extends Component {
 
     // Escape early if the item has children.
     if (hasChildren) {
+      recordEvent({ event: 'nav-sidenav' });
+
       // Flip the item's expanded property.
       this.setState({
         navItemsLookup: {
