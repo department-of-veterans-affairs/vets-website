@@ -54,6 +54,7 @@ class SideNav extends Component {
           },
         },
       });
+      recordEvent({ event: 'nav-sidenav' });
       return;
     }
 
