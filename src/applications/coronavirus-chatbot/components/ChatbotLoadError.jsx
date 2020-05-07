@@ -6,6 +6,7 @@ export default function ChatbotLoadError(_props) {
     <AlertBox
       headline="Error Loading Chatbot"
       content="We are sorry there was an issue loading the chatbot, please refresh the page to try again. If the problem persists there may be a caching issue, please clear your cache and refresh the page."
-      status="error"/>
+      status="error"
+    />
   );
 }
