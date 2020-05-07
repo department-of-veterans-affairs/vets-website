@@ -203,10 +203,8 @@ SecondaryCaregiverInfo.propTypes = {
 export const FacilityInfo = () => (
   <>
     <div className="vads-u-margin-bottom--4">
-      <AdditionalInfo triggerText="Can&apos;t find your medical center or clinic">
-        We only include certain facilities. You should pick the medical center
-        or clinic closest to your home.
-      </AdditionalInfo>
+      We only include certain facilities. You should pick the medical center or
+      clinic closest to your home.
     </div>
 
     <a
