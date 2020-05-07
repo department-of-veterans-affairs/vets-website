@@ -2,17 +2,16 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const DeaHelpers = require('./dea-helpers');
-const OjtHelpers = require('./ojt-helpers');
 // const institutionProfile = require('../data/institution-profile.json');
 const ojtProfile = require('../data/ojt-profile.json');
 
 // const institutionAttributes = institutionProfile.data.attributes;
 const ojtAttributes = ojtProfile.data.attributes;
-const eybSections = {
-  yourBenefits: 'Your benefits',
-  learningFormatAndSchedule: 'Learning format and schedule',
-};
 
+/**
+ * OJT and none VETTEC institution profile flow with giBillChapter chapter 35 (DEA)
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   DeaHelpers.initApplicationMock();
 
@@ -39,8 +38,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // OJT Profile Page
 
-  OjtHelpers.yourBenefits(client, eybSections);
-  OjtHelpers.learningFormatAndSchedule(client, eybSections);
+  DeaHelpers.yourBenefits(client);
+  DeaHelpers.learningFormatAndSchedule(client);
 
   // client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?
 

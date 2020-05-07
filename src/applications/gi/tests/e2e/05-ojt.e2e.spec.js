@@ -5,6 +5,10 @@ const OjtHelpers = require('./ojt-helpers');
 const ojtProfile = require('../data/ojt-profile.json');
 const ojtSearchResults = require('../data/ojt-search-results.json');
 
+/**
+ * Default OJT profile flow with giBillChapter chapter 33
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   const ojtAttributes = ojtProfile.data.attributes;
 

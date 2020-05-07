@@ -5,6 +5,10 @@ const VetTecHelpers = require('./vet-tec-helpers');
 const UtilHelpers = require('../../utils/helpers');
 const vetTecSearchResults = require('../data/vet-tec-search-results.json');
 
+/**
+ * Default VETTEC profile flow with giBillChapter chapter 33
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   const vetTecAttributes = vetTecSearchResults.data[0].attributes;
 

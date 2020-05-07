@@ -3,6 +3,10 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const institutionProfile = require('../data/institution-profile.json');
 
+/**
+ * Default Institution (none VETTEC or OJT) profile flow with giBillChapter chapter 33
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   const institutionAttributes = institutionProfile.data.attributes;
 
