@@ -4,6 +4,7 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
+const vamcTopTaskPage = require('./vamcTopTaskPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const fragments = require('./fragments.graphql');
@@ -56,6 +57,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${healthCareRegionPage}
   ${healthCareLocalFacilityPage}
   ${healthCareRegionDetailPage}
+  ${vamcTopTaskPage}
   ${pressReleasePage}
   ${vamcOperatingStatusAndAlerts}
   ${newsStoryPage}
@@ -87,6 +89,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... healthCareRegionPage
         ... healthCareLocalFacilityPage
         ... healthCareRegionDetailPage
+        ... vamcTopTaskPage
         ... pressReleasePage
         ... vamcOperatingStatusAndAlerts
         ... newsStoryPage
