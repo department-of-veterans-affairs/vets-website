@@ -163,8 +163,9 @@ class ObjectField extends React.Component {
       disabled,
       readonly,
       onBlur,
+      formContext,
     } = this.props;
-    const { definitions, fields, formContext } = this.props.registry;
+    const { definitions, fields } = this.props.registry;
     const { TitleField } = fields;
     const SchemaField = this.SchemaField;
     const formData = Object.keys(this.props.formData || {}).length
@@ -220,6 +221,7 @@ class ObjectField extends React.Component {
               ids.push(idSchema[key].$id || '');
               return ids;
             }, [])
+            .filter(k => k)
             .join('_')
         : idSchema.$id;
 
