@@ -12,9 +12,8 @@ export async function ssoKeepAliveSession() {
   const ttl = await keepAlive();
   if (ttl > 0) {
     // ttl is positive, user has an active session
-    const expirationTime = new Date();
-    // 'ttl' is in seconds, convert to milliseconds
-    expirationTime.setTime(expirationTime.getTime() + ttl * 1000);
+    // ttl is in seconds, add from now
+    const expirationTime = moment().add(ttl, 's');
     localStorage.setItem('sessionExpirationSSO', expirationTime);
     localStorage.setItem('hasSessionSSO', true);
   } else if (ttl === 0) {
