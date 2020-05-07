@@ -160,7 +160,9 @@ class ObjectField extends React.Component {
             <div className="form-review-panel-page-header-row">
               {title?.trim() &&
                 !formContext.hideTitle && (
-                  <h5 className="form-review-panel-page-header">{title}</h5>
+                  <h3 className="form-review-panel-page-header vads-u-font-size--h5">
+                    {title}
+                  </h3>
                 )}
               <button
                 type="button"

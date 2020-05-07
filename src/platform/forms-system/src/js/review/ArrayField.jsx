@@ -207,7 +207,7 @@ class ArrayField extends React.Component {
       <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
         {title && (
           <div className="form-review-panel-page-header-row">
-            <h5 className="form-review-panel-page-header">{title}</h5>
+            <h3 className="form-review-panel-page-header">{title}</h3>
             {itemsNeeded && (
               <span className="schemaform-review-array-warning-icon" />
             )}
