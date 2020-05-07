@@ -39,7 +39,7 @@ export default class SelectArrayItemsWidget extends React.Component {
     return (
       <>
         {customTitle?.trim() && items && <h5>{customTitle}</h5>}
-        {!inReviewMode || (inReviewMode && hasSelections) ? (
+        {items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
           items.map((item, index) => {
             const itemIsSelected = !!get(
               selectedPropName || this.defaultSelectedPropName,
