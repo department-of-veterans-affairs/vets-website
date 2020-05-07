@@ -27,6 +27,7 @@ const VeteranInformationComponent = props => {
   );
   return (
     <div>
+      <p>This is the information we have on file for you.</p>
       <AlertBox content={alertContent} status="info" isVisible />
       <p>
         <strong>Note:</strong> If you need to update your personal information,
