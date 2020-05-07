@@ -286,6 +286,7 @@ class ReviewCardField extends React.Component {
     const { data } = this.props;
     const { street, city, country } = this.props.formData;
     /* eslint-disable no-unused-vars */
+    // using destructuring to remove view:livesOnMilitaryBaseInfo prop
     const {
       'view:livesOnMilitaryBaseInfo': removed,
       ...temporaryAddress
