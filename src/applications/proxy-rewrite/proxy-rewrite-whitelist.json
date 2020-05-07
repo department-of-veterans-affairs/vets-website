@@ -89,7 +89,7 @@
     {
       "hostname": "www.oedca.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.oefoif.va.gov",
