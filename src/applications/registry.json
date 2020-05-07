@@ -170,7 +170,7 @@
   {
     "appName": "10-10CG",
     "entryName": "caregivers",
-    "rootUrl": "/caregivers",
+    "rootUrl": "/caregivers/introduction",
     "template": {
       "title": "Caregiver Application for Benefits",
       "vagovprod": false,
