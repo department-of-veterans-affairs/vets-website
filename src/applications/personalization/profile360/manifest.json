@@ -2,16 +2,5 @@
   "appName": "VA Profile",
   "entryFile": "./profile-360-entry.jsx",
   "entryName": "profile-360",
-  "rootUrl": "/profile",
-  "template": {
-    "title": "Your Profile",
-    "layout": "page-react.html",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "profile/",
-        "name": "Your profile"
-      }
-    ]
-  }
+  "rootUrl": "/profile"
 }

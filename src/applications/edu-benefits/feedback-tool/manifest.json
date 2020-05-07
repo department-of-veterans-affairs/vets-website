@@ -2,13 +2,5 @@
   "appName": "GI Bill School Feedback Tool",
   "entryFile": "./feedback-tool-entry.jsx",
   "entryName": "feedback-tool",
-  "rootUrl": "/education/submit-school-feedback",
-  "template": {
-    "title": "GI Bill® School Feedback Tool",
-    "heading": "GI Bill® School Feedback Tool",
-    "layout": "page-react.html",
-    "description": "Find out how to give us feedback about your GI Bill school. ",
-    "includeBreadcrumbs": true,
-    "hideFromSidebar": true
-  }
+  "rootUrl": "/education/submit-school-feedback"
 }

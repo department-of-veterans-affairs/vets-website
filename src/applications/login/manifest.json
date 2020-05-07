@@ -3,12 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "login-page",
   "rootUrl": "/sign-in",
-  "production": false,
-  "template": {
-    "vagovprod": false,
-    "layout": "page-react.html",
-    "includeBreadcrumbs": false,
-    "noNavOrLogin": true,
-    "noMegamenu": true
-  }
+  "e2eTestsDisabled": true
 }

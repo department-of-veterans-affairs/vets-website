@@ -2,9 +2,5 @@
   "appName": "Search",
   "entryFile": "./search-entry.jsx",
   "entryName": "search",
-  "rootUrl": "/search",
-  "template": {
-    "title": "Search Results",
-    "layout": "page-react.html"
-  }
+  "rootUrl": "/search"
 }

@@ -13,11 +13,13 @@ export const APPOINTMENT_TYPES = {
 };
 
 export const APPOINTMENT_STATUS = {
-  pending: 'pending',
+  arrived: 'arrived',
   booked: 'booked',
   cancelled: 'cancelled',
   fulfilled: 'fulfilled',
   noshow: 'noshow',
+  pending: 'pending',
+  proposed: 'proposed',
 };
 
 export const VIDEO_TYPES = {
@@ -246,23 +248,33 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
 
 // Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
 export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'CHECKED IN',
-  'CHECKED OUT',
-  'NO ACTION TAKEN',
-  'NO-SHOW & AUTO RE-BOOK',
-  'ACTION REQUIRED',
+  'ACT REQ/CHECKED IN',
+  'ACT REQ/CHECKED OUT',
 ]);
 
 export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  ...FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  'NO-SHOW',
+  'ACTION REQUIRED',
   'INPATIENT APPOINTMENT',
+  'INPATIENT/ACT REQ',
+  'INPATIENT/CHECKED IN',
+  'INPATIENT/CHECKED OUT',
+  'INPATIENT/FUTURE',
+  'INPATIENT/NO ACT TAKN',
+  'NO ACTION TAKEN',
+  'NO-SHOW & AUTO RE-BOOK',
+  'NO-SHOW',
   'NON-COUNT',
 ]);
 
 // Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
 export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
-export const PAST_APPOINTMENTS_HIDDEN_SET = new Set(['FUTURE', 'DELETED']);
+export const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
+  'FUTURE',
+  'DELETED',
+  null,
+  '<null>',
+  'Deleted',
+]);
 
 export const FLOW_TYPES = {
   DIRECT: 'direct',
