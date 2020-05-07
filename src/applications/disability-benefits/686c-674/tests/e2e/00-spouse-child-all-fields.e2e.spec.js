@@ -15,7 +15,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     '/view-change-dependents/add-remove-form-686c',
     3,
-  ).waitForElementVisible('.process.schemaform-process', Timeouts.verySlow);
+  ).waitForElementVisible('.process.schemaform-process', 500000);
   client.click('.usa-button-primary.va-button-primary.schemaform-start-button');
 
   // select options
@@ -31,13 +31,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
-  TestHelpers.fillVeteranData(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // veteran address
-  E2eHelpers.expectLocation(client, '/veteran-address');
-  client.axeCheck('.main');
-  TestHelpers.fillVeteranDomesticAddress(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
   // child information
