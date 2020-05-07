@@ -117,7 +117,17 @@
   @include media($small-screen) {
     display: flex;
   }
+  padding-left: .50rem;
 }
+
+.program-description {
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+  label {
+    margin-left: 1.7rem;
+  }
+}
+
 .form-expanding-group-open {
   border-left: none;
 }
@@ -146,6 +156,10 @@
     }
   }
   tr {
+    th {
+      border-right: 0;
+      border-left: 0;
+    }
     td {
       border-right: 0;
       border-left: 0;
