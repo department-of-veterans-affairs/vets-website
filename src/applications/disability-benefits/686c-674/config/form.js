@@ -74,6 +74,7 @@ const formConfig = {
       title: 'What do you want to do?',
       pages: {
         wizard: {
+          hideHeaderRow: true,
           title: 'What do you want to do?',
           path: '686-options-selection',
           uiSchema: wizard.uiSchema,
@@ -248,6 +249,8 @@ const formConfig = {
           schema: deceasedDependentInformation.schema,
         },
         dependentAdditionalInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
           title: 'Report the death of a dependent',
           path: '686-report-dependent-death/:index/additional-information',
           showPagePerItem: true,
