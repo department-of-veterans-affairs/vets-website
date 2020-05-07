@@ -316,6 +316,7 @@ function compilePage(page, contentData) {
     case 'press_releases_listing':
     case 'health_services_listing':
     case 'health_care_region_detail_page':
+    case 'vamc_top_task_page':
       pageCompiled = Object.assign(
         {},
         page,
