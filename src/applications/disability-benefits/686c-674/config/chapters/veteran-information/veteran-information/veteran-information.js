@@ -14,5 +14,8 @@ export const uiSchema = {
   veteranInformation: {
     'ui:widget': VeteranInformationComponent,
     'ui:title': 'This is the personal information we have on file for you.',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };

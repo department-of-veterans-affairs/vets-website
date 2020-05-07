@@ -33,6 +33,12 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   client.click('button[id="4-continueButton"]');
 
+  // veteran address
+  E2eHelpers.expectLocation(client, '/veteran-address');
+  client.axeCheck('.main');
+  TestHelpers.fillVeteranDomesticAddress(client, testData.data);
+  client.click('button[id="4-continueButton"]');
+
   // child information
   E2eHelpers.expectLocation(client, '/add-child');
   client.axeCheck('.main');
