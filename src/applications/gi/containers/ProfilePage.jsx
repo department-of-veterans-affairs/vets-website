@@ -73,6 +73,7 @@ export class ProfilePage extends React.Component {
             showModal={this.props.showModal}
             preSelectedProgram={this.props.params.preSelectedProgram}
             gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
+            selectedProgram={this.props.calculator.selectedProgram}
           />
         );
       } else {

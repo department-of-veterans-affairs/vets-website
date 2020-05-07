@@ -3,9 +3,5 @@
   "entryFile": "./yellow-ribbon-entry",
   "entryName": "yellow-ribbon",
   "rootUrl": "/education/yellow-ribbon-participating-schools",
-  "production": false,
-  "template": {
-    "vagovprod": false,
-    "layout": "page-react.html"
-  }
+  "e2eTestsDisabled": true
 }
