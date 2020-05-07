@@ -25,10 +25,15 @@ class VetTecApprovedProgramsList extends React.Component {
           program.description.toLowerCase() === selectedProgram.toLowerCase();
         return (
           <tr key={index}>
-            <td className="vads-u-padding-left--0 vads-l-grid-container">
+            <th
+              scope="row"
+              className="vads-u-padding-left--0 vads-l-grid-container"
+            >
               <div className="program-description vads-l-row">
                 <div className="vads-l-col--2 checked-program">
                   <i
+                    aria-hidden="true"
+                    role="presentation"
                     className={
                       checked
                         ? 'fas fa-check vads-u-padding-right--0p5 vads-u-color--green'
@@ -45,7 +50,7 @@ class VetTecApprovedProgramsList extends React.Component {
                   )}
                 </div>
               </div>
-            </td>
+            </th>
             <td className="vads-u-padding-y--0 program-length">
               {programLength}
             </td>
@@ -65,9 +70,11 @@ class VetTecApprovedProgramsList extends React.Component {
             </colgroup>
             <thead>
               <tr>
-                <th id="program-name-header">Program name</th>
-                <th>Length</th>
-                <th>Tuition & Fees</th>
+                <th scope="col" id="program-name-header">
+                  Program name
+                </th>
+                <th scope="col">Length</th>
+                <th scope="col">Tuition & Fees</th>
               </tr>
             </thead>
             <tbody>{programRows}</tbody>
