@@ -79,7 +79,7 @@
     {
       "hostname": "www.move.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.nutrition.va.gov",
