@@ -1,161 +1,30 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { changeDropdown } from '../helpers/index.js';
-import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { Provider } from 'react-redux';
+import createCommonStore from 'platform/startup/store';
+import VeteranInformationComponent from '../../config/chapters/veteran-information/veteran-information/VeteranInformationComponent.js';
 
-import formConfig from '../../config/form';
+const defaultStore = createCommonStore();
 
-describe('686 veteran information', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+const mockUser = {
+  gender: 'M',
+  dob: '1975-11-26',
+  userFullName: {
+    first: 'JAIME',
+    last: 'BROOKS',
+  },
+};
 
-  const formData = {
-    'view:selectable686Options': {
-      addSpouse: false,
-    },
-  };
-
-  it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-      />,
-    );
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
-    form.unmount();
-  });
-
-  it('should not progress without the required fields', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should progress with the required fields filled', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
-    );
-    fillData(form, 'input#root_veteranInformation_fullName_first', 'Bill');
-    fillData(form, 'input#root_veteranInformation_fullName_last', 'Bob');
-    fillData(form, 'input#root_veteranInformation_ssn', '555555551');
-    changeDropdown(form, 'select#root_veteranInformation_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_veteranInformation_birthDateDay', 1);
-    fillData(form, 'input#root_veteranInformation_birthDateYear', '2002');
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-});
-
-describe('686 veteran Address', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.veteranAddress;
-  it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-      />,
-    );
-    expect(form.find('input').length).to.equal(8);
-    expect(form.find('select').length).to.equal(2);
-    form.unmount();
-  });
-
-  it('should not progress without the required fields', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should progress with the required fields filled', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    changeDropdown(
-      form,
-      'select#root_veteranContactInformation_veteranAddress_countryName',
-      'USA',
-    );
-    fillData(
-      form,
-      'input#root_veteranContactInformation_veteranAddress_addressLine1',
-      '123 Front St',
-    );
-    fillData(
-      form,
-      'input#root_veteranContactInformation_veteranAddress_city',
-      'Someplace',
-    );
-    changeDropdown(
-      form,
-      'select#root_veteranContactInformation_veteranAddress_stateCode',
-      'AL',
-    );
-    fillData(
-      form,
-      'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '12345',
-    );
-    fillData(
-      form,
-      'input#root_veteranContactInformation_phoneNumber',
-      '2225555551',
+describe('<VeteranInformationComponent />', () => {
+  it('Should Render', () => {
+    const wrapper = mount(
+      <Provider store={defaultStore}>
+        <VeteranInformationComponent user={mockUser} />
+      </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    expect(wrapper.find('div.usa-alert-info')).to.exist;
+    wrapper.unmount();
   });
 });

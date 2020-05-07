@@ -34,10 +34,7 @@ import {
   childAdditionalEvidence,
 } from './chapters/add-a-child';
 import { wizard } from './chapters/taskWizard';
-import {
-  veteranInformation,
-  veteranAddress,
-} from './chapters/veteran-information';
+import { veteranInformation } from './chapters/veteran-information';
 import {
   stepchildren,
   stepchildInformation,
@@ -89,12 +86,6 @@ const formConfig = {
           title: 'Veteran Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
-        },
-        veteranAddress: {
-          path: 'veteran-address',
-          title: 'Veteran Address',
-          uiSchema: veteranAddress.uiSchema,
-          schema: veteranAddress.schema,
         },
       },
     },
