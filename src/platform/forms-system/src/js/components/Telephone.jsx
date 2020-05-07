@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // import recordEvent from 'platform/monitoring/record-event.js';
 
@@ -70,10 +71,10 @@ const formatTelLabel = number =>
  *  telephone number with or without leading "1" (it gets stripped off)
  * @param {string} className - Additional class name to add
  * @param {string} pattern - Formatted pattern using "#" as placeholders
- * @param {string|function} ariaLabel - Custom aria-label string
+ * @param {string} ariaLabel - Custom aria-label string
  * @param {function} onClick - Custom onClick function
  */
-export default function Telephone({
+function Telephone({
   // phone number (length _must_ match the pattern; leading "1" is removed)
   contact = '', // telephone number
   className = '', // additional css class to add
@@ -111,3 +112,13 @@ export default function Telephone({
     </a>
   );
 }
+
+Telephone.propTypes = {
+  contact: PropTypes.string,
+  className: PropTypes.string,
+  pattern: PropTypes.string,
+  ariaLabel: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
+export default Telephone;
