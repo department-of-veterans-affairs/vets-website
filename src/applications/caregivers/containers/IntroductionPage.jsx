@@ -20,15 +20,15 @@ const IntroductionPage = ({ route, router }) => {
   };
 
   const ProcessTimeline = () => (
-    <>
+    <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
         Follow the steps below to apply for the Program of Comprehensive
         Assistance of Family Caregivers:
       </h2>
-      <article className="schemaform-process vads-u-padding-bottom--2p5">
-        <div>
-          {/* prepare */}
-          <section className="process-step list-one">
+      <div className="process schemaform-process">
+        <ol>
+          {/* Prepare */}
+          <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Prepare</h3>
 
             <p>
@@ -36,7 +36,7 @@ const IntroductionPage = ({ route, router }) => {
               caregiver applicant will need to provide specific information.
               You’ll need:
             </p>
-            <ul>
+            <ul className="process-lists">
               <li>Address</li>
               <li>Telephone number</li>
               <li>Date of birth</li>
@@ -45,7 +45,7 @@ const IntroductionPage = ({ route, router }) => {
             </ul>
 
             <p>You will also need:</p>
-            <ul>
+            <ul className="process-lists">
               <li>The VA medical center where the Veteran will receive care</li>
               <li>
                 Health insurance information for the Primary Family Caregiver
@@ -62,19 +62,24 @@ const IntroductionPage = ({ route, router }) => {
                 You may use any of the following to request assistance:
               </span>
 
-              <ul>
+              <ul className="process-lists">
                 <li>
                   Ask VA to help you fill out the form by calling us at
-                  {''}
-                  <a href={links.VAHelpLine.label}> 877-222-VETS (8387)</a>
+                  <a
+                    href={links.VAHelpLine.label}
+                    className="vads-u-margin-x--0p5"
+                  >
+                    877-222-VETS (8387)
+                  </a>
                 </li>
                 <li>
                   Locate and contact the Caregiver Support Coordinator at your
-                  nearest VA health care facility. You may use the online {''}
+                  nearest VA health care facility. You may use the online
                   <a
                     href={links.caregiverSupportCoordinators.link}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="vads-u-margin-x--0p5"
                   >
                     Caregiver Support Coordinator locator
                   </a>
@@ -85,9 +90,10 @@ const IntroductionPage = ({ route, router }) => {
                     href="tel:8552603274"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="vads-u-margin-x--0p5"
                   >
                     855-260-3274
-                  </a>{' '}
+                  </a>
                   or a Veterans Service Organization
                 </li>
               </ul>
@@ -96,16 +102,17 @@ const IntroductionPage = ({ route, router }) => {
                 href={links.getHelpFillingApplication.link}
                 rel="noopener noreferrer"
                 target="_blank"
+                className="vads-u-margin-x--0p5"
               >
                 {links.getHelpFillingApplication.label}
               </a>
 
               <CaregiverSupportInfo />
             </div>
-          </section>
+          </li>
 
           {/* Apply */}
-          <section className="process-step list-two">
+          <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Apply</h3>
             <p>
               Each applicant needs to complete all form fields before submitting
@@ -121,15 +128,16 @@ const IntroductionPage = ({ route, router }) => {
                 rel="noopener noreferrer"
                 target="_blank"
                 href={links.applyVAHealthCare.link}
+                className="vads-u-margin-x--0p5"
               >
                 {links.applyVAHealthCare.label}
               </a>
               (VA Form 10-10EZ).
             </p>
-          </section>
+          </li>
 
           {/* Next Steps */}
-          <section className="process-step list-three">
+          <li className="process-step list-three">
             <h3 className="vads-u-font-size--h4">Next Steps</h3>
             <p>
               A member of the Caregiver Support Program at the VA medical center
@@ -141,29 +149,33 @@ const IntroductionPage = ({ route, router }) => {
             <p>
               If you aren’t eligible for PCAFC you may be eligible for the
               Program of General Caregiver Support Services (PGCSS). To find out
-              more, contact VA’s Caregiver Support Line at{' '}
-              <a href={links.caregiverHelp.phoneLink}>
+              more, contact VA’s Caregiver Support Line at
+              <a
+                href={links.caregiverHelp.phoneLink}
+                className="vads-u-margin-left--0p5"
+              >
                 {links.caregiverHelp.phoneLabel}
               </a>
-              , visit{' '}
+              , visit
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href={links.caregiverHelpPage.link}
+                className="vads-u-margin-x--0p5"
               >
                 www.caregiver.va.gov
-              </a>{' '}
+              </a>
               or discuss these options with your local Caregiver Support
               Coordinator.
             </p>
-          </section>
-        </div>
-      </article>
-    </>
+          </li>
+        </ol>
+      </div>
+    </div>
   );
 
   return (
-    <div className="schemaform-intro">
+    <div className="caregivers-intro schemaform-intro">
       <FormTitle title="Apply for the Program of Comprehensive Assistance for Family Caregivers" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
       <p>
@@ -175,6 +187,7 @@ const IntroductionPage = ({ route, router }) => {
         href={links.caregiverHelpPage.link}
         target="_blank"
         rel="noopener noreferrer"
+        className="vads-u-margin-x--0p5"
       >
         Learn more about the Program of Comprehensive Assistance for Family
         Caregivers (PCAFC)
@@ -182,14 +195,14 @@ const IntroductionPage = ({ route, router }) => {
 
       <button
         style={{ display: 'inherit ' }}
-        className="va-button-primary vads-u-margin-y--5"
+        className="usa-button vads-u-margin-y--5"
         onClick={startForm}
       >
         Start your application
       </button>
       <ProcessTimeline />
       <button
-        className="va-button-primary vads-u-margin-bottom--5"
+        className="usa-button vads-u-margin-bottom--5"
         onClick={startForm}
       >
         Start your Application

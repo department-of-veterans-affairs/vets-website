@@ -88,13 +88,12 @@ async function calculateDiff(browser, route) {
     fileBuffer,
     screenshotBuffer,
   );
-  const output = await computeComparisonResult(
+  return computeComparisonResult(
     browser,
     route,
     diffFileName,
     comparisonResult,
   );
-  return output;
 }
 
 module.exports = calculateDiff;

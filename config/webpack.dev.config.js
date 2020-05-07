@@ -11,7 +11,7 @@ function generateWebpackDevConfig(buildOptions) {
     .sort((a, b) => b.from.length - a.from.length);
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
-  const devServerConfig = {
+  return {
     contentBase: buildOptions.destination,
     historyApiFallback: {
       rewrites: [
@@ -59,8 +59,6 @@ function generateWebpackDevConfig(buildOptions) {
       }
     },
   };
-
-  return devServerConfig;
 }
 
 module.exports = generateWebpackDevConfig;

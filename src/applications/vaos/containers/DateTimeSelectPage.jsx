@@ -25,7 +25,7 @@ const pageTitle = 'Tell us the date and time you’d like your appointment';
 const missingDateError = 'Please select a preferred date for your appointment';
 
 export function getOptionsByDate(selectedDate, availableSlots = []) {
-  const options = availableSlots.reduce((acc, slot) => {
+  return availableSlots.reduce((acc, slot) => {
     if (slot.date === selectedDate) {
       const time = moment(slot.datetime);
       const meridiem = time.format('A');
@@ -42,8 +42,6 @@ export function getOptionsByDate(selectedDate, availableSlots = []) {
     }
     return acc;
   }, []);
-
-  return options;
 }
 
 function ErrorMessage({ facilityId, startRequestFlow }) {

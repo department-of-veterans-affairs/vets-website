@@ -1,11 +1,10 @@
-// Dependencies
+const path = require('path');
 const assert = require('assert');
 const commandLineArgs = require('command-line-args');
 const { map } = require('lodash');
-// Relative
-const {
-  contentDir,
-} = require('../src/site/stages/build/process-cms-exports/helpers');
+
+const contentDir = path.resolve(__dirname, '../../cms-export/content');
+
 const assembleEntityTree = require('../src/site/stages/build/process-cms-exports')(
   contentDir,
 );
@@ -45,7 +44,7 @@ if (nodeName) {
     assert(printIndex >= 0, `Print index (${printIndex}) must be >= 0`);
   }
 
-  const fileNames = readAllNodeNames();
+  const fileNames = readAllNodeNames(contentDir);
   const entities = map(fileNames, entityDetails =>
     readEntity(contentDir, ...entityDetails),
   );

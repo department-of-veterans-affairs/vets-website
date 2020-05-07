@@ -8,25 +8,23 @@ import recordEvent from 'platform/monitoring/record-event';
 import { shouldUseProxyUrl } from '../selectors';
 import { proxyUrl, defaultUrl } from '../utilities';
 
-class EbenefitsLink extends React.Component {
-  static propTypes = {
-    path: PropTypes.string,
+const EbenefitsLink = props => {
+  const url = props.useProxyUrl ? proxyUrl : defaultUrl;
+  const click = () =>
+    props.isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' });
+  const attrs = {
+    href: props.href || url(props.path),
+    className: props.className || '',
+    target: props.target || '_blank',
+    rel: props.rel || 'noopener noreferrer',
+    onClick: props.onClick || click,
   };
+  return <a {...attrs}>{props.children}</a>;
+};
 
-  render() {
-    const url = this.props.useProxyUrl ? proxyUrl : defaultUrl;
-    const click = () =>
-      this.props.isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' });
-    const attrs = {
-      href: this.props.href || url(this.props.path),
-      className: this.props.className || '',
-      target: this.props.target || '_blank',
-      rel: this.props.rel || 'noopener noreferrer',
-      onClick: this.props.onClick || click,
-    };
-    return <a {...attrs}>{this.props.children}</a>;
-  }
-}
+EbenefitsLink.propTypes = {
+  path: PropTypes.string,
+};
 
 const mapStateToProps = state => ({
   isLoggedIn: isLoggedInSelector(state),

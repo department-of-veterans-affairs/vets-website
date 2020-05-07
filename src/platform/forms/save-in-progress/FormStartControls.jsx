@@ -11,7 +11,7 @@ class FormStartControls extends React.Component {
     super(props);
     this.state = { modalOpen: false };
   }
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps = newProps => {
     if (!this.props.returnUrl && newProps.returnUrl) {
       // TODO: Remove this; it doesn't actually run

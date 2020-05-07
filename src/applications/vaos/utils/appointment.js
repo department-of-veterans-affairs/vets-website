@@ -107,7 +107,7 @@ export function getAppointmentTimezoneDescription(timezone, facilityId) {
 }
 
 function getRequestDateOptions(appt) {
-  const options = [
+  return [
     {
       date: getMomentRequestOptionDate(appt.optionDate1),
       optionTime: appt.optionTime1,
@@ -129,8 +129,6 @@ function getRequestDateOptions(appt) {
 
       return a.date.isBefore(b.date) ? -1 : 1;
     });
-
-  return options;
 }
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
@@ -175,7 +173,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   // All of current year
   options.push({
     value: 4,
-    label: `Show all of ${today.format('YYYY')}`,
+    label: `All of ${today.format('YYYY')}`,
     startDate: today
       .clone()
       .startOf('year')
@@ -188,7 +186,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 
   options.push({
     value: 5,
-    label: `Show all of ${lastYear.format('YYYY')}`,
+    label: `All of ${lastYear.format('YYYY')}`,
     startDate: lastYear.startOf('year').format(),
     endDate: lastYear
       .clone()
@@ -217,10 +215,6 @@ export function filterFutureConfirmedAppointments(appt, today) {
   );
 }
 
-export function sortFutureConfirmedAppointments(a, b) {
-  return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
-}
-
 export function filterPastAppointments(appt, startDate, endDate) {
   const apptDateTime = getMomentConfirmedDate(appt);
   return (
@@ -231,10 +225,6 @@ export function filterPastAppointments(appt, startDate, endDate) {
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)
   );
-}
-
-export function sortPastAppointments(a, b) {
-  return getMomentConfirmedDate(a).isAfter(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
 export function filterRequests(request, today) {
@@ -253,17 +243,22 @@ export function filterRequests(request, today) {
   );
 }
 
-export function sortFutureRequests(a, b) {
-  const aDate = getMomentRequestOptionDate(a.optionDate1);
-  const bDate = getMomentRequestOptionDate(b.optionDate1);
+export function sortFutureConfirmedAppointments(a, b) {
+  return a.appointmentDate.isBefore(b.appointmentDate) ? -1 : 1;
+}
 
+export function sortPastAppointments(a, b) {
+  return a.appointmentDate.isAfter(b.appointmentDate) ? -1 : 1;
+}
+
+export function sortFutureRequests(a, b) {
   // If appointmentType is the same, return the one with the sooner date
-  if (a.appointmentType === b.appointmentType) {
-    return aDate.isBefore(bDate) ? -1 : 1;
+  if (a.typeOfCare === b.typeOfCare) {
+    return a.dateOptions[0].date.isBefore(b.dateOptions[0].date) ? -1 : 1;
   }
 
   // Otherwise, return sorted alphabetically by appointmentType
-  return a.appointmentType < b.appointmentType ? -1 : 1;
+  return a.typeOfCare.toLowerCase() < b.typeOfCare.toLowerCase() ? -1 : 1;
 }
 
 export function sortMessages(a, b) {

@@ -1,3 +1,6 @@
+const path = require('path');
+const fs = require('fs-extra');
+const tar = require('tar-fs');
 const moment = require('moment');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
@@ -9,7 +12,6 @@ const { queries, getQuery } = require('./queries');
 const syswidecas = require('syswide-cas');
 
 const {
-  contentDir,
   readAllNodeNames,
   readEntity,
 } = require('../process-cms-exports/helpers');
@@ -17,11 +19,12 @@ const entityTreeFactory = require('../process-cms-exports');
 
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
-  const credentialsEncoded = Buffer.from(credentials).toString('base64');
-  return credentialsEncoded;
+  return Buffer.from(credentials).toString('base64');
 }
 
-function getDrupalClient(buildOptions) {
+const defaultClientOptions = { verbose: true };
+
+function getDrupalClient(buildOptions, clientOptionsArg) {
   const buildArgs = {
     address: buildOptions['drupal-address'],
     user: buildOptions['drupal-user'],
@@ -32,11 +35,17 @@ function getDrupalClient(buildOptions) {
     if (!buildArgs[key]) delete buildArgs[key];
   });
 
+  const clientOptions = { ...defaultClientOptions, ...clientOptionsArg };
+  // Set up debug logging
+  // eslint-disable-next-line no-console
+  const say = clientOptions.verbose ? console.log : () => {};
+
   const envConfig = DRUPALS[buildOptions.buildtype];
   const drupalConfig = Object.assign({}, envConfig, buildArgs);
 
   const { address, user, password } = drupalConfig;
   const drupalUri = `${address}/graphql`;
+  const contentExportUri = `${address}/cms-export/content`;
   const encodedCredentials = encodeCredentials({ user, password });
   const headers = {
     Authorization: `Basic ${encodedCredentials}`,
@@ -105,6 +114,59 @@ function getDrupalClient(buildOptions) {
       throw new Error(`HTTP error: ${response.status}: ${response.statusText}`);
     },
 
+    /**
+     * Fetches and untars the CMS export.
+     *
+     * @return {String} - The path to the untarred CMS export.
+     */
+    async fetchExportContent() {
+      say(
+        chalk.green('Fetching content export from'),
+        chalk.blue.underline(contentExportUri),
+      );
+
+      const timer = `${chalk.blue(contentExportUri)} reponse time`;
+      // eslint-disable-next-line no-console
+      console.time(timer);
+
+      const response = await this.proxyFetch(contentExportUri);
+
+      say('Status code:', response.status);
+
+      if (response.ok) {
+        say(
+          `Downloading and untarring CMS export to ${chalk.blue(
+            buildOptions['cms-export-dir'],
+          )}`,
+        );
+        await new Promise(resolve => {
+          const parentPath = path.join(buildOptions['cms-export-dir'], '..');
+          fs.ensureDirSync(parentPath);
+          // This untars to parentDir/cms-export-content/ because the tarball
+          // contains a single directory named cms-export-content.
+          response.body.pipe(tar.extract(parentPath));
+          response.body.on('end', () => {
+            // We now have to move it to the directory expected by the
+            // cms-export-dir option. The default will be 'cms-export-dir/', but
+            // if a non-default --cms-export-dir is specified, we have to move
+            // rename the directory to whatever the CLI option says it should be.
+            fs.moveSync(
+              path.join(parentPath, 'cms-export-content'),
+              path.join(
+                parentPath,
+                path.basename(buildOptions['cms-export-dir']),
+              ),
+            );
+            // eslint-disable-next-line no-console
+            console.timeEnd(timer);
+            resolve();
+          });
+        });
+      } else {
+        throw new Error('Failed to fetch the CMS export tarball');
+      }
+    },
+
     getAllPages(onlyPublishedContent = true) {
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES),
@@ -116,6 +178,7 @@ function getDrupalClient(buildOptions) {
     },
 
     getNonNodeContent(onlyPublishedContent = true) {
+      say('Querying for non-node content');
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
         variables: {
@@ -125,17 +188,14 @@ function getDrupalClient(buildOptions) {
     },
 
     getExportedPages() {
-      const exportDir = buildOptions['cms-export-dir'] || contentDir;
-      const entities = readAllNodeNames(exportDir).map(entityDetails =>
-        readEntity(exportDir, ...entityDetails),
+      say('Transforming CMS export');
+      const contentDir = buildOptions['cms-export-dir'];
+      const entities = readAllNodeNames(contentDir).map(entityDetails =>
+        readEntity(contentDir, ...entityDetails),
       );
-      const assembleEntityTree = entityTreeFactory(exportDir || contentDir);
+      const assembleEntityTree = entityTreeFactory(contentDir);
 
-      const modifiedEntities = entities.map(entity =>
-        assembleEntityTree(entity),
-      );
-
-      return modifiedEntities;
+      return entities.map(entity => assembleEntityTree(entity));
     },
 
     getLatestPageById(nodeId) {

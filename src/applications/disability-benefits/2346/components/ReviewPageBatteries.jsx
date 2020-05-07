@@ -8,7 +8,8 @@ const ReviewPageBatteries = ({ selectedProductInfo, batterySupplies }) => (
         You have requested to receive batteries for the following hearing aids:
       </span>
       <span>
-        ({selectedProductInfo.length} out of {batterySupplies.length} selected)
+        ({selectedProductInfo?.length || 0} out of{' '}
+        {batterySupplies?.length || 0} selected)
       </span>
     </div>
     <div className="vads-u-margin-bottom--3">
@@ -32,13 +33,13 @@ const ReviewPageBatteries = ({ selectedProductInfo, batterySupplies }) => (
 
 const mapStateToProps = state => {
   const supplies = state.form?.loadedData?.formData?.supplies;
-  const batterySupplies = supplies.filter(supply =>
-    supply.productGroup.includes('batteries'),
+  const batterySupplies = supplies?.filter(supply =>
+    supply.productGroup?.includes('batteries'),
   );
   const selectedProducts = state.form?.data?.selectedProducts;
-  const productIdArray = selectedProducts.map(product => product.productId);
-  const selectedProductInfo = batterySupplies.filter(supply =>
-    productIdArray.includes(supply.productId),
+  const productIdArray = selectedProducts?.map(product => product.productId);
+  const selectedProductInfo = batterySupplies?.filter(supply =>
+    productIdArray?.includes(supply.productId),
   );
 
   return {
