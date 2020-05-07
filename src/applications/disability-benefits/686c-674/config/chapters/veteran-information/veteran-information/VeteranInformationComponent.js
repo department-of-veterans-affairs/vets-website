@@ -15,15 +15,15 @@ const VeteranInformationComponent = props => {
     genderFull = 'Female';
   }
   const alertContent = (
-    <dl>
-      <dt>
+    <>
+      <p>
         <strong>
           {props.user.userFullName.first} {props.user.userFullName.last}
         </strong>
-      </dt>
-      <dd>Date of birth: {dateOfBirthFormatted}</dd>
-      <dd>Gender: {genderFull}</dd>
-    </dl>
+      </p>
+      <p>Date of birth: {dateOfBirthFormatted}</p>
+      <p>Gender: {genderFull}</p>
+    </>
   );
   return (
     <div>

@@ -8,7 +8,6 @@ export const schema = {
 
 export const uiSchema = {
   'ui:description': VeteranInformationComponent,
-  'ui:title': 'This is the personal information we have on file for you.',
   'ui:options': {
     hideOnReview: true,
   },
