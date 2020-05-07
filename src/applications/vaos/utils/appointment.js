@@ -206,12 +206,15 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 export function filterFutureConfirmedAppointments(appt, today) {
   // return appointments where current time is less than appointment time
   // +60 min or +240 min in the case of video
-  const threshold = isVideoVisit(appt) ? 240 : 60;
+  const isVideo = isVideoVisit(appt);
+  const threshold = isVideo ? 240 : 60;
   const apptDateTime = getMomentConfirmedDate(appt);
+  const status = isVideo
+    ? appt.vvsAppointments?.[0]?.status?.code
+    : appt.vdsAppointments?.[0]?.currentStatus;
+
   return (
-    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(
-      appt.vdsAppointments?.[0]?.currentStatus,
-    ) &&
+    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&
     apptDateTime.isValid() &&
     apptDateTime.add(threshold, 'minutes').isAfter(today)
   );
@@ -223,10 +226,11 @@ export function sortFutureConfirmedAppointments(a, b) {
 
 export function filterPastAppointments(appt, startDate, endDate) {
   const apptDateTime = getMomentConfirmedDate(appt);
+  const status = isVideoVisit(appt)
+    ? appt.vvsAppointments?.[0]?.status?.code
+    : appt.vdsAppointments?.[0]?.currentStatus;
   return (
-    !PAST_APPOINTMENTS_HIDDEN_SET.has(
-      appt.vdsAppointments?.[0]?.currentStatus,
-    ) &&
+    !PAST_APPOINTMENTS_HIDDEN_SET.has(status) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)
@@ -365,7 +369,10 @@ function getAppointmentStatus(appointment, isPastAppointment) {
         : APPOINTMENT_STATUS.pending;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
-      const currentStatus = appointment.vdsAppointments?.[0]?.currentStatus;
+      const currentStatus = isVideoVisit(appointment)
+        ? appointment.vvsAppointments?.[0]?.status?.code
+        : appointment.vdsAppointments?.[0]?.currentStatus;
+
       if (
         (isPastAppointment &&
           PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
