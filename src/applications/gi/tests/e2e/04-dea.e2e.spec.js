@@ -9,7 +9,7 @@ const institutionAttributes = institutionProfile.data.attributes;
 const ojtAttributes = ojtProfile.data.attributes;
 
 /**
- * OJT and none VETTEC institution profile flow with giBillChapter chapter 35 (DEA)
+ * OJT and non VETTEC institution profile flow with giBillChapter chapter 35 (DEA)
  * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
  */
 module.exports = E2eHelpers.createE2eTest(client => {

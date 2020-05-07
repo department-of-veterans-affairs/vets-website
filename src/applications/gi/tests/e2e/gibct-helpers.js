@@ -222,7 +222,8 @@ const eybSections = {
 const calculateBenefits = client => {
   client
     .waitForElementVisible('.calculate-button', Timeouts.normal)
-    .click('.calculate-button');
+    .click('.calculate-button')
+    .pause(5);
 };
 
 /**

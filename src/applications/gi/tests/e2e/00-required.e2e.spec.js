@@ -4,7 +4,7 @@ const GiHelpers = require('./gibct-helpers');
 const institutionProfile = require('../data/institution-profile.json');
 
 /**
- * Default Institution (none VETTEC or OJT) profile flow with giBillChapter chapter 33
+ * PUBLIC Institution profile flow with default input selections
  * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
  */
 module.exports = E2eHelpers.createE2eTest(client => {
