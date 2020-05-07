@@ -1,3 +1,4 @@
+import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
@@ -25,10 +26,10 @@ export async function ssoKeepAliveSession() {
   }
 }
 export function checkAndUpdateSSOeSession() {
-  if (hasSessionSSO() === 'true') {
+  if (hasSessionSSO()) {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
-    const remainingSessionTime = Date.parse(sessionExpiration) - Date.now();
+    const remainingSessionTime = moment(sessionExpiration).diff(moment());
     if (remainingSessionTime <= keepAliveThreshold) {
       ssoKeepAliveSession();
     }

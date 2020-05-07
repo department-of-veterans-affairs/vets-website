@@ -20,16 +20,16 @@ class AutoSSO extends React.Component {
     }
   }
 
-  checkStatus = () => {
-    ssoKeepAliveSession().then(() => {
-      if (hasSession() && hasSessionSSO() === 'false') {
-        autoLogout();
-      } else if (!hasSession() && hasSessionSSO() === 'true') {
-        autoLogin();
-      }
+  checkStatus = async () => {
+    await ssoKeepAliveSession();
 
-      this.setState({ hasCalledKeepAlive: true });
-    });
+    if (hasSession() && !hasSessionSSO()) {
+      autoLogout();
+    } else if (!hasSession() && hasSessionSSO()) {
+      autoLogin();
+    }
+
+    this.setState({ hasCalledKeepAlive: true });
   };
 
   render() {
