@@ -94,7 +94,7 @@
     {
       "hostname": "www.oefoif.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.oprm.va.gov",
