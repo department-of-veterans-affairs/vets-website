@@ -108,10 +108,9 @@ export default function ConfirmedAppointmentListItem({
             <AddToCalendar
               summary={header}
               description={
-                appointment.instructions
-                  ? `${appointment.instructions.header}. ${
-                      appointment.instructions.body
-                    }`
+                appointment.instructions &&
+                (isInPersonVAAppointment || appointment.isCommunityCare)
+                  ? appointment.instructions
                   : ''
               }
               location={location}

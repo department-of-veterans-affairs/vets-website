@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
+export const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
     <div className={classNames('row', 'calculator-result', { bold })}>
       <div className="small-6 columns">

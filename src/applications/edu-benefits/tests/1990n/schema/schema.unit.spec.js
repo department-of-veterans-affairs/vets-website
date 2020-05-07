@@ -27,7 +27,7 @@ describe('1990n schema tests', () => {
       const result = v.validate(JSON.parse(submitData), fullSchema1990n);
 
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line no-console
       }
       expect(result.valid).to.be.true;
     });
