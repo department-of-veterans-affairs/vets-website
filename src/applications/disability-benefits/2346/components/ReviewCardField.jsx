@@ -285,9 +285,13 @@ class ReviewCardField extends React.Component {
     ].join(' ');
     const { data } = this.props;
     const { street, city, country } = this.props.formData;
-    const copyOfTempAddress = data.temporaryAddress;
-    delete copyOfTempAddress['view:livesOnMilitaryBaseInfo'];
-    const isTempAddressMissing = Object.values(copyOfTempAddress).every(
+    /* eslint-disable no-unused-vars */
+    const {
+      'view:livesOnMilitaryBaseInfo': removed,
+      ...temporaryAddress
+    } = data.temporaryAddress;
+    /* eslint-enable no-unused-vars */
+    const isTempAddressMissing = Object.values(temporaryAddress).every(
       prop => !prop,
     );
 
