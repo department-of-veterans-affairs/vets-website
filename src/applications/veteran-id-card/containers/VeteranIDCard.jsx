@@ -25,7 +25,7 @@ function createVicSettings() {
 }
 
 class VeteranIDCard extends React.Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     // Once the login logic is all done...
     // This will occur even for unauthenticated users and should only occur once.
