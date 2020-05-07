@@ -288,6 +288,16 @@ const scholarshipsAndOtherFunding = client => {
   openScholarshipsAndOtherFunding(client, eybSections);
 };
 
+/**
+ * Click the Calculate Benefits button
+ * @param client
+ */
+const calculateBenefits = client => {
+  client
+    .waitForElementVisible('.calculate-button', Timeouts.normal)
+    .click('.calculate-button');
+};
+
 module.exports = {
   initCommonMock,
   initMockProfile,
@@ -315,4 +325,5 @@ module.exports = {
   learningFormatAndSchedule,
   openScholarshipsAndOtherFunding,
   scholarshipsAndOtherFunding,
+  calculateBenefits,
 };

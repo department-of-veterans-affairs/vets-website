@@ -3,8 +3,6 @@ const UtilHelpers = require('../../utils/helpers');
 
 const GiHelpers = require('./gibct-helpers');
 
-const deaEnrolledMax = 30;
-
 const selectOJTType = client => {
   client.selectRadio('category', 'employer');
   client.axeCheck('.main');
@@ -23,7 +21,7 @@ const eybSections = {
  * @param sections depending on selected GI Bill Benefit not all OJT sections display
  */
 const yourBenefits = (client, sections = eybSections) => {
-  GiHelpers.yourBenefits(client, sections);
+  GiHelpers.checkYourBenefits(client, sections);
 };
 
 /**
@@ -31,9 +29,10 @@ const yourBenefits = (client, sections = eybSections) => {
  * @param client
  */
 const willBeWorking = client => {
-  const housingRateId = `calculator-result-row-${UtilHelpers.createId(
+  const housingRateId = `#calculator-result-row-${UtilHelpers.createId(
     'Housing allowance',
-  )}`;
+  )} h5`;
+  const deaEnrolledMax = 30;
   for (let i = 2; i <= deaEnrolledMax; i += 2) {
     const value = Math.round(
       (i / deaEnrolledMax) *
@@ -41,6 +40,7 @@ const willBeWorking = client => {
     );
     client.waitForElementVisible(housingRateId, Timeouts.normal);
     client.selectDropdown('working', i);
+    GiHelpers.calculateBenefits(client);
     client.assert.containsText(housingRateId, `$${value}/mo`);
   }
 };
