@@ -31,8 +31,6 @@ export default function FieldTemplate(props) {
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel =
     uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
-  const hideLabelText =
-    uiSchema['ui:options'] && uiSchema['ui:options'].hideLabelText;
   const useLabelElement = showFieldLabel === 'label';
 
   const description = uiSchema['ui:description'];
@@ -96,13 +94,15 @@ export default function FieldTemplate(props) {
     </label>
   );
 
-  // Don't render empty labels - prevents duplicate IDs on review & submit page
-  const renderLabel =
-    typeof label !== 'string' || (requiredSpan || label.trim());
+  // Don't render hidden or empty labels - prevents duplicate IDs on review &
+  // submit page
+  const showLabel =
+    !uiSchema['ui:options']?.hideLabelText &&
+    (typeof label !== 'string' || (requiredSpan || label.trim()));
 
   const content = (
     <>
-      {!hideLabelText && renderLabel && labelElement}
+      {showLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
       {DescriptionField && (
         <DescriptionField options={uiSchema['ui:options']} />
