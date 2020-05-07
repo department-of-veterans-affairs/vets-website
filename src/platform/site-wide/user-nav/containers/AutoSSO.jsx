@@ -6,19 +6,17 @@ import { ssoe, ssoeInbound } from 'platform/user/authentication/selectors';
 import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 
-const AUTO_SSO_FREQUENCY = 60;
-
 class AutoSSO extends React.Component {
-  constructor(props) {
-    super(props);
-    this.statusInterval = null;
-  }
+  state = {
+    hasCalledKeepAlive: false,
+  };
 
   componentDidUpdate() {
     const { useSSOe, useInboundSSOe } = this.props;
+    const { hasCalledKeepAlive } = this.state;
 
-    if (useSSOe && useInboundSSOe) {
-      this.statusInterval = setInterval(this.checkStatus, AUTO_SSO_FREQUENCY);
+    if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
+      this.checkStatus();
     }
   }
 
@@ -38,6 +36,8 @@ class AutoSSO extends React.Component {
       } else if (!hasSession() && hasSessionSSO() === 'true') {
         autoLogin();
       }
+
+      this.setState({ hasCalledKeepAlive: true });
     });
   };
 
@@ -48,7 +48,7 @@ class AutoSSO extends React.Component {
 
 const mapStateToProps = state => ({
   useSSOe: ssoe(state),
-  useInbountSSOe: ssoeInbound(state),
+  useInboundSSOe: ssoeInbound(state),
 });
 
 export default connect(mapStateToProps)(AutoSSO);
