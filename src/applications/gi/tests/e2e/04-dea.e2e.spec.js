@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.learningFormatAndSchedule(client, eybSections);
   DeaHelpers.willBeWorking(client);
 
-  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?
+  GiHelpers.breadCrumb(client, '/gi-bill-comparison-tool/');
   DeaHelpers.searchAsDEA(client);
 
   // Search Page
@@ -59,49 +59,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Profile Page
   GiHelpers.yourBenefits(client);
   GiHelpers.aboutYourSchool(client);
-
-  // DeaHelpers.searchAsDEA(
-  //   client,
-  //   secondResult,
-  //   secondResultRate,
-  //   GiHelpers.formatCurrency(GiHelpers.calculatorConstants.DEARATEFULLTIME),
-  // );
-  //
-  // DeaHelpers.verifyDEA(
-  //   client,
-  //   'full',
-  //   `${GiHelpers.formatCurrency(
-  //     GiHelpers.calculatorConstants.DEARATEFULLTIME,
-  //   )}/mo`,
-  // );
-  // DeaHelpers.verifyDEA(
-  //   client,
-  //   'three quarters',
-  //   `${GiHelpers.formatCurrency(
-  //     GiHelpers.calculatorConstants.DEARATETHREEQUARTERS,
-  //   )}/mo`,
-  // );
-  // DeaHelpers.verifyDEA(
-  //   client,
-  //   'half',
-  //   `${GiHelpers.formatCurrency(
-  //     GiHelpers.calculatorConstants.DEARATEONEHALF,
-  //   )}/mo`,
-  // );
-  // DeaHelpers.verifyDEA(
-  //   client,
-  //   'less than half',
-  //   `${GiHelpers.formatCurrency(
-  //     GiHelpers.calculatorConstants.DEARATEUPTOONEHALF,
-  //   )}/mo`,
-  // );
-  // DeaHelpers.verifyDEA(
-  //   client,
-  //   'quarter',
-  //   `${GiHelpers.formatCurrency(
-  //     GiHelpers.calculatorConstants.DEARATEUPTOONEQUARTER,
-  //   )}/mo`,
-  // );
+  DeaHelpers.enrolledOld(client);
 
   client.end();
 });

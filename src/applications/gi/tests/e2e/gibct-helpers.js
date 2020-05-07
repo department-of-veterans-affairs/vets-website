@@ -7,10 +7,6 @@ const calculatorConstantsJson = require('../data/calculator-constants.json');
 const featureToggles = require('../data/feature-toggles.json');
 const mock = require('platform/testing/e2e/mock-helpers');
 
-const housingRateId = `#calculator-result-row-${UtilHelpers.createId(
-  'Housing allowance',
-)} h5`;
-
 /**
  * Expects navigation lands at a path containing the given `urlSubstring`.
  * @param client
@@ -76,6 +72,18 @@ const initApplicationMock = (
 
   initMockProfile(profile);
   initCommonMock();
+};
+
+/**
+ * Select option for "Which GI Bill benefit do you want to use?"
+ * @param client
+ * @param option
+ */
+const giBillChapter = (client, option) => {
+  client
+    .waitForElementVisible('#giBillChapter', Timeouts.slow)
+    .selectDropdown('giBillChapter', option)
+    .axeCheck('.main');
 };
 
 const searchForInstitution = (client, name) => {
@@ -208,6 +216,16 @@ const eybSections = {
 };
 
 /**
+ * Click the Calculate Benefits button
+ * @param client
+ */
+const calculateBenefits = client => {
+  client
+    .waitForElementVisible('.calculate-button', Timeouts.normal)
+    .click('.calculate-button');
+};
+
+/**
  * This is expanded by default
  * Should NOT include question checks
  * @param client
@@ -229,6 +247,35 @@ const yourBenefits = (client, sections = eybSections) => {
 const aboutYourSchool = (client, sections = eybSections) => {
   clickAccordion(client, sections.aboutYourSchool);
   eybAccordionExpandedCheck(client, sections, sections.aboutYourSchool);
+};
+
+/**
+ * Verifies Housing Rate on Desktop
+ * @param client
+ * @param housingRate
+ */
+const checkProfileHousingRate = (client, housingRate) => {
+  const housingRateId = `#calculator-result-row-${UtilHelpers.createId(
+    'Housing allowance',
+  )} h5`;
+
+  client
+    .waitForElementVisible(housingRateId, Timeouts.normal)
+    .assert.containsText(housingRateId, `${formatCurrency(housingRate)}/mo`);
+};
+
+/**
+ * Verifies Housing Rate after selecting an option for "Enrolled"
+ * Used if selected GI Bill benefit is ch30 or 1606 or ch35
+ * Or if 31 is selected and No is answered to "Are you eligible for the Post-9/11 GI Bill?"
+ * @param client
+ * @param option
+ * @param housingRate
+ */
+const enrolledOld = (client, option, housingRate) => {
+  client.selectDropdown('enrolledOld', option);
+  calculateBenefits(client);
+  checkProfileHousingRate(client, housingRate);
 };
 
 /**
@@ -261,22 +308,17 @@ const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
   );
 };
 
-/**
- * Click the Calculate Benefits button
- * @param client
- */
-const calculateBenefits = client => {
-  client
-    .waitForElementVisible('.calculate-button', Timeouts.normal)
-    .click('.calculate-button');
+const breadCrumb = (client, breadCrumbHref) => {
+  const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
+  client.waitForElementVisible(id, Timeouts.normal).click(id);
 };
 
 module.exports = {
-  housingRateId,
   initCommonMock,
   initMockProfile,
   expectLocation,
   initApplicationMock,
+  giBillChapter,
   searchForInstitution,
   verifySearchResults,
   selectSearchResult,
@@ -291,9 +333,12 @@ module.exports = {
   formatCurrency,
   formatCurrencyHalf,
   calculatorConstants,
+  calculateBenefits,
   yourBenefits,
   aboutYourSchool,
+  checkProfileHousingRate,
+  enrolledOld,
   learningFormatAndSchedule,
   scholarshipsAndOtherFunding,
-  calculateBenefits,
+  breadCrumb,
 };

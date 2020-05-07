@@ -1,4 +1,3 @@
-const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const OjtHelpers = require('./ojt-helpers');
 const deaSearchResults = require('../data/dea-search-results.json');
@@ -17,16 +16,8 @@ const initApplicationMock = () => {
 
 // Selects DEA as benefit type
 const searchAsDEA = client => {
-  client
-    .waitForElementVisible('#giBillChapter', Timeouts.slow)
-    .selectDropdown('giBillChapter', '35')
-    .waitForElementVisible(
-      '.keyword-search input[type="text"]',
-      Timeouts.normal,
-    )
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', searchString)
-    .click('#search-button');
+  GiHelpers.giBillChapter(client, '35');
+  GiHelpers.searchForInstitution(client, searchString);
 };
 
 const verifySearchResults = client => {
@@ -49,8 +40,8 @@ const verifySearchResults = client => {
  * Loops through all "Enrolled" options for an institution and verifies the DEA housing rate
  * @param client
  */
-const enrolled = client => {
-  const enrolledRates = [
+const enrolledOld = client => {
+  const enrolledOldRates = [
     { rate: GiHelpers.calculatorConstants.DEARATEFULLTIME, option: 'full' },
     {
       rate: GiHelpers.calculatorConstants.DEARATETHREEQUARTERS,
@@ -58,26 +49,17 @@ const enrolled = client => {
     },
     { rate: GiHelpers.calculatorConstants.DEARATEONEHALF, option: 'half' },
     {
-      rate: GiHelpers.calculatorConstants.DEARATEUPTOONEHALF,
+      rate: 300,
       option: 'less than half',
     },
     {
-      rate: GiHelpers.calculatorConstants.DEARATEUPTOONEQUARTER,
+      rate: 300,
       option: 'quarter',
     },
   ];
 
-  enrolledRates.forEach(({ rate, option }) => {
-    client
-      .waitForElementVisible('enrolled', Timeouts.normal)
-      .selectDropdown('enrolled', option);
-    GiHelpers.calculateBenefits(client);
-    client
-      .waitForElementVisible(GiHelpers.housingRateId, Timeouts.normal)
-      .assert.containsText(
-        GiHelpers.housingRateId,
-        GiHelpers.formatCurrency(rate),
-      );
+  enrolledOldRates.forEach(({ rate, option }) => {
+    GiHelpers.enrolledOld(client, option, rate);
   });
 };
 
@@ -101,6 +83,6 @@ module.exports = {
   searchString,
   searchAsDEA,
   verifySearchResults,
-  enrolled,
+  enrolledOld,
   willBeWorking,
 };

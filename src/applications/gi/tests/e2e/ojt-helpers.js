@@ -1,5 +1,4 @@
 const GiHelpers = require('./gibct-helpers');
-const Timeouts = require('platform/testing/e2e/timeouts');
 
 const selectOJTType = client => {
   client.selectRadio('category', 'employer');
@@ -13,10 +12,9 @@ const selectOJTType = client => {
  * @param housingRate expected housing rate
  */
 const willBeWorking = (client, option, housingRate) => {
-  client.waitForElementVisible(GiHelpers.housingRateId, Timeouts.normal);
   client.selectDropdown('working', option);
   GiHelpers.calculateBenefits(client);
-  client.assert.containsText(GiHelpers.housingRateId, `$${housingRate}/mo`);
+  GiHelpers.checkProfileHousingRate(client, housingRate);
 };
 
 module.exports = {
