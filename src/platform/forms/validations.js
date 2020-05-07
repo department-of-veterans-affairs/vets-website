@@ -228,10 +228,8 @@ function getFileError(file) {
 
 // validator to prevent users from entering just whitespace on required fields
 function validateWhiteSpace(errors, input) {
-  if (typeof input !== 'undefined') {
-    if (!/\S/.test(input)) {
-      errors.addError('Please provide a response');
-    }
+  if (typeof input !== 'undefined' && !/\S/.test(input)) {
+    errors.addError('Please provide a response');
   }
 }
 
