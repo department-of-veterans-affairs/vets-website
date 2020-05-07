@@ -315,6 +315,46 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('label').exists()).to.be.false;
     tree.unmount();
   });
+  it('should not render upload button on review & submit page while in review mode', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={{ reviewMode: true }}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('label').exists()).to.be.false;
+    tree.unmount();
+  });
 
   it('should delete file', () => {
     const uiSchema = fileUploadUI('Files');

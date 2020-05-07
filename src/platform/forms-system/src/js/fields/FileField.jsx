@@ -243,6 +243,8 @@ export default class FileField extends React.Component {
           </ul>
         )}
         {(maxItems === null || files.length < maxItems) &&
+          // Don't render an upload button on review & submit page while in
+          // review mode
           !formContext.reviewMode &&
           !isUploading && (
             <>
