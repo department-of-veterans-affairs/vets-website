@@ -39,26 +39,26 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.displayLearnMoreModal(client);
 
   // Estimate your benefits
-  GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
+  GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
   GiHelpers.yourBenefits(client);
   GiHelpers.aboutYourSchool(client);
   GiHelpers.learningFormatAndSchedule(client);
   GiHelpers.scholarshipsAndOtherFunding(client);
 
   // Veteran programs
-  GiHelpers.expandCollapseAccordion(client, 'Veteran programs');
+  GiHelpers.collapseExpandAccordion(client, 'Veteran programs');
 
   // School locations
-  GiHelpers.expandCollapseAccordion(client, 'School locations');
+  GiHelpers.collapseExpandAccordion(client, 'School locations');
 
   // Cautionary information
-  GiHelpers.expandCollapseAccordion(client, 'Cautionary information');
+  GiHelpers.collapseExpandAccordion(client, 'Cautionary information');
 
   // Contact details
-  GiHelpers.expandCollapseAccordion(client, 'Contact details');
+  GiHelpers.collapseExpandAccordion(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseAccordion(client, 'Additional information');
+  GiHelpers.collapseExpandAccordion(client, 'Additional information');
 
   client.end();
 });

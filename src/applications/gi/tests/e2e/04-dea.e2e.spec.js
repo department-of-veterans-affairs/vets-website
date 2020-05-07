@@ -2,10 +2,10 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const DeaHelpers = require('./dea-helpers');
-// const institutionProfile = require('../data/institution-profile.json');
+const institutionProfile = require('../data/institution-profile.json');
 const ojtProfile = require('../data/ojt-profile.json');
 
-// const institutionAttributes = institutionProfile.data.attributes;
+const institutionAttributes = institutionProfile.data.attributes;
 const ojtAttributes = ojtProfile.data.attributes;
 
 /**
@@ -37,11 +37,28 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, ojtAttributes.facility_code);
 
   // OJT Profile Page
+  const eybSections = {
+    yourBenefits: 'Your benefits',
+    learningFormatAndSchedule: 'Learning format and schedule',
+  };
+  GiHelpers.yourBenefits(client, eybSections);
+  GiHelpers.learningFormatAndSchedule(client, eybSections);
+  DeaHelpers.willBeWorking(client);
 
-  DeaHelpers.yourBenefits(client);
-  DeaHelpers.learningFormatAndSchedule(client);
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?
+  DeaHelpers.searchAsDEA(client);
 
-  // client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`); // use breadcrumb ?
+  // Search Page
+  DeaHelpers.verifySearchResults(client);
+  GiHelpers.expectLocation(
+    client,
+    `/search?category=ALL&name=${DeaHelpers.searchString}`,
+  );
+  GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
+
+  // Profile Page
+  GiHelpers.yourBenefits(client);
+  GiHelpers.aboutYourSchool(client);
 
   // DeaHelpers.searchAsDEA(
   //   client,

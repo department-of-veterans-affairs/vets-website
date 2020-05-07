@@ -7,6 +7,10 @@ const calculatorConstantsJson = require('../data/calculator-constants.json');
 const featureToggles = require('../data/feature-toggles.json');
 const mock = require('platform/testing/e2e/mock-helpers');
 
+const housingRateId = `#calculator-result-row-${UtilHelpers.createId(
+  'Housing allowance',
+)} h5`;
+
 /**
  * Expects navigation lands at a path containing the given `urlSubstring`.
  * @param client
@@ -151,9 +155,11 @@ const checkAccordionIsNotExpanded = (client, name) => {
  * @param client
  * @param name button property of the AccordionItem
  */
-const expandCollapseAccordion = (client, name) => {
+const collapseExpandAccordion = (client, name) => {
   clickAccordion(client, name);
+  checkAccordionIsNotExpanded(client, name);
   clickAccordion(client, name);
+  checkAccordionIsExpanded(client, name);
 };
 
 const displayLearnMoreModal = client => {
@@ -203,11 +209,11 @@ const eybSections = {
 
 /**
  * This is expanded by default
- * Generic check for section, question checks should be in yourBenefits
+ * Should NOT include question checks
  * @param client
  * @param sections defaults to all sections, allows for passing in a smaller set of sections
  */
-const checkYourBenefits = (client, sections) => {
+const yourBenefits = (client, sections = eybSections) => {
   const id = createAccordionId(sections.yourBenefits);
 
   client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
@@ -215,40 +221,23 @@ const checkYourBenefits = (client, sections) => {
 };
 
 /**
- * This is expanded by default
- * Goes through questions for section
- * @param client
- */
-const yourBenefits = client => {
-  checkYourBenefits(client, eybSections);
-};
-
-/**
- * Opens section and performs checks
- * Generic check for section, question checks should be in aboutYourSchool
+ * Opens section and performs generic checks
+ * Should NOT include question checks
  * @param client
  * @param sections
  */
-const openAboutYourSchool = (client, sections) => {
+const aboutYourSchool = (client, sections = eybSections) => {
   clickAccordion(client, sections.aboutYourSchool);
   eybAccordionExpandedCheck(client, sections, sections.aboutYourSchool);
 };
 
 /**
- * Opens section and goes through questions
- * @param client
- */
-const aboutYourSchool = client => {
-  openAboutYourSchool(client, eybSections);
-};
-
-/**
- * Opens section and performs checks
- * Generic check for section, question checks should be in learningFormatAndSchedule
+ * Opens section and performs generic checks
+ * Should NOT include question checks
  * @param client
  * @param sections
  */
-const openLearningFormatAndSchedule = (client, sections) => {
+const learningFormatAndSchedule = (client, sections = eybSections) => {
   clickAccordion(client, sections.learningFormatAndSchedule);
   eybAccordionExpandedCheck(
     client,
@@ -258,34 +247,18 @@ const openLearningFormatAndSchedule = (client, sections) => {
 };
 
 /**
- * Opens section and goes through questions
- * @param client
- */
-const learningFormatAndSchedule = client => {
-  openLearningFormatAndSchedule(client, eybSections);
-};
-
-/**
- * Opens section and performs checks
- * Generic check for section, question checks should be in scholarshipsAndOtherFunding
+ * Opens section and performs generic checks
+ * Should NOT include question checks
  * @param client
  * @param sections
  */
-const openScholarshipsAndOtherFunding = (client, sections) => {
+const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
   clickAccordion(client, sections.scholarshipsAndOtherFunding);
   eybAccordionExpandedCheck(
     client,
     sections,
     sections.scholarshipsAndOtherFunding,
   );
-};
-
-/**
- * Opens section and goes through questions
- * @param client
- */
-const scholarshipsAndOtherFunding = client => {
-  openScholarshipsAndOtherFunding(client, eybSections);
 };
 
 /**
@@ -299,6 +272,7 @@ const calculateBenefits = client => {
 };
 
 module.exports = {
+  housingRateId,
   initCommonMock,
   initMockProfile,
   expectLocation,
@@ -310,20 +284,16 @@ module.exports = {
   clickAccordion,
   checkAccordionIsExpanded,
   checkAccordionIsNotExpanded,
-  expandCollapseAccordion,
+  collapseExpandAccordion,
   displayLearnMoreModal,
   eybAccordionExpandedCheck,
   formatNumber,
   formatCurrency,
   formatCurrencyHalf,
   calculatorConstants,
-  checkYourBenefits,
   yourBenefits,
-  openAboutYourSchool,
   aboutYourSchool,
-  openLearningFormatAndSchedule,
   learningFormatAndSchedule,
-  openScholarshipsAndOtherFunding,
   scholarshipsAndOtherFunding,
   calculateBenefits,
 };

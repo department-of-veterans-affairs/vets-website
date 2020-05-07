@@ -38,19 +38,25 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Profile Page
 
   // Estimate your benefits
-  GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
-  OjtHelpers.yourBenefits(client);
-  OjtHelpers.learningFormatAndSchedule(client);
-  OjtHelpers.scholarshipsAndOtherFunding(client);
+
+  const eybSections = {
+    yourBenefits: 'Your benefits',
+    learningFormatAndSchedule: 'Learning format and schedule',
+    scholarshipsAndOtherFunding: 'Scholarships and other funding',
+  };
+  GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
+  GiHelpers.yourBenefits(client, eybSections);
+  GiHelpers.learningFormatAndSchedule(client, eybSections);
+  GiHelpers.scholarshipsAndOtherFunding(client, eybSections);
 
   // Cautionary information
-  GiHelpers.expandCollapseAccordion(client, 'Cautionary information');
+  GiHelpers.collapseExpandAccordion(client, 'Cautionary information');
 
   // Contact details
-  GiHelpers.expandCollapseAccordion(client, 'Contact details');
+  GiHelpers.collapseExpandAccordion(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseAccordion(client, 'Additional information');
+  GiHelpers.collapseExpandAccordion(client, 'Additional information');
 
   client.end();
 });
