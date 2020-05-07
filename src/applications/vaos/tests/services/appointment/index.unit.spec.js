@@ -22,7 +22,7 @@ describe('VAOS Appointment service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/appointments?start_date=2020-05-01&end_date=2020-06-30&type=va',
       );
-      expect(data[0].id).to.equal(`var${confirmed.data[0].id}`);
+      expect(data[0].status).to.equal('booked');
     });
 
     it('should return OperationOutcome error', async () => {
