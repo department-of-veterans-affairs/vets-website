@@ -35,10 +35,13 @@ export default class SelectArrayItemsWidget extends React.Component {
       false,
     );
 
+    const Tag = formContext.onReviewPage ? 'h4' : 'h3';
+
     // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
-        {customTitle?.trim() && items && <h5>{customTitle}</h5>}
+        {customTitle?.trim() &&
+          items && <Tag className="vads-u-font-size--h5">{customTitle}</Tag>}
         {items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
           items.map((item, index) => {
             const itemIsSelected = !!get(
