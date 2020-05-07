@@ -13,11 +13,23 @@ describe('<AutoSSO>', () => {
     useInboundSSOe: false,
   };
 
+  beforeEach(() => localStorage.setItem('hasSessionSSO', true));
   afterEach(() => localStorage.clear());
 
   describe('checkStatus', () => {
+    it('should not keep keepalive if it already has', () => {
+      const wrapper = shallow(<AutoSSO {...props} />);
+      wrapper.instance().checkStatus = sinon.spy();
+      wrapper.setState({ hasCalledKeepAlive: true });
+      wrapper.setProps({
+        useSSOe: true,
+        useInboundSSOe: true,
+      });
+      expect(wrapper.instance().checkStatus.called).to.be.false;
+      wrapper.unmount();
+    });
+
     it('should automatically initiate a session log in if a SSOe-flagged user has an active SSOe session but no vets-website session', done => {
-      localStorage.setItem('hasSessionSSO', true);
       authUtils.autoLogin = sinon.spy();
       const wrapper = shallow(<AutoSSO {...props} />);
       wrapper.setProps({
@@ -30,7 +42,6 @@ describe('<AutoSSO>', () => {
     });
 
     it('should automatically log out if a SSOe-flagged user has an active vets-website session but no SSOe session', done => {
-      localStorage.setItem('hasSession', true);
       authUtils.autoLogout = sinon.spy();
       const wrapper = shallow(<AutoSSO {...props} />);
       wrapper.setProps({
