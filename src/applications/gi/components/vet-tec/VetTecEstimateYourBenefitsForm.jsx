@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { formatCurrency } from '../../utils/helpers';
+import {
+  removeNonNumberCharacters,
+  formatDollarAmount,
+} from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -45,12 +48,6 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         this.props.calculatorInputChange({ field, value });
       }
     }
-  };
-
-  formatDollarAmount = value => {
-    const output =
-      value !== null ? value.toString().replace(/([^0-9])+/g, '') : 0;
-    return formatCurrency(output);
   };
 
   handleApprovedProgramsChange = event => {
@@ -102,8 +99,12 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         aria-labelledby="scholarships-label"
         type="text"
         name="vetTecScholarships"
-        value={this.formatDollarAmount(this.state.scholarships)}
-        onChange={e => this.setState({ scholarships: e.target.value })}
+        value={formatDollarAmount(this.state.scholarships)}
+        onChange={e =>
+          this.setState({
+            scholarships: removeNonNumberCharacters(e.target.value),
+          })
+        }
         onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
@@ -131,8 +132,12 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
         type="text"
-        value={this.formatDollarAmount(this.state.tuitionFees)}
-        onChange={e => this.setState({ tuitionFees: e.target.value })}
+        value={formatDollarAmount(this.state.tuitionFees)}
+        onChange={e =>
+          this.setState({
+            tuitionFees: removeNonNumberCharacters(e.target.value),
+          })
+        }
         onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>
