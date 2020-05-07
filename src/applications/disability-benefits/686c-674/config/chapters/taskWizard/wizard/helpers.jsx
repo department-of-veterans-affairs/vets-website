@@ -52,6 +52,7 @@ export const OptionsReviewField = props => {
   return (
     <div className="review-row">
       <dt>{children?.props?.uiSchema['ui:title']}</dt>
+      <dd />
     </div>
   );
 };
