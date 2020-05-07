@@ -5,7 +5,7 @@ import mockKeepAlive from './mockKeepAliveSSO';
 import liveKeepAlive from './keepAliveSSO';
 
 const keepAlive = environment.isLocalhost() ? mockKeepAlive : liveKeepAlive;
-const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes
+const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
 export async function ssoKeepAliveSession() {
   const ttl = await keepAlive();
