@@ -176,7 +176,8 @@
       "vagovprod": false,
       "vagovstaging": true,
       "vagovdev": true,
-      "localhost": true
+      "localhost": true,
+      "includeBreadcrumbs": true
     }
   },
   {
