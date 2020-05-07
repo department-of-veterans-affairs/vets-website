@@ -20,15 +20,6 @@ class AutoSSO extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    this.clearInterval();
-  }
-
-  clearInterval = () => {
-    clearInterval(this.statusInterval);
-    this.statusInterval = null;
-  };
-
   checkStatus = () => {
     ssoKeepAliveSession().then(() => {
       if (hasSession() && hasSessionSSO() === 'false') {
