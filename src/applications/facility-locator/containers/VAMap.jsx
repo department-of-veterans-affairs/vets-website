@@ -142,34 +142,17 @@ class VAMap extends Component {
   }
   // eslint-disable-next-line
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { currentQuery, router } = this.props;
+    const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
     let resultsPage = newQuery.currentPage;
-    const queryParams = queryString.parse(router.getCurrentLocation().search);
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
-      // console.log('query')
       this.updateUrlParams({
         location: `${newQuery.position.latitude},${
           newQuery.position.longitude
         }`, // don't break the string
         context: newQuery.context,
         address: newQuery.searchString,
-        currentLocationMarkLat:
-          (queryParams.didLoad || queryParams.didSearch) &&
-          newQuery.position.latitude,
-        currentLocationMarkLng:
-          (queryParams.didLoad || queryParams.didSearch) &&
-          newQuery.position.longitude,
-      });
-    } else {
-      this.updateUrlParams({
-        currentLocationMarkLat:
-          (queryParams.didLoad || queryParams.didSearch) &&
-          currentQuery.position.latitude,
-        currentLocationMarkLng:
-          (queryParams.didLoad || queryParams.didSearch) &&
-          currentQuery.position.longitude,
       });
     }
 
@@ -234,12 +217,6 @@ class VAMap extends Component {
   componentDidUpdate(prevProps) {
     const { currentQuery: prevQuery } = prevProps;
     const updatedQuery = this.props.currentQuery;
-
-    if (prevProps && prevProps.results.length === 0 && updatedQuery.position) {
-      this.updateUrlParams({
-        didLoad: true,
-      });
-    }
 
     const shouldZoomOut = // ToTriggerNewSearch
       !updatedQuery.searchBoundsInProgress &&
@@ -387,8 +364,8 @@ class VAMap extends Component {
     const { currentQuery } = this.props;
     this.updateUrlParams({
       address: currentQuery.searchString,
-      didSearch: true,
     });
+
     this.props.genBBoxFromAddress(currentQuery);
   };
 
@@ -453,8 +430,7 @@ class VAMap extends Component {
    * Use the list of search results to generate map markers and current position marker
    */
   renderMapMarkers = () => {
-    const { results, router } = this.props;
-    // console.log(this);
+    const { results } = this.props;
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
@@ -539,20 +515,15 @@ class VAMap extends Component {
           return null;
       }
     });
-    const queryParams = queryString.parse(router.getCurrentLocation().search);
-    if (
-      queryParams.currentLocationMarkLat &&
-      queryParams.currentLocationMarkLng
-    ) {
-      // console.log({ queryParams });
+    if (this.props.currentQuery.searchCoords) {
       mapMarkers.push(
         <CurrentPositionMarker
-          key={`${queryParams.currentLocationMarkLat}-${
-            queryParams.currentLocationMarkLng
+          key={`${this.props.currentQuery.searchCoords.lat}-${
+            this.props.currentQuery.searchCoords.lng
           }`}
           position={[
-            Number(queryParams.currentLocationMarkLat),
-            Number(queryParams.currentLocationMarkLng),
+            this.props.currentQuery.searchCoords.lat,
+            this.props.currentQuery.searchCoords.lng,
           ]}
         />,
       );
