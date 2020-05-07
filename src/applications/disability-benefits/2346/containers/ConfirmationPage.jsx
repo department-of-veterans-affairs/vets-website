@@ -2,83 +2,107 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
-const ConfirmationPage = ({ email }) => {
-  const date = new Date();
-
-  return (
-    <>
-      <AlertBox
-        headline="Your order is confirmed"
-        content={
-          <p>
-            We'll send you an email confirming your order to{' '}
-            <strong>{email}</strong>.
+const ConfirmationPage = ({
+  email,
+  submittedAt,
+  selectedProductArray,
+  confirmationNumber,
+  fullName,
+}) => (
+  <>
+    <AlertBox
+      headline="Your order has been submitted"
+      content={
+        <p>
+          We'll send you an email confirming your order to{' '}
+          <strong>{email}</strong>.
+        </p>
+      }
+      status="success"
+    />
+    <AlertBox
+      content={
+        <section>
+          <h4 className="vads-u-margin-top--0">
+            Request for Batteries and Accessories (Form 2346)
+          </h4>
+          <p className="vads-u-margin--0">
+            for {fullName.first} {fullName.last}
           </p>
-        }
-        status="success"
-      />
-      <AlertBox
-        headline="Your order details"
-        content={
-          <section>
-            <p>
-              <strong>Order Date</strong>:{' '}
-              {new Intl.DateTimeFormat('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              }).format(date)}
-            </p>
-            <p>
-              <strong>Items Ordered</strong>
-            </p>
-            <p>
-              <strong>ZA1239 Batteries</strong> <br /> Qty: 60
-            </p>
-            <p>
-              <strong>Oticon medium domes</strong> <br /> Qty: 10
-            </p>
-          </section>
-        }
-        status="info"
-        backgroundOnly
-      />
-      <section>
-        <h2>How long will it take to receive my order?</h2>
-        <p>
-          You will receive an email containing an order tracking number within
-          1-2 business days.
-        </p>
-        <p>
-          You are able to view both the status of your order and your order
-          tracking history any time.
-        </p>
-        <button type="button" className="usa-button">
-          View your order history
-        </button>
-      </section>
-      <section className="vads-u-margin-bottom--4">
-        <h2>What if I have questions about my order?</h2>
-        <p>
-          If you have any questions about your order, please call Denver
-          Logistics Center at <a href="tel:303-273-6200">303-273-6200</a>.
-        </p>
-      </section>
-    </>
-  );
-};
+          <p>
+            <strong>Items ordered</strong>
+            <ul>
+              {selectedProductArray.map(product => (
+                <li key={product.productId}>
+                  {product.productName} (Quantity: {product.quantity})
+                </li>
+              ))}
+            </ul>
+          </p>
+          <p className="vads-u-margin--0">
+            <strong>Date submitted</strong>
+          </p>
+          <p className="vads-u-margin-top--0">
+            {' '}
+            {moment(submittedAt).format('MMM D, YYYY')}
+          </p>
+          <p className="vads-u-margin--0">
+            <strong>Confirmation number</strong>
+          </p>
+          <p className="vads-u-margin-top--0">{confirmationNumber}</p>
+        </section>
+      }
+      status="info"
+      backgroundOnly
+    />
+    <section>
+      <h5>How long will it take to receive my order?</h5>
+      <p>
+        You'll receive an email with your order tracking number within 1 to 2
+        days of your order. Orders typically arrive within 7 to 10 business
+        days.
+      </p>
+    </section>
+    <section className="vads-u-margin-bottom--4">
+      <h5>What if I have questions about my order?</h5>
+      <p>
+        If you have any questions about your order, please call the DLC Customer
+        Service Section at <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+        <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+      </p>
+    </section>
+  </>
+);
 
 ConfirmationPage.propTypes = {
   email: PropTypes.string.isRequired,
+  confirmationNumber: PropTypes.string.isRequired,
 };
 
 ConfirmationPage.defaultProps = {
   email: '',
 };
 
-const mapStateToProps = state => ({
-  email: state.form?.data?.email,
-});
+const mapStateToProps = state => {
+  const supplies = state.form?.loadedData?.formData?.supplies;
+  const selectedProducts = state.form?.data?.selectedProducts;
+  const productIdArray = selectedProducts?.map(product => product.productId);
+  const selectedProductArray = supplies?.filter(supply =>
+    productIdArray?.includes(supply.productId),
+  );
+  // Temporary fallback until this is added to the API response
+  const submittedAt = state.form?.submission?.submittedAt || moment();
+
+  return {
+    submittedAt,
+    email: state.form?.data?.email,
+    selectedProductArray,
+    confirmationNumber:
+      state.form?.submission?.response?.attributes?.confirmationNumber,
+    fullName: state.form?.data?.fullName,
+  };
+};
 
 export default connect(mapStateToProps)(ConfirmationPage);
