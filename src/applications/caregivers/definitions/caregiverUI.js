@@ -92,7 +92,7 @@ export default {
       'ui:title': `${label}'s relationship to Veteran (e.g., Spouse, Parent, Child, Other):`,
     }),
     hasSecondaryCaregiverOneUI: {
-      'ui:title': 'Would you like to add a Secondary Caregiver?',
+      'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
       'ui:options': {
         hideOnReview: true,

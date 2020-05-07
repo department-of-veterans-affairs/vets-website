@@ -154,7 +154,7 @@ PrimaryCaregiverInfo.defaultProps = {
 
 export const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Learn more about Secondary Caregiver">
+    <AdditionalInfo triggerText="Learn more about Secondary Family Caregiver">
       <p>
         An individual approved as a "provider of personal care services" for the
         eligible Veteran under
@@ -245,17 +245,19 @@ export const PrimaryHealthCoverage = ({ pageTitle }) => (
             <b>Medicaid</b> is a government health program for eligible
             low-income individuals and families and people with disabilities.
           </p>
-
           <p>
             <b>Medicare</b> is a federal health insurance program providing
             coverage for people who are 65 years or older or who meet who meet
             special criteria. Part A insurance covers hospital care, skilled
             nursing and nursing home care, hospice, and home health services.
           </p>
-
           <p>
             <b>Tricare</b> is a cost-sharing program that covers the price of
             some health care services and supplies
+          </p>
+          <p>
+            <b>CHAMPVA</b> is a cost-sharing program that covers the price of
+            some health care services and supplies.
           </p>
         </AdditionalInfo>
       </div>
