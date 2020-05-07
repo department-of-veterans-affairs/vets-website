@@ -9,7 +9,6 @@ import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
 import { isEmpty, debounce } from 'lodash';
 import appendQuery from 'append-query';
-
 import {
   updateSearchQuery,
   genBBoxFromAddress,
