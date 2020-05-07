@@ -9,7 +9,7 @@ import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
 import { isEmpty, debounce } from 'lodash';
 import appendQuery from 'append-query';
-import queryString from 'query-string';
+
 import {
   updateSearchQuery,
   genBBoxFromAddress,
@@ -114,6 +114,7 @@ class VAMap extends Component {
     if (!isEmpty(this.props.results)) {
       return;
     }
+
     // Relevant when loading a "shareable" URL
     if (!isEmpty(location.query)) {
       this.props.updateSearchQuery({
