@@ -14,7 +14,10 @@ const initApplicationMock = () => {
   GiHelpers.initCommonMock();
 };
 
-// Selects DEA as benefit type
+/**
+ * Selects DEA as benefit type
+ * @param client
+ */
 const searchAsDEA = client => {
   GiHelpers.giBillChapter(client, '35');
   GiHelpers.searchForInstitution(client, searchString);
