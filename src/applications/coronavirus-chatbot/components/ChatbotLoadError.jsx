@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function ChatbotLoadError(_props) {
+export default function ChatbotLoadError() {
   return (
     <AlertBox
       headline="Error Loading Chatbot"
