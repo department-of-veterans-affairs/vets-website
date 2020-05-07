@@ -24,7 +24,7 @@ import {
 } from '../actions';
 
 class SetPreferences extends React.Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchAvailableBenefits();
     this.props.fetchUserSelectedBenefits();

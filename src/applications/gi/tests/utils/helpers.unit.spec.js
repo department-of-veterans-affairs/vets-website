@@ -9,6 +9,7 @@ import {
   isCountryInternational,
   rubyifyKeys,
   sortOptionsByStateName,
+  formatDollarAmount,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -92,5 +93,10 @@ describe('GIBCT helpers:', () => {
       ];
       expect(data.sort(sortOptionsByStateName)).to.deep.equal(sortedData);
     });
+  });
+
+  describe('formatDollarAmount', () => {
+    const data = 100.5;
+    expect(formatDollarAmount(data)).to.equal('$101');
   });
 });

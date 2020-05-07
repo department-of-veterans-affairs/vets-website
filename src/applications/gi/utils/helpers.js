@@ -80,3 +80,11 @@ export const sortOptionsByStateName = (stateA, stateB) => {
   }
   return 0;
 };
+
+export const removeNonNumberCharacters = value =>
+  value.toString().replace(/([^0-9.])+/g, '');
+
+export const formatDollarAmount = value => {
+  const output = value != null ? removeNonNumberCharacters(value) : 0;
+  return formatCurrency(output);
+};

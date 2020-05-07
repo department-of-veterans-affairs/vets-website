@@ -3,8 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "new-686",
   "rootUrl": "/view-change-dependents/add-remove-form-686c",
-  "template": {
-    "layout": "page-react.html",
-    "vagovprod": false
-  }
+  "e2eTestsDisabled": true
 }

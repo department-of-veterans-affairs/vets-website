@@ -3,11 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "caregivers",
   "rootUrl": "/caregivers",
-  "template": {
-    "title": "Caregiver Application for Benefits",
-    "vagovprod": false,
-    "vagovstaging": true,
-    "vagovdev": true,
-    "localhost": true
-  }
+  "e2eTestsDisabled": true
 }
