@@ -84,7 +84,7 @@
     {
       "hostname": "www.nutrition.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.oedca.va.gov",
