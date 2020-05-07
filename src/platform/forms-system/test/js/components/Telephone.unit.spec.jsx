@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import Telephone from '../../../src/js/components/Telephone';
+import Telephone, { CONTACTS } from '../../../src/js/components/Telephone';
 
 describe('Widget <Telephone />', () => {
-  // tel
+  // custom numbers
   it('should render a number', () => {
-    const wrapper = shallow(<Telephone tel="8005551212" />);
+    const wrapper = shallow(<Telephone contact="8005551212" />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18005551212');
     expect(props['aria-label']).to.equal('800. 5 5 5. 1 2 1 2');
@@ -16,7 +16,7 @@ describe('Widget <Telephone />', () => {
     wrapper.unmount();
   });
   it('should render a number with a leading "1"', () => {
-    const wrapper = shallow(<Telephone tel="18005551000" />);
+    const wrapper = shallow(<Telephone contact="1-800-555-1000" />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18005551000');
     expect(props['aria-label']).to.equal('800. 5 5 5. 1000');
@@ -31,38 +31,30 @@ describe('Widget <Telephone />', () => {
   });
   it('should throw an error when number is less than 10-digits', () => {
     expect(() => {
-      const wrapper = shallow(<Telephone tel="4321" />);
+      const wrapper = shallow(<Telephone contact="4321" />);
       wrapper.unmount();
     }).to.throw(`Telephone: "4321" does not match the pattern (###-###-####)`);
   });
   it('should throw an error when number is more than 10-digits', () => {
     expect(() => {
-      const wrapper = shallow(<Telephone tel="01234567891" />);
+      const wrapper = shallow(<Telephone contact="01234567891" />);
       wrapper.unmount();
     }).to.throw(
       'Telephone: "01234567891" does not match the pattern (###-###-####)',
     );
   });
 
-  // use
+  // known numbers
   it('should render a known number', () => {
-    const wrapper = shallow(<Telephone use="gi bill" />);
-    const props = wrapper.props();
-    expect(props.href).to.equal('tel:+18884424551');
-    expect(props['aria-label']).to.equal('8 8 8. 4 4 2. 4 5 5 1');
-    expect(wrapper.text()).to.equal('888-442-4551');
-    wrapper.unmount();
-  });
-  it('should render a known number using the first 4 letters', () => {
-    const wrapper = shallow(<Telephone use="dslo" />);
+    const wrapper = shallow(<Telephone contact={CONTACTS.DS_LOGON} />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18005389552');
     expect(props['aria-label']).to.equal('800. 5 3 8. 9 5 5 2');
     expect(wrapper.text()).to.equal('800-538-9552');
     wrapper.unmount();
   });
-  it('should render 311 (a known number)', () => {
-    const wrapper = shallow(<Telephone use={311} />);
+  it('should render VA311 (a known number)', () => {
+    const wrapper = shallow(<Telephone contact={CONTACTS.VA_311} />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18446982311');
     expect(props['aria-label']).to.equal('8 4 4. 6 9 8. 2 3 1 1');
@@ -70,7 +62,7 @@ describe('Widget <Telephone />', () => {
     wrapper.unmount();
   });
   it('should render 911 (a known number)', () => {
-    const wrapper = shallow(<Telephone use="911" />);
+    const wrapper = shallow(<Telephone contact={CONTACTS['911']} />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:911');
     expect(props['aria-label']).to.equal('9 1 1');
@@ -80,7 +72,9 @@ describe('Widget <Telephone />', () => {
 
   // className
   it('should render additional class name', () => {
-    const wrapper = shallow(<Telephone use="gibi" className="foo" />);
+    const wrapper = shallow(
+      <Telephone contact={CONTACTS.GI_BILL} className="foo" />,
+    );
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18884424551');
     expect(props['aria-label']).to.equal('8 8 8. 4 4 2. 4 5 5 1');
@@ -91,7 +85,9 @@ describe('Widget <Telephone />', () => {
 
   // pattern
   it('should render a custom pattern', () => {
-    const wrapper = shallow(<Telephone use="gibi" pattern="(###) ###-####" />);
+    const wrapper = shallow(
+      <Telephone contact={CONTACTS.GI_BILL} pattern="(###) ###-####" />,
+    );
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18884424551');
     expect(props['aria-label']).to.equal('8 8 8. 4 4 2. 4 5 5 1');
@@ -99,7 +95,7 @@ describe('Widget <Telephone />', () => {
     wrapper.unmount();
   });
   it('should render a 7-digit custom pattern', () => {
-    const wrapper = shallow(<Telephone tel="5551212" pattern="###_####" />);
+    const wrapper = shallow(<Telephone contact="5551212" pattern="###_####" />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:5551212');
     expect(props['aria-label']).to.equal('5 5 5. 1 2 1 2');
@@ -107,7 +103,7 @@ describe('Widget <Telephone />', () => {
     wrapper.unmount();
   });
   it('should render a 3-digit custom pattern', () => {
-    const wrapper = shallow(<Telephone tel="711" pattern="# # #" />);
+    const wrapper = shallow(<Telephone contact="711" pattern="# # #" />);
     const props = wrapper.props();
     expect(props.href).to.equal('tel:711');
     // not sure if including a period and a space is a big deal; probably
@@ -119,37 +115,22 @@ describe('Widget <Telephone />', () => {
 
   // label
   it('should render a custom label string', () => {
-    const label = '800. 5 5 5. 12 12';
-    const wrapper = shallow(<Telephone use="gibi" label={label} />);
+    const ariaLabel = '800. 5 5 5. 12 12';
+    const wrapper = shallow(
+      <Telephone contact={CONTACTS.GI_BILL} ariaLabel={ariaLabel} />,
+    );
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18884424551');
-    expect(props['aria-label']).to.equal('800. 5 5 5. 12 12');
-    expect(wrapper.text()).to.equal('888-442-4551');
-    wrapper.unmount();
-  });
-  it('should render a custom label function', () => {
-    const label = () => '800. 5 5 5. 12 12';
-    const wrapper = shallow(<Telephone use="gibi" label={label} />);
-    const props = wrapper.props();
-    expect(props.href).to.equal('tel:+18884424551');
-    expect(props['aria-label']).to.equal('800. 5 5 5. 12 12');
+    expect(props['aria-label']).to.equal(ariaLabel);
     expect(wrapper.text()).to.equal('888-442-4551');
     wrapper.unmount();
   });
 
   // text
   it('should render a custom text string', () => {
-    const text = '1-888-GI-BILL-1';
-    const wrapper = shallow(<Telephone use="gibi" text={text} />);
-    const props = wrapper.props();
-    expect(props.href).to.equal('tel:+18884424551');
-    expect(props['aria-label']).to.equal('8 8 8. 4 4 2. 4 5 5 1');
-    expect(wrapper.text()).to.equal('1-888-GI-BILL-1');
-    wrapper.unmount();
-  });
-  it('should render a custom text function', () => {
-    const text = () => '1-888-GI-BILL-1';
-    const wrapper = shallow(<Telephone use="gibi" text={text} />);
+    const wrapper = shallow(
+      <Telephone contact={CONTACTS.GI_BILL}>1-888-GI-BILL-1</Telephone>,
+    );
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18884424551');
     expect(props['aria-label']).to.equal('8 8 8. 4 4 2. 4 5 5 1');
@@ -160,7 +141,9 @@ describe('Widget <Telephone />', () => {
   // tracking
   it('should track on click', () => {
     const onClick = sinon.spy();
-    const wrapper = shallow(<Telephone use="gibi" onClick={onClick} />);
+    const wrapper = shallow(
+      <Telephone contact={CONTACTS.GI_BILL} onClick={onClick} />,
+    );
     wrapper.simulate('click');
     expect(onClick.calledOnce).to.be.true;
     wrapper.unmount();
