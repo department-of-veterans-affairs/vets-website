@@ -302,7 +302,10 @@ class ReviewCardField extends React.Component {
           <h4 className={titleClasses}>{title}</h4>
         </div>
         <div className={bodyClasses}>
-          <ViewComponent formData={this.props.formData} />
+          <ViewComponent
+            formData={this.props.formData}
+            addressType={this.props.name}
+          />
           {!volatileData &&
             street &&
             city &&

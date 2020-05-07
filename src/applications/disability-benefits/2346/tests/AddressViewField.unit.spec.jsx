@@ -5,7 +5,6 @@ import AddressViewField from '../components/AddressViewField';
 
 const baseData = {
   city: 'city',
-  state: 'state',
 };
 
 describe('AddressViewField', () => {
@@ -16,8 +15,11 @@ describe('AddressViewField', () => {
       street2: 's2',
       postalCode: '12345',
       country: 'USA',
+      state: 'state',
     };
-    const wrapper = shallow(<AddressViewField formData={formData} />);
+    const wrapper = shallow(
+      <AddressViewField formData={formData} addressType="permanentAddress" />,
+    );
     expect(wrapper.html()).to.equal(
       '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, state 12345<br/>USA</p></div>',
     );
@@ -33,7 +35,9 @@ describe('AddressViewField', () => {
       city: undefined,
       state: undefined,
     };
-    const wrapper = shallow(<AddressViewField formData={formData} />);
+    const wrapper = shallow(
+      <AddressViewField formData={formData} addressType="temporaryAddress" />,
+    );
     expect(wrapper.html()).to.equal(
       '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative&#x27;s house or a vacation home.</p>',
     );
@@ -41,7 +45,6 @@ describe('AddressViewField', () => {
   });
   it('should display copy if non-USA fields are undefined for a temporary address', () => {
     const formData = {
-      ...baseData,
       street: undefined,
       street2: undefined,
       internationalPostalCode: undefined,
@@ -49,7 +52,9 @@ describe('AddressViewField', () => {
       city: undefined,
       province: undefined,
     };
-    const wrapper = shallow(<AddressViewField formData={formData} />);
+    const wrapper = shallow(
+      <AddressViewField formData={formData} addressType="temporaryAddress" />,
+    );
     expect(wrapper.html()).to.equal(
       '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative&#x27;s house or a vacation home.</p>',
     );
@@ -62,11 +67,12 @@ describe('AddressViewField', () => {
       country: 'zland',
       street: 's1',
       street2: 's2',
-      city: undefined,
       internationalPostalCode: '123456789',
       province: 'p1',
     };
-    const wrapper = shallow(<AddressViewField formData={formData} />);
+    const wrapper = shallow(
+      <AddressViewField formData={formData} addressType="temporaryAddress" />,
+    );
     expect(wrapper.html()).to.equal(
       '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, p1 123456789<br/>zland</p></div>',
     );
