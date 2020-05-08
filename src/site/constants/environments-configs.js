@@ -26,7 +26,7 @@ module.exports = {
   [ENVIRONMENTS.VAGOVDEV]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
     BASE_URL: 'https://dev.va.gov',
-    API_URL: 'https://dev-api.va.gov',
+    API_URL: 'https://sandbox-api.va.gov',
   },
 
   [ENVIRONMENTS.LOCALHOST]: {
