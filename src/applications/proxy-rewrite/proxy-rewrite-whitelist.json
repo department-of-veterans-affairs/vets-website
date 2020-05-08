@@ -119,7 +119,7 @@
     {
       "hostname": "www.polytrauma.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.ptsd.va.gov",
