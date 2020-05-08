@@ -109,7 +109,7 @@
     {
       "hostname": "www.patientcare.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.patientsafety.va.gov",
