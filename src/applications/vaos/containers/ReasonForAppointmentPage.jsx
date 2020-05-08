@@ -13,6 +13,7 @@ import { getFormPageInfo } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { PURPOSE_TEXT } from '../utils/constants';
 import TextareaWidget from '../components/TextareaWidget';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 const initialSchema = {
   type: 'object',
@@ -41,6 +42,7 @@ const uiSchema = {
       expandUnder: 'reasonForAppointment',
       expandUnderCondition: reasonForAppointment => !!reasonForAppointment,
     },
+    'ui:validations': [validateWhiteSpace],
   },
 };
 

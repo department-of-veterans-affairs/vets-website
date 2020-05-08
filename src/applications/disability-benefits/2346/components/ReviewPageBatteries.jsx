@@ -32,7 +32,7 @@ const ReviewPageBatteries = ({ selectedProductInfo, batterySupplies }) => (
 );
 
 const mapStateToProps = state => {
-  const supplies = state.form?.loadedData?.formData?.supplies;
+  const supplies = state.form?.data?.supplies;
   const batterySupplies = supplies?.filter(supply =>
     supply.productGroup?.includes('batteries'),
   );

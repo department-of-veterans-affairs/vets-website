@@ -41,6 +41,7 @@ const INITIAL_STATE = {
   vetTecTuitionFees: null,
   vetTecScholarships: null,
   vetTecProgramName: '',
+  selectedProgram: '',
   classesOutsideUS: false,
   estimatedBenefits: {
     bookStipend: { visible: false },
@@ -85,6 +86,17 @@ export default function(state = INITIAL_STATE, action) {
       let newState = {
         [field]: convertedValue,
       };
+
+      if (field === 'EstimateYourBenefitsFields') {
+        newState = {
+          ...newState,
+          vetTecProgramName: value.vetTecProgramName,
+          vetTecTuitionFees: value.vetTecTuitionFees,
+          vetTecScholarships: value.vetTecScholarships,
+          vetTecProgramFacilityCode: value.vetTecProgramFacilityCode,
+          selectedProgram: value.vetTecProgramName,
+        };
+      }
 
       if (field === 'vetTecProgram') {
         newState = {
@@ -384,6 +396,7 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonProgramIndex,
         vetTecProgramName,
         vetTecTuitionFees,
+        selectedProgram: vetTecProgramName || '',
       };
     }
 
