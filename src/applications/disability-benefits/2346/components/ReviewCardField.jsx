@@ -277,7 +277,11 @@ class ReviewCardField extends React.Component {
       'vads-u-padding-top--0',
       'vads-u-margin-bottom--1',
     ].join(' ');
-    const editLink = ['vads-u-margin-top--1', 'vads-u-width--auto'].join(' ');
+    const editLink = [
+      'vads-c-link',
+      'vads-u-margin-top--1',
+      'vads-u-width--auto',
+    ].join(' ');
     const editButton = [
       'edit-button',
       'vads-u-margin-top--1',
