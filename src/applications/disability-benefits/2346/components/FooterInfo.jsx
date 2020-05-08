@@ -19,7 +19,7 @@ const FooterInfo = () => {
       <section className={sectionClassNames}>
         <span>
           To report a problem with this form, please call the Technical Help
-          Help Desk:
+          Desk:
         </span>
         <a href="tel:18555747286">1-855-574-7286</a>
         <a href="tel:18008778339">TTY: 1-800-877-8339</a>
