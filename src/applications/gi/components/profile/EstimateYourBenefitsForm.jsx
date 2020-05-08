@@ -17,7 +17,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import Scroll from 'react-scroll';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 
+const { Element: ScrollElement, scroller } = Scroll;
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -179,6 +182,11 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    scroller.scrollTo('yourBenefitsAccordion', {
+      duration: 500,
+      delay: 500,
+      smooth: true,
+    });
   };
 
   toggleAboutYourSchool = expanded => {
@@ -192,6 +200,11 @@ class EstimateYourBenefitsForm extends React.Component {
       scholarshipsAndOtherFundingExpanded: expanded
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
+    });
+    scroller.scrollTo('aboutYourSchoolAccordion', {
+      duration: 500,
+      delay: 500,
+      smooth: true,
     });
   };
 
@@ -207,6 +220,11 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    scroller.scrollTo('learningFormatAndScheduleAccordion', {
+      duration: 500,
+      delay: 500,
+      smooth: true,
+    });
   };
 
   toggleScholarshipsAndOtherFunding = expanded => {
@@ -220,6 +238,11 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.learningFormatAndScheduleExpanded,
       scholarshipsAndOtherFundingExpanded: expanded,
+    });
+    scroller.scrollTo('scholarshipsAndOtherFundingAccordion', {
+      duration: 500,
+      delay: 500,
+      smooth: true,
     });
   };
 
@@ -896,27 +919,29 @@ class EstimateYourBenefitsForm extends React.Component {
   renderYourBenefits = () => {
     const name = 'Your benefits';
     return (
-      <AccordionItem
-        button={name}
-        id={`eyb-${createId(name)}`}
-        section
-        expanded={this.state.yourBenefitsExpanded}
-        onClick={this.toggleYourBenefits}
-      >
-        <form>
-          <BenefitsForm
-            eligibilityChange={this.props.eligibilityChange}
-            {...this.props.eligibility}
-            hideModal={this.props.hideModal}
-            showModal={this.props.showModal}
-            inputs={this.props.inputs}
-            displayedInputs={this.props.displayedInputs}
-            onInputChange={this.props.calculatorInputChange}
-          >
-            {this.renderGbBenefit()}
-          </BenefitsForm>
-        </form>
-      </AccordionItem>
+      <ScrollElement name="yourBenefitsAccordion">
+        <AccordionItem
+          button={name}
+          id={`eyb-${createId(name)}`}
+          section
+          expanded={this.state.yourBenefitsExpanded}
+          onClick={this.toggleYourBenefits}
+        >
+          <form>
+            <BenefitsForm
+              eligibilityChange={this.props.eligibilityChange}
+              {...this.props.eligibility}
+              hideModal={this.props.hideModal}
+              showModal={this.props.showModal}
+              inputs={this.props.inputs}
+              displayedInputs={this.props.displayedInputs}
+              onInputChange={this.props.calculatorInputChange}
+            >
+              {this.renderGbBenefit()}
+            </BenefitsForm>
+          </form>
+        </AccordionItem>
+      </ScrollElement>
     );
   };
 
@@ -936,40 +961,44 @@ class EstimateYourBenefitsForm extends React.Component {
     const name = 'About your school';
 
     return (
-      <AccordionItem
-        button={name}
-        id={`eyb-${createId(name)}`}
-        expanded={this.state.aboutYourSchoolExpanded}
-        section
-        onClick={this.toggleAboutYourSchool}
-      >
-        <div className="calculator-form">
-          {this.renderInState()}
-          {this.renderTuition()}
-          {this.renderBooks()}
-          {this.renderCalendar()}
-          {this.renderEnrolled()}
-        </div>
-      </AccordionItem>
+      <ScrollElement name="aboutYourSchoolAccordion">
+        <AccordionItem
+          button={name}
+          id={`eyb-${createId(name)}`}
+          expanded={this.state.aboutYourSchoolExpanded}
+          section
+          onClick={this.toggleAboutYourSchool}
+        >
+          <div className="calculator-form">
+            {this.renderInState()}
+            {this.renderTuition()}
+            {this.renderBooks()}
+            {this.renderCalendar()}
+            {this.renderEnrolled()}
+          </div>
+        </AccordionItem>
+      </ScrollElement>
     );
   };
 
   renderLearningFormatAndSchedule = () => {
     const name = 'Learning format and schedule';
     return (
-      <AccordionItem
-        button={name}
-        id={`eyb-${createId(name)}`}
-        expanded={this.state.learningFormatAndScheduleExpanded}
-        section
-        onClick={this.toggleLearningFormatAndSchedule}
-      >
-        <div className="calculator-form">
-          {this.renderOnlineClasses()}
-          {this.renderExtensionBeneficiaryZIP()}
-          {this.renderWorking()}
-        </div>
-      </AccordionItem>
+      <ScrollElement name="learningFormatAndScheduleAccordion">
+        <AccordionItem
+          button={name}
+          id={`eyb-${createId(name)}`}
+          expanded={this.state.learningFormatAndScheduleExpanded}
+          section
+          onClick={this.toggleLearningFormatAndSchedule}
+        >
+          <div className="calculator-form">
+            {this.renderOnlineClasses()}
+            {this.renderExtensionBeneficiaryZIP()}
+            {this.renderWorking()}
+          </div>
+        </AccordionItem>
+      </ScrollElement>
     );
   };
 
@@ -985,21 +1014,23 @@ class EstimateYourBenefitsForm extends React.Component {
       return null;
     const name = 'Scholarships and other funding';
     return (
-      <AccordionItem
-        button={name}
-        id={`eyb-${createId(name)}`}
-        expanded={this.state.scholarshipsAndOtherFundingExpanded}
-        section
-        onClick={this.toggleScholarshipsAndOtherFunding}
-      >
-        <div className="calculator-form">
-          {this.renderYellowRibbon()}
-          {this.renderTuitionAssist()}
-          {this.renderKicker()}
-          {this.renderBuyUp()}
-          {this.renderScholarships()}
-        </div>
-      </AccordionItem>
+      <ScrollElement name="scholarshipsAndOtherFundingAccordion">
+        <AccordionItem
+          button={name}
+          id={`eyb-${createId(name)}`}
+          expanded={this.state.scholarshipsAndOtherFundingExpanded}
+          section
+          onClick={this.toggleScholarshipsAndOtherFunding}
+        >
+          <div className="calculator-form">
+            {this.renderYellowRibbon()}
+            {this.renderTuitionAssist()}
+            {this.renderKicker()}
+            {this.renderBuyUp()}
+            {this.renderScholarships()}
+          </div>
+        </AccordionItem>
+      </ScrollElement>
     );
   };
 
