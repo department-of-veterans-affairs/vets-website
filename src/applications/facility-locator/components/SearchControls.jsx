@@ -69,6 +69,7 @@ class SearchControls extends Component {
         </label>
         <select
           id="facility-type-dropdown"
+          aria-label="Choose a service type"
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}

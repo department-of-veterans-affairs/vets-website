@@ -16,45 +16,37 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Traverse form controls via keyboard input
   client
     .sendKeys('input[name="street-city-state-zip"]', client.Keys.TAB)
-    .assert.isActiveElement('#facility-dropdown-toggle');
+    .assert.isActiveElement('#facility-type-dropdown');
 
   client
-    .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
+    .sendKeys('#facility-type-dropdown', client.Keys.TAB)
     .assert.isActiveElement('#service-type-dropdown');
 
   // Enter and navigate custom select via keyboard input
 
   client
-    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-    .assert.visible('ul[class="dropdown"]');
+    .sendKeys('#facility-type-dropdown', client.Keys.DOWN_ARROW)
+    .assert.visible('option[value="health"]');
+
+  client
+    .sendKeys('#facility-type-dropdown', client.Keys.DOWN_ARROW)
+    .assert.visible('option[value="urgent_care"]');
 
   if (FacilityHelpers.ccLocatorEnabled()) {
     client
-      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-      .useXpath()
-      .assert.attributeContains(
-        '//li[@option="VA Community Care (In network)"]',
-        'aria-selected',
-        true,
-      );
+      .sendKeys('#facility-type-dropdown', client.Keys.DOWN_ARROW)
+      .assert.visible('option[value="cc_provider"]');
   }
 
   client
-    .useCss()
-    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-    .useXpath()
-    .assert.attributeContains(
-      '//li[@option="Urgent care"]',
-      'aria-selected',
-      true,
-    );
+    .sendKeys('#facility-type-dropdown', client.Keys.DOWN_ARROW)
+    .assert.visible('option[value="urgent_care"]');
 
-  client
-    .useCss()
-    .sendKeys('#facility-dropdown-toggle', client.Keys.ENTER)
-    .assert.isActiveElement('#facility-dropdown-toggle');
+  // client.click('select option[value="urgent_care"]');
+  // .sendKeys('#facility-type-dropdown', client.Keys.ENTER)
+  // .waitForElementVisible('#facility-type-dropdown', Timeouts.verySlow);
 
-  client.waitForElementNotPresent('ul[class="dropdown"]', Timeouts.normal);
+  // .assert.isActiveElement('#facility-type-dropdown');
 
   client.end();
 });
