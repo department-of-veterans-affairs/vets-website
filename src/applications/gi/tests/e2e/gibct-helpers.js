@@ -223,7 +223,7 @@ const calculateBenefits = client => {
   client
     .waitForElementVisible('.calculate-button', Timeouts.normal)
     .click('.calculate-button')
-    .pause(1000);
+    .pause(5);
 };
 
 /**
