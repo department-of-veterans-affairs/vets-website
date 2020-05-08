@@ -17,16 +17,13 @@ describe('AddressViewField', () => {
       country: 'USA',
       state: 'state',
     };
-    const wrapper = shallow(
-      <AddressViewField formData={formData} addressType="permanentAddress" />,
-    );
-    // console.log(wrapper.debug());
+    const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
       '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, state 12345<br/>USA</p></div>',
     );
     wrapper.unmount();
   });
-  it('should display copy if USA fields are undefined for a temporary address', () => {
+  it('should display copy if USA fields are undefined for any address type', () => {
     const formData = {
       ...baseData,
       street: undefined,
@@ -36,15 +33,13 @@ describe('AddressViewField', () => {
       city: undefined,
       state: undefined,
     };
-    const wrapper = shallow(
-      <AddressViewField formData={formData} addressType="temporaryAddress" />,
-    );
+    const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
       '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative&#x27;s house or a vacation home.</p>',
     );
     wrapper.unmount();
   });
-  it('should display copy if non-USA fields are undefined for a temporary address', () => {
+  it('should display copy if non-USA fields are undefined for any address type', () => {
     const formData = {
       street: undefined,
       street2: undefined,
@@ -53,9 +48,7 @@ describe('AddressViewField', () => {
       city: undefined,
       province: undefined,
     };
-    const wrapper = shallow(
-      <AddressViewField formData={formData} addressType="temporaryAddress" />,
-    );
+    const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
       '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative&#x27;s house or a vacation home.</p>',
     );
@@ -71,9 +64,7 @@ describe('AddressViewField', () => {
       internationalPostalCode: '123456789',
       province: 'p1',
     };
-    const wrapper = shallow(
-      <AddressViewField formData={formData} addressType="temporaryAddress" />,
-    );
+    const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
       '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, p1 123456789<br/>zland</p></div>',
     );

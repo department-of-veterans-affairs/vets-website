@@ -44,7 +44,6 @@ describe('Schemaform: ReviewCardField', () => {
     formData: {
       field1: 'asdf',
     },
-    addressType: 'permanentAddress',
     onChange: spy(),
     onBlur: () => {},
   };
@@ -129,26 +128,20 @@ describe('Schemaform: ReviewCardField', () => {
         {...defaultProps}
         errorSchema={errorSchema}
       />,
-    );
+    ).dive();
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should pass formData and addressType to the custom view component', () => {
+  it('should pass formData to the custom view component', () => {
     const wrapper = shallow(
       <ReviewCardField store={mockStore} {...defaultProps} />,
     ).dive();
+
     expect(wrapper.find('viewComponent').props().formData).to.equal(
       defaultProps.formData,
     );
-    expect(wrapper.find('viewComponent').props().addressType).to.eql(
-      defaultProps.addressType,
-    );
-    // expect(wrapper.find('viewComponent').props()).to.eql({
-    //   formData: defaultProps.formData,
-    //   addressType: defaultProps.addressType,
-    // });
     wrapper.unmount();
   });
 

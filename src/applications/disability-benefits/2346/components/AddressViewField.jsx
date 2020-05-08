@@ -11,7 +11,7 @@ const getField = (formData, possibilities) =>
 
 const addLine = line => line && [line, <br key={line} />];
 
-const AddressViewField = ({ formData, addressType }) => {
+const AddressViewField = ({ formData }) => {
   // unchanged address variable names
   const { country, city, state, postalCode } = formData;
   // this should cover all current address use cases
@@ -64,40 +64,36 @@ const AddressViewField = ({ formData, addressType }) => {
 
   return (
     <>
-      {addressType &&
-        !isAddressMissing && (
-          <div className="vads-u-border-left--7px vads-u-border-color--primary">
-            <p className="vads-u-margin-left--2 vads-u-margin-top--0">
-              {isBaseAddressDataValid && (
-                <>
-                  {addLine(street)}
-                  {addLine(street2)}
-                  {addLine(street3)}
-                  {isDomesticAddressValid &&
-                    `${city}, ${state} ${postalString}`}
-                  {isInternationalAddressValid &&
-                    `${city}, ${province} ${internationalPostalCode}`}
-                  <br />
-                  {country}
-                </>
-              )}
-            </p>
-          </div>
-        )}
-
-      {addressType === 'temporaryAddress' &&
-        isAddressMissing && (
-          <p>
-            Please provide a temporary address if you want us to ship your order
-            to another location, like a relative's house or a vacation home.
+      {!isAddressMissing && (
+        <div className="vads-u-border-left--7px vads-u-border-color--primary">
+          <p className="vads-u-margin-left--2 vads-u-margin-top--0">
+            {isBaseAddressDataValid && (
+              <>
+                {addLine(street)}
+                {addLine(street2)}
+                {addLine(street3)}
+                {isDomesticAddressValid && `${city}, ${state} ${postalString}`}
+                {isInternationalAddressValid &&
+                  `${city}, ${province} ${internationalPostalCode}`}
+                <br />
+                {country}
+              </>
+            )}
           </p>
-        )}
+        </div>
+      )}
+
+      {isAddressMissing && (
+        <p>
+          Please provide a temporary address if you want us to ship your order
+          to another location, like a relative's house or a vacation home.
+        </p>
+      )}
     </>
   );
 };
 
 AddressViewField.defaultProps = {
-  addressType: 'permanentAddress',
   formData: {},
 };
 
@@ -118,7 +114,6 @@ AddressViewField.propTypes = {
     postalCode: PropTypes.string,
     zipCode: PropTypes.string,
   }),
-  addressType: PropTypes.string.isRequired,
 };
 
 export default AddressViewField;

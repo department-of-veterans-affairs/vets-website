@@ -42,7 +42,6 @@ class ReviewCardField extends React.Component {
     required: false,
     disabled: false,
     readonly: false,
-    addressType: 'permanentAddress',
   };
 
   constructor(props) {
@@ -308,10 +307,7 @@ class ReviewCardField extends React.Component {
           <h4 className={titleClasses}>{title}</h4>
         </div>
         <div className={bodyClasses}>
-          <ViewComponent
-            formData={this.props.formData}
-            addressType={this.props.name}
-          />
+          <ViewComponent formData={this.props.formData} />
           {!volatileData &&
             street &&
             city &&
@@ -514,7 +510,6 @@ ReviewCardField.propTypes = {
     definitions: PropTypes.object.isRequired,
   }).isRequired,
   formData: PropTypes.object.isRequired,
-  addressType: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
     onError: PropTypes.func.isRequired,
