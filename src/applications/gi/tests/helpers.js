@@ -1,4 +1,4 @@
-import createCommonStore from '../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import reducer from '../reducers';
 
 const calculatorConstants = require('./data/calculator-constants.json');

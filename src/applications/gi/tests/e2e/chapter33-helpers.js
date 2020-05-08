@@ -1,5 +1,5 @@
-const Timeouts = require('../../../../platform/testing/e2e/timeouts');
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
+const E2eHelpers = require('platform/testing/e2e/helpers');
 const GiHelpers = require('./gibct-helpers');
 
 // Search for an institution with Ch33 Benefit, select In Person or Online radio, and click result
