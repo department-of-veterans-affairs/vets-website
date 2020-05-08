@@ -186,7 +186,7 @@ describe('Schemaform: ReviewCardField', () => {
   it('should pass formData the custom view component', () => {
     const wrapper = shallow(
       <ReviewCardField store={mockStore} {...defaultProps} />,
-    );
+    ).dive();
     expect(wrapper.find('viewComponent').props()).to.eql({
       formData: defaultProps.formData,
     });
@@ -264,7 +264,9 @@ describe('Schemaform: ReviewCardField', () => {
       'Thingy',
       defaultProps,
     );
-    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+    const tree = shallow(
+      <ReviewCardField store={mockStore} {...props} />,
+    ).dive();
     expect(tree.find('.review-card--title').text()).to.equal('Thingy');
     tree.unmount();
   });
@@ -275,7 +277,9 @@ describe('Schemaform: ReviewCardField', () => {
       _.set('uiSchema.ui:options.startInEdit', true),
     )(defaultProps);
 
-    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+    const tree = shallow(
+      <ReviewCardField store={mockStore} {...props} />,
+    ).dive();
     expect(tree.find('.review-card--subtitle').text()).to.equal(
       'Subtitle text',
     );
@@ -285,7 +289,9 @@ describe('Schemaform: ReviewCardField', () => {
   describe('startInEdit', () => {
     it('should handle truthy values', () => {
       const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
-      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...props} />,
+      ).dive();
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
@@ -316,7 +322,9 @@ describe('Schemaform: ReviewCardField', () => {
       defaultProps,
     );
     const props = set('uiSchema.ui:options.editTitle', 'Thingy', editModeProps);
-    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+    const tree = shallow(
+      <ReviewCardField store={mockStore} {...props} />,
+    ).dive();
     expect(tree.find('.review-card--title').text()).to.equal('Thingy');
     tree.unmount();
   });
@@ -394,7 +402,9 @@ describe('Schemaform: ReviewCardField', () => {
         'Doodad',
         defaultVDProps,
       );
-      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...props} />,
+      ).dive();
       expect(tree.find('.edit-button').text()).to.equal('New Doodad');
       tree.unmount();
     });
@@ -413,7 +423,7 @@ describe('Schemaform: ReviewCardField', () => {
     it('should add a save & cancel button in edit mode', () => {
       const tree = shallow(
         <ReviewCardField store={mockStore} {...defaultVDProps} />,
-      );
+      ).dive();
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
       expect(tree.find('.update-button').length).to.equal(1);
@@ -426,7 +436,7 @@ describe('Schemaform: ReviewCardField', () => {
       // Start in review mode with some data
       const tree = shallow(
         <ReviewCardField store={mockStore} {...defaultVDProps} />,
-      );
+      ).dive();
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
 
