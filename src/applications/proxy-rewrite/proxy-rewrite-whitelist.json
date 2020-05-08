@@ -104,7 +104,7 @@
     {
       "hostname": "www.osp.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.patientcare.va.gov",
