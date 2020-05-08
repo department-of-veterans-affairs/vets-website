@@ -66,6 +66,7 @@ export class Announcement extends Component {
         announcement={announcement}
         dismiss={dismiss}
         isLoggedIn={this.props.isLoggedIn}
+        useSSOe={this.props.useSSOe}
         profile={profile}
       />
     );
