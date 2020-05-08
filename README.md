@@ -50,7 +50,7 @@ If you're developing a feature that requires the API, but can't or don't want to
 run it locally, you can specify `--env.api`:
 
 ``` sh
-yarn watch --env.api https://dev-api.va.gov
+yarn watch --env.api https://sandbox-api.va.gov
 ```
 
 **Note:** If you try to log on, ID.me will redirect you to the environment that

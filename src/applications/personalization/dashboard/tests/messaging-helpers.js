@@ -244,7 +244,7 @@ export const message = {
       id: '12',
       links: {
         download:
-          'https://dev-api.vets.gov/v0/messaging/health/messages/123/attachments/12',
+          'https://sandbox-api.vets.gov/v0/messaging/health/messages/123/attachments/12',
       },
       type: 'attachments',
     },
@@ -375,12 +375,12 @@ export const recipients = {
   ],
   links: {
     first:
-      'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+      'https://sandbox-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
     last:
-      'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+      'https://sandbox-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
     next: null,
     prev: null,
-    self: 'https://dev-api.vets.gov/v0/messaging/health/recipients?',
+    self: 'https://sandbox-api.vets.gov/v0/messaging/health/recipients?',
   },
   meta: {
     pagination: {

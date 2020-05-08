@@ -123,7 +123,7 @@ export function getEnrollmentStatus(formData) {
        optionally adjust what the `callFake404` and/or `callFakeSuccess`
        functions return.
     2. Temporarily change the `baseUrl` to:
-       'https://dev-api.va.gov/v0/health_care_applications/enrollment_status, so
+       'https://sandbox-api.va.gov/v0/health_care_applications/enrollment_status, so
        that we bypass the local APi. If you use the following user creds the
        backend will respond with a 200 and the expected response body:
        WESLEY
