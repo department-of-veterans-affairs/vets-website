@@ -238,7 +238,7 @@ describe('Schemaform: ReviewCardField', () => {
     expect(wrapper.find('viewComponent').length).to.equal(0);
 
     // Also check that the validation error is rendered while we're at it
-    expect(wrapper.text()).to.contain('Arbitrary error string here');
+    expect(wrapper.html()).to.contain('Arbitrary error string here');
     wrapper.unmount();
   });
 
