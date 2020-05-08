@@ -107,14 +107,7 @@
     "rootUrl": "/profile",
     "template": {
       "title": "Your Profile",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "profile/",
-          "name": "Your profile"
-        }
-      ]
+      "layout": "page-react.html"
     }
   },
   {
@@ -518,8 +511,10 @@
     "entryName": "yellow-ribbon",
     "rootUrl": "/education/yellow-ribbon-participating-schools",
     "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
+      "description": "Search for schools that participate in the Yellow Ribbon Program.",
+      "layout": "page-react.html",
+      "title": "Find A Yellow Ribbon School | Veterans Affairs",
+      "vagovprod": false
     }
   },
   {

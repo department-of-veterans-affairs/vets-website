@@ -13,6 +13,7 @@ describe('<Announcement/>', () => {
       isInitialized: true,
       announcement: null,
       isLoggedIn: true,
+      useSSOe: true,
       profile: {},
       dismissed: [],
       initDismissedAnnouncements() {},

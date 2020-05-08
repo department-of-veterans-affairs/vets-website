@@ -97,7 +97,7 @@ export class SearchResult extends React.Component {
                     <h4>
                       <i className="fa fa-home fa-search-result" />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div id={`housing-value-${facilityCode}`}>{housing}</div>
                     </h4>
                   </div>
                 </div>

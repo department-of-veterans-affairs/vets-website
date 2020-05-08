@@ -1,0 +1,396 @@
+{
+  "data": [
+    {
+      "id": "9659485",
+      "type": "institutions",
+      "attributes": {
+        "name": "GREATER WISCONSIN MILLWRIGHT JAC",
+        "facility_code": "30000149",
+        "type": "OJT",
+        "city": "KAUKAUNA",
+        "state": "WI",
+        "zip": "54130",
+        "country": "USA",
+        "highest_degree": null,
+        "locale_type": null,
+        "student_count": null,
+        "caution_flag": null,
+        "caution_flag_reason": null,
+        "caution_flags": [],
+        "created_at": "2020-04-27T19:26:03.000Z",
+        "updated_at": "2020-04-27T19:26:03.000Z",
+        "address_1": "N2218 BODDE ROAD",
+        "address_2": null,
+        "address_3": null,
+        "physical_city": "KAUKAUNA",
+        "physical_state": "WI",
+        "physical_country": "USA",
+        "online_only": false,
+        "distance_learning": false,
+        "dod_bah": 1365,
+        "physical_zip": "54130",
+        "bah": 1454,
+        "tuition_in_state": null,
+        "tuition_out_of_state": null,
+        "books": null,
+        "student_veteran": null,
+        "yr": false,
+        "poe": false,
+        "eight_keys": null,
+        "stem_offered": false,
+        "independent_study": false,
+        "priority_enrollment": false,
+        "school_closing": false,
+        "school_closing_on": null,
+        "closure109": null,
+        "vet_tec_provider": false,
+        "parent_facility_code_id": null,
+        "campus_type": "Y",
+        "preferred_provider": false,
+        "count_of_caution_flags": 0
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/gids/v0/institutions/30000149"
+      }
+    },
+    {
+      "id": "9021221",
+      "type": "institutions",
+      "attributes": {
+        "name": "DODGE CITY COMMUNITY COLLEGE",
+        "facility_code": "14900416",
+        "type": "PUBLIC",
+        "city": "DODGE CITY",
+        "state": "KS",
+        "zip": "67801",
+        "country": "USA",
+        "highest_degree": 2,
+        "locale_type": "town",
+        "student_count": 28,
+        "caution_flag": true,
+        "caution_flag_reason": "Probation or Equivalent or a More Severe Status: Warning (Other - Provide unlisted or multiple justifications), DoD Probation For Military Tuition Assistance, Does Not Offer Required In-State Tuition Rates, Assigned receiver has motioned court for an emergency closure of campus. Imminent closure is a distinct possibility., Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs Issued by Department of Education, Federal Trade Commission Filed Suit for Deceptive Advertising, Flight Program - Suspended for 85/15 violation, Loss of Title IV Participation, Post 9/11 GI Bill (CH33) not Approved at this location, Potential Suspension of VA Benefits to Five Schools for Deceptive Practices goes into effect on May 9, 2020., Settlement reached with States Attorney General, Settlement reached with the Federal Trade Commission (FTC), Settlement with U.S. Government, There may be a potential lapse in program approval for Ashford University. VA may be forced to stop making benefit payments unless Ashford continues to show a good faith effort to seek approval in California. The State Attorney General filed a lawsuit against Ashford University for engaging in unlawful business practices, and litigation is pending., Upcoming Campus Closure (Details Posted on Institution's Website), Heightened Cash Monitoring (Financial Responsibility)",
+        "caution_flags": [
+          {
+            "id": 32942,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "AccreditationAction",
+            "reason": "Probation or Equivalent or a More Severe Status: Warning (Other - Provide unlisted or multiple justifications)",
+            "created_at": "2020-04-10T14:05:56.000Z",
+            "updated_at": "2020-04-10T14:05:56.000Z",
+            "title": "School has an accreditation issue",
+            "description": "This school's accreditation has been revoked and is under appeal, or the school has been placed on probation as it didn't meet acceptable levels of quality.",
+            "link_text": "Learn more about this school's accreditation",
+            "link_url": "http://ope.ed.gov/accreditation/"
+          },
+          {
+            "id": 34877,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Hcm",
+            "reason": "Heightened Cash Monitoring (Financial Responsibility)",
+            "created_at": "2020-04-10T14:06:13.000Z",
+            "updated_at": "2020-04-10T14:06:13.000Z",
+            "title": "School is on heightened cash monitoring",
+            "description": "The Department of Education has placed this school on Heightened Cash Monitoring due to financial or federal compliance issues.",
+            "link_text": "Learn more about Heightened Cash Monitoring",
+            "link_url": "https://studentaid.ed.gov/sa/about/data-center/school/hcm"
+          },
+          {
+            "id": 33285,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Mou",
+            "reason": "DoD Probation For Military Tuition Assistance",
+            "created_at": "2020-04-10T14:06:01.000Z",
+            "updated_at": "2020-04-10T14:06:01.000Z",
+            "title": "School is on Military Tuition Assistance probation",
+            "description": "This school is on Department of Defense (DoD) Probation for Military Tuition Assistance (TA).",
+            "link_text": "Learn about DoD probation",
+            "link_url": "https://www.dodmou.com/Home/Faq"
+          },
+          {
+            "id": 33472,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Sec702",
+            "reason": "Does Not Offer Required In-State Tuition Rates",
+            "created_at": "2020-04-10T14:06:11.000Z",
+            "updated_at": "2020-04-10T14:06:11.000Z",
+            "title": "School isn't approved for Post-9/11 GI Bill or Montgomery GI Bill-Active Duty benefits",
+            "description": "This school isn't approved for Post-9/11 GI Bill or Montgomery GI Bill-Active Duty benefits because it doesn't comply with Sec 702. Section 702 requires public universities to offer recent Veterans and other “covered individuals” in-state tuition, regardless of their state residency. ",
+            "link_text": "Learn more about Section 702 requirements",
+            "link_url": "https://www.benefits.va.gov/gibill/docs/factsheets/section_702_factsheet.pdf"
+          },
+          {
+            "id": 34579,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Upcoming Campus Closure (Details Posted on Institution's Website)",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "Campus will be closing soon",
+            "description": "This campus will be closing soon.",
+            "link_text": "Visit the school's website to learn more",
+            "link_url": "www.dc3.edu"
+          },
+          {
+            "id": 34588,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Assigned receiver has motioned court for an emergency closure of campus. Imminent closure is a distinct possibility.",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "Court-ordered emergency campus closure pending for this school",
+            "description": "An assigned receiver has motioned the court for an emergency closure of this campus. It may close soon.",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34586,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Federal Trade Commission Filed Suit for Deceptive Advertising",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School is being sued for deceptive advertising",
+            "description": "The Federal Trade Commission (FTC) has filed suit against this school for deceptive advertising. ",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34587,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs Issued by Department of Education",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School denied recertification for Federal Student Financial Assistance Programs",
+            "description": "This school's recertification application to participate in the Federal Student Financial Assistance Programs issued by Department of Education has been denied. ",
+            "link_text": "Learn more about denial of recertification",
+            "link_url": "https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#TitleIV"
+          },
+          {
+            "id": 34585,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Loss of Title IV Participation",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School lost approval for Title IV programs like Federal Financial Aid and Pell Grants",
+            "description": "This school doesn't meet the criteria for Title IV participation.  Students who attend this institution will not receive financial assistance such as Federal Financial Aid and Pell Grants. ",
+            "link_text": "Learn more about Title IV participation",
+            "link_url": "http://www.colleges.com/content/read.taf?oid=20082&title=Federal%20Student%20AidFAFSA%20%20"
+          },
+          {
+            "id": 34584,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Post 9/11 GI Bill (CH33) not Approved at this location",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School isn't approved for Post-9/11 GI Bill benefits",
+            "description": "Post 9/11 GI Bill (CH33) benefits can't be used at this school as the school is not approved for them.",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34582,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Settlement reached with the Federal Trade Commission (FTC)",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School has settled its case with the FTC",
+            "description": "The Federal Trade Commission (FTC) has reached a settlement with this school.",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34581,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Settlement with U.S. Government",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School has settled its case with the U.S. Government",
+            "description": "The U.S. Government has reached a settlement with this institution. ",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34583,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Settlement reached with States Attorney General",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School has settled its case with the State Attorney General",
+            "description": "The State's Attorney General has reached a settlement with this school.",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34589,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Flight Program - Suspended for 85/15 violation",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School is suspended for violating VA's 85/15 rule",
+            "description": "This school has been suspended for violating the 85/15 rule.  The 85/15 rule requires that no more than 85% of a for-profit program's students receive VA funding.",
+            "link_text": "Learn more about the 85/15 Rule",
+            "link_url": "https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#8515"
+          },
+          {
+            "id": 34578,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "Potential Suspension of VA Benefits to Five Schools for Deceptive Practices goes into effect on May 9, 2020.",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "Potential suspension of VA benefits for deceptive practices",
+            "description": "This school is one of 5 schools facing a potential suspension of VA benefits for deceptive practices.  The suspension is effective May 9, 2020.",
+            "link_text": null,
+            "link_url": null
+          },
+          {
+            "id": 34580,
+            "institution_id": 9021221,
+            "version_id": 221,
+            "source": "Settlement",
+            "reason": "There may be a potential lapse in program approval for Ashford University. VA may be forced to stop making benefit payments unless Ashford continues to show a good faith effort to seek approval in California. The State Attorney General filed a lawsuit against Ashford University for engaging in unlawful business practices, and litigation is pending.",
+            "created_at": "2020-04-10T14:06:12.000Z",
+            "updated_at": "2020-04-10T14:06:12.000Z",
+            "title": "School is facing a potential lapse in program approval",
+            "description": "There may be a potential lapse in program approval for this school.",
+            "link_text": null,
+            "link_url": null
+          }
+        ],
+        "created_at": "2020-04-10T14:05:32.000Z",
+        "updated_at": "2020-04-10T14:05:32.000Z",
+        "address_1": "2501 N 14TH AVENUE",
+        "address_2": null,
+        "address_3": null,
+        "physical_city": "DODGE CITY",
+        "physical_state": "KS",
+        "physical_country": "USA",
+        "online_only": false,
+        "distance_learning": true,
+        "dod_bah": 1290,
+        "physical_zip": "67801",
+        "bah": 1379,
+        "tuition_in_state": 2700,
+        "tuition_out_of_state": 3000,
+        "books": 1200,
+        "student_veteran": null,
+        "yr": true,
+        "poe": true,
+        "eight_keys": true,
+        "stem_offered": false,
+        "independent_study": true,
+        "priority_enrollment": false,
+        "school_closing": false,
+        "school_closing_on": null,
+        "closure109": null,
+        "vet_tec_provider": false,
+        "parent_facility_code_id": null,
+        "campus_type": "Y",
+        "preferred_provider": false,
+        "count_of_caution_flags": 16
+      },
+      "links": {
+        "website": "http://www.dc3.edu",
+        "scorecard": "https://collegescorecard.ed.gov/school/?154998-dodge-city-community-college",
+        "self": "https://staging-api.va.gov/gids/v0/institutions/14900416"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://staging-api.va.gov/gids/v0/institutions?category=ALL&name=WISCONSIN+",
+    "first": "https://staging-api.va.gov/gids/v0/institutions?category=ALL&name=WISCONSIN+&page=1&per_page=10",
+    "prev": null,
+    "next": "https://staging-api.va.gov/gids/v0/institutions?category=ALL&name=WISCONSIN+&page=2&per_page=10",
+    "last": "https://staging-api.va.gov/gids/v0/institutions?category=ALL&name=WISCONSIN+&page=9&per_page=10"
+  },
+  "meta": {
+    "version": {
+      "number": 143,
+      "created_at": "2020-04-27T19:26:03.675Z",
+      "preview": false
+    },
+    "count": 90,
+    "facets": {
+      "category": {
+        "school": 54,
+        "employer": 36
+      },
+      "type": {
+        "flight": 1,
+        "for profit": 3,
+        "ojt": 36,
+        "private": 10,
+        "public": 40
+      },
+      "state": {
+        "in": 1,
+        "mo": 1,
+        "wi": 88
+      },
+      "country": [
+        {
+          "name": "USA",
+          "count": 90
+        }
+      ],
+      "student_vet_group": {
+        "true": null,
+        "false": null
+      },
+      "yellow_ribbon_scholarship": {
+        "true": null,
+        "false": null
+      },
+      "principles_of_excellence": {
+        "true": null,
+        "false": null
+      },
+      "eight_keys_to_veteran_success": {
+        "true": null,
+        "false": null
+      },
+      "stem_offered": {
+        "true": null,
+        "false": null
+      },
+      "independent_study": {
+        "true": null,
+        "false": null
+      },
+      "online_only": {
+        "true": null,
+        "false": null
+      },
+      "distance_learning": {
+        "true": null,
+        "false": null
+      },
+      "priority_enrollment": {
+        "true": null,
+        "false": null
+      }
+    }
+  }
+}
