@@ -69,55 +69,6 @@ describe('Schemaform: ReviewCardField', () => {
             state: 'TX',
             postalCode: '77550',
           },
-          email: 'test2@test1.net',
-          currentAddress: 'temporaryAddress',
-          supplies: [
-            {
-              deviceName: 'OMEGAX d3241',
-              productName: 'ZA1239',
-              productGroup: 'hearing aid batteries',
-              productId: '1',
-              availableForReorder: true,
-              lastOrderDate: '2020-01-01',
-              nextAvailabilityDate: '2020-09-01',
-              quantity: 60,
-              prescribedDate: '2020-12-20',
-            },
-            {
-              productName: 'DOME',
-              productGroup: 'hearing aid accessories',
-              productId: '3',
-              availableForReorder: true,
-              lastOrderDate: '2019-06-30',
-              nextAvailabilityDate: '2019-12-15',
-              quantity: 10,
-              size: '6mm',
-            },
-            {
-              productName: 'DOME',
-              productGroup: 'hearing aid accessories',
-              productId: '4',
-              availableForReorder: true,
-              lastOrderDate: '2019-06-30',
-              nextAvailabilityDate: '2019-12-15',
-              quantity: 10,
-              size: '7mm',
-            },
-            {
-              productName: 'WaxBuster Single Unit',
-              productGroup: 'hearing aid accessories',
-              productId: '5',
-              availableForReorder: true,
-              lastOrderDate: '2019-06-30',
-              nextAvailabilityDate: '2019-12-15',
-              quantity: 10,
-            },
-          ],
-          fullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
-          ssnLastFour: '1200',
-          gender: 'M',
-          dateOfBirth: '1933-04-05',
-          selectedProducts: [{ productId: '4' }, { productId: '5' }],
         },
       },
     }),
@@ -191,7 +142,7 @@ describe('Schemaform: ReviewCardField', () => {
     expect(wrapper.find('viewComponent').props().formData).to.equal(
       defaultProps.formData,
     );
-    expect(wrapper.find('viewComponent').props().addressType).to.equal(
+    expect(wrapper.find('viewComponent').props().addressType).to.eql(
       defaultProps.addressType,
     );
     // expect(wrapper.find('viewComponent').props()).to.eql({

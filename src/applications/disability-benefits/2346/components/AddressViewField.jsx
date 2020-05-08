@@ -137,7 +137,7 @@ AddressViewField.propTypes = {
     postalCode: PropTypes.string,
     zipCode: PropTypes.string,
   }),
-  addressType: PropTypes.string,
+  addressType: PropTypes.string.isRequired,
 };
 
 export default AddressViewField;
