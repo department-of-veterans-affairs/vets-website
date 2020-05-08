@@ -8,7 +8,6 @@ import {
 } from 'platform/user/authentication/selectors';
 import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
 import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
-import environment from 'platform/utilities/environment';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 
 export async function checkStatus(toggleKeepAlive) {
@@ -25,12 +24,7 @@ export async function checkStatus(toggleKeepAlive) {
 function AutoSSO(props) {
   const { useSSOe, useInboundSSOe, hasCalledKeepAlive } = props;
 
-  if (
-    useSSOe &&
-    useInboundSSOe &&
-    !hasCalledKeepAlive &&
-    !environment.isLocalhost()
-  ) {
+  if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
     checkStatus(props.checkKeepAlive);
   }
 
