@@ -3,13 +3,17 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import Telephone, { CONTACTS } from '../../../src/js/components/Telephone';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '../../../src/js/components/Telephone';
 
 describe('Widget <Telephone />', () => {
   // custom numbers
   it('should render a number', () => {
     const wrapper = shallow(<Telephone contact="8005551212" />);
     const props = wrapper.props();
+    expect(wrapper.type()).to.equal('a');
     expect(props.href).to.equal('tel:+18005551212');
     expect(props['aria-label']).to.equal('800. 5 5 5. 1 2 1 2');
     expect(wrapper.text()).to.equal('800-555-1212');
@@ -23,24 +27,26 @@ describe('Widget <Telephone />', () => {
     expect(wrapper.text()).to.equal('800-555-1000');
     wrapper.unmount();
   });
-  it('should throw an error when not passed a number', () => {
+  it('should throw an error when number does not match pattern', () => {
     expect(() => {
       const wrapper = shallow(<Telephone />);
       wrapper.unmount();
-    }).to.throw('Telephone: "" does not match the pattern (###-###-####)');
+    }).to.throw('Contact number "" does not match the pattern (###-###-####)');
   });
   it('should throw an error when number is less than 10-digits', () => {
     expect(() => {
-      const wrapper = shallow(<Telephone contact="4321" />);
+      const wrapper = shallow(<Telephone contact={4321} />);
       wrapper.unmount();
-    }).to.throw(`Telephone: "4321" does not match the pattern (###-###-####)`);
+    }).to.throw(
+      `Contact number "4321" does not match the pattern (###-###-####)`,
+    );
   });
   it('should throw an error when number is more than 10-digits', () => {
     expect(() => {
       const wrapper = shallow(<Telephone contact="01234567891" />);
       wrapper.unmount();
     }).to.throw(
-      'Telephone: "01234567891" does not match the pattern (###-###-####)',
+      'Contact number "01234567891" does not match the pattern (###-###-####)',
     );
   });
 
@@ -86,7 +92,7 @@ describe('Widget <Telephone />', () => {
   // pattern
   it('should render a custom pattern', () => {
     const wrapper = shallow(
-      <Telephone contact={CONTACTS.GI_BILL} pattern="(###) ###-####" />,
+      <Telephone contact={CONTACTS.GI_BILL} pattern={PATTERNS.WRAP_AREACODE} />,
     );
     const props = wrapper.props();
     expect(props.href).to.equal('tel:+18884424551');

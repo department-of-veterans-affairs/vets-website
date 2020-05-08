@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import recordEvent from 'platform/monitoring/record-event.js';
-
 export const CONTACTS = Object.freeze({
   '222_VETS': '8772228387', // VA Help Line
   '4AID_VET': '8774243838', // National Call Center for Homeless Veterans
@@ -23,21 +21,14 @@ export const CONTACTS = Object.freeze({
   VA_BENEFITS: '8008271000', // Veterans Benefits Assistance
 });
 
-const patterns = {
-  '911': '###',
-  default: '###-###-####',
+export const PATTERNS = {
+  911: '###', // needed to match 911 CONTACT
+  DEFAULT: '###-###-####',
+  WRAP_AREACODE: '(###) ###-####',
 };
-
-const recordClick = () => {
-  // TO-DO: pass event name & location URL
-  // recordEvent({ event: `telephone-click` });
-};
-
-// Allow labels "gi-bill", "GI_Bill" or "GI BILL"
-const formatLabel = label => label?.replace(/[-_\s]/g, '').toLowerCase();
 
 // Strip out leading "1" and any non-digits
-const cleanHref = number =>
+const parseNumber = number =>
   number
     .replace(/^1/, '') // strip leading "1" from telephone number
     .replace(/[^\d]/g, '');
@@ -65,37 +56,27 @@ const formatTelLabel = number =>
     .map(formatBlock)
     .join('. ');
 
-/**
- * Produce a standardized accessible telephone link
- * @param {string} contact - Known phone number label; from CONTACTS, or pass a
- *  telephone number with or without leading "1" (it gets stripped off)
- * @param {string} className - Additional class name to add
- * @param {string} pattern - Formatted pattern using "#" as placeholders
- * @param {string} ariaLabel - Custom aria-label string
- * @param {function} onClick - Custom onClick function
- */
 function Telephone({
   // phone number (length _must_ match the pattern; leading "1" is removed)
   contact = '', // telephone number
   className = '', // additional css class to add
   pattern = '', // output format; defaults to patterns.default value
   ariaLabel = '', // custom aria-label
-  onClick = recordClick,
+  onClick = () => {},
   children,
 }) {
-  const contactString = formatLabel(contact.toString());
-  const rawNumber = CONTACTS[contactString] || contactString;
-
   // strip out non-digits for use in href: "###-### ####" => "##########"
-  const cleanNumber = cleanHref(rawNumber);
+  const contactString = parseNumber(contact.toString());
+  const cleanNumber = CONTACTS[contactString] || contactString;
 
-  const contactPattern = pattern || patterns[contactString] || patterns.default;
+  // Capture "911" pattern here
+  const contactPattern = pattern || PATTERNS[contactString] || PATTERNS.DEFAULT;
   const patternLength = contactPattern.match(/#/g).length;
   const formattedTel = formatTelText(cleanNumber, contactPattern);
 
   if (!cleanNumber || cleanNumber.length !== patternLength) {
     throw new Error(
-      `Telephone: "${cleanNumber}" does not match the pattern (${contactPattern})`,
+      `Contact number "${cleanNumber}" does not match the pattern (${contactPattern})`,
     );
   }
 
@@ -114,10 +95,34 @@ function Telephone({
 }
 
 Telephone.propTypes = {
-  contact: PropTypes.string,
+  /**
+   * Pass a telephone number, or use a known phone number in CONTACTS. Any
+   * number with a leading "1" will be stripped off (assuming country code).
+   * Whitespace and non-digits will be stripped out of this string.
+   */
+  contact: PropTypes.string.isRequired,
+
+  /**
+   * Additional class name to add to the link.
+   */
   className: PropTypes.string,
+
+  /**
+   * Pattern use used while formatting the contact number. Use provided
+   * PATTERNS, or create a custom one using "#" as a placeholder for each
+   * number. Note that the number of "#"'s in the pattern <em>must</em> equal
+   * the contact number length or an error is thrown.
+   */
   pattern: PropTypes.string,
+
+  /**
+   * Custom aria-label string.
+   */
   ariaLabel: PropTypes.string,
+
+  /**
+   * Custom onClick function
+   */
   onClick: PropTypes.func,
 };
 
