@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
@@ -39,9 +38,7 @@ export class SearchResult extends React.Component {
     const books = this.estimate(estimated.books);
 
     const linkTo = {
-      pathname: environment.isProduction()
-        ? `profile/${facilityCode}`
-        : `/profile/${facilityCode}`,
+      pathname: `profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
