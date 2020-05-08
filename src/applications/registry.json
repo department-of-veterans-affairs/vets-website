@@ -107,14 +107,7 @@
     "rootUrl": "/profile",
     "template": {
       "title": "Your Profile",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "profile/",
-          "name": "Your profile"
-        }
-      ]
+      "layout": "page-react.html"
     }
   },
   {
