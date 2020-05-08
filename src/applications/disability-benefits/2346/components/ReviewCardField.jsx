@@ -42,6 +42,7 @@ class ReviewCardField extends React.Component {
     required: false,
     disabled: false,
     readonly: false,
+    addressType: 'permanentAddress',
   };
 
   constructor(props) {
@@ -299,7 +300,8 @@ class ReviewCardField extends React.Component {
     const isTempAddressMissing = Object.values(temporaryAddress).every(
       prop => !prop,
     );
-
+    /* eslint-disable no-debugger */
+    debugger;
     return (
       <div className="review-card">
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
@@ -315,7 +317,7 @@ class ReviewCardField extends React.Component {
             city &&
             country && (
               <a
-                className={`usa-button-secondary ${editLink}`}
+                className={`${editLink}`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
                 aria-label={`Edit ${title.toLowerCase()}`}
@@ -328,7 +330,7 @@ class ReviewCardField extends React.Component {
             !city &&
             !country && (
               <a
-                className={`usa-button-secondary ${editLink}`}
+                className={`${editLink}`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
                 aria-label={`Add a ${title.toLowerCase()}`}
@@ -512,6 +514,7 @@ ReviewCardField.propTypes = {
     definitions: PropTypes.object.isRequired,
   }).isRequired,
   formData: PropTypes.object.isRequired,
+  addressType: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
     onError: PropTypes.func.isRequired,
