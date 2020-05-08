@@ -51,8 +51,10 @@ export class EstimateYourBenefits extends React.Component {
       0;
 
     if (topOffset && bottomOffset) {
-      this.setState({ showEybSheet: true });
-    } else {
+      if (this.state.showEybSheet === false) {
+        this.setState({ showEybSheet: true });
+      }
+    } else if (this.state.showEybSheet === true) {
       this.setState({ showEybSheet: false });
     }
   }
