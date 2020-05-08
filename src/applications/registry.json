@@ -268,12 +268,22 @@
     }
   },
   {
-    "appName": "New 686",
+    "appName": "686c-674",
     "entryName": "new-686",
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
-      "vagovprod": false
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "/view-change-dependents/view",
+          "name": "View or change your dependents"
+        },
+        {
+          "name": "686c-674"
+        }
+      ]
     }
   },
   {
