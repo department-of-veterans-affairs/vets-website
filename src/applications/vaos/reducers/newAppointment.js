@@ -117,22 +117,20 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
   let newSchema = schema;
   let newData = data;
 
-  const availableFacilities = getEligibleFacilities(facilities);
-
   if (
-    availableFacilities.length > 1 ||
-    (availableFacilities.length === 1 && parents.length > 1)
+    facilities.length > 1 ||
+    (facilities.length === 1 && parents.length > 1)
   ) {
     newSchema = unset('properties.vaFacilityMessage', newSchema);
     newSchema = set(
       'properties.vaFacility',
       {
         type: 'string',
-        enum: availableFacilities.map(facility => facility.institutionCode),
-        enumNames: availableFacilities.map(
+        enum: facilities.map(facility => facility.id),
+        enumNames: facilities.map(
           facility =>
-            `${facility.authoritativeName} (${facility.city}, ${
-              facility.stateAbbrev
+            `${facility.name} (${facility.address[0].city}, ${
+              facility.address[0].state
             })`,
         ),
       },
@@ -140,12 +138,12 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
     );
   } else if (newData.vaParent) {
     newSchema = unset('properties.vaFacility', newSchema);
-    if (!availableFacilities.length) {
+    if (!facilities.length) {
       newSchema.properties.vaFacilityMessage = { type: 'string' };
     }
     newData = {
       ...newData,
-      vaFacility: availableFacilities[0]?.institutionCode,
+      vaFacility: facilities[0]?.id,
     };
   }
 

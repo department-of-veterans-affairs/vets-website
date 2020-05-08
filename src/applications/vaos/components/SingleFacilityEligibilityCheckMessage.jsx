@@ -39,9 +39,9 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox status="warning" headline="We found one VA location for you">
         <p>
-          <strong>{facility.authoritativeName}</strong>
+          <strong>{facility.name}</strong>
           <br />
-          {facility.city}, {facility.stateAbbrev}
+          {facility.address[0].city}, {facility.address[0].state}
         </p>
         {message}
         <p>

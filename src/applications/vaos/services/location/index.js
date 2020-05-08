@@ -13,6 +13,7 @@ import {
   transformFacilities,
   transformFacility,
 } from './transformers';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 /*
  * This is used to parse the fake FHIR ids we create for organizations
@@ -31,7 +32,7 @@ function parseId(id) {
  * @param {Array} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
  * @returns {Object} A FHIR searchset of Location resources
  */
-export async function getLocationsByTypeOfCare({
+export async function getSupportedLocationsByTypeOfCare({
   systemId,
   parentId,
   typeOfCareId,
@@ -43,7 +44,10 @@ export async function getLocationsByTypeOfCare({
       typeOfCareId,
     );
 
-    return transformDSFacilities(parentFacilities);
+    return transformDSFacilities(parentFacilities).filter(
+      f =>
+        f.legacyVAR.directSchedulingSupported || f.legacyVAR.requestSupported,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -95,4 +99,32 @@ export async function getLocation({ facilityId }) {
 
     throw e;
   }
+}
+
+/**
+ * Get the parent organization of a given location
+ *
+ * @export
+ * @param {Arrray} organizations The organizations to search through
+ * @param {Object} location The location resource to find the parent of
+ * @returns {Object} The parent organization
+ */
+export function getParentOfLocation(organizations, location) {
+  const orgId = location.managingOrganization.reference.split('/', 2)[1];
+  return organizations.find(parent => parent.id === orgId);
+}
+
+/**
+ * Pulls the VistA id from an Location resource
+ *
+ * @export
+ * @param {Object} location The location to get an id for
+ * @returns {String} Three digit or 5 digit VistA id
+ */
+export function getFacilityIdFromLocation(location) {
+  return location.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
+}
+
+export function getSiteIdFromLocation(location) {
+  const organization = getParentOfLocation(location);
 }

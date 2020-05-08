@@ -9,8 +9,11 @@ import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getRootOrganizationFromChosenParent,
+  getSiteIdForChosenFacility,
+  getChosenParentInfo,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { getFacilityIdFromLocation } from '../services/location';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -42,17 +45,15 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentOrg = getParentFacilities(state).find(
-    parent => parent.id === data.vaParent,
-  );
+  const parentOrg = getChosenParentInfo(state);
   const parentSiteId = getSiteIdFromOrganization(parentOrg);
-  const rootOrg = getRootOrganizationFromChosenParent(state);
-  const rootSiteId = getSiteIdFromOrganization(rootOrg);
+  const rootSiteId = getSiteIdForChosenFacility(state);
+  const facilityId = getFacilityIdFromLocation(facility);
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
-    appointmentType: getTypeOfCare(data).name,
+    appointmentType: typeOfCare.name,
     cityState: {
       institutionCode: parentSiteId,
       rootStationCode: rootSiteId,
@@ -60,8 +61,8 @@ export function transformFormToVARequest(state) {
       adminParent: true,
     },
     facility: {
-      name: facility.authoritativeName,
-      facilityCode: data.vaFacility,
+      name: facility.name,
+      facilityCode: facilityId,
       parentSiteCode: parentSiteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
@@ -217,7 +218,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.institutionTimezone,
+    timeZone: facility.legacyVAR.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',
