@@ -30,7 +30,7 @@ const ReviewPageAccessories = ({ selectedProductInfo, accessorySupplies }) => (
 );
 
 const mapStateToProps = state => {
-  const supplies = state.form?.loadedData?.formData?.supplies;
+  const supplies = state.form?.data?.supplies;
   const accessorySupplies = supplies?.filter(supply =>
     supply.productGroup?.includes('accessories'),
   );
@@ -39,7 +39,6 @@ const mapStateToProps = state => {
   const selectedProductInfo = accessorySupplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
-
   return {
     accessorySupplies,
     selectedProductInfo,

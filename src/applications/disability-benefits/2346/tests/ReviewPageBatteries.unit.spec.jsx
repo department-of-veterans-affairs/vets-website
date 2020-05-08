@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import ReviewPageAccessories from '../components/ReviewPageAccessories';
+import ReviewPageBatteries from '../components/ReviewPageBatteries';
 
 describe('ReviewPageAccessories', () => {
   const fakeStore = {
@@ -50,69 +50,57 @@ describe('ReviewPageAccessories', () => {
               quantity: 10,
             },
           ],
-          selectedProducts: [{ productId: '4' }, { productId: '5' }],
+          selectedProducts: [{ productId: '1' }],
         },
       },
     }),
     subscribe: () => {},
     dispatch: () => {},
   };
-  it('should render ReviewPageAccessories', () => {
-    const reviewPageAccessories = mount(
-      <ReviewPageAccessories store={fakeStore} />,
+  it('should render ReviewPageBatteries', () => {
+    const reviewPageBatteries = mount(
+      <ReviewPageBatteries store={fakeStore} />,
     );
-    expect(reviewPageAccessories).not.to.be.undefined;
-    reviewPageAccessories.unmount();
+    expect(reviewPageBatteries).not.to.be.undefined;
+    reviewPageBatteries.unmount();
   });
 
   it('verify accessories selected countt', () => {
-    const reviewPageAccessories = mount(
-      <ReviewPageAccessories store={fakeStore} />,
+    const reviewPageBatteries = mount(
+      <ReviewPageBatteries store={fakeStore} />,
     );
     expect(
-      reviewPageAccessories
+      reviewPageBatteries
         .find('span')
         .at(1)
         .text(),
-    ).to.equal('(2 out of 3 selected)');
-    reviewPageAccessories.unmount();
+    ).to.equal('(1 out of 1 selected)');
+    reviewPageBatteries.unmount();
   });
 
-  it('verify accessories heading content', () => {
-    const reviewPageAccessories = mount(
-      <ReviewPageAccessories store={fakeStore} />,
+  it('verify batteries heading content', () => {
+    const reviewPageBatteries = mount(
+      <ReviewPageBatteries store={fakeStore} />,
     );
     expect(
-      reviewPageAccessories
+      reviewPageBatteries
         .find('h5')
         .at(0)
         .text(),
-    ).to.equal('DOME');
-    expect(
-      reviewPageAccessories
-        .find('h5')
-        .at(1)
-        .text(),
-    ).to.equal('WaxBuster Single Unit');
-    reviewPageAccessories.unmount();
+    ).to.equal('OMEGAX d3241');
+    reviewPageBatteries.unmount();
   });
 
-  it('verify accessories quantity content', () => {
-    const reviewPageAccessories = mount(
-      <ReviewPageAccessories store={fakeStore} />,
+  it('verify batteries quantity content', () => {
+    const reviewPageBatteries = mount(
+      <ReviewPageBatteries store={fakeStore} />,
     );
     expect(
-      reviewPageAccessories
+      reviewPageBatteries
         .find('span')
         .at(2)
         .text(),
-    ).to.equal('Quantity: 10');
-    expect(
-      reviewPageAccessories
-        .find('span')
-        .at(3)
-        .text(),
-    ).to.equal('Quantity: 10');
-    reviewPageAccessories.unmount();
+    ).to.equal('ZA1239 batteries (Quantity: 60)');
+    reviewPageBatteries.unmount();
   });
 });
