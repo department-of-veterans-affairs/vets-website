@@ -108,4 +108,37 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
 
     form.unmount();
   });
+
+  it('should display error msg when phone number exceeds 10 char', () => {
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <CommunityCarePreferencesPageTester
+        data={{
+          hasCommunityCareProvider: true,
+          preferredLanguage: 'english',
+          communityCareProvider: {
+            practiceName: 'Practice name',
+            firstName: 'Jane',
+            lastName: 'Doe',
+            phone: '5555555555555555555555555',
+            address: {
+              street: '123 Test',
+              street2: 'line 2',
+              city: 'Northampton',
+              state: 'MA',
+              postalCode: '01060',
+            },
+          },
+        }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(routeToNextAppointmentPage.called).to.be.false;
+    form.unmount();
+  });
 });
