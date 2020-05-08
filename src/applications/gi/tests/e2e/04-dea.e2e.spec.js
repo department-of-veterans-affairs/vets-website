@@ -1,18 +1,19 @@
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
-const OjtHelpers = require('./ojt-helpers');
+const DeaHelpers = require('./dea-helpers');
+const institutionProfile = require('../data/institution-profile.json');
 const ojtProfile = require('../data/ojt-profile.json');
-const ojtSearchResults = require('../data/ojt-search-results.json');
+
+const institutionAttributes = institutionProfile.data.attributes;
+const ojtAttributes = ojtProfile.data.attributes;
 
 /**
- * Default OJT profile flow with default input selections
+ * OJT and non VETTEC institution profile flow with giBillChapter chapter 35 (DEA)
  * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
  */
 module.exports = E2eHelpers.createE2eTest(client => {
-  const ojtAttributes = ojtProfile.data.attributes;
-
-  GiHelpers.initApplicationMock(ojtProfile, ojtSearchResults);
+  DeaHelpers.initApplicationMock();
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
@@ -24,39 +25,41 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
     .axeCheck('.main');
-  OjtHelpers.selectOJTType(client);
-  GiHelpers.searchForInstitution(client, ojtAttributes.name);
+
+  DeaHelpers.searchAsDEA(client);
 
   // Search Page
-  GiHelpers.verifySearchResults(client, ojtSearchResults);
+  DeaHelpers.verifySearchResults(client);
   GiHelpers.expectLocation(
     client,
-    `/search?category=employer&name=${ojtAttributes.name.replace(/\s/g, '+')}`,
+    `/search?category=ALL&name=${DeaHelpers.searchString}`,
   );
   GiHelpers.selectSearchResult(client, ojtAttributes.facility_code);
 
-  // Profile Page
-
-  // Estimate your benefits
-
+  // OJT Profile Page
   const eybSections = {
     yourBenefits: 'Your benefits',
     learningFormatAndSchedule: 'Learning format and schedule',
-    scholarshipsAndOtherFunding: 'Scholarships and other funding',
   };
-  GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
   GiHelpers.yourBenefits(client, eybSections);
   GiHelpers.learningFormatAndSchedule(client, eybSections);
-  GiHelpers.scholarshipsAndOtherFunding(client, eybSections);
+  DeaHelpers.willBeWorking(client);
 
-  // Cautionary information
-  GiHelpers.collapseExpandAccordion(client, 'Cautionary information');
+  GiHelpers.breadCrumb(client, '/gi-bill-comparison-tool/');
+  DeaHelpers.searchAsDEA(client);
 
-  // Contact details
-  GiHelpers.collapseExpandAccordion(client, 'Contact details');
+  // Search Page
+  DeaHelpers.verifySearchResults(client);
+  GiHelpers.expectLocation(
+    client,
+    `/search?category=ALL&name=${DeaHelpers.searchString}`,
+  );
+  GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
-  // Additional information
-  GiHelpers.collapseExpandAccordion(client, 'Additional information');
+  // Profile Page
+  GiHelpers.yourBenefits(client);
+  GiHelpers.aboutYourSchool(client);
+  DeaHelpers.enrolledOld(client);
 
   client.end();
 });

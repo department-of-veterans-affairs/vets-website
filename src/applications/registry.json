@@ -518,8 +518,10 @@
     "entryName": "yellow-ribbon",
     "rootUrl": "/education/yellow-ribbon-participating-schools",
     "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
+      "description": "Search for schools that participate in the Yellow Ribbon Program.",
+      "layout": "page-react.html",
+      "title": "Find A Yellow Ribbon School | Veterans Affairs",
+      "vagovprod": false
     }
   },
   {

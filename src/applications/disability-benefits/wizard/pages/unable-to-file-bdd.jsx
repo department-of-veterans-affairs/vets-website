@@ -5,7 +5,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
+import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 
 import environment from 'platform/utilities/environment';
 
@@ -35,7 +35,7 @@ function alertContent(isLoggedIn) {
           your claim on eBenefits.
         </p>
         <a
-          href={EBEN_526_URL}
+          href={EBEN_526_PATH}
           className="usa-button-primary va-button-primary"
           onClick={() =>
             isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
@@ -63,7 +63,7 @@ function alertContent(isLoggedIn) {
         still begin the process of filing your claim on eBenefits.
       </p>
       <a
-        href={EBEN_526_URL}
+        href={EBEN_526_PATH}
         className="usa-button-primary va-button-primary"
         onClick={() =>
           isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
