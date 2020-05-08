@@ -38,7 +38,7 @@ export class SearchResult extends React.Component {
     const books = this.estimate(estimated.books);
 
     const linkTo = {
-      pathname: `profile/${facilityCode}`,
+      pathname: `/profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
