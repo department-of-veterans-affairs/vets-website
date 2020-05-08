@@ -114,7 +114,7 @@
     {
       "hostname": "www.patientsafety.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.polytrauma.va.gov",
