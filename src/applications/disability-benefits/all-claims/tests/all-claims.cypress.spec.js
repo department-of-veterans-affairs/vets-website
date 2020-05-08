@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { VA_FORM_IDS } from '../../../../platform/forms/constants';
-import testData from './data/minimal-test.json';
+import testData from './data/newOnly-test.json';
 import testForm from '../../../../platform/testing/e2e/cypress/support/form-tester';
 
 /* eslint-disable camelcase */
@@ -220,16 +220,14 @@ const testConfig = {
     window.localStorage.setItem('hasSession', true);
 
     // Set up mock API.
-    cy.server();
-    cy.route('GET', '/v0/user', mockUser);
-    cy.route('GET', '/v0/intent_to_file', mockItf);
-    cy.route('GET', '/v0/upload_supporting_evidence', mockDocumentUpload);
-    cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInformation);
+    cy.route('GET', '/v0/user', mockUser)
+      .route('GET', '/v0/intent_to_file', mockItf)
+      .route('GET', '/v0/upload_supporting_evidence', mockDocumentUpload)
+      .route('GET', '/v0/ppiu/payment_information', mockPaymentInformation);
   },
   setupPerTest: () => {
     // Pre-fill with the expected ratedDisabilities, but nix view:selected
     // since that's not pre-filled
-
     const sanitizedRatedDisabilities = (
       testData.data.ratedDisabilities || []
     ).map(({ 'view:selected': _, ...obj }) => obj);
@@ -252,27 +250,13 @@ const testConfig = {
   testData,
   url:
     'localhost:3001/disability/file-disability-claim-form-21-526ez/introduction',
+  // TODO: Remove this in favor of importing the formConfig and finding them all
+  arrayPages: [
+    {
+      path: 'new-disabilities/follow-up/:index',
+      arrayPath: 'newDisabilities',
+    },
+  ],
 };
 
 testForm('523 all claims', testConfig);
-
-/*
-describe('523 all claims', () => {
-  before(() => {
-    // Set up signed in session.
-    window.localStorage.setItem('hasSession', true);
-
-    // Set up mock API.
-    cy.server();
-    cy.route('GET', '/v0/user', mockUser);
-    cy.route('GET', '/v0/intent_to_file', mockItf);
-    cy.route('GET', '/v0/upload_supporting_evidence', mockDocumentUpload);
-    cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInformation);
-  });
-
-  it('fills the form', () => {
-    // cy.visit(testConfig.url);
-    cy.testForm(testConfig);
-  });
-});
-*/

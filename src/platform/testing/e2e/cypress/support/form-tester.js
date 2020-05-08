@@ -1,6 +1,8 @@
 import get from '../../../../utilities/data/get';
 
 const FIELD_SELECTOR = 'input, select, textarea';
+const ARRAY_ITEM_SELECTOR =
+  'div[name^="topOfTable_"] ~ div.va-growable-background';
 
 const testForm = (testDescription, testConfig) => {
   let currentPathname = testConfig.url;
@@ -21,7 +23,39 @@ const testForm = (testDescription, testConfig) => {
       .replace(/_/g, '.')
       .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
 
-    return get(dataPath, testConfig.testData.data);
+    return get(
+      field.prefix ? `${field.prefix}.${dataPath}` : dataPath,
+      testConfig.testData.data,
+    );
+  };
+
+  const addNewArrayItem = () => {
+    cy.get('body').then(body => {
+      const arrayTypeDivs = body.find('div[name^="topOfTable_root_"]');
+      if (arrayTypeDivs.length) {
+        cy.wrap(arrayTypeDivs).each(arrayTypeDiv => {
+          const arrayPath = arrayTypeDiv
+            .attr('name')
+            .replace('topOfTable_', '');
+
+          cy.get(
+            `div[name$="${arrayPath}"] ~ div:last-of-type > div[name^="table_root_"]`,
+          ).then(arrayItemDiv => {
+            const lastIndex = parseInt(
+              arrayItemDiv.attr('name').match(/\d+$/g),
+              10,
+            );
+            const arrayData = findData({ key: arrayPath });
+
+            if (arrayData.length - 1 > lastIndex) {
+              cy.get(
+                `div[name="topOfTable_${arrayPath}"] ~ button.va-growable-add-btn`,
+              ).click();
+            }
+          });
+        });
+      }
+    });
   };
 
   const getElementSelector = field => {
@@ -59,8 +93,6 @@ const testForm = (testDescription, testConfig) => {
     const selector = getElementSelector(field);
 
     cy.get(selector).then(element => {
-      if (!cy.wrap(element)) return;
-
       switch (field.type) {
         case 'select-one': // Select fields register as having a type === 'select-one'
           // TODO: Error if it's not an option the select has
@@ -82,7 +114,12 @@ const testForm = (testDescription, testConfig) => {
         case 'text': {
           cy.wrap(element)
             .clear()
-            .type(field.data);
+            .type(field.data)
+            .then(() => {
+              if (element.attr('role') === 'combobox') {
+                cy.wrap(element).type('{downarrow}{enter}');
+              }
+            });
           /*
           // Get the autocomplete menu out of the way
           const role = await page.$eval(selector, textbox =>
@@ -148,7 +185,7 @@ const testForm = (testDescription, testConfig) => {
 
     // Date fields in form data combine all the date components
     // (year, month, day), so we will process two or three elements at once
-    // when entering data for dates.
+    // when entering dates.
     field.key = field.key.replace(/(Year|Month|Day)$/, () => {
       // Set type to 'date' if the pattern matches a date component.
       field.type = 'date';
@@ -160,9 +197,45 @@ const testForm = (testDescription, testConfig) => {
 
   const fillPage = () => {
     const touchedFields = new Set();
+    let arrayItemPath;
 
-    const fillUntilDone = () => {
+    cy.location('pathname').then(pathname => {
+      let match;
+
+      // Check if the current page maps to an array page from the form config.
+      // If there is a match, get the index from the URL.
+      const arrayPageObject = testConfig.arrayPages.find(arrayPage => {
+        const re = new RegExp(
+          arrayPage.path.replace(':index', '(?<index>\\d+)$'),
+        );
+        match = pathname.match(re);
+        return match;
+      });
+
+      // Set up the path prefix for looking up test data under the array item
+      // that corresponds to this page.
+      if (arrayPageObject) {
+        cy.log(
+          `Current page ${pathname} matched with array page ${
+            arrayPageObject.path
+          }`,
+        );
+        const { arrayPath } = arrayPageObject;
+        const index = parseInt(match.groups.index, 10);
+        arrayItemPath = `${arrayPath}[${index}]`;
+        cy.log(`Array item data at path: ${arrayItemPath}`);
+      }
+    });
+
+    const fillAvailableFields = () => {
       let fieldCount;
+      let arrayItemCount;
+
+      // Get the starting number of fields.
+      cy.get('body').then(body => {
+        const arrayItemElements = body.find(ARRAY_ITEM_SELECTOR);
+        arrayItemCount = arrayItemElements.length;
+      });
 
       cy.get(FIELD_SELECTOR)
         .its('length')
@@ -172,32 +245,55 @@ const testForm = (testDescription, testConfig) => {
 
       cy.get(FIELD_SELECTOR).each(element => {
         const field = createFieldObject(element);
-        cy.log(`Found field with key ${field.key}`);
+        cy.log(`Found field on page with key ${field.key}`);
 
-        const shouldSkip =
+        if (
           !field.key ||
           touchedFields.has(field.key) ||
-          !field.key.startsWith('root_');
+          !field.key.startsWith('root_')
+        )
+          return;
 
-        if (shouldSkip) return;
-
+        if (arrayItemPath) field.prefix = arrayItemPath;
         field.data = findData(field);
+
         if (typeof field.data === 'undefined') {
           cy.log(`No data found for ${field.key}`);
         } else {
           enterData(field);
         }
+
         touchedFields.add(field.key);
       });
+
+      // Compare the number of fields before and after filling all the available
+      // fields from this iteration. If there are new fields to be filled,
+      // iterate through the page again.
+      cy.get(FIELD_SELECTOR)
+        .its('length')
+        .then(length => {
+          if (fieldCount === length) addNewArrayItem();
+        });
+
+      let shouldKeepFilling;
 
       cy.get(FIELD_SELECTOR)
         .its('length')
         .then(length => {
-          if (fieldCount !== length) fillUntilDone();
+          shouldKeepFilling = fieldCount !== length;
+        })
+        .get('body')
+        .then(body => {
+          const arrayItemElements = body.find(ARRAY_ITEM_SELECTOR);
+          shouldKeepFilling =
+            shouldKeepFilling || arrayItemCount !== arrayItemElements.length;
+        })
+        .then(() => {
+          if (shouldKeepFilling) fillAvailableFields();
         });
     };
 
-    fillUntilDone();
+    fillAvailableFields();
   };
 
   const processPage = () => {
@@ -214,11 +310,8 @@ const testForm = (testDescription, testConfig) => {
         // Run hooks if there are any for this page.
         // Otherwise, fill out the page as usual.
         const hook = testConfig.pageHooks[pathname];
-        if (hook) {
-          runHook(hook, pathname);
-        } else {
-          fillPage();
-        }
+        if (hook) runHook(hook, pathname);
+        else fillPage();
       })
       .then(() => {
         if (!currentPathname.endsWith('review-and-submit')) {
@@ -232,7 +325,10 @@ const testForm = (testDescription, testConfig) => {
 
   describe(testDescription, () => {
     before(() => {
-      testConfig.setup();
+      cy.server()
+        .route('GET', 'v0/maintenance_windows', [])
+        .as('getMaintenanceWindows')
+        .then(testConfig.setup);
     });
 
     beforeEach(() => {
@@ -240,7 +336,7 @@ const testForm = (testDescription, testConfig) => {
     });
 
     it('fills the form', () => {
-      cy.visit(testConfig.url);
+      cy.visit(testConfig.url).wait('@getMaintenanceWindows');
       processPage();
     });
   });
