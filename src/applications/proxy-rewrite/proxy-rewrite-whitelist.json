@@ -124,7 +124,7 @@
     {
       "hostname": "www.ptsd.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.publichealth.va.gov",
