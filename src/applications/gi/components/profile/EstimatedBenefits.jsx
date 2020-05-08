@@ -1,9 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
+import { createId } from '../../utils/helpers';
 
-export const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
+export const CalculatorResultRow = ({
+  id,
+  label,
+  value,
+  header,
+  bold,
+  visible,
+}) =>
   visible ? (
-    <div className={classNames('row', 'calculator-result', { bold })}>
+    <div
+      id={`calculator-result-row-${createId(id == null ? label : id)}`}
+      className={classNames('row', 'calculator-result', { bold })}
+    >
       <div className="small-6 columns">
         {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>
@@ -42,6 +53,7 @@ const perTermSections = (outputs, calculator) => {
         {terms.map(term => (
           <CalculatorResultRow
             key={`${section}${term.label}`}
+            id={`${section}${term.label}`}
             label={term.label}
             value={term.value}
             bold={term.label === 'Total per year'}

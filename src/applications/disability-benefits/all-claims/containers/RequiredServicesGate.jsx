@@ -6,26 +6,17 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
-import environment from 'platform/utilities/environment';
-
 export function RequiredServicesGate({ user, location, children }) {
   // Short-circuit the check on the intro page
   if (location.pathname === '/introduction') {
     return children;
   }
 
-  const currentlyLoggedIn = user.login.currentlyLoggedIn;
-  const userProfileServices = user.profile.services;
-  let missingInformation = !userProfileServices.includes(
-    backendServices.FORM526,
-  );
-  if (missingInformation && !environment.isProduction()) {
-    missingInformation = !userProfileServices.includes(
-      backendServices.ORIGINAL_CLAIMS,
-    );
-  }
-
-  if (currentlyLoggedIn && missingInformation) {
+  if (
+    user.login.currentlyLoggedIn &&
+    !user.profile.services.includes(backendServices.FORM526) &&
+    !user.profile.services.includes(backendServices.ORIGINAL_CLAIMS)
+  ) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox
@@ -38,16 +29,15 @@ export function RequiredServicesGate({ user, location, children }) {
     );
   }
 
-  let serviceRequired = backendServices.FORM526;
-  if (!environment.isProduction()) {
-    serviceRequired = [
-      backendServices.FORM526,
-      backendServices.ORIGINAL_CLAIMS,
-    ];
-  }
-
   return (
-    <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
+    <RequiredLoginView
+      serviceRequired={[
+        backendServices.FORM526,
+        backendServices.ORIGINAL_CLAIMS,
+      ]}
+      user={user}
+      verify
+    >
       {children}
     </RequiredLoginView>
   );
