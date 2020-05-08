@@ -11,10 +11,7 @@ const getField = (formData, possibilities) =>
 
 const addLine = line => line && [line, <br key={line} />];
 
-const AddressViewField = ({
-  formData = {},
-  addressType = 'permanentAddress',
-}) => {
+const AddressViewField = ({ formData, addressType }) => {
   // unchanged address variable names
   const { country, city, state, postalCode } = formData;
   // this should cover all current address use cases
@@ -67,28 +64,7 @@ const AddressViewField = ({
 
   return (
     <>
-      {addressType === 'permanentAddress' &&
-        !isAddressMissing && (
-          <div className="vads-u-border-left--7px vads-u-border-color--primary">
-            <p className="vads-u-margin-left--2 vads-u-margin-top--0">
-              {isBaseAddressDataValid && (
-                <>
-                  {addLine(street)}
-                  {addLine(street2)}
-                  {addLine(street3)}
-                  {isDomesticAddressValid &&
-                    `${city}, ${state} ${postalString}`}
-                  {isInternationalAddressValid &&
-                    `${city}, ${province} ${internationalPostalCode}`}
-                  <br />
-                  {country}
-                </>
-              )}
-            </p>
-          </div>
-        )}
-
-      {addressType === 'temporaryAddress' &&
+      {addressType &&
         !isAddressMissing && (
           <div className="vads-u-border-left--7px vads-u-border-color--primary">
             <p className="vads-u-margin-left--2 vads-u-margin-top--0">
@@ -118,6 +94,11 @@ const AddressViewField = ({
         )}
     </>
   );
+};
+
+AddressViewField.defaultProps = {
+  addressType: 'permanentAddress',
+  formData: {},
 };
 
 AddressViewField.propTypes = {

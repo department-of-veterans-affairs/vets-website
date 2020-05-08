@@ -20,6 +20,7 @@ describe('AddressViewField', () => {
     const wrapper = shallow(
       <AddressViewField formData={formData} addressType="permanentAddress" />,
     );
+    // console.log(wrapper.debug());
     expect(wrapper.html()).to.equal(
       '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, state 12345<br/>USA</p></div>',
     );
