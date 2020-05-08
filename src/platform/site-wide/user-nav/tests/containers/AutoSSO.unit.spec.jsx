@@ -5,27 +5,31 @@ import sinon from 'sinon';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
-import { AutoSSO } from '../../containers/AutoSSO';
+import { AutoSSO, checkStatus } from '../../containers/AutoSSO';
 
 describe('<AutoSSO>', () => {
   const props = {
     useSSOe: false,
     useInboundSSOe: false,
+    checkKeepAlive: sinon.spy(),
   };
 
   beforeEach(() => localStorage.setItem('hasSessionSSO', true));
-  afterEach(() => localStorage.clear());
+  afterEach(() => {
+    localStorage.clear();
+    props.checkKeepAlive.reset();
+  });
 
   describe('checkStatus', () => {
-    it('should not keep keepalive if it already has', () => {
+    it('should not call keepalive if it already has', () => {
       const wrapper = shallow(<AutoSSO {...props} />);
-      wrapper.instance().checkStatus = sinon.spy();
-      wrapper.setState({ hasCalledKeepAlive: true });
+      const spy = sinon.spy(checkStatus);
       wrapper.setProps({
+        hasCalledKeepAlive: true,
         useSSOe: true,
         useInboundSSOe: true,
       });
-      expect(wrapper.instance().checkStatus.called).to.be.false;
+      expect(spy.called).to.be.false;
       wrapper.unmount();
     });
 

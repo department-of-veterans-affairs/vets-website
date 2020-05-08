@@ -1,47 +1,55 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
+import { checkKeepAlive } from 'platform/user/authentication/actions';
+import {
+  ssoe,
+  ssoeInbound,
+  hasCheckedKeepAlive,
+} from 'platform/user/authentication/selectors';
 import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
-import { ssoe, ssoeInbound } from 'platform/user/authentication/selectors';
 import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
+import environment from 'platform/utilities/environment';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 
-class AutoSSO extends React.Component {
-  state = {
-    hasCalledKeepAlive: false,
-  };
-
-  componentDidUpdate() {
-    const { useSSOe, useInboundSSOe } = this.props;
-    const { hasCalledKeepAlive } = this.state;
-
-    if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-      this.checkStatus();
-    }
+export async function checkStatus(toggleKeepAlive) {
+  await ssoKeepAliveSession();
+  if (hasSession() && !hasSessionSSO()) {
+    autoLogout();
+  } else if (!hasSession() && hasSessionSSO()) {
+    autoLogin();
   }
 
-  checkStatus = async () => {
-    await ssoKeepAliveSession();
+  toggleKeepAlive();
+}
 
-    if (hasSession() && !hasSessionSSO()) {
-      autoLogout();
-    } else if (!hasSession() && hasSessionSSO()) {
-      autoLogin();
-    }
+function AutoSSO(props) {
+  const { useSSOe, useInboundSSOe, hasCalledKeepAlive } = props;
 
-    this.setState({ hasCalledKeepAlive: true });
-  };
-
-  render() {
-    return this.props.children;
+  if (
+    useSSOe &&
+    useInboundSSOe &&
+    !hasCalledKeepAlive &&
+    !environment.isLocalhost()
+  ) {
+    checkStatus(props.checkKeepAlive);
   }
+
+  return null;
 }
 
 const mapStateToProps = state => ({
   useSSOe: ssoe(state),
   useInboundSSOe: ssoeInbound(state),
+  hasCalledKeepAlive: hasCheckedKeepAlive(state),
 });
 
-export default connect(mapStateToProps)(AutoSSO);
+const mapDispatchToProps = {
+  checkKeepAlive,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AutoSSO);
 
 export { AutoSSO };
