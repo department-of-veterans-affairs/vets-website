@@ -16,6 +16,13 @@ function HelpMenu({ clickHandler, cssClass, isOpen }) {
     : FACILITY_LOCATOR_URL;
   const icon = <IconHelp color="#fff" role="presentation" />;
 
+  // eslint-disable-next-line no-console
+  console.log(
+    isVATeamSiteSubdomain(),
+    facilityLocatorUrl,
+    FACILITY_LOCATOR_URL,
+  );
+
   const dropDownContents = (
     <div className="va-helpmenu-contents">
       <p>
