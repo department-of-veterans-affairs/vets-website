@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
@@ -37,8 +36,9 @@ export class SearchResult extends React.Component {
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
+
     const linkTo = {
-      pathname: `profile/${facilityCode}`,
+      pathname: `/profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
@@ -97,7 +97,7 @@ export class SearchResult extends React.Component {
                     <h4>
                       <i className="fa fa-home fa-search-result" />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div id={`housing-value-${facilityCode}`}>{housing}</div>
                     </h4>
                   </div>
                 </div>

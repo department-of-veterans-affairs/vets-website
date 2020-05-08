@@ -22,6 +22,11 @@ import {
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
   APPOINTMENT_STATUS,
+  CANCELLED_APPOINTMENT_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
+  PAST_APPOINTMENTS_HIDDEN_SET,
 } from '../../utils/constants';
 import confirmedCC from '../../api/confirmed_cc.json';
 import confirmedVA from '../../api/confirmed_va.json';
@@ -37,8 +42,8 @@ describe('VAOS appointment helpers', () => {
     optionDate1: ' ',
   };
   const vaAppointment = {
-    clinicId: ' ',
-    vvsAppointments: ' ',
+    clinicId: '123',
+    vvsAppointments: [],
   };
   const communityCareAppointment = {
     appointmentTime: ' ',
@@ -131,58 +136,113 @@ describe('VAOS appointment helpers', () => {
       });
 
       it('should return cancelled status for cancelled va appointment', () => {
-        expect(
-          transformAppointment({
+        const cancelledAppts = [...CANCELLED_APPOINTMENT_SET].map(
+          currentStatus => ({
             ...vaAppointment,
             vdsAppointments: [
               {
-                currentStatus: 'CANCELLED BY CLINIC',
+                currentStatus,
               },
             ],
-          }).status,
-        ).to.equal(APPOINTMENT_STATUS.cancelled);
+          }),
+        );
+        const transformed = cancelledAppts.map(a => transformAppointment(a));
+        expect(transformed.length).to.equal(4);
+        expect(
+          transformed.filter(a => a.status === APPOINTMENT_STATUS.cancelled)
+            .length,
+        ).to.equal(cancelledAppts.length);
       });
 
-      it('should return null for va appointment if in HIDE_STATUS_SET', () => {
-        expect(
-          transformAppointment({
-            ...vaAppointment,
-            vdsAppointments: [
-              {
-                currentStatus: 'CHECKED IN',
-              },
-            ],
-          }).status,
-        ).to.equal(null);
-      });
-
-      it('should not return null for future va appointment if not in HIDE_STATUS_SET', () => {
-        expect(
-          transformAppointment(
+      it('should return cancelled status for cancelled va appointment', () => {
+        const cancelledAppts = [...CANCELLED_APPOINTMENT_SET].map(code => ({
+          ...vaAppointment,
+          vvsAppointments: [
             {
-              ...vaAppointment,
-              vdsAppointments: [
-                {
-                  currentStatus: 'INPATIENT APPOINTMENT',
-                },
-              ],
+              status: { code },
             },
-            false,
-          ).status,
-        ).to.equal(APPOINTMENT_STATUS.booked);
+          ],
+        }));
+        const transformed = cancelledAppts.map(a => transformAppointment(a));
+        expect(transformed.length).to.equal(4);
+        expect(
+          transformed.filter(a => a.status === APPOINTMENT_STATUS.cancelled)
+            .length,
+        ).to.equal(cancelledAppts.length);
+      });
+
+      it('should return null for future va appointment if in HIDE_STATUS_SET', () => {
+        const nullAppts = [...FUTURE_APPOINTMENTS_HIDE_STATUS_SET].map(
+          currentStatus => ({
+            ...vaAppointment,
+            vdsAppointments: [
+              {
+                currentStatus,
+              },
+            ],
+          }),
+        );
+        const transformed = nullAppts.map(a => transformAppointment(a));
+        expect(transformed.length).to.equal(2);
+        expect(transformed.filter(a => a.status === null).length).to.equal(
+          nullAppts.length,
+        );
+      });
+
+      it('should return null for future video appointment if in HIDE_STATUS_SET', () => {
+        const nullAppts = [...FUTURE_APPOINTMENTS_HIDE_STATUS_SET].map(
+          code => ({
+            ...vaAppointment,
+            vvsAppointments: [
+              {
+                status: {
+                  code,
+                },
+              },
+            ],
+          }),
+        );
+        const transformed = nullAppts.map(a => transformAppointment(a));
+        expect(transformed.length).to.equal(2);
+        expect(transformed.filter(a => a.status === null).length).to.equal(
+          nullAppts.length,
+        );
       });
 
       it('should return null for past va appointment if in HIDE_STATUS_SET', () => {
-        expect(
-          transformPastAppointment({
+        const nullAppts = [...PAST_APPOINTMENTS_HIDE_STATUS_SET].map(
+          currentStatus => ({
             ...vaAppointment,
             vdsAppointments: [
               {
-                currentStatus: 'INPATIENT APPOINTMENT',
+                currentStatus,
               },
             ],
-          }).status,
-        ).to.equal(null);
+          }),
+        );
+        const transformed = nullAppts.map(a => transformPastAppointment(a));
+        expect(transformed.length).to.equal(11);
+        expect(transformed.filter(a => a.status === null).length).to.equal(
+          nullAppts.length,
+        );
+      });
+
+      it('should return null for past video appointment if in HIDE_STATUS_SET', () => {
+        const nullAppts = [...PAST_APPOINTMENTS_HIDE_STATUS_SET].map(code => ({
+          ...vaAppointment,
+          vvsAppointments: [
+            {
+              status: {
+                code,
+              },
+            },
+          ],
+        }));
+        const transformed = nullAppts.map(a => transformPastAppointment(a));
+        expect(transformed.length).to.equal(11);
+        expect(transformed.filter(a => a.status === null).length).to.equal(
+          nullAppts.length,
+        );
       });
     });
 
@@ -506,6 +566,58 @@ describe('VAOS appointment helpers', () => {
         filterFutureConfirmedAppointments(a, now),
       );
       expect(filteredConfirmed.length).to.equal(3);
+    });
+
+    it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
+        currentStatus => ({
+          vdsAppointments: [{ currentStatus }],
+          facilityId: '984',
+        }),
+      );
+
+      const filtered = hiddenAppts.filter(a =>
+        filterFutureConfirmedAppointments(a, now),
+      );
+      expect(hiddenAppts.length).to.equal(2);
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
+        vvsAppointments: [{ status: { code } }],
+        facilityId: '984',
+      }));
+
+      const filtered = hiddenAppts.filter(a =>
+        filterFutureConfirmedAppointments(a, now),
+      );
+      expect(hiddenAppts.length).to.equal(2);
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should filter out past appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(
+        currentStatus => ({
+          vdsAppointments: [{ currentStatus }],
+          facilityId: '984',
+        }),
+      );
+
+      const filtered = hiddenAppts.filter(a => filterPastAppointments(a, now));
+      expect(hiddenAppts.length).to.equal(5);
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should filter out past video appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(code => ({
+        vvsAppointments: [{ status: { code } }],
+        facilityId: '984',
+      }));
+
+      const filtered = hiddenAppts.filter(a => filterPastAppointments(a, now));
+      expect(hiddenAppts.length).to.equal(5);
+      expect(filtered.length).to.equal(0);
     });
   });
 

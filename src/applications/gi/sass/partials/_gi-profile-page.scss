@@ -4,8 +4,10 @@
     margin-top: 0;
   }
 
-  .usa-accordion {
+  .profile-accordion-list {
     margin-top: 1em;
+    list-style-type: none;
+    padding-left: 0;
   }
 
   .accordion-button-text {
@@ -347,6 +349,16 @@
 
   .sco-list {
     list-style: none;
+  }
+
+  .estimated-benefits-header:focus {
+    outline: 0;
+    outline-color: transparent;
+    outline-style: none;
+  }
+
+  .checked-program {
+    max-width: fit-content;
   }
 
   .eyb-inputs-ul {

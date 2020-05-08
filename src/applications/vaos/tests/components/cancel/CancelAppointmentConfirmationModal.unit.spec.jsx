@@ -14,6 +14,7 @@ describe('VAOS <CancelAppointmentConfirmationModal>', () => {
     );
 
     expect(tree.find('Modal').props().status).to.equal('warning');
+    expect(tree.find('Modal').find('button').length).to.equal(3);
     expect(
       tree
         .find('Modal')
@@ -36,6 +37,7 @@ describe('VAOS <CancelAppointmentConfirmationModal>', () => {
       <CancelAppointmentConfirmationModal status={FETCH_STATUS.loading} />,
     );
 
+    expect(tree.find('Modal').find('button').length).to.equal(2);
     expect(
       tree
         .find('Modal')
@@ -46,7 +48,7 @@ describe('VAOS <CancelAppointmentConfirmationModal>', () => {
       tree
         .find('Modal')
         .find('button')
-        .at(2)
+        .at(1)
         .props().disabled,
     ).to.be.true;
 

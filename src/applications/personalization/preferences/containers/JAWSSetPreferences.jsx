@@ -27,7 +27,7 @@ import {
 } from '../actions';
 
 class JAWSSetPreferences extends React.Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchAvailableBenefits();
     this.props.fetchUserSelectedBenefits();
