@@ -139,7 +139,7 @@
     {
       "hostname": "www.sci.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.telehealth.va.gov",
