@@ -128,7 +128,7 @@ describe('Schemaform: ReviewCardField', () => {
       // eslint-disable-next-line va/enzyme-unmount
       shallow(
         <ReviewCardField store={mockStore} {...mockData} uiSchema={{}} />,
-      );
+      ).dive();
     }).to.throw('viewComponent');
   });
 
@@ -142,7 +142,7 @@ describe('Schemaform: ReviewCardField', () => {
           {...mockData}
           schema={{ type: 'string' }}
         />,
-      );
+      ).dive();
     }).to.throw('Unknown schema type');
   });
 
