@@ -134,7 +134,7 @@
     {
       "hostname": "www.ruralhealth.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.sci.va.gov",
