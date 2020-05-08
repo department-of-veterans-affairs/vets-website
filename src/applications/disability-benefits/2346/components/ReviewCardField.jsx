@@ -299,8 +299,6 @@ class ReviewCardField extends React.Component {
     const isTempAddressMissing = Object.values(temporaryAddress).every(
       prop => !prop,
     );
-    /* eslint-disable no-debugger */
-    debugger;
     return (
       <div className="review-card">
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
