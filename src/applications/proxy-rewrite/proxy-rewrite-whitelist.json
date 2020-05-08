@@ -149,7 +149,7 @@
     {
       "hostname": "www.vetcenter.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.volunteer.va.gov",
