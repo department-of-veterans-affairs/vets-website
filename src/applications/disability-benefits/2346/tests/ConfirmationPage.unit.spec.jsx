@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
-  // state.form?.submission?.response?.attributes?.confirmationNumber,
   const fakeStore = {
     getState: () => ({
       form: {
