@@ -228,20 +228,14 @@ const testForm = (testDescription, testConfig) => {
     });
 
     const fillAvailableFields = () => {
-      let fieldCount;
       let arrayItemCount;
+      let fieldCount;
 
       // Get the starting number of fields.
       cy.get('body').then(body => {
-        const arrayItemElements = body.find(ARRAY_ITEM_SELECTOR);
-        arrayItemCount = arrayItemElements.length;
+        arrayItemCount = body.find(ARRAY_ITEM_SELECTOR).length;
+        fieldCount = body.find(FIELD_SELECTOR).length;
       });
-
-      cy.get(FIELD_SELECTOR)
-        .its('length')
-        .then(length => {
-          fieldCount = length;
-        });
 
       cy.get(FIELD_SELECTOR).each(element => {
         const field = createFieldObject(element);
@@ -275,22 +269,12 @@ const testForm = (testDescription, testConfig) => {
           if (fieldCount === length) addNewArrayItem();
         });
 
-      let shouldKeepFilling;
-
-      cy.get(FIELD_SELECTOR)
-        .its('length')
-        .then(length => {
-          shouldKeepFilling = fieldCount !== length;
-        })
-        .get('body')
-        .then(body => {
-          const arrayItemElements = body.find(ARRAY_ITEM_SELECTOR);
-          shouldKeepFilling =
-            shouldKeepFilling || arrayItemCount !== arrayItemElements.length;
-        })
-        .then(() => {
-          if (shouldKeepFilling) fillAvailableFields();
-        });
+      cy.get('body').then(body => {
+        const fieldsNeedInput =
+          arrayItemCount !== body.find(ARRAY_ITEM_SELECTOR).length ||
+          fieldCount !== body.find(FIELD_SELECTOR).length;
+        if (fieldsNeedInput) fillAvailableFields();
+      });
     };
 
     fillAvailableFields();
