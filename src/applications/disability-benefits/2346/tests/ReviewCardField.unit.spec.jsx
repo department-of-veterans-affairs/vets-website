@@ -128,7 +128,7 @@ describe('Schemaform: ReviewCardField', () => {
     const wrapper = shallow(
       <ReviewCardField store={mockStore} {...defaultProps} />,
     );
-    expect(wrapper.text()).to.contain('Thing');
+    expect(wrapper.html()).to.contain('Thing');
     wrapper.unmount();
   });
 
@@ -200,7 +200,7 @@ describe('Schemaform: ReviewCardField', () => {
     expect(wrapper.find('viewComponent').length).to.equal(1);
 
     // Start editing
-    wrapper.find('.usa-button-secondary').simulate('click');
+    wrapper.find('.vads-c-link').simulate('click');
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
     wrapper.unmount();
@@ -214,7 +214,7 @@ describe('Schemaform: ReviewCardField', () => {
     expect(wrapper.find('viewComponent').length).to.equal(1);
 
     // Start editing
-    wrapper.find('.usa-button-secondary').simulate('click');
+    wrapper.find('.vads-c-link').simulate('click');
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
 
