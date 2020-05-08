@@ -47,9 +47,87 @@ describe('Schemaform: ReviewCardField', () => {
     onChange: spy(),
     onBlur: () => {},
   };
+  const mockStore = {
+    getState: () => ({
+      form: {
+        data: {
+          permanentAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'USA',
+            street: '101 Example Street',
+            street2: 'Apt 2',
+            city: 'Kansas City',
+            state: 'MO',
+            postalCode: '64117',
+          },
+          temporaryAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'USA',
+            street: '201 Example Street',
+            city: 'Galveston',
+            state: 'TX',
+            postalCode: '77550',
+          },
+          email: 'test2@test1.net',
+          currentAddress: 'temporaryAddress',
+          supplies: [
+            {
+              deviceName: 'OMEGAX d3241',
+              productName: 'ZA1239',
+              productGroup: 'hearing aid batteries',
+              productId: '1',
+              availableForReorder: true,
+              lastOrderDate: '2020-01-01',
+              nextAvailabilityDate: '2020-09-01',
+              quantity: 60,
+              prescribedDate: '2020-12-20',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'hearing aid accessories',
+              productId: '3',
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '6mm',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'hearing aid accessories',
+              productId: '4',
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '7mm',
+            },
+            {
+              productName: 'WaxBuster Single Unit',
+              productGroup: 'hearing aid accessories',
+              productId: '5',
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+            },
+          ],
+          fullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+          ssnLastFour: '1200',
+          gender: 'M',
+          dateOfBirth: '1933-04-05',
+          selectedProducts: [{ productId: '4' }, { productId: '5' }],
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
 
   it('should render', () => {
-    const wrapper = shallow(<ReviewCardField {...defaultProps} />);
+    const wrapper = shallow(
+      <ReviewCardField store={mockStore} {...defaultProps} />,
+    );
     expect(wrapper.text()).to.contain('Thing');
     wrapper.unmount();
   });
@@ -58,7 +136,9 @@ describe('Schemaform: ReviewCardField', () => {
     expect(() => {
       // Not necessary if not componentWillUnmount
       // eslint-disable-next-line va/enzyme-unmount
-      shallow(<ReviewCardField {...defaultProps} uiSchema={{}} />);
+      shallow(
+        <ReviewCardField store={mockStore} {...defaultProps} uiSchema={{}} />,
+      );
     }).to.throw('viewComponent');
   });
 
@@ -67,14 +147,20 @@ describe('Schemaform: ReviewCardField', () => {
       // Not necessary if not componentWillUnmount
       // eslint-disable-next-line va/enzyme-unmount
       shallow(
-        <ReviewCardField {...defaultProps} schema={{ type: 'string' }} />,
+        <ReviewCardField
+          store={mockStore}
+          {...defaultProps}
+          schema={{ type: 'string' }}
+        />,
       );
     }).to.throw('Unknown schema type');
   });
 
   // Also tests that it renders a custom component
   it('should start in view mode', () => {
-    const wrapper = shallow(<ReviewCardField {...defaultProps} />);
+    const wrapper = shallow(
+      <ReviewCardField store={mockStore} {...defaultProps} />,
+    );
     expect(wrapper.find('viewComponent').length).to.equal(1);
     expect(wrapper.find('.input-section').length).to.equal(0);
     wrapper.unmount();
@@ -86,7 +172,11 @@ describe('Schemaform: ReviewCardField', () => {
       field2: { __errors: [] },
     };
     const wrapper = shallow(
-      <ReviewCardField {...defaultProps} errorSchema={errorSchema} />,
+      <ReviewCardField
+        store={mockStore}
+        {...defaultProps}
+        errorSchema={errorSchema}
+      />,
     );
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
@@ -94,7 +184,9 @@ describe('Schemaform: ReviewCardField', () => {
   });
 
   it('should pass formData the custom view component', () => {
-    const wrapper = shallow(<ReviewCardField {...defaultProps} />);
+    const wrapper = shallow(
+      <ReviewCardField store={mockStore} {...defaultProps} />,
+    );
     expect(wrapper.find('viewComponent').props()).to.eql({
       formData: defaultProps.formData,
     });
@@ -102,7 +194,9 @@ describe('Schemaform: ReviewCardField', () => {
   });
 
   it('should transition to edit mode', () => {
-    const wrapper = shallow(<ReviewCardField {...defaultProps} />);
+    const wrapper = shallow(
+      <ReviewCardField store={mockStore} {...defaultProps} />,
+    );
     expect(wrapper.find('viewComponent').length).to.equal(1);
 
     // Start editing
@@ -114,7 +208,9 @@ describe('Schemaform: ReviewCardField', () => {
 
   it('should transition to view mode', () => {
     // Not sure how to be not duplicate an existing test here
-    const wrapper = shallow(<ReviewCardField {...defaultProps} />);
+    const wrapper = shallow(
+      <ReviewCardField store={mockStore} {...defaultProps} />,
+    );
     expect(wrapper.find('viewComponent').length).to.equal(1);
 
     // Start editing
@@ -136,7 +232,11 @@ describe('Schemaform: ReviewCardField', () => {
       field2: { __errors: [] },
     };
     const wrapper = mount(
-      <ReviewCardField {...defaultProps} errorSchema={errorSchema} />,
+      <ReviewCardField
+        store={mockStore}
+        {...defaultProps}
+        errorSchema={errorSchema}
+      />,
     );
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
@@ -153,7 +253,7 @@ describe('Schemaform: ReviewCardField', () => {
 
   it('should render the appropriate field in reviewMode according to the data type', () => {
     const props = set('formContext.onReviewPage', true, defaultProps);
-    const tree = shallow(<ReviewCardField {...props} />);
+    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
     expect(tree.find('ObjectField').length).to.equal(1);
     tree.unmount();
   });
@@ -164,7 +264,7 @@ describe('Schemaform: ReviewCardField', () => {
       'Thingy',
       defaultProps,
     );
-    const tree = shallow(<ReviewCardField {...props} />);
+    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
     expect(tree.find('.review-card--title').text()).to.equal('Thingy');
     tree.unmount();
   });
@@ -175,7 +275,7 @@ describe('Schemaform: ReviewCardField', () => {
       _.set('uiSchema.ui:options.startInEdit', true),
     )(defaultProps);
 
-    const tree = shallow(<ReviewCardField {...props} />);
+    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
     expect(tree.find('.review-card--subtitle').text()).to.equal(
       'Subtitle text',
     );
@@ -185,14 +285,14 @@ describe('Schemaform: ReviewCardField', () => {
   describe('startInEdit', () => {
     it('should handle truthy values', () => {
       const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
-      const tree = shallow(<ReviewCardField {...props} />);
+      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
 
     it('should handle falsey values', () => {
       const props = set('uiSchema.ui:options.startInEdit', false, defaultProps);
-      const tree = shallow(<ReviewCardField {...props} />);
+      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
       expect(tree.find('.input-section').length).to.equal(0);
       tree.unmount();
     });
@@ -203,7 +303,7 @@ describe('Schemaform: ReviewCardField', () => {
         formData => formData.field1 === 'asdf',
         defaultProps,
       );
-      const tree = shallow(<ReviewCardField {...props} />);
+      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
@@ -216,7 +316,7 @@ describe('Schemaform: ReviewCardField', () => {
       defaultProps,
     );
     const props = set('uiSchema.ui:options.editTitle', 'Thingy', editModeProps);
-    const tree = shallow(<ReviewCardField {...props} />);
+    const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
     expect(tree.find('.review-card--title').text()).to.equal('Thingy');
     tree.unmount();
   });
@@ -229,13 +329,17 @@ describe('Schemaform: ReviewCardField', () => {
     );
 
     it('should remove the edit button from the header in review mode', () => {
-      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+      );
       expect(tree.find('.review-card--header .edit-button').length).to.equal(0);
       tree.unmount();
     });
 
     it('should remove the save button in review mode', () => {
-      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+      );
       expect(tree.find('.update-button').length).to.equal(0);
       tree.unmount();
     });
@@ -248,6 +352,7 @@ describe('Schemaform: ReviewCardField', () => {
       );
       const tree = mount(
         <ReviewCardField
+          store={mockStore}
           {...props}
           formContext={{ onReviewPage: true, reviewMode: true }}
         />,
@@ -264,6 +369,7 @@ describe('Schemaform: ReviewCardField', () => {
       );
       const tree = mount(
         <ReviewCardField
+          store={mockStore}
           {...props}
           formContext={{ onReviewPage: true, reviewMode: false }}
         />,
@@ -273,7 +379,9 @@ describe('Schemaform: ReviewCardField', () => {
     });
 
     it('should add a "New X" button in review mode', () => {
-      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+      );
       const editButtons = tree.find('.edit-button');
       expect(editButtons.length).to.equal(1);
       expect(editButtons.first().text()).to.equal('New Thing');
@@ -286,7 +394,7 @@ describe('Schemaform: ReviewCardField', () => {
         'Doodad',
         defaultVDProps,
       );
-      const tree = shallow(<ReviewCardField {...props} />);
+      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
       expect(tree.find('.edit-button').text()).to.equal('New Doodad');
       tree.unmount();
     });
@@ -297,13 +405,15 @@ describe('Schemaform: ReviewCardField', () => {
         true,
         defaultVDProps,
       );
-      const tree = shallow(<ReviewCardField {...props} />);
+      const tree = shallow(<ReviewCardField store={mockStore} {...props} />);
       expect(tree.find('.cancel-button').length).to.equal(0);
       tree.unmount();
     });
 
     it('should add a save & cancel button in edit mode', () => {
-      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+      );
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
       expect(tree.find('.update-button').length).to.equal(1);
@@ -314,7 +424,9 @@ describe('Schemaform: ReviewCardField', () => {
     it('should handle canceling an update', () => {
       defaultVDProps.onChange.reset();
       // Start in review mode with some data
-      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+      );
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
 
