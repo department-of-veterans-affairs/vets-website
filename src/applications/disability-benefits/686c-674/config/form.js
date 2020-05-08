@@ -70,7 +70,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'New 686',
+  title: 'Add or remove dependents from your VA benefits',
+  subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
 
   chapters: {
