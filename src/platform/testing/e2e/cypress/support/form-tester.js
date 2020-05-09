@@ -5,8 +5,6 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 
 const testForm = (testDescription, testConfig) => {
-  let currentPathname = testConfig.url;
-
   const runHook = (hook, pathname) => {
     if (typeof hook !== 'function') {
       throw new Error(
@@ -281,30 +279,30 @@ const testForm = (testDescription, testConfig) => {
   };
 
   const processPage = () => {
-    cy.location('pathname')
-      .then(pathname => {
-        // Check if the form has advanced to the next page.
-        if (pathname === currentPathname) {
-          throw new Error(`Expected to navigate away from ${pathname}`);
-        }
+    cy.location('pathname').then(pathname => {
+      if (!pathname.endsWith('review-and-submit')) {
+        cy.wrap(
+          new Promise(resolve => {
+            // Run hooks if there are any for this page.
+            // Otherwise, fill out the page as usual.
+            const hook = testConfig.pageHooks[pathname];
+            if (hook) runHook(hook, pathname);
+            else fillPage();
+            resolve();
+          }),
+        );
 
-        // Update the current path name.
-        currentPathname = pathname;
-
-        // Run hooks if there are any for this page.
-        // Otherwise, fill out the page as usual.
-        const hook = testConfig.pageHooks[pathname];
-        if (hook) runHook(hook, pathname);
-        else fillPage();
-      })
-      .then(() => {
-        if (!currentPathname.endsWith('review-and-submit')) {
-          // Continue to the next page.
-          cy.findByText(/continue/i, { selector: 'button' })
-            .click()
-            .then(processPage);
-        }
-      });
+        cy.findByText(/continue/i, { selector: 'button' })
+          .click()
+          .location('pathname')
+          .then(newPathname => {
+            if (pathname === newPathname) {
+              throw new Error(`Expected to navigate away from ${pathname}`);
+            }
+          })
+          .then(processPage);
+      }
+    });
   };
 
   describe(testDescription, () => {
