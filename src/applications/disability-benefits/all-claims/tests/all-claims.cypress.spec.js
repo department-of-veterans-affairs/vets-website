@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { VA_FORM_IDS } from '../../../../platform/forms/constants';
-import testData from './data/minimal-test.json';
+import testData from './data/newOnly-test.json';
 import testForm from '../../../../platform/testing/e2e/cypress/support/form-tester';
 
 /* eslint-disable camelcase */
@@ -188,23 +188,21 @@ const testConfig = {
       });
       cy.findByText(/continue/i, { selector: 'button' }).click();
     },
-    /*
     '/disability/file-disability-claim-form-21-526ez/payment-information': () => {
-      if (testData.data['view:bankAccount']) {
-        cy.get('body').then(body => {
-          const editButton = body.find('.usa-button-primary.edit-button');
-          if (editButton) editButton.click();
-        });
-        if (await page.$('.usa-button-primary.edit-button')) {
-          // Only click edit if new bank info is in the data file
-          await page.click('.usa-button-primary.edit-button');
+      cy.get('@testData').then(({ data }) => {
+        if (data['view:bankAccount']) {
+          cy.get('form.rjsf').then($form => {
+            const editButton = $form.find('.usa-button-primary.edit-button');
+            if (editButton) editButton.click();
+          });
+
+          cy.fillPage();
+          cy.findByText(/save/i, { selector: 'button' }).click();
         }
-        await formFiller.fillPage(page, data, config, log);
-        await page.click('.usa-button-primary.update-button');
-      }
-      await page.click('button[type=submit].usa-button-primary');
+
+        cy.findByText(/continue/i, { selector: 'button' }).click();
+      });
     },
-    */
   },
   setup: () => {
     // Set up signed in session.
@@ -214,11 +212,18 @@ const testConfig = {
     cy.route('GET', '/v0/user', mockUser)
       .route('GET', '/v0/intent_to_file', mockItf)
       .route('GET', '/v0/upload_supporting_evidence', mockDocumentUpload)
-      .route('GET', '/v0/ppiu/payment_information', mockPaymentInformation);
+      .route('GET', '/v0/ppiu/payment_information', mockPaymentInformation)
+      .route('POST', '/v0/disability_compensation_form/submit_all_claim', {
+        data: {
+          attributes: {
+            guid: '123fake-submission-id-567',
+          },
+        },
+      });
   },
   setupPerTest: () => {
-    // Pre-fill with the expected ratedDisabilities, but nix view:selected
-    // since that's not pre-filled
+    // Pre-fill with the expected ratedDisabilities,
+    // but nix view:selected since that's not pre-filled
     const sanitizedRatedDisabilities = (
       testData.data.ratedDisabilities || []
     ).map(({ 'view:selected': _, ...obj }) => obj);
