@@ -239,8 +239,7 @@ const testConfig = {
     });
   },
   testData,
-  url:
-    'localhost:3001/disability/file-disability-claim-form-21-526ez/introduction',
+  url: '/disability/file-disability-claim-form-21-526ez/introduction',
   // TODO: Remove this in favor of importing the formConfig and finding them all
   arrayPages: [
     {
