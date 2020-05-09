@@ -114,19 +114,11 @@ const testForm = (testDescription, testConfig) => {
             .clear()
             .type(field.data)
             .then(() => {
+              // Get the autocomplete menu out of the way
               if (element.attr('role') === 'combobox') {
                 cy.wrap(element).type('{downarrow}{enter}');
               }
             });
-          /*
-          // Get the autocomplete menu out of the way
-          const role = await page.$eval(selector, textbox =>
-            textbox.getAttribute('role'),
-          );
-          if (role === 'combobox') {
-            await page.keyboard.press('Tab');
-          }
-          */
           break;
         }
 
@@ -213,15 +205,17 @@ const testForm = (testDescription, testConfig) => {
       // Set up the path prefix for looking up test data under the array item
       // that corresponds to this page.
       if (arrayPageObject) {
+        /*
         cy.log(
           `Current page ${pathname} matched with array page ${
             arrayPageObject.path
           }`,
         );
+        */
         const { arrayPath } = arrayPageObject;
         const index = parseInt(match.groups.index, 10);
         arrayItemPath = `${arrayPath}[${index}]`;
-        cy.log(`Array item data at path: ${arrayItemPath}`);
+        // cy.log(`Array item data at path: ${arrayItemPath}`);
       }
     });
 
@@ -237,7 +231,7 @@ const testForm = (testDescription, testConfig) => {
 
       cy.get(FIELD_SELECTOR).each(element => {
         const field = createFieldObject(element);
-        cy.log(`Found field on page with key ${field.key}`);
+        // cy.log(`Found field on page with key ${field.key}`);
 
         if (
           !field.key ||
@@ -250,7 +244,7 @@ const testForm = (testDescription, testConfig) => {
         field.data = findData(field);
 
         if (typeof field.data === 'undefined') {
-          cy.log(`No data found for ${field.key}`);
+          // cy.log(`No data found for ${field.key}`);
         } else {
           enterData(field);
         }
