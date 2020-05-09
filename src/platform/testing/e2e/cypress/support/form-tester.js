@@ -36,7 +36,7 @@ const testForm = (testDescription, testConfig) => {
     switch (field.type) {
       // Select fields register as having a type === 'select-one'
       case 'select-one':
-        cy.get(`select[name="${field.key}"]`).select(field.data);
+        cy.wrap(field.element).select(field.data);
         break;
 
       case 'checkbox': {
@@ -49,7 +49,7 @@ const testForm = (testDescription, testConfig) => {
       }
 
       case 'textarea':
-        cy.get(`textarea[id="${field.key}"]`)
+        cy.wrap(field.element)
           .clear()
           .type(field.data);
         break;
@@ -58,7 +58,7 @@ const testForm = (testDescription, testConfig) => {
       case 'email':
       case 'number':
       case 'text': {
-        cy.get(`input[name="${field.key}"]`)
+        cy.wrap(field.element)
           .clear()
           .type(field.data)
           .then(element => {
