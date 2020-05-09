@@ -40,7 +40,7 @@ const testForm = (testDescription, testConfig) => {
         break;
 
       case 'checkbox': {
-        // Only click the checkbox if we need to.
+        // Only click the checkbox if we need to
         const checked = field.element.prop('checked');
         if ((checked && !field.data) || (!checked && field.data)) {
           cy.wrap(field.element).click();
@@ -49,11 +49,6 @@ const testForm = (testDescription, testConfig) => {
       }
 
       case 'textarea':
-        cy.wrap(field.element)
-          .clear()
-          .type(field.data);
-        break;
-
       case 'tel':
       case 'email':
       case 'number':
