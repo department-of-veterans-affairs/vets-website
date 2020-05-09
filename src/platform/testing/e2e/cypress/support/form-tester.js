@@ -30,20 +30,19 @@ const testForm = (testDescription, testConfig) => {
 
   const enterData = field => {
     switch (field.type) {
-      case 'select-one': // Select fields register as having a type === 'select-one'
-        // TODO: Error if it's not an option the select has
+      // Select fields register as having a type === 'select-one'
+      case 'select-one':
         cy.get(`select[name="${field.key}"]`).select(field.data);
         break;
 
       case 'checkbox': {
-        // Only click the checkbox if we need to
-        // const checkbox = await page.$(selector);
-        // if (checkbox) await checkbox.click();
-        cy.get(
-          `input[id="${field.key}"]${
+        // Only click the checkbox if we need to.
+        cy.get('form.rjsf').then($form => {
+          const checkbox = $form.find(`input[id="${field.key}"]${
             field.data ? ':not(checked)' : ':checked'
-          }`,
-        ).click();
+          }`);
+          if (checkbox) cy.wrap(checkbox).click();
+        })
         break;
       }
 
@@ -132,10 +131,8 @@ const testForm = (testDescription, testConfig) => {
     };
 
     // Date fields in form data combine all the date components
-    // (year, month, day), so we will process two or three elements at once
-    // when entering dates.
+    // (year, month, day), so treat as one input when filling out dates.
     field.key = field.key.replace(/(Year|Month|Day)$/, () => {
-      // Set type to 'date' if the pattern matches a date component.
       field.type = 'date';
       return '';
     });
@@ -143,6 +140,8 @@ const testForm = (testDescription, testConfig) => {
     return field;
   };
 
+  // Supplement array page objects from form config with regex patterns so that
+  // we can match page URLs against them to determine if they're array pages.
   const arrayPageObjects = testConfig.arrayPages.map(arrayPage => ({
     regex: new RegExp(arrayPage.path.replace(':index', '(\\d+)$')),
     ...arrayPage,
@@ -165,8 +164,8 @@ const testForm = (testDescription, testConfig) => {
     return arrayPath ? `${arrayPath}[${parseInt(index, 10)}]` : '';
   };
 
-  const addNewArrayItem = form => {
-    const arrayTypeDivs = form.find('div[name^="topOfTable_root_"]');
+  const addNewArrayItem = $form => {
+    const arrayTypeDivs = $form.find('div[name^="topOfTable_root_"]');
 
     if (arrayTypeDivs.length) {
       cy.wrap(arrayTypeDivs).each(arrayTypeDiv => {
@@ -189,8 +188,6 @@ const testForm = (testDescription, testConfig) => {
         });
       });
     }
-
-    cy.wrap(form);
   };
 
   const fillPage = () => {
@@ -203,7 +200,8 @@ const testForm = (testDescription, testConfig) => {
         const fillAvailableFields = () => {
           cy.get('form.rjsf')
             .then($form => {
-              // Get the starting number of fields.
+              // Get the starting number of array items and fields to compare
+              // after filling out every field that is currently visible.
               snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
               snapshot.fieldCount = $form.find(FIELD_SELECTOR).length;
             })
@@ -213,7 +211,6 @@ const testForm = (testDescription, testConfig) => {
 
               cy.wrap(fields).each(element => {
                 const field = createFieldObject(element);
-                // cy.log(`Found field on page with key ${field.key}`);
 
                 const shouldSkipField =
                   !field.key ||
@@ -229,19 +226,24 @@ const testForm = (testDescription, testConfig) => {
 
                 touchedFields.add(field.key);
               });
-            })
-            .then($form => {
-              // Compare the number of fields before and after filling all the available
-              // fields from this iteration. If there are new fields to be filled,
-              // iterate through the page again.
+
+              // Compare the number of fields after filling all the available
+              // fields from this iteration. If all currently visible fields
+              // have been filled, try adding an array item if possible.
               if (snapshot.fieldCount === $form.find(FIELD_SELECTOR).length) {
                 addNewArrayItem($form);
               }
 
+              cy.wrap($form);
+            })
+            .then($form => {
+              const { arrayItemCount, fieldCount } = snapshot;
+
+              // If there are new array items or fields to be filled,
+              // iterate through the page again.
               const fieldsNeedInput =
-                snapshot.arrayItemCount !==
-                  $form.find(ARRAY_ITEM_SELECTOR).length ||
-                snapshot.fieldCount !== $form.find(FIELD_SELECTOR).length;
+                arrayItemCount !== $form.find(ARRAY_ITEM_SELECTOR).length ||
+                fieldCount !== $form.find(FIELD_SELECTOR).length;
 
               if (fieldsNeedInput) fillAvailableFields();
             });
