@@ -6,7 +6,10 @@ const ARRAY_ITEM_SELECTOR =
 const FIELD_SELECTOR = 'input, select, textarea';
 
 const testForm = (testDescription, testConfig) => {
-  const runHook = (hook, pathname) => {
+  const runHook = pathname => {
+    const hook = testConfig.pageHooks[pathname];
+    if (!hook) return false;
+
     if (typeof hook !== 'function') {
       throw new Error(
         `Bad testConfig: Page hook for ${pathname} is not a function`,
@@ -14,6 +17,7 @@ const testForm = (testDescription, testConfig) => {
     }
 
     hook();
+    return true;
   };
 
   const findData = field => {
@@ -37,12 +41,10 @@ const testForm = (testDescription, testConfig) => {
 
       case 'checkbox': {
         // Only click the checkbox if we need to.
-        cy.get('form.rjsf').then($form => {
-          const checkbox = $form.find(`input[id="${field.key}"]${
-            field.data ? ':not(checked)' : ':checked'
-          }`);
-          if (checkbox) cy.wrap(checkbox).click();
-        })
+        const checked = field.element.prop('checked');
+        if ((checked && !field.data) || (!checked && field.data)) {
+          cy.wrap(field.element).click();
+        }
         break;
       }
 
@@ -260,9 +262,7 @@ const testForm = (testDescription, testConfig) => {
           new Promise(resolve => {
             // Run hooks if there are any for this page.
             // Otherwise, fill out the page as usual.
-            const hook = testConfig.pageHooks[pathname];
-            if (hook) runHook(hook, pathname);
-            else fillPage();
+            if (!runHook(pathname)) fillPage();
             resolve();
           }),
         );
