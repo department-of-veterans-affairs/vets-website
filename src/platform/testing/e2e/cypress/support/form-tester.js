@@ -301,6 +301,9 @@ const testForm = (testDescription, testConfig) => {
             }
           })
           .then(processPage);
+      } else {
+        cy.findByLabelText(/accept/i).click();
+        cy.findByText(/submit/i, { selector: 'button' }).click();
       }
     });
   };
