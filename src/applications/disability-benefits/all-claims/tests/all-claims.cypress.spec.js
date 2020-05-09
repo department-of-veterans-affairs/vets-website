@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { VA_FORM_IDS } from '../../../../platform/forms/constants';
-import testData from './data/newOnly-test.json';
+import testData from './data/minimal-test.json';
 import testForm from '../../../../platform/testing/e2e/cypress/support/form-tester';
 
 /* eslint-disable camelcase */
@@ -180,30 +180,21 @@ const testConfig = {
       // Click past the ITF message
       cy.findByText(/continue/i, { selector: 'button' }).click();
     },
-    /*
-    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': async (
-      page,
-      data,
-      config,
-      log,
-    ) => {
-      await Promise.all(
-        data.ratedDisabilities.map(async (disability, index) => {
-          if (disability['view:selected']) {
-            log(`Selecting ${disability.name} (index ${index})`);
-            await page.click(`input[name="root_ratedDisabilities_${index}"]`);
-          }
-        }),
-      );
-      await page.click('.form-progress-buttons .usa-button-primary');
+    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': () => {
+      testData.data.ratedDisabilities.forEach((disability, index) => {
+        if (disability['view:selected']) {
+          cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
+        }
+      });
+      cy.findByText(/continue/i, { selector: 'button' }).click();
     },
-    '/disability/file-disability-claim-form-21-526ez/payment-information': async (
-      page,
-      data,
-      config,
-      log,
-    ) => {
-      if (data['view:bankAccount']) {
+    /*
+    '/disability/file-disability-claim-form-21-526ez/payment-information': () => {
+      if (testData.data['view:bankAccount']) {
+        cy.get('body').then(body => {
+          const editButton = body.find('.usa-button-primary.edit-button');
+          if (editButton) editButton.click();
+        });
         if (await page.$('.usa-button-primary.edit-button')) {
           // Only click edit if new bank info is in the data file
           await page.click('.usa-button-primary.edit-button');
@@ -213,7 +204,7 @@ const testConfig = {
       }
       await page.click('button[type=submit].usa-button-primary');
     },
-  */
+    */
   },
   setup: () => {
     // Set up signed in session.
