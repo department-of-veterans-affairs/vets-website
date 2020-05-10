@@ -1,0 +1,25 @@
+{% for national in paragraph.entity.fieldContent %}
+  {% if national %}
+      <h2>{{national.entity.title}}</h2>
+      <div class="processed-content">{{ national.entity.body.processed }}
+      </div>
+  {% endif %}
+{% endfor %}
+
+{% for nationalEditable in paragraph.entity.fieldNationalContentTemplates %}
+  {% if nationalEditable %}
+    {% if showheader %}
+      <h2>{{nationalEditable.entity.title}}</h2>
+    {% endif %}
+    <div class="processed-content">
+      {{ nationalEditable.entity.body.value | replace: '[wysiwyg_custom:name]', fieldOffice.entity.title }}</div>
+  {% endif %}
+{% endfor %}
+
+{% for custom in paragraph.entity.fieldSystemLevelCustomConten %}
+  {% if custom %}
+    <h2>{{custom.entity.title}}</h2>
+    <div class="processed-content">
+     {{ custom.entity.body.processed }}</div>
+  {% endif %}
+{% endfor %}
