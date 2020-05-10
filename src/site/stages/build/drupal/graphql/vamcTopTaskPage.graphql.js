@@ -23,7 +23,7 @@ module.exports = `
               ... on NodeVamcNationalContentEditable {
                 title
                 body {
-                  processed
+                  value
                 }
               }
             }
@@ -49,7 +49,7 @@ module.exports = `
               ... on NodeVamcNationalContentEditable {
                 title
                 body {
-                  processed
+                  value
                 }
               }
             }
@@ -85,7 +85,7 @@ module.exports = `
               ... on NodeVamcNationalContentEditable {
                 title
                 body {
-                  processed
+                  value
                 }
               }
             }
