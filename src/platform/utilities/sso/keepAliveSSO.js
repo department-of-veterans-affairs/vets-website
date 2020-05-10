@@ -17,7 +17,7 @@ export default async function keepAlive() {
         'Content-Type': 'application/json',
       },
     });
-    return resp.headers.get('session-timeout');
+    return Number(resp.headers.get('session-timeout'));
   } catch (err) {
     Sentry.withScope(scope => {
       scope.setExtra('error', err);
