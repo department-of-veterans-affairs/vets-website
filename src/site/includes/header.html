@@ -20,6 +20,10 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  {% if buildtype != 'vagovprod' %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+
   {% if drupalTags %}
   {% include "src/site/includes/metatags.drupal.liquid" %}
   {% else %}

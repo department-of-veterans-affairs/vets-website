@@ -68,7 +68,7 @@ function beginTests(browser) {
     browser,
     'mailingAddress',
     '1493 Martin Luther King Rd, Apt 1',
-    'Fulton, New York 97062',
+    'Fulton, NY 97062',
   );
   runAddressTest(
     browser,

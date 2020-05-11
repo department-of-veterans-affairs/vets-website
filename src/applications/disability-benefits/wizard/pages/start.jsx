@@ -1,15 +1,9 @@
 import React from 'react';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import environment from 'platform/utilities/environment';
-
-let pageNameYes = pageNames.originalClaim;
-if (!environment.isProduction()) {
-  pageNameYes = pageNames.appeals;
-}
 
 const options = [
-  { value: pageNameYes, label: 'Yes' },
+  { value: pageNames.appeals, label: 'Yes' },
   { value: pageNames.bdd, label: 'No' },
 ];
 
