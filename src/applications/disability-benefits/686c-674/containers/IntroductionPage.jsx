@@ -4,6 +4,15 @@ import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { verifyVaFileNumber } from '../actions';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
+// We need to check for the presence of VA file number by performing an API request to vets-api.
+// If a VA file number exists, proceed with the form. If it doesn't, show an error.
+// 1. Fire off an action on component did mount.
+// 2. Action should fire off API call.
+// 3. Reducer should consume response from action.
+// 4. Component should update based on new state from reducer.
 
 const VerifiedAlert = (
   <div>
@@ -20,18 +29,34 @@ const VerifiedAlert = (
 );
 class IntroductionPage extends React.Component {
   componentDidMount() {
+    this.props.verifyVaFileNumber();
     focusElement('.va-nav-breadcrumbs-list');
   }
 
   render() {
-    return (
-      <div className="schemaform-intro">
-        <FormTitle title="Add or remove dependents from your VA benefits" />
-        <p>
-          Equal to VA Form 21-686c (Application Request to Add And/Or Remove
-          Dependents) and/or Equal to VA Form 21-674 (Request for Approval of
-          School Attendance)
-        </p>
+    const {
+      vaFileNumber: { hasVaFileNumber, isLoading },
+    } = this.props;
+
+    let alertState;
+    if (isLoading) {
+      alertState = (
+        <LoadingIndicator message="Verifying veteran account information..." />
+      );
+    } else if (!isLoading && !hasVaFileNumber) {
+      alertState = (
+        <div>
+          <div className="usa-alert usa-alert-error schemaform-sip-alert">
+            <div className="usa-alert-body">
+              There is some information missing from your profile. Please call
+              us to fix the situation.
+            </div>
+          </div>
+          <br />
+        </div>
+      );
+    } else {
+      alertState = (
         <SaveInProgressIntro
           {...this.props}
           hideUnauthedStartLink
@@ -44,6 +69,17 @@ class IntroductionPage extends React.Component {
           Please complete the 21-686 form to apply for declare or remove a
           dependent.
         </SaveInProgressIntro>
+      );
+    }
+    const content = (
+      <div className="schemaform-intro">
+        <FormTitle title="Add or remove dependents from your VA benefits" />
+        <p>
+          Equal to VA Form 21-686c (Application Request to Add And/Or Remove
+          Dependents) and/or Equal to VA Form 21-674 (Request for Approval of
+          School Attendance)
+        </p>
+        {alertState}
         <h4>Follow the steps below to apply to add or remove a dependent.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -212,17 +248,26 @@ class IntroductionPage extends React.Component {
         </div>
       </div>
     );
+    return content;
   }
 }
 
-function mapStateToProps(state) {
-  const { form, user } = state;
+const mapStateToProps = state => {
+  const { form, user, vaFileNumber } = state;
   return {
     form,
     user,
+    vaFileNumber,
   };
-}
+};
 
-export default connect(mapStateToProps)(IntroductionPage);
+const mapDispatchToProps = {
+  verifyVaFileNumber,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
 
 export { IntroductionPage };
