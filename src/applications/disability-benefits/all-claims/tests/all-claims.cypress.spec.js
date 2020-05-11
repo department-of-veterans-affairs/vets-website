@@ -181,15 +181,17 @@ const testConfig = {
       cy.findByText(/continue/i, { selector: 'button' }).click();
     },
     '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': () => {
-      testData.data.ratedDisabilities.forEach((disability, index) => {
-        if (disability['view:selected']) {
-          cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
-        }
+      cy.get('@testConfig').then(({ testData: { data } }) => {
+        data.ratedDisabilities.forEach((disability, index) => {
+          if (disability['view:selected']) {
+            cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
+          }
+        });
+        cy.findByText(/continue/i, { selector: 'button' }).click();
       });
-      cy.findByText(/continue/i, { selector: 'button' }).click();
     },
     '/disability/file-disability-claim-form-21-526ez/payment-information': () => {
-      cy.get('@testData').then(({ data }) => {
+      cy.get('@testConfig').then(({ testData: { data } }) => {
         if (data['view:bankAccount']) {
           cy.get('form.rjsf').then($form => {
             const editButton = $form.find('.usa-button-primary.edit-button');
