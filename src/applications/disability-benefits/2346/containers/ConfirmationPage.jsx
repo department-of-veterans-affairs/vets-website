@@ -86,7 +86,7 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
-  const supplies = state.form?.loadedData?.formData?.supplies;
+  const supplies = state.form?.data?.supplies;
   const selectedProducts = state.form?.data?.selectedProducts;
   const productIdArray = selectedProducts?.map(product => product.productId);
   const selectedProductArray = supplies?.filter(supply =>

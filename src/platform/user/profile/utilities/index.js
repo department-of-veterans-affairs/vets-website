@@ -131,7 +131,10 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
-export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
+// hasSessionSSO will only ever be true or false.
+// Wrapping in JSON.parse enables making boolean checks with this function call.
+export const hasSessionSSO = () =>
+  JSON.parse(localStorage.getItem('hasSessionSSO'));
 
 export function setupProfileSession(userProfile, useSSOe) {
   const { firstName, signIn } = userProfile;
