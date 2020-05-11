@@ -2,7 +2,10 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorMessage from './ErrorMessage';
 
-export default function VAFacilityInfoMessage({ facility, eligibility }) {
+export default function SingleFacilityEligibilityCheckMessage({
+  facility,
+  eligibility,
+}) {
   let message;
 
   if (eligibility.requestFailed) {

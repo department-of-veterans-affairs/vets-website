@@ -8,20 +8,20 @@ import {
 import {
   getLocations,
   getLocation,
-  getLocationsByTypeOfCare,
+  getSupportedLocationsByTypeOfCare,
 } from '../../../services/location';
 import facilities983 from '../../../api/facilities_983.json';
 import facilityDetails from '../../../api/facility_data.json';
 
 describe('VAOS Location service', () => {
-  describe('getLocationsByTypeOfCare', () => {
+  describe('getSupportedLocationsByTypeOfCare', () => {
     let data;
 
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
-      data = await getLocationsByTypeOfCare({
-        systemId: 'var983',
+      data = await getSupportedLocationsByTypeOfCare({
+        siteId: 'var983',
         parentId: 'var983A6',
         typeOfCareId: '123',
       });
@@ -29,7 +29,7 @@ describe('VAOS Location service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
-      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
+      expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
     });
 
     it('should return OperationOutcome error', async () => {
@@ -40,8 +40,8 @@ describe('VAOS Location service', () => {
 
       let error;
       try {
-        data = await getLocationsByTypeOfCare({
-          systemId: 'var983',
+        data = await getSupportedLocationsByTypeOfCare({
+          siteId: 'var983',
           parentId: 'var983A6',
           typeOfCareId: '123',
         });

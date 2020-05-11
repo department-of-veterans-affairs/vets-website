@@ -8,7 +8,6 @@ import {
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
-  getRootOrganizationFromChosenParent,
   getSiteIdForChosenFacility,
   getChosenParentInfo,
 } from './selectors';
