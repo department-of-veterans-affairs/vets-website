@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { verifyVaFileNumber } from '../actions';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 // We need to check for the presence of VA file number by performing an API request to vets-api.
 // If a VA file number exists, proceed with the form. If it doesn't, show an error.
@@ -44,17 +45,26 @@ class IntroductionPage extends React.Component {
         <LoadingIndicator message="Verifying veteran account information..." />
       );
     } else if (!isLoading && !hasVaFileNumber) {
-      alertState = (
-        <div>
-          <div className="usa-alert usa-alert-error schemaform-sip-alert">
-            <div className="usa-alert-body">
-              There is some information missing from your profile. Please call
-              us to fix the situation.
-            </div>
-          </div>
-          <br />
-        </div>
+      const errorContent = (
+        <>
+          <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+            Your profile is missing some required information
+          </h2>
+          <p>
+            The personal information we have on file for your is missing your VA
+            file number.
+          </p>
+          <p>
+            You'll need to update your personal information. Please call
+            Veterans Benefits Assistance at
+            <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
+              800-827-1000
+            </a>{' '}
+            between 8:00 a.m. and 9:00 p.m. ET Monday through Friday.
+          </p>
+        </>
       );
+      alertState = <AlertBox content={errorContent} status="error" isVisible />;
     } else {
       alertState = (
         <SaveInProgressIntro
