@@ -41,28 +41,37 @@ const getArrayItemPath = pathname => {
 };
 
 const addNewArrayItem = $form => {
-  const arrayTypeDivs = $form.find('div[name^="topOfTable_root_"]');
+  // Get all array types on the current page.
+  const arrayTypeRoots = $form.find('div[name^="topOfTable_root_"]');
 
-  if (arrayTypeDivs.length) {
-    cy.wrap(arrayTypeDivs).each(arrayTypeDiv => {
-      const arrayPath = arrayTypeDiv.attr('name').replace('topOfTable_', '');
+  // Find the last entry for each array type, use its index to figure out
+  // whether the test data still has more items to be entered, and click
+  // the add button if so.
+  if (arrayTypeRoots.length) {
+    cy.wrap(arrayTypeRoots).each(arrayTypeRoot => {
+      cy.wrap(arrayTypeRoot)
+        .siblings('div')
+        .last()
+        .find('div[name^="table_root_"]')
+        .then(lastArrayItemRoot => {
+          const key = arrayTypeRoot.attr('name').replace('topOfTable_', '');
 
-      cy.get(
-        `div[name$="${arrayPath}"] ~ div:last-of-type > div[name^="table_root_"]`,
-      ).then(arrayItemDiv => {
-        const lastIndex = parseInt(
-          arrayItemDiv.attr('name').match(/\d+$/g),
-          10,
-        );
+          cy.findData({ key }).then(arrayData => {
+            if (typeof arrayData !== 'undefined') {
+              const lastIndex = parseInt(
+                lastArrayItemRoot.attr('name').match(/\d+$/g),
+                10,
+              );
 
-        cy.findData({ key: arrayPath }).then(arrayData => {
-          if (arrayData.length - 1 > lastIndex) {
-            cy.get(
-              `div[name="topOfTable_${arrayPath}"] ~ button.va-growable-add-btn`,
-            ).click();
-          }
+              if (arrayData.length - 1 > lastIndex) {
+                cy.wrap(arrayTypeRoot)
+                  .siblings('button.va-growable-add-btn')
+                  .first()
+                  .click();
+              }
+            }
+          });
         });
-      });
     });
   }
 };
