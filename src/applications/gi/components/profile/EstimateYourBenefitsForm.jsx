@@ -1010,6 +1010,13 @@ class EstimateYourBenefitsForm extends React.Component {
   render() {
     const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
     const zipcode = this.props.inputs.beneficiaryZIP;
+    const zipValidationCheck =
+      beneficiaryZIPError === 'Postal code must be a 5-digit number' ||
+      beneficiaryZIPError ===
+        'No rates for this postal code found. Try another postal code' ||
+      zipcode.length !== 5
+        ? ''
+        : this.props.updateEstimatedBenefits;
 
     return (
       <div className="usa-width-one-eigth medium-5 columns">
@@ -1020,17 +1027,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderLearningFormatAndSchedule()}
           {this.renderScholarshipsAndOtherFunding()}
         </ul>
-        <button
-          className="calculate-button"
-          onClick={
-            beneficiaryZIPError === 'Postal code must be a 5-digit number' ||
-            beneficiaryZIPError ===
-              'No rates for this postal code found. Try another postal code' ||
-            zipcode.length !== 5
-              ? ''
-              : this.props.updateEstimatedBenefits
-          }
-        >
+        <button className="calculate-button" onClick={zipValidationCheck}>
           Calculate benefits
         </button>
       </div>
