@@ -8,10 +8,7 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import {
-  getEligibilityChecks,
-  getEligibleFacilities,
-} from '../utils/eligibility';
+import { getEligibilityChecks } from '../utils/eligibility';
 
 import {
   FORM_DATA_UPDATED,
