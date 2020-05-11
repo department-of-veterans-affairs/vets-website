@@ -89,6 +89,14 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  handleCalculateBenefitsClick = () => {
+    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
+    const zipcode = this.props.inputs.beneficiaryZIP;
+    if (beneficiaryZIPError || zipcode.length !== 5)
+      this.toggleLearningFormatAndSchedule();
+    else this.props.updateEstimatedBenefits();
+  };
+
   handleExtensionChange = event => {
     const value = event.target.value;
     const zipCode = value.slice(value.indexOf('-') + 1);
@@ -1008,13 +1016,6 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   render() {
-    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
-    const zipcode = this.props.inputs.beneficiaryZIP;
-    const zipValidationCheck =
-      beneficiaryZIPError || zipcode.length !== 5
-        ? this.toggleLearningFormatAndSchedule
-        : this.props.updateEstimatedBenefits;
-
     return (
       <div className="usa-width-one-eigth medium-5 columns">
         <p>Use the fields below to calculate your benefits:</p>
@@ -1024,7 +1025,10 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderLearningFormatAndSchedule()}
           {this.renderScholarshipsAndOtherFunding()}
         </ul>
-        <button className="calculate-button" onClick={zipValidationCheck}>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+        >
           Calculate benefits
         </button>
       </div>
