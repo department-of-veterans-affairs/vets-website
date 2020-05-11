@@ -1,8 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 import React, { Component } from 'react';
 
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-
 class ViewDependentsHeader extends Component {
   handleClick = () => {
     recordEvent({
@@ -20,13 +18,13 @@ class ViewDependentsHeader extends Component {
             a claim for additional disability compensation whenever you add a
             new dependent.
           </p>
-          <EbenefitsLink
-            path="/view-change-dependents/add-remove-form-686c/"
+          <a
+            href="/view-change-dependents/add-remove-form-686c/"
             className="usa-button-primary va-button-primary"
             onClick={this.handleClick}
           >
             Add or remove a dependent
-          </EbenefitsLink>
+          </a>
         </div>
       </div>
     );
