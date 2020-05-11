@@ -8,6 +8,7 @@ describe('ConfirmationPage', () => {
     getState: () => ({
       form: {
         submission: {
+          submittedAt: '2020-05-08T20:32:13-05:00',
           response: {
             attributes: {
               confirmationNumber: '123456',
