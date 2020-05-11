@@ -7,6 +7,7 @@
   .profile-accordion-list {
     margin-top: 1em;
     list-style-type: none;
+    padding-left: 0;
   }
 
   .accordion-button-text {
@@ -402,5 +403,13 @@
     border-radius: $button-border-radius;
     color: $color-white;
     width: auto;
+  }
+
+  .primary-sco-list {
+    padding-left: 0;
+  }
+
+  .secondary-sco-list {
+    padding-left: 0;
   }
 }

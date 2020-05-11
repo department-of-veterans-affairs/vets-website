@@ -3,11 +3,16 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const OjtHelpers = require('./ojt-helpers');
 const ojtProfile = require('../data/ojt-profile.json');
+const ojtSearchResults = require('../data/ojt-search-results.json');
 
+/**
+ * Default OJT profile flow with default input selections
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   const ojtAttributes = ojtProfile.data.attributes;
 
-  OjtHelpers.initApplicationMock();
+  GiHelpers.initApplicationMock(ojtProfile, ojtSearchResults);
 
   client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
@@ -23,6 +28,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.searchForInstitution(client, ojtAttributes.name);
 
   // Search Page
+  GiHelpers.verifySearchResults(client, ojtSearchResults);
   GiHelpers.expectLocation(
     client,
     `/search?category=employer&name=${ojtAttributes.name.replace(/\s/g, '+')}`,
@@ -30,25 +36,27 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, ojtAttributes.facility_code);
 
   // Profile Page
-  client
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main');
-  GiHelpers.expectLocation(client, `/profile/${ojtAttributes.facility_code}`);
 
   // Estimate your benefits
-  GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
-  OjtHelpers.yourBenefits(client);
-  OjtHelpers.learningFormatAndSchedule(client);
-  OjtHelpers.scholarshipsAndOtherFunding(client);
+
+  const eybSections = {
+    yourBenefits: 'Your benefits',
+    learningFormatAndSchedule: 'Learning format and schedule',
+    scholarshipsAndOtherFunding: 'Scholarships and other funding',
+  };
+  GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
+  GiHelpers.yourBenefits(client, eybSections);
+  GiHelpers.learningFormatAndSchedule(client, eybSections);
+  GiHelpers.scholarshipsAndOtherFunding(client, eybSections);
 
   // Cautionary information
-  GiHelpers.expandCollapseAccordion(client, 'Cautionary information');
+  GiHelpers.collapseExpandAccordion(client, 'Cautionary information');
 
   // Contact details
-  GiHelpers.expandCollapseAccordion(client, 'Contact details');
+  GiHelpers.collapseExpandAccordion(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseAccordion(client, 'Additional information');
+  GiHelpers.collapseExpandAccordion(client, 'Additional information');
 
   client.end();
 });

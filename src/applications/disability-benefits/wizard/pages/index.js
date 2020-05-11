@@ -1,6 +1,4 @@
 import start from './start';
-import originalClaim from './original-claim';
-import fileOriginalClaim from './file-original-claim';
 import appeals from './appeals';
 import bdd from './bdd';
 import fileBDD from './file-bdd';
@@ -12,8 +10,6 @@ import disagreeFileClaim from './disagree-file-claim';
 
 export default [
   start,
-  originalClaim,
-  fileOriginalClaim,
   appeals,
   bdd,
   fileBDD,
