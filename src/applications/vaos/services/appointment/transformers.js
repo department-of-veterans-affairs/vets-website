@@ -101,7 +101,10 @@ function getAppointmentStatus(appointment, isPastAppointment) {
         : APPOINTMENT_STATUS.pending;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
-      const currentStatus = appointment.vdsAppointments?.[0]?.currentStatus;
+      const currentStatus = isVideoVisit(appointment)
+        ? appointment.vvsAppointments?.[0]?.status?.code
+        : appointment.vdsAppointments?.[0]?.currentStatus;
+
       if (
         (isPastAppointment &&
           PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
