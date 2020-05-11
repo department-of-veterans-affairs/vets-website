@@ -92,9 +92,11 @@ class EstimateYourBenefitsForm extends React.Component {
   handleCalculateBenefitsClick = () => {
     const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
     const zipcode = this.props.inputs.beneficiaryZIP;
-    if (beneficiaryZIPError || zipcode.length !== 5)
+    if (beneficiaryZIPError || zipcode.length !== 5) {
       this.toggleLearningFormatAndSchedule();
-    else this.props.updateEstimatedBenefits();
+    } else {
+      this.props.updateEstimatedBenefits();
+    }
   };
 
   handleExtensionChange = event => {
