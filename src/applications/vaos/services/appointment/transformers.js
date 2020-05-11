@@ -84,13 +84,25 @@ function getVideoType(appt) {
 }
 
 /**
+ * Returns status for a vista appointment
+ *
+ * @param {Object} appointment Vista appointment object
+ * @returns {String} Status
+ */
+function getVistaStatus(appointment) {
+  return isVideoVisit(appointment)
+    ? appointment.vvsAppointments?.[0]?.status?.code
+    : appointment.vdsAppointments?.[0]?.currentStatus;
+}
+
+/**
  *  Returns an appointment status
  *
  * @param {Object} appointment A VAR appointment object
  * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
  * @returns {String} Appointment status
  */
-function getAppointmentStatus(appointment, isPastAppointment) {
+function getStatus(appointment, isPastAppointment) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
@@ -101,9 +113,7 @@ function getAppointmentStatus(appointment, isPastAppointment) {
         : APPOINTMENT_STATUS.pending;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
-      const currentStatus = isVideoVisit(appointment)
-        ? appointment.vvsAppointments?.[0]?.status?.code
-        : appointment.vdsAppointments?.[0]?.currentStatus;
+      const currentStatus = getVistaStatus(appointment);
 
       if (
         (isPastAppointment &&
@@ -124,6 +134,7 @@ function getAppointmentStatus(appointment, isPastAppointment) {
       return APPOINTMENT_STATUS.booked;
   }
 }
+
 /**
  * Finds the datetime of the appointment depending on the appointment type
  * and returns it as a moment object
@@ -234,13 +245,12 @@ export function transformConfirmedAppointments(appointments) {
     const start = getMomentConfirmedDate(appt).format();
     const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
     const isVideo = isVideoVisit(appt);
+    const isCC = isCommunityCare(appt);
 
     const transformed = {
       resourceType: 'Appointment',
-      status: getAppointmentStatus(appt, isPastAppointment),
-      description: isVideo
-        ? appt.vvsAppointments?.[0].status?.code
-        : appt.vdsAppointments?.[0]?.currentStatus,
+      status: getStatus(appt, isPastAppointment),
+      description: isCC ? null : getVistaStatus(appt),
       start,
       minutesDuration,
       comment:
@@ -254,7 +264,7 @@ export function transformConfirmedAppointments(appointments) {
         isPastAppointment,
         appointmentType: getAppointmentType(appt),
         videoType: getVideoType(appt),
-        isCommunityCare: isCommunityCare(appt),
+        isCommunityCare: isCC,
       },
     };
 
