@@ -15,6 +15,7 @@ import {
 import {
   getRootOrganization,
   getSiteIdFromOrganization,
+  getIdOfRootOrganization,
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
 
@@ -118,8 +119,17 @@ export function getRootOrganizationFromChosenParent(state, parentId) {
   );
 }
 
-export function getSiteIdForChosenFacility(state) {
-  const parentId = getFormData(state).vaParent;
+export function getRootIdForChosenFacility(state, parentId) {
+  const parentFacilities = getParentFacilities(state);
+
+  return getIdOfRootOrganization(
+    parentFacilities,
+    parentId || getFormData(state).vaParent,
+  );
+}
+
+export function getSiteIdForChosenFacility(state, currentParentId) {
+  const parentId = currentParentId || getFormData(state).vaParent;
   const parentFacilities = getParentFacilities(state);
   const parentOrg = parentFacilities.find(p => p.id === parentId);
 
@@ -130,7 +140,7 @@ export function getSiteIdForChosenFacility(state) {
   }
 
   // This is a hack to get around some site ids not showing up in the parent sites list
-  return parentOrg.partOf.reference.replace('Organization/var');
+  return parentOrg.partOf.reference.replace('Organization/var', '');
 }
 
 export function getParentOfChosenFacility(state) {

@@ -33,13 +33,13 @@ function parseId(id) {
  * @returns {Object} A FHIR searchset of Location resources
  */
 export async function getSupportedLocationsByTypeOfCare({
-  systemId,
+  siteId,
   parentId,
   typeOfCareId,
 }) {
   try {
     const parentFacilities = await getFacilitiesBySystemAndTypeOfCare(
-      parseId(systemId),
+      parseId(siteId),
       parseId(parentId),
       typeOfCareId,
     );
@@ -123,8 +123,4 @@ export function getParentOfLocation(organizations, location) {
  */
 export function getFacilityIdFromLocation(location) {
   return location.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
-}
-
-export function getSiteIdFromLocation(location) {
-  const organization = getParentOfLocation(location);
 }
