@@ -11,6 +11,7 @@ const defaultProps = {
   onInputChange: () => {},
   selectedProgram: '',
   preSelectedProgram: 'Program Name 1',
+  calculatorInputChange: () => {},
   institution: {
     programs: [
       {
@@ -33,7 +34,7 @@ const defaultProps = {
   },
 };
 
-describe('<VetTecCalculatorForm>', () => {
+describe('<VetTecEstimateYourBenefitsForm>', () => {
   it('should render', () => {
     const wrapper = shallow(
       <VetTecEstimateYourBenefitsForm {...defaultProps} />,

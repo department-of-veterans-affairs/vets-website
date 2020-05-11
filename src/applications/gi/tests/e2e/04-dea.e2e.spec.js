@@ -43,7 +43,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   };
   GiHelpers.yourBenefits(client, eybSections);
   GiHelpers.learningFormatAndSchedule(client, eybSections);
-  DeaHelpers.willBeWorking(client);
+  // TODO: re-enable test.
+  // DeaHelpers.willBeWorking(client);
 
   GiHelpers.breadCrumb(client, '/gi-bill-comparison-tool/');
   DeaHelpers.searchAsDEA(client);
