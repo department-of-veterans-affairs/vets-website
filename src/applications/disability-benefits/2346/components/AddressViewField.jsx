@@ -75,8 +75,7 @@ const AddressViewField = ({ formData }) => {
                 {isDomesticAddressValid && `${city}, ${state} ${postalString}`}
                 {isInternationalAddressValid &&
                   `${city}, ${province} ${internationalPostalCode}`}
-                <br />
-                {country}
+                <span className="vads-u-display--block">{country}</span>
               </>
             )}
           </p>
