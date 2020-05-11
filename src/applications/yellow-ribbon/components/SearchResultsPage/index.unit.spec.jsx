@@ -17,7 +17,7 @@ describe('Search Results Page <SearchResultsPage>', () => {
     expect(text).to.not.include('Find a Yellow Ribbon school');
     expect(text).to.not.include('Learn more about the Yellow Ribbon Program.');
     expect(text).to.not.include(
-      'You may be eligible for Yellow Ribbon program funding if you:',
+      'You may be eligible for Yellow Ribbon Program funding if you:',
     );
 
     tree.unmount();
