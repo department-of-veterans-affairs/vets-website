@@ -1,4 +1,3 @@
-// const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const VAOSHelpers = require('./vaos-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
