@@ -1011,11 +1011,8 @@ class EstimateYourBenefitsForm extends React.Component {
     const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
     const zipcode = this.props.inputs.beneficiaryZIP;
     const zipValidationCheck =
-      beneficiaryZIPError === 'Postal code must be a 5-digit number' ||
-      beneficiaryZIPError ===
-        'No rates for this postal code found. Try another postal code' ||
-      zipcode.length !== 5
-        ? ''
+      beneficiaryZIPError || zipcode.length !== 5
+        ? this.toggleLearningFormatAndSchedule
         : this.props.updateEstimatedBenefits;
 
     return (
