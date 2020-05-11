@@ -14,236 +14,232 @@ const viewComponent = formData => (
   </div>
 );
 
-describe('ReviewCardField', () => {
-  const mockStore = {
-    getState: () => ({
-      form: {
-        data: {
-          permanentAddress: {
-            'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
-            street: '101 Example Street',
-            street2: 'Apt 2',
-            city: 'Kansas City',
-            state: 'MO',
-            postalCode: '64117',
-          },
-          temporaryAddress: {
-            'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
-            street: '201 Example Street',
-            city: 'Galveston',
-            state: 'TX',
-            postalCode: '77550',
-          },
-          formData: {
-            'view:livesOnMilitaryBaseInfo': {},
-            country: 'USA',
-            street: '101 Example Street',
-            street2: 'Apt 2',
-            city: 'Kansas City',
-            state: 'MO',
-            postalCode: '64117',
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              street: { type: 'string' },
-              street2: { type: 'boolean' },
-            },
-          },
-          uiSchema: {
-            'ui:title': 'Thing',
-            'ui:subtitle': 'Subtitle',
-            'ui:field': ReviewCardField,
-            'ui:options': { viewComponent },
-          },
-          idSchema: {
-            $id: 'something',
-            street: { $id: 'street' },
-            street2: { $id: 'street2' },
-          },
-          errorSchema: {
-            street: { __errors: [] },
-            street2: { __errors: [] },
-          },
-          formContext: {
-            onError: () => {},
-          },
-          onChange: spy(),
-          onBlur: () => {},
+const mockStore = {
+  getState: () => ({
+    form: {
+      data: {
+        permanentAddress: {
+          'view:livesOnMilitaryBaseInfo': {},
+          country: 'USA',
+          street: '101 Example Street',
+          street2: 'Apt 2',
+          city: 'Kansas City',
+          state: 'MO',
+          postalCode: '64117',
         },
+        temporaryAddress: {
+          'view:livesOnMilitaryBaseInfo': {},
+          country: 'USA',
+          street: '201 Example Street',
+          city: 'Galveston',
+          state: 'TX',
+          postalCode: '77550',
+        },
+        formData: {
+          'view:livesOnMilitaryBaseInfo': {},
+          country: 'USA',
+          street: '101 Example Street',
+          street2: 'Apt 2',
+          city: 'Kansas City',
+          state: 'MO',
+          postalCode: '64117',
+        },
+        schema: {
+          type: 'object',
+          properties: {
+            street: { type: 'string' },
+            street2: { type: 'boolean' },
+          },
+        },
+        uiSchema: {
+          'ui:title': 'Thing',
+          'ui:subtitle': 'Subtitle',
+          'ui:field': ReviewCardField,
+          'ui:options': { viewComponent },
+        },
+        idSchema: {
+          $id: 'something',
+          street: { $id: 'street' },
+          street2: { $id: 'street2' },
+        },
+        errorSchema: {
+          street: { __errors: [] },
+          street2: { __errors: [] },
+        },
+        formContext: {
+          onError: () => {},
+        },
+        onChange: spy(),
+        onBlur: () => {},
       },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
 
-  const getMockData = mockStore.getState();
-  const mockData = getMockData.form.data;
+const getMockData = mockStore.getState();
+const mockData = getMockData.form.data;
 
-  it('should render', () => {
-    const wrapper = shallow(
-      <ReviewCardField store={mockStore} {...mockData} />,
-    );
-    expect(wrapper.html()).to.contain('Thing');
-    wrapper.unmount();
-  });
-
-  it('should throw an error if no viewComponent is found', () => {
-    expect(() => {
-      // Not necessary if not componentWillUnmount
-      // eslint-disable-next-line va/enzyme-unmount
-      shallow(
-        <ReviewCardField store={mockStore} {...mockData} uiSchema={{}} />,
+describe("the ReviewCardField's", () => {
+  describe('review mode', () => {
+    it('should render', () => {
+      const wrapper = shallow(
+        <ReviewCardField store={mockStore} {...mockData} />,
+      );
+      expect(wrapper.html()).to.contain('Thing');
+      wrapper.unmount();
+    });
+    it('should throw an error if no viewComponent is found', () => {
+      expect(() => {
+        // Not necessary if not componentWillUnmount
+        // eslint-disable-next-line va/enzyme-unmount
+        shallow(
+          <ReviewCardField store={mockStore} {...mockData} uiSchema={{}} />,
+        ).dive();
+      }).to.throw('viewComponent');
+    });
+    it('should throw an error if schema type is not object or array', () => {
+      expect(() => {
+        // Not necessary if not componentWillUnmount
+        // eslint-disable-next-line va/enzyme-unmount
+        shallow(
+          <ReviewCardField
+            store={mockStore}
+            {...mockData}
+            schema={{ type: 'string' }}
+          />,
+        ).dive();
+      }).to.throw('Unknown schema type');
+    });
+    // Also tests that it renders a custom component
+    it('should start in view mode', () => {
+      const wrapper = shallow(
+        <ReviewCardField store={mockStore} {...mockData} />,
       ).dive();
-    }).to.throw('viewComponent');
-  });
+      expect(wrapper.find('viewComponent').length).to.equal(1);
+      expect(wrapper.find('.input-section').length).to.equal(0);
+      wrapper.unmount();
+    });
+    it('should transition to edit mode', () => {
+      const wrapper = shallow(
+        <ReviewCardField store={mockStore} {...mockData} />,
+      ).dive();
+      expect(wrapper.find('viewComponent').length).to.equal(1);
 
-  it('should throw an error if schema type is not object or array', () => {
-    expect(() => {
-      // Not necessary if not componentWillUnmount
-      // eslint-disable-next-line va/enzyme-unmount
-      shallow(
+      // Start editing
+      wrapper.find('.vads-c-link').simulate('click');
+      expect(wrapper.find('viewComponent').length).to.equal(0);
+      expect(wrapper.find('.input-section').length).to.equal(1);
+      wrapper.unmount();
+    });
+    it('should pass formData to the custom view component', () => {
+      const wrapper = shallow(
+        <ReviewCardField store={mockStore} {...mockData} />,
+      ).dive();
+
+      expect(wrapper.find('viewComponent').props().formData).to.equal(
+        mockData.formData,
+      );
+      wrapper.unmount();
+    });
+    it('should render the appropriate field in reviewMode according to the data type', () => {
+      const props = set('formContext.onReviewPage', true, mockData);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...props} />,
+      ).dive();
+      expect(tree.find('ObjectField').length).to.equal(1);
+      tree.unmount();
+    });
+
+    it('should handle a custom reviewTitle', () => {
+      const props = set('uiSchema.ui:options.reviewTitle', 'Thingy', mockData);
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...props} />,
+      ).dive();
+      expect(tree.find('.review-card--title').text()).to.equal('Thingy');
+      tree.unmount();
+    });
+
+    it('should handle a subtitle', () => {
+      const props = _.flow(
+        _.set('uiSchema.ui:subtitle', 'Subtitle text'),
+        _.set('uiSchema.ui:options.startInEdit', true),
+      )(mockData);
+
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...props} />,
+      ).dive();
+      expect(tree.find('.review-card--subtitle').text()).to.equal(
+        'Subtitle text',
+      );
+      tree.unmount();
+    });
+
+    it('should start in edit mode', () => {
+      const errorSchema = {
+        street: { __errors: ['Arbitrary error string here'] },
+        street2: { __errors: [] },
+      };
+      const wrapper = shallow(
         <ReviewCardField
           store={mockStore}
           {...mockData}
-          schema={{ type: 'string' }}
+          errorSchema={errorSchema}
         />,
       ).dive();
-    }).to.throw('Unknown schema type');
+      expect(wrapper.find('viewComponent').length).to.equal(0);
+      expect(wrapper.find('.input-section').length).to.equal(1);
+      wrapper.unmount();
+    });
+
+    it('should transition to view mode', () => {
+      // Not sure how to be not duplicate an existing test here
+      const wrapper = shallow(
+        <ReviewCardField store={mockStore} {...mockData} />,
+      ).dive();
+      expect(wrapper.find('viewComponent').length).to.equal(1);
+
+      // Start editing
+      wrapper.find('.vads-c-link').simulate('click');
+      expect(wrapper.find('viewComponent').length).to.equal(0);
+      expect(wrapper.find('.input-section').length).to.equal(1);
+
+      // Go back to viewing
+      wrapper.find('.update-button').simulate('click');
+      expect(wrapper.find('.input-section').length).to.equal(0);
+      expect(wrapper.find('viewComponent').length).to.equal(1);
+      wrapper.unmount();
+    });
+
+    it('should not transition to view mode if there are validation errors', () => {
+      // Start with errors
+      const errorSchema = {
+        street: { __errors: ['Arbitrary error string here'] },
+        street2: { __errors: [] },
+      };
+      const wrapper = shallow(
+        <ReviewCardField
+          store={mockStore}
+          {...mockData}
+          errorSchema={errorSchema}
+        />,
+      ).dive();
+      expect(wrapper.find('viewComponent').length).to.equal(0);
+      expect(wrapper.find('.input-section').length).to.equal(1);
+
+      // Try to go back to viewing
+      wrapper.find('.update-button').simulate('click');
+      expect(wrapper.find('.input-section').length).to.equal(1);
+      expect(wrapper.find('viewComponent').length).to.equal(0);
+
+      // Also check that the validation error is rendered while we're at it
+      expect(wrapper.html()).to.contain('Arbitrary error string here');
+      wrapper.unmount();
+    });
   });
 
-  // Also tests that it renders a custom component
-  it('should start in view mode', () => {
-    const wrapper = shallow(
-      <ReviewCardField store={mockStore} {...mockData} />,
-    ).dive();
-    expect(wrapper.find('viewComponent').length).to.equal(1);
-    expect(wrapper.find('.input-section').length).to.equal(0);
-    wrapper.unmount();
-  });
-
-  it('should start in edit mode', () => {
-    const errorSchema = {
-      street: { __errors: ['Arbitrary error string here'] },
-      street2: { __errors: [] },
-    };
-    const wrapper = shallow(
-      <ReviewCardField
-        store={mockStore}
-        {...mockData}
-        errorSchema={errorSchema}
-      />,
-    ).dive();
-    expect(wrapper.find('viewComponent').length).to.equal(0);
-    expect(wrapper.find('.input-section').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should pass formData to the custom view component', () => {
-    const wrapper = shallow(
-      <ReviewCardField store={mockStore} {...mockData} />,
-    ).dive();
-
-    expect(wrapper.find('viewComponent').props().formData).to.equal(
-      mockData.formData,
-    );
-    wrapper.unmount();
-  });
-
-  it('should transition to edit mode', () => {
-    const wrapper = shallow(
-      <ReviewCardField store={mockStore} {...mockData} />,
-    ).dive();
-    expect(wrapper.find('viewComponent').length).to.equal(1);
-
-    // Start editing
-    wrapper.find('.vads-c-link').simulate('click');
-    expect(wrapper.find('viewComponent').length).to.equal(0);
-    expect(wrapper.find('.input-section').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should transition to view mode', () => {
-    // Not sure how to be not duplicate an existing test here
-    const wrapper = shallow(
-      <ReviewCardField store={mockStore} {...mockData} />,
-    ).dive();
-    expect(wrapper.find('viewComponent').length).to.equal(1);
-
-    // Start editing
-    wrapper.find('.vads-c-link').simulate('click');
-    expect(wrapper.find('viewComponent').length).to.equal(0);
-    expect(wrapper.find('.input-section').length).to.equal(1);
-
-    // Go back to viewing
-    wrapper.find('.update-button').simulate('click');
-    expect(wrapper.find('.input-section').length).to.equal(0);
-    expect(wrapper.find('viewComponent').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should not transition to view mode if there are validation errors', () => {
-    // Start with errors
-    const errorSchema = {
-      street: { __errors: ['Arbitrary error string here'] },
-      street2: { __errors: [] },
-    };
-    const wrapper = shallow(
-      <ReviewCardField
-        store={mockStore}
-        {...mockData}
-        errorSchema={errorSchema}
-      />,
-    ).dive();
-    expect(wrapper.find('viewComponent').length).to.equal(0);
-    expect(wrapper.find('.input-section').length).to.equal(1);
-
-    // Try to go back to viewing
-    wrapper.find('.update-button').simulate('click');
-    expect(wrapper.find('.input-section').length).to.equal(1);
-    expect(wrapper.find('viewComponent').length).to.equal(0);
-
-    // Also check that the validation error is rendered while we're at it
-    expect(wrapper.html()).to.contain('Arbitrary error string here');
-    wrapper.unmount();
-  });
-
-  it('should render the appropriate field in reviewMode according to the data type', () => {
-    const props = set('formContext.onReviewPage', true, mockData);
-    const tree = shallow(
-      <ReviewCardField store={mockStore} {...props} />,
-    ).dive();
-    expect(tree.find('ObjectField').length).to.equal(1);
-    tree.unmount();
-  });
-
-  it('should handle a custom reviewTitle', () => {
-    const props = set('uiSchema.ui:options.reviewTitle', 'Thingy', mockData);
-    const tree = shallow(
-      <ReviewCardField store={mockStore} {...props} />,
-    ).dive();
-    expect(tree.find('.review-card--title').text()).to.equal('Thingy');
-    tree.unmount();
-  });
-
-  it('should handle a subtitle', () => {
-    const props = _.flow(
-      _.set('uiSchema.ui:subtitle', 'Subtitle text'),
-      _.set('uiSchema.ui:options.startInEdit', true),
-    )(mockData);
-
-    const tree = shallow(
-      <ReviewCardField store={mockStore} {...props} />,
-    ).dive();
-    expect(tree.find('.review-card--subtitle').text()).to.equal(
-      'Subtitle text',
-    );
-    tree.unmount();
-  });
-
-  describe('startInEdit', () => {
+  describe('edit mode', () => {
     it('should handle truthy values', () => {
       const props = set('uiSchema.ui:options.startInEdit', true, mockData);
       const tree = shallow(
@@ -272,23 +268,26 @@ describe('ReviewCardField', () => {
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
+    it('should handle a custom editTitle', () => {
+      const editModeProps = set(
+        'uiSchema.ui:options.startInEdit',
+        true,
+        mockData,
+      );
+      const props = set(
+        'uiSchema.ui:options.editTitle',
+        'Thingy',
+        editModeProps,
+      );
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...props} />,
+      ).dive();
+      expect(tree.find('.review-card--title').text()).to.equal('Edit thingy');
+      tree.unmount();
+    });
   });
 
-  it('should handle a custom editTitle', () => {
-    const editModeProps = set(
-      'uiSchema.ui:options.startInEdit',
-      true,
-      mockData,
-    );
-    const props = set('uiSchema.ui:options.editTitle', 'Thingy', editModeProps);
-    const tree = shallow(
-      <ReviewCardField store={mockStore} {...props} />,
-    ).dive();
-    expect(tree.find('.review-card--title').text()).to.equal('Edit thingy');
-    tree.unmount();
-  });
-
-  describe('volatileData', () => {
+  describe('volatileData features', () => {
     const defaultVDProps = set(
       'uiSchema.ui:options.volatileData',
       true,
