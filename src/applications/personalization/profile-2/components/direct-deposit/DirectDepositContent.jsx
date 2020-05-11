@@ -91,9 +91,6 @@ export const DirectDepositContent = ({
   useEffect(
     () => {
       if (
-        // TODO: can we add something in Redux that will flip to true after a
-        // save has succeeded and then goes back to false when we are editing
-        // bank info again?
         previousUiState?.isSaving &&
         !directDepositUiState.isSaving &&
         !directDepositUiState.responseError
@@ -160,6 +157,7 @@ export const DirectDepositContent = ({
       </dl>
       <button
         className={classes.editButton}
+        aria-label={'Edit your direct deposit bank information'}
         ref={editBankInfoButton}
         onClick={() => {
           toggleEditState();
