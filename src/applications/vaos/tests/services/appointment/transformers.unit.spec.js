@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { expect } from 'chai';
 import { transformConfirmedAppointments } from '../../../services/appointment/transformers';
 
@@ -110,9 +111,12 @@ describe('VAOS Appointment transformer', () => {
         expect(data.status).to.equal('booked');
       });
 
-      it('should set start and end dates', () => {
+      it('should have original status in description', () => {
+        expect(data.description).to.equal('NO ACTION TAKEN/TODAY');
+      });
+
+      it('should set start date', () => {
         expect(data.start).to.equal('2020-12-07T09:00:00-07:00');
-        expect(data.end).to.equal('2020-12-07T10:00:00-07:00');
       });
 
       it('should set minutesDuration', () => {
@@ -129,6 +133,24 @@ describe('VAOS Appointment transformer', () => {
         );
         expect(data.participant[1].actor.display).to.equal('CHY OPT VAR1');
       });
+
+      it('should return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal(null);
+      });
+
+      it('should return vaos.isPastAppointment', () => {
+        expect(data.vaos.isPastAppointment).to.equal(
+          moment(data.start).isBefore(moment()),
+        );
+      });
+
+      it('should return vaos.isCommunityCare', () => {
+        expect(data.vaos.isCommunityCare).to.equal(false);
+      });
+
+      it('should return vaos.appointmentType', () => {
+        expect(data.vaos.appointmentType).to.equal('vaAppointment');
+      });
     });
 
     describe('video appointment', () => {
@@ -142,9 +164,12 @@ describe('VAOS Appointment transformer', () => {
         expect(data.status).to.equal('booked');
       });
 
-      it('should set start and end dates', () => {
+      it('should have original status in description', () => {
+        expect(data.description).to.equal('FUTURE');
+      });
+
+      it('should set start date', () => {
         expect(data.start).to.equal('2020-11-25T08:17:00-07:00');
-        expect(data.end).to.equal('2020-11-25T08:37:00-07:00');
       });
 
       it('should set minutesDuration', () => {
@@ -169,7 +194,24 @@ describe('VAOS Appointment transformer', () => {
           'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
         );
         expect(data.contained[0].telecom[0].period.start).to.equal(data.start);
-        expect(data.contained[0].telecom[0].period.end).to.equal(data.end);
+      });
+
+      it('should return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal('videoConnect');
+      });
+
+      it('should return vaos.isPastAppointment', () => {
+        expect(data.vaos.isPastAppointment).to.equal(
+          moment(data.start).isBefore(moment()),
+        );
+      });
+
+      it('should return vaos.isCommunityCare', () => {
+        expect(data.vaos.isCommunityCare).to.equal(false);
+      });
+
+      it('should return vaos.appointmentType', () => {
+        expect(data.vaos.appointmentType).to.equal('vaAppointment');
       });
     });
   });

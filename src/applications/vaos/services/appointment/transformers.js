@@ -4,8 +4,9 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   CANCELLED_APPOINTMENT_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 
@@ -14,6 +15,7 @@ import { getTimezoneBySystemId } from '../../utils/timezone';
  * the existence of certain fields
  *
  * @param {Object} appt VAR appointment object
+ * @returns {String} Appointment type
  */
 function getAppointmentType(appt) {
   if (appt.typeOfCareId?.startsWith('CC')) {
@@ -33,6 +35,7 @@ function getAppointmentType(appt) {
  * Returns whether or not an appointment or request is a community care
  *
  * @param {Object} appt VAR appointment object
+ * @returns {Boolean}
  */
 function isCommunityCare(appt) {
   const apptType = getAppointmentType(appt);
@@ -61,10 +64,31 @@ function isVideoVisit(appt) {
 }
 
 /**
+ * If an appointment is a video appointment, returns whether it is a GFE video visit
+ * or a regular video visit.  Return null if not a video appointment.
+ *
+ * @param {Object} appt VAR appointment object
+ * @returns {String} Returns video appointment type or null
+ */
+function getVideoType(appt) {
+  if (isGFEVideoVisit(appt)) {
+    return VIDEO_TYPES.gfe;
+  } else if (
+    appt.vvsAppointments?.length ||
+    appt.visitType === 'Video Conference'
+  ) {
+    return VIDEO_TYPES.videoConnect;
+  }
+
+  return null;
+}
+
+/**
  *  Returns an appointment status
  *
  * @param {Object} appointment A VAR appointment object
  * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
+ * @returns {String} Appointment status
  */
 function getAppointmentStatus(appointment, isPastAppointment) {
   switch (getAppointmentType(appointment)) {
@@ -102,6 +126,7 @@ function getAppointmentStatus(appointment, isPastAppointment) {
  * and returns it as a moment object
  *
  * @param {Object} appt VAR appointment object
+ * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
   if (isCommunityCare(appt)) {
@@ -128,6 +153,7 @@ function getMomentConfirmedDate(appt) {
  * Returns url for user to join video conference
  *
  * @param {Object} appt VAR appointment object
+ * @returns {String} URL of video visit
  */
 function getVideoVisitLink(appt) {
   return appt.vvsAppointments?.[0]?.patients?.[0]?.virtualMeetingRoom?.url;
@@ -153,6 +179,7 @@ function getAppointmentDuration(appt) {
  * Location (Facility) and HealthcareService (Clinic)
  *
  * @param {Object} appt  VAR appointment object
+ * @returns {Array} Array of participants of FHIR appointment
  */
 function buildParticipant(appt) {
   const participant = [
@@ -184,29 +211,43 @@ function buildParticipant(appt) {
   return participant;
 }
 
+/**
+ * Transforms /facilities/va/vha_983 to
+ * /Location/var983
+ *
+ * @export
+ * @param {Object} facility A facility from the VA facilities api
+ * @returns {Object} A FHIR Location resource
+ */
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
-    const end = getMomentConfirmedDate(appt)
-      .add(minutesDuration, 'minutes')
-      .format();
     const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
+    const isVideo = isVideoVisit(appt);
 
     const transformed = {
       resourceType: 'Appointment',
       status: getAppointmentStatus(appt, isPastAppointment),
+      description: isVideo
+        ? appt.vvsAppointments?.[0].status?.code
+        : appt.vdsAppointments?.[0]?.currentStatus,
       start,
-      end,
       minutesDuration,
       participant: buildParticipant(appt),
       comment:
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes,
+      vaos: {
+        isPastAppointment,
+        appointmentType: getAppointmentType(appt),
+        videoType: getVideoType(appt),
+        isCommunityCare: isCommunityCare(appt),
+      },
     };
 
-    if (isVideoVisit(appt)) {
+    if (isVideo) {
       transformed.contained = [
         {
           resourceType: 'HealthcareService',
@@ -222,7 +263,6 @@ export function transformConfirmedAppointments(appointments) {
               value: getVideoVisitLink(appt),
               period: {
                 start,
-                end,
               },
             },
           ],
