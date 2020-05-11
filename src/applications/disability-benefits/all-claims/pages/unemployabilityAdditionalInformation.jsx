@@ -7,8 +7,8 @@ const {
 } = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const additionalInformationDescription = (
-  <>
-    <h4>Additional Information</h4>
+  <div>
+    <h3 className="vads-u-font-size--h4">Additional Information</h3>
     <p>
       If there’s any other information you’d like to give us as part of your
       claim, please add it here.
@@ -18,7 +18,7 @@ const additionalInformationDescription = (
       reason you’re no longer able to work. Providing specific examples will
       help us understand your claim.
     </p>
-  </>
+  </div>
 );
 
 const textareaLabel = (
