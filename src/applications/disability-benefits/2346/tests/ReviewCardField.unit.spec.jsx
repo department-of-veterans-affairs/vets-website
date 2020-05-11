@@ -14,39 +14,7 @@ const viewComponent = formData => (
   </div>
 );
 
-describe('Schemaform: ReviewCardField', () => {
-  // const defaultProps = {
-  //   schema: {
-  //     type: 'object',
-  //     properties: {
-  //       field1: { type: 'string' },
-  //       field2: { type: 'boolean' },
-  //     },
-  //   },
-  //   uiSchema: {
-  //     'ui:title': 'Thing',
-  //     'ui:subtitle': 'Subtitle',
-  //     'ui:field': ReviewCardField,
-  //     'ui:options': { viewComponent },
-  //   },
-  //   idSchema: {
-  //     $id: 'something',
-  //     field1: { $id: 'field1' },
-  //     field2: { $id: 'field2' },
-  //   },
-  //   errorSchema: {
-  //     field1: { __errors: [] },
-  //     field2: { __errors: [] },
-  //   },
-  //   formContext: {
-  //     onError: () => {},
-  //   },
-  //   formData: {
-  //     field1: 'asdf',
-  //   },
-  //   onChange: spy(),
-  //   onBlur: () => {},
-  // };
+describe('ReviewCardField', () => {
   const mockStore = {
     getState: () => ({
       form: {
@@ -343,22 +311,22 @@ describe('Schemaform: ReviewCardField', () => {
       tree.unmount();
     });
 
-    // it('should render a dl wrapper in review mode', () => {
-    //   const props = set(
-    //     'uiSchema.ui:options.startInEdit',
-    //     true,
-    //     defaultVDProps,
-    //   );
-    //   const tree = mount(
-    //     <ReviewCardField
-    //       store={mockStore}
-    //       {...props}
-    //       formContext={{ onReviewPage: true, reviewMode: true }}
-    //     />,
-    //   );
-    //   expect(tree.find('dl.review').length).to.equal(1);
-    //   tree.unmount();
-    // });
+    it('should render a dl wrapper in review mode', () => {
+      const props = set(
+        'uiSchema.ui:options.startInEdit',
+        true,
+        defaultVDProps,
+      );
+      const tree = mount(
+        <ReviewCardField
+          store={mockStore}
+          {...props}
+          formContext={{ onReviewPage: true, reviewMode: true }}
+        />,
+      );
+      expect(tree.find('dl.review').length).to.equal(1);
+      tree.unmount();
+    });
 
     it('should not render a dl wrapper in edit mode', () => {
       const props = set(
@@ -377,15 +345,15 @@ describe('Schemaform: ReviewCardField', () => {
       tree.unmount();
     });
 
-    // it('should add a "New X" button in review mode', () => {
-    //   const tree = shallow(
-    //     <ReviewCardField store={mockStore} {...defaultVDProps} />,
-    //   );
-    //   const editButtons = tree.find('.edit-button');
-    //   expect(editButtons.length).to.equal(1);
-    //   expect(editButtons.first().text()).to.equal('New Thing');
-    //   tree.unmount();
-    // });
+    it('should add a "New X" button in review mode', () => {
+      const tree = shallow(
+        <ReviewCardField store={mockStore} {...defaultVDProps} />,
+      ).dive();
+      const editButtons = tree.find('.edit-button');
+      expect(editButtons.length).to.equal(1);
+      expect(editButtons.first().text()).to.equal('New Thing');
+      tree.unmount();
+    });
 
     it('should handle a custom itemName', () => {
       const props = set(
