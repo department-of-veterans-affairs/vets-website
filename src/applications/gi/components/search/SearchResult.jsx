@@ -51,7 +51,14 @@ export class SearchResult extends React.Component {
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
                   {!environment.isProduction() && (
-                    <a onClick={() => this.props.handleLinkClick(facilityCode)}>
+                    <a
+                      onClick={() => this.props.handleLinkClick(facilityCode)}
+                      aria-label={`${name} ${locationInfo(
+                        city,
+                        state,
+                        country,
+                      )}`}
+                    >
                       {name}
                     </a>
                   )}
