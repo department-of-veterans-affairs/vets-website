@@ -3,6 +3,7 @@
 //! Copyright (c) JS Foundation and other contributors
 //! license : MIT
 //! github.com/moment/moment-timezone
+/* eslint-disable unicorn/no-abusive-eslint-disable */
 /* eslint-disable */
 (function (root, factory) {
 	"use strict";
