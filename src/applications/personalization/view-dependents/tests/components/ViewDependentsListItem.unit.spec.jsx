@@ -28,6 +28,6 @@ describe('<ViewDependentsListItem />', () => {
     expect(wrapper.text()).to.contain('Cindy');
     expect(wrapper.text()).to.contain('See');
     expect(wrapper.text()).to.contain('312-243-5634');
-    expect(wrapper.text()).to.contain('05-05-1953');
+    expect(wrapper.text()).to.contain('May 5, 1953');
   });
 });
