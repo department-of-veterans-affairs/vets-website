@@ -85,4 +85,8 @@ input.usa-only-phone {
   .address-validation-input {
     height: 75%;
   }
+
+  [type=radio] + label::before {
+    min-width: 1.4rem;
+  }
 }
