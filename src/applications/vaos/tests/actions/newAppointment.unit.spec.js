@@ -1315,14 +1315,23 @@ describe('VAOS newAppointment actions', () => {
           facilities: {
             '323_var983': [
               {
-                institutionCode: '983',
+                id: 'var983',
+                identifier: [
+                  {
+                    system: VHA_FHIR_ID,
+                    value: '983',
+                  },
+                ],
                 name: 'CHYSHR-Cheyenne VA Medical Center',
-                city: 'Cheyenne',
-                stateAbbrev: 'WY',
-                authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-                rootStationCode: '983',
-                parentStationCode: '983',
-                institutionTimezone: 'America/Denver',
+                address: [
+                  {
+                    city: 'Cheyenne',
+                    state: 'WY',
+                  },
+                ],
+                legacyVAR: {
+                  institutionTimezone: 'America/Denver',
+                },
               },
             ],
           },
