@@ -6,6 +6,7 @@ import { pageNames } from './pageList';
 import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
+import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
 
 import environment from 'platform/utilities/environment';
 
@@ -60,16 +61,14 @@ function alertContent(isLoggedIn) {
       </p>
       <p>
         <strong>If your separation date is before {ninetyDays},</strong> you can
-        still begin the process of filing your claim on eBenefits.
+        still begin the process of filing your claim. It will begin processing
+        the day after you separate from military service.
       </p>
       <a
-        href={EBEN_526_PATH}
+        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
         className="usa-button-primary va-button-primary"
-        onClick={() =>
-          isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
-        }
       >
-        Go to eBenefits
+        File a disability compensation claim
       </a>
       <p>
         <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
@@ -78,13 +77,20 @@ function alertContent(isLoggedIn) {
   );
 }
 
-const UnableToFileBDDPage = ({ isLoggedIn }) => (
-  <AlertBox
-    status="warning"
-    headline="You’ll need to file a claim on eBenefits"
-    content={alertContent(isLoggedIn)}
-  />
-);
+const UnableToFileBDDPage = ({ isLoggedIn }) =>
+  environment.isProduction() ? (
+    <AlertBox
+      status="warning"
+      headline="You’ll need to file a claim on eBenefits"
+      content={alertContent(isLoggedIn)}
+    />
+  ) : (
+    <AlertBox
+      status="warning"
+      headline="You can't file a BDD claim"
+      content={alertContent(isLoggedIn)}
+    />
+  );
 
 const mapStateToProps = state => ({
   isLoggedIn: isLoggedInSelector(state),
