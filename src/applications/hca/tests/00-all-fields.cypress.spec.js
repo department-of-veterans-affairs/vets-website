@@ -37,7 +37,7 @@ describe('HCA form', () => {
 
   it('submits a valid application', () => {
     // Start the application
-    cy.visit('http://localhost:3001/health-care/apply/application')
+    cy.visit('health-care/apply/application')
       .get('.schemaform-start-button')
       .first()
       .click()

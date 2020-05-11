@@ -1,4 +1,5 @@
 {
+  "baseUrl": "http://localhost:3001",
   "fixturesFolder": "src/platform/testing/e2e-cypress/fixtures",
   "integrationFolder": "./",
   "pluginsFile": "src/platform/testing/e2e-cypress/plugins/index.js",
