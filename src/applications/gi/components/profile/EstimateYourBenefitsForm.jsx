@@ -1008,8 +1008,8 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   render() {
-    const beneficiaryZIPError = this.props.calculator.beneficiaryZIPError;
-    const zipcode = this.props.calculator.beneficiaryZIP;
+    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
+    const zipcode = this.props.inputs.beneficiaryZIP;
 
     return (
       <div className="usa-width-one-eigth medium-5 columns">

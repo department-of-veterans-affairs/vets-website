@@ -82,7 +82,6 @@ export class EstimateYourBenefits extends React.Component {
     const outputs = this.props.estimatedBenefits;
     const {
       profile,
-      calculator,
       calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
@@ -91,7 +90,6 @@ export class EstimateYourBenefits extends React.Component {
       <div className="row calculate-your-benefits">
         <EstimateYourBenefitsForm
           profile={profile}
-          calculator={calculator}
           eligibility={this.props.eligibility}
           eligibilityChange={this.props.eligibilityChange}
           inputs={inputs}
