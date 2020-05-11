@@ -29,7 +29,6 @@ import createHigherLevelReviewApplicationStatus from 'applications/disability-be
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
-import addLinkToCovidFAQ from './covidFaqLink';
 
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
 
@@ -142,10 +141,6 @@ create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
-}
-
-if (location.pathname === '/coronavirus-veteran-frequently-asked-questions/') {
-  addLinkToCovidFAQ(store);
 }
 
 /* eslint-disable no-unused-vars,camelcase */

@@ -27,7 +27,7 @@ describe('VAOS Location service', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
+        'vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
       expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
     });
@@ -50,7 +50,7 @@ describe('VAOS Location service', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
+        '/vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
