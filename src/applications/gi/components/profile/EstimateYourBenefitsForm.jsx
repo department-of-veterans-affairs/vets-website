@@ -1008,6 +1008,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   render() {
+    const beneficiaryZIPError = this.props.calculator.beneficiaryZIPError;
     return (
       <div className="usa-width-one-eigth medium-5 columns">
         <p>Use the fields below to calculate your benefits:</p>
@@ -1019,7 +1020,11 @@ class EstimateYourBenefitsForm extends React.Component {
         </ul>
         <button
           className="calculate-button"
-          onClick={this.props.updateEstimatedBenefits}
+          onClick={
+            beneficiaryZIPError === 'Postal code must be a 5-digit number'
+              ? ''
+              : this.props.updateEstimatedBenefits
+          }
         >
           Calculate benefits
         </button>
