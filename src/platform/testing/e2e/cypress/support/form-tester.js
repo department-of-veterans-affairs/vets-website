@@ -22,9 +22,8 @@ const createFieldObject = element => {
 };
 
 // Check if the current page maps to an array page from the form config.
-// If there is a match, get the index from the URL.
-// Set up the path prefix for looking up test data under the array item
-// that corresponds to this page.
+// If there is a match, build the path prefix for looking up test data
+// under the array item that corresponds to this page.
 const getArrayItemPath = pathname => {
   cy.get('@arrayPageObjects', COMMAND_OPTIONS).then(arrayPageObjects => {
     let index;
@@ -309,8 +308,9 @@ const testForm = (testDescription, testConfig) => {
       cy.wrap(testConfig).as('testConfig');
 
       // Supplement array page objects from form config with regex patterns
-      // so that we can match page URLs against them to determine
-      // if they're array pages.
+      // for later processing when we match page URLs against them
+      // in order to determine whether the pages are array pages, and if so,
+      // which index in the array they correspond to.
       cy.wrap(
         testConfig.arrayPages.map(arrayPage => ({
           regex: new RegExp(arrayPage.path.replace(':index', '(\\d+)$')),
