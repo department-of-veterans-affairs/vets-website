@@ -21,7 +21,7 @@ class ViewDependentsHeader extends Component {
             new dependent.
           </p>
           <EbenefitsLink
-            path="ebenefits/about/feature?feature=dependent-compensation"
+            path="/view-change-dependents/add-remove-form-686c/"
             className="usa-button-primary va-button-primary"
             onClick={this.handleClick}
           >
