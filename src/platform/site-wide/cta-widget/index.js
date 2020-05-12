@@ -91,6 +91,7 @@ export class CallToActionWidget extends React.Component {
       if (!accountState) {
         this.props.fetchMHVAccount();
       } else if (
+        // TODO: clean up for SSOe
         new URLSearchParams(window.location.search).get('tc_accepted')
       ) {
         // Since T&C is still required to support the existing account states,
@@ -144,33 +145,8 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    return null;
-  };
-
-  getHealthToolContent = () => {
-    const { appId, mhvAccount, profile } = this.props;
-
-    if (this.hasMVIError()) {
-      return this.getMviErrorContent();
-    }
-
-    if (this.isAccessible()) {
-      return (
-        <OpenMyHealtheVet
-          serviceDescription={this._serviceDescription}
-          primaryButtonHandler={this.goToTool}
-          toolName={this._mhvToolName}
-        />
-      );
-    }
-
-    if (mhvAccount.errors) {
-      recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
-      return <HealthToolsDown />;
-    }
-
-    if (profile.verified && appId === widgetTypes.DIRECT_DEPOSIT) {
-      if (!profile.multifactor) {
+    if (this.props.appId === widgetTypes.DIRECT_DEPOSIT) {
+      if (!this.props.profile.multifactor) {
         return (
           <MFA
             serviceDescription={this._serviceDescription}
@@ -191,6 +167,43 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
+    return null;
+  };
+
+  getHealthToolContent = () => {
+    const { mhvAccount, useSSOe } = this.props;
+
+    if (this.hasMVIError()) {
+      return this.getMviErrorContent();
+    }
+
+    if (useSSOe) {
+      const errorContent = this.getInaccessibleHealthToolContentSSOe();
+      if (errorContent) return errorContent;
+      return (
+        <OpenMyHealtheVet
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.goToTool}
+          toolName={this._mhvToolName}
+        />
+      );
+    }
+
+    if (this.isAccessible()) {
+      return (
+        <OpenMyHealtheVet
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.goToTool}
+          toolName={this._mhvToolName}
+        />
+      );
+    }
+
+    if (mhvAccount.errors) {
+      recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
+      return <HealthToolsDown />;
+    }
+
     return this.getInaccessibleHealthToolContent();
   };
 
@@ -203,6 +216,32 @@ export class CallToActionWidget extends React.Component {
       default:
         return <HealthToolsDown />;
     }
+  };
+
+  getInaccessibleHealthToolContentSSOe = () => {
+    const { profile, isVaPatient, mhvAccountIdState } = this.props.mhvAccount;
+
+    if (!profile.verified) {
+      recordEvent({
+        event: `${this._gaPrefix}-info-needs-identity-verification`,
+      });
+      return (
+        <Verify
+          serviceDescription={this._serviceDescription}
+          primaryButtonHandler={this.verifyHandler}
+        />
+      );
+    } else if (mhvAccountIdState === 'DEACTIVATED') {
+      recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
+      return <DeactivatedMHVIds />;
+    } else if (isVaPatient !== 'true') {
+      recordEvent({ event: `${this._gaPrefix}-error-needs-va-patient` });
+      return <NeedsVAPatient />;
+    }
+    // TODO if TermsAndConditions is still needed, add here
+    // using previous redirect logic
+
+    return null;
   };
 
   getInaccessibleHealthToolContent = () => {
@@ -338,6 +377,9 @@ export class CallToActionWidget extends React.Component {
       const { appId, mhvAccount } = this.props;
       return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
       // return this.props.availableServices.has(this._requiredServices);
+    } else if (this.props.appId === widgetTypes.DIRECT_DEPOSIT) {
+      // Direct Deposit requires multifactor
+      return this.props.profile.verified && this.props.profile.multifactor;
     }
 
     // Only check whether the account is verified here and leave any handling
@@ -437,6 +479,8 @@ const mapStateToProps = state => {
     verified,
     multifactor,
     status,
+    vaPatient,
+    mhvAccountState,
   } = profile;
   return {
     // availableServices: new Set(services),
@@ -446,6 +490,8 @@ const mapStateToProps = state => {
     mviStatus: status,
     featureToggles: state.featureToggles,
     useSSOe: ssoe(state),
+    isVaPatient: vaPatient,
+    mhvAccountIdState: mhvAccountState,
   };
 };
 
