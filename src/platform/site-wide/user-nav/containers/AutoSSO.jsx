@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { fromPairs } from 'lodash';
 
 import { isLoggedIn } from 'platform/user/selectors';
 import { checkKeepAlive } from 'platform/user/authentication/actions';
@@ -25,7 +26,7 @@ function parseqs(value) {
    */
   const data = value.startsWith('?') ? value.substring(1) : value;
   const entries = data ? data.split('&').map(q => q.split('=')) : [];
-  return Object.fromEntries(entries);
+  return fromPairs(entries);
 }
 
 export async function checkStatus(toggleKeepAlive) {
