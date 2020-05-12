@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { links } from 'applications/caregivers/definitions/content';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export const VetInfo = ({ pageTitle }) => (
   <>
@@ -17,48 +16,7 @@ VetInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-export const LearnMoreSecondaryCaregiver = () => {
-  const [isModalVisible, toggleModal] = useState(false);
-
-  return (
-    <>
-      <Modal
-        title="Secondary Family Caregiver"
-        id="primary-family-caregiver-info"
-        cssClass="caregiver-modal"
-        visible={isModalVisible}
-        onClose={() => toggleModal(false)}
-      >
-        <>
-          <p>
-            Secondary Family Caregivers can be the Veteran’s or service
-            member’s:
-          </p>
-
-          <ul>
-            <li>Parent</li>
-            <li>Spouse</li>
-            <li>Son or daughter</li>
-            <li>Step-family member</li>
-            <li>Extended family member</li>
-            <li>
-              Someone who is not a family member but resides with the Veteran or
-              will do so upon approval
-            </li>
-          </ul>
-        </>
-      </Modal>
-
-      <button
-        type="button"
-        className="va-button-link"
-        onClick={() => toggleModal(!isModalVisible)}
-      >
-        Learn more about what this means
-      </button>
-    </>
-  );
-};
+export const LearnMoreSecondaryCaregiver = () => <></>;
 
 export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
   <>
@@ -152,7 +110,23 @@ export const SecondaryCaregiverLegal = () => (
         and generally serves as a back-up to the Primary Family Caregiver.
       </p>
 
-      <LearnMoreSecondaryCaregiver />
+      <>
+        <p>
+          Secondary Family Caregivers can be the Veteran’s or service member’s:
+        </p>
+
+        <ul>
+          <li>Parent</li>
+          <li>Spouse</li>
+          <li>Son or daughter</li>
+          <li>Step-family member</li>
+          <li>Extended family member</li>
+          <li>
+            Someone who is not a family member but resides with the Veteran or
+            will do so upon approval
+          </li>
+        </ul>
+      </>
     </AdditionalInfo>
   </div>
 );

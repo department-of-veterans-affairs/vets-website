@@ -176,7 +176,10 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <div className="caregivers-intro schemaform-intro">
-      <FormTitle title="Apply for the Program of Comprehensive Assistance for Family Caregivers" />
+      <FormTitle
+        className="form-title"
+        title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
+      />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
       <p>
         We recognize the important role of family caregivers in supporting the

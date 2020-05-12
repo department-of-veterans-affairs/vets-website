@@ -328,7 +328,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [primaryCaregiverFields.otherHealthInsurance],
+            required: [
+              primaryCaregiverFields.medicaidEnrolled,
+              primaryCaregiverFields.medicareEnrolled,
+              primaryCaregiverFields.tricareEnrolled,
+              primaryCaregiverFields.champvaEnrolled,
+              primaryCaregiverFields.otherHealthInsurance,
+            ],
             properties: {
               [primaryCaregiverFields.medicaidEnrolled]:
                 primaryCaregiverProps.medicaidEnrolled,
@@ -450,8 +456,7 @@ const formConfig = {
             required: [
               secondaryCaregiverFields.secondaryOne.address,
               secondaryCaregiverFields.secondaryOne.vetRelationship,
-              secondaryCaregiverFields.secondaryOne.email,
-              secondaryCaregiverFields.secondaryOne.verifyEmail,
+              secondaryCaregiverFields.secondaryOne.primaryPhoneNumber,
             ],
             properties: {
               // secondaryOne properties
@@ -561,10 +566,9 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              secondaryCaregiverFields.secondaryOne.address,
-              secondaryCaregiverFields.secondaryOne.vetRelationship,
-              secondaryCaregiverFields.secondaryTwo.email,
-              secondaryCaregiverFields.secondaryTwo.verifyEmail,
+              secondaryCaregiverFields.secondaryTwo.address,
+              secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber,
+              secondaryCaregiverFields.secondaryTwo.vetRelationship,
             ],
             properties: {
               // secondaryTwo properties
