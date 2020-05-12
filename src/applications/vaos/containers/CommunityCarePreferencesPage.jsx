@@ -49,6 +49,7 @@ const initialSchema = {
         phone: {
           type: 'string',
           minLength: 10,
+          pattern: '^[0-9]{10}$',
         },
       },
     },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
@@ -49,12 +50,30 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link
-                    to={linkTo}
-                    aria-label={`${name} ${locationInfo(city, state, country)}`}
-                  >
-                    {name}
-                  </Link>
+                  {!environment.isProduction() && (
+                    <a
+                      onClick={() => this.props.handleLinkClick(facilityCode)}
+                      aria-label={`${name} ${locationInfo(
+                        city,
+                        state,
+                        country,
+                      )}`}
+                    >
+                      {name}
+                    </a>
+                  )}
+                  {environment.isProduction() && (
+                    <Link
+                      to={linkTo}
+                      aria-label={`${name} ${locationInfo(
+                        city,
+                        state,
+                        country,
+                      )}`}
+                    >
+                      {name}
+                    </Link>
+                  )}
                 </h2>
               </div>
             </div>

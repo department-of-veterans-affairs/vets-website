@@ -1,7 +1,11 @@
 import React from 'react';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 
-export default function AppointmentStatus({ status, index }) {
+export default function AppointmentStatus({
+  status,
+  index,
+  isPastAppointment,
+}) {
   let iconClass = null;
   let content = null;
 
@@ -22,7 +26,11 @@ export default function AppointmentStatus({ status, index }) {
     }
     case APPOINTMENT_STATUS.booked: {
       iconClass = 'fa-check-circle';
-      content = <span id={`card-${index}-status`}>Confirmed</span>;
+      content = (
+        <span id={`card-${index}-status`}>
+          {isPastAppointment ? 'Completed' : 'Confirmed'}
+        </span>
+      );
       break;
     }
     case APPOINTMENT_STATUS.cancelled: {

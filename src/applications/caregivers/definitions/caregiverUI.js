@@ -92,7 +92,7 @@ export default {
       'ui:title': `${label}'s relationship to Veteran (e.g., Spouse, Parent, Child, Other):`,
     }),
     hasSecondaryCaregiverOneUI: {
-      'ui:title': 'Would you like to add a Secondary Caregiver?',
+      'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
       'ui:options': {
         hideOnReview: true,
@@ -110,12 +110,11 @@ export default {
   vetUI: {
     vetInputLabel: 'Veteran',
     previousTreatmentFacilityUI: {
-      'ui:title':
-        'Please enter the name of the medical facility where the Veteran last received medical treatment.',
-
+      'ui:title': ' ',
       'ui:order': ['name', 'type'],
       name: {
-        'ui:title': 'Facility Name',
+        'ui:title':
+          'Please enter the name of the medical facility where the Veteran last received medical treatment.',
       },
       type: {
         'ui:title': 'Was this a hospital or clinic?',
@@ -130,7 +129,7 @@ export default {
     [vetFields.preferredFacilityView]: {
       'ui:description': PleaseSelectVAFacility(),
       [vetFields.preferredFacilityStateView]: {
-        'ui:title': 'Facility State',
+        'ui:title': 'State',
 
         'ui:options': {
           labels: stateLabels,
@@ -239,23 +238,23 @@ export const addressWithoutCountryUI = label => ({
   'ui:title': ' ',
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
-    'ui:title': `${label}'s street`,
+    'ui:title': `${label}'s current street address`,
     'ui:errorMessages': { required: 'Please enter a street address' },
   },
-  street2: { 'ui:title': `${label}'s line 2` },
+  street2: { 'ui:title': `Line 2` },
   city: {
-    'ui:title': `${label}'s city`,
+    'ui:title': `City`,
     'ui:errorMessages': { required: 'Please enter a city' },
   },
   state: {
-    'ui:title': `${label}'s state`,
+    'ui:title': `State`,
     'ui:options': {
       labels: stateLabels,
     },
     'ui:errorMessages': { required: 'Please enter a state' },
   },
   postalCode: {
-    'ui:title': `${label}'s postal code`,
+    'ui:title': `Postal code`,
     'ui:options': { widgetClassNames: 'usa-input-medium' },
     'ui:errorMessages': {
       required: 'Please enter a postal code',
