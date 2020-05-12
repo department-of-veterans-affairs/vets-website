@@ -238,7 +238,7 @@ module.exports = env => {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new CopyPlugin([
-        { from: 'src/site/assets/js', to: './assets/js' },
+        { from: 'src/site/assets/js/execute-axe-check.js', to: './' },
         { from: 'src/site/assets/robots.txt', to: './' },
       ]),
     ],

@@ -36,7 +36,7 @@ function injectAxeCore(buildOptions) {
       );
 
       const executeAxeCheckScript = dom(
-        `<script type="text/javascript" src="/js/execute-axe-check.js"></script>`,
+        `<script type="text/javascript" src="/generated/execute-axe-check.js"></script>`,
       );
 
       dom('body').append(axeCoreScript);
