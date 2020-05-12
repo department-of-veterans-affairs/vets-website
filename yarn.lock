@@ -5404,9 +5404,10 @@ eslint-plugin-react@^7.12.4:
     prop-types "^15.6.2"
     resolve "^1.9.0"
 
-eslint-plugin-scanjs-rules@^0.1.4:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-scanjs-rules/-/eslint-plugin-scanjs-rules-0.1.5.tgz#2055381b646cec989dd5b872203bae3321858219"
+eslint-plugin-scanjs-rules@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-scanjs-rules/-/eslint-plugin-scanjs-rules-0.2.1.tgz#a37403fde845df41277e03e5c2073f055d47942d"
+  integrity sha1-o3QD/ehF30EnfgPlwgc/BV1HlC0=
   dependencies:
     babel-eslint ">=4.1.1"
     eslint ">=1.1"
