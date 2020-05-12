@@ -140,7 +140,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           title: 'Service member information',
-          path: 'service-member-information',
+          path: 'veteran-information',
           uiSchema: { 'ui:description': veteranInfoDescription },
           schema: { type: 'object', properties: {} },
         },
@@ -158,7 +158,7 @@ const formConfig = {
         },
         militaryHistory: {
           title: 'Military service history',
-          path: 'military-service-history',
+          path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
@@ -166,7 +166,8 @@ const formConfig = {
         },
         federalOrders: {
           title: 'Federal orders',
-          path: 'federal-orders',
+          path:
+            'review-veteran-details/military-service-history/federal-orders',
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
