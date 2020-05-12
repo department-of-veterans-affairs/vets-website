@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { fromPairs } from 'lodash';
 
 import { isLoggedIn } from 'platform/user/selectors';
@@ -76,11 +75,9 @@ const mapDispatchToProps = {
   checkKeepAlive,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AutoSSO),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AutoSSO);
 
 export { AutoSSO };
