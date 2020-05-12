@@ -30,7 +30,7 @@ export class ITFWrapper extends React.Component {
       this.props.fetchITF();
     }
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { itf, location } = nextProps;
     if (this.shouldBlockITF(location.pathname)) {

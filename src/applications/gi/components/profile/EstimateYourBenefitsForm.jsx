@@ -179,6 +179,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   toggleAboutYourSchool = expanded => {
@@ -193,6 +194,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   toggleLearningFormatAndSchedule = expanded => {
@@ -207,6 +209,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   toggleScholarshipsAndOtherFunding = expanded => {
@@ -221,6 +224,7 @@ class EstimateYourBenefitsForm extends React.Component {
         : this.state.learningFormatAndScheduleExpanded,
       scholarshipsAndOtherFundingExpanded: expanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
@@ -280,6 +284,7 @@ class EstimateYourBenefitsForm extends React.Component {
     const tuitionFeesFieldId = `${tuitionFeesId}-field`;
     return (
       <div id={tuitionFeesFieldId}>
+        {inStateTuitionInput}
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
         </label>
@@ -299,7 +304,6 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleInputFocus.bind(this, tuitionFeesFieldId)}
         />
-        {inStateTuitionInput}
       </div>
     );
   };

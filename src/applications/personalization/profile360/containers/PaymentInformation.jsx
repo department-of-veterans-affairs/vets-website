@@ -34,6 +34,7 @@ import {
   directDepositInformation,
   directDepositIsBlocked,
   directDepositIsSetUp,
+  directDepositUiState,
 } from '../selectors';
 
 const AdditionalInfos = props => (
@@ -281,7 +282,7 @@ const mapStateToProps = state => {
     multifactorEnabled: isMultifactorEnabled(state),
     paymentAccount: directDepositAccountInformation(state),
     paymentInformation: directDepositInformation(state),
-    paymentInformationUiState: state.vaProfile.paymentInformationUiState,
+    paymentInformationUiState: directDepositUiState(state),
     shouldShowDirectDeposit:
       isEvssAvailable &&
       !isDirectDepositBlocked &&

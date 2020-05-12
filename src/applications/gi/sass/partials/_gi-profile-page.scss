@@ -4,8 +4,10 @@
     margin-top: 0;
   }
 
-  .usa-accordion {
+  .profile-accordion-list {
     margin-top: 1em;
+    list-style-type: none;
+    padding-left: 0;
   }
 
   .accordion-button-text {
@@ -17,7 +19,7 @@
   }
 
   .section-button {
-      letter-spacing: 0.4px;
+    letter-spacing: 0.4px;
   }
 
   .link-header {
@@ -349,12 +351,50 @@
     list-style: none;
   }
 
+  .estimated-benefits-header:focus {
+    outline: 0;
+    outline-color: transparent;
+    outline-style: none;
+  }
+
+  .checked-program {
+    max-width: fit-content;
+  }
+
   .eyb-inputs-ul {
     list-style-type: none !important;
   }
 
-  #estimated-benefits{
+  .eyb-button {
+    &.usa-accordion-button[aria-expanded='false'] {
+      background-image: url('/img/arrow-up.png');
+      background-image: url('/img/arrow-up.svg');
+    }
+    &.usa-accordion-button[aria-expanded='true'] {
+      background-image: url('/img/arrow-down.png');
+      background-image: url('/img/arrow-down.svg');
+    }
+  }
+
+  #estimated-benefits {
     outline: none;
+  }
+
+  .eyb-sheet {
+    background-color: $color-gray-lightest;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    max-height: 0%;
+    transition: 1s;
+    overflow: hidden;
+    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .eyb-sheet.open {
+    max-height: 100%;
   }
 
   button.calculate-button {
@@ -363,5 +403,13 @@
     border-radius: $button-border-radius;
     color: $color-white;
     width: auto;
+  }
+
+  .primary-sco-list {
+    padding-left: 0;
+  }
+
+  .secondary-sco-list {
+    padding-left: 0;
   }
 }

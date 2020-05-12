@@ -297,7 +297,7 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Sex',
+    'ui:title': 'Sex (information will be used for statistical purposes only)',
     'ui:widget': 'radio',
   },
   maritalStatus: {

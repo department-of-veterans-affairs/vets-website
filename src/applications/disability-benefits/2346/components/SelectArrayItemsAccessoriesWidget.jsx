@@ -41,6 +41,20 @@ class SelectArrayItemsAccessoriesWidget extends Component {
       accessorySupply => accessorySupply.availableForReorder === false,
     );
 
+    const noAccessoriesContent = (
+      <>
+        <p>
+          You can only order accessories online that you have received in the
+          past two years.
+        </p>
+        <p>
+          If you need accessories like domes, wax guards, cleaning supplies, or
+          desiccant, call the DLC Customer Service Station at{' '}
+          <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+        </p>
+      </>
+    );
     return (
       <>
         {!areAccessorySuppliesIneligible && (
@@ -127,14 +141,24 @@ class SelectArrayItemsAccessoriesWidget extends Component {
             )}
           </div>
         ))}
-        <AdditionalInfo triggerText="What if I don't see the accessories I need?">
-          <p>
-            If you need a different accessory or an adjustment to an available
-            item, call the DLC Customer Service Station at{' '}
-            <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-            <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-          </p>
-        </AdditionalInfo>
+        {accessorySupplies.length > 0 && (
+          <AdditionalInfo triggerText="What if I don't see the accessories I need?">
+            <p>
+              If you need a different accessory or an adjustment to an available
+              item, call the DLC Customer Service Station at{' '}
+              <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+            </p>
+          </AdditionalInfo>
+        )}
+        {accessorySupplies.length <= 0 && (
+          <AlertBox
+            headline="You're hearing accessories aren't available for online ordering"
+            content={noAccessoriesContent}
+            status="info"
+            isVisible
+          />
+        )}
       </>
     );
   }

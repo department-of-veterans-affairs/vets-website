@@ -1,15 +1,17 @@
 import 'platform/polyfills';
-import '../personalization/profile360/sass/user-profile.scss';
+import '../all-claims/sass/disability-benefits.scss';
 
 import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
+import analyticsEvents from '../all-claims/analytics-events';
 
 startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
+  analyticsEvents,
   entryName: manifest.entryName,
 });
