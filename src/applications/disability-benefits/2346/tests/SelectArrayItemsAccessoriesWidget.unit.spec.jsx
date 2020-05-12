@@ -63,31 +63,30 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
     expect(wrapper.html()).to.include('fake name 2');
     wrapper.unmount();
   });
+  // is this test needed since we're using setData in the widget and it has its own test file?
   it('should house the selected accessories inside selectedProducts array', () => {
-    const mountedWrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
-    );
     const shallowWrapper = shallow(
       <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
     );
     expect(shallowWrapper.prop('selectedProducts')).to.eql([
       { productId: '3' },
     ]);
-    // TODO: How to select SelectArrayItemsFromAccessoriesWidget??  -@maharielrosario at 5/12/2020, 6:43:34 PM
-    //
-    // const widget = mountedWrapper.find('SelectArrayItemsFromAccessoriesWidget');
-    // mountedWrapper.find({ id: '4' }).simulate('click');
-    // console.log(widget.debug());
-    // expect(widget.prop('selectedProducts')).to.eql([
-    //   {
-    //     productId: '3',
-    //   },
-    //   {
-    //     productId: '4',
-    //   },
-    // ]);
+
+    shallowWrapper
+      .dive()
+      .find({ id: '4' })
+      .simulate('click');
+
+    expect(shallowWrapper.prop('selectedProducts')).to.eql([
+      {
+        productId: '3',
+      },
+      {
+        productId: '4',
+      },
+    ]);
+
     shallowWrapper.unmount();
-    mountedWrapper.unmount();
   });
   it('should display the quantity of the accessory', () => {
     const wrapper = mount(
