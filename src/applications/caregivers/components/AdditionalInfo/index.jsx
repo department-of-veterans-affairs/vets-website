@@ -113,7 +113,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
     </p>
 
     {additionalInfo && (
-      <section>
+      <section className="vads-u-margin-y--1p5">
         <AdditionalInfo triggerText="What's a Primary Family Caregiver?">
           <p>
             A Family Member (defined herein), who is designated as a "primary
@@ -122,6 +122,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               href={links.caregiverDefinition.link}
               target="_blank"
               rel="noopener noreferrer"
+              className="vads-u-margin-x--0p5"
             >
               {links.caregiverDefinition.label}
             </a>
@@ -130,6 +131,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               href={links.familyCaregiver.link}
               target="_blank"
               rel="noopener noreferrer"
+              className="vads-u-margin-x--0p5"
             >
               {links.familyCaregiver.label}
             </a>
@@ -151,30 +153,34 @@ PrimaryCaregiverInfo.defaultProps = {
 };
 
 export const SecondaryCaregiverLegal = () => (
-  <AdditionalInfo triggerText="Learn more about Secondary Caregiver">
-    <p>
-      An individual approved as a "provider of personal care services" for the
-      eligible Veteran under{' '}
-      <a
-        href={links.caregiverDefinition.link}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {links.caregiverDefinition.label}
-      </a>
-      meets the requirements of{' '}
-      <a
-        href={links.familyCaregiver.link}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {links.familyCaregiver.label}
-      </a>
-      and generally serves as a back-up to the Primary Family Caregiver.
-    </p>
+  <div className="vads-u-margin-y--1p5">
+    <AdditionalInfo triggerText="Learn more about Secondary Family Caregiver">
+      <p>
+        An individual approved as a "provider of personal care services" for the
+        eligible Veteran under
+        <a
+          href={links.caregiverDefinition.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-u-margin-x--0p5"
+        >
+          {links.caregiverDefinition.label}
+        </a>
+        meets the requirements of
+        <a
+          href={links.familyCaregiver.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-u-margin-x--0p5"
+        >
+          {links.familyCaregiver.label}
+        </a>
+        and generally serves as a back-up to the Primary Family Caregiver.
+      </p>
 
-    <LearnMoreSecondaryCaregiver />
-  </AdditionalInfo>
+      <LearnMoreSecondaryCaregiver />
+    </AdditionalInfo>
+  </div>
 );
 
 export const SecondaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
@@ -197,16 +203,15 @@ SecondaryCaregiverInfo.propTypes = {
 export const FacilityInfo = () => (
   <>
     <div className="vads-u-margin-bottom--4">
-      <AdditionalInfo triggerText="Can&apos;t find your medical center or clinic">
-        We only include certain facilities. You should pick the medical center
-        or clinic closest to your home.
-      </AdditionalInfo>
+      We only include certain facilities. You should pick the medical center or
+      clinic closest to your home.
     </div>
 
     <a
       href={links.findLocations.link}
       rel="noopener noreferrer"
       target="_blank"
+      className="vads-u-margin-x--0p5"
     >
       {links.findLocations.label}
     </a>
@@ -214,12 +219,14 @@ export const FacilityInfo = () => (
 );
 
 export const CaregiverSupportInfo = () => (
-  <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
-    A Caregiver Support Coordinator is a clinical professional who connects
-    Veteran caregivers with VA and community resources that offer supportive
-    programs and services. Caregiver Support Coordinators are located at every
-    VA medical center and specialize in caregiving issues.
-  </AdditionalInfo>
+  <div className="vads-u-margin-y--1p5">
+    <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
+      A Caregiver Support Coordinator is a clinical professional who connects
+      Veteran caregivers with VA and community resources that offer supportive
+      programs and services. Caregiver Support Coordinators are located at every
+      VA medical center and specialize in caregiving issues.
+    </AdditionalInfo>
+  </div>
 );
 
 export const PrimaryHealthCoverage = ({ pageTitle }) => (
@@ -238,17 +245,19 @@ export const PrimaryHealthCoverage = ({ pageTitle }) => (
             <b>Medicaid</b> is a government health program for eligible
             low-income individuals and families and people with disabilities.
           </p>
-
           <p>
             <b>Medicare</b> is a federal health insurance program providing
             coverage for people who are 65 years or older or who meet who meet
             special criteria. Part A insurance covers hospital care, skilled
             nursing and nursing home care, hospice, and home health services.
           </p>
-
           <p>
             <b>Tricare</b> is a cost-sharing program that covers the price of
             some health care services and supplies
+          </p>
+          <p>
+            <b>CHAMPVA</b> is a cost-sharing program that covers the price of
+            some health care services and supplies.
           </p>
         </AdditionalInfo>
       </div>

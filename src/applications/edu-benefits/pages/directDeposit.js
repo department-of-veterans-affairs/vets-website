@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
 const defaults = {
   required: [],

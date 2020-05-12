@@ -109,6 +109,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     form.unmount();
   });
+
   it('document title should match h1 text', () => {
     const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
@@ -124,6 +125,27 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
+
+    form.unmount();
+  });
+
+  it('should show error msg when enter all spaces', () => {
+    const openReasonForAppointment = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openReasonForAppointment={openReasonForAppointment}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        data={{
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: '   ',
+        }}
+      />,
+    );
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
 
     form.unmount();
   });

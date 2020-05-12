@@ -20,8 +20,20 @@ const {
 } = require('./manifest-helpers');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 
+const timestamp = new Date().getTime();
+
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
+
+const sharedModules = [
+  getAbsolutePath('src/platform/polyfills'),
+  'react',
+  'react-dom',
+  'react-redux',
+  'redux',
+  'redux-thunk',
+  '@sentry/browser',
+];
 
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
@@ -29,15 +41,9 @@ const globalEntryFiles = {
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
-  vendor: [
-    getAbsolutePath('src/platform/polyfills'),
-    'react',
-    'react-dom',
-    'react-redux',
-    'redux',
-    'redux-thunk',
-    '@sentry/browser',
-  ],
+  vendor: sharedModules,
+  // This is to solve the issue of the vendor file being cached
+  'shared-modules': sharedModules,
 };
 
 /**
@@ -96,8 +102,12 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: '[name].entry.js',
-      chunkFilename: '[name].entry.js',
+      filename: !isOptimizedBuild
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: !isOptimizedBuild
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
     module: {
       rules: [
@@ -220,7 +230,12 @@ module.exports = env => {
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
         __API__: JSON.stringify(buildOptions.api),
       }),
-      new MiniCssExtractPlugin({ filename: '[name].css' }),
+
+      new MiniCssExtractPlugin({
+        filename: !isOptimizedBuild
+          ? '[name].css'
+          : `[name].[contenthash]-${timestamp}.css`,
+      }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new CopyPlugin([
         { from: 'src/site/assets/js', to: './assets/js' },

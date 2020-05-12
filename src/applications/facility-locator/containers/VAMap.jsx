@@ -2,39 +2,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { FeatureGroup, Map, TileLayer } from 'react-leaflet';
 import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
-import { isEmpty, debounce } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import {
-  updateSearchQuery,
+  clearSearchResults,
+  fetchVAFacility,
   genBBoxFromAddress,
   searchWithBounds,
-  fetchVAFacility,
-  clearSearchResults,
+  updateSearchQuery,
 } from '../actions';
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
+import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { facilityTypes } from '../config';
 import {
-  LocationType,
-  FacilityType,
   BOUNDING_RADIUS,
+  FacilityType,
+  LocationType,
   MARKER_LETTERS,
 } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
-import {
-  isProduction,
-  toggleValues,
-} from 'platform/site-wide/feature-toggles/selectors';
+import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -49,30 +46,46 @@ const otherToolsLink = (
   </p>
 );
 
+const headingStyle = {
+  fontWeight: '700',
+  fontFamily: 'Bitter, Georgia, Cambria, Times New Roman, Times, serif',
+  lineHeight: '1.3',
+  clear: 'both',
+};
+
+const ddStyle = {
+  margin: '2rem 0 .5rem 0',
+  lineHeight: '1.5',
+};
+
 // Link to urgent care benefit web page
 const urgentCareDialogLink = (
-  <AlertBox status="warning">
-    <h3 className="usa-alert-heading" tabIndex="-1">
-      Important information about your Community Care appointment
-    </h3>
-    <p>
-      Click below to learn how to prepare for your urgent care appointment with
-      a Community Care provider.
-    </p>
-    <button
-      className="usa-button-primary vads-u-margin-y--0"
-      onClick={() => {
-        // Record event
-        recordEvent({ event: 'cta-primary-button-click' });
-        window.open(
-          'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
-          '_blank',
-        );
-      }}
-    >
-      Learn about VA urgent care benefit
-    </button>
-  </AlertBox>
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <dl className="usa-alert-text">
+        <dt className="usa-alert-heading" style={headingStyle} tabIndex="-1">
+          Important information about your Community Care appointment
+        </dt>
+        <dd style={ddStyle}>
+          Click below to learn how to prepare for your urgent care appointment
+          with a Community Care provider.
+        </dd>
+        <button
+          className="usa-button-primary vads-u-margin-y--0"
+          onClick={() => {
+            // Record event
+            recordEvent({ event: 'cta-primary-button-click' });
+            window.open(
+              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp',
+              '_blank',
+            );
+          }}
+        >
+          Learn about VA urgent care benefit
+        </button>
+      </dl>
+    </div>
+  </div>
 );
 
 class VAMap extends Component {
@@ -124,7 +137,7 @@ class VAMap extends Component {
       });
     }
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
@@ -411,11 +424,10 @@ class VAMap extends Component {
   };
 
   /**
-   * Use the list of search results to generate pushpins for the map.
+   * Use the list of search results to generate map markers and current position marker
    */
-  renderFacilityMarkers = () => {
+  renderMapMarkers = () => {
     const { results } = this.props;
-
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
@@ -427,7 +439,7 @@ class VAMap extends Component {
     };
 
     const markers = MARKER_LETTERS.values();
-    return results.map(r => {
+    const mapMarkers = results.map(r => {
       const iconProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],
@@ -500,6 +512,20 @@ class VAMap extends Component {
           return null;
       }
     });
+    if (this.props.currentQuery.searchCoords) {
+      mapMarkers.push(
+        <CurrentPositionMarker
+          key={`${this.props.currentQuery.searchCoords.lat}-${
+            this.props.currentQuery.searchCoords.lng
+          }`}
+          position={[
+            this.props.currentQuery.searchCoords.lat,
+            this.props.currentQuery.searchCoords.lng,
+          ]}
+        />,
+      );
+    }
+    return mapMarkers;
   };
 
   renderMobileView = () => {
@@ -512,7 +538,7 @@ class VAMap extends Component {
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
-    const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const facilityLocatorMarkers = this.renderMapMarkers();
     const showDialogUrgCare =
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
         currentQuery.serviceType === 'NonVAUrgentCare') ||
@@ -552,11 +578,7 @@ class VAMap extends Component {
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div
-                aria-live="polite"
-                aria-relevant="additions text"
-                className="facility-search-results"
-              >
+              <div className="facility-search-results">
                 <ResultsList
                   isMobile
                   updateUrlParams={this.updateUrlParams}
@@ -622,7 +644,7 @@ class VAMap extends Component {
     } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const facilityLocatorMarkers = this.renderMapMarkers();
     const showDialogUrgCare =
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
         currentQuery.serviceType === 'NonVAUrgentCare') ||
@@ -663,11 +685,7 @@ class VAMap extends Component {
             style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
-            <div
-              aria-live="polite"
-              aria-relevant="additions text"
-              className="facility-search-results"
-            >
+            <div className="facility-search-results">
               <div>
                 <ResultsList
                   updateUrlParams={this.updateUrlParams}
@@ -720,7 +738,7 @@ class VAMap extends Component {
   };
 
   render() {
-    const chatbotLink = this.props.showCovidChatbotLink && (
+    const chatbotLink = (
       <>
         For answers to questions about how COVID-19 may affect your VA health
         appointments, benefits, and services, use our VA{' '}
@@ -769,8 +787,6 @@ function mapStateToProps(state) {
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,
-    showCovidChatbotLink: toggleValues(state)
-      .facilityLocatorShowCovid19ChatbotLink,
   };
 }
 

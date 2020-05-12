@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../platform/monitoring/record-event';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import {
@@ -101,13 +101,13 @@ class YourClaimsPageV2 extends React.Component {
       return null;
     }
 
-    if (canAccessAppeals && canAccessClaims) {
-      if (
-        claimsAvailable !== claimsAvailability.AVAILABLE &&
-        appealsAvailable !== appealsAvailability.AVAILABLE
-      ) {
-        return <ClaimsAppealsUnavailable />;
-      }
+    if (
+      canAccessAppeals &&
+      canAccessClaims &&
+      claimsAvailable !== claimsAvailability.AVAILABLE &&
+      appealsAvailable !== appealsAvailability.AVAILABLE
+    ) {
+      return <ClaimsAppealsUnavailable />;
     }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {

@@ -22,7 +22,7 @@ export class AppContent extends React.Component {
       this.state = { errorLogged: false };
     }
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     // only log isDataAvailable error if one isn't already logged
     if (nextProps.isDataAvailable === false && !this.state.errorLogged) {

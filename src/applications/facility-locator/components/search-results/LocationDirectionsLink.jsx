@@ -16,7 +16,9 @@ function LocationDirectionsLink({ location, from }) {
   return (
     <span>
       <a
-        href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+        href={`https://maps.google.com?saddr=${
+          location.searchString
+        }&daddr=${address}`}
         rel="noopener noreferrer"
         target="_blank"
         style={{ textDecoration: 'underline' }}

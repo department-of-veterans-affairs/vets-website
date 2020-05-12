@@ -262,6 +262,7 @@ Example data:
             {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
           </div>
 
+          {% assign header = "h3" %}
           <!-- Stories -->
           {% if newsStoryTeasersFeatured.entities.0.reverseFieldListingNode.entities.length %}
           <section>
@@ -269,6 +270,7 @@ Example data:
               class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">
               Stories</h2>
             {% for story in newsStoryTeasersFeatured.entities.0.reverseFieldListingNode.entities %}
+            {% assign node = story %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
             {% endfor %}
             <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
@@ -287,7 +289,8 @@ Example data:
               class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
               Events</h2>
               {% for event in eventTeasersFeatured.entities.0.reverseFieldListingNode.entities %}
-                {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+                {% assign node = event %}
+                {% include "src/site/teasers/event.drupal.liquid" %}
               {% endfor %}
             <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
               class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"

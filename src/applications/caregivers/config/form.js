@@ -167,10 +167,10 @@ const formConfig = {
         },
         veteranInfoThree: {
           path: 'service-member-3',
-          title: 'VA medical center information',
+          title: 'VA medical center',
           uiSchema: {
             'ui:description': VetInfo({
-              pageTitle: 'VA medical center information',
+              pageTitle: 'VA medical center',
             }),
             [vetFields.previousTreatmentFacility]:
               vetUI.previousTreatmentFacilityUI,
@@ -251,6 +251,7 @@ const formConfig = {
             type: 'object',
             required: [
               primaryCaregiverFields.fullName,
+              primaryCaregiverFields.ssn,
               primaryCaregiverFields.dateOfBirth,
               primaryCaregiverFields.gender,
             ],

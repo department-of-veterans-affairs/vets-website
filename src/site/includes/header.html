@@ -20,13 +20,19 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  {% if buildtype != 'vagovprod' %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+
   {% if drupalTags %}
   {% include "src/site/includes/metatags.drupal.liquid" %}
   {% else %}
   {% include "src/site/includes/metatags.liquid" %}
   {% endif %}
 
-  <script src="/js/record-event.js"></script>
+  <script>
+    {% include "src/site/assets/js/record-event.js" %}
+  </script>
 
   {% include 'src/site/includes/google-analytics' %}
 
@@ -48,8 +54,8 @@
   <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/generated/style.css">
-  <link rel="stylesheet" href="/generated/{{ entryname | default: 'static-pages' }}.css">
+  <link rel="stylesheet" data-entry-name="style.css">
+  <link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
 
   <!-- Old IE -->
 
@@ -57,15 +63,19 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-  <script defer nomodule src="/generated/polyfills.entry.js"></script>
-  <script defer src="/generated/vendor.entry.js"></script>
-  <script defer src="/generated/{{ entryname | default: 'static-pages' }}.entry.js"></script>
+  {% if botframework_cdn %}
+    <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
+  {% endif %}
+
+  <script defer nomodule data-entry-name="polyfills.js"></script>
+  <script defer data-entry-name="vendor.js"></script>
+  <script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
 
   <!--
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.
   https://github.com/digital-analytics-program/gov-wide-code
 -->
-  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
+  <script async type="text/javascript" nonce="**CSP_NONCE**" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
     id="_fed_an_ua_tag"></script>
 
   <script type="text/javascript">

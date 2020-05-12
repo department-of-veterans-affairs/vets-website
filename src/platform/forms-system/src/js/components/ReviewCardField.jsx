@@ -149,6 +149,7 @@ export default class ReviewCardField extends React.Component {
       registry,
       required,
       schema,
+      formContext,
     } = this.props;
     const { SchemaField } = registry.fields;
     // We've already used the ui:field and ui:title
@@ -185,37 +186,54 @@ export default class ReviewCardField extends React.Component {
       'vads-u-width--auto',
     ].join(' ');
 
+    const Field = (
+      <SchemaField
+        name={idSchema.$id}
+        required={required}
+        schema={schema}
+        uiSchema={uiSchema}
+        errorSchema={errorSchema}
+        idSchema={idSchema}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+        registry={registry}
+        disabled={disabled}
+        readonly={readonly}
+      />
+    );
+
+    // ObjectField is set to be wrapped in a div instead of a dl, so we move
+    // that dl wrap to here; this change fixes an accessibility issue
+    const needsDlWrapper =
+      // Wrap in DL only if on review page & in review mode
+      formContext.onReviewPage &&
+      formContext.reviewMode &&
+      // volatileData is for arrays, which displays separate blocks
+      uiSchema['ui:options']?.volatileData;
+
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses}>{title}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          <SchemaField
-            name={idSchema.$id}
-            required={required}
-            schema={schema}
-            uiSchema={uiSchema}
-            errorSchema={errorSchema}
-            idSchema={idSchema}
-            formData={formData}
-            onChange={onChange}
-            onBlur={onBlur}
-            registry={registry}
-            disabled={disabled}
-            readonly={readonly}
-          />
+          {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
-            <button className={updateButtonClasses} onClick={this.update}>
-              Save
-            </button>
-            {((volatileData && this.state.canCancel) || !volatileData) && (
-              <button
-                className={cancelButtonClasses}
-                style={{ boxShadow: 'none' }}
-                onClick={this.cancelUpdate}
-              >
-                Cancel
-              </button>
+            {!formContext.reviewMode && (
+              <>
+                <button className={updateButtonClasses} onClick={this.update}>
+                  Save
+                </button>
+                {((volatileData && this.state.canCancel) || !volatileData) && (
+                  <button
+                    className={cancelButtonClasses}
+                    style={{ boxShadow: 'none' }}
+                    onClick={this.cancelUpdate}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -318,7 +336,7 @@ export default class ReviewCardField extends React.Component {
 
     // If the data is volatile, cache the original data before clearing it out so we
     //  have the option to cancel later
-    if (this.props.uiSchema['ui:options'].volatileData) {
+    if (this.props.uiSchema['ui:options']?.volatileData) {
       newState.oldData = this.props.formData;
       this.resetFormData();
     }

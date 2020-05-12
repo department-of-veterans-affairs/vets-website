@@ -25,7 +25,7 @@ describe('686 veteran marriage history details', () => {
     veteranWasMarriedBefore: true,
     veteranMarriageHistory: [
       {
-        formerSpouseName: {
+        fullName: {
           first: 'Jane',
           last: 'Doe',
         },
@@ -81,21 +81,21 @@ describe('686 veteran marriage history details', () => {
       />,
     );
     // Date marriage start
-    changeDropdown(form, 'select#root_marriageStartDateMonth', 1);
-    changeDropdown(form, 'select#root_marriageStartDateDay', 1);
-    fillData(form, 'input#root_marriageStartDateYear', '2010');
+    changeDropdown(form, 'select#root_startDateMonth', 1);
+    changeDropdown(form, 'select#root_startDateDay', 1);
+    fillData(form, 'input#root_startDateYear', '2010');
     // Marriage start location
-    fillData(form, 'input#root_marriageStartLocation_state', 'Somewhere');
-    fillData(form, 'input#root_marriageStartLocation_city', 'Outhere');
+    fillData(form, 'input#root_startLocation_state', 'Somewhere');
+    fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
     selectRadio(form, 'root_reasonMarriageEnded', 'DIVORCE');
     // Date marriage ended
-    changeDropdown(form, 'select#root_marriageEndDateMonth', 1);
-    changeDropdown(form, 'select#root_marriageEndDateDay', 1);
-    fillData(form, 'input#root_marriageEndDateYear', '2011');
+    changeDropdown(form, 'select#root_endDateMonth', 1);
+    changeDropdown(form, 'select#root_endDateDay', 1);
+    fillData(form, 'input#root_endDateYear', '2011');
     // Marriage end location
-    fillData(form, 'input#root_marriageEndLocation_state', 'Somewhere');
-    fillData(form, 'input#root_marriageEndLocation_city', 'Not here');
+    fillData(form, 'input#root_endLocation_state', 'Somewhere');
+    fillData(form, 'input#root_endLocation_city', 'Not here');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -116,12 +116,12 @@ describe('686 veteran marriage history details', () => {
       />,
     );
     // Date marriage start
-    changeDropdown(form, 'select#root_marriageStartDateMonth', 1);
-    changeDropdown(form, 'select#root_marriageStartDateDay', 1);
-    fillData(form, 'input#root_marriageStartDateYear', '2010');
+    changeDropdown(form, 'select#root_startDateMonth', 1);
+    changeDropdown(form, 'select#root_startDateDay', 1);
+    fillData(form, 'input#root_startDateYear', '2010');
     // Marriage start location
-    fillData(form, 'input#root_marriageStartLocation_state', 'Somewhere');
-    fillData(form, 'input#root_marriageStartLocation_city', 'Outhere');
+    fillData(form, 'input#root_startLocation_state', 'Somewhere');
+    fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
     selectRadio(form, 'root_reasonMarriageEnded', 'OTHER');
     fillData(
@@ -130,12 +130,12 @@ describe('686 veteran marriage history details', () => {
       'This is an explanation',
     );
     // Date marriage ended
-    changeDropdown(form, 'select#root_marriageEndDateMonth', 1);
-    changeDropdown(form, 'select#root_marriageEndDateDay', 1);
-    fillData(form, 'input#root_marriageEndDateYear', '2011');
+    changeDropdown(form, 'select#root_endDateMonth', 1);
+    changeDropdown(form, 'select#root_endDateDay', 1);
+    fillData(form, 'input#root_endDateYear', '2011');
     // Marriage end location
-    fillData(form, 'input#root_marriageEndLocation_state', 'Somewhere');
-    fillData(form, 'input#root_marriageEndLocation_city', 'Not here');
+    fillData(form, 'input#root_endLocation_state', 'Somewhere');
+    fillData(form, 'input#root_endLocation_city', 'Not here');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

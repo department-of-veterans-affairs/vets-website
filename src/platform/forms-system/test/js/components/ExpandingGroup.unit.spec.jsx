@@ -36,23 +36,19 @@ describe('<ExpandingGroup>', () => {
     wrapper.unmount();
   });
 
-  it('passes aXe check when only first child is rendered', () => {
-    const check = axeCheck(
+  it('passes aXe check when only first child is rendered', () =>
+    axeCheck(
       <ExpandingGroup open={false}>
         <first />
         <second />
       </ExpandingGroup>,
-    );
-    return check;
-  });
+    ));
 
-  it('passes aXe check when both children are rendered', () => {
-    const check = axeCheck(
+  it('passes aXe check when both children are rendered', () =>
+    axeCheck(
       <ExpandingGroup open>
         <first />
         <second />
       </ExpandingGroup>,
-    );
-    return check;
-  });
+    ));
 });

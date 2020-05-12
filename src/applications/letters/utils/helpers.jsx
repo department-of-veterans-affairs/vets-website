@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
 import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
-
-import recordEvent from 'platform/monitoring/record-event';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -26,19 +25,10 @@ export const recordsNotFound = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-heading">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.ebenefits.va.gov/ebenefits/download-letters"
-            onClick={() =>
-              recordEvent({
-                event: 'nav-ebenefits-click',
-              })
-            }
-          >
+          <EbenefitsLink path="ebenefits/download-letters">
             If you’re a dependent, please go to eBenefits to look for your
             letters.
-          </a>
+          </EbenefitsLink>
         </p>
       </div>
     </div>

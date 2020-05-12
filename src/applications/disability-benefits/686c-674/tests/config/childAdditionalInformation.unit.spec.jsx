@@ -23,8 +23,10 @@ describe('686 add child - child additional information', () => {
     },
     childrenToAdd: [
       {
-        first: 'Bill',
-        last: 'Bob',
+        fullName: {
+          first: 'Bill',
+          last: 'Bob',
+        },
         ssn: '370947141',
         birthDate: '1997-04-02',
         childPlaceOfBirth: {
@@ -49,7 +51,7 @@ describe('686 add child - child additional information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
 
@@ -97,25 +99,21 @@ describe('686 add child - child additional information', () => {
     );
     changeDropdown(
       form,
-      'select#root_childAddressInfo_childAddress_countryName',
-      'United States',
+      'select#root_childAddressInfo_address_countryName',
+      'USA',
     );
     fillData(
       form,
-      'input#root_childAddressInfo_childAddress_addressLine1',
+      'input#root_childAddressInfo_address_addressLine1',
       'Sunny Road',
     );
-    fillData(
-      form,
-      'input#root_childAddressInfo_childAddress_city',
-      'Someplace',
-    );
+    fillData(form, 'input#root_childAddressInfo_address_city', 'Someplace');
     changeDropdown(
       form,
-      'select#root_childAddressInfo_childAddress_stateCode',
+      'select#root_childAddressInfo_address_stateCode',
       'DC',
     );
-    fillData(form, 'input#root_childAddressInfo_childAddress_zipCode', '12345');
+    fillData(form, 'input#root_childAddressInfo_address_zipCode', '12345');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

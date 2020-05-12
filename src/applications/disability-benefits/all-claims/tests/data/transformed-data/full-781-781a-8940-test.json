@@ -5,18 +5,12 @@
         "name": "Diabetes mellitus0",
         "ratedDisabilityId": "0",
         "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
         "disabilityActionType": "NONE"
       },
       {
         "name": "Diabetes mellitus1",
         "ratedDisabilityId": "1",
         "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
         "disabilityActionType": "NONE",
         "unemployabilityDisability": true
       }

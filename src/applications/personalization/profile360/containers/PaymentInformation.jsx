@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import DowntimeNotification, {
   externalServices,
@@ -16,6 +15,7 @@ import {
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import recordEvent from 'platform/monitoring/record-event';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import ProfileFieldHeading from 'vet360/components/base/Vet360ProfileFieldHeading';
 
@@ -34,38 +34,8 @@ import {
   directDepositInformation,
   directDepositIsBlocked,
   directDepositIsSetUp,
+  directDepositUiState,
 } from '../selectors';
-
-/**
- * This Alert is being shown for all DD users on a temporary basis due to some
- * issues with the EVSS upstream service
- * */
-const DirectDepositDownAlert = () => (
-  <AlertBox
-    headline="The direct deposit feature isn't available right&nbsp;now"
-    status="error"
-    className="vads-u-margin-bottom--2"
-  >
-    <p>
-      You may have trouble updating your direct deposit information at this
-      time. We’re working to fix this. If you need to update your direct deposit
-      information, please call us at{' '}
-      <a
-        href="tel:1-800-827-1000"
-        aria-label="800. 8 2 7. 1000."
-        title="Dial the telephone number 800-827-1000"
-        className="no-wrap"
-      >
-        800-827-1000
-      </a>{' '}
-      (TTY:{' '}
-      <a href="tel:1-800-829-4833" className="no-wrap">
-        800-829-4833
-      </a>
-      ).
-    </p>
-  </AlertBox>
-);
 
 const AdditionalInfos = props => (
   <>
@@ -89,18 +59,9 @@ const AdditionalInfos = props => (
           or upgrade your Basic account to Premium. Your MyHealtheVet or ID.me
           credentials won’t work on eBenefits.
         </p>
-        <a
-          rel="noopener noreferrer"
-          target="_blank"
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <EbenefitsLink path="ebenefits/about/feature?feature=direct-deposit-and-contact-information">
           Go to eBenefits to change your information
-        </a>
+        </EbenefitsLink>
         <br />
         <a href="/change-direct-deposit/#are-there-other-ways-to-change">
           Find out how to change your information by mail or phone
@@ -263,8 +224,8 @@ class PaymentInformation extends React.Component {
               <a href="tel:1-800-827-1000" className="no-wrap">
                 800-827-1000
               </a>{' '}
-              (TTY: <span className="no-wrap">800-829-4833</span>
-              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+              (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00
+              p.m. ET.
             </p>
           )}
 
@@ -292,8 +253,6 @@ class PaymentInformation extends React.Component {
           render={handleDowntimeForSection('payment information')}
           dependencies={[externalServices.evss]}
         >
-          {/* Show this alert until EVSS issues are resolved */}
-          <DirectDepositDownAlert />
           <AdditionalInfos recordProfileNavEvent={recordProfileNavEvent} />
           {content}
         </DowntimeNotification>
@@ -323,7 +282,7 @@ const mapStateToProps = state => {
     multifactorEnabled: isMultifactorEnabled(state),
     paymentAccount: directDepositAccountInformation(state),
     paymentInformation: directDepositInformation(state),
-    paymentInformationUiState: state.vaProfile.paymentInformationUiState,
+    paymentInformationUiState: directDepositUiState(state),
     shouldShowDirectDeposit:
       isEvssAvailable &&
       !isDirectDepositBlocked &&

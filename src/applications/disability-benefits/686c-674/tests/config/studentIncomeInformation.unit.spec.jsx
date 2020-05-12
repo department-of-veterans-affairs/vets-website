@@ -20,12 +20,19 @@ describe('Report 674 student income information', () => {
     'view:selectable686Options': {
       report674: true,
     },
-    studentFullName: {
-      first: 'John',
-      last: 'Doe',
+    studentNameAndSSN: {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
     },
-    studentAddress: {
-      countryName: '',
+    studentAddressMarriageTuition: {
+      address: {
+        countryName: '',
+      },
+    },
+    programInformation: {
+      studentIsEnrolledFullTime: '',
     },
     studentDoesEarnIncome: '',
     studentWillEarnIncome: '',

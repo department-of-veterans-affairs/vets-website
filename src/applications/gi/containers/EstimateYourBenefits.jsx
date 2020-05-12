@@ -8,225 +8,122 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  hideModal,
   eligibilityChange,
+  updateEstimatedBenefits,
 } from '../actions';
+import { scroller } from 'react-scroll';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import EligibilityForm from '../components/search/EligibilityForm';
-import CalculatorForm from '../components/profile/CalculatorForm';
+import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
+import EstimatedBenefits from '../components/profile/EstimatedBenefits';
+import EstimateYourBenefitsSummarySheet from '../components/EstimateYourBenefitsSummarySheet';
 
-const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
-  visible ? (
-    <div className={classNames('row', 'calculator-result', { bold })}>
-      <div className="small-6 columns">
-        {header ? <h4>{label}:</h4> : <div>{label}:</div>}
-      </div>
-      <div className="small-6 columns vads-u-text-align--right">
-        {header ? <h5>{value}</h5> : <div>{value}</div>}
-      </div>
-    </div>
-  ) : null;
 export class EstimateYourBenefits extends React.Component {
   constructor(props) {
     super(props);
-    this.toggleEligibilityForm = this.toggleEligibilityForm.bind(this);
-    this.toggleCalculatorForm = this.toggleCalculatorForm.bind(this);
-    this.renderEligibilityForm = this.renderEligibilityForm.bind(this);
-    this.renderCalculatorForm = this.renderCalculatorForm.bind(this);
-    this.renderPerTermSections = this.renderPerTermSections.bind(this);
+    this.updateEstimatedBenefits();
 
     this.state = {
-      showEligibilityForm: false,
-      showCalculatorForm: true,
+      showEybSheet: false,
+      expandEybSheet: false,
     };
   }
 
-  toggleEligibilityForm() {
-    this.setState({ showEligibilityForm: !this.state.showEligibilityForm });
+  componentDidMount() {
+    window.addEventListener('scroll', () => this.handleScroll(), true);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
-  toggleCalculatorForm() {
-    this.setState({ showCalculatorForm: !this.state.showCalculatorForm });
+  handleScroll() {
+    const topOffset =
+      document
+        .getElementById('estimate-your-benefits-accordion')
+        .getBoundingClientRect().top -
+        12 <
+      0;
+    const bottomOffset =
+      document
+        .getElementsByClassName('your-estimated-benefits')[0]
+        .getBoundingClientRect().top -
+        window.innerHeight >
+      0;
+
+    if (topOffset && bottomOffset) {
+      if (this.state.showEybSheet === false) {
+        this.setState({ showEybSheet: true });
+      }
+    } else if (this.state.showEybSheet === true) {
+      this.setState({ showEybSheet: false });
+    }
   }
 
-  renderEligibilityForm() {
-    const expanded = this.state.showEligibilityForm;
+  updateEstimatedBenefits = () => {
+    this.props.updateEstimatedBenefits(this.props.calculated.outputs);
+    scroller.scrollTo('estimated-benefits', getScrollOptions());
+    focusElement('#estimated-benefits');
+  };
 
-    return (
-      <div aria-live="off" className="eligibility-details">
-        <button
-          aria-expanded={expanded}
-          onClick={this.toggleEligibilityForm}
-          className="usa-button-secondary"
-        >
-          {expanded ? 'Hide' : 'Edit'} eligibility details
-        </button>
-        <div>
-          {expanded ? (
-            <form>
-              <EligibilityForm
-                eligibilityChange={this.props.eligibilityChange}
-              />
-            </form>
-          ) : null}
-        </div>
-      </div>
-    );
+  toggleEybExpansion() {
+    if (this.state.expandEybSheet) {
+      this.setState({ expandEybSheet: false });
+    } else {
+      this.setState({ expandEybSheet: true });
+    }
   }
 
-  renderCalculatorForm() {
+  render() {
+    if (isEmpty(this.props.estimatedBenefits)) {
+      return <LoadingIndicator message="Loading your estimated benefits..." />;
+    }
+
+    const outputs = this.props.estimatedBenefits;
     const {
       profile,
       calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
-    const expanded = this.state.showCalculatorForm;
 
-    return (
-      <div aria-live="off" className="calculator-inputs">
-        <div aria-live="off">
-          <button
-            aria-expanded={expanded}
-            onClick={this.toggleCalculatorForm}
-            className="usa-button-secondary"
-          >
-            {expanded ? 'Hide' : 'Edit'} calculator fields
-          </button>
-        </div>
-        <div>
-          {expanded ? (
-            <CalculatorForm
-              profile={profile}
-              eligibility={this.props.eligibility}
-              eligibilityChange={this.props.eligibilityChange}
-              inputs={inputs}
-              displayedInputs={displayed}
-              onShowModal={this.props.showModal}
-              onInputChange={this.props.calculatorInputChange}
-              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-            />
-          ) : null}
-        </div>
-      </div>
-    );
-  }
-
-  renderPerTermSections() {
-    const { perTerm } = this.props.calculated.outputs;
-
-    const sections = Object.keys(perTerm).map(section => {
-      const {
-        visible,
-        title,
-        learnMoreAriaLabel,
-        terms,
-      } = this.props.calculated.outputs.perTerm[section];
-      if (!visible) return null;
-
-      const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
-
-      return (
-        <div key={section} className="per-term-section">
-          <div className="link-header">
-            <h4>{title}</h4>
-            &nbsp;(
-            <a
-              href={learnMoreLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={learnMoreAriaLabel || ''}
-            >
-              Learn more
-            </a>
-            )
-          </div>
-          {terms.map(term => (
-            <CalculatorResultRow
-              key={`${section}${term.label}`}
-              label={term.label}
-              value={term.value}
-              bold={term.label === 'Total per year'}
-              visible={term.visible}
-            />
-          ))}
-        </div>
-      );
-    });
-
-    return (
-      <div>
-        <h3>
-          Estimated benefits per{' '}
-          {this.props.calculator.type === 'OJT' ? 'month' : 'term'}
-        </h3>
-        {sections}
-      </div>
-    );
-  }
-
-  render() {
-    if (isEmpty(this.props.calculated)) {
-      return <LoadingIndicator message="Loading your estimated benefits..." />;
-    }
-
-    // const it = this.props.profile.attributes;
-    const { outputs } = this.props.calculated;
-    const fraction = 'usa-width-one-eigth medium-5 columns';
     return (
       <div className="row calculate-your-benefits">
-        <div className={fraction}>
-          {this.renderEligibilityForm()}
-          {this.renderCalculatorForm()}
-        </div>
+        <EstimateYourBenefitsForm
+          profile={profile}
+          eligibility={this.props.eligibility}
+          eligibilityChange={this.props.eligibilityChange}
+          inputs={inputs}
+          displayedInputs={displayed}
+          showModal={this.props.showModal}
+          calculatorInputChange={this.props.calculatorInputChange}
+          onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+          estimatedBenefits={this.props.estimatedBenefits}
+          updateEstimatedBenefits={this.updateEstimatedBenefits}
+        />
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
-          <h3>Your estimated benefits</h3>
-          <div className="out-of-pocket-tuition">
-            <CalculatorResultRow
-              label="GI Bill pays to school"
-              value={outputs.giBillPaysToSchool.value}
-              visible={outputs.giBillPaysToSchool.visible}
-              header
-            />
-            <CalculatorResultRow
-              label="Tuition and fees charged"
-              value={outputs.tuitionAndFeesCharged.value}
-              visible={outputs.tuitionAndFeesCharged.visible}
-            />
-            <CalculatorResultRow
-              label="Your scholarships"
-              value={outputs.yourScholarships.value}
-              visible={outputs.yourScholarships.visible}
-            />
-            <CalculatorResultRow
-              label="Out of pocket tuition"
-              value={outputs.outOfPocketTuition.value}
-              bold
-              visible={outputs.outOfPocketTuition.visible}
+        <EstimatedBenefits outputs={outputs} calculator={inputs} />
+        {
+          <div
+            className={classNames(
+              'vads-u-display--block',
+              'small-screen:vads-u-display--none',
+              'eyb-sheet',
+              {
+                open: this.state.showEybSheet,
+              },
+            )}
+          >
+            <EstimateYourBenefitsSummarySheet
+              outputs={outputs}
+              expandEybSheet={this.state.expandEybSheet}
+              toggleEybExpansion={() => this.toggleEybExpansion()}
+              type={this.props.calculator.type}
+              yellowRibbon={
+                this.props.calculator.yellowRibbonRecipient === 'yes'
+              }
             />
           </div>
-          <div className="total-paid-to-you">
-            <CalculatorResultRow
-              label="Housing allowance"
-              value={outputs.housingAllowance.value}
-              visible={outputs.housingAllowance.visible}
-              header
-            />
-            <CalculatorResultRow
-              label="Book stipend"
-              value={outputs.bookStipend.value}
-              visible={outputs.bookStipend.visible}
-              header
-            />
-            <CalculatorResultRow
-              label="Total paid to you"
-              value={outputs.totalPaidToYou.value}
-              bold
-              visible={outputs.totalPaidToYou.visible}
-            />
-          </div>
-          <hr />
-          {this.renderPerTermSections()}
-        </div>
+        }
       </div>
     );
   }
@@ -237,13 +134,16 @@ const mapStateToProps = (state, props) => ({
   profile: state.profile,
   calculated: getCalculatedBenefits(state, props),
   eligibility: state.eligibility,
+  estimatedBenefits: state.calculator.estimatedBenefits,
 });
 
 const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  hideModal,
   eligibilityChange,
+  updateEstimatedBenefits,
 };
 
 export default connect(

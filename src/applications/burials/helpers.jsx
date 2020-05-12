@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { apiRequest } from '../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
@@ -98,16 +98,11 @@ export function submit(form, formConfig) {
   };
 
   const onFailure = respOrError => {
-    if (respOrError instanceof Response) {
-      if (respOrError.status === 429) {
-        const error = new Error('vets_throttled_error_burial');
-        error.extra = parseInt(
-          respOrError.headers.get('x-ratelimit-reset'),
-          10,
-        );
+    if (respOrError instanceof Response && respOrError.status === 429) {
+      const error = new Error('vets_throttled_error_burial');
+      error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
 
-        return Promise.reject(error);
-      }
+      return Promise.reject(error);
     }
     return Promise.reject(respOrError);
   };

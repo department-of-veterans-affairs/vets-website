@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
 
 import MessageTemplate from '../components/MessageTemplate';
-import { upgradeMHVAccount } from '../../../platform/user/profile/actions';
+import { upgradeMHVAccount } from 'platform/user/profile/actions';
 
 function UpgradeMHVAccountFailed(props) {
   const content = {

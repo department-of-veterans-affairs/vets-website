@@ -3,6 +3,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
@@ -11,7 +12,6 @@ import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { BLUE_BACKGROUND, WHITE_BACKGROUND } from '../constants';
 
 /**
@@ -154,6 +154,7 @@ class ReviewCardField extends React.Component {
       registry,
       required,
       schema,
+      formContext,
     } = this.props;
     const { SchemaField } = registry.fields;
     // We've already used the ui:field and ui:title
@@ -172,45 +173,69 @@ class ReviewCardField extends React.Component {
       'vads-u-margin-x--0',
     ].join(' ');
 
-    const buttonClasses = ['vads-u-margin-top--1', 'vads-u-width--auto'].join(
-      ' ',
+    const updateButtonClasses = [
+      'update-button',
+      'usa-button-primary',
+      'vads-u-margin-top--1',
+      'vads-u-margin-right--1p5',
+      'vads-u-width--auto',
+    ].join(' ');
+
+    const cancelButtonClasses = [
+      'cancel-button',
+      // keeping secondary style, but it has a shadow box outline; removed by
+      // inline styling. And we can't use `va-button-link` because when hovered,
+      // it removes all padding & add a background color (using !important)
+      'usa-button-secondary',
+      'vads-u-width--auto',
+    ].join(' ');
+
+    const Field = (
+      <SchemaField
+        name={idSchema.$id}
+        required={required}
+        schema={schema}
+        uiSchema={uiSchema}
+        errorSchema={errorSchema}
+        idSchema={idSchema}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+        registry={registry}
+        disabled={disabled}
+        readonly={readonly}
+      />
     );
 
+    // ObjectField is set to be wrapped in a div instead of a dl, so we move
+    // that dl wrap to here; this change fixes an accessibility issue
+    const needsDlWrapper =
+      // Wrap in DL only if on review page & in review mode
+      formContext.onReviewPage &&
+      formContext.reviewMode &&
+      // volatileData is for arrays, which displays separate blocks
+      uiSchema['ui:options']?.volatileData;
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          <SchemaField
-            name={idSchema.$id}
-            required={required}
-            schema={schema}
-            uiSchema={uiSchema}
-            errorSchema={errorSchema}
-            idSchema={idSchema}
-            formData={formData}
-            onChange={onChange}
-            onBlur={onBlur}
-            registry={registry}
-            disabled={disabled}
-            readonly={readonly}
-          />
+          {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
-            <button
-              className={`update-button usa-button-primary ${buttonClasses} vads-u-margin-right--2p5`}
-              style={{ minWidth: '12rem' }}
-              onClick={this.update}
-            >
-              {volatileData ? 'Save' : `Save ${title.toLowerCase()}`}
-            </button>
-            {((volatileData && this.state.canCancel) || !volatileData) && (
-              <button
-                className={`cancel-button usa-button-secondary ${buttonClasses}`}
-                style={{ minWidth: '12rem' }}
-                onClick={this.cancelUpdate}
-              >
-                Cancel
-              </button>
+            {!formContext.reviewMode && (
+              <>
+                <button className={updateButtonClasses} onClick={this.update}>
+                  Save {title.toLowerCase()}
+                </button>
+                {((volatileData && this.state.canCancel) || !volatileData) && (
+                  <button
+                    className={cancelButtonClasses}
+                    onClick={this.cancelUpdate}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -224,7 +249,11 @@ class ReviewCardField extends React.Component {
       const dataType = this.props.schema.type;
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
-        return <ObjectField {...this.props} />;
+        return (
+          this.props.name === this.props.currentAddress && (
+            <ObjectField {...this.props} />
+          )
+        );
       } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
         return <ArrayField {...this.props} />;
@@ -237,7 +266,6 @@ class ReviewCardField extends React.Component {
       });
       // Fall back to the ViewComponent
     }
-
     const {
       viewComponent: ViewComponent,
       volatileData,
@@ -274,15 +302,28 @@ class ReviewCardField extends React.Component {
       'vads-u-padding-top--0',
       'vads-u-margin-bottom--1',
     ].join(' ');
-    const editLink = ['vads-u-margin-top--1', 'vads-u-width--auto'].join(' ');
+    const editLink = [
+      'vads-c-link',
+      'vads-u-margin-top--1',
+      'vads-u-width--auto',
+    ].join(' ');
     const editButton = [
       'edit-button',
       'vads-u-margin-top--1',
       'vads-u-width--auto',
     ].join(' ');
-
+    const { data } = this.props;
     const { street, city, country } = this.props.formData;
-
+    /* eslint-disable no-unused-vars */
+    // using destructuring to remove view:livesOnMilitaryBaseInfo prop
+    const {
+      'view:livesOnMilitaryBaseInfo': removed,
+      ...temporaryAddress
+    } = data.temporaryAddress;
+    /* eslint-enable no-unused-vars */
+    const isTempAddressMissing = Object.values(temporaryAddress).every(
+      prop => !prop,
+    );
     return (
       <div className="review-card">
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
@@ -295,7 +336,7 @@ class ReviewCardField extends React.Component {
             city &&
             country && (
               <a
-                className={`usa-button-secondary ${editLink}`}
+                className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
                 aria-label={`Edit ${title.toLowerCase()}`}
@@ -308,7 +349,7 @@ class ReviewCardField extends React.Component {
             !city &&
             !country && (
               <a
-                className={`usa-button-secondary ${editLink}`}
+                className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
                 aria-label={`Add a ${title.toLowerCase()}`}
@@ -316,7 +357,25 @@ class ReviewCardField extends React.Component {
                 Add a {title.toLowerCase()}
               </a>
             )}
-          {street &&
+          {isTempAddressMissing &&
+            street &&
+            city &&
+            country && (
+              <div className="vads-u-width-267px">
+                <button
+                  id={this.props.name}
+                  className="vads-u-font-weight--bold"
+                  onChange={() =>
+                    this.onChange('currentAddress', this.props.name)
+                  }
+                  type="button"
+                >
+                  Send my order to this address
+                </button>
+              </div>
+            )}
+          {!isTempAddressMissing &&
+            street &&
             city &&
             country && (
               <div
@@ -362,7 +421,7 @@ class ReviewCardField extends React.Component {
 
     // If the data is volatile, cache the original data before clearing it out so we
     //  have the option to cancel later
-    if (this.props.uiSchema['ui:options'].volatileData) {
+    if (this.props.uiSchema['ui:options']?.volatileData) {
       newState.oldData = this.props.formData;
       this.resetFormData();
     }
@@ -431,10 +490,6 @@ class ReviewCardField extends React.Component {
   };
 
   render() {
-    const pageTitle = (
-      <h4 className="vads-u-display--inline">Shipping address</h4>
-    );
-
     const pageDescription = (
       <>
         <p className="vads-u-margin-top--2">
@@ -450,12 +505,7 @@ class ReviewCardField extends React.Component {
 
     return (
       <>
-        {this.props.name === 'permanentAddress' ? (
-          <>
-            {pageTitle}
-            {pageDescription}
-          </>
-        ) : null}
+        {this.props.name === 'permanentAddress' ? <>{pageDescription}</> : null}
         {description}
         {viewOrEditCard}
       </>

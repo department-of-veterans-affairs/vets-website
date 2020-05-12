@@ -3,6 +3,7 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const manifest = require('../../manifest.json');
 const testData = require('./686-test-data.json');
+const environments = require('site/constants/environments');
 
 import * as TestHelpers from './test-helpers';
 
@@ -87,7 +88,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // spouse information
   E2eHelpers.expectLocation(client, '/add-spouse');
   client.waitForElementVisible(
-    '#root_spouseFullName_first-label',
+    '#root_spouseInformation_fullName_first-label',
     Timeouts.normal,
   );
   client.axeCheck('.main');
@@ -96,7 +97,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // current marriage information
   E2eHelpers.expectLocation(client, '/current-marriage-information');
-  client.waitForElementVisible('#root_dateOfMarriage-label', Timeouts.normal);
+  client.waitForElementVisible(
+    '#root_currentMarriageInformation_date-label',
+    Timeouts.normal,
+  );
   client.axeCheck('.main');
   TestHelpers.fillCurrentMarriageInformation(client, testData.data);
   client.click('button[id="4-continueButton"]');
@@ -104,7 +108,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // current spouse address
   E2eHelpers.expectLocation(client, '/current-marriage-address');
   client.waitForElementVisible(
-    '#root_spouseDoesLiveWithVeteran-label',
+    '#root_doesLiveWithSpouse_spouseDoesLiveWithVeteran-label',
     Timeouts.normal,
   );
   client.axeCheck('.main');
@@ -118,15 +122,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
+  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistory(client, testData.data, true);
   client.click('button[id="4-continueButton"]');
 
   // spouse marriage history details
+  client.pause(Timeouts.normal);
+  client.waitForElementVisible('#root_startDate-label', Timeouts.normal);
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history/0');
-  client.waitForElementVisible(
-    '#root_marriageStartDate-label',
-    Timeouts.normal,
-  );
   client.axeCheck('.main');
   TestHelpers.fillSpouseMarriageHistoryDetails(client, testData.data);
   client.click('button[id="4-continueButton"]');
@@ -144,10 +147,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // veteran marriage history details
   E2eHelpers.expectLocation(client, '/veteran-marriage-history/0');
-  client.waitForElementVisible(
-    '#root_marriageStartDate-label',
-    Timeouts.normal,
-  );
+  client.waitForElementVisible('#root_startDate-label', Timeouts.normal);
   TestHelpers.fillVeteranMarriageHistoryDetails(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
@@ -188,5 +188,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
+
+// TODO: Remove this when CI builds temporary landing pages to run e2e tests
 module.exports['@disabled'] =
-  manifest.template[process.env.BUILDTYPE] === false;
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;

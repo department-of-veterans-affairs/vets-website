@@ -9,10 +9,7 @@ import SessionTimeoutModal from 'platform/user/authentication/components/Session
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
 import environment from 'platform/utilities/environment';
-import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
-import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
-import { ssoe } from 'platform/user/authentication/selectors';
+import { hasSession } from 'platform/user/profile/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
 
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
@@ -26,6 +23,7 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
+import AutoSSO from './AutoSSO';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -73,19 +71,8 @@ export class Main extends React.Component {
   }
 
   checkLoggedInStatus = () => {
-    const canCallSSO = this.props.useSSOe && !environment.isLocalhost();
-
-    if (canCallSSO) {
-      ssoKeepAliveSession();
-    }
-
     if (hasSession()) {
-      if (canCallSSO && !hasSessionSSO()) {
-        autoLogout();
-      }
       this.props.initializeProfile();
-    } else if (canCallSSO && hasSessionSSO()) {
-      autoLogin();
     } else {
       this.props.updateLoggedInStatus(false);
       if (this.getNextParameter()) this.openLoginModal();
@@ -184,6 +171,7 @@ export class Main extends React.Component {
             onExtendSession={this.props.initializeProfile}
           />
         )}
+        <AutoSSO />
       </div>
     );
   }
@@ -211,7 +199,6 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
-    useSSOe: ssoe(state),
     ...state.navigation,
   };
 };

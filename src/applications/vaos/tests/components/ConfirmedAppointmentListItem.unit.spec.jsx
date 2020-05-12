@@ -19,6 +19,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     clinicId: '123',
     duration: 60,
     clinicName: 'C&P BEV AUDIO FTC1',
+    instructions: 'Follow-up/Routine: Instructions',
   };
   const facility = {
     address: {
@@ -81,8 +82,9 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     expect(tree.find('FacilityAddress').exists()).to.be.true;
   });
 
-  it('should not show booking note', () => {
-    expect(tree.text()).not.to.contain('Booking note');
+  it('should show instructions', () => {
+    expect(tree.text()).to.contain('Follow-up/Routine');
+    expect(tree.text()).to.contain('Instructions');
   });
 
   it('should show cancel link', () => {
@@ -107,6 +109,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
     appointmentDate: moment('05/22/2019 10:00:00', 'MM/DD/YYYY HH:mm:ss'),
     providerPractice: 'My Clinic',
     timeZone: 'UTC',
+    instructions: 'Instruction text',
     address: {
       street: '123 second st',
       city: 'Northampton',
@@ -144,6 +147,10 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   it('should display clinic address', () => {
     expect(tree.text()).to.contain('123 second stNorthampton, MA 22222');
   });
+
+  it('should display instructions', () => {
+    expect(tree.text()).to.contain('Instruction text');
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
@@ -159,10 +166,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     clinicId: '456',
     videoLink: url,
     status: APPOINTMENT_STATUS.booked,
-    instructions: {
-      header: 'My reason isn’t listed',
-      body: 'Booking note',
-    },
+    instructions: 'My reason isn’t listed: Booking note',
   };
 
   const tree = mount(
@@ -173,9 +177,9 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     expect(tree.find('VideoVisitSection').length).to.equal(1);
   });
 
-  it('should show booking note', () => {
-    expect(tree.text()).to.contain('Booking note');
-    expect(tree.text()).to.contain('My reason isn’t listed');
+  it('should not show booking note', () => {
+    expect(tree.text()).not.to.contain('Booking note');
+    expect(tree.text()).not.to.contain('My reason isn’t listed');
   });
 });
 
@@ -249,10 +253,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
 
   it('should show facility address', () => {
     expect(tree.find('FacilityAddress').exists()).to.be.true;
-  });
-
-  it('should not show booking note', () => {
-    expect(tree.text()).not.to.contain('Booking note');
   });
 
   it('contain class that breaks long comments', () => {

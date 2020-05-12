@@ -1,66 +1,72 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+import ErrorableDate from '@department-of-veterans-affairs/formation-react/ErrorableDate';
 import { pageNames } from './pageList';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
 
-// TODO: Add in the dates for 180 and 90 days in the future
-const dateFormat = 'MMMM DD, YYYY';
-const ninetyDays = moment()
-  .add(90, 'd')
-  .format(dateFormat);
-const oneHundredEightyDays = moment()
-  .add(180, 'd')
-  .format(dateFormat);
+import environment from 'platform/utilities/environment';
+import unableToFileBDD from './unable-to-file-bdd';
 
-function alertContent(isLoggedIn) {
+// Figure out which page to go to based on the date entered
+const findNextPage = state => {
+  const dateDischarge = moment({
+    day: state.day.value,
+    // moment takes 0-indexed months, but the date picker provides 1-indexed months
+    month: parseInt(state.month.value, 10) - 1,
+    year: state.year.value,
+  });
+  const dateToday = moment();
+  const differenceBetweenDatesInDays =
+    dateDischarge.diff(dateToday, 'days') + 1;
+
+  if (
+    differenceBetweenDatesInDays >= 90 &&
+    differenceBetweenDatesInDays <= 180
+  ) {
+    return pageNames.fileBDD;
+  }
+  return pageNames.unableToFileBDD;
+};
+
+const defaultState = {
+  day: {
+    value: '',
+    dirty: false,
+  },
+  month: {
+    value: '',
+    dirty: false,
+  },
+  year: {
+    value: '',
+    dirty: false,
+  },
+};
+
+const isDateComplete = date =>
+  date.day.value && date.month.value && date.year.value.length === 4;
+
+const BDDPage = ({ setPageState, state = defaultState }) => {
+  const onChange = pageState =>
+    setPageState(
+      pageState,
+      isDateComplete(pageState) ? findNextPage(pageState) : undefined,
+    );
+
+  if (environment.isProduction()) {
+    return <unableToFileBDD.component />;
+  }
+
   return (
-    <>
-      <p>
-        <strong>
-          If your separation date is between {ninetyDays} and{' '}
-          {oneHundredEightyDays}
-        </strong>{' '}
-        (90 and 180 days from today), you can file a disability claim through
-        the Benefits Delivery at Discharge (BDD) program.
-      </p>
-      <p>
-        <strong>If your separation date is before {ninetyDays},</strong> you
-        can’t file a BDD claim, but you can still begin the process of filing
-        your claim on eBenefits.
-      </p>
-      <a
-        href={EBEN_526_URL}
-        className="usa-button-primary va-button-primary"
-        onClick={() =>
-          isLoggedIn && recordEvent({ event: 'nav-ebenefits-click' })
-        }
-      >
-        Go to eBenefits
-      </a>
-      <p>
-        <a href={BDD_INFO_URL}>Learn more about the BDD program</a>
-      </p>
-    </>
+    <ErrorableDate
+      label="Date or anticipated date of release from active duty"
+      onValueChange={onChange}
+      name="discharge-date"
+      date={state}
+    />
   );
-}
-
-const BDDPage = ({ isLoggedIn }) => (
-  <AlertBox
-    status="error"
-    headline="You’ll need to file a claim on eBenefits"
-    content={alertContent(isLoggedIn)}
-  />
-);
-
-const mapStateToProps = state => ({
-  isLoggedIn: isLoggedInSelector(state),
-});
+};
 
 export default {
   name: pageNames.bdd,
-  component: connect(mapStateToProps)(BDDPage),
+  component: BDDPage,
 };

@@ -9,7 +9,7 @@ import NeedsVAPatient from '../components/errors/NeedsVAPatient';
 import CreateMHVAccountFailed from './CreateMHVAccountFailed';
 import UpgradeAccountFailed from './UpgradeAccountFailed';
 import { ACCOUNT_STATES } from './../constants';
-import { MVI_ERROR_STATES } from './../../../platform/monitoring/RequiresMVI/constants';
+import { MVI_ERROR_STATES } from 'platform/monitoring/RequiresMVI/constants';
 
 export default function ErrorMessage({ params }) {
   let errorCode = params.errorCode

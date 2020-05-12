@@ -63,12 +63,12 @@ describe('Report 674 student personal information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_studentFullName_first', 'Bill');
-    fillData(form, 'input#root_studentFullName_last', 'Bob');
-    fillData(form, 'input#root_studentSSN', '555-55-5551');
-    changeDropdown(form, 'select#root_studentDOBMonth', 1);
-    changeDropdown(form, 'select#root_studentDOBDay', 1);
-    fillData(form, 'input#root_studentDOBYear', '2002');
+    fillData(form, 'input#root_studentNameAndSSN_fullName_first', 'Bill');
+    fillData(form, 'input#root_studentNameAndSSN_fullName_last', 'Bob');
+    fillData(form, 'input#root_studentNameAndSSN_ssn', '555-55-5551');
+    changeDropdown(form, 'select#root_studentNameAndSSN_birthDateMonth', 1);
+    changeDropdown(form, 'select#root_studentNameAndSSN_birthDateDay', 1);
+    fillData(form, 'input#root_studentNameAndSSN_birthDateYear', '2002');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

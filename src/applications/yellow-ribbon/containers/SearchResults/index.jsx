@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
@@ -92,10 +93,7 @@ export class SearchResults extends Component {
     const endNumber = page * perPage;
 
     // Derive the start number.
-    const startNumber = endNumber - (perPage - 1);
-
-    // Show the start number.
-    return startNumber;
+    return endNumber - (perPage - 1);
   };
 
   render() {

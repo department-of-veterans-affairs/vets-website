@@ -17,7 +17,7 @@ import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus } from '../constants';
 
 class FacilityDetail extends Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
@@ -63,6 +63,7 @@ class FacilityDetail extends Component {
     }
     return (
       <AlertBox
+        level={2}
         headline={`${operationStatusTitle}`}
         content={
           <div>

@@ -297,7 +297,7 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Sex',
+    'ui:title': 'Sex (information will be used for statistical purposes only)',
     'ui:widget': 'radio',
   },
   maritalStatus: {
@@ -310,19 +310,6 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
-      },
-    },
-  },
-  ethnicity: {
-    'ui:title': 'Race/Ethnicity',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        americanIndian: 'American Indian or Alaska Native',
-        blackOrAfrican: 'Black or African American',
-        hispanicOrLatino: 'Hispanic or Latino',
-        nativeHawaiianOrIslander: 'Native Hawaiian or Pacific Islander',
-        white: 'White',
       },
     },
   },
@@ -428,14 +415,12 @@ export function getCemeteries() {
 
       return res.json();
     })
-    .then(res => {
-      const options = res.data.map(item => ({
+    .then(res =>
+      res.data.map(item => ({
         label: item.attributes.name,
         id: item.id,
-      }));
-
-      return options;
-    })
+      })),
+    )
     .catch(res => {
       if (res instanceof Error) {
         Sentry.captureException(res);

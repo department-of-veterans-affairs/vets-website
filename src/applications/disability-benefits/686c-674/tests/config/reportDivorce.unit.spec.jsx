@@ -48,7 +48,7 @@ describe('686 report a divorce', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -65,19 +65,15 @@ describe('686 report a divorce', () => {
       />,
     );
     // spouse name
-    fillData(form, 'input#root_reportDivorce_formerSpouseName_first', 'John');
-    fillData(form, 'input#root_reportDivorce_formerSpouseName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
+    fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
     // date of divorce
-    changeDropdown(form, 'select#root_reportDivorce_dateOfDivorceMonth', 1);
-    changeDropdown(form, 'select#root_reportDivorce_dateOfDivorceDay', 1);
-    fillData(form, 'input#root_reportDivorce_dateOfDivorceYear', '2010');
+    changeDropdown(form, 'select#root_reportDivorce_dateMonth', 1);
+    changeDropdown(form, 'select#root_reportDivorce_dateDay', 1);
+    fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    fillData(form, 'input#root_reportDivorce_locationOfDivorce_state', 'VA');
-    fillData(
-      form,
-      'input#root_reportDivorce_locationOfDivorce_city',
-      'somewhere',
-    );
+    fillData(form, 'input#root_reportDivorce_location_state', 'VA');
+    fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_isMarriageAnnulledOrVoid', 'N');
     form.find('form').simulate('submit');
@@ -98,27 +94,21 @@ describe('686 report a divorce', () => {
       />,
     );
     // spouse name
-    fillData(form, 'input#root_reportDivorce_formerSpouseName_first', 'John');
-    fillData(form, 'input#root_reportDivorce_formerSpouseName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
+    fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
     // date of divorce
-    const monthDropdown = form.find(
-      'select#root_reportDivorce_dateOfDivorceMonth',
-    );
-    const dayDropdown = form.find('select#root_reportDivorce_dateOfDivorceDay');
+    const monthDropdown = form.find('select#root_reportDivorce_dateMonth');
+    const dayDropdown = form.find('select#root_reportDivorce_dateDay');
     monthDropdown.simulate('change', {
       target: { value: '1' },
     });
     dayDropdown.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_reportDivorce_dateOfDivorceYear', '2010');
+    fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    fillData(form, 'input#root_reportDivorce_locationOfDivorce_state', 'VA');
-    fillData(
-      form,
-      'input#root_reportDivorce_locationOfDivorce_city',
-      'somewhere',
-    );
+    fillData(form, 'input#root_reportDivorce_location_state', 'VA');
+    fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_isMarriageAnnulledOrVoid', 'Y');
     form.find('form').simulate('submit');
@@ -139,33 +129,27 @@ describe('686 report a divorce', () => {
       />,
     );
     // spouse name
-    fillData(form, 'input#root_reportDivorce_formerSpouseName_first', 'John');
-    fillData(form, 'input#root_reportDivorce_formerSpouseName_last', 'Doe');
+    fillData(form, 'input#root_reportDivorce_fullName_first', 'John');
+    fillData(form, 'input#root_reportDivorce_fullName_last', 'Doe');
     // date of divorce
-    const monthDropdown = form.find(
-      'select#root_reportDivorce_dateOfDivorceMonth',
-    );
-    const dayDropdown = form.find('select#root_reportDivorce_dateOfDivorceDay');
+    const monthDropdown = form.find('select#root_reportDivorce_dateMonth');
+    const dayDropdown = form.find('select#root_reportDivorce_dateDay');
     monthDropdown.simulate('change', {
       target: { value: '1' },
     });
     dayDropdown.simulate('change', {
       target: { value: '1' },
     });
-    fillData(form, 'input#root_reportDivorce_dateOfDivorceYear', '2010');
+    fillData(form, 'input#root_reportDivorce_dateYear', '2010');
     // location
-    fillData(form, 'input#root_reportDivorce_locationOfDivorce_state', 'VA');
-    fillData(
-      form,
-      'input#root_reportDivorce_locationOfDivorce_city',
-      'somewhere',
-    );
+    fillData(form, 'input#root_reportDivorce_location_state', 'VA');
+    fillData(form, 'input#root_reportDivorce_location_city', 'somewhere');
     // is void
     selectRadio(form, 'root_reportDivorce_isMarriageAnnulledOrVoid', 'Y');
-    fillData(
+    changeDropdown(
       form,
-      'textarea#root_reportDivorce_explanationOfAnnullmentOrVoid',
-      'This is an explanation',
+      'select#root_reportDivorce_explanationOfAnnullmentOrVoid',
+      'Other',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

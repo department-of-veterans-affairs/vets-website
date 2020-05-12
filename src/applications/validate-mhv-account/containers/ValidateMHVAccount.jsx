@@ -4,12 +4,12 @@ import { withRouter } from 'react-router';
 import appendQuery from 'append-query';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { fetchMHVAccount } from '../../../platform/user/profile/actions';
+import { fetchMHVAccount } from 'platform/user/profile/actions';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { selectProfile } from '../../../platform/user/selectors';
-import environment from '../../../platform/utilities/environment/index';
-import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
+import recordEvent from 'platform/monitoring/record-event';
+import { selectProfile } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment/index';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import {
   ACCOUNT_STATES,
   ACCOUNT_STATES_SET,
@@ -17,7 +17,7 @@ import {
   MHV_URL,
 } from './../constants';
 
-import { MVI_ERROR_STATES } from './../../../platform/monitoring/RequiresMVI/constants';
+import { MVI_ERROR_STATES } from 'platform/monitoring/RequiresMVI/constants';
 
 class ValidateMHVAccount extends React.Component {
   componentDidMount() {

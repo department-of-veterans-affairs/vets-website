@@ -2,27 +2,5 @@
   "appName": "Opt Out of Sharing VA Education Benefits Information",
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "0993-edu-benefits",
-  "rootUrl": "/education/opt-out-information-sharing/opt-out-form-0993",
-  "production": true,
-  "template": {
-    "title": "Opt Out Of Sharing VA Education Benefits Information",
-    "heading": "Opt out of sharing VA education benefits information",
-    "layout": "page-react.html",
-    "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "education/",
-        "name": "Education and training"
-      },
-      {
-        "path": "education/opt-out-information-sharing/",
-        "name": "Opt out of information sharing"
-      },
-      {
-        "path": "education/opt-out-information-sharing/opt-out-form-0993",
-        "name": "Opt out of sharing your information with schools"
-      }
-    ]
-  }
+  "rootUrl": "/education/opt-out-information-sharing/opt-out-form-0993"
 }

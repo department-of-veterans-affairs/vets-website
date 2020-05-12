@@ -1,10 +1,7 @@
 import React from 'react';
 
-export const hasSeparationPayTitle = (
-  <p className="vads-u-margin-top--0">
-    Did you receive separation pay or disability severance pay?
-  </p>
-);
+export const hasSeparationPayTitle =
+  'Did you receive separation pay or disability severance pay?';
 
 export const separationPayDetailsDescription = (
   <p>

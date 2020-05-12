@@ -22,7 +22,7 @@ import {
   AVAILABLE,
   getTypeName,
 } from '../utils/appeals-v2-helpers';
-import CallVBACenter from '../../../platform/static-data/CallVBACenter';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();

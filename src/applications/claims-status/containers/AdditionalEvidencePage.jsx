@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import {
   addFile,
@@ -38,7 +38,7 @@ class AdditionalEvidencePage extends React.Component {
       scrollToTop();
     }
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();

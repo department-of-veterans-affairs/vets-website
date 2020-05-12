@@ -21,14 +21,20 @@ describe('Report 674 last term information', () => {
     'view:selectable686Options': {
       report674: true,
     },
-    studentFullName: {
-      first: 'John',
-      last: 'Doe',
+    studentNameAndSSN: {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
     },
-    studentAddress: {
-      countryName: '',
+    studentAddressMarriageTuition: {
+      address: {
+        countryName: '',
+      },
     },
-    studentDidAttendSchoolLastTerm: '',
+    programInformation: {
+      studentIsEnrolledFullTime: '',
+    },
   };
 
   it('should render', () => {
@@ -76,49 +82,45 @@ describe('Report 674 last term information', () => {
     selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'Y');
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolName',
+      'input#root_lastTermSchoolInformation_name',
       'Phoenix Online',
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_schoolAddress_countryName',
-      'United States',
+      'select#root_lastTermSchoolInformation_address_countryName',
+      'USA',
     );
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolAddress_addressLine1',
+      'input#root_lastTermSchoolInformation_address_addressLine1',
       '1600',
     );
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolAddress_city',
+      'input#root_lastTermSchoolInformation_address_city',
       'Washington',
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_schoolAddress_stateCode',
-      'DC',
+      'select#root_lastTermSchoolInformation_address_stateCode',
+      'AL',
     );
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolAddress_zipCode',
+      'input#root_lastTermSchoolInformation_address_zipCode',
       '20500',
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_dateTermBeganMonth',
+      'select#root_lastTermSchoolInformation_termBeginMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_dateTermBeganDay',
+      'select#root_lastTermSchoolInformation_termBeginDay',
       1,
     );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_dateTermBeganYear',
-      2009,
-    );
+    fillData(form, 'input#root_lastTermSchoolInformation_termBeginYear', 2009);
     changeDropdown(
       form,
       'select#root_lastTermSchoolInformation_dateTermEndedMonth',
@@ -156,44 +158,40 @@ describe('Report 674 last term information', () => {
     selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'Y');
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolName',
+      'input#root_lastTermSchoolInformation_name',
       'Phoenix Online',
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_schoolAddress_countryName',
-      'Albania',
+      'select#root_lastTermSchoolInformation_address_countryName',
+      'ALB',
     );
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolAddress_addressLine1',
+      'input#root_lastTermSchoolInformation_address_addressLine1',
       '1600',
     );
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolAddress_city',
+      'input#root_lastTermSchoolInformation_address_city',
       'Albany',
     );
     fillData(
       form,
-      'input#root_lastTermSchoolInformation_schoolAddress_internationalPostalCode',
+      'input#root_lastTermSchoolInformation_address_internationalPostalCode',
       '20500',
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_dateTermBeganMonth',
+      'select#root_lastTermSchoolInformation_termBeginMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_lastTermSchoolInformation_dateTermBeganDay',
+      'select#root_lastTermSchoolInformation_termBeginDay',
       1,
     );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_dateTermBeganYear',
-      2009,
-    );
+    fillData(form, 'input#root_lastTermSchoolInformation_termBeginYear', 2009);
     changeDropdown(
       form,
       'select#root_lastTermSchoolInformation_dateTermEndedMonth',

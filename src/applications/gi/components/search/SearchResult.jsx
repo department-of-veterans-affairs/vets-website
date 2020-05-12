@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
+import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
@@ -37,24 +37,43 @@ export class SearchResult extends React.Component {
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
+
     const linkTo = {
-      pathname: `profile/${facilityCode}`,
+      pathname: `/profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
     return (
-      <div className="search-result">
+      <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link
-                    to={linkTo}
-                    aria-label={`${name} ${locationInfo(city, state, country)}`}
-                  >
-                    {name}
-                  </Link>
+                  {!environment.isProduction() && (
+                    <a
+                      onClick={() => this.props.handleLinkClick(facilityCode)}
+                      aria-label={`${name} ${locationInfo(
+                        city,
+                        state,
+                        country,
+                      )}`}
+                    >
+                      {name}
+                    </a>
+                  )}
+                  {environment.isProduction() && (
+                    <Link
+                      to={linkTo}
+                      aria-label={`${name} ${locationInfo(
+                        city,
+                        state,
+                        country,
+                      )}`}
+                    >
+                      {name}
+                    </Link>
+                  )}
                 </h2>
               </div>
             </div>
@@ -97,7 +116,7 @@ export class SearchResult extends React.Component {
                     <h4>
                       <i className="fa fa-home fa-search-result" />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div id={`housing-value-${facilityCode}`}>{housing}</div>
                     </h4>
                   </div>
                 </div>

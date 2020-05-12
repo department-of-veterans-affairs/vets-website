@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   getFormDOM,
   DefinitionTester,
-} from '../../../../../platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../../1990/config/form.js';
 

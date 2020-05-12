@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 
 import Main from './Main';
 

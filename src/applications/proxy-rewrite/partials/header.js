@@ -1,4 +1,4 @@
-import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
 export default `
 <header class="header merger">

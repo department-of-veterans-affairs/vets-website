@@ -2,27 +2,5 @@
   "appName": "Veteran ID Card V1",
   "entryFile": "./veteran-id-card-entry.jsx",
   "entryName": "veteran-id-card",
-  "rootUrl": "/records/get-veteran-id-cards/apply",
-  "noRouting": true,
-  "production": true,
-  "template": {
-    "title": "Veteran ID Card",
-    "layout": "page-react.html",
-    "hideFromSidebar": true,
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "records/",
-        "name": "Records"
-      },
-      {
-        "path": "records/get-veteran-id-cards/",
-        "name": "Types of Veteran ID cards"
-      },
-      {
-        "path": "records/get-veteran-id-cards/apply/",
-        "name": "Apply for an ID Card"
-      }
-    ]
-  }
+  "rootUrl": "/records/get-veteran-id-cards/apply"
 }

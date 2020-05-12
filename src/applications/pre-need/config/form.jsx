@@ -190,12 +190,7 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
-                    required: [
-                      'gender',
-                      'maritalStatus',
-                      'militaryStatus',
-                      'ethnicity',
-                    ],
+                    required: ['gender', 'maritalStatus', 'militaryStatus'],
                     properties: _.set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
@@ -209,7 +204,6 @@ const formConfig = {
                           'vaClaimNumber',
                           'placeOfBirth',
                           'gender',
-                          'ethnicity',
                           'maritalStatus',
                           'militaryStatus',
                         ],
@@ -267,10 +261,12 @@ const formConfig = {
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
-                  'ui:title': 'Sponsor’s place of birth',
+                  'ui:title':
+                    "Sponsor's place of birth (City, State, or Territory)",
                 },
                 gender: {
-                  'ui:title': 'Sponsor’s gender',
+                  'ui:title':
+                    "Sponsor's sex (information will be used for statistical purposes only)",
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',
@@ -319,7 +315,6 @@ const formConfig = {
                     required: [
                       'ssn',
                       'gender',
-                      'ethnicity',
                       'maritalStatus',
                       'militaryStatus',
                       'isDeceased',
@@ -333,7 +328,6 @@ const formConfig = {
                         'vaClaimNumber',
                         'placeOfBirth',
                         'gender',
-                        'ethnicity',
                         'maritalStatus',
                         'militaryStatus',
                         'isDeceased',

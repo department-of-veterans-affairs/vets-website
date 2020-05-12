@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import {
   openModal,
@@ -137,14 +138,6 @@ class AddressValidationModal extends React.Component {
       selectedAddressId,
       confirmedSuggestions,
     } = this.props;
-    const {
-      addressLine1,
-      addressLine2,
-      addressLine3,
-      city,
-      stateCode,
-      zipCode,
-    } = address;
 
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
@@ -155,6 +148,9 @@ class AddressValidationModal extends React.Component {
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
     const isFirstOptionOrEnabled =
       (isAddressFromUser && validationKey) || !isAddressFromUser;
+
+    const { street, cityStateZip, country } = formatAddress(address);
+
     return (
       <div
         key={id}
@@ -177,12 +173,10 @@ class AddressValidationModal extends React.Component {
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            {addressLine1 && <span>{addressLine1}</span>}
-            {addressLine2 && <span>{` ${addressLine2}`}</span>}
-            {addressLine3 && <span>{` ${addressLine3}`}</span>}
-            {city &&
-              stateCode &&
-              zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
+            <span>{street}</span>
+            <span>{cityStateZip}</span>
+            <span>{country}</span>
+
             {isAddressFromUser &&
               showEditLink && (
                 <button className="va-button-link" onClick={this.onEditClick}>
