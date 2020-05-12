@@ -11,7 +11,6 @@ import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
 import startUserNavWidget from 'platform/site-wide/user-nav';
-import addMenuListeners from 'platform/site-wide/accessible-menus';
 import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 
@@ -105,9 +104,6 @@ function mountReactComponents(headerFooterData, commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
-  }
-  if (document.querySelector('#vetnav-menu') !== null) {
-    addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
 
   // New navigation menu
