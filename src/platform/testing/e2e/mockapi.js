@@ -78,10 +78,6 @@ function makeMockApiRouter(opts) {
     res.status(200).json(result);
   });
 
-  // Handle CORS preflight.
-  // router.options('*', cors(corsOptions));
-
-  // router.all('*', cors(corsOptions), (req, res) => {
   router.all('*', (req, res) => {
     const token = req.cookies.token || '_global';
     const verb = req.method.toLowerCase();
