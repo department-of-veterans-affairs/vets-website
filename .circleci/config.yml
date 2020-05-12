@@ -47,6 +47,24 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
+  e2e-test:
+    docker:
+      - image: circleci/node:10.15.3
+    environment:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - run: yarn watch
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: npm run test:cypress:run
+
   security-audit:
     docker:
       - image: circleci/node:10.15.3
@@ -154,11 +172,13 @@ workflows:
     jobs:
       - lint
       - unit-test
+      - e2e-test
       - security-audit
       - build:
           requires:
             - lint
             - unit-test
+            - e2e-test
             - security-audit
   additional-linting:
     jobs:
