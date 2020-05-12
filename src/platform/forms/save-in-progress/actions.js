@@ -329,7 +329,11 @@ export function fetchInProgressForm(
 
         // If prefilling went wrong for a non-auth reason, it probably means that
         // they didn’t have info to use and we can continue on as usual
-        if (prefill && loadedStatus !== LOAD_STATUSES.noAuth && loadedStatus !== LOAD_STATUSES.forbidden) {
+        if (
+          prefill && 
+          loadedStatus !== LOAD_STATUSES.noAuth && 
+          loadedStatus !== LOAD_STATUSES.forbidden
+        ) {
           dispatch(setPrefillComplete());
           recordEvent({
             event: `${trackingPrefix}sip-form-prefill-failed`,
