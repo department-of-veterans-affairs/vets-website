@@ -15,6 +15,7 @@ export const VERIFY_VA_FILE_NUMBER_FAILED = 'VERIFY_VA_FILE_NUMBER_FAILED';
 //   }
 // };
 
+// stub out a response for now.
 const getVaFileNumber = () =>
   new Promise(resolve => {
     setTimeout(() => {
@@ -22,10 +23,18 @@ const getVaFileNumber = () =>
     }, 4000);
   });
 
+// stub out error response
+// const getVaFileNumber = () =>
+//   new Promise(reject => {
+//     setTimeout(() => {
+//       reject({ error: { message: 'error' } });
+//     }, 4000);
+//   });
+
 export const verifyVaFileNumber = () => async dispatch => {
   dispatch({ type: VERIFY_VA_FILE_NUMBER_STARTED, response: true });
   const res = await getVaFileNumber();
-  if (res.data.attributes) {
+  if (res?.data?.attributes) {
     dispatch({ type: VERIFY_VA_FILE_NUMBER_SUCCEEDED, response: true });
   } else if (res.error) {
     dispatch({ type: VERIFY_VA_FILE_NUMBER_FAILED, response: false });
