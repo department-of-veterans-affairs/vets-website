@@ -195,14 +195,14 @@ const IntroductionPage = ({ route, router }) => {
 
       <button
         style={{ display: 'inherit ' }}
-        className="usa-button vads-u-margin-y--5"
+        className="usa-button vads-u-margin-y--3"
         onClick={startForm}
       >
         Start your application
       </button>
       <ProcessTimeline />
       <button
-        className="usa-button vads-u-margin-bottom--5"
+        className="usa-button vads-u-margin-bottom--3"
         onClick={startForm}
       >
         Start your Application

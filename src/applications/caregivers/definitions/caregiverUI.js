@@ -1,4 +1,6 @@
+import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -170,21 +172,65 @@ export default {
     medicaidEnrolledUI: {
       'ui:title':
         'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about Medicaid">
+            Medicaid is a government health program for eligible low-income
+            individuals and families and people with disabilities.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     medicareEnrolledUI: {
       'ui:title':
         'Is the Primary Family Caregiver currently in enrolled in Medicare?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about Medicare">
+            Medicare is a federal health insurance program providing coverage
+            for people who are 65 years or older or who meet who meet special
+            criteria. Part A insurance covers hospital care, skilled nursing and
+            nursing home care, hospice, and home health services.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     tricareEnrolledUI: {
       'ui:title':
         'Is the Primary Family Caregiver currently in enrolled in Tricare?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about Tricare">
+            Tricare is a government health care program for service members,
+            veterans, and their families.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     champvaEnrolledUI: {
       'ui:title':
         'Is the Primary Family Caregiver currently in enrolled in CHAMPVA?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about CHAMPVA">
+            Civilian Health and Medical Program of the Department of Veterans
+            Affairs
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vads-u-margin-x--0p5"
+              href="#"
+            >
+              (CHAMPVA)
+            </a>
+            is a cost-sharing program that covers the price of some health care
+            services and supplies.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceUI: {

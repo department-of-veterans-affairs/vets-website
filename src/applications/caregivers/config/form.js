@@ -151,11 +151,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [
-              vetFields.address,
-              vetFields.email,
-              vetFields.verifyEmail,
-            ],
+            required: [vetFields.address, vetFields.primaryPhoneNumber],
             properties: {
               [vetFields.address]: address,
               [vetFields.primaryPhoneNumber]: phone,
@@ -294,9 +290,8 @@ const formConfig = {
             type: 'object',
             required: [
               primaryCaregiverFields.address,
+              primaryCaregiverFields.primaryPhoneNumber,
               primaryCaregiverFields.vetRelationship,
-              primaryCaregiverFields.email,
-              primaryCaregiverFields.verifyEmail,
             ],
             properties: {
               [primaryCaregiverFields.address]: address,
