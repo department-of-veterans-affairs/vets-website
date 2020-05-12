@@ -86,16 +86,17 @@ export const renderLearnMoreLabel = ({
   showModal,
   component,
 }) => (
-  <span>
-    {text}{' '}
+  <span className="vads-u-margin--0 vads-u-display--inline-block ">
+    {text} (
     <button
       aria-label={ariaLabel}
       type="button"
-      className="va-button-link learn-more-button"
+      className="va-button-link learn-more-button vads-u-margin--0"
       onClick={showModal.bind(component, modal)}
     >
-      (Learn more)
+      Learn more
     </button>
+    )
   </span>
 );
 

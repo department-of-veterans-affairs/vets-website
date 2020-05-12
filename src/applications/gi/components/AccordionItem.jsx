@@ -86,13 +86,14 @@ class AccordionItem extends React.Component {
     const expanded = this.expanded();
     const { button, section, children } = this.props;
 
-    const childrenClassName = section
+    const liClassName = section ? 'section-item' : 'accordion-item';
+    const contentClassName = section
       ? 'section-content'
       : 'usa-accordion-content';
     return (
-      <li id={`${createId(button)}-accordion`}>
+      <li className={liClassName} id={`${createId(button)}-accordion`}>
         {this.renderHeader()}
-        <div id={this.id} className={childrenClassName} aria-hidden={!expanded}>
+        <div id={this.id} className={contentClassName} aria-hidden={!expanded}>
           {expanded ? children : null}
         </div>
       </li>

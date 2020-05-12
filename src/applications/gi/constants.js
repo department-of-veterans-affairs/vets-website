@@ -43,5 +43,6 @@ export const ariaLabels = Object.freeze({
       'Learn more about how we calculate your housing allowance',
     bookStipend: 'Learn more about how we calculate your annual book stipend',
     cautionaryWarning: 'Learn more about cautionary Warnings',
+    majorityOfClasses: 'Learn more about the location-based housing allowance',
   },
 });
