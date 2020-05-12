@@ -4,7 +4,7 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
-import { isChapterFieldRequired } from './helpers';
+import { isChapterFieldRequired, customTransformForSubmit } from './helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -69,6 +69,7 @@ const formConfig = {
   },
   title: 'New 686',
   defaultDefinitions: { ...fullSchema.definitions },
+  transformForSubmit: customTransformForSubmit,
   chapters: {
     optionSelection: {
       title: 'What do you want to do?',
