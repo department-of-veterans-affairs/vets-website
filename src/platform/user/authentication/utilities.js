@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
+import { getForceAuth } from '../../utilities/sso';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const authnSettings = {
@@ -15,14 +16,20 @@ export const ssoKeepAliveEndpoint = () => {
 };
 
 function sessionTypeUrl(type = '', version = 'v0', application = null) {
-  const SESSIONS_URI =
+  const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
+  const params = {
+    [application]: application,
+    force: getForceAuth() && 'true',
+  };
+  const qs = Object.keys(params)
+    .filter(key => params[key])
+    .map(key => `${key}=${params[key]}`)
+    .join('&');
 
-  return `${SESSIONS_URI}/${type}/new${
-    application ? `?application=${application}` : ''
-  }`;
+  return `${base}/${type}/new${qs}`;
 }
 
 const loginUrl = (policy, version, application) => {
