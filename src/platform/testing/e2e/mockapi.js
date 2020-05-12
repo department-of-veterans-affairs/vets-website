@@ -7,17 +7,21 @@
 //    path: /my/api/path
 //   value: { "some": "json", "blob": "yay." }
 
+const fs = require('fs');
+const nodePath = require('path');
 const bodyParser = require('body-parser');
 const commandLineArgs = require('command-line-args');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const express = require('express');
 const winston = require('winston');
+const apiMocker = require('mocker-api');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'responses', type: String },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -125,7 +129,22 @@ options.logger = winston;
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+if (options.responses) {
+  const pathToResponses = nodePath.resolve(options.responses);
+  if (fs.existsSync(pathToResponses)) {
+    apiMocker(app, pathToResponses);
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Could not find responses at ${pathToResponses}; No such file or directory.`,
+    );
+    process.exit(1);
+  }
+}
+
 app.use(makeMockApiRouter(options));
+
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(`Mock API server listening on port ${options.port}`);
