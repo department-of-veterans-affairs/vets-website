@@ -140,7 +140,7 @@ export function getSiteIdForChosenFacility(state, currentParentId) {
   }
 
   // This is a hack to get around some site ids not showing up in the parent sites list
-  return parentOrg.partOf.reference.replace('Organization/var', '');
+  return parentOrg?.partOf.reference.replace('Organization/var', '');
 }
 
 export function getParentOfChosenFacility(state) {

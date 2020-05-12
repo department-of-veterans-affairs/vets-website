@@ -52,7 +52,7 @@ export function getSiteIdFromOrganization(organization) {
 export function getRootOrganization(organizations, organizationId) {
   let organization = organizations.find(parent => parent.id === organizationId);
 
-  if (organization.partOf) {
+  if (organization?.partOf) {
     const partOfId = organization.partOf.reference.split('/')[1];
     organization = organizations.find(parent => parent.id === partOfId);
   }
