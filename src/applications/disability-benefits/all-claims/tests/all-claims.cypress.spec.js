@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { VA_FORM_IDS } from '../../../../platform/forms/constants';
-import testData from './data/newOnly-test.json';
+import testData from './data/maximal-test.json';
 import testForm from '../../../../platform/testing/e2e/cypress/support/form-tester';
 
 /* eslint-disable camelcase */
@@ -167,6 +167,14 @@ const mockPaymentInformation = {
     },
   },
 };
+
+const mockApplicationSubmit = {
+  data: {
+    attributes: {
+      guid: '123fake-submission-id-567',
+    },
+  },
+};
 /* eslint-enable camelcase */
 
 const testConfig = {
@@ -213,15 +221,13 @@ const testConfig = {
     // Set up mock API.
     cy.route('GET', '/v0/user', mockUser)
       .route('GET', '/v0/intent_to_file', mockItf)
-      .route('GET', '/v0/upload_supporting_evidence', mockDocumentUpload)
       .route('GET', '/v0/ppiu/payment_information', mockPaymentInformation)
-      .route('POST', '/v0/disability_compensation_form/submit_all_claim', {
-        data: {
-          attributes: {
-            guid: '123fake-submission-id-567',
-          },
-        },
-      });
+      .route('POST', '/v0/upload_supporting_evidence', mockDocumentUpload)
+      .route(
+        'POST',
+        '/v0/disability_compensation_form/submit_all_claim',
+        mockApplicationSubmit,
+      );
   },
   setupPerTest: () => {
     // Pre-fill with the expected ratedDisabilities,
