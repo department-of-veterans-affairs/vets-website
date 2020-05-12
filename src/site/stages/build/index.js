@@ -137,6 +137,8 @@ function build(BUILD_OPTIONS) {
   smith.use(collections(BUILD_OPTIONS.collections), 'Group collections');
   smith.use(leftRailNavResetLevels(), 'Reset left rail navigation menu levels');
   smith.use(dateInFilename(true), 'Add the date to filenames');
+  smith.use(assets(BUILD_OPTIONS.fontAssets), 'Add font assets');
+  smith.use(assets(BUILD_OPTIONS.imageAssets), 'Add image assets');
   smith.use(assets(BUILD_OPTIONS.contentAssets), 'Add content assets');
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))

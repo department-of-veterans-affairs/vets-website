@@ -97,6 +97,14 @@ function applyDefaultOptions(options) {
       destination: './',
     },
     destination: path.resolve(projectRoot, 'build', options.buildtype),
+    fontAssets: {
+      source: '../../assets/fonts',
+      destination: './fonts',
+    },
+    imageAssets: {
+      source: '../../assets/img',
+      destination: './img',
+    },
     layouts,
     collections: require('./data/collections.json'),
     watchPaths: [
