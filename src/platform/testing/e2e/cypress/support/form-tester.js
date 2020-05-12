@@ -215,15 +215,10 @@ Cypress.Commands.add('enterData', field => {
     }
 
     case 'file': {
-      /*
-      if (fieldData) {
-        // The upload endpoint should already be mocked; just click the button
-        // TODO: Ensure the file we're uploading is valid for this input
-        const fileField = await page.$(key);
-        // TODO: Change this to not assume the test is being run from the project root
-        await fileField.uploadFile('./src/platform/testing/example-upload.png');
-      }
-      */
+      cy.get(`input[id="${field.key}"]`)
+        .upload('example-upload.png', 'image/png')
+        .get('.schemaform-file-uploading')
+        .should('not.exist');
       break;
     }
 
