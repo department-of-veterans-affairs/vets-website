@@ -31,8 +31,8 @@ export const SearchResultsPage = ({
       <div className="vads-l-col--12">
         {/* Pre-form content */}
         <p className="vads-l-col--12 medium-screen:vads-l-col--9">
-          Participating school information on this page is valid for the current
-          academic year, from August 2019 through July 2020.
+          Information for participating schools is for the current academic
+          year, August 2019 through July 2020.
         </p>
       </div>
 
