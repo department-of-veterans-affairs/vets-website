@@ -1,9 +1,29 @@
 import get from '../../../../utilities/data/get';
 
+const ARRAY_ITEM_SELECTOR =
+  'div[name^="topOfTable_"] ~ div.va-growable-background';
+
+const FIELD_SELECTOR = 'input, select, textarea';
+
 // Suppress logs for most commands, particularly calls to wrap and get
 // that are mainly there to support more specific operations.
 const COMMAND_OPTIONS = { log: false };
 
+/**
+ * Builds an object from a form field with attributes that are used
+ * to look up test data and enter that data into the field.
+ *
+ * typedef {Object} Field
+ * @property {Element}  - An element returned from querying form elements.
+ * @property {string} key - String that is used for data lookup.
+ * @property {string} type - Field type for deciding how to input data.
+ * @property {string} arrayItemPath - Prefix for resolving path when looking up
+ *     data for fields in an array item.
+ * @property {string} data - Data to enter into the field input.
+ *
+ * @param {Element} element
+ * @returns {Field}
+ */
 const createFieldObject = element => {
   const field = {
     element,
@@ -13,9 +33,9 @@ const createFieldObject = element => {
 
   const containerClass = element.parent().attr('class');
 
-  // Date fields in form data combine all the date components
-  // (year, month, day), so treat as one input when filling out dates.
   if (containerClass && containerClass.includes('date')) {
+    // Dates in form data combine all the date components (year, month, day),
+    // so treat filling out date fields as a single step for entering data.
     field.key = field.key.replace(/(Year|Month|Day)$/, '');
     field.type = 'date';
   }
@@ -45,6 +65,12 @@ const getArrayItemPath = pathname => {
   });
 };
 
+/**
+ * Adds a new item for every array type field on the current page
+ * that still has more array items to be added and filled out.
+ *
+ * @param {Element} $form - The form element returned from querying the DOM.
+ */
 const addNewArrayItem = $form => {
   // Get all array types on the current page.
   const arrayTypeRoots = $form.find('div[name^="topOfTable_root_"]');
@@ -81,9 +107,19 @@ const addNewArrayItem = $form => {
   }
 };
 
+/**
+ * Top level loop that invokes all of the processing for a form page
+ * (either running a page hook or filling out its fields)
+ * and continues on to the next page.
+ *
+ * If it's on the review page, it submits the form.
+ */
 const processPage = () => {
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
-    if (!pathname.endsWith('review-and-submit')) {
+    if (pathname.endsWith('review-and-submit')) {
+      cy.findByLabelText(/accept/i).click();
+      cy.findByText(/submit/i, { selector: 'button' }).click();
+    } else {
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
       });
@@ -97,13 +133,16 @@ const processPage = () => {
           }
         })
         .then(processPage);
-    } else {
-      cy.findByLabelText(/accept/i).click();
-      cy.findByText(/submit/i, { selector: 'button' }).click();
     }
   });
 };
 
+/**
+ * Runs the page hook if there is one for the current page.
+ *
+ * @param {string} pathname - The pathname for the current URL.
+ * @returns {boolean} Resolves true if a hook ran and false otherwise.
+ */
 Cypress.Commands.add('execHook', pathname => {
   cy.get('@testConfig', COMMAND_OPTIONS).then(({ pageHooks }) => {
     const hook = pageHooks && pageHooks[pathname];
@@ -125,6 +164,12 @@ Cypress.Commands.add('execHook', pathname => {
   });
 });
 
+/**
+ * Looks up data for a field.
+ *
+ * @param {Field}
+ * @returns {*} Resolves to the field data if found or undefined otherwise.
+ */
 Cypress.Commands.add('findData', field => {
   let resolvedDataPath;
 
@@ -155,6 +200,11 @@ Cypress.Commands.add('findData', field => {
   });
 });
 
+/**
+ * Enters data for a field.
+ *
+ * @param {Field}
+ */
 Cypress.Commands.add('enterData', field => {
   switch (field.type) {
     // Select fields register as having a type === 'select-one'
@@ -241,12 +291,10 @@ Cypress.Commands.add('enterData', field => {
   });
 });
 
+/**
+ * Fills all of the fields on a page, looping until no more fields appear.
+ */
 Cypress.Commands.add('fillPage', () => {
-  const ARRAY_ITEM_SELECTOR =
-    'div[name^="topOfTable_"] ~ div.va-growable-background';
-
-  const FIELD_SELECTOR = 'input, select, textarea';
-
   cy.location('pathname', COMMAND_OPTIONS)
     .then(getArrayItemPath)
     .then(arrayItemPath => {
@@ -310,6 +358,33 @@ Cypress.Commands.add('fillPage', () => {
     });
 });
 
+/**
+ * Tests a form flow with the provided test data.
+ *
+ * @typedef {object} TestConfig
+ * @property {array<ArrayPage>} arrayPaths
+ * @property {object.<function>} pageHooks - Functions used to bypass the
+ *     automatic form filling for a single page. The property name corresponds
+ *     to the url for the page.
+ * @property {function} setup - Function that's called before starting all tests
+ *     but after some core setup steps. Useful for setting up API mocks.
+ * @property {function} setupPerTest - Function that's called before each test.
+ * @property {object} testData - The object used to look up data to enter
+ *     during the form flow. This should be the same structure as the body
+ *     of the request sent for a form submission.
+ * @property {string} testDataPathPrefix - The path prefix to get to the
+ *     field data. For example, if the test data looks like
+ *     { data: { field1: 'value' } },
+ *     testDataPathPrefix should be set to 'data'.
+ * @property {string} url - The URL for the form. All tests start by going here.
+ * ---
+ * @typedef {object} ArrayPage
+ * @property {string} arrayPath - The arrayPath defined in the form config
+ * @property {string} url - The URL for the array page
+ * ---
+ * @param {string} testDescription - Label to describe the test
+ * @param {TestConfig} testConfig
+ */
 const testForm = (testDescription, testConfig) => {
   describe(testDescription, () => {
     before(() => {
