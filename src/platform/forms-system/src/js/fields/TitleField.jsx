@@ -8,7 +8,9 @@ export default function TitleField({ id, title }) {
     'schemaform-block-subtitle': !isRoot,
   });
 
-  return typeof title === 'string' && title.trim() === '' ? null : (
+  const isEmptyTitle = typeof title === 'string' && title.trim() === '';
+
+  return isEmptyTitle ? null : (
     <legend className={classes} id={id}>
       {title}
     </legend>
