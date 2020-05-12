@@ -36,10 +36,14 @@ function stripTrailingSlash(path) {
   return path.substr(-1) === '/' ? path.slice(0, -1) : path;
 }
 
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
 function makeMockApiRouter(opts) {
   // mockResponses[token][verb][response]
   const mockResponses = {};
-  const corsOptions = { origin: true, credentials: true };
 
   const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
@@ -75,9 +79,10 @@ function makeMockApiRouter(opts) {
   });
 
   // Handle CORS preflight.
-  router.options('*', cors(corsOptions));
+  // router.options('*', cors(corsOptions));
 
-  router.all('*', cors(corsOptions), (req, res) => {
+  // router.all('*', cors(corsOptions), (req, res) => {
+  router.all('*', (req, res) => {
     const token = req.cookies.token || '_global';
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[token] || {})[verb];
@@ -127,6 +132,7 @@ function makeMockApiRouter(opts) {
 options.logger = winston;
 
 const app = express();
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
