@@ -25,7 +25,11 @@ export default () => (
     <ul className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
       <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
         <b>File a VA disability claim</b>
-        <hr className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary" />
+        <hr
+          aria-hidden="true"
+          role="presentation"
+          className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary"
+        />
         <p className="va-nav-linkslist-description">
           Equal to VA Form 21-526EZ
         </p>
@@ -45,7 +49,11 @@ export default () => (
       </li>
       <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
         <b>Apply for the GI Bill and other education benefits</b>
-        <hr className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary" />
+        <hr
+          aria-hidden="true"
+          role="presentation"
+          className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary"
+        />
         <p className="va-nav-linkslist-description">
           Includes VA Forms 22-1990 and 22-1995
         </p>
@@ -67,7 +75,11 @@ export default () => (
       </li>
       <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
         <b>Apply for VA health care</b>
-        <hr className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary" />
+        <hr
+          aria-hidden="true"
+          role="presentation"
+          className="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary"
+        />
         <p className="va-nav-linkslist-description">Equal to VA Form 10-10EZ</p>
         <a
           className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"

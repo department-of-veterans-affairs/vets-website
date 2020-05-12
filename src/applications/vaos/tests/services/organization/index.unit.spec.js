@@ -29,7 +29,7 @@ describe('VAOS Organization service', () => {
       data = await getOrganizations(['983', '984']);
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/facilities?facility_codes[]=983&facility_codes[]=984',
+        '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
       );
       expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
     });
@@ -48,7 +48,7 @@ describe('VAOS Organization service', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/facilities?facility_codes[]=983&facility_codes[]=984',
+        '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
