@@ -342,10 +342,6 @@ export function fetchInProgressForm(
             recordEvent({
               event: `${trackingPrefix}sip-form-load-signed-out`,
             });
-          } else if (loadedStatus === LOAD_STATUSES.forbidden) {
-            recordEvent({
-              event: `${trackingPrefix}sip-form-load-failed`,
-            });
           } else {
             Sentry.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
             recordEvent({
