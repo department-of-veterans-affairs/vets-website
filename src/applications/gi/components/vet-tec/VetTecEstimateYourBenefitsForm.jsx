@@ -27,6 +27,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       scholarships: 0,
       programName: selectedProgramName,
     };
+    this.setProgramFields(this.props.preSelectedProgram);
   }
 
   getProgramByName = programName =>

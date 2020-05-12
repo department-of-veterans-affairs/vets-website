@@ -157,4 +157,21 @@ describe('profile360 selectors', () => {
       expect(selectors.directDepositIsBlocked(state)).to.be.true;
     });
   });
+
+  describe('directDepositUiState', () => {
+    it('should return the correct part of the state`', () => {
+      const state = {
+        vaProfile: {
+          paymentInformationUiState: {},
+        },
+      };
+      expect(selectors.directDepositUiState(state)).to.deep.equal(
+        state.vaProfile.paymentInformationUiState,
+      );
+    });
+    it('should return undefined if vaProfile is not set on the state', () => {
+      const state = {};
+      expect(selectors.directDepositUiState(state)).to.equal(undefined);
+    });
+  });
 });

@@ -2,37 +2,35 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { FeatureGroup, Map, TileLayer } from 'react-leaflet';
 import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
-import { isEmpty, debounce } from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import {
-  updateSearchQuery,
+  clearSearchResults,
+  fetchVAFacility,
   genBBoxFromAddress,
   searchWithBounds,
-  fetchVAFacility,
-  clearSearchResults,
+  updateSearchQuery,
 } from '../actions';
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
 import SearchResult from '../components/SearchResult';
 import FacilityMarker from '../components/markers/FacilityMarker';
+import CurrentPositionMarker from '../components/markers/CurrentPositionMarker';
 import { facilityTypes } from '../config';
 import {
-  LocationType,
-  FacilityType,
   BOUNDING_RADIUS,
+  FacilityType,
+  LocationType,
   MARKER_LETTERS,
 } from '../constants';
 import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
-import {
-  isProduction,
-  toggleValues,
-} from 'platform/site-wide/feature-toggles/selectors';
+import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import recordEvent from 'platform/monitoring/record-event';
@@ -426,11 +424,10 @@ class VAMap extends Component {
   };
 
   /**
-   * Use the list of search results to generate pushpins for the map.
+   * Use the list of search results to generate map markers and current position marker
    */
-  renderFacilityMarkers = () => {
+  renderMapMarkers = () => {
     const { results } = this.props;
-
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
@@ -442,7 +439,7 @@ class VAMap extends Component {
     };
 
     const markers = MARKER_LETTERS.values();
-    return results.map(r => {
+    const mapMarkers = results.map(r => {
       const iconProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],
@@ -515,6 +512,20 @@ class VAMap extends Component {
           return null;
       }
     });
+    if (this.props.currentQuery.searchCoords) {
+      mapMarkers.push(
+        <CurrentPositionMarker
+          key={`${this.props.currentQuery.searchCoords.lat}-${
+            this.props.currentQuery.searchCoords.lng
+          }`}
+          position={[
+            this.props.currentQuery.searchCoords.lat,
+            this.props.currentQuery.searchCoords.lng,
+          ]}
+        />,
+      );
+    }
+    return mapMarkers;
   };
 
   renderMobileView = () => {
@@ -527,7 +538,7 @@ class VAMap extends Component {
       results,
       pagination: { currentPage, totalPages },
     } = this.props;
-    const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const facilityLocatorMarkers = this.renderMapMarkers();
     const showDialogUrgCare =
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
         currentQuery.serviceType === 'NonVAUrgentCare') ||
@@ -633,7 +644,7 @@ class VAMap extends Component {
     } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const facilityLocatorMarkers = this.renderFacilityMarkers();
+    const facilityLocatorMarkers = this.renderMapMarkers();
     const showDialogUrgCare =
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
         currentQuery.serviceType === 'NonVAUrgentCare') ||
@@ -727,7 +738,7 @@ class VAMap extends Component {
   };
 
   render() {
-    const chatbotLink = this.props.showCovidChatbotLink && (
+    const chatbotLink = (
       <>
         For answers to questions about how COVID-19 may affect your VA health
         appointments, benefits, and services, use our VA{' '}
@@ -776,8 +787,6 @@ function mapStateToProps(state) {
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,
-    showCovidChatbotLink: toggleValues(state)
-      .facilityLocatorShowCovid19ChatbotLink,
   };
 }
 
