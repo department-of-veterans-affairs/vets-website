@@ -1009,9 +1009,11 @@ class EstimateYourBenefitsForm extends React.Component {
 
   render() {
     return (
-      <div className="usa-width-one-eigth medium-5 columns">
-        <p>Use the fields below to calculate your benefits:</p>
-        <ul className="eyb-inputs-ul vads-u-padding--0">
+      <div className="estimate-your-benefits-form vads-u-margin-right--9 usa-width-one-half medium-6 columns">
+        <p className="vads-u-margin-bottom--3">
+          Use the fields below to calculate your benefits:
+        </p>
+        <ul className="vads-u-padding--0">
           {this.renderYourBenefits()}
           {this.renderAboutYourSchool()}
           {this.renderLearningFormatAndSchedule()}
