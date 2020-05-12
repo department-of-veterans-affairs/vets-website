@@ -107,14 +107,7 @@
     "rootUrl": "/profile",
     "template": {
       "title": "Your Profile",
-      "layout": "page-react.html",
-      "includeBreadcrumbs": true,
-      "breadcrumbs_override": [
-        {
-          "path": "profile/",
-          "name": "Your profile"
-        }
-      ]
+      "layout": "page-react.html"
     }
   },
   {
@@ -176,7 +169,8 @@
       "vagovprod": false,
       "vagovstaging": true,
       "vagovdev": true,
-      "localhost": true
+      "localhost": true,
+      "includeBreadcrumbs": true
     }
   },
   {
@@ -319,6 +313,29 @@
           "path": "disability-benefits/apply/form-526-disability-claim"
         }
       ]
+    }
+  },
+  {
+    "appName": "21-526EZ Benefits Delivery at Discharge",
+    "entryName": "bdd",
+    "rootUrl": "/disability/file-benefits-delivery-at-discharge-form-21-526ez",
+    "template": {
+      "title": "File for benefits delivery at discharge",
+      "layout": "page-react.html",
+      "description": "Learn how to apply online for benefits delivery at discharge.",
+      "hideFromSidebar": true,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "name": "Disability Benefits",
+          "path": "disability/"
+        },
+        {
+          "name": "File for Benefits Delivery at Discharge",
+          "path": "disability/file-benefits-delivery-at-discharge-form-21-526ez"
+        }
+      ],
+      "vagovprod": false
     }
   },
   {
@@ -495,8 +512,10 @@
     "entryName": "yellow-ribbon",
     "rootUrl": "/education/yellow-ribbon-participating-schools",
     "template": {
-      "vagovprod": false,
-      "layout": "page-react.html"
+      "description": "Search for schools that participate in the Yellow Ribbon Program.",
+      "layout": "page-react.html",
+      "title": "Find A Yellow Ribbon School | Veterans Affairs",
+      "vagovprod": false
     }
   },
   {

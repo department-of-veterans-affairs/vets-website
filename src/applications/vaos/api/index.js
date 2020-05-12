@@ -18,6 +18,10 @@ function getStagingId(facilityId) {
 const USE_MOCK_DATA =
   environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
 
+function vaosApiRequest(url, ...options) {
+  return apiRequest(`${environment.API_URL}/vaos${url}`, ...options);
+}
+
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
@@ -39,8 +43,8 @@ export function getConfirmedAppointments(type, startDate, endDate) {
       );
     }
   } else {
-    promise = apiRequest(
-      `/vaos/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
+    promise = vaosApiRequest(
+      `/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
     );
   }
 
@@ -56,8 +60,8 @@ export function getPendingAppointments(startDate, endDate) {
       module => (module.default ? module.default : module),
     );
   } else {
-    promise = apiRequest(
-      `/vaos/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+    promise = vaosApiRequest(
+      `/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
     );
   }
 
@@ -81,7 +85,7 @@ export function getRequestMessages(requestId) {
       promise = new Promise(res => res({ data: [] }));
     }
   } else {
-    promise = apiRequest(`/vaos/appointment_requests/${requestId}/messages`);
+    promise = vaosApiRequest(`/v0/appointment_requests/${requestId}/messages`);
   }
 
   return promise.then(resp => resp.data);
@@ -144,7 +148,7 @@ export function getParentFacilities(systemIds) {
   } else {
     const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
 
-    promise = apiRequest(`/vaos/facilities?${idList}`);
+    promise = vaosApiRequest(`/v0/facilities?${idList}`);
   }
 
   return promise.then(resp =>
@@ -173,8 +177,8 @@ export function getFacilitiesBySystemAndTypeOfCare(
       );
     }
   } else {
-    promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
+    promise = vaosApiRequest(
+      `/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
     );
   }
 
@@ -194,7 +198,7 @@ export function getCommunityCare(typeOfCare) {
       },
     });
   } else {
-    promise = apiRequest(`/vaos/community_care/eligibility/${typeOfCare}`);
+    promise = vaosApiRequest(`/v0/community_care/eligibility/${typeOfCare}`);
   }
 
   return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
@@ -229,8 +233,8 @@ export function checkPastVisits(
       },
     });
   } else {
-    promise = apiRequest(
-      `/vaos/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
+    promise = vaosApiRequest(
+      `/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
     );
   }
 
@@ -249,8 +253,8 @@ export function getRequestLimits(facilityId, typeOfCareId) {
       },
     });
   } else {
-    promise = apiRequest(
-      `/vaos/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
+    promise = vaosApiRequest(
+      `/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
     );
   }
 
@@ -265,8 +269,8 @@ export function getClinicInstitutions(systemId, clinicIds) {
     );
   } else {
     const clinicIdParams = clinicIds.map(id => `clinic_ids[]=${id}`).join('&');
-    promise = apiRequest(
-      `/vaos/systems/${systemId}/clinic_institutions?${clinicIdParams}`,
+    promise = vaosApiRequest(
+      `/v0/systems/${systemId}/clinic_institutions?${clinicIdParams}`,
     );
   }
 
@@ -286,8 +290,8 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
       promise = Promise.resolve({ data: [] });
     }
   } else {
-    promise = apiRequest(
-      `/vaos/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
+    promise = vaosApiRequest(
+      `/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
     );
   }
 
@@ -307,7 +311,7 @@ export function getPacTeam(systemId) {
       promise = Promise.resolve({ data: [] });
     }
   } else {
-    promise = apiRequest(`/vaos/systems/${systemId}/pact`);
+    promise = vaosApiRequest(`/v0/systems/${systemId}/pact`);
   }
 
   return promise.then(resp =>
@@ -360,8 +364,8 @@ export function getSitesSupportingVAR(systemIds) {
       module => (module.default ? module.default : module),
     );
   } else {
-    promise = apiRequest(
-      `/vaos/community_care/supported_sites?${systemIds
+    promise = vaosApiRequest(
+      `/v0/community_care/supported_sites?${systemIds
         .map(id => `site_codes[]=${id}`)
         .join('&')}`,
     );
@@ -392,8 +396,8 @@ export function getAvailableSlots(
       }, 500);
     });
   } else {
-    promise = apiRequest(
-      `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
+    promise = vaosApiRequest(
+      `/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
     );
   }
 
@@ -409,7 +413,7 @@ export function getCancelReasons(systemId) {
       module => (module.default ? module.default : module),
     );
   } else {
-    promise = apiRequest(`/vaos/facilities/${systemId}/cancel_reasons`);
+    promise = vaosApiRequest(`/v0/facilities/${systemId}/cancel_reasons`);
   }
 
   return promise.then(resp =>
@@ -422,7 +426,7 @@ export function updateAppointment(appt) {
   if (USE_MOCK_DATA) {
     promise = Promise.resolve();
   } else {
-    promise = apiRequest(`/vaos/appointments/cancel`, {
+    promise = vaosApiRequest(`/v0/appointments/cancel`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(appt),
@@ -447,7 +451,7 @@ export function updateRequest(req) {
         },
       }));
   } else {
-    promise = apiRequest(`/vaos/appointment_requests/${req.id}`, {
+    promise = vaosApiRequest(`/v0/appointment_requests/${req.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req),
@@ -470,7 +474,7 @@ export function submitRequest(type, request) {
       },
     });
   } else {
-    promise = apiRequest(`/vaos/appointment_requests?type=${type}`, {
+    promise = vaosApiRequest(`/v0/appointment_requests?type=${type}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request),
@@ -485,7 +489,7 @@ export function submitAppointment(appointment) {
     return Promise.resolve();
   }
 
-  return apiRequest('/vaos/appointments', {
+  return vaosApiRequest('/v0/appointments', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(appointment),
@@ -497,7 +501,7 @@ export function sendRequestMessage(id, messageText) {
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
-    promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
+    promise = vaosApiRequest(`/v0/appointment_requests/${id}/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messageText }),
@@ -512,7 +516,7 @@ export function getPreferences() {
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
   } else {
-    promise = apiRequest(`/vaos/preferences`);
+    promise = vaosApiRequest(`/v0/preferences`);
   }
 
   return promise.then(resp => resp.data.attributes);
@@ -523,7 +527,7 @@ export function updatePreferences(data) {
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
-    promise = apiRequest(`/vaos/preferences`, {
+    promise = vaosApiRequest(`/v0/preferences`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),

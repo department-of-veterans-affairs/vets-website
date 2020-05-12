@@ -13,7 +13,7 @@ describe('Find Yellow Ribbon Page <FindYellowRibbonPage>', () => {
     // Expect there to be:
     expect(text).to.include('Find a Yellow Ribbon school');
     expect(text).to.include(
-      'Find out if your school participates in the Yellow Ribbon program.',
+      'Find out if your school participates in the Yellow Ribbon Program.',
     );
     expect(text).to.include(
       'Search for schools participating in the current academic year by one or all of the terms below.',

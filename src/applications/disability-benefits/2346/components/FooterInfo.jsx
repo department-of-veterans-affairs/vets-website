@@ -5,7 +5,7 @@ const FooterInfo = () => {
     'vads-u-margin-y--2p5 vads-u-display--flex vads-u-flex-direction--column';
   return (
     <section className="need-help-footer row vads-u-padding-x--1p5">
-      <h5>Need Help?</h5>
+      <h3 className="vads-u-font-size--h5">Need Help?</h3>
       <hr />
       <span>
         For help filling out this form, you can contact your local coordinator,
@@ -19,7 +19,7 @@ const FooterInfo = () => {
       <section className={sectionClassNames}>
         <span>
           To report a problem with this form, please call the Technical Help
-          Help Desk:
+          Desk:
         </span>
         <a href="tel:18555747286">1-855-574-7286</a>
         <a href="tel:18008778339">TTY: 1-800-877-8339</a>

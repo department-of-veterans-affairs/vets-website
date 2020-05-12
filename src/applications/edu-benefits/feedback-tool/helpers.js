@@ -156,16 +156,11 @@ export function submit(form, formConfig) {
   };
 
   const onFailure = respOrError => {
-    if (respOrError instanceof Response) {
-      if (respOrError.status === 429) {
-        const error = new Error('vets_throttled_error_gi_bill_feedbacks');
-        error.extra = parseInt(
-          respOrError.headers.get('x-ratelimit-reset'),
-          10,
-        );
-        recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
-        return Promise.reject(error);
-      }
+    if (respOrError instanceof Response && respOrError.status === 429) {
+      const error = new Error('vets_throttled_error_gi_bill_feedbacks');
+      error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+      recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
+      return Promise.reject(error);
     }
     return Promise.reject(respOrError);
   };

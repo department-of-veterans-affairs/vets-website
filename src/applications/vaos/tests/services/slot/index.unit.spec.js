@@ -25,7 +25,7 @@ describe('VAOS Slot service', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
+        '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(data[0].start).to.equal('2020-02-06T21:00:00Z');
     });
@@ -50,7 +50,7 @@ describe('VAOS Slot service', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
+        '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });

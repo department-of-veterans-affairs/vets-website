@@ -261,10 +261,12 @@ const formConfig = {
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
-                  'ui:title': 'Sponsor’s place of birth',
+                  'ui:title':
+                    "Sponsor's place of birth (City, State, or Territory)",
                 },
                 gender: {
-                  'ui:title': 'Sponsor’s gender',
+                  'ui:title':
+                    "Sponsor's sex (information will be used for statistical purposes only)",
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',

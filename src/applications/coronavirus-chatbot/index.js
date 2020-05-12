@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import { GA_PREFIX, addEventListenerToButtons } from './utils';
+import { GA_PREFIX, handleButtonsPostRender } from './utils';
 import * as Sentry from '@sentry/browser';
 
 export const defaultLocale = 'en-US';
@@ -87,19 +87,18 @@ const initBotConversation = jsonWebToken => {
             },
           },
         });
-      } else if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
-        if (
-          action.payload?.activity?.type === 'event' &&
-          action.payload?.activity?.name === 'ShareLocationEvent'
-        ) {
-          // share
-          getUserLocation(location => {
-            store.dispatch({
-              type: 'WEB_CHAT/SEND_POST_BACK',
-              payload: { value: JSON.stringify(location) },
-            });
+      } else if (
+        action.type === 'DIRECT_LINE/INCOMING_ACTIVITY' &&
+        action.payload?.activity?.type === 'event' &&
+        action.payload?.activity?.name === 'ShareLocationEvent'
+      ) {
+        // share
+        getUserLocation(location => {
+          store.dispatch({
+            type: 'WEB_CHAT/SEND_POST_BACK',
+            payload: { value: JSON.stringify(location) },
           });
-        }
+        });
       }
       return next(action);
     },
@@ -155,6 +154,6 @@ const chatRequested = scenario => {
 };
 
 export default function initializeChatbot() {
-  addEventListenerToButtons();
+  handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }
