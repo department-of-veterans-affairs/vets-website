@@ -17,6 +17,20 @@ describe('VAOS <AppointmentStatus>', () => {
     tree.unmount();
   });
 
+  it('should render completed if past appointment', () => {
+    const tree = shallow(
+      <AppointmentStatus
+        status={APPOINTMENT_STATUS.booked}
+        isPastAppointment
+      />,
+    );
+
+    expect(tree.find('i').props().className).to.contain('fa-check-circle');
+    expect(tree.text()).to.contain('Completed');
+
+    tree.unmount();
+  });
+
   it('should render pending', () => {
     const tree = shallow(
       <AppointmentStatus status={APPOINTMENT_STATUS.pending} />,
