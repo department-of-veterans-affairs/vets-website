@@ -105,25 +105,24 @@ const processPage = () => {
 };
 
 Cypress.Commands.add('execHook', pathname => {
-  cy.get('@testConfig', COMMAND_OPTIONS).then(
-    ({ pageHooks: { [pathname]: hook } }) => {
-      if (hook) {
-        if (typeof hook !== 'function') {
-          throw new Error(`Page hook for ${pathname} is not a function`);
-        }
-
-        cy.wrap(
-          new Promise(resolve => {
-            hook();
-            resolve(true);
-          }),
-          COMMAND_OPTIONS,
-        );
-      } else {
-        cy.wrap(false, COMMAND_OPTIONS);
+  cy.get('@testConfig', COMMAND_OPTIONS).then(({ pageHooks }) => {
+    const hook = pageHooks && pageHooks[pathname];
+    if (hook) {
+      if (typeof hook !== 'function') {
+        throw new Error(`Page hook for ${pathname} is not a function`);
       }
-    },
-  );
+
+      cy.wrap(
+        new Promise(resolve => {
+          hook();
+          resolve(true);
+        }),
+        COMMAND_OPTIONS,
+      );
+    } else {
+      cy.wrap(false, COMMAND_OPTIONS);
+    }
+  });
 });
 
 Cypress.Commands.add('findData', field => {
@@ -314,12 +313,12 @@ const testForm = (testDescription, testConfig) => {
     before(() => {
       cy.wrap(testConfig).as('testConfig');
 
-      // Supplement array page objects from form config with regex patterns
+      // Supplement any array page objects from form config with regex patterns
       // for later processing when we match page URLs against them
       // in order to determine whether the pages are array pages, and if so,
       // which index in the array they correspond to.
       cy.wrap(
-        testConfig.arrayPages.map(arrayPage => ({
+        (testConfig.arrayPages || []).map(arrayPage => ({
           regex: new RegExp(arrayPage.path.replace(':index', '(\\d+)$')),
           ...arrayPage,
         })),
@@ -328,11 +327,15 @@ const testForm = (testDescription, testConfig) => {
       cy.server()
         .route('GET', 'v0/maintenance_windows', [])
         .as('getMaintenanceWindows')
-        .then(testConfig.setup);
+        .then(() => {
+          if (testConfig.setup) testConfig.setup();
+        });
     });
 
     beforeEach(() => {
-      testConfig.setupPerTest(testConfig);
+      if (testConfig.setupPerTest) {
+        testConfig.setupPerTest(testConfig);
+      }
     });
 
     it('fills the form', () => {
