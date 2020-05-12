@@ -127,24 +127,30 @@ Cypress.Commands.add('execHook', pathname => {
 });
 
 Cypress.Commands.add('findData', field => {
-  let fullDataPath;
+  let resolvedDataPath;
 
-  cy.get('@testConfig', COMMAND_OPTIONS).then(({ testData }) => {
-    const relativeDataPath = field.key
-      .replace(/^root_/, '')
-      .replace(/_/g, '.')
-      .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
+  cy.get('@testConfig', COMMAND_OPTIONS).then(
+    ({ testData, testDataPathPrefix }) => {
+      const relativeDataPath = field.key
+        .replace(/^root_/, '')
+        .replace(/_/g, '.')
+        .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
 
-    fullDataPath = field.arrayItemPath
-      ? `${field.arrayItemPath}.${relativeDataPath}`
-      : relativeDataPath;
+      resolvedDataPath = testDataPathPrefix
+        ? `${testDataPathPrefix}.${relativeDataPath}`
+        : relativeDataPath;
 
-    cy.wrap(get(fullDataPath, testData.data), COMMAND_OPTIONS);
-  });
+      resolvedDataPath = field.arrayItemPath
+        ? `${field.arrayItemPath}.${resolvedDataPath}`
+        : resolvedDataPath;
+
+      cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
+    },
+  );
 
   Cypress.log({
     message: field.key,
-    consoleProps: () => ({ ...field, fullDataPath }),
+    consoleProps: () => ({ ...field, resolvedDataPath }),
   });
 });
 
