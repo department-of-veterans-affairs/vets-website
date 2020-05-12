@@ -83,7 +83,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
               <h4 className="vads-u-margin-y--0">
                 Estimated benefits per month
               </h4>
-              <h5 className="vads-u-margin-y--1p5">Housing Allowance</h5>
+              <h5 className="vads-u-margin-y--1p5">Housing allowance</h5>
               {props.outputs.perTerm.housingAllowance.visible &&
                 props.outputs.perTerm.housingAllowance.terms.map(term => (
                   <CalculatorResultRow
@@ -100,21 +100,18 @@ export const EstimateYourBenefitsSummarySheet = props => (
       ) : (
         <div>
           <CalculatorResultRow
-            label="GI Bill pays to school"
+            label={<b>GI Bill pays to school</b>}
             value={props.outputs.giBillPaysToSchool.value}
-            bold
             visible={props.outputs.giBillPaysToSchool.visible}
           />
           <CalculatorResultRow
-            label="Housing allowance"
+            label={<b>Housing allowance</b>}
             value={props.outputs.housingAllowance.value}
-            bold
             visible={props.outputs.housingAllowance.visible}
           />
           <CalculatorResultRow
-            label="Book stipend"
+            label={<b>Book stipend</b>}
             value={props.outputs.bookStipend.value}
-            bold
             visible={props.outputs.bookStipend.visible}
           />
         </div>
