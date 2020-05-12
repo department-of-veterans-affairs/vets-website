@@ -99,6 +99,25 @@ export const handleInputFocus = fieldId => {
       field.scrollIntoView();
     } else {
       field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const eybSheetField = document.getElementById('eyb-sheet');
+      if (eybSheetField) {
+        const eybSheetRect = eybSheetField.getBoundingClientRect();
+        const fieldRect = field.getBoundingClientRect();
+        const overlap = !(
+          eybSheetRect.right < fieldRect.left ||
+          eybSheetRect.left > fieldRect.right ||
+          eybSheetRect.bottom < fieldRect.top ||
+          eybSheetRect.top > fieldRect.bottom
+        );
+        if (overlap) {
+          const scrollUpBy = fieldRect.bottom - eybSheetRect.top;
+          window.scrollBy({
+            top: scrollUpBy,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
+      }
     }
   }
 };

@@ -65,7 +65,7 @@ class RadioButtons extends React.Component {
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            onFocus={handleInputFocus.bind(this, `${this.inputId}-legend`)}
+            onFocus={handleInputFocus.bind(this, `${this.inputId}-field`)}
             aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
@@ -132,7 +132,10 @@ class RadioButtons extends React.Component {
     }
 
     return (
-      <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
+      <div
+        id={`${this.inputId}-field`}
+        className={this.props.errorMessage ? 'usa-input-error' : ''}
+      >
         <fieldset>
           <div>
             <span

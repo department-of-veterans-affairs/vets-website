@@ -104,6 +104,7 @@ export class EstimateYourBenefits extends React.Component {
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
         {
           <div
+            id="eyb-sheet"
             className={classNames(
               'vads-u-display--block',
               'small-screen:vads-u-display--none',

@@ -279,25 +279,30 @@ class EstimateYourBenefitsForm extends React.Component {
     return (
       <div id={tuitionFeesFieldId}>
         {inStateTuitionInput}
-        <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
-          Tuition and fees per year
-        </label>
-        <button
-          type="button"
-          className="va-button-link learn-more-button vads-u-margin-left--0p5"
-          onClick={this.props.showModal.bind(this, 'calcTuition')}
-          aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
-        >
-          (Learn more)
-        </button>
-        <input
-          type="text"
-          name={tuitionFeesId}
-          id={tuitionFeesId}
-          value={formatCurrency(this.props.inputs.tuitionFees)}
-          onChange={this.handleInputChange}
-          onFocus={handleInputFocus.bind(this, tuitionFeesFieldId)}
-        />
+        <div id="total-tuition-fees">
+          <label
+            htmlFor={tuitionFeesId}
+            className="vads-u-display--inline-block"
+          >
+            Tuition and fees per year
+          </label>
+          <button
+            type="button"
+            className="va-button-link learn-more-button vads-u-margin-left--0p5"
+            onClick={this.props.showModal.bind(this, 'calcTuition')}
+            aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
+          >
+            (Learn more)
+          </button>
+          <input
+            type="text"
+            name={tuitionFeesId}
+            id={tuitionFeesId}
+            value={formatCurrency(this.props.inputs.tuitionFees)}
+            onChange={this.handleInputChange}
+            onFocus={handleInputFocus.bind(this, 'total-tuition-fees')}
+          />
+        </div>
       </div>
     );
   };
