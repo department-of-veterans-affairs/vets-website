@@ -54,8 +54,8 @@ import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    const { appId } = props;
-    const { url, redirect } = toolUrl(appId);
+    const { appId, useSSOe } = props;
+    const { url, redirect } = toolUrl(appId, useSSOe);
 
     this._hasRedirect = redirect;
     this._popup = null;
@@ -219,7 +219,7 @@ export class CallToActionWidget extends React.Component {
   };
 
   getInaccessibleHealthToolContentSSOe = () => {
-    const { profile, isVaPatient, mhvAccountIdState } = this.props.mhvAccount;
+    const { profile, isVaPatient, mhvAccountIdState } = this.props;
 
     if (!profile.verified) {
       recordEvent({
@@ -234,7 +234,7 @@ export class CallToActionWidget extends React.Component {
     } else if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
       return <DeactivatedMHVIds />;
-    } else if (isVaPatient !== 'true') {
+    } else if (!isVaPatient) {
       recordEvent({ event: `${this._gaPrefix}-error-needs-va-patient` });
       return <NeedsVAPatient />;
     }

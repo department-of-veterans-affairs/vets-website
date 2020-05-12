@@ -1,6 +1,5 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { hasSessionSSO } from 'platform/user/profile/utilities';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -77,36 +76,36 @@ export const mhvToolName = appId => {
   return null;
 };
 
-export const toolUrl = appId => {
+export const toolUrl = (appId, useSSOe = false) => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
       return {
-        url: mhvUrl(hasSessionSSO(), 'download-my-data'),
+        url: mhvUrl(useSSOe, 'download-my-data'),
         redirect: false,
       };
 
     case widgetTypes.RX:
       return {
-        url: mhvUrl(hasSessionSSO(), 'web/myhealthevet/refill-prescriptions'),
+        url: mhvUrl(useSSOe, 'web/myhealthevet/refill-prescriptions'),
         redirect: true,
       };
 
     case widgetTypes.MESSAGING:
       return {
-        url: mhvUrl(hasSessionSSO(), 'secure-messaging'),
+        url: mhvUrl(useSSOe, 'secure-messaging'),
         redirect: true,
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: mhvUrl(hasSessionSSO(), 'appointments'),
+        url: mhvUrl(useSSOe, 'appointments'),
         redirect: false,
       };
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        url: mhvUrl(hasSessionSSO(), 'labs-tests'),
+        url: mhvUrl(useSSOe, 'labs-tests'),
         redirect: true,
       };
 

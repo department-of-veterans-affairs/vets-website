@@ -72,7 +72,7 @@ class ValidateMHVAccount extends React.Component {
       recordEvent({ event: `${gaPrefix}-error-has-deactivated-mhv-ids` });
       router.replace(`error/has-deactivated-mhv-ids`);
       return;
-    } else if (isVaPatient !== 'true') {
+    } else if (!isVaPatient) {
       recordEvent({ event: `${gaPrefix}-error-needs-va-patient` });
       router.replace(`error/needs-va-patient`);
       return;
