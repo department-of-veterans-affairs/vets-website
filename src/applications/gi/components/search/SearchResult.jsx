@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
@@ -21,7 +19,6 @@ export class SearchResult extends React.Component {
 
   render() {
     const {
-      version,
       schoolClosing,
       schoolClosingOn,
       estimated,
@@ -32,16 +29,12 @@ export class SearchResult extends React.Component {
       country,
       studentCount,
       cautionFlags,
+      handleLinkClick,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
-
-    const linkTo = {
-      pathname: `/profile/${facilityCode}`,
-      query: version ? { version } : {},
-    };
 
     return (
       <div id={`search-result-${facilityCode}`} className="search-result">
@@ -50,30 +43,12 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  {!environment.isProduction() && (
-                    <a
-                      onClick={() => this.props.handleLinkClick(facilityCode)}
-                      aria-label={`${name} ${locationInfo(
-                        city,
-                        state,
-                        country,
-                      )}`}
-                    >
-                      {name}
-                    </a>
-                  )}
-                  {environment.isProduction() && (
-                    <Link
-                      to={linkTo}
-                      aria-label={`${name} ${locationInfo(
-                        city,
-                        state,
-                        country,
-                      )}`}
-                    >
-                      {name}
-                    </Link>
-                  )}
+                  <a
+                    onClick={() => handleLinkClick(facilityCode)}
+                    aria-label={`${name} ${locationInfo(city, state, country)}`}
+                  >
+                    {name}
+                  </a>
                 </h2>
               </div>
             </div>
@@ -133,7 +108,9 @@ export class SearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns">
-                <Link to={linkTo}>View details ›</Link>
+                <a onClick={() => handleLinkClick(facilityCode)}>
+                  View details ›
+                </a>
               </div>
             </div>
           </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 import {
   formatCurrency,
@@ -14,7 +13,7 @@ import {
 } from '../../utils/render';
 
 function VetTecProgramSearchResult(props) {
-  const { version, result, constants, id } = props;
+  const { result, constants, id, handleLinkClick } = props;
   const {
     facilityCode,
     description,
@@ -36,11 +35,6 @@ function VetTecProgramSearchResult(props) {
 
   const displayHours = lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
 
-  const linkTo = {
-    pathname: `profile/${facilityCode}/${description}`,
-    query: version ? { version } : {},
-  };
-
   return (
     <div id={`search-result-${createId(id)}`} className="search-result">
       <div className="outer">
@@ -48,8 +42,8 @@ function VetTecProgramSearchResult(props) {
           <div className="row vads-u-padding-top--1p5">
             <div className="small-12 medium-7 columns">
               <h2>
-                <Link
-                  to={linkTo}
+                <a
+                  onClick={() => handleLinkClick(facilityCode, description)}
                   aria-label={`${description} ${locationInfo(
                     city,
                     state,
@@ -57,7 +51,7 @@ function VetTecProgramSearchResult(props) {
                   )}`}
                 >
                   {description}
-                </Link>
+                </a>
               </h2>
             </div>
             <div className="small-12 medium-3 columns">
@@ -120,7 +114,9 @@ function VetTecProgramSearchResult(props) {
               {isPresent(lengthInHours) && (
                 <div className="info-flag">{displayHours}</div>
               )}
-              <Link to={linkTo}>View details ›</Link>
+              <a onClick={() => handleLinkClick(facilityCode, description)}>
+                View details ›
+              </a>
             </div>
           </div>
         </div>

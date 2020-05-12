@@ -206,7 +206,6 @@ export class SearchPage extends React.Component {
           <div>
             {search.results.map(result => (
               <SearchResult
-                version={this.props.location.query.version}
                 key={result.facilityCode}
                 name={result.name}
                 facilityCode={result.facilityCode}
