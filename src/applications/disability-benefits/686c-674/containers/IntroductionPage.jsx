@@ -4,6 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
+import { hasSession } from 'platform/user/profile/utilities';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { verifyVaFileNumber } from '../actions';
 import { IntroductionPageHeader } from '../components/IntroductionPageHeader';
@@ -17,7 +18,9 @@ import { isServerError } from '../config/utilities';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    this.props.verifyVaFileNumber();
+    if (hasSession()) {
+      this.props.verifyVaFileNumber();
+    }
     focusElement('.va-nav-breadcrumbs-list');
   }
 
