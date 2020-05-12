@@ -21,9 +21,13 @@ const createFieldObject = element => {
   return field;
 };
 
-// Check if the current page maps to an array page from the form config.
-// If there is a match, build the path prefix for looking up test data
-// under the array item that corresponds to this page.
+/**
+ * Checks if the current page maps to an array page from the form config,
+ * and if there is a match, build the path prefix for looking up test data
+ * with the index of the array item that corresponds to this page.
+ *
+ * @param {string} pathname - The pathname of the current page.
+ */
 const getArrayItemPath = pathname => {
   cy.get('@arrayPageObjects', COMMAND_OPTIONS).then(arrayPageObjects => {
     let index;
