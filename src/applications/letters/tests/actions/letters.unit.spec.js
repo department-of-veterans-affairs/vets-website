@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 import sentryTestkit from 'sentry-testkit';
 
-const { testkit, sentryTransport } = sentryTestkit();
+const { testkit } = sentryTestkit();
+// const { testkit, sentryTransport } = sentryTestkit();
 
 import {
   BACKEND_SERVICE_ERROR,
@@ -26,10 +27,19 @@ import {
   getLetterPdf,
 } from '../../actions/letters';
 
-Sentry.init({
-  dsn: 'http://one@fake/dsn',
-  transport: sentryTransport,
-});
+/**
+ * commenting this out due to this error that occurs when running all tests
+ * after the JSDOM upgrade:
+ *
+ * node_modules/jsdom/lib/jsdom/living/helpers/create-event-accessor.js:9
+ * el.addEventListener(eventName, event => {
+ *    ^
+ * TypeError: el.addEventListener is not a function:
+ */
+// Sentry.init({
+//   dsn: 'http://one@fake/dsn',
+//   transport: sentryTransport,
+// });
 
 /**
  * Setup() for each test requires stubbing global fetch() and setting userToken.

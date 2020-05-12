@@ -32,8 +32,14 @@ export default function setupJSDom() {
   console.warn = () => {};
   /* eslint-enable no-console */
 
-  // setup the simplest document possible
-  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  // setup the simplest document possible.
+  //
+  // Added the `url` option after JSDOM upgrade due to `localStorage is not
+  // available for opaque origins` error. More info
+  // https://github.com/jsdom/jsdom/issues/2383
+  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+    url: 'http://localhost',
+  });
 
   // get the window object out of the document
   const win = dom.window;
@@ -63,7 +69,9 @@ export default function setupJSDom() {
 
   win.dataLayer = [];
   win.scrollTo = () => {};
-  win.sessionStorage = {};
+  // commented out due to new error after upgrading JSDOM
+  // TypeError: Cannot set property sessionStorage of #<Window> which has only a getter
+  // win.sessionStorage = {};
   win.requestAnimationFrame = func => func();
   win.matchMedia = () => ({
     matches: false,

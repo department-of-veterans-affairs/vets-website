@@ -71,6 +71,7 @@ const BankInfoForm = ({
       type="submit"
       className="usa-button-primary vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
       isLoading={isSaving}
+      data-testid="submit-button"
     >
       Update
     </LoadingButton>
@@ -80,7 +81,7 @@ const BankInfoForm = ({
       disabled={isSaving}
       className={cancelButtonClasses.join(' ')}
       onClick={onClose}
-      data-qa="cancel-button"
+      data-testid="cancel-button"
     >
       Cancel
     </button>
