@@ -54,7 +54,7 @@ export function createRoutesWithSaveInProgress(formConfig) {
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'error',
-      component: SaveInProgress,
+      component: SaveInProgressErrorPage,
       pageList, // In case we need it for startOver?
       formConfig,
     });
