@@ -21,7 +21,7 @@ const getVaFileNumber = () =>
 // const getVaFileNumber = () =>
 //   new Promise(reject => {
 //     setTimeout(() => {
-//       reject({ errors: [{ code: 503, message: 'error' }] });
+//       reject({ errors: [{ code: 404, message: 'error' }] });
 //     }, 4000);
 //   });
 

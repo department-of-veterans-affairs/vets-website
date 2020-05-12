@@ -16,6 +16,8 @@ import {
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
 
+const alertClasses =
+  'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     if (hasSession()) {
@@ -39,9 +41,19 @@ class IntroductionPage extends React.Component {
     if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
       const errCode = hasVaFileNumber.errors[0].code;
       ctaState = isServerError(errCode) ? (
-        <AlertBox content={ServerErrorAlert} status="error" isVisible />
+        <AlertBox
+          className={alertClasses}
+          content={ServerErrorAlert}
+          status="error"
+          isVisible
+        />
       ) : (
-        <AlertBox content={VaFileNumberMissingAlert} status="error" isVisible />
+        <AlertBox
+          className={alertClasses}
+          content={VaFileNumberMissingAlert}
+          status="error"
+          isVisible
+        />
       );
       content = (
         <div className="schemaform-intro">
