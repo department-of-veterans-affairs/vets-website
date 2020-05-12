@@ -63,7 +63,11 @@ export default class AppointmentRequestListItem extends React.Component {
         aria-labelledby={`card-${index} card-${index}-status`}
         data-request-id={appointment.id}
         className={itemClasses}
-        data-is-cancelable={!appointment.isCommunityCare ? 'true' : 'false'}
+        data-is-cancelable={
+          !appointment.isCommunityCare && !appointment.videoType
+            ? 'true'
+            : 'false'
+        }
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {appointment.isCommunityCare && 'Community Care'}
