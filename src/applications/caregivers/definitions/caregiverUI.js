@@ -222,7 +222,7 @@ export default {
               target="_blank"
               rel="noopener noreferrer"
               className="vads-u-margin-x--0p5"
-              href="#"
+              href="https://www.va.gov/COMMUNITYCARE/programs/caregiver/index.asp"
             >
               (CHAMPVA)
             </a>
