@@ -35,9 +35,9 @@ const VeteranInformationComponent = ({
   );
   return (
     <div>
-      <p>This is the information we have on file for you.</p>
+      <p>This is the personal information we have on file for you.</p>
       <AlertBox
-        className="vads-u-padding--0 vads-u-background-color--white vads-u-border-color--primary usa-alert-info::before"
+        className="vads-u-padding--0 vads-u-background-color--white vads-u-border-color--primary vads-u-border-left--5px"
         content={alertContent}
         status="info"
         isVisible
