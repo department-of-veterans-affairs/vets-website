@@ -11,12 +11,14 @@ const createFieldObject = element => {
     type: element.prop('type') || element.prop('tagName'),
   };
 
+  const containerClass = element.parent().attr('class');
+
   // Date fields in form data combine all the date components
   // (year, month, day), so treat as one input when filling out dates.
-  field.key = field.key.replace(/(Year|Month|Day)$/, () => {
+  if (containerClass && containerClass.includes('date')) {
+    field.key = field.key.replace(/(Year|Month|Day)$/, '');
     field.type = 'date';
-    return '';
-  });
+  }
 
   return field;
 };
