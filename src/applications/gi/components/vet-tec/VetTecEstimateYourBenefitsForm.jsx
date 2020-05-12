@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   removeNonNumberCharacters,
   formatDollarAmount,
+  handleInputFocus,
 } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
@@ -80,7 +81,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
   };
 
   renderScholarships = onShowModal => (
-    <div>
+    <div id="scholarships-field">
       <label
         htmlFor="vetTecScholarships"
         className="vads-u-display--inline-block"
@@ -106,13 +107,14 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
             scholarships: removeNonNumberCharacters(e.target.value),
           })
         }
+        onFocus={handleInputFocus.bind(this, 'scholarships-field')}
         onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
   );
 
   renderTuitionFees = onShowModal => (
-    <div>
+    <div id="tuition-field">
       <label
         htmlFor="vetTecTuitionFees"
         className="vads-u-display--inline-block"
@@ -139,6 +141,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
             tuitionFees: removeNonNumberCharacters(e.target.value),
           })
         }
+        onFocus={handleInputFocus.bind(this, 'tuition-field')}
         onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>

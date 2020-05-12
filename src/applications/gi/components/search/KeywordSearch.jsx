@@ -4,7 +4,8 @@ import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { WAIT_INTERVAL, SMALL_SCREEN_WIDTH, KEY_CODES } from '../../constants';
+import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
+import { handleInputFocus } from '../../utils/helpers';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -55,13 +56,6 @@ export class KeywordSearch extends React.Component {
     this.props.onFilterChange(searchQuery);
   };
 
-  handleFocus = () => {
-    const field = document.getElementsByClassName('keyword-search')[0];
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      field.scrollIntoView();
-    }
-  };
-
   render() {
     const { suggestions, searchTerm } = this.props.autocomplete;
     let errorSpan = '';
@@ -80,7 +74,7 @@ export class KeywordSearch extends React.Component {
       );
     }
     return (
-      <div className={searchClassName}>
+      <div className={searchClassName} id="keyword-search">
         <label
           id="institution-search-label"
           className="institution-search-label"
@@ -112,7 +106,7 @@ export class KeywordSearch extends React.Component {
                   type: 'text',
                   onChange: this.handleChange,
                   onKeyUp: this.handleKeyUp,
-                  onFocus: this.handleFocus,
+                  onFocus: handleInputFocus.bind(this, 'keyword-search'),
                   'aria-labelledby': 'institution-search-label',
                 })}
               />

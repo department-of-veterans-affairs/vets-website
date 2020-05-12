@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import { handleInputFocus } from '../utils/helpers';
 
 /**
  * A form checkbox with a label that can display error messages.
@@ -82,7 +83,7 @@ class Checkbox extends React.Component {
           name={this.props.name}
           type="checkbox"
           onChange={this.handleChange}
-          onFocus={this.handleFocus}
+          onFocus={handleInputFocus.bind(this, this.inputId)}
         />
         <label
           className={classNames('gi-checkbox-label', {

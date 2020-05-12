@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ToolTip from './ToolTip';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import { SMALL_SCREEN_WIDTH } from '../constants';
+import { handleInputFocus } from '../utils/helpers';
 
 /**
  * A radio button group with a label.
@@ -26,13 +26,6 @@ class RadioButtons extends React.Component {
 
   handleChange = domEvent => {
     this.props.onChange(domEvent);
-  };
-
-  handleFocus = () => {
-    const field = document.getElementById(`${this.inputId}-legend`);
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      field.scrollIntoView();
-    }
   };
 
   renderOptions = () => {
@@ -72,7 +65,7 @@ class RadioButtons extends React.Component {
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            onFocus={this.handleFocus}
+            onFocus={handleInputFocus.bind(this, `${this.inputId}-legend`)}
             aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
