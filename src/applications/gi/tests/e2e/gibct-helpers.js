@@ -343,4 +343,5 @@ module.exports = {
   learningFormatAndSchedule,
   scholarshipsAndOtherFunding,
   breadCrumb,
+  createId,
 };
