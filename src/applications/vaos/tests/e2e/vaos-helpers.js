@@ -152,7 +152,7 @@ function appointmentSubmittedTest(client) {
 
 function mockSingleSystem(token, id) {
   mock(token, {
-    path: '/v0/vaos/facilities',
+    path: '/vaos/v0/facilities',
     verb: 'get',
     value: {
       data: facilities.data.filter(f => f.id === id),
@@ -162,7 +162,7 @@ function mockSingleSystem(token, id) {
 
 function mockSingleFacility(token, systemId, facilityId) {
   mock(token, {
-    path: `/v0/vaos/systems/${systemId}/direct_scheduling_facilities`,
+    path: `/vaos/v0/systems/${systemId}/direct_scheduling_facilities`,
     verb: 'get',
     value: {
       data: facilities983.data.filter(f => f.id === facilityId),
@@ -206,71 +206,71 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/community_care/supported_sites',
+    path: '/vaos/v0/community_care/supported_sites',
     verb: 'get',
     value: supportedSites,
   });
   mock(token, {
-    path: '/v0/vaos/appointments',
+    path: '/vaos/v0/appointments',
     verb: 'get',
     query: 'type=va',
     value: updateConfirmedVADates(confirmedVA),
   });
   mock(token, {
-    path: '/v0/vaos/appointments',
+    path: '/vaos/v0/appointments',
     verb: 'get',
     query: 'type=cc',
     value: updateConfirmedCCDates(confirmedCC),
   });
   mock(token, {
-    path: '/v0/vaos/appointment_requests',
+    path: '/vaos/v0/appointment_requests',
     verb: 'get',
     value: updateRequestDates(requests),
   });
   mock(token, {
-    path: '/v0/vaos/appointments/cancel',
+    path: '/vaos/v0/appointments/cancel',
     verb: 'put',
     value: '',
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983/cancel_reasons',
+    path: '/vaos/v0/facilities/983/cancel_reasons',
     verb: 'get',
     value: cancelReasons,
   });
   mock(token, {
-    path: '/v0/vaos/facilities',
+    path: '/vaos/v0/facilities',
     verb: 'get',
     value: facilities,
   });
   mock(token, {
-    path: '/v0/vaos/systems/983/direct_scheduling_facilities',
+    path: '/vaos/v0/systems/983/direct_scheduling_facilities',
     verb: 'get',
     value: facilities983,
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983/clinics',
+    path: '/vaos/v0/facilities/983/clinics',
     verb: 'get',
     value: clinicList983,
   });
   mock(token, {
-    path: '/v0/vaos/systems/983/pact',
+    path: '/vaos/v0/systems/983/pact',
     verb: 'get',
     value: pact,
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983GB/clinics',
+    path: '/vaos/v0/facilities/983GB/clinics',
     verb: 'get',
     value: {
       data: [],
     },
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983/available_appointments',
+    path: '/vaos/v0/facilities/983/available_appointments',
     verb: 'get',
     value: updateTimeslots(slots),
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983/limits',
+    path: '/vaos/v0/facilities/983/limits',
     verb: 'get',
     value: {
       data: {
@@ -282,7 +282,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983GB/limits',
+    path: '/vaos/v0/facilities/983GB/limits',
     verb: 'get',
     value: {
       data: {
@@ -294,12 +294,12 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/appointment_requests',
+    path: '/vaos/v0/appointment_requests',
     verb: 'get',
     value: facilities983,
   });
   mock(token, {
-    path: '/v0/vaos/appointment_requests',
+    path: '/vaos/v0/appointment_requests',
     verb: 'post',
     query: 'type=va',
     value: {
@@ -310,7 +310,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/appointment_requests',
+    path: '/vaos/v0/appointment_requests',
     verb: 'post',
     query: 'type=cc',
     value: {
@@ -321,14 +321,14 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/appointments',
+    path: '/vaos/v0/appointments',
     verb: 'post',
     value: {
       data: {},
     },
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983GB/visits/request',
+    path: '/vaos/v0/facilities/983GB/visits/request',
     verb: 'get',
     value: {
       data: {
@@ -342,7 +342,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983/visits/request',
+    path: '/vaos/v0/facilities/983/visits/request',
     verb: 'get',
     value: {
       data: {
@@ -356,7 +356,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983/visits/direct',
+    path: '/vaos/v0/facilities/983/visits/direct',
     verb: 'get',
     value: {
       data: {
@@ -370,7 +370,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/facilities/983GB/visits/direct',
+    path: '/vaos/v0/facilities/983GB/visits/direct',
     verb: 'get',
     value: {
       data: {
@@ -384,7 +384,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/community_care/eligibility/PrimaryCare',
+    path: '/vaos/v0/community_care/eligibility/PrimaryCare',
     verb: 'get',
     value: {
       data: {

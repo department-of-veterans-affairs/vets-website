@@ -13,7 +13,11 @@ export const uiSchema = {
     'ui:options': { viewField: DependentViewField },
     items: {
       'ui:title': DependentNameHeader,
-      date: currentOrPastDateUI('Dependent’s date of death'),
+      date: {
+        ...currentOrPastDateUI('Dependent’s date of death'),
+        'ui:required': formData =>
+          isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+      },
       location: {
         'ui:title': 'Place of death',
         city: {

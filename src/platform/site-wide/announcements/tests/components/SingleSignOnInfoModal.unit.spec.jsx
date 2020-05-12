@@ -3,14 +3,9 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import SingleSignOnInfoModal from '../../components/SingleSignOnInfoModal';
 
 describe('Announcements <SingleSignOnInfoModal>', () => {
-  afterEach(() => {
-    localStorage.clear();
-  });
-
   it('does not render for users that are logged in but without SSO', () => {
     const tree = mount(<SingleSignOnInfoModal isLoggedIn />);
 
@@ -20,10 +15,11 @@ describe('Announcements <SingleSignOnInfoModal>', () => {
   });
 
   it('renders for logged in SSO users', () => {
-    localStorage.setItem('hasSessionSSO', true);
     const dismiss = sinon.spy();
 
-    const tree = mount(<SingleSignOnInfoModal isLoggedIn dismiss={dismiss} />);
+    const tree = mount(
+      <SingleSignOnInfoModal isLoggedIn dismiss={dismiss} useSSOe />,
+    );
 
     expect(tree.text()).to.contain(
       'Sign in once to access the VA sites you use most',
@@ -33,10 +29,11 @@ describe('Announcements <SingleSignOnInfoModal>', () => {
   });
 
   it('closes when the dismiss handler is fired', () => {
-    localStorage.setItem('hasSessionSSO', true);
     const dismiss = sinon.spy();
 
-    const tree = mount(<SingleSignOnInfoModal isLoggedIn dismiss={dismiss} />);
+    const tree = mount(
+      <SingleSignOnInfoModal isLoggedIn dismiss={dismiss} useSSOe />,
+    );
 
     tree
       .find('button')

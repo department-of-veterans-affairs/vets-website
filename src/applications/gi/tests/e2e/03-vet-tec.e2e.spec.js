@@ -2,8 +2,13 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const VetTecHelpers = require('./vet-tec-helpers');
+const UtilHelpers = require('../../utils/helpers');
 const vetTecSearchResults = require('../data/vet-tec-search-results.json');
 
+/**
+ * Default VETTEC profile flow with giBillChapter chapter 33
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   const vetTecAttributes = vetTecSearchResults.data[0].attributes;
 
@@ -23,18 +28,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
   VetTecHelpers.searchForVetTec(client);
 
   // Search Page
+  VetTecHelpers.verifySearchResults(client);
   GiHelpers.expectLocation(client, `/program-search`);
   GiHelpers.selectSearchResult(
     client,
-    GiHelpers.createId(
+    UtilHelpers.createId(
       `${vetTecAttributes.facility_code}-${vetTecAttributes.description}`,
     ),
+    false,
   );
 
   // Profile Page
-  client
-    .waitForElementVisible('.profile-page', Timeouts.normal)
-    .axeCheck('.main'); // commented out until 7727 is fixed
   GiHelpers.expectLocation(
     client,
     `/profile/${vetTecAttributes.facility_code}/`,
@@ -43,22 +47,22 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.displayLearnMoreModal(client);
 
   // Approved programs
-  GiHelpers.expandCollapseAccordion(client, 'Approved programs');
+  GiHelpers.collapseExpandAccordion(client, 'Approved programs');
 
   // Estimate your benefits
-  GiHelpers.expandCollapseAccordion(client, 'Estimate your benefits');
+  GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
 
   // Veteran programs
-  GiHelpers.expandCollapseAccordion(client, 'Veteran programs');
+  GiHelpers.collapseExpandAccordion(client, 'Veteran programs');
 
   // Application process
-  GiHelpers.expandCollapseAccordion(client, 'Application process');
+  GiHelpers.collapseExpandAccordion(client, 'Application process');
 
   // Contact details
-  GiHelpers.expandCollapseAccordion(client, 'Contact details');
+  GiHelpers.collapseExpandAccordion(client, 'Contact details');
 
   // Additional information
-  GiHelpers.expandCollapseAccordion(client, 'Additional information');
+  GiHelpers.collapseExpandAccordion(client, 'Additional information');
 
   client.end();
 });

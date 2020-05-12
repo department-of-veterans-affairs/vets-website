@@ -1,5 +1,16 @@
 import React from 'react';
-import { CalculatorResultRow } from '../components/profile/EstimatedBenefits';
+import { CalculatorResultRow as ImportedCalculatorResultRow } from '../components/profile/EstimatedBenefits';
+
+const CalculatorResultRow = ({ label, value, header, bold, visible }) => (
+  <ImportedCalculatorResultRow
+    id={`summary-sheet-${label}`}
+    label={label}
+    value={value}
+    header={header}
+    bold={bold}
+    visible={visible}
+  />
+);
 
 export const EstimateYourBenefitsSummarySheet = props => (
   <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
