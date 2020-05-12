@@ -159,7 +159,7 @@
     "eslint-plugin-jest": "^21.26.1",
     "eslint-plugin-jsx-a11y": "5.1",
     "eslint-plugin-mocha": "^5.2.0",
-    "eslint-plugin-no-unsafe-innerhtml": "^1.0.14",
+    "eslint-plugin-no-unsafe-innerhtml": "^1.0.16",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
