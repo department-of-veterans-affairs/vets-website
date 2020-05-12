@@ -56,27 +56,27 @@ const IntroductionPage = ({ route, router }) => {
 
             <div>
               <h4 className="vads-u-font-size--h6">
-                Where can I get help filling out the form and answers to
-                questions?
+                What if I have questions or need help filling out the form?
               </h4>
 
               <span>
-                You may use any of the following to request assistance:
+                If you have a question or need help, you can contact us in any
+                of these ways:
               </span>
 
               <ul className="process-lists">
                 <li>
-                  Ask VA to help you fill out the form by calling us at
+                  Call us at
                   <a
                     href={links.VAHelpLine.label}
                     className="vads-u-margin-x--0p5"
                   >
-                    877-222-VETS (8387)
+                    877-222-8387
                   </a>
+                  and ask for help filling out the form
                 </li>
                 <li>
-                  Locate and contact the Caregiver Support Coordinator at your
-                  nearest VA health care facility. You may use the online
+                  Use the online
                   <a
                     href={links.caregiverSupportCoordinators.link}
                     target="_blank"
@@ -85,9 +85,10 @@ const IntroductionPage = ({ route, router }) => {
                   >
                     Caregiver Support Coordinator locator
                   </a>
+                  to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the VA National Caregiver Support Line by calling
+                  Contact the National Caregiver Support Line at
                   <a
                     href="tel:8552603274"
                     target="_blank"
@@ -96,7 +97,8 @@ const IntroductionPage = ({ route, router }) => {
                   >
                     855-260-3274
                   </a>
-                  or a Veterans Service Organization
+                  or a Veterans Service Organization to get help filling out the
+                  form.
                 </li>
               </ul>
 
