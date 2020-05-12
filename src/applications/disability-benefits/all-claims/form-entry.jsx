@@ -1,4 +1,4 @@
-import '../../../platform/polyfills';
+import 'platform/polyfills';
 import './sass/disability-benefits.scss';
 
 import startApp from 'platform/startup';
