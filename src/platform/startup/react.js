@@ -40,7 +40,6 @@ export default function startReactApp(component, root = null) {
   if (!mountElement) {
     mountElement = document.getElementById('react-root');
   }
-  // eslint-disable-next-line scanjs-rules/call_addEventListener
 
   if (document.readyState !== 'loading') {
     ReactDOM.render(component, mountElement);
