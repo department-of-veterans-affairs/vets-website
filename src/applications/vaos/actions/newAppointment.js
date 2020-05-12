@@ -295,7 +295,7 @@ export function openFacilityPage(page, uiSchema, schema) {
 
       if (canShowFacilities && !facilities) {
         facilities = await getSupportedLocationsByTypeOfCare({
-          siteId: rootOrgId,
+          rootOrgId,
           parentId,
           typeOfCareId,
         });
@@ -326,7 +326,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         recordEligibilityGAEvents(
           eligibilityData,
           typeOfCareId,
-          parseFakeFHIRId(rootOrgId),
+          getSiteIdForChosenFacility(parentFacilities, parentId),
         );
       }
 
@@ -383,7 +383,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
       try {
         facilities = await getSupportedLocationsByTypeOfCare({
-          siteId: rootOrgId,
+          rootOrgId,
           parentId: data.vaParent,
           typeOfCareId,
         });
@@ -540,6 +540,7 @@ export function getAppointmentSlots(startDate, endDate) {
               .format('YYYY-MM-DD');
 
         const response = await getAvailableSlots(
+          // Remove parse function when converting this call to FHIR service
           parseFakeFHIRId(rootOrgId),
           data.typeOfCareId,
           data.clinicId,

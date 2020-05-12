@@ -4,12 +4,12 @@ import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
 import { getSiteIdFromOrganization } from '../services/organization';
 import {
   getTypeOfCare,
-  getParentFacilities,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
   getChosenParentInfo,
+  getParentOfChosenFacility,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -45,8 +45,10 @@ export function transformFormToVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
   const parentOrg = getChosenParentInfo(state);
-  const parentSiteId = getSiteIdFromOrganization(parentOrg);
-  const rootSiteId = getSiteIdForChosenFacility(state);
+  // Calling this a facility id instead of a site id because it might be 3 or 5 digits
+  // However, in the future, I believe all of these ids from an Organizaiton will be 3 digits
+  const parentFacilityId = getSiteIdFromOrganization(parentOrg);
+  const siteId = getSiteIdForChosenFacility(state);
   const facilityId = getFacilityIdFromLocation(facility);
 
   return {
@@ -54,15 +56,15 @@ export function transformFormToVARequest(state) {
     typeOfCareId: typeOfCare.id,
     appointmentType: typeOfCare.name,
     cityState: {
-      institutionCode: parentSiteId,
-      rootStationCode: rootSiteId,
-      parentStationCode: parentSiteId,
+      institutionCode: parentFacilityId,
+      rootStationCode: siteId,
+      parentStationCode: parentFacilityId,
       adminParent: true,
     },
     facility: {
       name: facility.name,
       facilityCode: facilityId,
-      parentSiteCode: parentSiteId,
+      parentSiteCode: parentFacilityId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -125,8 +127,9 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const organization = getParentFacilities(state).find(
-    sys => sys.id === data.communityCareSystemId,
+  const organization = getParentOfChosenFacility(
+    state,
+    data.communityCareSystemId,
   );
   const siteId = getSiteIdFromOrganization(organization);
   let cityState;

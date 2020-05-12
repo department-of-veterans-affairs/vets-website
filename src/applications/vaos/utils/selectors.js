@@ -106,9 +106,10 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
-export function getChosenParentInfo(state) {
+export function getChosenParentInfo(state, parentId) {
+  const currentParentId = parentId || getFormData(state).vaParent;
   return getParentFacilities(state).find(
-    parent => parent.id === getFormData(state).vaParent,
+    parent => parent.id === currentParentId,
   );
 }
 
@@ -131,7 +132,7 @@ export function getRootIdForChosenFacility(state, parentId) {
 export function getSiteIdForChosenFacility(state, currentParentId) {
   const parentId = currentParentId || getFormData(state).vaParent;
   const parentFacilities = getParentFacilities(state);
-  const parentOrg = parentFacilities.find(p => p.id === parentId);
+  const parentOrg = getChosenParentInfo(state, parentId);
 
   const rootOrg = getRootOrganization(parentFacilities, parentId);
 

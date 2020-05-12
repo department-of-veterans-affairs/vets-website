@@ -27,26 +27,28 @@ function parseId(id) {
  *
  * @export
  * @param {Object} locationsParams Parameters needed for fetching locations
- * @param {Array} locationParams.systemId An id for the VistA site to pull child facilities for
+ * @param {Array} locationParams.rootOrgId An id for the organization of the VistA site to pull child facilities for
  * @param {Array} locationParams.parentId An id for the parent organization of the facilities being pulled
  * @param {Array} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
  * @returns {Object} A FHIR searchset of Location resources
  */
 export async function getSupportedLocationsByTypeOfCare({
-  siteId,
+  rootOrgId,
   parentId,
   typeOfCareId,
 }) {
   try {
     const parentFacilities = await getFacilitiesBySystemAndTypeOfCare(
-      parseId(siteId),
+      parseId(rootOrgId),
       parseId(parentId),
       typeOfCareId,
     );
 
-    return transformDSFacilities(parentFacilities).filter(
-      f =>
-        f.legacyVAR.directSchedulingSupported || f.legacyVAR.requestSupported,
+    return transformDSFacilities(
+      // Doing this here because the FHIR service will return only supported facilities
+      parentFacilities.filter(
+        f => f.directSchedulingSupported || f.requestSupported,
+      ),
     );
   } catch (e) {
     if (e.errors) {
