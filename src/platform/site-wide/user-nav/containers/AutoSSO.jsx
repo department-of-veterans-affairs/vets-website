@@ -1,5 +1,8 @@
+import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
+import { isLoggedIn } from 'platform/user/selectors';
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
   ssoe,
@@ -8,42 +11,75 @@ import {
 } from 'platform/user/authentication/selectors';
 import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
 import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import {
+  ssoKeepAliveSession,
+  getForceAuth,
+  setForceAuth,
+  deleteForceAuth,
+} from 'platform/utilities/sso';
+
+function parseqs(value) {
+  /*
+   * naive query string parsing function, takes a query string and returns
+   * an object mapping the keys to values.
+   */
+  const data = value.startsWith('?') ? value.substring(1) : value;
+  const entries = data ? data.split('&').map(q => q.split('=')) : [];
+  return Object.fromEntries(entries);
+}
 
 export async function checkStatus(toggleKeepAlive) {
   await ssoKeepAliveSession();
   if (hasSession() && !hasSessionSSO()) {
     autoLogout();
-  } else if (!hasSession() && hasSessionSSO()) {
+  } else if (!hasSession() && hasSessionSSO() && !getForceAuth()) {
     autoLogin();
   }
 
   toggleKeepAlive();
 }
 
-function AutoSSO(props) {
-  const { useSSOe, useInboundSSOe, hasCalledKeepAlive } = props;
+class AutoSSO extends React.Component {
+  render() {
+    const {
+      useSSOe,
+      useInboundSSOe,
+      hasCalledKeepAlive,
+      userLoggedIn,
+    } = this.props;
 
-  if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkStatus(props.checkKeepAlive);
+    if (parseqs(window.location.search).auth === 'force-needed') {
+      setForceAuth();
+    }
+
+    if (userLoggedIn) {
+      deleteForceAuth();
+    }
+
+    if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
+      checkStatus(this.props.checkKeepAlive);
+    }
+
+    return null;
   }
-
-  return null;
 }
 
 const mapStateToProps = state => ({
   useSSOe: ssoe(state),
   useInboundSSOe: ssoeInbound(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
+  userLoggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {
   checkKeepAlive,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AutoSSO);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AutoSSO),
+);
 
 export { AutoSSO };
