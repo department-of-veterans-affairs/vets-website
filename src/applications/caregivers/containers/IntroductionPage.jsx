@@ -23,7 +23,7 @@ const IntroductionPage = ({ route, router }) => {
     <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
         Follow the steps below to apply for the Program of Comprehensive
-        Assistance of Family Caregivers:
+        Assistance for Family Caregivers:
       </h2>
       <div className="process schemaform-process">
         <ol>
@@ -40,13 +40,15 @@ const IntroductionPage = ({ route, router }) => {
               <li>Address</li>
               <li>Telephone number</li>
               <li>Date of birth</li>
-              <li>Email address</li>
               <li>Social Security Number or Tax Identification Number</li>
             </ul>
 
             <p>You will also need:</p>
             <ul className="process-lists">
-              <li>The VA medical center where the Veteran will receive care</li>
+              <li>
+                The name of the VA medical center where the Veteran receives
+                care
+              </li>
               <li>
                 Health insurance information for the Primary Family Caregiver
               </li>
@@ -180,8 +182,11 @@ const IntroductionPage = ({ route, router }) => {
         className="form-title"
         title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
       />
-      <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
       <p>
+        Equal to VA Form 10-10CG (Application for the Program of Comprehensive
+        Assistance for Family Caregivers)
+      </p>
+      <p className="va-introtext">
         We recognize the important role of family caregivers in supporting the
         health and wellness of Veterans.
       </p>
