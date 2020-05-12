@@ -326,7 +326,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         recordEligibilityGAEvents(
           eligibilityData,
           typeOfCareId,
-          getSiteIdForChosenFacility(parentFacilities, parentId),
+          parseFakeFHIRId(rootOrgId),
         );
       }
 

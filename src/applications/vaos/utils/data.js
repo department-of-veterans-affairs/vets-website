@@ -9,7 +9,6 @@ import {
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
   getChosenParentInfo,
-  getParentOfChosenFacility,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -127,10 +126,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const organization = getParentOfChosenFacility(
-    state,
-    data.communityCareSystemId,
-  );
+  const organization = getChosenParentInfo(state, data.communityCareSystemId);
   const siteId = getSiteIdFromOrganization(organization);
   let cityState;
 

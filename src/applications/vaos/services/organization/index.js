@@ -73,6 +73,7 @@ export function getOrganizationBySiteId(organizations, siteId) {
     org.identifier.some(id => id.value === siteId),
   );
 }
+
 /**
  * Returns the root site id given a list of organizations and the parent organization
  *

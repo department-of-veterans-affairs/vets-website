@@ -426,6 +426,17 @@ describe('VAOS newAppointment actions', () => {
             ...defaultState.newAppointment.data,
             vaParent: 'var983',
           },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+            },
+          ],
           facilities: {
             '323_var983': [
               {
