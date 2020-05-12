@@ -238,8 +238,8 @@ function addParticipantAndContained(appt, transformed) {
  * /Location/var983
  *
  * @export
- * @param {Object} facility A facility from the VA facilities api
- * @returns {Object} A FHIR Location resource
+ * @param {Array} appointments An array of appointments from the VA facilities api
+ * @returns {Array} An array of FHIR Appointment resource
  */
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
