@@ -30,7 +30,9 @@ const scrollToNewMessage = () => {
 const handleDisableAndScroll = event => {
   disableButtons(event);
   disableCheckboxes();
-  scrollToNewMessage();
+  setTimeout(() => {
+    scrollToNewMessage();
+  }, 700);
 };
 
 export const addEventListenerToButtons = () => {
