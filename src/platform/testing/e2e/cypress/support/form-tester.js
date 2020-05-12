@@ -135,12 +135,14 @@ Cypress.Commands.add('findData', field => {
         .replace(/_/g, '.')
         .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
 
-      resolvedDataPath = testDataPathPrefix
-        ? `${testDataPathPrefix}.${relativeDataPath}`
+      // Prefix the path to the array item if this field belongs to one.
+      resolvedDataPath = field.arrayItemPath
+        ? `${field.arrayItemPath}.${relativeDataPath}`
         : relativeDataPath;
 
-      resolvedDataPath = field.arrayItemPath
-        ? `${field.arrayItemPath}.${resolvedDataPath}`
+      // Prefix any specified path to find data in the test data structure.
+      resolvedDataPath = testDataPathPrefix
+        ? `${testDataPathPrefix}.${resolvedDataPath}`
         : resolvedDataPath;
 
       cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
