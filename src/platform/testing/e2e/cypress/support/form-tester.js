@@ -17,9 +17,9 @@ const COMMAND_OPTIONS = { log: false };
  * @property {Element}  - An element returned from querying form elements.
  * @property {string} key - String that is used for data lookup.
  * @property {string} type - Field type for deciding how to input data.
- * @property {string} arrayItemPath - Prefix for resolving path when looking up
- *     data for fields in an array item.
- * @property {string} data - Data to enter into the field input.
+ * @property {string} [arrayItemPath] - Prefix for resolving path when
+ *     looking up data for fields in an array item.
+ * @property {string} [data] - Data to enter into the field input.
  *
  * @param {Element} element
  * @returns {Field}
