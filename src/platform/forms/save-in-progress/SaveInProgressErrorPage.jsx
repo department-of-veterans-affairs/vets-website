@@ -58,7 +58,7 @@ class SaveInProgressErrorPage extends React.Component {
 
   render() {
     const { loadedStatus } = this.props;
-    const { noAuth, notFound } =
+    const { forbidden, noAuth, notFound } =
       this.props.route.formConfig.savedFormMessages || {};
     let content;
 
@@ -100,6 +100,17 @@ class SaveInProgressErrorPage extends React.Component {
                 Continue Your Application
               </button>
             </div>
+          </div>
+        );
+        break;
+      case LOAD_STATUSES.forbidden:
+        content = (
+          <div>
+            <div className="usa-alert usa-alert-error background-color-only">
+              message TBD
+              {forbidden}
+            </div>
+            <div style={{ marginTop: '30px' }} />
           </div>
         );
         break;
