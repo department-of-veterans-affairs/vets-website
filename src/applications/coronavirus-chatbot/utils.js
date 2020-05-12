@@ -35,12 +35,31 @@ const handleDisableAndScroll = event => {
   }, 700);
 };
 
-export const addEventListenerToButtons = () => {
-  setInterval(() => {
-    const buttons = document.getElementsByClassName('ac-pushButton');
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', handleDisableAndScroll);
+/*
+https://github.com/department-of-veterans-affairs/covid19-chatbot/issues/98
+Bot framework renders button containers with tab index 0. This method sets
+tab index to -1 so button containers have javascript-only focus.
+*/
+const removeKeyboardFocusFromContainer = () => {
+  const buttonContainers = document.getElementsByClassName('ac-adaptiveCard');
+  for (let i = 0; i < buttonContainers.length; i++) {
+    if (buttonContainers[i].hasAttribute('tabIndex')) {
+      buttonContainers[i].setAttribute('tabIndex', '-1');
     }
+  }
+};
+
+const addEventListenerToButtons = () => {
+  const buttons = document.getElementsByClassName('ac-pushButton');
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', handleDisableAndScroll);
+  }
+};
+
+export const handleButtonsPostRender = () => {
+  setInterval(() => {
+    removeKeyboardFocusFromContainer();
+    addEventListenerToButtons();
   }, 10);
 };
 
