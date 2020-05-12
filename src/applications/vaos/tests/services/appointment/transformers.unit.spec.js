@@ -131,6 +131,10 @@ describe('VAOS Appointment transformer', () => {
         expect(data.minutesDuration).to.equal(60);
       });
 
+      it('should set comment', () => {
+        expect(data.comment).to.equal('RP test');
+      });
+
       it('should set facility as Location', () => {
         expect(data.participant[0].actor.reference).to.contain('Location/var');
       });
@@ -186,6 +190,10 @@ describe('VAOS Appointment transformer', () => {
         expect(data.minutesDuration).to.equal(20);
       });
 
+      it('should set comment', () => {
+        expect(data.comment).to.equal('T+90 Testing');
+      });
+
       it('should set facility as Location', () => {
         expect(data.participant[0].actor.reference).to.contain('Location/var');
       });
@@ -224,6 +232,25 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(
           APPOINTMENT_TYPES.vaAppointment,
         );
+      });
+
+      it('should return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal(VIDEO_TYPES.videoConnect);
+      });
+
+      it('should return gfe videoType', () => {
+        const gfeData = transformConfirmedAppointments([
+          {
+            ...videoAppt,
+            vvsAppointments: [
+              {
+                ...videoAppt.vvsAppointments[0],
+                appointmentKind: 'MOBILE_GFE',
+              },
+            ],
+          },
+        ])[0];
+        expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
       });
     });
 

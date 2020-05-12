@@ -173,13 +173,16 @@ function getAppointmentDuration(appt) {
 }
 
 /**
- * Builds participant arraw for FHIR Appointment object which usually contains
- * Location (Facility) and HealthcareService (Clinic)
+ * Builds participant and contained arrays for FHIR Appointment object which usually
+ * contain Location (Facility) and HealthcareService (Clinic) or video conference info
  *
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of participants of FHIR appointment
  */
-function buildParticipant(appt) {
+function addParticipantAndContained(appt, transformed) {
+  const isVideo = isVideoVisit(appt);
+  let contained;
+
   const participant = [
     {
       actor: {
@@ -188,7 +191,7 @@ function buildParticipant(appt) {
     },
   ];
 
-  if (!isVideoVisit(appt)) {
+  if (!isVideo) {
     participant.push({
       actor: {
         reference: `HealthcareService/var${appt.clinicId}`,
@@ -204,9 +207,30 @@ function buildParticipant(appt) {
           : null,
       },
     });
+  } else {
+    contained = [
+      {
+        resourceType: 'HealthcareService',
+        id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+        type: [
+          {
+            text: 'Patient Virtual Meeting Room',
+          },
+        ],
+        telecom: [
+          {
+            system: 'url',
+            value: getVideoVisitLink(appt),
+            period: {
+              start: getMomentConfirmedDate(appt).format(),
+            },
+          },
+        ],
+      },
+    ];
   }
 
-  return participant;
+  return { ...transformed, participant, contained };
 }
 
 /**
@@ -232,7 +256,6 @@ export function transformConfirmedAppointments(appointments) {
         : appt.vdsAppointments?.[0]?.currentStatus,
       start,
       minutesDuration,
-      participant: buildParticipant(appt),
       comment:
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
@@ -245,29 +268,6 @@ export function transformConfirmedAppointments(appointments) {
       },
     };
 
-    if (isVideo) {
-      transformed.contained = [
-        {
-          resourceType: 'HealthcareService',
-          id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
-          type: [
-            {
-              text: 'Patient Virtual Meeting Room',
-            },
-          ],
-          telecom: [
-            {
-              system: 'url',
-              value: getVideoVisitLink(appt),
-              period: {
-                start,
-              },
-            },
-          ],
-        },
-      ];
-    }
-
-    return transformed;
+    return addParticipantAndContained(appt, transformed);
   });
 }
