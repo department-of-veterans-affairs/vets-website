@@ -7,7 +7,7 @@ import { mapToFHIRErrors } from '../../utils/fhir';
  *
  * @export
  * @param {String} startDate A list of three digit site ids
- * @returns {Object} A FHIR searchset of Organization resources
+ * @returns {Object} A FHIR searchset of Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {

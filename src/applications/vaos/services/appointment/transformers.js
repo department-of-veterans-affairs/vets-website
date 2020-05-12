@@ -144,12 +144,7 @@ function getMomentConfirmedDate(appt) {
   const date = isVideoVisit(appt)
     ? appt.vvsAppointments[0].dateTime
     : appt.startDate;
-
-  if (timezone) {
-    return moment(date).tz(timezone);
-  }
-
-  return moment(date);
+  return timezone ? moment(date).tz(timezone) : moment(date);
 }
 
 /**
