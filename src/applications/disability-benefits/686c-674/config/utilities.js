@@ -7,7 +7,7 @@ import {
   stringifyFormReplacer,
   expandArrayPages,
   createFormPageList,
-} from '../../../../platform/forms-system/src/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 
 const validateName = (errors, pageData) => {
   const { first, last } = pageData;
