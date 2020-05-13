@@ -51,8 +51,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
         </p>
         <p>
           If you need batteries, call the DLC Customer Service Station at{' '}
-          <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+            303-273-6200
+          </a>{' '}
+          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
         </p>
       </>
     );
@@ -112,7 +114,13 @@ class SelectArrayItemsBatteriesWidget extends Component {
                     <p>
                       If you need batteries sooner, call the DLC Customer
                       Service Station at{' '}
-                      <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+                      <a
+                        aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                        href="tel:303-273-6200"
+                      >
+                        303-273-6200
+                      </a>{' '}
+                      or email{' '}
                       <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                     </p>
                   </>

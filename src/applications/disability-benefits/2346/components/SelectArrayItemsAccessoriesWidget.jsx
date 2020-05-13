@@ -50,8 +50,10 @@ class SelectArrayItemsAccessoriesWidget extends Component {
         <p>
           If you need accessories like domes, wax guards, cleaning supplies, or
           desiccant, call the DLC Customer Service Station at{' '}
-          <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+            303-273-6200
+          </a>{' '}
+          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
         </p>
       </>
     );
@@ -104,9 +106,15 @@ class SelectArrayItemsAccessoriesWidget extends Component {
                     </p>
                     <p>
                       If you need an item sooner, call the DLC Customer Service
-                      Station at <a href="tel:303-273-6200">303-273-6200</a> or
-                      email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>
-                      .
+                      Station at{' '}
+                      <a
+                        aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                        href="tel:303-273-6200"
+                      >
+                        303-273-6200
+                      </a>{' '}
+                      or email{' '}
+                      <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                     </p>
                   </>
                 }
@@ -146,8 +154,10 @@ class SelectArrayItemsAccessoriesWidget extends Component {
             <p>
               If you need a different accessory or an adjustment to an available
               item, call the DLC Customer Service Station at{' '}
-              <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                303-273-6200
+              </a>{' '}
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </AdditionalInfo>
         )}
