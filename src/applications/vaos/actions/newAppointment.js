@@ -764,7 +764,9 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          captureError(error);
+          captureError(error, false, null, {
+            messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+          });
         }
 
         dispatch({
