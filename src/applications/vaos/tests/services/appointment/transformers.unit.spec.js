@@ -135,15 +135,11 @@ describe('VAOS Appointment transformer', () => {
         expect(data.comment).to.equal('RP test');
       });
 
-      it('should set facility as Location', () => {
-        expect(data.participant[0].actor.reference).to.contain('Location/var');
-      });
-
       it('should set clinic as HealthcareService', () => {
-        expect(data.participant[1].actor.reference).to.contain(
+        expect(data.participant[0].actor.reference).to.contain(
           'HealthcareService/var',
         );
-        expect(data.participant[1].actor.display).to.equal('CHY OPT VAR1');
+        expect(data.participant[0].actor.display).to.equal('CHY OPT VAR1');
       });
 
       it('should return vaos.videoType', () => {
@@ -164,6 +160,10 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(
           APPOINTMENT_TYPES.vaAppointment,
         );
+      });
+
+      it('should set facilityId in legacyVAR', () => {
+        expect(data.legacyVAR.facilityId).to.equal('983');
       });
     });
 
@@ -194,12 +194,8 @@ describe('VAOS Appointment transformer', () => {
         expect(data.comment).to.equal('T+90 Testing');
       });
 
-      it('should set facility as Location', () => {
-        expect(data.participant[0].actor.reference).to.contain('Location/var');
-      });
-
       it('should not set clinic as HealthcareService', () => {
-        expect(data.participant[1]).to.equal(undefined);
+        expect(data.participant).to.equal(undefined);
       });
 
       it('should set video url in HealthcareService.telecom', () => {

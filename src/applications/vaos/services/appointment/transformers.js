@@ -181,32 +181,19 @@ function getAppointmentDuration(appt) {
  */
 function addParticipantAndContained(appt, transformed) {
   const isVideo = isVideoVisit(appt);
+  let participant;
   let contained;
 
-  const participant = [
-    {
-      actor: {
-        reference: `Location/var${appt.facilityId}`,
-      },
-    },
-  ];
-
   if (!isVideo) {
-    participant.push({
-      actor: {
-        reference: `HealthcareService/var${appt.clinicId}`,
-        display:
-          appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
-        telecom: isVideoVisit(appt)
-          ? [
-              {
-                system: 'url',
-                value: getVideoVisitLink(appt),
-              },
-            ]
-          : null,
+    participant = [
+      {
+        actor: {
+          reference: `HealthcareService/var${appt.facilityId}_${appt.clinicId}`,
+          display:
+            appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
+        },
       },
-    });
+    ];
   } else {
     contained = [
       {
@@ -260,6 +247,9 @@ export function transformConfirmedAppointments(appointments) {
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes,
+      legacyVAR: {
+        facilityId: appt.facilityId,
+      },
       vaos: {
         isPastAppointment,
         appointmentType: getAppointmentType(appt),
