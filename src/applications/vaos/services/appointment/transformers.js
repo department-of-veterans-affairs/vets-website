@@ -134,7 +134,6 @@ function getStatus(appointment, isPastAppointment) {
       return APPOINTMENT_STATUS.booked;
   }
 }
-
 /**
  * Finds the datetime of the appointment depending on the appointment type
  * and returns it as a moment object
@@ -291,9 +290,9 @@ export function transformConfirmedAppointments(appointments) {
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes,
-      legacyVAR: setLegacyVAR(appt),
       participant: setParticipant(appt),
       contained: setContained(appt),
+      legacyVAR: setLegacyVAR(appt),
       vaos: {
         isPastAppointment,
         appointmentType: getAppointmentType(appt),
