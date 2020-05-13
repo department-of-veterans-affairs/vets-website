@@ -20,7 +20,7 @@ describe('<AutoSSO>', () => {
     };
   });
 
-  it('should not call setForceAuth if auth query param is not set to "force-needed"', () => {
+  it('should not call setForceAuth if auth query param is set to "success"', () => {
     const stub = sinon.stub(ssoUtils, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {
@@ -35,7 +35,22 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it('should call setForceAuth if auth query param is set to "force-needed"', () => {
+  it('should call setForceAuth if auth query param is not set to "failed"', () => {
+    const stub = sinon.stub(ssoUtils, 'setForceAuth');
+    const oldWindow = global.window;
+    global.window = {
+      location: {
+        search: '?auth=failed',
+      },
+    };
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    global.window = oldWindow;
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
+  });
+
+  it('should call setForceAuth if auth query param is not set to "force-needed"', () => {
     const stub = sinon.stub(ssoUtils, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {

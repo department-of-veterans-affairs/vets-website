@@ -13,8 +13,9 @@ import { parseqs, checkAutoSession } from '../helpers';
 
 function AutoSSO(props) {
   const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
+  const auth = parseqs(window.location.search).auth;
 
-  if (parseqs(window.location.search).auth === 'force-needed') {
+  if (auth && auth !== 'success') {
     setForceAuth();
   }
 
