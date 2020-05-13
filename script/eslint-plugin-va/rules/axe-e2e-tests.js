@@ -1,5 +1,5 @@
 const MESSAGE =
-  'THIS IS A SUPER AWESOME ERROR MESSAGE ABOUT AXE CHECKS IN E2E TESTS';
+  'e2e Tests must include at least one axeCheck call. Source code can be found here: ./src/platform/testing/e2e/nightwatch-commands/axeCheck.js';
 
 const rule = {
   meta: {
