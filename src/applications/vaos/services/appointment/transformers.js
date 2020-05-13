@@ -195,6 +195,21 @@ function getAppointmentDuration(appt) {
  */
 function setParticipant(appt) {
   if (!isVideoVisit(appt)) {
+    if (
+      isCommunityCare(appt) &&
+      !!appt.name?.firstName &&
+      !!appt.name?.lastName
+    ) {
+      return [
+        {
+          actor: {
+            reference: 'Practitioner/PRACTITIONER_ID',
+            display: `${appt.name.firstName} ${appt.name.lastName}`,
+          },
+        },
+      ];
+    }
+
     return [
       {
         actor: {
@@ -240,37 +255,27 @@ function setContained(appt) {
   }
 
   if (isCommunityCare(appt)) {
-    const contained = [];
     const address = appt.address;
 
-    contained.push({
-      actor: {
-        name: appt.providerPractice,
-        address: {
-          line: [address?.street],
-          city: address?.city,
-          state: address?.state,
-          postalCode: address?.zipCode,
-        },
-        telecom: [
-          {
-            system: 'phone',
-            value: appt.providerPhone,
-          },
-        ],
-      },
-    });
-
-    if (!!appt.name?.firstName && !!appt.name?.lastName) {
-      contained.push({
+    return [
+      {
         actor: {
-          reference: 'Practitioner/PRACTITIONER_ID',
-          display: `${appt.name.firstName} ${appt.name.lastName}`,
+          name: appt.providerPractice,
+          address: {
+            line: [address?.street],
+            city: address?.city,
+            state: address?.state,
+            postalCode: address?.zipCode,
+          },
+          telecom: [
+            {
+              system: 'phone',
+              value: appt.providerPhone,
+            },
+          ],
         },
-      });
-    }
-
-    return contained;
+      },
+    ];
   }
 
   return null;

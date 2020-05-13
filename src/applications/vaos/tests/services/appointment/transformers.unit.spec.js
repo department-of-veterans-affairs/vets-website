@@ -225,7 +225,7 @@ describe('VAOS Appointment transformer', () => {
         expect(data.contained[0].actor.telecom[0].value).to.equal(
           '(703) 345-2400',
         );
-        expect(data.contained[1].actor.display).to.equal('Bob Belcher');
+        expect(data.participant[0].actor.display).to.equal('Bob Belcher');
       });
 
       it('should return vaos.videoType', () => {
