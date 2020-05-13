@@ -1,4 +1,6 @@
-import testForm from '../../../../platform/testing/e2e/cypress/support/form-tester';
+import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+
+import formConfig from '../config/form';
 
 import {
   dataSets,
@@ -10,15 +12,9 @@ import {
 } from './all-claims.cypress.helpers.js';
 
 const testConfig = {
-  // TODO: Remove this in favor of importing the formConfig and finding them all
-  arrayPages: [
-    {
-      path: 'new-disabilities/follow-up/:index',
-      arrayPath: 'newDisabilities',
-    },
-  ],
   dataPathPrefix: 'data',
   dataSets,
+  formConfig,
   pageHooks: {
     '/disability/file-disability-claim-form-21-526ez/introduction': () => {
       // Hit the start button

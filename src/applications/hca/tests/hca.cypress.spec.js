@@ -1,11 +1,13 @@
-import testForm from '../../../platform/testing/e2e/cypress/support/form-tester';
+import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 
+import formConfig from '../config/form';
 import maximalTest from './data/maximal-test.json';
 
-const dataSets = [maximalTest];
+const dataSets = { maximalTest };
 
 const testConfig = {
   dataSets,
+  formConfig,
   pageHooks: {
     '/health-care/apply/application/introduction': () => {
       cy.findAllByText(/start.+without signing in/i, { selector: 'button' })

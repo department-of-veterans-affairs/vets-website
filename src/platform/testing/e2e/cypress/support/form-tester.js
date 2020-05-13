@@ -1,4 +1,4 @@
-import get from '../../../../utilities/data/get';
+import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
@@ -396,13 +396,22 @@ Cypress.Commands.add('fillPage', () => {
  */
 const testForm = (testDescription, testConfig) => {
   describe(testDescription, () => {
+    const arrayPages = Object.values(testConfig.formConfig.chapters).reduce(
+      (acc, cur) => [
+        ...acc,
+        ...Object.values(cur.pages).filter(({ arrayPath }) => arrayPath),
+      ],
+      [],
+    );
+
     // Supplement any array page objects from form config with regex patterns
     // for later processing when we match page URLs against them
     // in order to determine whether the pages are array pages, and if so,
     // which index in the array they correspond to.
-    const arrayPageObjects = (testConfig.arrayPages || []).map(arrayPage => ({
-      regex: new RegExp(arrayPage.path.replace(':index', '(\\d+)$')),
-      ...arrayPage,
+    const arrayPageObjects = (arrayPages || []).map(({ arrayPath, path }) => ({
+      arrayPath,
+      path,
+      regex: new RegExp(path.replace(':index', '(\\d+)$')),
     }));
 
     before(() => {
