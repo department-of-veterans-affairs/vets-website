@@ -541,6 +541,91 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp02.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0218.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0214.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0213.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0212.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0211.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0209.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0208.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0207.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0206.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0205.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0204.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0203.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0202.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0201.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0200.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0299.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
   },
