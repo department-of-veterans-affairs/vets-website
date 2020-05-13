@@ -109,16 +109,24 @@ const addNewArrayItem = $form => {
 
 /**
  * Top level loop that invokes all of the processing for a form page
- * (either running a page hook or filling out its fields)
- * and continues on to the next page.
- *
- * If it's on the review page, it submits the form.
+ * (either running a page hook or filling out its fields) and
+ * continues on to the next page. When it gets to the review page,
+ * it submits the form.
  */
 const processPage = () => {
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
+      // Run page hook for review page if any.
+      cy.execHook(pathname);
+
       cy.findByLabelText(/accept/i).click();
       cy.findByText(/submit/i, { selector: 'button' }).click();
+      cy.location('pathname').then(finalPathname => {
+        expect(finalPathname).to.match(/confirmation$/);
+
+        // Run page hook for confirmation page if any.
+        cy.execHook(finalPathname);
+      });
     } else {
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
