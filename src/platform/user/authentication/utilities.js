@@ -21,15 +21,15 @@ function sessionTypeUrl(type = '', version = 'v0', application = null) {
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
   const params = {
-    [application]: application,
-    force: getForceAuth() && 'true',
+    application,
+    force: getForceAuth() && version === 'v1' && 'true',
   };
   const qs = Object.keys(params)
     .filter(key => params[key])
     .map(key => `${key}=${params[key]}`)
     .join('&');
 
-  return `${base}/${type}/new${qs}`;
+  return `${base}/${type}/new${qs ? `?${qs}` : ''}`;
 }
 
 const loginUrl = (policy, version, application) => {

@@ -1,4 +1,7 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as ssoUtils from 'platform/utilities/sso';
 
 import {
   login,
@@ -58,6 +61,31 @@ describe('authentication URL helpers', () => {
   it('should redirect for login v1', () => {
     login('idme', 'v1');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should redirect for login v1 with application', () => {
+    login('idme', 'v1', 'my-app');
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?application=my-app',
+    );
+  });
+
+  it('should redirect for login v1 with force auth', () => {
+    const stub = sinon.stub(ssoUtils, 'getForceAuth').callsFake(() => true);
+    login('idme', 'v1');
+    stub.restore();
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?force=true',
+    );
+  });
+
+  it('should redirect for login v1 with application and force auth', () => {
+    const stub = sinon.stub(ssoUtils, 'getForceAuth').callsFake(() => true);
+    login('idme', 'v1', 'my-app');
+    stub.restore();
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?application=my-app&force=true',
+    );
   });
 
   it('should redirect for logout', () => {
