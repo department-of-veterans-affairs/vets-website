@@ -32,7 +32,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
-  TestHelpers.fillVeteranData(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
   // veteran address
