@@ -1,0 +1,7 @@
+{
+  "appName": "COVID-Screener",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "covid-screener",
+  "rootUrl": "/covid-screener",
+  "production": false
+}
