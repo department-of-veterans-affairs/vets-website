@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import environment from 'platform/utilities/environment';
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
@@ -31,6 +32,7 @@ export class SearchResult extends React.Component {
       country,
       studentCount,
       cautionFlags,
+      handleLinkClick,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
@@ -42,6 +44,11 @@ export class SearchResult extends React.Component {
       query: version ? { version } : {},
     };
 
+    const handleLinkClickEvent = event => {
+      event.preventDefault();
+      handleLinkClick(facilityCode);
+    };
+
     return (
       <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
@@ -51,6 +58,9 @@ export class SearchResult extends React.Component {
                 <h2>
                   <Link
                     to={linkTo}
+                    onClick={
+                      environment.isProduction ? () => {} : handleLinkClickEvent
+                    }
                     aria-label={`${name} ${locationInfo(city, state, country)}`}
                   >
                     {name}
@@ -114,7 +124,14 @@ export class SearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns">
-                <Link to={linkTo}>View details ›</Link>
+                <Link
+                  to={linkTo}
+                  onClick={
+                    environment.isProduction ? () => {} : handleLinkClickEvent
+                  }
+                >
+                  View details ›
+                </Link>
               </div>
             </div>
           </div>
