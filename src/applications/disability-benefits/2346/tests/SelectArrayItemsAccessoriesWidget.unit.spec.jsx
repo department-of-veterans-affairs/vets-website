@@ -23,7 +23,7 @@ const fakeStore = {
             productGroup: 'hearing aid accessories',
             productId: '4',
             availableForReorder: true,
-            lastOrderDate: '2019-06-30',
+            lastOrderDate: '2020-01-18',
             nextAvailabilityDate: '2019-12-15',
             quantity: 5,
             size: '3mm',
@@ -33,7 +33,7 @@ const fakeStore = {
             productGroup: 'hearing aid accessories',
             productId: '9',
             availableForReorder: false,
-            lastOrderDate: '2019-06-30',
+            lastOrderDate: '2020-03-02',
             nextAvailabilityDate: '2999-12-15',
             quantity: 2,
           },
@@ -65,19 +65,17 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
   });
   // is this test needed since we're using setData in the widget and it has its own test file?
   it('should house the selected accessories inside selectedProducts array', () => {
-    const shallowWrapper = shallow(
+    const mountedWrapper = mount(
       <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
     );
-    expect(shallowWrapper.prop('selectedProducts')).to.eql([
-      { productId: '3' },
-    ]);
+    const widget = mountedWrapper.find('SelectArrayItemsAccessoriesWidget');
+    expect(widget.prop('selectedProducts')).to.eql([{ productId: '3' }]);
+    mountedWrapper
+      .find('input')
+      .at(1)
+      .simulate('click', widget.prop('selectedProducts'));
 
-    shallowWrapper
-      .dive()
-      .find({ id: '4' })
-      .simulate('click');
-
-    expect(shallowWrapper.prop('selectedProducts')).to.eql([
+    expect(widget.prop('selectedProducts')).to.eql([
       {
         productId: '3',
       },
@@ -86,7 +84,7 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
       },
     ]);
 
-    shallowWrapper.unmount();
+    mountedWrapper.unmount();
   });
   it('should display the quantity of the accessory', () => {
     const wrapper = mount(
@@ -97,13 +95,13 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
     expect(wrapper.text()).to.include('Quantity: 2');
     wrapper.unmount();
   });
-  it('should display the last order date of the accessory', () => {
+  it('should display the last order date of the accessories', () => {
     const wrapper = mount(
       <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
     );
-    expect(wrapper.text()).to.include('Quantity: 10');
-    expect(wrapper.text()).to.include('Quantity: 5');
-    expect(wrapper.text()).to.include('Quantity: 2');
+    expect(wrapper.text()).to.include('Last order date:  06/30/2019');
+    expect(wrapper.text()).to.include('Last order date:  01/18/2020');
+    expect(wrapper.text()).to.include('Last order date:  03/02/2020');
     wrapper.unmount();
   });
   it('should display the product name of the accessory', () => {
