@@ -240,39 +240,37 @@ function setContained(appt) {
   }
 
   if (isCommunityCare(appt)) {
-    if (isCommunityCare(appt)) {
-      const contained = [];
-      const address = appt.address;
+    const contained = [];
+    const address = appt.address;
 
+    contained.push({
+      actor: {
+        name: appt.providerPractice,
+        address: {
+          line: [address?.street],
+          city: address?.city,
+          state: address?.state,
+          postalCode: address?.zipCode,
+        },
+        telecom: [
+          {
+            system: 'phone',
+            value: appt.providerPhone,
+          },
+        ],
+      },
+    });
+
+    if (!!appt.name?.firstName && !!appt.name?.lastName) {
       contained.push({
         actor: {
-          name: appt.providerPractice,
-          address: {
-            line: [address?.street],
-            city: address?.city,
-            state: address?.state,
-            postalCode: address?.zipCode,
-          },
-          telecom: [
-            {
-              system: 'phone',
-              value: appt.providerPhone,
-            },
-          ],
+          reference: 'Practicioner/PRACTICIONER_ID',
+          display: `${appt.name.firstName} ${appt.name.lastName}`,
         },
       });
-
-      if (!!appt.name?.firstName && !!appt.name?.lastName) {
-        contained.push({
-          actor: {
-            reference: 'Practicioner/PRACTICIONER_ID',
-            display: `${appt.name.firstName} ${appt.name.lastName}`,
-          },
-        });
-      }
-
-      return contained;
     }
+
+    return contained;
   }
 
   return null;
