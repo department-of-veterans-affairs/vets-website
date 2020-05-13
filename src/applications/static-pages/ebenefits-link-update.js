@@ -2,9 +2,9 @@ import { isLoggedIn as isLoggedInSelector } from 'platform/user/selectors';
 import { shouldUseProxyUrl } from 'platform/site-wide/ebenefits/selectors';
 import { proxyUrl } from 'platform/site-wide/ebenefits/utilities';
 
-export default function createMyVALoginWidget(store) {
+export default function updateEbenefitsLinks(store) {
   let unsubscribe;
-  const updateEbenefitsLinks = () => {
+  const storeListener = () => {
     const state = store.getState();
     const isLoggedIn = isLoggedInSelector(state);
     const useProxyUrl = shouldUseProxyUrl(state);
@@ -26,5 +26,5 @@ export default function createMyVALoginWidget(store) {
       unsubscribe();
     }
   };
-  unsubscribe = store.subscribe(updateEbenefitsLinks);
+  unsubscribe = store.subscribe(storeListener);
 }
