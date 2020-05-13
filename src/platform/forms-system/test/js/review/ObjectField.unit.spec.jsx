@@ -411,4 +411,78 @@ describe('Schemaform review: ObjectField', () => {
     expect(review.type).to.equal('div');
     expect(review.props.className).to.equal('review');
   });
+  it('should render a div when rendering a custom title, like in the SelectArrayItemsWidget', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          addAnotherLabel: 'test',
+        },
+      },
+    };
+    const formData = {
+      test: { foo: 'test' },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ pageTitle: 'Blah' }}
+        idSchema={{ $id: 'root' }}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+    // expecting a "div.review" instead of a "dl.review"
+    const review = tree.props.children[1];
+    expect(review.type).to.equal('div');
+    expect(review.props.className).to.equal('review');
+  });
+  it('should render a div when rendering the file UI', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          addAnotherLabel: 'test',
+        },
+      },
+    };
+    const formData = {
+      test: { foo: 'test' },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ pageTitle: 'Blah' }}
+        idSchema={{ $id: 'root' }}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+    // expecting a "div.review" instead of a "dl.review"
+    const review = tree.props.children[1];
+    expect(review.type).to.equal('div');
+    expect(review.props.className).to.equal('review');
+  });
 });

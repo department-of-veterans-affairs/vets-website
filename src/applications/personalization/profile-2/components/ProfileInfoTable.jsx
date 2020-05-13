@@ -50,8 +50,10 @@ const ProfileInfoTable = ({
     ['margin-bottom--0', 'margin-right--2'],
     'medium',
   );
-
-  const tableRowDataClasses = ['vads-u-margin--0'];
+  const tableRowDataClasses = prefixUtilityClasses([
+    'margin--0',
+    'width--full',
+  ]);
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute

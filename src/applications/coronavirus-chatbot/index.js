@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import { GA_PREFIX, addEventListenerToButtons } from './utils';
+import { GA_PREFIX, handleButtonsPostRender } from './utils';
 import * as Sentry from '@sentry/browser';
 
 export const defaultLocale = 'en-US';
@@ -154,6 +154,6 @@ const chatRequested = scenario => {
 };
 
 export default function initializeChatbot() {
-  addEventListenerToButtons();
+  handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }
