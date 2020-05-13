@@ -152,8 +152,12 @@ function appointmentSubmittedTest(client) {
 
 function showMoreTest(client) {
   client
-    .click('.additional-info-button.va-button-link')
-    .waitForElementPresent('.additional-info-content', Timeouts.slow);
+    .click(
+      'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
+    )
+    .waitForElementVisible('.additional-info-content', Timeouts.slow)
+    .axeCheck('.main')
+    .assert.containsText('#tooltip-9 dd', 'Request 2 Message 1 Text');
 
   return client;
 }
