@@ -194,29 +194,6 @@ function getAppointmentDuration(appt) {
  * @returns {Array} Array of participants of FHIR appointment
  */
 function setParticipant(appt) {
-  if (isCommunityCare(appt)) {
-    const address = appt.address;
-    return [
-      {
-        actor: {
-          name: appt.providerPractice,
-          address: {
-            line: [address?.street],
-            city: address?.city,
-            state: address?.state,
-            postalCode: address?.zipCode,
-          },
-          telecom: [
-            {
-              system: 'phone',
-              value: appt.providerPhone,
-            },
-          ],
-        },
-      },
-    ];
-  }
-
   if (!isVideoVisit(appt)) {
     return [
       {
@@ -262,6 +239,42 @@ function setContained(appt) {
     ];
   }
 
+  if (isCommunityCare(appt)) {
+    if (isCommunityCare(appt)) {
+      const contained = [];
+      const address = appt.address;
+
+      contained.push({
+        actor: {
+          name: appt.providerPractice,
+          address: {
+            line: [address?.street],
+            city: address?.city,
+            state: address?.state,
+            postalCode: address?.zipCode,
+          },
+          telecom: [
+            {
+              system: 'phone',
+              value: appt.providerPhone,
+            },
+          ],
+        },
+      });
+
+      if (!!appt.name?.firstName && !!appt.name?.lastName) {
+        contained.push({
+          actor: {
+            reference: 'Practicioner/PRACTICIONER_ID',
+            display: `${appt.name.firstName} ${appt.name.lastName}`,
+          },
+        });
+      }
+
+      return contained;
+    }
+  }
+
   return null;
 }
 
@@ -296,7 +309,7 @@ export function transformConfirmedAppointments(appointments) {
     const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
     const isCC = isCommunityCare(appt);
 
-    const transformed = {
+    return {
       resourceType: 'Appointment',
       status: getStatus(appt, isPastAppointment),
       description: getVistaStatus(appt),
@@ -316,7 +329,5 @@ export function transformConfirmedAppointments(appointments) {
         isCommunityCare: isCC,
       },
     };
-
-    return transformed;
   });
 }

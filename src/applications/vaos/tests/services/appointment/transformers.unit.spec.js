@@ -38,7 +38,7 @@ const ccAppt = {
   id: '8a4888116a45cbe3016a45f482fb0002',
   appointmentRequestId: '8a4888116a45cbe3016a45f482fb0002',
   distanceEligibleConfirmed: true,
-  name: { firstName: '', lastName: '' },
+  name: { firstName: 'Bob', lastName: 'Belcher' },
   providerPractice: 'Audiologists of Dayton',
   providerPhone: '(703) 345-2400',
   address: {
@@ -216,19 +216,16 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set provider contact info', () => {
-        expect(data.participant[0].actor.name).to.equal(
-          'Audiologists of Dayton',
-        );
-        expect(data.participant[0].actor.address.line[0]).to.equal(
-          '123 Main St',
-        );
-        expect(data.participant[0].actor.address.city).to.equal('dayton');
-        expect(data.participant[0].actor.address.state).to.equal('OH');
-        expect(data.participant[0].actor.address.postalCode).to.equal('45405');
-        expect(data.participant[0].actor.telecom[0].system).to.equal('phone');
-        expect(data.participant[0].actor.telecom[0].value).to.equal(
+        expect(data.contained[0].actor.name).to.equal('Audiologists of Dayton');
+        expect(data.contained[0].actor.address.line[0]).to.equal('123 Main St');
+        expect(data.contained[0].actor.address.city).to.equal('dayton');
+        expect(data.contained[0].actor.address.state).to.equal('OH');
+        expect(data.contained[0].actor.address.postalCode).to.equal('45405');
+        expect(data.contained[0].actor.telecom[0].system).to.equal('phone');
+        expect(data.contained[0].actor.telecom[0].value).to.equal(
           '(703) 345-2400',
         );
+        expect(data.contained[1].actor.display).to.equal('Bob Belcher');
       });
 
       it('should return vaos.videoType', () => {
