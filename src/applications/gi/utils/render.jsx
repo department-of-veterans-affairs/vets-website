@@ -87,16 +87,19 @@ export const renderLearnMoreLabel = ({
   component,
 }) => (
   <span className="vads-u-margin--0 vads-u-display--inline-block ">
-    {text} (
-    <button
-      aria-label={ariaLabel}
-      type="button"
-      className="va-button-link learn-more-button vads-u-margin--0"
-      onClick={showModal.bind(component, modal)}
-    >
-      Learn more
-    </button>
-    )
+    {text}{' '}
+    <span className="vads-u-margin--0 vads-u-display--inline-block ">
+      (
+      <button
+        aria-label={ariaLabel}
+        type="button"
+        className="va-button-link learn-more-button vads-u-margin--0"
+        onClick={showModal.bind(component, modal)}
+      >
+        Learn more
+      </button>
+      )
+    </span>
   </span>
 );
 

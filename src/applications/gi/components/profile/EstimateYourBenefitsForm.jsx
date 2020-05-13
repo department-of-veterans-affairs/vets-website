@@ -742,15 +742,11 @@ class EstimateYourBenefitsForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={
-            <p>
-              {'Where will you take the majority of your classes? '}
-              {this.renderLearnMoreLabel({
-                modal: 'calcBeneficiaryLocationQuestion',
-                ariaLabel: ariaLabels.learnMore.majorityOfClasses,
-              })}
-            </p>
-          }
+          label={this.renderLearnMoreLabel({
+            text: 'Where will you take the majority of your classes?',
+            modal: 'calcBeneficiaryLocationQuestion',
+            ariaLabel: ariaLabels.learnMore.majorityOfClasses,
+          })}
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
           value={selectedValue}
