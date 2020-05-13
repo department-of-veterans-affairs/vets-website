@@ -55,7 +55,7 @@ const testConfig = {
     // Set up signed in session.
     window.localStorage.setItem('hasSession', true);
 
-    // Set up mock API.
+    // Stub API endpoints.
     cy.route('GET', '/v0/user', mockUser)
       .route('GET', '/v0/intent_to_file', mockItf)
       .route('GET', '/v0/ppiu/payment_information', mockPaymentInformation)
@@ -67,7 +67,7 @@ const testConfig = {
       );
 
     // Pre-fill with the expected ratedDisabilities,
-    // but nix view:selected since that's not pre-filled
+    // but without view:selected, since that's not pre-filled
     cy.get('@testData').then(({ data }) => {
       const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
         ({ 'view:selected': _, ...obj }) => obj,

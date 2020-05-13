@@ -10,6 +10,30 @@ const FIELD_SELECTOR = 'input, select, textarea';
 const COMMAND_OPTIONS = { log: false };
 
 /**
+ * Builds an array of array page objects to be used for matching against
+ * page URLs in order to determine whether a page is an array page, and if so,
+ * which index in the array it represents.
+ *
+ * @param {Object} formConfig - The config used to build the form.
+ * @returns {Array} Array of array pages with regex patterns.
+ */
+const createArrayPageObjects = formConfig => {
+  // Pull pages from the form config that have an arrayPath.
+  const arrayPages = Object.values(formConfig.chapters).reduce(
+    (acc, { pages }) => [
+      ...acc,
+      ...Object.values(pages).filter(({ arrayPath }) => arrayPath),
+    ],
+    [],
+  );
+
+  return (arrayPages || []).map(({ arrayPath, path }) => ({
+    arrayPath,
+    regex: new RegExp(path.replace(':index', '(\\d+)$')),
+  }));
+};
+
+/**
  * Builds an object from a form field with attributes that are used
  * to look up test data and enter that data into the field.
  *
@@ -370,17 +394,17 @@ Cypress.Commands.add('fillPage', () => {
 /**
  * Tests a form flow with the provided test data.
  *
- * @typedef {object} TestConfig
- * @property {array<ArrayPage>} arrayPaths
+ * @typedef {Object} TestConfig
  * @property {string} dataPathPrefix - The path prefix for looking up form data
  *     to fill out fields. Used when the data is nested under a certain key.
  *     For example, if the test data looks like { data: { field1: 'value' } },
  *     dataPathPrefix should be set to 'data'.
- * @property {object} dataSets - The sets of data used to fill out fields during
+ * @property {Object} dataSets - The sets of data used to fill out fields during
  *     the form flow. A test is generated for each data set and uses that data
  *     for that run. Each data set should follow the same structure as the body
  *     of the API request sent for a form submission.
- * @property {object.<function>} pageHooks - Functions used to bypass the
+ * @property {Object} formConfig - The config used to build the form.
+ * @property {Object.<function>} pageHooks - Functions used to bypass the
  *     automatic form filling for specified pages. Each object key corresponds
  *     to the URL of the page the hook applies to.
  * @property {function} setup - Function that's called once before starting any
@@ -388,38 +412,18 @@ Cypress.Commands.add('fillPage', () => {
  * @property {function} setupPerTest - Function that's called before each test.
  * @property {string} url - The URL for the form. All tests start by going here.
  * ---
- * @typedef {object} ArrayPage
- * @property {string} arrayPath - The arrayPath defined in the form config
- * @property {string} url - The URL for the array page
- * ---
- * @param {string} testDescription - Label to describe the test
+ * @param {string} testDescription - Label to describe the test.
  * @param {TestConfig} testConfig
  */
 const testForm = (testDescription, testConfig) => {
+  const arrayPageObjects = createArrayPageObjects(testConfig.formConfig);
+
   describe(testDescription, () => {
-    const arrayPages = Object.values(testConfig.formConfig.chapters).reduce(
-      (acc, cur) => [
-        ...acc,
-        ...Object.values(cur.pages).filter(({ arrayPath }) => arrayPath),
-      ],
-      [],
-    );
-
-    // Supplement any array page objects from form config with regex patterns
-    // for later processing when we match page URLs against them
-    // in order to determine whether the pages are array pages, and if so,
-    // which index in the array they correspond to.
-    const arrayPageObjects = (arrayPages || []).map(({ arrayPath, path }) => ({
-      arrayPath,
-      path,
-      regex: new RegExp(path.replace(':index', '(\\d+)$')),
-    }));
-
     before(() => {
       if (testConfig.setup) testConfig.setup();
     });
 
-    // Aliases and the stub server reset before every test,
+    // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
       cy.wrap(testConfig).as('testConfig');
