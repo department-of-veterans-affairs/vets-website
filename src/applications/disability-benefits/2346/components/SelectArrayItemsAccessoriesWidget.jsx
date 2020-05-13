@@ -61,7 +61,9 @@ class SelectArrayItemsAccessoriesWidget extends Component {
       <>
         {!areAccessorySuppliesIneligible && (
           <>
-            <h4>Select the hearing aid accessories you need</h4>
+            <h3 className="vads-u-font-size--h4">
+              Select the hearing aid accessories you need
+            </h3>
             <p>
               You'll be sent a 6-month supply for each accessory you choose
               below. You can only order each hearing aid accessory once every 5
