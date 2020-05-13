@@ -17,6 +17,7 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
+import ebenefitsLinkUpdate from './ebenefits-link-update';
 import createHomepageBanner from './homepage-banner/createHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
@@ -142,6 +143,8 @@ create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+ebenefitsLinkUpdate(store);
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
