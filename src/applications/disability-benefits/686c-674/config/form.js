@@ -52,6 +52,15 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
+import {
+  filterInactivePageData,
+  getActivePages,
+  getInactivePages,
+  stringifyFormReplacer,
+  expandArrayPages,
+  createFormPageList,
+} from 'platform/forms-system/src/js/helpers';
+
 function transformForSubmit(
   formConfig,
   form,
