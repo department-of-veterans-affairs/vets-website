@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import React from 'react';
-// import sinon from 'sinon';
 import SelectArrayItemsFromAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
 
 const fakeStore = {
