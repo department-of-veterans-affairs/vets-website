@@ -1,3 +1,5 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 #webchat {
   margin-top: 20px;
 }
@@ -25,38 +27,22 @@ button.ac-pushButton {
   overflow: visible !important;
   margin: 4px 0 !important;
   font-weight: 700 !important;
-  /* $color-primary from design.va.gov */
-  color: #0071bb;
-  border: 2px solid #0071bb !important;
+  color: $color-primary;
+  border: 2px solid $color-primary !important;
 }
 
 button.ac-pushButton:hover {
-  /* $color-primary-darker from design.va.gov */
-  color: #003e73;
-  border: 2px solid #003e73 !important;
-  background: white;
+  color: $color-primary-darker;
+  border: 2px solid $color-primary-darker !important;
+  background: $color-white;
 }
 
 #webchat button:disabled {
   padding: 10px !important;
   min-height: 38px !important;
-  background: #d6d7d9 !important;
-  color: #ffffff !important;
+  background: $color-gray-lighter !important;
+  color: $color-white !important;
   border: 0 !important;
-}
-
-#webchat[watermark="true"] [role="complementary"] ul[role="list"]::after {
-  content: "Powered By ...";
-  background: linear-gradient(rgba(248, 248, 248, 0), rgba(248, 248, 248, .63), #F8F8F8 40%);
-  bottom: 0;
-  right: 0;
-  color: #707070;
-  display: block;
-  font-family: 'Segoe Semibold', Calibri, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 12px;
-  padding: 15px 10px 10px;
-  position: sticky;
-  text-align: right;
 }
 
 #webchat input[type=checkbox] {
@@ -95,8 +81,7 @@ button.ac-pushButton:hover {
 .webchat__bubble__content {
   border: 0 !important;
   border-radius: 5px !important;
-  /* $color-base from design.va.gov */
-  color: #212121 !important;
+  color: $color-base;
 }
 
 /* side vertical container with avatar in it */
@@ -161,8 +146,7 @@ div.ac-container.ac-adaptiveCard {
 .css-yb0hx9.webchat__initialsAvatar.css-10h6e9z {
   font-weight: 700 !important;
   font-size: 18px !important;
-  /* $color-primary-darkest from design.va.gov */
-  background: #112e51 !important;
+  background: $color-primary-darkest !important;
 }
 
 .css-1t62idy {
