@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import React from 'react';
+import sinon from 'sinon';
 import SelectArrayItemsFromAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
 
 const fakeStore = {
@@ -63,27 +64,18 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
     expect(wrapper.html()).to.include('fake name 2');
     wrapper.unmount();
   });
-  // is this test needed since we're using setData in the widget and it has its own test file?
   it('should house the selected accessories inside selectedProducts array', () => {
     const mountedWrapper = mount(
       <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
     );
-    const widget = mountedWrapper.find('SelectArrayItemsAccessoriesWidget');
-    expect(widget.prop('selectedProducts')).to.eql([{ productId: '3' }]);
-    mountedWrapper
-      .find('input')
-      .at(1)
-      .simulate('click', widget.prop('selectedProducts'));
-
-    expect(widget.prop('selectedProducts')).to.eql([
-      {
-        productId: '3',
-      },
-      {
-        productId: '4',
-      },
+    const spy = sinon.spy(mountedWrapper, 'selectedProducts', ['get', 'set']);
+    mountedWrapper.setProps({
+      selectedProducts: [{ productId: '3' }, { productId: '4' }],
+    });
+    expect(spy).to.have.property('selectedProducts', [
+      { productId: '3' },
+      { productId: '4' },
     ]);
-
     mountedWrapper.unmount();
   });
   it('should display the quantity of the accessory', () => {
