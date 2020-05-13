@@ -239,7 +239,6 @@ module.exports = env => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new CopyPlugin([
         { from: 'src/site/assets/js/execute-axe-check.js', to: './' },
-        { from: 'src/site/assets/robots.txt', to: './' },
       ]),
     ],
     devServer: generateWebpackDevConfig(buildOptions),

@@ -105,6 +105,10 @@ function applyDefaultOptions(options) {
       source: '../../assets/img',
       destination: './img',
     },
+    textAssets: {
+      source: '../../assets/txt',
+      destination: './',
+    },
     layouts,
     collections: require('./data/collections.json'),
     watchPaths: [

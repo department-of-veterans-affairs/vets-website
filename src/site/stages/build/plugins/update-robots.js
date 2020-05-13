@@ -11,7 +11,7 @@ function updateRobots(buildOptions) {
 
   return files => {
     // Derive the robots file.
-    const robots = files['generated/robots.txt'];
+    const robots = files['robots.txt'];
 
     // Update the robots.txt contents to disallow crawlers.
     robots.contents = new Buffer('User-agent: *\nDisallow: /\n');

@@ -140,6 +140,7 @@ function build(BUILD_OPTIONS) {
   smith.use(assets(BUILD_OPTIONS.fontAssets), 'Add font assets');
   smith.use(assets(BUILD_OPTIONS.imageAssets), 'Add image assets');
   smith.use(assets(BUILD_OPTIONS.contentAssets), 'Add content assets');
+  smith.use(assets(BUILD_OPTIONS.textAssets), 'Add text assets');
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
