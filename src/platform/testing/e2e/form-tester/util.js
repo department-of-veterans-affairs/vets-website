@@ -92,21 +92,13 @@ const axe = {
   },
 
   expandAndCheck: async (page, log) => {
-    const hasAccord = await axe.expand(page, log, '.accordion-header button');
-    const hasInfo = await axe.expand(page, log, '.additional-info-button');
-    if (hasAccord || hasInfo) {
-      await axe.check(page, log);
-    }
+    await page.evaluate(() => {
+      document
+        .querySelectorAll('main button[aria-expanded=false]')
+        .forEach(btn => btn.click());
+    });
+    await axe.check(page, log);
   },
-
-  expand: (page, log, selector) =>
-    page.$$eval(selector, els => {
-      els.forEach(button => {
-        if (button.getAttribute('aria-expanded') === 'false') {
-          button.click();
-        }
-      });
-    }),
 
   getViolations: () => axe.violations,
 

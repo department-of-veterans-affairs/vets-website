@@ -402,9 +402,6 @@ const fillForm = async (page, testData, testConfig, log) => {
 
   await page.click('button.usa-button-primary');
 
-  // Clicking the button a second time; because it seems to fail the first time?
-  await page.click('button.usa-button-primary');
-
   // We should be on the confirmation page if all goes well
   if (!(await nextUrl(page)).endsWith('confirmation')) {
     // If we can tell what the problem probably is, provide a more helpful error message
