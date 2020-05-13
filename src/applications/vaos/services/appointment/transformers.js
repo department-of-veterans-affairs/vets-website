@@ -190,13 +190,32 @@ function getAppointmentDuration(appt) {
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of participants of FHIR appointment
  */
-function addParticipantAndContained(appt, transformed) {
-  const isVideo = isVideoVisit(appt);
-  let participant;
-  let contained;
+function setParticipant(appt) {
+  if (isCommunityCare(appt)) {
+    const address = appt.address;
+    return [
+      {
+        actor: {
+          name: appt.providerPractice,
+          address: {
+            line: [address?.street],
+            city: address?.city,
+            state: address?.state,
+            postalCode: address?.zipCode,
+          },
+          telecom: [
+            {
+              system: 'phone',
+              value: appt.providerPhone,
+            },
+          ],
+        },
+      },
+    ];
+  }
 
-  if (!isVideo) {
-    participant = [
+  if (!isVideoVisit(appt)) {
+    return [
       {
         actor: {
           reference: `HealthcareService/var${appt.facilityId}_${appt.clinicId}`,
@@ -205,8 +224,14 @@ function addParticipantAndContained(appt, transformed) {
         },
       },
     ];
-  } else {
-    contained = [
+  }
+
+  return null;
+}
+
+function setContained(appt) {
+  if (isVideoVisit(appt)) {
+    return [
       {
         resourceType: 'HealthcareService',
         id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
@@ -228,7 +253,17 @@ function addParticipantAndContained(appt, transformed) {
     ];
   }
 
-  return { ...transformed, participant, contained };
+  return null;
+}
+
+function setLegacyVAR(appt) {
+  if (getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment) {
+    return {
+      facilityId: appt.facilityId,
+    };
+  }
+
+  return null;
 }
 
 /**
@@ -244,7 +279,6 @@ export function transformConfirmedAppointments(appointments) {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
     const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
-    const isVideo = isVideoVisit(appt);
     const isCC = isCommunityCare(appt);
 
     const transformed = {
@@ -257,9 +291,9 @@ export function transformConfirmedAppointments(appointments) {
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes,
-      legacyVAR: {
-        facilityId: appt.facilityId,
-      },
+      legacyVAR: setLegacyVAR(appt),
+      participant: setParticipant(appt),
+      contained: setContained(appt),
       vaos: {
         isPastAppointment,
         appointmentType: getAppointmentType(appt),
@@ -268,6 +302,6 @@ export function transformConfirmedAppointments(appointments) {
       },
     };
 
-    return addParticipantAndContained(appt, transformed);
+    return transformed;
   });
 }

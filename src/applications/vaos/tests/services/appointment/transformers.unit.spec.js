@@ -34,6 +34,25 @@ const appt = {
   vvsAppointments: [],
 };
 
+const ccAppt = {
+  id: '8a4888116a45cbe3016a45f482fb0002',
+  appointmentRequestId: '8a4888116a45cbe3016a45f482fb0002',
+  distanceEligibleConfirmed: true,
+  name: { firstName: '', lastName: '' },
+  providerPractice: 'Audiologists of Dayton',
+  providerPhone: '(703) 345-2400',
+  address: {
+    street: '123 Main St',
+    city: 'dayton',
+    state: 'OH',
+    zipCode: '45405',
+  },
+  instructionsToVeteran:
+    'Please arrive 20 minutes before the start of your appointment',
+  appointmentTime: '02/05/2020 19:30:00',
+  timeZone: '-09:00 AKST',
+};
+
 const videoAppt = {
   id: '05760f00c80ae60ce49879cf37a05fc8',
   startDate: '2020-11-25T15:17:00Z',
@@ -167,6 +186,76 @@ describe('VAOS Appointment transformer', () => {
       });
     });
 
+    describe('community care appointment', () => {
+      const data = transformConfirmedAppointments([ccAppt])[0];
+
+      it('should set resourceType', () => {
+        expect(data.resourceType).to.equal('Appointment');
+      });
+
+      it('should set status to "booked"', () => {
+        expect(data.status).to.equal(APPOINTMENT_STATUS.booked);
+      });
+
+      it('should have original status in description', () => {
+        expect(data.description).to.equal(null);
+      });
+
+      it('should set start date', () => {
+        expect(data.start).to.equal('2020-02-05T10:30:00-09:00');
+      });
+
+      it('should set minutesDuration', () => {
+        expect(data.minutesDuration).to.equal(60);
+      });
+
+      it('should set comment', () => {
+        expect(data.comment).to.equal(
+          'Please arrive 20 minutes before the start of your appointment',
+        );
+      });
+
+      it('should set provider contact info', () => {
+        expect(data.participant[0].actor.name).to.equal(
+          'Audiologists of Dayton',
+        );
+        expect(data.participant[0].actor.address.line[0]).to.equal(
+          '123 Main St',
+        );
+        expect(data.participant[0].actor.address.city).to.equal('dayton');
+        expect(data.participant[0].actor.address.state).to.equal('OH');
+        expect(data.participant[0].actor.address.postalCode).to.equal('45405');
+        expect(data.participant[0].actor.telecom[0].system).to.equal('phone');
+        expect(data.participant[0].actor.telecom[0].value).to.equal(
+          '(703) 345-2400',
+        );
+      });
+
+      it('should return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal(null);
+      });
+
+      it('should return vaos.isPastAppointment', () => {
+        expect(data.vaos.isPastAppointment).to.equal(
+          moment(data.start).isBefore(moment()),
+        );
+      });
+
+      it('should return vaos.isCommunityCare', () => {
+        expect(data.vaos.isCommunityCare).to.equal(true);
+      });
+
+      it('should return vaos.appointmentType', () => {
+        expect(data.vaos.appointmentType).to.equal(
+          APPOINTMENT_TYPES.ccAppointment,
+        );
+      });
+
+      it('should set facilityId in legacyVAR', () => {
+        expect(data.legacyVAR).to.equal(null);
+      });
+    });
+
     describe('video appointment', () => {
       const data = transformConfirmedAppointments([videoAppt])[0];
 
@@ -195,7 +284,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should not set clinic as HealthcareService', () => {
-        expect(data.participant).to.equal(undefined);
+        expect(data.participant).to.equal(null);
       });
 
       it('should set video url in HealthcareService.telecom', () => {
