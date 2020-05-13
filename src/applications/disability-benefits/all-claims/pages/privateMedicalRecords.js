@@ -37,6 +37,8 @@ export const uiSchema = {
           Y: 'Yes',
           N: 'No, please get my records from my doctor.',
         },
+        // Force ReviewFieldTemplate to wrap this component in a <dl>
+        useDlWrap: true,
       },
     },
     'view:privateRecordsChoiceHelp': {
