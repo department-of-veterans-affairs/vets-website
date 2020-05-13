@@ -44,5 +44,7 @@ export const ariaLabels = Object.freeze({
     bookStipend: 'Learn more about how we calculate your annual book stipend',
     cautionaryWarning: 'Learn more about cautionary Warnings',
     majorityOfClasses: 'Learn more about the location-based housing allowance',
+    militaryTuitionAssistance:
+      'Learn more about how military tuition assistance affects your benefits',
   },
 });

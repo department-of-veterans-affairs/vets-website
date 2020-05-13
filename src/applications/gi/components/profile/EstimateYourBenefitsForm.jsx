@@ -450,6 +450,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
             modal: 'calcTuitionAssist',
+            ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
           })}
         </label>
         <input
