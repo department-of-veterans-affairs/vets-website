@@ -10,24 +10,24 @@ import { NULL_CONDITION_STRING } from '../constants';
  * @property {String} ratingPercentage
  * @param {Disability} disability
  */
-export const disabilityOption = ({ name, ratingPercentage }) => {
+export const disabilityOption = ({ name, ratingPercentage, className }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
 
   return (
-    <div>
-      <h4>
+    <>
+      <h3 className={`vads-u-font-size--h4 ${className}`}>
         {typeof name === 'string'
           ? capitalizeEachWord(name)
           : NULL_CONDITION_STRING}
-      </h4>
+      </h3>
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
         </p>
       )}
-    </div>
+    </>
   );
 };
 
