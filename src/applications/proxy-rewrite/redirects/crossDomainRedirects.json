@@ -706,6 +706,91 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2019.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2018.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2014.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2013.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2012.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2011.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2009.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2008.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2007.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2006.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2005.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2004.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2003.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2002.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2001.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2000.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb1999.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
   },
