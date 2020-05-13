@@ -264,7 +264,7 @@ function setContained(appt) {
     if (!!appt.name?.firstName && !!appt.name?.lastName) {
       contained.push({
         actor: {
-          reference: 'Practicioner/PRACTICIONER_ID',
+          reference: 'Practitioner/PRACTITIONER_ID',
           display: `${appt.name.firstName} ${appt.name.lastName}`,
         },
       });
