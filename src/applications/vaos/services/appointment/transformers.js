@@ -90,9 +90,13 @@ function getVideoType(appt) {
  * @returns {String} Status
  */
 function getVistaStatus(appointment) {
-  return isVideoVisit(appointment)
-    ? appointment.vvsAppointments?.[0]?.status?.code
-    : appointment.vdsAppointments?.[0]?.currentStatus;
+  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.vaAppointment) {
+    return isVideoVisit(appointment)
+      ? appointment.vvsAppointments?.[0]?.status?.code
+      : appointment.vdsAppointments?.[0]?.currentStatus;
+  }
+
+  return null;
 }
 
 /**
@@ -283,7 +287,7 @@ export function transformConfirmedAppointments(appointments) {
     const transformed = {
       resourceType: 'Appointment',
       status: getStatus(appt, isPastAppointment),
-      description: isCC ? null : getVistaStatus(appt),
+      description: getVistaStatus(appt),
       start,
       minutesDuration,
       comment:
