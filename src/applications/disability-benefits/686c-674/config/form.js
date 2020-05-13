@@ -52,6 +52,25 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
+function transformForSubmit(
+  formConfig,
+  form,
+  replacer = stringifyFormReplacer,
+) {
+  const expandedPages = expandArrayPages(
+    createFormPageList(formConfig),
+    form.data,
+  );
+  const activePages = getActivePages(expandedPages, form.data);
+  const inactivePages = getInactivePages(expandedPages, form.data);
+  const withoutInactivePages = filterInactivePageData(
+    inactivePages,
+    activePages,
+    form,
+  );
+  return JSON.stringify(withoutInactivePages, replacer) || '{}';
+}
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/21-686c`,
@@ -69,7 +88,7 @@ const formConfig = {
   },
   title: 'New 686',
   defaultDefinitions: { ...fullSchema.definitions },
-  transformForSubmit: customTransformForSubmit,
+  transformForSubmit,
   chapters: {
     optionSelection: {
       title: 'What do you want to do?',
