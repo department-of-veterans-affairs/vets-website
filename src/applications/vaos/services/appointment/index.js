@@ -9,7 +9,7 @@ import { mapToFHIRErrors } from '../../utils/fhir';
  * @export
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @returns {Object} A FHIR searchset of Organization resources
+ * @returns {Object} A FHIR searchset of Appointment resources
  */
 export async function getBookedAppointments({ startDate, endDate }) {
   try {

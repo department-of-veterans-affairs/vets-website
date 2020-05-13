@@ -232,6 +232,12 @@ function setParticipant(appt) {
   return null;
 }
 
+/**
+ * Builds contained array and populates with video conference info
+ *
+ * @param {Object} appt  VAR appointment object
+ * @returns {Array} Array of contained objects of FHIR appointment containing video conference info
+ */
 function setContained(appt) {
   if (isVideoVisit(appt)) {
     return [
@@ -259,6 +265,12 @@ function setContained(appt) {
   return null;
 }
 
+/**
+ * Returns an object containing data we may need from legacy var
+ *
+ * @param {Object} appt  VAR appointment object
+ * @returns {Object}
+ */
 function setLegacyVAR(appt) {
   if (getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment) {
     return {
