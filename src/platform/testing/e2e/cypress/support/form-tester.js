@@ -173,8 +173,8 @@ Cypress.Commands.add('execHook', pathname => {
 Cypress.Commands.add('findData', field => {
   let resolvedDataPath;
 
-  cy.get('@testConfig', COMMAND_OPTIONS).then(
-    ({ testData, testDataPathPrefix }) => {
+  cy.get('@testConfig', COMMAND_OPTIONS).then(({ dataPathPrefix }) => {
+    cy.get('@testData', COMMAND_OPTIONS).then(testData => {
       const relativeDataPath = field.key
         .replace(/^root_/, '')
         .replace(/_/g, '.')
@@ -186,13 +186,13 @@ Cypress.Commands.add('findData', field => {
         : relativeDataPath;
 
       // Prefix any specified path to find data in the test data structure.
-      resolvedDataPath = testDataPathPrefix
-        ? `${testDataPathPrefix}.${resolvedDataPath}`
+      resolvedDataPath = dataPathPrefix
+        ? `${dataPathPrefix}.${resolvedDataPath}`
         : resolvedDataPath;
 
       cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
-    },
-  );
+    });
+  });
 
   Cypress.log({
     message: field.key,
@@ -363,19 +363,20 @@ Cypress.Commands.add('fillPage', () => {
  *
  * @typedef {object} TestConfig
  * @property {array<ArrayPage>} arrayPaths
+ * @property {string} dataPathPrefix - The path prefix for looking up form data
+ *     to fill out fields. Used when the data is nested under a certain key.
+ *     For example, if the test data looks like { data: { field1: 'value' } },
+ *     dataPathPrefix should be set to 'data'.
+ * @property {object} dataSets - The sets of data used to fill out fields during
+ *     the form flow. A test is generated for each data set and uses that data
+ *     for that run. Each data set should follow the same structure as the body
+ *     of the API request sent for a form submission.
  * @property {object.<function>} pageHooks - Functions used to bypass the
- *     automatic form filling for a single page. The property name corresponds
- *     to the url for the page.
- * @property {function} setup - Function that's called before starting all tests
- *     but after some core setup steps. Useful for setting up API mocks.
+ *     automatic form filling for specified pages. Each object key corresponds
+ *     to the URL of the page the hook applies to.
+ * @property {function} setup - Function that's called once before starting any
+ *     tests. Corresponds to the before (all) hook.
  * @property {function} setupPerTest - Function that's called before each test.
- * @property {object} testData - The object used to look up data to enter
- *     during the form flow. This should be the same structure as the body
- *     of the request sent for a form submission.
- * @property {string} testDataPathPrefix - The path prefix to get to the
- *     field data. For example, if the test data looks like
- *     { data: { field1: 'value' } },
- *     testDataPathPrefix should be set to 'data'.
  * @property {string} url - The URL for the form. All tests start by going here.
  * ---
  * @typedef {object} ArrayPage
@@ -387,38 +388,46 @@ Cypress.Commands.add('fillPage', () => {
  */
 const testForm = (testDescription, testConfig) => {
   describe(testDescription, () => {
-    before(() => {
-      cy.wrap(testConfig).as('testConfig');
+    // Supplement any array page objects from form config with regex patterns
+    // for later processing when we match page URLs against them
+    // in order to determine whether the pages are array pages, and if so,
+    // which index in the array they correspond to.
+    const arrayPageObjects = (testConfig.arrayPages || []).map(arrayPage => ({
+      regex: new RegExp(arrayPage.path.replace(':index', '(\\d+)$')),
+      ...arrayPage,
+    }));
 
-      // Supplement any array page objects from form config with regex patterns
-      // for later processing when we match page URLs against them
-      // in order to determine whether the pages are array pages, and if so,
-      // which index in the array they correspond to.
-      cy.wrap(
-        (testConfig.arrayPages || []).map(arrayPage => ({
-          regex: new RegExp(arrayPage.path.replace(':index', '(\\d+)$')),
-          ...arrayPage,
-        })),
-      ).as('arrayPageObjects');
+    before(() => {
+      if (testConfig.setup) testConfig.setup();
+    });
+
+    // Aliases and the stub server reset before every test,
+    // so those have to be set up _before each_ test.
+    beforeEach(() => {
+      cy.wrap(testConfig).as('testConfig');
+      cy.wrap(arrayPageObjects).as('arrayPageObjects');
 
       cy.server()
         .route('GET', 'v0/maintenance_windows', [])
-        .as('getMaintenanceWindows')
-        .then(() => {
-          if (testConfig.setup) testConfig.setup();
+        .as('getMaintenanceWindows');
+    });
+
+    Object.keys(testConfig.dataSets).forEach(testKey => {
+      context(testKey, () => {
+        beforeEach(() => {
+          cy.wrap(testConfig.dataSets[testKey]).as('testData');
+
+          if (testConfig.setupPerTest) {
+            testConfig.setupPerTest(testConfig);
+          }
         });
-    });
 
-    beforeEach(() => {
-      if (testConfig.setupPerTest) {
-        testConfig.setupPerTest(testConfig);
-      }
-    });
-
-    it('fills the form', () => {
-      cy.visit(testConfig.url)
-        .wait('@getMaintenanceWindows')
-        .then(processPage);
+        it('fills the form', () => {
+          cy.visit(testConfig.url)
+            .wait('@getMaintenanceWindows')
+            .then(processPage);
+        });
+      });
     });
   });
 };
