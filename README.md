@@ -132,6 +132,35 @@ Just like with unit tests, you can also **specify the path to the test file**
 yarn test:e2e src/applications/path/to/test-file.e2e.spec.js
 ```
 
+## Running a mock API for local development
+In separate terminal from your local dev server, run
+
+```sh
+yarn mock-api --responses path/to/responses.js
+```
+
+See the [mocker-api usage
+documentation](https://github.com/jaywcjlove/mocker-api#usage) for how to use
+the `responses.js`.
+
+**If you need to log in**, go to your browser dev tools console and enter
+`localStorage.setItem('hasSession', true)` and refresh the page. This will then
+trigger a `/v0/user` call, which will then get the mocked response of a logged-in
+user. (Assuming you've mocked that response, of course.)
+
+Responses to common API requests, such as `/v0/user` and
+`/v0/maintenance_windows`, you can use
+[`src/platform/testing/local-dev-mock-api/common.js`](src/platform/testing/local-dev-mock-api/common.js)
+
+``` javascript
+const commonResponses = require('src/platform/testing/local-dev-mock-api/common');
+
+module.exports = {
+  ...commonResponses,
+  'GET path/to/endpoint': { foo: 'bar' },
+};
+```
+
 ## More commands
 
 After a while, you may run into a less common task. We have a lot of commands
