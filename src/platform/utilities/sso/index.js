@@ -48,6 +48,6 @@ export const setForceAuth = () => {
   localStorage.setItem('requiresForceAuth', true);
 };
 
-export const deleteForceAuth = () => {
-  localStorage.deletItem('requiresForceAuth');
+export const removeForceAuth = () => {
+  localStorage.removeItem('requiresForceAuth');
 };
