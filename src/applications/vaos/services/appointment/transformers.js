@@ -84,13 +84,29 @@ function getVideoType(appt) {
 }
 
 /**
+ * Returns status for a vista appointment
+ *
+ * @param {Object} appointment Vista appointment object
+ * @returns {String} Status
+ */
+function getVistaStatus(appointment) {
+  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.vaAppointment) {
+    return isVideoVisit(appointment)
+      ? appointment.vvsAppointments?.[0]?.status?.code
+      : appointment.vdsAppointments?.[0]?.currentStatus;
+  }
+
+  return null;
+}
+
+/**
  *  Returns an appointment status
  *
  * @param {Object} appointment A VAR appointment object
  * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
  * @returns {String} Appointment status
  */
-function getAppointmentStatus(appointment, isPastAppointment) {
+function getStatus(appointment, isPastAppointment) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
@@ -101,9 +117,7 @@ function getAppointmentStatus(appointment, isPastAppointment) {
         : APPOINTMENT_STATUS.pending;
     }
     case APPOINTMENT_TYPES.vaAppointment: {
-      const currentStatus = isVideoVisit(appointment)
-        ? appointment.vvsAppointments?.[0]?.status?.code
-        : appointment.vdsAppointments?.[0]?.currentStatus;
+      const currentStatus = getVistaStatus(appointment);
 
       if (
         (isPastAppointment &&
@@ -179,13 +193,24 @@ function getAppointmentDuration(appt) {
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of participants of FHIR appointment
  */
-function addParticipantAndContained(appt, transformed) {
-  const isVideo = isVideoVisit(appt);
-  let participant;
-  let contained;
+function setParticipant(appt) {
+  if (!isVideoVisit(appt)) {
+    if (
+      isCommunityCare(appt) &&
+      !!appt.name?.firstName &&
+      !!appt.name?.lastName
+    ) {
+      return [
+        {
+          actor: {
+            reference: 'Practitioner/PRACTITIONER_ID',
+            display: `${appt.name.firstName} ${appt.name.lastName}`,
+          },
+        },
+      ];
+    }
 
-  if (!isVideo) {
-    participant = [
+    return [
       {
         actor: {
           reference: `HealthcareService/var${appt.facilityId}_${appt.clinicId}`,
@@ -194,8 +219,20 @@ function addParticipantAndContained(appt, transformed) {
         },
       },
     ];
-  } else {
-    contained = [
+  }
+
+  return null;
+}
+
+/**
+ * Builds contained array and populates with video conference info
+ *
+ * @param {Object} appt  VAR appointment object
+ * @returns {Array} Array of contained objects of FHIR appointment containing video conference info
+ */
+function setContained(appt) {
+  if (isVideoVisit(appt)) {
+    return [
       {
         resourceType: 'HealthcareService',
         id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
@@ -217,7 +254,47 @@ function addParticipantAndContained(appt, transformed) {
     ];
   }
 
-  return { ...transformed, participant, contained };
+  if (isCommunityCare(appt)) {
+    const address = appt.address;
+
+    return [
+      {
+        actor: {
+          name: appt.providerPractice,
+          address: {
+            line: [address?.street],
+            city: address?.city,
+            state: address?.state,
+            postalCode: address?.zipCode,
+          },
+          telecom: [
+            {
+              system: 'phone',
+              value: appt.providerPhone,
+            },
+          ],
+        },
+      },
+    ];
+  }
+
+  return null;
+}
+
+/**
+ * Returns an object containing data we may need from legacy var
+ *
+ * @param {Object} appt  VAR appointment object
+ * @returns {Object}
+ */
+function setLegacyVAR(appt) {
+  if (getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment) {
+    return {
+      facilityId: appt.facilityId,
+    };
+  }
+
+  return null;
 }
 
 /**
@@ -233,31 +310,27 @@ export function transformConfirmedAppointments(appointments) {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
     const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
-    const isVideo = isVideoVisit(appt);
+    const isCC = isCommunityCare(appt);
 
-    const transformed = {
+    return {
       resourceType: 'Appointment',
-      status: getAppointmentStatus(appt, isPastAppointment),
-      description: isVideo
-        ? appt.vvsAppointments?.[0].status?.code
-        : appt.vdsAppointments?.[0]?.currentStatus,
+      status: getStatus(appt, isPastAppointment),
+      description: getVistaStatus(appt),
       start,
       minutesDuration,
       comment:
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes,
-      legacyVAR: {
-        facilityId: appt.facilityId,
-      },
+      participant: setParticipant(appt),
+      contained: setContained(appt),
+      legacyVAR: setLegacyVAR(appt),
       vaos: {
         isPastAppointment,
         appointmentType: getAppointmentType(appt),
         videoType: getVideoType(appt),
-        isCommunityCare: isCommunityCare(appt),
+        isCommunityCare: isCC,
       },
     };
-
-    return addParticipantAndContained(appt, transformed);
   });
 }
