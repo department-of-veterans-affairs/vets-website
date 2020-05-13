@@ -764,7 +764,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          captureError(error, false, null, {
+          captureError(error, false, 'Request message failure', {
             messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
           });
         }
@@ -792,7 +792,7 @@ export function submitAppointmentOrRequest(router) {
             cityState: requestBody.cityState,
           };
         }
-        captureError(error, true, null, extraData);
+        captureError(error, true, 'Request submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
