@@ -93,7 +93,7 @@ const testConfig = {
       });
     });
   },
-  url: '/disability/file-disability-claim-form-21-526ez/introduction',
+  url: '/disability/file-disability-claim-form-21-526ez',
 };
 
 testForm('523 all claims', testConfig);
