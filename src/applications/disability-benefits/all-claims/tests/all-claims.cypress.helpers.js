@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { VA_FORM_IDS } from '../../../../platform/forms/constants';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import maximalTest from './data/maximal-test.json';
 import minimalTest from './data/minimal-test.json';

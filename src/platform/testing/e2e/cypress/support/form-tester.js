@@ -31,9 +31,12 @@ const createFieldObject = element => {
     type: element.prop('type') || element.prop('tagName'),
   };
 
-  const containerClass = element.parent().attr('class');
+  const isDateField = element
+    .parent()
+    .attr('class')
+    ?.includes('date');
 
-  if (containerClass && containerClass.includes('date')) {
+  if (isDateField) {
     // Dates in form data combine all the date components (year, month, day),
     // so treat filling out date fields as a single step for entering data.
     field.key = field.key.replace(/(Year|Month|Day)$/, '');
@@ -118,12 +121,10 @@ const processPage = () => {
     if (pathname.endsWith('review-and-submit')) {
       // Run page hook for review page if any.
       cy.execHook(pathname);
-
       cy.findByLabelText(/accept/i).click();
       cy.findByText(/submit/i, { selector: 'button' }).click();
       cy.location('pathname').then(finalPathname => {
         expect(finalPathname).to.match(/confirmation$/);
-
         // Run page hook for confirmation page if any.
         cy.execHook(finalPathname);
       });
@@ -153,7 +154,7 @@ const processPage = () => {
  */
 Cypress.Commands.add('execHook', pathname => {
   cy.get('@testConfig', COMMAND_OPTIONS).then(({ pageHooks }) => {
-    const hook = pageHooks && pageHooks[pathname];
+    const hook = pageHooks?.[pathname];
     if (hook) {
       if (typeof hook !== 'function') {
         throw new Error(`Page hook for ${pathname} is not a function`);
