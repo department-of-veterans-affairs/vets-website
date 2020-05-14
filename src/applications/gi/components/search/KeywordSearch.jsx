@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
-import { handleInputFocus } from '../../utils/helpers';
+import { handleScrollOnInputFocus } from '../../utils/helpers';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -106,7 +106,10 @@ export class KeywordSearch extends React.Component {
                   type: 'text',
                   onChange: this.handleChange,
                   onKeyUp: this.handleKeyUp,
-                  onFocus: handleInputFocus.bind(this, 'keyword-search'),
+                  onFocus: handleScrollOnInputFocus.bind(
+                    this,
+                    'keyword-search',
+                  ),
                   'aria-labelledby': 'institution-search-label',
                 })}
               />

@@ -9,7 +9,7 @@ import BenefitsForm from '../profile/BenefitsForm';
 function InstitutionSearchForm(props) {
   return (
     <div className="row">
-      <div className={props.filtersClass}>
+      <div id="institution-search" className={props.filtersClass}>
         <div className={'filters-sidebar-inner'}>
           {props.search.filterOpened && <h1>Filter your search</h1>}
           <h2>Keywords</h2>
@@ -27,6 +27,7 @@ function InstitutionSearchForm(props) {
             filters={props.filters}
             handleFilterChange={props.handleFilterChange}
             showModal={props.showModal}
+            handleInputFocus={props.handleInputFocus}
           />
           {props.gibctEstimateYourBenefits ? (
             <BenefitsForm
@@ -35,17 +36,22 @@ function InstitutionSearchForm(props) {
               hideModal={props.hideModal}
               showModal={props.showModal}
               showHeader
+              handleInputFocus={props.handleInputFocus}
             />
           ) : (
-            <EligibilityForm eligibilityChange={props.eligibilityChange} />
+            <EligibilityForm
+              eligibilityChange={props.eligibilityChange}
+              handleInputFocus={props.handleInputFocus}
+            />
           )}
           <OnlineClassesFilter
             onlineClasses={props.eligibility.onlineClasses}
             onChange={props.eligibilityChange}
             showModal={props.showModal}
+            handleInputFocus={props.handleInputFocus}
           />
         </div>
-        <div className="results-button">
+        <div id="see-results-button" className="results-button">
           <button className="usa-button" onClick={props.toggleFilter}>
             See Results
           </button>

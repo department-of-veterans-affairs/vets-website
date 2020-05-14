@@ -8,12 +8,13 @@ import {
   formatCurrency,
   isCountryInternational,
   locationInfo,
+  isMobileView,
 } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import recordEvent from 'platform/monitoring/record-event';
-import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
+import { ariaLabels } from '../../constants';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -143,7 +144,7 @@ class CalculatorForm extends React.Component {
 
   handleInputFocus = fieldId => {
     const field = document.getElementById(fieldId);
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+    if (isMobileView()) {
       field.scrollIntoView();
     }
   };

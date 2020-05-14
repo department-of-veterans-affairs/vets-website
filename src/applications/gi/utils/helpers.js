@@ -91,33 +91,55 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
-export const handleInputFocus = fieldId => {
+export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
+
+export const handleScrollOnInputFocus = fieldId => {
   const field = document.getElementById(fieldId);
-  if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+  if (isMobileView()) {
     // prod flag for bah-8821 EYB changes
     if (environment.isProduction()) {
       field.scrollIntoView();
     } else {
       field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      const eybSheetField = document.getElementById('eyb-sheet');
-      if (eybSheetField) {
-        const eybSheetRect = eybSheetField.getBoundingClientRect();
-        const fieldRect = field.getBoundingClientRect();
-        const overlap = !(
-          eybSheetRect.right < fieldRect.left ||
-          eybSheetRect.left > fieldRect.right ||
-          eybSheetRect.bottom < fieldRect.top ||
-          eybSheetRect.top > fieldRect.bottom
-        );
-        if (overlap) {
-          const scrollUpBy = fieldRect.bottom - eybSheetRect.top;
-          window.scrollBy({
-            top: scrollUpBy,
-            left: 0,
-            behavior: 'smooth',
-          });
-        }
-      }
+    }
+  }
+};
+
+export const scrollUpIfOverlap = (fieldId1, fieldId2, scrollableFieldId) => {
+  const field1 = document.getElementById(fieldId1);
+  const field2 = document.getElementById(fieldId2);
+  if (field1 && field2) {
+    const fieldRect1 = field1.getBoundingClientRect();
+    const fieldRect2 = field2.getBoundingClientRect();
+    const hasOverLap = !(
+      fieldRect1.right < fieldRect2.left ||
+      fieldRect1.left > fieldRect2.right ||
+      fieldRect1.bottom < fieldRect2.top ||
+      fieldRect1.top > fieldRect2.bottom
+    );
+    if (hasOverLap === true) {
+      const scrollableField =
+        document.getElementById(scrollableFieldId) || window;
+      const scrollUpBy = fieldRect1.bottom - fieldRect2.top + 2;
+      scrollableField.scrollBy({
+        top: scrollUpBy,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+  }
+};
+
+export const handleInputFocusWithOverLap = (
+  fieldId1,
+  fieldId2,
+  scrollableFieldId,
+) => {
+  if (isMobileView()) {
+    handleScrollOnInputFocus(fieldId1);
+    // prod flag for bah-8821 EYB changes
+    if (!environment.isProduction()) {
+      scrollUpIfOverlap(fieldId1, fieldId2, scrollableFieldId);
     }
   }
 };

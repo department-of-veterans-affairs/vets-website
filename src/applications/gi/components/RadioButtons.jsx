@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ToolTip from './ToolTip';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import { handleInputFocus } from '../utils/helpers';
+import { handleScrollOnInputFocus } from '../utils/helpers';
 
 /**
  * A radio button group with a label.
@@ -65,7 +65,7 @@ class RadioButtons extends React.Component {
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            onFocus={handleInputFocus.bind(this, `${this.inputId}-field`)}
+            onFocus={this.props.onFocus.bind(this, `${this.inputId}-field`)}
             aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
@@ -177,6 +177,11 @@ RadioButtons.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
+  onFocus: PropTypes.func,
+};
+
+RadioButtons.defaultProps = {
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default RadioButtons;

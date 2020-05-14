@@ -29,6 +29,7 @@ import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
+import { handleInputFocusWithOverLap } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -164,6 +165,12 @@ export class SearchPage extends React.Component {
     this.props.router.push({ ...this.props.location, query });
   };
 
+  handleInstitutionSearchInputFocus = fieldId => {
+    const seeResultsFieldId = 'see-results-button';
+    const scrollableFieldId = 'institution-search';
+    handleInputFocusWithOverLap(fieldId, seeResultsFieldId, scrollableFieldId);
+  };
+
   searchResults = () => {
     const { search } = this.props;
     const {
@@ -268,6 +275,7 @@ export class SearchPage extends React.Component {
         eligibilityChange={this.props.eligibilityChange}
         gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
         hideModal={this.props.hideModal}
+        handleInputFocus={this.handleInstitutionSearchInputFocus}
       />
     </div>
   );
