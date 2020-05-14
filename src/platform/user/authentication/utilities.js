@@ -3,8 +3,8 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
-import { getForceAuth } from '../../utilities/sso';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
+import { getForceAuth } from '../../utilities/sso/forceAuth';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',

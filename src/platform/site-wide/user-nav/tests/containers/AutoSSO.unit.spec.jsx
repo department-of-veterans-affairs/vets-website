@@ -3,8 +3,8 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 import * as ssoUtils from 'platform/utilities/sso';
+import * as forceAuth from 'platform/utilities/sso/forceAuth';
 
-import * as helpers from '../../helpers';
 import { AutoSSO } from '../../containers/AutoSSO';
 
 describe('<AutoSSO>', () => {
@@ -21,7 +21,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should not call setForceAuth if auth query param is set to "success"', () => {
-    const stub = sinon.stub(ssoUtils, 'setForceAuth');
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {
       location: {
@@ -36,7 +36,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should call setForceAuth if auth query param is not set to "failed"', () => {
-    const stub = sinon.stub(ssoUtils, 'setForceAuth');
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {
       location: {
@@ -51,7 +51,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should call setForceAuth if auth query param is not set to "force-needed"', () => {
-    const stub = sinon.stub(ssoUtils, 'setForceAuth');
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {
       location: {
@@ -66,7 +66,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should not call removeForceAuth if user is logged out', () => {
-    const stub = sinon.stub(ssoUtils, 'removeForceAuth');
+    const stub = sinon.stub(forceAuth, 'removeForceAuth');
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
@@ -74,7 +74,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should call removeForceAuth if user is logged in', () => {
-    const stub = sinon.stub(ssoUtils, 'removeForceAuth');
+    const stub = sinon.stub(forceAuth, 'removeForceAuth');
     Object.assign(props, {
       userLoggedIn: true,
     });
@@ -85,7 +85,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should not call checkStatus if it already has', () => {
-    const stub = sinon.stub(helpers, 'checkAutoSession');
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession');
     Object.assign(props, {
       hasCalledKeepAlive: true,
       useSSOe: true,
@@ -98,7 +98,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should call keepalive if it has yet to', () => {
-    const stub = sinon.stub(helpers, 'checkAutoSession');
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession');
     Object.assign(props, {
       hasCalledKeepAlive: false,
       useSSOe: true,

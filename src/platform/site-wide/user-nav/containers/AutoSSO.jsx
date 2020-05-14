@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import URLSearchParams from 'url-search-params';
 
 import { isLoggedIn } from 'platform/user/selectors';
 import { checkKeepAlive } from 'platform/user/authentication/actions';
@@ -7,20 +8,20 @@ import {
   ssoeInbound,
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
-import { setForceAuth, removeForceAuth } from 'platform/utilities/sso';
-
-import { parseqs, checkAutoSession } from '../helpers';
+import { checkAutoSession } from 'platform/utilities/sso';
+import {
+  setForceAuth,
+  removeForceAuth,
+} from 'platform/utilities/sso/forceAuth';
 
 function AutoSSO(props) {
   const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
-  const auth = parseqs(window.location.search).auth;
-
-  if (auth && auth !== 'success') {
-    setForceAuth();
-  }
+  const params = new URLSearchParams(window.location.search);
 
   if (userLoggedIn) {
     removeForceAuth();
+  } else if (params.get('auth') !== 'success') {
+    setForceAuth();
   }
 
   if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
