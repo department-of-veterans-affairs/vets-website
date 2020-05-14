@@ -48,14 +48,10 @@ export const ServerErrorAlert = (
     </p>
     <p>
       If you get this error again, please call the VA.gov help desk at{' '}
-      <a
-        href="tel:8446982311"
-        aria-label="8 4 4. 6 9 8. 2 3 1 1."
-        title="Dial the telephone number 844-698-2311"
-      >
+      <a href="tel:8446982311" aria-label="8 4 4. 6 9 8. 2 3 1 1.">
         844-698-2311
       </a>{' '}
-      (TTY:711). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
+      (TTY:711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>
 );
