@@ -8,7 +8,7 @@ import { lowerCase } from '../utils/formatters';
 
 export default function NoValidVAFacilities({ formContext }) {
   const {
-    parentId,
+    siteId,
     typeOfCare,
     facilityDetailsStatus,
     parentDetails,
@@ -30,8 +30,9 @@ export default function NoValidVAFacilities({ formContext }) {
         content={
           <>
             <p>
-              We’re sorry. This facility doesn’t accept appointments for this
-              type of care. Please call the medical center for more information.
+              We’re sorry. This facility doesn’t allow online appointments for
+              this type of care. Please call the medical center for more
+              information.
             </p>
             {parentDetails ? (
               <div className="vads-u-padding-left--2 vads-u-border-left--4px vads-u-border-color--primary">
@@ -78,7 +79,7 @@ export default function NoValidVAFacilities({ formContext }) {
               <p>
                 You can find contact information for this medical center at{' '}
                 <a
-                  href={`/find-locations/facility/vha_${parentId}`}
+                  href={`/find-locations/facility/vha_${siteId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -123,7 +123,7 @@
   {
     "appName": "View Dependents",
     "entryName": "dependents-view-dependents",
-    "rootUrl": "/disability/view-dependents",
+    "rootUrl": "/view-change-dependents/view",
     "template": {
       "layout": "page-react.html",
       "vagovprod": false
@@ -169,7 +169,8 @@
       "vagovprod": false,
       "vagovstaging": true,
       "vagovdev": true,
-      "localhost": true
+      "localhost": true,
+      "includeBreadcrumbs": true
     }
   },
   {

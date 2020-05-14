@@ -8,28 +8,31 @@ import {
 import {
   getLocations,
   getLocation,
-  getLocationsByTypeOfCare,
+  getSupportedLocationsByTypeOfCare,
+  getParentOfLocation,
+  getFacilityIdFromLocation,
 } from '../../../services/location';
 import facilities983 from '../../../api/facilities_983.json';
 import facilityDetails from '../../../api/facility_data.json';
+import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {
-  describe('getLocationsByTypeOfCare', () => {
+  describe('getSupportedLocationsByTypeOfCare', () => {
     let data;
 
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities983);
-      data = await getLocationsByTypeOfCare({
-        systemId: 'var983',
+      data = await getSupportedLocationsByTypeOfCare({
+        rootOrgId: 'var983',
         parentId: 'var983A6',
         typeOfCareId: '123',
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
+        'vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
-      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
+      expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
     });
 
     it('should return OperationOutcome error', async () => {
@@ -40,8 +43,8 @@ describe('VAOS Location service', () => {
 
       let error;
       try {
-        data = await getLocationsByTypeOfCare({
-          systemId: 'var983',
+        data = await getSupportedLocationsByTypeOfCare({
+          rootOrgId: 'var983',
           parentId: 'var983A6',
           typeOfCareId: '123',
         });
@@ -50,7 +53,7 @@ describe('VAOS Location service', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/vaos/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
+        '/vaos/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983A6',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
@@ -129,6 +132,43 @@ describe('VAOS Location service', () => {
         '/facilities/va/vha_442',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+  });
+
+  describe('getParentOfLocation', () => {
+    it('should return parent org', () => {
+      const orgs = [
+        {
+          id: 'testorg',
+        },
+        {
+          id: 'testorg2',
+        },
+      ];
+      const location = {
+        id: 'test',
+        managingOrganization: {
+          reference: 'Organization/testorg2',
+        },
+      };
+      const org = getParentOfLocation(orgs, location);
+      expect(org).to.equal(orgs[1]);
+    });
+  });
+
+  describe('getFacilityIdFromLocation', () => {
+    it('should get the facility id', () => {
+      const location = {
+        id: 'test',
+        identifier: [
+          {
+            system: VHA_FHIR_ID,
+            value: '983',
+          },
+        ],
+      };
+      const id = getFacilityIdFromLocation(location);
+      expect(id).to.equal('983');
     });
   });
 });
