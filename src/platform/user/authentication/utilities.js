@@ -1,5 +1,6 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
+import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
@@ -20,16 +21,12 @@ function sessionTypeUrl(type = '', version = 'v0', application = null) {
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
-  const params = {
-    application,
-    force: getForceAuth() && version === 'v1' && 'true',
-  };
-  const qs = Object.keys(params)
-    .filter(key => params[key])
-    .map(key => `${key}=${params[key]}`)
-    .join('&');
+  const params = new URLSearchParams();
 
-  return `${base}/${type}/new${qs ? `?${qs}` : ''}`;
+  if (application) params.append('application', application);
+  if (getForceAuth() && version === 'v1') params.append('force', 'true');
+
+  return `${base}/${type}/new?${params.toString()}`;
 }
 
 const loginUrl = (policy, version, application) => {
