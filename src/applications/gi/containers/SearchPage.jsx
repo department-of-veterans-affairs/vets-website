@@ -29,7 +29,7 @@ import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
-import { handleInputFocusWithOverLap } from '../utils/helpers';
+import { handleInputFocusWithPotentialOverLap } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -168,7 +168,11 @@ export class SearchPage extends React.Component {
   handleInstitutionSearchInputFocus = fieldId => {
     const seeResultsFieldId = 'see-results-button';
     const scrollableFieldId = 'institution-search';
-    handleInputFocusWithOverLap(fieldId, seeResultsFieldId, scrollableFieldId);
+    handleInputFocusWithPotentialOverLap(
+      fieldId,
+      seeResultsFieldId,
+      scrollableFieldId,
+    );
   };
 
   searchResults = () => {

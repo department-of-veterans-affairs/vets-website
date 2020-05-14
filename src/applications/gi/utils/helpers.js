@@ -130,7 +130,7 @@ export const scrollUpIfOverlap = (fieldId1, fieldId2, scrollableFieldId) => {
   }
 };
 
-export const handleInputFocusWithOverLap = (
+export const handleInputFocusWithPotentialOverLap = (
   fieldId1,
   fieldId2,
   scrollableFieldId,

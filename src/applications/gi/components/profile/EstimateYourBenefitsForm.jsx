@@ -9,7 +9,7 @@ import {
   formatCurrency,
   isCountryInternational,
   locationInfo,
-  handleInputFocusWithOverLap,
+  handleInputFocusWithPotentialOverLap,
   isMobileView,
 } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
@@ -159,7 +159,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleEYBInputFocus = fieldId => {
     const eybSheetFieldId = 'eyb-sheet';
-    handleInputFocusWithOverLap(fieldId, eybSheetFieldId);
+    handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
   };
 
   resetBuyUp = event => {
