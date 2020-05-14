@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { links } from 'applications/caregivers/definitions/content';
 
-export const VetInfo = ({ pageTitle }) => (
+const VetInfo = ({ pageTitle, headerInfo }) => (
   <>
     {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
-    <p className="vads-u-margin-top--2">
-      Please complete all of the following information
-    </p>
+
+    {headerInfo && (
+      <p className="vads-u-margin-top--2">
+        Please complete all the following information.
+      </p>
+    )}
   </>
 );
 
@@ -16,9 +19,7 @@ VetInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-export const LearnMoreSecondaryCaregiver = () => <></>;
-
-export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
   <>
     {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
     <p className="vads-u-margin-top--2">
@@ -50,11 +51,11 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               {links.familyCaregiver.label}
             </a>
           </p>
+
           <>
             <p>
-              For the purpose of the program, Primary Family Caregivers are
-              people designated as a primary provider of personal care services
-              to a Veteran. They can be the Veteran’s or service member’s:
+              A Primary Family Caregiver is the main caregiver for the Veteran.
+              They can be the Veteran’s or service member’s:
             </p>
 
             <ul>
@@ -65,7 +66,7 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               <li>Extended family member</li>
               <li>
                 Non-family member who lives with the Veteran or service member,
-                or will do so after approval.
+                or will do so after approval
               </li>
             </ul>
           </>
@@ -84,12 +85,12 @@ PrimaryCaregiverInfo.defaultProps = {
   additionalInfo: false,
 };
 
-export const SecondaryCaregiverLegal = () => (
+const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Learn more about Secondary Family Caregiver">
+    <AdditionalInfo triggerText="What's a Secondary Family Caregiver?">
       <p>
-        An individual approved as a "provider of personal care services" for the
-        eligible Veteran under
+        Secondary Family Caregivers are people approved as a “provider of
+        personal care services” for the eligible Veteran under
         <a
           href={links.caregiverDefinition.link}
           target="_blank"
@@ -107,13 +108,11 @@ export const SecondaryCaregiverLegal = () => (
         >
           {links.familyCaregiver.label}
         </a>
-        and generally serves as a back-up to the Primary Family Caregiver.
+        and generally serves as a backup to the Primary Family Caregiver.
       </p>
 
       <>
-        <p>
-          Secondary Family Caregivers can be the Veteran’s or service member’s:
-        </p>
+        <p>They can be the Veteran’s or service member’s:</p>
 
         <ul>
           <li>Parent</li>
@@ -122,8 +121,8 @@ export const SecondaryCaregiverLegal = () => (
           <li>Step-family member</li>
           <li>Extended family member</li>
           <li>
-            Someone who is not a family member but resides with the Veteran or
-            will do so upon approval
+            Non-family member who lives with the Veteran or service member, or
+            will do so after approval
           </li>
         </ul>
       </>
@@ -131,13 +130,15 @@ export const SecondaryCaregiverLegal = () => (
   </div>
 );
 
-export const SecondaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+const SecondaryCaregiverInfo = ({ pageTitle, additionalInfo, headerInfo }) => (
   <>
     {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
-    <p className="vads-u-margin-top--2">
-      Please complete the following information about the Secondary Family
-      Caregiver.
-    </p>
+    {headerInfo && (
+      <p className="vads-u-margin-top--2">
+        Please complete the following information about the Secondary Family
+        Caregiver.
+      </p>
+    )}
 
     {additionalInfo && <SecondaryCaregiverLegal />}
   </>
@@ -148,11 +149,11 @@ SecondaryCaregiverInfo.propTypes = {
   pageTitle: PropTypes.string,
 };
 
-export const FacilityInfo = () => (
-  <>
+const FacilityInfo = () => (
+  <div className="vads-u-margin-top--2p5">
     <div className="vads-u-margin-bottom--4">
-      <b>Note:</b> Please choose the medical center or clinic closest to your
-      home.
+      <b>Note:</b> You should choose the medical center or clinic closest to
+      your home.
     </div>
 
     <a
@@ -163,10 +164,10 @@ export const FacilityInfo = () => (
     >
       {links.findLocations.label}
     </a>
-  </>
+  </div>
 );
 
-export const CaregiverSupportInfo = () => (
+const CaregiverSupportInfo = () => (
   <div className="vads-u-margin-y--1p5">
     <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
       A Caregiver Support Coordinator is a clinical professional who connects
@@ -177,7 +178,7 @@ export const CaregiverSupportInfo = () => (
   </div>
 );
 
-export const PrimaryHealthCoverage = ({ pageTitle }) => (
+const PrimaryHealthCoverage = ({ pageTitle }) => (
   <>
     {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
 
@@ -190,7 +191,7 @@ export const PrimaryHealthCoverage = ({ pageTitle }) => (
   </>
 );
 
-export const PleaseSelectVAFacility = () => (
+const PleaseSelectVAFacility = () => (
   <div>
     <p>
       Please select the VA medical center or clinic where the Veteran receives
@@ -199,7 +200,35 @@ export const PleaseSelectVAFacility = () => (
 
     <p>
       A Caregiver Support Coordinator at this VA medical center will review your
-      application
+      application.
     </p>
   </div>
 );
+
+const ReviewInfo = () => (
+  <p>
+    <b>Note:</b> According to federal law, there are criminal penalties,
+    including a fine and/or imprisonment for up to 5 years, for withholding
+    information or providing incorrect information. (See 18 U.S.C. 1001)
+  </p>
+);
+
+const AdditionalCaregiverInfo = () => (
+  <>
+    <b>You can add up to 2 Secondary Family Caregivers.</b>
+    <p>Would you like to add another Secondary Family Caregiver?</p>
+  </>
+);
+
+export {
+  AdditionalCaregiverInfo,
+  CaregiverSupportInfo,
+  FacilityInfo,
+  PleaseSelectVAFacility,
+  PrimaryCaregiverInfo,
+  PrimaryHealthCoverage,
+  ReviewInfo,
+  SecondaryCaregiverInfo,
+  SecondaryCaregiverLegal,
+  VetInfo,
+};

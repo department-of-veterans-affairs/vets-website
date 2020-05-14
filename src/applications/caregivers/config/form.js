@@ -109,7 +109,7 @@ const formConfig = {
           path: 'service-member-1',
           title: ' ',
           uiSchema: {
-            'ui:description': VetInfo,
+            'ui:description': VetInfo({ headerInfo: true }),
             [vetFields.fullName]: fullNameUI(vetUI.vetInputLabel),
             [vetFields.ssn]: ssnUI(vetUI.vetInputLabel),
             [vetFields.dateOfBirth]: dateOfBirthUI(vetUI.vetInputLabel),
@@ -135,7 +135,10 @@ const formConfig = {
           path: 'service-member-2',
           title: contactInfoTitle,
           uiSchema: {
-            'ui:description': VetInfo({ pageTitle: contactInfoTitle }),
+            'ui:description': VetInfo({
+              pageTitle: contactInfoTitle,
+              headerInfo: true,
+            }),
             [vetFields.address]: addressWithoutCountryUI(vetUI.vetInputLabel),
             [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI(
               vetUI.vetInputLabel,
@@ -362,7 +365,10 @@ const formConfig = {
           path: 'secondaryOne-caregiver-1',
           title: ' ',
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo({ additionalInfo: true }),
+            'ui:description': SecondaryCaregiverInfo({
+              additionalInfo: true,
+              headerInfo: true,
+            }),
             [primaryCaregiverFields.hasSecondaryCaregiverOneView]: hasSecondaryCaregiverOneUI,
           },
           schema: {
@@ -379,7 +385,7 @@ const formConfig = {
           title: 'Secondary Family Caregiver information',
           depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({ headerInfo: true }),
             // secondaryOne UI
             [secondaryCaregiverFields.secondaryOne.fullName]: fullNameUI(
               secondaryCaregiversUI.secondaryOneInputLabel,

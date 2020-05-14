@@ -45,10 +45,7 @@ const IntroductionPage = ({ route, router }) => {
 
             <p>You will also need:</p>
             <ul className="process-lists">
-              <li>
-                The name of the VA medical center where the Veteran receives
-                care
-              </li>
+              <li>The VA medical center where the Veteran will receive care</li>
               <li>
                 Health insurance information for the Primary Family Caregiver
               </li>
@@ -90,26 +87,25 @@ const IntroductionPage = ({ route, router }) => {
                 <li>
                   Contact the National Caregiver Support Line at
                   <a
-                    href="tel:8552603274"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="vads-u-margin-x--0p5"
+                    href="tel:8552603274"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
                     855-260-3274
                   </a>
-                  or a Veterans Service Organization to get help filling out the
-                  form.
+                  or a
+                  <a
+                    className="vads-u-margin-x--0p5"
+                    href="https://www.va.gov/disability/get-help-filing-claim/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Veterans Service Organization
+                  </a>
+                  to get help filling out the form
                 </li>
               </ul>
-
-              <a
-                href={links.getHelpFillingApplication.link}
-                rel="noopener noreferrer"
-                target="_blank"
-                className="vads-u-margin-x--0p5"
-              >
-                {links.getHelpFillingApplication.label}
-              </a>
 
               <CaregiverSupportInfo />
             </div>
