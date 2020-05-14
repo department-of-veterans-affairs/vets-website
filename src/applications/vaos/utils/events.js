@@ -7,9 +7,15 @@ export function recordVaosError(errorKey) {
   });
 }
 
-export function recordEligibilityFailure(errorKey) {
+export function recordEligibilityFailure(
+  errorKey,
+  typeOfCare = null,
+  facilityId = null,
+) {
   recordEvent({
     event: `vaos-eligibility${errorKey ? `-${errorKey}` : ''}-failed`,
+    'health-TypeOfCare': typeOfCare,
+    'health-FacilityID': facilityId,
   });
 }
 
