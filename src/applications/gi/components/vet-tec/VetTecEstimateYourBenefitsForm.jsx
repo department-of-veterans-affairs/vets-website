@@ -11,6 +11,7 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -107,7 +108,11 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
             scholarships: removeNonNumberCharacters(e.target.value),
           })
         }
-        onFocus={handleScrollOnInputFocus.bind(this, 'scholarships-field')}
+        onFocus={
+          // prod flag for bah-8821
+          !environment.isProduction() &&
+          handleScrollOnInputFocus.bind(this, 'scholarships-field')
+        }
         onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
@@ -141,7 +146,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
             tuitionFees: removeNonNumberCharacters(e.target.value),
           })
         }
-        onFocus={handleScrollOnInputFocus.bind(this, 'tuition-field')}
+        onFocus={
+          !environment.isProduction() &&
+          handleScrollOnInputFocus.bind(this, 'tuition-field')
+        }
         onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>

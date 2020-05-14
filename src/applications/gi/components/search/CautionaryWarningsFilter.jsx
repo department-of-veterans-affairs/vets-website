@@ -51,6 +51,7 @@ class CautionaryWarningsFilter extends React.Component {
           name="excludeWarnings"
           label="Exclude results with warnings or closings"
           onChange={this.props.onChange}
+          onFocus={this.props.handleInputFocus}
         />
       </div>
     );

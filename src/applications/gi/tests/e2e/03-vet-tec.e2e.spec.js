@@ -2,6 +2,7 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 const VetTecHelpers = require('./vet-tec-helpers');
+const UtilHelpers = require('../../utils/helpers');
 const vetTecSearchResults = require('../data/vet-tec-search-results.json');
 
 /**
@@ -31,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.expectLocation(client, `/program-search`);
   GiHelpers.selectSearchResult(
     client,
-    GiHelpers.createId(
+    UtilHelpers.createId(
       `${vetTecAttributes.facility_code}-${vetTecAttributes.description}`,
     ),
     false,

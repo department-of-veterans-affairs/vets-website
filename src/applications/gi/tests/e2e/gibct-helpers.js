@@ -1,3 +1,4 @@
+const UtilHelpers = require('../../utils/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const autocomplete = require('../data/autocomplete.json');
 const institutionProfile = require('../data/institution-profile.json');
@@ -116,9 +117,7 @@ const selectSearchResult = (client, facilityCode, checkLocation = true) => {
   if (checkLocation) expectLocation(client, `/profile/${facilityCode}`);
 };
 
-const createId = name => name?.toLowerCase().replace(/\s/g, '-');
-
-const createAccordionId = name => `#${createId(name)}-accordion`;
+const createAccordionId = name => `#${UtilHelpers.createId(name)}-accordion`;
 
 /**
  * Expand or collapse an AccordionItem and perform axe check
@@ -195,7 +194,7 @@ const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
 
 const formatNumberHalf = value => {
   const halfVal = Math.round(value / 2);
-  return formatCurrency(halfVal);
+  return UtilHelpers.formatCurrency(halfVal);
 };
 
 const formatCurrencyHalf = value => formatNumberHalf(Math.round(+value));
@@ -257,7 +256,7 @@ const aboutYourSchool = (client, sections = eybSections) => {
  * @param housingRate
  */
 const checkProfileHousingRate = (client, housingRate) => {
-  const housingRateId = `#calculator-result-row-${createId(
+  const housingRateId = `#calculator-result-row-${UtilHelpers.createId(
     'Housing allowance',
   )} h5`;
 
@@ -343,5 +342,4 @@ module.exports = {
   learningFormatAndSchedule,
   scholarshipsAndOtherFunding,
   breadCrumb,
-  createId,
 };

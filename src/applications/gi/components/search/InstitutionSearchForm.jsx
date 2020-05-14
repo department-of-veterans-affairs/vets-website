@@ -5,17 +5,27 @@ import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
 import BenefitsForm from '../profile/BenefitsForm';
-import { handleInputFocusWithPotentialOverLap } from '../../utils/helpers';
+import {
+  handleInputFocusWithPotentialOverLap,
+  isMobileView,
+} from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 function InstitutionSearchForm(props) {
   function handleInstitutionSearchInputFocus(fieldId) {
-    const seeResultsButtonFieldId = 'see-results-button';
-    const scrollableFieldId = 'institution-search';
-    handleInputFocusWithPotentialOverLap(
-      fieldId,
-      seeResultsButtonFieldId,
-      scrollableFieldId,
-    );
+    // prod flag for bah-8821
+    if (environment.isProduction() && isMobileView()) {
+      const field = document.getElementById(fieldId);
+      field.scrollIntoView();
+    } else {
+      const seeResultsButtonFieldId = 'see-results-button';
+      const scrollableFieldId = 'institution-search';
+      handleInputFocusWithPotentialOverLap(
+        fieldId,
+        seeResultsButtonFieldId,
+        scrollableFieldId,
+      );
+    }
   }
 
   return (

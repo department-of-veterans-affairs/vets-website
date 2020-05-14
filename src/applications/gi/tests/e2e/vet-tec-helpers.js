@@ -1,4 +1,5 @@
 const GiHelpers = require('./gibct-helpers');
+const UtilHelpers = require('../../utils/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const vetTecProfile = require('../data/vet-tec-profile.json');
 const vetTecSearchResults = require('../data/vet-tec-search-results.json');
@@ -35,7 +36,7 @@ const verifySearchResults = (client, results = vetTecSearchResults) => {
     const id = `#search-result-${result.attributes.facility_code}-${
       result.attributes.description
     }`;
-    client.waitForElementVisible(GiHelpers.createId(id), Timeouts.normal);
+    client.waitForElementVisible(UtilHelpers.createId(id), Timeouts.normal);
   });
 };
 

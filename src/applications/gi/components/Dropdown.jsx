@@ -1,12 +1,21 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { handleScrollOnInputFocus } from '../utils/helpers';
+import { SMALL_SCREEN_WIDTH } from '../constants';
+import environment from 'platform/utilities/environment';
 
 class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.dropdownId = `${this.props.name}-dropdown`;
   }
+
+  handleFocus = () => {
+    const field = document.getElementById(this.dropdownId);
+    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      field.scrollIntoView();
+    }
+  };
 
   render() {
     if (!this.props.visible) {
@@ -23,7 +32,12 @@ class Dropdown extends React.Component {
           alt={this.props.alt}
           value={this.props.value}
           onChange={this.props.onChange}
-          onFocus={this.props.onFocus.bind(this, this.dropdownId)}
+          onFocus={
+            // prod flag for bah-8821
+            environment.isProduction()
+              ? this.handleFocus
+              : this.props.onFocus.bind(this, this.dropdownId)
+          }
         >
           {this.props.options.map(({ value, label }) => (
             <option key={value} value={value}>
