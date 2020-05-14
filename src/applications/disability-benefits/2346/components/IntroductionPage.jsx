@@ -40,10 +40,7 @@ const IntroductionPage = props => (
           <p>
             If you need help ordering hearing aid batteries and accessories, you
             can call the Denver Logistics Center Customer Service Section at{' '}
-            <a
-              title="Dial the telephone number 303-273-6200"
-              href="tel:303-273-6200"
-            >
+            <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
               303-273-6200
             </a>
           </p>
@@ -81,10 +78,7 @@ const IntroductionPage = props => (
           <p>
             If you have questions about your order, you can call the DLC
             Customer Service Section at{' '}
-            <a
-              title="Dial the telephone number 303-273-6200"
-              href="tel:303-273-6200"
-            >
+            <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
               303-273-6200
             </a>
             .{' '}
