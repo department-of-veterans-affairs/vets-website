@@ -791,6 +791,96 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2019.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2018.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2015.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2014.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2013.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2012.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2011.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2009.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2008.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2007.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2006.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2005.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2004.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2003.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2002.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2001.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2000.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_1999.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
   },
