@@ -7,6 +7,7 @@ import {
   getAvailableClinics,
   getLongTermAppointmentHistory,
 } from '../api';
+import { getFacilityIdFromLocation } from '../services/location';
 
 import { recordVaosError, recordEligibilityFailure } from './events';
 
@@ -30,12 +31,12 @@ function createErrorHandler(directOrRequest, errorKey) {
  * direct related requests
  */
 export async function getEligibilityData(
-  facility,
+  location,
   typeOfCareId,
   systemId,
   isDirectScheduleEnabled,
 ) {
-  const facilityId = facility.institutionCode;
+  const facilityId = getFacilityIdFromLocation(location);
   const eligibilityChecks = [
     checkPastVisits(systemId, facilityId, typeOfCareId, 'request').catch(
       createErrorHandler('request', 'request-check-past-visits-error'),
@@ -48,7 +49,7 @@ export async function getEligibilityData(
     ),
   ];
 
-  if (facility.directSchedulingSupported && isDirectScheduleEnabled) {
+  if (location.legacyVAR.directSchedulingSupported && isDirectScheduleEnabled) {
     eligibilityChecks.push(
       checkPastVisits(systemId, facilityId, typeOfCareId, 'direct').catch(
         createErrorHandler('direct', 'direct-check-past-visits-error'),
@@ -72,9 +73,9 @@ export async function getEligibilityData(
   let eligibility = {
     requestPastVisit,
     requestLimits,
-    directSupported: facility.directSchedulingSupported,
+    directSupported: location.legacyVAR.directSchedulingSupported,
     directEnabled: isDirectScheduleEnabled,
-    requestSupported: facility.requestSupported,
+    requestSupported: location.legacyVAR.requestSupported,
   };
 
   if (directData?.length) {
@@ -218,11 +219,6 @@ export function isEligible(eligibilityChecks) {
   };
 }
 
-export function getEligibleFacilities(facilities) {
-  return facilities?.filter(
-    facility => facility.requestSupported || facility.directSchedulingSupported,
-  );
-}
 /**
  * Record Google Analytics events based on results of eligibility checks.
  * Error keys ending with 'error' represent a failure in fetching info for the check,

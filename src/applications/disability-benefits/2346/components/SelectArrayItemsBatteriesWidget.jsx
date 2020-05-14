@@ -51,8 +51,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
         </p>
         <p>
           If you need batteries, call the DLC Customer Service Station at{' '}
-          <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-          <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+            303-273-6200
+          </a>{' '}
+          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
         </p>
       </>
     );
@@ -61,7 +63,9 @@ class SelectArrayItemsBatteriesWidget extends Component {
       <>
         {!areBatterySuppliesIneligible && (
           <>
-            <h4>Select the hearing aids that need batteries</h4>
+            <h3 className="vads-u-font-size--h4">
+              Select the hearing aids that need batteries
+            </h3>
             <p>
               You&apos;ll be sent a 6-month supply of batteries for each device
               you choose below. You can only order batteries for each device
@@ -77,7 +81,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
             <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
               {batterySupply.deviceName}
             </h4>
-            <p>Prescribed 1/18/2018</p>
+            <p>
+              Prescribed{' '}
+              {moment(batterySupply.prescribedDate).format('MMMM DD, YYYY')}
+            </p>
             <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
               <div className="usa-alert-body vads-u-padding-left--1">
                 <p className="vads-u-margin--1px vads-u-margin-y--1">
@@ -112,7 +119,13 @@ class SelectArrayItemsBatteriesWidget extends Component {
                     <p>
                       If you need batteries sooner, call the DLC Customer
                       Service Station at{' '}
-                      <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+                      <a
+                        aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                        href="tel:303-273-6200"
+                      >
+                        303-273-6200
+                      </a>{' '}
+                      or email{' '}
                       <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                     </p>
                   </>
@@ -156,7 +169,11 @@ class SelectArrayItemsBatteriesWidget extends Component {
               You'll need to call your audiologist to update your record with
               all your hearing devices.
             </p>
-            <a href="https://www.va.gov/find-locations/">
+            <a
+              href="https://www.va.gov/find-locations/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Find contact information for your local VA medical center
             </a>
           </AdditionalInfo>
@@ -192,6 +209,7 @@ SelectArrayItemsBatteriesWidget.propTypes = {
       nextAvailabilityDate: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
       size: PropTypes.string,
+      prescribedDate: PropTypes.string,
     }),
   ),
   selectedProducts: PropTypes.arrayOf(
