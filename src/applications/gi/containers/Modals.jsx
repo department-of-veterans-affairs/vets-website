@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
 import environment from 'platform/utilities/environment';
+import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -238,46 +239,60 @@ export class Modals extends React.Component {
         </p>
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('yribbon')}
-      >
-        <h3>Yellow Ribbon</h3>
-        <p>
-          The{' '}
-          <a
-            title="Post-9/11 GI Bill"
-            href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Post-9/11 GI Bill
-          </a>{' '}
-          can cover all in-state tuition and fees at public degree granting
-          schools, but may not cover all private degree granting schools and
-          out-of-state tuition. The Yellow Ribbon Program provides additional
-          support in those situations. Institutions voluntarily enter into an
-          agreement with VA to fund uncovered charges. VA matches each dollar of
-          unmet charges the institution agrees to contribute, up to the total
-          cost of the tuition and fees.{' '}
-          <a
-            title="Click here for FAQs about the Yellow Ribbon Program"
-            href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Click here for FAQs about the Yellow Ribbon Program
-          </a>
-        </p>
-        <p>
-          Veterans and Fry Scholarship and Purple Heart recipients are entitled
-          to the maximum benefit rate or their designated transferees can
-          receive this funding. Active-duty service members and their spouses
-          aren’t eligible for this program (child transferees of active-duty
-          service members may be eligible if the service member is qualified at
-          the 100% rate). This information will be updated quarterly.
-        </p>
-      </Modal>
+      {/* prod flag for 8524 */}
+      {environment.isProduction() && (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
+          <h3>Yellow Ribbon</h3>
+          <p>
+            The{' '}
+            <a
+              title="Post-9/11 GI Bill"
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Post-9/11 GI Bill
+            </a>{' '}
+            can cover all in-state tuition and fees at public degree granting
+            schools, but may not cover all private degree granting schools and
+            out-of-state tuition. The Yellow Ribbon Program provides additional
+            support in those situations. Institutions voluntarily enter into an
+            agreement with VA to fund uncovered charges. VA matches each dollar
+            of unmet charges the institution agrees to contribute, up to the
+            total cost of the tuition and fees.{' '}
+            <a
+              title="Click here for FAQs about the Yellow Ribbon Program"
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Click here for FAQs about the Yellow Ribbon Program
+            </a>
+          </p>
+          <p>
+            Veterans and Fry Scholarship and Purple Heart recipients are
+            entitled to the maximum benefit rate or their designated transferees
+            can receive this funding. Active-duty service members and their
+            spouses aren’t eligible for this program (child transferees of
+            active-duty service members may be eligible if the service member is
+            qualified at the 100% rate). This information will be updated
+            quarterly.
+          </p>
+        </Modal>
+      )}
+
+      {/* prod flag for 8524 */}
+      {!environment.isProduction() && (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
+          <YellowRibbonModalContent />
+        </Modal>
+      )}
 
       <Modal
         onClose={this.props.hideModal}
@@ -947,43 +962,7 @@ export class Modals extends React.Component {
             onClose={this.props.hideModal}
             visible={this.shouldDisplayModal('calcYr')}
           >
-            <h3>Yellow Ribbon Program</h3>
-            <p>
-              The Yellow Ribbon Program can help you pay for higher
-              out-of-state, private school, or graduate school tuition that the{' '}
-              <a
-                href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Post-9/11 GI Bill
-              </a>{' '}
-              doesn’t cover.
-            </p>
-            <p>
-              Schools that choose to participate in the Yellow Ribbon program
-              will contribute a certain amount toward the extra tuition. VA will
-              match the participating school’s contribution, up to the total
-              cost of the tuition and fees. To learn more about the Yellow
-              Ribbon program, please{' '}
-              <a
-                href="https://benefits.va.gov/BENEFITS/factsheets/education/Post-911_Yellow_Ribbon.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                download our fact sheet
-              </a>
-              .
-            </p>
-            <p>
-              Veterans and Fry Scholarship and Purple Heart recipients, or their
-              dependents using transferred benefits, are eligible for the
-              maximum benefit rate. Active-duty service members and their
-              spouses aren’t eligible for this program. (An active-duty service
-              member’s dependent child using transferred benefits may be
-              eligible if the service member is qualified at the 100% rate.)
-              This information will be updated quarterly.
-            </p>
+            <YellowRibbonModalContent />
           </Modal>
         )}
 

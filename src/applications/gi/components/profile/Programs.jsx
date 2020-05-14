@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 export class Programs extends React.Component {
   constructor(props) {
@@ -10,8 +9,7 @@ export class Programs extends React.Component {
     const { institution } = props;
     this.programs = {
       yr: {
-        // prod flag for 8524
-        modal: environment.isProduction() ? 'yribbon' : 'calcYr',
+        modal: 'yribbon',
         text: 'Yellow Ribbon',
         link: false,
       },
