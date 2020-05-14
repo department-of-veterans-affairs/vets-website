@@ -1,0 +1,5 @@
+{
+  "appName": "corona virus chatbot",
+  "entryFile": "./createCoronavirusChatbot.jsx",
+  "entryName": "chatbot"
+}
