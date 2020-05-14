@@ -166,6 +166,7 @@ export class AuthApp extends React.Component {
         );
         troubleshootingContent = (
           <>
+            <h3>What you can do:</h3>
             <p>
               Please try again, and this time, select “Accept” on the final page
               of the identity verification process. Or, if you don’t want to
@@ -191,6 +192,7 @@ export class AuthApp extends React.Component {
         );
         troubleshootingContent = (
           <>
+            <h3>What you can do:</h3>
             <p>
               Please update your computer’s settings to the current date and
               time, and then try again.
@@ -209,6 +211,7 @@ export class AuthApp extends React.Component {
         );
         troubleshootingContent = (
           <>
+            <h3>What you can do:</h3>
             <p>
               <strong>Please try signing in again.</strong> If you still can’t
               sign in, please use our online form to submit a request for help.
@@ -240,6 +243,7 @@ export class AuthApp extends React.Component {
         );
         troubleshootingContent = (
           <>
+            <h3>What you can do:</h3>
             <p>
               <strong>Please try signing in again.</strong> If you still can’t
               sign in, please use our online form to submit a request for help.
@@ -272,6 +276,7 @@ export class AuthApp extends React.Component {
         );
         troubleshootingContent = (
           <>
+            <h3>What you can do:</h3>
             <p>Please sign in again.</p>
             <button onClick={this.props.openLoginModal}>Sign in</button>
           </>
@@ -280,15 +285,16 @@ export class AuthApp extends React.Component {
 
       // Multiple MHV ID error
       case '101':
+        header = 'We can’t sign you in';
         alertContent = (
           <p>
-            We're sorry. We found more than one My HealtheVet account identifier
-            for you.
+            We’re having trouble signing you in to VA.gov right now because we
+            found more than one MyHealtheVet account for you.
           </p>
         );
         troubleshootingContent = (
           <>
-            <p>You can fix this issue in one of these ways:</p>
+            <h3>How can I fix this issue?</h3>
             <ul>
               <li>
                 <strong>Call the My HealtheVet help desk</strong>
@@ -298,54 +304,39 @@ export class AuthApp extends React.Component {
                   have hearing loss, call TTY: 800-877-3399.
                 </p>
                 <p>
-                  Tell the representative that you tried to sign in to use
-                  VA.gov, but received an error message telling you that you
-                  have more than one My HealtheVet account.
+                  Tell the representative that you tried to sign in to VA.gov,
+                  but got an error message that you have more than one My
+                  HealtheVet account.
                 </p>
               </li>
               <li>
-                <strong>
-                  Or submit an online help request to My HealtheVet
-                </strong>
+                <strong>Submit a request for online help</strong>
                 <p>
-                  Use the My HealtheVet contact form to submit an online request
-                  for help online.
-                </p>
-                <p>
-                  <strong>Fill in the form fields as below:</strong>
-                </p>
-                <ul>
-                  <li>
-                    <strong>Topic: </strong>
-                    Select <strong>Account Login</strong>.
-                  </li>
-                  <li>
-                    <strong>Category: </strong>
-                    Select <strong>Request for Assistance</strong>.
-                  </li>
-                  <li>
-                    <strong>Comments: </strong> Type, or copy and paste, the
-                    message below:
-                    <p>
-                      “When I tried to sign in to use VA.gov, I received an
-                      error message telling me I have more than one MyHealtheVet
-                      account.”
-                    </p>
-                  </li>
-                </ul>
-                <p>
-                  Then, complete the rest of the form and click{' '}
-                  <strong>Submit</strong>.
-                </p>
-                <p>
+                  Fill out a
                   <a
                     href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Go to the My HealtheVet contact form
-                  </a>
+                    MyHealtheVet online help form
+                  </a>{' '}
+                  to get help signing in. Enter the following information in the
+                  form fields.
                 </p>
+                <p>
+                  <strong>Fill in the form fields as below:</strong>
+                </p>
+                <ul>
+                  <li>Topic: Select "Account Login"</li>
+                  <li>Category: Select "Request for Assistance"</li>
+                  <li>
+                    Comments: Type, or copy and paste, the below message:
+                    <br />
+                    “When I tried to sign in to VA.gov, I got an error message
+                    saying that I have more than one MyHealtheVet account.”
+                  </li>
+                </ul>
+                <p>Complete the rest of the form and then click Submit.</p>
               </li>
             </ul>
           </>
@@ -354,66 +345,41 @@ export class AuthApp extends React.Component {
 
       // Multiple EDIPI error
       case '102':
+        header = 'We can’t sign you in';
         alertContent = (
           <p>
-            We're sorry. We found more than one DoD ID number (EDIPI) for you.
+            We’re having trouble signing you in to VA.gov right now because we
+            found more than one DoD ID number for you. To fix this issue, please{' '}
+            <a
+              href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              submit a request to get help signing in.
+            </a>
           </p>
         );
-        troubleshootingContent = (
-          <>
-            <p>
-              <strong>
-                Please use our online form to submit a request for help.
-              </strong>
-            </p>
-            <p>Type, or copy and paste, the message below:</p>
-            <p>
-              “When I tried to sign in to use VA.gov, I received an error
-              message telling me I have more than one DoD ID number (EDIPI) on
-              my account.”
-            </p>
-            <p>
-              <a
-                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Submit a request to get help signing in
-              </a>
-            </p>
-          </>
-        );
+        troubleshootingContent = null;
         break;
 
       // ICN mismatch error
       case '103':
+        header = 'We can’t sign you in';
         alertContent = (
-          <p>We're sorry. We found a mis-match in your account records.</p>
+          <p>
+            We’re having trouble signing you in right now because your My
+            HealtheVet account number doesn’t match the account number on your
+            VA.gov account. To fix this issue, please{' '}
+            <a
+              href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              submit a request to get help signing in.
+            </a>
+          </p>
         );
-        troubleshootingContent = (
-          <>
-            <p>
-              <strong>
-                Please use our online form to submit a request for help.
-              </strong>
-            </p>
-            <p>Type, or copy and paste, the message below:</p>
-            <p>
-              “When I tried to sign in to use VA.gov, I received an error
-              message telling me the ICN number on my My HealtheVet account does
-              not match the one on my VA.gov account."
-            </p>
-            <p>
-              <a
-                href="https://www.accesstocare.va.gov/sign-in-help?_ga=2.9898741.1324318578.1552319576-1143343955.1509985973"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Submit a request to get help signing in
-              </a>
-            </p>
-          </>
-        );
+        troubleshootingContent = null;
         break;
 
       // Catch all generic error
@@ -426,6 +392,7 @@ export class AuthApp extends React.Component {
         );
         troubleshootingContent = (
           <>
+            <h3>What you can do:</h3>
             <p>
               <strong>Try taking these steps to fix the problem:</strong>
             </p>
@@ -496,7 +463,6 @@ export class AuthApp extends React.Component {
       <div className="usa-content columns small-12">
         <h1>{header}</h1>
         <AlertBox content={alertContent} isVisible status="error" />
-        <h3>What you can do:</h3>
         {troubleshootingContent}
       </div>
     );
