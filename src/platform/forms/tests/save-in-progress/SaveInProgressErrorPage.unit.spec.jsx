@@ -117,7 +117,7 @@ describe('<SaveInProgressErrorPage>', () => {
     const findDOM = findDOMNode(tree);
 
     expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
-      'message TBD',
+      `We can't process this request.`,
     );
   });
   it('should go back', () => {

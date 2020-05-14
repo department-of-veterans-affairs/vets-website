@@ -241,8 +241,6 @@ export function fetchInProgressForm(
       },
     })
       .then(res => {
-        return Promise.reject(LOAD_STATUSES.forbidden);
-
         if (res.ok) {
           return res.json();
         }

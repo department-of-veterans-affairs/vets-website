@@ -111,7 +111,8 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
-              We can't process this request. {forbidden || DEFAULT_FORBIDDEN_MESSAGE}
+              We can't process this request.
+              {forbidden || DEFAULT_FORBIDDEN_MESSAGE}
             </div>
             <div style={{ marginTop: '30px' }} />
           </div>
