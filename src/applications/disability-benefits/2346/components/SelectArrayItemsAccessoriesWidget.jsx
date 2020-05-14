@@ -204,7 +204,7 @@ SelectArrayItemsAccessoriesWidget.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  supplies: state.form?.loadedData?.formData?.supplies,
+  supplies: state.form?.data?.supplies,
   formData: state.form?.data,
   selectedProducts: state.form?.data?.selectedProducts,
 });
