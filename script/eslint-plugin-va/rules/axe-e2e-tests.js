@@ -12,21 +12,24 @@ const rule = {
   },
   create: context => {
     let axeCheckCount = 0;
+
+    const checkAxeCountForReport = node => {
+      if (axeCheckCount === 0) {
+        const message = `${MESSAGE}`;
+        context.report({
+          node,
+          message,
+        });
+      }
+    };
+
     return {
       MemberExpression: node => {
         if (node.property.name === 'axeCheck') {
           axeCheckCount++;
         }
       },
-      'Program:exit': function(node) {
-        if (axeCheckCount === 0) {
-          const message = `${MESSAGE}`;
-          context.report({
-            node,
-            message,
-          });
-        }
-      },
+      'Program:exit': checkAxeCountForReport,
     };
   },
 };
