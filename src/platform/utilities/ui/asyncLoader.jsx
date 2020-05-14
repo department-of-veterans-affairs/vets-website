@@ -17,7 +17,6 @@ export default function asyncLoader(getComponent, message) {
             return m;
           })
           .then(Component => {
-            AsyncComponent.Component = Component;
             this.setState({ Component });
           });
       } else if (!this.componentPromise) {
