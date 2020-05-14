@@ -77,13 +77,13 @@
       },
       {
         "name": "De-selected",
-        "ratedDisabilityId": "1",
+        "ratedDisabilityId": "2",
         "diagnosticCode": 5238,
         "disabilityActionType": "NONE"
       },
       {
         "name": "Not selected",
-        "ratedDisabilityId": "1",
+        "ratedDisabilityId": "3",
         "diagnosticCode": 5238,
         "disabilityActionType": "NONE"
       }

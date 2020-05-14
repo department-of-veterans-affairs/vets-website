@@ -7,7 +7,6 @@ import './legacy/menu'; // Used in the footer.
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
-import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startSideNav from './side-nav';
@@ -25,10 +24,6 @@ import '@department-of-veterans-affairs/formation/dist/formation';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  if (document.querySelector('#vetnav-menu') !== null) {
-    addMenuListeners(document.querySelector('#vetnav-menu'), true);
-  }
-
   // New navigation menu
   if (document.querySelector('#vetnav')) {
     require('./legacy/mega-menu.js');
