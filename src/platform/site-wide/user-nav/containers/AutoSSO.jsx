@@ -25,7 +25,9 @@ function AutoSSO(props) {
   }
 
   if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkAutoSession(props.checkKeepAlive);
+    checkAutoSession().then(() => {
+      props.checkKeepAlive();
+    });
   }
 
   return null;

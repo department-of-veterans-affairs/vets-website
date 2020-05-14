@@ -27,7 +27,7 @@ export async function ssoKeepAliveSession() {
   }
 }
 
-export async function checkAutoSession(callback) {
+export async function checkAutoSession() {
   await ssoKeepAliveSession();
   if (hasSession() && hasSessionSSO() === false) {
     // explicitly check to see if the SSOe session is false, as it could also
@@ -36,10 +36,6 @@ export async function checkAutoSession(callback) {
     autoLogout();
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth()) {
     autoLogin();
-  }
-
-  if (callback) {
-    callback();
   }
 }
 

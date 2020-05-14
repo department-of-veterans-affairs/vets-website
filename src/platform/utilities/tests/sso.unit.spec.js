@@ -92,17 +92,6 @@ describe('checkAutoSession', () => {
     sandbox.restore();
     sinon.assert.notCalled(auto);
   });
-
-  it('should invoke callback if provided', async () => {
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(false);
-    sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    const callback = sandbox.spy();
-    await checkAutoSession(callback);
-    sandbox.restore();
-    sinon.assert.calledOnce(callback);
-  });
 });
 
 describe('checkAndUpdateSSOeSession', () => {
