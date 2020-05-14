@@ -9,9 +9,12 @@ import {
   getLocations,
   getLocation,
   getSupportedLocationsByTypeOfCare,
+  getParentOfLocation,
+  getFacilityIdFromLocation,
 } from '../../../services/location';
 import facilities983 from '../../../api/facilities_983.json';
 import facilityDetails from '../../../api/facility_data.json';
+import { VHA_FHIR_ID } from '../../../utils/constants';
 
 describe('VAOS Location service', () => {
   describe('getSupportedLocationsByTypeOfCare', () => {
@@ -129,6 +132,43 @@ describe('VAOS Location service', () => {
         '/facilities/va/vha_442',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+  });
+
+  describe('getParentOfLocation', () => {
+    it('should return parent org', () => {
+      const orgs = [
+        {
+          id: 'testorg',
+        },
+        {
+          id: 'testorg2',
+        },
+      ];
+      const location = {
+        id: 'test',
+        managingOrganization: {
+          reference: 'Organization/testorg2',
+        },
+      };
+      const org = getParentOfLocation(orgs, location);
+      expect(org).to.equal(orgs[1]);
+    });
+  });
+
+  describe('getFacilityIdFromLocation', () => {
+    it('should get the facility id', () => {
+      const location = {
+        id: 'test',
+        identifier: [
+          {
+            system: VHA_FHIR_ID,
+            value: '983',
+          },
+        ],
+      };
+      const id = getFacilityIdFromLocation(location);
+      expect(id).to.equal('983');
     });
   });
 });
