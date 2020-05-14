@@ -91,7 +91,7 @@ export default {
       'ui:options': { labels: { F: 'Female', M: 'Male', U: 'Unknown' } },
     }),
     vetRelationshipUI: label => ({
-      'ui:title': `${label}'s relationship to Veteran (e.g., Spouse, Parent, Child, Other):`,
+      'ui:title': `What is the ${label}'s relationship to the Veteran (e.g., Spouse, Parent, Child, Other):`,
     }),
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
@@ -239,7 +239,8 @@ export default {
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceNameUI: {
-      'ui:title': 'Other Health Insurance Name?',
+      'ui:title':
+        'Name of health insurance? (if there are multiple policies, please separate them with commas)',
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },

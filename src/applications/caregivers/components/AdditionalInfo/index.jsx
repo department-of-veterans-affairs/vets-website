@@ -64,8 +64,8 @@ export const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
               <li>Step-family member</li>
               <li>Extended family member</li>
               <li>
-                Someone who is not a family member but resides with the Veteran
-                or will do so upon approval
+                Non-family member who lives with the Veteran or service member,
+                or will do so after approval.
               </li>
             </ul>
           </>
@@ -135,8 +135,8 @@ export const SecondaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
   <>
     {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
     <p className="vads-u-margin-top--2">
-      Please let us know if the Primary Family Caregiver is currently enrolled
-      in the following health coverage options.
+      Please complete the following information about the Secondary Family
+      Caregiver.
     </p>
 
     {additionalInfo && <SecondaryCaregiverLegal />}
@@ -151,8 +151,8 @@ SecondaryCaregiverInfo.propTypes = {
 export const FacilityInfo = () => (
   <>
     <div className="vads-u-margin-bottom--4">
-      <b>Note:</b> You should choose the medical center or clinic closest to
-      your home.
+      <b>Note:</b> Please choose the medical center or clinic closest to your
+      home.
     </div>
 
     <a
@@ -198,9 +198,8 @@ export const PleaseSelectVAFacility = () => (
     </p>
 
     <p>
-      A member of the Caregiver Support Program team at the VA medical center
-      where the Veteran receives or plans to receive care will review your
-      application.
+      A Caregiver Support Coordinator at this VA medical center will review your
+      application
     </p>
   </div>
 );

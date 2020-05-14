@@ -119,9 +119,17 @@ const IntroductionPage = ({ route, router }) => {
           <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Apply</h3>
             <p>
-              Each applicant needs to complete all form fields before submitting
-              the form. Once the form is submitted, you’ll receive a
-              confirmation message. You can print this for your records.
+              Please remember, whether you’re the Veteran or a family caregiver,
+              you’ll need to complete all form questions before submitting the
+              form. After submitting the form, you’ll receive a confirmation
+              screen that you can print for your records.
+            </p>
+
+            <p>
+              Each time the Veteran wants to add a new family caregiver, the
+              Veteran and the new caregiver will need to submit a new
+              application. There can only be 1 Primary and up to 2 Secondary
+              Family Caregivers at any one time.
             </p>
 
             <p>
@@ -140,14 +148,13 @@ const IntroductionPage = ({ route, router }) => {
             </p>
           </li>
 
-          {/* Next Steps */}
+          {/* Next steps */}
           <li className="process-step list-three">
-            <h3 className="vads-u-font-size--h4">Next Steps</h3>
+            <h3 className="vads-u-font-size--h4">Next steps</h3>
             <p>
               A member of the Caregiver Support Program at the VA medical center
               where the Veteran plans to receive care will contact you to
-              discuss your application and next steps to determine your
-              eligibility.
+              discuss your application and eligibility.
             </p>
 
             <p>

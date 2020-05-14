@@ -79,7 +79,7 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'caregiver-',
+  trackingPrefix: 'caregiver-1010cg',
   introduction: IntroductionPage,
   footerContent: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,
@@ -359,7 +359,7 @@ const formConfig = {
       depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryCaregiverOneIntro: {
-          path: 'secondaryOne-caregiver-intro',
+          path: 'secondaryOne-caregiver-1',
           title: ' ',
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({ additionalInfo: true }),
