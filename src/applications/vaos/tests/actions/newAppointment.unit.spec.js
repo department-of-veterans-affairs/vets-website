@@ -380,6 +380,34 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
+    it('should fetch parent details if no supported facilities', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: 'var983',
+          },
+          facilities: {
+            '323_var983': [],
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS,
+      );
+    });
+
     it('should fetch eligibility info if facility is selected when opening page', async () => {
       setFetchJSONResponse(global.fetch, clinics);
       const dispatch = sinon.spy();
@@ -404,13 +432,6 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
       const firstAction = dispatch.firstCall.args[0];
       expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
-
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        FORM_FETCH_FACILITY_DETAILS,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
-      );
 
       expect(firstAction.eligibilityData).to.not.be.null;
     });

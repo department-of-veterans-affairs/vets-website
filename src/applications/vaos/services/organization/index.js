@@ -36,7 +36,7 @@ export async function getOrganizations(siteIds) {
  * @returns {String} Three digit VistA id
  */
 export function getSiteIdFromOrganization(organization) {
-  return organization.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
+  return organization?.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
 }
 
 /**

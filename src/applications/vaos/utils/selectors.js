@@ -108,6 +108,11 @@ export function getChosenFacilityInfo(state) {
 
 export function getChosenParentInfo(state, parentId) {
   const currentParentId = parentId || getFormData(state).vaParent;
+
+  if (!currentParentId) {
+    return null;
+  }
+
   return getParentFacilities(state).find(
     parent => parent.id === currentParentId,
   );
@@ -268,6 +273,7 @@ export function getFacilityPageInfo(state) {
       newAppointment?.facilityDetails[parseFakeFHIRId(data.vaFacility)],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
+    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
 

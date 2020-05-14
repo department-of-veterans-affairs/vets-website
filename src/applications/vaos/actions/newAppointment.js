@@ -346,14 +346,11 @@ export function openFacilityPage(page, uiSchema, schema) {
         eligibilityData,
       });
 
-      if (facilityId) {
+      if (parentId && !facilities.length) {
         try {
-          const eligibility = getEligibilityStatus(getState());
-          if (!eligibility.direct && !eligibility.request) {
-            // Remove parse function when converting this call to FHIR service
-            const thunk = fetchFacilityDetails(parseFakeFHIRId(facilityId));
-            await thunk(dispatch, getState);
-          }
+          // Remove parse function when converting this call to FHIR service
+          const thunk = fetchFacilityDetails(parseFakeFHIRId(parentId));
+          await thunk(dispatch, getState);
         } catch (e) {
           captureError(e);
         }

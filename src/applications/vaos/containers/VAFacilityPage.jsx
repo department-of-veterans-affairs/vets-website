@@ -109,6 +109,7 @@ export class VAFacilityPage extends React.Component {
       hasEligibilityError,
       parentOfChosenFacility,
       cernerFacilities,
+      siteId,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -206,7 +207,7 @@ export class VAFacilityPage extends React.Component {
             this.props.updateFacilityPageData(pageKey, uiSchema, newData)
           }
           formContext={{
-            parentId: data.vaParent,
+            siteId,
             typeOfCare,
             facilityDetailsStatus,
             parentDetails,
