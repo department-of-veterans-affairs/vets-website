@@ -1,5 +1,4 @@
 import React from 'react';
-import CollapsiblePanel from '@department-of-veterans-affairs/formation-react/CollapsiblePanel';
 
 export default function FormQuestion(props) {
   function handleChange(event) {
@@ -7,7 +6,7 @@ export default function FormQuestion(props) {
   }
 
   return (
-    <CollapsiblePanel panelName={props.panelName}>
+    <div className="feature" panelName={props.panelName}>
       <div>{props.question.text}</div>
 
       <button
@@ -31,6 +30,6 @@ export default function FormQuestion(props) {
         No
       </button>
       {props.value}
-    </CollapsiblePanel>
+    </div>
   );
 }
