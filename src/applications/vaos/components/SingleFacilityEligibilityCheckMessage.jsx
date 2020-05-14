@@ -2,7 +2,10 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorMessage from './ErrorMessage';
 
-export default function VAFacilityInfoMessage({ facility, eligibility }) {
+export default function SingleFacilityEligibilityCheckMessage({
+  facility,
+  eligibility,
+}) {
   let message;
 
   if (eligibility.requestFailed) {
@@ -39,9 +42,9 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox status="warning" headline="We found one VA location for you">
         <p>
-          <strong>{facility.authoritativeName}</strong>
+          <strong>{facility.name}</strong>
           <br />
-          {facility.city}, {facility.stateAbbrev}
+          {facility.address[0].city}, {facility.address[0].state}
         </p>
         {message}
         <p>
