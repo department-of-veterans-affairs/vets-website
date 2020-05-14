@@ -103,7 +103,7 @@ const formConfig = {
   },
   chapters: {
     veteranChapter: {
-      title: 'Veteran/service member information',
+      title: 'Veteran or service member information',
       pages: {
         veteranInfoOne: {
           path: 'service-member-1',
