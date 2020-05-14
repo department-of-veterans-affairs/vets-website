@@ -81,7 +81,10 @@ class SelectArrayItemsBatteriesWidget extends Component {
             <h4 className="vads-u-font-size--md vads-u-font-weight--bold">
               {batterySupply.deviceName}
             </h4>
-            <p>Prescribed 1/18/2018</p>
+            <p>
+              Prescribed{' '}
+              {moment(batterySupply.prescribedDate).format('MMMM DD, YYYY')}
+            </p>
             <div className="vads-u-border-left--10px vads-u-border-color--primary-alt">
               <div className="usa-alert-body vads-u-padding-left--1">
                 <p className="vads-u-margin--1px vads-u-margin-y--1">
@@ -206,6 +209,7 @@ SelectArrayItemsBatteriesWidget.propTypes = {
       nextAvailabilityDate: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
       size: PropTypes.string,
+      prescribedDate: PropTypes.string,
     }),
   ),
   selectedProducts: PropTypes.arrayOf(
