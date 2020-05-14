@@ -16,6 +16,10 @@ import ProgressButton from '@department-of-veterans-affairs/formation-react/Prog
 
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 
+const DEFAULT_FORBIDDEN_MESSAGE = `
+  We can't process this request. We're sorry. We can't give you access to this information. For help, please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+`;
+
 // For now, this only handles loading errors, but it could feasibly be reworked
 //  to handle save errors as well if we need it to.
 class SaveInProgressErrorPage extends React.Component {
@@ -107,8 +111,7 @@ class SaveInProgressErrorPage extends React.Component {
         content = (
           <div>
             <div className="usa-alert usa-alert-error background-color-only">
-              message TBD
-              {forbidden}
+              {forbidden || DEFAULT_FORBIDDEN_MESSAGE}
             </div>
             <div style={{ marginTop: '30px' }} />
           </div>
