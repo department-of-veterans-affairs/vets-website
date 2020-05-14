@@ -81,7 +81,6 @@ describe('VAOS <ReviewRequestInfo>', () => {
     const text = tree.text();
     const heading = tree.find('h1');
 
-    // console.log(tree.debug());
     it('should render page heading', () => {
       expect(heading.exists()).to.be.true;
       expect(heading.text()).to.equal(pageTitle);

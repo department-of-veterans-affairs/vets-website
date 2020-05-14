@@ -266,6 +266,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const initialState = getState();
     const directSchedulingEnabled = vaosDirectScheduling(initialState);
     const newAppointment = initialState.newAppointment;
+    const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
@@ -310,7 +311,11 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId && !facilities?.length) {
-        recordEligibilityFailure('supported-facilities');
+        recordEligibilityFailure(
+          'supported-facilities',
+          typeOfCare,
+          parseFakeFHIRId(parentId),
+        );
       }
 
       const eligibilityChecks =
@@ -368,6 +373,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const state = getState();
     const directSchedulingEnabled = vaosDirectScheduling(state);
     const previousNewAppointmentState = state.newAppointment;
+    const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
     const rootOrgId = getRootIdForChosenFacility(state, data.vaParent);
     const siteId = getSiteIdForChosenFacility(state, data.vaParent);
@@ -392,7 +398,11 @@ export function updateFacilityPageData(page, uiSchema, data) {
         // If no available facilities, fetch system details to display contact info
         if (!facilities?.length) {
           dispatch(fetchFacilityDetails(data.vaParent));
-          recordEligibilityFailure('supported-facilities');
+          recordEligibilityFailure(
+            'supported-facilities',
+            typeOfCare,
+            parseFakeFHIRId(data.vaParent),
+          );
         }
 
         dispatch({
@@ -720,6 +730,7 @@ export function submitAppointmentOrRequest(router) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
+      let requestBody;
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
@@ -728,9 +739,7 @@ export function submitAppointmentOrRequest(router) {
       });
 
       try {
-        let requestBody;
         let requestData;
-
         if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
@@ -748,7 +757,9 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          captureError(error);
+          captureError(error, false, 'Request message failure', {
+            messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+          });
         }
 
         dispatch({
@@ -763,7 +774,18 @@ export function submitAppointmentOrRequest(router) {
         resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        captureError(error, true);
+        let extraData = null;
+        if (requestBody) {
+          extraData = {
+            vaParent: data?.vaParent,
+            vaFacility: data?.vaFacility,
+            chosenTypeOfCare: data?.typeOfCareId,
+            facility: requestBody.facility,
+            typeOfCareId: requestBody.typeOfCareId,
+            cityState: requestBody.cityState,
+          };
+        }
+        captureError(error, true, 'Request submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });

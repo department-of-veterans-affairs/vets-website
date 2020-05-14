@@ -45,7 +45,7 @@ export function transformFormToVARequest(state) {
   const typeOfCare = getTypeOfCare(data);
   const parentOrg = getChosenParentInfo(state);
   // Calling this a facility id instead of a site id because it might be 3 or 5 digits
-  // However, in the future, I believe all of these ids from an Organizaiton will be 3 digits
+  // However, in the future, I believe all of these ids from an Organization will be 3 digits
   const parentFacilityId = getSiteIdFromOrganization(parentOrg);
   const siteId = getSiteIdForChosenFacility(state);
   const facilityId = getFacilityIdFromLocation(facility);
