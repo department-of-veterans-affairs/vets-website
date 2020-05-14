@@ -103,6 +103,23 @@ describe('<SaveInProgressErrorPage>', () => {
       'Continue Your Application',
     );
   });
+  it('should render the forbidden failure error', () => {
+    const tree = ReactTestUtils.renderIntoDocument(
+      <SaveInProgressErrorPage
+        updateLogInUrls={f => f}
+        isLoggedIn
+        router={router}
+        loginUrls={mockLoginUrl}
+        route={route}
+        loadedStatus={LOAD_STATUSES.forbidden}
+      />,
+    );
+    const findDOM = findDOMNode(tree);
+
+    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+      'message TBD',
+    );
+  });
   it('should go back', () => {
     const fetchFormStatusSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
