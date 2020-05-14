@@ -19,12 +19,6 @@ import {
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
 
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
-
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
@@ -108,6 +102,11 @@ export function getChosenFacilityInfo(state) {
 
 export function getChosenParentInfo(state, parentId) {
   const currentParentId = parentId || getFormData(state).vaParent;
+
+  if (!currentParentId) {
+    return null;
+  }
+
   return getParentFacilities(state).find(
     parent => parent.id === currentParentId,
   );
@@ -264,6 +263,7 @@ export function getFacilityPageInfo(state) {
     facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
+    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
 

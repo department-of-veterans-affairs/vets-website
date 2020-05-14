@@ -348,13 +348,10 @@ export function openFacilityPage(page, uiSchema, schema) {
         eligibilityData,
       });
 
-      if (facilityId) {
+      if (parentId && !facilities.length) {
         try {
-          const eligibility = getEligibilityStatus(getState());
-          if (!eligibility.direct && !eligibility.request) {
-            const thunk = fetchFacilityDetails(facilityId);
-            await thunk(dispatch, getState);
-          }
+          const thunk = fetchFacilityDetails(parentId);
+          await thunk(dispatch, getState);
         } catch (e) {
           captureError(e);
         }
