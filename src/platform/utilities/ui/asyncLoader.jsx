@@ -4,8 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 export default function asyncLoader(getComponent, message) {
   return class AsyncComponent extends React.Component {
-    static Component = null;
-    state = { Component: AsyncComponent.Component };
+    state = { Component: null };
     /* eslint-disable-next-line camelcase */
     UNSAFE_componentWillMount() {
       if (!this.state.Component) {
