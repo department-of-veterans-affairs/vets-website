@@ -77,7 +77,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     expect(
       labels
         .at(0)
-        .find('h4')
+        .find('h3')
         .text(),
     ).to.equal('Post Traumatic Stress Disorder');
     expect(
@@ -91,7 +91,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     expect(
       labels
         .at(1)
-        .find('h4')
+        .find('h3')
         .text(),
     ).to.equal('Intervertebral Disc Syndrome');
     expect(
