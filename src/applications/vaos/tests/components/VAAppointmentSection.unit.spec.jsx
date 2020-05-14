@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import VAAppointmentSection from '../../components/review/VAAppointmentSection';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {
   reasonForAppointment: 'routine-follow-up',
@@ -16,15 +17,23 @@ const defaultData = {
 };
 
 const facility = {
-  institutionCode: '983GB',
+  id: 'var983GB',
+  identifier: [
+    {
+      system: VHA_FHIR_ID,
+      value: '984GB',
+    },
+  ],
   name: 'CHYSHR-Sidney VA Clinic',
-  city: 'Sidney',
-  stateAbbrev: 'NE',
-  authoritativeName: 'CHYSHR-Sidney VA Clinic',
-  rootStationCode: '983',
-  adminParent: false,
-  parentStationCode: '983',
-  institutionTimezone: 'America/Denver',
+  address: [
+    {
+      city: 'Sidney',
+      state: 'NE',
+    },
+  ],
+  legacyVAR: {
+    institutionTimezone: 'America/Denver',
+  },
 };
 
 const clinic = {
@@ -36,7 +45,7 @@ const contact = {
   phoneNumber: '123456789',
 };
 
-describe('VAOS <ReviewDirectScheduleInfo>', () => {
+describe('VAOS <VAAppointmentSection>', () => {
   describe('Accessibility', () => {
     const data = {
       ...defaultData,
