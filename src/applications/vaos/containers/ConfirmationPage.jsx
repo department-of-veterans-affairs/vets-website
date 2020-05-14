@@ -20,6 +20,12 @@ import { FLOW_TYPES, FACILITY_TYPES, GA_PREFIX } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id.replace('var', '');
+}
+
 export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +53,8 @@ export class ConfirmationPage extends React.Component {
       data.vaFacility &&
       data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
-      this.props.fetchFacilityDetails(data.vaFacility);
+      // Remove parse function when converting this call to FHIR service
+      this.props.fetchFacilityDetails(parseFakeFHIRId(data.vaFacility));
     }
     scrollAndFocus();
   }

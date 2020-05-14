@@ -31,6 +31,7 @@ import {
   getOrganizations,
   getIdOfRootOrganization,
 } from '../services/organization';
+import { getSupportedLocationsByTypeOfCare } from '../services/location';
 import {
   getSupportedLocationsByTypeOfCare,
   getLocation,
@@ -453,7 +454,10 @@ export function updateFacilityPageData(page, uiSchema, data) {
         try {
           const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
-            const thunk = fetchFacilityDetails(data.vaFacility);
+            // Remove parse function when converting this call to FHIR service
+            const thunk = fetchFacilityDetails(
+              parseFakeFHIRId(data.vaFacility),
+            );
             await thunk(dispatch, getState);
           }
         } catch (e) {
@@ -494,7 +498,8 @@ export function openClinicPage(page, uiSchema, schema) {
     });
 
     const formData = getFormData(getState());
-    await dispatch(fetchFacilityDetails(formData.vaFacility));
+    // Remove parse function when converting this call to FHIR service
+    await dispatch(fetchFacilityDetails(parseFakeFHIRId(formData.vaFacility)));
 
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -713,7 +718,10 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_FAILED,
         });
 
-        dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
+        // Remove parse function when converting this call to FHIR service
+        dispatch(
+          fetchFacilityDetails(parseFakeFHIRId(newAppointment.data.vaFacility)),
+        );
 
         recordEvent({
           event: `${GA_PREFIX}-direct-submission-failed`,
@@ -787,11 +795,14 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_FAILED,
         });
 
+        // Remove parse function when converting this call to FHIR service
         dispatch(
           fetchFacilityDetails(
-            isCommunityCare
-              ? newAppointment.data.communityCareSystemId
-              : newAppointment.data.vaFacility,
+            parseFakeFHIRId(
+              isCommunityCare
+                ? newAppointment.data.communityCareSystemId
+                : newAppointment.data.vaFacility,
+            ),
           ),
         );
 

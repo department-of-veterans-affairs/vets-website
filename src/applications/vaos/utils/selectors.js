@@ -19,6 +19,12 @@ import {
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
 
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
+
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
@@ -162,8 +168,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[data.communityCareSystemId]
-    : facilityDetails[data.vaFacility];
+    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
+    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
 }
 
 export function getEligibilityChecks(state) {
@@ -259,8 +265,12 @@ export function getFacilityPageInfo(state) {
     hasEligibilityError:
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
-    parentDetails: newAppointment?.facilityDetails[data.vaParent],
-    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
+    // Remove parse function when converting this call to FHIR service
+    parentDetails:
+      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaParent)],
+    // Remove parse function when converting this call to FHIR service
+    facilityDetails:
+      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaFacility)],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
@@ -294,7 +304,8 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
+    facilityDetails:
+      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
