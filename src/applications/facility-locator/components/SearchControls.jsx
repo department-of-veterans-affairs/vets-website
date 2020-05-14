@@ -51,6 +51,8 @@ class SearchControls extends Component {
 
   renderFacilityTypeDropdown = () => {
     const { showCommunityCares } = this.props;
+    const { facilityType } = this.props.currentQuery;
+
     const locationOptions = facilityTypesOptions;
     if (!showCommunityCares) {
       delete locationOptions.cc_provider;
@@ -67,7 +69,8 @@ class SearchControls extends Component {
         </label>
         <select
           id="facility-type-dropdown"
-          aria-label="Choose a service type"
+          aria-label="Choose a facility type"
+          value={facilityType || ''}
           className="bor-rad"
           onChange={this.handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
