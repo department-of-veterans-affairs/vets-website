@@ -9,6 +9,7 @@ import {
   formatCurrency,
   isCountryInternational,
   locationInfo,
+  checkForEmptyFocusableElement,
 } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
@@ -17,6 +18,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -92,8 +95,16 @@ class EstimateYourBenefitsForm extends React.Component {
   handleCalculateBenefitsClick = () => {
     const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
     const zipcode = this.props.inputs.beneficiaryZIP;
+
     if (beneficiaryZIPError || zipcode.length !== 5) {
-      this.toggleLearningFormatAndSchedule();
+      this.toggleLearningFormatAndSchedule(true);
+      setTimeout(() => {
+        const CheckNameOfElement = checkForEmptyFocusableElement(
+          'beneficiaryZIPCode',
+        );
+        scroller.scrollTo('zip-question', getScrollOptions());
+        CheckNameOfElement[0].focus();
+      }, 1);
     } else {
       this.props.updateEstimatedBenefits();
     }
@@ -165,6 +176,13 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  handleInputFocusByName = name => {
+    const elements = document.getElementsByName(name);
+    if (elements.length > 0) {
+      elements[0].scrollIntoView();
+    }
+  };
+
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
@@ -219,6 +237,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+
     this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
@@ -719,8 +738,9 @@ class EstimateYourBenefitsForm extends React.Component {
           : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
-          <div>
+          <div name="zip-question">
             <ErrorableTextInput
+              autoFocus
               errorMessage={errorMessageCheck}
               label={label}
               name="beneficiaryZIPCode"
