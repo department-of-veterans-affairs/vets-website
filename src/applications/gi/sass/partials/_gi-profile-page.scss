@@ -87,6 +87,10 @@
       top: 2.5em;
       padding-bottom: 9.5em;
     }
+
+    .bigdog {
+      padding-top: 16px;
+    }
   }
 
   @media (min-width: 920px) {
@@ -386,15 +390,25 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 99;
-    max-height: 0%;
-    transition: 1s;
+    z-index: 401;
     overflow: hidden;
-    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.15);
+    max-height: 0%;
+    // OUT
+    transition: max-height 1.5s ease-in-out;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+    &.open {
+      max-height: 100%;
+      transition: max-height 1.5s ease-in-out;
+      -webkit-transition-delay: 0s;
+      transition-delay: 0s;
+    }
   }
 
-  .eyb-sheet.open {
-    max-height: 100%;
+  .overlay {
+    display: flex;
+    flex-direction: column;
   }
 
   button.calculate-button {

@@ -44,11 +44,19 @@ export class EstimateYourBenefits extends React.Component {
         .getBoundingClientRect().top -
         12 <
       0;
+
+    const sheetHeight = document.getElementsByClassName('eyb-sheet')[0]
+      .offsetHeight;
+    const calculateButtonHeight =
+      document.getElementsByClassName('calculate-button')[0].offsetHeight + 1;
+
     const bottomOffset =
       document
-        .getElementsByClassName('your-estimated-benefits')[0]
+        .getElementsByClassName('calculate-button')[0]
         .getBoundingClientRect().top -
-        window.innerHeight >
+        window.innerHeight +
+        sheetHeight +
+        calculateButtonHeight >
       0;
 
     if (topOffset && bottomOffset) {
@@ -56,7 +64,7 @@ export class EstimateYourBenefits extends React.Component {
         this.setState({ showEybSheet: true });
       }
     } else if (this.state.showEybSheet === true) {
-      this.setState({ showEybSheet: false });
+      this.setState({ showEybSheet: false, expandEybSheet: false });
     }
   }
 
@@ -69,8 +77,10 @@ export class EstimateYourBenefits extends React.Component {
   toggleEybExpansion() {
     if (this.state.expandEybSheet) {
       this.setState({ expandEybSheet: false });
+      document.body.style.overflow = 'visible';
     } else {
       this.setState({ expandEybSheet: true });
+      document.body.style.overflow = 'hidden';
     }
   }
 
@@ -102,6 +112,12 @@ export class EstimateYourBenefits extends React.Component {
         />
         <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
+        {this.state.expandEybSheet && (
+          <div
+            onClick={() => this.toggleEybExpansion()}
+            className="va-modal overlay"
+          />
+        )}
         {
           <div
             className={classNames(

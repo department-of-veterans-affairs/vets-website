@@ -2,14 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 
-export const CalculatorResultRow = ({
-  id,
-  label,
-  value,
-  header,
-  bold,
-  visible,
-}) =>
+const CalculatorResultRow = ({ id, label, value, header, bold, visible }) =>
   visible ? (
     <div
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
