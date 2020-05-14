@@ -672,3 +672,15 @@ textarea:focus {
     right: 1em;
   }
 }
+
+textarea.resize-none {
+  resize: none;
+}
+
+textarea.resize-y {
+  resize: vertical;
+}
+
+textarea.resize-x {
+  resize: horizontal;
+}

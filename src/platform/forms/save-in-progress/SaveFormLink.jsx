@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utilities/ui';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import SipsDevModal from './SaveInProgressDevModal';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -80,6 +81,7 @@ class SaveFormLink extends React.Component {
               {this.props.children || `Finish this ${appType} later`}
             </button>
             {!this.props.children && '.'}
+            <SipsDevModal {...this.props} />
           </span>
         )}
       </div>

@@ -42,7 +42,7 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form, formConfig } = this.props;
+    const { user, form, formConfig, route } = this.props;
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -56,6 +56,7 @@ class RoutedSavablePage extends React.Component {
           locationPathname={this.props.location.pathname}
           form={form}
           formConfig={formConfig}
+          route={route}
           user={user}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
