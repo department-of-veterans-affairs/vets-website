@@ -12,7 +12,7 @@ const SipsDevModal = props => {
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
 
-  const availablePaths = props.route.pageList.map(page => page.path);
+  const availablePaths = props?.route?.pageList.map(page => page.path) || [];
 
   const openSipsModal = () => {
     setSipsData(JSON.stringify(props.form.data, null, 2));
