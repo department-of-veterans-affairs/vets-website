@@ -118,7 +118,7 @@ class SideNav extends Component {
         className={classNames(
           'medium-screen:vads-u-height--auto',
           'medium-screen:vads-u-margin-left--0',
-          'medium-screen:vads-u-margin-right--2p5',
+          'large-screen:vads-u-margin-right--2p5',
           'medium-screen:vads-u-margin-y--0',
           'usa-width-one-fourth',
           'va-sidenav',
