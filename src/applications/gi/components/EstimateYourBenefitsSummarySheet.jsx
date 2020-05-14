@@ -134,7 +134,6 @@ export const EstimateYourBenefitsSummarySheet = props => (
                     key={`${term.label}`}
                     label={term.label}
                     value={term.value}
-                    // bold={term.label === 'Total per year'}
                     visible={term.visible}
                   />
                 ))}
