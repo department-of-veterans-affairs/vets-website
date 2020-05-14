@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
       return (
         <div className="schemaform-intro">
           <FormTitle title="File for disability compensation" />
-          <FileOriginalClaimPage.component props={this.props} />
+          <FileOriginalClaimPage.Component props={this.props} />
         </div>
       );
     }
