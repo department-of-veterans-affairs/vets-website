@@ -54,21 +54,6 @@ export default class CalendarWidget extends Component {
     }
   }
 
-  static props = {
-    additionalOptions: PropTypes.object,
-    availableDates: PropTypes.array, // ['YYYY-MM-DD']
-    loadingStatus: PropTypes.string,
-    minDate: PropTypes.string, // YYYY-MM-DD
-    maxDate: PropTypes.string, // YYYY-MM-DD
-    maxSelections: PropTypes.number,
-    monthsToShowAtOnce: PropTypes.number,
-    startMonth: PropTypes.string, // YYYY-MM
-    onChange: PropTypes.func,
-    onClickNext: PropTypes.func,
-    onClickPrev: PropTypes.func,
-    validationError: PropTypes.string,
-  };
-
   handlePrev = () => {
     const { onClickPrev } = this.props;
     const updatedMonths = this.state.months.map(m =>
@@ -305,3 +290,18 @@ export default class CalendarWidget extends Component {
     );
   }
 }
+
+CalendarWidget.propTypes = {
+  additionalOptions: PropTypes.object,
+  availableDates: PropTypes.array, // ['YYYY-MM-DD']
+  loadingStatus: PropTypes.string,
+  minDate: PropTypes.string, // YYYY-MM-DD
+  maxDate: PropTypes.string, // YYYY-MM-DD
+  maxSelections: PropTypes.number,
+  monthsToShowAtOnce: PropTypes.number,
+  startMonth: PropTypes.string, // YYYY-MM
+  onChange: PropTypes.func,
+  onClickNext: PropTypes.func,
+  onClickPrev: PropTypes.func,
+  validationError: PropTypes.string,
+};
