@@ -2,6 +2,10 @@ const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
+/**
+ * Go to error page for an invalid profile
+ * @type {{"Begin application": function(*=): void}|{"Begin application": function(*=): void}}
+ */
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
 

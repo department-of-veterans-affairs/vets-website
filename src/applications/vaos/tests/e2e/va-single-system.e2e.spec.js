@@ -41,7 +41,7 @@ module.exports = {
   },
   'Choose VA facility': client => {
     client
-      .click('[name = "root_vaFacility"][value = "983GB"]')
+      .click('[name = "root_vaFacility"][value = "var983GB"]')
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')

@@ -90,7 +90,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
   it('should render a link to facility locator if no parentDetails provided', () => {
     const formContext = {
       typeOfCare: 'Mental health',
-      parentId: '442',
+      siteId: '442',
     };
 
     const tree = mount(<NoValidVAFacilities formContext={formContext} />);

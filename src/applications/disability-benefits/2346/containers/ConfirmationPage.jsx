@@ -69,8 +69,11 @@ const ConfirmationPage = ({
       <h5>What if I have questions about my order?</h5>
       <p>
         If you have any questions about your order, please call the DLC Customer
-        Service Section at <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-        <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+        Service Section at{' '}
+        <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+          303-273-6200
+        </a>{' '}
+        or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
       </p>
     </section>
   </>
@@ -86,7 +89,7 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
-  const supplies = state.form?.loadedData?.formData?.supplies;
+  const supplies = state.form?.data?.supplies;
   const selectedProducts = state.form?.data?.selectedProducts;
   const productIdArray = selectedProducts?.map(product => product.productId);
   const selectedProductArray = supplies?.filter(supply =>

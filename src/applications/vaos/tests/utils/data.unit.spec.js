@@ -30,7 +30,7 @@ describe('VAOS data transformation', () => {
             ],
           },
           vaParent: 'var983',
-          vaFacility: '983GB',
+          vaFacility: 'var983GB',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
@@ -48,14 +48,23 @@ describe('VAOS data transformation', () => {
         facilities: {
           '323_var983': [
             {
-              institutionCode: '983GB',
+              id: 'var983GB',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983GB',
+                },
+              ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              city: 'Cheyenne',
-              stateAbbrev: 'WY',
-              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-              rootStationCode: '983',
-              parentStationCode: '983',
-              institutionTimezone: 'America/Denver',
+              address: [
+                {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
+              ],
+              legacyVAR: {
+                institutionTimezone: 'America/Denver',
+              },
             },
           ],
         },
@@ -126,7 +135,7 @@ describe('VAOS data transformation', () => {
             ],
           },
           vaParent: 'var983',
-          vaFacility: '983GB',
+          vaFacility: 'var983GB',
           facilityType: 'vamc',
           typeOfCareId: 'SLEEP',
           typeOfSleepCareId: '349',
@@ -145,14 +154,23 @@ describe('VAOS data transformation', () => {
         facilities: {
           '349_var983': [
             {
-              institutionCode: '983GB',
+              id: 'var983GB',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983GB',
+                },
+              ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              city: 'Cheyenne',
-              stateAbbrev: 'WY',
-              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-              rootStationCode: '983',
-              parentStationCode: '983',
-              institutionTimezone: 'America/Denver',
+              address: [
+                {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
+              ],
+              legacyVAR: {
+                institutionTimezone: 'America/Denver',
+              },
             },
           ],
         },
@@ -535,7 +553,7 @@ describe('VAOS data transformation', () => {
           preferredDate: '2019-12-02',
           clinicId: '308',
           vaParent: 'var983',
-          vaFacility: '983',
+          vaFacility: 'var983',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
@@ -560,19 +578,29 @@ describe('VAOS data transformation', () => {
         facilities: {
           '323_var983': [
             {
-              institutionCode: '983',
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              city: 'Cheyenne',
-              stateAbbrev: 'WY',
-              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-              rootStationCode: '983',
-              parentStationCode: '983',
-              institutionTimezone: 'America/Denver',
+              address: [
+                {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
+              ],
+              legacyVAR: {
+                institutionTimezone: 'America/Denver',
+              },
             },
           ],
         },
         clinics: {
-          '983_323': [
+          // eslint-disable-next-line camelcase
+          var983_323: [
             {
               siteCode: '983',
               clinicId: '308',
@@ -638,7 +666,7 @@ describe('VAOS data transformation', () => {
             currentRowIndex: 3,
           },
           vaParent: 'var983',
-          vaFacility: '983GB',
+          vaFacility: 'var983GB',
           facilityType: 'vamc',
           typeOfCareId: 'EYE',
           typeOfEyeCareId: '407',
@@ -657,14 +685,23 @@ describe('VAOS data transformation', () => {
         facilities: {
           '407_var983': [
             {
-              institutionCode: '983GB',
+              id: 'var983GB',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983GB',
+                },
+              ],
               name: 'CHYSHR-Cheyenne VA Medical Center',
-              city: 'Cheyenne',
-              stateAbbrev: 'WY',
-              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-              rootStationCode: '983',
-              parentStationCode: '983',
-              institutionTimezone: 'America/Denver',
+              address: [
+                {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
+              ],
+              legacyVAR: {
+                institutionTimezone: 'America/Denver',
+              },
             },
           ],
         },

@@ -11,6 +11,27 @@ export class AdditionalInformation extends React.Component {
     const { institution } = this.props;
     const isOJT = institution.type.toLowerCase() === 'ojt';
 
+    if (this.props.eduSection103 && isOJT && institution.section103Message) {
+      return (
+        <div className="institution-summary">
+          <h3>Institution summary</h3>
+          <div className="section-103-message">
+            <strong>
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'section103')}
+              >
+                Protection against late VA payments:
+              </button>
+            </strong>
+            &nbsp;
+            {institution.section103Message}
+          </div>
+        </div>
+      );
+    }
+
     if (isOJT) return null;
 
     const typeOfAccreditation = institution.accredited &&
@@ -78,19 +99,37 @@ export class AdditionalInformation extends React.Component {
         </div>
         {typeOfAccreditation}
         {vetTuitionPolicy}
-        <div>
-          <strong>
-            <button
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={this.props.onShowModal.bind(this, 'singleContact')}
-            >
-              Single point of contact for veterans:
-            </button>
-          </strong>
-          &nbsp;
-          {institution.vetPoc ? 'Yes' : 'No'}
-        </div>
+        {this.props.eduSection103 &&
+          institution.section103Message && (
+            <div className="section-103-message">
+              <strong>
+                <button
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'section103')}
+                >
+                  Protection against late VA payments:
+                </button>
+              </strong>
+              &nbsp;
+              {institution.section103Message}
+            </div>
+          )}
+        {!this.props.eduSection103 && (
+          <div>
+            <strong>
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'singleContact')}
+              >
+                Single point of contact for veterans:
+              </button>
+            </strong>
+            &nbsp;
+            {institution.vetPoc ? 'Yes' : 'No'}
+          </div>
+        )}
         <div>
           <strong>
             <button
@@ -136,13 +175,13 @@ export class AdditionalInformation extends React.Component {
               <button
                 type="button"
                 className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'section103')}
+                onClick={this.props.onShowModal.bind(this, 'singleContact')}
               >
-                Protection against late VA payments:
+                Single point of contact for veterans:
               </button>
             </strong>
             &nbsp;
-            {institution.section103Message}
+            {institution.vetPoc ? 'Yes' : 'No'}
           </div>
         )}
       </div>
@@ -289,6 +328,7 @@ export class AdditionalInformation extends React.Component {
 }
 
 AdditionalInformation.propTypes = {
+  constants: PropTypes.object,
   institution: PropTypes.object,
   onShowModal: PropTypes.func,
   eduSection103: PropTypes.bool,
