@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class FacilityDirectionsLink extends Component {
   buildAddressArray = location => {
-    if (location?.type === 'cc_provider') {
+    if (!Array.isArray(location.address)) {
       const { address } = location;
 
       if (address && Object.keys(address).length) {
@@ -17,24 +17,15 @@ class FacilityDirectionsLink extends Component {
       return [];
     }
 
-    if (location?.address?.street) {
-      const { address } = location;
-      return [
-        address.street,
-        `${address.city}, ${address.state} ${address.zipCode}`,
-      ].filter(x => !!x);
+    if (location?.address?.length) {
+      const address = location.address[0];
+
+      return address.line
+        .concat([`${address.city}, ${address.state} ${address.postalCode}`])
+        .filter(x => !!x);
     }
 
-    const {
-      address: { physical: address },
-    } = location;
-
-    return [
-      address.address1,
-      address.address2,
-      address.address3,
-      `${address.city}, ${address.state} ${address.zip}`,
-    ].filter(x => !!x);
+    return [];
   };
 
   render() {
@@ -44,10 +35,10 @@ class FacilityDirectionsLink extends Component {
 
       if (address.length !== 0) {
         address = address.join(', ');
-      } else {
+      } else if (location.position) {
         // If we don't have an address fallback on coords
-        const { lat, long } = location;
-        address = `${lat},${long}`;
+        const { latitude, longitude } = location.position;
+        address = `${latitude},${longitude}`;
       }
 
       return (

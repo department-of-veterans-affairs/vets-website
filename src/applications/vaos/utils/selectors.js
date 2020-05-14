@@ -163,8 +163,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
-    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
@@ -260,12 +260,8 @@ export function getFacilityPageInfo(state) {
     hasEligibilityError:
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
-    // Remove parse function when converting this call to FHIR service
-    parentDetails:
-      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaParent)],
-    // Remove parse function when converting this call to FHIR service
-    facilityDetails:
-      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaFacility)],
+    parentDetails: newAppointment?.facilityDetails[data.vaParent],
+    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
   };
@@ -298,8 +294,7 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails:
-      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
+    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,

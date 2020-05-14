@@ -11,9 +11,9 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-  getFacilitiesInfo,
   getClinicInstitutions,
 } from '../api';
+import { getLocations } from '../services/location';
 
 import { captureError } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
@@ -152,7 +152,9 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   const uniqueFacilityIds = new Set(facilityIds);
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
-    facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
+    facilityData = await getLocations({
+      facilityIds: Array.from(uniqueFacilityIds),
+    });
   }
 
   return {

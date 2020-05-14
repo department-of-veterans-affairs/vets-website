@@ -82,6 +82,10 @@ export function transformFacility(facility) {
         postalCode: facility.address.physical.zip,
       },
     ],
+    position: {
+      longitude: facility.long,
+      latitude: facility.lat,
+    },
     managingOrganization: {
       reference: `Organization/var${facility.uniqueId.substr(0, 3)}`,
     },
