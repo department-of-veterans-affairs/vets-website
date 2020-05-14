@@ -85,7 +85,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should not call checkStatus if it already has', () => {
-    const stub = sinon.stub(ssoUtils, 'checkAutoSession');
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
       hasCalledKeepAlive: true,
       useSSOe: true,
@@ -98,7 +98,7 @@ describe('<AutoSSO>', () => {
   });
 
   it('should call keepalive if it has yet to', () => {
-    const stub = sinon.stub(ssoUtils, 'checkAutoSession');
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     Object.assign(props, {
       hasCalledKeepAlive: false,
       useSSOe: true,
