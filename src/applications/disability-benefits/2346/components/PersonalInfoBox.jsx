@@ -29,7 +29,7 @@ const PersonalInfoBox = props => {
             Last 4 of Social Security number: {ssnLastFour}
           </p>
           <p className="vads-u-margin--1px">
-            Date of birth: {moment(dateOfBirth).format('MM/DD/YYYY')}
+            Date of birth: {moment(dateOfBirth).format('MMMM DD, YYYY')}
           </p>
           <p className="vads-u-margin--1px">
             Gender: {gender ? genderLabels[gender] : ''}

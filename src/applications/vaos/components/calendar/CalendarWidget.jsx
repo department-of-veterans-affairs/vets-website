@@ -17,21 +17,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { FETCH_STATUS } from '../../utils/constants';
 
 export default class CalendarWidget extends Component {
-  static props = {
-    additionalOptions: PropTypes.object,
-    availableDates: PropTypes.array, // ['YYYY-MM-DD']
-    loadingStatus: PropTypes.string,
-    minDate: PropTypes.string, // YYYY-MM-DD
-    maxDate: PropTypes.string, // YYYY-MM-DD
-    maxSelections: PropTypes.number,
-    monthsToShowAtOnce: PropTypes.number,
-    startMonth: PropTypes.string, // YYYY-MM
-    onChange: PropTypes.func,
-    onClickNext: PropTypes.func,
-    onClickPrev: PropTypes.func,
-    validationError: PropTypes.string,
-  };
-
   static defaultProps = {
     monthsToShowAtOnce: 1,
     maxSelections: 1,
@@ -305,3 +290,18 @@ export default class CalendarWidget extends Component {
     );
   }
 }
+
+CalendarWidget.propTypes = {
+  additionalOptions: PropTypes.object,
+  availableDates: PropTypes.array, // ['YYYY-MM-DD']
+  loadingStatus: PropTypes.string,
+  minDate: PropTypes.string, // YYYY-MM-DD
+  maxDate: PropTypes.string, // YYYY-MM-DD
+  maxSelections: PropTypes.number,
+  monthsToShowAtOnce: PropTypes.number,
+  startMonth: PropTypes.string, // YYYY-MM
+  onChange: PropTypes.func,
+  onClickNext: PropTypes.func,
+  onClickPrev: PropTypes.func,
+  validationError: PropTypes.string,
+};
