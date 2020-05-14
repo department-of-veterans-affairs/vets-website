@@ -177,6 +177,7 @@ export function fetchFutureAppointments() {
               .toISOString(),
             moment()
               .startOf('day')
+              .add(1, 'months')
               .add(1, 'years')
               .toISOString(),
           ),
@@ -184,6 +185,7 @@ export function fetchFutureAppointments() {
             'cc',
             moment().format('YYYY-MM-DD'),
             moment()
+              .add(1, 'months')
               .add(1, 'years')
               .format('YYYY-MM-DD'),
           ),
