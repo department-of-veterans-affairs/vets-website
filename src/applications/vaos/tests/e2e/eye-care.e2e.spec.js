@@ -42,10 +42,10 @@ module.exports = {
     client
       .click('[value="var983"]')
       .waitForElementPresent(
-        '[name = "root_vaFacility"][value = "983GB"]',
+        '[name = "root_vaFacility"][value = "var983GB"]',
         Timeouts.slow,
       )
-      .click('[name = "root_vaFacility"][value = "983GB"]')
+      .click('[name = "root_vaFacility"][value = "var983GB"]')
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
