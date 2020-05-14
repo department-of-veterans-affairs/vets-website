@@ -38,25 +38,24 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   handleScroll() {
-    const topOffset =
-      document
-        .getElementById('estimate-your-benefits-accordion')
-        .getBoundingClientRect().top -
-        12 <
-      0;
-    const bottomOffset =
-      document
-        .getElementsByClassName('your-estimated-benefits')[0]
-        .getBoundingClientRect().top -
-        window.innerHeight >
-      0;
+    const eybAccordionField = document.getElementById(
+      'estimate-your-benefits-accordion',
+    );
+    const yourEYBField = document.getElementsByClassName(
+      'your-estimated-benefits',
+    )[0];
+    if (eybAccordionField && yourEYBField) {
+      const topOffset = eybAccordionField.getBoundingClientRect().top - 12 < 0;
+      const bottomOffset =
+        yourEYBField.getBoundingClientRect().top - window.innerHeight > 0;
 
-    if (topOffset && bottomOffset) {
-      if (this.state.showEybSheet === false) {
-        this.setState({ showEybSheet: true });
+      if (topOffset && bottomOffset) {
+        if (this.state.showEybSheet === false) {
+          this.setState({ showEybSheet: true });
+        }
+      } else if (this.state.showEybSheet === true) {
+        this.setState({ showEybSheet: false });
       }
-    } else if (this.state.showEybSheet === true) {
-      this.setState({ showEybSheet: false });
     }
   }
 
@@ -104,7 +103,7 @@ export class EstimateYourBenefits extends React.Component {
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
         {
           <div
-            id="eyb-sheet"
+            id="eyb-summary-sheet"
             className={classNames(
               'vads-u-display--block',
               'small-screen:vads-u-display--none',

@@ -158,7 +158,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleEYBInputFocus = fieldId => {
-    const eybSheetFieldId = 'eyb-sheet';
+    const eybSheetFieldId = 'eyb-summary-sheet';
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
   };
 

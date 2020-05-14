@@ -5,8 +5,19 @@ import InstitutionFilterForm from './InstitutionFilterForm';
 import KeywordSearch from './KeywordSearch';
 import OnlineClassesFilter from './OnlineClassesFilter';
 import BenefitsForm from '../profile/BenefitsForm';
+import { handleInputFocusWithPotentialOverLap } from '../../utils/helpers';
 
 function InstitutionSearchForm(props) {
+  function handleInstitutionSearchInputFocus(fieldId) {
+    const seeResultsButtonFieldId = 'see-results-button';
+    const scrollableFieldId = 'institution-search';
+    handleInputFocusWithPotentialOverLap(
+      fieldId,
+      seeResultsButtonFieldId,
+      scrollableFieldId,
+    );
+  }
+
   return (
     <div className="row">
       <div id="institution-search" className={props.filtersClass}>
@@ -27,7 +38,7 @@ function InstitutionSearchForm(props) {
             filters={props.filters}
             handleFilterChange={props.handleFilterChange}
             showModal={props.showModal}
-            handleInputFocus={props.handleInputFocus}
+            handleInputFocus={handleInstitutionSearchInputFocus}
           />
           {props.gibctEstimateYourBenefits ? (
             <BenefitsForm
@@ -36,7 +47,7 @@ function InstitutionSearchForm(props) {
               hideModal={props.hideModal}
               showModal={props.showModal}
               showHeader
-              handleInputFocus={props.handleInputFocus}
+              handleInputFocus={handleInstitutionSearchInputFocus}
             />
           ) : (
             <EligibilityForm
@@ -48,7 +59,7 @@ function InstitutionSearchForm(props) {
             onlineClasses={props.eligibility.onlineClasses}
             onChange={props.eligibilityChange}
             showModal={props.showModal}
-            handleInputFocus={props.handleInputFocus}
+            handleInputFocus={handleInstitutionSearchInputFocus}
           />
         </div>
         <div id="see-results-button" className="results-button">

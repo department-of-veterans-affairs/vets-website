@@ -94,8 +94,8 @@ export const formatDollarAmount = value => {
 export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
 
 export const handleScrollOnInputFocus = fieldId => {
-  const field = document.getElementById(fieldId);
   if (isMobileView()) {
+    const field = document.getElementById(fieldId);
     // prod flag for bah-8821 EYB changes
     if (environment.isProduction()) {
       field.scrollIntoView();
@@ -105,7 +105,7 @@ export const handleScrollOnInputFocus = fieldId => {
   }
 };
 
-export const scrollUpIfOverlap = (fieldId1, fieldId2, scrollableFieldId) => {
+const scrollUpIfOverlap = (fieldId1, fieldId2, scrollableFieldId) => {
   const field1 = document.getElementById(fieldId1);
   const field2 = document.getElementById(fieldId2);
   if (field1 && field2) {
