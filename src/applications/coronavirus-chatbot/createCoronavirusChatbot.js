@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ChatbotLoadError from './components/ChatbotLoadError';
+import './sass/coronavirus-chatbot.scss';
 
 export default (_store, widgetType) => {
   // Derive the element to render our widget.

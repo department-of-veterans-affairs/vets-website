@@ -1,0 +1,154 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+#webchat {
+  margin-top: 20px;
+}
+
+#webchat button div {
+  overflow: visible !important;
+  white-space: pre-wrap !important;
+  text-overflow: unset !important;
+}
+
+/* divs between buttons in button container */
+.ac-actionSet > div {
+  display: none;
+}
+
+/* ancestor container of buttons */
+div.ac-container.ac-adaptiveCard > div > div {
+  overflow: unset !important;
+}
+
+/* button style in answers before being selected */
+button.ac-pushButton {
+  justify-content: left !important;
+  text-align: left !important;
+  overflow: visible !important;
+  margin: 4px 0 !important;
+  font-weight: 700 !important;
+  color: $color-primary;
+  border: 2px solid $color-primary !important;
+}
+
+button.ac-pushButton:hover {
+  color: $color-primary-darker;
+  border: 2px solid $color-primary-darker !important;
+  background: $color-white;
+}
+
+#webchat button:disabled {
+  padding: 10px !important;
+  min-height: 38px !important;
+  background: $color-gray-lighter !important;
+  color: $color-white !important;
+  border: 0 !important;
+}
+
+#webchat input[type=checkbox] {
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  opacity: 1.0;
+  width: auto;
+  height: 1.6rem;
+  margin-top: 5px !important;
+}
+
+/* labels for checkboxes */
+#webchat label.ac-textBlock {
+  font-size: 16px !important;
+  margin-top: 0 !important;
+  margin-left: 16px !important;
+  text-overflow: unset !important;
+  white-space: unset !important;
+}
+
+#webchat div.ac-input.ac-choiceSetInput-multiSelect {
+  margin-bottom: 15px;
+}
+
+#webchat div.ac-input.ac-choiceSetInput-multiSelect > div {
+  align-items: flex-start !important;
+}
+
+#webchat .ac-input.ac-multichoiceInput.ac-choiceSetInput-compact {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 2.5rem;
+}
+
+.webchat__bubble__content {
+  border: 0 !important;
+  border-radius: 5px !important;
+  color: $color-base;
+}
+
+/* side vertical container with avatar in it */
+.webchat__stackedLayout__avatar {
+  margin: 7px 8px 0 !important;
+}
+
+/* horizontal container with chat bubbles */
+.webchat__stacked_indented_content {
+  margin: 0 8px !important;
+}
+
+/* padding around question chat bubbles */
+.css-18q9i6z {
+  padding: 16px 8px !important;
+}
+
+/* gap between end of scroll area and bg */
+.css-1qyo5rb:first-child {
+  margin-top: 4px !important;
+}
+
+/* padding between question chat bubbles */
+.css-1qyo5rb:not(:first-child) {
+  padding-bottom: 8px !important;
+  margin-bottom: 0 !important;
+}
+
+/* padding around answer chat bubbles */
+div.ac-container.ac-adaptiveCard {
+  padding: 16px 8px !important;
+}
+
+/* additional padding around answer chat bubbles
+(3px + webchat__row 5px + css-1qyo5rb 8px = 16px from design specs) */
+.webchat__stackedLayout--fromUser {
+  padding: 3px 0 !important;
+}
+
+/* "just now/5 mins ago" time indicator for each message */
+.css-1kceze8 {
+  visibility: hidden !important;
+  height: 0;
+}
+
+/* unnecessary div above answer options in chat bubble */
+.ac-horizontal-separator {
+  height: 0 !important;
+}
+
+/* container around dropdown element */
+.ac-input-container {
+  flex-wrap: wrap !important;
+}
+
+/* dropdown element (ex: states list) */
+.ac-input.ac-multichoiceInput.ac-choiceSetInput-compact {
+  margin-bottom: 8px !important;
+  min-width: 100% !important;
+}
+
+.css-yb0hx9.webchat__initialsAvatar.css-10h6e9z {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  background: $color-primary-darkest !important;
+}
+
+.css-1t62idy {
+  flex-direction: row;
+}
