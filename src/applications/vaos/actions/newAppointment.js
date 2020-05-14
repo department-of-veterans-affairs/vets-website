@@ -266,6 +266,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const initialState = getState();
     const directSchedulingEnabled = vaosDirectScheduling(initialState);
     const newAppointment = initialState.newAppointment;
+    const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSystemIds = selectSystemIds(initialState);
     let parentFacilities = newAppointment.parentFacilities;
@@ -314,7 +315,11 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId && !eligibleFacilities?.length) {
-        recordEligibilityFailure('supported-facilities');
+        recordEligibilityFailure(
+          'supported-facilities',
+          typeOfCare,
+          parseFakeFHIRId(parentId),
+        );
       }
 
       const eligibilityChecks =
@@ -373,6 +378,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const previousNewAppointmentState = getState().newAppointment;
+    const typeOfCare = getTypeOfCare(data)?.name;
     const typeOfCareId = getTypeOfCare(data)?.id;
     const rootOrg = getRootOrganizationFromChosenParent(
       getState(),
@@ -404,7 +410,11 @@ export function updateFacilityPageData(page, uiSchema, data) {
         if (!availableFacilities?.length) {
           // Remove parse function when converting this call to FHIR service
           dispatch(fetchFacilityDetails(parseFakeFHIRId(data.vaParent)));
-          recordEligibilityFailure('supported-facilities');
+          recordEligibilityFailure(
+            'supported-facilities',
+            typeOfCare,
+            parseFakeFHIRId(data.vaParent),
+          );
         }
 
         dispatch({
