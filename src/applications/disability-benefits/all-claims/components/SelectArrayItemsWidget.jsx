@@ -20,27 +20,64 @@ export default class SelectArrayItemsWidget extends React.Component {
   defaultSelectedPropName = 'view:selected';
 
   render() {
-    const { value: items, id, options, required } = this.props;
+    const { value: items, id, options, required, formContext } = this.props;
     // Need customTitle to set error message above title.
     const { label: Label, selectedPropName, disabled, customTitle } = options;
+
+    // inReviewMode = true (review page view, not in edit mode)
+    // inReviewMode = false (in edit mode)
+    const onReviewPage = formContext.onReviewPage;
+    const inReviewMode = onReviewPage && formContext.reviewMode;
+
+    const hasSelections = items?.reduce(
+      (result, item) =>
+        result || !!get(selectedPropName || this.defaultSelectedPropName, item),
+      false,
+    );
+
+    const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
     // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
-        {customTitle &&
-          items && <h5 className="all-disabilities-title">{customTitle}</h5>}
-        {items &&
+        {customTitle?.trim() &&
+          items && <Tag className="vads-u-font-size--h5">{customTitle}</Tag>}
+        {items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
           items.map((item, index) => {
             const itemIsSelected = !!get(
               selectedPropName || this.defaultSelectedPropName,
               item,
             );
+
+            // Don't show un-selected ratings in review mode
+            if (inReviewMode && !itemIsSelected) {
+              return null;
+            }
+
+            const checkboxVisible =
+              !onReviewPage || (onReviewPage && !inReviewMode);
+
             const itemIsDisabled =
               typeof disabled === 'function' ? disabled(item) : false;
+
             const labelWithData = (
-              <Label {...item} name={item.name || item.condition} />
+              <Label
+                {...item}
+                name={item.name || item.condition}
+                className={
+                  checkboxVisible
+                    ? 'vads-u-display--inline'
+                    : 'vads-u-margin-top--0p5'
+                }
+              />
             );
-            const elementId = `${id}_${index}`;
+            // On the review & submit page, there may be more than one
+            // of these components in edit mode with the same content, e.g. 526
+            // ratedDisabilities & unemployabilityDisabilities causing
+            // duplicate input ids/names... an `appendId` value is added to the
+            // ui:options
+            const appendId = options.appendId ? `_${options.appendId}` : '';
+            const elementId = `${id}_${index}${appendId}`;
 
             const widgetClasses = classNames(
               'form-checkbox',
@@ -48,9 +85,18 @@ export default class SelectArrayItemsWidget extends React.Component {
               { selected: itemIsSelected },
             );
 
+            const labelClass = [
+              'schemaform-label',
+              checkboxVisible ? '' : 'vads-u-margin-top--0',
+            ].join(' ');
+
+            // When a `customTitle` option is included, the ObjectField is set
+            // to wrap its contents in a div instead of a dl, so we don't need
+            // a include dt and dd elements in the markup; this change fixes an
+            // accessibility issue
             return (
-              <div key={index}>
-                <dt className={widgetClasses}>
+              <div key={index} className={widgetClasses}>
+                {checkboxVisible && (
                   <input
                     type="checkbox"
                     id={elementId}
@@ -66,14 +112,16 @@ export default class SelectArrayItemsWidget extends React.Component {
                       this.onChange(index, event.target.checked)
                     }
                   />
-                  <label className="schemaform-label" htmlFor={elementId}>
-                    {labelWithData}
-                  </label>
-                </dt>
-                <dd />
+                )}
+                <label className={labelClass} htmlFor={elementId}>
+                  {labelWithData}
+                </label>
               </div>
             );
-          })}
+          })
+        ) : (
+          <p>No items selected</p>
+        )}
       </>
     );
   }

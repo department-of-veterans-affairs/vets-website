@@ -616,7 +616,10 @@ export class Modals extends React.Component {
           <li>
             Certificate of Eligibility (COE) <strong>or</strong>
           </li>
-          <li>Certificate of Eligibility (COE) and additional criteria</li>
+          <li>
+            Certificate of Eligibility (COE) and additional criteria such as an
+            award letter or other documents the school specifies
+          </li>
         </ul>
         <p>
           <strong>
@@ -626,20 +629,20 @@ export class Modals extends React.Component {
           </strong>{' '}
           The restriction on penalties doesn't apply if the beneficiary owes
           additional fees to the school beyond the tuition and fees that VA
-          pays. Students are protected up to 90 days from the beginning of the
-          term from these penalties.
+          pays. Students are protected from these penalties up to 90 days from
+          the beginning of the term.
         </p>
         <p>
-          Contact this institution's school certifying official to learn more
-          about their policy or{' '}
+          Contact the School Certifying Official (SCO) to learn more about the
+          school’s policy.{' '}
           <a
             href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
             target="_blank"
             rel="noopener noreferrer"
           >
-            learn more about the Transition Act
-          </a>
-          .
+            Read our FAQs on the Veterans Benefits and Transition Act
+          </a>{' '}
+          to learn more about protections against late VA payments.
         </p>
       </Modal>
     </span>

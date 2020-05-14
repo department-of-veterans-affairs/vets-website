@@ -283,7 +283,9 @@ export default class ArrayField extends React.Component {
                       {isLast &&
                       items.length > 1 &&
                       uiSchema['ui:options'].itemName ? (
-                        <h5>New {uiSchema['ui:options'].itemName}</h5>
+                        <h3 className="vads-u-font-size--h5">
+                          New {uiSchema['ui:options'].itemName}
+                        </h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
