@@ -220,7 +220,7 @@ class ReviewCardField extends React.Component {
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
+          {needsDlWrapper ? <div className="review">{Field}</div> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
