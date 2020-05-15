@@ -469,7 +469,7 @@ const testForm = testConfig => {
             .as('testData')
             .then(() => {
               if (testConfig.setupPerTest) {
-                testConfig.setupPerTest(testConfig);
+                testConfig.setupPerTest();
               }
             });
         });
