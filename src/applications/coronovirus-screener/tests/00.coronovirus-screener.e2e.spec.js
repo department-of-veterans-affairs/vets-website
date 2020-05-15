@@ -2,7 +2,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const manifest = require('../manifest.json');
 
-module.exports = E2eHelpers.createE2eTest((client) => {
+module.exports = E2eHelpers.createE2eTest(client => {
   client
     .url(`${E2eHelpers.baseUrl}/coronovirus-screener`)
     .waitForElementVisible('body', Timeouts.normal)
@@ -11,4 +11,5 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   client.end();
 });
 
-module.exports['@disabled'] = !manifest.production || __BUILDTYPE__ !== 'production';
+module.exports['@disabled'] =
+  !manifest.production || __BUILDTYPE__ !== 'production';
