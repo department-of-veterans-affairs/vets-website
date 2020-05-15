@@ -25,9 +25,10 @@ export default function MultiQuestionForm() {
         setFormState={setFormState}
         state={formState}
       />
-      <div>feverValue: {formState.feverValue}</div>
-      <div>coughValue: {formState.coughValue}</div>
-      <div>fluValue: {formState.fluValue}</div>
+      <div>formState:</div>
+      <div>
+        <pre>{JSON.stringify(formState, null, 2)}</pre>
+      </div>
     </div>
   );
 }
