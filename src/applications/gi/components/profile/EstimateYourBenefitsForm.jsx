@@ -149,6 +149,11 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  handleAccordionFocus = () => {
+    const field = document.getElementById('estimate-your-benefits-accordion');
+    field.scrollIntoView();
+  };
+
   handleInputFocus = fieldId => {
     const field = document.getElementById(fieldId);
     if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
@@ -180,7 +185,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   toggleAboutYourSchool = expanded => {
@@ -195,7 +200,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   toggleLearningFormatAndSchedule = expanded => {
@@ -210,7 +215,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   toggleScholarshipsAndOtherFunding = expanded => {
@@ -225,7 +230,7 @@ class EstimateYourBenefitsForm extends React.Component {
         : this.state.learningFormatAndScheduleExpanded,
       scholarshipsAndOtherFundingExpanded: expanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
