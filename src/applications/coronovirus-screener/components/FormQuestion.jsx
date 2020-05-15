@@ -15,36 +15,31 @@ export default function FormQuestion({
     scrollNext();
   }
 
+  const optionsConfig = [
+    { optionValue: 'yes', optionText: 'Yes' },
+    { optionValue: 'no', optionText: 'No' },
+  ];
+
+  const options = optionsConfig.map((option, index) => (
+    <button
+      key={index}
+      type="button"
+      className={`usa-button-big  ${
+        formState[question.id] === option.optionValue
+          ? 'usa-button'
+          : 'usa-button-secondary'
+      }`}
+      onClick={handleChange}
+      value={option.optionValue}
+    >
+      {option.optionText}
+    </button>
+  ));
+
   return (
     <div className="feature">
       <h2>{question.text}</h2>
-
-      {/* yes button */}
-      <button
-        type="button"
-        className={`usa-button-big  ${
-          formState[question.id] === 'yes'
-            ? 'usa-button'
-            : 'usa-button-secondary'
-        }`}
-        onClick={handleChange}
-        value="yes"
-      >
-        Yes
-      </button>
-      {/* no button */}
-      <button
-        type="button"
-        className={`usa-button-big  ${
-          formState[question.id] === 'no'
-            ? 'usa-button'
-            : 'usa-button-secondary'
-        }`}
-        onClick={handleChange}
-        value="no"
-      >
-        No
-      </button>
+      {options}
     </div>
   );
 }
