@@ -4,7 +4,7 @@
  * which index in the array it represents.
  *
  * @param {Object} formConfig - The config used to build the form.
- * @returns {Array} Array of array pages with regex patterns.
+ * @returns {Array}
  */
 export const createArrayPageObjects = formConfig => {
   // Pull pages from the form config that have an arrayPath.
@@ -29,6 +29,7 @@ export const createArrayPageObjects = formConfig => {
  * @param {Object} config - User-defined config for the test.
  * @param {Object} manifest - The app manifest.
  * @param {Object} formConfig - The config used to build the form.
+ * @returns {Object}
  */
 export const createTestConfig = (config, manifest = {}, formConfig = {}) => {
   const { appName, rootUrl } = manifest;

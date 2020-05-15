@@ -8,7 +8,7 @@ import manifest from '../manifest.json';
 
 const testConfig = createTestConfig(
   {
-    dataPathPrefix: 'data',
+    dataPrefix: 'data',
     dataSets: ['minimal-test', 'maximal-test'],
     fixtures: {
       data: path.join(__dirname, 'schema'),
