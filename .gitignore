@@ -28,7 +28,6 @@ src/applications/proxy-rewrite/tests/__image_snapshots__/__diff_output__/
 temp
 
 # Ignore user's editor/IDE prefs
-.vscode/
 .idea/
 .swp
 .swo

@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vsliveshare.vsliveshare",
+    "visualstudioexptteam.vscodeintellicode",
+    "wayou.vscode-todo-highlight"
+  ]
+}
