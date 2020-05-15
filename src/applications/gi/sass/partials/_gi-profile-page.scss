@@ -83,10 +83,6 @@
       top: 2.5em;
       padding-bottom: 9.5em;
     }
-
-    .eybcontainer {
-      padding-top: 16px;
-    }
   }
 
   @media (min-width: 920px) {
@@ -141,7 +137,6 @@
     }
 
     .calculator-result {
-
       h5 {
         padding: 0;
       }
@@ -407,8 +402,8 @@
       list-style-type: none !important;
     }
 
-
-    label, span {
+    label,
+    span {
       margin-top: 1.5em;
     }
 

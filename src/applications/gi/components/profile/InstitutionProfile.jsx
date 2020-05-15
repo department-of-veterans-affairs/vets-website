@@ -43,13 +43,13 @@ export class InstitutionProfile extends React.Component {
       gibctEstimateYourBenefits,
     } = this.props;
     return (
-      <div className="usa-accordion">
+      <div>
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
         />
-        <div className="usa-accordion vads-u-margin-top--1p5 eybcontainer">
+        <div className="usa-accordion">
           <ul>
             <AccordionItem button="Estimate your benefits">
               {gibctEstimateYourBenefits ? (
