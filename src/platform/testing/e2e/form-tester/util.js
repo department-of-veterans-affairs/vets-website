@@ -55,6 +55,8 @@ const axe = {
   // axe core config
   CONFIG: {
     checks: ['section508', 'wcag2a', 'wcag2aa'],
+    // axe errors that can be ignored - partial string comparison
+    exceptions: ['sufficient color contrast'],
   },
 
   // ignore best practice violations, for now
@@ -65,6 +67,9 @@ const axe = {
 
   // stores AxePuppeteer instance
   pages: new Map(),
+
+  hasException: error =>
+    axe.CONFIG.exceptions.some(exception => error.includes(exception)),
 
   /**
    * Checks the page for axe violations
@@ -83,10 +88,14 @@ const axe = {
     );
 
     if (violations?.length) {
-      axe.violations.set(url, [...violations, ...previousCheck]);
-      violations.forEach(violation =>
-        log(`>>>> axe error: ${violation.help} <<<<`),
-      );
+      const validViolations = violations.filter(violation => {
+        if (axe.hasException(violation.help)) {
+          return false;
+        }
+        log(`>>>> axe error: ${violation.help} <<<<`);
+        return true;
+      });
+      axe.violations.set(url, [...validViolations, ...previousCheck]);
     }
     axe.pages.set(url, axeChecker);
   },
