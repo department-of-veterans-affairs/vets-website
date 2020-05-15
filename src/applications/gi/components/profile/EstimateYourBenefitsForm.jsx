@@ -18,6 +18,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import classNames from 'classnames';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -985,8 +986,16 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   render() {
+    const className = classNames(
+      'estimate-your-benefits-form',
+      'medium-6',
+      'columns',
+      'small-screen:vads-u-margin-right--8',
+      'small-screen:vads-u-padding-x--0',
+      'small-screen:vads-u-margin-left--1p5',
+    );
     return (
-      <div className="estimate-your-benefits-form vads-u-margin-right--8 medium-6 columns vads-u-padding-x--0 vads-u-margin-left--1p5">
+      <div className={className}>
         <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
           Use the fields below to calculate your benefits:
         </p>
