@@ -24,14 +24,25 @@ Cypress.Commands.add(
   },
 );
 
-/**
- * Runs task to sync fixtures under a temp path in the Cypress fixtures folder
- * then overwrites cy.fixture to look for fixtures under that temp path.
- */
-Cypress.Commands.add('syncFixtures', fixtures => {
-  cy.task('_syncFixtures', fixtures);
+(() => {
+  // When uninitialized, cy.syncFixtures will clean the temp dir where
+  // fixtures are getting loaded. After initialization, subsequent calls
+  // to cy.syncFixtures will continue syncing fixtures under the temp dir.
+  let initialized = false;
 
-  Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
-    originalFn(`tmp/${path}`, options),
-  );
-});
+  /**
+   * Runs task to sync fixtures under a temp path in the Cypress fixtures folder
+   * then overwrites cy.fixture to look for fixtures under that temp path.
+   */
+  Cypress.Commands.add('syncFixtures', fixtures => {
+    cy.task('_syncFixtures', { fixtures, initialized }).then(dir => {
+      if (!initialized) {
+        Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
+          originalFn(`${dir}/${path}`, options),
+        );
+
+        initialized = true;
+      }
+    });
+  });
+})();

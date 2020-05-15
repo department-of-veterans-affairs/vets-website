@@ -22,20 +22,34 @@ module.exports = on => {
 
   on('task', {
     /**
-     * Sets up specified target files or directories as Cypress fixtures
-     * by creating symlinks under a temp path in the fixtures folder.
-     * This should only be invoked via `cy.syncFixtures`, not directly.
+     * Sets up specified target files or directories as temporary fixtures
+     * by creating symlinks under a temp directory in the fixtures folder.
+     * This should only be invoked via cy.syncFixtures, never directly.
      *
-     * @param {object} fixtures - A map of fixture paths to target paths.
+     * @param {object} args
+     * @param {object} args.fixtures - Mapping of fixture paths to target paths.
+     * @param {string} [args.dir] - Path under fixtures folder
+     *     where fixtures will be synced.
+     * @param {boolean} [args.initialized] - Flag to indicate whether
+     *     synced fixtures have been initialized. If uninitialized,
+     *     temp dir will get cleaned upon initialization.
      */
-    _syncFixtures: fixtures => {
-      const TMP_FIXTURES_PATH = 'cypress/fixtures/tmp';
+    _syncFixtures: ({ fixtures, dir = 'tmp', initialized = false }) => {
+      const TMP_FIXTURES_PATH = `cypress/fixtures/${dir}`;
 
-      // Wipe existing fixtures and recreate tmp dir for a clean state.
-      fs.rmdirSync(TMP_FIXTURES_PATH, { recursive: true });
-      fs.mkdirSync(TMP_FIXTURES_PATH, { recursive: true });
+      if (!initialized) {
+        // Wipe existing fixtures and recreate tmp dir for a clean state.
+        fs.rmdirSync(TMP_FIXTURES_PATH, { recursive: true });
+        fs.mkdirSync(TMP_FIXTURES_PATH, { recursive: true });
+      }
 
       for (const [key, target] of Object.entries(fixtures)) {
+        const targetPath = path.resolve(target);
+
+        if (!fs.existsSync(targetPath)) {
+          throw new Error(`Target path "${targetPath}" doesn't exist`);
+        }
+
         /**
          * Check for path conflicts while building out the fixture path.
          * This can conflict with another defined fixture path in two ways:
@@ -60,17 +74,11 @@ module.exports = on => {
           return p;
         }, TMP_FIXTURES_PATH);
 
-        const targetPath = path.resolve(target);
-
-        if (!fs.existsSync(targetPath)) {
-          throw new Error(`Target path "${targetPath}" doesn't exist`);
-        }
-
         // Link the fixture to the target.
         fs.symlinkSync(targetPath, fixturePath);
       }
 
-      return null;
+      return dir;
     },
   });
 };

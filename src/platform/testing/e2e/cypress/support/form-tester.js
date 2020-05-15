@@ -1,3 +1,5 @@
+import join from 'path';
+
 import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
@@ -423,6 +425,11 @@ const testForm = (testDescription, testConfig) => {
       if (!testConfig.fixtures.data) {
         throw new Error('Required data fixture is undefined.');
       }
+
+      // Load example upload data as a fixture.
+      cy.syncFixtures({
+        'example-upload.png': join(__dirname, '../../..', 'example-upload.png'),
+      });
 
       cy.syncFixtures(testConfig.fixtures).then(() => {
         if (testConfig.setup) testConfig.setup();
