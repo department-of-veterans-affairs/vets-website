@@ -29,9 +29,9 @@ const SSO_SESSION_TIMEOUT = 900; // seconds
 describe('checkAutoSession', () => {
   it('should auto logout if user is logged in and they do not have a SSOe session', async () => {
     const sandbox = sinon.createSandbox();
-    sandbox.stub(profUtils, 'hasSession').returns(true);
+    sandbox.stub(profUtils, 'hasSession').returns('true');
     sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
-    sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
+    sandbox.stub(forceAuth, 'getForceAuth').returns(null);
     const auto = sandbox.stub(authUtils, 'autoLogout');
     await checkAutoSession();
     sandbox.restore();
