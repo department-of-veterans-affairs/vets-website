@@ -1,6 +1,7 @@
 import React from 'react';
 import MultiQuestionForm from '../components/MultiQuestionForm';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { questions } from '../config/questions';
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
         status="info"
         isVisible
       />
-      <MultiQuestionForm />
+      <MultiQuestionForm questions={questions} />
     </div>
   );
 }

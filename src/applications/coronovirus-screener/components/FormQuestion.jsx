@@ -1,12 +1,19 @@
 import React from 'react';
 
-export default function FormQuestion({ question, value, state, setFormState }) {
+export default function FormQuestion({
+  question,
+  value,
+  state,
+  setFormState,
+  scrollNext,
+}) {
   function handleChange(event) {
     // sets the current question value in form state
     setFormState({
       ...state,
       [question.id]: event.target.value,
     });
+    scrollNext();
   }
 
   return (
