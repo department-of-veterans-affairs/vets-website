@@ -1,7 +1,14 @@
 import React from 'react';
-import { CalculatorResultRow as ImportedCalculatorResultRow } from '../components/profile/EstimatedBenefits';
+import ImportedCalculatorResultRow from '../components/profile/CalculatorResultRow';
 
-const CalculatorResultRow = ({ label, value, header, bold, visible }) => (
+const CalculatorResultRow = ({
+  label,
+  value,
+  header,
+  bold,
+  visible,
+  labelBold,
+}) => (
   <ImportedCalculatorResultRow
     id={`summary-sheet-${label}`}
     label={label}
@@ -9,6 +16,7 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) => (
     header={header}
     bold={bold}
     visible={visible}
+    labelBold={labelBold}
   />
 );
 
@@ -100,18 +108,21 @@ export const EstimateYourBenefitsSummarySheet = props => (
       ) : (
         <div>
           <CalculatorResultRow
-            label={<b>GI Bill pays to school</b>}
+            label="GI Bill pays to school"
             value={props.outputs.giBillPaysToSchool.value}
+            labelBold
             visible={props.outputs.giBillPaysToSchool.visible}
           />
           <CalculatorResultRow
-            label={<b>Housing allowance</b>}
+            label="Housing allowance"
             value={props.outputs.housingAllowance.value}
+            labelBold
             visible={props.outputs.housingAllowance.visible}
           />
           <CalculatorResultRow
-            label={<b>Book stipend</b>}
+            label="Book stipend"
             value={props.outputs.bookStipend.value}
+            labelBold
             visible={props.outputs.bookStipend.visible}
           />
         </div>
