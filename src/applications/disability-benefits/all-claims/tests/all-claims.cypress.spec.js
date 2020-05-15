@@ -30,7 +30,7 @@ const testConfig = {
       cy.findByText(/continue/i, { selector: 'button' }).click();
     },
     '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': () => {
-      cy.get('@testData').then(({ data }) => {
+      cy.get('@testData').then(data => {
         data.ratedDisabilities.forEach((disability, index) => {
           if (disability['view:selected']) {
             cy.get(`input[name="root_ratedDisabilities_${index}"]`).click();
@@ -40,7 +40,7 @@ const testConfig = {
       });
     },
     '/disability/file-disability-claim-form-21-526ez/payment-information': () => {
-      cy.get('@testData').then(({ data }) => {
+      cy.get('@testData').then(data => {
         if (data['view:bankAccount']) {
           cy.get('form.rjsf').then($form => {
             const editButton = $form.find('.usa-button-primary.edit-button');
@@ -72,7 +72,7 @@ const testConfig = {
 
     // Pre-fill with the expected ratedDisabilities,
     // but without view:selected, since that's not pre-filled
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(data => {
       const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
         ({ 'view:selected': _, ...obj }) => obj,
       );

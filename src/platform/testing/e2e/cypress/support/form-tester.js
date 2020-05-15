@@ -208,25 +208,18 @@ Cypress.Commands.add('execHook', pathname => {
 Cypress.Commands.add('findData', field => {
   let resolvedDataPath;
 
-  cy.get('@testConfig', COMMAND_OPTIONS).then(({ dataPathPrefix }) => {
-    cy.get('@testData', COMMAND_OPTIONS).then(testData => {
-      const relativeDataPath = field.key
-        .replace(/^root_/, '')
-        .replace(/_/g, '.')
-        .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
+  cy.get('@testData', COMMAND_OPTIONS).then(testData => {
+    const relativeDataPath = field.key
+      .replace(/^root_/, '')
+      .replace(/_/g, '.')
+      .replace(/\._(\d+)\./g, (_, number) => `[${number}]`);
 
-      // Prefix the path to the array item if this field belongs to one.
-      resolvedDataPath = field.arrayItemPath
-        ? `${field.arrayItemPath}.${relativeDataPath}`
-        : relativeDataPath;
+    // Prefix the path to the array item if this field belongs to one.
+    resolvedDataPath = field.arrayItemPath
+      ? `${field.arrayItemPath}.${relativeDataPath}`
+      : relativeDataPath;
 
-      // Prefix any specified path to find data in the test data structure.
-      resolvedDataPath = dataPathPrefix
-        ? `${dataPathPrefix}.${resolvedDataPath}`
-        : resolvedDataPath;
-
-      cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
-    });
+    cy.wrap(get(resolvedDataPath, testData), COMMAND_OPTIONS);
   });
 
   Cypress.log({
@@ -426,13 +419,13 @@ const testForm = (testDescription, testConfig) => {
         throw new Error('Required data fixture is undefined.');
       }
 
+      cy.syncFixtures(testConfig.fixtures).then(() => {
+        if (testConfig.setup) testConfig.setup();
+      });
+
       // Load example upload data as a fixture.
       cy.syncFixtures({
         'example-upload.png': join(__dirname, '../../..', 'example-upload.png'),
-      });
-
-      cy.syncFixtures(testConfig.fixtures).then(() => {
-        if (testConfig.setup) testConfig.setup();
       });
     });
 
@@ -451,6 +444,12 @@ const testForm = (testDescription, testConfig) => {
       context(testKey, () => {
         beforeEach(() => {
           cy.fixture(`data/${testKey}`)
+            .then(
+              testData =>
+                testConfig.dataPathPrefix
+                  ? testData[testConfig.dataPathPrefix]
+                  : testData,
+            )
             .as('testData')
             .then(() => {
               if (testConfig.setupPerTest) {
