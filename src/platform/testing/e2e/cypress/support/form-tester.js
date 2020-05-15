@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 
@@ -394,12 +394,12 @@ Cypress.Commands.add('fillPage', () => {
  *     to fill out fields. Used when the data is nested under a certain key.
  *     For example, if the test data looks like { data: { field1: 'value' } },
  *     dataPathPrefix should be set to 'data'.
- * @property {Array} dataSets - Array of fixture file paths for data sets.
- *     A test is generated for each data set and uses that data to fill out
- *     fields during the form flow. The files are relative to the "data" path
- *     loaded into fixtures. For example, if the fixtures object mapped the
- *     "data" path to "some/folder/or/other", which contains a "test.json" file,
- *     dataSets can be set to ['test'] to use that file as a data set.
+ * @property {Array} dataSets - Array of fixture file paths to data sets, which
+ *     are relative to the "data" path loaded into fixtures. For example, if the
+ *     fixtures object maps the "data" path to "some/folder/or/other", which
+ *     contains a "test.json" file, dataSets can be set to ['test']
+ *     to use that file as a data set. A test is generated for each data set
+ *     and uses that data to fill out fields during the form flow.
  * @property {Object} fixtures - Mapping of fixture paths to target paths that
  *     are to be loaded as fixtures. The "data" fixture path is _required_ to
  *     set up the fixture paths that contain the "dataSets" files.
@@ -437,12 +437,23 @@ const testForm = testConfig => {
     // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
-      cy.wrap(testConfig.pageHooks).as('pageHooks');
       cy.wrap(arrayPageObjects).as('arrayPageObjects');
 
       cy.server()
         .route('GET', 'v0/maintenance_windows', [])
         .as('getMaintenanceWindows');
+
+      // Resolve relative page hook paths as relative to the form's root URL.
+      cy.wrap(
+        Object.keys(testConfig.pageHooks).reduce(
+          (pageHooks, path) => ({
+            ...pageHooks,
+            [path.startsWith(sep) ? path : join(rootUrl, path)]: testConfig
+              .pageHooks[path],
+          }),
+          {},
+        ),
+      ).as('pageHooks');
     });
 
     testConfig.dataSets.forEach(testKey => {

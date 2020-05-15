@@ -22,7 +22,7 @@ const testConfig = {
   formConfig,
   manifest,
   pageHooks: {
-    '/disability/file-disability-claim-form-21-526ez/introduction': () => {
+    introduction: () => {
       // Hit the start button
       cy.findAllByText(/start/i, { selector: 'button' })
         .first()
@@ -31,7 +31,7 @@ const testConfig = {
       // Click past the ITF message
       cy.findByText(/continue/i, { selector: 'button' }).click();
     },
-    '/disability/file-disability-claim-form-21-526ez/disabilities/rated-disabilities': () => {
+    'disabilities/rated-disabilities': () => {
       cy.get('@testData').then(data => {
         data.ratedDisabilities.forEach((disability, index) => {
           if (disability['view:selected']) {
@@ -41,7 +41,7 @@ const testConfig = {
         cy.findByText(/continue/i, { selector: 'button' }).click();
       });
     },
-    '/disability/file-disability-claim-form-21-526ez/payment-information': () => {
+    'payment-information': () => {
       cy.get('@testData').then(data => {
         if (data['view:bankAccount']) {
           cy.get('form.rjsf').then($form => {
