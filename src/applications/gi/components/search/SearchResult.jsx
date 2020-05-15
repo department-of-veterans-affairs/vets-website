@@ -32,6 +32,7 @@ export class SearchResult extends React.Component {
       country,
       studentCount,
       cautionFlags,
+      handleLinkClick,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
@@ -43,6 +44,11 @@ export class SearchResult extends React.Component {
       query: version ? { version } : {},
     };
 
+    const handleLinkClickEvent = event => {
+      event.preventDefault();
+      handleLinkClick(facilityCode);
+    };
+
     return (
       <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
@@ -50,30 +56,15 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  {!environment.isProduction() && (
-                    <a
-                      onClick={() => this.props.handleLinkClick(facilityCode)}
-                      aria-label={`${name} ${locationInfo(
-                        city,
-                        state,
-                        country,
-                      )}`}
-                    >
-                      {name}
-                    </a>
-                  )}
-                  {environment.isProduction() && (
-                    <Link
-                      to={linkTo}
-                      aria-label={`${name} ${locationInfo(
-                        city,
-                        state,
-                        country,
-                      )}`}
-                    >
-                      {name}
-                    </Link>
-                  )}
+                  <Link
+                    to={linkTo}
+                    onClick={
+                      environment.isProduction ? () => {} : handleLinkClickEvent
+                    }
+                    aria-label={`${name} ${locationInfo(city, state, country)}`}
+                  >
+                    {name}
+                  </Link>
                 </h2>
               </div>
             </div>
@@ -133,7 +124,14 @@ export class SearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns">
-                <Link to={linkTo}>View details ›</Link>
+                <Link
+                  to={linkTo}
+                  onClick={
+                    environment.isProduction ? () => {} : handleLinkClickEvent
+                  }
+                >
+                  View details ›
+                </Link>
               </div>
             </div>
           </div>

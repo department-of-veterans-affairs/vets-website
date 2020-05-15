@@ -1,3 +1,5 @@
+import { VHA_FHIR_ID } from '../../utils/constants';
+
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
  * /Location?organization=Organization/var983
@@ -11,6 +13,10 @@ export function transformDSFacilities(facilities) {
     resourceType: 'Location',
     id: `var${facility.id}`,
     identifier: [
+      {
+        system: VHA_FHIR_ID,
+        value: facility.institutionCode,
+      },
       {
         system: 'http://med.va.gov/fhir/urn',
         value: `urn:va:division:${facility.rootStationCode}:${facility.id}`,
@@ -29,10 +35,10 @@ export function transformDSFacilities(facilities) {
     legacyVAR: {
       institutionTimezone: facility.institutionTimezone,
       requestSupported: facility.requestSupported,
-      directSchedulingSupported: facility.directSupported,
+      directSchedulingSupported: facility.directSchedulingSupported,
     },
     managingOrganization: {
-      reference: `Organization/var${root.parentStationCode}`,
+      reference: `Organization/var${facility.parentStationCode}`,
     },
   }));
 }

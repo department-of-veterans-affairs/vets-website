@@ -11,6 +11,7 @@ import {
   locationInfo,
   checkForEmptyFocusableElement,
 } from '../../utils/helpers';
+import { renderLearnMoreLabel } from '../../utils/render';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
@@ -249,20 +250,14 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
-    <span>
-      {text} (
-      <button
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={this.props.showModal.bind(this, modal)}
-        aria-label={ariaLabel || ''}
-      >
-        Learn more
-      </button>
-      )
-    </span>
-  );
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      ariaLabel,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
@@ -310,14 +305,10 @@ class EstimateYourBenefitsForm extends React.Component {
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
         </label>
-        <button
-          type="button"
-          className="va-button-link learn-more-button vads-u-margin-left--0p5"
-          onClick={this.props.showModal.bind(this, 'calcTuition')}
-          aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
-        >
-          (Learn more)
-        </button>
+        {this.renderLearnMoreLabel({
+          modal: 'calcTuition',
+          ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
+        })}
         <input
           type="text"
           name={tuitionFeesId}
@@ -481,6 +472,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
             modal: 'calcTuitionAssist',
+            ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
           })}
         </label>
         <input
@@ -669,7 +661,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
     }
-    const { profile, inputs, showModal } = this.props;
+    const { profile, inputs } = this.props;
     const extensions = this.getExtensions();
 
     let amountInput;
@@ -773,26 +765,11 @@ class EstimateYourBenefitsForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={
-            <span>
-              {'Where will you take the majority of your classes? '}
-              <button
-                aria-live="polite"
-                aria-atomic="true"
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={showModal.bind(
-                  this,
-                  'calcBeneficiaryLocationQuestion',
-                )}
-              >
-                <span className="sr-only">
-                  Learn more about the location-based housing allowance
-                </span>
-                (Learn more)
-              </button>
-            </span>
-          }
+          label={this.renderLearnMoreLabel({
+            text: 'Where will you take the majority of your classes?',
+            modal: 'calcBeneficiaryLocationQuestion',
+            ariaLabel: ariaLabels.learnMore.majorityOfClasses,
+          })}
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
           value={selectedValue}
@@ -1032,9 +1009,11 @@ class EstimateYourBenefitsForm extends React.Component {
 
   render() {
     return (
-      <div className="usa-width-one-eigth medium-5 columns">
-        <p>Use the fields below to calculate your benefits:</p>
-        <ul className="eyb-inputs-ul vads-u-padding--0">
+      <div className="estimate-your-benefits-form vads-u-margin-right--8 medium-6 columns vads-u-padding-x--0 vads-u-margin-left--1p5">
+        <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+          Use the fields below to calculate your benefits:
+        </p>
+        <ul className="vads-u-padding--0">
           {this.renderYourBenefits()}
           {this.renderAboutYourSchool()}
           {this.renderLearningFormatAndSchedule()}
