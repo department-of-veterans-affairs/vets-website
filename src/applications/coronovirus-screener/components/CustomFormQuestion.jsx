@@ -6,7 +6,11 @@ class CustomFormQuestion extends React.Component {
     return (
       <div className="covid-screener-question">
         <h3>{ this.props.question }</h3>
-        { this.props.children }
+        {this.props.children.map((child, i) => {
+            let p = { ...child.props };
+            p.name = this.props.name;
+            return { ...child, props: p };
+        })}
       </div>
     )
   }
