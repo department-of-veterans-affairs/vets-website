@@ -62,6 +62,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
+        widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Number of classes a week',
       'ui:errorMessages': { required: 'Please enter a number' },
@@ -72,6 +73,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
+        widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Hours a week',
       'ui:errorMessages': { required: 'Please enter a number' },

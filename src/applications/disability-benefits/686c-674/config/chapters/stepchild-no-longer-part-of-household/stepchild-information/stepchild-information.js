@@ -11,7 +11,7 @@ const stepchildInformationSchema = cloneDeep(
 );
 
 stepchildInformationSchema.properties.stepChildren.items.properties.address = buildAddressSchema(
-  false,
+  true,
 );
 
 export const schema = stepchildInformationSchema;
@@ -60,7 +60,7 @@ export const uiSchema = {
       },
       address: {
         ...{ 'ui:title': "Stepchild's address" },
-        ...addressUISchema(false, 'stepChildren[INDEX].address', formData =>
+        ...addressUISchema(true, 'stepChildren[INDEX].address', formData =>
           isChapterFieldRequired(
             formData,
             TASK_KEYS.reportStepchildNotInHousehold,
