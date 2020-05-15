@@ -243,17 +243,10 @@ Cypress.Commands.add('enterData', field => {
     }
 
     case 'radio': {
-      cy.get(
-        `input[name="${field.key}"][value="${
-          // Use 'Y' / 'N' because of the yesNo widget
-          // eslint-disable-next-line no-nested-ternary
-          typeof field.data === 'boolean'
-            ? field.data
-              ? 'Y'
-              : 'N'
-            : field.data
-        }"]`,
-      ).click();
+      let value = field.data;
+      // Use 'Y' / 'N' because of the yesNo widget
+      if (typeof field.data === 'boolean') value = field.data ? 'Y' : 'N';
+      cy.get(`input[name="${field.key}"][value="${value}"]`).click();
       break;
     }
 
