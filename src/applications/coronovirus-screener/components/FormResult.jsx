@@ -1,18 +1,41 @@
 import React from 'react';
 import { questions } from '../config/questions';
 import { Element } from 'react-scroll';
+import moment from 'moment';
 
 export default function FormResult({ formState }) {
   let result;
 
-  // check if questions have all been answered
+  const incomplete = <div>Please answer all the questions above.</div>;
+
+  const pass = (
+    <div>
+      <h2>PASS</h2>
+      <div>Valid for: {moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
+      <div>
+        Please show this screen to the staff member at the facility entrance.
+        Thank you for helping us protect you and others during this time.
+      </div>
+    </div>
+  );
+
+  const fail = (
+    <div>
+      <h2>More screening needed</h2>
+      <div>Valid for: {moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
+      <div>
+        Please show this screen to the staff member at the facility entrance.
+        Thank you for helping us protect you and others during this time.
+      </div>
+    </div>
+  );
 
   if (Object.values(formState).length < questions.length) {
-    result = 'Please answer all the questions above.';
+    result = incomplete;
   } else if (Object.values(formState).includes('yes')) {
-    result = 'More screening needed.';
+    result = fail;
   } else {
-    result = 'Pass';
+    result = pass;
   }
 
   return (
