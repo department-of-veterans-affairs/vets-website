@@ -106,7 +106,7 @@ const formConfig = {
       title: 'Veteran or service member information',
       pages: {
         veteranInfoOne: {
-          path: 'service-member-1',
+          path: 'vet-1',
           title: ' ',
           uiSchema: {
             'ui:description': VetInfo({ headerInfo: true }),
@@ -132,7 +132,7 @@ const formConfig = {
           },
         },
         veteranInfoTwo: {
-          path: 'service-member-2',
+          path: 'vet-2',
           title: contactInfoTitle,
           uiSchema: {
             'ui:description': VetInfo({
@@ -165,7 +165,7 @@ const formConfig = {
           },
         },
         veteranInfoThree: {
-          path: 'service-member-3',
+          path: 'vet-3',
           title: 'VA medical center',
           uiSchema: {
             'ui:description': VetInfo({
@@ -228,7 +228,7 @@ const formConfig = {
       title: 'Primary Family Caregiver information',
       pages: {
         primaryCaregiverInfoOne: {
-          path: 'primary-caregiver-1',
+          path: 'primary-1',
           title: ' ',
           uiSchema: {
             'ui:description': () =>
@@ -264,7 +264,7 @@ const formConfig = {
           },
         },
         primaryCaregiverInfoTwo: {
-          path: 'primary-caregiver-2',
+          path: 'primary-2',
           title: contactInfoTitle,
           uiSchema: {
             'ui:description': () =>
@@ -310,7 +310,7 @@ const formConfig = {
           },
         },
         primaryCaregiverInfoThree: {
-          path: 'primary-caregiver-3',
+          path: 'primary-3',
           title: 'Health care coverage',
           uiSchema: {
             'ui:description': PrimaryHealthCoverage({
@@ -362,7 +362,7 @@ const formConfig = {
       depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
         secondaryCaregiverOneIntro: {
-          path: 'secondaryOne-caregiver-1',
+          path: 'secondary-one-1',
           title: ' ',
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({
@@ -381,7 +381,7 @@ const formConfig = {
           },
         },
         secondaryCaregiverOne: {
-          path: 'secondary-caregiver-1',
+          path: 'secondary-one-2',
           title: 'Secondary Family Caregiver information',
           depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
@@ -422,7 +422,7 @@ const formConfig = {
           },
         },
         secondaryCaregiverOneThree: {
-          path: 'secondaryOne-caregiver-2',
+          path: 'secondary-one-3',
           title: 'Secondary Family Caregiver information',
           depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
@@ -491,7 +491,7 @@ const formConfig = {
       depends: formData => hasSecondaryCaregiverTwo(formData),
       pages: {
         secondaryCaregiverTwo: {
-          path: 'secondaryTwo-caregiver-1',
+          path: 'secondary-two-1',
           title: ' ',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
@@ -536,7 +536,7 @@ const formConfig = {
           },
         },
         secondaryCaregiverTwoTwo: {
-          path: 'secondaryTwo-caregiver-2',
+          path: 'secondary-two-2',
           title: secondaryCaregiversUI.secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {

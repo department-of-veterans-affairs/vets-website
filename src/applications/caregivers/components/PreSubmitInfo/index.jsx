@@ -137,7 +137,7 @@ const PreSubmitCheckboxes = ({
 
   return (
     <section className="signature-container">
-      <p>
+      <p className="vads-u-margin-bottom--5">
         Please review information entered into this application. The Veteran or
         service member and each family caregiver applicant must sign the
         appropriate section.
@@ -242,7 +242,7 @@ const PreSubmitCheckboxes = ({
         </SignatureCheckbox>
       )}
 
-      <p>
+      <p className="vads-u-margin-bottom--6">
         <b>Note:</b> According to federal law, there are criminal penalties,
         including a fine and/or imprisonment for up to 5 years, for withholding
         information or providing incorrect information. (See 18 U.S.C. 1001)
