@@ -31,16 +31,16 @@ const ConfirmationPage = ({
           <p className="vads-u-margin--0">
             for {fullName.first} {fullName.last}
           </p>
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Items ordered</strong>
-            <ul>
-              {selectedProductArray.map(product => (
-                <li key={product.productId}>
-                  {product.productName} (Quantity: {product.quantity})
-                </li>
-              ))}
-            </ul>
           </p>
+          <ul className="vads-u-margin-bottom--1">
+            {selectedProductArray.map(product => (
+              <li key={product.productId}>
+                {product.productName} (Quantity: {product.quantity})
+              </li>
+            ))}
+          </ul>
           <p className="vads-u-margin--0">
             <strong>Date submitted</strong>
           </p>

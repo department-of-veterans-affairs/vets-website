@@ -4,7 +4,7 @@ import { links } from 'applications/caregivers/definitions/content';
 const NeedHelpFooter = () => (
   <footer className="need-help-footer row vads-u-padding-x--1p5">
     <div style={{ maxWidth: '600px' }}>
-      <h5>Need Help?</h5>
+      <h5>Need help?</h5>
       <hr />
       <p>
         You can call the VA Caregiver Support Line at
@@ -38,10 +38,11 @@ const NeedHelpFooter = () => (
 
       <p>
         If this form isn't working right for you, please call us at at
-        <a href={links.reportLine.link} className="vads-u-margin-x--0p5">
+        <a href={links.reportLine.link} className="vads-u-margin-left--0p5">
           {links.reportLine.label}
         </a>
-        <span>If you have hearing loss, call TTY: 711</span>
+        .<br />
+        <span>If you have hearing loss, call TTY: 711.</span>
       </p>
     </div>
   </footer>
