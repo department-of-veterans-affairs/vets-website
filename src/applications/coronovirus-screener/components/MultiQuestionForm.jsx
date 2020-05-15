@@ -38,7 +38,6 @@ export default function MultiQuestionForm({ questions }) {
     <div>
       {formQuestions}
       <FormResult formState={formState} />
-      {console.log(formState)}
     </div>
   );
 }
