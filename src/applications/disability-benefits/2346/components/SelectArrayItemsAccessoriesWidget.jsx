@@ -41,6 +41,13 @@ class SelectArrayItemsAccessoriesWidget extends Component {
       accessorySupply => accessorySupply.availableForReorder === false,
     );
 
+    if (areAccessorySuppliesIneligible) {
+      window.dataLayer.push({
+        event: 'bam-error',
+        'error-key': 'XXX_bam-ineligibility-no-prescription',
+      });
+    }
+
     const noAccessoriesContent = (
       <>
         <p>

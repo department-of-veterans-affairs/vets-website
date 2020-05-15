@@ -43,6 +43,13 @@ class SelectArrayItemsBatteriesWidget extends Component {
       batterySupply => batterySupply.availableForReorder === false,
     );
 
+    if (areBatterySuppliesIneligible) {
+      window.dataLayer.push({
+        event: 'bam-error',
+        'error-key': 'XXX_bam-ineligibility-no-prescription',
+      });
+    }
+
     const noBatteriesContent = (
       <>
         <p>
