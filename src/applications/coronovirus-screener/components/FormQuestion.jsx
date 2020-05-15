@@ -23,20 +23,20 @@ export default function FormQuestion({
       <button
         type="button"
         className={`usa-button-big  ${
-          value === 'true' ? 'usa-button' : 'usa-button-secondary'
+          value === 'yes' ? 'usa-button' : 'usa-button-secondary'
         }`}
         onClick={handleChange}
-        value="true"
+        value="yes"
       >
         Yes
       </button>
       <button
         type="button"
         className={`usa-button-big  ${
-          value === 'false' ? 'usa-button' : 'usa-button-secondary'
+          value === 'no' ? 'usa-button' : 'usa-button-secondary'
         }`}
         onClick={handleChange}
-        value="false"
+        value="no"
       >
         No
       </button>

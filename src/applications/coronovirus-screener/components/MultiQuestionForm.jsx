@@ -1,6 +1,7 @@
 import React from 'react';
 import FormQuestion from './FormQuestion';
 import { Element, scroller } from 'react-scroll';
+import FormResult from './FormResult';
 
 // scoller usage based on https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation-react/src/components/CollapsiblePanel/CollapsiblePanel.jsx
 
@@ -27,9 +28,9 @@ export default function MultiQuestionForm({ questions }) {
         value={formState[question.id]}
         setFormState={setFormState}
         state={formState}
-        scrollNext={() => {
-          scrollTo(`multi-question-form-${index + 1}-scroll-element`);
-        }}
+        scrollNext={() =>
+          scrollTo(`multi-question-form-${index + 1}-scroll-element`)
+        }
       />
     </>
   ));
@@ -37,10 +38,8 @@ export default function MultiQuestionForm({ questions }) {
   return (
     <div>
       {formQuestions}
-      <div>formState:</div>
-      <div>
-        <pre>{JSON.stringify(formState, null, 2)}</pre>
-      </div>
+      <FormResult formState={formState} />
+      {console.log(formState)}
     </div>
   );
 }
