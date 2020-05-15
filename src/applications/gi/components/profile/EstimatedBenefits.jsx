@@ -1,5 +1,28 @@
 import React from 'react';
-import CalculatorResultRow from './CalculatorResultRow';
+import classNames from 'classnames';
+import { createId } from '../../utils/helpers';
+
+export const CalculatorResultRow = ({
+  id,
+  label,
+  value,
+  header,
+  bold,
+  visible,
+}) =>
+  visible ? (
+    <div
+      id={`calculator-result-row-${createId(id == null ? label : id)}`}
+      className={classNames('row', 'calculator-result', { bold })}
+    >
+      <div className="small-6 columns">
+        {header ? <h4>{label}:</h4> : <div>{label}:</div>}
+      </div>
+      <div className="small-6 columns vads-u-text-align--right">
+        {header ? <h5>{value}</h5> : <div>{value}</div>}
+      </div>
+    </div>
+  ) : null;
 
 const perTermSections = (outputs, calculator) => {
   const { perTerm } = outputs;
