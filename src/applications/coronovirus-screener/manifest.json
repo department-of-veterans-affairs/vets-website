@@ -1,7 +1,7 @@
 {
-  "appName": "Coronovirus Screener",
+  "appName": "COVID-19 Screener",
   "entryFile": "./app-entry.jsx",
-  "entryName": "coronovirus-screener",
-  "rootUrl": "/coronovirus-screener",
+  "entryName": "covid19screener",
+  "rootUrl": "/covid19screener",
   "production": false
 }
