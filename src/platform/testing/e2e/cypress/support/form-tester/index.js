@@ -16,13 +16,13 @@ const COMMAND_OPTIONS = { log: false };
  * to look up test data and enter that data into the field.
  *
  * typedef {Object} Field
- * @property {Element}  - An element returned from querying form elements.
+ * @property {Element} element - A form field element.
  * @property {string} key - String that is used for data lookup.
  * @property {string} type - Field type for deciding how to input data.
  * @property {string} [arrayItemPath] - Prefix for resolving path when
  *     looking up data for fields in an array item.
  * @property {string} [data] - Data to enter into the field input.
- *
+ * ---
  * @param {Element} element
  * @returns {Field}
  */
@@ -305,42 +305,44 @@ Cypress.Commands.add('fillPage', () => {
       const touchedFields = new Set();
       const snapshot = {};
 
+      const processFieldObject = field => {
+        const shouldSkipField =
+          !field.key ||
+          touchedFields.has(field.key) ||
+          !field.key.startsWith('root_');
+
+        if (shouldSkipField) return;
+
+        cy.findData({ ...field, arrayItemPath }).then(data => {
+          if (typeof data !== 'undefined') {
+            cy.enterData({ ...field, data });
+          }
+
+          touchedFields.add(field.key);
+        });
+      };
+
       const fillAvailableFields = () => {
         cy.get('form.rjsf', COMMAND_OPTIONS)
           .then($form => {
             // Get the starting number of array items and fields to compare
-            // after filling out every field that is currently visible.
+            // after filling out all currently visible fields, as new fields
+            // may get added or expanded after this iteration.
             snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
             snapshot.fieldCount = $form.find(FIELD_SELECTOR).length;
           })
           .within(COMMAND_OPTIONS, $form => {
+            // Fill out every field that's currently on the page.
             const fields = $form.find(FIELD_SELECTOR);
             if (!fields.length) return;
-
             cy.wrap(fields).each(element => {
               cy.wrap(createFieldObject(element), COMMAND_OPTIONS).then(
-                field => {
-                  const shouldSkipField =
-                    !field.key ||
-                    touchedFields.has(field.key) ||
-                    !field.key.startsWith('root_');
-
-                  if (shouldSkipField) return;
-
-                  cy.findData({ ...field, arrayItemPath }).then(data => {
-                    if (typeof data !== 'undefined') {
-                      cy.enterData({ ...field, data });
-                    }
-
-                    touchedFields.add(field.key);
-                  });
-                },
+                processFieldObject,
               );
             });
 
-            // Compare the number of fields after filling all the available
-            // fields from this iteration. If all currently visible fields
-            // have been filled, try adding an array item if possible.
+            // Once all currently visible fields have been filled, add an array
+            // item if there are more to be added according to the test data.
             if (snapshot.fieldCount === $form.find(FIELD_SELECTOR).length) {
               addNewArrayItem($form);
             }

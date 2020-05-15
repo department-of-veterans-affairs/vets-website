@@ -23,8 +23,8 @@ export const createArrayPageObjects = formConfig => {
 };
 
 /**
- * Produces a test config using the manifest, form config, and default values
- * to automatically fill in certain settings.
+ * Produces a test config using the manifest, form config, and default values to
+ * automatically fill in certain settings and supplement a user-defined config.
  *
  * @param {Object} config - User-defined config for the test.
  * @param {Object} manifest - The app manifest.
