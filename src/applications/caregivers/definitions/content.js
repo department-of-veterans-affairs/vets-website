@@ -25,14 +25,13 @@ export const links = {
     link: '877-222-8387',
     label: 'tel:18772228387',
     linkTTL: 'tel:18008778339',
-    labelTTL: '1-800-877-8339',
   },
   caregiverHelpPage: {
     link: 'https://www.caregiver.va.gov/',
   },
   reportLine: {
     link: 'tel:18555747286',
-    label: '1-855-574-7286',
+    label: '855-574-7286',
   },
   applyVAHealthCare: {
     link: 'https://www.va.gov/health-care/how-to-apply/',
