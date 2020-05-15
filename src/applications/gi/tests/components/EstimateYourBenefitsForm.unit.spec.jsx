@@ -152,4 +152,33 @@ describe('<EstimateYourBenefitsForm>', () => {
     expect(updateEstimatedBenefits.called).to.be.true;
     tree.unmount();
   });
+
+  it('should not invoke updateEstimatedBenefits on "Calculate benefits" click, with invalid data', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '#',
+    };
+    const updateEstimatedBenefits = sinon.spy();
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={updateEstimatedBenefits}
+      />,
+    );
+    tree
+      .find('.calculate-button')
+      .at(0)
+      .simulate('click');
+    expect(updateEstimatedBenefits.called).to.be.false;
+    tree.unmount();
+  });
 });

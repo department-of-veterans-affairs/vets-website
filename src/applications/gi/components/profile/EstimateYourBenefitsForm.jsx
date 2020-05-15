@@ -176,13 +176,6 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleInputFocusByName = name => {
-    const elements = document.getElementsByName(name);
-    if (elements.length > 0) {
-      elements[0].scrollIntoView();
-    }
-  };
-
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
