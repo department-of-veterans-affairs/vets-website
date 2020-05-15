@@ -114,6 +114,15 @@ export class VetTecSearchPage extends React.Component {
     }
   };
 
+  handleSearchLinkClick = (facilityCode, description) => {
+    const version = this.props.location.query.version;
+    const query = version ? { version } : {};
+    this.props.router.push({
+      pathname: `profile/${facilityCode}/${description}`,
+      query,
+    });
+  };
+
   handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
@@ -215,6 +224,7 @@ export class VetTecSearchPage extends React.Component {
                 key={`${result.facilityCode}-${result.description}`}
                 result={result}
                 constants={this.props.constants}
+                handleLinkClick={this.handleSearchLinkClick}
               />
             ))}
           </div>
