@@ -15,3 +15,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.navy, '/img/vic-navy-emblem.png'],
   [USA_MILITARY_BRANCHES.marineCorps, '/img/vic-usmc-emblem.png'],
 ]);
+
+export const BREAKPOINTS = Object.freeze({
+  medium: 768,
+});

@@ -1,37 +1,38 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import * as getAddressSchema from 'platform/forms-system/src/js/definitions/address';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { states } from 'platform/forms/address';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
+import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
+import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
+import { medicalCentersByState } from 'applications/caregivers/helpers';
 import {
-  VetInfo,
   PrimaryCaregiverInfo,
+  PrimaryHealthCoverage,
   SecondaryCaregiverInfo,
+  VetInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import {
   primaryCaregiverFields,
   secondaryCaregiverFields,
   vetFields,
 } from 'applications/caregivers/definitions/constants';
-import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
-import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
-import definitions from '../definitions/caregiverUI';
+import definitions, {
+  addressWithoutCountryUI,
+  confirmationEmailUI,
+} from '../definitions/caregiverUI';
 
 const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
 
 const {
   veteran,
   primaryCaregiver,
-  secondaryOneCaregiver,
-  secondaryTwoCaregiver,
+  secondaryCaregiverOne,
+  secondaryCaregiverTwo,
 } = fullSchema.properties;
 const veteranProps = veteran.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
-const secondaryOneCaregiverProps = secondaryOneCaregiver.properties;
-const secondaryTwoCaregiverProps = secondaryTwoCaregiver.properties;
+const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
+const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
 
 const {
   address,
@@ -45,25 +46,27 @@ const {
 } = fullSchema.definitions;
 
 const {
-  addressUI,
   alternativePhoneNumberUI,
   dateOfBirthUI,
   emailUI,
+  fullNameUI,
   genderUI,
-  hasSecondaryOneCaregiverUI,
-  hasSecondaryTwoCaregiverUI,
+  hasSecondaryCaregiverOneUI,
+  hasSecondaryCaregiverTwoUI,
   primaryPhoneNumberUI,
+  ssnUI,
   vetRelationshipUI,
+  contactInfoTitle,
 } = definitions.sharedItems;
 
-const { vetUI, primaryCaregiverUI, secondaryCaregiverUI } = definitions;
+const { vetUI, primaryCaregiverUI, secondaryCaregiversUI } = definitions;
 
-const hasSecondaryOneCaregiver = formData =>
-  formData[primaryCaregiverFields.hasSecondaryOneCaregiverView] === true;
+const hasSecondaryCaregiverOne = formData =>
+  formData[primaryCaregiverFields.hasSecondaryCaregiverOneView] === true;
 
-const hasSecondaryTwoCaregiver = formData =>
+const hasSecondaryCaregiverTwo = formData =>
   formData[
-    secondaryCaregiverFields.secondaryOne.hasSecondaryTwoCaregiverView
+    secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
   ] === true;
 
 /* Chapters
@@ -83,16 +86,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '10-10CG',
   version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for caregiver benefits.',
-    noAuth:
-      'Please sign in again to continue your application for caregiver benefits.',
-  },
-  title: 'Apply for family caregiver benefits',
+  prefillEnabled: false,
+  title:
+    'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
     address,
+    addressWithoutCountryUI,
     date,
     email,
     fullName,
@@ -103,17 +103,17 @@ const formConfig = {
   },
   chapters: {
     veteranChapter: {
-      title: 'VETERAN/SERVICE MEMBER',
+      title: 'Veteran/service member information',
       pages: {
         veteranInfoOne: {
           path: 'service-member-1',
-          title: 'Veteran Information',
+          title: ' ',
           uiSchema: {
             'ui:description': VetInfo,
-            [vetFields.fullName]: fullNameUI,
-            [vetFields.ssn]: vetUI.ssnUI,
-            [vetFields.dateOfBirth]: dateOfBirthUI,
-            [vetFields.gender]: genderUI,
+            [vetFields.fullName]: fullNameUI(vetUI.vetInputLabel),
+            [vetFields.ssn]: ssnUI(vetUI.vetInputLabel),
+            [vetFields.dateOfBirth]: dateOfBirthUI(vetUI.vetInputLabel),
+            [vetFields.gender]: genderUI(vetUI.vetInputLabel),
           },
           schema: {
             type: 'object',
@@ -133,30 +133,47 @@ const formConfig = {
         },
         veteranInfoTwo: {
           path: 'service-member-2',
-          title: 'Veteran Information (Continued)',
+          title: contactInfoTitle,
           uiSchema: {
-            'ui:description': VetInfo,
-            [vetFields.address]: addressUI,
-            [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI,
-            [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI,
-            [vetFields.email]: emailUI,
+            'ui:description': VetInfo({ pageTitle: contactInfoTitle }),
+            [vetFields.address]: addressWithoutCountryUI(vetUI.vetInputLabel),
+            [vetFields.primaryPhoneNumber]: primaryPhoneNumberUI(
+              vetUI.vetInputLabel,
+            ),
+            [vetFields.alternativePhoneNumber]: alternativePhoneNumberUI(
+              vetUI.vetInputLabel,
+            ),
+            [vetFields.email]: emailUI(vetUI.vetInputLabel),
+            [vetFields.verifyEmail]: confirmationEmailUI(
+              vetUI.vetInputLabel,
+              vetFields.email,
+            ),
           },
           schema: {
             type: 'object',
-            required: [vetFields.address],
+            required: [
+              vetFields.address,
+              vetFields.email,
+              vetFields.verifyEmail,
+            ],
             properties: {
-              [vetFields.address]: getAddressSchema.schema(fullSchema, true),
+              [vetFields.address]: address,
               [vetFields.primaryPhoneNumber]: phone,
               [vetFields.alternativePhoneNumber]: phone,
               [vetFields.email]: veteranProps.email,
+              [vetFields.verifyEmail]: veteranProps.email,
             },
           },
         },
         veteranInfoThree: {
           path: 'service-member-3',
-          title: 'Veteran Information',
+          title: 'VA medical center information',
           uiSchema: {
-            'ui:description': VetInfo,
+            'ui:description': VetInfo({
+              pageTitle: 'VA medical center information',
+            }),
+            [vetFields.previousTreatmentFacility]:
+              vetUI.previousTreatmentFacilityUI,
             [vetFields.preferredFacilityView]: {
               ...vetUI[vetFields.preferredFacilityView],
             },
@@ -165,6 +182,21 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              // TODO: update using full schema
+              [vetFields.previousTreatmentFacility]: {
+                type: 'object',
+                additionalProperties: false,
+                required: ['name', 'type'],
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                  type: {
+                    type: 'string',
+                    enum: ['hospital', 'clinic'],
+                  },
+                },
+              },
               // dynamic properties for filtering facilities dropDown
               [vetFields.preferredFacilityView]: {
                 type: 'object',
@@ -194,18 +226,26 @@ const formConfig = {
       },
     },
     primaryCaregiverChapter: {
-      title: 'PRIMARY FAMILY CAREGIVER',
+      title: 'Primary Family Caregiver information',
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-caregiver-1',
-          title: 'Primary Caregiver Information',
+          title: ' ',
           uiSchema: {
             'ui:description': () =>
               PrimaryCaregiverInfo({ additionalInfo: true }),
-            [primaryCaregiverFields.fullName]: fullNameUI,
-            [primaryCaregiverFields.ssn]: primaryCaregiverUI.ssnUI,
-            [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI,
-            [primaryCaregiverFields.gender]: genderUI,
+            [primaryCaregiverFields.fullName]: fullNameUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.ssn]: ssnUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.gender]: genderUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
           },
           schema: {
             type: 'object',
@@ -225,31 +265,46 @@ const formConfig = {
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-caregiver-2',
-          title: 'Primary Caregiver Information (Continued)',
+          title: contactInfoTitle,
           uiSchema: {
-            'ui:description': PrimaryCaregiverInfo({ additionalInfo: true }),
-            [primaryCaregiverFields.address]: addressUI,
-            [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI,
-            [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI,
-            [primaryCaregiverFields.email]: emailUI,
-            [primaryCaregiverFields.vetRelationship]: vetRelationshipUI,
+            'ui:description': () =>
+              PrimaryCaregiverInfo({ pageTitle: contactInfoTitle }),
+            [primaryCaregiverFields.address]: addressWithoutCountryUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.alternativePhoneNumber]: alternativePhoneNumberUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.email]: emailUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
+            [primaryCaregiverFields.verifyEmail]: confirmationEmailUI(
+              primaryCaregiverUI.primaryInputLabel,
+              primaryCaregiverFields.email,
+            ),
+            [primaryCaregiverFields.vetRelationship]: vetRelationshipUI(
+              primaryCaregiverUI.primaryInputLabel,
+            ),
           },
           schema: {
             type: 'object',
             required: [
               primaryCaregiverFields.address,
               primaryCaregiverFields.vetRelationship,
+              primaryCaregiverFields.email,
+              primaryCaregiverFields.verifyEmail,
             ],
             properties: {
-              [primaryCaregiverFields.address]: getAddressSchema.schema(
-                fullSchema,
-                true,
-              ),
+              [primaryCaregiverFields.address]: address,
               [primaryCaregiverFields.primaryPhoneNumber]:
                 primaryCaregiverProps.primaryPhoneNumber,
               [primaryCaregiverFields.alternativePhoneNumber]:
                 primaryCaregiverProps.alternativePhoneNumber,
               [primaryCaregiverFields.email]: primaryCaregiverProps.email,
+              [primaryCaregiverFields.verifyEmail]: primaryCaregiverProps.email,
               [primaryCaregiverFields.vetRelationship]:
                 primaryCaregiverProps.vetRelationship,
             },
@@ -257,12 +312,19 @@ const formConfig = {
         },
         primaryCaregiverInfoThree: {
           path: 'primary-caregiver-3',
-          title: 'Primary Caregiver Information (Continued)',
+          title: 'Health care coverage',
           uiSchema: {
-            'ui:description': PrimaryCaregiverInfo,
-            'view:primaryHealthCareEnrollment': {
-              ...primaryCaregiverUI['view:primaryHealthCareEnrollment'],
-            },
+            'ui:description': PrimaryHealthCoverage({
+              pageTitle: 'Health care coverage',
+            }),
+            [primaryCaregiverFields.medicaidEnrolled]:
+              primaryCaregiverUI.medicaidEnrolledUI,
+            [primaryCaregiverFields.medicareEnrolled]:
+              primaryCaregiverUI.medicareEnrolledUI,
+            [primaryCaregiverFields.tricareEnrolled]:
+              primaryCaregiverUI.tricareEnrolledUI,
+            [primaryCaregiverFields.champvaEnrolled]:
+              primaryCaregiverUI.champvaEnrolledUI,
             [primaryCaregiverFields.otherHealthInsurance]:
               primaryCaregiverUI.otherHealthInsuranceUI,
             [primaryCaregiverFields.otherHealthInsuranceName]:
@@ -272,19 +334,14 @@ const formConfig = {
             type: 'object',
             required: [primaryCaregiverFields.otherHealthInsurance],
             properties: {
-              [primaryCaregiverFields.primaryHealthCareEnrollmentView]: {
-                type: 'object',
-                properties: {
-                  [primaryCaregiverFields.medicaidEnrolled]:
-                    primaryCaregiverProps.medicaidEnrolled,
-                  [primaryCaregiverFields.medicareEnrolled]:
-                    primaryCaregiverProps.medicareEnrolled,
-                  [primaryCaregiverFields.tricareEnrolled]:
-                    primaryCaregiverProps.tricareEnrolled,
-                  [primaryCaregiverFields.champvaEnrolled]:
-                    primaryCaregiverProps.champvaEnrolled,
-                },
-              },
+              [primaryCaregiverFields.medicaidEnrolled]:
+                primaryCaregiverProps.medicaidEnrolled,
+              [primaryCaregiverFields.medicareEnrolled]:
+                primaryCaregiverProps.medicareEnrolled,
+              [primaryCaregiverFields.tricareEnrolled]:
+                primaryCaregiverProps.tricareEnrolled,
+              [primaryCaregiverFields.champvaEnrolled]:
+                primaryCaregiverProps.champvaEnrolled,
               [primaryCaregiverFields.otherHealthInsurance]: {
                 type: 'boolean',
               },
@@ -296,37 +353,44 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'SECONDARY CAREGIVERS',
+      title: 'Secondary Family Caregiver information',
+      depends: formData => hasSecondaryCaregiverOne(formData),
       pages: {
-        secondaryOneCaregiverIntro: {
+        secondaryCaregiverOneIntro: {
           path: 'secondaryOne-caregiver-intro',
-          title: 'Secondary Caregiver Information',
+          title: ' ',
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
-            [primaryCaregiverFields.hasSecondaryOneCaregiverView]: hasSecondaryOneCaregiverUI,
+            'ui:description': SecondaryCaregiverInfo({ additionalInfo: true }),
+            [primaryCaregiverFields.hasSecondaryCaregiverOneView]: hasSecondaryCaregiverOneUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [primaryCaregiverFields.hasSecondaryOneCaregiverView]: {
+              [primaryCaregiverFields.hasSecondaryCaregiverOneView]: {
                 type: 'boolean',
               },
             },
           },
         },
-        secondaryOneCaregiver: {
-          path: 'secondaryOne-caregiver-1',
-          title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryOneCaregiver(formData),
+        secondaryCaregiverOne: {
+          path: 'secondary-caregiver-1',
+          title: 'Secondary Family Caregiver information',
+          depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryOne UI
-            [secondaryCaregiverFields.secondaryOne.fullName]:
-              secondaryCaregiverUI.secondaryOne.fullNameUI,
-            [secondaryCaregiverFields.secondaryOne.ssn]:
-              secondaryCaregiverUI.secondaryOne.ssnUI,
-            [secondaryCaregiverFields.secondaryOne.dateOfBirth]: dateOfBirthUI,
-            [secondaryCaregiverFields.secondaryOne.gender]: genderUI,
+            [secondaryCaregiverFields.secondaryOne.fullName]: fullNameUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryOne.ssn]: ssnUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryOne.dateOfBirth]: dateOfBirthUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryOne.gender]: genderUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
           },
           schema: {
             type: 'object',
@@ -339,75 +403,109 @@ const formConfig = {
             properties: {
               // secondaryOne properties
               [secondaryCaregiverFields.secondaryOne.fullName]:
-                secondaryOneCaregiverProps.fullName,
+                secondaryCaregiverOneProps.fullName,
               [secondaryCaregiverFields.secondaryOne.ssn]:
-                secondaryOneCaregiverProps.ssnOrTin,
+                secondaryCaregiverOneProps.ssnOrTin,
               [secondaryCaregiverFields.secondaryOne.dateOfBirth]:
-                secondaryOneCaregiverProps.dateOfBirth,
+                secondaryCaregiverOneProps.dateOfBirth,
               [secondaryCaregiverFields.secondaryOne.gender]:
-                secondaryOneCaregiverProps.gender,
+                secondaryCaregiverOneProps.gender,
             },
           },
         },
-        secondaryOneCaregiverThree: {
+        secondaryCaregiverOneThree: {
           path: 'secondaryOne-caregiver-2',
-          title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryOneCaregiver(formData),
+          title: 'Secondary Family Caregiver information',
+          depends: formData => hasSecondaryCaregiverOne(formData),
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({
+              pageTitle: contactInfoTitle,
+            }),
             // secondaryOne UI
-            [secondaryCaregiverFields.secondaryOne.address]: addressUI,
             [secondaryCaregiverFields.secondaryOne
-              .primaryPhoneNumber]: primaryPhoneNumberUI,
+              .address]: addressWithoutCountryUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
             [secondaryCaregiverFields.secondaryOne
-              .alternativePhoneNumber]: alternativePhoneNumberUI,
-            [secondaryCaregiverFields.secondaryOne.email]: emailUI,
+              .primaryPhoneNumber]: primaryPhoneNumberUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
             [secondaryCaregiverFields.secondaryOne
-              .vetRelationship]: vetRelationshipUI,
+              .alternativePhoneNumber]: alternativePhoneNumberUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryOne.email]: emailUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
             [secondaryCaregiverFields.secondaryOne
-              .hasSecondaryTwoCaregiverView]: hasSecondaryTwoCaregiverUI,
+              .verifyEmail]: confirmationEmailUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+              secondaryCaregiverFields.secondaryOne.email,
+            ),
+            [secondaryCaregiverFields.secondaryOne
+              .vetRelationship]: vetRelationshipUI(
+              secondaryCaregiversUI.secondaryOneInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryOne
+              .hasSecondaryCaregiverTwoView]: hasSecondaryCaregiverTwoUI,
           },
           schema: {
             type: 'object',
             required: [
               secondaryCaregiverFields.secondaryOne.address,
               secondaryCaregiverFields.secondaryOne.vetRelationship,
+              secondaryCaregiverFields.secondaryOne.email,
+              secondaryCaregiverFields.secondaryOne.verifyEmail,
             ],
             properties: {
               // secondaryOne properties
-              [secondaryCaregiverFields.secondaryOne
-                .address]: getAddressSchema.schema(fullSchema, true),
+              [secondaryCaregiverFields.secondaryOne.address]: address,
               [secondaryCaregiverFields.secondaryOne.primaryPhoneNumber]:
-                secondaryOneCaregiverProps.primaryPhoneNumber,
+                secondaryCaregiverOneProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryOne.alternativePhoneNumber]:
-                secondaryOneCaregiverProps.alternativePhoneNumber,
+                secondaryCaregiverOneProps.alternativePhoneNumber,
               [secondaryCaregiverFields.secondaryOne.email]:
-                secondaryOneCaregiverProps.email,
+                secondaryCaregiverOneProps.email,
+              [secondaryCaregiverFields.secondaryOne.verifyEmail]:
+                secondaryCaregiverOneProps.email,
               [secondaryCaregiverFields.secondaryOne.vetRelationship]:
-                secondaryOneCaregiverProps.vetRelationship,
+                secondaryCaregiverOneProps.vetRelationship,
               [secondaryCaregiverFields.secondaryOne
-                .hasSecondaryTwoCaregiverView]: {
+                .hasSecondaryCaregiverTwoView]: {
                 type: 'boolean',
               },
             },
           },
         },
-        secondaryTwoCaregiverOne: {
+      },
+    },
+    secondaryCaregiversTwoChapter: {
+      title: secondaryCaregiversUI.secondaryTwoChapterTitle,
+      depends: formData => hasSecondaryCaregiverTwo(formData),
+      pages: {
+        secondaryCaregiverTwo: {
           path: 'secondaryTwo-caregiver-1',
-          title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryTwoCaregiver(formData),
+          title: ' ',
+          depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,
             // secondaryTwo UI
-            [secondaryCaregiverFields.secondaryTwo.fullName]:
-              secondaryCaregiverUI.secondaryTwo.fullNameUI,
-            [secondaryCaregiverFields.secondaryTwo.ssn]:
-              secondaryCaregiverUI.secondaryTwo.ssnUI,
-            [secondaryCaregiverFields.secondaryTwo.dateOfBirth]:
-              secondaryCaregiverUI.secondaryTwo.dateOfBirthUI,
-            [secondaryCaregiverFields.secondaryTwo.gender]:
-              secondaryCaregiverUI.secondaryTwo.genderUI,
-            [secondaryCaregiverFields.secondaryTwo.address]: addressUI,
+            [secondaryCaregiverFields.secondaryTwo.fullName]: fullNameUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo.ssn]: ssnUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo.dateOfBirth]: dateOfBirthUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo.gender]: genderUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo
+              .address]: addressWithoutCountryUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
           },
           schema: {
             type: 'object',
@@ -420,51 +518,71 @@ const formConfig = {
             properties: {
               // secondaryTwo properties
               [secondaryCaregiverFields.secondaryTwo.fullName]:
-                secondaryTwoCaregiverProps.fullName,
+                secondaryCaregiverTwoProps.fullName,
               [secondaryCaregiverFields.secondaryTwo.ssn]:
-                secondaryTwoCaregiverProps.ssnOrTin,
+                secondaryCaregiverTwoProps.ssnOrTin,
               [secondaryCaregiverFields.secondaryTwo.dateOfBirth]:
-                secondaryTwoCaregiverProps.dateOfBirth,
+                secondaryCaregiverTwoProps.dateOfBirth,
               [secondaryCaregiverFields.secondaryTwo.gender]:
-                secondaryTwoCaregiverProps.gender,
+                secondaryCaregiverTwoProps.gender,
             },
           },
         },
-        secondaryTwoCaregiverTwo: {
+        secondaryCaregiverTwoTwo: {
           path: 'secondaryTwo-caregiver-2',
-          title: 'Secondary Caregiver Information',
-          depends: formData => hasSecondaryTwoCaregiver(formData),
+          title: secondaryCaregiversUI.secondaryTwoChapterTitle,
+          depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
-            'ui:description': SecondaryCaregiverInfo,
+            'ui:description': SecondaryCaregiverInfo({
+              pathTitle: contactInfoTitle,
+            }),
             // secondaryTwo UI
-            [secondaryCaregiverFields.secondaryTwo.address]: addressUI,
-            [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
-              secondaryCaregiverUI.secondaryTwo.primaryPhoneNumberUI,
-            [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
-              secondaryCaregiverUI.secondaryTwo.alternativePhoneNumberUI,
-            [secondaryCaregiverFields.secondaryTwo.email]:
-              secondaryCaregiverUI.secondaryTwo.emailUI,
-            [secondaryCaregiverFields.secondaryTwo.vetRelationship]:
-              secondaryCaregiverUI.secondaryTwo.vetRelationshipUI,
+            [secondaryCaregiverFields.secondaryTwo
+              .address]: addressWithoutCountryUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo
+              .primaryPhoneNumber]: primaryPhoneNumberUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo
+              .alternativePhoneNumber]: alternativePhoneNumberUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo.email]: emailUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
+            [secondaryCaregiverFields.secondaryTwo
+              .verifyEmail]: confirmationEmailUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+              secondaryCaregiverFields.secondaryTwo.email,
+            ),
+            [secondaryCaregiverFields.secondaryTwo
+              .vetRelationship]: vetRelationshipUI(
+              secondaryCaregiversUI.secondaryTwoInputLabel,
+            ),
           },
           schema: {
             type: 'object',
             required: [
               secondaryCaregiverFields.secondaryOne.address,
               secondaryCaregiverFields.secondaryOne.vetRelationship,
+              secondaryCaregiverFields.secondaryTwo.email,
+              secondaryCaregiverFields.secondaryTwo.verifyEmail,
             ],
             properties: {
               // secondaryTwo properties
-              [secondaryCaregiverFields.secondaryTwo
-                .address]: getAddressSchema.schema(fullSchema, true),
+              [secondaryCaregiverFields.secondaryTwo.address]: address,
               [secondaryCaregiverFields.secondaryTwo.primaryPhoneNumber]:
-                secondaryTwoCaregiverProps.primaryPhoneNumber,
+                secondaryCaregiverTwoProps.primaryPhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.alternativePhoneNumber]:
-                secondaryTwoCaregiverProps.alternativePhoneNumber,
+                secondaryCaregiverTwoProps.alternativePhoneNumber,
               [secondaryCaregiverFields.secondaryTwo.email]:
-                secondaryTwoCaregiverProps.email,
+                secondaryCaregiverTwoProps.email,
+              [secondaryCaregiverFields.secondaryTwo.verifyEmail]:
+                secondaryCaregiverTwoProps.email,
               [secondaryCaregiverFields.secondaryTwo.vetRelationship]:
-                secondaryTwoCaregiverProps.vetRelationship,
+                secondaryCaregiverTwoProps.vetRelationship,
             },
           },
         },

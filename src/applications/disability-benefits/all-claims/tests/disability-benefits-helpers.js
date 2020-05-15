@@ -2,8 +2,8 @@ import moment from 'moment';
 
 const mock = require('platform/testing/e2e/mock-helpers');
 
-function initDocumentUploadMock() {
-  mock(null, {
+function initDocumentUploadMock(token) {
+  mock(token, {
     path: '/v0/upload_supporting_evidence',
     verb: 'post',
     value: {

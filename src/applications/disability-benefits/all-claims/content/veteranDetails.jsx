@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
-import { genderLabels } from '../../../../platform/static-data/labels';
+import { genderLabels } from 'platform/static-data/labels';
 import { srSubstitute } from '../utils';
 import { editNote } from './common';
 

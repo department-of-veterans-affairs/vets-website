@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function ButtonContainer(props) {
   const {
@@ -58,21 +58,13 @@ export default function ButtonContainer(props) {
           </a>
         )}
       {atEbenefitsGuidance && (
-        <a
+        <EbenefitsLink
+          path="ebenefits/about/feature?feature=disability-compensation"
           className="usa-button-primary"
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() =>
-            isLoggedIn &&
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
         >
           Go to eBenefits
           <span className="button-icon"> »</span>
-        </a>
+        </EbenefitsLink>
       )}
       {!atGuidance() && (
         <button
@@ -96,4 +88,5 @@ ButtonContainer.propTypes = {
   goForward: PropTypes.func.isRequired,
   authenticate: PropTypes.func.isRequired,
   isVerified: PropTypes.bool.isRequired,
+  eBenefitsUrl: PropTypes.func.isRequired,
 };

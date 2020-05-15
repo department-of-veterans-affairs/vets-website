@@ -9,6 +9,7 @@ const ProfileInfoTable = ({
   fieldName,
   title,
   className,
+  list,
 }) => {
   const tableClasses = ['profile-info-table', className];
   const titleClasses = prefixUtilityClasses([
@@ -51,35 +52,41 @@ const ProfileInfoTable = ({
   const tableRowDataClasses = ['vads-u-margin--0'];
 
   return (
-    <div className={tableClasses.join(' ')} data-field-name={fieldName}>
+    <section className={tableClasses.join(' ')} data-field-name={fieldName}>
       {title && (
         <h3 className={[...titleClasses, ...titleClassesMedium].join(' ')}>
           {title}
         </h3>
       )}
-      {data
-        .map(element => (dataTransformer ? dataTransformer(element) : element))
-        .map((row, index) => (
-          <div
-            key={index}
-            className={`'table-row' ${[
-              'table-row',
-              ...tableRowClasses,
-              ...tableRowClassesMedium,
-            ].join(' ')}`}
-          >
-            <h4
-              className={[
-                ...tableRowTitleClasses,
-                ...tableRowTitleMediumClasses,
-              ].join(' ')}
+      {/* This syntax is kind of ugly. But it's simply adding `role="list"` if `list` is truthy` */}
+      <dl className="vads-u-margin--0" {...{ ...(list && { role: 'list' }) }}>
+        {data
+          .map(
+            element => (dataTransformer ? dataTransformer(element) : element),
+          )
+          .map((row, index) => (
+            <div
+              key={index}
+              className={`table-row ${[
+                ...tableRowClasses,
+                ...tableRowClassesMedium,
+              ].join(' ')}`}
             >
-              {row.title}
-            </h4>
-            <p className={tableRowDataClasses.join(' ')}>{row.value}</p>
-          </div>
-        ))}
-    </div>
+              <dt
+                className={[
+                  ...tableRowTitleClasses,
+                  ...tableRowTitleMediumClasses,
+                ].join(' ')}
+                // again this is weird syntax but it's adding `role="listitem"` if the `list` prop is truthy
+                {...{ ...(list && { role: 'listitem' }) }}
+              >
+                {row.title}
+              </dt>
+              <dd className={tableRowDataClasses.join(' ')}>{row.value}</dd>
+            </div>
+          ))}
+      </dl>
+    </section>
   );
 };
 
@@ -89,6 +96,11 @@ ProfileInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
+  /**
+   * When `list` is truthy, additional a11y markup will be applied to the
+   * rendered table to treat it like a list
+   */
+  list: PropTypes.bool,
 };
 
 export { prefixUtilityClasses };

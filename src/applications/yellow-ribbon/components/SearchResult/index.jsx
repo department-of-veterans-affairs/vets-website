@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
+import startsWith from 'lodash/startsWith';
 // Relative imports.
 import { capitalize } from '../../helpers';
 
@@ -80,9 +81,14 @@ export const deriveInstURLLabel = (school = {}) => {
     return 'Not provided';
   }
 
+  // Derive the a tag's href.
+  const href = startsWith(school?.insturl, 'http')
+    ? school?.insturl
+    : `https://${school?.insturl}`;
+
   // Show the school's website URL.
   return (
-    <a href={school?.insturl} rel="noreferrer noopener">
+    <a href={href} rel="noreferrer noopener" target="_blank">
       {toLower(school?.insturl)}
     </a>
   );

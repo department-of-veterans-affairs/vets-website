@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import environment from 'platform/utilities/environment';
 
 /**
  * A checkbox group with a label.
@@ -22,7 +21,7 @@ class CheckboxGroup extends React.Component {
 
   renderOptions = () => {
     const options = Array.isArray(this.props.options) ? this.props.options : [];
-    const optionElements = options.map((option, index) => {
+    return options.map((option, index) => {
       const { checked, label, name, learnMore } = option;
       return (
         <div key={index} className="form-checkbox">
@@ -46,8 +45,6 @@ class CheckboxGroup extends React.Component {
         </div>
       );
     });
-
-    return optionElements;
   };
 
   render() {
@@ -55,13 +52,7 @@ class CheckboxGroup extends React.Component {
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
           <div>
-            {/*  prod flag for bah-7186 */}
-            <span
-              id={`${this.inputId}-legend`}
-              className={
-                environment.isProduction() ? 'gibct-legend-old' : 'gibct-legend'
-              }
-            >
+            <span id={`${this.inputId}-legend`} className={'gibct-legend'}>
               {this.props.label}
             </span>
             {this.renderOptions()}

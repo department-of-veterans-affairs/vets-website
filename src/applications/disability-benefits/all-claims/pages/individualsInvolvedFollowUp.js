@@ -5,7 +5,7 @@ import {
   personDescriptionText,
 } from '../content/individualsInvolved';
 import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 

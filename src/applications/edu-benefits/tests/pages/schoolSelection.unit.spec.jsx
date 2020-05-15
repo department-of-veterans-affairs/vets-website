@@ -9,7 +9,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from '../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import { schoolSelectionOptionsFor as optionsFor } from '../../pages/schoolSelection.js';
 
 import formConfig1990e from '../../1990e/config/form';

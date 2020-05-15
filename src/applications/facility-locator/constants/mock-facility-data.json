@@ -8,6 +8,10 @@
         "name": "Washington State Veterans Cemetery Medical Lake",
         "facilityType": "va_cemetery",
         "classification": "State Cemetery",
+        "operatingStatus": {
+          "code": "NOTICE",
+          "additionalInfo": "Some additional NOTICE"
+        },
         "website": "http://www.dva.wa.gov/cemetery",
         "lat": 47.5862341059396,
         "long": -117.713961630042,
@@ -53,6 +57,10 @@
         "name": "Wagner VA Clinic",
         "facilityType": "va_health_facility",
         "classification": "Other Outpatient Services (OOS)",
+        "operatingStatus": {
+          "code": "LIMITED",
+          "additionalInfo": "Some additional LIMITED"
+        },
         "website": "http://www.siouxfalls.va.gov/locations/wagner.asp",
         "lat": 43.0818390000001,
         "long": -98.297446,
@@ -148,6 +156,10 @@
         "name": "Los Angeles VA Clinic",
         "facilityType": "va_health_facility",
         "classification": "Multi-Specialty CBOC",
+        "operatingStatus": {
+          "code": "CLOSED",
+          "additionalInfo": "Some additional CLOSED"
+        },
         "website": null,
         "lat": 34.05171284,
         "long": -118.23874096,
@@ -257,6 +269,7 @@
         "name": "Los Angeles Ambulatory Care Center",
         "facilityType": "va_benefits_facility",
         "classification": "OUTBASED",
+        "operatingStatus": null,
         "website": null,
         "lat": 34.05171315,
         "long": -118.2387403,
@@ -302,7 +315,11 @@
         "name": "VetSuccess on Campus at Los Angeles City College",
         "facilityType": "va_benefits_facility",
         "classification": "VETSUCCESS ON CAMPUS",
-        "website": null,
+        "website": "https//va.gov",
+        "operatingStatus": {
+          "code": "NORMAL",
+          "additionalInfo": "Some additional CLOSED"
+        },
         "lat": 34.08751109,
         "long": -118.2917626,
         "address": {

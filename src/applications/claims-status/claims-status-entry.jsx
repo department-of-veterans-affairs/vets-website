@@ -1,4 +1,4 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 
 import './sass/claims-status.scss';
 
@@ -7,9 +7,9 @@ import { createHistory } from 'history';
 import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import startReactApp from '../../platform/startup/react';
-import createCommonStore from '../../platform/startup/store';
-import startSitewideComponents from '../../platform/site-wide';
+import startReactApp from 'platform/startup/react';
+import createCommonStore from 'platform/startup/store';
+import startSitewideComponents from 'platform/site-wide';
 
 import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
 import routes from './routes.jsx';

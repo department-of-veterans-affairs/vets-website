@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import {
   addFile,

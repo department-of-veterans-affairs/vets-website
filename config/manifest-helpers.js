@@ -21,6 +21,12 @@ function getAppManifests() {
     });
 }
 
+function getAppRoutes() {
+  return getAppManifests()
+    .map(m => m.rootUrl)
+    .filter(m => m);
+}
+
 function getWebpackEntryPoints(manifests) {
   return manifests.reduce((apps, next) => {
     // eslint-disable-next-line no-param-reassign
@@ -42,4 +48,5 @@ module.exports = {
   displayApplications,
   getWebpackEntryPoints,
   getAppManifests,
+  getAppRoutes,
 };

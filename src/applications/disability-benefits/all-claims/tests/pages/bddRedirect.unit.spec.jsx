@@ -1,11 +1,15 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
+import createCommonStore from 'platform/startup/store';
+
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
+const defaultStore = createCommonStore();
 const dateFormat = 'YYYY-MM-DD';
 
 describe('526 bddRedirect page', () => {
@@ -43,15 +47,17 @@ describe('526 bddRedirect page', () => {
 
   it('should show the right content when the separation date is < 90 days in the future', () => {
     const tree = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData(
-          moment()
-            .add(1, 'days')
-            .format(dateFormat),
-        )}
-      />,
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          data={formData(
+            moment()
+              .add(1, 'days')
+              .format(dateFormat),
+          )}
+        />
+      </Provider>,
     );
 
     expect(tree.text()).to.contain(
@@ -63,26 +69,30 @@ describe('526 bddRedirect page', () => {
 
   it('should show the right content when the separation date is between 90 and 180 days in the future', () => {
     const ninetyDays = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData(
-          moment()
-            .add(90, 'days')
-            .format(dateFormat),
-        )}
-      />,
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          data={formData(
+            moment()
+              .add(90, 'days')
+              .format(dateFormat),
+          )}
+        />
+      </Provider>,
     );
     const oneEightyDays = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData(
-          moment()
-            .add(180, 'days')
-            .format(dateFormat),
-        )}
-      />,
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          data={formData(
+            moment()
+              .add(180, 'days')
+              .format(dateFormat),
+          )}
+        />
+      </Provider>,
     );
 
     expect(ninetyDays.text()).to.contain(

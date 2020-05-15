@@ -10,31 +10,25 @@ import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies } = fullSchemaMDOT.definitions;
-
-const { selectedAddress } = fullSchemaMDOT.properties;
+const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
 
 const {
   emailField,
   confirmationEmailField,
   suppliesField,
-  viewAddAccessoriesField,
-  viewAddBatteriesField,
   permAddressField,
   tempAddressField,
-  selectedAddressField,
+  currentAddressField,
 } = schemaFields;
 
 const {
   emailUI,
   confirmationEmailUI,
-  addAccessoriesUI,
-  addBatteriesUI,
   batteriesUI,
-  selectedAddressUI,
   accessoriesUI,
   permanentAddressUI,
   temporaryAddressUI,
+  currentAddressUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -44,9 +38,9 @@ const formChapterTitles = {
 
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
-  address: 'Shipping Address',
-  addBatteriesPage: 'Add batteries to your order',
+  address: 'Shipping address',
   addAccessoriesPage: 'Add accessories to your order',
+  addBatteriesPage: 'Add batteries to your order',
 };
 
 const addressSchema = buildAddressSchema(true);
@@ -73,8 +67,8 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
-    selectedAddress,
     addressSchema,
+    currentAddress,
   },
   chapters: {
     veteranInformationChapter: {
@@ -101,18 +95,18 @@ const formConfig = {
           uiSchema: {
             [permAddressField]: permanentAddressUI,
             [tempAddressField]: temporaryAddressUI,
-            [selectedAddressField]: selectedAddressUI,
             [emailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
+            [currentAddressField]: currentAddressUI,
           },
           schema: {
             type: 'object',
             properties: {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
-              [selectedAddressField]: selectedAddress,
               [emailField]: email,
               [confirmationEmailField]: email,
+              [currentAddressField]: currentAddress,
             },
           },
         },
@@ -127,15 +121,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [viewAddBatteriesField]: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {
-            [viewAddBatteriesField]: addBatteriesUI,
             [suppliesField]: batteriesUI,
           },
         },
@@ -145,15 +134,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [viewAddAccessoriesField]: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
-              supplies,
+              [suppliesField]: supplies,
             },
           },
           uiSchema: {
-            [viewAddAccessoriesField]: addAccessoriesUI,
             [suppliesField]: accessoriesUI,
           },
         },

@@ -1,3 +1,11 @@
-{% if buildtype == 'vagovprod' or buildtype == 'vagovstaging' %}
-  <script type="text/javascript" src="/js/foresee/{{ buildtype }}.js"></script>
+{% if buildtype == 'vagovprod' %}
+  <script>
+    {% include "src/site/assets/js/foresee/vagovprod.js" %}
+  </script>
+{% endif %}
+
+{% if buildtype == 'vagovstaging' %}
+  <script>
+    {% include "src/site/assets/js/foresee/vagovstaging.js" %}
+  </script>
 {% endif %}

@@ -46,7 +46,7 @@ class RoutedSavableReviewPage extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-    focusElement('h4');
+    focusElement('h2');
   }
 
   autoSave = () => {

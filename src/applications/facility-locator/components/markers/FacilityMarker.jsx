@@ -1,16 +1,13 @@
 import DivMarker from './DivMarker';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 
-class FacilityMarker extends Component {
-  render() {
-    const { position, onClick, markerText } = this.props;
-    return (
-      <DivMarker position={position} onClick={onClick}>
-        <span className="i-pin-card-map"> {markerText}</span>
-      </DivMarker>
-    );
-  }
+function FacilityMarker({ position, onClick, markerText }) {
+  return (
+    <DivMarker position={position} onClick={onClick}>
+      <span className="i-pin-card-map"> {markerText}</span>
+    </DivMarker>
+  );
 }
 
 FacilityMarker.propTypes = {

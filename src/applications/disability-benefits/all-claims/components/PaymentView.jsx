@@ -59,7 +59,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   );
 
   return (
-    <div>
+    <>
       {!dataChanged && (
         <p>We’re currently paying your compensation to this account</p>
       )}
@@ -76,7 +76,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
       {dataChanged && (
         <AlertBox isVisible status="warning" content={accountsDifferContent} />
       )}
-    </div>
+    </>
   );
 };
 

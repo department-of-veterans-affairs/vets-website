@@ -1,10 +1,11 @@
-import { apiRequest } from '../../platform/utilities/api';
-import { watchForButtonClicks } from './utils';
+import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
+import { GA_PREFIX, addEventListenerToButtons } from './utils';
+import * as Sentry from '@sentry/browser';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
 let chatBotScenario = 'unknown';
-let root = null;
 
 export const extractLocale = localeParam => {
   if (localeParam === 'autodetect') {
@@ -36,10 +37,6 @@ export const getUserLocation = callback => {
   );
 };
 
-const startChat = (user, webchatOptions) => {
-  window.WebChat.renderWebChat(webchatOptions, root);
-};
-
 const initBotConversation = jsonWebToken => {
   // extract the data from the JWT
   const tokenPayload = JSON.parse(atob(jsonWebToken.split('.')[1]));
@@ -62,6 +59,7 @@ const initBotConversation = jsonWebToken => {
     userAvatarInitials: 'You',
     backgroundColor: '#F8F8F8',
     primaryFont: 'Source Sans Pro, sans-serif',
+    bubbleMinWidth: 100,
   };
 
   const webchatStore = window.WebChat.createStore(
@@ -106,7 +104,7 @@ const initBotConversation = jsonWebToken => {
       return next(action);
     },
   );
-  const webchatOptions = {
+  return {
     directLine: botConnection,
     styleOptions,
     store: webchatStore,
@@ -114,7 +112,6 @@ const initBotConversation = jsonWebToken => {
     username: user.name,
     locale: user.locale,
   };
-  startChat(user, webchatOptions);
 };
 
 export const requestChatBot = loc => {
@@ -133,26 +130,27 @@ export const requestChatBot = loc => {
   if (params.has('userName')) {
     path += `&userName=${params.get('userName')}`;
   }
-
   return apiRequest(path, { method: 'POST' })
     .then(({ token }) => initBotConversation(token))
     .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      Sentry.captureException(error);
+      recordEvent({
+        event: `${GA_PREFIX}-connection-failure`,
+        'error-key': 'XX_failed_to_init_bot_convo',
+      });
     });
 };
+
 const chatRequested = scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
   if (params.has('shareLocation')) {
     getUserLocation(requestChatBot);
-  } else {
-    requestChatBot();
   }
+  return requestChatBot();
 };
 
-export default function initializeChatbot(_root) {
-  root = _root;
-  watchForButtonClicks();
-  chatRequested('va_coronavirus_chatbot');
+export default function initializeChatbot() {
+  addEventListenerToButtons();
+  return chatRequested('va_coronavirus_chatbot');
 }

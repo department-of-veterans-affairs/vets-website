@@ -1,6 +1,7 @@
 // Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
 import NavItem from './NavItem';
@@ -12,8 +13,10 @@ class SideNav extends Component {
 
   constructor(props) {
     super(props);
+    this.toggleUlClass = this.toggleUlClass.bind(this);
     this.state = {
       navItemsLookup: props.navItemsLookup,
+      active: false,
     };
   }
 
@@ -46,6 +49,11 @@ class SideNav extends Component {
     });
   };
 
+  toggleUlClass = () => {
+    const currentState = this.state.active;
+    this.setState({ active: !currentState });
+  };
+
   renderChildItems = (parentID, depth) => {
     const { navItemsLookup } = this.state;
 
@@ -66,7 +74,6 @@ class SideNav extends Component {
         key={get(item, 'id')}
         renderChildItems={this.renderChildItems}
         sortedNavItems={sortedNavItems}
-        toggleItemExpanded={this.toggleItemExpanded}
       />
     ));
   };
@@ -85,10 +92,38 @@ class SideNav extends Component {
     }
 
     return (
-      <ul className="usa-width-one-fourth va-sidenav">
-        {/* Render all the items recursively. */}
-        {renderChildItems(parentMostID, 1)}
-      </ul>
+      <div
+        className={classNames(
+          `va-sidenav-wrapper usa-width-one-fourth va-sidenav vads-u-margin--1 medium-screen:vads-u-height--auto medium-screen:vads-u-margin-y--0 medium-screen:vads-u-margin-left--0 medium-screen:vads-u-margin-right--2p5 ${
+            this.state.active ? `va-sidenav-height` : null
+          }`,
+        )}
+      >
+        <button
+          type="button"
+          aria-describedby="va-sidenav-ul-container"
+          className={classNames(
+            `vads-u-color--primary medium-screen:vads-u-display--none va-sidenav-default-trigger`,
+          )}
+          onClick={this.toggleUlClass}
+        >
+          In this section <i className="fa fa-bars" />
+        </button>
+        <ul
+          id="va-sidenav-ul-container"
+          className={classNames(
+            `va-sidenav vads-u-margin-top--0 vads-u-padding--0`,
+          )}
+        >
+          <div
+            className={classNames(
+              `va-sidenav-display-onclick-line medium-screen:vads-u-display--none line`,
+            )}
+          />
+          {/* Render all the items recursively. */}
+          {renderChildItems(parentMostID, 1)}
+        </ul>
+      </div>
     );
   }
 }

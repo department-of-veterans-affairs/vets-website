@@ -3,9 +3,10 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 import reducer from '../../reducers';
-import { calculatorConstants } from '../gibct-helpers';
 import SchoolLocations from '../../components/profile/SchoolLocations';
 import sinon from 'sinon';
+
+const calculatorConstants = require('../data/calculator-constants.json');
 
 const defaultState = createCommonStore(reducer).getState();
 

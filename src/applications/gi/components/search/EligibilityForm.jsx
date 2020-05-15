@@ -7,8 +7,7 @@ import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { isLoggedIn } from 'platform/user/selectors';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -118,19 +117,9 @@ export class EligibilityForm extends React.Component {
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
             To apply for VR&E benefits, please{' '}
-            <a
-              href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                this.props.isLoggedIn &&
-                recordEvent({
-                  event: 'nav-ebenefits-click',
-                })
-              }
-            >
+            <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
               visit this site
-            </a>
+            </EbenefitsLink>
             .
           </div>
         )}
@@ -161,23 +150,6 @@ export class EligibilityForm extends React.Component {
           value={this.props.enlistmentService}
           alt="Completed an enlistment of:"
           visible={this.props.giBillChapter === '30'}
-          onChange={this.props.eligibilityChange}
-        />
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Length of longest active duty tour:',
-            modal: 'consecutiveService',
-            ariaLabel: ariaLabels.learnMore.reapActiveDuty,
-          })}
-          name="consecutiveService"
-          options={[
-            { value: '0.8', label: '2+ years of consecutive service: 80%' },
-            { value: '0.6', label: '1+ year of consecutive service: 60%' },
-            { value: '0.4', label: '90+ days of consecutive service: 40%' },
-          ]}
-          value={this.props.consecutiveService}
-          alt="Length of longest active duty tour:"
-          visible={this.props.giBillChapter === '1607'}
           onChange={this.props.eligibilityChange}
         />
         <Dropdown
@@ -218,7 +190,6 @@ export class EligibilityForm extends React.Component {
 
 const mapStateToProps = state => ({
   ...state.eligibility,
-  isLoggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {

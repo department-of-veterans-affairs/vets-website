@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { updateBenefitSummaryRequestOption } from '../actions/letters';
 import {
   benefitOptionsMap,
@@ -10,8 +10,8 @@ import {
   optionsToAlwaysDisplay,
   getBenefitOptionText,
 } from '../utils/helpers.jsx';
-import { formatDateShort } from '../../../platform/utilities/date';
-import CallVBACenter from '../../../platform/static-data/CallVBACenter';
+import { formatDateShort } from 'platform/utilities/date';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {

@@ -24,7 +24,7 @@ const scrollToTop = () => {
 class ReviewPage extends React.Component {
   componentDidMount() {
     scrollToTop();
-    focusElement('h4');
+    focusElement('h2');
   }
 
   render() {

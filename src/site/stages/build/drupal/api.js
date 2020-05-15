@@ -17,8 +17,7 @@ const entityTreeFactory = require('../process-cms-exports');
 
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
-  const credentialsEncoded = Buffer.from(credentials).toString('base64');
-  return credentialsEncoded;
+  return Buffer.from(credentials).toString('base64');
 }
 
 function getDrupalClient(buildOptions) {
@@ -131,11 +130,7 @@ function getDrupalClient(buildOptions) {
       );
       const assembleEntityTree = entityTreeFactory(exportDir || contentDir);
 
-      const modifiedEntities = entities.map(entity =>
-        assembleEntityTree(entity),
-      );
-
-      return modifiedEntities;
+      return entities.map(entity => assembleEntityTree(entity));
     },
 
     getLatestPageById(nodeId) {

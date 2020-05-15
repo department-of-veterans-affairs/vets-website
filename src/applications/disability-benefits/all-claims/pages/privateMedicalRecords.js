@@ -3,7 +3,7 @@ import {
   patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
 import { UploadDescription } from '../content/fileUploadDescriptions';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { ancillaryFormUploadUi } from '../utils';
 import { DATA_PATHS } from '../constants';

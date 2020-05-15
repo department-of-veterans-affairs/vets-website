@@ -15,8 +15,8 @@ import addMenuListeners from 'platform/site-wide/accessible-menus';
 import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 
-// import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
-// import startAnnouncementWidget from '../../platform/site-wide/announcements';
+// import startLRNHealthCarWidget from 'platform/site-wide/left-rail-navs/health-care';
+// import startAnnouncementWidget from 'platform/site-wide/announcements';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
 import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
@@ -217,7 +217,6 @@ function getHostnameOverride() {
 }
 
 const scriptPaths = [
-  '/js/settings.js',
   '/generated/polyfills.entry.js',
   '/generated/vendor.entry.js',
   '/generated/proxy-rewrite.entry.js',

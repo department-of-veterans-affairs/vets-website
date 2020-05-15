@@ -2,69 +2,95 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { get } from 'lodash';
 // Relative
-import ExpandCollapseIcon from './ExpandCollapseIcon';
-import LabelText from './LabelText';
 import { NavItemPropTypes } from '../prop-types';
 
 const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   // Derive item properties.
-  const hasChildren = get(item, 'hasChildren');
-  const href = get(item, 'href');
-  const id = get(item, 'id');
-  const isSelected = get(item, 'isSelected');
-  const label = get(item, 'label', '');
+  const { expanded, hasChildren, href, id, isSelected, label } = item;
 
   // Derive depth booleans.
   const isFirstLevel = depth === 1;
   const isDeeperThanSecondLevel = depth >= 2;
 
-  // Caclculate the indentation for the child items.
+  // Calculate the indentation for the child items.
   const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
+
+  // Expanded not selected
+  const isExpanded = expanded && depth === 2 && !isSelected;
+  // Expanded beyond level 2 expanded and selected
+  const moreThanLevel2SelectedExpanded = expanded && depth > 2 && isSelected;
+  const isLevelFourOrDeeper = item.depth >= 4;
+  if (isFirstLevel) {
+    return (
+      <h2
+        className={classNames(
+          'va-sidenav-item-label, vads-u-font-family--sans',
+          {
+            'va-sidenav-item-label-bold': isFirstLevel,
+          },
+        )}
+        style={{
+          paddingLeft: indentation,
+          fontSize: '15px',
+          textTransform: 'uppercase',
+        }}
+      >
+        {label}
+      </h2>
+    );
+  }
 
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
     return (
-      <button
+      <a
+        aria-current={isSelected ? 'page' : undefined}
         aria-label={label}
-        className={classNames(
-          'va-sidenav-item-label',
-          'va-sidenav-item-label',
-          'va-sidenav-item-label-underlined',
-          {
-            'va-sidenav-item-label-bold': isFirstLevel,
-            selected: isSelected,
-          },
-        )}
+        className={classNames('va-sidenav-item-label', {
+          'va-sidenav-item-label-bold': isFirstLevel,
+          selected:
+            !isExpanded && !moreThanLevel2SelectedExpanded && isSelected,
+          expanded: !moreThanLevel2SelectedExpanded && isExpanded,
+          open: moreThanLevel2SelectedExpanded,
+        })}
         onClick={toggleItemExpanded(id)}
+        rel="noopener noreferrer"
+        href={href}
         style={{ paddingLeft: indentation }}
       >
-        {/* Label */}
-        <LabelText item={item} />
-
-        {/* Expand/Collapse Button */}
-        <ExpandCollapseIcon depth={depth} item={item} />
-      </button>
+        {/* Label text */}
+        <span
+          className={classNames({
+            'grandchild-left-line': isLevelFourOrDeeper && !isSelected,
+          })}
+        >
+          {' '}
+          {label}{' '}
+        </span>
+      </a>
     );
   }
 
   return (
     <a
-      className={classNames(
-        'va-sidenav-item-label',
-        'va-sidenav-item-label',
-        'va-sidenav-item-label-underlined',
-        {
-          selected: isSelected,
-        },
-      )}
+      aria-label={label}
+      className={classNames('va-sidenav-item-label', {
+        open: !!(depth >= 2 && isSelected),
+      })}
       rel="noopener noreferrer"
       href={href}
       style={{ paddingLeft: indentation }}
     >
-      {/* Label */}
-      <LabelText item={item} />
+      {/* Label text */}
+      <span
+        className={classNames({
+          'grandchild-left-line': isLevelFourOrDeeper && !isSelected,
+        })}
+      >
+        {' '}
+        {label}{' '}
+      </span>
     </a>
   );
 };

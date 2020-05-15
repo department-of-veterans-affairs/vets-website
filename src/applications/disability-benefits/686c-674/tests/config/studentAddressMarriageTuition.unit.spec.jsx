@@ -22,11 +22,16 @@ describe('Report 674 student address and marriage information', () => {
     'view:selectable686Options': {
       report674: true,
     },
-    studentFullName: {
-      first: 'John',
-      last: 'Doe',
+    studentAddressMarriageTuition: {
+      wasMarried: '',
     },
-    studentAddress: {
+    studentNameAndSSN: {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
+    },
+    schoolAddress: {
       countryName: '',
     },
   };
@@ -75,15 +80,35 @@ describe('Report 674 student address and marriage information', () => {
     );
     changeDropdown(
       form,
-      'select#root_studentAddress_countryName',
-      'United States',
+      'select#root_studentAddressMarriageTuition_address_countryName',
+      'USA',
     );
-    fillData(form, 'input#root_studentAddress_addressLine1', '1600');
-    fillData(form, 'input#root_studentAddress_city', 'Washington');
-    changeDropdown(form, 'select#root_studentAddress_stateCode', 'DC');
-    fillData(form, 'input#root_studentAddress_zipCode', '20500');
-    selectRadio(form, 'root_studentWasMarried', 'N');
-    selectRadio(form, 'root_tuitionIsPaidByGovAgency', 'N');
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_city',
+      'Washington',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'DC',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_zipCode',
+      '20500',
+    );
+    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
+    selectRadio(
+      form,
+      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+      'N',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -101,13 +126,37 @@ describe('Report 674 student address and marriage information', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectCheckbox(form, 'root_studentAddress_view:livesOnMilitaryBase', true);
-    fillData(form, 'input#root_studentAddress_addressLine1', '1600');
-    changeDropdown(form, 'select#root_studentAddress_city', 'APO');
-    changeDropdown(form, 'select#root_studentAddress_stateCode', 'AA');
-    fillData(form, 'input#root_studentAddress_zipCode', '20500');
-    selectRadio(form, 'root_studentWasMarried', 'N');
-    selectRadio(form, 'root_tuitionIsPaidByGovAgency', 'N');
+    selectCheckbox(
+      form,
+      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      true,
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      '1600',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'AA',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_zipCode',
+      '20500',
+    );
+    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
+    selectRadio(
+      form,
+      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+      'N',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -125,16 +174,32 @@ describe('Report 674 student address and marriage information', () => {
         onSubmit={onSubmit}
       />,
     );
-    changeDropdown(form, 'select#root_studentAddress_countryName', 'Brazil');
-    fillData(form, 'input#root_studentAddress_addressLine1', '1600');
-    fillData(form, 'input#root_studentAddress_city', 'Rio de Janeiro');
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_countryName',
+      'BRA',
+    );
     fillData(
       form,
-      'input#root_studentAddress_internationalPostalCode',
+      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_city',
+      'Rio de Janeiro',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_internationalPostalCode',
       '12345',
     );
-    selectRadio(form, 'root_studentWasMarried', 'N');
-    selectRadio(form, 'root_tuitionIsPaidByGovAgency', 'N');
+    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
+    selectRadio(
+      form,
+      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+      'N',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -154,22 +219,70 @@ describe('Report 674 student address and marriage information', () => {
     );
     changeDropdown(
       form,
-      'select#root_studentAddress_countryName',
-      'United States',
+      'select#root_studentAddressMarriageTuition_address_countryName',
+      'USA',
     );
-    fillData(form, 'input#root_studentAddress_addressLine1', '1600');
-    fillData(form, 'input#root_studentAddress_city', 'Washington');
-    changeDropdown(form, 'select#root_studentAddress_stateCode', 'DC');
-    fillData(form, 'input#root_studentAddress_zipCode', '20500');
-    selectRadio(form, 'root_studentWasMarried', 'Y');
-    changeDropdown(form, 'select#root_marriageDateMonth', 1);
-    changeDropdown(form, 'select#root_marriageDateDay', 1);
-    fillData(form, 'input#root_marriageDateYear', 2010);
-    selectRadio(form, 'root_tuitionIsPaidByGovAgency', 'Y');
-    fillData(form, 'input#root_agencyName', 'FBI');
-    changeDropdown(form, 'select#root_datePaymentsBeganMonth', 1);
-    changeDropdown(form, 'select#root_datePaymentsBeganDay', 1);
-    fillData(form, 'input#root_datePaymentsBeganYear', 2010);
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_city',
+      'Washington',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'DC',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_zipCode',
+      '20500',
+    );
+    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'Y');
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_marriageDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_marriageDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_marriageDateYear',
+      2010,
+    );
+    selectRadio(
+      form,
+      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+      'Y',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_agencyName',
+      'FBI',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_datePaymentsBeganMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_datePaymentsBeganDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_datePaymentsBeganYear',
+      2010,
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

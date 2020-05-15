@@ -88,7 +88,7 @@ $facility-locator-color-gray: #ccc;
 
   .facility-result {
     padding: 1em;
-    background: $color-gray-light-alt;
+    background: $color-white ;
     border-bottom: none;
 
     &.active {
@@ -124,7 +124,7 @@ $facility-locator-color-gray: #ccc;
   }
 
   .facility-result+.facility-result {
-    border-top: solid 12px $color-white;
+    border-top: solid 2px $color-gray-lighter;
   }
 
   .leaflet-popup-content {
@@ -781,4 +781,15 @@ $facility-locator-color-gray: #ccc;
   border-radius: 50%;
   font-size: 16px;
   font-family: 'Source Sans Pro', sans-serif !important;
+}
+.notice-marg-pad {
+  padding: 0.5rem !important;
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: bold;
+  width: 280px;
+  height: 40px;
+}
+.icon-base {
+  color: $color-base !important;
 }

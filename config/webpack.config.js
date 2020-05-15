@@ -18,8 +18,20 @@ const {
 } = require('./manifest-helpers');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 
+const timestamp = new Date().getTime();
+
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
+
+const sharedModules = [
+  getAbsolutePath('src/platform/polyfills'),
+  'react',
+  'react-dom',
+  'react-redux',
+  'redux',
+  'redux-thunk',
+  '@sentry/browser',
+];
 
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
@@ -27,15 +39,9 @@ const globalEntryFiles = {
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
-  vendor: [
-    getAbsolutePath('src/platform/polyfills'),
-    'react',
-    'react-dom',
-    'react-redux',
-    'redux',
-    'redux-thunk',
-    '@sentry/browser',
-  ],
+  vendor: sharedModules,
+  // This is to solve the issue of the vendor file being cached
+  'shared-modules': sharedModules,
 };
 
 /**
@@ -58,29 +64,6 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-/**
- * The dev server requires settings.js for building the
- * redirects. This loads the settings for use in the watch commands.
- *
- * @return {Object} settings
- */
-function getDevServerSettings() {
-  const settings = {};
-  const manifests = getAppManifests();
-  settings.applications = manifests
-    // Manifests without rootUrls are excluded from the redirect settings
-    .filter(manifest => manifest.rootUrl)
-    .map(manifest => ({
-      contentProps: [
-        {
-          path: path.join('.', manifest.rootUrl),
-        },
-      ],
-    }));
-
-  return settings;
-}
-
 module.exports = env => {
   const buildOptions = {
     api: '',
@@ -93,7 +76,6 @@ module.exports = env => {
     get destination() {
       return path.resolve(__dirname, '../', 'build', this.buildtype);
     },
-    settings: getDevServerSettings(),
   };
 
   const apps = getEntryPoints(buildOptions.entry);
@@ -118,8 +100,12 @@ module.exports = env => {
     output: {
       path: outputPath,
       publicPath: '/generated/',
-      filename: '[name].entry.js',
-      chunkFilename: '[name].entry.js',
+      filename: !isOptimizedBuild
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: !isOptimizedBuild
+        ? '[name].entry.js'
+        : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
     module: {
       rules: [
@@ -242,7 +228,12 @@ module.exports = env => {
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
         __API__: JSON.stringify(buildOptions.api),
       }),
-      new MiniCssExtractPlugin({ filename: '[name].css' }),
+
+      new MiniCssExtractPlugin({
+        filename: !isOptimizedBuild
+          ? '[name].css'
+          : `[name].[contenthash]-${timestamp}.css`,
+      }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
     devServer: generateWebpackDevConfig(buildOptions),

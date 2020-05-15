@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ConnectedApp } from './ConnectedApp';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { AppDeletedAlert } from './AppDeletedAlert';
 
 export function ConnectedApps({ confirmDelete, accounts, dismissAlert }) {

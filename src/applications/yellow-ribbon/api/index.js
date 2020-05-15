@@ -3,7 +3,7 @@
 // Dependencies.
 import appendQuery from 'append-query';
 // Relative imports.
-import { apiRequest } from '../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import { normalizeResponse } from '../helpers';
 
 export const fetchResultsApi = async (options = {}) => {
@@ -39,7 +39,5 @@ export const fetchResultsApi = async (options = {}) => {
   }
 
   // Normalize the response from the API.
-  const normalizedResponse = normalizeResponse(response);
-
-  return normalizedResponse;
+  return normalizeResponse(response);
 };

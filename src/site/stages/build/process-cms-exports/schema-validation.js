@@ -33,7 +33,7 @@ const validateEntityFactory = schemasDir => {
    *                           actually only find the first validation
    *                           error, not all errors.
    */
-  const validateEntity = entity => {
+  return entity => {
     // Find the validation object
     const contentModelType = getContentModelType(entity);
     const schema = schemas[contentModelType];
@@ -52,8 +52,6 @@ const validateEntityFactory = schemasDir => {
 
     return validate(entity, schema);
   };
-
-  return validateEntity;
 };
 
 module.exports = {

@@ -5,7 +5,7 @@ import {
   transformFormToVARequest,
   transformFormToAppointment,
 } from '../../utils/data';
-import { FETCH_STATUS } from '../../utils/constants';
+import { FETCH_STATUS, VHA_FHIR_ID } from '../../utils/constants';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
@@ -29,13 +29,24 @@ describe('VAOS data transformation', () => {
               },
             ],
           },
-          vaParent: '983',
+          vaParent: 'var983',
           vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+          },
+        ],
         facilities: {
-          '323_983': [
+          '323_var983': [
             {
               institutionCode: '983GB',
               name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -114,14 +125,25 @@ describe('VAOS data transformation', () => {
               },
             ],
           },
-          vaParent: '983',
+          vaParent: 'var983',
           vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: 'SLEEP',
           typeOfSleepCareId: '349',
         },
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+          },
+        ],
         facilities: {
-          '349_983': [
+          '349_var983': [
             {
               institutionCode: '983GB',
               name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -196,7 +218,7 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdf',
-          communityCareSystemId: '983',
+          communityCareSystemId: 'var983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
@@ -230,22 +252,35 @@ describe('VAOS data transformation', () => {
         eligibility: {},
         parentFacilities: [
           {
-            institutionCode: '983',
-            city: 'Cheyenne',
-            stateAbbrev: 'WY',
-            authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-            rootStationCode: '983',
-            adminParent: true,
-            parentStationCode: '983',
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+            name: 'CHYSHR-Cheyenne VA Medical Center',
+            address: [
+              {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
+            ],
           },
           {
-            institutionCode: '984',
-            city: 'Dayton',
-            stateAbbrev: 'OH',
-            authoritativeName: 'DAYTSHR -Dayton VA Medical Center',
-            rootStationCode: '984',
-            adminParent: true,
-            parentStationCode: '984',
+            id: 'var984',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '984',
+              },
+            ],
+            address: [
+              {
+                city: 'Dayton',
+                state: 'OH',
+              },
+            ],
           },
         ],
         ccEnabledSystems: ['984', '983'],
@@ -335,7 +370,7 @@ describe('VAOS data transformation', () => {
           email: 'test@va.gov',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'asdf',
-          communityCareSystemId: '983',
+          communityCareSystemId: 'var983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
@@ -370,22 +405,35 @@ describe('VAOS data transformation', () => {
         eligibility: {},
         parentFacilities: [
           {
-            institutionCode: '983',
-            city: 'Cheyenne',
-            stateAbbrev: 'WY',
-            authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-            rootStationCode: '983',
-            adminParent: true,
-            parentStationCode: '983',
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+            name: 'CHYSHR-Cheyenne VA Medical Center',
+            address: [
+              {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
+            ],
           },
           {
-            institutionCode: '984',
-            city: 'Dayton',
-            stateAbbrev: 'OH',
-            authoritativeName: 'DAYTSHR -Dayton VA Medical Center',
-            rootStationCode: '984',
-            adminParent: true,
-            parentStationCode: '984',
+            id: 'var984',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '984',
+              },
+            ],
+            address: [
+              {
+                city: 'Dayton',
+                state: 'OH',
+              },
+            ],
           },
         ],
         ccEnabledSystems: ['984', '983'],
@@ -486,14 +534,31 @@ describe('VAOS data transformation', () => {
           },
           preferredDate: '2019-12-02',
           clinicId: '308',
-          vaParent: '983',
+          vaParent: 'var983',
           vaFacility: '983',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
         appointmentLength: '30',
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+            address: [
+              {
+                city: 'Cheyenne',
+                state: 'WY',
+              },
+            ],
+          },
+        ],
         facilities: {
-          '323_983': [
+          '323_var983': [
             {
               institutionCode: '983',
               name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -572,14 +637,25 @@ describe('VAOS data transformation', () => {
             ],
             currentRowIndex: 3,
           },
-          vaParent: '983',
+          vaParent: 'var983',
           vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: 'EYE',
           typeOfEyeCareId: '407',
         },
+        parentFacilities: [
+          {
+            id: 'var983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+          },
+        ],
         facilities: {
-          '407_983': [
+          '407_var983': [
             {
               institutionCode: '983GB',
               name: 'CHYSHR-Cheyenne VA Medical Center',

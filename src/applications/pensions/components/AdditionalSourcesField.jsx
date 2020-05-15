@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import {
-  scrollToFirstError,
-  focusElement,
-} from '../../../platform/utilities/ui';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 

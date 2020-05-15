@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
-import recordEvent from '../../../platform/monitoring/record-event';
-import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
+import recordEvent from 'platform/monitoring/record-event';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
 import { focusElement } from 'platform/utilities/ui';
 
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
