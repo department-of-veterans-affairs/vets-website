@@ -13,7 +13,9 @@ const CalculatorSheetResultRow = ({
 }) =>
   visible ? (
     <div
-      id={`calculator-result-row-${id == null ? label : id}`}
+      id={`summary-sheet-calculator-result-row-${createId(
+        id == null ? label : id,
+      )}`}
       className={classNames('row', 'calculator-result', { bold })}
     >
       <div className="small-8 columns">
