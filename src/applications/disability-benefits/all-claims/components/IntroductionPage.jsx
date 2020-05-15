@@ -10,7 +10,7 @@ import { selectAvailableServices } from 'platform/user/selectors';
 
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
-import FileOriginalClaimPage from '../../wizard/pages/file-original-claim';
+import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
       return (
         <div className="schemaform-intro">
           <FormTitle title="File for disability compensation" />
-          <FileOriginalClaimPage.component props={this.props} />
+          <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
     }
