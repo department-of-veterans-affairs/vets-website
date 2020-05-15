@@ -3,6 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 
 import formConfig from '../config/form';
+import manifest from '../manifest.json';
 
 import {
   mockUser,
@@ -19,6 +20,7 @@ const testConfig = {
     data: path.join(__dirname, 'data'),
   },
   formConfig,
+  manifest,
   pageHooks: {
     '/disability/file-disability-claim-form-21-526ez/introduction': () => {
       // Hit the start button
@@ -93,7 +95,6 @@ const testConfig = {
       });
     });
   },
-  url: '/disability/file-disability-claim-form-21-526ez',
 };
 
-testForm('523 all claims', testConfig);
+testForm(testConfig);

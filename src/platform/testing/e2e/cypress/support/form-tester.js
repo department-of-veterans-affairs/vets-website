@@ -179,7 +179,7 @@ const processPage = () => {
  * @returns {boolean} Resolves true if a hook ran and false otherwise.
  */
 Cypress.Commands.add('execHook', pathname => {
-  cy.get('@testConfig', COMMAND_OPTIONS).then(({ pageHooks }) => {
+  cy.get('@pageHooks', COMMAND_OPTIONS).then(pageHooks => {
     const hook = pageHooks?.[pathname];
     if (hook) {
       if (typeof hook !== 'function') {
@@ -394,26 +394,31 @@ Cypress.Commands.add('fillPage', () => {
  *     to fill out fields. Used when the data is nested under a certain key.
  *     For example, if the test data looks like { data: { field1: 'value' } },
  *     dataPathPrefix should be set to 'data'.
- * @property {Object} dataSets - The sets of data used to fill out fields during
- *     the form flow. A test is generated for each data set and uses that data
- *     for that run. Each data set should follow the same structure as the body
- *     of the API request sent for a form submission.
+ * @property {Array} dataSets - Array of fixture file paths for data sets.
+ *     A test is generated for each data set and uses that data to fill out
+ *     fields during the form flow. The files are relative to the "data" path
+ *     loaded into fixtures. For example, if the fixtures object mapped the
+ *     "data" path to "some/folder/or/other", which contains a "test.json" file,
+ *     dataSets can be set to ['test'] to use that file as a data set.
+ * @property {Object} fixtures - Mapping of fixture paths to target paths that
+ *     are to be loaded as fixtures. The "data" fixture path is _required_ to
+ *     set up the fixture paths that contain the "dataSets" files.
  * @property {Object} formConfig - The config used to build the form.
+ * @property {Object} manifest - The app manifest.
  * @property {Object.<function>} pageHooks - Functions used to bypass the
  *     automatic form filling for specified pages. Each object key corresponds
  *     to the URL of the page the hook applies to.
  * @property {function} setup - Function that's called once before starting any
  *     tests. Corresponds to the before (all) hook.
  * @property {function} setupPerTest - Function that's called before each test.
- * @property {string} url - The URL for the form. All tests start by going here.
  * ---
- * @param {string} testDescription - Label to describe the test.
  * @param {TestConfig} testConfig
  */
-const testForm = (testDescription, testConfig) => {
+const testForm = testConfig => {
+  const { appName, rootUrl } = testConfig.manifest;
   const arrayPageObjects = createArrayPageObjects(testConfig.formConfig);
 
-  describe(testDescription, () => {
+  describe(appName, () => {
     before(() => {
       if (!testConfig.fixtures.data) {
         throw new Error('Required data fixture is undefined.');
@@ -432,7 +437,7 @@ const testForm = (testDescription, testConfig) => {
     // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
-      cy.wrap(testConfig).as('testConfig');
+      cy.wrap(testConfig.pageHooks).as('pageHooks');
       cy.wrap(arrayPageObjects).as('arrayPageObjects');
 
       cy.server()
@@ -459,7 +464,7 @@ const testForm = (testDescription, testConfig) => {
         });
 
         it('fills the form', () => {
-          cy.visit(testConfig.url)
+          cy.visit(rootUrl)
             .wait('@getMaintenanceWindows')
             .then(processPage);
         });

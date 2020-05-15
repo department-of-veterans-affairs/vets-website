@@ -3,6 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 
 import formConfig from '../config/form';
+import manifest from '../manifest.json';
 
 const testConfig = {
   dataPathPrefix: 'data',
@@ -11,6 +12,7 @@ const testConfig = {
     data: path.join(__dirname, 'schema'),
   },
   formConfig,
+  manifest,
   pageHooks: {
     '/health-care/apply/application/introduction': () => {
       cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
@@ -57,7 +59,6 @@ const testConfig = {
       timestamp: '2016-05-16',
     });
   },
-  url: '/health-care/apply/application',
 };
 
-testForm('HCA', testConfig);
+testForm(testConfig);
