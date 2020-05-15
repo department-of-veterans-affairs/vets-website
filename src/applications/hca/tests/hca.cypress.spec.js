@@ -6,7 +6,7 @@ import formConfig from '../config/form';
 
 const testConfig = {
   dataPathPrefix: 'data',
-  dataSets: ['minimal-test', 'maximal-test', 'foreign-address-test'],
+  dataSets: ['minimal-test', 'maximal-test'],
   fixtures: {
     data: path.join(__dirname, 'schema'),
   },
