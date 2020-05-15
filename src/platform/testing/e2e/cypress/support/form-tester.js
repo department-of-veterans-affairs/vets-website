@@ -1,4 +1,4 @@
-import join from 'path';
+import { join } from 'path';
 
 import get from 'platform/utilities/data/get';
 
