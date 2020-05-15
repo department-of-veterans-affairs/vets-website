@@ -2,7 +2,7 @@ import React from 'react';
 import { createId } from '../utils/helpers';
 import classNames from 'classnames';
 
-const CalculatorResultRow = ({
+const CalculatorSheetResultRow = ({
   id,
   label,
   value,
@@ -63,43 +63,43 @@ export const EstimateYourBenefitsSummarySheet = props => (
       {props.expandEybSheet ? (
         <div>
           <div className="out-of-pocket-tuition">
-            <CalculatorResultRow
+            <CalculatorSheetResultRow
               label="GI Bill pays to school"
               value={props.outputs.giBillPaysToSchool.value}
               bold
               visible={props.outputs.giBillPaysToSchool.visible}
             />
-            <CalculatorResultRow
+            <CalculatorSheetResultRow
               label="Tuition and fees charged"
               value={props.outputs.tuitionAndFeesCharged.value}
               visible={props.outputs.tuitionAndFeesCharged.visible}
             />
-            <CalculatorResultRow
+            <CalculatorSheetResultRow
               label="Your scholarships"
               value={props.outputs.yourScholarships.value}
               visible={props.outputs.yourScholarships.visible}
             />
-            <CalculatorResultRow
+            <CalculatorSheetResultRow
               label="Out of pocket tuition"
               value={props.outputs.outOfPocketTuition.value}
               bold
               visible={props.outputs.outOfPocketTuition.visible}
             />
           </div>
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="Housing allowance"
             value={props.outputs.housingAllowance.value}
             bold
             visible={props.outputs.housingAllowance.visible}
           />
 
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="Book stipend"
             value={props.outputs.bookStipend.value}
             bold
             visible={props.outputs.bookStipend.visible}
           />
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="Yellow Ribbon"
             value={
               props.outputs.perTerm.yellowRibbon.terms.find(
@@ -109,7 +109,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
             bold
             visible={props.yellowRibbon}
           />
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="Total paid to you"
             value={props.outputs.totalPaidToYou.value}
             bold
@@ -124,7 +124,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
               <h5 className="vads-u-margin-y--1p5">Housing allowance</h5>
               {props.outputs.perTerm.housingAllowance.visible &&
                 props.outputs.perTerm.housingAllowance.terms.map(term => (
-                  <CalculatorResultRow
+                  <CalculatorSheetResultRow
                     key={`${term.label}`}
                     label={term.label}
                     value={term.value}
@@ -137,19 +137,19 @@ export const EstimateYourBenefitsSummarySheet = props => (
         </div>
       ) : (
         <div>
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="GI Bill pays to school"
             value={props.outputs.giBillPaysToSchool.value}
             boldLabel
             visible={props.outputs.giBillPaysToSchool.visible}
           />
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="Housing allowance"
             value={props.outputs.housingAllowance.value}
             boldLabel
             visible={props.outputs.housingAllowance.visible}
           />
-          <CalculatorResultRow
+          <CalculatorSheetResultRow
             label="Book stipend"
             value={props.outputs.bookStipend.value}
             boldLabel
