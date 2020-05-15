@@ -87,13 +87,13 @@ export const toolUrl = (appId, useSSOe = false) => {
     case widgetTypes.RX:
       return {
         url: mhvUrl(useSSOe, 'web/myhealthevet/refill-prescriptions'),
-        redirect: true,
+        redirect: false,
       };
 
     case widgetTypes.MESSAGING:
       return {
         url: mhvUrl(useSSOe, 'secure-messaging'),
-        redirect: true,
+        redirect: false,
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
@@ -106,7 +106,7 @@ export const toolUrl = (appId, useSSOe = false) => {
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
         url: mhvUrl(useSSOe, 'labs-tests'),
-        redirect: true,
+        redirect: false,
       };
 
     case widgetTypes.CLAIMS_AND_APPEALS:

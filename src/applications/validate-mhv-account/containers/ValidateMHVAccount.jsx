@@ -29,8 +29,9 @@ class ValidateMHVAccount extends React.Component {
     if (prevProps.mhvAccount.loading && !mhvAccount.loading) {
       if (useSSOe) {
         this.redirectSSOe();
+      } else {
+        this.redirect();
       }
-      this.redirect();
     }
   }
 
@@ -77,7 +78,6 @@ class ValidateMHVAccount extends React.Component {
       router.replace(`error/needs-va-patient`);
       return;
     }
-
     window.location = mhvUrl(true, 'home');
   };
 
@@ -86,7 +86,6 @@ class ValidateMHVAccount extends React.Component {
     const { accountLevel, accountState } = mhvAccount;
     const hyphenatedAccountState = accountState.replace(/_/g, '-');
     const gaPrefix = 'register-mhv';
-
     if (!profile.verified) {
       recordEvent({ event: `${gaPrefix}-info-needs-identity-verification` });
       router.replace('verify');
