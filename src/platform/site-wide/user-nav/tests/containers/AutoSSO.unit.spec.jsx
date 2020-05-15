@@ -50,7 +50,7 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it('should call setForceAuth if auth query param is not set to "force-needed"', () => {
+  it('should call setForceAuth if auth query param is set to "force-needed"', () => {
     const stub = sinon.stub(forceAuth, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {
