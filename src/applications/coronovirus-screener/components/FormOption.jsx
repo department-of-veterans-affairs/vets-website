@@ -1,14 +1,6 @@
 import React from 'react';
 
 class FormOption extends React.Component {
-  componentDidMount() {
-    
-  }
-
-  updateField(name, value) {
-    this.props.updateField(name, value);
-    this.forceUpdate();
-  }
 
   render() {
     return (

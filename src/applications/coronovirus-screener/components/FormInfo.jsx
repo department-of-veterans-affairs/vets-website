@@ -12,8 +12,8 @@ class FormInfo extends React.Component {
 
   render() {
     return (
-      <div class="usa-alert usa-alert-info">
-        <div class="usa-alert-body">
+      <div className="usa-alert usa-alert-info">
+        <div className="usa-alert-body">
           { this.props.children }
         </div>
       </div>
