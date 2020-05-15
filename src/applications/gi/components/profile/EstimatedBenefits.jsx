@@ -13,7 +13,9 @@ export const CalculatorResultRow = ({
   visible ? (
     <div
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
-      className={classNames('row', 'calculator-result', { bold })}
+      className={classNames('row', 'calculator-result', {
+        'vads-u-font-weight--bold': bold,
+      })}
     >
       <div className="small-6 columns">
         {header ? <h4>{label}:</h4> : <div>{label}:</div>}
