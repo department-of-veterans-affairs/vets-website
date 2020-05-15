@@ -10,22 +10,26 @@ export default function FormResult({ formState }) {
 
   const pass = (
     <div>
-      <h2>PASS</h2>
-      <div>Valid for: {moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
-      <div>
-        Please show this screen to the staff member at the facility entrance.
-        Thank you for helping us protect you and others during this time.
+      <h2 className="vads-u-font-size--h1">PASS</h2>
+      <h3>Valid for: {moment().format('MMMM Do YYYY, h:mm:ss a')}</h3>
+      <div className="vads-u-font-size--h3">
+        <p>
+          Please show this screen to the staff member at the facility entrance.
+        </p>
+        <p>Thank you for helping us protect you and others during this time.</p>
       </div>
     </div>
   );
 
   const fail = (
     <div>
-      <h2>More screening needed</h2>
-      <div>Valid for: {moment().format('MMMM Do YYYY, h:mm:ss a')}</div>
-      <div>
-        Please show this screen to the staff member at the facility entrance.
-        Thank you for helping us protect you and others during this time.
+      <h2 className="vads-u-font-size--h1">More screening needed</h2>
+      <h3>Valid for: {moment().format('MMMM Do YYYY, h:mm:ss a')}</h3>
+      <div className="vads-u-font-size--h3">
+        <p>
+          Please show this screen to the staff member at the facility entrance.
+        </p>
+        <p>Thank you for helping us protect you and others during this time.</p>
       </div>
     </div>
   );
