@@ -24,7 +24,8 @@ module.exports = on => {
     /**
      * Sets up specified target files or directories as temporary fixtures
      * by creating symlinks under a temp directory in the fixtures folder.
-     * This should only be invoked via cy.syncFixtures, never directly.
+     *
+     * THIS SHOULD ONLY BE INVOKED VIA CY.SYNCFIXTURES, NEVER DIRECTLY.
      *
      * @param {object} args
      * @param {object} args.fixtures - Mapping of fixture paths to target paths.
