@@ -7,8 +7,8 @@ export default function App() {
   return (
     <div className="vads-l-grid-container">
       <AlertBox
-        headline="Welcome to the VA COVID Screening Questionnaire"
-        content="No personal data is collected or tracked."
+        headline="As part of our coronavirus screening, you'll need to answer some questions before entering a VA facility."
+        content="We won't store or share your data."
         status="info"
         isVisible
       />

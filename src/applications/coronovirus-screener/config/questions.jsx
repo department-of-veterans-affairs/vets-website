@@ -1,24 +1,38 @@
+import React from 'react';
+
 export const questions = [
   {
     id: 'fever',
-    text: 'Have you had a fever in the last 24 hours?',
+    text: 'In the past 24 hours, have you had a fever?',
   },
   {
     id: 'cough',
     text:
-      'In the last week, have you had a NEW or WORSENING cough or shortness of breath?',
+      "In the past 7 days, have you had a cough or shortness of breath that's new or getting worse?",
   },
   {
     id: 'flu',
-    text: 'In the last 3 days have you had flu-like symptoms?',
-  },
-  {
-    id: 'exposed',
-    text:
-      'Have you been exposed to someone CONFIRMED with Coronavirus (COVID-19) disease WITHOUT wearing personal protective equipment (PPE)?',
+    text: (
+      <div>
+        In the past 3 days, have you had any of these symptoms:
+        <ul>
+          <li>Fever or feeling feverish (chills, sweating)</li>
+          <li>Sore throat</li>
+          <li>Muscle pain or body aches</li>
+          <li>Vomiting or diarrhea</li>
+          <li>Change in smell or taste</li>
+        </ul>
+      </div>
+    ),
   },
   {
     id: 'congestion',
-    text: 'Do you currently have nasal congestion, sore throat, or runny nose?',
+    text:
+      'Do you currently have a sore throat, runny nose, or nasal congestion?',
+  },
+  {
+    id: 'exposure',
+    text:
+      'In the past 14 days, have you had contact with someone diagnosed with COVID-19?',
   },
 ];
