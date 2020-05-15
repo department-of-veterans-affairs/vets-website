@@ -1,18 +1,22 @@
 import React from 'react';
 
-export default function FormQuestion(props) {
+export default function FormQuestion({ question, value, setFormState, state }) {
   function handleChange(event) {
-    props.onChange(event.target.value);
+    // sets the current question value in form state
+    setFormState({
+      ...state,
+      [question.id]: event.target.value,
+    });
   }
 
   return (
-    <div className="feature" panelName={props.panelName}>
-      <div>{props.question.text}</div>
+    <div className="feature">
+      <h2>{question.text}</h2>
 
       <button
         type="button"
         className={`usa-button-big  ${
-          props.value === 'true' ? 'usa-button' : 'usa-button-secondary'
+          value === 'true' ? 'usa-button' : 'usa-button-secondary'
         }`}
         onClick={handleChange}
         value="true"
@@ -22,14 +26,13 @@ export default function FormQuestion(props) {
       <button
         type="button"
         className={`usa-button-big  ${
-          props.value === 'false' ? 'usa-button' : 'usa-button-secondary'
+          value === 'false' ? 'usa-button' : 'usa-button-secondary'
         }`}
         onClick={handleChange}
         value="false"
       >
         No
       </button>
-      {props.value}
     </div>
   );
 }
