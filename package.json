@@ -43,7 +43,6 @@
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "./script/run-coverage.sh",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
-    "test:cypress": "cypress run",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",
     "test:puppeteer:docker": "IN_DOCKER=true jest -c=config/jest-puppeteer.config.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
