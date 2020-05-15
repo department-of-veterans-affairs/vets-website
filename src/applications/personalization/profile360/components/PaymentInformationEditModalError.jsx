@@ -116,9 +116,10 @@ function UpdatePhoneNumberError({ closeModal, phoneNumberType = 'home' }) {
 
 export default function PaymentInformationEditModalError({
   responseError,
-  closeModal,
+  className,
+  closeModal = () => {},
 }) {
-  let content = <GenericError />;
+  let content = <GenericError error={responseError} />;
   let headline = 'We couldn’t update your bank information';
 
   if (responseError.error) {
@@ -154,7 +155,12 @@ export default function PaymentInformationEditModalError({
   }
 
   return (
-    <AlertBox status="error" headline={headline} isVisible>
+    <AlertBox
+      status="error"
+      headline={headline}
+      isVisible
+      className={className}
+    >
       {content}
     </AlertBox>
   );

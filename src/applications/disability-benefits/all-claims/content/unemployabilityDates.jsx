@@ -12,7 +12,7 @@ const helpClicked = () =>
 
 export const dateDescription = (
   <div>
-    <h5>Disability dates</h5>
+    <h3 className="vads-u-font-size--h5">Disability dates</h3>
     <p>
       Now we’ll ask you to tell us when your disability prevented you from
       working.
@@ -26,17 +26,21 @@ export const dateFieldsDescription = (
       triggerText="How are these dates different?"
       onClick={helpClicked}
     >
-      <h5>Date you became too disabled to work</h5>
+      <h3 className="vads-u-font-size--h5">
+        Date you became too disabled to work
+      </h3>
       <p>
         This is the date you could no longer work full time or part time due to
         your service-connected disability.
       </p>
-      <h5>Date you last worked full-time</h5>
+      <h3 className="vads-u-font-size--h5">Date you last worked full-time</h3>
       <p>
         This is the date you could no longer work full time due to your
         service-connected disability.
       </p>
-      <h5>Date your disability began to affect your full-time employment</h5>
+      <h3 className="vads-u-font-size--h5">
+        Date your disability began to affect your full-time employment
+      </h3>
       <p>
         This is the date when started to reduce your work hours or to take time
         off from work due to your service-connected disability.

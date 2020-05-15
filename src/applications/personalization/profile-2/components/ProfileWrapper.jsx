@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -92,7 +93,7 @@ class ProfileWrapper extends Component {
         {/* Breadcrumbs */}
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          {!onPersonalInformationMobile && <a href="/profile-2/">Profile</a>}
+          {!onPersonalInformationMobile && <Link to="/">Profile</Link>}
           <a href={activeLocation}>{activeRouteName}</a>
         </Breadcrumbs>
 

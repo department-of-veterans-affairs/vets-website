@@ -54,9 +54,9 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
           expanded: !moreThanLevel2SelectedExpanded && isExpanded,
           open: moreThanLevel2SelectedExpanded,
         })}
+        href={href}
         onClick={toggleItemExpanded(id)}
         rel="noopener noreferrer"
-        href={href}
         style={{ paddingLeft: indentation }}
       >
         {/* Label text */}
@@ -75,11 +75,13 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   return (
     <a
       aria-label={label}
+      aria-current={isSelected ? 'page' : undefined}
       className={classNames('va-sidenav-item-label', {
         open: !!(depth >= 2 && isSelected),
       })}
-      rel="noopener noreferrer"
       href={href}
+      onClick={toggleItemExpanded(id)}
+      rel="noopener noreferrer"
       style={{ paddingLeft: indentation }}
     >
       {/* Label text */}

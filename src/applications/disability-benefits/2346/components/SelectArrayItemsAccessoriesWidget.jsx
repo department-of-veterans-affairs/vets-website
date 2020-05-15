@@ -41,11 +41,29 @@ class SelectArrayItemsAccessoriesWidget extends Component {
       accessorySupply => accessorySupply.availableForReorder === false,
     );
 
+    const noAccessoriesContent = (
+      <>
+        <p>
+          You can only order accessories online that you have received in the
+          past two years.
+        </p>
+        <p>
+          If you need accessories like domes, wax guards, cleaning supplies, or
+          desiccant, call the DLC Customer Service Station at{' '}
+          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+            303-273-6200
+          </a>{' '}
+          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+        </p>
+      </>
+    );
     return (
       <>
         {!areAccessorySuppliesIneligible && (
           <>
-            <h4>Select the hearing aid accessories you need</h4>
+            <h3 className="vads-u-font-size--h4">
+              Select the hearing aid accessories you need
+            </h3>
             <p>
               You'll be sent a 6-month supply for each accessory you choose
               below. You can only order each hearing aid accessory once every 5
@@ -90,9 +108,15 @@ class SelectArrayItemsAccessoriesWidget extends Component {
                     </p>
                     <p>
                       If you need an item sooner, call the DLC Customer Service
-                      Station at <a href="tel:303-273-6200">303-273-6200</a> or
-                      email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>
-                      .
+                      Station at{' '}
+                      <a
+                        aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                        href="tel:303-273-6200"
+                      >
+                        303-273-6200
+                      </a>{' '}
+                      or email{' '}
+                      <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                     </p>
                   </>
                 }
@@ -127,14 +151,26 @@ class SelectArrayItemsAccessoriesWidget extends Component {
             )}
           </div>
         ))}
-        <AdditionalInfo triggerText="What if I don't see the accessories I need?">
-          <p>
-            If you need a different accessory or an adjustment to an available
-            item, call the DLC Customer Service Station at{' '}
-            <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-            <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-          </p>
-        </AdditionalInfo>
+        {accessorySupplies.length > 0 && (
+          <AdditionalInfo triggerText="What if I don't see the accessories I need?">
+            <p>
+              If you need a different accessory or an adjustment to an available
+              item, call the DLC Customer Service Station at{' '}
+              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                303-273-6200
+              </a>{' '}
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+            </p>
+          </AdditionalInfo>
+        )}
+        {accessorySupplies.length <= 0 && (
+          <AlertBox
+            headline="You're hearing accessories aren't available for online ordering"
+            content={noAccessoriesContent}
+            status="info"
+            isVisible
+          />
+        )}
       </>
     );
   }
@@ -168,7 +204,7 @@ SelectArrayItemsAccessoriesWidget.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  supplies: state.form?.loadedData?.formData?.supplies,
+  supplies: state.form?.data?.supplies,
   formData: state.form?.data,
   selectedProducts: state.form?.data?.selectedProducts,
 });

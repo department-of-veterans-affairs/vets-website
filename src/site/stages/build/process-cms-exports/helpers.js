@@ -4,13 +4,16 @@ const path = require('path');
 const get = require('lodash/get');
 
 /**
- * This assumes the tome-sync output is sibling to the vets-website
- * directory.
+ * The path to the CMS export content.
+ *
+ * @param {String} buildtype - The build type
+ * @return {String} - The path to the saved CMS export content
  */
-const contentDir = path.join(
-  __dirname,
-  '../../../../../../tome-sync-output/content/',
-);
+const defaultCMSExportContentDir = buildtype =>
+  path.join(
+    __dirname,
+    `../../../../../.cache/${buildtype}/cms-export-content/`,
+  );
 
 /**
  * The sub-type can be found in a few different properties, depending
@@ -39,7 +42,7 @@ function getContentModelType(entity) {
 }
 
 module.exports = {
-  contentDir,
+  defaultCMSExportContentDir,
   typeProperties,
   getContentModelType,
 
@@ -114,11 +117,16 @@ module.exports = {
   },
 
   /**
-   * Get all the starting nodes
+   * Get all the starting node IDs.
+   *
+   * @param {String} dir - The path to the directory with the content JSON files
+   * @return {String[][]} - An array of tuples consisting of the entity type
+   *                        (always "node") and UUID.
+   *                        E.g. [["node", "123"], ["node", "456"]]
    */
-  readAllNodeNames(dirName = contentDir) {
+  readAllNodeNames(dir) {
     return fs
-      .readdirSync(dirName)
+      .readdirSync(dir)
       .filter(name => name.startsWith('node'))
       .map(name => name.split('.').slice(0, 2));
   },

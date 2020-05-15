@@ -33,7 +33,7 @@ const addressDescription = (
     <p>
       To update your address for all of your VA accounts, you’ll need to go to
       your profile page.{' '}
-      <a href="va.gov/profile">
+      <a href="https://va.gov/profile">
         View the address that's on file in your profile.
       </a>
     </p>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
 import environment from 'platform/utilities/environment';
+import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -238,46 +239,60 @@ export class Modals extends React.Component {
         </p>
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('yribbon')}
-      >
-        <h3>Yellow Ribbon</h3>
-        <p>
-          The{' '}
-          <a
-            title="Post-9/11 GI Bill"
-            href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Post-9/11 GI Bill
-          </a>{' '}
-          can cover all in-state tuition and fees at public degree granting
-          schools, but may not cover all private degree granting schools and
-          out-of-state tuition. The Yellow Ribbon Program provides additional
-          support in those situations. Institutions voluntarily enter into an
-          agreement with VA to fund uncovered charges. VA matches each dollar of
-          unmet charges the institution agrees to contribute, up to the total
-          cost of the tuition and fees.{' '}
-          <a
-            title="Click here for FAQs about the Yellow Ribbon Program"
-            href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Click here for FAQs about the Yellow Ribbon Program
-          </a>
-        </p>
-        <p>
-          Veterans and Fry Scholarship and Purple Heart recipients are entitled
-          to the maximum benefit rate or their designated transferees can
-          receive this funding. Active-duty service members and their spouses
-          aren’t eligible for this program (child transferees of active-duty
-          service members may be eligible if the service member is qualified at
-          the 100% rate). This information will be updated quarterly.
-        </p>
-      </Modal>
+      {/* prod flag for 8524 */}
+      {environment.isProduction() && (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
+          <h3>Yellow Ribbon</h3>
+          <p>
+            The{' '}
+            <a
+              title="Post-9/11 GI Bill"
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Post-9/11 GI Bill
+            </a>{' '}
+            can cover all in-state tuition and fees at public degree granting
+            schools, but may not cover all private degree granting schools and
+            out-of-state tuition. The Yellow Ribbon Program provides additional
+            support in those situations. Institutions voluntarily enter into an
+            agreement with VA to fund uncovered charges. VA matches each dollar
+            of unmet charges the institution agrees to contribute, up to the
+            total cost of the tuition and fees.{' '}
+            <a
+              title="Click here for FAQs about the Yellow Ribbon Program"
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Click here for FAQs about the Yellow Ribbon Program
+            </a>
+          </p>
+          <p>
+            Veterans and Fry Scholarship and Purple Heart recipients are
+            entitled to the maximum benefit rate or their designated transferees
+            can receive this funding. Active-duty service members and their
+            spouses aren’t eligible for this program (child transferees of
+            active-duty service members may be eligible if the service member is
+            qualified at the 100% rate). This information will be updated
+            quarterly.
+          </p>
+        </Modal>
+      )}
+
+      {/* prod flag for 8524 */}
+      {!environment.isProduction() && (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
+          <YellowRibbonModalContent />
+        </Modal>
+      )}
 
       <Modal
         onClose={this.props.hideModal}
@@ -616,7 +631,10 @@ export class Modals extends React.Component {
           <li>
             Certificate of Eligibility (COE) <strong>or</strong>
           </li>
-          <li>Certificate of Eligibility (COE) and additional criteria</li>
+          <li>
+            Certificate of Eligibility (COE) and additional criteria such as an
+            award letter or other documents the school specifies
+          </li>
         </ul>
         <p>
           <strong>
@@ -626,20 +644,20 @@ export class Modals extends React.Component {
           </strong>{' '}
           The restriction on penalties doesn't apply if the beneficiary owes
           additional fees to the school beyond the tuition and fees that VA
-          pays. Students are protected up to 90 days from the beginning of the
-          term from these penalties.
+          pays. Students are protected from these penalties up to 90 days from
+          the beginning of the term.
         </p>
         <p>
-          Contact this institution's school certifying official to learn more
-          about their policy or{' '}
+          Contact the School Certifying Official (SCO) to learn more about the
+          school’s policy.{' '}
           <a
             href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
             target="_blank"
             rel="noopener noreferrer"
           >
-            learn more about the Transition Act
-          </a>
-          .
+            Read our FAQs on the Veterans Benefits and Transition Act
+          </a>{' '}
+          to learn more about protections against late VA payments.
         </p>
       </Modal>
     </span>
@@ -900,40 +918,53 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcYr')}
-        >
-          <h3>Yellow Ribbon</h3>
-          <p>
-            The Post-9/11 GI Bill can cover all in-state tuition and fees at
-            public degree granting schools, but may not cover all private degree
-            granting schools and out-of-state tuition. The Yellow Ribbon Program
-            provides additional support in those situations. Institutions
-            voluntarily enter into an agreement with VA to fund uncovered
-            charges. VA matches each dollar of unmet charges that the
-            institution agrees to contribute, up to the total cost of the
-            tuition and fees. For Frequently Asked Questions about the Yellow
-            Ribbon Program, visit{' '}
-            <a
-              title="Click here for FAQs about the Yellow Ribbon Program"
-              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              this page.
-            </a>
-          </p>
-          <p>
-            Veterans and Fry Scholarship and Purple Heart recipients are
-            entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active-duty service members and their
-            spouses are not eligible for this program (child transferees of
-            active-duty service members may be eligible if the service member is
-            qualified at the 100% rate). This information will be updated
-            quarterly.
-          </p>
-        </Modal>
+        {/* prod flag for 8524 */}
+        {environment.isProduction() && (
+          <Modal
+            onClose={this.props.hideModal}
+            visible={this.shouldDisplayModal('calcYr')}
+          >
+            <h3>Yellow Ribbon</h3>
+            <p>
+              The Post-9/11 GI Bill can cover all in-state tuition and fees at
+              public degree granting schools, but may not cover all private
+              degree granting schools and out-of-state tuition. The Yellow
+              Ribbon Program provides additional support in those situations.
+              Institutions voluntarily enter into an agreement with VA to fund
+              uncovered charges. VA matches each dollar of unmet charges that
+              the institution agrees to contribute, up to the total cost of the
+              tuition and fees. For Frequently Asked Questions about the Yellow
+              Ribbon Program, visit{' '}
+              <a
+                title="Click here for FAQs about the Yellow Ribbon Program"
+                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page.
+              </a>
+            </p>
+            <p>
+              Veterans and Fry Scholarship and Purple Heart recipients are
+              entitled to the maximum benefit rate or their designated
+              transferees can receive this funding. Active-duty service members
+              and their spouses are not eligible for this program (child
+              transferees of active-duty service members may be eligible if the
+              service member is qualified at the 100% rate). This information
+              will be updated quarterly.
+            </p>
+          </Modal>
+        )}
+
+        {/* prod flag for 8524 */}
+        {!environment.isProduction() && (
+          <Modal
+            onClose={this.props.hideModal}
+            visible={this.shouldDisplayModal('calcYr')}
+          >
+            <YellowRibbonModalContent />
+          </Modal>
+        )}
 
         <Modal
           onClose={this.props.hideModal}

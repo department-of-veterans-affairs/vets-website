@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FacilityTypeDropdown from './FacilityTypeDropdown';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import { LocationType } from '../constants';
@@ -8,6 +7,7 @@ import {
   benefitsServices,
   vetCenterServices,
   urgentCareServices,
+  facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -20,8 +20,8 @@ class SearchControls extends Component {
     this.props.onChange({ searchString: e.target.value });
   };
 
-  handleFacilityTypeChange = option => {
-    this.props.onChange({ facilityType: option, serviceType: null });
+  handleFacilityTypeChange = e => {
+    this.props.onChange({ facilityType: e.target.value, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
@@ -35,11 +35,9 @@ class SearchControls extends Component {
 
     const { facilityType, serviceType } = this.props.currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType) {
-        focusElement('#service-type-ahead-input');
-        return;
-      }
+    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
+      focusElement('#service-type-ahead-input');
+      return;
     }
 
     // Report event here to only send analytics event when a user clicks on the button
@@ -49,6 +47,38 @@ class SearchControls extends Component {
     });
 
     this.props.onSubmit();
+  };
+
+  renderFacilityTypeDropdown = () => {
+    const { showCommunityCares } = this.props;
+    const { facilityType } = this.props.currentQuery;
+
+    const locationOptions = facilityTypesOptions;
+    if (!showCommunityCares) {
+      delete locationOptions.cc_provider;
+    }
+    const options = Object.keys(locationOptions).map(facility => (
+      <option key={facility} value={facility}>
+        {locationOptions[facility]}
+      </option>
+    ));
+    return (
+      <span>
+        <label htmlFor="facility-type-dropdown">
+          Choose a VA facility type
+        </label>
+        <select
+          id="facility-type-dropdown"
+          aria-label="Choose a facility type"
+          value={facilityType || ''}
+          className="bor-rad"
+          onChange={this.handleFacilityTypeChange}
+          style={{ fontWeight: 'bold' }}
+        >
+          {options}
+        </select>
+      </span>
+    );
   };
 
   renderServiceTypeDropdown = () => {
@@ -114,7 +144,7 @@ class SearchControls extends Component {
   };
 
   render() {
-    const { currentQuery, isMobile, showCommunityCares } = this.props;
+    const { currentQuery, isMobile } = this.props;
 
     if (currentQuery.active && isMobile) {
       return (
@@ -153,12 +183,7 @@ class SearchControls extends Component {
               </div>
               <div className="row">
                 <div className="columns large-1-2">
-                  <FacilityTypeDropdown
-                    facilityType={this.props.currentQuery.facilityType}
-                    onChange={this.handleFacilityTypeChange}
-                    showCommunityCares={showCommunityCares}
-                    style={{ fontWeight: 'bold' }}
-                  />
+                  {this.renderFacilityTypeDropdown()}
                 </div>
                 <div className="columns large-1-2">
                   {this.renderServiceTypeDropdown()}

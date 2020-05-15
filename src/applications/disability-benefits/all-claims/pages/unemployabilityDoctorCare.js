@@ -37,8 +37,7 @@ export const uiSchema = {
           false,
         ),
         dates: {
-          'ui:title': ' ',
-          'ui:description': doctorDatesDecription,
+          'ui:title': doctorDatesDecription,
           'ui:widget': 'textarea',
           'ui:options': {
             rows: 5,

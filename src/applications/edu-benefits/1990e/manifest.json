@@ -2,30 +2,5 @@
   "appName": "22-1990E Education benefits form",
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "1990e-edu-benefits",
-  "rootUrl": "/education/apply-for-education-benefits/application/1990E",
-  "production": true,
-  "template": {
-    "title": "Apply For Education Benefits",
-    "heading": "Apply for education benefits",
-    "display_title": "Apply to use transferred benefits",
-    "layout": "page-react.html",
-    "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
-    "order": 4,
-    "hideFromSidebar": true,
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "name": "Education and training",
-        "path": "education/"
-      },
-      {
-        "name": "How to apply",
-        "path": "education/how-to-apply/"
-      },
-      {
-        "name": "Apply for education benefits",
-        "path": "education/apply-for-education-benefits/application/1990E"
-      }
-    ]
-  }
+  "rootUrl": "/education/apply-for-education-benefits/application/1990E"
 }

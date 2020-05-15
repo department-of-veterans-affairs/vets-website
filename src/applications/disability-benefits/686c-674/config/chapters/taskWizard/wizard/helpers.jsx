@@ -43,3 +43,16 @@ export const validateAtLeastOneSelected = (errors, fieldData) => {
     errors.addError('Please select at least one option');
   }
 };
+
+export const OptionsReviewField = props => {
+  const { children } = props;
+  if (!children?.props.formData) {
+    return null;
+  }
+  return (
+    <div className="review-row">
+      <dt>{children?.props?.uiSchema['ui:title']}</dt>
+      <dd />
+    </div>
+  );
+};

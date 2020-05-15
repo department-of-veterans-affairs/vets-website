@@ -20,7 +20,7 @@ describe('5495 schema tests', () => {
       const result = v.validate(JSON.parse(submitData), fullSchema5495);
 
       if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+        console.log(result.errors); // eslint-disable-line no-console
       }
       expect(result.valid).to.be.true;
     });

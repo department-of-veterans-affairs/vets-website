@@ -31,6 +31,12 @@ describe('<ProfileView/>', () => {
     wrapper.unmount();
   });
 
+  it('should render BreadCrumbs', () => {
+    const wrapper = enzyme.shallow(<ProfileView {...props} />);
+    expect(wrapper.find('Breadcrumbs')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
   it('should prompt to increase LOA when a user is not verified', () => {
     props.user.profile.verified = false;
     const wrapper = enzyme.shallow(<ProfileView {...props} />);

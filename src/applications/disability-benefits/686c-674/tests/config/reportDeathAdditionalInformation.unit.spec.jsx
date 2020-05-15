@@ -60,7 +60,7 @@ describe('686 report dependent death additional information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
