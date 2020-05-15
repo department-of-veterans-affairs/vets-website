@@ -11,6 +11,7 @@ export default function ReviewDirectScheduleInfo({
   facility,
   clinic,
   pageTitle,
+  systemId,
 }) {
   return (
     <div>
@@ -20,15 +21,15 @@ export default function ReviewDirectScheduleInfo({
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <AppointmentDate
         dates={data.calendarData.selectedDates}
-        systemId={facility.rootStationCode}
+        systemId={systemId}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">
         {clinic.clinicFriendlyLocationName || clinic.clinicName}
       </h3>
-      {facility.authoritativeName}
+      {facility.name}
       <br />
-      {facility.city}, {facility.stateAbbrev}
+      {facility.address[0].city}, {facility.address[0].state}
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

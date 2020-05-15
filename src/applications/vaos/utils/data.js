@@ -4,13 +4,14 @@ import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
 import { getSiteIdFromOrganization } from '../services/organization';
 import {
   getTypeOfCare,
-  getParentFacilities,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
-  getRootOrganizationFromChosenParent,
+  getSiteIdForChosenFacility,
+  getChosenParentInfo,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { getFacilityIdFromLocation } from '../services/location';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -42,27 +43,27 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentOrg = getParentFacilities(state).find(
-    parent => parent.id === data.vaParent,
-  );
-  const parentSiteId = getSiteIdFromOrganization(parentOrg);
-  const rootOrg = getRootOrganizationFromChosenParent(state);
-  const rootSiteId = getSiteIdFromOrganization(rootOrg);
+  const parentOrg = getChosenParentInfo(state);
+  // Calling this a facility id instead of a site id because it might be 3 or 5 digits
+  // However, in the future, I believe all of these ids from an Organization will be 3 digits
+  const parentFacilityId = getSiteIdFromOrganization(parentOrg);
+  const siteId = getSiteIdForChosenFacility(state);
+  const facilityId = getFacilityIdFromLocation(facility);
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
-    appointmentType: getTypeOfCare(data).name,
+    appointmentType: typeOfCare.name,
     cityState: {
-      institutionCode: parentSiteId,
-      rootStationCode: rootSiteId,
-      parentStationCode: parentSiteId,
+      institutionCode: parentFacilityId,
+      rootStationCode: siteId,
+      parentStationCode: parentFacilityId,
       adminParent: true,
     },
     facility: {
-      name: facility.authoritativeName,
-      facilityCode: data.vaFacility,
-      parentSiteCode: parentSiteId,
+      name: facility.name,
+      facilityCode: facilityId,
+      parentSiteCode: parentFacilityId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -125,9 +126,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const organization = getParentFacilities(state).find(
-    sys => sys.id === data.communityCareSystemId,
-  );
+  const organization = getChosenParentInfo(state, data.communityCareSystemId);
   const siteId = getSiteIdFromOrganization(organization);
   let cityState;
 
@@ -217,7 +216,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.institutionTimezone,
+    timeZone: facility.legacyVAR.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',
