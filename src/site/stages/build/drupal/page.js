@@ -308,6 +308,7 @@ function compilePage(page, contentData) {
 
   switch (entityBundle) {
     case 'office':
+    case 'make_an_appointment':
     case 'publication_listing':
     case 'locations_listing':
     case 'event_listing':

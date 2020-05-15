@@ -1,0 +1,87 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+<div class="interior" id="content">
+  <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+      {% if entityUrl.path == "/outreach-and-events" %}
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
+      {% else %}
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      {% endif %}
+      <div class="usa-width-three-fourths">
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        <article aria-labelledby="article-heading" role="region"
+          class="usa-content">
+          <h1 id="article-heading">{{ title }}</h1>
+          {% if fieldNationalIntroText %}
+          <div class="va-introtext">
+            <p>{{ fieldNationalIntroText.entity.body.processed | replace: '[wysiwyg_custom:name]', fieldOffice.entity.title }}</p>
+          </div>
+          {% endif %}
+
+          {% assign isContactPage = entityUrl.path | isPage: "contact-us" %}
+          {% assign isProgramsChildPage = entityUrl | isChildPageOf: "Programs" %}
+          {% if isContactPage || isProgramsChildPage %}
+          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
+            {% assign basePath = entityUrl.path | regionBasePath %}
+            {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}
+          </div>
+          {% endif %}
+
+          {% if fieldAlert != empty and fieldAlert.length %}
+          {% for alert in fieldAlert %}
+          {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+          {% endfor %}
+          {% endif %}
+
+          <section id="table-of-contents">
+            <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this
+              page</h2>
+            <ul class="usa-unstyled-list"></ul>
+          </section>
+
+          {% if fieldFeaturedContentBlocks %}
+          <div class="feature">
+            {{ fieldFeaturedContentBlocks.entity.body.processed | replace: '[wysiwyg_custom:name]', fieldOffice.entity.title }}</div>
+          {% endif %}
+
+          {% if fieldMainContentBlocks %}
+          {% for block in fieldMainContentBlocks %}
+          <div class="processed-content">
+            {{ block.entity.body.processed | replace: '[wysiwyg_custom:name]', fieldOffice.entity.title }}
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          {% for block in fieldContentBlock %}
+          {% if block.entity.entityBundle != "staff_profile" %}
+          {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
+          {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+          {% include {{ bundleComponentWithExtension }} with entity = block.entity %}
+          {% endif %}
+          {% if block.entity.entityBundle == "staff_profile" %}
+          {% include "src/site/includes/bioParagraph.drupal.liquid" with bio = block.entity.queryFieldStaffProfile.entities.0 %}
+          {% endif %}
+          {% endfor %}
+
+          <!-- Social Links -->
+          {% if isContactPage %}
+          {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
+          {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldOffice.entity.title %}
+          {% endif %}
+          {% endif %}
+        </article>
+
+        <div class="last-updated usa-content">
+          Last updated:
+          <time
+            datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

@@ -22,6 +22,7 @@ const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const storyListingPage = require('./storyListingPage.graphql');
 const leadershipListingPage = require('./leadershipListingPage.graphql');
+const makeAnAppointment = require('./makeAnAppointment.graphql');
 const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
 const healthServicesListingPage = require('./healthServicesListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
@@ -69,6 +70,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${storyListingPage}
   ${leadershipListingPage}
   ${healthServicesListingPage}
+  ${makeAnAppointment}
   ${pressReleasesListingPage}
   ${locationListingPage}
 `;
@@ -92,6 +94,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... vamcTopTaskPage
         ... pressReleasePage
         ... vamcOperatingStatusAndAlerts
+        ... makeAnAppointment
         ... newsStoryPage
         ... eventPage
         ... officePage
