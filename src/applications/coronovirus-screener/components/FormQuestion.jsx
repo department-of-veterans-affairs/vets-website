@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function FormQuestion({ question, value, setFormState, state }) {
+export default function FormQuestion({ question, value, state, setFormState }) {
   function handleChange(event) {
     // sets the current question value in form state
     setFormState({
