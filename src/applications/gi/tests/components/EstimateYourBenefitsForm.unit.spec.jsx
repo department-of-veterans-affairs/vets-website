@@ -124,14 +124,18 @@ describe('<EstimateYourBenefitsForm>', () => {
     expect(errorMessage.length).to.equal(0);
   });
 
-  it('should invoke updateEstimatedBenefits on "Calculate benefits" click', () => {
+  it('should invoke updateEstimatedBenefits on "Calculate benefits" click, with valid data', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
     const updateEstimatedBenefits = sinon.spy();
     const tree = mount(
       <EstimateYourBenefitsForm
         profile={props.profile}
         eligibility={props.eligibility}
         eligibilityChange={() => {}}
-        inputs={{}}
+        inputs={validInput}
         displayedInputs={{}}
         showModal={() => {}}
         calculatorInputChange={() => {}}
