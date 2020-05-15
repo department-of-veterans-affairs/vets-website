@@ -8,11 +8,11 @@ export default function FormResult({ formState }) {
   // check if questions have all been answered
 
   if (Object.values(formState).length < questions.length) {
-    result = 'incomplete';
+    result = 'Please answer all the questions above.';
   } else if (Object.values(formState).includes('yes')) {
-    result = 'fail';
+    result = 'More screening needed.';
   } else {
-    result = 'pass';
+    result = 'Pass';
   }
 
   return (

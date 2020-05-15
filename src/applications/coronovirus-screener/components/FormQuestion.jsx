@@ -2,15 +2,14 @@ import React from 'react';
 
 export default function FormQuestion({
   question,
-  value,
-  state,
+  formState,
   setFormState,
   scrollNext,
 }) {
   function handleChange(event) {
     // sets the current question value in form state
     setFormState({
-      ...state,
+      ...formState,
       [question.id]: event.target.value,
     });
     scrollNext();
@@ -20,20 +19,26 @@ export default function FormQuestion({
     <div className="feature">
       <h2>{question.text}</h2>
 
+      {/* yes button */}
       <button
         type="button"
         className={`usa-button-big  ${
-          value === 'yes' ? 'usa-button' : 'usa-button-secondary'
+          formState[question.id] === 'yes'
+            ? 'usa-button'
+            : 'usa-button-secondary'
         }`}
         onClick={handleChange}
         value="yes"
       >
         Yes
       </button>
+      {/* no button */}
       <button
         type="button"
         className={`usa-button-big  ${
-          value === 'no' ? 'usa-button' : 'usa-button-secondary'
+          formState[question.id] === 'no'
+            ? 'usa-button'
+            : 'usa-button-secondary'
         }`}
         onClick={handleChange}
         value="no"

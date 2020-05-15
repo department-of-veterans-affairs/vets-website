@@ -25,9 +25,8 @@ export default function MultiQuestionForm({ questions }) {
       <FormQuestion
         key={question.id}
         question={question}
-        value={formState[question.id]}
         setFormState={setFormState}
-        state={formState}
+        formState={formState}
         scrollNext={() =>
           scrollTo(`multi-question-form-${index + 1}-scroll-element`)
         }
