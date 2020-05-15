@@ -37,7 +37,7 @@ class HeadingSummary extends React.Component {
     };
 
     return (
-      <div className="heading row">
+      <div className="heading row vads-u-margin-bottom--2">
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1 tabIndex={-1}>{it.name}</h1>
           <SchoolClosingHeading
