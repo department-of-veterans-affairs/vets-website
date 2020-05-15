@@ -137,7 +137,7 @@
     }
 
     .calculator-result {
-      .bold {
+      &.bold, .bold {
         font-weight: bold;
       }
 
