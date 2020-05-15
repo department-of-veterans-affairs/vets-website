@@ -1,12 +1,14 @@
+import path from 'path';
+
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 
 import formConfig from '../config/form';
-import maximalTest from './data/maximal-test.json';
-
-const dataSets = { maximalTest };
 
 const testConfig = {
-  dataSets,
+  dataSets: ['maximal-test'],
+  fixtures: {
+    data: path.join(__dirname, 'data'),
+  },
   formConfig,
   pageHooks: {
     '/health-care/apply/application/introduction': () => {

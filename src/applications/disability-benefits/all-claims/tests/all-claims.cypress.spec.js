@@ -1,9 +1,10 @@
+import path from 'path';
+
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 
 import formConfig from '../config/form';
 
 import {
-  dataSets,
   mockUser,
   mockItf,
   mockDocumentUpload,
@@ -13,7 +14,10 @@ import {
 
 const testConfig = {
   dataPathPrefix: 'data',
-  dataSets,
+  dataSets: ['maximal-test', 'minimal-test', 'newOnly-test'],
+  fixtures: {
+    data: path.join(__dirname, 'data'),
+  },
   formConfig,
   pageHooks: {
     '/disability/file-disability-claim-form-21-526ez/introduction': () => {

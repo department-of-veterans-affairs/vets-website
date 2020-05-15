@@ -23,3 +23,15 @@ Cypress.Commands.add(
       .trigger('change', { force: true });
   },
 );
+
+/**
+ * Runs task to sync fixtures under a temp path in the Cypress fixtures folder
+ * then overwrites cy.fixture to look for fixtures under that temp path.
+ */
+Cypress.Commands.add('syncFixtures', fixtures => {
+  cy.task('_syncFixtures', fixtures);
+
+  Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
+    originalFn(`tmp/${path}`, options),
+  );
+});

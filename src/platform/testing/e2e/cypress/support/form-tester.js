@@ -420,7 +420,13 @@ const testForm = (testDescription, testConfig) => {
 
   describe(testDescription, () => {
     before(() => {
-      if (testConfig.setup) testConfig.setup();
+      if (!testConfig.fixtures.data) {
+        throw new Error('Required data fixture is undefined.');
+      }
+
+      cy.syncFixtures(testConfig.fixtures).then(() => {
+        if (testConfig.setup) testConfig.setup();
+      });
     });
 
     // Aliases and the stub server reset before each test,
@@ -434,14 +440,16 @@ const testForm = (testDescription, testConfig) => {
         .as('getMaintenanceWindows');
     });
 
-    Object.keys(testConfig.dataSets).forEach(testKey => {
+    testConfig.dataSets.forEach(testKey => {
       context(testKey, () => {
         beforeEach(() => {
-          cy.wrap(testConfig.dataSets[testKey]).as('testData');
-
-          if (testConfig.setupPerTest) {
-            testConfig.setupPerTest(testConfig);
-          }
+          cy.fixture(`data/${testKey}`)
+            .as('testData')
+            .then(() => {
+              if (testConfig.setupPerTest) {
+                testConfig.setupPerTest(testConfig);
+              }
+            });
         });
 
         it('fills the form', () => {

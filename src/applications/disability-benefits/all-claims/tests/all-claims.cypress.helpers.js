@@ -2,16 +2,6 @@ import moment from 'moment';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import maximalTest from './data/maximal-test.json';
-import minimalTest from './data/minimal-test.json';
-import newOnlyTest from './data/newOnly-test.json';
-
-export const dataSets = {
-  maximalTest,
-  minimalTest,
-  newOnlyTest,
-};
-
 /* eslint-disable camelcase */
 export const mockUser = {
   data: {
