@@ -145,7 +145,7 @@ export class AuthApp extends React.Component {
       .catch(
         this.props.location.query.auth === 'force-needed'
           ? this.handleAuthForceNeeded
-          : this.handleAutError,
+          : this.handleAuthError,
       );
   };
 
