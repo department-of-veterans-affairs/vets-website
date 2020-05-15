@@ -5,9 +5,10 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import formConfig from '../config/form';
 
 const testConfig = {
+  dataPathPrefix: 'data',
   dataSets: ['maximal-test'],
   fixtures: {
-    data: path.join(__dirname, 'data'),
+    data: path.join(__dirname, 'schema'),
   },
   formConfig,
   pageHooks: {
