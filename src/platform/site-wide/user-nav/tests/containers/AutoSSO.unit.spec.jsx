@@ -35,7 +35,7 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it('should call setForceAuth if auth query param is not set to "failed"', () => {
+  it('should call setForceAuth if auth query param is set to "failed"', () => {
     const stub = sinon.stub(forceAuth, 'setForceAuth');
     const oldWindow = global.window;
     global.window = {
