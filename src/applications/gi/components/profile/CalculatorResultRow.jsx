@@ -12,16 +12,15 @@ export const CalculatorResultRow = ({
   labelBold,
   valueBold,
 }) => {
-  const boldAll = !labelBold && !valueBold && bold ? 'bold' : null;
-  const boldLabel = labelBold ? 'bold' : null;
-  const boldValue = valueBold ? 'bold' : null;
+  const boldAll = !labelBold && !valueBold && bold;
+  const boldClass = boldCheck => (boldCheck ? 'bold' : null);
 
   return visible ? (
     <div
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
-      className={classNames('row', 'calculator-result', boldAll)}
+      className={classNames('row', 'calculator-result', boldClass(boldAll))}
     >
-      <div className={classNames('small-6', 'columns', boldLabel)}>
+      <div className={classNames('small-6', 'columns', boldClass(labelBold))}>
         {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>
       <div
@@ -29,7 +28,7 @@ export const CalculatorResultRow = ({
           'small-6',
           'columns',
           'vads-u-text-align--right',
-          boldValue,
+          boldClass(valueBold),
         )}
       >
         {header ? <h5>{value}</h5> : <div>{value}</div>}
