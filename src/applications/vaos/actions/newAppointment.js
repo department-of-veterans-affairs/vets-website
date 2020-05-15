@@ -31,7 +31,6 @@ import {
   getOrganizations,
   getIdOfRootOrganization,
 } from '../services/organization';
-import { getSupportedLocationsByTypeOfCare } from '../services/location';
 import {
   getSupportedLocationsByTypeOfCare,
   getLocation,

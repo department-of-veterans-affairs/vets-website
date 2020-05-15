@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export default function CancelVideoAppointmentModal({ onClose, facility }) {
+  const phone = facility.telecom?.find(tele => tele.system === 'phone');
   return (
     <Modal
       id="cancelAppt"
@@ -19,15 +20,13 @@ export default function CancelVideoAppointmentModal({ onClose, facility }) {
             <br />
           </>
         ) : null}
-        {facility?.phone?.main && (
+        {!!phone && (
           <dl className="vads-u-margin-y--0">
             <dt className="vads-u-display--inline">
               <strong>Main phone:</strong>
             </dt>{' '}
             <dd className="vads-u-display--inline">
-              <a href={`tel:${facility.phone.main.replace(/[^0-9]/g, '')}`}>
-                {facility.phone.main}
-              </a>
+              <a href={`tel:${phone.replace(/[^0-9]/g, '')}`}>{phone}</a>
             </dd>
           </dl>
         )}

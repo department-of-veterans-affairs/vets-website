@@ -265,12 +265,8 @@ export function getFacilityPageInfo(state) {
     hasEligibilityError:
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
-    // Remove parse function when converting this call to FHIR service
-    parentDetails:
-      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaParent)],
-    // Remove parse function when converting this call to FHIR service
-    facilityDetails:
-      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaFacility)],
+    parentDetails: newAppointment?.facilityDetails[data.vaParent],
+    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
