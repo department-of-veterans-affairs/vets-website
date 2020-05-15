@@ -20,7 +20,12 @@ Cypress.Commands.add(
         input[0].files = dataTransfer.files;
         return input;
       })
-      .trigger('change', { force: true });
+      .trigger('change', { force: true, log: false });
+
+    Cypress.log({
+      message: fileName,
+      consoleProps: () => ({ fileName, fileType, input }),
+    });
   },
 );
 
@@ -35,7 +40,10 @@ Cypress.Commands.add(
    * then overwrites cy.fixture to look for fixtures under that temp path.
    */
   Cypress.Commands.add('syncFixtures', fixtures => {
-    cy.task('_syncFixtures', { fixtures, initialized }).then(dir => {
+    const args = { fixtures, initialized };
+    const opts = { log: false };
+
+    cy.task('_syncFixtures', args, opts).then(dir => {
       if (!initialized) {
         Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
           originalFn(`${dir}/${path}`, options),
@@ -43,6 +51,10 @@ Cypress.Commands.add(
 
         initialized = true;
       }
+    });
+
+    Cypress.log({
+      consoleProps: () => ({ fixtures }),
     });
   });
 })();
