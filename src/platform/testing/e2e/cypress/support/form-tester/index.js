@@ -12,30 +12,6 @@ const FIELD_SELECTOR = 'input, select, textarea';
 const COMMAND_OPTIONS = { log: false };
 
 /**
- * Builds an array of array page objects to be used for matching against
- * page URLs in order to determine whether a page is an array page, and if so,
- * which index in the array it represents.
- *
- * @param {Object} formConfig - The config used to build the form.
- * @returns {Array} Array of array pages with regex patterns.
- */
-const createArrayPageObjects = formConfig => {
-  // Pull pages from the form config that have an arrayPath.
-  const arrayPages = Object.values(formConfig.chapters).reduce(
-    (acc, { pages }) => [
-      ...acc,
-      ...Object.values(pages).filter(({ arrayPath }) => arrayPath),
-    ],
-    [],
-  );
-
-  return (arrayPages || []).map(({ arrayPath, path }) => ({
-    arrayPath,
-    regex: new RegExp(path.replace(':index', '(\\d+)$')),
-  }));
-};
-
-/**
  * Builds an object from a form field with attributes that are used
  * to look up test data and enter that data into the field.
  *
@@ -80,11 +56,11 @@ const createFieldObject = element => {
  * @param {string} pathname - The pathname of the current page.
  */
 const getArrayItemPath = pathname => {
-  cy.get('@arrayPageObjects', COMMAND_OPTIONS).then(arrayPageObjects => {
+  cy.get('@arrayPages', COMMAND_OPTIONS).then(arrayPages => {
     let index;
 
     const { arrayPath } =
-      arrayPageObjects.find(({ regex }) => {
+      arrayPages.find(({ regex }) => {
         const match = pathname.match(regex);
         if (match) [, index] = match;
         return match;
@@ -415,29 +391,27 @@ Cypress.Commands.add('fillPage', () => {
  * @param {TestConfig} testConfig
  */
 const testForm = testConfig => {
-  const { appName, rootUrl } = testConfig.manifest;
-  const arrayPageObjects = createArrayPageObjects(testConfig.formConfig);
-
-  describe(appName, () => {
+  describe(testConfig.appName, () => {
     before(() => {
-      if (!testConfig.fixtures.data) {
+      const { fixtures, setup } = testConfig;
+
+      if (!fixtures.data) {
         throw new Error('Required data fixture is undefined.');
       }
 
-      cy.syncFixtures(testConfig.fixtures).then(() => {
-        if (testConfig.setup) testConfig.setup();
-      });
+      cy.syncFixtures(fixtures).then(setup);
 
       // Load example upload data as a fixture.
       cy.syncFixtures({
-        'example-upload.png': join(__dirname, '../../..', 'example-upload.png'),
+        'example-upload.png': 'src/platform/testing/example-upload.png',
       });
     });
 
     // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
-      cy.wrap(arrayPageObjects).as('arrayPageObjects');
+      const { arrayPages, pageHooks } = testConfig;
+      cy.wrap(arrayPages).as('arrayPages');
 
       cy.server()
         .route('GET', 'v0/maintenance_windows', [])
@@ -445,11 +419,12 @@ const testForm = testConfig => {
 
       // Resolve relative page hook paths as relative to the form's root URL.
       cy.wrap(
-        Object.keys(testConfig.pageHooks).reduce(
-          (pageHooks, path) => ({
-            ...pageHooks,
-            [path.startsWith(sep) ? path : join(rootUrl, path)]: testConfig
-              .pageHooks[path],
+        Object.keys(pageHooks).reduce(
+          (hooks, path) => ({
+            ...hooks,
+            [path.startsWith(sep)
+              ? path
+              : join(testConfig.rootUrl, path)]: pageHooks[path],
           }),
           {},
         ),
@@ -459,23 +434,18 @@ const testForm = testConfig => {
     testConfig.dataSets.forEach(testKey => {
       context(testKey, () => {
         beforeEach(() => {
+          const { dataPathPrefix, setupPerTest } = testConfig;
           cy.fixture(`data/${testKey}`)
             .then(
               testData =>
-                testConfig.dataPathPrefix
-                  ? testData[testConfig.dataPathPrefix]
-                  : testData,
+                dataPathPrefix ? testData[dataPathPrefix] : testData,
             )
             .as('testData')
-            .then(() => {
-              if (testConfig.setupPerTest) {
-                testConfig.setupPerTest();
-              }
-            });
+            .then(setupPerTest);
         });
 
         it('fills the form', () => {
-          cy.visit(rootUrl)
+          cy.visit(testConfig.rootUrl)
             .wait('@getMaintenanceWindows')
             .then(processPage);
         });
