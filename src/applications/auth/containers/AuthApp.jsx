@@ -142,13 +142,11 @@ export class AuthApp extends React.Component {
   validateSession = () => {
     apiRequest('/user')
       .then(this.handleAuthSuccess)
-      .catch(() => {
-        if (this.props.location.query.auth === 'force-needed') {
-          this.handleAuthForceNeeded();
-        } else {
-          this.handleAuthError();
-        }
-      });
+      .catch(
+        this.props.location.query.auth === 'force-needed'
+          ? this.handleAuthForceNeeded
+          : this.handleAutError,
+      );
   };
 
   renderError = () => {
