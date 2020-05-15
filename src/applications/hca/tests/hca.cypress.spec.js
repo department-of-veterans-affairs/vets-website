@@ -14,12 +14,12 @@ const testConfig = {
   formConfig,
   manifest,
   pageHooks: {
-    '/health-care/apply/application/introduction': () => {
+    introduction: () => {
       cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
         .first()
         .click();
     },
-    '/health-care/apply/application/id-form': () => {
+    'id-form': () => {
       cy.get('@testData').then(testData => {
         const { first, last } = testData.veteranFullName;
 
