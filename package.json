@@ -181,7 +181,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
     "jest-image-snapshot": "^2.7.0",
-    "jsdom": "^11.1.0",
+    "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
     "libxmljs": "^0.19.5",
