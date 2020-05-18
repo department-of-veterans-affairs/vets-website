@@ -163,8 +163,9 @@ class ObjectField extends React.Component {
       disabled,
       readonly,
       onBlur,
+      formContext,
     } = this.props;
-    const { definitions, fields, formContext } = this.props.registry;
+    const { definitions, fields } = this.props.registry;
     const { TitleField } = fields;
     const SchemaField = this.SchemaField;
     const formData = Object.keys(this.props.formData || {}).length
@@ -212,13 +213,25 @@ class ObjectField extends React.Component {
       </div>
     );
 
+    // Id's are not always unique on the review and submit page
+    const id =
+      isRoot && formContext.onReviewPage
+        ? Object.keys(idSchema)
+            .reduce((ids, key) => {
+              ids.push(idSchema[key].$id || '');
+              return ids;
+            }, [])
+            .filter(k => k)
+            .join('_')
+        : idSchema.$id;
+
     const fieldContent = (
       <div className={containerClassNames}>
         {hasTitleOrDescription && (
           <div className="schemaform-block-header">
             {CustomTitleField && !showFieldLabel ? (
               <CustomTitleField
-                id={`${idSchema.$id}__title`}
+                id={`${id}__title`}
                 formData={formData}
                 formContext={formContext}
                 required={required}
@@ -226,7 +239,7 @@ class ObjectField extends React.Component {
             ) : null}
             {!CustomTitleField && title && !showFieldLabel ? (
               <TitleField
-                id={`${idSchema.$id}__title`}
+                id={`${id}__title`}
                 title={title}
                 required={required}
                 formContext={formContext}

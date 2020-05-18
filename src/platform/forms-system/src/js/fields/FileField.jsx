@@ -117,6 +117,9 @@ export default class FileField extends React.Component {
     let { buttonText = 'Upload' } = uiOptions;
     if (files.length > 0) buttonText = uiOptions.addAnotherLabel;
 
+    const Tag =
+      formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
+
     return (
       <div
         className={
@@ -176,7 +179,7 @@ export default class FileField extends React.Component {
                   )}
                   {!hasErrors &&
                     _.get('properties.attachmentId', itemSchema) && (
-                      <div className="schemaform-file-attachment">
+                      <Tag className="schemaform-file-attachment review">
                         <SchemaField
                           name="attachmentId"
                           required={attachmentIdRequired}
@@ -193,11 +196,11 @@ export default class FileField extends React.Component {
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
-                      </div>
+                      </Tag>
                     )}
                   {!hasErrors &&
                     uiOptions.attachmentName && (
-                      <div className="schemaform-file-attachment">
+                      <Tag className="schemaform-file-attachment review">
                         <SchemaField
                           name="attachmentName"
                           required
@@ -214,7 +217,7 @@ export default class FileField extends React.Component {
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
-                      </div>
+                      </Tag>
                     )}
                   {!file.uploading &&
                     hasErrors && (
@@ -241,8 +244,11 @@ export default class FileField extends React.Component {
           </ul>
         )}
         {(maxItems === null || files.length < maxItems) &&
+          // Don't render an upload button on review & submit page while in
+          // review mode
+          !formContext.reviewMode &&
           !isUploading && (
-            <div>
+            <>
               <label
                 id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
@@ -257,7 +263,8 @@ export default class FileField extends React.Component {
                     }
                   }}
                   tabIndex="0"
-                  aria-label={uiSchema['ui:title'] || schema.title}
+                  aria-label={`${buttonText} ${uiSchema['ui:title'] ||
+                    schema.title}`}
                 >
                   {buttonText}
                 </span>
@@ -270,7 +277,7 @@ export default class FileField extends React.Component {
                 name={idSchema.$id}
                 onChange={this.onAddFile}
               />
-            </div>
+            </>
           )}
       </div>
     );

@@ -9,6 +9,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { isLOA3, isMultifactorEnabled } from 'platform/user/selectors';
+import { usePrevious } from 'platform/utilities/react-hooks';
 
 import {
   editModalToggled,
@@ -29,33 +30,6 @@ import FraudVictimAlert from './FraudVictimAlert';
 import AdditionalInformation from './DirectDepositInformation';
 
 import { prefixUtilityClasses } from '../../helpers';
-
-// TODO: move this to a common location (in platform?) for easy sharing
-/**
- * While not included with React, this hook is described in the React Hooks
- * documentation:
- * https://reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state
- *
- * as well as on usehooks.com:
- * https://usehooks.com/usePrevious/
- *
- * This post does a deeper dive for those who are new to hooks:
- * https://blog.logrocket.com/how-to-get-previous-props-state-with-react-hooks/
- */
-const usePrevious = value => {
-  const valueRef = useRef();
-  useEffect(
-    () => {
-      valueRef.current = value;
-    },
-    // only run this useEffect hook if `value` changes
-    [value],
-  );
-  // this returns _before_ the `useEffect` call completes, so this will return
-  // whatever was stored in `ref.current` _before_ this function's `useEffect`
-  // callback runs
-  return valueRef.current;
-};
 
 export const DirectDepositContent = ({
   isAuthorized,
@@ -87,7 +61,7 @@ export const DirectDepositContent = ({
     [isEditingBankInfo],
   );
 
-  // show the user an alert after their bank info has been updated and
+  // show the user a success alert after their bank info has saved
   useEffect(
     () => {
       if (
@@ -109,7 +83,7 @@ export const DirectDepositContent = ({
   );
 
   const saveBankInfo = () => {
-    // NOTE: You can mock a save error by sending undefined values in the payload
+    // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
       financialInstitutionName: 'Hidden form field',
       financialInstitutionRoutingNumber: formData.routingNumber,

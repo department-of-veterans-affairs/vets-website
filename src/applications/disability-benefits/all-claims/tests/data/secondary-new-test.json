@@ -163,7 +163,7 @@
       },
       {
         "name": "De-selected",
-        "ratedDisabilityId": "1",
+        "ratedDisabilityId": "2",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
         "decisionCode": "SVCCONNCTED",
@@ -173,7 +173,7 @@
       },
       {
         "name": "Not selected",
-        "ratedDisabilityId": "1",
+        "ratedDisabilityId": "3",
         "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
         "decisionCode": "SVCCONNCTED",

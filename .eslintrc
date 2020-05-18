@@ -67,6 +67,9 @@
     "react/no-deprecated": 2,
     "react/no-direct-mutation-state": 2,
 
+    /* TODO | DISABLED TEMPORARILY */
+    "react/sort-comp": 0,
+
     /* || sonarJS plugin || */
     "sonarjs/no-all-duplicated-branches": 2,
     "sonarjs/no-element-overwrite": 2,
@@ -178,6 +181,14 @@
         "no-restricted-imports": ["error", "raven"],
         "no-unused-expressions": 0,
         "react/no-find-dom-node": 0
+      }
+    },
+    {
+      "files": [
+        "**/*.e2e.spec.js"
+      ],
+      "rules": {
+        "va/axe-check-required": 1
       }
     }
   ]

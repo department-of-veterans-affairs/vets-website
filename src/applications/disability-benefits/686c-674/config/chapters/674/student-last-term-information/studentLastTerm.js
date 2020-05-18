@@ -1,3 +1,4 @@
+import React from 'react';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
@@ -15,7 +16,12 @@ export const schema = lastTermSchema;
 
 export const uiSchema = {
   studentDidAttendSchoolLastTerm: {
-    'ui:title': 'Did student attend school last term?',
+    'ui:title': (
+      <legend className="vads-u-font-size--base vads-u-font-weight--normal">
+        Did student attend school last term? <strong>Note:</strong> This
+        includes any kind of school or training, including high school.
+      </legend>
+    ),
     'ui:widget': 'yesNo',
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),
@@ -59,11 +65,17 @@ export const uiSchema = {
     classesPerWeek: {
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Number of classes a week',
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+      },
       'ui:errorMessages': { required: 'Please enter a number' },
     },
     hoursPerWeek: {
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Hours a week',
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+      },
       'ui:errorMessages': { required: 'Please enter a number' },
     },
   },

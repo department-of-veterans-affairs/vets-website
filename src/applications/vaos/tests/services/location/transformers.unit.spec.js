@@ -22,7 +22,8 @@ describe('VAOS Location transformer', () => {
   describe('transformDSFacilities', () => {
     it('should map id', () => {
       const data = transformDSFacilities(facilitiesParsed);
-      expect(data[0].identifier[0].value).to.equal('urn:va:division:983:983');
+      expect(data[0].identifier[0].value).to.equal('983');
+      expect(data[0].identifier[1].value).to.equal('urn:va:division:983:983');
     });
 
     it('should map name', () => {

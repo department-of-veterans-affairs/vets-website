@@ -9,6 +9,7 @@ import {
   getChosenClinicInfo,
   getChosenVACityState,
   getChosenFacilityDetails,
+  getSiteIdForChosenFacility,
 } from '../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
 import { getRealFacilityId } from '../utils/appointment';
@@ -42,6 +43,7 @@ export class ReviewPage extends React.Component {
       flowType,
       router,
       submitStatus,
+      systemId,
     } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
@@ -51,6 +53,7 @@ export class ReviewPage extends React.Component {
           <ReviewDirectScheduleInfo
             data={data}
             facility={facility}
+            systemId={systemId}
             clinic={clinic}
             pageTitle={pageTitle}
           />
@@ -135,6 +138,7 @@ function mapStateToProps(state) {
     vaCityState: getChosenVACityState(state),
     flowType: getFlowType(state),
     submitStatus: state.newAppointment.submitStatus,
+    systemId: getSiteIdForChosenFacility(state),
   };
 }
 
