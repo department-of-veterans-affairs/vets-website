@@ -21,7 +21,6 @@ describe('Video visit', () => {
     appointmentDate: dateTime,
   };
 
-  // console.log(tree.debug());
   it('should display link button', () => {
     const tree = shallow(<VideoVisitSection appointment={appointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);

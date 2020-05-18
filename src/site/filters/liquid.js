@@ -89,20 +89,16 @@ module.exports = function registerFilters() {
 
   liquid.filters.genericModulo = (i, n) => i % n;
 
-  liquid.filters.removeUnderscores = data => {
-    const string = data && data.length ? data.replace('_', ' ') : data;
-    return string;
-  };
+  liquid.filters.removeUnderscores = data =>
+    data && data.length ? data.replace('_', ' ') : data;
 
   liquid.filters.fileSize = data => `${(data / 1000000).toFixed(2)}MB`;
 
-  liquid.filters.fileExt = data => {
-    const string = data
+  liquid.filters.fileExt = data =>
+    data
       .split('.')
       .slice(-1)
       .pop();
-    return string;
-  };
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
@@ -232,16 +228,13 @@ module.exports = function registerFilters() {
   liquid.filters.sortMainFacility = item =>
     item ? item.sort((a, b) => a.entityId - b.entityId) : undefined;
 
-  liquid.filters.eventSorter = item => {
-    const sorted =
-      item &&
-      item.sort((a, b) => {
-        const start1 = moment(a.fieldDate.startDate);
-        const start2 = moment(b.fieldDate.startDate);
-        return start1.isAfter(start2);
-      });
-    return sorted;
-  };
+  liquid.filters.eventSorter = item =>
+    item &&
+    item.sort((a, b) => {
+      const start1 = moment(a.fieldDate.startDate);
+      const start2 = moment(b.fieldDate.startDate);
+      return start1.isAfter(start2);
+    });
 
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {

@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 
@@ -59,7 +59,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,
-  formId: '21-686',
+  formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -74,6 +74,7 @@ const formConfig = {
       title: 'What do you want to do?',
       pages: {
         wizard: {
+          hideHeaderRow: true,
           title: 'What do you want to do?',
           path: '686-options-selection',
           uiSchema: wizard.uiSchema,
@@ -248,6 +249,8 @@ const formConfig = {
           schema: deceasedDependentInformation.schema,
         },
         dependentAdditionalInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
           title: 'Report the death of a dependent',
           path: '686-report-dependent-death/:index/additional-information',
           showPagePerItem: true,

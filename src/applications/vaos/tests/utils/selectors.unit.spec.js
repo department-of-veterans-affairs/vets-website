@@ -21,6 +21,7 @@ import {
 } from '../../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
@@ -171,13 +172,13 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             clinicId: '124',
-            vaParent: '123',
-            vaFacility: '983',
+            vaParent: 'var123',
+            vaFacility: 'var983',
           },
           facilities: {
-            '323_123': [
+            '323_var123': [
               {
-                institutionCode: '983',
+                id: 'var983',
               },
             ],
           },
@@ -185,7 +186,7 @@ describe('VAOS selectors', () => {
       };
 
       expect(getChosenFacilityInfo(state)).to.equal(
-        state.newAppointment.facilities['323_123'][0],
+        state.newAppointment.facilities['323_var123'][0],
       );
     });
   });
@@ -361,19 +362,30 @@ describe('VAOS selectors', () => {
           },
           data: {
             typeOfCareId: '323',
-            vaParent: '983',
-            vaFacility: '983',
+            vaParent: 'var983',
+            vaFacility: 'var983',
           },
           eligibility: {
-            '983_323': {
+            // eslint-disable-next-line camelcase
+            var983_323: {
               request: true,
             },
           },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+            },
+          ],
           facilities: {
-            '323_983': [
+            '323_var983': [
               {
-                institutionCode: '983',
-                rootStationCode: '983',
+                id: 'var983',
               },
             ],
           },

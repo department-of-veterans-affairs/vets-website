@@ -161,3 +161,12 @@ export const vetCenterServices = [
   'Employment referral',
   'Referral of other VA services',
 ];
+
+export const facilityTypesOptions = {
+  [LocationType.HEALTH]: 'VA health',
+  [LocationType.URGENT_CARE]: 'Urgent care',
+  [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
+  [LocationType.BENEFITS]: 'VA benefits',
+  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.VET_CENTER]: 'Vet centers',
+};

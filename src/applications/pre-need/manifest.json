@@ -2,24 +2,5 @@
   "appName": "40-40007 pre need burial planning form",
   "entryFile": "./pre-need-entry.jsx",
   "entryName": "pre-need",
-  "rootUrl": "/burials-and-memorials/pre-need/form-10007-apply-for-eligibility",
-  "production": true,
-  "template": {
-    "title": "Apply online for pre-need determination of eligibility in a VA National Cemetery",
-    "display_title": "Apply Now",
-    "entryname": "pre-need",
-    "layout": "page-react.html",
-    "order": 1,
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "burials-memorials/",
-        "name": "Burials and Memorials"
-      },
-      {
-        "path": "burials-and-memorials/pre-need/form-10007-apply-for-eligibility/",
-        "name": "Pre-need Eligibility Determination"
-      }
-    ]
-  }
+  "rootUrl": "/burials-and-memorials/pre-need/form-10007-apply-for-eligibility"
 }

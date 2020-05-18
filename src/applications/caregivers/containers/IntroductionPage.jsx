@@ -23,7 +23,7 @@ const IntroductionPage = ({ route, router }) => {
     <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
         Follow the steps below to apply for the Program of Comprehensive
-        Assistance of Family Caregivers:
+        Assistance for Family Caregivers:
       </h2>
       <div className="process schemaform-process">
         <ol>
@@ -40,7 +40,6 @@ const IntroductionPage = ({ route, router }) => {
               <li>Address</li>
               <li>Telephone number</li>
               <li>Date of birth</li>
-              <li>Email address</li>
               <li>Social Security Number or Tax Identification Number</li>
             </ul>
 
@@ -54,27 +53,27 @@ const IntroductionPage = ({ route, router }) => {
 
             <div>
               <h4 className="vads-u-font-size--h6">
-                Where can I get help filling out the form and answers to
-                questions?
+                What if I have questions or need help filling out the form?
               </h4>
 
               <span>
-                You may use any of the following to request assistance:
+                If you have a question or need help, you can contact us in any
+                of these ways:
               </span>
 
               <ul className="process-lists">
                 <li>
-                  Ask VA to help you fill out the form by calling us at
+                  Call us at
                   <a
                     href={links.VAHelpLine.label}
                     className="vads-u-margin-x--0p5"
                   >
-                    877-222-VETS (8387)
+                    877-222-8387
                   </a>
+                  and ask for help filling out the form
                 </li>
                 <li>
-                  Locate and contact the Caregiver Support Coordinator at your
-                  nearest VA health care facility. You may use the online
+                  Use the online
                   <a
                     href={links.caregiverSupportCoordinators.link}
                     target="_blank"
@@ -83,29 +82,30 @@ const IntroductionPage = ({ route, router }) => {
                   >
                     Caregiver Support Coordinator locator
                   </a>
+                  to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the VA National Caregiver Support Line by calling
+                  Contact the National Caregiver Support Line at
                   <a
-                    href="tel:8552603274"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="vads-u-margin-x--0p5"
+                    href="tel:8552603274"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
                     855-260-3274
                   </a>
-                  or a Veterans Service Organization
+                  or a
+                  <a
+                    className="vads-u-margin-x--0p5"
+                    href="https://www.va.gov/disability/get-help-filing-claim/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Veterans Service Organization
+                  </a>
+                  to get help filling out the form
                 </li>
               </ul>
-
-              <a
-                href={links.getHelpFillingApplication.link}
-                rel="noopener noreferrer"
-                target="_blank"
-                className="vads-u-margin-x--0p5"
-              >
-                {links.getHelpFillingApplication.label}
-              </a>
 
               <CaregiverSupportInfo />
             </div>
@@ -115,9 +115,17 @@ const IntroductionPage = ({ route, router }) => {
           <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Apply</h3>
             <p>
-              Each applicant needs to complete all form fields before submitting
-              the form. Once the form is submitted, you’ll receive a
-              confirmation message. You can print this for your records.
+              Please remember, whether you’re the Veteran or a family caregiver,
+              you’ll need to complete all form questions before submitting the
+              form. After submitting the form, you’ll receive a confirmation
+              screen that you can print for your records.
+            </p>
+
+            <p>
+              Each time the Veteran wants to add a new family caregiver, the
+              Veteran and the new caregiver will need to submit a new
+              application. There can only be 1 Primary and up to 2 Secondary
+              Family Caregivers at any one time.
             </p>
 
             <p>
@@ -136,14 +144,13 @@ const IntroductionPage = ({ route, router }) => {
             </p>
           </li>
 
-          {/* Next Steps */}
+          {/* Next steps */}
           <li className="process-step list-three">
-            <h3 className="vads-u-font-size--h4">Next Steps</h3>
+            <h3 className="vads-u-font-size--h4">Next steps</h3>
             <p>
               A member of the Caregiver Support Program at the VA medical center
               where the Veteran plans to receive care will contact you to
-              discuss your application and next steps to determine your
-              eligibility.
+              discuss your application and eligibility.
             </p>
 
             <p>
@@ -176,11 +183,15 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <div className="caregivers-intro schemaform-intro">
-      <FormTitle title="Apply for the Program of Comprehensive Assistance for Family Caregivers" />
+      <FormTitle
+        className="form-title"
+        title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
+      />
       <p>
-        Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
+        Equal to VA Form 10-10CG (Application for the Program of Comprehensive
+        Assistance for Family Caregivers)
       </p>
-      <p>
+      <p className="va-introtext">
         We recognize the important role of family caregivers in supporting the
         health and wellness of Veterans.
       </p>
@@ -197,14 +208,14 @@ const IntroductionPage = ({ route, router }) => {
 
       <button
         style={{ display: 'inherit ' }}
-        className="usa-button vads-u-margin-y--5"
+        className="usa-button vads-u-margin-y--3"
         onClick={startForm}
       >
         Start your application
       </button>
       <ProcessTimeline />
       <button
-        className="usa-button vads-u-margin-bottom--5"
+        className="usa-button vads-u-margin-bottom--3"
         onClick={startForm}
       >
         Start your Application

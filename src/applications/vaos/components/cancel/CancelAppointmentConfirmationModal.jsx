@@ -14,6 +14,7 @@ export default function CancelAppointmentConfirmationModal({
       status="warning"
       visible
       onClose={onClose}
+      hideCloseButton={status === FETCH_STATUS.loading}
       title="Do you want to cancel your appointment?"
     >
       If you want to reschedule this appointment, you’ll need to first cancel

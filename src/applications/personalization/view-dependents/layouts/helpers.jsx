@@ -37,20 +37,13 @@ export const breadcrumbLinks = [
     Home
   </a>,
   <a
-    href="/disability"
-    aria-label="Back to the Disability Benefits page"
-    key="2"
-  >
-    Disability Benefits
-  </a>,
-  <a
-    href="/disability/add-remove-dependent"
+    href="/view-change-dependents/"
     aria-label="Back to the Add or remove dependents page"
     key="3"
   >
     Add or remove dependents
   </a>,
-  <a href="/disability/view-dependents/" key="4">
+  <a href="/view-change-dependents/view" key="4">
     Your Dependents
   </a>,
 ];
