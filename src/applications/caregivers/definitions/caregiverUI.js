@@ -231,12 +231,12 @@ export default {
     },
     otherHealthInsuranceUI: {
       'ui:title':
-        'Is the Primary Family Caregiver currently enrolled in other health care insurance?',
+        'Is the Primary Family Caregiver enrolled in other health care insurance?',
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceNameUI: {
       'ui:title':
-        'Name of health insurance? (If there are multiple policies, please separate them with commas.)',
+        'Name of health insurance (If there are multiple policies, please separate them with commas.)',
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },
