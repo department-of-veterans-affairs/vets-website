@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import React from 'react';
-import SelectArrayItemsFromAccessoriesWidget from '../components/SelectArrayItemsAccessoriesWidget';
+import SelectArrayItemsFromAccessories from '../components/Accessories';
 
 const fakeStore = {
   getState: () => ({
@@ -46,17 +46,17 @@ const fakeStore = {
   dispatch: () => {},
 };
 
-describe('SelectArrayItemsAccessoriesWidget', () => {
+describe('Accessories', () => {
   it('should render', () => {
     const wrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
   it('should display the product name of the accessory', () => {
     const wrapper = shallow(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(wrapper.html()).to.include('DOM');
     expect(wrapper.html()).to.include('fake name 1');
@@ -66,7 +66,7 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
 
   it('should display the quantity of the accessory', () => {
     const wrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(wrapper.text()).to.include('Quantity: 10');
     expect(wrapper.text()).to.include('Quantity: 5');
@@ -75,7 +75,7 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
   });
   it('should display the last order date of the accessories', () => {
     const wrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(wrapper.text()).to.include('Last order date:  06/30/2019');
     expect(wrapper.text()).to.include('Last order date:  01/18/2020');
@@ -84,7 +84,7 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
   });
   it('should display the product name of the accessory', () => {
     const wrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(wrapper.text()).to.include('DOME');
     expect(wrapper.text()).to.include('fake name 1');
@@ -93,7 +93,7 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
   });
   it('should display the accessories with a light gray background', () => {
     const wrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(
       wrapper.find('.vads-u-background-color--gray-lightest').length,
@@ -102,7 +102,7 @@ describe('SelectArrayItemsAccessoriesWidget', () => {
   });
   it('should display an alert box if the Veteran cannot order accessories', () => {
     const wrapper = mount(
-      <SelectArrayItemsFromAccessoriesWidget store={fakeStore} />,
+      <SelectArrayItemsFromAccessories store={fakeStore} />,
     );
     expect(wrapper.find('AlertBox').length).to.equal(1);
     wrapper.unmount();
