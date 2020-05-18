@@ -169,23 +169,19 @@ export default {
   primaryCaregiverUI: {
     primaryInputLabel: 'Primary Family Caregiver',
     medicaidEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicaid',
       'ui:widget': 'yesNo',
     },
     medicareEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Medicare?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicare?',
       'ui:widget': 'yesNo',
     },
     tricareEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Tricare?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Tricare?',
       'ui:widget': 'yesNo',
     },
     champvaEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in CHAMPVA?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in CHAMPVA?',
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceUI: {
@@ -194,7 +190,8 @@ export default {
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceNameUI: {
-      'ui:title': 'Other Health Insurance Name?',
+      'ui:title':
+        'Is the Primary Family Caregiver currently enrolled in other health care insurance?',
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },
