@@ -65,9 +65,6 @@ const axe = {
   // stores array of violations per page
   violations: new Map(),
 
-  // stores AxePuppeteer instance
-  pages: new Map(),
-
   hasException: error =>
     axe.CONFIG.exceptions.some(exception => error.includes(exception)),
 
@@ -79,8 +76,7 @@ const axe = {
   check: async (page, log) => {
     const url = page.url();
     const previousCheck = axe.violations.get(url) || [];
-    const axeChecker =
-      axe.pages.get(url) || new AxePuppeteer(page).configure(axe.CONFIG);
+    const axeChecker = new AxePuppeteer(page).configure(axe.CONFIG);
 
     const results = await axeChecker.analyze();
     const violations = results.violations?.filter(
@@ -97,7 +93,6 @@ const axe = {
       });
       axe.violations.set(url, [...validViolations, ...previousCheck]);
     }
-    axe.pages.set(url, axeChecker);
   },
 
   expandAndCheck: async (page, log) => {
@@ -113,7 +108,6 @@ const axe = {
 
   clear: () => {
     axe.violations.clear();
-    axe.pages.clear();
   },
 
   formatViolations: () => {
