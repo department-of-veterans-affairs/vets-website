@@ -13,7 +13,6 @@ export const schema = addChild.properties.addChildPlaceOfBirth;
 export const uiSchema = {
   childrenToAdd: {
     'ui:options': {
-      itemName: 'Child',
       viewField: childInfo,
     },
     items: {
@@ -58,7 +57,7 @@ export const uiSchema = {
           'ui:title': 'Stepchild',
         },
         dateBecameDependent: merge(
-          currentOrPastDateUI('Date stepchild became dependent'),
+          currentOrPastDateUI('Date stepchild became your dependent'),
           {
             'ui:options': {
               expandUnder: 'stepchild',
