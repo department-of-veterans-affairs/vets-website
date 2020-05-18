@@ -98,8 +98,8 @@ class EstimateYourBenefitsForm extends React.Component {
     const zipcode = this.props.inputs.beneficiaryZIP;
 
     if (
-      (this.props.eligibility.giBillChapter === '33' && beneficiaryZIPError) ||
-      (this.props.eligibility.giBillChapter === '33' && zipcode.length !== 5)
+      this.props.eligibility.giBillChapter === '33' &&
+      (beneficiaryZIPError || zipcode.length !== 5)
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
