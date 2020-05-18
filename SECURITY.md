@@ -8,7 +8,7 @@ disclosure your findings, and will make every effort to acknowledge your contrib
 We release patches for security vulnerabilities. Which versions are eligible receiving such patches depend on the 
 [CVSS v3.0](https://www.first.org/cvss/calculator/3.0) Rating:
 
-| Version | Supported          |
+| Score | Elegible          |
 | ------- | ------------------ |
 | >4.0.x  | :white_check_mark: |
 | < 4.0   | :x:                |
