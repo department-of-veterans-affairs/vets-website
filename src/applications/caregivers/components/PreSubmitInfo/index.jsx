@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import SignatureCheckbox from './components/SignatureBox';
 
-const PreSubmitCheckboxGroup = ({
-  onSectionComplete,
-  showError,
-  preSubmitInfo,
-  checked,
-  formData,
-}) => {
+const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
   const veteranLabel = "Enter Veteran's or service member's full name";
   const primaryLabel = "Enter Primary Family Caregiver's full name";
   const secondaryOneLabel = "Enter Secondary Family Caregiver's full name";
   const secondaryTwoLabel = "Enter Secondary Family Caregiver's (2) full name";
-  const [signatures, setSignature] = useState({
-    [veteranLabel]: false,
-    [primaryLabel]: false,
-  });
+  const [signatures, setSignature] = useState({});
 
   const [secondaryCaregivers, setSecondaryCaregivers] = useState({
-    hasSecondaryOne: undefined,
-    hasSecondaryTwo: undefined,
+    hasSecondaryOne: false,
+    hasSecondaryTwo: false,
   });
 
   useEffect(
@@ -43,14 +34,7 @@ const PreSubmitCheckboxGroup = ({
         hasSecondaryTwo,
       });
     },
-    [
-      checked,
-      formData,
-      onSectionComplete,
-      preSubmitInfo,
-      showError,
-      signatures,
-    ],
+    [formData, onSectionComplete, signatures],
   );
 
   const SecondaryCaregiverCopy = ({ label }) => {
@@ -114,7 +98,7 @@ const PreSubmitCheckboxGroup = ({
         fullName={formData.veteranFullName}
         label={veteranLabel}
         signatures={signatures}
-        signSignature={setSignature}
+        setSignature={setSignature}
       >
         <h3>Veteran or service member statement of truth</h3>
         <p>
@@ -142,55 +126,52 @@ const PreSubmitCheckboxGroup = ({
         fullName={formData.primaryFullName}
         label={primaryLabel}
         signatures={signatures}
-        signSignature={setSignature}
+        setSignature={setSignature}
       >
-        <>
-          <h3 className="vads-u-margin-top--4">
-            Primary Family Caregiver statement of truth
-          </h3>
+        <h3 className="vads-u-margin-top--4">
+          Primary Family Caregiver statement of truth
+        </h3>
 
-          <p className="vads-u-margin-y--4">
-            I certify that I am at least 18 years of age.
-          </p>
+        <p className="vads-u-margin-y--4">
+          I certify that I am at least 18 years of age.
+        </p>
 
-          <p>
-            I certify that I am a family member of the Veteran or service member
-            named in this application or I reside with the Veteran or service
-            member or will do so upon approval.
-          </p>
+        <p>
+          I certify that I am a family member of the Veteran or service member
+          named in this application or I reside with the Veteran or service
+          member or will do so upon approval.
+        </p>
 
-          <p>
-            I agree to perform personal care services as the Primary Family
-            Caregiver for the Veteran or service member named on this
-            application.
-          </p>
+        <p>
+          I agree to perform personal care services as the Primary Family
+          Caregiver for the Veteran or service member named on this application.
+        </p>
 
-          <p>
-            I understand that the Veteran or Veteran’s surrogate may initiate my
-            revocation as a Primary Family Caregiver at any time and that the VA
-            may immediately revoke this designation if I fail to comply with the
-            program requirements for continued participation in the program.
-          </p>
+        <p>
+          I understand that the Veteran or Veteran’s surrogate may initiate my
+          revocation as a Primary Family Caregiver at any time and that the VA
+          may immediately revoke this designation if I fail to comply with the
+          program requirements for continued participation in the program.
+        </p>
 
-          <p>
-            I understand that participation in the Program of Comprehensive
-            Assistance for Family Caregivers does not create an employment
-            relationship with the Department of Veterans Affairs.
-          </p>
+        <p>
+          I understand that participation in the Program of Comprehensive
+          Assistance for Family Caregivers does not create an employment
+          relationship with the Department of Veterans Affairs.
+        </p>
 
-          <p>
-            I have read and accept the
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vads-u-margin-left--0p5"
-              href="https://www.va.gov/privacy-policy/"
-            >
-              privacy policy
-            </a>
-            .
-          </p>
-        </>
+        <p>
+          I have read and accept the
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="vads-u-margin-left--0p5"
+            href="https://www.va.gov/privacy-policy/"
+          >
+            privacy policy
+          </a>
+          .
+        </p>
       </SignatureCheckbox>
 
       {secondaryCaregivers.hasSecondaryOne && (
@@ -198,7 +179,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.secondaryOneFullName}
           label={secondaryOneLabel}
           signatures={signatures}
-          signSignature={setSignature}
+          setSignature={setSignature}
         >
           <SecondaryCaregiverCopy label="Secondary Family Caregiver" />
         </SignatureCheckbox>
@@ -209,7 +190,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.secondaryTwoFullName}
           label={secondaryTwoLabel}
           signatures={signatures}
-          signSignature={setSignature}
+          setSignature={setSignature}
         >
           <SecondaryCaregiverCopy label="Secondary Family Caregiver (2)" />
         </SignatureCheckbox>

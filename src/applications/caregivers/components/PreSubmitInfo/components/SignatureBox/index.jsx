@@ -6,7 +6,7 @@ const SignatureCheckbox = ({
   fullName,
   label,
   children,
-  signSignature,
+  setSignature,
   signatures,
 }) => {
   const [isSigned, setIsSigned] = useState(false);
@@ -15,11 +15,12 @@ const SignatureCheckbox = ({
 
   useEffect(
     () => {
-      signSignature({ ...signatures, [label]: isSignatureComplete });
+      if (!isSignatureComplete) {
+        setSignature({ ...signatures, [label]: isSignatureComplete });
+      }
     },
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signSignature, label, isSignatureComplete],
+    [isSignatureComplete],
   );
 
   return (
