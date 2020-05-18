@@ -34,7 +34,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.expect
     .element('.usa-input-error-message')
-    .text.to.equal('Please select a file first');
+    .text.to.contain('Please select a file first');
 
   // File uploads don't appear to work in Nightwatch/PhantomJS
   // TODO: switch to something that does support uploads or figure out the problem

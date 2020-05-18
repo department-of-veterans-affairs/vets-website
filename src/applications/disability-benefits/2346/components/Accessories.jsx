@@ -11,7 +11,7 @@ import {
   WHITE_BACKGROUND,
 } from '../constants';
 
-class SelectArrayItemsAccessoriesWidget extends Component {
+class Accessories extends Component {
   handleChecked = (checked, supply) => {
     const { selectedProducts, formData } = this.props;
     let updatedSelectedProducts;
@@ -176,13 +176,13 @@ class SelectArrayItemsAccessoriesWidget extends Component {
   }
 }
 
-SelectArrayItemsAccessoriesWidget.defaultProps = {
+Accessories.defaultProps = {
   formData: {},
   supplies: [],
   selectedProducts: [],
 };
 
-SelectArrayItemsAccessoriesWidget.propTypes = {
+Accessories.propTypes = {
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -204,7 +204,7 @@ SelectArrayItemsAccessoriesWidget.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  supplies: state.form?.loadedData?.formData?.supplies,
+  supplies: state.form?.data?.supplies,
   formData: state.form?.data,
   selectedProducts: state.form?.data?.selectedProducts,
 });
@@ -216,4 +216,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SelectArrayItemsAccessoriesWidget);
+)(Accessories);

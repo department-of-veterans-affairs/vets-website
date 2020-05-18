@@ -55,9 +55,9 @@ class AccordionItem extends React.Component {
           aria-expanded={expanded}
           aria-controls={this.id}
           onClick={this.toggle}
-          className="usa-button-secondary"
+          className="usa-accordion-button vads-u-border--2px vads-u-border-style--solid vads-u-border-color--gray-light vads-u-margin--0"
         >
-          <span className="section-button">{button}</span>
+          <span className="section-button-span">{button}</span>
         </button>
       );
     }
@@ -86,11 +86,14 @@ class AccordionItem extends React.Component {
     const expanded = this.expanded();
     const { button, section, children } = this.props;
 
-    const childrenClassName = section ? null : 'usa-accordion-content';
+    const liClassName = section ? 'section-item' : 'accordion-item';
+    const contentClassName = section
+      ? 'section-content'
+      : 'usa-accordion-content';
     return (
-      <li id={`${createId(button)}-accordion`}>
+      <li className={liClassName} id={`${createId(button)}-accordion`}>
         {this.renderHeader()}
-        <div id={this.id} className={childrenClassName} aria-hidden={!expanded}>
+        <div id={this.id} className={contentClassName} aria-hidden={!expanded}>
           {expanded ? children : null}
         </div>
       </li>
