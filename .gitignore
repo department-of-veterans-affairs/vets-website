@@ -19,7 +19,7 @@ jsconfig.json
 typings.json
 typings/
 coverage
-cypress
+/cypress
 .nyc_output
 .yalc
 yalc.lock
