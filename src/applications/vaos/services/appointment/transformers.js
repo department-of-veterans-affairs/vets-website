@@ -291,6 +291,7 @@ function setLegacyVAR(appt) {
   if (getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment) {
     return {
       facilityId: appt.facilityId,
+      clinicId: appt.clinicId,
     };
   }
 

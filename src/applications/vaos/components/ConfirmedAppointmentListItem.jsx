@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import moment from '../utils/moment-tz';
 import { formatFacilityAddress } from '../utils/formatters';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
@@ -72,7 +72,7 @@ export default function ConfirmedAppointmentListItem({
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime
-          appointmentDate={moment(appointment.start)}
+          appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
           facilityId={appointment.legacyVAR?.facilityId}
         />
@@ -98,10 +98,10 @@ export default function ConfirmedAppointmentListItem({
           )}
         </div>
         {isCommunityCare && (
-          <CommunityCareInstructions instructions={appointment.instructions} />
+          <CommunityCareInstructions instructions={appointment.comment} />
         )}
         {isInPersonVAAppointment && (
-          <AppointmentInstructions instructions={appointment.instructions} />
+          <AppointmentInstructions instructions={appointment.comment} />
         )}
       </div>
 

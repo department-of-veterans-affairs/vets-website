@@ -131,7 +131,7 @@ async function getClinicDataBySystem(facilityClinicListMap) {
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => !appt.clinicId,
+    appt => appt.vaos?.appointmentType !== APPOINTMENT_TYPES.vaAppointment,
   );
   let facilityIds = requestsOrNonVAFacilityAppointments
     .map(appt => appt.facilityId || appt.facility?.facilityCode)
@@ -139,7 +139,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
   // Get facility ids from VA appointments
   const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.clinicId,
+    appt => appt.legacyVAR?.clinicId,
   );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
@@ -156,7 +156,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
   }
-
+  // console.log(`Unique facility ids: ${uniqueFacilityIds.size}`);
   return {
     facilityData,
     clinicInstitutionList,
