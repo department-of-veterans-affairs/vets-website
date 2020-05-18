@@ -107,7 +107,7 @@ class EstimateYourBenefitsForm extends React.Component {
         const CheckNameOfElement = checkForEmptyFocusableElement(
           'beneficiaryZIPCode',
         );
-        scroller.scrollTo('zip-question', getScrollOptions());
+        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
         CheckNameOfElement[0].focus();
       }, 1);
     } else {
