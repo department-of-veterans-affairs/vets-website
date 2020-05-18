@@ -162,7 +162,7 @@ describe('<EstimateYourBenefitsForm>', () => {
     const tree = mount(
       <EstimateYourBenefitsForm
         profile={props.profile}
-        eligibility={props.eligibility}
+        eligibility={{ giBillChapter: '33' }}
         eligibilityChange={() => {}}
         inputs={validInput}
         displayedInputs={{}}
