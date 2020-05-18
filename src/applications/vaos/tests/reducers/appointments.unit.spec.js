@@ -43,7 +43,16 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
+          // appointment more than 395 days should not show
           { startDate: '2099-04-30T05:35:00', facilityId: '984' },
+          // appointment less than 395 days should show
+          {
+            startDate: moment()
+              .clone()
+              .add(394, 'days')
+              .format(),
+            facilityId: '984',
+          },
           // appointment more than 1 hour ago should not show
           {
             startDate: moment()
@@ -86,13 +95,14 @@ describe('VAOS reducer: appointments', () => {
           },
         ],
         [
+          // appointment times scheduled 395 days into the future should show
           {
-            appointmentTime: '05/29/2099 05:30:00',
+            appointmentTime: '05/29/2021 05:30:00',
             timeZone: 'UTC',
             appointmentRequestId: '1',
           },
         ],
-        [{ optionDate1: '05/29/2099' }],
+        [{ optionDate1: '05/29/2021' }],
       ],
       today: moment(),
     };
