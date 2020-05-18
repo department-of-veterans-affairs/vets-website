@@ -26,9 +26,6 @@ at risk.
 
 ## Reporting a Vulnerability
 
-We consider the security of our systems a top priority. But no matter how much effort we put into system security, 
-there can still be vulnerabilities present.
-
 If you discover a security vulnerability, please report (suspected) security vulnerabilities to 
 **[security@va.gov](mailto:security@va.gov)** and include the word "SECURITY" in the subject line. 
 You will receive a response from us within 48 hours. If the issue is confirmed, we will release a 
