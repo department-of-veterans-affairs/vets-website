@@ -53,7 +53,7 @@ const PreSubmitCheckboxGroup = ({
     ],
   );
 
-  const CaregiverCopy = ({ label }) => {
+  const SecondaryCaregiverCopy = ({ label }) => {
     const header = title => `${title} or Family Member Statement of Truth`;
     return (
       <>
@@ -191,7 +191,7 @@ const PreSubmitCheckboxGroup = ({
           signatures={signatures}
           signSignature={setSignature}
         >
-          <CaregiverCopy label="Secondary Family Caregiver" />
+          <SecondaryCaregiverCopy label="Secondary Family Caregiver" />
         </SignatureCheckbox>
       )}
 
@@ -202,7 +202,7 @@ const PreSubmitCheckboxGroup = ({
           signatures={signatures}
           signSignature={setSignature}
         >
-          <CaregiverCopy label="Secondary Family Caregiver (2)" />
+          <SecondaryCaregiverCopy label="Secondary Family Caregiver (2)" />
         </SignatureCheckbox>
       )}
 
