@@ -639,7 +639,7 @@ describe('Schemaform <FileField>', () => {
         uiSchema={uiSchema}
         idSchema={idSchema}
         formData={formData}
-        formContext={{ onReviewPage: true }}
+        formContext={{ onReviewPage: true, reviewMode: true }}
         onChange={f => f}
         requiredSchema={requiredSchema}
       />,

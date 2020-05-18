@@ -18,10 +18,6 @@
     margin: 0;
   }
 
-  .section-button {
-    letter-spacing: 0.4px;
-  }
-
   .link-header {
     h3,
     h4,
@@ -141,9 +137,6 @@
     }
 
     .calculator-result {
-      &.bold {
-        font-weight: bold;
-      }
 
       h5 {
         padding: 0;
@@ -361,10 +354,6 @@
     max-width: fit-content;
   }
 
-  .eyb-inputs-ul {
-    list-style-type: none !important;
-  }
-
   .eyb-button {
     &.usa-accordion-button[aria-expanded='false'] {
       background-image: url('/img/arrow-up.png');
@@ -397,12 +386,29 @@
     max-height: 100%;
   }
 
-  button.calculate-button {
-    background-image: none;
-    background-color: $color-primary;
-    border-radius: $button-border-radius;
-    color: $color-white;
-    width: auto;
+  .estimate-your-benefits-form {
+    max-width: 400px;
+
+    ul {
+      list-style-type: none !important;
+    }
+
+
+    label, span {
+      margin-top: 1.5em;
+    }
+
+    button.calculate-button {
+      background-image: none;
+      background-color: $color-primary;
+      border-radius: $button-border-radius;
+      color: $color-white;
+      width: auto;
+    }
+
+    .gi-checkbox-label {
+      margin-top: 1em;
+    }
   }
 
   .primary-sco-list {
