@@ -39,9 +39,13 @@ export default function NoValidVAFacilities({ formContext }) {
                   facility={parentDetails}
                   showDirectionsLink
                 />
-                <div className="vads-u-display--flex vads-u-margin-top--2">
-                  <FacilityHours location={parentDetails} />
-                </div>
+                {!!parentDetails?.hoursOfOperation && (
+                  <div className="vads-u-display--flex vads-u-margin-top--2">
+                    <FacilityHours
+                      hoursOfOperation={parentDetails.hoursOfOperation}
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <p>

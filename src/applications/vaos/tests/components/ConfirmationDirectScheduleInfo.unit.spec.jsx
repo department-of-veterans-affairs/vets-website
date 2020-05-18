@@ -9,17 +9,13 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
     const props = {
       appointmentLength: 20,
       facilityDetails: {
-        id: 'vha_983',
+        id: 'var983',
         name: 'Cheyenne VA Medical Center',
         address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-            address2: null,
-            address3: null,
-          },
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
         },
       },
       data: {

@@ -1,12 +1,6 @@
 import React from 'react';
 
-/**
- * VA Facility Known Operational Hours
- */
-const FacilityHours = ({ location }) => {
-  // Derive the formatted hours info.
-  const hoursInfo = location?.hoursOfOperation;
-
+export default function FacilityHours({ hoursOfOperation }) {
   const days = [
     'Sunday',
     'Monday',
@@ -19,14 +13,10 @@ const FacilityHours = ({ location }) => {
 
   const dayHours = days.map(day => ({
     day,
-    hours: hoursInfo.find(item =>
+    hours: hoursOfOperation.find(item =>
       item.daysOfWeek.includes(day.toLowerCase().substr(0, 3)),
     ),
   }));
-
-  // Derive if the facility is a vet center.
-  const facilityType = location?.facilityType;
-  const isVetCenter = facilityType === 'vet_center';
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
@@ -68,20 +58,8 @@ const FacilityHours = ({ location }) => {
               </div>
             </div>
           )}
-
-          {isVetCenter && (
-            <p>
-              In addition to the hours listed above, all Vet Centers maintain
-              non-traditional hours that are specific to each site and can
-              change periodically given local Veteran, Service member & Family
-              needs. Please contact your Vet Center to obtain the current
-              schedule.
-            </p>
-          )}
         </div>
       </div>
     </div>
   );
-};
-
-export default FacilityHours;
+}

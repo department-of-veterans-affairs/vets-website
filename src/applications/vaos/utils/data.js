@@ -140,8 +140,8 @@ export function transformFormToCCRequest(state) {
     };
   } else {
     cityState = {
-      preferredCity: organization.address[0].city,
-      preferredState: organization.address[0].state,
+      preferredCity: organization.address?.city,
+      preferredState: organization.address?.state,
     };
   }
 

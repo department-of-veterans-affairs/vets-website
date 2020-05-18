@@ -6,8 +6,8 @@ export default function FacilityAddress({
   facility,
   showDirectionsLink,
 }) {
-  const address = facility?.address[0];
-  const phone = facility?.telecom.find(tele => tele.system === 'phone')?.value;
+  const address = facility?.address;
+  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   return (
     <>
@@ -17,7 +17,7 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      {address.line.map(line => (
+      {address?.line?.map(line => (
         <React.Fragment key={line}>
           {line}
           <br />

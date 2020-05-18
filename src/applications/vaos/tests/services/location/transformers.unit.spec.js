@@ -33,10 +33,8 @@ describe('VAOS Location transformer', () => {
 
     it('should map address', () => {
       const data = transformDSFacilities(facilitiesParsed);
-      expect(data[1].address[0].city).to.equal(facilitiesParsed[1].city);
-      expect(data[1].address[0].state).to.equal(
-        facilitiesParsed[1].stateAbbrev,
-      );
+      expect(data[1].address.city).to.equal(facilitiesParsed[1].city);
+      expect(data[1].address.state).to.equal(facilitiesParsed[1].stateAbbrev);
     });
   });
 
@@ -61,12 +59,38 @@ describe('VAOS Location transformer', () => {
 
     it('should map address', () => {
       const data = transformFacility(facilityDetailsParsed[0]);
-      expect(data.address[0].city).to.equal(
+      expect(data.address.city).to.equal(
         facilityDetailsParsed[0].address.physical.city,
       );
-      expect(data.address[0].state).to.equal(
+      expect(data.address.state).to.equal(
         facilityDetailsParsed[0].address.physical.state,
       );
+    });
+    describe('should map operating hours', () => {
+      // it('should return if falsy', () => {
+      //   const result = formatOperatingHours(false);
+      //   expect(result).to.equal(false);
+      // });
+      // it('should convert sunrise - sunset to All day', () => {
+      //   const result = formatOperatingHours('sunrise-sunset');
+      //   expect(result).to.equal('All Day');
+      // });
+      // it('should return closed', () => {
+      //   const result = formatOperatingHours('close');
+      //   expect(result).to.equal('Closed');
+      // });
+      // it('should format hmmA times', () => {
+      //   const result = formatOperatingHours('800AM-1000AM');
+      //   expect(result).to.equal('8:00a.m. - 10:00a.m.');
+      // });
+      // it('should format h:mmA times', () => {
+      //   const result = formatOperatingHours('8:00AM-10:00PM');
+      //   expect(result).to.equal('8:00a.m. - 10:00p.m.');
+      // });
+      // it('should skip invalid date', () => {
+      //   const result = formatOperatingHours('whatever-whatever');
+      //   expect(result).to.equal('whatever-whatever');
+      // });
     });
   });
 

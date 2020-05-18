@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 export default function CancelVideoAppointmentModal({ onClose, facility }) {
-  const phone = facility.telecom?.find(tele => tele.system === 'phone');
+  const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
   return (
     <Modal
       id="cancelAppt"

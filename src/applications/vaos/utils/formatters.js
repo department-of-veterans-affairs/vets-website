@@ -52,7 +52,7 @@ export function lowerCase(str = '') {
  * @param {*} facility - facility details object
  */
 export function formatFacilityAddress(facility) {
-  return `${facility.address[0].line.join(', ')}, ${
-    facility.address[0].city
-  }, ${facility.address[0].state} ${facility.address[0].postalCode}`;
+  return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
+    facility.address?.state
+  } ${facility.address.postalCode}`;
 }

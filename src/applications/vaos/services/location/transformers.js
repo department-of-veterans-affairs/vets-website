@@ -25,14 +25,12 @@ export function transformDSFacilities(facilities) {
     ],
     name: facility.authoritativeName,
     telecom: [],
-    address: [
-      {
-        line: [],
-        city: facility.city,
-        state: facility.stateAbbrev,
-        postalCode: null,
-      },
-    ],
+    address: {
+      line: [],
+      city: facility.city,
+      state: facility.stateAbbrev,
+      postalCode: null,
+    },
     legacyVAR: {
       institutionTimezone: facility.institutionTimezone,
       requestSupported: facility.requestSupported,
@@ -170,26 +168,26 @@ export function transformFacility(facility) {
         value: facility.phone?.main,
       },
     ],
-    address: [
-      {
-        line: [
-          facility.address.physical.address1,
-          facility.address.physical.address2,
-          facility.address.physical.address3,
-        ].filter(line => !!line),
-        city: facility.address.physical.city,
-        state: facility.address.physical.state,
-        postalCode: facility.address.physical.zip,
-      },
-    ],
+    address: facility.address?.physical
+      ? {
+          line: [
+            facility.address.physical.address1,
+            facility.address.physical.address2,
+            facility.address.physical.address3,
+          ].filter(line => !!line),
+          city: facility.address.physical.city,
+          state: facility.address.physical.state,
+          postalCode: facility.address.physical.zip,
+        }
+      : null,
     position: {
       longitude: facility.long,
       latitude: facility.lat,
     },
+    hoursOfOperation: transformOperatingHours(facility.hours),
     managingOrganization: {
       reference: `Organization/var${facility.uniqueId.substr(0, 3)}`,
     },
-    hoursOfOperation: transformOperatingHours(facility.hours),
   };
 }
 

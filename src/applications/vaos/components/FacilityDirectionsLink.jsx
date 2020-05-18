@@ -3,22 +3,24 @@ import PropTypes from 'prop-types';
 
 class FacilityDirectionsLink extends Component {
   buildAddressArray = location => {
-    if (!Array.isArray(location.address)) {
+    // Community Care appointment address format
+    if (location?.address?.street) {
       const { address } = location;
 
       if (address && Object.keys(address).length) {
         return [
           address.street,
           address.appt,
-          `${address.city}, ${address.state} ${address.zip}`,
+          `${address.city}, ${address.state} ${address.zipCode}`,
         ].filter(x => !!x);
       }
 
       return [];
     }
 
-    if (location?.address?.length) {
-      const address = location.address[0];
+    // FHIR address format
+    if (location?.address) {
+      const address = location.address;
 
       return address.line
         .concat([`${address.city}, ${address.state} ${address.postalCode}`])
