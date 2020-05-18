@@ -1,58 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
+import SignatureCheckbox from './components/SignatureBox';
 
-// single checkbox
-const SignatureCheckbox = ({
-  fullName,
-  label,
-  children,
-  signSignature,
-  signatures,
-}) => {
-  const [isSigned, setIsSigned] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const isSignatureComplete = isSigned && isChecked;
-
-  useEffect(
-    () => {
-      signSignature({ ...signatures, [label]: isSignatureComplete });
-    },
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signSignature, label, isSignatureComplete],
-  );
-
-  return (
-    <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--1p5 vads-u-padding-top--1px vads-u-margin-bottom--7">
-      {children && <header>{children}</header>}
-
-      <SignatureInput
-        setIsSigned={setIsSigned}
-        label={label}
-        fullName={fullName}
-      />
-
-      <ErrorableCheckbox
-        onValueChange={event => setIsChecked(event)}
-        label="Yes, the submitted information is true, accurate, and complete."
-      />
-    </article>
-  );
-};
-
-// checkbox group
-const PreSubmitCheckboxes = ({
+const PreSubmitCheckboxGroup = ({
   onSectionComplete,
   showError,
   preSubmitInfo,
   checked,
   formData,
 }) => {
+  const veteranLabel = "Enter Veteran's or service member's full name";
+  const primaryLabel = "Enter Primary Family Caregiver's full name";
+  const secondaryOneLabel = "Enter Secondary Family Caregiver's full name";
+  const secondaryTwoLabel = "Enter Secondary Family Caregiver's (2) full name";
   const [signatures, setSignature] = useState({
-    Veteran: false,
-    'Primary Caregiver': false,
+    [veteranLabel]: false,
+    [primaryLabel]: false,
   });
+
   const [secondaryCaregivers, setSecondaryCaregivers] = useState({
     hasSecondaryOne: undefined,
     hasSecondaryTwo: undefined,
@@ -142,7 +106,7 @@ const PreSubmitCheckboxes = ({
     <section className="signature-container">
       <SignatureCheckbox
         fullName={formData.veteranFullName}
-        label="Veteran"
+        label={veteranLabel}
         signatures={signatures}
         signSignature={setSignature}
       >
@@ -159,7 +123,7 @@ const PreSubmitCheckboxes = ({
 
       <SignatureCheckbox
         fullName={formData.primaryFullName}
-        label="Primary Caregiver"
+        label={primaryLabel}
         signatures={signatures}
         signSignature={setSignature}
       >
@@ -169,7 +133,7 @@ const PreSubmitCheckboxes = ({
       {secondaryCaregivers.hasSecondaryOne && (
         <SignatureCheckbox
           fullName={formData.secondaryOneFullName}
-          label="Secondary One Caregiver"
+          label={secondaryOneLabel}
           signatures={signatures}
           signSignature={setSignature}
         >
@@ -180,7 +144,7 @@ const PreSubmitCheckboxes = ({
       {secondaryCaregivers.hasSecondaryTwo && (
         <SignatureCheckbox
           fullName={formData.secondaryTwoFullName}
-          label="Secondary Two Caregiver"
+          label={secondaryTwoLabel}
           signatures={signatures}
           signSignature={setSignature}
         >
@@ -193,5 +157,5 @@ const PreSubmitCheckboxes = ({
 
 export default {
   required: true,
-  CustomComponent: PreSubmitCheckboxes,
+  CustomComponent: PreSubmitCheckboxGroup,
 };
