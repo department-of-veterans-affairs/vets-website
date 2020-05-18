@@ -97,7 +97,10 @@ class EstimateYourBenefitsForm extends React.Component {
     const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
     const zipcode = this.props.inputs.beneficiaryZIP;
 
-    if (beneficiaryZIPError || zipcode.length !== 5) {
+    if (
+      (this.props.eligibility.giBillChapter === '33' && beneficiaryZIPError) ||
+      (this.props.eligibility.giBillChapter === '33' && zipcode.length !== 5)
+    ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
         const CheckNameOfElement = checkForEmptyFocusableElement(
