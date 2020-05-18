@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { srSubstitute } from '../../all-claims/utils';
@@ -6,34 +7,35 @@ import { genderLabels } from 'platform/static-data/labels';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
-const veteranInformationDescription = data => {
+export const veteranInfoView = profile => {
+  const { ssn, vaFileNumber, dob, gender } = profile;
   const {
-    fullName,
-    last4SSN,
-    last4VAFile,
-    gender,
-    dateOfBirth,
-  } = data?.formData;
-
+    first = '',
+    middle = '',
+    last = '',
+    suffix = '',
+  } = profile.userFullName;
   return (
     <>
       <p>This is the personal information we have on file for you.</p>
       <br />
       <div className="blue-bar-block">
-        <p>
-          <strong>{`${fullName?.first || ''} ${fullName?.last || ''}`}</strong>
-        </p>
-        <p className="ssn">
-          Social Security number: {mask} {last4SSN.slice(-4)}
-        </p>
-        <p className="vafn">
-          VA file number: {mask} {last4VAFile.slice(-4)}
-        </p>
+        <strong className="name">
+          {first} {middle} {last} {suffix}
+        </strong>
+        {ssn && (
+          <p className="ssn">
+            Social Security number: {mask} {ssn.slice(-4)}
+          </p>
+        )}
+        {vaFileNumber && (
+          <p className="vafn">
+            VA file number: {mask} {vaFileNumber.slice(-4)}
+          </p>
+        )}
         <p>
           Date of birth:{' '}
-          <span className="dob">
-            {dateOfBirth ? moment(dateOfBirth).format('L') : ''}
-          </span>
+          <span className="dob">{dob ? moment(dob).format('LL') : ''}</span>
         </p>
         <p>
           Gender:{' '}
@@ -53,4 +55,6 @@ const veteranInformationDescription = data => {
   );
 };
 
-export default veteranInformationDescription;
+export const veteranInfoDescription = connect(state => state.user?.profile)(
+  veteranInfoView,
+);

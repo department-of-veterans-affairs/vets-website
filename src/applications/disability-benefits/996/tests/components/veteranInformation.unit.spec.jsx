@@ -7,41 +7,55 @@ import { genderLabels } from 'platform/static-data/labels';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import initialData from '../schema/initialData';
+import { veteranInfoView } from '../../pages/veteranInformation';
 
-const { veteranInformation } = formConfig.chapters.step1.pages;
+const profileData = {
+  ssn: '4321',
+  vaFileNumber: '1234',
+  dob: '1980-12-31',
+  gender: 'M',
+  userFullName: {
+    first: 'Mike',
+    middle: 'M',
+    last: 'Wazowski',
+    suffix: 'esq',
+  },
+};
 
 describe('Confirm Veteran Details', () => {
   it('should render Veteran details (Name, last 4 SSN & VA File, gender)', () => {
-    const veteran = initialData;
+    const schema = {
+      type: 'object',
+      properties: {},
+    };
+    const uiSchema = {
+      'ui:description': () => veteranInfoView(profileData),
+    };
     const tree = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={veteranInformation.schema}
-        uiSchema={veteranInformation.uiSchema}
-        data={initialData}
-        formData={initialData}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={profileData}
+        formData={profileData}
       />,
     );
-
-    const fullName = tree
-      .find('strong')
-      .first()
-      .text();
-    const dataName = `${veteran.fullName.first} ${veteran.fullName.last}`;
+    const name = profileData.userFullName;
+    const fullName = tree.find('.name').text();
+    const dataName = `${name.first} ${name.middle} ${name.last} ${name.suffix}`;
     expect(fullName).to.equal(dataName);
 
     const ssn = tree.find('.ssn').text();
-    expect(ssn).to.include(veteran.last4SSN);
+    expect(ssn).to.include(profileData.ssn);
 
     const vafn = tree.find('.vafn').text();
-    expect(vafn).to.include(veteran.last4VAFile);
+    expect(vafn).to.include(profileData.vaFileNumber);
 
     const dob = tree.find('.dob').text();
-    expect(dob).to.equal(moment(veteran.dateOfBirth).format('L'));
+    expect(dob).to.equal(moment(profileData.dob).format('LL'));
 
     const gender = tree.find('.gender').text();
-    expect(gender).to.equal(genderLabels[veteran.gender]);
+    expect(gender).to.equal(genderLabels[profileData.gender]);
 
     tree.unmount();
   });

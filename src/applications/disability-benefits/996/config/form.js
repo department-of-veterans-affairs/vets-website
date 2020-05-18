@@ -23,7 +23,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 
 // Pages
-import { veteranInformationDescription } from '../pages/veteranInformation';
+import { veteranInfoDescription } from '../pages/veteranInformation';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
@@ -104,13 +104,12 @@ const formConfig = {
           title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: {
-            'ui:description': veteranInformationDescription,
+            'ui:description': veteranInfoDescription,
           },
           schema: {
             type: 'object',
             properties: {},
           },
-          initialData,
         },
         confirmContactInformation: {
           title: 'Contact information',
