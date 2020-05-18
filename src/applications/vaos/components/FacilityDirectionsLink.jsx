@@ -17,6 +17,14 @@ class FacilityDirectionsLink extends Component {
       return [];
     }
 
+    if (location?.vaos?.isCommunityCare) {
+      const { address } = location.contained[0]?.actor;
+      return [
+        address.street,
+        `${address.city}, ${address.state} ${address.postalCode}`,
+      ].filter(x => !!x);
+    }
+
     if (location?.address?.street) {
       const { address } = location;
       return [

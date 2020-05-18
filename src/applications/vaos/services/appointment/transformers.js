@@ -330,6 +330,7 @@ export function transformConfirmedAppointments(appointments) {
         appointmentType: getAppointmentType(appt),
         videoType: getVideoType(appt),
         isCommunityCare: isCC,
+        timeZone: isCC ? appt.timeZone : null,
       },
     };
   });

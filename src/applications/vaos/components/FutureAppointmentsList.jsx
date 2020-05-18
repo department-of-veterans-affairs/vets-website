@@ -19,7 +19,7 @@ import {
   isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
@@ -83,44 +83,41 @@ export class FutureAppointmentsList extends React.Component {
           )}
           <ul className="usa-unstyled-list" id="appointments-list">
             {future.map((appt, index) => {
-              switch (appt.appointmentType) {
-                case APPOINTMENT_TYPES.ccRequest:
-                case APPOINTMENT_TYPES.request:
-                  return (
-                    <AppointmentRequestListItem
-                      key={index}
-                      index={index}
-                      appointment={appt}
-                      facility={
-                        facilityData[
-                          getRealFacilityId(appt.facility?.facilityCode)
-                        ]
-                      }
-                      showCancelButton={showCancelButton}
-                      cancelAppointment={this.props.cancelAppointment}
-                      fetchMessages={this.props.fetchRequestMessages}
-                      messages={requestMessages}
-                    />
-                  );
-                case APPOINTMENT_TYPES.ccAppointment:
-                case APPOINTMENT_TYPES.vaAppointment:
-                  return (
-                    <ConfirmedAppointmentListItem
-                      key={index}
-                      index={index}
-                      appointment={appt}
-                      facility={
-                        systemClinicToFacilityMap[
-                          `${appt.facilityId}_${appt.clinicId}`
-                        ]
-                      }
-                      showCancelButton={showCancelButton}
-                      cancelAppointment={this.props.cancelAppointment}
-                    />
-                  );
-                default:
-                  return null;
+              if (appt.vaos) {
+                return (
+                  <ConfirmedAppointmentListItem
+                    key={index}
+                    index={index}
+                    appointment={appt}
+                    facility={
+                      systemClinicToFacilityMap[
+                        `${appt.facilityId}_${appt.clinicId}`
+                      ]
+                    }
+                    showCancelButton={showCancelButton}
+                    cancelAppointment={this.props.cancelAppointment}
+                  />
+                );
+              } else if (appt.appointmentType) {
+                return (
+                  <AppointmentRequestListItem
+                    key={index}
+                    index={index}
+                    appointment={appt}
+                    facility={
+                      facilityData[
+                        getRealFacilityId(appt.facility?.facilityCode)
+                      ]
+                    }
+                    showCancelButton={showCancelButton}
+                    cancelAppointment={this.props.cancelAppointment}
+                    fetchMessages={this.props.fetchRequestMessages}
+                    messages={requestMessages}
+                  />
+                );
               }
+
+              return null;
             })}
           </ul>
         </>

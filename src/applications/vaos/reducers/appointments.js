@@ -28,7 +28,6 @@ import {
   getRealFacilityId,
   sortPastAppointments,
   transformRequest,
-  transformAppointment,
   transformPastAppointment,
 } from '../utils/appointment';
 import {
@@ -59,13 +58,11 @@ export default function appointmentsReducer(state = initialState, action) {
         futureStatus: FETCH_STATUS.loading,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
-      const [vaAppointments, ccAppointments, requests] = action.data;
+      const [bookedAppointments, requests] = action.data;
 
-      const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
+      const confirmedFilteredAndSorted = [...bookedAppointments]
         .filter(appt => filterFutureConfirmedAppointments(appt, action.today))
-        .map(transformAppointment)
         .sort(sortFutureConfirmedAppointments);
-
       const requestsFilteredAndSorted = [
         ...requests.filter(req => filterRequests(req, action.today)),
       ]

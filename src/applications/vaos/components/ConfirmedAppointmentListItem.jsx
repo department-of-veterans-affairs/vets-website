@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import moment from 'moment';
 import { formatFacilityAddress } from '../utils/formatters';
 import { APPOINTMENT_STATUS } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
@@ -27,10 +28,11 @@ export default function ConfirmedAppointmentListItem({
   facility,
 }) {
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isPastAppointment = appointment.isPastAppointment;
+  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const isCommunityCare = appointment.vaos.isCommunityCare;
   const isInPersonVAAppointment =
-    !appointment.videoType && !appointment.isCommunityCare;
-  const isVideoAppointment = !!appointment.videoType;
+    !appointment.vaos.videoType && !isCommunityCare;
+  const isVideoAppointment = !!appointment.vaos.videoType;
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -46,11 +48,12 @@ export default function ConfirmedAppointmentListItem({
   if (isVideoAppointment) {
     header = 'VA Video Connect';
     location = 'Video conference';
-  } else if (appointment.isCommunityCare) {
+  } else if (isCommunityCare) {
     header = 'Community Care';
-    location = `${appointment.address.street} ${appointment.address.city}, ${
-      appointment.address.state
-    } ${appointment.address.zipCode}`;
+    const address = appointment.contained[0]?.actor?.address;
+    location = `${address.line[0]} ${address.city}, ${address.state} ${
+      address.postalCode
+    }`;
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
@@ -69,9 +72,9 @@ export default function ConfirmedAppointmentListItem({
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
         <AppointmentDateTime
-          appointmentDate={appointment.appointmentDate}
-          timezone={appointment.timeZone}
-          facilityId={appointment.facilityId}
+          appointmentDate={moment(appointment.start)}
+          timezone={appointment.vaos.timeZone}
+          facilityId={appointment.legacyVAR?.facilityId}
         />
       </h3>
       <AppointmentStatus
@@ -81,7 +84,7 @@ export default function ConfirmedAppointmentListItem({
       />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          {appointment.isCommunityCare && (
+          {isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
           )}
           {isVideoAppointment && (
@@ -94,7 +97,7 @@ export default function ConfirmedAppointmentListItem({
             />
           )}
         </div>
-        {appointment.isCommunityCare && (
+        {isCommunityCare && (
           <CommunityCareInstructions instructions={appointment.instructions} />
         )}
         {isInPersonVAAppointment && (
@@ -108,15 +111,15 @@ export default function ConfirmedAppointmentListItem({
             <AddToCalendar
               summary={header}
               description={
-                appointment.instructions &&
-                (isInPersonVAAppointment || appointment.isCommunityCare)
-                  ? appointment.instructions
+                appointment.comment &&
+                (isInPersonVAAppointment || isCommunityCare)
+                  ? appointment.comment
                   : ''
               }
               location={location}
-              duration={appointment.duration}
-              startDateTime={appointment.appointmentDate.toDate()}
-              endDateTime={appointment.appointmentDate}
+              duration={appointment.minutesDuration}
+              startDateTime={appointment.start}
+              endDateTime={appointment.start}
             />
             {showCancelButton && (
               <button
@@ -127,7 +130,7 @@ export default function ConfirmedAppointmentListItem({
                 Cancel appointment
                 <span className="sr-only">
                   {' '}
-                  on {formatAppointmentDate(appointment.appointmentDate)}
+                  on {formatAppointmentDate(moment(appointment.start))}
                 </span>
               </button>
             )}

@@ -15,6 +15,8 @@ import {
   getClinicInstitutions,
 } from '../api';
 
+import { getBookedAppointments } from '../services/appointment';
+
 import { captureError } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
@@ -170,23 +172,12 @@ export function fetchFutureAppointments() {
 
       try {
         const data = await Promise.all([
-          getConfirmedAppointments(
-            'va',
-            moment()
-              .startOf('day')
-              .toISOString(),
-            moment()
-              .startOf('day')
-              .add(1, 'years')
-              .toISOString(),
-          ),
-          getConfirmedAppointments(
-            'cc',
-            moment().format('YYYY-MM-DD'),
-            moment()
+          getBookedAppointments({
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment()
               .add(1, 'years')
               .format('YYYY-MM-DD'),
-          ),
+          }),
           getPendingAppointments(
             moment()
               .subtract(30, 'days')

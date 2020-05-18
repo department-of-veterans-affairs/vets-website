@@ -204,12 +204,10 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 export function filterFutureConfirmedAppointments(appt, today) {
   // return appointments where current time is less than appointment time
   // +60 min or +240 min in the case of video
-  const isVideo = isVideoVisit(appt);
+  const isVideo = !!appt.vaos.videoType;
   const threshold = isVideo ? 240 : 60;
-  const apptDateTime = getMomentConfirmedDate(appt);
-  const status = isVideo
-    ? appt.vvsAppointments?.[0]?.status?.code
-    : appt.vdsAppointments?.[0]?.currentStatus;
+  const apptDateTime = moment(appt.start);
+  const status = appt.desciption;
 
   return (
     !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&
@@ -248,7 +246,7 @@ export function filterRequests(request, today) {
 }
 
 export function sortFutureConfirmedAppointments(a, b) {
-  return a.appointmentDate.isBefore(b.appointmentDate) ? -1 : 1;
+  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
 }
 
 export function sortPastAppointments(a, b) {
