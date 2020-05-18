@@ -340,9 +340,6 @@ const fillForm = async (page, testData, testConfig, log) => {
   while (!page.url().endsWith('review-and-submit')) {
     log(page.url());
 
-    // check before filling in the page
-    await axe.check(page, log);
-
     // If there's a page hook, run that
     const url = page.url();
     const hook = _.get(`pageHooks.${parseUrl(url).path}`, testConfig);
