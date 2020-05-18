@@ -1,5 +1,6 @@
 import '@testing-library/cypress/add-commands';
 
+import './syncFixtures';
 import './upload';
 
 // Workaround to allow Cypress to intercept requests made with the Fetch API.
