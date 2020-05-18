@@ -1,27 +1,59 @@
 import React from 'react';
+import moment from 'moment';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
 import { BDD_INFO_URL } from '../../constants';
 import { BDD_FORM_ROOT_URL } from 'applications/disability-benefits/bdd/constants';
 
-const FileBDDClaim = () => (
-  <>
-    <p>
-      Based on your information, you may be eligible for the Benefits Delivery
-      at Discharge program that allows service members to apply for VA
-      disability benefits prior to separation.
-    </p>
-    <p>
-      <a href={BDD_INFO_URL}>
-        Learn more about Benefits Delivery at Discharge (BDD)
+function alertContent(getPageStateFromPageName) {
+  const stateBDD = getPageStateFromPageName('bdd');
+
+  const dateDischarge = moment({
+    day: stateBDD.day.value,
+    // moment takes 0-indexed months, but the date picker provides 1-indexed months
+    month: parseInt(stateBDD.month.value, 10) - 1,
+    year: stateBDD.year.value,
+  });
+  const dateToday = moment();
+  const differenceBetweenDatesInDays =
+    dateDischarge.diff(dateToday, 'days') + 1;
+
+  return (
+    <>
+      <p>
+        Based on your information, you may be eligible for the Benefits Delivery
+        at Discharge program that allows service members to apply for VA
+        disability benefits prior to separation.
+      </p>
+      <p>
+        You have <b>{differenceBetweenDatesInDays - 90}</b> day(s) left to file
+        your BDD claim.
+      </p>
+      <p>
+        Please be aware that you will need to be available for 45 days after you
+        file in order to complete VA exams during this period.
+      </p>
+      <p>
+        <a href={BDD_INFO_URL}>
+          Learn more about Benefits Delivery at Discharge (BDD)
+        </a>
+      </p>
+      <a
+        href={`${BDD_FORM_ROOT_URL}/introduction`}
+        className="usa-button-primary va-button-primary"
+      >
+        File a Benefits Delivery at Discharge claim
       </a>
-    </p>
-    <a
-      href={`${BDD_FORM_ROOT_URL}/introduction`}
-      className="usa-button-primary va-button-primary"
-    >
-      File a Benefits Delivery at Discharge claim
-    </a>
-  </>
+    </>
+  );
+}
+
+const FileBDDClaim = ({ getPageStateFromPageName }) => (
+  <AlertBox
+    status="info"
+    headline="You are eligible to file a BDD claim"
+    content={alertContent(getPageStateFromPageName)}
+  />
 );
 
 export default {

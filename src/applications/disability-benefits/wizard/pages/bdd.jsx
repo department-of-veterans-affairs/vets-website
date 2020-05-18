@@ -4,7 +4,7 @@ import ErrorableDate from '@department-of-veterans-affairs/formation-react/Error
 import { pageNames } from './pageList';
 
 import environment from 'platform/utilities/environment';
-import unableToFileBDD from './unable-to-file-bdd';
+import unableToFileBDDProduction from './unable-to-file-bdd-production';
 
 // Figure out which page to go to based on the date entered
 const findNextPage = state => {
@@ -18,10 +18,11 @@ const findNextPage = state => {
   const differenceBetweenDatesInDays =
     dateDischarge.diff(dateToday, 'days') + 1;
 
-  if (
-    differenceBetweenDatesInDays >= 90 &&
-    differenceBetweenDatesInDays <= 180
-  ) {
+  if (differenceBetweenDatesInDays <= 0) {
+    return pageNames.invalidSeparationDate;
+  } else if (differenceBetweenDatesInDays < 90) {
+    return pageNames.fileClaimEarly;
+  } else if (differenceBetweenDatesInDays <= 180) {
     return pageNames.fileBDD;
   }
   return pageNames.unableToFileBDD;
@@ -46,15 +47,15 @@ const isDateComplete = date =>
   date.day.value && date.month.value && date.year.value.length === 4;
 
 const BDDPage = ({ setPageState, state = defaultState }) => {
+  if (environment.isProduction()) {
+    return <unableToFileBDDProduction.component />;
+  }
+
   const onChange = pageState =>
     setPageState(
       pageState,
       isDateComplete(pageState) ? findNextPage(pageState) : undefined,
     );
-
-  if (environment.isProduction()) {
-    return <unableToFileBDD.component />;
-  }
 
   return (
     <ErrorableDate
