@@ -10,14 +10,27 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "react-hooks", "fp", "sonarjs", "va"],
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "plugins": [
+    "cypress",
+    "fp",
+    "jest",
+    "mocha",
+    "react-hooks",
+    "sonarjs",
+    "va"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:cypress/recommended",
+    "plugin:prettier/recommended",
+  ],
   "env": {
     "browser": true,
     "commonjs": true,
+    "cypress/globals": true
     "es6": true,
+    "jest": true,
     "mocha": true,
-    "jest": true
   },
   "globals": {
     "__BUILDTYPE__": true,
