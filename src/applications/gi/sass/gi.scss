@@ -166,3 +166,25 @@
     }
   }
 }
+
+.section-item {
+  padding-bottom: 0.188em;
+  padding-top: 0.188em;
+
+  .section-button {
+    border: 2px solid #AEB0B5 !important;
+    margin: 0px;
+  }
+
+  .section-button-span {
+    letter-spacing: 0.4px;
+  }
+
+  .section-content {
+    max-width: 25em;
+  }
+
+  .section-content[aria-hidden="false"] {
+    margin-bottom: 0.625em;
+  }
+}

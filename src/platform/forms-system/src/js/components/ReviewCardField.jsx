@@ -166,6 +166,7 @@ export default class ReviewCardField extends React.Component {
       'vads-u-margin-top--1',
       'vads-u-margin-bottom--2p5',
       'vads-u-margin-x--0',
+      'vads-u-font-size--h4',
     ].join(' ');
 
     const updateButtonClasses = [
@@ -212,10 +213,12 @@ export default class ReviewCardField extends React.Component {
       // volatileData is for arrays, which displays separate blocks
       uiSchema['ui:options']?.volatileData;
 
+    const Tag = formContext.onReviewPage ? 'h4' : 'h3';
+
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4 className={titleClasses}>{title}</h4>
+          <Tag className={titleClasses}>{title}</Tag>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
@@ -283,6 +286,7 @@ export default class ReviewCardField extends React.Component {
       'review-card--title',
       'vads-u-display--inline',
       'vads-u-margin--0',
+      'vads-u-font-size--h4',
     ].join(' ');
     const bodyClasses = [
       'review-card--body',
@@ -299,10 +303,12 @@ export default class ReviewCardField extends React.Component {
       'vads-u-width--auto',
     ].join(' ');
 
+    const Tag = this.props.formContext.onReviewPage ? 'h4' : 'h3';
+
     return (
       <div className="review-card">
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
-          <h4 className={titleClasses}>{title}</h4>
+          <Tag className={titleClasses}>{title}</Tag>
           {!volatileData && (
             <button
               className={`usa-button-secondary ${editButton}`}

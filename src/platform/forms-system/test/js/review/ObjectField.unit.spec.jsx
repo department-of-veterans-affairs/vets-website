@@ -425,7 +425,7 @@ describe('Schemaform review: ObjectField', () => {
     const uiSchema = {
       test: {
         'ui:options': {
-          addAnotherLabel: 'test',
+          customTitle: 'test',
         },
       },
     };
@@ -436,7 +436,7 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
-        formContext={{ pageTitle: 'Blah' }}
+        formContext={{ pageTitle: 'Blah', reviewMode: false }}
         idSchema={{ $id: 'root' }}
         formData={formData}
         onChange={onChange}
@@ -448,7 +448,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(review.type).to.equal('div');
     expect(review.props.className).to.equal('review');
   });
-  it('should render a div when rendering the file UI', () => {
+  it('should render a div when the file UI is in review mode', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
@@ -473,7 +473,7 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
         schema={schema}
         uiSchema={uiSchema}
-        formContext={{ pageTitle: 'Blah' }}
+        formContext={{ pageTitle: 'Blah', reviewMode: true }}
         idSchema={{ $id: 'root' }}
         formData={formData}
         onChange={onChange}
@@ -483,6 +483,43 @@ describe('Schemaform review: ObjectField', () => {
     // expecting a "div.review" instead of a "dl.review"
     const review = tree.props.children[1];
     expect(review.type).to.equal('div');
+    expect(review.props.className).to.equal('review');
+  });
+  it('should render a dl when the file UI is in edit mode', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          addAnotherLabel: 'test',
+        },
+      },
+    };
+    const formData = {
+      test: { foo: 'test' },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ pageTitle: 'Blah', reviewMode: false }}
+        idSchema={{ $id: 'root' }}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+    // expecting a "dl.review" instead of a "div.review"
+    const review = tree.props.children[1];
+    expect(review.type).to.equal('dl');
     expect(review.props.className).to.equal('review');
   });
 });
