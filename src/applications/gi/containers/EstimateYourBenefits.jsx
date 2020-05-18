@@ -100,6 +100,7 @@ export class EstimateYourBenefits extends React.Component {
           estimatedBenefits={this.props.estimatedBenefits}
           updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
+        <div className="medium-1 columns">&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
         {
           <div

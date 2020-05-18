@@ -75,7 +75,7 @@ const perTermSections = (outputs, calculator) => {
 };
 
 export const EstimatedBenefits = ({ outputs, calculator }) => (
-  <div className="medium-6 columns your-estimated-benefits vads-u-margin-right--0">
+  <div className="medium-6 columns your-estimated-benefits">
     <h3 id="estimated-benefits" tabIndex="-1">
       Your estimated benefits
     </h3>
