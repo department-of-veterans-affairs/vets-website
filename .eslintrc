@@ -22,15 +22,15 @@
   "extends": [
     "airbnb",
     "plugin:cypress/recommended",
-    "plugin:prettier/recommended",
+    "plugin:prettier/recommended"
   ],
   "env": {
     "browser": true,
     "commonjs": true,
-    "cypress/globals": true
+    "cypress/globals": true,
     "es6": true,
     "jest": true,
-    "mocha": true,
+    "mocha": true
   },
   "globals": {
     "__BUILDTYPE__": true,
