@@ -214,7 +214,8 @@ export function filterFutureConfirmedAppointments(appt, today) {
   return (
     !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&
     apptDateTime.isValid() &&
-    apptDateTime.add(threshold, 'minutes').isAfter(today)
+    apptDateTime.add(threshold, 'minutes').isAfter(today) &&
+    moment(apptDateTime).isBefore(moment().add(13, 'months'))
   );
 }
 
