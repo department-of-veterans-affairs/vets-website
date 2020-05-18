@@ -56,7 +56,7 @@ const PreSubmitCheckboxGroup = ({
   const SecondaryCaregiverCopy = ({ label }) => {
     const header = title => `${title} or Family Member Statement of Truth`;
     return (
-      <>
+      <div>
         <h3 className="vads-u-margin-top--4">{header(label)}</h3>
 
         <p className="vads-u-margin-y--4">
@@ -77,8 +77,11 @@ const PreSubmitCheckboxGroup = ({
           {`I understand that the Veteran or Veteran’s surrogate may initiate my
             revocation as a ${label} at any time and that the VA
             may immediately revoke this designation if I fail to comply with the
-            program requirements for continued participation in the program.`}{' '}
-          I have read and accept the
+            program requirements for continued participation in the program.`}
+        </p>
+
+        <p>
+          I have read and accept thes
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -89,7 +92,7 @@ const PreSubmitCheckboxGroup = ({
           </a>
           .
         </p>
-      </>
+      </div>
     );
   };
 
@@ -118,8 +121,11 @@ const PreSubmitCheckboxGroup = ({
           I certify that I give consent to the individual(s) named in this
           application to perform personal care services for me upon being
           approved as Primary and/or Secondary Caregiver(s) in the Program of
-          Comprehensive Assistance for Family Caregivers. I have read and accept
-          the
+          Comprehensive Assistance for Family Caregivers.
+        </p>
+
+        <p>
+          I have read and accept the
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -169,8 +175,11 @@ const PreSubmitCheckboxGroup = ({
           <p>
             I understand that participation in the Program of Comprehensive
             Assistance for Family Caregivers does not create an employment
-            relationship with the Department of Veterans Affairs. I have read
-            and accept the
+            relationship with the Department of Veterans Affairs.
+          </p>
+
+          <p>
+            I have read and accept the
             <a
               target="_blank"
               rel="noopener noreferrer"
