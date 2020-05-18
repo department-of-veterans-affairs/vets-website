@@ -23,5 +23,5 @@ disclosed after a reasonable time period that allows patching the vulnerability 
 
 If you discover a suspected security vulnerability, please report it to 
 **[security@va.gov](mailto:security@va.gov)** and include the word "SECURITY" in the subject line. 
-You will receive a response from us within 48 hours. If the issue is confirmed, we will release a 
+You will receive a response from us within 2 business days. If the issue is confirmed, we will release a 
 patch as soon as possible depending on complexity but historically within a few days.
