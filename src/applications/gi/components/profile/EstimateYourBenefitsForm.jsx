@@ -727,7 +727,7 @@ class EstimateYourBenefitsForm extends React.Component {
           : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
-          <div name="zip-question">
+          <div name="beneficiary-zip-question">
             <ErrorableTextInput
               autoFocus
               errorMessage={errorMessageCheck}
