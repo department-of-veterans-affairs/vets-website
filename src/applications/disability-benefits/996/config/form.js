@@ -9,16 +9,21 @@ import fullSchema from '../20-0996-schema.json';
 
 // import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from '../components/GetFormHelp';
+
+import migrations from '../migrations';
+import prefillTransformer from './prefill-transformer';
+// import { transform } from './submit-transformer';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../components/GetFormHelp';
 
 // Pages
-import veteranInformationDescription from '../pages/veteranInformation';
+import { veteranInformationDescription } from '../pages/veteranInformation';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
@@ -48,25 +53,33 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'hlr-0996-',
+  downtime: {
+    requiredForPrefill: true,
+    // double check these required services
+    dependencies: [services.vet360],
+  },
 
+  formId: VA_FORM_IDS.FORM_20_0996,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_20_0996,
-  version: 0,
+
+  version: migrations.length,
+  migrations,
+  prefillTransformer,
   prefillEnabled: true,
+  verifyRequiredPrefill: true,
+  // transformForSubmit: transform,
+
   // beforeLoad: props => { console.log('form config before load', props); },
   // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
   //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
   // },
-  // verifyRequiredPrefill: true,
-  // prefillTransformer: (pages, formData, metadata) => {
-  //   console.log('prefill transformer', pages, formData, metadata);
-  //   return { pages, formData, metadata };
-  // },
+
   savedFormMessages: {
     notFound: errorMessages.savedFormNotFound,
     noAuth: errorMessages.savedFormNoAuth,
   },
+
   title: 'Request a Higher-Level Review',
   subTitle: 'Equal to VA Form 20-0996',
   defaultDefinitions: {
