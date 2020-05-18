@@ -24,7 +24,7 @@ export const fetchFormsApi = async (query, options = {}) => {
   }
 
   const forms = response?.data;
-  const onlyValidForms = forms?.filter(form => form.validPdf);
+  const onlyValidForms = forms?.filter(form => form.attributes?.validPdf);
 
   return sortBy(onlyValidForms, 'id');
 };
