@@ -1,5 +1,5 @@
 # Announcements
-Announcements were designed to be configurable site-wide without messing with the source code of other applications or digging into Metalsmith layout files to conditionally render. They are configured in `config/index.jsx` using regular expressions to determine which announcements render on what pages.
+Announcements were designed to be configurable site-wide without messing with the source code of other applications or digging into Metalsmith layout files to conditionally render. They are configured in `config/index.js` using regular expressions to determine which announcements render on what pages.
 
 ## Basic Use Cases
 In the following example, any pages that matches the `paths` property will render the corresponding component in the `component` property. The `name` property should be unique. The `relatedAnnouncements` property refers to the names of other announcements, which should also be disabled when this announcement is dismissed by the user.

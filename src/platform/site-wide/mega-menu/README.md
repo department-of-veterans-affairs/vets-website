@@ -5,7 +5,7 @@ This document describes how the MegaMenu is configured in vets-website. There ar
 You can find documentation on the MegaMenu component at [MegaMenu](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/visual-design/components/megamenu/). This should give you a basic overview of how the MegaMenu needs to be setup.
 
 ## Entry point
-The way React components work in vets-website is that they are injected into web pages in vets-website. The HTML element that the MegaMenu is attaching to can be found at */src/site/includes/top-nav.html*. The entry point where the MegaMenu is injected into the site is at */src/platform/site-wide/index.jsx*. Here you will see.
+The way React components work in vets-website is that they are injected into web pages in vets-website. The HTML element that the MegaMenu is attaching to can be found at */src/site/includes/top-nav.html*. The entry point where the MegaMenu is injected into the site is at */src/platform/site-wide/index.js*. Here you will see.
 
 ```
 startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
