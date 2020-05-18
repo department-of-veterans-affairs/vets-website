@@ -97,7 +97,7 @@ describe('DirectDepositContent', () => {
 
     const wrapper = setUpWithInitialState(initialState);
 
-    expect(wrapper.html()).to.equal('');
+    expect(wrapper.isEmptyRender()).to.be.true;
     wrapper.unmount();
   });
   it('should render nothing if the user does not have 2FA set up', () => {
@@ -106,7 +106,7 @@ describe('DirectDepositContent', () => {
 
     const wrapper = setUpWithInitialState(initialState);
 
-    expect(wrapper.html()).to.equal('');
+    expect(wrapper.isEmptyRender()).to.be.true;
     wrapper.unmount();
   });
   it('should show the current bank info if it is set up', () => {
