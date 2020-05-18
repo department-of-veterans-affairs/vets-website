@@ -1,4 +1,5 @@
 export default Object.freeze({
+  preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowProfile2: 'profile_show_profile_2.0',
