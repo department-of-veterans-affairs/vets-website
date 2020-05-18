@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
-import SelectArrayItemsFromBatteries from '../components/Batteries';
+import Batteries from '../components/Batteries';
 
 const fakeStore = {
   getState: () => ({
@@ -51,44 +51,44 @@ const fakeStore = {
 
 describe('Batteries', () => {
   it('should render', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should display the device name of the battery', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(wrapper.text()).to.include('OMEGAX d3241');
     expect(wrapper.text()).to.include('fake device name');
     wrapper.unmount();
   });
   it('should display the prescribed date of the battery', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(wrapper.text()).to.include('Prescribed December 20, 2020');
     expect(wrapper.text()).to.include('Prescribed April 05, 2017');
     wrapper.unmount();
   });
   it('should display the last order date of the batteries', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(wrapper.text()).to.include('Last order date:  01/01/2020');
     expect(wrapper.text()).to.include('Last order date:  03/02/2020');
     wrapper.unmount();
   });
   it('should display the quantity of the battery', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(wrapper.text()).to.include('Quantity: 60');
     expect(wrapper.text()).to.include('Quantity: 2');
     wrapper.unmount();
   });
   it('should display the batteries with a light gray background', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(
       wrapper.find('.vads-u-background-color--gray-lightest').length,
     ).to.equal(2);
     wrapper.unmount();
   });
   it('should display an alert box if the Veteran cannot order batteries', () => {
-    const wrapper = mount(<SelectArrayItemsFromBatteries store={fakeStore} />);
+    const wrapper = mount(<Batteries store={fakeStore} />);
     expect(wrapper.find('AlertBox').length).to.equal(1);
     wrapper.unmount();
   });
