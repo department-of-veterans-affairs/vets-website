@@ -1,4 +1,26 @@
 import React from 'react';
+import moment from 'moment';
+
+function getHourText(hours) {
+  if (!hours) {
+    return 'Closed';
+  }
+
+  if (hours.allDay) {
+    return '24/7';
+  }
+
+  if (!hours.openingTime && !hours.closingTime) {
+    return '';
+  }
+
+  const openingTime = moment(hours.openingTime, 'HH:mm').format('h:mm a');
+  const closingTime = hours.closingTime
+    ? moment(hours.closingTime, 'HH:mm').format('h:mm a')
+    : null;
+
+  return `${openingTime}${closingTime ? ` - ${closingTime}` : null}`;
+}
 
 export default function FacilityHours({ hoursOfOperation }) {
   const days = [
@@ -40,17 +62,7 @@ export default function FacilityHours({ hoursOfOperation }) {
                         </span>
                       </div>
                       <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--7 medium-screen:small-screen:vads-l-col--9">
-                        {!d.hours && 'Closed'}
-                        {d.hours?.allDay && '24/7'}
-                        {d.hours &&
-                          !d.hours.allDay && (
-                            <>
-                              {d.hours.openingTime}
-                              {d.hours.closingTime
-                                ? ` - ${d.hours.closingTime}`
-                                : null}
-                            </>
-                          )}
+                        {getHourText(d.hours)}
                       </div>
                     </React.Fragment>
                   ))}

@@ -8,8 +8,8 @@ const hoursOfOperation = [
   {
     daysOfWeek: ['mon'],
     allDay: false,
-    openingTime: '8:00 a.m.',
-    closingTime: '4:00 p.m.',
+    openingTime: '08:00',
+    closingTime: '16:00',
   },
   {
     daysOfWeek: ['wed', 'thu', 'fri', 'sat', 'sun'],

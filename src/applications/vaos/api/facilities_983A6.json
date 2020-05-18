@@ -11,8 +11,8 @@
         "rootStationCode": "983",
         "adminParent": true,
         "parentStationCode": "983A6",
-        "requestSupported": false,
-        "directSchedulingSupported": false,
+        "requestSupported": true,
+        "directSchedulingSupported": true,
         "expressTimes": null,
         "institutionTimezone": "America/Denver"
       }

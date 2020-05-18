@@ -100,15 +100,15 @@ function parseHours(operatingHours) {
   const [openingHour, closingHour] = sanitizedOperatingHours.split('-');
 
   // Format the hours based on 'hmmA' format.
-  let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mma');
-  let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mma');
+  let formattedOpeningHour = moment(openingHour, 'hmmA').format('HH:mm');
+  let formattedClosingHour = moment(closingHour, 'hmmA').format('HH:mm');
 
-  // Attempt to format the hours based on 'h:mmA' if theere's a colon.
+  // Attempt to format the hours based on 'h:mmA' if there's a colon.
   if (openingHour.includes(':')) {
-    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mma');
+    formattedOpeningHour = moment(openingHour, 'h:mmA').format('HH:mm');
   }
   if (closingHour.includes(':')) {
-    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mma');
+    formattedClosingHour = moment(closingHour, 'h:mmA').format('HH:mm');
   }
 
   // Derive the formatted operating hours.
@@ -116,10 +116,10 @@ function parseHours(operatingHours) {
 
   // Return original string if invalid date.
   if (hoursArray[0].search(/Invalid date/i) === 0) {
-    hoursArray[0] = openingHour;
+    hoursArray[0] = null;
   }
   if (hoursArray[1].search(/Invalid date/i) === 0) {
-    hoursArray[1] = closingHour;
+    hoursArray[1] = null;
   }
 
   // Return the formatted operating hours.

@@ -67,30 +67,80 @@ describe('VAOS Location transformer', () => {
       );
     });
     describe('should map operating hours', () => {
-      // it('should return if falsy', () => {
-      //   const result = formatOperatingHours(false);
-      //   expect(result).to.equal(false);
-      // });
-      // it('should convert sunrise - sunset to All day', () => {
-      //   const result = formatOperatingHours('sunrise-sunset');
-      //   expect(result).to.equal('All Day');
-      // });
-      // it('should return closed', () => {
-      //   const result = formatOperatingHours('close');
-      //   expect(result).to.equal('Closed');
-      // });
-      // it('should format hmmA times', () => {
-      //   const result = formatOperatingHours('800AM-1000AM');
-      //   expect(result).to.equal('8:00a.m. - 10:00a.m.');
-      // });
-      // it('should format h:mmA times', () => {
-      //   const result = formatOperatingHours('8:00AM-10:00PM');
-      //   expect(result).to.equal('8:00a.m. - 10:00p.m.');
-      // });
-      // it('should skip invalid date', () => {
-      //   const result = formatOperatingHours('whatever-whatever');
-      //   expect(result).to.equal('whatever-whatever');
-      // });
+      it('should skip entry if closed', () => {
+        const data = transformFacility({
+          ...facilityDetailsParsed[0],
+          hours: {
+            monday: null,
+          },
+        });
+        expect(data.hoursOfOperation).to.be.empty;
+      });
+      it('should convert sunrise - sunset to All day', () => {
+        const data = transformFacility({
+          ...facilityDetailsParsed[0],
+          hours: {
+            monday: 'sunrise - sunset',
+          },
+        });
+        expect(data.hoursOfOperation[0]).to.deep.equal({
+          allDay: true,
+          daysOfWeek: ['mon'],
+          openingTime: null,
+          closingTime: null,
+        });
+      });
+      it('should return closed if text is close', () => {
+        const data = transformFacility({
+          ...facilityDetailsParsed[0],
+          hours: {
+            tuesday: 'close',
+          },
+        });
+        expect(data.hoursOfOperation).to.be.empty;
+      });
+      it('should format hmmA times', () => {
+        const data = transformFacility({
+          ...facilityDetailsParsed[0],
+          hours: {
+            monday: '800AM-1000AM',
+          },
+        });
+        expect(data.hoursOfOperation[0]).to.deep.equal({
+          allDay: false,
+          daysOfWeek: ['mon'],
+          openingTime: '08:00',
+          closingTime: '10:00',
+        });
+      });
+      it('should format h:mmA times', () => {
+        const data = transformFacility({
+          ...facilityDetailsParsed[0],
+          hours: {
+            monday: '8:00AM-10:00PM',
+          },
+        });
+        expect(data.hoursOfOperation[0]).to.deep.equal({
+          allDay: false,
+          daysOfWeek: ['mon'],
+          openingTime: '08:00',
+          closingTime: '22:00',
+        });
+      });
+      it('should skip invalid date', () => {
+        const data = transformFacility({
+          ...facilityDetailsParsed[0],
+          hours: {
+            monday: 'whatever-whatever',
+          },
+        });
+        expect(data.hoursOfOperation[0]).to.deep.equal({
+          allDay: false,
+          daysOfWeek: ['mon'],
+          openingTime: null,
+          closingTime: null,
+        });
+      });
     });
   });
 
