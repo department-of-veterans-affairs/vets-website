@@ -441,15 +441,18 @@ export function updateRequest(req) {
   if (USE_MOCK_DATA) {
     promise = import('./requests.json')
       .then(module => (module.default ? module.default : module))
-      .then(data => ({
-        data: {
-          id: req.id,
-          attributes: {
-            ...data.data.find(item => item.id === req.id).attributes,
-            status: 'Cancelled',
+      .then(data => {
+        const id = req.id || req.legacyVAR.id;
+        return {
+          data: {
+            id,
+            attributes: {
+              ...data.data.find(item => item.id === id).attributes,
+              status: 'Cancelled',
+            },
           },
-        },
-      }));
+        };
+      });
   } else {
     promise = vaosApiRequest(`/v0/appointment_requests/${req.id}`, {
       method: 'PUT',

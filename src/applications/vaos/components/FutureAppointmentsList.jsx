@@ -91,7 +91,9 @@ export class FutureAppointmentsList extends React.Component {
                     appointment={appt}
                     facility={
                       systemClinicToFacilityMap[
-                        `${appt.facilityId}_${appt.clinicId}`
+                        `${appt.legacyVAR?.facilityId}_${
+                          appt.legacyVAR?.clinicId
+                        }`
                       ]
                     }
                     showCancelButton={showCancelButton}

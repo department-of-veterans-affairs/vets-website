@@ -288,14 +288,12 @@ function setContained(appt) {
  * @returns {Object}
  */
 function setLegacyVAR(appt) {
-  if (getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment) {
-    return {
-      facilityId: appt.facilityId,
-      clinicId: appt.clinicId,
-    };
-  }
-
-  return null;
+  return {
+    id: appt.id,
+    facilityId: appt.facilityId,
+    clinicId: appt.clinicId,
+    apiData: appt,
+  };
 }
 
 /**

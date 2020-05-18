@@ -74,11 +74,14 @@ function aggregateClinicsBySystem(appointments) {
   const facilityClinicListMap = new Map();
 
   appointments.forEach(appt => {
-    const facility = facilityClinicListMap.get(appt.facilityId);
+    const facility = facilityClinicListMap.get(appt.legacyVAR.facilityId);
     if (facility) {
-      facility.add(appt.clinicId);
+      facility.add(appt.legacyVAR.clinicId);
     } else {
-      facilityClinicListMap.set(appt.facilityId, new Set([appt.clinicId]));
+      facilityClinicListMap.set(
+        appt.legacyVAR.facilityId,
+        new Set([appt.legacyVAR.clinicId]),
+      );
     }
   });
 
@@ -139,7 +142,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
   // Get facility ids from VA appointments
   const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.legacyVAR?.clinicId,
+    appt => appt.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment,
   );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
@@ -156,7 +159,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
   }
-  // console.log(`Unique facility ids: ${uniqueFacilityIds.size}`);
+
   return {
     facilityData,
     clinicInstitutionList,
@@ -284,13 +287,13 @@ export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
     const isConfirmedAppointment =
-      appointment.appointmentType === APPOINTMENT_TYPES.vaAppointment;
+      appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
-      facilityType: appointment.isCommunityCare ? 'cc' : 'va',
+      facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
     };
-    let apiData = appointment.apiData;
+    let apiData = appointment.legacyVAR?.apiData || appointment.apiData;
     let cancelReasons = null;
     let cancelReason = null;
 
@@ -306,21 +309,22 @@ export function confirmCancelAppointment() {
 
       if (!isConfirmedAppointment) {
         apiData = await updateRequest({
-          ...appointment.apiData,
+          ...(appointment.apiData || appointment.legacyVAR?.apiData),
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
         const cancelData = {
-          appointmentTime: appointment.appointmentDate.format(
+          appointmentTime: moment(appointment.start).format(
             'MM/DD/YYYY HH:mm:ss',
           ),
-          clinicId: appointment.clinicId,
-          facilityId: appointment.facilityId,
+          clinicId: appointment.legacyVAR.clinicId,
+          facilityId: appointment.legacyVAR.facilityId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
           // we have to send the real name or if the friendly name is ok
-          clinicName: appointment.apiData.vdsAppointments[0].clinic.name,
+          clinicName:
+            appointment.legacyVAR.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 

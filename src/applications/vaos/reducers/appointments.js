@@ -170,7 +170,7 @@ export default function appointmentsReducer(state = initialState, action) {
           APPOINTMENT_TYPES.vaAppointment
         ) {
           newAppt = set(
-            'apiData.vdsAppointments[0].currentStatus',
+            'legacyVAR.apiData.vdsAppointments[0].currentStatus',
             'CANCELLED BY PATIENT',
             newAppt,
           );
