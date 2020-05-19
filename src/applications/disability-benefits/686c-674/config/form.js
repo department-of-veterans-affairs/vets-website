@@ -4,7 +4,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
-
+import { customTransformForSubmit } from './utilities';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -55,7 +55,7 @@ import {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/21-686c`,
+  submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -73,7 +73,7 @@ const formConfig = {
   title: 'Add or remove dependents from your VA benefits',
   subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
-
+  transformForSubmit: customTransformForSubmit,
   chapters: {
     optionSelection: {
       title: 'What do you want to do?',
