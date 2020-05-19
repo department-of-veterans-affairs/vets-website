@@ -27,7 +27,7 @@ export const uiSchema = {
       },
       reasonMarriageEnded: {
         'ui:required': formData => formData.spouseWasMarriedBefore === true,
-        'ui:title': 'Why did marriage end?',
+        'ui:title': 'Reason marriage ended',
         'ui:widget': 'radio',
       },
       reasonMarriageEndedOther: {
@@ -43,13 +43,13 @@ export const uiSchema = {
         },
       },
       endDate: {
-        ...currentOrPastDateUI('When did marriage end?'),
+        ...currentOrPastDateUI('Date marriage ended'),
         ...{
           'ui:required': formData => formData.spouseWasMarriedBefore,
         },
       },
       endLocation: {
-        'ui:title': 'Place marriage to former spouse ended',
+        'ui:title': 'Place marriage with former spouse ended',
         state: {
           'ui:required': formData => formData.spouseWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',

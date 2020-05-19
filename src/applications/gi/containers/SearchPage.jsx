@@ -121,12 +121,6 @@ export class SearchPage extends React.Component {
     }
   };
 
-  handleSearchLinkClick = facilityCode => {
-    const version = this.props.location.query.version;
-    const query = version ? { version } : {};
-    this.props.router.push({ pathname: `profile/${facilityCode}`, query });
-  };
-
   handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
@@ -229,7 +223,6 @@ export class SearchPage extends React.Component {
                 yr={result.yr}
                 poe={result.poe}
                 eightKeys={result.eightKeys}
-                handleLinkClick={this.handleSearchLinkClick}
               />
             ))}
           </div>

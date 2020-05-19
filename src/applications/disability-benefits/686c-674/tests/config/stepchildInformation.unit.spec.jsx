@@ -53,7 +53,7 @@ describe('686 stepchild information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
     expect(form.find('select').length).to.equal(2);
     form.unmount();
   });

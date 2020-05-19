@@ -1,5 +1,5 @@
 const MESSAGE =
-  'e2e Tests must include at least one axeCheck call. Source code can be found here: ./src/platform/testing/e2e/nightwatch-commands/axeCheck.js';
+  'e2e tests must include at least one axeCheck call. Documentation for adding checks and understanding errors can be found here: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/frontend/eslint/axe-check-required.md';
 
 const rule = {
   meta: {
