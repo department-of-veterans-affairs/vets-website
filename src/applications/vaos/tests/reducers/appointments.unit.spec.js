@@ -95,21 +95,29 @@ describe('VAOS reducer: appointments', () => {
           },
         ],
         [
-          // appointment times scheduled 395 days into the future should show
+          // CC appointment scheduled less than 395 days into the future should show
           {
-            appointmentTime: '05/29/2021 05:30:00',
+            appointmentTime: moment()
+              .add(394, 'days')
+              .format(),
+            timeZone: 'UTC',
+            appointmentRequestId: '1',
+          },
+          // CC appointment scheduled more than 395 days into the future not should show
+          {
+            appointmentTime: '05/29/2099 05:30:00',
             timeZone: 'UTC',
             appointmentRequestId: '1',
           },
         ],
-        [{ optionDate1: '05/29/2021' }],
+        [{ optionDate1: '05/29/2099' }],
       ],
       today: moment(),
     };
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(5);
+    expect(newState.future.length).to.equal(4);
     expect(
       newState.future[0].appointmentDate.isBefore(
         newState.future[1].appointmentDate,
