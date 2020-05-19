@@ -2,6 +2,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
+import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -44,7 +45,7 @@ class Batteries extends Component {
     );
 
     if (areBatterySuppliesIneligible) {
-      window.dataLayer.push({
+      recordEvent({
         event: 'bam-error',
         'error-key': 'batteries_bam-ineligibility-no-prescription',
       });

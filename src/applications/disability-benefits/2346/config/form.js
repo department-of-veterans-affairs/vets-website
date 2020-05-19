@@ -1,5 +1,6 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
@@ -60,14 +61,14 @@ const asyncReturn = (returnValue, error, delay = 300) =>
 const submit = form => {
   const itemQuantities = form.data?.selectedProducts?.length;
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'bam-2346a-submission',
     'bam-quantityOrdered': itemQuantities,
   });
 
   const onSuccess = resp =>
     new Promise(resolve => {
-      window.dataLayer.push({
+      recordEvent({
         event: 'bam-2346a-submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
@@ -76,7 +77,7 @@ const submit = form => {
 
   const onFailure = error =>
     new Promise(reject => {
-      window.dataLayer.push({
+      recordEvent({
         event: 'bam-2346a-submission-failure',
         'bam-quantityOrdered': itemQuantities,
       });
