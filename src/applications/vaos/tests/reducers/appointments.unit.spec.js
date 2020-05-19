@@ -99,7 +99,7 @@ describe('VAOS reducer: appointments', () => {
           {
             appointmentTime: moment()
               .add(394, 'days')
-              .format(),
+              .format('MM/DD/YYYY HH:mm:ss'),
             timeZone: 'UTC',
             appointmentRequestId: '1',
           },
