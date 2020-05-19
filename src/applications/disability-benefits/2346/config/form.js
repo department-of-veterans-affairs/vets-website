@@ -1,4 +1,3 @@
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import React from 'react';
@@ -10,21 +9,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import fullSchemaMDOT from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
-
-const veteranDeceased = (
-  <AlertBox
-    headline="Our records show that this Veteran is deceased"
-    content={
-      <p>
-        We can't fulfill an order for this Veteran. <br />
-        <br /> If this information is correct, please call Veteran's Benefits
-        Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
-        through Friday 8:00 a.m. to 9:00 p.m ET.
-      </p>
-    }
-    status="warning"
-  />
-);
 
 const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
 
@@ -79,7 +63,8 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
-    forbidden: veteranDeceased,
+    forbidden:
+      'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
   },
   defaultDefinitions: {
     email,
