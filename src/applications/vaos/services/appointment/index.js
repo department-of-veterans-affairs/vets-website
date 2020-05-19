@@ -2,6 +2,7 @@ import moment from 'moment';
 import { getConfirmedAppointments } from '../../api';
 import { transformConfirmedAppointments } from './transformers';
 import { mapToFHIRErrors } from '../../utils/fhir';
+import { APPOINTMENT_TYPES } from '../../utils/constants';
 
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
@@ -33,4 +34,32 @@ export async function getBookedAppointments({ startDate, endDate }) {
 
     throw e;
   }
+}
+
+export function getVARFacilityId(appointment) {
+  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
+    const id = appointment.participant?.[0]?.actor?.reference
+      ?.split('/')?.[1]
+      ?.split('_')?.[0];
+
+    if (id) {
+      return id;
+    }
+
+    return null;
+  }
+
+  return null;
+}
+
+export function getVARClinicId(appointment) {
+  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
+    const id = appointment.participant?.[0]?.actor?.reference
+      ?.split('/')?.[1]
+      ?.split('_')?.[1];
+
+    return id ? `var${id}` : null;
+  }
+
+  return null;
 }

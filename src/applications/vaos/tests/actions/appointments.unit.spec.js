@@ -178,16 +178,16 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
-    // expect(
-    //   dispatchSpy.thirdCall.args[0].clinicInstitutionList.some(
-    //     clinic => clinic.locationIen === '455',
-    //   ),
-    // ).to.be.true;
+    expect(
+      dispatchSpy.thirdCall.args[0].clinicInstitutionList.some(
+        clinic => clinic.locationIen === '455',
+      ),
+    ).to.be.true;
 
-    // expect(global.fetch.getCall(3).args[0]).to.contain(
-    //   'systems/983/clinic_institutions?clinic_ids[]=455',
-    // );
-    // expect(global.fetch.getCall(4).args[0]).to.contain('ids=vha_442');
+    expect(global.fetch.getCall(3).args[0]).to.contain(
+      'systems/983/clinic_institutions?clinic_ids[]=455',
+    );
+    expect(global.fetch.getCall(4).args[0]).to.contain('ids=vha_442');
   });
 
   it('should abort fetching clinics if more than 3 systems', async () => {
