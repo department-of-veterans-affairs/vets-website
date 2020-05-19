@@ -25,8 +25,8 @@ export function transformSlots(slots) {
          * already in the time zone of the facility. In order to prevent
          * moment from using this offset, we'll remove it until we know what offset VSP will be using
          */
-        start: slot.startDateTime.replace('+0:00', ''),
-        end: slot.endDateTime.replace('+0:00', ''),
+        start: slot.startDateTime.replace('+00:00', ''),
+        end: slot.endDateTime.replace('+00:00', ''),
       }))
   );
 }

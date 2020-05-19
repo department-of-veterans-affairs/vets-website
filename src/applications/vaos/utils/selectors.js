@@ -192,6 +192,14 @@ export function getPreferredDate(state, pageKey) {
   return { ...getFormPageInfo(state, pageKey), typeOfCare };
 }
 
+export function getChosenSlot(state) {
+  const availableSlots = getNewAppointment(state).availableSlots;
+  const selectedTime = getFormData(state).calendarData?.selectedDates?.[0]
+    .datetime;
+
+  return availableSlots?.find(slot => slot.start === selectedTime);
+}
+
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
   const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
@@ -201,9 +209,9 @@ export function getDateTimeSelect(state, pageKey) {
   const eligibilityStatus = getEligibilityStatus(state);
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = new Set(
-    availableSlots?.map(slot => slot.start.split('T')[0]),
-  ).values();
+  const availableDates = Array.from(
+    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
+  );
 
   const timezone = systemId ? getTimezoneDescBySystemId(systemId) : null;
   const typeOfCareId = getTypeOfCare(data)?.id;

@@ -161,9 +161,9 @@ export function generateMockSlots() {
 
   return times.sort().map(startDateTime => ({
     startDateTime,
-    endDateTime: moment(startDateTime.replace('+0:00', ''))
+    endDateTime: moment(startDateTime.replace('+00:00', ''))
       .add(20, 'minutes')
-      .format('YYYY-MM-DDTHH:mm:ss[+0:00]'),
+      .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
     bookingStatus: '1',
     remainingAllowedOverBookings: '3',
     availability: true,
