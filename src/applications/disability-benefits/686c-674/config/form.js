@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -8,6 +7,8 @@ import { isChapterFieldRequired } from './helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp.jsx';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -62,13 +63,17 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'New 686',
+  title: 'Add or remove dependents from your VA benefits',
+  subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
+
   chapters: {
     optionSelection: {
       title: 'What do you want to do?',
