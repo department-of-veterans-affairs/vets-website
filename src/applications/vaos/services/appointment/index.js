@@ -36,6 +36,12 @@ export async function getBookedAppointments({ startDate, endDate }) {
   }
 }
 
+/**
+ * Gets legacy var facility id from HealthcareService reference
+ *
+ * @param {Object} appointment VAR Appointment in FHIR schema
+ * @returns {String} Legacy VAR facility id
+ */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
     const id = appointment.participant?.[0]?.actor?.reference
@@ -52,6 +58,12 @@ export function getVARFacilityId(appointment) {
   return null;
 }
 
+/**
+ * Gets legacy var clinic id from HealthcareService reference
+ *
+ * @param {Object} appointment VAR Appointment in FHIR schema
+ * @returns {String} Legacy VAR clinic id
+ */
 export function getVARClinicId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
     const id = appointment.participant?.[0]?.actor?.reference

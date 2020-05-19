@@ -289,8 +289,6 @@ function setContained(appt) {
 function setLegacyVAR(appt) {
   return {
     id: appt.id,
-    facilityId: appt.facilityId,
-    clinicId: appt.clinicId,
     apiData: appt,
   };
 }

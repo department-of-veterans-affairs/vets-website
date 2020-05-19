@@ -163,7 +163,6 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   );
 
   const uniqueFacilityIds = new Set(facilityIds);
-
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
