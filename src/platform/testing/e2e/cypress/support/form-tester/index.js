@@ -131,8 +131,10 @@ const processPage = () => {
         cy.execHook(finalPathname);
       });
     } else {
+      cy.axeCheck();
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
+        cy.axeCheck();
       });
 
       cy.findByText(/continue/i, { selector: 'button' })
@@ -448,6 +450,7 @@ const testForm = testConfig => {
 
         it('fills the form', () => {
           cy.visit(rootUrl)
+            .injectAxe()
             .wait('@getMaintenanceWindows')
             .then(processPage);
         });
