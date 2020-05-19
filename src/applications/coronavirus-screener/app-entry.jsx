@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/coronovirus-screener.scss';
+import './sass/coronavirus-screener.scss';
 
 import startApp from 'platform/startup';
 
