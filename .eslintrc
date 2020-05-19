@@ -69,6 +69,7 @@
 
     /* TODO | DISABLED TEMPORARILY */
     "react/sort-comp": 0,
+    "jsx-a11y/label-has-for": 0,
 
     /* || sonarJS plugin || */
     "sonarjs/no-all-duplicated-branches": 2,
@@ -184,9 +185,7 @@
       }
     },
     {
-      "files": [
-        "**/*.e2e.spec.js"
-      ],
+      "files": ["**/*.e2e.spec.js"],
       "rules": {
         "va/axe-check-required": 1
       }
