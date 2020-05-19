@@ -1,5 +1,6 @@
-const MESSAGE = 'Use resolved path and remove unnecessary parent path';
+const MESSAGE = 'Do not use relative path. ';
 const DEFAULTS = ['applications'];
+let ALIASPATH = 'Instead, use absolute path for ';
 
 function isIncluded(val, aliases) {
   const isString = str => typeof str === 'string';
@@ -11,7 +12,10 @@ function isIncluded(val, aliases) {
 
   for (alias of aliases) {
     const path = `../${alias}/`;
-    if (val.includes(path)) return true;
+    if (val.includes(path)) {
+      ALIASPATH += alias;
+      return true;
+    }
   }
   return false;
 }
@@ -46,7 +50,7 @@ module.exports = {
         if (isIncluded(value, aliases)) {
           context.report({
             node,
-            message: MESSAGE,
+            message: MESSAGE + ALIASPATH,
           });
         }
       },
@@ -57,7 +61,7 @@ module.exports = {
           if (isIncluded(value, aliases)) {
             context.report({
               node,
-              message: MESSAGE,
+              message: MESSAGE + ALIASPATH,
             });
           }
         }
