@@ -67,7 +67,7 @@ export class PastAppointmentsList extends React.Component {
         <>
           <ul className="usa-unstyled-list" id="appointments-list">
             {past.map((appt, index) => {
-              switch (appt.vaos.appointmentType) {
+              switch (appt.vaos?.appointmentType) {
                 case APPOINTMENT_TYPES.ccAppointment:
                 case APPOINTMENT_TYPES.vaAppointment:
                   return (

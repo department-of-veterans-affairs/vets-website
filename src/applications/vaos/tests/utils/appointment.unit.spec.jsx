@@ -574,7 +574,7 @@ describe('VAOS appointment helpers', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
         currentStatus => ({
           description: currentStatus,
-          vaos: {},
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
           facilityId: '984',
         }),
       );
@@ -589,8 +589,10 @@ describe('VAOS appointment helpers', () => {
     it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
         description: code,
-        vaos: {},
-        facilityId: '984',
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          videoType: VIDEO_TYPES.videoConnect,
+        },
       }));
 
       const filtered = hiddenAppts.filter(a =>
@@ -603,8 +605,8 @@ describe('VAOS appointment helpers', () => {
     it('should filter out past appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(
         currentStatus => ({
-          vdsAppointments: [{ currentStatus }],
-          facilityId: '984',
+          description: currentStatus,
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         }),
       );
 
@@ -615,8 +617,8 @@ describe('VAOS appointment helpers', () => {
 
     it('should filter out past video appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        vvsAppointments: [{ status: { code } }],
-        facilityId: '984',
+        description: code,
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
       }));
 
       const filtered = hiddenAppts.filter(a => filterPastAppointments(a, now));
@@ -719,19 +721,19 @@ describe('VAOS appointment helpers', () => {
       const appointments = [
         // appointment in future should not show
         {
-          startDate: now
+          start: now
             .clone()
             .add(1, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
         // appointment before startDate should not show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(100, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
       ];
 
@@ -751,11 +753,11 @@ describe('VAOS appointment helpers', () => {
       const appointments = [
         // appointment within range should show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
       ];
 
@@ -775,35 +777,32 @@ describe('VAOS appointment helpers', () => {
       const appointments = [
         // appointment within range should show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
         {
           facilityId: '984',
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          vdsAppointments: [
-            {
-              currentStatus: 'FUTURE',
-            },
-          ],
+          description: 'FUTURE',
+          vaos: {
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
         {
-          facilityId: '984',
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          vdsAppointments: [
-            {
-              currentStatus: 'DELETED',
-            },
-          ],
+          description: 'DELETED',
+          vaos: {
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
       ];
 
@@ -824,35 +823,28 @@ describe('VAOS appointment helpers', () => {
     const appointments = [
       // appointment within range should show
       {
-        startDate: now
+        start: now
           .clone()
           .subtract(1, 'day')
           .format(),
-        facilityId: '984',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+      },
+      {
+        start: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        description: 'NO-SHOW',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
       },
       {
         facilityId: '984',
-        startDate: now
+        start: now
           .clone()
           .subtract(1, 'day')
           .format(),
-        vdsAppointments: [
-          {
-            currentStatus: 'NO-SHOW',
-          },
-        ],
-      },
-      {
-        facilityId: '984',
-        startDate: now
-          .clone()
-          .subtract(1, 'day')
-          .format(),
-        vdsAppointments: [
-          {
-            currentStatus: 'CHECKED IN',
-          },
-        ],
+        description: 'CHECKED IN',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
       },
     ];
 
