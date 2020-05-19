@@ -11,6 +11,7 @@ import {
   locationInfo,
   handleInputFocusWithPotentialOverLap,
   isMobileView,
+  checkForEmptyFocusableElement,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
@@ -20,6 +21,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 import classNames from 'classnames';
 
 class EstimateYourBenefitsForm extends React.Component {
@@ -90,6 +93,27 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
       this.setState({ invalidZip: 'Postal code must be a 5-digit number' });
+    }
+  };
+
+  handleCalculateBenefitsClick = () => {
+    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
+    const zipcode = this.props.inputs.beneficiaryZIP;
+
+    if (
+      this.props.eligibility.giBillChapter === '33' &&
+      (beneficiaryZIPError || zipcode.length !== 5)
+    ) {
+      this.toggleLearningFormatAndSchedule(true);
+      setTimeout(() => {
+        const CheckNameOfElement = checkForEmptyFocusableElement(
+          'beneficiaryZIPCode',
+        );
+        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        CheckNameOfElement[0].focus();
+      }, 1);
+    } else {
+      this.props.updateEstimatedBenefits();
     }
   };
 
@@ -515,6 +539,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
     const name = shouldRenderEnrolled ? 'enrolled' : 'enrolledOld';
     const value = shouldRenderEnrolled ? enrolledValue : enrolledOldValue;
+
     return (
       <div>
         <Dropdown
@@ -721,8 +746,9 @@ class EstimateYourBenefitsForm extends React.Component {
           : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
-          <div id="zipcode-field">
+          <div name="beneficiary-zip-question">
             <ErrorableTextInput
+              autoFocus
               errorMessage={errorMessageCheck}
               label={label}
               name="beneficiaryZIPCode"
@@ -1027,7 +1053,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </ul>
         <button
           className="calculate-button"
-          onClick={this.props.updateEstimatedBenefits}
+          onClick={this.handleCalculateBenefitsClick}
         >
           Calculate benefits
         </button>
