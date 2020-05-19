@@ -67,8 +67,6 @@ class ValidateMHVAccount extends React.Component {
       return;
     }
 
-    // TODO: If TermsAndConditions still needed, add here
-    // but add to user profile instead of getting from mhvAccount
     if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${gaPrefix}-error-has-deactivated-mhv-ids` });
       router.replace(`error/has-deactivated-mhv-ids`);

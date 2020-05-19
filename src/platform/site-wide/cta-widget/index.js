@@ -91,7 +91,6 @@ export class CallToActionWidget extends React.Component {
       if (!accountState) {
         this.props.fetchMHVAccount();
       } else if (
-        // TODO: clean up for SSOe
         new URLSearchParams(window.location.search).get('tc_accepted')
       ) {
         // Since T&C is still required to support the existing account states,
@@ -238,8 +237,6 @@ export class CallToActionWidget extends React.Component {
       recordEvent({ event: `${this._gaPrefix}-error-needs-va-patient` });
       return <NeedsVAPatient />;
     }
-    // TODO if TermsAndConditions is still needed, add here
-    // using previous redirect logic
 
     return null;
   };
