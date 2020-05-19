@@ -218,8 +218,14 @@ export function filterFutureConfirmedAppointments(appt, today) {
 export function filterPastAppointments(appt, startDate, endDate) {
   const apptDateTime = moment(appt.start);
 
+  if (
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+    PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
+  ) {
+    return false;
+  }
+
   return (
-    !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)
@@ -247,7 +253,7 @@ export function sortFutureConfirmedAppointments(a, b) {
 }
 
 export function sortPastAppointments(a, b) {
-  return a.appointmentDate.isAfter(b.appointmentDate) ? -1 : 1;
+  return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
 }
 
 export function sortFutureRequests(a, b) {
