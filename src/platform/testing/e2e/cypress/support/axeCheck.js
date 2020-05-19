@@ -7,8 +7,8 @@
  */
 const processAxeCheckResults = violations => {
   const violationMessage = `${violations.length} accessibility violation${
-    violations.length === 1 ? '' : 's'
-  } ${violations.length === 1 ? 'was' : 'were'} detected`;
+    violations.length === 1 ? ' was' : 's were'
+  } detected`;
 
   // Pluck specific keys to keep the table readable.
   const violationData = violations.map(
@@ -28,13 +28,15 @@ const processAxeCheckResults = violations => {
  * Checks the current page for aXe violations.
  */
 Cypress.Commands.add('axeCheck', () => {
-  cy.checkAlly(
+  Cypress.log({ name: 'axeCheck' });
+
+  cy.checkA11y(
     '.main',
     {
+      includedImpacts: ['critical'],
       runOnly: {
         type: 'tag',
         values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-        resultTypes: ['violations'],
       },
     },
     processAxeCheckResults,
