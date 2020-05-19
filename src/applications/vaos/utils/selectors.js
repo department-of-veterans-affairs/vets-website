@@ -201,12 +201,9 @@ export function getDateTimeSelect(state, pageKey) {
   const eligibilityStatus = getEligibilityStatus(state);
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = availableSlots?.reduce((acc, s) => {
-    if (!acc.includes(s.date)) {
-      acc.push(s.date);
-    }
-    return acc;
-  }, []);
+  const availableDates = new Set(
+    availableSlots?.map(slot => slot.start.split('T')[0]),
+  ).values();
 
   const timezone = systemId ? getTimezoneDescBySystemId(systemId) : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
