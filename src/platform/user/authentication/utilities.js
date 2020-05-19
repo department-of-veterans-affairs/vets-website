@@ -5,7 +5,6 @@ import URLSearchParams from 'url-search-params';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
-import { getForceAuth } from '../../utilities/sso/forceAuth';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
@@ -24,7 +23,7 @@ function sessionTypeUrl(type = '', version = 'v0', application = null) {
   const params = new URLSearchParams();
 
   if (application) params.append('application', application);
-  if (getForceAuth() && version === 'v1') params.append('force', 'true');
+  if (version === 'v1') params.append('force', 'true');
 
   return `${base}/${type}/new?${params.toString()}`;
 }
