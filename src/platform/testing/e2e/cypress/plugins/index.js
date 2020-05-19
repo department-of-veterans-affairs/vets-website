@@ -22,11 +22,8 @@ module.exports = on => {
 
   on('task', {
     /* eslint-disable no-console */
-
-    log: message => console.log(message),
-
-    table: message => console.table(message),
-
+    log: message => console.log(message) || null,
+    table: message => console.table(message) || null,
     /* eslint-enable no-console */
 
     /**
