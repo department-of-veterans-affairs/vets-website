@@ -4,7 +4,7 @@ const manifest = require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   client
-    .url(`${E2eHelpers.baseUrl}/covid19screener`)
+    .url(`${E2eHelpers.baseUrl}/covid19screen`)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main');
 
