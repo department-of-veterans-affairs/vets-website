@@ -1,4 +1,6 @@
+import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -7,6 +9,7 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   FacilityInfo,
   PleaseSelectVAFacility,
+  AdditionalCaregiverInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
@@ -29,37 +32,37 @@ export default {
     contactInfoTitle: 'Contact information',
     fullNameUI: label => ({
       first: {
-        'ui:title': `${label}'s first name`,
+        'ui:title': `${label}  first name`,
         'ui:errorMessages': {
-          required: `Please enter ${label}'s first name`,
+          required: `Please enter ${label}  first name`,
         },
       },
       last: {
-        'ui:title': `${label}'s last name`,
+        'ui:title': `${label}  last name`,
         'ui:errorMessages': {
-          required: `Please enter ${label}'s last name`,
+          required: `Please enter ${label}  last name`,
         },
       },
       middle: {
-        'ui:title': `${label}'s middle name`,
+        'ui:title': `${label}  middle name`,
       },
     }),
-    dateOfBirthUI: label => currentOrPastDateUI(`${label}'s date of birth`),
+    dateOfBirthUI: label => currentOrPastDateUI(`${label}  date of birth`),
     addressUI: address.uiSchema(' ', false),
     primaryPhoneNumberUI: label =>
-      phoneUI(`${label}'s primary telephone number (including area code)`),
+      phoneUI(`${label}  primary telephone number (including area code)`),
     alternativePhoneNumberUI: label =>
-      phoneUI(`${label}'s alternate telephone number (Including Area Code)`),
+      phoneUI(`${label}  alternate telephone number (including area code)`),
     ssnUI: label => ({
       ...ssnUI,
-      'ui:title': `${label}'s Social Security Number/Tax Identification Number`,
+      'ui:title': `${label}  Social Security Number/Tax Identification Number`,
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
     }),
-    emailUI: label => email(`${label}'s email address`),
+    emailUI: label => email(`${label}  email address`),
     confirmationEmailUI: label => ({
-      'ui:title': `${label}'s re-enter email address`,
+      'ui:title': `${label}  re-enter email address`,
       'ui:widget': 'email',
       'ui:errorMessages': {
         pattern: 'Please enter an email address using this format: X@X.com',
@@ -84,12 +87,12 @@ export default {
       ],
     }),
     genderUI: label => ({
-      'ui:title': `${label}'s Sex`,
+      'ui:title': `${label}  sex`,
       'ui:widget': 'radio',
       'ui:options': { labels: { F: 'Female', M: 'Male', U: 'Unknown' } },
     }),
     vetRelationshipUI: label => ({
-      'ui:title': `${label}'s relationship to Veteran (e.g., Spouse, Parent, Child, Other):`,
+      'ui:title': `What is the ${label}  relationship to the Veteran?`,
     }),
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
@@ -99,8 +102,8 @@ export default {
       },
     },
     hasSecondaryCaregiverTwoUI: {
-      'ui:title': 'Add another secondary caregiver',
-      'ui:label': 'Add another secondary caregiver',
+      'ui:title': ' ',
+      'ui:description': AdditionalCaregiverInfo(),
       'ui:widget': 'yesNo',
       'ui:options': {
         hideOnReview: true,
@@ -108,7 +111,7 @@ export default {
     },
   },
   vetUI: {
-    vetInputLabel: 'Veteran',
+    vetInputLabel: "Veteran's",
     previousTreatmentFacilityUI: {
       'ui:title': ' ',
       'ui:order': ['name', 'type'],
@@ -136,8 +139,7 @@ export default {
         },
       },
       [vetFields.plannedClinic]: {
-        'ui:title':
-          'VA medical center where the Veteran receives or plans to receive care',
+        'ui:title': 'VA medical center',
         'ui:options': {
           labels: medicalCenterLabels,
           updateSchema: form => {
@@ -166,49 +168,90 @@ export default {
     },
   },
   primaryCaregiverUI: {
-    primaryInputLabel: 'Primary Family Caregiver',
+    primaryInputLabel: "Primary Family Caregiver's",
     medicaidEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Medicaid?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicaid',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about Medicaid">
+            Medicaid is a government health program for eligible low-income
+            individuals and families and people with disabilities.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     medicareEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Medicare?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Medicare?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about Medicare">
+            Medicare is a federal health insurance program providing coverage
+            for people who are 65 years or older or who meet who meet special
+            criteria. Part A insurance covers hospital care, skilled nursing and
+            nursing home care, hospice, and home health services.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     tricareEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in Tricare?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in Tricare?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about Tricare">
+            Tricare is a government health care program for service members,
+            veterans, and their families.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     champvaEnrolledUI: {
-      'ui:title':
-        'Is the Primary Family Caregiver currently in enrolled in CHAMPVA?',
+      'ui:title': 'Is the Primary Family Caregiver enrolled in CHAMPVA?',
+      'ui:description': (
+        <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
+          <AdditionalInfo triggerText="Learn more about CHAMPVA">
+            Civilian Health and Medical Program of the Department of Veterans
+            Affairs
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vads-u-margin-x--0p5"
+              href="https://www.va.gov/COMMUNITYCARE/programs/caregiver/index.asp"
+            >
+              (CHAMPVA)
+            </a>
+            is a cost-sharing program that covers the price of some health care
+            services and supplies.
+          </AdditionalInfo>
+        </div>
+      ),
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceUI: {
       'ui:title':
-        'Is the Primary Family Caregiver currently enrolled in other health care insurance?',
+        'Is the Primary Family Caregiver enrolled in other health care insurance?',
       'ui:widget': 'yesNo',
     },
     otherHealthInsuranceNameUI: {
-      'ui:title': 'Other Health Insurance Name?',
+      'ui:title':
+        'Name of health insurance (If there are multiple policies, please separate them with commas.)',
       'ui:options': {
         expandUnder: primaryCaregiverFields.otherHealthInsurance,
       },
     },
   },
   secondaryCaregiversUI: {
-    secondaryOneInputLabel: 'Secondary Family Caregiver',
+    secondaryOneInputLabel: "Secondary Family Caregiver's",
     secondaryOneChapterTitle: 'Secondary Family Caregiver information',
-    secondaryTwoInputLabel: 'Secondary Family Caregiver',
-    secondaryTwoChapterTitle: 'Secondary Family Caregiver (2) information',
+    secondaryTwoInputLabel: "Secondary Family Caregiver's (2)",
+    secondaryTwoChapterTitle: "Secondary Family Caregiver's (2) information",
   },
 };
 
 export const confirmationEmailUI = (label, dataConstant) => ({
-  'ui:title': `Re-enter ${label}'s email address`,
+  'ui:title': `Re-enter ${label}  email address`,
   'ui:widget': 'email',
   'ui:errorMessages': {
     pattern: 'Please enter an email address using this format: X@X.com',
@@ -238,7 +281,7 @@ export const addressWithoutCountryUI = label => ({
   'ui:title': ' ',
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
-    'ui:title': `${label}'s current street address`,
+    'ui:title': `${label}  current street address`,
     'ui:errorMessages': { required: 'Please enter a street address' },
   },
   street2: { 'ui:title': `Line 2` },
