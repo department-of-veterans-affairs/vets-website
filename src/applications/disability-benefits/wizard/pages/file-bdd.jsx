@@ -18,6 +18,8 @@ function alertContent(getPageStateFromPageName) {
   const differenceBetweenDatesInDays =
     dateDischarge.diff(dateToday, 'days') + 1;
 
+  const daysRemainingToFileBDD = differenceBetweenDatesInDays - 90;
+
   return (
     <>
       <p>
@@ -26,8 +28,14 @@ function alertContent(getPageStateFromPageName) {
         disability benefits prior to separation.
       </p>
       <p>
-        You have <b>{differenceBetweenDatesInDays - 90}</b> day(s) left to file
-        your BDD claim.
+        {daysRemainingToFileBDD === 0 ? (
+          <>This is your last day</>
+        ) : (
+          <>
+            You have <b>{daysRemainingToFileBDD}</b> day(s) left
+          </>
+        )}{' '}
+        to file a BDD claim.
       </p>
       <p>
         Please be aware that you will need to be available for 45 days after you

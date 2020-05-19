@@ -9,7 +9,7 @@ function alertContent() {
       <p>
         Based on the information provided, you are ineligible to file a Benefits
         Delivery at Discharge claim. Filing a BDD claim is only available{' '}
-        <b>90 to 180</b> days from separation.
+        <b>180 to 90</b> days from separation.
       </p>
       <p>However, you can still begin filing an original claim.</p>
       <a
