@@ -23,60 +23,62 @@ const VetTecInstitutionProfile = ({
   preSelectedProgram,
   gibctEstimateYourBenefits,
   selectedProgram,
-}) => (
-  <div>
-    {
-      <div className={profileLogo}>
-        {renderVetTecLogo(classNames('vettec-logo-profile'))}
-      </div>
-    }
-    <VetTecHeadingSummary institution={institution} showModal={showModal} />
-    <ul className="profile-accordion-list">
-      <AccordionItem button="Approved programs">
-        {gibctEstimateYourBenefits ? (
-          <VetTecApprovedProgramsList
+}) => {
+  const program = selectedProgram || preSelectedProgram;
+  return (
+    <div>
+      {
+        <div className={profileLogo}>
+          {renderVetTecLogo(classNames('vettec-logo-profile'))}
+        </div>
+      }
+      <VetTecHeadingSummary institution={institution} showModal={showModal} />
+      <ul className="profile-accordion-list">
+        <AccordionItem button="Approved programs">
+          {gibctEstimateYourBenefits ? (
+            <VetTecApprovedProgramsList
+              institution={institution}
+              selectedProgram={program}
+            />
+          ) : (
+            <VetTecApprovedPrograms
+              institution={institution}
+              preSelectedProgram={preSelectedProgram}
+            />
+          )}
+        </AccordionItem>
+        <AccordionItem button="Estimate your benefits">
+          {gibctEstimateYourBenefits ? (
+            <VetTecEstimateYourBenefits
+              institution={institution}
+              showModal={showModal}
+              preSelectedProgram={preSelectedProgram}
+            />
+          ) : (
+            <VetTecCalculator showModal={showModal} />
+          )}
+        </AccordionItem>
+        <AccordionItem button="Veteran programs">
+          <VetTecVeteranPrograms
             institution={institution}
-            preSelectedProgram={preSelectedProgram}
-            selectedProgram={selectedProgram}
+            onShowModal={showModal}
           />
-        ) : (
-          <VetTecApprovedPrograms
-            institution={institution}
-            preSelectedProgram={preSelectedProgram}
-          />
-        )}
-      </AccordionItem>
-      <AccordionItem button="Estimate your benefits">
-        {gibctEstimateYourBenefits ? (
-          <VetTecEstimateYourBenefits
+        </AccordionItem>
+        <AccordionItem button="Application process">
+          <VetTecApplicationProcess institution={institution} />
+        </AccordionItem>
+        <AccordionItem button="Contact details">
+          <ContactInformation institution={institution} />
+        </AccordionItem>
+        <AccordionItem button="Additional information">
+          <VetTecAdditionalInformation
             institution={institution}
             showModal={showModal}
-            preSelectedProgram={preSelectedProgram}
           />
-        ) : (
-          <VetTecCalculator showModal={showModal} />
-        )}
-      </AccordionItem>
-      <AccordionItem button="Veteran programs">
-        <VetTecVeteranPrograms
-          institution={institution}
-          onShowModal={showModal}
-        />
-      </AccordionItem>
-      <AccordionItem button="Application process">
-        <VetTecApplicationProcess institution={institution} />
-      </AccordionItem>
-      <AccordionItem button="Contact details">
-        <ContactInformation institution={institution} />
-      </AccordionItem>
-      <AccordionItem button="Additional information">
-        <VetTecAdditionalInformation
-          institution={institution}
-          showModal={showModal}
-        />
-      </AccordionItem>
-    </ul>
-  </div>
-);
+        </AccordionItem>
+      </ul>
+    </div>
+  );
+};
 
 export default VetTecInstitutionProfile;
