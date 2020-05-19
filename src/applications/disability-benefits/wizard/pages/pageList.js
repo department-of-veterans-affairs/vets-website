@@ -10,5 +10,4 @@ export const pageNames = {
   disagreeing: 'disagreeing',
   decisionReview: 'decision-review',
   disagreeFileClaim: 'disagree-file-claim',
-  invalidSeparationDate: 'invalid-separation-date',
 };

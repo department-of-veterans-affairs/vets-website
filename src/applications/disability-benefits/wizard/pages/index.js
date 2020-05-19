@@ -9,7 +9,6 @@ import fileClaimEarly from './file-claim-early';
 import disagreeing from './disagreeing';
 import decisionReview from './decision-review';
 import disagreeFileClaim from './disagree-file-claim';
-import invalidSeparationDate from './invalid-separation-date';
 
 export default [
   start,
@@ -23,5 +22,4 @@ export default [
   disagreeing,
   decisionReview,
   disagreeFileClaim,
-  invalidSeparationDate,
 ];
