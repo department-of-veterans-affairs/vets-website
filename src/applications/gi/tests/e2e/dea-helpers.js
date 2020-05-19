@@ -26,9 +26,11 @@ const searchAsDEA = client => {
 
 const verifySearchResults = client => {
   GiHelpers.verifySearchResults(client, deaSearchResults);
-  client.waitForElementPresent('input[name="category"]', Timeouts.normal);
+  client.waitForElementPresent(
+    'input[name="category"][value="ALL"]',
+    Timeouts.normal,
+  );
   client.selectRadio('category', 'ALL');
-
   deaSearchResults.data.forEach(({ attributes: profile }) => {
     let housingRate = GiHelpers.calculatorConstants.DEARATEFULLTIME;
     if (profile.type === 'OJT') {
