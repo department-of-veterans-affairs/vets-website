@@ -28,10 +28,10 @@ const verifySearchResults = client => {
   GiHelpers.verifySearchResults(client, deaSearchResults);
   client.waitForElementPresent(
     'input[name="category"][value="ALL"]',
-    Timeouts.slow,
+    Timeouts.normal,
   );
   client.selectRadio('category', 'ALL');
-
+  client.timeouts('page load', 4000);
   deaSearchResults.data.forEach(({ attributes: profile }) => {
     let housingRate = GiHelpers.calculatorConstants.DEARATEFULLTIME;
     if (profile.type === 'OJT') {
