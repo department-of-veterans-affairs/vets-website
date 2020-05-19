@@ -4,11 +4,18 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchPastAppointments } from '../actions/appointments';
+import { getVARFacilityId, getVARClinicId } from '../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import { vaosPastAppts } from '../utils/selectors';
 import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
 
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
@@ -60,7 +67,7 @@ export class PastAppointmentsList extends React.Component {
         <>
           <ul className="usa-unstyled-list" id="appointments-list">
             {past.map((appt, index) => {
-              switch (appt.appointmentType) {
+              switch (appt.vaos.appointmentType) {
                 case APPOINTMENT_TYPES.ccAppointment:
                 case APPOINTMENT_TYPES.vaAppointment:
                   return (
@@ -70,7 +77,9 @@ export class PastAppointmentsList extends React.Component {
                       appointment={appt}
                       facility={
                         systemClinicToFacilityMap[
-                          `${appt.facilityId}_${appt.clinicId}`
+                          `${parseFakeFHIRId(
+                            getVARFacilityId(appt),
+                          )}_${parseFakeFHIRId(getVARClinicId(appt))}`
                         ]
                       }
                     />

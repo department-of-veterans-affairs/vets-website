@@ -28,7 +28,6 @@ import {
   getRealFacilityId,
   sortPastAppointments,
   transformRequest,
-  transformPastAppointment,
 } from '../utils/appointment';
 import {
   FETCH_STATUS,
@@ -89,11 +88,9 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
       const { data, startDate, endDate } = action;
-      const [vaAppointments, ccAppointments] = data;
 
-      const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
+      const confirmedFilteredAndSorted = data
         .filter(appt => filterPastAppointments(appt, startDate, endDate))
-        .map(transformPastAppointment)
         .sort(sortPastAppointments);
 
       return {

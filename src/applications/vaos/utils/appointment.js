@@ -207,22 +207,19 @@ export function filterFutureConfirmedAppointments(appt, today) {
   const isVideo = !!appt.vaos.videoType;
   const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(appt.start);
-  const status = appt.description;
 
   return (
-    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&
+    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
     apptDateTime.isValid() &&
     apptDateTime.add(threshold, 'minutes').isAfter(today)
   );
 }
 
 export function filterPastAppointments(appt, startDate, endDate) {
-  const apptDateTime = getMomentConfirmedDate(appt);
-  const status = isVideoVisit(appt)
-    ? appt.vvsAppointments?.[0]?.status?.code
-    : appt.vdsAppointments?.[0]?.currentStatus;
+  const apptDateTime = moment(appt.start);
+
   return (
-    !PAST_APPOINTMENTS_HIDDEN_SET.has(status) &&
+    !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)

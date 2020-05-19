@@ -5,7 +5,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
 import {
-  getConfirmedAppointments,
   getPendingAppointments,
   getCancelReasons,
   getRequestMessages,
@@ -240,14 +239,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const data = await Promise.all([
-        getConfirmedAppointments(
-          'va',
-          moment(startDate).toISOString(),
-          moment(endDate).toISOString(),
-        ),
-        getConfirmedAppointments('cc', startDate, endDate),
-      ]);
+      const data = await getBookedAppointments({
+        startDate,
+        endDate,
+      });
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
