@@ -30,7 +30,7 @@ const verifySearchResults = client => {
     'input[name="category"][value="ALL"]',
     Timeouts.slow,
   );
-  client.click('input[name="category"][value="ALL"]');
+  client.selectRadio('category', 'ALL');
 
   deaSearchResults.data.forEach(({ attributes: profile }) => {
     let housingRate = GiHelpers.calculatorConstants.DEARATEFULLTIME;
