@@ -41,13 +41,13 @@ export class EstimateYourBenefits extends React.Component {
     const topOffset =
       document
         .getElementById('estimate-your-benefits-accordion')
-        .getBoundingClientRect().top -
+        ?.getBoundingClientRect().top -
         12 <
       0;
     const bottomOffset =
       document
         .getElementsByClassName('your-estimated-benefits')[0]
-        .getBoundingClientRect().top -
+        ?.getBoundingClientRect().top -
         window.innerHeight >
       0;
 
