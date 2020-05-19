@@ -20,6 +20,7 @@ module.exports = {
       type: 'array',
       items: {
         // Yes, it's wrapped in entity here, but not in the originating schema
+        /* eslint-disable react-hooks/rules-of-hooks */
         entity: usePartialSchema(localFacilitySchema, [
           'title',
           'entityUrl',

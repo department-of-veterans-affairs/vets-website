@@ -188,8 +188,7 @@ const IntroductionPage = ({ route, router }) => {
         title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
       />
       <p>
-        Equal to VA Form 10-10CG (Application for the Program of Comprehensive
-        Assistance for Family Caregivers)
+        Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
       </p>
       <p className="va-introtext">
         We recognize the important role of family caregivers in supporting the

@@ -2,7 +2,7 @@ import React from 'react';
 
 export const FDCDescription = (
   <div>
-    <h5>Fully developed claim program</h5>
+    <h3 className="vads-u-font-size--h5">Fully developed claim program</h3>
     <p>
       You can apply using the Fully Developed Claim (FDC) program if you’ve
       uploaded all the supporting documents or additional forms needed to
