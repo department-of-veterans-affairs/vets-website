@@ -296,7 +296,10 @@ export function confirmCancelAppointment() {
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
-      facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
+      facilityType:
+        appointment.vaos?.isCommunityCare || appointment.isCommunityCare
+          ? 'cc'
+          : 'va',
     };
     let apiData = appointment.legacyVAR?.apiData || appointment.apiData;
     let cancelReasons = null;
