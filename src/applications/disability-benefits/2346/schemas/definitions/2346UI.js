@@ -1,11 +1,11 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
+import Accessories from '../../components/Accessories';
 import AddressViewField from '../../components/AddressViewField';
+import Batteries from '../../components/Batteries';
 import ReviewCardField from '../../components/ReviewCardField';
 import ReviewPageAccessories from '../../components/ReviewPageAccessories';
 import ReviewPageBatteries from '../../components/ReviewPageBatteries';
-import SelectArrayItemsAccessoriesWidget from '../../components/SelectArrayItemsAccessoriesWidget';
-import SelectArrayItemsBatteriesWidget from '../../components/SelectArrayItemsBatteriesWidget';
 import { schemaFields } from '../../constants';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
@@ -33,7 +33,7 @@ const addressDescription = (
     <p>
       To update your address for all of your VA accounts, you’ll need to go to
       your profile page.{' '}
-      <a href="va.gov/profile">
+      <a href="https://va.gov/profile">
         View the address that's on file in your profile.
       </a>
     </p>
@@ -153,7 +153,7 @@ export default {
     },
     batteriesUI: {
       'ui:field': 'StringField',
-      'ui:widget': SelectArrayItemsBatteriesWidget,
+      'ui:widget': Batteries,
       'ui:reviewWidget': ReviewPageBatteries,
       'ui:options': {
         keepInPageOnReview: true,
@@ -164,7 +164,7 @@ export default {
       'ui:description':
         'You can only order each hearing aid accessory once every 5 months.',
       'ui:field': 'StringField',
-      'ui:widget': SelectArrayItemsAccessoriesWidget,
+      'ui:widget': Accessories,
       'ui:reviewWidget': ReviewPageAccessories,
       'ui:options': {
         keepInPageOnReview: true,

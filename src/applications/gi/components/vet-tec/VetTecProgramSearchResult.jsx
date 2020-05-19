@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import environment from 'platform/utilities/environment';
 import {
   formatCurrency,
   isPresent,
@@ -14,7 +15,7 @@ import {
 } from '../../utils/render';
 
 function VetTecProgramSearchResult(props) {
-  const { version, result, constants, id } = props;
+  const { version, result, constants, id, handleLinkClick } = props;
   const {
     facilityCode,
     description,
@@ -41,6 +42,11 @@ function VetTecProgramSearchResult(props) {
     query: version ? { version } : {},
   };
 
+  const handleLinkClickEvent = event => {
+    event.preventDefault();
+    handleLinkClick(facilityCode, description);
+  };
+
   return (
     <div id={`search-result-${createId(id)}`} className="search-result">
       <div className="outer">
@@ -50,6 +56,9 @@ function VetTecProgramSearchResult(props) {
               <h2>
                 <Link
                   to={linkTo}
+                  onClick={
+                    environment.isProduction ? () => {} : handleLinkClickEvent
+                  }
                   aria-label={`${description} ${locationInfo(
                     city,
                     state,
@@ -120,7 +129,14 @@ function VetTecProgramSearchResult(props) {
               {isPresent(lengthInHours) && (
                 <div className="info-flag">{displayHours}</div>
               )}
-              <Link to={linkTo}>View details ›</Link>
+              <Link
+                onClick={
+                  environment.isProduction ? () => {} : handleLinkClickEvent
+                }
+                to={linkTo}
+              >
+                View details ›
+              </Link>
             </div>
           </div>
         </div>

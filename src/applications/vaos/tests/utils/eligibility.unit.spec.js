@@ -16,6 +16,7 @@ import {
   getEligibilityData,
   recordEligibilityGAEvents,
 } from '../../utils/eligibility';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
@@ -38,9 +39,16 @@ describe('VAOS scheduling eligibility logic', () => {
     it('should fetch all data', async () => {
       const eligibilityData = await getEligibilityData(
         {
-          institutionCode: '983',
-          directSchedulingSupported: true,
-          requestSupported: true,
+          identifier: [
+            {
+              system: VHA_FHIR_ID,
+              value: '983',
+            },
+          ],
+          legacyVAR: {
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
         },
         '323',
         '983',
@@ -66,9 +74,16 @@ describe('VAOS scheduling eligibility logic', () => {
     it('should skip pact if not primary care', async () => {
       const eligibilityData = await getEligibilityData(
         {
-          institutionCode: '983',
-          directSchedulingSupported: true,
-          requestSupported: true,
+          identifier: [
+            {
+              system: VHA_FHIR_ID,
+              value: '983',
+            },
+          ],
+          legacyVAR: {
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
         },
         '502',
         '983',
@@ -92,9 +107,16 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONResponse(global.fetch, { data: [{}] });
       const eligibilityData = await getEligibilityData(
         {
-          institutionCode: '983',
-          directSchedulingSupported: true,
-          requestSupported: true,
+          identifier: [
+            {
+              system: VHA_FHIR_ID,
+              value: '983',
+            },
+          ],
+          legacyVAR: {
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
         },
         '323',
         '983',
@@ -122,9 +144,16 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONResponse(global.fetch.onCall(7), nonMatchingAppointment);
       const eligibilityData = await getEligibilityData(
         {
-          institutionCode: '983',
-          directSchedulingSupported: true,
-          requestSupported: true,
+          identifier: [
+            {
+              system: VHA_FHIR_ID,
+              value: '983',
+            },
+          ],
+          legacyVAR: {
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
         },
         '323',
         '983',
@@ -139,9 +168,16 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
       const eligibilityData = await getEligibilityData(
         {
-          institutionCode: '983',
-          directSchedulingSupported: true,
-          requestSupported: true,
+          identifier: [
+            {
+              system: VHA_FHIR_ID,
+              value: '983',
+            },
+          ],
+          legacyVAR: {
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
         },
         '502',
         '983',
@@ -313,9 +349,16 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONFailure(global.fetch, { errors: [{}] });
       await getEligibilityData(
         {
-          institutionCode: '983',
-          directSchedulingSupported: true,
-          requestSupported: true,
+          identifier: [
+            {
+              system: VHA_FHIR_ID,
+              value: '983',
+            },
+          ],
+          legacyVAR: {
+            directSchedulingSupported: true,
+            requestSupported: true,
+          },
         },
         '323',
         '983',

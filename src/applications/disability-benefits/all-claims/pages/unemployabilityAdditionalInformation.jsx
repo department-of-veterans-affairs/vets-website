@@ -8,7 +8,7 @@ const {
 
 const additionalInformationDescription = (
   <div>
-    <h4>Additional Information</h4>
+    <h3 className="vads-u-font-size--h4">Additional Information</h3>
     <p>
       If there’s any other information you’d like to give us as part of your
       claim, please add it here.
@@ -18,11 +18,14 @@ const additionalInformationDescription = (
       reason you’re no longer able to work. Providing specific examples will
       help us understand your claim.
     </p>
-    <p>
-      If you’ve left one or more jobs because of your service-connected
-      disabilities, please note that.
-    </p>
   </div>
+);
+
+const textareaLabel = (
+  <p>
+    If you’ve left one or more jobs because of your service-connected
+    disabilities, please note that.
+  </p>
 );
 
 export const uiSchema = {
@@ -30,7 +33,7 @@ export const uiSchema = {
   'ui:description': additionalInformationDescription,
   unemployability: {
     remarks: {
-      'ui:title': ' ',
+      'ui:title': textareaLabel,
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,
