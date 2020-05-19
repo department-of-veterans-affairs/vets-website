@@ -31,16 +31,16 @@ const ConfirmationPage = ({
           <p className="vads-u-margin--0">
             for {fullName.first} {fullName.last}
           </p>
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Items ordered</strong>
-            <ul>
-              {selectedProductArray.map(product => (
-                <li key={product.productId}>
-                  {product.productName} (Quantity: {product.quantity})
-                </li>
-              ))}
-            </ul>
           </p>
+          <ul className="vads-u-margin-bottom--1">
+            {selectedProductArray.map(product => (
+              <li key={product.productId}>
+                {product.productName} (Quantity: {product.quantity})
+              </li>
+            ))}
+          </ul>
           <p className="vads-u-margin--0">
             <strong>Date submitted</strong>
           </p>
@@ -69,8 +69,11 @@ const ConfirmationPage = ({
       <h5>What if I have questions about my order?</h5>
       <p>
         If you have any questions about your order, please call the DLC Customer
-        Service Section at <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
-        <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+        Service Section at{' '}
+        <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+          303-273-6200
+        </a>{' '}
+        or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
       </p>
     </section>
   </>

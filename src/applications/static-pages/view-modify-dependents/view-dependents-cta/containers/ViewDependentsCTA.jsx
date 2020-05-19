@@ -23,7 +23,7 @@ const ViewDependentsCTA = props => {
   } else {
     content = (
       <a
-        href="/disability/view-dependents/"
+        href="/view-change-dependents/view"
         className="usa-button-primary va-button-primary"
       >
         View your dependents

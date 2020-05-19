@@ -22,7 +22,7 @@ export const FindYellowRibbonPage = () => (
         </p>
 
         <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
-          Find out if you qualify for the Yellow Ribbon Program.
+          Find out if you qualify for the Yellow Ribbon Program
         </a>
 
         <p>

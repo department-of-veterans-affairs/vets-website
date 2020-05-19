@@ -3,7 +3,7 @@ import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const medicalDescription = (
   <div>
-    <h4>Medical Care</h4>
+    <h3 className="vads-u-font-size--h4">Medical Care</h3>
     <p>
       Did you spend time in a hospital or under a doctor's care for your
       service-connected disabilities in the past 12 months?
