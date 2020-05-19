@@ -249,9 +249,7 @@ describe('<CallToActionWidget>', () => {
       global.dom.reconfigure({ url: 'http://localhost' });
     });
 
-    it('should open rx tool', () => {
-      const jsdomOpen = window.open;
-      window.open = sinon.spy();
+    it('should open myhealthevet popup', () => {
       const tree = mount(
         <CallToActionWidget
           appId="rx"
@@ -276,9 +274,8 @@ describe('<CallToActionWidget>', () => {
         isLoggedIn: true,
       });
 
-      expect(window.open.firstCall.args[0]).to.contain('refill-prescriptions');
+      expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
       tree.unmount();
-      window.open = jsdomOpen;
     });
 
     it('should show mvi server error', () => {
@@ -444,7 +441,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
     describe('account state errors', () => {
-      let defaultProps = {
+      const defaultProps = {
         fetchMHVAccount: d => d,
         isLoggedIn: true,
         appId: 'rx',
@@ -570,12 +567,12 @@ describe('<CallToActionWidget>', () => {
       });
 
       describe('ssoe', () => {
-        defaultProps = { ...{ useSSOe: true }, ...defaultProps };
+        const ssoeProps = { ...{ useSSOe: true }, ...defaultProps };
 
         it('should show verify message', () => {
           const tree = mount(
             <CallToActionWidget
-              {...defaultProps}
+              {...ssoeProps}
               profile={{
                 verified: false,
               }}
@@ -594,7 +591,7 @@ describe('<CallToActionWidget>', () => {
         it('should show deactivated message', () => {
           const tree = mount(
             <CallToActionWidget
-              {...defaultProps}
+              {...ssoeProps}
               mhvAccountIdState="DEACTIVATED"
               mhvAccount={{
                 loading: false,
@@ -611,7 +608,7 @@ describe('<CallToActionWidget>', () => {
         it('should show needs va patient message', () => {
           const tree = mount(
             <CallToActionWidget
-              {...defaultProps}
+              {...ssoeProps}
               isVaPatient={false}
               mhvAccount={{
                 loading: false,
