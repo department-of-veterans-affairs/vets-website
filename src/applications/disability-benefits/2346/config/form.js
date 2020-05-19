@@ -61,7 +61,8 @@ const formConfig = {
   title: 'Order hearing aid batteries and accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
+    notFound:
+      'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   defaultDefinitions: {
