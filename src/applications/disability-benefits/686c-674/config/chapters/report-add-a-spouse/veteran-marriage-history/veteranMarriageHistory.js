@@ -1,3 +1,4 @@
+import React from 'react';
 import SpouseViewField from '../../../../components/SpouseViewField';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
@@ -11,6 +12,11 @@ export const uiSchema = {
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },
   veteranMarriageHistory: {
+    'ui:title': (
+      <legend className="vads-u-font-size--md">
+        Former spouse’s information
+      </legend>
+    ),
     'ui:options': {
       viewField: SpouseViewField,
       expandUnder: 'veteranWasMarriedBefore',

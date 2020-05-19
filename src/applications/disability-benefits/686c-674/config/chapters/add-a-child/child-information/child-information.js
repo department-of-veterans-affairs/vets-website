@@ -10,9 +10,11 @@ export const schema = addChild.properties.addChildInformation;
 
 export const uiSchema = {
   childrenToAdd: {
+    'ui:title': 'Child Information',
     'ui:options': {
       itemName: 'Child',
       viewField: childInfo,
+      keepInPageOnReview: true,
     },
     items: {
       fullName: {

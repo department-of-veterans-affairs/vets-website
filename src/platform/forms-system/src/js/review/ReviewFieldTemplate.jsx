@@ -34,9 +34,10 @@ export default function ReviewFieldTemplate(props) {
       return null;
     }
   }
+  const Tag = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
 
   return (
-    <div className="review-row">
+    <Tag className="review-row">
       <dt>
         {label}
         {textDescription && <p>{textDescription}</p>}
@@ -46,6 +47,6 @@ export default function ReviewFieldTemplate(props) {
         {!textDescription && !DescriptionField && description}
       </dt>
       <dd>{children}</dd>
-    </div>
+    </Tag>
   );
 }
