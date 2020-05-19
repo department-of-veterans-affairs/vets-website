@@ -12,6 +12,10 @@ module.exports = {
     const token = Auth.getUserToken();
 
     VAOSHelpers.initAppointmentListMock(token);
+    VAOSHelpers.mockGetMessageRequest(
+      token,
+      '8a48912a6cab0202016cb4fcaa8b0038',
+    );
 
     Auth.logIn(
       token,

@@ -456,6 +456,29 @@ function getUserDataWithSingleSystem(id) {
   return response;
 }
 
+function mockGetMessageRequest(token, requestId) {
+  mock(token, {
+    patch: `/v0/vaos/appointment_requests/${requestId}/messages`,
+    verb: 'get',
+    value: {
+      data: {
+        id: '8a48912a6cab0202016cd3afd3ef008a',
+        type: 'messages',
+        attributes: {
+          surrogateIdentifier: {},
+          messageText: 'Request 2 Message 1 Text',
+          messageDateTime: '11/11/2019 12:26:13',
+          senderId: '1012845331V153043',
+          appointmentRequestId: '8a48912a6cab0202016cb4fcaa8b0038',
+          date: '2019-11-11T12:26:13.931+0000',
+          assigningAuthority: 'ICN',
+          systemId: 'var',
+        },
+      },
+    },
+  });
+}
+
 module.exports = {
   initAppointmentListMock,
   newAppointmentTest,
@@ -471,4 +494,5 @@ module.exports = {
   mockSingleSystem,
   showMoreTest,
   cancelAppointmentTest,
+  mockGetMessageRequest,
 };
