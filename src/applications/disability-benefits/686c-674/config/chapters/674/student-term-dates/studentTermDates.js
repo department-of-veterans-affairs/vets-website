@@ -2,12 +2,9 @@ import { validateDate } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
-import { StudentNameHeader } from '../helpers';
-
 export const schema = report674.properties.studentTermDates;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   currentTermDates: {
     'ui:title': 'Term or course dates',
     officialSchoolStartDate: {
@@ -65,6 +62,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
+        widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Number of classes a week',
       'ui:errorMessages': { required: 'Please enter a number' },
@@ -75,6 +73,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
+        widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Hours a week',
       'ui:errorMessages': { required: 'Please enter a number' },

@@ -9,7 +9,9 @@ import {
   formatCurrency,
   isCountryInternational,
   locationInfo,
+  checkForEmptyFocusableElement,
 } from '../../utils/helpers';
+import { renderLearnMoreLabel } from '../../utils/render';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
@@ -17,6 +19,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+import classNames from 'classnames';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -86,6 +91,27 @@ class EstimateYourBenefitsForm extends React.Component {
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
       this.setState({ invalidZip: 'Postal code must be a 5-digit number' });
+    }
+  };
+
+  handleCalculateBenefitsClick = () => {
+    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
+    const zipcode = this.props.inputs.beneficiaryZIP;
+
+    if (
+      this.props.eligibility.giBillChapter === '33' &&
+      (beneficiaryZIPError || zipcode.length !== 5)
+    ) {
+      this.toggleLearningFormatAndSchedule(true);
+      setTimeout(() => {
+        const CheckNameOfElement = checkForEmptyFocusableElement(
+          'beneficiaryZIPCode',
+        );
+        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        CheckNameOfElement[0].focus();
+      }, 1);
+    } else {
+      this.props.updateEstimatedBenefits();
     }
   };
 
@@ -179,6 +205,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   toggleAboutYourSchool = expanded => {
@@ -193,6 +220,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   toggleLearningFormatAndSchedule = expanded => {
@@ -207,6 +235,8 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
+
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
   toggleScholarshipsAndOtherFunding = expanded => {
@@ -221,22 +251,17 @@ class EstimateYourBenefitsForm extends React.Component {
         : this.state.learningFormatAndScheduleExpanded,
       scholarshipsAndOtherFundingExpanded: expanded,
     });
+    this.handleInputFocus('estimate-your-benefits-accordion');
   };
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
-    <span>
-      {text} (
-      <button
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={this.props.showModal.bind(this, modal)}
-        aria-label={ariaLabel || ''}
-      >
-        Learn more
-      </button>
-      )
-    </span>
-  );
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      ariaLabel,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
@@ -280,17 +305,14 @@ class EstimateYourBenefitsForm extends React.Component {
     const tuitionFeesFieldId = `${tuitionFeesId}-field`;
     return (
       <div id={tuitionFeesFieldId}>
+        {inStateTuitionInput}
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
         </label>
-        <button
-          type="button"
-          className="va-button-link learn-more-button vads-u-margin-left--0p5"
-          onClick={this.props.showModal.bind(this, 'calcTuition')}
-          aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
-        >
-          (Learn more)
-        </button>
+        {this.renderLearnMoreLabel({
+          modal: 'calcTuition',
+          ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
+        })}
         <input
           type="text"
           name={tuitionFeesId}
@@ -299,7 +321,6 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleInputFocus.bind(this, tuitionFeesFieldId)}
         />
-        {inStateTuitionInput}
       </div>
     );
   };
@@ -455,6 +476,7 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
             modal: 'calcTuitionAssist',
+            ariaLabel: ariaLabels.learnMore.militaryTuitionAssistance,
           })}
         </label>
         <input
@@ -643,7 +665,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
     }
-    const { profile, inputs, showModal } = this.props;
+    const { profile, inputs } = this.props;
     const extensions = this.getExtensions();
 
     let amountInput;
@@ -705,8 +727,9 @@ class EstimateYourBenefitsForm extends React.Component {
           : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
-          <div>
+          <div name="beneficiary-zip-question">
             <ErrorableTextInput
+              autoFocus
               errorMessage={errorMessageCheck}
               label={label}
               name="beneficiaryZIPCode"
@@ -746,26 +769,11 @@ class EstimateYourBenefitsForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={
-            <span>
-              {'Where will you take the majority of your classes? '}
-              <button
-                aria-live="polite"
-                aria-atomic="true"
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={showModal.bind(
-                  this,
-                  'calcBeneficiaryLocationQuestion',
-                )}
-              >
-                <span className="sr-only">
-                  Learn more about the location-based housing allowance
-                </span>
-                (Learn more)
-              </button>
-            </span>
-          }
+          label={this.renderLearnMoreLabel({
+            text: 'Where will you take the majority of your classes?',
+            modal: 'calcBeneficiaryLocationQuestion',
+            ariaLabel: ariaLabels.learnMore.majorityOfClasses,
+          })}
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
           value={selectedValue}
@@ -907,7 +915,6 @@ class EstimateYourBenefitsForm extends React.Component {
           <BenefitsForm
             eligibilityChange={this.props.eligibilityChange}
             {...this.props.eligibility}
-            isLoggedIn={this.props.isLoggedIn}
             hideModal={this.props.hideModal}
             showModal={this.props.showModal}
             inputs={this.props.inputs}
@@ -1005,20 +1012,30 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   render() {
+    const className = classNames(
+      'estimate-your-benefits-form',
+      'medium-6',
+      'columns',
+      'small-screen:vads-u-margin-right--8',
+      'small-screen:vads-u-padding-x--0',
+      'small-screen:vads-u-margin-left--1p5',
+    );
     return (
-      <div className="usa-width-one-eigth medium-5 columns">
-        <p>Use the fields below to calculate your benefits:</p>
-        <ul className="eyb-inputs-ul vads-u-padding--0">
+      <div className={className}>
+        <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+          Use the fields below to calculate your benefits:
+        </p>
+        <ul className="vads-u-padding--0">
           {this.renderYourBenefits()}
           {this.renderAboutYourSchool()}
           {this.renderLearningFormatAndSchedule()}
           {this.renderScholarshipsAndOtherFunding()}
         </ul>
         <button
-          className="usa-primary-button"
-          onClick={this.updateEstimatedBenefits}
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
         >
-          Calculate Your Benefits
+          Calculate benefits
         </button>
       </div>
     );
@@ -1035,7 +1052,7 @@ EstimateYourBenefitsForm.propTypes = {
   calculatorInputChange: PropTypes.func,
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  isLoggedIn: PropTypes.bool,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
 };
 
 export default EstimateYourBenefitsForm;

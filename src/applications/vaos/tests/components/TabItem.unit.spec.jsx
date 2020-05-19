@@ -90,4 +90,15 @@ describe('<TabItem>', () => {
     expect(document.activeElement.id).to.equal('tabpaneltitle');
     tree.unmount();
   });
+
+  it('should render flex css for tab', () => {
+    const tree = shallow(
+      <TabItem id="title" title="Title Here" tabpath="upcoming" />,
+    );
+    expect(tree.find('IndexLink').props().className).to.contain(
+      'vaos-appts__tab',
+    );
+
+    tree.unmount();
+  });
 });

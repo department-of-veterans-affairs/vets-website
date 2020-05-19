@@ -10,12 +10,11 @@ export function urlMigration(urlPrefix) {
     ).toLowerCase();
 
     if (savedReturnUrl.includes(urlPrefix)) {
-      const newData = _.set(
+      return _.set(
         'metadata.returnUrl',
         savedReturnUrl.replace(urlPrefix, ''),
         savedData,
       );
-      return newData;
     }
     return savedData;
   };

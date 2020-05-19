@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
-
 import environment from 'platform/utilities/environment';
-import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
+
+import {
+  capitalizeEachWord,
+  isDisabilityPtsd,
+  DISABILITY_SHARED_CONFIG,
+} from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
-import formConfig from '../config/form';
 import { NULL_CONDITION_STRING } from '../constants';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
@@ -30,30 +33,32 @@ const mapDisabilityName = (disabilityName, formData, index) => {
 };
 
 const getRedirectLink = formData => {
-  if (environment.isProduction() || !formConfig) {
+  if (environment.isProduction()) {
     return 'go back to the beginning of this step and add it';
   }
-  const pages = formConfig.chapters.disabilities.pages;
   // Start from orientation page; assuming user has both existing & new
   // disabilities selected
-  let destinationPath = pages.disabilitiesOrientation.path;
+  let destinationPath = DISABILITY_SHARED_CONFIG.orientation.path;
 
-  if (pages.ratedDisabilities.depends(formData)) {
+  if (DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData)) {
     // start from rated disabilities page
-    destinationPath = pages.ratedDisabilities.path;
-  } else if (pages.addDisabilities.depends(formData)) {
-    destinationPath = pages.addDisabilities.path;
+    destinationPath = DISABILITY_SHARED_CONFIG.ratedDisabilities.path;
+  } else if (DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData)) {
+    destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
   }
   return (
-    <Link
-      aria-label="Add missing disabilities"
-      to={{
-        pathname: destinationPath || '/',
-        search: '?redirect',
-      }}
-    >
-      go back and add it
-    </Link>
+    <>
+      <Link
+        aria-label="go back and add any missing disabilities"
+        to={{
+          pathname: destinationPath || '/',
+          search: '?redirect',
+        }}
+      >
+        go back and add
+      </Link>{' '}
+      it
+    </>
   );
 };
 

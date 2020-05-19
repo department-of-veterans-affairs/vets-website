@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { isChapterFieldRequired } from '../../../helpers';
 import { TASK_KEYS } from '../../../constants';
 import { addChild } from '../../../utilities';
@@ -9,9 +10,11 @@ export const schema = addChild.properties.addChildInformation;
 
 export const uiSchema = {
   childrenToAdd: {
+    'ui:title': 'Child Information',
     'ui:options': {
       itemName: 'Child',
       viewField: childInfo,
+      keepInPageOnReview: true,
     },
     items: {
       fullName: {
@@ -36,10 +39,8 @@ export const uiSchema = {
         },
       },
       ssn: {
-        'ui:title': 'Child’s Social Security Number',
-        'ui:options': {
-          widgetClassNames: 'usa-input-medium',
-        },
+        ...ssnUI,
+        'ui:title': 'Child’s Social Security number',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
       },

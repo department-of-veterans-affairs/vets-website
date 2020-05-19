@@ -1,9 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
+import { createId } from '../../utils/helpers';
 
-const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
+export const CalculatorResultRow = ({
+  id,
+  label,
+  value,
+  header,
+  bold,
+  visible,
+}) =>
   visible ? (
-    <div className={classNames('row', 'calculator-result', { bold })}>
+    <div
+      id={`calculator-result-row-${createId(id == null ? label : id)}`}
+      className={classNames('row', 'calculator-result', { bold })}
+    >
       <div className="small-6 columns">
         {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>
@@ -42,6 +53,7 @@ const perTermSections = (outputs, calculator) => {
         {terms.map(term => (
           <CalculatorResultRow
             key={`${section}${term.label}`}
+            id={`${section}${term.label}`}
             label={term.label}
             value={term.value}
             bold={term.label === 'Total per year'}
@@ -63,8 +75,10 @@ const perTermSections = (outputs, calculator) => {
 };
 
 export const EstimatedBenefits = ({ outputs, calculator }) => (
-  <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
-    <h3>Your estimated benefits</h3>
+  <div className="medium-6 columns your-estimated-benefits vads-u-margin-right--0">
+    <h3 id="estimated-benefits" tabIndex="-1">
+      Your estimated benefits
+    </h3>
     <div className="out-of-pocket-tuition">
       <CalculatorResultRow
         label="GI Bill pays to school"

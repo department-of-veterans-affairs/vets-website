@@ -4,6 +4,7 @@ import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
+import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 import { childStatusDescription } from './childStatusDescription';
 
@@ -12,10 +13,10 @@ export const schema = addChild.properties.addChildPlaceOfBirth;
 export const uiSchema = {
   childrenToAdd: {
     'ui:options': {
-      itemName: 'Child',
       viewField: childInfo,
     },
     items: {
+      'ui:title': ChildNameHeader,
       placeOfBirth: {
         'ui:title': "Child's place of birth",
         state: {
@@ -56,7 +57,7 @@ export const uiSchema = {
           'ui:title': 'Stepchild',
         },
         dateBecameDependent: merge(
-          currentOrPastDateUI('Date stepchild became dependent'),
+          currentOrPastDateUI('Date stepchild became your dependent'),
           {
             'ui:options': {
               expandUnder: 'stepchild',

@@ -7,7 +7,7 @@ import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
  */
 
 class ProgressButton extends React.Component {
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     this.id = _.uniqueId();
   }

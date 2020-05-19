@@ -7,7 +7,7 @@
 export default function omit(fields, object) {
   return Object.keys(object).reduce((newObj, k) => {
     if (!fields.includes(k)) {
-      newObj[k] = object[k]; // eslint-disable-line
+      newObj[k] = object[k]; // eslint-disable-line no-param-reassign
     }
 
     return newObj;

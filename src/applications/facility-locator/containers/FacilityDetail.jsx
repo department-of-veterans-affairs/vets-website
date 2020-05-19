@@ -14,10 +14,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
-import { OperatingStatus } from '../constants';
+import { OperatingStatus, FacilityType } from '../constants';
 
 class FacilityDetail extends Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
@@ -43,7 +43,24 @@ class FacilityDetail extends Component {
     document.title = this.__previousDocTitle;
   }
 
-  showOperationStatus(operatingStatus, website) {
+  visitText(facilityType, website) {
+    if (facilityType === FacilityType.VA_CEMETARY) {
+      return (
+        <p>
+          For more information about the cemetery including interment, visit our{' '}
+          <a href={website}>cemetery website</a>.
+        </p>
+      );
+    }
+    return (
+      <p>
+        Visit the <a href={website}>website</a> to learn more about hours and
+        services.
+      </p>
+    );
+  }
+
+  showOperationStatus(operatingStatus, website, facilityType) {
     if (!operatingStatus || operatingStatus.code === 'NORMAL') {
       return null;
     }
@@ -71,12 +88,8 @@ class FacilityDetail extends Component {
               <p>{operatingStatus.additionalInfo} </p>
             )}
             {website &&
-              website !== 'NULL' && (
-                <p>
-                  Visit the <a href={website}>website</a> to learn more about
-                  hours and services.
-                </p>
-              )}
+              website !== 'NULL' &&
+              this.visitText(facilityType, website)}
           </div>
         }
         status={`${alertClass}`}
@@ -86,12 +99,18 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, website, phone, operatingStatus } = facility.attributes;
+    const {
+      name,
+      website,
+      phone,
+      operatingStatus,
+      facilityType,
+    } = facility.attributes;
 
     return (
       <div>
         <h1>{name}</h1>
-        {this.showOperationStatus(operatingStatus, website)}
+        {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
           <FacilityTypeDescription location={facility} />
           <LocationAddress location={facility} />

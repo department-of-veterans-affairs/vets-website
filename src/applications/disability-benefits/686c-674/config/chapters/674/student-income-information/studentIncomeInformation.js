@@ -1,20 +1,25 @@
+import React from 'react';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
-import { StudentNameHeader } from '../helpers';
 import { report674 } from '../../../utilities';
 
 export const schema = report674.properties.studentIncomeInformation;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDoesEarnIncome: {
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),
-    'ui:title': 'Does the student earn an income',
+    'ui:title': 'Does the student earn an income now?',
     'ui:widget': 'yesNo',
   },
   studentEarningsFromSchoolYear: {
     'ui:title': 'Student’s income for the year attending school',
+    'ui:description': (
+      <p>
+        Enter the amounts before any deductions, like taxes and insurance.{' '}
+        <strong>If there is no dollar amount, enter 0.</strong>
+      </p>
+    ),
     'ui:options': {
       expandUnder: 'studentDoesEarnIncome',
       expandUnderCondition: true,
@@ -60,6 +65,12 @@ export const uiSchema = {
   },
   studentExpectedEarningsNextYear: {
     'ui:title': 'Student’s expected income for next year',
+    'ui:description': (
+      <p>
+        Enter the amounts before any deductions, like taxes and insurance.{' '}
+        <strong>If there is no dollar amount, enter 0.</strong>
+      </p>
+    ),
     'ui:options': {
       expandUnder: 'studentWillEarnIncomeNextYear',
       expandUnderCondition: true,

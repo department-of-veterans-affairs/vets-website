@@ -2,31 +2,5 @@
   "appName": "21-527EZ pension benefits form",
   "entryFile": "./pensions-entry.jsx",
   "entryName": "pensions",
-  "rootUrl": "/pension/application/527EZ",
-  "production": true,
-  "template": {
-    "title": "Apply For Pension Benefits",
-    "heading": "Apply for pension benefits",
-    "display_title": "Apply now",
-    "description": "Submit your VA pension application (VA Form 21P-527EZ) online now. Get step-by-step instructions, and consider signing in to save your in-progress application if you need to come back later to finish filling it out.",
-    "layout": "page-react.html",
-    "spoke": "Get benefits",
-    "collection": "pension",
-    "order": 3,
-    "includeBreadcrumbs": true,
-    "breadcrumbs_override": [
-      {
-        "path": "pension/",
-        "name": "Pension benefits"
-      },
-      {
-        "path": "pension/how-to-apply/",
-        "name": "How to apply"
-      },
-      {
-        "path": "pension/application/527EZ",
-        "name": "Apply for Veterans Pension"
-      }
-    ]
-  }
+  "rootUrl": "/pension/application/527EZ"
 }

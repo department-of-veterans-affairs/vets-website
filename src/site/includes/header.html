@@ -20,6 +20,10 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  {% if buildtype != 'vagovprod' %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+
   {% if drupalTags %}
   {% include "src/site/includes/metatags.drupal.liquid" %}
   {% else %}
@@ -58,6 +62,10 @@
   <!--[if lt IE 9]>
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
+
+  {% if botframework_cdn %}
+    <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
+  {% endif %}
 
   <script defer nomodule data-entry-name="polyfills.js"></script>
   <script defer data-entry-name="vendor.js"></script>

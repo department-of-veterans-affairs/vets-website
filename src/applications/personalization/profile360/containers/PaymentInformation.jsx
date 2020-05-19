@@ -15,6 +15,7 @@ import {
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 import recordEvent from 'platform/monitoring/record-event';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import ProfileFieldHeading from 'vet360/components/base/Vet360ProfileFieldHeading';
 
@@ -33,6 +34,7 @@ import {
   directDepositInformation,
   directDepositIsBlocked,
   directDepositIsSetUp,
+  directDepositUiState,
 } from '../selectors';
 
 const AdditionalInfos = props => (
@@ -57,18 +59,9 @@ const AdditionalInfos = props => (
           or upgrade your Basic account to Premium. Your MyHealtheVet or ID.me
           credentials won’t work on eBenefits.
         </p>
-        <a
-          rel="noopener noreferrer"
-          target="_blank"
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-ebenefits-click',
-            })
-          }
-        >
+        <EbenefitsLink path="ebenefits/about/feature?feature=direct-deposit-and-contact-information">
           Go to eBenefits to change your information
-        </a>
+        </EbenefitsLink>
         <br />
         <a href="/change-direct-deposit/#are-there-other-ways-to-change">
           Find out how to change your information by mail or phone
@@ -289,7 +282,7 @@ const mapStateToProps = state => {
     multifactorEnabled: isMultifactorEnabled(state),
     paymentAccount: directDepositAccountInformation(state),
     paymentInformation: directDepositInformation(state),
-    paymentInformationUiState: state.vaProfile.paymentInformationUiState,
+    paymentInformationUiState: directDepositUiState(state),
     shouldShowDirectDeposit:
       isEvssAvailable &&
       !isDirectDepositBlocked &&

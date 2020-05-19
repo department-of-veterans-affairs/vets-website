@@ -4,7 +4,8 @@
  * @module platform/brand-consolidation/va-subdomain
  */
 export default function isVATeamSiteSubdomain() {
-  return !!window.location.hostname.match(
-    /(cem|choose|benefits|telehealth|volunteer|ptsd|nutrition).va/gi,
+  return (
+    !window.location.hostname.match(/(www|staging|dev).va.gov/gi) &&
+    !window.location.hostname.match(/(localhost|127.0.0.1)/gi)
   );
 }

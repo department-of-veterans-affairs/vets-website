@@ -10,7 +10,7 @@ import { selectAvailableServices } from 'platform/user/selectors';
 
 import { itfNotice } from '../content/introductionPage';
 import { originalClaimsFeature } from '../config/selectors';
-import FileOriginalClaimPage from '../../wizard/pages/file-original-claim';
+import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
       return (
         <div className="schemaform-intro">
           <FormTitle title="File for disability compensation" />
-          <FileOriginalClaimPage.component props={this.props} />
+          <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
     }
@@ -52,22 +52,22 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
-        <h4>
+        <h2 className="vads-u-font-size--h4">
           Follow the steps below to file a claim for a new or secondary
           condition or for increased disability compensation.
-        </h4>
+        </h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <div>
-                <h5>Prepare</h5>
+                <h3 className="vads-u-font-size--h5">Prepare</h3>
               </div>
               <div>
-                <h6>
+                <h4 className="vads-u-font-size--h6">
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
-                </h6>
+                </h4>
               </div>
               <ul>
                 <li>
@@ -141,7 +141,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div>
-                <h5>Apply</h5>
+                <h3 className="vads-u-font-size--h5">Apply</h3>
               </div>
               <p>
                 Complete this disability compensation benefits form. After
@@ -151,7 +151,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h3 className="vads-u-font-size--h5">VA Review</h3>
               </div>
               <p>
                 We process applications in the order we receive them. The amount
@@ -162,7 +162,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div>
-                <h5>Decision</h5>
+                <h3 className="vads-u-font-size--h5">Decision</h3>
               </div>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail

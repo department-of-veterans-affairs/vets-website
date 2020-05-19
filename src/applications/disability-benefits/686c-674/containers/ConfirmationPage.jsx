@@ -5,6 +5,8 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
+import { fireAnalytics } from '../analytics/helpers.js';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -18,6 +20,7 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
+    fireAnalytics(this.props.form.data);
   }
 
   handlePrintClick = () => {

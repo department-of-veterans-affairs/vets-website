@@ -691,6 +691,14 @@ $facility-locator-color-gray: #ccc;
   font-weight: bold;
 }
 
+.current-pos-pin {
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  border: solid 4px $color-white;
+  background-color: $color-red-dark;
+}
 
 #infoBubble {
   background-color: $color-aqua-lightest;

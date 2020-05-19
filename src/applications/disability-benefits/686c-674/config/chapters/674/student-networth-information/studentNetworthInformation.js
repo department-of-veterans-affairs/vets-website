@@ -1,12 +1,11 @@
+import React from 'react';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
-import { StudentNameHeader } from '../helpers';
 
 export const schema = report674.properties.studentNetworthInformation;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDoesHaveNetworth: {
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),
@@ -14,6 +13,13 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
   },
   studentNetworthInformation: {
+    'ui:title': 'Student’s net worth',
+    'ui:description': (
+      <p>
+        Enter the value of what is owned solely by the student.{' '}
+        <strong>If there is no dollar amount, enter 0.</strong>
+      </p>
+    ),
     'ui:options': {
       expandUnder: 'studentDoesHaveNetworth',
       expandUnderCondition: true,
@@ -51,7 +57,7 @@ export const uiSchema = {
       },
     },
     remarks: {
-      'ui:title': 'Remarks about student’s networth',
+      'ui:title': 'Remarks about student’s net worth',
       'ui:widget': 'textarea',
     },
   },

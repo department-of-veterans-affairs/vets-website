@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
@@ -73,6 +74,7 @@ export class ProfilePage extends React.Component {
             showModal={this.props.showModal}
             preSelectedProgram={this.props.params.preSelectedProgram}
             gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
+            selectedProgram={this.props.calculator.selectedProgram}
           />
         );
       } else {
@@ -128,7 +130,9 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ProfilePage),
+);

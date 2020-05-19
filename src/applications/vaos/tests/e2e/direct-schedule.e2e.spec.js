@@ -34,12 +34,12 @@ module.exports = {
   },
   'Choose a VA location for your appointment': client => {
     client
-      .click('[value="983"]')
+      .click('[value="var983"]')
       .waitForElementPresent(
-        '[name = "root_vaFacility"][value = "983"]',
+        '[name = "root_vaFacility"][value = "var983"]',
         Timeouts.slow,
       )
-      .click('[name = "root_vaFacility"][value = "983"]')
+      .click('[name = "root_vaFacility"][value = "var983"]')
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')

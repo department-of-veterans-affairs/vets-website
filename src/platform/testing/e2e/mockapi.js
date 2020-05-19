@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line
+'use strict'; // eslint-disable-line strict
 
 // Simple mock api server. Allows scripting of a JSON API endpoint for end-to-end tests.
 //
@@ -7,17 +7,21 @@
 //    path: /my/api/path
 //   value: { "some": "json", "blob": "yay." }
 
+const fs = require('fs');
+const nodePath = require('path');
 const bodyParser = require('body-parser');
 const commandLineArgs = require('command-line-args');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const express = require('express');
 const winston = require('winston');
+const apiMocker = require('mocker-api');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'responses', type: String },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -32,10 +36,14 @@ function stripTrailingSlash(path) {
   return path.substr(-1) === '/' ? path.slice(0, -1) : path;
 }
 
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
 function makeMockApiRouter(opts) {
   // mockResponses[token][verb][response]
   const mockResponses = {};
-  const corsOptions = { origin: true, credentials: true };
 
   const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
@@ -70,10 +78,7 @@ function makeMockApiRouter(opts) {
     res.status(200).json(result);
   });
 
-  // Handle CORS preflight.
-  router.options('*', cors(corsOptions));
-
-  router.all('*', cors(corsOptions), (req, res) => {
+  router.all('*', (req, res) => {
     const token = req.cookies.token || '_global';
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[token] || {})[verb];
@@ -123,9 +128,25 @@ function makeMockApiRouter(opts) {
 options.logger = winston;
 
 const app = express();
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+if (options.responses) {
+  const pathToResponses = nodePath.resolve(options.responses);
+  if (fs.existsSync(pathToResponses)) {
+    apiMocker(app, pathToResponses);
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Could not find responses at ${pathToResponses}; No such file or directory.`,
+    );
+    process.exit(1);
+  }
+}
+
 app.use(makeMockApiRouter(options));
+
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(`Mock API server listening on port ${options.port}`);

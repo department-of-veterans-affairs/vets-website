@@ -88,10 +88,6 @@ ul.original-disability-list {
     margin-bottom: 0;
   }
 }
-.all-disabilities-title {
-  margin-top: 0.2em;
-  margin-bottom: 1.4em;
-}
 
 // Mimics usa-form-group-year minus the float and sets the max width so the
 //  error formatting doesn't increase the size
@@ -107,8 +103,44 @@ ul.original-disability-list {
   background: none;
   border: none;
   font-weight: bold;
-  padding-left: 0;
   white-space: pre-wrap;
   height: auto;
   white-space: pre-wrap;
+}
+
+// Style fix for "Private medical records"
+div.review {
+  border-bottom: 1px solid $color-gray-light;
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-top: 1px solid $color-gray-light;
+    padding: 1.5rem;
+    padding-left: 0;
+  }
+  .review-row > dd {
+    font-weight: bold;
+    text-align: right;
+  }
+  .review-row > dt > p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 481px) {
+  div.review {
+    .review-row {
+      flex-direction: row;
+    }
+    .review-row > dd {
+      padding-left: 5px;
+      min-width: 100px;
+    }
+    .review-row > dt {
+      max-width: 60%;
+      min-width: 40%;
+    }
+  }
 }

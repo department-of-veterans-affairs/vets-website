@@ -791,3 +791,21 @@ export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
     sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
   );
+
+export const DISABILITY_SHARED_CONFIG = {
+  orientation: {
+    path: 'disabilities/orientation',
+    // Only show the page if both (or potentially neither) options are chosen on the claim-type page
+    depends: formData =>
+      newAndIncrease(formData) || noClaimTypeSelected(formData),
+  },
+  ratedDisabilities: {
+    path: 'disabilities/rated-disabilities',
+    depends: formData =>
+      hasRatedDisabilities(formData) && !newConditionsOnly(formData),
+  },
+  addDisabilities: {
+    path: 'new-disabilities/add',
+    depends: hasNewDisabilities,
+  },
+};

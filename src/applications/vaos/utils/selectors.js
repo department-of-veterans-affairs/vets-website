@@ -12,6 +12,18 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
 } from './constants';
+import {
+  getRootOrganization,
+  getSiteIdFromOrganization,
+  getIdOfRootOrganization,
+} from '../services/organization';
+import { getParentOfLocation } from '../services/location';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -89,29 +101,65 @@ export function getChosenFacilityInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     facilities[`${typeOfCareId}_${data.vaParent}`]?.find(
-      facility => facility.institutionCode === data.vaFacility,
+      facility => facility.id === data.vaFacility,
     ) || null
   );
 }
 
-export function getSystemFromChosenFacility(state) {
-  const facility = getChosenFacilityInfo(state);
+export function getChosenParentInfo(state, parentId) {
+  const currentParentId = parentId || getFormData(state).vaParent;
 
-  return facility?.rootStationCode;
+  if (!currentParentId) {
+    return null;
+  }
+
+  return getParentFacilities(state).find(
+    parent => parent.id === currentParentId,
+  );
 }
 
-export function getSystemFromParent(state, parentId) {
-  const facility = getParentFacilities(state)?.find(
-    parent => parent.institutionCode === parentId,
+export function getRootOrganizationFromChosenParent(state, parentId) {
+  return getRootOrganization(
+    getParentFacilities(state),
+    parentId || getFormData(state).vaParent,
   );
+}
 
-  return facility?.rootStationCode;
+export function getRootIdForChosenFacility(state, parentId) {
+  const parentFacilities = getParentFacilities(state);
+
+  return getIdOfRootOrganization(
+    parentFacilities,
+    parentId || getFormData(state).vaParent,
+  );
+}
+
+export function getSiteIdForChosenFacility(state, currentParentId) {
+  const parentId = currentParentId || getFormData(state).vaParent;
+  const parentFacilities = getParentFacilities(state);
+  const parentOrg = getChosenParentInfo(state, parentId);
+
+  const rootOrg = getRootOrganization(parentFacilities, parentId);
+
+  if (rootOrg) {
+    return getSiteIdFromOrganization(rootOrg);
+  }
+
+  // This is a hack to get around some site ids not showing up in the parent sites list
+  return parentOrg?.partOf.reference.replace('Organization/var', '');
 }
 
 export function getParentOfChosenFacility(state) {
   const facility = getChosenFacilityInfo(state);
+  const parentFacilities = getParentFacilities(state);
 
-  return facility?.parentStationCode;
+  if (!facility) {
+    return null;
+  }
+
+  const parent = getParentOfLocation(parentFacilities, facility);
+
+  return parent?.id;
 }
 
 export function getChosenFacilityDetails(state) {
@@ -120,8 +168,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[data.communityCareSystemId]
-    : facilityDetails[data.vaFacility];
+    ? facilityDetails[parseFakeFHIRId(data.communityCareSystemId)]
+    : facilityDetails[parseFakeFHIRId(data.vaFacility)];
 }
 
 export function getEligibilityChecks(state) {
@@ -151,7 +199,7 @@ export function getDateTimeSelect(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
   const eligibilityStatus = getEligibilityStatus(state);
-  const systemId = getSystemFromChosenFacility(state);
+  const systemId = getSiteIdForChosenFacility(state);
 
   const availableDates = availableSlots?.reduce((acc, s) => {
     if (!acc.includes(s.date)) {
@@ -217,10 +265,15 @@ export function getFacilityPageInfo(state) {
     hasEligibilityError:
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
-    parentDetails: newAppointment?.facilityDetails[data.vaParent],
-    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
+    // Remove parse function when converting this call to FHIR service
+    parentDetails:
+      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaParent)],
+    // Remove parse function when converting this call to FHIR service
+    facilityDetails:
+      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaFacility)],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
+    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
   };
 }
 
@@ -251,7 +304,8 @@ export function getClinicPageInfo(state, pageKey) {
 
   return {
     ...formPageInfo,
-    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
+    facilityDetails:
+      facilityDetails?.[parseFakeFHIRId(formPageInfo.data.vaFacility)],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,

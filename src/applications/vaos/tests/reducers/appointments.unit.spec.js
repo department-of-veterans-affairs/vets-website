@@ -100,6 +100,11 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.future.length).to.equal(5);
+    expect(
+      newState.future[0].appointmentDate.isBefore(
+        newState.future[1].appointmentDate,
+      ),
+    ).to.be.true;
   });
 
   it('should update futureStatus to be failed when calling FETCH_FUTURE_APPOINTMENTS_FAILED', () => {
@@ -132,25 +137,37 @@ describe('VAOS reducer: appointments', () => {
       selectedIndex: 1,
       data: [
         [
-          { startDate: '2019-04-30T05:35:00', facilityId: '984' },
+          {
+            startDate: '2019-04-30T05:35:00',
+            facilityId: '984',
+            clinicId: '123',
+          },
           // appointment before start date should not show
-          { startDate: '2017-04-30T05:35:00', facilityId: '984' },
+          {
+            startDate: '2017-04-30T05:35:00',
+            facilityId: '984',
+            clinicId: '123',
+          },
           // appointment 1 hour in the future should not show
           {
             startDate: moment()
               .add(650, 'minutes')
               .format(),
+            clinicId: '123',
           },
           // appointment 30 min ago should show
           {
             startDate: moment()
               .subtract(30, 'minutes')
               .format(),
+            clinicId: '123',
           },
           // Cancelled should show
           {
-            appointmentTime: '05/29/2019 05:30:00',
-            timeZone: '+08:00 WITA',
+            startDate: moment()
+              .subtract(20, 'minutes')
+              .format(),
+            clinicId: '123',
             vdsAppointments: [
               {
                 currentStatus: 'CANCELLED BY CLINIC',
@@ -185,6 +202,11 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
+    expect(
+      newState.past[0].appointmentDate.isAfter(
+        newState.past[1].appointmentDate,
+      ),
+    ).to.be.true;
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {

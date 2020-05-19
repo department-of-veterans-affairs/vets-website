@@ -46,6 +46,7 @@ export const LOAD_STATUSES = Object.freeze({
   pending: 'pending',
   noAuth: 'no-auth',
   failure: 'failure',
+  forbidden: 'forbidden',
   notFound: 'not-found',
   invalidData: 'invalid-data',
   success: 'success',
@@ -244,10 +245,13 @@ export function fetchInProgressForm(
           return res.json();
         }
 
+        // Make me a switch?
         let status = LOAD_STATUSES.failure;
         if (res.status === 401) {
           dispatch(logOut());
           status = LOAD_STATUSES.noAuth;
+        } else if (res.status === 403) {
+          status = LOAD_STATUSES.forbidden;
         } else if (res.status === 404) {
           status = LOAD_STATUSES.notFound;
         }
@@ -325,7 +329,11 @@ export function fetchInProgressForm(
 
         // If prefilling went wrong for a non-auth reason, it probably means that
         // they didn’t have info to use and we can continue on as usual
-        if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
+        if (
+          prefill &&
+          loadedStatus !== LOAD_STATUSES.noAuth &&
+          loadedStatus !== LOAD_STATUSES.forbidden
+        ) {
           dispatch(setPrefillComplete());
           recordEvent({
             event: `${trackingPrefix}sip-form-prefill-failed`,

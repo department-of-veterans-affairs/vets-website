@@ -53,6 +53,7 @@ const MobileMenuTrigger = ({
 
       if (justSwitchedToMobile) {
         setIsMobile(true);
+        setTriggerHeight(window.getComputedStyle(button.current).height);
       }
 
       if (justSwitchedToDesktop) {
@@ -101,7 +102,7 @@ const MobileMenuTrigger = ({
   const buttonClasses = classnames({ fixed: isMenuTriggerPinned });
 
   return (
-    <div className="va-btn-sidebarnav-trigger">
+    <div className="va-btn-mobile-nav-trigger">
       {/*
       This invisible placeholder fills the vertical space normally taken up by the `button` when the `button`'s position is fixed and it is pulled out of the normal page flow.
       */}
@@ -113,10 +114,8 @@ const MobileMenuTrigger = ({
         onClick={openSideNav}
         ref={button}
       >
-        <span>
-          <b>Profile Menu</b>
-          <img src="/img/arrow-right-white.svg" alt="" />
-        </span>
+        <b>Profile menu</b>
+        <img src="/img/arrow-right-white.svg" alt="" />
       </button>
     </div>
   );

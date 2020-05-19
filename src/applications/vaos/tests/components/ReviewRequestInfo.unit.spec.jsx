@@ -4,6 +4,7 @@ import { expect } from 'chai';
 
 import ReviewRequestInfo from '../../components/review/ReviewRequestInfo';
 import PreferredDates from '../../components/review/PreferredDates';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {
   phoneNumber: '5035551234',
@@ -36,15 +37,33 @@ const defaultData = {
 };
 
 const facility = {
-  institutionCode: '983GB',
+  id: `var983`,
+  identifier: [
+    {
+      system: VHA_FHIR_ID,
+      value: '983',
+    },
+    {
+      system: 'http://med.va.gov/fhir/urn',
+      value: `urn:va:division:983:983GB`,
+    },
+  ],
   name: 'CHYSHR-Sidney VA Clinic',
-  city: 'Sidney',
-  stateAbbrev: 'NE',
-  authoritativeName: 'CHYSHR-Sidney VA Clinic',
-  rootStationCode: '983',
-  adminParent: false,
-  parentStationCode: '983',
-  institutionTimezone: 'America/Denver',
+  telecom: [],
+  address: [
+    {
+      line: [],
+      city: 'Sidney',
+      state: 'NE',
+      postalCode: null,
+    },
+  ],
+  legacyVAR: {
+    institutionTimezone: 'America/Denver',
+  },
+  managingOrganization: {
+    reference: `Organization/var983`,
+  },
 };
 
 const pageTitle = 'Review your appointment details';
@@ -62,7 +81,6 @@ describe('VAOS <ReviewRequestInfo>', () => {
     const text = tree.text();
     const heading = tree.find('h1');
 
-    // console.log(tree.debug());
     it('should render page heading', () => {
       expect(heading.exists()).to.be.true;
       expect(heading.text()).to.equal(pageTitle);

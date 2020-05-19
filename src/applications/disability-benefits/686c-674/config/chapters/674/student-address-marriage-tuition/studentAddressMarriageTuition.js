@@ -4,7 +4,7 @@ import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
-import { StudentNameHeader } from '../helpers';
+import { StudentAddressDescription } from './helpers';
 
 const addressSchema = buildAddressSchema(true);
 
@@ -22,10 +22,12 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
+  'ui:title': 'Student’s Address',
   studentAddressMarriageTuition: {
     address: {
-      ...{ 'ui:title': 'Student’s Address' },
+      ...{
+        'ui:description': StudentAddressDescription,
+      },
       ...addressUISchema(
         true,
         'studentAddressMarriageTuition.address',
@@ -52,7 +54,7 @@ export const uiSchema = {
     tuitionIsPaidByGovAgency: {
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:title':
-        'Is student’s tuition or education allowance being paid by the Survivor’s and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
+        'Is student’s tuition or education allowance being paid by the Survivors’ and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
       'ui:widget': 'yesNo',
       'ui:errorMessages': { required: 'Please select an option' },
     },
