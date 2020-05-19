@@ -31,6 +31,7 @@ const verifySearchResults = client => {
     Timeouts.normal,
   );
   client.selectRadio('category', 'ALL');
+  GiHelpers.expectLocation(client, `/search?category=ALL&name=${searchString}`);
 
   deaSearchResults.data.forEach(({ attributes: profile }) => {
     let housingRate = GiHelpers.calculatorConstants.DEARATEFULLTIME;
