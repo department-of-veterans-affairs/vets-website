@@ -32,13 +32,10 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
 
   return (
     <>
-      <label htmlFor="vet-signature-input">
-        {label}
-        &apos;s full name
-      </label>
+      <label htmlFor="vet-signature-input">{label}</label>
       <ErrorableTextInput
         ref={inputRef}
-        name="vet-signature-input"
+        id="vet-signature-input"
         required={required}
         onValueChange={value => setSignature(value)}
         field={{ value: signature.value, dirty: signature.dirty }}

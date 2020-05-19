@@ -36,7 +36,7 @@ export async function getOrganizations(siteIds) {
  * @returns {String} Three digit VistA id
  */
 export function getSiteIdFromOrganization(organization) {
-  return organization.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
+  return organization?.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
 }
 
 /**
@@ -52,7 +52,7 @@ export function getSiteIdFromOrganization(organization) {
 export function getRootOrganization(organizations, organizationId) {
   let organization = organizations.find(parent => parent.id === organizationId);
 
-  if (organization.partOf) {
+  if (organization?.partOf) {
     const partOfId = organization.partOf.reference.split('/')[1];
     organization = organizations.find(parent => parent.id === partOfId);
   }
@@ -72,4 +72,30 @@ export function getOrganizationBySiteId(organizations, siteId) {
   return organizations.find(org =>
     org.identifier.some(id => id.value === siteId),
   );
+}
+
+/**
+ * Returns the root site id given a list of organizations and the parent organization
+ *
+ * @export
+ * @param {Array} organizations Parent organizations
+ * @param {String} organizationId Chosen parent organization
+ * @returns {String} The organization id
+ */
+export function getIdOfRootOrganization(organizations, organizationId) {
+  const parentOrg = organizations.find(parent => parent.id === organizationId);
+  let rootOrg;
+
+  if (parentOrg.partOf) {
+    const partOfId = parentOrg.partOf.reference.split('/')[1];
+    rootOrg = organizations.find(parent => parent.id === partOfId);
+  } else {
+    rootOrg = parentOrg;
+  }
+
+  if (!rootOrg) {
+    return parentOrg.partOf.reference.replace('Organization/', '');
+  }
+
+  return rootOrg.id;
 }

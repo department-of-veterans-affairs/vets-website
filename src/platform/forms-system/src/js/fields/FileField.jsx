@@ -117,7 +117,8 @@ export default class FileField extends React.Component {
     let { buttonText = 'Upload' } = uiOptions;
     if (files.length > 0) buttonText = uiOptions.addAnotherLabel;
 
-    const Tag = formContext.onReviewPage ? 'dl' : 'div';
+    const Tag =
+      formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
 
     return (
       <div

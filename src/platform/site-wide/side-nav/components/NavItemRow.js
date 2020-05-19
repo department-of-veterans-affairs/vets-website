@@ -75,6 +75,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
   return (
     <a
       aria-label={label}
+      aria-current={isSelected ? 'page' : undefined}
       className={classNames('va-sidenav-item-label', {
         open: !!(depth >= 2 && isSelected),
       })}
