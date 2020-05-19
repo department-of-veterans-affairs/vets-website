@@ -1,6 +1,7 @@
-const MESSAGE = 'Do not use relative path. ';
+const MESSAGE =
+  'Import from ALIASES directly, relative to "src" instead of relative to current working directory.';
 const DEFAULTS = ['applications'];
-let ALIASPATH = 'Instead, use absolute path for ';
+let ALIASPATH = '';
 
 function isIncluded(val, aliases) {
   const isString = str => typeof str === 'string';
@@ -13,7 +14,7 @@ function isIncluded(val, aliases) {
   for (alias of aliases) {
     const path = `../${alias}/`;
     if (val.includes(path)) {
-      ALIASPATH += alias;
+      ALIASPATH = alias;
       return true;
     }
   }
@@ -48,9 +49,10 @@ module.exports = {
       ImportDeclaration(node) {
         const value = node.source.value;
         if (isIncluded(value, aliases)) {
+          const message = `Import from '${ALIASPATH}' directly, relative to 'src' instead of relative to current working directory.`;
           context.report({
             node,
-            message: MESSAGE + ALIASPATH,
+            message,
           });
         }
       },
@@ -59,9 +61,10 @@ module.exports = {
         if (callee === 'Import') {
           const value = node.arguments[0].value;
           if (isIncluded(value, aliases)) {
+            const message = `Import from '${ALIASPATH}' directly, relative to 'src' instead of relative to current working directory.`;
             context.report({
               node,
-              message: MESSAGE + ALIASPATH,
+              message,
             });
           }
         }
