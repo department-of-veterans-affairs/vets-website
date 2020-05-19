@@ -134,7 +134,7 @@ async function getClinicDataBySystem(facilityClinicListMap) {
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => appt.vaos?.appointmentType !== APPOINTMENT_TYPES.vaAppointment,
+    appt => !appt.legacyVAR?.clinicId,
   );
   let facilityIds = requestsOrNonVAFacilityAppointments
     .map(appt => appt.facilityId || appt.facility?.facilityCode)
@@ -142,13 +142,12 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
   // Get facility ids from VA appointments
   const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment,
+    appt => appt.legacyVAR?.clinicId,
   );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
     vaFacilityAppointments,
   );
-
   clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
   facilityIds = facilityIds.concat(
     clinicInstitutionList.map(clinic => clinic.institutionCode),
@@ -328,7 +327,9 @@ export function confirmCancelAppointment() {
           cancelCode: 'PC',
         };
 
-        cancelReasons = await getCancelReasons(appointment.facilityId);
+        cancelReasons = await getCancelReasons(
+          appointment.legacyVAR.facilityId,
+        );
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
