@@ -53,7 +53,7 @@ class Main extends React.Component {
 
       if (accountLevelChanged || accountStateChanged) {
         if (this.hasMHVAccess()) {
-          this.redirectToMHV(useSSOe);
+          window.location = mhvUrl(useSSOe, 'home');
         } else {
           router.replace('/');
         }
@@ -71,10 +71,6 @@ class Main extends React.Component {
       (accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
         accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED)
     );
-  };
-
-  redirectToMHV = useSSOe => {
-    window.location = mhvUrl(useSSOe, 'home');
   };
 
   render() {

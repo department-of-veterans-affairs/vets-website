@@ -444,7 +444,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
     describe('account state errors', () => {
-      const defaultProps = {
+      let defaultProps = {
         fetchMHVAccount: d => d,
         isLoggedIn: true,
         appId: 'rx',
@@ -567,6 +567,63 @@ describe('<CallToActionWidget>', () => {
 
         expect(tree.find('NeedsVAPatient').exists()).to.be.true;
         tree.unmount();
+      });
+
+      describe('ssoe', () => {
+        defaultProps = { ...{ useSSOe: true }, ...defaultProps };
+
+        it('should show verify message', () => {
+          const tree = mount(
+            <CallToActionWidget
+              {...defaultProps}
+              profile={{
+                verified: false,
+              }}
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+            />,
+          );
+
+          expect(tree.find('Verify').exists()).to.be.true;
+          tree.unmount();
+        });
+
+        it('should show deactivated message', () => {
+          const tree = mount(
+            <CallToActionWidget
+              {...defaultProps}
+              mhvAccountIdState="DEACTIVATED"
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+            />,
+          );
+
+          expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
+          tree.unmount();
+        });
+
+        it('should show needs va patient message', () => {
+          const tree = mount(
+            <CallToActionWidget
+              {...defaultProps}
+              isVaPatient={false}
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+            />,
+          );
+
+          expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+          tree.unmount();
+        });
       });
     });
     it('should show MHV link', () => {
