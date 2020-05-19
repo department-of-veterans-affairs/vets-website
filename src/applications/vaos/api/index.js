@@ -15,8 +15,8 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-const USE_MOCK_DATA = false;
-// environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
+const USE_MOCK_DATA =
+  environment.isLocalhost() && !environment.API_URL.includes('review.vetsgov');
 
 function vaosApiRequest(url, ...options) {
   return apiRequest(`${environment.API_URL}/vaos${url}`, ...options);
