@@ -1,7 +1,5 @@
 import { snakeCase } from 'lodash';
 import constants from 'vets-json-schema/dist/constants.json';
-import { SMALL_SCREEN_WIDTH } from '../constants';
-import environment from 'platform/utilities/environment';
 
 export const formatNumber = value => {
   const str = (+value).toString();
@@ -91,14 +89,9 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
-export const handleInputFocus = fieldId => {
-  const field = document.getElementById(fieldId);
-  if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-    // prod flag for bah-8821 EYB changes
-    if (environment.isProduction()) {
-      field.scrollIntoView();
-    } else {
-      field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+export const checkForEmptyFocusableElement = element => {
+  if (document.getElementsByName(element) === null) {
+    return '';
   }
+  return document.getElementsByName(element);
 };
