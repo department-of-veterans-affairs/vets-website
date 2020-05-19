@@ -180,10 +180,6 @@ describe('VAOS Appointment transformer', () => {
           APPOINTMENT_TYPES.vaAppointment,
         );
       });
-
-      it('should set facilityId in legacyVAR', () => {
-        expect(data.legacyVAR.facilityId).to.equal('983');
-      });
     });
 
     describe('community care appointment', () => {
@@ -246,10 +242,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.appointmentType).to.equal(
           APPOINTMENT_TYPES.ccAppointment,
         );
-      });
-
-      it('should set facilityId in legacyVAR', () => {
-        expect(data.legacyVAR.facilityId).to.equal(undefined);
       });
     });
 

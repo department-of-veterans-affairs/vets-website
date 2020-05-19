@@ -15,7 +15,17 @@ import {
   getClinicInstitutions,
 } from '../api';
 
-import { getBookedAppointments } from '../services/appointment';
+import {
+  getBookedAppointments,
+  getVARClinicId,
+  getVARFacilityId,
+} from '../services/appointment';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id.replace('var', '');
+}
 
 import { captureError } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
@@ -74,14 +84,14 @@ function aggregateClinicsBySystem(appointments) {
   const facilityClinicListMap = new Map();
 
   appointments.forEach(appt => {
-    const facility = facilityClinicListMap.get(appt.legacyVAR.facilityId);
+    const facilityId = parseFakeFHIRId(getVARFacilityId(appt));
+    const clinicId = parseFakeFHIRId(getVARClinicId(appt));
+
+    const facility = facilityClinicListMap.get(facilityId);
     if (facility) {
-      facility.add(appt.legacyVAR.clinicId);
+      facility.add(clinicId);
     } else {
-      facilityClinicListMap.set(
-        appt.legacyVAR.facilityId,
-        new Set([appt.legacyVAR.clinicId]),
-      );
+      facilityClinicListMap.set(facilityId, new Set([clinicId]));
     }
   });
 
@@ -134,7 +144,7 @@ async function getClinicDataBySystem(facilityClinicListMap) {
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => !appt.legacyVAR?.clinicId,
+    appt => !getVARClinicId(appt),
   );
   let facilityIds = requestsOrNonVAFacilityAppointments
     .map(appt => appt.facilityId || appt.facility?.facilityCode)
@@ -142,7 +152,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
   // Get facility ids from VA appointments
   const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.legacyVAR?.clinicId,
+    appt => !!getVARClinicId(appt),
   );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
@@ -154,6 +164,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   );
 
   const uniqueFacilityIds = new Set(facilityIds);
+
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
     facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
@@ -313,12 +324,14 @@ export function confirmCancelAppointment() {
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
+        const facilityId = getVARFacilityId(appointment).replace('var', '');
+
         const cancelData = {
           appointmentTime: moment(appointment.start).format(
             'MM/DD/YYYY HH:mm:ss',
           ),
-          clinicId: appointment.legacyVAR.clinicId,
-          facilityId: appointment.legacyVAR.facilityId,
+          clinicId: getVARClinicId(appointment).replace('var', ''),
+          facilityId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
           // we have to send the real name or if the friendly name is ok
@@ -327,9 +340,7 @@ export function confirmCancelAppointment() {
           cancelCode: 'PC',
         };
 
-        cancelReasons = await getCancelReasons(
-          appointment.legacyVAR.facilityId,
-        );
+        cancelReasons = await getCancelReasons(facilityId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)

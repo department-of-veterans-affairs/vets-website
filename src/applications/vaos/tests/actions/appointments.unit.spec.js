@@ -158,11 +158,25 @@ describe('VAOS actions: appointments', () => {
         futureStatus: 'notStarted',
         future: [
           {
-            legacyVAR: { facilityId: '983', clinicId: '455' },
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
             vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
           },
           {
-            legacyVAR: { facilityId: '983', clinicId: '455' },
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
             vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
           },
         ],
@@ -201,10 +215,46 @@ describe('VAOS actions: appointments', () => {
       appointments: {
         futureStatus: 'notStarted',
         future: [
-          { legacyVAR: { facilityId: '983', clinicId: '455' } },
-          { legacyVAR: { facilityId: '984', clinicId: '455' } },
-          { legacyVAR: { facilityId: '985', clinicId: '455' } },
-          { legacyVAR: { facilityId: '986', clinicId: '455' } },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var984_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var985_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var986_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
         ],
       },
     });
@@ -315,8 +365,6 @@ describe('VAOS actions: appointments', () => {
             contained: null,
             legacyVAR: {
               id: '17dd714287e151195b99164cc1a8e49a',
-              facilityId: '983',
-              clinicId: '455',
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -402,8 +450,6 @@ describe('VAOS actions: appointments', () => {
             contained: null,
             legacyVAR: {
               id: '17dd714287e151195b99164cc1a8e49a',
-              facilityId: '983',
-              clinicId: '455',
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',

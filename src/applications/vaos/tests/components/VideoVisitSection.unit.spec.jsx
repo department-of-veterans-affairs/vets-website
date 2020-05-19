@@ -40,8 +40,6 @@ describe('Video visit', () => {
     ],
     legacyVAR: {
       id: '123',
-      facilityId: '983',
-      clinicId: null,
       apiData: {
         startDate: '2020-11-25T15:17:00Z',
         clinicId: null,

@@ -30,8 +30,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     contained: null,
     legacyVAR: {
       id: '17dd714287e151195b99164cc1a8e49a',
-      facilityId: '983',
-      clinicId: '455',
       apiData: {
         startDate: '2020-11-07T17:00:00Z',
         clinicId: '455',
@@ -262,8 +260,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     ],
     legacyVAR: {
       id: '05760f00c80ae60ce49879cf37a05fc8',
-      facilityId: '983',
-      clinicId: null,
       apiData: {
         startDate: '2020-11-25T15:17:00Z',
         clinicId: null,
@@ -386,8 +382,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
     contained: null,
     legacyVAR: {
       id: '17dd714287e151195b99164cc1a8e49a',
-      facilityId: '983',
-      clinicId: '455',
       apiData: {
         startDate: '2020-11-07T17:00:00Z',
         clinicId: '455',

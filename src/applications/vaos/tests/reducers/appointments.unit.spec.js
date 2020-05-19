@@ -46,7 +46,6 @@ describe('VAOS reducer: appointments', () => {
         [
           {
             start: '2099-04-30T05:35:00',
-            legacyVAR: { facilityId: '984' },
             vaos: {},
           },
           // appointment more than 1 hour ago should not show

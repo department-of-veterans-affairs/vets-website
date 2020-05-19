@@ -11,6 +11,7 @@ import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
+import { getVARFacilityId } from '../services/appointment';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -74,7 +75,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={appointment.legacyVAR?.facilityId}
+          facilityId={getVARFacilityId(appointment)}
         />
       </h3>
       <AppointmentStatus

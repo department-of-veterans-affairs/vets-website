@@ -68,10 +68,14 @@ describe('VAOS <FutureAppointmentsList>', () => {
         },
         {
           vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-          legacyVAR: {
-            facilityId: '983',
-            clinicId: '455',
-          },
+          participant: [
+            {
+              actor: {
+                reference: 'HealthcareService/var983_455',
+                display: 'CHY OPT VAR1',
+              },
+            },
+          ],
         },
         {
           vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
