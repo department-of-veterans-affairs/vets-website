@@ -34,7 +34,7 @@ const SignatureCheckbox = ({
       />
 
       <ErrorableCheckbox
-        onValueChange={event => setIsChecked(event)}
+        onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
       />
     </article>

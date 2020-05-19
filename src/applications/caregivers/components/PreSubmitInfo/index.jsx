@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import SignatureCheckbox from './components/SignatureBox';
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
-  const veteranLabel = "Enter Veteran's or service member's full name";
-  const primaryLabel = "Enter Primary Family Caregiver's full name";
-  const secondaryOneLabel = "Enter Secondary Family Caregiver's full name";
-  const secondaryTwoLabel = "Enter Secondary Family Caregiver's (2) full name";
+  const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
+  const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
+  const secondaryOneLabel =
+    'Enter Secondary Family Caregiver&apos\u2019s full name';
+  const secondaryTwoLabel =
+    'Enter Secondary Family Caregiver\u2019s (2) full name';
   const [signatures, setSignature] = useState({});
 
   const [secondaryCaregivers, setSecondaryCaregivers] = useState({
@@ -37,6 +39,21 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
     [formData, onSectionComplete, signatures],
   );
 
+  const PrivacyPolicy = () => (
+    <p>
+      I have read and accept the
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className="vads-u-margin-left--0p5"
+        href="https://www.va.gov/privacy-policy/"
+      >
+        privacy policy
+      </a>
+      .
+    </p>
+  );
+
   const SecondaryCaregiverCopy = ({ label }) => {
     const header = title => `${title} or Family Member Statement of Truth`;
     return (
@@ -64,18 +81,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
             program requirements for continued participation in the program.`}
         </p>
 
-        <p>
-          I have read and accept thes
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="vads-u-margin-left--0p5"
-            href="https://www.va.gov/privacy-policy/"
-          >
-            privacy policy
-          </a>
-          .
-        </p>
+        <PrivacyPolicy />
       </div>
     );
   };
@@ -108,18 +114,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
           Comprehensive Assistance for Family Caregivers.
         </p>
 
-        <p>
-          I have read and accept the
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="vads-u-margin-left--0p5"
-            href="https://www.va.gov/privacy-policy/"
-          >
-            privacy policy
-          </a>
-          .
-        </p>
+        <PrivacyPolicy />
       </SignatureCheckbox>
 
       <SignatureCheckbox
@@ -160,18 +155,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
           relationship with the Department of Veterans Affairs.
         </p>
 
-        <p>
-          I have read and accept the
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="vads-u-margin-left--0p5"
-            href="https://www.va.gov/privacy-policy/"
-          >
-            privacy policy
-          </a>
-          .
-        </p>
+        <PrivacyPolicy />
       </SignatureCheckbox>
 
       {secondaryCaregivers.hasSecondaryOne && (
