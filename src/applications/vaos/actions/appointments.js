@@ -309,7 +309,7 @@ export function confirmCancelAppointment() {
 
       if (!isConfirmedAppointment) {
         apiData = await updateRequest({
-          ...(appointment.apiData || appointment.legacyVAR?.apiData),
+          ...appointment.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
