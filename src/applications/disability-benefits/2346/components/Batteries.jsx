@@ -46,7 +46,7 @@ class Batteries extends Component {
     if (areBatterySuppliesIneligible) {
       window.dataLayer.push({
         event: 'bam-error',
-        'error-key': 'XXX_bam-ineligibility-no-prescription',
+        'error-key': 'batteries_bam-ineligibility-no-prescription',
       });
     }
 

@@ -44,7 +44,7 @@ class Accessories extends Component {
     if (areAccessorySuppliesIneligible) {
       window.dataLayer.push({
         event: 'bam-error',
-        'error-key': 'XXX_bam-ineligibility-no-prescription',
+        'error-key': 'accessories_bam-ineligibility-no-prescription',
       });
     }
 
