@@ -1,6 +1,7 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 
+import './axeCheck';
 import './syncFixtures';
 import './upload';
 
