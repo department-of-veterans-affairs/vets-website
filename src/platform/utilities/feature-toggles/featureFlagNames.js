@@ -14,7 +14,7 @@ export default Object.freeze({
   vaOnlineSchedulingVSPAppointmentNew: 'vaOnlineSchedulingVspAppointmentNew',
   vaOnlineSchedulingCCSPAppointmentList:
     'vaOnlineSchedulingCcspAppointmentList',
-  vaOnlineSchedulingCCSPAppointmentNew: 'vaOnlineSchedulingCcspRequestNew',
+  vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
   vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
   vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
