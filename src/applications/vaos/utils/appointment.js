@@ -207,7 +207,7 @@ export function filterFutureConfirmedAppointments(appt, today) {
   const isVideo = !!appt.vaos.videoType;
   const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(appt.start);
-  const status = appt.desciption;
+  const status = appt.description;
 
   return (
     !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&

@@ -249,7 +249,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set facilityId in legacyVAR', () => {
-        expect(data.legacyVAR).to.equal(null);
+        expect(data.legacyVAR.facilityId).to.equal(undefined);
       });
     });
 

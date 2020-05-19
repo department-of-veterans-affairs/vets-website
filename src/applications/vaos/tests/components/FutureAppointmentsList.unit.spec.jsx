@@ -67,12 +67,14 @@ describe('VAOS <FutureAppointmentsList>', () => {
           appointmentType: APPOINTMENT_TYPES.ccRequest,
         },
         {
-          appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          facilityId: '983',
-          clinicId: '455',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          legacyVAR: {
+            facilityId: '983',
+            clinicId: '455',
+          },
         },
         {
-          appointmentType: APPOINTMENT_TYPES.ccAppointment,
+          vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
         },
       ],
       systemClinicToFacilityMap: {

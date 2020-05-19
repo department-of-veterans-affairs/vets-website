@@ -7,16 +7,17 @@ import { VIDEO_TYPES } from '../utils/constants';
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
 
-  if (appointment.isPastAppointment) {
+  if (appointment.vaos.isPastAppointment) {
     return <span>Video conference</span>;
   }
 
-  if (appointment.videoType === VIDEO_TYPES.gfe) {
+  if (appointment.vaos.videoType === VIDEO_TYPES.gfe) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
-  } else if (appointment.videoLink) {
-    const diff = appointment.appointmentDate.diff(moment(), 'minutes');
+  } else if (appointment.contained?.[0]?.telecom?.[0]?.value) {
+    const url = appointment.contained?.[0]?.telecom?.[0]?.value;
+    const diff = moment(appointment.start).diff(moment(), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     const disableVideoLink = diff < -30 || diff > 240;
@@ -32,11 +33,11 @@ export default function VideoVisitSection({ appointment }) {
         <a
           aria-describedby={
             disableVideoLink
-              ? `description-join-link-${appointment.id}`
+              ? `description-join-link-${appointment.legacyVAR.id}`
               : undefined
           }
           aria-disabled={disableVideoLink ? 'true' : 'false'}
-          href={appointment.videoLink}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
           className={linkClasses}
@@ -46,7 +47,7 @@ export default function VideoVisitSection({ appointment }) {
         </a>
         {disableVideoLink && (
           <span
-            id={`description-join-link-${appointment.id}`}
+            id={`description-join-link-${appointment.legacyVAR.id}`}
             className="vads-u-display--block vads-u-font-style--italic"
           >
             You can join VA Video Connect 30 minutes prior to the start time

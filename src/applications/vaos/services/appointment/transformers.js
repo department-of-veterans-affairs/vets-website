@@ -195,19 +195,18 @@ function getAppointmentDuration(appt) {
  */
 function setParticipant(appt) {
   if (!isVideoVisit(appt)) {
-    if (
-      isCommunityCare(appt) &&
-      !!appt.name?.firstName &&
-      !!appt.name?.lastName
-    ) {
-      return [
-        {
-          actor: {
-            reference: 'Practitioner/PRACTITIONER_ID',
-            display: `${appt.name.firstName} ${appt.name.lastName}`,
+    if (isCommunityCare(appt)) {
+      if (!!appt.name?.firstName && !!appt.name?.lastName) {
+        return [
+          {
+            actor: {
+              reference: 'Practitioner/PRACTITIONER_ID',
+              display: `${appt.name.firstName} ${appt.name.lastName}`,
+            },
           },
-        },
-      ];
+        ];
+      }
+      return null;
     }
 
     return [

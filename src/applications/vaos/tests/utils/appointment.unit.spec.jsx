@@ -509,56 +509,58 @@ describe('VAOS appointment helpers', () => {
   describe('filterFutureCConfirmedAppointments', () => {
     it('should filter future confirmed appointments', () => {
       const confirmed = [
-        { startDate: '2099-04-30T05:35:00', facilityId: '984' },
+        {
+          start: '2099-04-30T05:35:00',
+          facilityId: '984',
+          vaos: {},
+        },
         // appointment 30 min ago should show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(30, 'minutes')
             .format(),
           facilityId: '984',
+          vaos: {},
         },
         // appointment more than 1 hour ago should not show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(65, 'minutes')
             .format(),
           facilityId: '984',
+          vaos: {},
         },
         // video appointment less than 4 hours ago should show
         {
-          vvsAppointments: [
-            {
-              dateTime: now
-                .clone()
-                .subtract(230, 'minutes')
-                .format(),
-            },
-          ],
-          facilityId: '984',
+          start: now
+            .clone()
+            .subtract(230, 'minutes')
+            .format(),
+          vaos: {
+            videoType: VIDEO_TYPES.videoConnect,
+          },
         },
         // video appointment more than 4 hours ago should not show
         {
-          vvsAppointments: [
-            {
-              dateTime: now
-                .clone()
-                .subtract(245, 'minutes')
-                .format(),
-            },
-          ],
-          facilityId: '984',
+          start: now
+            .clone()
+            .subtract(245, 'minutes')
+            .format(),
+          vaos: {
+            videoType: VIDEO_TYPES.videoConnect,
+          },
         },
         // appointment with status 'NO-SHOW' should not show
         {
-          vdsAppointments: [{ currentStatus: 'NO-SHOW' }],
-          facilityId: '984',
+          description: 'NO-SHOW',
+          vaos: {},
         },
         // appointment with status 'DELETED' should not show
         {
-          vdsAppointments: [{ currentStatus: 'DELETED' }],
-          facilityId: '984',
+          description: 'DELETED',
+          vaos: {},
         },
       ];
 
@@ -571,7 +573,8 @@ describe('VAOS appointment helpers', () => {
     it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
         currentStatus => ({
-          vdsAppointments: [{ currentStatus }],
+          description: currentStatus,
+          vaos: {},
           facilityId: '984',
         }),
       );
@@ -585,7 +588,8 @@ describe('VAOS appointment helpers', () => {
 
     it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        vvsAppointments: [{ status: { code } }],
+        description: code,
+        vaos: {},
         facilityId: '984',
       }));
 

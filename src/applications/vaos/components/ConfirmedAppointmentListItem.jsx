@@ -93,7 +93,7 @@ export default function ConfirmedAppointmentListItem({
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
-              clinicName={appointment.clinicName}
+              clinicName={appointment.participant[0].actor.display}
             />
           )}
         </div>

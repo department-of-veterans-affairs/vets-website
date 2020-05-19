@@ -166,7 +166,7 @@ export default function appointmentsReducer(state = initialState, action) {
         let newAppt = appt;
 
         if (
-          state.appointmentToCancel.appointmentType ===
+          state.appointmentToCancel.vaos?.appointmentType ===
           APPOINTMENT_TYPES.vaAppointment
         ) {
           newAppt = set(
@@ -174,6 +174,7 @@ export default function appointmentsReducer(state = initialState, action) {
             'CANCELLED BY PATIENT',
             newAppt,
           );
+          newAppt.description = 'CANCELLED BY PATIENT';
         } else {
           newAppt = {
             ...newAppt,

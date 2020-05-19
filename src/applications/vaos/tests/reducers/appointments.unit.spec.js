@@ -23,6 +23,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 
 const initialState = {};
@@ -43,53 +44,47 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
-          { startDate: '2099-04-30T05:35:00', facilityId: '984' },
+          {
+            start: '2099-04-30T05:35:00',
+            legacyVAR: { facilityId: '984' },
+            vaos: {},
+          },
           // appointment more than 1 hour ago should not show
           {
-            startDate: moment()
+            start: moment()
               .subtract(65, 'minutes')
               .format(),
+            vaos: {},
           },
           // appointment 30 min ago should show
           {
-            startDate: moment()
+            start: moment()
               .subtract(30, 'minutes')
               .format(),
+            vaos: {},
           },
           // video appointment less than 4 hours ago should show
           {
-            vvsAppointments: [
-              {
-                dateTime: moment()
-                  .subtract(230, 'minutes')
-                  .format(),
-              },
-            ],
+            start: moment()
+              .subtract(230, 'minutes')
+              .format(),
+            vaos: {
+              videoType: VIDEO_TYPES.videoConnect,
+            },
           },
           // video appointment more than 4 hours ago should not show
           {
-            vvsAppointments: [
-              {
-                dateTime: moment()
-                  .subtract(245, 'minutes')
-                  .format(),
-              },
-            ],
+            start: moment()
+              .subtract(245, 'minutes')
+              .format(),
+            vaos: {
+              videoType: VIDEO_TYPES.videoConnect,
+            },
           },
           // Cancelled should not show
           {
-            vdsAppointments: [
-              {
-                currentStatus: 'CANCELLED BY CLINIC',
-              },
-            ],
-          },
-        ],
-        [
-          {
-            appointmentTime: '05/29/2099 05:30:00',
-            timeZone: 'UTC',
-            appointmentRequestId: '1',
+            description: 'CANCELLED BY CLINIC',
+            vaos: {},
           },
         ],
         [{ optionDate1: '05/29/2099' }],
@@ -99,10 +94,10 @@ describe('VAOS reducer: appointments', () => {
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(5);
+    expect(newState.future.length).to.equal(4);
     expect(
-      newState.future[0].appointmentDate.isBefore(
-        newState.future[1].appointmentDate,
+      moment(newState.future[0].start).isBefore(
+        moment(newState.future[1].start),
       ),
     ).to.be.true;
   });
@@ -304,10 +299,13 @@ describe('VAOS reducer: appointments', () => {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       };
       const appt = {
-        appointmentType: APPOINTMENT_TYPES.vaAppointment,
-        clinicId: '123',
-        status: APPOINTMENT_STATUS.booked,
-        apiData: {},
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        legacyVAR: {
+          apiData: { vdsAppointments: [{}] },
+          clinicId: '123',
+        },
+
+        description: APPOINTMENT_STATUS.booked,
       };
       const state = {
         ...initialState,
@@ -320,7 +318,7 @@ describe('VAOS reducer: appointments', () => {
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
       expect(newState.future[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
       expect(
-        newState.future[0].apiData.vdsAppointments[0].currentStatus,
+        newState.future[0].legacyVAR.apiData.vdsAppointments[0].currentStatus,
       ).to.equal('CANCELLED BY PATIENT');
     });
 
