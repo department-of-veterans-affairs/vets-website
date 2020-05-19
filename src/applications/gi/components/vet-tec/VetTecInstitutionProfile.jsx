@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
@@ -24,7 +25,10 @@ const VetTecInstitutionProfile = ({
   gibctEstimateYourBenefits,
   selectedProgram,
 }) => {
-  const program = selectedProgram || preSelectedProgram;
+  const program =
+    selectedProgram ||
+    preSelectedProgram ||
+    _.get(institution, 'programs[0].description', '');
   return (
     <div>
       {
@@ -52,6 +56,7 @@ const VetTecInstitutionProfile = ({
             <VetTecEstimateYourBenefits
               institution={institution}
               showModal={showModal}
+              selectedProgram={program}
               preSelectedProgram={preSelectedProgram}
             />
           ) : (
