@@ -58,12 +58,12 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           command: yarn install --frozen-lockfile
-      - run: yarn install-repos
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: npm run test:cypress:run
+      - run: yarn install-repos
+      - run: yarn test:e2e:circle
 
   security-audit:
     docker:
