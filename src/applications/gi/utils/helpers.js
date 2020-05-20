@@ -114,8 +114,8 @@ export const handleInputFocusWithPotentialOverLap = (
   if (isMobileView()) {
     const field1 = document.getElementById(fieldId1);
     const field2 = document.getElementById(fieldId2);
-    field1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     if (field1 && field2) {
+      field1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       const fieldRect1 = field1.getBoundingClientRect();
       const fieldRect2 = field2.getBoundingClientRect();
       const hasOverLap = !(

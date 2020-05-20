@@ -83,13 +83,13 @@ class Checkbox extends React.Component {
           id={this.inputId}
           name={this.props.name}
           type="checkbox"
-          onChange={this.handleChange}
           onFocus={
             // prod flag for bah-8821
             environment.isProduction()
               ? this.handleFocus
               : this.props.onFocus.bind(this, this.inputId)
           }
+          onChange={this.handleChange}
         />
         <label
           className={classNames('gi-checkbox-label', {
