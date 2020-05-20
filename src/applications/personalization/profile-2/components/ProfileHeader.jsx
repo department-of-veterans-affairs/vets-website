@@ -39,12 +39,9 @@ const ProfileHeader = ({
     'medium',
   );
 
-  const serviceBadgeClasses = prefixUtilityClasses([
-    'text-align--center',
-    'margin-bottom--2',
-  ]);
+  const serviceBadgeClasses = prefixUtilityClasses(['display--none']);
   const serviceBadgeClassesMedium = prefixUtilityClasses(
-    ['text-align--right', 'margin-bottom--0', 'padding-right--2'],
+    ['display--flex', 'justify-content--flex-end', 'margin-bottom--0'],
     'medium',
   );
 
@@ -113,14 +110,13 @@ const ProfileHeader = ({
             <img
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
-              className="profile-service-badge"
+              className="profile-service-badge vads-u-padding-right--1"
               aria-hidden="true"
               role="presentation"
             />
           )}
         </div>
         <div className="name-and-title-wrapper">
-          <h1 className={classes.title}>Your Profile</h1>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
             <dd className={classes.fullName}>{fullName}</dd>
