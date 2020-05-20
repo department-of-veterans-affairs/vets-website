@@ -49,7 +49,7 @@ jobs:
 
   e2e-test:
     docker:
-      - image: circleci/node:10.15.3
+      - image: cypress/base:8
     environment:
     steps:
       - checkout
@@ -58,7 +58,6 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           command: yarn install --frozen-lockfile
-      - run: yarn watch
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
