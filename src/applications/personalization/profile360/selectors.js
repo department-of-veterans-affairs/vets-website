@@ -29,8 +29,9 @@ export const directDepositAddressIsSetUp = state => {
 };
 
 export const directDepositIsBlocked = state => {
-  const controlInfo =
-    directDepositInformation(state)?.responses?.[0]?.controlInformation || {};
+  const controlInfo = directDepositInformation(state)?.responses?.[0]
+    ?.controlInformation;
+  if (!controlInfo) return false;
   return (
     !controlInfo.isCompetentIndicator ||
     !controlInfo.noFiduciaryAssignedIndicator ||
