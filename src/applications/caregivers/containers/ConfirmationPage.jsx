@@ -3,7 +3,6 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 
-import headerLogo from 'site/assets/img/header-logo.png';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'applications/claims-status/utils/page';
 
@@ -19,7 +18,7 @@ const ConfirmationPage = props => {
 
   const PrintDetails = () => (
     <div className="print-details">
-      <img src={headerLogo} alt="VA logo" />
+      <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
 
       <h1 className="vads-u-font-size--h3">
         Apply for the Program of Comprehensive Assistance for Family Caregivers
@@ -40,14 +39,14 @@ const ConfirmationPage = props => {
         </div>
 
         <div>
-          <h2 className="vads-u-font-size--h4">Application details</h2>
+          <h3 className="vads-u-font-size--h4">Application details</h3>
           {response && (
             <p>{moment(response.timestamp).format('MMM D, YYYY')}</p>
           )}
         </div>
 
         <div>
-          <h2 className="vads-u-font-size--h4">Form submitted</h2>
+          <h4 className="vads-u-font-size--h4">Form submitted</h4>
           <p>
             Application for Comprehensive Assistance for Family Caregivers
             Program (form 10-10CG):
