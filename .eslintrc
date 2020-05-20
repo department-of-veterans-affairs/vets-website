@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "react-hooks", "fp", "sonarjs", "va"],
+  "plugins": ["mocha", "jest", "react-hooks", "fp", "sonarjs", "unicorn", "va"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
@@ -67,6 +67,10 @@
     "react/no-deprecated": 2,
     "react/no-direct-mutation-state": 2,
 
+    /* TODO | DISABLED TEMPORARILY */
+    "react/sort-comp": 0,
+    "jsx-a11y/label-has-for": 0,
+
     /* || sonarJS plugin || */
     "sonarjs/no-all-duplicated-branches": 2,
     "sonarjs/no-element-overwrite": 2,
@@ -106,6 +110,10 @@
         "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
       }
     ],
+
+    /* || Unicorn plugin || */
+    "unicorn/no-abusive-eslint-disable": 2,
+
 
     /* ----- TODO: evaluate and potentially turn these rules back on ----- */
 
@@ -181,9 +189,7 @@
       }
     },
     {
-      "files": [
-        "**/*.e2e.spec.js"
-      ],
+      "files": ["**/*.e2e.spec.js"],
       "rules": {
         "va/axe-check-required": 1
       }

@@ -7,6 +7,8 @@ import sinon from 'sinon';
 import { MhvTermsAndConditions } from '../../containers/MhvTermsAndConditions';
 
 describe('<MhvTermsAndConditions>', () => {
+  let oldLocation;
+
   const props = {
     location: {
       pathname: '/health-care/medical-information-terms-conditions',
@@ -30,13 +32,19 @@ describe('<MhvTermsAndConditions>', () => {
   };
 
   const setup = () => {
-    global.window.location.replace = sinon.spy();
+    oldLocation = global.window.location;
+    delete global.window.location;
+    global.window.location = { replace: sinon.spy() };
     props.acceptTerms.reset();
     props.fetchLatestTerms.reset();
     props.fetchTermsAcceptance.reset();
   };
 
   beforeEach(setup);
+
+  afterEach(() => {
+    global.window.location = oldLocation;
+  });
 
   it('should show an error when there are errors', () => {
     const newProps = set('errors', { code: 404 }, props);

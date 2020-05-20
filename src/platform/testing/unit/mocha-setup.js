@@ -63,7 +63,18 @@ export default function setupJSDom() {
 
   win.dataLayer = [];
   win.scrollTo = () => {};
-  win.sessionStorage = {};
+  Object.defineProperty(win, 'sessionStorage', {
+    value: global.sessionStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+  Object.defineProperty(win, 'localStorage', {
+    value: global.localStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
   win.requestAnimationFrame = func => func();
   win.matchMedia = () => ({
     matches: false,
