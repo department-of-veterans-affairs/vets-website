@@ -1,7 +1,7 @@
 /**
- * This suite of tests is temporarily commented out, as it corresponds to a page that won't be used until a later time. 
+ * This suite of tests is temporarily skipped, as it corresponds to a page that won't be used until a later time.
  * Specifically, Student Income will be part of a future, post-launch release to support pension claims through the 686-674.
- 
+ */
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -14,7 +14,7 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('Report 674 student income information', () => {
+describe.skip('Report 674 student income information', () => {
   const {
     schema,
     uiSchema,
@@ -228,5 +228,3 @@ describe('Report 674 student income information', () => {
     form.unmount();
   });
 });
-
-*/
