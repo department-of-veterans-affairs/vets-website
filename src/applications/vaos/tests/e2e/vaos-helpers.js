@@ -458,7 +458,7 @@ function getUserDataWithSingleSystem(id) {
 
 function mockGetMessageRequest(token, requestId) {
   mock(token, {
-    patch: `/v0/vaos/appointment_requests/${requestId}/messages`,
+    path: `/v0/vaos/appointment_requests/${requestId}/messages`,
     verb: 'get',
     value: {
       data: {
