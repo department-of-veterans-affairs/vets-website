@@ -415,7 +415,7 @@
       width: auto;
       text-align: inherit;
 
-      @include media-maxwidth(641px) {
+      @include media-maxwidth($small-screen) {
         text-align: center;
         width: 100%;
       }
