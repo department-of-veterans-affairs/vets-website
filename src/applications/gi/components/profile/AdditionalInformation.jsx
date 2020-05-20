@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
@@ -20,7 +21,14 @@ export class AdditionalInformation extends React.Component {
               <button
                 type="button"
                 className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'section103')}
+                onClick={() => {
+                  recordEvent({
+                    event: 'gibct-modal-displayed',
+                    'gibct-modal-displayed':
+                      'protection-against-late-va-payments',
+                  });
+                  this.props.onShowModal('section103');
+                }}
               >
                 Protection against late VA payments:
               </button>
@@ -106,7 +114,14 @@ export class AdditionalInformation extends React.Component {
                 <button
                   type="button"
                   className="va-button-link learn-more-button"
-                  onClick={this.props.onShowModal.bind(this, 'section103')}
+                  onClick={() => {
+                    recordEvent({
+                      event: 'gibct-modal-displayed',
+                      'gibct-modal-displayed':
+                        'protection-against-late-va-payments',
+                    });
+                    this.props.onShowModal('section103');
+                  }}
                 >
                   Protection against late VA payments:
                 </button>
