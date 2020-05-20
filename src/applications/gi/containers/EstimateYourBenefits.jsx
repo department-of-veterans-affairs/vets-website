@@ -31,13 +31,13 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', () => this.handleScroll(), true);
+    window.addEventListener('scroll', this.handleScroll, true);
   }
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll, true);
   }
 
-  handleScroll() {
+  handleScroll = () => {
     const topOffset =
       document
         .getElementById('estimate-your-benefits-accordion')
@@ -66,7 +66,7 @@ export class EstimateYourBenefits extends React.Component {
     } else if (this.state.showEybSheet === true) {
       this.setState({ showEybSheet: false, expandEybSheet: false });
     }
-  }
+  };
 
   updateEstimatedBenefits = () => {
     this.props.updateEstimatedBenefits(this.props.calculated.outputs);
