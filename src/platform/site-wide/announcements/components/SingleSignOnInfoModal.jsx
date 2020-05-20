@@ -14,8 +14,8 @@ export default function SingleSignOnInfoModal({
         Sign in once to access the VA sites you use most
       </h1>
       <p>
-        Now when you sign into VA.gov, we’ll also sign you into MyHealtheVet,
-        eBenefits, and other VA sites.
+        Now when you sign into VA.gov, we’ll also sign you into MyHealtheVet and
+        other VA sites.
       </p>
       <p>
         <strong>With a single sign on, you can:</strong>
