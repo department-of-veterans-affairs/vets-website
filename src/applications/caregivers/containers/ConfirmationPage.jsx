@@ -7,8 +7,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'applications/claims-status/utils/page';
 import headerLogo from '../../../site/assets/img/header-logo.png';
 
-import '../sass/confirmationPrint.scss';
-
 const ConfirmationPage = props => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
