@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 orbs:
   cypress: cypress-io/cypress@1
 jobs:
@@ -187,6 +187,7 @@ jobs:
           command: npm run pr-check
 
 workflows:
+  version: 2
   flag-for-manual-review:
     jobs:
       - eslint-check:
