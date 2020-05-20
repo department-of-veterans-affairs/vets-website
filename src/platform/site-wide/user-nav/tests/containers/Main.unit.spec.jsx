@@ -28,7 +28,6 @@ describe('<Main>', () => {
     toggleSearchHelpUserMenu: sinon.spy(),
     updateLoggedInStatus: sinon.spy(),
     initializeProfile: sinon.spy(),
-    ssoe: sinon.spy(),
   };
 
   const oldWindow = global.window;

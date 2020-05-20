@@ -60,7 +60,7 @@ describe('686 report dependent death additional information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -78,11 +78,11 @@ describe('686 report dependent death additional information', () => {
         arrayPath={arrayPath}
       />,
     );
-    changeDropdown(form, 'select#root_deceasedDateOfDeathMonth', 1);
-    changeDropdown(form, 'select#root_deceasedDateOfDeathDay', 1);
-    fillData(form, 'input#root_deceasedDateOfDeathYear', '2000');
-    fillData(form, 'input#root_deceasedLocationOfDeath_state', 'California');
-    fillData(form, 'input#root_deceasedLocationOfDeath_city', 'Someplace');
+    changeDropdown(form, 'select#root_dateMonth', 1);
+    changeDropdown(form, 'select#root_dateDay', 1);
+    fillData(form, 'input#root_dateYear', '2000');
+    fillData(form, 'input#root_location_state', 'California');
+    fillData(form, 'input#root_location_city', 'Someplace');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

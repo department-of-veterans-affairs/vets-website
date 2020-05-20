@@ -5,16 +5,15 @@
         "fieldVaParagraphs":[...]
     }
 {% endcomment %}
+{% assign header = "h2" %}
 {% if parentFieldName === "field_spokes" %}
-    {% assign header = "h2" %}
     {% assign headerClass = "hub-page-link-list__title" %}
     {% assign ulClass = "hub-page-link-list" %}
 {% else %}
-    {% assign header = "h3" %}
     {% assign headerClass = "va-nav-linkslist-heading" %}
     {% assign ulClass = "va-nav-linkslist-list" %}
 {% endif %}
-<section class="{{ entity.parentFieldName }}">
+<section data-template="paragraphs/list_of_link_teasers" data-entity-id="{{ entity.entityId }}" class="{{ entity.parentFieldName }}">
     {% if entity.fieldTitle != empty %}
       <{{ header }}
           id="{{ entity.fieldTitle | hashReference }}"
@@ -23,8 +22,9 @@
       </{{ header }}>
     {% endif %}
     <ul class="{{ ulClass }}">
+        {% assign section_header = entity.fieldTitle %}
         {% for linkTeaser in entity.fieldVaParagraphs %}
-            {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity parentFieldName = parentFieldName boldTitle = boldTitle %}
+            {% include "src/site/paragraphs/linkTeaser.drupal.liquid" linkTeaser = linkTeaser.entity parentFieldName = parentFieldName boldTitle = boldTitle section_header = section_header %}
         {% endfor %}
     </ul>
 </section>

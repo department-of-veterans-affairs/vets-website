@@ -23,7 +23,6 @@ import {
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
-  vaProfileUseAddressValidation,
 } from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
@@ -113,12 +112,7 @@ class Vet360ProfileField extends React.Component {
   };
 
   onSubmit = () => {
-    // The validateAddress thunk will handle its own dataLayer additions
-    if (this.props.useAddressValidation) {
-      if (!this.props.fieldName.toLowerCase().includes('address')) {
-        this.captureEvent('update-button');
-      }
-    } else {
+    if (!this.props.fieldName.toLowerCase().includes('address')) {
       this.captureEvent('update-button');
     }
 
@@ -132,10 +126,7 @@ class Vet360ProfileField extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    if (
-      this.props.fieldName.toLowerCase().includes('address') &&
-      this.props.useAddressValidation
-    ) {
+    if (this.props.fieldName.toLowerCase().includes('address')) {
       this.props.validateAddress(
         this.props.apiRoute,
         method,
@@ -281,11 +272,9 @@ export const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
-  const useAddressValidation = vaProfileUseAddressValidation(state);
   const addressValidationType =
     state.vet360.addressValidation.addressValidationType;
   const showValidationModal =
-    useAddressValidation &&
     ownProps.ValidationModal &&
     addressValidationType === fieldName &&
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
@@ -300,7 +289,6 @@ export const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
-    useAddressValidation,
   };
 };
 

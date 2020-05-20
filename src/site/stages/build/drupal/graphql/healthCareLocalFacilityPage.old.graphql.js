@@ -6,6 +6,7 @@ module.exports = `
     changed
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
+    title
     fieldIntroText
     fieldLocationServices {
       entity {

@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import {
-  scrollToFirstError,
-  focusElement,
-} from '../../../platform/utilities/ui';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
@@ -45,7 +42,7 @@ export default class AdditionalSourcesField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
     const items = newProps.formData || [];
     if (items.length < this.state.editStates.length) {

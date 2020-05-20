@@ -149,4 +149,21 @@ describe('Locator url and parameters builder', () => {
       'https://dev-api.va.gov/v0/facilities/va?bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24&type=cemetery&page=1&per_page=20',
     );
   });
+
+  /**
+   * Community providers (in VA's network)
+   */
+  it('With facilityType cc_provider Should build a ccp request', () => {
+    const result = resolveParamsWithUrl(
+      encodeURI('I 35 Frontage Road, Austin, Texas 78753, United States'),
+      'cc_provider',
+      '122300000X', // Dentist
+      page,
+      [-98.45, 29.59, -96.95, 31.09],
+    );
+    const test = `${result.url}?${result.params}`;
+    expect(test).to.eql(
+      'https://dev-api.va.gov/v0/facilities/ccp?address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&type=cc_provider&services[]=122300000X&page=1&per_page=20&trim=true',
+    );
+  });
 });

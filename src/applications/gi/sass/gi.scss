@@ -1,18 +1,17 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
 
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
 
-@import "partials/gi-vet-tec";
-@import "partials/gi-preview-banner";
-@import "partials/gi-autocomplete";
-@import "partials/gi-modal";
-@import "partials/gi-landing-page";
-@import "partials/gi-search-page";
-@import "partials/gi-profile-page";
+@import 'partials/gi-vet-tec';
+@import 'partials/gi-preview-banner';
+@import 'partials/gi-autocomplete';
+@import 'partials/gi-modal';
+@import 'partials/gi-landing-page';
+@import 'partials/gi-search-page';
+@import 'partials/gi-profile-page';
 
 .gi-app {
-
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -51,10 +50,10 @@
         line-height: 1.2rem;
       }
 
-      a.link{
+      a.link {
         @include media-maxwidth($small-screen) {
           margin-left: 1rem;
-          padding: .5rem;
+          padding: 0.5rem;
         }
       }
     }
@@ -70,14 +69,14 @@
   }
 
   select.hide-arrows {
-    background-image: none
+    background-image: none;
   }
 
   .search-result {
     i.fa {
       background: initial;
       color: initial;
-   }
+    }
   }
 
   .benefit-notification {
@@ -88,16 +87,10 @@
     outline: none;
   }
 }
-
-.gibct-legend-old {
-  margin-top: 3rem;
-  display: block;
-  font-weight: inherit;
-  font-size: inherit;
-  color: inherit;
-  line-height: inherit;
-  max-width: 46rem;
-  padding-bottom: 0;
+@media (max-width: 481px) {
+  .about-this-tool-mobile {
+    padding-left: 20px;
+  }
 }
 
 .gibct-legend {
@@ -124,7 +117,17 @@
   @include media($small-screen) {
     display: flex;
   }
+  padding-left: .50rem;
 }
+
+.program-description {
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+  label {
+    margin-left: 1.7rem;
+  }
+}
+
 .form-expanding-group-open {
   border-left: none;
 }
@@ -153,9 +156,35 @@
     }
   }
   tr {
+    th {
+      border-right: 0;
+      border-left: 0;
+    }
     td {
       border-right: 0;
       border-left: 0;
     }
+  }
+}
+
+.section-item {
+  padding-bottom: 0.188em;
+  padding-top: 0.188em;
+
+  .section-button {
+    border: 2px solid #AEB0B5 !important;
+    margin: 0px;
+  }
+
+  .section-button-span {
+    letter-spacing: 0.4px;
+  }
+
+  .section-content {
+    max-width: 25em;
+  }
+
+  .section-content[aria-hidden="false"] {
+    margin-bottom: 0.625em;
   }
 }

@@ -1,73 +1,37 @@
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import DependentViewField from '../../../../components/DependentViewField';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
+import { validateName, deceasedDependents } from '../../../utilities';
 
-export const schema = {
-  type: 'object',
-  properties: {
-    deaths: {
-      type: 'array',
-      minItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          fullName: genericSchemas.fullName,
-          dependentType: {
-            type: 'string',
-            enum: ['SPOUSE', 'DEPENDENT_PARENT', 'CHILD'],
-            enumNames: ['Spouse', 'Dependent Parent', 'Child'],
-          },
-          childStatus: {
-            type: 'object',
-            properties: {
-              childUnder18: {
-                type: 'boolean',
-              },
-              stepChild: {
-                type: 'boolean',
-              },
-              adopted: {
-                type: 'boolean',
-              },
-              disabled: {
-                type: 'boolean',
-              },
-              childOver18InSchool: {
-                type: 'boolean',
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
+export const schema = deceasedDependents.properties.dependentInformation;
 
 export const uiSchema = {
   deaths: {
-    'ui:options': { viewField: DependentViewField },
+    'ui:options': {
+      viewField: DependentViewField,
+      itemName: 'deceased dependent',
+    },
     items: {
+      'ui:title': 'Dependent who is deceased',
       fullName: {
         'ui:validations': [validateName],
         first: {
-          'ui:title': 'Dependent’s first name',
+          'ui:title': 'First name',
           'ui:errorMessages': { required: 'Please enter a first name' },
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
         },
         middle: {
-          'ui:title': 'Dependent’s middle name',
+          'ui:title': 'Middle name',
         },
         last: {
-          'ui:title': 'Dependent’s last name',
+          'ui:title': 'Last name',
           'ui:errorMessages': { required: 'Please enter a last name' },
           'ui:required': formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
         },
         suffix: {
-          'ui:title': 'Dependent’s suffix',
+          'ui:title': 'Suffix',
           'ui:options': { widgetClassNames: 'form-select-medium' },
         },
       },

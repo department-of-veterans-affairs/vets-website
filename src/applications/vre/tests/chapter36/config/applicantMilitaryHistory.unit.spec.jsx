@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant military history', () => {

@@ -189,17 +189,6 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationModal).to.be.true;
       });
     });
-    describe('when the feature flag is not set', () => {
-      it('sets `showValidationModal` to `false`', () => {
-        const state = showValidationModalState();
-        state.featureToggles = {};
-        const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
-          ValidationModal: () => {},
-        });
-        expect(mappedProps.showValidationModal).to.be.false;
-      });
-    });
     describe('when the address validation modal is not open', () => {
       it('sets `showValidationModal` to `false`', () => {
         const state = showValidationModalState();

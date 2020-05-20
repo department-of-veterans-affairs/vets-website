@@ -13,7 +13,7 @@ const Element = Scroll.Element;
  * Primary component for a schema generated form app.
  */
 class FormApp extends React.Component {
-  // eslint-disable-next-line
+  /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     const { additionalRoutes } = this.props.formConfig;
     this.nonFormPages = [];
@@ -39,16 +39,14 @@ class FormApp extends React.Component {
     let formTitle;
     let formNav;
     let renderedChildren = children;
-    if (!isIntroductionPage && !isNonFormPage) {
-      // Show title only if:
-      // 1. we're not on the intro page *or* one of the additionalRoutes
-      //    specified in the form config
-      // 2. there is a title specified in the form config
-      if (formConfig.title) {
-        formTitle = (
-          <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-        );
-      }
+    // Show title only if:
+    // 1. we're not on the intro page *or* one of the additionalRoutes
+    //    specified in the form config
+    // 2. there is a title specified in the form config
+    if (!isIntroductionPage && !isNonFormPage && formConfig.title) {
+      formTitle = (
+        <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+      );
     }
 
     // Show nav only if we're not on the intro, form-saved, error, confirmation

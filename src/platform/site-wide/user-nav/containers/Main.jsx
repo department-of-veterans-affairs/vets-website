@@ -5,16 +5,16 @@ import URLSearchParams from 'url-search-params';
 
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
-import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
-import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
+import environment from 'platform/utilities/environment';
 import { hasSession } from 'platform/user/profile/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
 
+import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
@@ -23,6 +23,7 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
+import AutoSSO from './AutoSSO';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -170,6 +171,7 @@ export class Main extends React.Component {
             onExtendSession={this.props.initializeProfile}
           />
         )}
+        <AutoSSO />
       </div>
     );
   }

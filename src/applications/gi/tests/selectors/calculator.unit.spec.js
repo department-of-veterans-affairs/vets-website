@@ -1,28 +1,14 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
-import { calculatorConstants } from '../gibct-helpers';
-import createCommonStore from '../../../../platform/startup/store';
-import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { formatCurrency } from '../../utils/helpers';
+import { getDefaultState } from '../helpers';
 
-let defaultState = createCommonStore(reducer).getState();
-
-defaultState.constants = {
-  constants: {},
-  version: calculatorConstants.meta.version,
-  inProgress: false,
-};
-
-calculatorConstants.data.forEach(c => {
-  defaultState.constants.constants[c.attributes.name] = c.attributes.value;
-});
-
-defaultState = {
-  ...defaultState,
+const defaultState = {
+  ...getDefaultState(),
   profile: {
-    ...defaultState.profile,
+    ...getDefaultState().profile,
     attributes: {
       accreditationStatus: null,
       accreditationType: 'regional',
@@ -144,7 +130,7 @@ defaultState = {
     inProgress: false,
   },
   eligibility: {
-    ...defaultState.eligibility,
+    ...getDefaultState().eligibility,
     militaryStatus: 'veteran',
     giBillChapter: '33',
     cumulativeService: '1.0',
@@ -157,7 +143,7 @@ defaultState = {
   },
 
   calculator: {
-    ...defaultState.calculator,
+    ...getDefaultState().calculator,
     beneficiaryLocationQuestion: 'yes',
     beneficiaryZIP: '',
     inState: 'yes',

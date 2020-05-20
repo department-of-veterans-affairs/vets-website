@@ -6,7 +6,7 @@ import {
 } from '../../authentication/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import { ssoKeepAliveSession } from 'platform/utilities/api/ssoHelpers';
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
 
 import {
   ADDRESS_VALIDATION_TYPES,
@@ -131,13 +131,18 @@ export function mapRawUserDataToState(json) {
 // as a trigger to properly update any components that subscribe to it.
 export const hasSession = () => localStorage.getItem('hasSession');
 
-export const hasSessionSSO = () => localStorage.getItem('hasSessionSSO');
+// hasSessionSSO will only ever be true or false.
+// Wrapping in JSON.parse enables making boolean checks with this function call.
+export const hasSessionSSO = () =>
+  JSON.parse(localStorage.getItem('hasSessionSSO'));
 
-export async function setupProfileSession(userProfile) {
+export function setupProfileSession(userProfile, useSSOe) {
   const { firstName, signIn } = userProfile;
   const loginType = (signIn && signIn.serviceName) || null;
   localStorage.setItem('hasSession', true);
-  await ssoKeepAliveSession();
+  if (useSSOe) {
+    ssoKeepAliveSession();
+  }
 
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.

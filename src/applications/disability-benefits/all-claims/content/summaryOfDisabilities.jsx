@@ -1,9 +1,13 @@
 import React from 'react';
-// import { Link } from 'react-router';
+import { Link } from 'react-router';
+import environment from 'platform/utilities/environment';
 
-import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
+import {
+  capitalizeEachWord,
+  isDisabilityPtsd,
+  DISABILITY_SHARED_CONFIG,
+} from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
-// import formConfig from '../config/form';
 import { NULL_CONDITION_STRING } from '../constants';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
@@ -26,6 +30,36 @@ const mapDisabilityName = (disabilityName, formData, index) => {
     }
   }
   return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
+};
+
+const getRedirectLink = formData => {
+  if (environment.isProduction()) {
+    return 'go back to the beginning of this step and add it';
+  }
+  // Start from orientation page; assuming user has both existing & new
+  // disabilities selected
+  let destinationPath = DISABILITY_SHARED_CONFIG.orientation.path;
+
+  if (DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData)) {
+    // start from rated disabilities page
+    destinationPath = DISABILITY_SHARED_CONFIG.ratedDisabilities.path;
+  } else if (DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData)) {
+    destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
+  }
+  return (
+    <>
+      <Link
+        aria-label="go back and add any missing disabilities"
+        to={{
+          pathname: destinationPath || '/',
+          search: '?redirect',
+        }}
+      >
+        go back and add
+      </Link>{' '}
+      it
+    </>
+  );
 };
 
 export const SummaryOfDisabilitiesDescription = ({ formData }) => {
@@ -52,19 +86,14 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
-  // const orientationPath =
-  //   formConfig?.chapters.disabilities.pages.disabilitiesOrientation.path || '/';
+
+  const showLink = getRedirectLink(formData);
 
   return (
     <>
       <p>
         Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please go back to the
-        beginning of this step and add it
-        {/* <Link aria-label="Add missing disabilities" to={orientationPath}>
-          go back and add it
-        </Link> */}
-        .
+        If a disability is missing from the list, please {showLink}.
       </p>
       <ul>{selectedDisabilitiesList}</ul>
     </>

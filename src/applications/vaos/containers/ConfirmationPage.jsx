@@ -9,7 +9,7 @@ import {
   getFlowType,
   getChosenClinicInfo,
   getChosenFacilityDetails,
-  getSystemFromChosenFacility,
+  getSiteIdForChosenFacility,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
@@ -19,6 +19,12 @@ import {
 import { FLOW_TYPES, FACILITY_TYPES, GA_PREFIX } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id.replace('var', '');
+}
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -35,11 +41,20 @@ export class ConfirmationPage extends React.Component {
 
   componentDidMount() {
     document.title = `${this.pageTitle} | Veterans Affairs`;
+
+    const { data, router } = this.props;
+    // Check formData for typeOfCareId. Reroute if empty
+    if (router && !data?.typeOfCareId) {
+      router.replace('/new-appointment');
+    }
+
     if (
       !this.props.facilityDetails &&
-      this.props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
+      data.vaFacility &&
+      data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
-      this.props.fetchFacilityDetails(this.props.data.vaFacility);
+      // Remove parse function when converting this call to FHIR service
+      this.props.fetchFacilityDetails(parseFakeFHIRId(data.vaFacility));
     }
     scrollAndFocus();
   }
@@ -119,7 +134,7 @@ function mapStateToProps(state) {
     clinic: getChosenClinicInfo(state),
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
-    systemId: getSystemFromChosenFacility(state),
+    systemId: getSiteIdForChosenFacility(state),
   };
 }
 

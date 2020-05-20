@@ -4,6 +4,7 @@
  */
 module.exports = `
   fragment downloadableFile on ParagraphDownloadableFile {
+    entityId
     fieldTitle
     fieldMarkup
     fieldMedia {
@@ -14,9 +15,9 @@ module.exports = `
             url
             alt
             title
-          }        
+          }
         }
-        ... on MediaVideo {        
+        ... on MediaVideo {
           fieldMediaVideoEmbedField
         }
         ... on MediaDocument {

@@ -89,20 +89,16 @@ module.exports = function registerFilters() {
 
   liquid.filters.genericModulo = (i, n) => i % n;
 
-  liquid.filters.removeUnderscores = data => {
-    const string = data && data.length ? data.replace('_', ' ') : data;
-    return string;
-  };
+  liquid.filters.removeUnderscores = data =>
+    data && data.length ? data.replace('_', ' ') : data;
 
   liquid.filters.fileSize = data => `${(data / 1000000).toFixed(2)}MB`;
 
-  liquid.filters.fileExt = data => {
-    const string = data
+  liquid.filters.fileExt = data =>
+    data
       .split('.')
       .slice(-1)
       .pop();
-    return string;
-  };
 
   liquid.filters.breakIntoSingles = data => {
     let output = '';
@@ -119,16 +115,12 @@ module.exports = function registerFilters() {
 
   liquid.filters.outputLinks = data => {
     // Change phone to tap to dial.
-    const replacePattern = /(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/;
-
-    if (data.match(replacePattern)) {
-      const number = data.match(replacePattern)[0];
-      const replacedText = data.replace(
+    const replacePattern = /((\d{3}-))?\d{3}-\d{3}-\d{4}(?!([^<]*>)|(((?!<a).)*<\/a>))/g;
+    if (data) {
+      return data.replace(
         replacePattern,
-        `<a target="_blank" href="tel:${number}">Phone: ${number}</a>`,
+        '<a target="_blank" href="tel:$&">$&</a>',
       );
-
-      return replacedText;
     }
 
     return data;
@@ -236,16 +228,13 @@ module.exports = function registerFilters() {
   liquid.filters.sortMainFacility = item =>
     item ? item.sort((a, b) => a.entityId - b.entityId) : undefined;
 
-  liquid.filters.eventSorter = item => {
-    const sorted =
-      item &&
-      item.sort((a, b) => {
-        const start1 = moment(a.fieldDate.startDate);
-        const start2 = moment(b.fieldDate.startDate);
-        return start1.isAfter(start2);
-      });
-    return sorted;
-  };
+  liquid.filters.eventSorter = item =>
+    item &&
+    item.sort((a, b) => {
+      const start1 = moment(a.fieldDate.startDate);
+      const start2 = moment(b.fieldDate.startDate);
+      return start1.isAfter(start2);
+    });
 
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {

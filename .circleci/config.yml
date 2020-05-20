@@ -102,14 +102,24 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: yarn build-webpack
+      - run: yarn build:webpack
 
   eslint-check:
     docker:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
-      OVERALL_REVIEW_COMMENT: ESLint is disabled - _please_ wait for a VSP review.
+      OVERALL_REVIEW_COMMENT: >
+        # ESLint is disabled
+
+        `vets-website` uses ESLint to help enforce code quality. In most
+        situations we would like ESLint to remain enabled.
+
+        ## What you can do
+
+        See if the code can be refactored to avoid disabling ESLint, or wait for
+        a VSP review.
+
       LINE_COMMENT: ESLint disabled here
     steps:
       - checkout
@@ -125,7 +135,18 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: Sentry\.
-      OVERALL_REVIEW_COMMENT: Sentry call found - Check for potential PII exposure. _Please_ wait for a VSP review.
+      OVERALL_REVIEW_COMMENT: >
+        # Sentry call found
+
+        Sentry captures a lot of data, and we want to make sure that we only
+        keep information that will be useful for troubleshooting issues.  This
+        means that PII should not be recorded.
+
+        ## What you can do
+
+        Review your call to Sentry and see if you can reasonably reduce any
+        information that is included, or wait for a VSP review.
+
       LINE_COMMENT: Sentry found
     steps:
       - checkout
@@ -141,7 +162,18 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: (<i )|(<i$)
-      OVERALL_REVIEW_COMMENT: Found `<i>` tag in changes. _Please_ wait for a VSP review.
+      OVERALL_REVIEW_COMMENT: >
+        # Icon found
+
+        Icons can be decorative, but sometimes they are used to convey meaning.
+        If there are any semantics associated with an icon, those semantics
+        should also be conveyed to a screen reader.
+
+        ## What you can do
+
+        Review the markup and see if the icon provides information that isn't
+        represented textually, or wait for a VSP review.
+
       LINE_COMMENT: icon found
     steps:
       - checkout

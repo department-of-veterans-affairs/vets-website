@@ -2,11 +2,11 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import DowntimeBanner from '../../../platform/monitoring/DowntimeNotification/components/Banner';
-import CallVBACenter from '../../../platform/static-data/CallVBACenter';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import DowntimeBanner from 'platform/monitoring/DowntimeNotification/components/Banner';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
@@ -22,7 +22,7 @@ export class AppContent extends React.Component {
       this.state = { errorLogged: false };
     }
   }
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     // only log isDataAvailable error if one isn't already logged
     if (nextProps.isDataAvailable === false && !this.state.errorLogged) {
@@ -51,24 +51,22 @@ export class AppContent extends React.Component {
   }
 }
 
-export class LettersApp extends React.Component {
-  render() {
-    return (
-      <RequiredLoginView
-        verify
-        serviceRequired={backendServices.EVSS_CLAIMS}
-        user={this.props.user}
-      >
-        <AppContent>
-          <DowntimeBanner
-            appTitle="Letters Generator"
-            dependencies={[externalServices.evss]}
-          />
-          <div>{this.props.children}</div>
-        </AppContent>
-      </RequiredLoginView>
-    );
-  }
+export function LettersApp({ user, children }) {
+  return (
+    <RequiredLoginView
+      verify
+      serviceRequired={backendServices.EVSS_CLAIMS}
+      user={user}
+    >
+      <AppContent>
+        <DowntimeBanner
+          appTitle="Letters Generator"
+          dependencies={[externalServices.evss]}
+        />
+        <div>{children}</div>
+      </AppContent>
+    </RequiredLoginView>
+  );
 }
 
 function mapStateToProps(state) {

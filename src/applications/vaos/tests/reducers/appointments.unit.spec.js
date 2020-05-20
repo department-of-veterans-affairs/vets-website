@@ -19,7 +19,11 @@ import {
 
 import { FORM_SUBMIT_SUCCEEDED } from '../../actions/sitewide';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+} from '../../utils/constants';
 
 const initialState = {};
 
@@ -96,6 +100,11 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.future.length).to.equal(5);
+    expect(
+      newState.future[0].appointmentDate.isBefore(
+        newState.future[1].appointmentDate,
+      ),
+    ).to.be.true;
   });
 
   it('should update futureStatus to be failed when calling FETCH_FUTURE_APPOINTMENTS_FAILED', () => {
@@ -111,11 +120,13 @@ describe('VAOS reducer: appointments', () => {
   it('should update pastStatus to be loading when calling FETCH_PAST_APPOINTMENTS', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex: 1,
     };
 
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.pastStatus).to.equal(FETCH_STATUS.loading);
+    expect(newState.pastSelectedIndex).to.equal(1);
   });
 
   it('should populate confirmed with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
@@ -123,27 +134,40 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
       startDate: '2018-01-01',
       endDate: moment().format(),
+      selectedIndex: 1,
       data: [
         [
-          { startDate: '2019-04-30T05:35:00', facilityId: '984' },
+          {
+            startDate: '2019-04-30T05:35:00',
+            facilityId: '984',
+            clinicId: '123',
+          },
           // appointment before start date should not show
-          { startDate: '2017-04-30T05:35:00', facilityId: '984' },
+          {
+            startDate: '2017-04-30T05:35:00',
+            facilityId: '984',
+            clinicId: '123',
+          },
           // appointment 1 hour in the future should not show
           {
             startDate: moment()
               .add(650, 'minutes')
               .format(),
+            clinicId: '123',
           },
           // appointment 30 min ago should show
           {
             startDate: moment()
               .subtract(30, 'minutes')
               .format(),
+            clinicId: '123',
           },
           // Cancelled should show
           {
-            appointmentTime: '05/29/2019 05:30:00',
-            timeZone: '+08:00 WITA',
+            startDate: moment()
+              .subtract(20, 'minutes')
+              .format(),
+            clinicId: '123',
             vdsAppointments: [
               {
                 currentStatus: 'CANCELLED BY CLINIC',
@@ -178,6 +202,11 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
+    expect(
+      newState.past[0].appointmentDate.isAfter(
+        newState.past[1].appointmentDate,
+      ),
+    ).to.be.true;
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
@@ -275,12 +304,10 @@ describe('VAOS reducer: appointments', () => {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       };
       const appt = {
+        appointmentType: APPOINTMENT_TYPES.vaAppointment,
         clinicId: '123',
-        vdsAppointments: [
-          {
-            currentStatus: 'FUTURE',
-          },
-        ],
+        status: APPOINTMENT_STATUS.booked,
+        apiData: {},
       };
       const state = {
         ...initialState,
@@ -291,17 +318,20 @@ describe('VAOS reducer: appointments', () => {
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.future[0].vdsAppointments[0].currentStatus).to.equal(
-        'CANCELLED BY PATIENT',
-      );
+      expect(newState.future[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
+      expect(
+        newState.future[0].apiData.vdsAppointments[0].currentStatus,
+      ).to.equal('CANCELLED BY PATIENT');
     });
 
     it('should set status to succeeded and set request to cancelled', () => {
       const action = {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData: {},
       };
       const appt = {
-        status: 'Submitted',
+        appointmentType: APPOINTMENT_TYPES.request,
+        status: APPOINTMENT_STATUS.booked,
       };
       const state = {
         ...initialState,
@@ -312,7 +342,8 @@ describe('VAOS reducer: appointments', () => {
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.future[0].status).to.equal('Cancelled');
+      expect(newState.future[0].apiData).to.equal(action.apiData);
+      expect(newState.future[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
     });
 
     it('should set status to failed', () => {

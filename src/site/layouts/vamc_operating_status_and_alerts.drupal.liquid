@@ -78,17 +78,19 @@
                     <section id="operating-statuses"
                         class="operating-statuses clearfix">
                         <h2>Facility operating statuses</h2>
-                        <div
+                        <dl
                             class="vads-l-grid-container vads-u-padding-x--0 vads-l-row vads-u-border-bottom--1px vads-u-border-color--gray-light">
                             {% for status in fieldFacilityOperatingStatus %}
                             <div
                                 class="vads-l-row vads-u-border-top--1px vads-u-border-color--gray-light">
-                                <div
+                                <dt
                                     class="vads-l-col--6 vads-u-margin-y--3 vads-u-display--flex operating-status-title">
                                     <a class="facility-title-width vads-u-font-weight--bold"
+                                        onclick="recordEvent({
+                                        'event':'nav-health-care-facility-status-click'});"
                                         href="{{status.entity.entityUrl.path}}">{{ status.entity.title }}</a>
-                                </div>
-                                <div class="vads-l-col--6">
+                                </dt>
+                                <dd class="vads-l-col--6">
                                     <div class="operating-status-info vads-u-padding-y--1p5 vads-u-padding-x--0">
                                         {% if status.entity.fieldOperatingStatusFacility == 'notice' %}
                                         <span
@@ -124,10 +126,10 @@
                                         </div>
                                         {% endif %}
                                     </div>
-                                </div>
+                                </dd>
                             </div>
                             {% endfor %}
-                        </div>
+                        </dl>
                     </section>
                     {% endif %}
 

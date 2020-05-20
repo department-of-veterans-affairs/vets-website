@@ -31,6 +31,11 @@ function sitemapURLs() {
         '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
+        /* Using the Microsoft Healthbot framework, the chatbot currently violates
+        two rules in the WCAG 2.0(A) ruleset: aria-valid-attr-value and aria-required-children.
+        There are open Github issues with Microsoft to address these.
+        The 508 ruleset is slightly less strict to test on chatbot for now. */
+        '/coronavirus-chatbot/',
       ];
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please

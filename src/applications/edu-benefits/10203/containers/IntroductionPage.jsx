@@ -17,7 +17,7 @@ export class IntroductionPage extends React.Component {
       >
         <FormTitle title="Manage your education benefits" />
         <p itemProp="description">
-          Equal to VA Form 22-1995 (Request for Change of Program or Place of
+          Equal to VA Form 22-10203 (Request for Change of Program or Place of
           Training).
         </p>
         <SaveInProgressIntro

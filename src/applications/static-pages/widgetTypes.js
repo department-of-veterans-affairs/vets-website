@@ -11,4 +11,7 @@ export default {
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
+  CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
+  VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
+  FORM_686_CONTENT_REVEAL: '686UnauthContentBlock',
 };

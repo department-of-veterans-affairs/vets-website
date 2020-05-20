@@ -6,6 +6,7 @@
 const FIELD_ALERT = `
 fieldAlert {
   entity {
+    entityId
     entityBundle
     ... on BlockContentAlert {
       ... alert
@@ -16,6 +17,7 @@ fieldAlert {
 
 const alert = `
 fragment alert on BlockContentAlert {
+  entityId
   fieldAlertDismissable
   fieldAlertType
   fieldAlertTitle

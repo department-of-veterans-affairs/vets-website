@@ -9,7 +9,10 @@ import { ConfirmationPage } from '../../containers/ConfirmationPage';
 describe('VAOS <ConfirmationPage>', () => {
   it('should render direct schedule view', () => {
     const flowType = FLOW_TYPES.DIRECT;
-    const data = {};
+    const data = {
+      typeOfCareId: '323',
+      vaFacility: '983',
+    };
     const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
@@ -29,7 +32,10 @@ describe('VAOS <ConfirmationPage>', () => {
 
   it('should render request view', () => {
     const flowType = FLOW_TYPES.REQUEST;
-    const data = {};
+    const data = {
+      typeOfCareId: '323',
+      vaFacility: '983',
+    };
     const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
@@ -52,7 +58,10 @@ describe('VAOS <ConfirmationPage>', () => {
   it('should call startNewAppointmentFlow when new appointment button clicked', () => {
     const flowType = FLOW_TYPES.REQUEST;
     const startNewAppointmentFlow = sinon.spy();
-    const data = {};
+    const data = {
+      typeOfCareId: '323',
+      vaFacility: '983',
+    };
     const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
@@ -77,7 +86,10 @@ describe('VAOS <ConfirmationPage>', () => {
   it('should render view/schedule appointment buttons and fire GA event on click', () => {
     const flowType = FLOW_TYPES.DIRECT;
     const closeConfirmationPage = sinon.spy();
-    const data = {};
+    const data = {
+      typeOfCareId: '323',
+      vaFacility: '983',
+    };
     const fetchFacilityDetails = sinon.spy();
     const startNewAppointmentFlow = sinon.spy();
 
@@ -97,6 +109,30 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(global.window.dataLayer[0].event).to.equal(
       'vaos-schedule-another-appointment-button-clicked',
     );
+    tree.unmount();
+  });
+
+  it('should redirect if no form data', () => {
+    const flowType = FLOW_TYPES.REQUEST;
+    const data = {};
+    const fetchFacilityDetails = sinon.spy();
+    const router = {
+      replace: sinon.spy(),
+    };
+
+    const tree = shallow(
+      <ConfirmationPage
+        fetchFacilityDetails={fetchFacilityDetails}
+        flowType={flowType}
+        data={data}
+        router={router}
+      />,
+    );
+
+    expect(tree.find('ConfirmationRequestInfo').exists()).to.be.true;
+    expect(fetchFacilityDetails.called).to.be.false;
+    expect(router.replace.called).to.be.true;
+
     tree.unmount();
   });
 });

@@ -1,82 +1,85 @@
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
-import { genericSchemas } from '../../../generic-schema';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
-
-import { StudentNameHeader } from '../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
-
-const { date, genericTextInput } = genericSchemas;
+import { report674 } from '../../../utilities';
+import { StudentAddressDescription } from './helpers';
 
 const addressSchema = buildAddressSchema(true);
+
+const studentAddressMarriageTuition = cloneDeep(
+  report674.properties.studentAddressMarriageTuition,
+);
+
+studentAddressMarriageTuition.properties.address = addressSchema;
 
 export const schema = {
   type: 'object',
   properties: {
-    studentAddress: addressSchema,
-    studentWasMarried: {
-      type: 'boolean',
-    },
-    marriageDate: date,
-    tuitionIsPaidByGovAgency: {
-      type: 'boolean',
-    },
-    agencyName: genericTextInput,
-    datePaymentsBegan: date,
+    studentAddressMarriageTuition,
   },
 };
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
-  studentAddress: {
-    ...{ 'ui:title': 'Student’s Address' },
-    ...addressUISchema(true, 'studentAddress', formData =>
-      isChapterFieldRequired(formData, TASK_KEYS.report674),
-    ),
-  },
-  studentWasMarried: {
-    'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-    'ui:title': 'Was the student ever married?',
-    'ui:widget': 'yesNo',
-    'ui:errorMessages': { required: 'Please select an option' },
-  },
-  marriageDate: {
-    ...currentOrPastDateUI('Date of marriage'),
-    ...{
-      'ui:required': formData => formData.studentWasMarried,
-      'ui:options': {
-        expandUnder: 'studentWasMarried',
-        expandUnderCondition: true,
+  'ui:title': 'Student’s Address',
+  studentAddressMarriageTuition: {
+    address: {
+      ...{
+        'ui:description': StudentAddressDescription,
+      },
+      ...addressUISchema(
+        true,
+        'studentAddressMarriageTuition.address',
+        formData => isChapterFieldRequired(formData, TASK_KEYS.report674),
+      ),
+    },
+    wasMarried: {
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
+      'ui:title': 'Was the student ever married?',
+      'ui:widget': 'yesNo',
+      'ui:errorMessages': { required: 'Please select an option' },
+    },
+    marriageDate: {
+      ...currentOrPastDateUI('Date of marriage'),
+      ...{
+        'ui:required': formData =>
+          formData.studentAddressMarriageTuition.wasMarried,
+        'ui:options': {
+          expandUnder: 'wasMarried',
+          expandUnderCondition: true,
+        },
       },
     },
-  },
-  tuitionIsPaidByGovAgency: {
-    'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
-    'ui:title':
-      'Is student’s tuition or education allowance being paid by the Survivor’s and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
-    'ui:widget': 'yesNo',
-    'ui:errorMessages': { required: 'Please select an option' },
-  },
-  agencyName: {
-    'ui:required': formData => formData.tuitionIsPaidByGovAgency,
-    'ui:title': 'Agency name',
-    'ui:options': {
-      expandUnder: 'tuitionIsPaidByGovAgency',
-      expandUnderCondition: true,
+    tuitionIsPaidByGovAgency: {
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
+      'ui:title':
+        'Is student’s tuition or education allowance being paid by the Survivors’ and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
+      'ui:widget': 'yesNo',
+      'ui:errorMessages': { required: 'Please select an option' },
     },
-    'ui:errorMessages': {
-      required:
-        'Please enter the goverment agency paying tuition or education allowance',
-    },
-  },
-  datePaymentsBegan: {
-    ...currentOrPastDateUI('Date payments began'),
-    ...{
-      'ui:required': formData => formData.tuitionIsPaidByGovAgency,
+    agencyName: {
+      'ui:required': formData =>
+        formData.studentAddressMarriageTuition.tuitionIsPaidByGovAgency,
+      'ui:title': 'Agency name',
       'ui:options': {
         expandUnder: 'tuitionIsPaidByGovAgency',
         expandUnderCondition: true,
+      },
+      'ui:errorMessages': {
+        required:
+          'Please enter the goverment agency paying tuition or education allowance',
+      },
+    },
+    datePaymentsBegan: {
+      ...currentOrPastDateUI('Date payments began'),
+      ...{
+        'ui:required': formData =>
+          formData.studentAddressMarriageTuition.tuitionIsPaidByGovAgency,
+        'ui:options': {
+          expandUnder: 'tuitionIsPaidByGovAgency',
+          expandUnderCondition: true,
+        },
       },
     },
   },

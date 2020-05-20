@@ -12,6 +12,7 @@ import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import ContactInformation from './ContactInformation';
+import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -20,6 +21,7 @@ export class InstitutionProfile extends React.Component {
     constants: PropTypes.object,
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
+    eduSection103: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -32,7 +34,14 @@ export class InstitutionProfile extends React.Component {
   };
 
   render() {
-    const { profile, isOJT, constants, showModal } = this.props;
+    const {
+      profile,
+      isOJT,
+      constants,
+      showModal,
+      eduSection103,
+      gibctEstimateYourBenefits,
+    } = this.props;
     return (
       <div>
         <HeadingSummary
@@ -43,7 +52,11 @@ export class InstitutionProfile extends React.Component {
         <div className="usa-accordion">
           <ul>
             <AccordionItem button="Estimate your benefits">
-              <Calculator />
+              {gibctEstimateYourBenefits ? (
+                <EstimateYourBenefits />
+              ) : (
+                <Calculator />
+              )}
             </AccordionItem>
             {!isOJT && (
               <AccordionItem button="Veteran programs">
@@ -75,7 +88,6 @@ export class InstitutionProfile extends React.Component {
                 this._cautionaryInfo = c;
               }}
             >
-              <a name="viewWarnings" />
               <CautionaryInformation
                 institution={profile.attributes}
                 onShowModal={showModal}
@@ -89,6 +101,7 @@ export class InstitutionProfile extends React.Component {
                 institution={profile.attributes}
                 onShowModal={showModal}
                 constants={constants}
+                eduSection103={eduSection103}
               />
             </AccordionItem>
           </ul>

@@ -8,7 +8,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
-import ENVIRONMENTS from '../../../site/constants/environments';
+import ENVIRONMENTS from 'site/constants/environments';
 
 // import sinon from 'sinon'
 
@@ -63,7 +63,18 @@ export default function setupJSDom() {
 
   win.dataLayer = [];
   win.scrollTo = () => {};
-  win.sessionStorage = {};
+  Object.defineProperty(win, 'sessionStorage', {
+    value: global.sessionStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+  Object.defineProperty(win, 'localStorage', {
+    value: global.localStorage,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
   win.requestAnimationFrame = func => func();
   win.matchMedia = () => ({
     matches: false,

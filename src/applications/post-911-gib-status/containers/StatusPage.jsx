@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import recordEvent from '../../../platform/monitoring/record-event';
-import { focusElement } from '../../../platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
@@ -59,18 +60,9 @@ class StatusPage extends React.Component {
             <div>
               If you've received education benefit payments through this
               program,{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-ebenefits-click',
-                  })
-                }
-              >
+              <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
                 you can see your payment history on eBenefits
-              </a>
+              </EbenefitsLink>
               .
             </div>
             <EnrollmentHistory enrollmentData={enrollmentData} />

@@ -23,7 +23,8 @@ Loop through refs, check for match for page entity.
 If we have a hit, show the alert.
 {% endcomment %}
   {% if status == "print" %}
-    <div aria-labelledby="usa-alert-heading-{{ entity.id }}" class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ entity.fieldAlertType }}" id="usa-alert-full-width-{{ entity.id }}" role="region">
+    <div data-template="includes/alerts" data-entity-id="{{ entity.id }}"
+      aria-labelledby="usa-alert-heading-{{ entity.id }}" class="usa-alert-full-width dismissable-option-header usa-alert-full-width-{{ entity.fieldAlertType }}" id="usa-alert-full-width-{{ entity.id }}" role="region">
       <div aria-live="assertive" class="usa-alert usa-alert-{{ entity.fieldAlertType }}" id="usa-alert-{{ entity.id }}" role="alert">
 
         {% if entity.fieldAlertDismissable == true %}

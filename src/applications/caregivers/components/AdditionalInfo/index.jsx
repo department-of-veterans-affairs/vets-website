@@ -1,138 +1,234 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import { links } from 'applications/caregivers/definitions/content';
 
-export const InjuredLineOfDutyInto = () => (
-  <AdditionalInfo triggerText="Learn more about injured in the Line of Duty">
-    An injury incurred or aggravated during active military service, unless the
-    injury resulted from the Veteran's or Servicemember's willful misconduct or
-    abuse of alcohol or drugs, or it occurred while that individual was avoiding
-    duty by desertion, or absent without leave which materially interfered with
-    the performance of military duty.
-  </AdditionalInfo>
+const VetInfo = ({ pageTitle, headerInfo }) => (
+  <>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+
+    {headerInfo && (
+      <p className="vads-u-margin-top--2">
+        Please complete all the following information.
+      </p>
+    )}
+  </>
 );
 
-export const PrimaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="What is a primary family caregiver">
-    <p>
-      A Family Member (defined herein), who is designated as a "primary provider
-      of personal care services" under
-      <a
-        href="https://www.law.cornell.edu/uscode/text/38/1720G"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        38 U.S.C. §1720G(a)(7)(A);
-      </a>
-      and who meets the requirements of
-      <a
-        href="https://www.law.cornell.edu/cfr/text/38/71.25"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        38 C.F.R. §71.25.
-      </a>
+VetInfo.propTypes = {
+  pageTitle: PropTypes.string,
+};
+
+const PrimaryCaregiverInfo = ({ additionalInfo, pageTitle }) => (
+  <>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    <p className="vads-u-margin-top--2">
+      Please complete the following information about the Primary Family
+      Caregiver.
     </p>
-    <a
-      href="https://www.va.gov/healthbenefits/resources/Caregiver_Eligibility_Check.asp"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Find out if you qualify
-    </a>
-  </AdditionalInfo>
+
+    {additionalInfo && (
+      <section className="vads-u-margin-y--2p5">
+        <AdditionalInfo triggerText="What's a Primary Family Caregiver?">
+          <p>
+            A Family Member (defined herein), who is designated as a "primary
+            provider of personal care services" under
+            <a
+              href={links.caregiverDefinition.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vads-u-margin-x--0p5"
+            >
+              {links.caregiverDefinition.label}
+            </a>
+            and who meets the requirements of
+            <a
+              href={links.familyCaregiver.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vads-u-margin-x--0p5"
+            >
+              {links.familyCaregiver.label}
+            </a>
+          </p>
+
+          <>
+            <p>
+              A Primary Family Caregiver is the main caregiver for the Veteran.
+              They can be the Veteran’s or service member’s:
+            </p>
+
+            <ul>
+              <li>Parent</li>
+              <li>Spouse</li>
+              <li>Son or daughter</li>
+              <li>Step-family member</li>
+              <li>Extended family member</li>
+              <li>
+                Non-family member who lives with the Veteran or service member,
+                or will do so after approval
+              </li>
+            </ul>
+          </>
+        </AdditionalInfo>
+      </section>
+    )}
+  </>
 );
 
-export const SecondaryCaregiverInfo = () => (
-  <AdditionalInfo triggerText="What is a secondary family caregiver">
-    <p>
-      An individual approved as a "provider of personal care services" for the
-      eligible Veteran under{' '}
-      <a
-        href="https://www.law.cornell.edu/uscode/text/38/1720G"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        38 U.S.C. §1720G(a)(7)(A);
-      </a>
-      meets the requirements of{' '}
-      <a
-        href="https://www.law.cornell.edu/cfr/text/38/71.25"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        38 C.F.R. §71.25;
-      </a>
-      and generally serves as a back-up to the Primary Family Caregiver.
-    </p>
-    <a
-      href="https://www.va.gov/healthbenefits/resources/Caregiver_Eligibility_Check.asp"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Find out if you qualify
-    </a>
-  </AdditionalInfo>
-);
+PrimaryCaregiverInfo.propTypes = {
+  additionalInfo: PropTypes.bool,
+  pageTitle: PropTypes.string,
+};
 
-export const CHAMPVAInfo = () => (
-  <AdditionalInfo triggerText="Learn more about CHAMPVA">
-    <p>
-      CHAMPVA is a cost-sharing program that covers the price of some health
-      care services and supplies.
-    </p>
-    <a
-      href="https://www.va.gov/health-care/family-caregiver-benefits/champva/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Learn more about CHAMPVA
-    </a>
-  </AdditionalInfo>
-);
+PrimaryCaregiverInfo.defaultProps = {
+  additionalInfo: false,
+};
 
-export const CaregiverSupportInfo = () => (
-  <AdditionalInfo triggerText="What is a caregiver support coordinator?">
-    Caregiver Support Coordinators (CSC) connect caregivers with VA and
-    community resources. They are located at every VA medical center and
-    specialize in caregiving issues.
-    <a
-      href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Find a caregiver support coordinator near you.
-    </a>
-  </AdditionalInfo>
-);
-
-export const PowerOfAttorneyInfo = () => (
-  <AdditionalInfo triggerText="What is power of attorney?">
-    Power of attorney authorizes someone to act on the behalf of a Veteran or
-    service member when completing this form.
-  </AdditionalInfo>
-);
-
-export const RepresentativeInfo = () => (
-  <AdditionalInfo triggerText="Who can be a representative?">
-    Refers to a Veteran's or Servicemember's court-appointed legal guardian or
-    special guardian Durable POA for Health Care, or other designated health
-    care agent. Attach POA/Representation documents to the application if
-    applicable.
-    <span>You can also:</span>
-    <ol>
-      <li>Call us at 877-222-VETS (877-222-8387)</li>
-      <li>
-        Find a{' '}
+const SecondaryCaregiverLegal = () => (
+  <div className="vads-u-margin-y--1p5">
+    <AdditionalInfo triggerText="What's a Secondary Family Caregiver?">
+      <p>
+        Secondary Family Caregivers are people approved as a “provider of
+        personal care services” for the eligible Veteran under
         <a
-          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+          href={links.caregiverDefinition.link}
           target="_blank"
           rel="noopener noreferrer"
+          className="vads-u-margin-x--0p5"
         >
-          Caregiver Support Coordinator
+          {links.caregiverDefinition.label}
         </a>
-      </li>
-      <li>Contact the National Caregiver Support line at 855-260-3274</li>
-      <li>Contact a Veterans Service Orginazation</li>
-    </ol>
-  </AdditionalInfo>
+        meets the requirements of
+        <a
+          href={links.familyCaregiver.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-u-margin-x--0p5"
+        >
+          {links.familyCaregiver.label}
+        </a>
+        and generally serves as a backup to the Primary Family Caregiver.
+      </p>
+
+      <>
+        <p>They can be the Veteran’s or service member’s:</p>
+
+        <ul>
+          <li>Parent</li>
+          <li>Spouse</li>
+          <li>Son or daughter</li>
+          <li>Step-family member</li>
+          <li>Extended family member</li>
+          <li>
+            Non-family member who lives with the Veteran or service member, or
+            will do so after approval
+          </li>
+        </ul>
+      </>
+    </AdditionalInfo>
+  </div>
 );
+
+const SecondaryCaregiverInfo = ({ pageTitle, additionalInfo, headerInfo }) => (
+  <>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+    {headerInfo && (
+      <p className="vads-u-margin-top--2">
+        Please complete the following information about the Secondary Family
+        Caregiver.
+      </p>
+    )}
+
+    {additionalInfo && <SecondaryCaregiverLegal />}
+  </>
+);
+
+SecondaryCaregiverInfo.propTypes = {
+  additionalInfo: PropTypes.bool,
+  pageTitle: PropTypes.string,
+};
+
+const FacilityInfo = () => (
+  <div className="vads-u-margin-top--2p5">
+    <div className="vads-u-margin-bottom--4">
+      <b>Note:</b> You should choose the medical center or clinic closest to
+      your home.
+    </div>
+
+    <a
+      href={links.findLocations.link}
+      rel="noopener noreferrer"
+      target="_blank"
+      className="vads-u-margin-x--0p5"
+    >
+      {links.findLocations.label}
+    </a>
+  </div>
+);
+
+const CaregiverSupportInfo = () => (
+  <div className="vads-u-margin-y--1p5">
+    <AdditionalInfo triggerText="What's a Caregiver Support Coordinator ?">
+      A Caregiver Support Coordinator is a clinical professional who connects
+      Veteran caregivers with VA and community resources that offer supportive
+      programs and services. Caregiver Support Coordinators are located at every
+      VA medical center and specialize in caregiving issues.
+    </AdditionalInfo>
+  </div>
+);
+
+const PrimaryHealthCoverage = ({ pageTitle }) => (
+  <>
+    {pageTitle && <h5 className="vads-u-font-size--h4">{pageTitle}</h5>}
+
+    <div className="vads-u-margin-bottom--4 vads-u-margin-top--2">
+      <p>
+        Please complete the following information about the Primary Family
+        Caregiver’s health coverage.
+      </p>
+    </div>
+  </>
+);
+
+const PleaseSelectVAFacility = () => (
+  <div>
+    <p>
+      Please select the VA medical center or clinic where the Veteran receives
+      or plans to receive health care services.
+    </p>
+
+    <p>
+      A Caregiver Support Coordinator at this VA medical center will review your
+      application.
+    </p>
+  </div>
+);
+
+const ReviewInfo = () => (
+  <p>
+    <b>Note:</b> According to federal law, there are criminal penalties,
+    including a fine and/or imprisonment for up to 5 years, for withholding
+    information or providing incorrect information. (See 18 U.S.C. 1001)
+  </p>
+);
+
+const AdditionalCaregiverInfo = () => (
+  <>
+    <b>You can add up to 2 Secondary Family Caregivers.</b>
+    <p>Would you like to add another Secondary Family Caregiver?</p>
+  </>
+);
+
+export {
+  AdditionalCaregiverInfo,
+  CaregiverSupportInfo,
+  FacilityInfo,
+  PleaseSelectVAFacility,
+  PrimaryCaregiverInfo,
+  PrimaryHealthCoverage,
+  ReviewInfo,
+  SecondaryCaregiverInfo,
+  SecondaryCaregiverLegal,
+  VetInfo,
+};

@@ -39,7 +39,7 @@ Example data:
 {% if header == empty %}
 {% assign header = "h4" %}
 {% endif %}
-<div class="vads-u-display--flex vads-u-margin-bottom--4">
+<div data-template="teasers/bio" class="vads-u-display--flex vads-u-margin-bottom--4">
     {% if node.fieldMedia != empty %}
         <div class="vads-u-margin-right--2 vads-u-flex--auto">
             {% assign image = node.fieldMedia.entity.image %}

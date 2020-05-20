@@ -1,15 +1,17 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
+import { getSiteIdFromOrganization } from '../services/organization';
 import {
   getTypeOfCare,
-  getParentFacilities,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
-  getSystemFromChosenFacility,
+  getSiteIdForChosenFacility,
+  getChosenParentInfo,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
+import { getFacilityIdFromLocation } from '../services/location';
 
 function getRequestedDates(data) {
   return data.calendarData.selectedDates.reduce(
@@ -41,22 +43,17 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const systemId = getSystemFromChosenFacility(state);
+  const siteId = getSiteIdForChosenFacility(state);
+  const facilityId = getFacilityIdFromLocation(facility);
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
-    appointmentType: getTypeOfCare(data).name,
-    cityState: {
-      institutionCode: data.vaParent,
-      rootStationCode: systemId,
-      parentStationCode: data.vaParent,
-      adminParent: true,
-    },
+    appointmentType: typeOfCare.name,
     facility: {
-      name: facility.authoritativeName,
-      facilityCode: data.vaFacility,
-      parentSiteCode: data.vaParent,
+      name: facility.name,
+      facilityCode: facilityId,
+      parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -119,9 +116,8 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const system = getParentFacilities(state).find(
-    sys => sys.institutionCode === data.communityCareSystemId,
-  );
+  const organization = getChosenParentInfo(state, data.communityCareSystemId);
+  const siteId = getSiteIdFromOrganization(organization);
   let cityState;
 
   if (
@@ -134,8 +130,8 @@ export function transformFormToCCRequest(state) {
     };
   } else {
     cityState = {
-      preferredCity: system.city,
-      preferredState: system.stateAbbrev,
+      preferredCity: organization.address[0].city,
+      preferredState: organization.address[0].state,
     };
   }
 
@@ -145,16 +141,10 @@ export function transformFormToCCRequest(state) {
     typeOfCare: typeOfCare.ccId,
     typeOfCareId: typeOfCare.ccId,
     appointmentType: typeOfCare.name,
-    cityState: {
-      institutionCode: data.communityCareSystemId,
-      rootStationCode: data.communityCareSystemId,
-      parentStationCode: data.communityCareSystemId,
-      adminParent: true,
-    },
     facility: {
-      name: system.authoritativeName,
-      facilityCode: data.communityCareSystemId,
-      parentSiteCode: data.communityCareSystemId,
+      name: organization.name,
+      facilityCode: siteId,
+      parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -210,7 +200,7 @@ export function transformFormToAppointment(state) {
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,
-    timeZone: facility.institutionTimezone,
+    timeZone: facility.legacyVAR.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',

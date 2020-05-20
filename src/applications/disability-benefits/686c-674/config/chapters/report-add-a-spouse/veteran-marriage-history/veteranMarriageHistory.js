@@ -1,28 +1,9 @@
-import { isChapterFieldRequired } from '../../../helpers';
-import { genericSchemas } from '../../../generic-schema';
-import { validateName } from '../../../utilities';
-import { SpouseItemHeader } from './helpers';
+import React from 'react';
 import SpouseViewField from '../../../../components/SpouseViewField';
+import { isChapterFieldRequired } from '../../../helpers';
+import { validateName, addSpouse } from '../../../utilities';
 
-const { fullName } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    veteranWasMarriedBefore: {
-      type: 'boolean',
-    },
-    veteranMarriageHistory: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          formerSpouseName: fullName,
-        },
-      },
-    },
-  },
-};
+export const schema = addSpouse.properties.veteranMarriageHistory;
 
 export const uiSchema = {
   veteranWasMarriedBefore: {
@@ -31,18 +12,23 @@ export const uiSchema = {
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },
   veteranMarriageHistory: {
+    'ui:title': (
+      <legend className="vads-u-font-size--md">
+        Former spouse’s information
+      </legend>
+    ),
     'ui:options': {
       viewField: SpouseViewField,
       expandUnder: 'veteranWasMarriedBefore',
       expandUnderCondition: true,
       keepInPageOnReview: true,
+      itemName: 'former spouse',
       updateSchema: () => ({
         minItems: 1,
       }),
     },
     items: {
-      'ui:title': SpouseItemHeader,
-      formerSpouseName: {
+      fullName: {
         'ui:validations': [validateName],
         first: {
           'ui:title': 'Former spouse’s first name',

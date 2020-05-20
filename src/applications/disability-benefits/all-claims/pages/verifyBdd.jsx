@@ -1,7 +1,7 @@
 import React from 'react';
 import { activeServicePeriods } from '../utils';
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
-import environment from '../../../../platform/utilities/environment';
+import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
+import environment from 'platform/utilities/environment';
 
 export const depends = formData =>
   !environment.isProduction() && !!activeServicePeriods(formData).length;

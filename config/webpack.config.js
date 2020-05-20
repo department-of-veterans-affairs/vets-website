@@ -1,20 +1,37 @@
-// Staging config. Also the default config that prod and dev are based off of.
+const path = require('path');
+const fs = require('fs');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
+require('@babel/polyfill');
+
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
-
-require('@babel/polyfill');
+const generateWebpackDevConfig = require('./webpack.dev.config.js');
+const {
+  getAppManifests,
+  getWebpackEntryPoints,
+} = require('./manifest-helpers');
+const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 
 const timestamp = new Date().getTime();
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
+
+const sharedModules = [
+  getAbsolutePath('src/platform/polyfills'),
+  'react',
+  'react-dom',
+  'react-redux',
+  'redux',
+  'redux-thunk',
+  '@sentry/browser',
+];
 
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
@@ -22,18 +39,46 @@ const globalEntryFiles = {
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
-  vendor: [
-    getAbsolutePath('src/platform/polyfills'),
-    'react',
-    'react-dom',
-    'react-redux',
-    'redux',
-    'redux-thunk',
-    '@sentry/browser',
-  ],
+  vendor: sharedModules,
+  // This is to solve the issue of the vendor file being cached
+  'shared-modules': sharedModules,
 };
 
-const configGenerator = (buildOptions, apps) => {
+/**
+ * Get a list of all the entry points.
+ *
+ * @param {String} entry - List of comma-delimited entries to build. Builds all
+ *                         entries if no value is passed.
+ * @return {Object} - The entry file paths mapped to the entry names
+ */
+function getEntryPoints(entry) {
+  const manifests = getAppManifests();
+  let manifestsToBuild = manifests;
+  if (entry) {
+    const entryNames = entry.split(',').map(name => name.trim());
+    manifestsToBuild = manifests.filter(manifest =>
+      entryNames.includes(manifest.entryName),
+    );
+  }
+
+  return getWebpackEntryPoints(manifestsToBuild);
+}
+
+module.exports = env => {
+  const buildOptions = {
+    api: '',
+    buildtype: 'localhost',
+    host: 'localhost',
+    port: 3001,
+    watch: false,
+    ...env,
+    // Using a getter so we can reference the buildtype
+    get destination() {
+      return path.resolve(__dirname, '../', 'build', this.buildtype);
+    },
+  };
+
+  const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [
     ENVIRONMENTS.VAGOVSTAGING,
@@ -47,11 +92,13 @@ const configGenerator = (buildOptions, apps) => {
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
+  const outputPath = `${buildOptions.destination}/generated`;
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
-      path: `${buildOptions.destination}/generated`,
+      path: outputPath,
       publicPath: '/generated/',
       filename: !isOptimizedBuild
         ? '[name].entry.js'
@@ -189,6 +236,7 @@ const configGenerator = (buildOptions, apps) => {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
+    devServer: generateWebpackDevConfig(buildOptions),
   };
 
   if (!buildOptions.watch) {
@@ -196,6 +244,42 @@ const configGenerator = (buildOptions, apps) => {
       new ManifestPlugin({
         fileName: 'file-manifest.json',
       }),
+    );
+  } else {
+    const landingPagePath = rootUrl =>
+      path.join(outputPath, '../', rootUrl, 'index.html');
+
+    baseConfig.plugins = baseConfig.plugins.concat(
+      getAppManifests()
+        .filter(manifest => manifest.rootUrl)
+        // Only create a new landing page if one doesn't already exist from a
+        // previous build. This is useful for using the content build page for
+        // testing.
+        .filter(manifest => !fs.existsSync(landingPagePath(manifest.rootUrl)))
+        .map(
+          manifest =>
+            new HtmlWebpackPlugin({
+              filename: landingPagePath(manifest.rootUrl),
+              template:
+                manifest.landingPageDevTemplate ||
+                'src/platform/landing-pages/dev-template.ejs',
+              // Pass data to the tempates
+              templateParameters: {
+                // Everything from the manifest file
+                ...manifest,
+                // With some defaults
+                loadingMessage:
+                  manifest.loadingMessage ||
+                  'Please wait while we load the application for you.',
+                entryName: manifest.entryName || 'static-pages',
+                // TODO: Get this placeholder data from another file
+                headerFooterData,
+              },
+              // Don't inject all the assets into all the landing pages
+              // The assets we want are referenced in the template itself
+              inject: false,
+            }),
+        ),
     );
   }
 
@@ -234,5 +318,3 @@ const configGenerator = (buildOptions, apps) => {
 
   return baseConfig;
 };
-
-module.exports = configGenerator;

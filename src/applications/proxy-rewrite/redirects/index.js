@@ -1,4 +1,4 @@
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 // Currently we only have approval for disability related ones:
 import crossDomainRedirects from './crossDomainRedirects.json';
 

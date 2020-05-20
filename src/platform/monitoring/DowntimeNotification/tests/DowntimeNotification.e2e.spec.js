@@ -2,8 +2,8 @@ const moment = require('moment');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts');
 
-const createMockEndpoint = require('../../../../platform/testing/e2e/mock-helpers');
-const FacilityHelpers = require('../../../../applications/facility-locator/tests/facility-helpers');
+const createMockEndpoint = require('platform/testing/e2e/mock-helpers');
+const FacilityHelpers = require('applications/facility-locator/tests/facility-helpers');
 
 const token = null;
 const beforeNow = moment()

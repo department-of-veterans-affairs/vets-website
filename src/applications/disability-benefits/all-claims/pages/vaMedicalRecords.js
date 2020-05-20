@@ -1,4 +1,4 @@
-import set from '../../../../platform/utilities/data/set';
+import set from 'platform/utilities/data/set';
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';

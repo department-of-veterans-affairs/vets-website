@@ -1,5 +1,5 @@
 import React from 'react';
-import CallVBACenter from '../../../platform/static-data/CallVBACenter';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 function GetFormHelp() {
   return (

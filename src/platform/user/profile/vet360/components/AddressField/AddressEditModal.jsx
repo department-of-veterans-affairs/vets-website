@@ -1,14 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import pickBy from 'lodash/pickBy';
+import ADDRESS_DATA from 'platform/forms/address/data';
 import { focusElement } from 'platform/utilities/ui';
 
-import { ADDRESS_POU, ADDRESS_TYPES, FIELD_NAMES, USA } from 'vet360/constants';
-
+import { ADDRESS_POU, FIELD_NAMES, USA } from 'vet360/constants';
 import Vet360EditModal from '../base/Vet360EditModal';
-
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
-
 import ContactInfoForm from '../ContactInfoForm';
 
 class AddressEditModal extends React.Component {
@@ -21,7 +19,7 @@ class AddressEditModal extends React.Component {
       ...value,
     };
     if (newFieldValue['view:livesOnMilitaryBase']) {
-      newFieldValue.countryName = USA.COUNTRY_NAME;
+      newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
     this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
   };
@@ -29,7 +27,7 @@ class AddressEditModal extends React.Component {
   getInitialFormValues = () =>
     this.props.modalData ||
     this.transformInitialFormValues(this.props.data) || {
-      countryName: USA.COUNTRY_NAME,
+      countryCodeIso3: USA.COUNTRY_ISO3_CODE,
     };
 
   /**
@@ -46,7 +44,7 @@ class AddressEditModal extends React.Component {
         addressLine3: data.addressLine3,
         addressType: data.addressType,
         city: data.city,
-        countryName: data.countryName,
+        countryCodeIso3: data.countryCodeIso3,
         stateCode: data.stateCode,
         internationalPostalCode: data.internationalPostalCode,
         zipCode: data.zipCode,
@@ -64,7 +62,8 @@ class AddressEditModal extends React.Component {
   selectLivesOnMilitaryBaseCheckbox = data => {
     if (
       data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
-      data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY
+      ADDRESS_DATA.militaryStates.includes(data?.stateCode) &&
+      ADDRESS_DATA.militaryCities.includes(data?.city)
     ) {
       return { ...data, 'view:livesOnMilitaryBase': true };
     }

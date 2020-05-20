@@ -1,42 +1,25 @@
+import React from 'react';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
-import { StudentNameHeader } from '../helpers';
+import { report674 } from '../../../utilities';
 
-const { currencyInput } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    studentDoesHaveNetworth: {
-      type: 'boolean',
-    },
-    networthInformation: {
-      type: 'object',
-      properties: {
-        savings: currencyInput,
-        securities: currencyInput,
-        realEstate: currencyInput,
-        otherAssets: currencyInput,
-        remarks: {
-          type: 'string',
-          maxLength: 500,
-          pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*]+$',
-        },
-      },
-    },
-  },
-};
+export const schema = report674.properties.studentNetworthInformation;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDoesHaveNetworth: {
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),
     'ui:title': 'Does the student have savings, investments, property, etc?',
     'ui:widget': 'yesNo',
   },
-  networthInformation: {
+  studentNetworthInformation: {
+    'ui:title': 'Student’s net worth',
+    'ui:description': (
+      <p>
+        Enter the value of what is owned solely by the student.{' '}
+        <strong>If there is no dollar amount, enter 0.</strong>
+      </p>
+    ),
     'ui:options': {
       expandUnder: 'studentDoesHaveNetworth',
       expandUnderCondition: true,
@@ -74,7 +57,7 @@ export const uiSchema = {
       },
     },
     remarks: {
-      'ui:title': 'Remarks about student’s networth',
+      'ui:title': 'Remarks about student’s net worth',
       'ui:widget': 'textarea',
     },
   },

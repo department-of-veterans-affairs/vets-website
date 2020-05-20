@@ -1,27 +1,24 @@
 import 'platform/polyfills';
 import cookie from 'cookie';
 
-import buckets from '../../site/constants/buckets';
-import environments from '../../site/constants/environments';
+import buckets from 'site/constants/buckets';
+import environments from 'site/constants/environments';
 
-import createCommonStore from '../../platform/startup/store';
-import environment from '../../platform/utilities/environment';
+import createCommonStore from 'platform/startup/store';
+import environment from 'platform/utilities/environment';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
 import startUserNavWidget from 'platform/site-wide/user-nav';
-import addMenuListeners from 'platform/site-wide/accessible-menus';
 import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 
-// import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
-// import startAnnouncementWidget from '../../platform/site-wide/announcements';
-import startVAFooter, {
-  footerElemementId,
-} from '../../platform/site-wide/va-footer';
+// import startLRNHealthCarWidget from 'platform/site-wide/left-rail-navs/health-care';
+// import startAnnouncementWidget from 'platform/site-wide/announcements';
+import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
-import addFocusBehaviorToCrisisLineModal from '../../platform/site-wide/accessible-VCL-modal';
+import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 
@@ -107,9 +104,6 @@ function mountReactComponents(headerFooterData, commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
-  }
-  if (document.querySelector('#vetnav-menu') !== null) {
-    addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
 
   // New navigation menu
@@ -219,7 +213,6 @@ function getHostnameOverride() {
 }
 
 const scriptPaths = [
-  '/js/settings.js',
   '/generated/polyfills.entry.js',
   '/generated/vendor.entry.js',
   '/generated/proxy-rewrite.entry.js',

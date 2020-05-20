@@ -20,6 +20,8 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   {},
 );
 
+const STREET_LINE_MAX_LENGTH = 35;
+
 const formSchema = {
   type: 'object',
   properties: {
@@ -30,26 +32,27 @@ const formSchema = {
       type: 'object',
       properties: {},
     },
-    countryName: {
+    countryCodeIso3: {
       type: 'string',
-      enum: ADDRESS_FORM_VALUES.COUNTRIES,
+      enum: ADDRESS_FORM_VALUES.COUNTRY_ISO3_CODES,
+      enumNames: ADDRESS_FORM_VALUES.COUNTRIES,
     },
     addressLine1: {
       type: 'string',
       minLength: 1,
-      maxLength: 100,
+      maxLength: STREET_LINE_MAX_LENGTH,
       pattern: '^.*\\S.*',
     },
     addressLine2: {
       type: 'string',
       minLength: 1,
-      maxLength: 100,
+      maxLength: STREET_LINE_MAX_LENGTH,
       pattern: '^.*\\S.*',
     },
     addressLine3: {
       type: 'string',
       minLength: 1,
-      maxLength: 100,
+      maxLength: STREET_LINE_MAX_LENGTH,
       pattern: '^.*\\S.*',
     },
     city: {
@@ -71,7 +74,7 @@ const formSchema = {
       type: 'string',
     },
   },
-  required: ['countryName', 'addressLine1', 'city'],
+  required: ['countryCodeIso3', 'addressLine1', 'city'],
 };
 
 const uiSchema = {
@@ -94,17 +97,19 @@ const uiSchema = {
       </div>
     ),
   },
-  countryName: {
+  countryCodeIso3: {
     'ui:title': 'Country',
     'ui:options': {
       updateSchema: formData => {
         if (formData['view:livesOnMilitaryBase']) {
           return {
-            enum: [USA.COUNTRY_NAME],
+            enum: [USA.COUNTRY_ISO3_CODE],
+            enumNames: [USA.COUNTRY_NAME],
           };
         }
         return {
-          enum: ADDRESS_FORM_VALUES.COUNTRIES,
+          enum: ADDRESS_FORM_VALUES.COUNTRY_ISO3_CODES,
+          enumNames: ADDRESS_FORM_VALUES.COUNTRIES,
         };
       },
       updateUiSchema: formData => {
@@ -120,17 +125,17 @@ const uiSchema = {
     },
   },
   addressLine1: {
-    'ui:title': 'Street address',
+    'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
     'ui:errorMessages': {
       required: 'Street address is required',
-      pattern: 'Street address must be under 100 characters',
+      pattern: `Street address must be under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   addressLine2: {
-    'ui:title': 'Street address',
+    'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
   },
   addressLine3: {
-    'ui:title': 'Street address',
+    'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
   },
   city: {
     'ui:errorMessages': {
@@ -162,7 +167,7 @@ const uiSchema = {
       required: 'State is required',
     },
     'ui:options': {
-      hideIf: formData => formData.countryName !== USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
       updateSchema: formData => {
         if (formData['view:livesOnMilitaryBase']) {
           return {
@@ -176,12 +181,13 @@ const uiSchema = {
         };
       },
     },
-    'ui:required': formData => formData.countryName === USA.COUNTRY_NAME,
+    'ui:required': formData =>
+      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   },
   province: {
     'ui:title': 'State/Province/Region',
     'ui:options': {
-      hideIf: formData => formData.countryName === USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
   },
   zipCode: {
@@ -192,9 +198,10 @@ const uiSchema = {
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
-      hideIf: formData => formData.countryName !== USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
     },
-    'ui:required': formData => formData.countryName === USA.COUNTRY_NAME,
+    'ui:required': formData =>
+      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   },
   internationalPostalCode: {
     'ui:title': 'International postal code',
@@ -203,9 +210,10 @@ const uiSchema = {
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
-      hideIf: formData => formData.countryName === USA.COUNTRY_NAME,
+      hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
-    'ui:required': formData => formData.countryName !== USA.COUNTRY_NAME,
+    'ui:required': formData =>
+      formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
   },
 };
 

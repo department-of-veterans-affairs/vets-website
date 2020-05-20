@@ -1,47 +1,51 @@
 import React from 'react';
+import { links } from 'applications/caregivers/definitions/content';
 
-const NeedHelpFooter = () => {
-  const sectionClassNames =
-    'vads-u-margin-y--2p5 vads-u-display--flex vads-u-flex-direction--column';
-  return (
-    <footer className="need-help-footer row vads-u-padding-x--1p5">
-      <h5>Need Help?</h5>
+const NeedHelpFooter = () => (
+  <footer className="need-help-footer row vads-u-padding-x--1p5">
+    <div style={{ maxWidth: '600px' }}>
+      <h5>Need help?</h5>
       <hr />
-      <span>Need help filling out this form? Call our toll-free number: </span>
-
-      <section className={sectionClassNames}>
-        <a href="tel:18772228387">1-877-222-8387</a>
-        <span>
-          TTY: <a href="tel:18008778339">1-800-877-8339</a>
-        </span>
-        <span>Monday through Friday, 8:00a.m. — 8:00p.m. ET.</span>
-      </section>
-
-      <section className={sectionClassNames}>
-        <span>A Caregiver Support Coordinator locator is available at: </span>
-        <a href="https://www.caregiver.va.gov/" rel="noopener noreferrer">
-          http://www.caregiver.va.gov/
+      <p>
+        You can call the VA Caregiver Support Line at
+        <a
+          href={links.caregiverHelp.phoneLink}
+          className="vads-u-margin-left--0p5"
+        >
+          {links.caregiverHelp.phoneLabel}
         </a>
-      </section>
+        . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
 
-      <section className={sectionClassNames}>
-        <span>
-          You can contact the National Caregiver Support Line by calling:
-        </span>
-        <a href="tel:18552603274">1-855-260-3274</a>
-      </section>
+      <p>
+        You can also call our main VA information line at
+        <a href={links.VAHelpLine.label} className="vads-u-margin-left--0p5">
+          {links.VAHelpLine.link}
+        </a>
+        , or contact your local Caregiver Support Coordinator.
+      </p>
 
-      <section className={sectionClassNames}>
-        <span>
-          To report a problem with this form, please call the Vets.gov Technical
-          Help Desk:
-        </span>
-        <a href="tel:18555747286">1-855-574-7286</a>
-        <a href="tel:18008778339">TTY: 1-800-877-8339</a>
-        <span>Monday through Friday, 8:00a.m. — 7:00p.m. ET.</span>
-      </section>
-    </footer>
-  );
-};
+      <span>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href={links.caregiverSupportCoordinators.link}
+          className="vads-u-margin-x--0p5"
+        >
+          Use our online Caregiver Support Coordinator search tool
+        </a>
+      </span>
+
+      <p>
+        If this form isn't working right for you, please call us at at
+        <a href={links.reportLine.link} className="vads-u-margin-left--0p5">
+          {links.reportLine.label}
+        </a>
+        .<br />
+        <span>If you have hearing loss, call TTY: 711.</span>
+      </p>
+    </div>
+  </footer>
+);
 
 export default NeedHelpFooter;

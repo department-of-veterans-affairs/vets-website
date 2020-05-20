@@ -6,44 +6,42 @@ export const VAMC_PATHS = {
   PITTSBURGH: /^\/pittsburgh-health-care\/(.)*$/,
 };
 
-export default class VAMCWelcomeModal extends React.Component {
-  static propTypes = {
-    announcement: PropTypes.shape({
-      region: PropTypes.string.isRequired,
-    }).isRequired,
-  };
-
-  render() {
-    const { dismiss } = this.props;
-
-    return (
-      <Modal
-        cssClass="va-modal announcement-brand-consolidation"
-        visible
-        onClose={dismiss}
-        id="modal-announcement"
-      >
-        <div className="announcement-heading-brand-consolidation">
-          <img
-            className="announcement-brand-consolidation-logo"
-            src="/img/design/logo/va-logo.png"
-            alt="VA.gov"
-          />
-        </div>
-        <h3 id="modal-announcement-title" className="announcement-title">
-          Welcome to the new VA {this.props.announcement.region} health care
-          website—built with Veterans, for Veterans
-        </h3>
-        <p>
-          You spoke, and we listened. We used feedback from Veterans, family
-          members, and caregivers like you. Our new website focuses on helping
-          you manage your VA health care journey, including the top tasks we
-          heard were most important to you.
-        </p>
-        <button type="button" onClick={dismiss}>
-          Continue to the website
-        </button>
-      </Modal>
-    );
-  }
+function VAMCWelcomeModal({ dismiss, announcement }) {
+  return (
+    <Modal
+      cssClass="va-modal announcement-brand-consolidation"
+      visible
+      onClose={dismiss}
+      id="modal-announcement"
+    >
+      <div className="announcement-heading-brand-consolidation">
+        <img
+          className="announcement-brand-consolidation-logo"
+          src="/img/design/logo/va-logo.png"
+          alt="VA.gov"
+        />
+      </div>
+      <h3 id="modal-announcement-title" className="announcement-title">
+        Welcome to the new VA {announcement.region} health care website—built
+        with Veterans, for Veterans
+      </h3>
+      <p>
+        You spoke, and we listened. We used feedback from Veterans, family
+        members, and caregivers like you. Our new website focuses on helping you
+        manage your VA health care journey, including the top tasks we heard
+        were most important to you.
+      </p>
+      <button type="button" onClick={dismiss}>
+        Continue to the website
+      </button>
+    </Modal>
+  );
 }
+
+VAMCWelcomeModal.propTypes = {
+  announcement: PropTypes.shape({
+    region: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default VAMCWelcomeModal;

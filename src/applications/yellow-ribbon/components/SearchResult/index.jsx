@@ -3,10 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
+import startsWith from 'lodash/startsWith';
 // Relative imports.
 import { capitalize } from '../../helpers';
 
-const deriveNameLabel = school => {
+export const deriveNameLabel = school => {
   // Show unknown if there's no nameOfInstitution.
   if (!school?.nameOfInstitution) {
     return 'Not provided';
@@ -16,7 +17,7 @@ const deriveNameLabel = school => {
   return startCase(toLower(school?.nameOfInstitution));
 };
 
-const deriveLocationLabel = (school = {}) => {
+export const deriveLocationLabel = (school = {}) => {
   // Show unknown if there's no city or state.
   if (!school?.city && !school?.state) {
     return 'Not provided';
@@ -36,7 +37,7 @@ const deriveLocationLabel = (school = {}) => {
   return `${capitalize(school?.city)}, ${school?.state}`;
 };
 
-const deriveMaxAmountLabel = (school = {}) => {
+export const deriveMaxAmountLabel = (school = {}) => {
   // Show unknown if there's no contributionAmount.
   if (!school?.contributionAmount) {
     return 'Not provided';
@@ -45,8 +46,9 @@ const deriveMaxAmountLabel = (school = {}) => {
   // Derive the contribution amount number.
   const contributionAmountNum = parseFloat(school?.contributionAmount);
 
+  // Show unlimited contribution amount state.
   if (contributionAmountNum > 90000) {
-    return 'All tuition and fees not covered by Post-9/11 GI Bill benefits';
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
   }
 
   // Show formatted contributionAmount.
@@ -58,7 +60,7 @@ const deriveMaxAmountLabel = (school = {}) => {
   });
 };
 
-const deriveEligibleStudentsLabel = (school = {}) => {
+export const deriveEligibleStudentsLabel = (school = {}) => {
   // Show unknown if there's no numberOfStudents.
   if (!school?.numberOfStudents) {
     return 'Not provided';
@@ -73,21 +75,26 @@ const deriveEligibleStudentsLabel = (school = {}) => {
   return `${school?.numberOfStudents} students`;
 };
 
-const deriveInstURLLabel = (school = {}) => {
+export const deriveInstURLLabel = (school = {}) => {
   // Show unknown if there's no insturl.
   if (!school?.insturl) {
     return 'Not provided';
   }
 
+  // Derive the a tag's href.
+  const href = startsWith(school?.insturl, 'http')
+    ? school?.insturl
+    : `https://${school?.insturl}`;
+
   // Show the school's website URL.
   return (
-    <a href={school?.insturl} rel="noreferrer noopener">
+    <a href={href} rel="noreferrer noopener" target="_blank">
       {toLower(school?.insturl)}
     </a>
   );
 };
 
-const deriveDegreeLevel = (school = {}) => {
+export const deriveDegreeLevel = (school = {}) => {
   // Show unknown if there's no degreeLevel.
   if (!school?.degreeLevel) {
     return 'Not provided';
@@ -97,7 +104,7 @@ const deriveDegreeLevel = (school = {}) => {
   return school?.degreeLevel;
 };
 
-const deriveDivisionProfessionalSchool = (school = {}) => {
+export const deriveDivisionProfessionalSchool = (school = {}) => {
   // Show unknown if there's no divisionProfessionalSchool.
   if (!school?.divisionProfessionalSchool) {
     return 'Not provided';
@@ -110,7 +117,10 @@ const deriveDivisionProfessionalSchool = (school = {}) => {
 export const SearchResult = ({ school }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
-    <p className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-margin--0">
+    <p
+      className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0"
+      data-e2e-id="result-title"
+    >
       <span className="sr-only">School name</span>
       {deriveNameLabel(school)}
     </p>
@@ -129,30 +139,26 @@ export const SearchResult = ({ school }) => (
             Maximum Yellow Ribbon funding amount
             <br />
             (per student, per year)
+            <span className="sr-only">:</span>
           </p>
-          <p className="vads-u-margin--0">
-            <span className="sr-only">
-              Maximum Yellow Ribbon funding amount (per student, per year)
-            </span>
-            {deriveMaxAmountLabel(school)}
-          </p>
+          <p className="vads-u-margin--0">{deriveMaxAmountLabel(school)}</p>
         </div>
 
         {/* Student Count */}
         <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
           Funding available for
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-          <span className="sr-only">Eligible students</span>
           {deriveEligibleStudentsLabel(school)}
         </p>
 
         {/* School Website */}
         <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
           School website
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-          <span className="sr-only">School website</span>
           {deriveInstURLLabel(school)}
         </p>
       </div>
@@ -161,18 +167,18 @@ export const SearchResult = ({ school }) => (
         {/* Degree Level */}
         <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin--0">
           Degree type
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
-          <span className="sr-only">Degree level</span>
           {deriveDegreeLevel(school)}
         </p>
 
         {/* Division Professional School */}
         <p className="school-program vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin-bottom--0">
           School or program
+          <span className="sr-only">:</span>
         </p>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
-          <span className="sr-only">School or program</span>
           {deriveDivisionProfessionalSchool(school)}
         </p>
       </div>

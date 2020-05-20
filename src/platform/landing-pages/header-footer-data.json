@@ -1,0 +1,321 @@
+{
+  "footerData": [
+    {
+      "column": 1,
+      "href": "https://staging.va.gov/homeless/",
+      "order": 1,
+      "target": "",
+      "title": "Homeless Veterans"
+    },
+    {
+      "column": 1,
+      "href": "https://staging.va.gov/womenvet/",
+      "order": 2,
+      "target": "",
+      "title": "Women Veterans"
+    },
+    {
+      "column": 1,
+      "href": "https://staging.va.gov/centerforminorityveterans/",
+      "order": 3,
+      "target": "",
+      "title": "Minority Veterans"
+    },
+    {
+      "column": 1,
+      "href": "https://www.ptsd.va.gov",
+      "order": 4,
+      "target": "",
+      "title": "PTSD",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 1,
+      "href": "https://www.mentalhealth.va.gov",
+      "order": 5,
+      "target": "",
+      "title": "Mental health",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 1,
+      "href": "https://staging.va.gov/adaptivesports/",
+      "order": 6,
+      "target": "",
+      "title": "Adaptive sports and special events"
+    },
+    {
+      "column": 1,
+      "href": "https://www.nrd.gov",
+      "order": 7,
+      "target": "_blank",
+      "title": "National Resource Directory",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/vaforms/",
+      "order": 1,
+      "target": null,
+      "title": "Find a VA form"
+    },
+    {
+      "column": 2,
+      "href": "https://www.mobile.va.gov/appstore/",
+      "order": 2,
+      "target": "_blank",
+      "title": "Get VA mobile apps",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/jobs/",
+      "order": 3,
+      "target": null,
+      "title": "Careers at VA"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/landing2_business.htm",
+      "order": 4,
+      "target": null,
+      "title": "Doing business with VA"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/ogc/accreditation.asp",
+      "order": 5,
+      "target": null,
+      "title": "VA claims accreditation"
+    },
+    {
+      "column": 2,
+      "href": "https://www.accesstocare.va.gov/ourproviders/",
+      "order": 6,
+      "target": "_blank",
+      "title": "Find a VA health care provider",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/vso/",
+      "order": 7,
+      "target": null,
+      "title": "Veterans Service Organizations (VSOs)"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/statedva.htm",
+      "order": 8,
+      "target": null,
+      "title": "State Veterans Affairs offices"
+    },
+    {
+      "column": 2,
+      "href": "https://staging.va.gov/welcome-kit/",
+      "order": 9,
+      "target": null,
+      "title": "Print your VA welcome kit"
+    },
+    {
+      "column": 3,
+      "href": "https://www.blogs.va.gov/VAntage/",
+      "order": 1,
+      "target": "_blank",
+      "title": "VAntage Point blog",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
+      "order": 2,
+      "target": "_blank",
+      "title": "Email updates",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.facebook.com/VeteransAffairs",
+      "order": 3,
+      "target": "_blank",
+      "title": "Facebook",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.instagram.com/deptvetaffairs/",
+      "order": 4,
+      "target": "_blank",
+      "title": "Instagram",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.twitter.com/DeptVetAffairs/",
+      "order": 5,
+      "target": "_blank",
+      "title": "Twitter",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.flickr.com/photos/VeteransAffairs/",
+      "order": 6,
+      "target": "_blank",
+      "title": "Flickr",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://www.youtube.com/user/DeptVetAffairs",
+      "order": 7,
+      "target": "_blank",
+      "title": "YouTube",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 3,
+      "href": "https://staging.va.gov/opa/socialmedia.asp",
+      "order": 8,
+      "target": null,
+      "title": "All VA social media"
+    },
+    {
+      "column": 4,
+      "href": "https://staging.va.gov/find-locations/",
+      "order": 1,
+      "target": null,
+      "title": "Find a VA location"
+    },
+    {
+      "column": 4,
+      "href": "https://iris.custhelp.va.gov/app/ask",
+      "order": 2,
+      "target": null,
+      "title": "Ask a question",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 4,
+      "label": "Call VA311:",
+      "href": "tel:18446982311",
+      "order": 3,
+      "target": null,
+      "title": "844-698-2311"
+    },
+    {
+      "column": 4,
+      "order": 4,
+      "title": "TTY: 711"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.section508.va.gov",
+      "order": 1,
+      "target": null,
+      "title": "Accessibility",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/orm/NOFEAR_Select.asp",
+      "order": 2,
+      "target": null,
+      "title": "No FEAR Act Data"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/oig/",
+      "order": 3,
+      "target": null,
+      "title": "Office of Inspector General"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/opa/Plain_Language.asp",
+      "order": 4,
+      "target": null,
+      "title": "Plain language"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/privacy-policy/",
+      "order": 5,
+      "target": null,
+      "title": "Privacy, policies, and legal information"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/privacy/",
+      "order": 6,
+      "target": null,
+      "title": "VA Privacy Service"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/foia/",
+      "order": 7,
+      "target": null,
+      "title": "Freedom of Information Act (FOIA)"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.usa.gov/",
+      "order": 8,
+      "target": "_blank",
+      "title": "USA.gov",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/scorecard/",
+      "order": 9,
+      "target": null,
+      "title": "VA.gov scorecard"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://staging.va.gov/veterans-portrait-project/",
+      "order": 10,
+      "target": null,
+      "title": "Veterans Portrait Project"
+    }
+  ],
+  "megaMenuData": [
+    {
+      "title": "VA Benefits and Health Care",
+      "menuSections": [
+        {
+          "title": "Health care",
+          "links": {
+            "seeAllLink": {
+              "text": "View all in health care",
+              "href": "https://staging.va.gov/health-care"
+            },
+            "columnOne": {
+              "title": "Get health care benefits",
+              "links": [
+                {
+                  "text": "About VA health benefits",
+                  "href": "https://staging.va.gov/health-care/about-va-health-benefits"
+                },
+                {
+                  "text": "How to apply",
+                  "href": "https://staging.va.gov/health-care/how-to-apply"
+                },
+                {
+                  "text": "Family and caregiver health benefits",
+                  "href": "https://staging.va.gov/health-care/family-caregiver-benefits"
+                },
+                {
+                  "text": "Apply now for health care",
+                  "href": "https://staging.va.gov/health-care/apply/application"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -2,15 +2,15 @@ import fullSchema from '../2122-schema.json';
 import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import * as addressUI from '../../../platform/forms/definitions/address.js';
+import * as addressUI from 'platform/forms/definitions/address.js';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 const {
   veteranFullName,

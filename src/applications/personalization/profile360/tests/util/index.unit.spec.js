@@ -47,6 +47,20 @@ describe('profile utils', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([]);
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
+    // Wednesday, April 22, 2020 We saw errors in Sentry due to unsafe prop
+    // drilling in our hasErrorMessage helper. This test was added to replicate
+    // the error.
+    // http://sentry.vfs.va.gov/vets-gov/website-production/issues/115880/
+    it('returns the correct data when passed an error object that is missing a messages array', () => {
+      let eventDataObject = createDirectDepositAnalyticsDataObject([{}]);
+      expect(eventDataObject).to.deep.equal(defaultDataObject);
+      eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          meta: {},
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(defaultDataObject);
+    });
     it('returns the correct data when a bad address error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
         {

@@ -13,7 +13,7 @@ describe('renderSchoolClosingAlert', () => {
       }),
     );
     expect(tree.find('.usa-alert-text').text()).to.equal(
-      'A campus at this school will be closing soon',
+      'School will be closing soon',
     );
     tree.unmount();
   });
@@ -36,13 +36,13 @@ describe('renderSchoolClosingAlert', () => {
 });
 
 describe('renderCautionAlert', () => {
-  it('should render', () => {
+  it('should render multiple alerts as list items', () => {
     const cautionFlags = [
       { title: 'TEST A', id: 1 },
       { title: 'TEST B', id: 2 },
     ];
 
-    const tree = shallow(renderCautionAlert({ cautionFlags }));
+    const tree = shallow(renderCautionAlert(cautionFlags));
     expect(
       tree
         .find('li')
@@ -53,10 +53,21 @@ describe('renderCautionAlert', () => {
 
     tree.unmount();
   });
+  it('should render single alert as text', () => {
+    const cautionFlags = [{ title: 'TEST A', id: 1 }];
+
+    const tree = shallow(renderCautionAlert(cautionFlags));
+    expect(
+      tree
+        .find('p')
+        .at(0)
+        .text(),
+    ).to.equal(cautionFlags[0].title);
+    expect(tree.exists('li')).to.equal(false);
+    tree.unmount();
+  });
   it('should render correct heading for single flag', () => {
-    const tree = shallow(
-      renderCautionAlert({ cautionFlags: [{ title: 'TEST A', id: 1 }] }),
-    );
+    const tree = shallow(renderCautionAlert([{ title: 'TEST A', id: 1 }]));
     expect(tree.find('.usa-alert-heading').text()).to.equal(
       'This school has a cautionary warning',
     );
@@ -64,9 +75,10 @@ describe('renderCautionAlert', () => {
   });
   it('should render correct heading for multiple flag', () => {
     const tree = shallow(
-      renderCautionAlert({
-        cautionFlags: [{ title: 'TEST A', id: 1 }, { title: 'TEST B', id: 2 }],
-      }),
+      renderCautionAlert([
+        { title: 'TEST A', id: 1 },
+        { title: 'TEST B', id: 2 },
+      ]),
     );
     expect(tree.find('.usa-alert-heading').text()).to.equal(
       'This school has cautionary warnings',
@@ -79,7 +91,7 @@ describe('renderCautionAlert', () => {
       { title: 'TEST A', id: 2 },
     ];
 
-    const tree = shallow(renderCautionAlert({ cautionFlags }));
+    const tree = shallow(renderCautionAlert(cautionFlags));
     expect(
       tree
         .find('li')

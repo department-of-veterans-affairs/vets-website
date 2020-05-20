@@ -20,12 +20,19 @@ describe('Report 674 school information', () => {
     'view:selectable686Options': {
       report674: true,
     },
-    studentFullName: {
-      first: 'John',
-      last: 'Doe',
+    studentNameAndSSN: {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
     },
-    schoolAddress: {
-      countryName: '',
+    studentAddressMarriageTuition: {
+      address: {
+        countryName: '',
+      },
+    },
+    programInformation: {
+      studentIsEnrolledFullTime: '',
     },
   };
 
@@ -71,33 +78,21 @@ describe('Report 674 school information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_schoolInformation_schoolName', 'Phoenix Online');
+    fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
     fillData(form, 'input#root_schoolInformation_trainingProgram', 'A Degree');
     changeDropdown(
       form,
-      'select#root_schoolInformation_schoolAddress_countryName',
-      'United States',
+      'select#root_schoolInformation_address_countryName',
+      'USA',
     );
-    fillData(
-      form,
-      'input#root_schoolInformation_schoolAddress_addressLine1',
-      '1600',
-    );
-    fillData(
-      form,
-      'input#root_schoolInformation_schoolAddress_city',
-      'Washington',
-    );
+    fillData(form, 'input#root_schoolInformation_address_addressLine1', '1600');
+    fillData(form, 'input#root_schoolInformation_address_city', 'Washington');
     changeDropdown(
       form,
-      'select#root_schoolInformation_schoolAddress_stateCode',
-      'DC',
+      'select#root_schoolInformation_address_stateCode',
+      'AL',
     );
-    fillData(
-      form,
-      'input#root_schoolInformation_schoolAddress_zipCode',
-      '20500',
-    );
+    fillData(form, 'input#root_schoolInformation_address_zipCode', '20500');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -115,26 +110,22 @@ describe('Report 674 school information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_schoolInformation_schoolName', 'Phoenix Online');
+    fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
     fillData(form, 'input#root_schoolInformation_trainingProgram', 'A Degree');
     changeDropdown(
       form,
-      'select#root_schoolInformation_schoolAddress_countryName',
-      'Brazil',
+      'select#root_schoolInformation_address_countryName',
+      'BRA',
     );
+    fillData(form, 'input#root_schoolInformation_address_addressLine1', '1600');
     fillData(
       form,
-      'input#root_schoolInformation_schoolAddress_addressLine1',
-      '1600',
-    );
-    fillData(
-      form,
-      'input#root_schoolInformation_schoolAddress_city',
+      'input#root_schoolInformation_address_city',
       'Rio de Janeiro',
     );
     fillData(
       form,
-      'input#root_schoolInformation_schoolAddress_internationalPostalCode',
+      'input#root_schoolInformation_address_internationalPostalCode',
       '12345',
     );
     form.find('form').simulate('submit');

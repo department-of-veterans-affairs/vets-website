@@ -3,7 +3,7 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import CallVBACenter from '../../../../platform/static-data/CallVBACenter';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 import disabilityIncreaseManifest from '../../526EZ/manifest.json';
 
 const { rootUrl: increaseRootUrl } = disabilityIncreaseManifest;

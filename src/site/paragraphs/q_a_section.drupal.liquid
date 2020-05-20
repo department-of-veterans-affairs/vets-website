@@ -11,17 +11,19 @@
     ]
   }
 {% endcomment %}
-{% if entity.fieldSectionHeader != empty %}
-  <h2>{{ entity.fieldSectionHeader }}</h2>
-{% endif %}
-{% if entity.fieldSectionIntro != empty %}
-  <p>{{ entity.fieldSectionIntro }}</p>
-{% endif %}
-{% if entity.fieldAccordionDisplay %}
-    {% include "src/site/paragraphs/q_a.collapsible_panel.drupal.liquid" questions = entity.fieldQuestions %}
-{% else %}
-    {% for question in entity.fieldQuestions %}
-      {% assign sectionHeader = entity.fieldSectionHeader %}
-      {% include "src/site/paragraphs/q_a.drupal.liquid" entity = question.entity sectionHeader = sectionHeader %}
-    {% endfor %}
-{% endif %}
+<div data-template="paragraphs/q_a_section" data-entity-id="{{ entity.entityId }}">
+  {% if entity.fieldSectionHeader != empty %}
+    <h2>{{ entity.fieldSectionHeader }}</h2>
+  {% endif %}
+  {% if entity.fieldSectionIntro != empty %}
+    <p>{{ entity.fieldSectionIntro }}</p>
+  {% endif %}
+  {% if entity.fieldAccordionDisplay %}
+      {% include "src/site/paragraphs/q_a.collapsible_panel.drupal.liquid" questions = entity.fieldQuestions %}
+  {% else %}
+      {% for question in entity.fieldQuestions %}
+        {% assign sectionHeader = entity.fieldSectionHeader %}
+        {% include "src/site/paragraphs/q_a.drupal.liquid" entity = question.entity sectionHeader = sectionHeader %}
+      {% endfor %}
+  {% endif %}
+</div>

@@ -30,7 +30,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .click('.vaos-appts__cancel-btn')
-    .waitForElementVisible('#cancelAppt', Timeouts.normal)
+    .waitForElementVisible('#cancelAppt', Timeouts.slow)
     .axeCheck('.main')
     .click('#cancelAppt .usa-button')
     .waitForElementVisible('.usa-alert-success', Timeouts.normal)

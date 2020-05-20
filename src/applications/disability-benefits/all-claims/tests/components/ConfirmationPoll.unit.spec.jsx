@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
-} from '../../../../../platform/testing/unit/helpers';
+} from 'platform/testing/unit/helpers';
 
 import {
   ConfirmationPoll,

@@ -2,8 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
+import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+import { EBEN_526_PATH, BDD_INFO_URL } from '../../constants';
 import { activeServicePeriods } from '../utils';
 
 export default ({ formData }) => {
@@ -18,17 +18,12 @@ export default ({ formData }) => {
   let content;
   const eBenLink = (
     <div style={{ marginBottom: '1em' }}>
-      <a
+      <EbenefitsLink
+        path={EBEN_526_PATH}
         className="usa-button-primary va-button-primary"
-        href={EBEN_526_URL}
-        onClick={() =>
-          recordEvent({
-            event: 'nav-ebenefits-click',
-          })
-        }
       >
         Go to eBenefits
-      </a>
+      </EbenefitsLink>
     </div>
   );
   const learnMoreLink = (

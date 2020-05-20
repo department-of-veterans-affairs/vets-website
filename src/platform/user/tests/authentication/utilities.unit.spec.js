@@ -1,4 +1,7 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as forceAuth from 'platform/utilities/sso/forceAuth';
 
 import {
   login,
@@ -6,6 +9,8 @@ import {
   verify,
   logout,
   signup,
+  autoLogin,
+  autoLogout,
 } from '../../authentication/utilities';
 
 let oldSessionStorage;
@@ -58,6 +63,31 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
+  it('should redirect for login v1 with application', () => {
+    login('idme', 'v1', 'my-app');
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?application=my-app',
+    );
+  });
+
+  it('should redirect for login v1 with force auth', () => {
+    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
+    login('idme', 'v1');
+    stub.restore();
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?force=true',
+    );
+  });
+
+  it('should redirect for login v1 with application and force auth', () => {
+    const stub = sinon.stub(forceAuth, 'getForceAuth').callsFake(() => true);
+    login('idme', 'v1', 'my-app');
+    stub.restore();
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?application=my-app&force=true',
+    );
+  });
+
   it('should redirect for logout', () => {
     logout();
     expect(global.window.location).to.include('/sessions/slo/new');
@@ -86,5 +116,15 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
+  });
+
+  it.skip('should redirect for SSO auto-login', () => {
+    autoLogin();
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it.skip('should redirect for SSO auto-logout', () => {
+    autoLogout();
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 });

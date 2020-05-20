@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import { EligibilityForm } from '../../components/search/EligibilityForm';
 import reducer from '../../reducers';
 

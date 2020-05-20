@@ -1,34 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { APPOINTMENT_TYPES } from '../../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  APPOINTMENT_STATUS,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 import ConfirmedAppointmentListItem from '../../components/ConfirmedAppointmentListItem';
 
 describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   const appointment = {
-    appointmentType: 'Testing',
-    startDate: '2019-12-11T16:00:00Z',
+    status: APPOINTMENT_STATUS.booked,
+    appointmentDate: moment('2019-12-11T16:00:00Z'),
     facilityId: '983',
     clinicId: '123',
-    vvsAppointments: [],
-    vdsAppointments: [
-      {
-        appointmentLength: '60',
-        appointmentTime: '2019-12-11T16:00:00Z',
-        clinic: {
-          name: 'C&P BEV AUDIO FTC1',
-          askForCheckIn: false,
-          facilityCode: '983',
-        },
-        patientId: '7216691',
-        type: 'REGULAR',
-        currentStatus: 'NO ACTION TAKEN/TODAY',
-        bookingNote: 'Booking note',
-      },
-    ],
+    duration: 60,
+    clinicName: 'C&P BEV AUDIO FTC1',
+    instructions: 'Follow-up/Routine: Instructions',
   };
   const facility = {
     address: {
@@ -51,7 +42,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   let tree;
 
   beforeEach(() => {
-    tree = shallow(
+    tree = mount(
       <ConfirmedAppointmentListItem
         showCancelButton
         cancelAppointment={cancelAppointment}
@@ -84,20 +75,16 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   });
 
   it('should display clinic name', () => {
-    expect(
-      tree
-        .find('dt')
-        .first()
-        .text(),
-    ).to.contain('C&P BEV AUDIO FTC1');
+    expect(tree.text()).to.contain('C&P BEV AUDIO FTC1');
   });
 
   it('should show facility address', () => {
     expect(tree.find('FacilityAddress').exists()).to.be.true;
   });
 
-  it('should not show booking note', () => {
-    expect(tree.text()).not.to.contain('Booking note');
+  it('should show instructions', () => {
+    expect(tree.text()).to.contain('Follow-up/Routine');
+    expect(tree.text()).to.contain('Instructions');
   });
 
   it('should show cancel link', () => {
@@ -115,10 +102,14 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
 
 describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () => {
   const appointment = {
-    appointmentRequestId: 'guid',
-    appointmentTime: '05/22/2019 10:00:00',
+    id: 'guid',
+    appointmentType: APPOINTMENT_TYPES.ccAppointment,
+    isCommunityCare: true,
+    status: APPOINTMENT_STATUS.booked,
+    appointmentDate: moment('05/22/2019 10:00:00', 'MM/DD/YYYY HH:mm:ss'),
     providerPractice: 'My Clinic',
     timeZone: 'UTC',
+    instructions: 'Instruction text',
     address: {
       street: '123 second st',
       city: 'Northampton',
@@ -127,7 +118,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
     },
   };
 
-  const tree = shallow(
+  const tree = mount(
     <ConfirmedAppointmentListItem appointment={appointment} />,
   );
 
@@ -150,45 +141,35 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   });
 
   it('should display clinic name', () => {
-    expect(tree.find('dt').text()).to.contain('My Clinic');
+    expect(tree.text()).to.contain('My Clinic');
   });
 
   it('should display clinic address', () => {
-    expect(tree.find('dd').text()).to.contain(
-      '123 second stNorthampton, MA 22222',
-    );
+    expect(tree.text()).to.contain('123 second stNorthampton, MA 22222');
+  });
+
+  it('should display instructions', () => {
+    expect(tree.text()).to.contain('Instruction text');
   });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
-  const apptTime = moment()
-    .add(20, 'minutes')
-    .format();
+  const apptTime = moment().add(20, 'minutes');
 
   const url =
     'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#';
   const appointment = {
-    startDate: apptTime,
+    appointmentType: APPOINTMENT_TYPES.vaAppointment,
+    videoType: VIDEO_TYPES.videoConnect,
+    appointmentDate: apptTime,
     facilityId: '984',
     clinicId: '456',
-    vvsAppointments: [
-      {
-        bookingNotes: 'My reason isn’t listed: Booking note',
-        patients: {
-          patient: [
-            {
-              virtualMeetingRoom: {
-                url,
-              },
-            },
-          ],
-        },
-      },
-    ],
-    vdsAppointments: [],
+    videoLink: url,
+    status: APPOINTMENT_STATUS.booked,
+    instructions: 'My reason isn’t listed: Booking note',
   };
 
-  const tree = shallow(
+  const tree = mount(
     <ConfirmedAppointmentListItem appointment={appointment} />,
   );
 
@@ -196,34 +177,19 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     expect(tree.find('VideoVisitSection').length).to.equal(1);
   });
 
-  it('should show booking note', () => {
-    expect(tree.text()).to.contain('Booking note');
-    expect(tree.text()).to.contain('My reason isn’t listed');
+  it('should not show booking note', () => {
+    expect(tree.text()).not.to.contain('Booking note');
+    expect(tree.text()).not.to.contain('My reason isn’t listed');
   });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
   const appointment = {
-    appointmentType: 'Testing',
-    startDate: '2019-12-11T16:00:00Z',
+    appointmentDate: moment('2019-12-11T16:00:00Z'),
+    status: APPOINTMENT_STATUS.cancelled,
     facilityId: '983',
     clinicId: '123',
-    vvsAppointments: [],
-    vdsAppointments: [
-      {
-        appointmentLength: '60',
-        appointmentTime: '2019-12-11T16:00:00Z',
-        clinic: {
-          name: 'C&P BEV AUDIO FTC1',
-          askForCheckIn: false,
-          facilityCode: '983',
-        },
-        patientId: '7216691',
-        type: 'REGULAR',
-        currentStatus: 'NO-SHOW',
-        bookingNote: 'Booking note',
-      },
-    ],
+    clinicName: 'C&P BEV AUDIO FTC1',
   };
   const facility = {
     address: {
@@ -245,7 +211,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
   let tree;
 
   beforeEach(() => {
-    tree = shallow(
+    tree = mount(
       <ConfirmedAppointmentListItem
         appointment={appointment}
         type={APPOINTMENT_TYPES.vaAppointment}
@@ -287,10 +253,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
 
   it('should show facility address', () => {
     expect(tree.find('FacilityAddress').exists()).to.be.true;
-  });
-
-  it('should not show booking note', () => {
-    expect(tree.text()).not.to.contain('Booking note');
   });
 
   it('contain class that breaks long comments', () => {

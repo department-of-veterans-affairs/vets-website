@@ -9,7 +9,7 @@ import DowntimeMessage from '../save-in-progress/DowntimeMessage';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
-import { getFormAuthorizationState } from '../../../applications/personalization/dashboard/helpers';
+import { getFormAuthorizationState } from 'applications/personalization/dashboard/helpers';
 
 class AuthorizationComponent extends React.Component {
   componentDidMount() {

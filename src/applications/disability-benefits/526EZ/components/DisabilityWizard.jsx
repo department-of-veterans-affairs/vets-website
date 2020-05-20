@@ -7,12 +7,12 @@ import classNames from 'classnames';
 import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation-react/ErrorableCheckboxGroup';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 import {
   isLoggedIn as isLoggedInSelector,
   isLOA3,
-} from '../../../../platform/user/selectors';
+} from 'platform/user/selectors';
 
 import ButtonContainer from './ButtonContainer';
 import {

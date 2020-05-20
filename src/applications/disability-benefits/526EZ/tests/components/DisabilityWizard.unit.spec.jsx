@@ -1,11 +1,15 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
+import createCommonStore from 'platform/startup/store';
 
 import { DisabilityWizard } from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
 
 const { chooseUpdate, applyGuidance } = layouts;
+
+const defaultStore = createCommonStore();
 
 const defaultProps = {
   isLoggedIn: false,
@@ -59,9 +63,17 @@ describe('<DisabilityWizard>', () => {
     tree.unmount();
   });
   it('should show ebenefits guidance page for first claims', () => {
-    const tree = mount(<DisabilityWizard {...defaultProps} />);
+    const tree = mount(
+      <Provider store={defaultStore}>
+        <DisabilityWizard {...defaultProps} />
+      </Provider>,
+    );
 
-    tree.setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
+    tree
+      .find(DisabilityWizard)
+      .instance()
+      .setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
+    tree.update();
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal(
       'To file your first disability claim, please go to our eBenefits website.',
@@ -69,9 +81,17 @@ describe('<DisabilityWizard>', () => {
     tree.unmount();
   });
   it('should show ebenefits guidance page for new claims', () => {
-    const tree = mount(<DisabilityWizard {...defaultProps} />);
+    const tree = mount(
+      <Provider store={defaultStore}>
+        <DisabilityWizard {...defaultProps} />
+      </Provider>,
+    );
 
-    tree.setState({ disabilityStatus: 'add', currentLayout: applyGuidance });
+    tree
+      .find(DisabilityWizard)
+      .instance()
+      .setState({ disabilityStatus: 'add', currentLayout: applyGuidance });
+    tree.update();
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal(
       'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.',
@@ -79,12 +99,20 @@ describe('<DisabilityWizard>', () => {
     tree.unmount();
   });
   it('should show ebenefits guidance page for new and increase claims', () => {
-    const tree = mount(<DisabilityWizard {...defaultProps} />);
+    const tree = mount(
+      <Provider store={defaultStore}>
+        <DisabilityWizard {...defaultProps} />
+      </Provider>,
+    );
 
-    tree.setState({
-      disabilityStatus: 'addAndIncrease',
-      currentLayout: applyGuidance,
-    });
+    tree
+      .find(DisabilityWizard)
+      .instance()
+      .setState({
+        disabilityStatus: 'addAndIncrease',
+        currentLayout: applyGuidance,
+      });
+    tree.update();
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal(
       'Since you have a new condition and a condition that has gotten worse, you’ll need to file your disability claim on eBenefits.',

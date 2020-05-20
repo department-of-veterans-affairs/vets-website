@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 

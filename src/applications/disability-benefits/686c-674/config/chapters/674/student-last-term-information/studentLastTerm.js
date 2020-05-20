@@ -1,43 +1,27 @@
+import React from 'react';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
-
-import { StudentNameHeader } from '../helpers';
-
-const { date, genericTextInput } = genericSchemas;
+import { report674 } from '../../../utilities';
 
 const addressSchema = buildAddressSchema(false);
 
-export const schema = {
-  type: 'object',
-  properties: {
-    studentDidAttendSchoolLastTerm: {
-      type: 'boolean',
-    },
-    lastTermSchoolInformation: {
-      type: 'object',
-      properties: {
-        schoolName: genericTextInput,
-        schoolAddress: addressSchema,
-        dateTermBegan: date,
-        dateTermEnded: date,
-        classesPerWeek: {
-          type: 'number',
-        },
-        hoursPerWeek: {
-          type: 'number',
-        },
-      },
-    },
-  },
-};
+const lastTermSchema = cloneDeep(report674.properties.studentLastTerm);
+
+lastTermSchema.properties.lastTermSchoolInformation.properties.address = addressSchema;
+
+export const schema = lastTermSchema;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
   studentDidAttendSchoolLastTerm: {
-    'ui:title': 'Did student attend school last term?',
+    'ui:title': (
+      <legend className="vads-u-font-size--base vads-u-font-weight--normal">
+        Did student attend school last term? <strong>Note:</strong> This
+        includes any kind of school or training, including high school.
+      </legend>
+    ),
     'ui:widget': 'yesNo',
     'ui:required': formData =>
       isChapterFieldRequired(formData, TASK_KEYS.report674),
@@ -48,11 +32,11 @@ export const uiSchema = {
       expandUnderCondition: true,
     },
     'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-    schoolName: {
+    name: {
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Last term school’s name',
     },
-    schoolAddress: {
+    address: {
       'ui:title': 'Last term school’s address',
       'ui:options': {
         updateSchema: (formData, formSchema) =>
@@ -62,11 +46,11 @@ export const uiSchema = {
       },
       ...addressUISchema(
         false,
-        'lastTermSchoolInformation.schoolAddress',
+        'lastTermSchoolInformation.address',
         formData => formData.studentDidAttendSchoolLastTerm,
       ),
     },
-    dateTermBegan: {
+    termBegin: {
       ...currentOrPastDateUI('Date term began'),
       ...{
         'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
@@ -81,11 +65,17 @@ export const uiSchema = {
     classesPerWeek: {
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Number of classes a week',
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+      },
       'ui:errorMessages': { required: 'Please enter a number' },
     },
     hoursPerWeek: {
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       'ui:title': 'Hours a week',
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+      },
       'ui:errorMessages': { required: 'Please enter a number' },
     },
   },

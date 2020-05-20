@@ -40,7 +40,7 @@ export class PersonalizationDropdown extends React.Component {
           </a>
         </li>
         <li>
-          <a href="/profile" onClick={recordProfileEvent}>
+          <a href={'/profile'} onClick={recordProfileEvent}>
             Profile
           </a>
         </li>

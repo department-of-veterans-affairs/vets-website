@@ -1,14 +1,27 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
+import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { changeDropdown } from '../helpers/index.js';
-import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { Provider } from 'react-redux';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import createCommonStore from 'platform/startup/store';
+import VeteranInformationComponent from '../../config/chapters/veteran-information/veteran-information/VeteranInformationComponent.js';
+import formConfig from '../../config/form.js';
 
-import formConfig from '../../config/form';
+const defaultStore = createCommonStore();
+
+describe('<VeteranInformationComponent />', () => {
+  it('Should Render', () => {
+    const wrapper = mount(
+      <Provider store={defaultStore}>
+        <VeteranInformationComponent />
+      </Provider>,
+    );
+
+    expect(wrapper.find('div.usa-alert-info')).to.exist;
+    wrapper.unmount();
+  });
+});
 
 describe('686 veteran information', () => {
   const {
@@ -24,114 +37,31 @@ describe('686 veteran information', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-      />,
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={formData}
+        />
+      </Provider>,
     );
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('.usa-alert-info').length).to.equal(1);
     form.unmount();
   });
 
-  it('should not progress without the required fields', () => {
+  it('should submit', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should progress with the required fields filled', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
-    );
-    fillData(form, 'input#root_first', 'Bill');
-    fillData(form, 'input#root_last', 'Bob');
-    fillData(form, 'input#root_ssn', '555-55-5551');
-    changeDropdown(form, 'select#root_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_birthDateDay', 1);
-    fillData(form, 'input#root_birthDateYear', '2002');
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-});
-
-describe('686 veteran Address', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.veteranInformation.pages.veteranAddress;
-  it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-      />,
-    );
-    expect(form.find('input').length).to.equal(8);
-    expect(form.find('select').length).to.equal(2);
-    form.unmount();
-  });
-
-  it('should not progress without the required fields', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should progress with the required fields filled', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    changeDropdown(
-      form,
-      'select#root_veteranAddress_countryName',
-      'United States',
-    );
-    fillData(form, 'input#root_veteranAddress_addressLine1', '123 Front St');
-    fillData(form, 'input#root_veteranAddress_city', 'Someplace');
-    changeDropdown(form, 'select#root_veteranAddress_stateCode', 'AL');
-    fillData(form, 'input#root_veteranAddress_zipCode', '12345');
-    fillData(form, 'input#root_phoneNumber', '2225555551');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

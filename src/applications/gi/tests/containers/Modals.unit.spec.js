@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import { Modals } from '../../containers/Modals';
 import reducer from '../../reducers';
 

@@ -1,4 +1,4 @@
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {

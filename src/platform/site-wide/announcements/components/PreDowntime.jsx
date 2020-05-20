@@ -60,7 +60,7 @@ class PreDowntime extends Component {
     const { dismiss } = this.props;
 
     // Derive the message.
-    const message = `Scheduled maintenance starts in ${minutesRemaining} minutes. If you’re filling out a form, sign in or create an account to save your work.`;
+    const message = `Scheduled maintenance on DS Logon will start in ${minutesRemaining} minutes. You can still use ID.me or MyHealtheVet to sign in or use online tools.`;
 
     return (
       <PromoBanner

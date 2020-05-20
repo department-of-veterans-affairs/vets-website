@@ -8,10 +8,7 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import {
-  getEligibilityChecks,
-  getEligibleFacilities,
-} from '../utils/eligibility';
+import { getEligibilityChecks } from '../utils/eligibility';
 
 import {
   FORM_DATA_UPDATED,
@@ -67,6 +64,10 @@ import {
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
+import {
+  getOrganizationBySiteId,
+  getIdOfRootOrganization,
+} from '../services/organization';
 
 const initialState = {
   pages: {},
@@ -94,12 +95,10 @@ function getFacilities(state, typeOfCareId, vaParent) {
   return state.facilities[`${typeOfCareId}_${vaParent}`] || [];
 }
 
-function getSystemFromFacility(facilities, facilityId) {
-  const facilityInfo = facilities.find(
-    facility => facility.institutionCode === facilityId,
-  );
-
-  return facilityInfo?.rootStationCode;
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id.replace('var', '');
 }
 
 function setupFormData(data, schema, uiSchema) {
@@ -115,22 +114,20 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
   let newSchema = schema;
   let newData = data;
 
-  const availableFacilities = getEligibleFacilities(facilities);
-
   if (
-    availableFacilities.length > 1 ||
-    (availableFacilities.length === 1 && parents.length > 1)
+    facilities.length > 1 ||
+    (facilities.length === 1 && parents.length > 1)
   ) {
     newSchema = unset('properties.vaFacilityMessage', newSchema);
     newSchema = set(
       'properties.vaFacility',
       {
         type: 'string',
-        enum: availableFacilities.map(facility => facility.institutionCode),
-        enumNames: availableFacilities.map(
+        enum: facilities.map(facility => facility.id),
+        enumNames: facilities.map(
           facility =>
-            `${facility.authoritativeName} (${facility.city}, ${
-              facility.stateAbbrev
+            `${facility.name} (${facility.address[0].city}, ${
+              facility.address[0].state
             })`,
         ),
       },
@@ -138,12 +135,12 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
     );
   } else if (newData.vaParent) {
     newSchema = unset('properties.vaFacility', newSchema);
-    if (!availableFacilities.length) {
+    if (!facilities.length) {
       newSchema.properties.vaFacilityMessage = { type: 'string' };
     }
     newData = {
       ...newData,
-      vaFacility: availableFacilities[0]?.institutionCode,
+      vaFacility: facilities[0]?.id,
     };
   }
 
@@ -170,17 +167,19 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_DATA_UPDATED: {
       let newPages = state.pages;
+      let actionData = action.data;
       if (
-        action.data.typeOfCareId !== state.data.typeOfCareId &&
-        state.pages.vaFacility
+        actionData.typeOfCareId !== state.data.typeOfCareId &&
+        (state.pages.vaFacility || state.data.vaFacility)
       ) {
         newPages = unset('vaFacility', newPages);
+        actionData = unset('vaFacility', actionData);
       }
 
       const { data, schema } = updateSchemaAndData(
         state.pages[action.page],
         action.uiSchema,
-        action.data,
+        actionData,
       );
 
       return {
@@ -287,19 +286,19 @@ export default function formReducer(state = initialState, action) {
       if (parentFacilities.length > 1) {
         newSchema = set(
           'properties.vaParent.enum',
-          parentFacilities.map(sys => sys.institutionCode),
+          parentFacilities.map(sys => sys.id),
           action.schema,
         );
         newSchema = set(
           'properties.vaParent.enumNames',
-          parentFacilities.map(sys => sys.authoritativeName),
+          parentFacilities.map(sys => sys.name),
           newSchema,
         );
       } else {
         newSchema = unset('properties.vaParent', newSchema);
         newData = {
           ...newData,
-          vaParent: parentFacilities[0]?.institutionCode,
+          vaParent: parentFacilities[0]?.id,
         };
       }
 
@@ -322,10 +321,10 @@ export default function formReducer(state = initialState, action) {
 
       let eligibility = state.eligibility;
       let clinics = state.clinics;
+      let pastAppointments;
+
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
-          getSystemFromFacility(facilities, newData.vaFacility),
-          action.typeOfCareId,
           action.eligibilityData,
         );
 
@@ -340,6 +339,8 @@ export default function formReducer(state = initialState, action) {
             [`${data.vaFacility}_${action.typeOfCareId}`]: action
               .eligibilityData.clinics,
           };
+
+          pastAppointments = action.eligibilityData.pastAppointments;
         }
       }
 
@@ -358,6 +359,7 @@ export default function formReducer(state = initialState, action) {
         },
         eligibility,
         clinics,
+        pastAppointments,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_FAILED:
@@ -463,11 +465,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
-      const eligibility = getEligibilityChecks(
-        getSystemFromFacility(state.parentFacilities, state.data.vaParent),
-        action.typeOfCareId,
-        action.eligibilityData,
-      );
+      const eligibility = getEligibilityChecks(action.eligibilityData);
       let clinics = state.clinics;
 
       if (!action.eligibilityData.clinics?.directFailed) {
@@ -486,6 +484,7 @@ export default function formReducer(state = initialState, action) {
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
+        pastAppointments: action.eligibilityData.pastAppointments,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
@@ -497,7 +496,6 @@ export default function formReducer(state = initialState, action) {
     case START_DIRECT_SCHEDULE_FLOW:
       return {
         ...state,
-        pastAppointments: action.appointments,
         data: {
           ...state.data,
           calendarData: {},
@@ -635,7 +633,7 @@ export default function formReducer(state = initialState, action) {
 
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
-        const systemId = getSystemFromFacility(
+        const rootOrgId = getIdOfRootOrganization(
           state.parentFacilities,
           state.data.vaParent,
         );
@@ -643,7 +641,8 @@ export default function formReducer(state = initialState, action) {
           const apptTime = appt.startDate;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
-            appt.facilityId === systemId &&
+            // Remove parse function when converting the past appointment call to FHIR service
+            appt.facilityId === parseFakeFHIRId(rootOrgId) &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
@@ -719,10 +718,15 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
       let initialSchema = action.schema;
+      const parentFacilities =
+        action.parentFacilities || state.parentFacilities;
       if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
-          communityCareSystemId: state.ccEnabledSystems[0],
+          communityCareSystemId: getOrganizationBySiteId(
+            parentFacilities,
+            state.ccEnabledSystems[0],
+          ).id,
         };
         initialSchema = unset(
           'properties.communityCareSystemId',
@@ -730,15 +734,15 @@ export default function formReducer(state = initialState, action) {
         );
       } else {
         const systems = action.parentFacilities.filter(
-          parent => parent.institutionCode === parent.rootStationCode,
+          parent => !parent.partOf,
         );
         initialSchema = set(
           'properties.communityCareSystemId.enum',
-          systems.map(system => system.institutionCode),
+          systems.map(system => system.id),
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.city}, ${system.stateAbbrev}`,
+          system => `${system.address[0].city}, ${system.address[0].state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }
@@ -751,7 +755,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         parentFacilitiesStatus: FETCH_STATUS.succeeded,
-        parentFacilities: action.parentFacilities,
+        parentFacilities,
         data,
         pages: {
           ...state.pages,

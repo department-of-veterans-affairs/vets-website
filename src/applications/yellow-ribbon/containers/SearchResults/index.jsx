@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
@@ -92,10 +93,7 @@ export class SearchResults extends Component {
     const endNumber = page * perPage;
 
     // Derive the start number.
-    const startNumber = endNumber - (perPage - 1);
-
-    // Show the start number.
-    return startNumber;
+    return endNumber - (perPage - 1);
   };
 
   render() {
@@ -138,7 +136,7 @@ export class SearchResults extends Component {
     if (!results.length) {
       return (
         <h2
-          className="va-introtext vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
+          className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
         >
           No results found.
@@ -165,7 +163,10 @@ export class SearchResults extends Component {
         </h2>
 
         {/* Table of Results */}
-        <ul className="search-results vads-u-margin-top--2 vads-u-padding--0">
+        <ul
+          className="search-results vads-u-margin-top--2 vads-u-padding--0"
+          data-e2e-id="search-results"
+        >
           {map(results, school => (
             <SearchResult key={school?.id} school={school} />
           ))}

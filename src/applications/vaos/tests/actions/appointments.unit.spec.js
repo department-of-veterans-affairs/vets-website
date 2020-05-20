@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment';
 
 import {
   resetFetch,
@@ -33,6 +34,7 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
 
+import { APPOINTMENT_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../actions/sitewide';
 
 import facilityData from '../../api/facility_data.json';
@@ -103,7 +105,7 @@ describe('VAOS actions: appointments', () => {
     };
     setFetchJSONResponse(global.fetch, data);
     setFetchJSONResponse(global.fetch.onCall(4), facilityData);
-    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31');
+    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
     const dispatchSpy = sinon.spy();
     const getState = () => ({
       appointments: {
@@ -113,6 +115,7 @@ describe('VAOS actions: appointments', () => {
     });
     await thunk(dispatchSpy, getState);
     expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
+    expect(dispatchSpy.firstCall.args[0].selectedIndex).to.eql(1);
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_PAST_APPOINTMENTS_SUCCEEDED,
     );
@@ -290,12 +293,20 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
+            apiData: {
+              vdsAppointments: [
+                {
+                  clinic: {
+                    name: 'Clinic name',
+                  },
+                },
+              ],
+            },
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+            appointmentDate: moment('2019-01-02'),
+            status: APPOINTMENT_STATUS.booked,
             facilityId: '983',
-            vdsAppointments: [
-              {
-                clinic: {},
-              },
-            ],
+            clinicId: '1234',
           },
         },
       };
@@ -309,6 +320,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData: state.appointments.appointmentToCancel.apiData,
       });
 
       expect(global.window.dataLayer[0]).to.deep.equal({
@@ -333,11 +345,17 @@ describe('VAOS actions: appointments', () => {
         appointments: {
           appointmentToCancel: {
             facilityId: '983',
-            vdsAppointments: [
-              {
-                clinic: {},
-              },
-            ],
+            clinicId: '455',
+            status: APPOINTMENT_STATUS.booked,
+            appointmentDate: moment('2020-01-01'),
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+            apiData: {
+              vdsAppointments: [
+                {
+                  clinic: {},
+                },
+              ],
+            },
           },
         },
       };
@@ -351,6 +369,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData: state.appointments.appointmentToCancel.apiData,
       });
 
       expect(
@@ -359,11 +378,16 @@ describe('VAOS actions: appointments', () => {
     });
 
     it('should cancel request', async () => {
-      setFetchJSONResponse(global.fetch, {});
+      setFetchJSONResponse(global.fetch, {
+        data: { id: 'test', attributes: {} },
+      });
       const state = {
         appointments: {
           appointmentToCancel: {
-            status: 'Submitted',
+            facilityId: '983',
+            status: APPOINTMENT_STATUS.booked,
+            appointmentType: APPOINTMENT_TYPES.request,
+            apiData: {},
           },
         },
       };
@@ -377,20 +401,29 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData: {
+          id: 'test',
+        },
       });
     });
 
     it('should send fail action if cancel fails', async () => {
-      setFetchJSONResponse(global.fetch, { data: [] });
+      setFetchJSONFailure(global.fetch, { errors: [] });
       const state = {
         appointments: {
           appointmentToCancel: {
+            apiData: {
+              vdsAppointments: [
+                {
+                  clinic: {
+                    name: 'Testing',
+                  },
+                },
+              ],
+            },
             facilityId: '983',
-            vdsAppointments: [
-              {
-                clinic: {},
-              },
-            ],
+            appointmentDate: moment('2019-01-01'),
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
         },
       };

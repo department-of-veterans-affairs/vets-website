@@ -17,30 +17,6 @@ import {
   PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED,
 } from '../actions/paymentInformation';
 
-const editModalFormsInitialState = {
-  financialInstitutionRoutingNumber: {
-    errorMessage: undefined,
-    field: {
-      value: '',
-      dirty: false,
-    },
-  },
-  accountNumber: {
-    errorMessage: undefined,
-    field: {
-      value: '',
-      dirty: false,
-    },
-  },
-  accountType: {
-    errorMessage: undefined,
-    value: {
-      value: '',
-      dirty: false,
-    },
-  },
-};
-
 const initialState = {
   hero: null,
   personalInformation: null,
@@ -50,7 +26,6 @@ const initialState = {
     isEditing: false,
     isSaving: false,
     responseError: null,
-    editModalForm: editModalFormsInitialState,
   },
 };
 
@@ -73,19 +48,13 @@ function vaProfile(state = initialState, action) {
     }
 
     case PAYMENT_INFORMATION_EDIT_MODAL_TOGGLED: {
-      let newState = set(
+      const newState = set(
         'paymentInformationUiState.isEditing',
         !state.paymentInformationUiState.isEditing,
         state,
       );
 
-      newState = set('paymentInformationUiState.responseError', null, newState);
-
-      return set(
-        'paymentInformationUiState.editModalForm',
-        editModalFormsInitialState,
-        newState,
-      );
+      return set('paymentInformationUiState.responseError', null, newState);
     }
 
     case PAYMENT_INFORMATION_SAVE_STARTED:

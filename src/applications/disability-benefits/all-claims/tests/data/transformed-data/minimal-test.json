@@ -17,21 +17,13 @@
       {
         "name": "Diabetes mellitus0",
         "ratedDisabilityId": "0",
-        "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
         "disabilityActionType": "INCREASE"
       },
       {
         "name": "Diabetes mellitus1",
         "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
         "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
         "disabilityActionType": "NONE"
       }
     ],

@@ -20,7 +20,7 @@
     }
 {% endcomment %}
 
-<div class="vads-u-margin-y--1p5">
+<div data-template="paragraphs/downloadable_file" data-entity-id="{{ entity.entityId }}" class="vads-u-margin-y--1p5">
     {% if entity.fieldMedia.entity.entityBundle == 'image' %}
 
         {% assign url = entity.fieldMedia.entity.image.url %}

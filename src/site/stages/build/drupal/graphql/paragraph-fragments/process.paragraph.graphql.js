@@ -4,6 +4,7 @@
  */
 module.exports = `
   fragment process on ParagraphProcess {
+      entityId
       fieldSteps {
         processed
       }

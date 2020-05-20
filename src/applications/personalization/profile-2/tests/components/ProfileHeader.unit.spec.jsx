@@ -19,18 +19,18 @@ const fakeStore = {
           serviceHistory: [
             {
               branchOfService: 'Army',
-              beginDate: '2004-2-1',
-              endDate: '2007-2-1',
+              beginDate: '2004-02-01',
+              endDate: '2007-02-01',
             },
             {
               branchOfService: 'Navy',
-              beginDate: '2007-2-1',
-              endDate: '2009-2-1',
+              beginDate: '2007-02-01',
+              endDate: '2009-02-01',
             },
             {
               branchOfService: 'Coast Guard',
-              beginDate: '2009-2-1',
-              endDate: '2019-2-1',
+              beginDate: '2009-02-01',
+              endDate: '2019-02-01',
             },
           ],
         },
@@ -51,7 +51,7 @@ describe('<ProfileHeader>', () => {
     const component = mount(<ProfileHeader store={fakeStore} />);
     expect(
       component
-        .find('h2')
+        .find('dd')
         .first()
         .text(),
     ).to.contain('Johnnie Leonard Weaver');
@@ -62,8 +62,8 @@ describe('<ProfileHeader>', () => {
     const component = mount(<ProfileHeader store={fakeStore} />);
     expect(
       component
-        .find('h3')
-        .first()
+        .find('dd')
+        .at(1)
         .text(),
     ).to.contain('United States Coast Guard');
     component.unmount();

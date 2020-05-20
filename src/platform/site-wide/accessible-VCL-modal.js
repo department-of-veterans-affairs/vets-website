@@ -22,17 +22,13 @@ export default function addFocusBehaviorToCrisisLineModal() {
   );
 
   function captureFocus(e) {
-    if (e.target === closeControl) {
-      if (isReverseTab(e)) {
-        e.preventDefault();
-        focusElement(lastTabbableElement);
-      }
+    if (e.target === closeControl && isReverseTab(e)) {
+      e.preventDefault();
+      focusElement(lastTabbableElement);
     }
-    if (e.target === lastTabbableElement) {
-      if (isTab(e)) {
-        e.preventDefault();
-        focusElement(closeControl);
-      }
+    if (e.target === lastTabbableElement && isTab(e)) {
+      e.preventDefault();
+      focusElement(closeControl);
     }
   }
 

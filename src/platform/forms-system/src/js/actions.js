@@ -203,6 +203,8 @@ export function uploadFile(
   onError,
   trackingPrefix,
 ) {
+  // This item should have been set in any previous API calls
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       onChange({
@@ -298,6 +300,8 @@ export function uploadFile(
     });
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
+    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    req.withCredentials = true;
     req.send(payload);
 
     return req;

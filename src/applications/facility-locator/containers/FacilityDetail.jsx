@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchVAFacility } from '../actions';
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results/LocationAddress';
 import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
@@ -13,9 +14,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
+import { OperatingStatus, FacilityType } from '../constants';
 
 class FacilityDetail extends Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
@@ -41,13 +43,74 @@ class FacilityDetail extends Component {
     document.title = this.__previousDocTitle;
   }
 
+  visitText(facilityType, website) {
+    if (facilityType === FacilityType.VA_CEMETARY) {
+      return (
+        <p>
+          For more information about the cemetery including interment, visit our{' '}
+          <a href={website}>cemetery website</a>.
+        </p>
+      );
+    }
+    return (
+      <p>
+        Visit the <a href={website}>website</a> to learn more about hours and
+        services.
+      </p>
+    );
+  }
+
+  showOperationStatus(operatingStatus, website, facilityType) {
+    if (!operatingStatus || operatingStatus.code === 'NORMAL') {
+      return null;
+    }
+    let operationStatusTitle;
+    let alertClass;
+    if (operatingStatus.code === OperatingStatus.NOTICE) {
+      operationStatusTitle = 'Facility notice';
+      alertClass = 'info';
+    }
+    if (operatingStatus.code === OperatingStatus.LIMITED) {
+      operationStatusTitle = 'Limited services and hours';
+      alertClass = 'warning';
+    }
+    if (operatingStatus.code === OperatingStatus.CLOSED) {
+      operationStatusTitle = 'Facility Closed';
+      alertClass = 'error';
+    }
+    return (
+      <AlertBox
+        level={2}
+        headline={`${operationStatusTitle}`}
+        content={
+          <div>
+            {operatingStatus.additionalInfo && (
+              <p>{operatingStatus.additionalInfo} </p>
+            )}
+            {website &&
+              website !== 'NULL' &&
+              this.visitText(facilityType, website)}
+          </div>
+        }
+        status={`${alertClass}`}
+      />
+    );
+  }
+
   renderFacilityInfo() {
     const { facility } = this.props;
+    const {
+      name,
+      website,
+      phone,
+      operatingStatus,
+      facilityType,
+    } = facility.attributes;
 
-    const { name, website, phone } = facility.attributes;
     return (
       <div>
         <h1>{name}</h1>
+        {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
           <FacilityTypeDescription location={facility} />
           <LocationAddress location={facility} />

@@ -1,0 +1,11 @@
+{
+  "name": "eslint-plugin-va",
+  "version": "1.0.1",
+  "main": "index.js",
+  "peerDependency": {
+    "eslint": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

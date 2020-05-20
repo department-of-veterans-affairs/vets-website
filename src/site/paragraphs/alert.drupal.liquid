@@ -32,7 +32,7 @@
     {% assign alertBlock = entity.fieldAlertBlockReference.entity %}
     {% include "src/site/blocks/alert.drupal.liquid" with alert = alertBlock %}
 {% else %}
-    <div class="usa-alert usa-alert-{{ alertType }}" role="alert">
+    <div date-template="paragraphs/alert" data-entity-id="{{ entity.entityId }}" class="usa-alert usa-alert-{{ alertType }}" role="alert">
         <div class="usa-alert-body">
             <h3 class="usa-alert-heading">
                 {{ entity.fieldAlertHeading }}

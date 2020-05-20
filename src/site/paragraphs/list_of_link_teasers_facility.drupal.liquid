@@ -6,7 +6,8 @@
     }
 {% endcomment %}
 {% if paragraph != empty %}
-<section class="feature vads-u-padding-x--2 small-screen:vads-u-padding-x--4 vads-u-padding-top--3 vads-u-padding-bottom--2">
+<section data-template="paragraphs/list_of_link_teasers_facility" data-entity-id="{{ paragraph.entityId }}"
+  class="feature vads-u-padding-x--2 small-screen:vads-u-padding-x--4 vads-u-padding-top--3 vads-u-padding-bottom--2">
     <h3 class="vads-u-margin-bottom--2">
         {{ paragraph.fieldTitle }}
     </h3>

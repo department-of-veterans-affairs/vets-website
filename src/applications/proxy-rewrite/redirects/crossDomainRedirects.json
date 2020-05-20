@@ -723,10 +723,5 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/fgib/vettec_veteran.asp",
     "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/gibill/fgib/vettectrainingproviders.asp",
-    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
   }
 ]

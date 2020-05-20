@@ -351,7 +351,7 @@ export class SchoolLocations extends React.Component {
     return (
       <div className="vads-u-padding-top--2">
         <i>
-          Showing {viewableRows} out of {totalRows}
+          Showing {viewableRows} of {totalRows} locations
         </i>
       </div>
     );

@@ -2,6 +2,12 @@ const Timeouts = require('./timeouts');
 const Path = require('path');
 const FindRoot = require('find-root');
 
+const BASE_URL = `http://${process.env.WEB_HOST || 'localhost'}:${process.env
+  .WEB_PORT || 3333}`;
+
+const API_URL = `http://${process.env.API_HOST || 'localhost'}:${process.env
+  .API_PORT || 3000}`;
+
 function overrideVetsGovApi(client) {
   client.execute(
     url => {
@@ -94,7 +100,9 @@ function uploadTestFile(client, fileData) {
 function createE2eTest(beginApplication) {
   return {
     'Begin application': client => {
+      client.openUrl(BASE_URL);
       overrideSmoothScrolling(client);
+      disableAnnouncements(client);
       beginApplication(client);
       client.end();
     },
@@ -146,10 +154,8 @@ function expectInputToNotBeSelected(client, field) {
 }
 
 module.exports = {
-  baseUrl: `http://${process.env.WEB_HOST || 'localhost'}:${process.env
-    .WEB_PORT || 3333}`,
-  apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env
-    .API_PORT || 3000}`,
+  baseUrl: BASE_URL,
+  apiUrl: API_URL,
   createE2eTest,
   disableAnnouncements,
   uploadTestFile,

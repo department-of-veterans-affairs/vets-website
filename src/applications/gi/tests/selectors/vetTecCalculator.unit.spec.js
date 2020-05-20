@@ -1,27 +1,13 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
-import { calculatorConstants } from '../gibct-helpers';
-import createCommonStore from '../../../../platform/startup/store';
-import reducer from '../../reducers';
 import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
+import { getDefaultState } from '../helpers';
 
-let defaultState = createCommonStore(reducer).getState();
-
-defaultState.constants = {
-  constants: {},
-  version: calculatorConstants.meta.version,
-  inProgress: false,
-};
-
-calculatorConstants.data.forEach(c => {
-  defaultState.constants.constants[c.attributes.name] = c.attributes.value;
-});
-
-defaultState = {
-  ...defaultState,
+const defaultState = {
+  ...getDefaultState(),
   profile: {
-    ...defaultState.profile,
+    ...getDefaultState().profile,
     attributes: {
       dodBah: 1800,
     },
@@ -35,7 +21,7 @@ defaultState = {
     inProgress: false,
   },
   calculator: {
-    ...defaultState.calculator,
+    ...getDefaultState().calculator,
   },
 };
 
@@ -116,7 +102,7 @@ describe('getCalculatedBenefits', () => {
 
   it('should calculate onlineRate as AVGDODBAH constant', () => {
     expect(getCalculatedBenefits(defaultState).outputs.onlineRate).to.equal(
-      '$800',
+      '$825',
     );
   });
 

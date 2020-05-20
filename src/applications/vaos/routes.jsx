@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import AppointmentsPage from './containers/AppointmentsPage';
+import FutureAppointmentsList from './components/FutureAppointmentsList';
+import PastAppointmentsList from './components/PastAppointmentsList';
 import VAOSApp from './containers/VAOSApp';
 
 const ReasonForAppointmentPage = asyncLoader(() =>
@@ -55,8 +57,11 @@ const ConfirmationPage = asyncLoader(() =>
 
 export default function createRoutesWithStore(store) {
   return (
-    <Route path="/" component={VAOSApp}>
-      <IndexRoute component={AppointmentsPage} />
+    <Route component={VAOSApp}>
+      <Route path="/" component={AppointmentsPage}>
+        <IndexRoute component={FutureAppointmentsList} />
+        <Route component={PastAppointmentsList} path="past" />
+      </Route>
       <Route
         path="new-appointment"
         component={asyncLoader(() =>

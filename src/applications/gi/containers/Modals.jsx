@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '../components/Modal';
+import environment from 'platform/utilities/environment';
+import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -237,46 +239,60 @@ export class Modals extends React.Component {
         </p>
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('yribbon')}
-      >
-        <h3>Yellow Ribbon</h3>
-        <p>
-          The{' '}
-          <a
-            title="Post-9/11 GI Bill"
-            href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Post-9/11 GI Bill
-          </a>{' '}
-          can cover all in-state tuition and fees at public degree granting
-          schools, but may not cover all private degree granting schools and
-          out-of-state tuition. The Yellow Ribbon Program provides additional
-          support in those situations. Institutions voluntarily enter into an
-          agreement with VA to fund uncovered charges. VA matches each dollar of
-          unmet charges the institution agrees to contribute, up to the total
-          cost of the tuition and fees.{' '}
-          <a
-            title="Click here for FAQs about the Yellow Ribbon Program"
-            href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Click here for FAQs about the Yellow Ribbon Program
-          </a>
-        </p>
-        <p>
-          Veterans and Fry Scholarship and Purple Heart recipients are entitled
-          to the maximum benefit rate or their designated transferees can
-          receive this funding. Active-duty service members and their spouses
-          aren’t eligible for this program (child transferees of active-duty
-          service members may be eligible if the service member is qualified at
-          the 100% rate). This information will be updated quarterly.
-        </p>
-      </Modal>
+      {/* prod flag for 8524 */}
+      {environment.isProduction() && (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
+          <h3>Yellow Ribbon</h3>
+          <p>
+            The{' '}
+            <a
+              title="Post-9/11 GI Bill"
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Post-9/11 GI Bill
+            </a>{' '}
+            can cover all in-state tuition and fees at public degree granting
+            schools, but may not cover all private degree granting schools and
+            out-of-state tuition. The Yellow Ribbon Program provides additional
+            support in those situations. Institutions voluntarily enter into an
+            agreement with VA to fund uncovered charges. VA matches each dollar
+            of unmet charges the institution agrees to contribute, up to the
+            total cost of the tuition and fees.{' '}
+            <a
+              title="Click here for FAQs about the Yellow Ribbon Program"
+              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Click here for FAQs about the Yellow Ribbon Program
+            </a>
+          </p>
+          <p>
+            Veterans and Fry Scholarship and Purple Heart recipients are
+            entitled to the maximum benefit rate or their designated transferees
+            can receive this funding. Active-duty service members and their
+            spouses aren’t eligible for this program (child transferees of
+            active-duty service members may be eligible if the service member is
+            qualified at the 100% rate). This information will be updated
+            quarterly.
+          </p>
+        </Modal>
+      )}
+
+      {/* prod flag for 8524 */}
+      {!environment.isProduction() && (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
+          <YellowRibbonModalContent />
+        </Modal>
+      )}
 
       <Modal
         onClose={this.props.hideModal}
@@ -599,6 +615,51 @@ export class Modals extends React.Component {
           beneficiaries.
         </p>
       </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('section103')}
+      >
+        <h3>Protection against late VA payments</h3>
+        <p>
+          If VA payments to institutions are delayed, schools receiving GI Bill
+          benefits must allow beneficiaries to continue attending their classes
+          if they have sufficient proof of eligibility on file.
+        </p>
+        <p>Schools may require proof of GI Bill eligibility in the form of:</p>
+        <ul>
+          <li>
+            Certificate of Eligibility (COE) <strong>or</strong>
+          </li>
+          <li>
+            Certificate of Eligibility (COE) and additional criteria such as an
+            award letter or other documents the school specifies
+          </li>
+        </ul>
+        <p>
+          <strong>
+            Schools can't impose late fees, deny access to facilities or
+            classes, or otherwise penalize beneficiaries if VA is late with
+            tuition and/or fees payments.
+          </strong>{' '}
+          The restriction on penalties doesn't apply if the beneficiary owes
+          additional fees to the school beyond the tuition and fees that VA
+          pays. Students are protected from these penalties up to 90 days from
+          the beginning of the term.
+        </p>
+        <p>
+          Contact the School Certifying Official (SCO) to learn more about the
+          school’s policy.{' '}
+          <a
+            href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our FAQs on the Veterans Benefits and Transition Act
+          </a>{' '}
+          to learn more about protections against late VA payments.
+        </p>
+      </Modal>
     </span>
   );
 
@@ -857,40 +918,53 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcYr')}
-        >
-          <h3>Yellow Ribbon</h3>
-          <p>
-            The Post-9/11 GI Bill can cover all in-state tuition and fees at
-            public degree granting schools, but may not cover all private degree
-            granting schools and out-of-state tuition. The Yellow Ribbon Program
-            provides additional support in those situations. Institutions
-            voluntarily enter into an agreement with VA to fund uncovered
-            charges. VA matches each dollar of unmet charges that the
-            institution agrees to contribute, up to the total cost of the
-            tuition and fees. For Frequently Asked Questions about the Yellow
-            Ribbon Program, visit{' '}
-            <a
-              title="Click here for FAQs about the Yellow Ribbon Program"
-              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              this page.
-            </a>
-          </p>
-          <p>
-            Veterans and Fry Scholarship and Purple Heart recipients are
-            entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active-duty service members and their
-            spouses are not eligible for this program (child transferees of
-            active-duty service members may be eligible if the service member is
-            qualified at the 100% rate). This information will be updated
-            quarterly.
-          </p>
-        </Modal>
+        {/* prod flag for 8524 */}
+        {environment.isProduction() && (
+          <Modal
+            onClose={this.props.hideModal}
+            visible={this.shouldDisplayModal('calcYr')}
+          >
+            <h3>Yellow Ribbon</h3>
+            <p>
+              The Post-9/11 GI Bill can cover all in-state tuition and fees at
+              public degree granting schools, but may not cover all private
+              degree granting schools and out-of-state tuition. The Yellow
+              Ribbon Program provides additional support in those situations.
+              Institutions voluntarily enter into an agreement with VA to fund
+              uncovered charges. VA matches each dollar of unmet charges that
+              the institution agrees to contribute, up to the total cost of the
+              tuition and fees. For Frequently Asked Questions about the Yellow
+              Ribbon Program, visit{' '}
+              <a
+                title="Click here for FAQs about the Yellow Ribbon Program"
+                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page.
+              </a>
+            </p>
+            <p>
+              Veterans and Fry Scholarship and Purple Heart recipients are
+              entitled to the maximum benefit rate or their designated
+              transferees can receive this funding. Active-duty service members
+              and their spouses are not eligible for this program (child
+              transferees of active-duty service members may be eligible if the
+              service member is qualified at the 100% rate). This information
+              will be updated quarterly.
+            </p>
+          </Modal>
+        )}
+
+        {/* prod flag for 8524 */}
+        {!environment.isProduction() && (
+          <Modal
+            onClose={this.props.hideModal}
+            visible={this.shouldDisplayModal('calcYr')}
+          >
+            <YellowRibbonModalContent />
+          </Modal>
+        )}
 
         <Modal
           onClose={this.props.hideModal}
@@ -1166,31 +1240,66 @@ export class Modals extends React.Component {
           doesn't find meaningful employment within 180 days.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('cautionaryWarnings')}
-      >
-        <h3>Cautionary warnings</h3>
-        <p>
-          When Caution Flags are displayed for an institution, they indicate VA
-          or other federal agencies like the Department of Education or
-          Department of Defense have applied increased regulatory or legal
-          scrutiny to this program. Before enrolling in a program, VA recommends
-          potential students should consider these cautionary warnings.
-        </p>
-        <p>
-          {' '}
-          To learn more about Caution Flags,{' '}
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            visit the About this Tool page
-          </a>
-          .
-        </p>
-      </Modal>
+      {/* prod flag for bah-8187. Remove after approval. */}
+      {environment.isProduction() ? (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('cautionaryWarnings')}
+        >
+          <h3>Cautionary warnings</h3>
+          <p>
+            When Caution Flags are displayed for an institution, they indicate
+            VA or other federal agencies like the Department of Education or
+            Department of Defense have applied increased regulatory or legal
+            scrutiny to this program. Before enrolling in a program, VA
+            recommends potential students should consider these cautionary
+            warnings.
+          </p>
+          <p>
+            {' '}
+            To learn more about Caution Flags,{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit the About this Tool page
+            </a>
+            .
+          </p>
+        </Modal>
+      ) : (
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('cautionaryWarnings')}
+        >
+          <h3>Cautionary warnings and school closings</h3>
+          <p>
+            VA applies caution flags when we, or another federal agency, have
+            increased regulatory or legal scrutiny of an educational program. We
+            recommend students consider these warnings before enrolling in
+            flagged programs.
+          </p>
+          <p>
+            When VA receives notice that a school or campus location will be
+            closing, we add a school closing flag to that profile. Once the
+            closing date passes, we remove the institution from the Comparison
+            Tool during the next system update.
+          </p>
+          <p>
+            {' '}
+            To learn more about caution flags,{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit the About this Tool page
+            </a>
+            .
+          </p>
+        </Modal>
+      )}
     </span>
   );
   render() {

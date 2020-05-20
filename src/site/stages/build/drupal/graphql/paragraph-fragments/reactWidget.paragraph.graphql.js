@@ -4,6 +4,7 @@
  */
 module.exports = `
   fragment reactWidget on ParagraphReactWidget {
+    entityId
     fieldTimeout
     fieldCtaWidget
     fieldWidgetType

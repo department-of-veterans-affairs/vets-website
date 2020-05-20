@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';

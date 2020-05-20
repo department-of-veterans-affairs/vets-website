@@ -8,10 +8,6 @@ export default function CancelAppointmentFailedModal({
   facility,
   onClose,
 }) {
-  const clinicName =
-    appointment.clinicFriendlyName ||
-    appointment.vdsAppointments?.[0]?.clinic.name;
-
   return (
     <Modal
       id="cancelAppt"
@@ -25,9 +21,9 @@ export default function CancelAppointmentFailedModal({
         contact your medical center to cancel:
       </p>
       <p>
-        {clinicName ? (
+        {appointment.clinicName ? (
           <>
-            {clinicName}
+            {appointment.clinicName}
             <br />
           </>
         ) : null}

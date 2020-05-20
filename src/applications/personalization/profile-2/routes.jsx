@@ -1,7 +1,7 @@
 import ProfileWrapper from './components/ProfileWrapper';
 import PersonalInformation from './components/PersonalInformation';
 import MilitaryInformation from './components/MilitaryInformation';
-import DirectDeposit from './components/DirectDeposit';
+import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import AccountSecurity from './components/AccountSecurity';
 import ConnectedApplications from './components/ConnectedApplications';
 
@@ -9,7 +9,7 @@ const personalInformation = {
   path: 'personal-information',
   component: PersonalInformation,
   key: 'personal-information',
-  name: 'Personal and contact Information',
+  name: 'Personal and contact information',
 };
 
 const militaryInformation = {
@@ -37,7 +37,7 @@ const connectedApplications = {
   path: 'connected-applications',
   component: ConnectedApplications,
   key: 'connected-applications',
-  name: 'Connected applications',
+  name: 'Connected apps',
 };
 
 export const childRoutes = {

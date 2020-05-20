@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { merge } from 'lodash/fp';
 
 import { DisabilityGate } from '../../containers/DisabilityGate';
-import { PREFILL_STATUSES } from '../../../../../platform/forms/save-in-progress/actions';
+import { PREFILL_STATUSES } from 'platform/forms/save-in-progress/actions';
 
 describe('DisabilityGate', () => {
   it("should render the children if pre-fill hasn't returned yet", () => {

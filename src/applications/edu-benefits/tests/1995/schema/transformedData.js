@@ -8,7 +8,6 @@ const transformedMinimalDataActual = {
   },
   email: 'test2@test1.net',
   educationType: 'correspondence',
-  isEdithNourseRogersScholarship: false,
   veteranFullName: {
     first: 'asdf',
     last: 'asdf',
@@ -62,8 +61,6 @@ const transformedMaximalDataActual = {
   },
   trainingEndDate: '2018-03-02',
   reasonForChange: 'Stop reason',
-  isEdithNourseRogersScholarship: false,
-  isEnrolledStem: true,
   benefit: 'chapter33',
   veteranFullName: {
     first: 'Greg',

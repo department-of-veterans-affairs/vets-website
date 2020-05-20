@@ -11,7 +11,7 @@ export default async function createCallToActionWidget(store, widgetType) {
   if (widgets.length) {
     const {
       default: CallToActionWidget,
-    } = await import(/* webpackChunkName: "cta-widget" */ '../../platform/site-wide/cta-widget');
+    } = await import(/* webpackChunkName: "cta-widget" */ 'platform/site-wide/cta-widget');
 
     connectFeatureToggle(store.dispatch);
 

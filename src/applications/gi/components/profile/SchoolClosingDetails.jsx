@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
+import AlertBox from '../AlertBox';
 
 const SchoolClosingDetails = ({
   schoolClosing,
@@ -22,10 +23,21 @@ const SchoolClosingDetails = ({
           <div>
             <p>{content}</p>
             {schoolWebsite && (
-              <a href={schoolWebsite} target="_blank" rel="noopener noreferrer">
+              <a
+                href={schoolWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-warning-alert-box-content-link-click',
+                    alertBoxHeading: headline,
+                  });
+                }}
+              >
                 Visit the school's website to learn more
               </a>
             )}
+            {!schoolWebsite && <p>Visit the school's website to learn more.</p>}
           </div>
         }
         headline={headline}

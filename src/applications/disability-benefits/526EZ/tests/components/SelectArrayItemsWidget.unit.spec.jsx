@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import SelectArrayItemsWidget from '../../../all-claims/components/SelectArrayItemsWidget';
 
-import get from '../../../../../platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 
 describe('<SelectArrayItemsWidget>', () => {
   let defaultProps = {};
@@ -25,12 +25,27 @@ describe('<SelectArrayItemsWidget>', () => {
     // Reset default props before each test
     onChangeSpy.reset();
     defaultProps = {
-      value: [{ name: 'item one', propTwo: 'asdf' }, { name: 'item two' }],
+      value: [
+        {
+          name: 'item one',
+          propTwo: 'asdf',
+          className: 'vads-u-display--inline',
+        },
+        {
+          name: 'item two',
+          className: 'vads-u-display--inline',
+        },
+      ],
       id: 'id',
       onChange: onChangeSpy,
       options: {
         label: labelElement,
         selectedPropName,
+        customTitle: 'Title',
+      },
+      formContext: {
+        onReviewPage: true,
+        reviewMode: false,
       },
     };
   });

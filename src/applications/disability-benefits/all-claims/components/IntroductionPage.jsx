@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+
+import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { selectAvailableServices } from 'platform/user/selectors';
+
 import { itfNotice } from '../content/introductionPage';
+import { originalClaimsFeature } from '../config/selectors';
+import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -14,6 +18,23 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const services = selectAvailableServices(this.props) || [];
+    const allowOriginalClaim =
+      this.props.allowOriginalClaim || this.props.testOriginalClaim;
+    const allowContinue = services.includes('original-claim')
+      ? allowOriginalClaim // original claim feature flag
+      : true; // services.includes('form526'); // <- "form526" service should
+    // be required to proceed; not changing this now in case it breaks something
+
+    // Remove this once we original claims feature toggle is set to 100%
+    if (!allowContinue) {
+      return (
+        <div className="schemaform-intro">
+          <FormTitle title="File for disability compensation" />
+          <fileOriginalClaimPage.component props={this.props} />
+        </div>
+      );
+    }
     return (
       <div className="schemaform-intro">
         <FormTitle title="File for disability compensation" />
@@ -31,22 +52,22 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
         />
         {itfNotice}
-        <h4>
+        <h2 className="vads-u-font-size--h4">
           Follow the steps below to file a claim for a new or secondary
           condition or for increased disability compensation.
-        </h4>
+        </h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <div>
-                <h5>Prepare</h5>
+                <h3 className="vads-u-font-size--h5">Prepare</h3>
               </div>
               <div>
-                <h6>
+                <h4 className="vads-u-font-size--h6">
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
-                </h6>
+                </h4>
               </div>
               <ul>
                 <li>
@@ -120,7 +141,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div>
-                <h5>Apply</h5>
+                <h3 className="vads-u-font-size--h5">Apply</h3>
               </div>
               <p>
                 Complete this disability compensation benefits form. After
@@ -130,7 +151,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div>
-                <h5>VA Review</h5>
+                <h3 className="vads-u-font-size--h5">VA Review</h3>
               </div>
               <p>
                 We process applications in the order we receive them. The amount
@@ -141,7 +162,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div>
-                <h5>Decision</h5>
+                <h3 className="vads-u-font-size--h5">Decision</h3>
               </div>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
@@ -168,9 +189,11 @@ class IntroductionPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { formId: state.form.formId };
-}
+const mapStateToProps = state => ({
+  formId: state.form.formId,
+  user: state.user,
+  allowOriginalClaim: originalClaimsFeature(state),
+});
 
 IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
@@ -180,6 +203,8 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
+  user: PropTypes.shape({}),
+  allowOriginalClaim: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

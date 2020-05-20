@@ -3,9 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Table = require('cli-table');
-const {
-  getAppManifests,
-} = require('../src/site/stages/build/webpack/manifest-helpers');
+const { getAppManifests } = require('../config/manifest-helpers');
 
 const printCoverage = coverageResults => {
   // Create a new table with headers

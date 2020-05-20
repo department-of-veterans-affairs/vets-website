@@ -5,7 +5,9 @@ export default function CancelCommunityCareAppointmentModal({
   onClose,
   appointment,
 }) {
-  const hasName = !!appointment.name?.firstName && !!appointment.name?.lastName;
+  const hasName =
+    !!appointment.providerName?.firstName &&
+    !!appointment.providerName?.lastName;
   return (
     <Modal
       id="cancelAppt"
@@ -19,7 +21,8 @@ export default function CancelCommunityCareAppointmentModal({
       <div className="vads-u-margin-y--2">
         {hasName && (
           <>
-            {appointment.name.firstName} {appointment.name.lastName}
+            {appointment.providerName.firstName}{' '}
+            {appointment.providerName.lastName}
             <br />
           </>
         )}

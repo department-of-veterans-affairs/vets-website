@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from '../../../../platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Hca deductible expenses', () => {

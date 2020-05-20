@@ -1,10 +1,10 @@
 {
-  "appName": "New 686",
+  "appName": "686c-674",
   "entryFile": "./app-entry.jsx",
   "entryName": "new-686",
-  "rootUrl": "/disability-benefits/new-686",
+  "rootUrl": "/view-change-dependents/add-remove-form-686c",
+  "e2eTestsDisabled": true,
   "template": {
-    "layout": "page-react.html",
-    "vagovprod": false
+    "includeBreadcrumbs": true
   }
 }

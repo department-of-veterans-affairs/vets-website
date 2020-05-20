@@ -1,42 +1,20 @@
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { TASK_KEYS } from '../../../constants';
-import { genericSchemas } from '../../../generic-schema';
-import { StepchildTitle } from './helpers';
-import { StepchildInfo } from '../stepchildren/helpers';
+import { reportStepchildNotInHousehold } from '../../../utilities';
 import { isChapterFieldRequired } from '../../../helpers';
+import { StepchildInfo } from '../stepchildren/helpers';
+import { StepchildTitle } from './helpers';
 
-export const schema = {
-  type: 'object',
-  properties: {
-    stepChildren: {
-      type: 'array',
-      minItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          stillSupportingStepchild: {
-            type: 'boolean',
-            default: false,
-          },
-          stepchildLivingExpensesPaid: {
-            type: 'string',
-            enum: ['More than half', 'Half', 'Less than half'],
-            default: 'More than half',
-          },
-          whoDoesTheStepchildLiveWith: {
-            type: 'object',
-            properties: {
-              first: genericSchemas.genericTextInput,
-              middle: genericSchemas.genericTextInput,
-              last: genericSchemas.genericTextInput,
-            },
-          },
-          stepchildAddress: buildAddressSchema(false),
-        },
-      },
-    },
-  },
-};
+const stepchildInformationSchema = cloneDeep(
+  reportStepchildNotInHousehold.properties.stepchildInformation,
+);
+
+stepchildInformationSchema.properties.stepChildren.items.properties.address = buildAddressSchema(
+  true,
+);
+
+export const schema = stepchildInformationSchema;
 
 export const uiSchema = {
   stepChildren: {
@@ -46,15 +24,15 @@ export const uiSchema = {
     },
     items: {
       'ui:title': StepchildTitle,
-      stillSupportingStepchild: {
+      supportingStepchild: {
         'ui:widget': 'yesNo',
         'ui:title': 'Are you still supporting this stepchild?',
       },
-      stepchildLivingExpensesPaid: {
+      livingExpensesPaid: {
         'ui:widget': 'radio',
         'ui:title': "How much of this stepchild's living expenses do you pay?",
         'ui:options': {
-          expandUnder: 'stillSupportingStepchild',
+          expandUnder: 'supportingStepchild',
           expandUnderCondition: true,
           keepInPageOnReview: true,
         },
@@ -74,17 +52,19 @@ export const uiSchema = {
           'ui:required': formData =>
             isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
+        suffix: {
+          'ui:options': {
+            hideIf: () => true,
+          },
+        },
       },
-      stepchildAddress: {
+      address: {
         ...{ 'ui:title': "Stepchild's address" },
-        ...addressUISchema(
-          false,
-          'stepChildren[INDEX].stepchildAddress',
-          formData =>
-            isChapterFieldRequired(
-              formData,
-              TASK_KEYS.reportStepchildNotInHousehold,
-            ),
+        ...addressUISchema(true, 'stepChildren[INDEX].address', formData =>
+          isChapterFieldRequired(
+            formData,
+            TASK_KEYS.reportStepchildNotInHousehold,
+          ),
         ),
       },
     },

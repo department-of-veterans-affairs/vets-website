@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import { DATA_PATHS } from '../constants';
 
 export const summaryOfEvidenceDescription = ({ formData }) => {

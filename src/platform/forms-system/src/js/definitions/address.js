@@ -6,7 +6,7 @@ import {
   states,
   isValidUSZipCode,
   isValidCanPostalCode,
-} from '../utilities/address';
+} from 'platform/forms/address';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;

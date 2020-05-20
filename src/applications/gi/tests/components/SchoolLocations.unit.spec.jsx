@@ -1,23 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import createCommonStore from 'platform/startup/store';
-import reducer from '../../reducers';
-import { calculatorConstants } from '../gibct-helpers';
 import SchoolLocations from '../../components/profile/SchoolLocations';
 import sinon from 'sinon';
+import { getDefaultState } from '../helpers';
 
-const defaultState = createCommonStore(reducer).getState();
-
-defaultState.constants = {
-  constants: {},
-  version: calculatorConstants.meta.version,
-  inProgress: false,
-};
-
-calculatorConstants.data.forEach(c => {
-  defaultState.constants.constants[c.attributes.name] = c.attributes.value;
-});
+const defaultState = getDefaultState();
 
 describe('<SchoolLocations>', () => {
   it('should render main row', () => {

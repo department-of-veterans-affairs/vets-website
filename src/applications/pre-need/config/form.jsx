@@ -1,8 +1,9 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import FormFooter from 'platform/forms/components/FormFooter';
+import Footer from '../components/Footer';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -97,7 +98,9 @@ const formConfig = {
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
-  footerContent: FormFooter,
+  footerContent: ({ currentLocation }) => (
+    <Footer formConfig={formConfig} currentLocation={currentLocation} />
+  ),
   getHelp: GetFormHelp,
   errorText: ErrorText,
   defaultDefinitions: {
@@ -258,10 +261,12 @@ const formConfig = {
                 },
                 dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
-                  'ui:title': 'Sponsor’s place of birth',
+                  'ui:title':
+                    "Sponsor's place of birth (City, State, or Territory)",
                 },
                 gender: {
-                  'ui:title': 'Sponsor’s gender',
+                  'ui:title':
+                    "Sponsor's sex (information will be used for statistical purposes only)",
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',

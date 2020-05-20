@@ -16,7 +16,7 @@ import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -251,6 +251,10 @@ export const genBBoxFromAddress = query => {
             position: {
               latitude: coordinates[1],
               longitude: coordinates[0],
+            },
+            searchCoords: {
+              lat: features[0].geometry.coordinates[1],
+              lng: features[0].geometry.coordinates[0],
             },
             bounds: minBounds,
             zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,

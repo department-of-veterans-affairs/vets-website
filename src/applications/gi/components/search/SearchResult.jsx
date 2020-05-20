@@ -1,14 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
-import environment from 'platform/utilities/environment';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -32,30 +30,20 @@ export class SearchResult extends React.Component {
       state,
       country,
       studentCount,
+      cautionFlags,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
-    const cautionFlags = [...this.props.cautionFlags].filter(
-      flag => flag.title,
-    );
 
     const linkTo = {
-      pathname: `profile/${facilityCode}`,
+      pathname: `/profile/${facilityCode}`,
       query: version ? { version } : {},
     };
 
-    // Prod flags for 7183
-    const searchResultContentClassnamesLeft = environment.isProduction()
-      ? 'small-12 usa-width-seven-twelfths medium-7 columns'
-      : 'small-12  medium-6 large-7 columns';
-    const searchResultContentClassnamesRight = environment.isProduction()
-      ? 'small-12 usa-width-five-twelfths medium-5 columns estimated-benefits'
-      : 'small-12 medium-6 large-5 columns estimated-benefits';
-
     return (
-      <div className="search-result">
+      <div id={`search-result-${facilityCode}`} className="search-result">
         <div className="outer">
           <div className="inner">
             <div className="row">
@@ -70,18 +58,16 @@ export class SearchResult extends React.Component {
                 </h2>
               </div>
             </div>
-            {(schoolClosing || (cautionFlags && cautionFlags.length > 0)) && (
+            {(schoolClosing || cautionFlags.length > 0) && (
               <div className="row alert-row">
                 <div className="small-12 columns">
                   {renderSchoolClosingAlert({ schoolClosing, schoolClosingOn })}
-                  {cautionFlags &&
-                    cautionFlags.length > 0 &&
-                    renderCautionAlert({ cautionFlags })}
+                  {renderCautionAlert(cautionFlags)}
                 </div>
               </div>
             )}
             <div className="row">
-              <div className={searchResultContentClassnamesLeft}>
+              <div className={'small-12  medium-6 large-7 columns'}>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality" id={`location-${facilityCode}`}>
                     {locationInfo(city, state, country)}
@@ -91,7 +77,11 @@ export class SearchResult extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className={searchResultContentClassnamesRight}>
+              <div
+                className={
+                  'small-12 medium-6 large-5 columns estimated-benefits'
+                }
+              >
                 <h3>You may be eligible for up to:</h3>
                 <div className="row">
                   <div className="columns">
@@ -107,7 +97,7 @@ export class SearchResult extends React.Component {
                     <h4>
                       <i className="fa fa-home fa-search-result" />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div id={`housing-value-${facilityCode}`}>{housing}</div>
                     </h4>
                   </div>
                 </div>

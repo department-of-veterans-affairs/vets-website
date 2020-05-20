@@ -1,88 +1,135 @@
 import React from 'react';
-
-import { focusElement } from '../../../../platform/utilities/ui';
+import { connect } from 'react-redux';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement } from 'platform/utilities/ui';
+import { hasSession } from 'platform/user/profile/utilities';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { verifyVaFileNumber } from '../actions';
+import { IntroductionPageHeader } from '../components/IntroductionPageHeader';
+import { IntroductionPageFormProcess } from '../components/IntroductionPageFormProcess';
+import {
+  VerifiedAlert,
+  VaFileNumberMissingAlert,
+  ServerErrorAlert,
+} from '../config/helpers';
+import { isServerError } from '../config/utilities';
 
+const alertClasses =
+  'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 class IntroductionPage extends React.Component {
   componentDidMount() {
+    if (hasSession()) {
+      this.props.verifyVaFileNumber();
+    }
     focusElement('.va-nav-breadcrumbs-list');
   }
 
   render() {
-    return (
-      <div className="schemaform-intro">
-        <FormTitle title="New 686" />
-        <p>qual to VA Form 21-686 (New 686).</p>
+    const {
+      vaFileNumber: { hasVaFileNumber, isLoading },
+      user,
+    } = this.props;
+
+    let ctaState;
+    let content;
+    // Base case: user is logged out.
+    // Case 1: User is logged in and we are checking for va file number.
+    // Case 2: User is logged in and they have a valid va file number.
+    // Case 3: User is logged in and they do not have a valid va file number.
+    if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
+      const errCode = hasVaFileNumber.errors[0].code;
+      ctaState = isServerError(errCode) ? (
+        <AlertBox
+          className={alertClasses}
+          content={ServerErrorAlert}
+          status="error"
+          isVisible
+        />
+      ) : (
+        <AlertBox
+          className={alertClasses}
+          content={VaFileNumberMissingAlert}
+          status="error"
+          isVisible
+        />
+      );
+      content = (
+        <div className="schemaform-intro">
+          <IntroductionPageHeader />
+          {ctaState}
+        </div>
+      );
+    } else if (user?.login?.currentlyLoggedIn && isLoading) {
+      ctaState = (
+        <LoadingIndicator message="Verifying veteran account information..." />
+      );
+      content = (
+        <div className="schemaform-intro">
+          <IntroductionPageHeader />
+          {ctaState}
+          <IntroductionPageFormProcess />
+        </div>
+      );
+    } else {
+      ctaState = (
         <SaveInProgressIntro
+          {...this.props}
           hideUnauthedStartLink
+          verifiedPrefillAlert={VerifiedAlert}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          startText="Start the Application"
-        >
-          Please complete the 21-686 form to apply for declare or remove a
-          dependent.
-        </SaveInProgressIntro>
-        <h4>
-          Follow the steps below to apply for declare or remove a dependent.
-        </h4>
-        <div className="process schemaform-process">
-          <ol>
-            <li className="process-step list-one">
-              <h5>Prepare</h5>
-              <h6>To fill out this application, you’ll need your:</h6>
-              <ul>
-                <li>Social Security number (required)</li>
-              </ul>
-              <p>
-                <strong>What if I need help filling out my application?</strong>{' '}
-                An accredited representative, like a Veterans Service Officer
-                (VSO), can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/index.html">
-                  Get help filing your claim
-                </a>
-                .
-              </p>
-            </li>
-            <li className="process-step list-two">
-              <h5>Apply</h5>
-              <p>Complete this declare or remove a dependent form.</p>
-              <p>
-                After submitting the form, you’ll get a confirmation message.
-                You can print this for your records.
-              </p>
-            </li>
-            <li className="process-step list-three">
-              <h5>VA Review</h5>
-              <p>
-                We process claims within a week. If more than a week has passed
-                since you submitted your application and you haven’t heard back,
-                please don’t apply again. Call us at.
-              </p>
-            </li>
-            <li className="process-step list-four">
-              <h5>Decision</h5>
-              <p>
-                Once we’ve processed your claim, you’ll get a notice in the mail
-                with our decision.
-              </p>
-            </li>
-          </ol>
-        </div>
-        <SaveInProgressIntro
-          buttonOnly
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Application"
+          startText="Add or remove a dependent"
         />
-        <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={30} ombNumber="21-686" expDate="12/31/2021" />
+      );
+      content = (
+        <div className="schemaform-intro">
+          <IntroductionPageHeader />
+          {ctaState}
+          <IntroductionPageFormProcess />
+          <SaveInProgressIntro
+            {...this.props}
+            hideUnauthedStartLink
+            buttonOnly
+            verifiedPrefillAlert={VerifiedAlert}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Add or remove a dependent"
+          />
+          <div className="omb-info--container vads-u-padding-left--0">
+            <OMBInfo
+              resBurden={30}
+              ombNumber="2900-0043"
+              expDate="09/30/2021"
+            />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return content;
   }
 }
 
-export default IntroductionPage;
+const mapStateToProps = state => {
+  const { form, user, vaFileNumber } = state;
+  return {
+    form,
+    user,
+    vaFileNumber,
+  };
+};
+
+const mapDispatchToProps = {
+  verifyVaFileNumber,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
+
+export { IntroductionPage };

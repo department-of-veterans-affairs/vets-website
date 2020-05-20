@@ -4,6 +4,7 @@
  */
 module.exports = `
   fragment wysiwyg on ParagraphWysiwyg {
+      entityId
       fieldWysiwyg {
         processed
       }

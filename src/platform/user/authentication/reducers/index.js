@@ -1,9 +1,10 @@
 import set from '../../../utilities/data/set';
 
-import { LOG_OUT, UPDATE_LOGGEDIN_STATUS } from '../actions';
+import { LOG_OUT, UPDATE_LOGGEDIN_STATUS, CHECK_KEEP_ALIVE } from '../actions';
 
 const initialState = {
   currentlyLoggedIn: false,
+  hasCheckedKeepAlive: false,
 };
 
 function loginStuff(state = initialState, action) {
@@ -13,6 +14,9 @@ function loginStuff(state = initialState, action) {
 
     case LOG_OUT:
       return set('currentlyLoggedIn', false, state);
+
+    case CHECK_KEEP_ALIVE:
+      return set('hasCheckedKeepAlive', true, state);
 
     default:
       return state;

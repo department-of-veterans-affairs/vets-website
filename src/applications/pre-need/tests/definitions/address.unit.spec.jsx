@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-} from '../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import { schema, uiSchema } from '../../definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 

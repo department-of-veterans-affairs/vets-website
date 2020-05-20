@@ -88,7 +88,7 @@ $facility-locator-color-gray: #ccc;
 
   .facility-result {
     padding: 1em;
-    background: $color-gray-light-alt;
+    background: $color-white ;
     border-bottom: none;
 
     &.active {
@@ -124,7 +124,7 @@ $facility-locator-color-gray: #ccc;
   }
 
   .facility-result+.facility-result {
-    border-top: solid 12px $color-white;
+    border-top: solid 2px $color-gray-lighter;
   }
 
   .leaflet-popup-content {
@@ -691,6 +691,14 @@ $facility-locator-color-gray: #ccc;
   font-weight: bold;
 }
 
+.current-pos-pin {
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  border: solid 4px $color-white;
+  background-color: $color-red-dark;
+}
 
 #infoBubble {
   background-color: $color-aqua-lightest;
@@ -772,4 +780,24 @@ $facility-locator-color-gray: #ccc;
 
 .va-nav-breadcrumbs:focus {
   outline: 0;
+}
+
+.i-pin-card-map {
+  background: $color-gray-dark;
+  color: $color-white;
+  padding: 2px 8px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-family: 'Source Sans Pro', sans-serif !important;
+}
+.notice-marg-pad {
+  padding: 0.5rem !important;
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: bold;
+  width: 280px;
+  height: 40px;
+}
+.icon-base {
+  color: $color-base !important;
 }

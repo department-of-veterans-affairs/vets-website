@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { object, func } from 'prop-types';
 import { fetchProviderDetail } from '../actions';
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
 import LocationAddress from '../components/search-results/LocationAddress';
@@ -17,7 +17,7 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
  * (currently Routed at /facilities/provider/{id})
  */
 class ProviderDetail extends Component {
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchProviderDetail(this.props.params.id);
     window.scrollTo(0, 0);

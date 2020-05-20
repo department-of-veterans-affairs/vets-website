@@ -1,93 +1,68 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
+import AlertBox from '../components/AlertBox';
 
 export const renderSchoolClosingAlert = result => {
   const { schoolClosing, schoolClosingOn } = result;
 
   if (!schoolClosing) return null;
-  // Prod flag for 6803
-  // prod flag for bah-7020
-  if (!environment.isProduction()) {
-    if (schoolClosingOn) {
-      const currentDate = new Date();
-      const schoolClosingDate = new Date(schoolClosingOn);
-      if (currentDate > schoolClosingDate) {
-        return (
-          <AlertBox
-            className="vads-u-margin-top--1"
-            headline="School closed"
-            content={<p>School has closed</p>}
-            isVisible={!!schoolClosing}
-            status="warning"
-          />
-        );
-      }
-    }
-    return (
-      <AlertBox
-        className="vads-u-margin-top--1"
-        content={<p>A campus at this school will be closing soon</p>}
-        headline="A campus is closing soon"
-        isVisible={!!schoolClosing}
-        status="warning"
-      />
-    );
-  }
 
+  if (schoolClosingOn) {
+    const currentDate = new Date();
+    const schoolClosingDate = new Date(schoolClosingOn);
+    if (currentDate > schoolClosingDate) {
+      return (
+        <AlertBox
+          className="vads-u-margin-top--1"
+          headline="School closed"
+          content={<p>School has closed</p>}
+          isVisible={!!schoolClosing}
+          status="warning"
+        />
+      );
+    }
+  }
   return (
     <AlertBox
       className="vads-u-margin-top--1"
-      content={<p>Upcoming campus closure</p>}
-      headline="School closure"
+      content={<p>School will be closing soon</p>}
+      headline="School closing"
       isVisible={!!schoolClosing}
       status="warning"
     />
   );
 };
 
-export const renderCautionAlert = result => {
-  const { cautionFlags } = result;
-  if (cautionFlags.length === 0) return null;
+export const renderCautionAlert = cautionFlags => {
+  const validFlags = [...cautionFlags]
+    .filter(flag => flag.title)
+    .sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1));
 
-  // Prod flag for 6803
-  if (!environment.isProduction()) {
-    return (
-      <AlertBox
-        className="vads-u-margin-top--1"
-        content={
-          <ul className="vads-u-margin-top--0">
-            {[...cautionFlags]
-              .sort(
-                (a, b) =>
-                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
-              )
-              .map(flag => (
+  return (
+    <AlertBox
+      className="vads-u-margin-top--1"
+      content={
+        <React.Fragment>
+          {validFlags.length === 1 && <p>{validFlags[0].title}</p>}
+          {validFlags.length > 1 && (
+            <ul className="vads-u-margin-top--0">
+              {validFlags.map((flag, index) => (
                 <li
                   className="vads-u-margin-y--0p25 vads-u-margin-left--1p5"
-                  key={flag.id}
+                  key={`caution-flag-alert-${index}`}
                 >
                   {flag.title}
                 </li>
               ))}
-          </ul>
-        }
-        headline={
-          cautionFlags.length > 1
-            ? 'This school has cautionary warnings'
-            : 'This school has a cautionary warning'
-        }
-        isVisible={cautionFlags.length > 0}
-        status="warning"
-      />
-    );
-  }
-  return (
-    <AlertBox
-      className="vads-u-margin-top--1"
-      content={<p>This school has cautionary warnings</p>}
-      headline="Caution"
-      isVisible={cautionFlags.length > 0}
+            </ul>
+          )}
+        </React.Fragment>
+      }
+      headline={
+        validFlags.length > 1
+          ? 'This school has cautionary warnings'
+          : 'This school has a cautionary warning'
+      }
+      isVisible={validFlags.length > 0}
       status="warning"
     />
   );
@@ -111,16 +86,20 @@ export const renderLearnMoreLabel = ({
   showModal,
   component,
 }) => (
-  <span>
+  <span className="vads-u-margin--0 vads-u-display--inline-block ">
     {text}{' '}
-    <button
-      aria-label={ariaLabel}
-      type="button"
-      className="va-button-link learn-more-button"
-      onClick={showModal.bind(component, modal)}
-    >
-      (Learn more)
-    </button>
+    <span className="vads-u-margin--0 vads-u-display--inline-block ">
+      (
+      <button
+        aria-label={ariaLabel}
+        type="button"
+        className="va-button-link learn-more-button vads-u-margin--0"
+        onClick={showModal.bind(component, modal)}
+      >
+        Learn more
+      </button>
+      )
+    </span>
   </span>
 );
 
@@ -131,3 +110,14 @@ export const renderVetTecLogo = classNames => (
     alt="Vet Tec Logo"
   />
 );
+
+export const renderSearchResultsHeader = search => {
+  const header = search.count === 1 ? 'Search Result' : 'Search Results';
+
+  return (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} ${header}`}
+    </h1>
+  );
+};

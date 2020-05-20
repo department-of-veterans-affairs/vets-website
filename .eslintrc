@@ -13,10 +13,11 @@
   "plugins": [
     "mocha",
     "jest",
-    "va-enzyme",
     "react-hooks",
     "fp",
     "sonarjs",
+    "unicorn",
+    "va",
     "cypress"
   ],
   "extends": [
@@ -49,8 +50,15 @@
     "no-restricted-imports": ["error", "raven"],
     "prefer-rest-params": 2,
 
-    /* || va-enzyme custom plugin || */
-    "va-enzyme/unmount": 2,
+    /* || va custom plugin || */
+    "va/proptypes-camel-cased": 2,
+    "va/enzyme-unmount": 2,
+    "va/use-resolved-path": [
+      0,
+      {
+        "aliases": ["applications", "platform", "site", "vet360"]
+      }
+    ],
 
     /* || fp plugin || */
     "fp/no-proxy": 2, // IE 11 has no polyfill for Proxy
@@ -73,6 +81,10 @@
     "react/no-deprecated": 2,
     "react/no-direct-mutation-state": 2,
 
+    /* TODO | DISABLED TEMPORARILY */
+    "react/sort-comp": 0,
+    "jsx-a11y/label-has-for": 0,
+
     /* || sonarJS plugin || */
     "sonarjs/no-all-duplicated-branches": 2,
     "sonarjs/no-element-overwrite": 2,
@@ -86,6 +98,14 @@
     "sonarjs/prefer-object-literal": 2,
     "sonarjs/prefer-single-boolean-return": 2,
     "sonarjs/prefer-while": 2,
+    "sonarjs/no-extra-arguments": 2,
+    "sonarjs/no-identical-expressions": 2,
+    "sonarjs/max-switch-cases": [2, 40],
+    "sonarjs/no-duplicated-branches": 2,
+    "sonarjs/no-inverted-boolean-check": 2,
+    "sonarjs/no-redundant-boolean": 2,
+    "sonarjs/no-unused-collection": 2,
+    "sonarjs/no-small-switch": 2,
 
     /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
@@ -104,6 +124,9 @@
         "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
       }
     ],
+
+    /* || Unicorn plugin || */
+    "unicorn/no-abusive-eslint-disable": 2,
 
     /* ----- TODO: evaluate and potentially turn these rules back on ----- */
 
@@ -176,6 +199,12 @@
         "no-restricted-imports": ["error", "raven"],
         "no-unused-expressions": 0,
         "react/no-find-dom-node": 0
+      }
+    },
+    {
+      "files": ["**/*.e2e.spec.js"],
+      "rules": {
+        "va/axe-check-required": 1
       }
     }
   ]

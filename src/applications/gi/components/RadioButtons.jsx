@@ -5,7 +5,6 @@ import _ from 'lodash';
 import ToolTip from './ToolTip';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 import { SMALL_SCREEN_WIDTH } from '../constants';
-import environment from 'platform/utilities/environment';
 
 /**
  * A radio button group with a label.
@@ -39,7 +38,7 @@ class RadioButtons extends React.Component {
   renderOptions = () => {
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value;
-    const optionElements = options.map((obj, index) => {
+    return options.map((obj, index) => {
       let optionLabel;
       let optionValue;
       let optionAdditional;
@@ -106,8 +105,6 @@ class RadioButtons extends React.Component {
 
       return output;
     });
-
-    return optionElements;
   };
 
   render() {
@@ -140,10 +137,7 @@ class RadioButtons extends React.Component {
     if (this.props.required) {
       requiredSpan = <span className="form-required-span">*</span>;
     }
-    // prod flag for bah-7186
-    const gibctLegendStyle = environment.isProduction()
-      ? 'gibct-legend-old'
-      : 'gibct-legend';
+
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
@@ -153,7 +147,7 @@ class RadioButtons extends React.Component {
               className={
                 this.props.errorMessage
                   ? 'usa-input-error-label'
-                  : gibctLegendStyle
+                  : 'gibct-legend'
               }
             >
               {this.props.label}

@@ -1,12 +1,7 @@
-import environment from '../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
-
-// TODO: Remove me when done bug fixing
-// const environment = {
-//   API_URL: 'http://staging-api.va.gov',
-// };
 
 // Base URL to be used in API requests.
 export const api = {
@@ -63,6 +58,7 @@ export const resolveParamsWithUrl = (
       }
       break;
     case 'cc_pharmacy':
+    case 'cc_provider':
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
@@ -165,3 +161,12 @@ export const vetCenterServices = [
   'Employment referral',
   'Referral of other VA services',
 ];
+
+export const facilityTypesOptions = {
+  [LocationType.HEALTH]: 'VA health',
+  [LocationType.URGENT_CARE]: 'Urgent care',
+  [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
+  [LocationType.BENEFITS]: 'VA benefits',
+  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.VET_CENTER]: 'Vet centers',
+};

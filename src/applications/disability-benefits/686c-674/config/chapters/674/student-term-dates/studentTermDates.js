@@ -1,44 +1,11 @@
 import { validateDate } from 'platform/forms-system/src/js/validation';
-
-import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../../helpers';
+import { report674 } from '../../../utilities';
 
-import { StudentNameHeader } from '../helpers';
-
-const { date, genericTextInput } = genericSchemas;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    termDates: {
-      type: 'object',
-      properties: {
-        officialSchoolStartDate: date,
-        expectedStudentStartDate: date,
-        expectedGraduationDate: date,
-      },
-    },
-    programInformation: {
-      type: 'object',
-      properties: {
-        studentIsEnrolledFullTime: {
-          type: 'boolean',
-        },
-        courseOfStudy: genericTextInput,
-        classesPerWeek: {
-          type: 'number',
-        },
-        hoursPerWeek: {
-          type: 'number',
-        },
-      },
-    },
-  },
-};
+export const schema = report674.properties.studentTermDates;
 
 export const uiSchema = {
-  'ui:title': StudentNameHeader,
-  termDates: {
+  currentTermDates: {
     'ui:title': 'Term or course dates',
     officialSchoolStartDate: {
       'ui:title': 'Official start date',
@@ -95,6 +62,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
+        widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Number of classes a week',
       'ui:errorMessages': { required: 'Please enter a number' },
@@ -105,6 +73,7 @@ export const uiSchema = {
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: false,
+        widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Hours a week',
       'ui:errorMessages': { required: 'Please enter a number' },

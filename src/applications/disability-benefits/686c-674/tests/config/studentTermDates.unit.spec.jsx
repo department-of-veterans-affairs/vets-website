@@ -21,12 +21,16 @@ describe('Report 674 term information', () => {
     'view:selectable686Options': {
       report674: true,
     },
-    studentFullName: {
-      first: 'John',
-      last: 'Doe',
+    studentNameAndSSN: {
+      fullName: {
+        first: 'John',
+        last: 'Doe',
+      },
     },
-    studentAddress: {
-      countryName: '',
+    studentAddressMarriageTuition: {
+      address: {
+        countryName: '',
+      },
     },
     programInformation: {
       studentIsEnrolledFullTime: '',
@@ -77,29 +81,49 @@ describe('Report 674 term information', () => {
     );
     changeDropdown(
       form,
-      'select#root_termDates_officialSchoolStartDateMonth',
-      1,
-    );
-    changeDropdown(form, 'select#root_termDates_officialSchoolStartDateDay', 1);
-    fillData(form, 'input#root_termDates_officialSchoolStartDateYear', 2010);
-    changeDropdown(
-      form,
-      'select#root_termDates_expectedStudentStartDateMonth',
+      'select#root_currentTermDates_officialSchoolStartDateMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_termDates_expectedStudentStartDateDay',
+      'select#root_currentTermDates_officialSchoolStartDateDay',
       1,
     );
-    fillData(form, 'input#root_termDates_expectedStudentStartDateYear', 2010);
+    fillData(
+      form,
+      'input#root_currentTermDates_officialSchoolStartDateYear',
+      2010,
+    );
     changeDropdown(
       form,
-      'select#root_termDates_expectedGraduationDateMonth',
+      'select#root_currentTermDates_expectedStudentStartDateMonth',
       1,
     );
-    changeDropdown(form, 'select#root_termDates_expectedGraduationDateDay', 1);
-    fillData(form, 'input#root_termDates_expectedGraduationDateYear', 2010);
+    changeDropdown(
+      form,
+      'select#root_currentTermDates_expectedStudentStartDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_currentTermDates_expectedStudentStartDateYear',
+      2010,
+    );
+    changeDropdown(
+      form,
+      'select#root_currentTermDates_expectedGraduationDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_currentTermDates_expectedGraduationDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_currentTermDates_expectedGraduationDateYear',
+      2010,
+    );
     selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'Y');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -120,29 +144,49 @@ describe('Report 674 term information', () => {
     );
     changeDropdown(
       form,
-      'select#root_termDates_officialSchoolStartDateMonth',
-      1,
-    );
-    changeDropdown(form, 'select#root_termDates_officialSchoolStartDateDay', 1);
-    fillData(form, 'input#root_termDates_officialSchoolStartDateYear', 2010);
-    changeDropdown(
-      form,
-      'select#root_termDates_expectedStudentStartDateMonth',
+      'select#root_currentTermDates_officialSchoolStartDateMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_termDates_expectedStudentStartDateDay',
+      'select#root_currentTermDates_officialSchoolStartDateDay',
       1,
     );
-    fillData(form, 'input#root_termDates_expectedStudentStartDateYear', 2010);
+    fillData(
+      form,
+      'input#root_currentTermDates_officialSchoolStartDateYear',
+      2010,
+    );
     changeDropdown(
       form,
-      'select#root_termDates_expectedGraduationDateMonth',
+      'select#root_currentTermDates_expectedStudentStartDateMonth',
       1,
     );
-    changeDropdown(form, 'select#root_termDates_expectedGraduationDateDay', 1);
-    fillData(form, 'input#root_termDates_expectedGraduationDateYear', 2010);
+    changeDropdown(
+      form,
+      'select#root_currentTermDates_expectedStudentStartDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_currentTermDates_expectedStudentStartDateYear',
+      2010,
+    );
+    changeDropdown(
+      form,
+      'select#root_currentTermDates_expectedGraduationDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_currentTermDates_expectedGraduationDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_currentTermDates_expectedGraduationDateYear',
+      2010,
+    );
     selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'N');
     fillData(
       form,

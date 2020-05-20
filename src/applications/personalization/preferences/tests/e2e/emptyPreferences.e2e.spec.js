@@ -13,60 +13,6 @@ function emptyPreferences(browser, token) {
   initChoicesGetMock(token);
   initHealthPostMock(token);
 
-  // init announcements
-  browser.execute(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      '["welcome-to-new-va"]',
-    );
-  });
-
-  // verify FTUX Find VA benefits modal
-  browser
-    .url(`${E2eHelpers.baseUrl}/my-va`)
-    .waitForElementVisible('.va-modal-body', Timeouts.slow);
-  browser.assert.containsText('.va-modal-body', 'Find VA benefits');
-
-  // accept find benefits modal
-  browser
-    .click('.va-modal-body .usa-button')
-    // land on correct page
-    .waitForElementVisible('#dashboard-title', Timeouts.slow);
-  browser.assert.containsText('#dashboard-title', 'Find VA benefits');
-
-  // init announcements
-  browser.execute(() => {
-    // window.localStorage.clear();
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      '["welcome-to-new-va"]',
-    );
-  });
-
-  // verify modal
-  browser
-    .url(`${E2eHelpers.baseUrl}/my-va`)
-    .waitForElementVisible('.va-modal-body', Timeouts.slow);
-  browser.assert.containsText('.va-modal-body', 'Find VA benefits');
-
-  // decline find benefits modal
-  browser
-    .click('.va-modal-body .usa-button-secondary')
-    // land on correct page
-    .waitForElementVisible('#dashboard-title', Timeouts.slow);
-  browser.assert.containsText('#dashboard-title', 'My VA');
-
-  // init announcements
-  browser.execute(() => {
-    window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
-  });
-
-  // ensure that modal does not appear if it has been dismissed
-  browser
-    .url(`${E2eHelpers.baseUrl}/my-va`)
-    .waitForElementVisible('body', Timeouts.slow);
-  browser.assert.elementNotPresent('.va-modal-body');
-
   // without having selected any preferences, ensure that none appear
   browser.assert.containsText(
     '.user-profile-row div div div p',

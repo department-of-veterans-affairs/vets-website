@@ -7,7 +7,7 @@ import { uniqueId } from 'lodash';
 import NavItemRow from '../../components/NavItemRow';
 
 describe('<NavItemRow>', () => {
-  it('should render a button tag when there are child nav items.', () => {
+  it('should render a hyperlink tag only when there are child nav items.', () => {
     const noop = () => {};
 
     const item = {
@@ -29,12 +29,11 @@ describe('<NavItemRow>', () => {
     };
 
     const wrapper = shallow(<NavItemRow {...defaultProps} />);
-    expect(wrapper.exists('button')).to.equal(true);
-    expect(wrapper.exists('a')).to.equal(false);
+    expect(wrapper.exists('a')).to.equal(true);
     wrapper.unmount();
   });
 
-  it('should render an anchor tag when there are child nav items.', () => {
+  it('should render a hyperlink tag when there are not child nav items.', () => {
     const noop = () => {};
 
     const item = {
@@ -56,7 +55,6 @@ describe('<NavItemRow>', () => {
     };
 
     const wrapper = shallow(<NavItemRow {...defaultProps} />);
-    expect(wrapper.exists('button')).to.equal(false);
     expect(wrapper.exists('a')).to.equal(true);
     wrapper.unmount();
   });

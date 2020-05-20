@@ -1,8 +1,14 @@
+import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
-
+import { customTransformForSubmit } from './utilities';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp.jsx';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -49,26 +55,32 @@ import {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  trackingPrefix: 'new-686-',
+  submitUrl: `${environment.API_URL}/v0/dependents_applications`,
+  trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-686',
+  preSubmitInfo,
+  formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'New 686',
-  defaultDefinitions: {},
+  title: 'Add or remove dependents from your VA benefits',
+  subTitle: 'VA Form 21-686c (and 21-674)',
+  defaultDefinitions: { ...fullSchema.definitions },
+  transformForSubmit: customTransformForSubmit,
   chapters: {
     optionSelection: {
-      title: '686c Options',
+      title: 'What do you want to do?',
       pages: {
         wizard: {
-          title: '686c Options',
+          hideHeaderRow: true,
+          title: 'What do you want to do?',
           path: '686-options-selection',
           uiSchema: wizard.uiSchema,
           schema: wizard.schema,
@@ -126,7 +138,10 @@ const formConfig = {
         childAdditionalEvidence: {
           depends: formData =>
             formData?.childrenToAdd?.some(
-              child => child?.childStatus?.stepchild === true,
+              child =>
+                child?.childStatus?.stepchild === true ||
+                child?.childStatus?.adopted === true ||
+                child?.childStatus?.notCapable === true,
             ),
           title: 'Additional evidence needed to add child',
           path: 'add-child-evidence',
@@ -200,8 +215,9 @@ const formConfig = {
         },
         marriageAdditionalEvidence: {
           depends: formData =>
-            typeof formData.marriageType === 'string' &&
-            formData.marriageType !== MARRIAGE_TYPES.ceremonial,
+            typeof formData?.currentMarriageInformation?.type === 'string' &&
+            formData?.currentMarriageInformation?.type !==
+              MARRIAGE_TYPES.ceremonial,
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
           uiSchema: marriageAdditionalEvidence.uiSchema,
@@ -238,6 +254,8 @@ const formConfig = {
           schema: deceasedDependentInformation.schema,
         },
         dependentAdditionalInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
           title: 'Report the death of a dependent',
           path: '686-report-dependent-death/:index/additional-information',
           showPagePerItem: true,
@@ -272,7 +290,7 @@ const formConfig = {
           depends: formData =>
             isChapterFieldRequired(
               formData,
-              TASK_KEYS.reportChild18orOlderIsNotAttendingSchool,
+              TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
             ),
           title:
             'Information needed to report a child 18-23 years old stopped attending school',
@@ -315,14 +333,12 @@ const formConfig = {
       },
     },
     report674: {
-      title:
-        'Information needed to add a student 18 to 23 years old (VA 21-674)',
+      title: 'Information needed to add a student 18 to 23 years old',
       pages: {
         studentNameAndSSN: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674',
           uiSchema: studentNameAndSSN.uiSchema,
           schema: studentNameAndSSN.schema,
@@ -330,8 +346,7 @@ const formConfig = {
         studentAddressMarriageTuition: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-address',
           uiSchema: studentAddressMarriageTuition.uiSchema,
           schema: studentAddressMarriageTuition.schema,
@@ -339,8 +354,7 @@ const formConfig = {
         studentSchoolAddress: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-school-address',
           uiSchema: studentSchoolAddress.uiSchema,
           schema: studentSchoolAddress.schema,
@@ -348,8 +362,7 @@ const formConfig = {
         studentTermDates: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-school-term-dates',
           uiSchema: studentTermDates.uiSchema,
           schema: studentTermDates.schema,
@@ -357,8 +370,7 @@ const formConfig = {
         studentLastTerm: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-last-term-information',
           uiSchema: studentLastTerm.uiSchema,
           schema: studentLastTerm.schema,
@@ -366,8 +378,7 @@ const formConfig = {
         studentIncomeInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-income-information',
           uiSchema: studentIncomeInformation.uiSchema,
           schema: studentIncomeInformation.schema,
@@ -375,8 +386,7 @@ const formConfig = {
         studentNetworthInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old (VA 21-674)',
+          title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-networth-information',
           uiSchema: studentNetworthInformation.uiSchema,
           schema: studentNetworthInformation.schema,

@@ -7,6 +7,22 @@
       width: 179px;
     }
   }
+  .vettec-logo-search {
+    height: 60px;
+    width: 126px;
+    @include media($medium-screen) {
+      height: 85px;
+      width: 179px;
+    }
+  }
+  .vettec-logo-landing {
+    height: 60px;
+    width: 126px;
+    @include media($medium-screen) {
+      height: 85px;
+      width: 179px;
+    }
+  }
 
   .vettec-logo-container {
     padding-top: 1.333em;
@@ -28,6 +44,12 @@
     }
     .single-column-display-none {
       display: none !important;
+    }
+  }
+
+  .calculator-form {
+    p {
+      margin-top: 0;
     }
   }
 }

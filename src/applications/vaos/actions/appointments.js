@@ -1,7 +1,6 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import { getMomentConfirmedDate, isCommunityCare } from '../utils/appointment';
+import { FETCH_STATUS, GA_PREFIX, APPOINTMENT_TYPES } from '../utils/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
@@ -229,10 +228,11 @@ export function fetchFutureAppointments() {
   };
 }
 
-export function fetchPastAppointments(startDate, endDate) {
+export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
+      selectedIndex,
     });
 
     try {
@@ -288,17 +288,18 @@ export function cancelAppointment(appointment) {
   };
 }
 
-const SUBMITTED_REQUEST = 'Submitted';
 const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
-    const isPendingRequest = appointment.status === SUBMITTED_REQUEST;
+    const isConfirmedAppointment =
+      appointment.appointmentType === APPOINTMENT_TYPES.vaAppointment;
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
-      appointmentType: isPendingRequest ? 'pending' : 'confirmed',
-      facilityType: isCommunityCare(appointment) ? 'cc' : 'va',
+      appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
+      facilityType: appointment.isCommunityCare ? 'cc' : 'va',
     };
+    let apiData = appointment.apiData;
     let cancelReasons = null;
     let cancelReason = null;
 
@@ -312,21 +313,23 @@ export function confirmCancelAppointment() {
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      if (isPendingRequest) {
-        await updateRequest({
-          ...appointment,
+      if (!isConfirmedAppointment) {
+        apiData = await updateRequest({
+          ...appointment.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
         const cancelData = {
-          appointmentTime: getMomentConfirmedDate(appointment).format(
+          appointmentTime: appointment.appointmentDate.format(
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,
           facilityId: appointment.facilityId,
           remarks: '',
-          clinicName: appointment.vdsAppointments[0].clinic.name,
+          // Grabbing this from the api data because it's not clear if
+          // we have to send the real name or if the friendly name is ok
+          clinicName: appointment.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
@@ -357,6 +360,7 @@ export function confirmCancelAppointment() {
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+        apiData,
       });
 
       recordEvent({

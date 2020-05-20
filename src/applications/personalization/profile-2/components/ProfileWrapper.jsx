@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { isWideScreen } from 'platform/utilities/accessibility/index';
+import { connect } from 'react-redux';
+
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
+  selectProfile,
 } from 'platform/user/selectors';
-
+import { fetchMHVAccount as fetchMHVAccountAction } from 'platform/user/profile/actions';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -18,16 +22,19 @@ import { fetchPaymentInformation as fetchPaymentInformationAction } from 'applic
 
 import ProfileHeader from './ProfileHeader';
 import ProfileSideNav from './ProfileSideNav';
+import MobileMenuTrigger from './MobileMenuTrigger';
 
 class ProfileWrapper extends Component {
   componentDidMount() {
     const {
       fetchFullName,
+      fetchMHVAccount,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchPaymentInformation,
       shouldFetchDirectDepositInformation,
     } = this.props;
+    fetchMHVAccount();
     fetchMilitaryInformation();
     fetchFullName();
     fetchPersonalInformation();
@@ -45,26 +52,67 @@ class ProfileWrapper extends Component {
     }
   }
 
-  // content to show if the component is waiting for data to load
+  // content to show if the component is waiting for data to load. This loader
+  // matches the loader shown by the RequiredLoginView component, so when the
+  // RequiredLoginView is done with its loading and this function takes over, it
+  // appears seamless to the user.
   loadingContent = () => (
     <div className="vads-u-margin-y--5">
       <LoadingIndicator setFocus message="Loading your information..." />
     </div>
   );
 
+  createBreadCrumbAttributes = () => {
+    const { location, route } = this.props;
+    const activeLocation = location?.pathname.replace('/', '');
+    const childRoutes = route?.childRoutes;
+    const activeRoute = childRoutes.find(
+      childRoute => childRoute.path === activeLocation,
+    );
+
+    const activeRouteName = activeRoute?.name;
+
+    return { activeLocation, activeRouteName };
+  };
+
   // content to show after data has loaded
   // note that `children` will be passed in via React Router.
-  mainContent = () => (
-    <>
-      <ProfileHeader />
-      <div className="usa-grid usa-grid-full">
-        <div className="usa-width-one-fourth">
-          <ProfileSideNav />
+  mainContent = () => {
+    const {
+      activeLocation,
+      activeRouteName,
+    } = this.createBreadCrumbAttributes();
+
+    // We do not want to display 'Profile' on the mobile personal-information route
+    const onPersonalInformationMobile =
+      this.props?.location?.pathname === '/personal-information' &&
+      !isWideScreen();
+
+    return (
+      <>
+        {/* Breadcrumbs */}
+        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+          <a href="/">Home</a>
+          {!onPersonalInformationMobile && <Link to="/">Profile</Link>}
+          <a href={activeLocation}>{activeRouteName}</a>
+        </Breadcrumbs>
+
+        <MobileMenuTrigger />
+
+        <div className="mobile-fixed-spacer" />
+        <ProfileHeader />
+
+        <div className="usa-grid usa-grid-full">
+          <div className="usa-width-one-fourth">
+            <ProfileSideNav />
+          </div>
+          <div className="usa-width-two-thirds vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-u-padding--0 medium-screen:vads-u-padding-bottom--6">
+            {this.props.children}
+          </div>
         </div>
-        <div className="usa-width-three-fourths">{this.props.children}</div>
-      </div>
-    </>
-  );
+      </>
+    );
+  };
 
   renderContent = () => {
     if (this.props.showLoader) {
@@ -97,6 +145,12 @@ const mapStateToProps = state => {
   // or fails:
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
 
+  // when the call to load MHV fails, `errors` will be set to a non-null value
+  // when the call succeeds, the `accountState` will be set to a non-null value
+  const hasLoadedMHVInformation =
+    selectProfile(state)?.mhvAccount?.errors ||
+    selectProfile(state)?.mhvAccount?.accountState;
+
   // this piece of state will be set if the call to load personal info succeeds
   // or fails:
   const hasLoadedPersonalInformation = state.vaProfile?.personalInformation;
@@ -110,8 +164,9 @@ const mapStateToProps = state => {
   const hasLoadedPaymentInformation = state.vaProfile?.paymentInformation;
 
   const hasLoadedAllData =
-    hasLoadedMilitaryInformation &&
     hasLoadedFullName &&
+    hasLoadedMHVInformation &&
+    hasLoadedMilitaryInformation &&
     hasLoadedPersonalInformation &&
     (shouldFetchDirectDepositInformation ? hasLoadedPaymentInformation : true);
 
@@ -124,6 +179,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
+  fetchMHVAccount: fetchMHVAccountAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchPaymentInformation: fetchPaymentInformationAction,

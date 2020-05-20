@@ -447,7 +447,7 @@ export class EducationWizard extends React.Component {
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
-              this.getButton(form1995)}
+              this.getButton('1995')}
             {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
               this.getButton('5495')}

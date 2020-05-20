@@ -3,7 +3,7 @@ import moment from '../utils/moment-tz.js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import FacilityAddress from './FacilityAddress';
 import AddToCalendar from './AddToCalendar';
-import { getFacilityAddress } from '../utils/appointment';
+import { formatFacilityAddress } from '../utils/formatters';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -84,7 +84,7 @@ export default function ConfirmationDirectScheduleInfo({
             <AddToCalendar
               summary="VA Appointment"
               description=""
-              location={getFacilityAddress(facilityDetails)}
+              location={formatFacilityAddress(facilityDetails)}
               startDateTime={momentDate.toDate()}
               duation={appointmentLength}
             />

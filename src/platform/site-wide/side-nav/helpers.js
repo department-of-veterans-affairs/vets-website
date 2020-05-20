@@ -141,10 +141,8 @@ export const normalizeSideNavData = data => {
   );
 
   // Derive a nav items array and a lookup table.
-  const navItemsLookup = deriveNavItemsLookup({
+  return deriveNavItemsLookup({
     items: relevantNavItems,
     navItemsLookup: {},
   });
-
-  return navItemsLookup;
 };

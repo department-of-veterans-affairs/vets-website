@@ -2,17 +2,5 @@
   "appName": "Discharge Wizard",
   "entryFile": "./discharge-wizard-entry.jsx",
   "entryName": "discharge-upgrade-instructions",
-  "rootUrl": "/discharge-upgrade-instructions",
-  "template": {
-    "layout": "page-react.html",
-    "title": "How To Apply For A Discharge Upgrade",
-    "heading": "How to apply for a discharge upgrade",
-    "display_title": "Discharge upgrade",
-    "description": "Want to apply for a military discharge upgrade or correction? Get step-by-step instructions depending on your specific situation. If your discharge is upgraded, you'll be eligible for VA benefits you earned while serving.",
-    "keywords": "upgrade discharge, military discharge upgrade, discharge upgrade",
-    "order": 6,
-    "spoke": "Get records",
-    "collection": "records",
-    "includeBreadcrumbs": true
-  }
+  "rootUrl": "/discharge-upgrade-instructions"
 }

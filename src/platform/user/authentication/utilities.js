@@ -1,22 +1,31 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
+import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
+import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
+export const ssoKeepAliveEndpoint = () => {
+  const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+  return `https://${envPrefix}eauth.va.gov/keepalive`;
+};
+
 function sessionTypeUrl(type = '', version = 'v0', application = null) {
-  const SESSIONS_URI =
+  const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
+  const params = new URLSearchParams();
 
-  return `${SESSIONS_URI}/${type}/new${
-    application ? `?application=${application}` : ''
-  }`;
+  if (application) params.append('application', application);
+  if (version === 'v1') params.append('force', 'true');
+
+  return `${base}/${type}/new?${params.toString()}`;
 }
 
 const loginUrl = (policy, version, application) => {
@@ -86,6 +95,10 @@ export function login(policy, version = 'v0', application = null) {
   );
 }
 
+export function autoLogin() {
+  return redirect(sessionTypeUrl('idme', 'v1'), 'sso-automatic-login');
+}
+
 export function mfa(version = 'v0') {
   return redirect(sessionTypeUrl('mfa', version), 'multifactor-link-clicked');
 }
@@ -97,6 +110,10 @@ export function verify(version = 'v0') {
 export function logout(version = 'v0') {
   clearSentryLoginType();
   return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
+}
+
+export function autoLogout() {
+  return redirect(sessionTypeUrl('slo', 'v1'), 'sso-automatic-logout');
 }
 
 export function signup(version = 'v0', application = null) {

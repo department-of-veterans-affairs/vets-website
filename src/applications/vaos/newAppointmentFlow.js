@@ -7,16 +7,11 @@ import {
   getEligibilityStatus,
   vaosCommunityCare,
   getCCEType,
-  getClinicsForChosenFacility,
   getTypeOfCare,
   selectSystemIds,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
-import {
-  getCommunityCare,
-  getLongTermAppointmentHistory,
-  getSitesSupportingVAR,
-} from './api';
+import { getCommunityCare, getSitesSupportingVAR } from './api';
 import {
   showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,
@@ -25,7 +20,6 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
-import { recordVaosError, recordEligibilityFailure } from './utils/events';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -223,29 +217,8 @@ export default {
       const eligibilityStatus = getEligibilityStatus(state);
 
       if (eligibilityStatus.direct) {
-        let appointments = null;
-
-        try {
-          appointments = await getLongTermAppointmentHistory();
-          const clinics = getClinicsForChosenFacility(state);
-          const hasMatchingClinics = clinics.some(
-            clinic =>
-              !!appointments.find(
-                appt =>
-                  clinic.siteCode === appt.facilityId &&
-                  clinic.clinicId === appt.clinicId,
-              ),
-          );
-
-          if (hasMatchingClinics) {
-            dispatch(startDirectScheduleFlow(appointments));
-            return 'clinicChoice';
-          }
-          recordEligibilityFailure('direct-no-matching-past-clinics');
-        } catch (error) {
-          recordVaosError('eligbility-direct-no-matching-past-clinics-error');
-          captureError(error);
-        }
+        dispatch(startDirectScheduleFlow());
+        return 'clinicChoice';
       }
 
       if (eligibilityStatus.request) {

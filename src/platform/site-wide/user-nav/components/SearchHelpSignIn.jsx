@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 import { hasSession } from 'platform/user/profile/utilities';

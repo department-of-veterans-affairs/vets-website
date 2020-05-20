@@ -1,0 +1,32 @@
+.va-btn-mobile-nav-trigger {
+  margin: units-px(1) 0;
+
+  button {
+    background-color: $color-primary;
+    color: $color-white;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      z-index: $top-layer;
+    }
+
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+
+    & img {
+      height: 10px;
+      width: auto;
+    }
+  }
+  @include media($medium-screen) {
+    display: none;
+  }
+}

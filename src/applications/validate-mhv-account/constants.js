@@ -1,3 +1,7 @@
+import environment from 'platform/utilities/environment';
+import { hasSessionSSO } from 'platform/user/profile/utilities';
+import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
+
 export const ACCOUNT_STATES = {
   NEEDS_VERIFICATION: 'needs_identity_verification',
   DEACTIVATED_MHV_IDS: 'has_deactivated_mhv_ids',
@@ -17,4 +21,7 @@ export const MHV_ACCOUNT_LEVELS = {
   PREMIUM: 'Premium',
 };
 
-export const MHV_URL = 'https://www.myhealth.va.gov/mhv-portal-web/home';
+const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
+export const MHV_URL = hasSessionSSO()
+  ? `https://${envPrefix}eauth.va.gov/mhv-portal-web/eauth`
+  : 'https://www.myhealth.va.gov/mhv-portal-web/home';

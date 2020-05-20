@@ -12,6 +12,7 @@ module.exports = `
     fieldFeaturedContentHealthser {
       entity {
         ... on ParagraphLinkTeaser {
+          entityId
           fieldLinkSummary
           fieldLink {
             title
@@ -64,6 +65,7 @@ module.exports = `
                             }
                           }
                           fieldNicknameForThisFacility
+                          title
                         }
                       }
                     }

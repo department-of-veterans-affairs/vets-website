@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {

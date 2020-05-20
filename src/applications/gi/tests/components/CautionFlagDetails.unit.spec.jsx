@@ -82,4 +82,24 @@ describe('<CautionFlagDetails>', () => {
     expect(wrapper.html()).to.contain(cautionFlag.linkText);
     wrapper.unmount();
   });
+
+  it('tracks link click', () => {
+    const cautionFlag = {
+      id: 1,
+      title: 'Test flag',
+      linkText: 'LINK',
+      linkUrl: 'https://va.gov',
+    };
+
+    const wrapper = mount(<CautionFlagDetails cautionFlags={[cautionFlag]} />);
+
+    wrapper
+      .find('a')
+      .at(0)
+      .simulate('click');
+
+    expect(global.window.dataLayer[0].alertBoxHeading).to.eq(cautionFlag.title);
+
+    wrapper.unmount();
+  });
 });
