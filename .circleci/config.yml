@@ -58,6 +58,7 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           command: yarn install --frozen-lockfile
+      - run: yarn install-repos
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
