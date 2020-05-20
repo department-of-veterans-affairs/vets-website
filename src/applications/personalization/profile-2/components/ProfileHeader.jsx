@@ -22,7 +22,7 @@ const ProfileHeader = ({
     'padding-y--2',
   ]);
   const wrapperClassesMedium = prefixUtilityClasses(
-    ['padding-y--3', 'margin-bottom--2'],
+    ['padding-y--2p5', 'margin-bottom--2'],
     'medium',
   );
 
@@ -90,11 +90,9 @@ const ProfileHeader = ({
       'usa-grid',
       'usa-grid-full',
     ].join(' '),
-    serviceBadge: [
-      ...serviceBadgeClasses,
-      ...serviceBadgeClassesMedium,
-      'usa-width-one-fourth',
-    ].join(' '),
+    serviceBadge: [...serviceBadgeClasses, ...serviceBadgeClassesMedium].join(
+      ' ',
+    ),
     title: [...titleClasses, ...titleClassesMedium].join(' '),
     fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
     latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
@@ -110,7 +108,7 @@ const ProfileHeader = ({
             <img
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
-              className="profile-service-badge vads-u-padding-right--1"
+              className="profile-service-badge vads-u-padding-right--3"
               aria-hidden="true"
               role="presentation"
             />
