@@ -119,7 +119,7 @@ const ensureCSRFTokenIsSet = async () => {
     return;
   }
   await apiRequest('/status', { method: 'GET' });
-}
+};
 
 export const requestChatBot = async loc => {
   const params = new URLSearchParams(location.search);
@@ -138,16 +138,17 @@ export const requestChatBot = async loc => {
     path += `&userName=${params.get('userName')}`;
   }
 
-  try  {
+  try {
     await ensureCSRFTokenIsSet();
     const { token } = await apiRequest(path, { method: 'POST' });
     return initBotConversation(token);
-  } catch(error) {
+  } catch (error) {
     Sentry.captureException(error);
     recordEvent({
       event: `${GA_PREFIX}-connection-failure`,
       'error-key': 'XX_failed_to_init_bot_convo',
     });
+    return null;
   }
 };
 
