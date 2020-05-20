@@ -113,19 +113,9 @@
   },
   {
     "appName": "VA Profile",
-    "entryName": "profile-360",
+    "entryName": "profile",
     "rootUrl": "/profile",
     "template": {
-      "title": "Your Profile",
-      "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "VA Profile",
-    "entryName": "profile-2",
-    "rootUrl": "/profile-2",
-    "template": {
-      "vagovprod": false,
       "title": "Your Profile",
       "layout": "page-react.html"
     }
