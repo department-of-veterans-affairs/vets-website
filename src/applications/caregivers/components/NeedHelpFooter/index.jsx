@@ -1,7 +1,9 @@
 import React from 'react';
 import { links } from 'applications/caregivers/definitions/content';
 
-const NeedHelpFooter = ({ isConfirmationPage }) => {
+const NeedHelpFooter = props => {
+  const isConfirmationPage = props.currentLocation.pathname === '/confirmation';
+
   const FormFooter = () => (
     <footer className="caregiver-footer row vads-u-padding-x--1p5">
       <div style={{ maxWidth: '600px' }}>
