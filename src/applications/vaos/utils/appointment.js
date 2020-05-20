@@ -203,6 +203,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 
 export function filterFutureConfirmedAppointments(appt, today) {
   // return appointments where current time is less than appointment time
+  // up to 395 days in the future
   // +60 min or +240 min in the case of video
   const isVideo = isVideoVisit(appt);
   const threshold = isVideo ? 240 : 60;
@@ -214,7 +215,8 @@ export function filterFutureConfirmedAppointments(appt, today) {
   return (
     !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&
     apptDateTime.isValid() &&
-    apptDateTime.add(threshold, 'minutes').isAfter(today)
+    apptDateTime.add(threshold, 'minutes').isAfter(today) &&
+    moment(apptDateTime).isBefore(moment().add(13, 'months'))
   );
 }
 

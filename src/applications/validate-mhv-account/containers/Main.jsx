@@ -5,9 +5,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import get from 'platform/utilities/data/get';
-import environment from 'platform/utilities/environment/index';
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
-import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS, MHV_URL } from './../constants';
+import { ssoe } from 'platform/user/authentication/selectors';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { ACCOUNT_STATES, MHV_ACCOUNT_LEVELS } from './../constants';
 
 /**
  * This is the parent component for the MyHealtheVet Account validation app.
@@ -24,6 +24,7 @@ class Main extends React.Component {
       mhvAccount,
       profile,
       router,
+      useSSOe,
     } = this.props;
 
     const pathname = location.pathname;
@@ -52,7 +53,7 @@ class Main extends React.Component {
 
       if (accountLevelChanged || accountStateChanged) {
         if (this.hasMHVAccess()) {
-          this.redirectToMHV();
+          window.location = mhvUrl(useSSOe, 'home');
         } else {
           router.replace('/');
         }
@@ -70,12 +71,6 @@ class Main extends React.Component {
       (accountLevel === MHV_ACCOUNT_LEVELS.PREMIUM ||
         accountLevel === MHV_ACCOUNT_LEVELS.ADVANCED)
     );
-  };
-
-  redirectToMHV = () => {
-    window.location = environment.isProduction()
-      ? MHV_URL
-      : replaceWithStagingDomain(MHV_URL);
   };
 
   render() {
@@ -116,6 +111,7 @@ const mapStateToProps = (state, ownProps) => {
     loadingProfile: loading,
     mhvAccount,
     profile,
+    useSSOe: ssoe(state),
   };
 };
 

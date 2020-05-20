@@ -33,7 +33,8 @@ function runTest(browser) {
   );
   browser.axeCheck(SELECTORS.WIDGET);
 
-  const sortedForms = sortBy(stub.data, 'id');
+  const validForms = stub.data.filter(form => form.attributes.validPdf);
+  const sortedForms = sortBy(validForms, 'id');
   const pageLength = 10;
   const pages = chunk(sortedForms, pageLength);
 

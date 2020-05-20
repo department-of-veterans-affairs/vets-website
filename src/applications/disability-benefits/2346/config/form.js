@@ -1,5 +1,6 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
@@ -45,12 +46,59 @@ const formPageTitlesLookup = {
 
 const addressSchema = buildAddressSchema(true);
 
+const asyncReturn = (returnValue, error, delay = 300) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const randomNumber = Math.round(Math.random() * 10);
+      const isNumberEven = randomNumber % 2 === 0;
+      if (isNumberEven) {
+        return resolve(returnValue);
+      }
+      return reject(error);
+    }, delay);
+  });
+
+const submit = form => {
+  const itemQuantities = form.data?.selectedProducts?.length;
+
+  recordEvent({
+    event: 'bam-2346a-submission',
+    'bam-quantityOrdered': itemQuantities,
+  });
+
+  const onSuccess = resp =>
+    new Promise(resolve => {
+      recordEvent({
+        event: 'bam-2346a-submission-successful',
+        'bam-quantityOrdered': itemQuantities,
+      });
+      return resolve(resp);
+    });
+
+  const onFailure = error =>
+    new Promise(reject => {
+      recordEvent({
+        event: 'bam-2346a-submission-failure',
+        'bam-quantityOrdered': itemQuantities,
+      });
+      return reject(error);
+    });
+
+  return asyncReturn(
+    {
+      attributes: { confirmationNumber: '123123123' },
+    },
+    'this is an error message',
+  )
+    .then(onSuccess)
+    .catch(onFailure);
+};
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/posts',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'va-2346a-',
+  submit,
+  trackingPrefix: 'bam-2346a-',
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -61,8 +109,11 @@ const formConfig = {
   title: 'Order hearing aid batteries and accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
+    notFound:
+      'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',
     noAuth: 'Please sign in again to continue your application for benefits.',
+    forbidden:
+      'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
   },
   defaultDefinitions: {
     email,
