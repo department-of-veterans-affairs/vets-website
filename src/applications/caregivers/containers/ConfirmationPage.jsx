@@ -16,7 +16,6 @@ const ConfirmationPage = props => {
   const { submission, data } = props.form;
   const { response } = submission;
   const name = data.veteranFullName;
-  // const name = { first: 'John', last: 'Doe', middle: null, suffix: null };
 
   const PrintDetails = () => (
     <div className="print-details">
