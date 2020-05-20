@@ -13,7 +13,8 @@ export default function FormResult({ formState }) {
   const pass = (
     <div>
       <h2 className="vads-u-font-size--h1">PASS</h2>
-      <h3>Valid for: {dateText}</h3>
+      <h3>Valid for:</h3>
+      <h3>{dateText}</h3>
       <div className="vads-u-font-size--h3">
         <p>
           Please show this screen to the staff member at the facility entrance.
@@ -26,7 +27,8 @@ export default function FormResult({ formState }) {
   const fail = (
     <div>
       <h2 className="vads-u-font-size--h1">More screening needed</h2>
-      <h3>Valid for: {dateText}</h3>
+      <h3>Valid for:</h3>
+      <h3>{dateText}</h3>
       <div className="vads-u-font-size--h3">
         <p>
           Please show this screen to the staff member at the facility entrance.
