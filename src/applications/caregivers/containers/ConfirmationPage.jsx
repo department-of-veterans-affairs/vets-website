@@ -3,9 +3,9 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { connect } from 'react-redux';
 
+import headerLogo from 'site/assets/img/header-logo.png';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'applications/claims-status/utils/page';
-import headerLogo from '../../../site/assets/img/header-logo.png';
 
 const ConfirmationPage = props => {
   useEffect(() => {
