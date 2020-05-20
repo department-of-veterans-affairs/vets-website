@@ -119,19 +119,30 @@ const addNewArrayItem = $form => {
  * it submits the form.
  */
 const processPage = () => {
+  // Run aXe check before doing anything on the page.
+  cy.axeCheck();
+
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
-      // Run page hook for review page if any.
-      cy.execHook(pathname);
+      // Run any page hooks for the review page, followed by an aXe check.
+      cy.execHook(pathname).then(hookExecuted => {
+        if (hookExecuted) cy.axeCheck();
+      });
+
       cy.findByLabelText(/accept/i).click();
       cy.findByText(/submit/i, { selector: 'button' }).click();
+
+      // The form should end up at the confirmation page after submitting.
+      // Run any page hooks for that, followed by an aXe check.
       cy.location('pathname').then(finalPathname => {
         expect(finalPathname).to.match(/confirmation$/);
-        // Run page hook for confirmation page if any.
-        cy.execHook(finalPathname);
+        cy.execHook(finalPathname).then(hookExecuted => {
+          if (hookExecuted) cy.axeCheck();
+        });
       });
     } else {
-      cy.axeCheck();
+      // If there's a page hook, it overrides the automatic form filling.
+      // Run the aXe check after either running the hook or filling the page.
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
         cy.axeCheck();
