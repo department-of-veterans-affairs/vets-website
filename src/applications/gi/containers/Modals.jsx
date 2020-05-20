@@ -620,51 +620,47 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('section103')}
       >
-        <div>
-          <div className="vads-u-padding--1p5 vads-u-margin-top--neg2">
-            <h3>Protection against late VA payments</h3>
-            <p>
-              If VA payments to institutions are delayed, schools receiving GI
-              Bill benefits must allow beneficiaries to continue attending their
-              classes if they have sufficient proof of eligibility on file.
-            </p>
-            <p>
-              Schools may require proof of GI Bill eligibility in the form of:
-            </p>
-            <ul>
-              <li>
-                Certificate of Eligibility (COE) <strong>or</strong>
-              </li>
-              <li>
-                Certificate of Eligibility (COE) and additional criteria such as
-                an award letter or other documents the school specifies
-              </li>
-            </ul>
-            <p>
-              <strong>
-                Schools can't impose late fees, deny access to facilities or
-                classes, or otherwise penalize beneficiaries if VA is late with
-                tuition and/or fees payments.
-              </strong>{' '}
-              The restriction on penalties doesn't apply if the beneficiary owes
-              additional fees to the school beyond the tuition and fees that VA
-              pays. Students are protected from these penalties up to 90 days
-              from the beginning of the term.
-            </p>
-            <p>
-              Contact the School Certifying Official (SCO) to learn more about
-              the school’s policy.{' '}
-              <a
-                href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Read our FAQs on the Veterans Benefits and Transition Act
-              </a>{' '}
-              to learn more about protections against late VA payments.
-            </p>
-          </div>
+        <div className="align-left">
+          <h3>Protection against late VA payments</h3>
         </div>
+        <p>
+          If VA payments to institutions are delayed, schools receiving GI Bill
+          benefits must allow beneficiaries to continue attending their classes
+          if they have sufficient proof of eligibility on file.
+        </p>
+        <p>Schools may require proof of GI Bill eligibility in the form of:</p>
+        <ul>
+          <li>
+            Certificate of Eligibility (COE) <strong>or</strong>
+          </li>
+          <li>
+            Certificate of Eligibility (COE) and additional criteria such as an
+            award letter or other documents the school specifies
+          </li>
+        </ul>
+        <p>
+          <strong>
+            Schools can't impose late fees, deny access to facilities or
+            classes, or otherwise penalize beneficiaries if VA is late with
+            tuition and/or fees payments.
+          </strong>{' '}
+          The restriction on penalties doesn't apply if the beneficiary owes
+          additional fees to the school beyond the tuition and fees that VA
+          pays. Students are protected from these penalties up to 90 days from
+          the beginning of the term.
+        </p>
+        <p>
+          Contact the School Certifying Official (SCO) to learn more about the
+          school’s policy.{' '}
+          <a
+            href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our FAQs on the Veterans Benefits and Transition Act
+          </a>{' '}
+          to learn more about protections against late VA payments.
+        </p>
       </Modal>
     </span>
   );
@@ -1093,29 +1089,27 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('giBillChapter')}
       >
-        <div>
-          <div className="vads-u-padding-top--1p5 vads-u-margin-top--neg0p25">
-            <h3>Which GI Bill benefit do you want to use?</h3>
-            <p>
-              You may be eligible for multiple types of education and training
-              programs. Different programs offer different benefits, so it’s
-              important to choose the program that will best meet your needs.
-              Use this tool to compare programs and schools.
-            </p>
-            <p>
-              For detailed information on eligibility requirements and general
-              program benefits, visit{' '}
-              <a
-                href="/education/eligibility/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page
-              </a>
-              .
-            </p>
-          </div>
+        <div className="align-left">
+          <h3>Which GI Bill benefit do you want to use?</h3>
         </div>
+        <p>
+          You may be eligible for multiple types of education and training
+          programs. Different programs offer different benefits, so it’s
+          important to choose the program that will best meet your needs. Use
+          this tool to compare programs and schools.
+        </p>
+        <p>
+          For detailed information on eligibility requirements and general
+          program benefits, visit{' '}
+          <a
+            href="/education/eligibility/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            this page
+          </a>
+          .
+        </p>
       </Modal>
 
       <Modal
