@@ -21,7 +21,7 @@ const ConfirmationPage = props => {
   // const name = { first: 'John', last: 'Doe', middle: null, suffix: null };
 
   const PrintDetails = () => (
-    <div className="print-detials">
+    <div className="print-details">
       <img src={headerLogo} alt="VA logo" />
 
       <h1 className="vads-u-font-size--h3">

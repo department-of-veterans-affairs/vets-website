@@ -1,5 +1,5 @@
 .caregiver-confirmation {
-  .print-detials {
+  .print-details {
     display: none;
   }
 }
@@ -10,7 +10,7 @@
   }
 
  .caregiver-confirmation {
-   .print-detials {
+   .print-details {
      display: flex;
      flex-direction: column;
 
@@ -35,5 +35,9 @@
    p {
      margin: 10px 0;
    }
+  }
+
+  .caregiver-footer {
+    display: block;
   }
 }
