@@ -113,7 +113,7 @@
   },
   {
     "appName": "VA Profile",
-    "entryName": "profile",
+    "entryName": "profile-360",
     "rootUrl": "/profile",
     "template": {
       "title": "Your Profile",
