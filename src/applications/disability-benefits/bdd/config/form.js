@@ -9,7 +9,7 @@ import { externalServices as services } from 'platform/monitoring/DowntimeNotifi
 import submitFormFor from '../../all-claims/config/submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import FormSavedPage from '../../all-claims/containers/FormSavedPage';
@@ -124,7 +124,7 @@ const formConfig = {
   formSavedPage: FormSavedPage,
   transformForSubmit: transform,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
