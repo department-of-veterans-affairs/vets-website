@@ -18,10 +18,6 @@
     margin: 0;
   }
 
-  .section-button {
-    letter-spacing: 0.4px;
-  }
-
   .link-header {
     h3,
     h4,
@@ -141,10 +137,6 @@
     }
 
     .calculator-result {
-      &.bold {
-        font-weight: bold;
-      }
-
       h5 {
         padding: 0;
       }
@@ -361,10 +353,6 @@
     max-width: fit-content;
   }
 
-  .eyb-inputs-ul {
-    list-style-type: none !important;
-  }
-
   .eyb-button {
     &.usa-accordion-button[aria-expanded='false'] {
       background-image: url('/img/arrow-up.png');
@@ -386,22 +374,57 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 99;
-    max-height: 0%;
-    transition: 1s;
+    z-index: 401;
     overflow: hidden;
-    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.15);
+    max-height: 0%;
+    // OUT
+    transition: max-height 1.5s ease-in-out;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+    &.open {
+      max-height: 100%;
+      transition: max-height 1.5s ease-in-out;
+      -webkit-transition-delay: 0s;
+      transition-delay: 0s;
+    }
   }
 
-  .eyb-sheet.open {
-    max-height: 100%;
+  .overlay {
+    display: flex;
+    flex-direction: column;
   }
 
-  button.calculate-button {
-    background-image: none;
-    background-color: $color-primary;
-    border-radius: $button-border-radius;
-    color: $color-white;
-    width: auto;
+  .estimate-your-benefits-form {
+    max-width: 400px;
+
+    ul {
+      list-style-type: none !important;
+    }
+
+    label,
+    span {
+      margin-top: 1.5em;
+    }
+
+    button.calculate-button {
+      background-image: none;
+      background-color: $color-primary;
+      border-radius: $button-border-radius;
+      color: $color-white;
+      width: auto;
+    }
+
+    .gi-checkbox-label {
+      margin-top: 1em;
+    }
+  }
+
+  .primary-sco-list {
+    padding-left: 0;
+  }
+
+  .secondary-sco-list {
+    padding-left: 0;
   }
 }

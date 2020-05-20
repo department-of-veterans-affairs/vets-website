@@ -1,7 +1,7 @@
 import ProfileWrapper from './components/ProfileWrapper';
 import PersonalInformation from './components/PersonalInformation';
 import MilitaryInformation from './components/MilitaryInformation';
-import DirectDeposit from './components/DirectDeposit';
+import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import AccountSecurity from './components/AccountSecurity';
 import ConnectedApplications from './components/ConnectedApplications';
 

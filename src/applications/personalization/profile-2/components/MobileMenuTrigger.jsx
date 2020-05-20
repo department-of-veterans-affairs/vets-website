@@ -114,7 +114,7 @@ const MobileMenuTrigger = ({
         onClick={openSideNav}
         ref={button}
       >
-        <b>Profile Menu</b>
+        <b>Profile menu</b>
         <img src="/img/arrow-right-white.svg" alt="" />
       </button>
     </div>

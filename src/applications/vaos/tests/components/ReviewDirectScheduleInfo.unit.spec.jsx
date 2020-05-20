@@ -6,6 +6,7 @@ import AppointmentDate from '../../components/review/AppointmentDate';
 import ReviewDirectScheduleInfo from '../../components/review/ReviewDirectScheduleInfo';
 import ReasonForAppointmentSection from '../../components/review/ReasonForAppointmentSection';
 import ContactDetailSection from '../../components/review/ContactDetailSection';
+import { VHA_FHIR_ID } from '../../utils/constants';
 
 const defaultData = {
   reasonForAppointment: 'routine-follow-up',
@@ -13,21 +14,29 @@ const defaultData = {
   calendarData: {
     selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
   },
-  vaParent: '983',
-  vaFacility: '983GB',
+  vaParent: 'var983',
+  vaFacility: 'var983GB',
   typeOfCareId: '323',
 };
 
 const facility = {
-  institutionCode: '983GB',
+  id: 'var983GB',
+  identifier: [
+    {
+      system: VHA_FHIR_ID,
+      value: '983',
+    },
+  ],
   name: 'CHYSHR-Sidney VA Clinic',
-  city: 'Sidney',
-  stateAbbrev: 'NE',
-  authoritativeName: 'CHYSHR-Sidney VA Clinic',
-  rootStationCode: '983',
-  adminParent: false,
-  parentStationCode: '983',
-  institutionTimezone: 'America/Denver',
+  address: [
+    {
+      city: 'Sidney',
+      state: 'NE',
+    },
+  ],
+  legacyVAR: {
+    institutionTimezone: 'America/Denver',
+  },
 };
 
 const clinic = {
@@ -48,6 +57,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           facility={facility}
           clinic={clinic}
           pageTitle={pageTitle}
+          systemId={'983'}
         />,
       );
     });
@@ -108,6 +118,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           data={data}
           facility={facility}
           clinic={clinic}
+          systemId={'983'}
         />,
       );
     });

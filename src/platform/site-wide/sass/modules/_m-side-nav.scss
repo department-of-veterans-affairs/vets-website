@@ -14,7 +14,7 @@ $side-nav-color-dark: #323a45;
     height: auto;
   }
   .va-sidenav-default-trigger {
-    padding: 5px 0 0 22px;
+    padding: 5px 0 0 0px;
     background-color: transparent;
     font-weight: bold;
     cursor: pointer;
@@ -22,7 +22,8 @@ $side-nav-color-dark: #323a45;
     margin-bottom: 5px;
     position: relative;
     cursor: pointer;
-    width: calc(100% - 25px);
+    width: calc(100% - 45px);
+    margin-left: 22px;
     i.fa {
       font-size: inherit;
       float: right;

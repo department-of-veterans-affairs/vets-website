@@ -1,31 +1,33 @@
 import { connect } from 'react-redux';
+import URLSearchParams from 'url-search-params';
 
+import { isLoggedIn } from 'platform/user/selectors';
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
   ssoe,
   ssoeInbound,
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
-import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
-import { hasSession, hasSessionSSO } from 'platform/user/profile/utilities';
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
-
-export async function checkStatus(toggleKeepAlive) {
-  await ssoKeepAliveSession();
-  if (hasSession() && !hasSessionSSO()) {
-    autoLogout();
-  } else if (!hasSession() && hasSessionSSO()) {
-    autoLogin();
-  }
-
-  toggleKeepAlive();
-}
+import { checkAutoSession } from 'platform/utilities/sso';
+import {
+  setForceAuth,
+  removeForceAuth,
+} from 'platform/utilities/sso/forceAuth';
 
 function AutoSSO(props) {
-  const { useSSOe, useInboundSSOe, hasCalledKeepAlive } = props;
+  const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
+  const params = new URLSearchParams(window.location.search);
+
+  if (userLoggedIn) {
+    removeForceAuth();
+  } else if (params.get('auth') !== 'success') {
+    setForceAuth();
+  }
 
   if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
-    checkStatus(props.checkKeepAlive);
+    checkAutoSession().then(() => {
+      props.checkKeepAlive();
+    });
   }
 
   return null;
@@ -35,6 +37,7 @@ const mapStateToProps = state => ({
   useSSOe: ssoe(state),
   useInboundSSOe: ssoeInbound(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
+  userLoggedIn: isLoggedIn(state),
 });
 
 const mapDispatchToProps = {

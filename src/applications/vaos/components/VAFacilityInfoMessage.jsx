@@ -5,9 +5,9 @@ export default function VAFacilityInfoMessage({ facility }) {
   return (
     <AlertBox status="info" headline="We found one VA location for you">
       <p>
-        <strong>{facility.authoritativeName}</strong>
+        <strong>{facility.name}</strong>
         <br />
-        {facility.city}, {facility.stateAbbrev}
+        {facility.address[0].city}, {facility.address[0].state}
       </p>
       Not all VA locations offer all types of care or support online scheduling.
       <p>

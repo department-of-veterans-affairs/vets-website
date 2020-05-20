@@ -7,9 +7,13 @@ import VAFacilityInfoMessage from '../../components/VAFacilityInfoMessage';
 describe('<VAFacilityInfoMessage>', () => {
   it('should display facility alert', () => {
     const facility = {
-      authoritativeName: 'Test facility',
-      city: 'Northampton',
-      stateAbbrev: 'MA',
+      name: 'Test facility',
+      address: [
+        {
+          city: 'Northampton',
+          state: 'MA',
+        },
+      ],
     };
 
     const tree = shallow(<VAFacilityInfoMessage facility={facility} />);

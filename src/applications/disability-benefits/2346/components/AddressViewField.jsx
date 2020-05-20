@@ -13,8 +13,7 @@ const addLine = line => line && [line, <br key={line} />];
 
 const AddressViewField = ({ formData }) => {
   // unchanged address variable names
-  const { country, city, state } = formData;
-
+  const { country, city, state, postalCode } = formData;
   // this should cover all current address use cases
   // street, line2, line3, postalCode = platform address schema
   // addressLine1, addressLine2, addressLine3 = 526 & HLR
@@ -22,11 +21,34 @@ const AddressViewField = ({ formData }) => {
   const street = getField(formData, ['street', 'addressLine1']);
   const street2 = getField(formData, ['line2', 'street2', 'addressLine2']);
   const street3 = getField(formData, ['line3', 'street3', 'addressLine3']);
-  const postalCode = getField(formData, ['postalCode', 'zipCode']);
   const internationalPostalCode = getField(formData, [
     'internationalPostalCode',
   ]);
   const province = getField(formData, ['province']);
+
+  const getAddressFormat = () => {
+    if (country) {
+      return country === 'USA' ? 'domestic' : 'international';
+    }
+    return undefined;
+  };
+
+  const addressFormat = getAddressFormat();
+
+  /* eslint-disable no-unused-vars */
+  // using destructuring to remove view:livesOnMilitaryBaseInfo prop
+  const {
+    'view:livesOnMilitaryBaseInfo': removed,
+    ...alteredAddress
+  } = formData;
+  /* eslint-enable no-unused-vars */
+
+  const isAddressMissing = Object.values(alteredAddress).every(prop => !prop);
+  const isBaseAddressDataValid = street && country && city;
+  const isDomesticAddressValid =
+    addressFormat === 'domestic' && state && postalCode;
+  const isInternationalAddressValid =
+    addressFormat === 'international' && province && internationalPostalCode;
 
   let postalString = '';
   if (postalCode) {
@@ -42,20 +64,25 @@ const AddressViewField = ({ formData }) => {
 
   return (
     <>
-      {street && city && country ? (
+      {!isAddressMissing && (
         <div className="vads-u-border-left--7px vads-u-border-color--primary">
           <p className="vads-u-margin-left--2 vads-u-margin-top--0">
-            {addLine(street)}
-            {addLine(street2)}
-            {addLine(street3)}
-            {country === 'USA'
-              ? `${city}, ${state} ${postalString}`
-              : `${city}, ${province} ${internationalPostalCode}`}
-            <br />
-            {country}
+            {isBaseAddressDataValid && (
+              <>
+                {addLine(street)}
+                {addLine(street2)}
+                {addLine(street3)}
+                {isDomesticAddressValid && `${city}, ${state} ${postalString}`}
+                {isInternationalAddressValid &&
+                  `${city}, ${province} ${internationalPostalCode}`}
+                <span className="vads-u-display--block">{country}</span>
+              </>
+            )}
           </p>
         </div>
-      ) : (
+      )}
+
+      {isAddressMissing && (
         <p>
           Please provide a temporary address if you want us to ship your order
           to another location, like a relative's house or a vacation home.
@@ -63,6 +90,10 @@ const AddressViewField = ({ formData }) => {
       )}
     </>
   );
+};
+
+AddressViewField.defaultProps = {
+  formData: {},
 };
 
 AddressViewField.propTypes = {

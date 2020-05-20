@@ -7,6 +7,9 @@ export const profileShowReceiveTextNotifications = state =>
 export const directDepositInformation = state =>
   state.vaProfile?.paymentInformation;
 
+export const directDepositUiState = state =>
+  state.vaProfile?.paymentInformationUiState;
+
 export const directDepositAccountInformation = state =>
   directDepositInformation(state)?.responses?.[0]?.paymentAccount;
 
@@ -26,8 +29,11 @@ export const directDepositAddressIsSetUp = state => {
 };
 
 export const directDepositIsBlocked = state => {
-  const controlInfo = directDepositInformation(state)?.responses?.[0]
-    ?.controlInformation;
-  if (!controlInfo) return false;
-  return controlInfo.canUpdateAddress !== true;
+  const controlInfo =
+    directDepositInformation(state)?.responses?.[0]?.controlInformation || {};
+  return (
+    !controlInfo.isCompetentIndicator ||
+    !controlInfo.noFiduciaryAssignedIndicator ||
+    !controlInfo.notDeceasedIndicator
+  );
 };
