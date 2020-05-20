@@ -136,7 +136,7 @@ describe('profile360 selectors', () => {
       };
       expect(selectors.directDepositIsBlocked(state)).to.be.false;
     });
-    it('returns `true` if the control information is not set', () => {
+    it('returns `false` if the control information is not set', () => {
       const state = {
         vaProfile: {
           paymentInformation: {
@@ -144,7 +144,7 @@ describe('profile360 selectors', () => {
           },
         },
       };
-      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+      expect(selectors.directDepositIsBlocked(state)).to.be.false;
     });
     it('returns `true` if the `isCompetentIndicator` is not true', () => {
       const state = {
