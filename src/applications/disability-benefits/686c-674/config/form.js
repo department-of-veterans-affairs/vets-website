@@ -375,7 +375,7 @@ const formConfig = {
           uiSchema: studentLastTerm.uiSchema,
           schema: studentLastTerm.schema,
         },
-        // NOTE: These are temporarily commented out, and will be reintroduced post-launch as part of 674 pension support.
+        // NOTE: These are temporarily disabled, and will be reintroduced post-launch as part of 674 pension support.
         studentIncomeInformation: {
           depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
