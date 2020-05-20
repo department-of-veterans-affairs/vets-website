@@ -110,6 +110,7 @@ describe('VAOS reducer: appointments', () => {
             appointmentRequestId: '1',
           },
         ],
+        // pending appointments will show
         [{ optionDate1: '05/29/2099' }],
       ],
       today: moment(),
@@ -117,7 +118,7 @@ describe('VAOS reducer: appointments', () => {
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(4);
+    expect(newState.future.length).to.equal(5);
     expect(
       newState.future[0].appointmentDate.isBefore(
         newState.future[1].appointmentDate,
