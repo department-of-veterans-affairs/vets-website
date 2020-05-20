@@ -8,10 +8,12 @@ export default function FormResult({ formState }) {
 
   const incomplete = <div>Please answer all the questions above.</div>;
 
+  const dateText = moment().format('dddd, MMMM D, h:mm a');
+
   const pass = (
     <div>
       <h2 className="vads-u-font-size--h1">PASS</h2>
-      <h3>Valid for: {moment().format('dddd, MMMM D, h:mm a')}</h3>
+      <h3>Valid for: {dateText}</h3>
       <div className="vads-u-font-size--h3">
         <p>
           Please show this screen to the staff member at the facility entrance.
@@ -24,7 +26,7 @@ export default function FormResult({ formState }) {
   const fail = (
     <div>
       <h2 className="vads-u-font-size--h1">More screening needed</h2>
-      <h3>Valid for: {moment().format('dddd, MMMM D, h:mm a')}</h3>
+      <h3>Valid for: {dateText}</h3>
       <div className="vads-u-font-size--h3">
         <p>
           Please show this screen to the staff member at the facility entrance.
