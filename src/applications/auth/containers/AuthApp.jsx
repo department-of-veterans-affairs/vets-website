@@ -114,6 +114,11 @@ export class AuthApp extends React.Component {
     this.setState({ error: true });
   };
 
+  handleAuthForceNeeded = () => {
+    recordEvent({ event: `login-failed-force-needed` });
+    this.redirect();
+  };
+
   handleAuthSuccess = payload => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const { type } = this.props.location.query;
@@ -135,9 +140,13 @@ export class AuthApp extends React.Component {
 
   // Fetch the user to get the login policy and validate the session.
   validateSession = () => {
-    apiRequest('/user')
-      .then(this.handleAuthSuccess)
-      .catch(this.handleAuthError);
+    if (this.props.location.query.auth === 'force-needed') {
+      this.handleAuthForceNeeded();
+    } else {
+      apiRequest('/user')
+        .then(this.handleAuthSuccess)
+        .catch(this.handleAuthError);
+    }
   };
 
   renderError = () => {
