@@ -1,4 +1,6 @@
 version: 2
+orbs:
+  cypress: cypress-io/cypress@1
 jobs:
   lint:
     docker:
@@ -204,7 +206,16 @@ workflows:
     jobs:
       - lint
       - unit-test
-      - e2e-test
+      - cypress/install:
+          build: "yarn install-repos"
+      - cypress/run:
+          requires:
+            - cypress/install
+          record: false # record results on Cypress Dashboard
+          parallel: true # split all specs across machines
+          parallelism: 4 # use 4 CircleCI machines to finish quickly
+          group: "all tests" # name this group "all tests" on the dashboard
+          start: "yarn watch" # start server before running tests
       - security-audit
       - build:
           requires:
