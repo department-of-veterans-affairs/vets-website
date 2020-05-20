@@ -413,6 +413,12 @@
       border-radius: $button-border-radius;
       color: $color-white;
       width: auto;
+      text-align: inherit;
+
+      @include media-maxwidth(641px) {
+        text-align: center;
+        width: 100%;
+      }
     }
 
     .gi-checkbox-label {
