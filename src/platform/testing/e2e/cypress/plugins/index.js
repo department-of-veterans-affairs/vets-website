@@ -21,6 +21,11 @@ module.exports = on => {
   on('file:preprocessor', webpackPreprocessor(options));
 
   on('task', {
+    /* eslint-disable no-console */
+    log: message => console.log(message) || null,
+    table: message => console.table(message) || null,
+    /* eslint-enable no-console */
+
     /**
      * Sets up specified target files or directories as temporary fixtures
      * by creating symlinks under a temp directory in the fixtures folder.
