@@ -14,7 +14,12 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function sessionTypeUrl(type = '', version = 'v0', application = null) {
+function sessionTypeUrl(
+  type = '',
+  version = 'v0',
+  application = null,
+  to = null,
+) {
   const SESSIONS_URI =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
@@ -22,17 +27,17 @@ function sessionTypeUrl(type = '', version = 'v0', application = null) {
 
   return `${SESSIONS_URI}/${type}/new${
     application ? `?application=${application}` : ''
-  }`;
+  }${application && to ? `&to=${to}` : ''}`;
 }
 
-const loginUrl = (policy, version, application) => {
+const loginUrl = (policy, version, application, to) => {
   switch (policy) {
     case 'mhv':
-      return sessionTypeUrl('mhv', version, application);
+      return sessionTypeUrl('mhv', version, application, to);
     case 'dslogon':
-      return sessionTypeUrl('dslogon', version, application);
+      return sessionTypeUrl('dslogon', version, application, to);
     default:
-      return sessionTypeUrl('idme', version, application);
+      return sessionTypeUrl('idme', version, application, to);
   }
 };
 
@@ -85,9 +90,9 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy, version = 'v0', application = null) {
+export function login(policy, version = 'v0', application = null, to = null) {
   return redirect(
-    loginUrl(policy, version, application),
+    loginUrl(policy, version, application, to),
     'login-link-clicked-modal',
   );
 }
@@ -113,9 +118,9 @@ export function autoLogout() {
   return redirect(sessionTypeUrl('slo', 'v1'), 'sso-automatic-logout');
 }
 
-export function signup(version = 'v0', application = null) {
+export function signup(version = 'v0', application = null, to = null) {
   return redirect(
-    sessionTypeUrl('signup', version, application),
+    sessionTypeUrl('signup', version, application, to),
     'register-link-clicked',
   );
 }
