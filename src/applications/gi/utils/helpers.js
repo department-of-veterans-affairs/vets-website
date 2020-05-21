@@ -88,10 +88,3 @@ export const formatDollarAmount = value => {
   const output = value != null ? removeNonNumberCharacters(value) : 0;
   return formatCurrency(output);
 };
-
-export const checkForEmptyFocusableElement = element => {
-  if (document.getElementsByName(element) === null) {
-    return '';
-  }
-  return document.getElementsByName(element);
-};
