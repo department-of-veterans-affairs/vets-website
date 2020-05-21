@@ -16,14 +16,7 @@ import { selectShowProfile2 } from 'applications/personalization/profile-2/selec
 
 const LoadingPage = <Profile2Wrapper>Loading...</Profile2Wrapper>;
 
-const ProfilesWrapper = ({
-  FFProfile2,
-  isLOA1,
-  isLOA3,
-  isInMVI,
-  localStorageProfile1,
-  localStorageProfile2,
-}) => {
+const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
   // On initial render, both isLOA props are false.
   // We need to make sure the proper redirect is hit,
   // so we show a loading state till one value is true.
@@ -37,77 +30,67 @@ const ProfilesWrapper = ({
     );
   }
 
-  // Feature flag is turned off, and localStorage value PROFILE_VERSION is not set to 2 OR
-  // Feature flag is turned on, and localStorage value PROFILE_VERSION is set to 1
-  const showProfile1 =
-    (!FFProfile2 && !localStorageProfile2) ||
-    (FFProfile2 && localStorageProfile1);
-
-  // Feature flag is turned off, but localStorage value PROFILE_VERSION is set to 2 OR
-  // Feature flag is turned on, and localStorage value PROFILE_VERSION is not set to 1
-  const showProfile2 =
-    (!FFProfile2 && localStorageProfile2) ||
-    (FFProfile2 && !localStorageProfile1);
-
   if (showProfile1) {
     return <ProfileOneWrapper />;
   }
 
-  if (showProfile2) {
-    return (
-      <BrowserRouter>
-        <Suspense fallback={LoadingPage}>
-          <Switch>
-            {routes.map(route => {
-              if ((route.requiresLOA3 && !isLOA3) || !isInMVI) {
-                return (
-                  <Redirect
-                    from={route.path}
-                    key="/profile/account-security"
-                    to="/profile/account-security"
-                  />
-                );
-              }
-
-              const Component = route.component;
-
+  return (
+    <BrowserRouter>
+      <Suspense fallback={LoadingPage}>
+        <Switch>
+          {routes.map(route => {
+            if ((route.requiresLOA3 && !isLOA3) || !isInMVI) {
               return (
-                <Route
-                  component={props => (
-                    <Profile2Wrapper {...props}>
-                      <Component />
-                    </Profile2Wrapper>
-                  )}
-                  exact
-                  key={route.path}
-                  path={route.path}
+                <Redirect
+                  from={route.path}
+                  key="/profile/account-security"
+                  to="/profile/account-security"
                 />
               );
-            })}
+            }
 
-            <Redirect
-              exact
-              from="/profile"
-              key="/profile/personal-information"
-              to="/profile/personal-information"
-            />
-          </Switch>
-        </Suspense>
-      </BrowserRouter>
-    );
-  }
+            const Component = route.component;
+
+            return (
+              <Route
+                component={props => (
+                  <Profile2Wrapper {...props}>
+                    <Component />
+                  </Profile2Wrapper>
+                )}
+                exact
+                key={route.path}
+                path={route.path}
+              />
+            );
+          })}
+
+          <Redirect
+            exact
+            from="/profile"
+            key="/profile/personal-information"
+            to="/profile/personal-information"
+          />
+        </Switch>
+      </Suspense>
+    </BrowserRouter>
+  );
 };
 
 const mapStateToProps = state => {
   const profileVersion = localStorage.getItem(PROFILE_VERSION);
-
+  const localStorageProfile1 = profileVersion === '1';
+  const localStorageProfile2 = profileVersion === '2';
+  const FFProfile2 = selectShowProfile2(state);
   return {
     isLOA1: isLOA1Selector(state),
     isLOA3: isLOA3Selector(state),
     isInMVI: isInMVISelector(state),
-    localStorageProfile1: profileVersion === '1',
-    localStorageProfile2: profileVersion === '2',
-    FFProfile2: selectShowProfile2(state),
+    // Feature flag for Profile 2 is false, localStorage value PROFILE_VERSION is not set to 2 OR
+    // Feature flag for Profile 2 is true, localStorage value PROFILE_VERSION is set to 1
+    showProfile1:
+      (!FFProfile2 && !localStorageProfile2) ||
+      (FFProfile2 && localStorageProfile1),
   };
 };
 
