@@ -33,6 +33,6 @@ export const questions = [
   {
     id: 'exposure',
     text:
-      'In the past 14 days, have you had contact with someone diagnosed with COVID-19?',
+      'In the past 14 days, have you had close contact with someone diagnosed with COVID-19?',
   },
 ];
