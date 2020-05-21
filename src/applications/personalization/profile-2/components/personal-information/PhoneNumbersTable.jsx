@@ -1,12 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  selectVet360Field,
-  // selectVet360Transaction,
-  // selectCurrentlyOpenEditModal,
-  // selectEditedFormField,
-} from 'platform/user/profile/vet360/selectors';
+import { selectVet360Field } from 'platform/user/profile/vet360/selectors';
 
 import PhoneView from 'platform/user/profile/vet360/components/PhoneField/PhoneView';
 import { FIELD_NAMES } from 'platform/user/profile/vet360/constants';

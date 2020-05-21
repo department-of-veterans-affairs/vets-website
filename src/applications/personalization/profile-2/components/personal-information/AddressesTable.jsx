@@ -1,19 +1,51 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  selectVet360Field,
-  // selectVet360Transaction,
-  // selectCurrentlyOpenEditModal,
-  // selectEditedFormField,
-} from 'platform/user/profile/vet360/selectors';
+import { selectVet360Field } from 'platform/user/profile/vet360/selectors';
 
 import AddressView from 'platform/user/profile/vet360/components/AddressField/AddressView';
 import { FIELD_NAMES } from 'platform/user/profile/vet360/constants';
 
 import ProfileInfoTable from '../ProfileInfoTable';
 
-const renderValue = value => (value ? <AddressView data={value} /> : 'not set');
+import { prefixUtilityClasses } from '../../helpers';
+
+const ContactInfoCell = props => {
+  const { value } = props;
+
+  const wrapperClasses = prefixUtilityClasses(
+    [
+      'display--flex',
+      'align-items--flex-start',
+      'flex-direction--row',
+      'justify-content--space-between',
+    ],
+    'medium',
+  );
+
+  const editButtonClasses = [
+    'va-button-link',
+    ...prefixUtilityClasses(['margin-top--1p5']),
+  ];
+
+  const editButtonClassesMedium = prefixUtilityClasses(
+    ['flex--auto', 'margin-top--0'],
+    'medium',
+  );
+
+  const classes = {
+    wrapper: [...wrapperClasses].join(' '),
+    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+  };
+  const contactInfo = value ? <AddressView data={value} /> : 'not set';
+  const content = (
+    <div className={classes.wrapper}>
+      {contactInfo}
+      <button className={classes.editButton}>Edit</button>
+    </div>
+  );
+  return content;
+};
 
 const AddressesTable = ({ className, homeAddress, mailingAddress }) => (
   <ProfileInfoTable
@@ -21,11 +53,11 @@ const AddressesTable = ({ className, homeAddress, mailingAddress }) => (
     data={[
       {
         title: 'Mailing address',
-        value: renderValue(mailingAddress),
+        value: <ContactInfoCell value={mailingAddress} />,
       },
       {
         title: 'Home address',
-        value: renderValue(homeAddress),
+        value: <ContactInfoCell value={homeAddress} />,
       },
     ]}
     className={className}
