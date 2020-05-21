@@ -121,16 +121,6 @@
     }
   },
   {
-    "appName": "VA Profile",
-    "entryName": "profile-2",
-    "rootUrl": "/profile-2",
-    "template": {
-      "vagovprod": false,
-      "title": "Your Profile",
-      "layout": "page-react.html"
-    }
-  },
-  {
     "appName": "View Dependents",
     "entryName": "dependents-view-dependents",
     "rootUrl": "/view-change-dependents/view",

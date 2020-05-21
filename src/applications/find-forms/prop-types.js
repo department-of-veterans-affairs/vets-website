@@ -6,6 +6,7 @@ const Form = PropTypes.shape({
     formName: PropTypes.string.isRequired, // same as id
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    validPdf: PropTypes.bool.isRequired,
     lastRevisionOn: PropTypes.string,
     firstIssuedOn: PropTypes.string, // always null; meaningless property
     sha: PropTypes.string,
