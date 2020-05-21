@@ -16,25 +16,15 @@ import { selectShowProfile2 } from 'applications/personalization/profile-2/selec
 
 const LoadingPage = <Profile2Wrapper>Loading...</Profile2Wrapper>;
 
-const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
-  // On initial render, both isLOA props are false.
-  // We need to make sure the proper redirect is hit,
-  // so we show a loading state till one value is true.
-  if (!isLOA1 && !isLOA3) {
-    return (
-      <BrowserRouter>
-        <Suspense fallback={LoadingPage}>
-          <Profile2Wrapper />
-        </Suspense>
-      </BrowserRouter>
-    );
-  }
-
-  if (showProfile1) {
-    return <ProfileOneWrapper />;
-  }
-
-  return (
+const ProfilesWrapper = ({
+  FFProfile2,
+  isLOA1,
+  isLOA3,
+  isInMVI,
+  localStorageProfile1,
+  localStorageProfile2,
+}) => {
+  const profile2 = (
     <BrowserRouter>
       <Suspense fallback={LoadingPage}>
         <Switch>
@@ -75,6 +65,39 @@ const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
       </Suspense>
     </BrowserRouter>
   );
+
+  // On initial render, both isLOA props are false.
+  // We need to make sure the proper redirect is hit,
+  // so we show a loading state till one value is true.
+  if (!isLOA1 && !isLOA3) {
+    return (
+      <BrowserRouter>
+        <Suspense fallback={LoadingPage}>
+          <Profile2Wrapper />
+        </Suspense>
+      </BrowserRouter>
+    );
+  }
+
+  // Feature flag is turned off, but localStorage value PROFILE_VERSION is set to 2
+  if (!FFProfile2 && localStorageProfile2) {
+    return profile2;
+  }
+
+  // Feature flag is turned on, and localStorage value PROFILE_VERSION is not set to 1
+  if (FFProfile2 && !localStorageProfile1) {
+    return profile2;
+  }
+
+  // Feature flag is turned off, and localStorage value PROFILE_VERSION is not set to 2
+  if (!FFProfile2 && !localStorageProfile2) {
+    return <ProfileOneWrapper />;
+  }
+
+  // Feature flag is turned on, and localStorage value PROFILE_VERSION is set to 1
+  if (FFProfile2 && localStorageProfile1) {
+    return <ProfileOneWrapper />;
+  }
 };
 
 const mapStateToProps = state => {
@@ -84,7 +107,9 @@ const mapStateToProps = state => {
     isLOA1: isLOA1Selector(state),
     isLOA3: isLOA3Selector(state),
     isInMVI: isInMVISelector(state),
-    showProfile1: !selectShowProfile2(state) || profileVersion === '1',
+    localStorageProfile1: profileVersion === '1',
+    localStorageProfile2: profileVersion === '2',
+    FFProfile2: selectShowProfile2(state),
   };
 };
 
