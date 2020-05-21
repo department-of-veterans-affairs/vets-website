@@ -3,6 +3,7 @@ import { questions } from '../config/questions';
 import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
+import classnames from 'classnames';
 
 export default function FormResult({ formState }) {
   let result;
@@ -66,7 +67,10 @@ export default function FormResult({ formState }) {
 
   return (
     <div
-      className={`feature covid-screener-results covid-screener-results-${resultClass}`}
+      className={classnames(
+        'feature covid-screener-results',
+        `covid-screener-results-${resultClass}`,
+      )}
     >
       <Element
         name={`multi-question-form-${questions.length}-scroll-element`}
