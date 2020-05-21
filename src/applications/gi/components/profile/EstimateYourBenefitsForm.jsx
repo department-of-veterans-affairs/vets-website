@@ -176,7 +176,9 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleAccordionFocus = () => {
     const field = document.getElementById('estimate-your-benefits-accordion');
-    field.scrollIntoView();
+    if (field) {
+      field.scrollIntoView();
+    }
   };
 
   handleInputFocus = fieldId => {
