@@ -63,7 +63,7 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn install-repos
-      - run: yarn build
+      - run: yarn build --pull-drupal --no-drupal-proxy
       - run: yarn test:e2e:circle
 
   security-audit:
