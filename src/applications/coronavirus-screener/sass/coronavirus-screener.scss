@@ -1,6 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .covid-screener-results {
+  background-color: $color-gray-dark;
   &.covid-screener-results-pass {
     i {font-size: 500%;}
     background-color: $color-primary;
