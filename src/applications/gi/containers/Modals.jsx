@@ -652,7 +652,7 @@ export class Modals extends React.Component {
         </p>
         <p>
           Contact the School Certifying Official (SCO) to learn more about the
-          school’s policy{' '}
+          school’s policy.{' '}
           <a
             href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
             onClick={() => {
