@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { isWideScreen } from 'platform/utilities/accessibility/index';
-import { connect } from 'react-redux';
-
 import {
   createIsServiceAvailableSelector,
   isMultifactorEnabled,
@@ -19,12 +19,12 @@ import {
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from 'applications/personalization/profile360/actions';
 import { fetchPaymentInformation as fetchPaymentInformationAction } from 'applications/personalization/profile360/actions/paymentInformation';
-
 import ProfileHeader from './ProfileHeader';
 import ProfileSideNav from './ProfileSideNav';
 import MobileMenuTrigger from './MobileMenuTrigger';
+import routes from '../routes';
 
-class ProfileWrapper extends Component {
+class Profile2 extends Component {
   componentDidMount() {
     const {
       fetchFullName,
@@ -63,16 +63,11 @@ class ProfileWrapper extends Component {
   );
 
   createBreadCrumbAttributes = () => {
-    const { location, route } = this.props;
-    const activeLocation = location?.pathname.replace('/', '');
-    const childRoutes = route?.childRoutes;
-    const activeRoute = childRoutes.find(
-      childRoute => childRoute.path === activeLocation,
-    );
+    const { location } = this.props;
+    const activeLocation = location?.pathname;
+    const activeRoute = routes.find(route => route.path === activeLocation);
 
-    const activeRouteName = activeRoute?.name;
-
-    return { activeLocation, activeRouteName };
+    return { activeLocation, activeRouteName: activeRoute?.name };
   };
 
   // content to show after data has loaded
@@ -185,9 +180,9 @@ const mapDispatchToProps = {
   fetchPaymentInformation: fetchPaymentInformationAction,
 };
 
-export { ProfileWrapper, mapStateToProps };
+export { Profile2, mapStateToProps };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProfileWrapper);
+)(Profile2);

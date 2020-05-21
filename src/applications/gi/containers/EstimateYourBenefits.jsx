@@ -38,24 +38,33 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   handleScroll() {
-    const eybAccordionField = document.getElementById(
-      'estimate-your-benefits-accordion',
-    );
-    const yourEYBField = document.getElementsByClassName(
-      'your-estimated-benefits',
-    )[0];
-    if (eybAccordionField && yourEYBField) {
-      const topOffset = eybAccordionField.getBoundingClientRect().top - 12 < 0;
-      const bottomOffset =
-        yourEYBField.getBoundingClientRect().top - window.innerHeight > 0;
+    const topOffset =
+      document
+        .getElementById('estimate-your-benefits-accordion')
+        .getBoundingClientRect().top -
+        12 <
+      0;
 
-      if (topOffset && bottomOffset) {
-        if (this.state.showEybSheet === false) {
-          this.setState({ showEybSheet: true });
-        }
-      } else if (this.state.showEybSheet === true) {
-        this.setState({ showEybSheet: false });
+    const sheetHeight = document.getElementsByClassName('eyb-sheet')[0]
+      .offsetHeight;
+    const calculateButtonHeight =
+      document.getElementsByClassName('calculate-button')[0].offsetHeight + 1;
+
+    const bottomOffset =
+      document
+        .getElementsByClassName('calculate-button')[0]
+        .getBoundingClientRect().top -
+        window.innerHeight +
+        sheetHeight +
+        calculateButtonHeight >
+      0;
+
+    if (topOffset && bottomOffset) {
+      if (this.state.showEybSheet === false) {
+        this.setState({ showEybSheet: true });
       }
+    } else if (this.state.showEybSheet === true) {
+      this.setState({ showEybSheet: false, expandEybSheet: false });
     }
   }
 
@@ -68,8 +77,10 @@ export class EstimateYourBenefits extends React.Component {
   toggleEybExpansion() {
     if (this.state.expandEybSheet) {
       this.setState({ expandEybSheet: false });
+      document.body.style.overflow = 'visible';
     } else {
       this.setState({ expandEybSheet: true });
+      document.body.style.overflow = 'hidden';
     }
   }
 
@@ -100,6 +111,12 @@ export class EstimateYourBenefits extends React.Component {
           updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
+        {this.state.expandEybSheet && (
+          <div
+            onClick={() => this.toggleEybExpansion()}
+            className="va-modal overlay"
+          />
+        )}
         {
           <div
             id="eyb-summary-sheet"
