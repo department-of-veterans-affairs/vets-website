@@ -14,7 +14,7 @@ export const questions = [
     id: 'flu',
     text: (
       <div>
-        In the past 3 days, have you had any of these symptoms:
+        In the past 3 days, have you had any of these symptoms?
         <ul>
           <li>Fever or feeling feverish (chills, sweating)</li>
           <li>Sore throat</li>
