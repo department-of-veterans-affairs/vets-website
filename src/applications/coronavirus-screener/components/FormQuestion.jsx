@@ -11,7 +11,7 @@ export default function FormQuestion({
   function handleChange(event) {
     if (_.isEmpty(formState)) {
       recordEvent({
-        event: 'covid-screening-tool-button-click',
+        event: 'covid-screening-tool-start',
         'screening-tool-question': question.id,
       });
     }
