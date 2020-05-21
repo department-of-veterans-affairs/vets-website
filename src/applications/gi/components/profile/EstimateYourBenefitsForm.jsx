@@ -889,6 +889,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.working}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -947,6 +948,7 @@ class EstimateYourBenefitsForm extends React.Component {
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
             onInputChange={this.props.calculatorInputChange}
+            handleInputFocus={this.handleEYBInputFocus}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
