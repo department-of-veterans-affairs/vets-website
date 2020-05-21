@@ -924,6 +924,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.giBillBenefit}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
