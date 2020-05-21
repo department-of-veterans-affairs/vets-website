@@ -94,7 +94,7 @@ const fiveMonthAlertStore = {
             productId: '1',
             availableForReorder: false,
             lastOrderDate: '2020-02-01',
-            nextAvailabilityDate: '2020-01-01',
+            nextAvailabilityDate: '2025-01-01',
             quantity: 60,
             prescribedDate: '2999-12-20',
           },
@@ -104,7 +104,7 @@ const fiveMonthAlertStore = {
             productId: '4',
             availableForReorder: false,
             lastOrderDate: '2020-01-18',
-            nextAvailabilityDate: '2019-12-15',
+            nextAvailabilityDate: '2025-12-15',
             quantity: 5,
             size: '3mm',
           },
@@ -184,7 +184,9 @@ describe('Batteries', () => {
   });
   it('should display an alert box if the Veteran has ordered all eligible batteries in the last 5 months', () => {
     const wrapper = mount(<Batteries store={fiveMonthAlertStore} />);
-    const fiveMonthAlert = wrapper.find('AlertBox');
+    const fiveMonthAlert = wrapper.find({
+      headline: "You can't add batteries to your order at this time",
+    });
     expect(fiveMonthAlert.length).to.equal(1);
     expect(fiveMonthAlert.text()).to.include(
       'You recently reordered batteries for this device. You can only reorder batteries for each device once every 5 months.',
