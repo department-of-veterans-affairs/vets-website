@@ -1,4 +1,78 @@
 import { states } from 'platform/forms/address';
+import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+export const MDOT_ERROR_MESSAGES = Object.freeze({
+  MDOT_SUPPLIES_NOT_FOUND: {
+    ALERT_BOX: ({ reorderDate }) => (
+      <AlertBox
+        status="warning"
+        headline="You can't reorder your items at this time"
+      >
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <span>
+            Our records show that your items arent available for reorder until{' '}
+            {reorderDate}. You can only order items once every 5 months.
+          </span>
+          <span className="vads-u-margin-top--1">
+            If you need an item sooner, call the DLC Customer Service Section at{' '}
+            <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+            <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+          </span>
+        </div>
+      </AlertBox>
+    ),
+  },
+  MDOT_VETERAN_NOT_FOUND: {
+    ALERT_BOX: _props => (
+      <AlertBox
+        status="warning"
+        headline="We can't find your records in our system"
+      >
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <span>
+            You can't order hearing aid batteries or accessories at this time
+            because we can't find your records in our system or we're missing
+            some information needed for you to order.
+          </span>
+
+          <span className="vads-u-margin-top--1">
+            If you think this is incorrect, call your audiologist to update your
+            record.{' '}
+            <a
+              href="https://www.va.gov/find-locations/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Find contact information for your local medical center.
+            </a>
+          </span>
+        </div>
+      </AlertBox>
+    ),
+  },
+  MDOT_DECEASED_VETERAN: {
+    ALERT_BOX: _props => (
+      <AlertBox
+        status="warning"
+        headling="Our records show that this Veteran is deceased"
+      >
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <span>We can't fulfill an order for this Veteran</span>
+          <span className="vads-u-margin-top--1">
+            If this information is incorrect, please call Veterans Benefits
+            Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
+            through Friday, 8:00 a.m. to 9:00 p.m. E.T.
+          </span>
+        </div>
+      </AlertBox>
+    ),
+  },
+});
+
+export const MDOT_API_ERROR = 'MDOT_API_ERROR';
+export const MDOT_RESET_ERRORS = 'MDOT_RESET_ERRORS';
+export const MDOT_API_CALL_INITIATED = 'MDOT_API_CALL_INITIATED';
 
 export const schemaFields = {
   fullName: 'vetFullName',
