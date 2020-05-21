@@ -7,14 +7,10 @@ import { genderLabels } from 'platform/static-data/labels';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
-export const veteranInfoView = profile => {
-  const { ssn, vaFileNumber, dob, gender } = profile;
-  const {
-    first = '',
-    middle = '',
-    last = '',
-    suffix = '',
-  } = profile.userFullName;
+export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
+  const { ssnLastFour, vaFileNumber } = veteran;
+  const { dob, gender, userFullName } = profile;
+  const { first = '', middle = '', last = '', suffix = '' } = userFullName;
   return (
     <>
       <p>This is the personal information we have on file for you.</p>
@@ -23,9 +19,9 @@ export const veteranInfoView = profile => {
         <strong className="name">
           {first} {middle} {last} {suffix}
         </strong>
-        {ssn && (
+        {ssnLastFour && (
           <p className="ssn">
-            Social Security number: {mask} {ssn.slice(-4)}
+            Social Security number: {mask} {ssnLastFour.slice(-4)}
           </p>
         )}
         {vaFileNumber && (
@@ -39,7 +35,9 @@ export const veteranInfoView = profile => {
         </p>
         <p>
           Gender:{' '}
-          <span className="gender">{gender ? genderLabels[gender] : ''}</span>
+          <span className="gender">
+            {(gender && genderLabels[gender]) || ''}
+          </span>
         </p>
       </div>
       <br />
@@ -55,6 +53,11 @@ export const veteranInfoView = profile => {
   );
 };
 
-export const veteranInfoDescription = connect(state => state.user?.profile)(
-  veteranInfoView,
-);
+export const veteranInfoDescription = connect(state => {
+  const profile = state.user?.profile;
+  const veteran = state.form?.loadedData?.formData;
+  return {
+    profile,
+    veteran,
+  };
+})(veteranInfoView);
