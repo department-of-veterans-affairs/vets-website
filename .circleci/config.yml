@@ -64,7 +64,6 @@ jobs:
             - ~/.cache/yarn
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
-      - run: yarn build
       - run: yarn test:e2e:circle
 
   security-audit:
