@@ -18,7 +18,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import recordEvent from 'platform/monitoring/record-event';
-import { ariaLabels } from '../../constants';
+import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import { scroller } from 'react-scroll';
@@ -186,6 +186,12 @@ class EstimateYourBenefitsForm extends React.Component {
   handleEYBInputFocus = fieldId => {
     const eybSheetFieldId = 'eyb-summary-sheet';
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
+  };
+
+  handleInternationalCheckboxFocus = e => {
+    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      e.target.scrollIntoView();
+    }
   };
 
   resetBuyUp = event => {
@@ -774,6 +780,7 @@ class EstimateYourBenefitsForm extends React.Component {
               "I'll be taking classes outside of the U.S. and U.S. territories"
             }
             onChange={this.handleHasClassesOutsideUSChange}
+            onFocus={this.handleInternationalCheckboxFocus}
             checked={inputs.classesOutsideUS}
             name={'classesOutsideUS'}
             id={'classesOutsideUS'}
