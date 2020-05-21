@@ -132,6 +132,10 @@ $side-nav-color-dark: #323a45;
       background-repeat: no-repeat;
     }
 
+    .active {
+      pointer-events: none;
+    }
+
     a.selected {
       color: $side-nav-color-dark !important;
       background: linear-gradient($side-nav-color-dark, $side-nav-color-dark) 100% top / 100% 1px,
