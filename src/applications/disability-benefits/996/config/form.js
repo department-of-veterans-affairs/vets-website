@@ -1,7 +1,4 @@
-// Example of an imported schema:
 import fullSchema from '../20-0996-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -29,23 +26,9 @@ import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
 
-// TODO: Mock data - remove once API is connected
-import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
 
-const {
-  name,
-  fullName,
-  address,
-  phone,
-  date,
-  effectiveDates,
-  contestedIssues,
-  informalConferenceChoice,
-  contactRepresentativeChoice,
-  representative,
-  scheduleTimes,
-} = fullSchema.definitions;
+const { email } = fullSchema.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -83,17 +66,7 @@ const formConfig = {
   title: 'Request a Higher-Level Review',
   subTitle: 'Equal to VA Form 20-0996',
   defaultDefinitions: {
-    name,
-    fullName,
-    address,
-    phone,
-    date,
-    effectiveDates,
-    contestedIssues,
-    informalConferenceChoice,
-    contactRepresentativeChoice,
-    representative,
-    scheduleTimes,
+    email,
   },
   preSubmitInfo,
   chapters: {
@@ -116,7 +89,6 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
-          initialData,
         },
       },
     },
@@ -128,7 +100,6 @@ const formConfig = {
           path: 'contested-issues',
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
-          initialData,
         },
       },
     },
@@ -140,7 +111,6 @@ const formConfig = {
           title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
-          initialData,
         },
       },
     },
