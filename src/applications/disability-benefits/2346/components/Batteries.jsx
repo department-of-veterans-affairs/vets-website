@@ -41,9 +41,12 @@ class Batteries extends Component {
       batterySupply => batterySupply.productGroup === HEARING_AID_BATTERIES,
     );
     const areBatterySuppliesEligible = eligibility.batteries;
-    const haveBatteriesBeenOrderedInLastFiveMonths = batterySupplies.every(
-      battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
-    );
+    const haveBatteriesBeenOrderedInLastFiveMonths =
+      batterySupplies.length > 0
+        ? batterySupplies.every(
+            battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
+          )
+        : false;
 
     if (!areBatterySuppliesEligible) {
       recordEvent({

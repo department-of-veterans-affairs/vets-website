@@ -42,6 +42,91 @@ const fakeStore = {
           },
         ],
         selectedProducts: [{ productId: '1' }],
+        eligibility: {
+          batteries: true,
+          accessories: false,
+        },
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const nextAvailDateAlertStore = {
+  getState: () => ({
+    form: {
+      data: {
+        supplies: [
+          {
+            deviceName: 'OMEGAX d3241',
+            productName: 'ZA1239',
+            productGroup: 'hearing aid batteries',
+            productId: '1',
+            availableForReorder: false,
+            lastOrderDate: '2020-01-01',
+            nextAvailabilityDate: '9999-12-30',
+            quantity: 60,
+            prescribedDate: '2020-12-20',
+          },
+        ],
+        selectedProducts: [{ productId: '1' }],
+        eligibility: {
+          batteries: true,
+          accessories: false,
+        },
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const fiveMonthAlertStore = {
+  getState: () => ({
+    form: {
+      data: {
+        supplies: [
+          {
+            deviceName: 'OMEGAX d3241',
+            productName: 'ZA1239',
+            productGroup: 'hearing aid batteries',
+            productId: '1',
+            availableForReorder: false,
+            lastOrderDate: '2020-02-01',
+            nextAvailabilityDate: '2020-01-01',
+            quantity: 60,
+            prescribedDate: '2999-12-20',
+          },
+          {
+            productName: 'fake name 1',
+            productGroup: 'hearing aid accessories',
+            productId: '4',
+            availableForReorder: false,
+            lastOrderDate: '2020-01-18',
+            nextAvailabilityDate: '2019-12-15',
+            quantity: 5,
+            size: '3mm',
+          },
+        ],
+        eligibility: {
+          batteries: false,
+        },
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const twoYearAlertStore = {
+  getState: () => ({
+    form: {
+      data: {
+        supplies: [],
+        eligibility: {
+          batteries: false,
+        },
       },
     },
   }),
@@ -87,9 +172,32 @@ describe('Batteries', () => {
     ).to.equal(2);
     wrapper.unmount();
   });
-  it('should display an alert box if the Veteran cannot order batteries', () => {
-    const wrapper = mount(<Batteries store={fakeStore} />);
-    expect(wrapper.find('AlertBox').length).to.equal(1);
+  it("should replace the order checkbox with an alert box if the Veteran's reorder date is a future date", () => {
+    const wrapper = mount(<Batteries store={nextAvailDateAlertStore} />);
+    const futureDateAlert = wrapper.find('AlertBox');
+    expect(wrapper.find('input[type="checkbox"]').length).to.equal(0);
+    expect(futureDateAlert.length).to.equal(1);
+    expect(futureDateAlert.text()).to.include(
+      "You can't reorder batteries for this device until December 30, 9999",
+    );
+    wrapper.unmount();
+  });
+  it('should display an alert box if the Veteran has ordered all eligible batteries in the last 5 months', () => {
+    const wrapper = mount(<Batteries store={fiveMonthAlertStore} />);
+    const fiveMonthAlert = wrapper.find('AlertBox');
+    expect(fiveMonthAlert.length).to.equal(1);
+    expect(fiveMonthAlert.text()).to.include(
+      'You recently reordered batteries for this device. You can only reorder batteries for each device once every 5 months.',
+    );
+    wrapper.unmount();
+  });
+  it('should display an alert box if the Veteran does not have eligible battery orders within the last 2 years', () => {
+    const wrapper = mount(<Batteries store={twoYearAlertStore} />);
+    const twoYearAlert = wrapper.find('AlertBox');
+    expect(twoYearAlert.length).to.equal(1);
+    expect(twoYearAlert.text()).to.include(
+      "You haven't placed an order for hearing aid batteries within the past 2 years.",
+    );
     wrapper.unmount();
   });
 });
