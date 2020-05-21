@@ -1,7 +1,5 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
-import environment from 'platform/utilities/environment';
-import { hasSessionSSO } from 'platform/user/profile/utilities';
-import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
 /**
  * These are the valid values for the Widget Type field in the Drupal CMS when
@@ -25,7 +23,6 @@ export const widgetTypes = {
 };
 
 const HEALTH_TOOLS = [
-  widgetTypes.DIRECT_DEPOSIT,
   widgetTypes.HEALTH_RECORDS,
   widgetTypes.LAB_AND_TEST_RESULTS,
   widgetTypes.MESSAGING,
@@ -55,31 +52,6 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
 
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
-export const mhvBaseUrl = () => {
-  const mhvSubdomain = environment.isProduction() ? 'www' : 'mhv-syst';
-
-  return `https://${mhvSubdomain}.myhealth.va.gov`;
-};
-
-const mhvToEauthRoutes = {
-  'download-my-data': 'download_my_data',
-  'web/myhealthevet/refill-prescriptions': 'prescription_refill',
-  'secure-messaging': 'secure_messaging',
-  appointments: 'appointments',
-};
-
-const mhvUrlNonSSO = subroute => `${mhvBaseUrl()}/mhv-portal-web/${subroute}`;
-
-const mhvUrlSSO = deeplinkTarget => {
-  const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
-  const eauthDeepLink = mhvToEauthRoutes[deeplinkTarget];
-
-  return `https://${envPrefix}eauth.va.gov/mhv-portal-web/eauth?deeplinking=${eauthDeepLink}`;
-};
-
-export const mhvUrl = (subroute = '') =>
-  hasSessionSSO() ? mhvUrlSSO(subroute) : mhvUrlNonSSO(subroute);
-
 export const mhvToolName = appId => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
@@ -98,47 +70,43 @@ export const mhvToolName = appId => {
     case widgetTypes.VIEW_APPOINTMENTS:
       return 'VA Appointments';
 
-    case widgetTypes.DIRECT_DEPOSIT:
-      return 'Direct Deposit';
-
     default: // Not a recognized health tool.
   }
 
   return null;
 };
 
-export const toolUrl = appId => {
+export const toolUrl = (appId, useSSOe = false) => {
   switch (appId) {
     case widgetTypes.HEALTH_RECORDS:
       return {
-        url: mhvUrl('download-my-data'),
+        url: mhvUrl(useSSOe, 'download-my-data'),
         redirect: false,
       };
 
     case widgetTypes.RX:
       return {
-        url: mhvUrl('web/myhealthevet/refill-prescriptions'),
-        redirect: true,
+        url: mhvUrl(useSSOe, 'web/myhealthevet/refill-prescriptions'),
+        redirect: false,
       };
 
     case widgetTypes.MESSAGING:
       return {
-        url: mhvUrl('secure-messaging'),
-        redirect: true,
+        url: mhvUrl(useSSOe, 'secure-messaging'),
+        redirect: false,
       };
 
     case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
-        url: mhvUrl('appointments'),
+        url: mhvUrl(useSSOe, 'appointments'),
         redirect: false,
       };
 
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
-        // TODO refactor to mhvUrl once unblocked by MHV team
-        url: mhvUrlNonSSO('labs-tests'),
-        redirect: true,
+        url: mhvUrl(useSSOe, 'labs-tests'),
+        redirect: false,
       };
 
     case widgetTypes.CLAIMS_AND_APPEALS:

@@ -113,9 +113,15 @@ const initBotConversation = jsonWebToken => {
   };
 };
 
-const ensureCSRFTokenIsSet = () => apiRequest('/status', { method: 'GET' });
+const ensureCSRFTokenIsSet = async () => {
+  const csrfToken = localStorage.getItem('csrfToken');
+  if (csrfToken) {
+    return;
+  }
+  await apiRequest('/status', { method: 'GET' });
+};
 
-export const requestChatBot = loc => {
+export const requestChatBot = async loc => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
@@ -131,20 +137,22 @@ export const requestChatBot = loc => {
   if (params.has('userName')) {
     path += `&userName=${params.get('userName')}`;
   }
-  return ensureCSRFTokenIsSet().then(() =>
-    apiRequest(path, { method: 'POST' })
-      .then(({ token }) => initBotConversation(token))
-      .catch(error => {
-        Sentry.captureException(error);
-        recordEvent({
-          event: `${GA_PREFIX}-connection-failure`,
-          'error-key': 'XX_failed_to_init_bot_convo',
-        });
-      }),
-  );
+
+  try {
+    await ensureCSRFTokenIsSet();
+    const { token } = await apiRequest(path, { method: 'POST' });
+    return initBotConversation(token);
+  } catch (error) {
+    Sentry.captureException(error);
+    recordEvent({
+      event: `${GA_PREFIX}-connection-failure`,
+      'error-key': 'XX_failed_to_init_bot_convo',
+    });
+    return null;
+  }
 };
 
-const chatRequested = scenario => {
+const chatRequested = async scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
   if (params.has('shareLocation')) {
@@ -153,7 +161,7 @@ const chatRequested = scenario => {
   return requestChatBot();
 };
 
-export default function initializeChatbot() {
+export default async function initializeChatbot() {
   handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }
