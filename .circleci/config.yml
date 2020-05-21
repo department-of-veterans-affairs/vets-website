@@ -65,7 +65,7 @@ jobs:
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
       - run: yarn build
-      - run: yarn test:e2e:circle
+      - run: yarn cy:start-and-test
 
   security-audit:
     docker:
