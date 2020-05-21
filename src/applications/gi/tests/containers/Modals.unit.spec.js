@@ -15,24 +15,29 @@ describe('<Modals>', () => {
     wrapper.unmount();
   });
 
-  it('should render section 103 content', () => {
-    const wrapper = shallow(
-      <Modals {...defaultProps} modals={{ displaying: 'section103' }} />,
-    );
-    expect(wrapper.html()).to.contain('Protection against late VA payments');
-    wrapper.unmount();
-  });
+  describe('Section 103 modal', () => {
+    const props = {
+      ...defaultProps,
+      modals: {
+        displaying: 'section103',
+      },
+    };
 
-  it('should track section 103 link click', () => {
-    const wrapper = mount(
-      <Modals {...defaultProps} modals={{ displaying: 'section103' }} />,
-    );
-    wrapper
-      .find('a')
-      .at(0)
-      .simulate('click');
-    const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.eq('gibct-modal-link-click');
-    wrapper.unmount();
+    it('should render', () => {
+      const wrapper = shallow(<Modals {...props} />);
+      expect(wrapper.html()).to.contain('Protection against late VA payments');
+      wrapper.unmount();
+    });
+
+    it('should track link click', () => {
+      const wrapper = mount(<Modals {...props} />);
+      wrapper
+        .find('a')
+        .at(0)
+        .simulate('click');
+      const recordedEvent = global.window.dataLayer[0];
+      expect(recordedEvent.event).to.eq('gibct-modal-link-click');
+      wrapper.unmount();
+    });
   });
 });
