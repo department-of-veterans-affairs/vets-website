@@ -21,7 +21,7 @@ function sessionTypeUrl(
   application = null,
   to = null,
 ) {
-  const SESSIONS_URI =
+  const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
@@ -35,10 +35,12 @@ function sessionTypeUrl(
     }
   }
 
+  if (version === 'v1') searchParams.append('force', 'true');
+
   const queryString =
     searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
 
-  return `${SESSIONS_URI}/${type}/new${queryString}`;
+  return `${base}/${type}/new${queryString}`;
 }
 
 const loginUrl = (policy, version, application, to) => {

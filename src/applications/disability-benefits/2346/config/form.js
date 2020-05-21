@@ -1,5 +1,6 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
@@ -45,12 +46,59 @@ const formPageTitlesLookup = {
 
 const addressSchema = buildAddressSchema(true);
 
+const asyncReturn = (returnValue, error, delay = 300) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const randomNumber = Math.round(Math.random() * 10);
+      const isNumberEven = randomNumber % 2 === 0;
+      if (isNumberEven) {
+        return resolve(returnValue);
+      }
+      return reject(error);
+    }, delay);
+  });
+
+const submit = form => {
+  const itemQuantities = form.data?.selectedProducts?.length;
+
+  recordEvent({
+    event: 'bam-2346a-submission',
+    'bam-quantityOrdered': itemQuantities,
+  });
+
+  const onSuccess = resp =>
+    new Promise(resolve => {
+      recordEvent({
+        event: 'bam-2346a-submission-successful',
+        'bam-quantityOrdered': itemQuantities,
+      });
+      return resolve(resp);
+    });
+
+  const onFailure = error =>
+    new Promise(reject => {
+      recordEvent({
+        event: 'bam-2346a-submission-failure',
+        'bam-quantityOrdered': itemQuantities,
+      });
+      return reject(error);
+    });
+
+  return asyncReturn(
+    {
+      attributes: { confirmationNumber: '123123123' },
+    },
+    'this is an error message',
+  )
+    .then(onSuccess)
+    .catch(onFailure);
+};
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/posts',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'va-2346a-',
+  submit,
+  trackingPrefix: 'bam-2346a-',
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
