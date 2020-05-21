@@ -67,10 +67,7 @@ export class InstitutionProfile extends React.Component {
               </AccordionItem>
             )}
             {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
-              <AccordionItem
-                button="School locations"
-                headerClass="school-locations"
-              >
+              <AccordionItem button="School locations">
                 <SchoolLocations
                   institution={profile.attributes}
                   facilityMap={profile.attributes.facilityMap}
