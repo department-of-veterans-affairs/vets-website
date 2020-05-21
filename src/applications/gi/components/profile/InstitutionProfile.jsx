@@ -49,7 +49,7 @@ export class InstitutionProfile extends React.Component {
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
         />
-        <div className="usa-accordion">
+        <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
               {gibctEstimateYourBenefits ? (
