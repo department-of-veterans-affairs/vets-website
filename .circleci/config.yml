@@ -65,7 +65,7 @@ jobs:
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
       - run: yarn build
-      - run: yarn cy:start-and-test --record --key 70f4c038-7267-43b4-9be1-3ca87510405b --parallel
+      - run: yarn cy:start-and-test
 
   security-audit:
     docker:
