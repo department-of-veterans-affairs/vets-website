@@ -1,5 +1,26 @@
 # Cypress Form Tester
 
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Configuration](#configuration)
+   1. [`createTestConfig`](#createtestconfig)
+   2. [Settings](#settings)
+      1. [`appName`](#appname-required)
+      2. [`arrayPages`](#arraypages-optional)
+      3. [`dataPrefix`](#dataprefix-optional)
+      4. [`dataSets`](#datasets-required)
+      5. [`fixtures`](#fixtures-required)
+      6. [`pageHooks`](#pagehooks-required)
+      7. [`rootUrl`](#rooturl-required)
+      8. [`setup`](#setup-optional)
+      9. [`setupPerTest`](#setuppertest-optional)
+3. [Aliases](#aliases)
+  1. [`arrayPages`](#arraypages)
+  2. [`pageHooks`](#pagehooks)
+  3. [`testData`](#testdata)
+4. [Sample Code](#sample-code)
+
 ## Overview
 
 The form tester is a utility that automates Cypress end-to-end (E2E) tests on a VA.gov form app, which is an application built using the forms system.
@@ -9,7 +30,7 @@ It automatically fills out forms using data from JSON files that represent the b
 It's invoked as a function (`testForm`) that requires a configuration object (test config) as its only argument.
 
 ```
-// some-form-app.spec.cypress.js
+// some-form-app.cypress.spec.js
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 
@@ -17,7 +38,7 @@ const testConfig = { ... };
 testForm(testConfig);
 ```
 
-## Test Configuration (Config)
+## Configuration
 
 The test config has settings or properties that are summarized by this typedef:
 
@@ -56,10 +77,16 @@ The test config has settings or properties that are summarized by this typedef:
 @property {function} [setupPerTest] - Function that's called before each test.
 ```
 
-There is a convenient helper function (`createTestConfig`) that will automatically fill in certain settings (`appName`, `arrayPages`, `rootUrl`) based on the app's manifest and form config. When using this helper, it won't be necessary to explicitly define those settings. Using `createTestConfig` is recommended, as it will keep your test lean and consistent with other configs.
+### `createTestConfig`
+
+There is a convenient helper function (`createTestConfig`) that will automatically fill in certain settings (`appName`, `arrayPages`, `rootUrl`) based on the app's manifest and form config.
+
+When using this helper, it won't be necessary to explicitly define those settings.
+
+Using `createTestConfig` is recommended, as it will keep your test lean and consistent with other configs.
 
 ```
-// some-form-app.spec.cypress.js
+// some-form-app.cypress.spec.js
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -95,7 +122,7 @@ This is an array of objects that correspond to the array pages defined in the fo
 
 When the test gets to an array page (matched by the `regex`), it uses `arrayPath` to look up the appropriate data to fill out the page's fields.
 
-**Although this is technically an optional setting, it's necessary to pass form tests that involve filling out array pages.**
+**Although this is technically an optional setting, it's required in order to pass tests that involve filling out array pages.**
 
 It's recommended to use `createTestConfig` to automatically generate the values for this setting.
 
@@ -131,17 +158,25 @@ On the other hand, this setting does not need to be defined if the data looks li
 
 #### `dataSets` (required)
 
-This is an array of file paths for the JSON (test data) files to be included in the test suite. The file paths are relative to the path that the `data` fixture points to. File extensions are optional. Each file represents a separate test with its own set of data to fill the form. Effectively, this setting determines what tests to run.
+This is an array of file paths for the JSON (test data) files to be included in the test suite.
 
-See the following section on the `fixtures` setting for more details and an example of how the `dataSets` and `fixtures` settings interact.
+The file paths are relative to the path that the `data` fixture points to. File extensions are optional.
+
+Each file represents a separate test with its own set of data to fill the form. Effectively, this setting determines what tests to run.
+
+[See the following section on the `fixtures` setting](#fixtures-required) for more details and an example of how the `dataSets` and `fixtures` settings interact.
 
 #### `fixtures` (required)
 
-This object sets up arbitrary paths as Cypress fixtures. The object values are file or directory paths, relative to the project root, to set as fixtures. As fixtures, they can be accessed dynamically during a test via `cy.fixtures` by passing the corresponding object key as the fixture path.
+This object sets up arbitrary paths as Cypress fixtures.
+
+The object values are file or directory paths, relative to the project root, to set as fixtures. As fixtures, they can be accessed dynamically during a test via `cy.fixtures` by passing the corresponding object key as the fixture path.
 
 Fixtures are shared across all tests in the suite and do not reset in between.
 
-The `data` fixture path is special and required for the `dataSets` setting to work properly, which is necessary for any tests to run at all. For a more involved example of the interaction with the `dataSets` setting, consider the following `tests` directory structure containing the spec file:
+The `data` fixture path is special and required for the `dataSets` setting to work properly, which is necessary for any tests to run at all.
+
+For a more involved example of the interaction with the `dataSets` setting, consider the following `tests` directory structure containing the spec file:
 
 ```
 tests
@@ -151,7 +186,7 @@ tests
 |   |   `-- d-test.json
 |   |-- a-test.json
 |   `-- b-test.json
-`-- some-form-app.spec.cypress.js
+`-- some-form-app.cypress.spec.js
 ```
 
 Let's say we wanted to run a suite of tests based on data from `a-test.json`, `b-test.json`, `c-test.json`, and `d-test.json`. The test config would include these settings:
@@ -159,16 +194,19 @@ Let's say we wanted to run a suite of tests based on data from `a-test.json`, `b
 ```
 dataSets: ['a-test', 'b-test', 'another-folder/c-test', 'another-folder/d-test'],
 fixtures: {
+  // `__dirname` can be used to return the current directory path
+  // relative to the project root.
+
   data: path.join(__dirname, 'some-folder'), // => 'src/applications/some-form-app/tests/data'
 },
 ```
 
-`__dirname` can be used to return the current directory path relative to the project root.
+##### Other fixtures
 
-There is generally no need to set any fixtures other than `data`, but it is possible to set other fixtures for any special cases that might require them.
+The `data` path is the only required entry for this setting, but it is possible to set other fixtures for any special cases that might require them.
 
 ```
-// src/applications/some-form-app/tests/some-form-app.cypress.spec.js
+// testConfig
 
 fixtures: {
   data: path.join(__dirname, 'data'),
@@ -176,15 +214,21 @@ fixtures: {
   'example-folder': 'src/platform/testing/e2e/folder',
 },
 
-...
-
 // Fixtures can then be accessed from setup functions or page hooks.
-cy.fixtures('example-file').then(file => { ... });
-cy.fixtures('example-folder/some-file').then(file => { ... });
-cy.fixtures('example-folder/subfolder/another-file').then(file => { ... });
+setup: () => {
+  cy.fixtures('example-file').then(file => { ... });
+  cy.fixtures('example-folder/some-file').then(file => { ... });
+  cy.fixtures('example-folder/subfolder/another-file').then(file => { ... });
+},
 ```
 
-When the object value is a path that points to a directory, all of the files within it (and within subdirectories) can be accessed as fixtures with `cy.fixtures` by passing in their paths relative to that directory, prefixed by the fixture path for the directory. In this example, if `src/platform/testing/e2e/folder` contains `some-file.txt`, it can be accessed with `cy.fixtures('example-folder/some-file')`. This can also work for files that exist deeper within the directory structure: `cy.fixtures('example-folder/subfolder/another-file')`.
+**When the object value is a path that points to a directory,** all of the files within it (and within subdirectories) can be accessed as fixtures with `cy.fixtures` by passing in their paths relative to that directory, prefixed by the fixture path for the directory.
+
+In this example, if `src/platform/testing/e2e/folder` contains `some-file.txt`, it can be accessed with `cy.fixtures('example-folder/some-file')`.
+
+This can also work for files that exist deeper within the directory structure: `cy.fixtures('example-folder/subfolder/another-file')`.
+
+##### Default upload file fixture
 
 To provide a default behavior for simulating file uploads, the form tester automatically includes an `example-upload.png` fixture.
 
@@ -226,7 +270,7 @@ pageHooks: {
 
 There are various use cases for this setting, but a couple of common ones are:
 
-1. Special or non-standard pages in the form, like the introduction, where the automatic form filling doesn't work.
+1. Special or non-standard pages in the form, like the introduction, where the automatic form filling doesn't work. Virtually every form will have an introduction page, which will require a page hook to proceed.
    ```
    pageHooks: {
      introduction: () => {
@@ -297,15 +341,23 @@ The data set currently being used to fill the form. This data is what drives eac
 ```
 
 ```
-const testConfig = {
-  ...
-  dataPrefix: 'data',
-  ...
-};
+// testConfig
 
-...
+dataPrefix: 'data',
 
-cy.get('@testData').then(({ firstName, lastName, dateOfBirth }) => { ... });
+pageHooks: {
+  'veteran-information': () => {
+    cy.get('@testData').then(({ firstName, lastName, dateOfBirth }) => {
+      ...
+    });
+  },
+},
+
+setupPerTest: () => {
+  cy.get('@testData').then(({ firstName, lastName, dateOfBirth }) => {
+    ...
+  });
+},
 ```
 
 ## Sample Code
@@ -313,7 +365,7 @@ cy.get('@testData').then(({ firstName, lastName, dateOfBirth }) => { ... });
 For reference, here is what a full spec file might look like.
 
 ```
-// some-form-app.spec.cypress.js
+// some-form-app.cypress.spec.js
 
 import path from 'path';
 
