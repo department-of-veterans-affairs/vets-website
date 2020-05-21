@@ -1,57 +1,28 @@
 import React from 'react';
-import recordEvent from '../../../platform/monitoring/record-event';
-import { GA_PREFIX } from '../utils';
-import ChatbotLoadError from './ChatbotLoadError';
-import * as Sentry from '@sentry/browser';
-import initializeChatbot from '../index';
-
-const idString = 'chatbot-wrapper-id';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { ChatbotComponent } from './ChatbotComponent';
 
 export class ChatbotWrapper extends React.Component {
   constructor(props) {
     super(props);
+    this.unsubscribe = this.props.store.subscribe(() =>
+      this.setState({
+        loading: this.props.store.getState().featureToggles.loading,
+      }),
+    );
     this.state = {
-      chatbotError: false,
+      loading: this.props.store.getState().featureToggles.loading,
     };
   }
 
-  async componentDidMount() {
-    const initialComponent = document.querySelector(`#${idString}`);
-    try {
-      const webchatOptions = await initializeChatbot();
-      if (!webchatOptions) {
-        return;
-      }
-      recordEvent({
-        event: `${GA_PREFIX}-connection-successful`,
-        'error-key': undefined,
-      });
-      recordEvent({
-        event: `${GA_PREFIX}-load-successful`,
-        'error-key': undefined,
-      });
-      window.WebChat.renderWebChat(webchatOptions, initialComponent);
-    } catch (err) {
-      Sentry.captureException(err);
-      recordEvent({
-        event: `${GA_PREFIX}-connection-failure`,
-        'error-key': 'XX_failed_to_start_chat',
-      });
-      recordEvent({
-        event: `${GA_PREFIX}-load-failure`,
-        'error-key': undefined,
-      });
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState({
-        chatbotError: true,
-      });
-    }
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {
-    if (this.state.chatbotError) {
-      return <ChatbotLoadError />;
+    if (this.state.loading) {
+      return <LoadingIndicator message={'Loading coronavirus chatbot...'} />;
     }
-    return <div id={idString} />;
+    return <ChatbotComponent />;
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './sass/coronavirus-chatbot.scss';
-import { ChatbotPage } from './components/ChatbotPage';
+import { ChatbotWrapper } from './components/ChatbotWrapper';
 
 export default (store, widgetType) => {
   // Derive the element to render our widget.
@@ -12,5 +12,5 @@ export default (store, widgetType) => {
     return;
   }
 
-  ReactDOM.render(<ChatbotPage store={store} />, root);
+  ReactDOM.render(<ChatbotWrapper store={store} />, root);
 };
