@@ -111,6 +111,8 @@ export function mapRawUserDataToState(json) {
     if (vaProfile.facilities) {
       userState.facilities = vaProfile.facilities;
     }
+    userState.vaPatient = vaProfile.vaPatient;
+    userState.mhvAccountState = vaProfile.mhvAccountState;
   }
 
   // This one is checking userState because there's no extra mapping and it's
