@@ -19,3 +19,5 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
 export const BREAKPOINTS = Object.freeze({
   medium: 768,
 });
+
+export const PROFILE_VERSION = 'PROFILE_VERSION';

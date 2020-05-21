@@ -375,17 +375,16 @@ const formConfig = {
           uiSchema: studentLastTerm.uiSchema,
           schema: studentLastTerm.schema,
         },
+        // NOTE: These are temporarily disabled, and will be reintroduced post-launch as part of 674 pension support.
         studentIncomeInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-income-information',
           uiSchema: studentIncomeInformation.uiSchema,
           schema: studentIncomeInformation.schema,
         },
         studentNetworthInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-networth-information',
           uiSchema: studentNetworthInformation.uiSchema,
