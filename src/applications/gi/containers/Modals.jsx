@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import environment from 'platform/utilities/environment';
 import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
@@ -574,42 +575,49 @@ export class Modals extends React.Component {
       >
         <h3>Protection against late VA payments</h3>
         <p>
-          If VA payments to institutions are delayed, schools receiving GI Bill
-          benefits must allow beneficiaries to continue attending their classes
-          if they have sufficient proof of eligibility on file.
+          If VA is late making a tuition payment to a GI Bill school, the school
+          can’t prevent a GI Bill student from attending classes or accessing
+          school facilities.
         </p>
-        <p>Schools may require proof of GI Bill eligibility in the form of:</p>
+        <p>
+          Schools may require students to provide proof of their GI Bill
+          eligibility in the form of:
+        </p>
         <ul>
           <li>
             Certificate of Eligibility (COE) <strong>or</strong>
           </li>
           <li>
-            Certificate of Eligibility (COE) and additional criteria such as an
+            Certificate of Eligibility (COE) and additional criteria like an
             award letter or other documents the school specifies
           </li>
         </ul>
         <p>
           <strong>
-            Schools can't impose late fees, deny access to facilities or
-            classes, or otherwise penalize beneficiaries if VA is late with
-            tuition and/or fees payments.
+            In addition, schools can't charge late fees or otherwise penalize GI
+            Bill students if VA is late making a tuition and/or fees payment.
           </strong>{' '}
-          The restriction on penalties doesn't apply if the beneficiary owes
+          This restriction on penalties doesn't apply if the student owes
           additional fees to the school beyond the tuition and fees that VA
-          pays. Students are protected from these penalties up to 90 days from
-          the beginning of the term.
+          pays. Students are protected from these penalties for up to 90 days
+          from the beginning of the term.
         </p>
         <p>
           Contact the School Certifying Official (SCO) to learn more about the
           school’s policy.{' '}
           <a
             href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-modal-link-click',
+              });
+            }}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read our FAQs on the Veterans Benefits and Transition Act
-          </a>{' '}
-          to learn more about protections against late VA payments.
+            Read our policy on protecting students from late VA payments
+          </a>
+          .
         </p>
       </Modal>
     </span>
