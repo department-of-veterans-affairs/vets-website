@@ -2,9 +2,11 @@ import React from 'react';
 import { questions } from '../config/questions';
 import { Element } from 'react-scroll';
 import moment from 'moment';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function FormResult({ formState }) {
   let result;
+  const [resultSubmitted, setResultSubmittedState] = React.useState(false);
 
   const incomplete = <div>Please answer all the questions above.</div>;
 
@@ -34,12 +36,23 @@ export default function FormResult({ formState }) {
     </div>
   );
 
+  function recordScreeningToolEvent(screeningToolResult) {
+    if (!resultSubmitted) {
+      recordEvent({
+        event: 'covid-screening-tool-result-displayed',
+        'screening-tool-result': screeningToolResult,
+      });
+      setResultSubmittedState(true);
+    }
+  }
   if (Object.values(formState).length < questions.length) {
     result = incomplete;
   } else if (Object.values(formState).includes('yes')) {
     result = fail;
+    recordScreeningToolEvent('More screening needed');
   } else {
     result = pass;
+    recordScreeningToolEvent('Pass');
   }
 
   return (
