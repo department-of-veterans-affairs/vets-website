@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export default function FormResult({ formState }) {
   let result;
-  let resultClass = "";
+  let resultClass = '';
 
   const incomplete = <div>Please answer all the questions above.</div>;
 
@@ -13,7 +13,7 @@ export default function FormResult({ formState }) {
 
   const pass = (
     <div>
-      <i class="fas fa-check"></i>
+      <i className="fas fa-check" />
       <h2 className="vads-u-font-size--h1">OK to proceed</h2>
       <h3>Valid for:</h3>
       <h3>{dateText}</h3>
@@ -52,7 +52,9 @@ export default function FormResult({ formState }) {
   }
 
   return (
-    <div className={`feature covid-screener-results covid-screener-results-${resultClass}`}>
+    <div
+      className={`feature covid-screener-results covid-screener-results-${resultClass}`}
+    >
       <Element
         name={`multi-question-form-${questions.length}-scroll-element`}
       />
