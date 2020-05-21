@@ -148,7 +148,7 @@ export const requestChatBot = async loc => {
       event: `${GA_PREFIX}-connection-failure`,
       'error-key': 'XX_failed_to_init_bot_convo',
     });
-    return error;
+    throw error;
   }
 };
 
