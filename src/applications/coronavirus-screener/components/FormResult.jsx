@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 export default function FormResult({ formState }) {
   let result;
+  const [resultSubmitted, setResultSubmittedState] = React.useState(false);
 
   const incomplete = <div>Please answer all the questions above.</div>;
 
@@ -36,10 +37,13 @@ export default function FormResult({ formState }) {
   );
 
   function recordScreeningToolEvent(screeningToolResult) {
-    recordEvent({
-      event: 'covid-screening-tool-result-displayed',
-      'screening-tool-result': screeningToolResult,
-    });
+    if (!resultSubmitted) {
+      recordEvent({
+        event: 'covid-screening-tool-result-displayed',
+        'screening-tool-result': screeningToolResult,
+      });
+      setResultSubmittedState(true);
+    }
   }
   if (Object.values(formState).length < questions.length) {
     result = incomplete;
