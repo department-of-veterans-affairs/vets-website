@@ -34,15 +34,5 @@ export const createArrayPageObjects = formConfig => {
 export const createTestConfig = (config, manifest = {}, formConfig = {}) => {
   const { appName, rootUrl } = manifest;
   const arrayPages = createArrayPageObjects(formConfig);
-  const setup = () => {};
-  const setupPerTest = () => {};
-
-  return {
-    appName,
-    arrayPages,
-    rootUrl,
-    setup,
-    setupPerTest,
-    ...config,
-  };
+  return { appName, arrayPages, rootUrl, ...config };
 };

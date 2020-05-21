@@ -375,9 +375,9 @@ Cypress.Commands.add('fillPage', () => {
  *
  * @typedef {Object} TestConfig
  * @property {string} appName - Name of the app (form) to describe the test.
- * @property {Array} arrayPages - Objects that represent array pages
+ * @property {Array} [arrayPages] - Objects that represent array pages
  *     in the form. For matching array pages to their corresponding test data.
- * @property {string} dataPrefix - The path prefix for accessing nested
+ * @property {string} [dataPrefix] - The path prefix for accessing nested
  *     test data. For example, if the test data looks like
  *     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
  * @property {Array} dataSets - Array of fixture file paths to test data, which
@@ -389,27 +389,27 @@ Cypress.Commands.add('fillPage', () => {
  * @property {Object} fixtures - Paths to files or directories (relative to
  *     project root) to load as fixtures, with object keys as fixture paths.
  *     The "data" fixture path is _required_ to properly set up "dataSets".
- * @property {Object.<function>} pageHooks - Functions (hooks) that override
+ * @property {Object.<function>} [pageHooks] - Functions (hooks) that override
  *     the automatic form filling on specified pages. Each object key is the
  *     URL of the page that triggers the corresponding hook.
  * @property {string} rootUrl - The URL of the form.
- * @property {function} setup - Function that's called once before starting any
+ * @property {function} [setup] - Function that's called once before starting any
  *     tests in the spec module. Corresponds to the before (all) hook.
- * @property {function} setupPerTest - Function that's called before each test.
+ * @property {function} [setupPerTest] - Function that's called before each test.
  * ---
  * @param {TestConfig} testConfig
  */
 const testForm = testConfig => {
   const {
     appName,
-    arrayPages,
+    arrayPages = [],
     dataPrefix,
     dataSets,
     fixtures,
-    pageHooks,
+    pageHooks = {},
     rootUrl,
-    setup,
-    setupPerTest,
+    setup = () => {},
+    setupPerTest = () => {},
   } = testConfig;
 
   const extractTestData = testData => get(dataPrefix, testData, testData);
