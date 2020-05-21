@@ -18,6 +18,7 @@ const EmailInformationSection = ({ className }) => (
       className="vads-u-margin-y--4"
     />
 
+    {/* NOTE: This whole section is going to change based on user testing */}
     <AlertBox
       headline="Change the email address you use to sign in"
       backgroundOnly
