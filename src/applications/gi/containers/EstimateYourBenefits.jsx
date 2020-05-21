@@ -100,6 +100,8 @@ export class EstimateYourBenefits extends React.Component {
       'medium-1',
       'columns',
       'small-screen:vads-u-margin-right--neg1',
+      'small-screen:vads-u-margin--0',
+      'vads-u-margin-top--1',
     );
 
     const summarySheetClassNames = classNames(
