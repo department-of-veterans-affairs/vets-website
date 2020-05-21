@@ -13,7 +13,7 @@ export default function FormResult({ formState }) {
 
   const pass = (
     <div>
-      <i className="fas fa-check" />
+      <i aria-hidden="true" role="presentation" className="fas fa-check" />
       <h2 className="vads-u-font-size--h1">OK to proceed</h2>
       <h3>Valid for:</h3>
       <h3>{dateText}</h3>
