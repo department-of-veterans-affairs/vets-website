@@ -19,6 +19,9 @@ export default (_store, widgetType) => {
     const initializeChatbot = module.default;
     try {
       const webchatOptions = await initializeChatbot();
+      if (!webchatOptions) {
+        return;
+      }
       recordEvent({
         event: `${GA_PREFIX}-connection-successful`,
         'error-key': undefined,
