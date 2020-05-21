@@ -6,10 +6,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
 
 export default function FormResult({ formState }) {
-  let resultContent;
-
-  let resultClass;
-
   const [resultSubmitted, setResultSubmittedState] = React.useState(false);
 
   const dateText = moment().format('dddd, MMMM D, h:mm a');
@@ -56,32 +52,50 @@ export default function FormResult({ formState }) {
     );
   }
 
-  if (Object.values(formState).length < questions.length) {
-    resultContent = <Incomplete />;
-    resultClass = 'incomplete';
-  } else if (Object.values(formState).includes('yes')) {
-    resultContent = (
-      <Complete>
-        <Fail />
-      </Complete>
-    );
-    resultClass = 'fail';
-    recordScreeningToolEvent('More screening needed');
-  } else {
-    resultContent = (
-      <Complete>
-        <Pass />
-      </Complete>
-    );
-    resultClass = 'pass';
-    recordScreeningToolEvent('Pass');
+  const lookup = {
+    pass: {
+      content: (
+        <Complete>
+          <Pass />
+        </Complete>
+      ),
+      class: 'pass',
+      event: 'Pass',
+    },
+    fail: {
+      content: (
+        <Complete>
+          <Fail />
+        </Complete>
+      ),
+      class: 'fail',
+      event: 'More screening needed',
+    },
+    incomplete: {
+      content: <Incomplete />,
+      class: 'incomplete',
+    },
+  };
+
+  const completed =
+    // eslint-disable-next-line no-nested-ternary
+    Object.values(formState).length < questions.length
+      ? 'incomplete'
+      : Object.values(formState).includes('yes')
+        ? 'fail'
+        : 'pass';
+
+  if (completed !== 'incomplete') {
+    recordScreeningToolEvent(lookup[status].event);
   }
+
+  const resultContent = lookup[status].content;
 
   return (
     <div
       className={classnames(
         'feature covid-screener-results',
-        `covid-screener-results-${resultClass}`,
+        `covid-screener-results-${lookup[status].class}`,
       )}
     >
       <Element
