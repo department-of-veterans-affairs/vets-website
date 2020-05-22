@@ -18,7 +18,7 @@ export const InformalConferenceDescription = (
   </>
 );
 
-export const InformalConferenceChoiceTitle =
+export const InformalConferenceTitle =
   'Would you like to request an informal conference?';
 
 export const informalConferenceLabels = {
