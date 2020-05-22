@@ -27,6 +27,7 @@ import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
 
 import { errorMessages } from '../constants';
+// import initialData from '../tests/schema/initialData';
 
 const { email } = fullSchema.properties;
 
@@ -100,6 +101,7 @@ const formConfig = {
           path: 'contested-issues',
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
+          // initialData,
         },
       },
     },

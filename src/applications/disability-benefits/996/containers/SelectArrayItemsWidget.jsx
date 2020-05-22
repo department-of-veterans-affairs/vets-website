@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
@@ -20,90 +19,114 @@ export default class SelectArrayItemsWidget extends React.Component {
   defaultSelectedPropName = 'view:selected';
 
   render() {
-    const { value: items, id, options, required, registry } = this.props;
+    const { value: items, id, options, required, formContext } = this.props;
     // Need customTitle to set error message above title.
     const { label: Label, selectedPropName, disabled, customTitle } = options;
-    const { formContext } = registry;
 
     // inReviewMode = true (review page view, not in edit mode)
     // inReviewMode = false (in edit mode)
-    const inReviewMode = formContext.onReviewPage && formContext.reviewMode;
+    const onReviewPage = formContext.onReviewPage;
+    const inReviewMode = onReviewPage && formContext.reviewMode;
+
     const hasSelections = items?.reduce(
       (result, item) =>
         result || !!get(selectedPropName || this.defaultSelectedPropName, item),
       false,
     );
 
+    const Tag = formContext.onReviewPage ? 'h4' : 'h3';
+
+    // Note: Much of this was stolen from CheckboxWidget
     return (
       <>
-        {customTitle && items && <h5 className="title">{customTitle}</h5>}
-        {!inReviewMode || (inReviewMode && hasSelections) ? (
+        {customTitle?.trim() &&
+          items && <Tag className="vads-u-font-size--h5">{customTitle}</Tag>}
+        {items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
           items.map((item, index) => {
             const itemIsSelected = !!get(
               selectedPropName || this.defaultSelectedPropName,
               item,
             );
 
-            // Don't show unselected items
+            // Don't show un-selected ratings in review mode
             if (inReviewMode && !itemIsSelected) {
               return null;
             }
 
+            const checkboxVisible =
+              !onReviewPage || (onReviewPage && !inReviewMode);
+
             const itemIsDisabled =
               typeof disabled === 'function' ? disabled(item) : false;
-            const elementId = `${id}_${index}`;
+
             const labelWithData = (
               <Label
                 {...item}
-                name={item.name || item.condition}
-                for={elementId}
-              />
-            );
-
-            const widgetClasses = inReviewMode
-              ? ''
-              : classNames('form-checkbox', options.widgetClassNames, {
-                  selected: itemIsSelected,
-                });
-
-            const input = inReviewMode ? null : (
-              <input
-                type="checkbox"
-                id={elementId}
-                name={elementId}
-                checked={
-                  typeof itemIsSelected === 'undefined' ? false : itemIsSelected
+                name={item.attributes.issue}
+                className={
+                  checkboxVisible
+                    ? 'vads-u-display--inline'
+                    : 'vads-u-margin-top--0p5'
                 }
-                required={required}
-                disabled={itemIsDisabled}
-                onChange={event => this.onChange(index, event.target.checked)}
               />
             );
+            // On the review & submit page, there may be more than one
+            // of these components in edit mode with the same content, e.g. 526
+            // ratedDisabilities & unemployabilityDisabilities causing
+            // duplicate input ids/names... an `appendId` value is added to the
+            // ui:options
+            const appendId = options.appendId ? `_${options.appendId}` : '';
+            const elementId = `${id}_${index}${appendId}`;
 
-            // Fix axe issue on page, but not mess up review & submit page
-            // a <dl class="review"> wraps this content on review & submit page
-            const Tag = inReviewMode ? 'div' : 'dl';
+            const widgetClasses = [
+              'form-checkbox',
+              options.widgetClassNames,
+              itemIsSelected ? 'selected' : '',
+            ].join(' ');
 
+            const labelClass = [
+              'schemaform-label',
+              checkboxVisible ? '' : 'vads-u-margin-top--0',
+            ].join(' ');
+
+            // When a `customTitle` option is included, the ObjectField is set
+            // to wrap its contents in a div instead of a dl, so we don't need
+            // a include dt and dd elements in the markup; this change fixes an
+            // accessibility issue
             return (
-              <Tag key={elementId} className="review-row">
-                <dt className={widgetClasses}>
-                  {input}
-                  <label
-                    className="schemaform-label vads-u-margin-top--0"
-                    htmlFor={elementId}
-                  >
-                    {labelWithData}
-                  </label>
-                </dt>
-                <dd />
-              </Tag>
+              <div key={index} className={widgetClasses}>
+                {checkboxVisible && (
+                  <input
+                    type="checkbox"
+                    id={elementId}
+                    name={elementId}
+                    checked={
+                      typeof itemIsSelected === 'undefined'
+                        ? false
+                        : itemIsSelected
+                    }
+                    required={required}
+                    disabled={itemIsDisabled}
+                    onChange={event =>
+                      this.onChange(index, event.target.checked)
+                    }
+                  />
+                )}
+                <label className={labelClass} htmlFor={elementId}>
+                  {labelWithData}
+                </label>
+              </div>
             );
           })
         ) : (
-          <div className="review-row" role="presentation">
-            <dt>No selections have been made</dt>
-            <dd />
-          </div>
+          // this section _shouldn't_ ever been seen
+          <p>
+            {onReviewPage ? (
+              'No items selected'
+            ) : (
+              <strong>No items found</strong>
+            )}
+          </p>
         )}
       </>
     );

@@ -53,14 +53,14 @@ export const contactInfoDescription = ({ formData }) => {
         .
       </p>
       <div className="blue-bar-block">
-        <h3>Phone &amp; email</h3>
+        <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
           <strong>Primary phone</strong>: {formatPhone(phoneNumber || '')}
         </p>
         <p>
           <strong>Email address</strong>: {emailAddress || ''}
         </p>
-        <h3>Mailing address</h3>
+        <h3 className="vads-u-font-size--h4">Mailing address</h3>
         <p>
           {addBrAfter(addressLine1)}
           {addBrAfter(addressLine2)}

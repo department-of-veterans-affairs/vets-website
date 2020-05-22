@@ -21,78 +21,39 @@ export default {
     {
       type: 'ContestableIssue',
       attributes: {
-        item: 'Tinnitus',
-        description: `Rinnging in the ears. More intese in right ear. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit.`,
-        ratedDisabilityId: '0',
-        ratingDecisionId: '63655',
-        diagnosticCode: 5238,
-        ratingPercentage: 10,
-        'view:selected': false,
+        issue: 'Tinnitus',
+        subjectText: `Rinnging in the ears. More intese in right ear. This is
+          more text so the description goes into the second line.`,
+        percentNumber: 10,
+        decisionDate: '2011-01-01',
+        decisionIssueId: 42,
+        ratingIssueId: '52',
+        ratingDecisionIssueId: '',
       },
+      'view:selected': false,
     },
     {
       type: 'ContestableIssue',
       attributes: {
-        item: 'Headaches',
-        description: 'Acute chronic head pain',
-        ratedDisabilityId: '1',
-        ratingDecisionId: '63655',
-        diagnosticCode: 5238,
-        ratingPercentage: 50,
-        'view:selected': false,
+        issue: 'Headaches',
+        subjectText: 'Acute chronic head pain',
+        percentNumber: 50,
+        decisionDate: '2011-01-02',
+        decisionIssueId: 44,
+        ratingIssueId: '66',
+        ratingDecisionIssueId: '',
       },
+      'view:selected': false,
     },
     {
       type: 'ContestableIssue',
       attributes: {
-        issue: 'tinnitus',
-        decisionDate: '1900-01-01',
+        issue: 'Back sprain',
+        percentNumber: 5,
+        decisionDate: '2010-01-01',
         decisionIssueId: 1,
         ratingIssueId: '2',
         ratingDecisionIssueId: '',
-      },
-    },
-    {
-      type: 'ContestableIssue',
-      attributes: {
-        issue: 'left knee',
-        decisionDate: '1900-01-02',
-        decisionIssueId: 4,
-        ratingIssueId: '',
-      },
-    },
-    {
-      type: 'ContestableIssue',
-      attributes: {
-        issue: 'right knee',
-        decisionDate: '1900-01-03',
-        ratingIssueId: '6',
-        ratingDecisionIssueId: '',
-      },
-    },
-    {
-      type: 'ContestableIssue',
-      attributes: {
-        issue: 'PTSD',
-        decisionDate: '1900-01-04',
-        decisionIssueId: 8,
-        ratingDecisionIssueId: '',
-      },
-    },
-    {
-      type: 'ContestableIssue',
-      attributes: {
-        issue: 'Traumatic Brain Injury',
-        decisionDate: '1900-01-05',
-        decisionIssueId: 10,
-      },
-    },
-    {
-      type: 'ContestableIssue',
-      attributes: {
-        issue: 'right shoulder',
-        decisionDate: '1900-01-0',
       },
     },
   ],
