@@ -59,7 +59,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
           informalConference: 'rep',
           informalConferenceRep: {
             name: 'John Doe',
-            phone: '800 555-1212',
+            phone: '800-555-1212',
           },
         }}
         formData={{}}
@@ -69,7 +69,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
 
     const formDOM = getFormDOM(form);
     expect($('input[type="text"]', formDOM).value).to.equal('John Doe');
-    expect($('input[type="tel"]', formDOM).value).to.equal('800 555-1212');
+    expect($('input[type="tel"]', formDOM).value).to.equal('800-555-1212');
   });
 
   it('should show the time checkboxes', () => {

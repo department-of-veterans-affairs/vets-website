@@ -83,7 +83,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     const formDOM = getFormDOM(form);
     $$('.widget-outline label', formDOM).forEach((label, index) => {
       const data = issues[index].attributes;
-      expect($('h4', label).textContent).to.equal(data.issue);
+      expect($('h3', label).textContent).to.equal(data.issue);
       expect($('span', label).textContent).to.equal(data.subjectText || '');
       expect($('.widget-content p', label).textContent).to.equal(
         `Current rating: ${data.percentNumber}%`,
