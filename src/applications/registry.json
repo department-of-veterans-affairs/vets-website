@@ -518,6 +518,17 @@
     }
   },
   {
+    "appName": "Third Party Applications",
+    "entryName": "third-party-apps",
+    "rootUrl": "/third-party-applications",
+    "template": {
+      "description": "Search for third-party applications that you can connect with your VA account.",
+      "layout": "page-react.html",
+      "title": "Third-Party Applications | Veterans Affairs",
+      "vagovprod": false
+    }
+  },
+  {
     "appName": "Yellow Ribbon Schools",
     "entryName": "yellow-ribbon",
     "rootUrl": "/education/yellow-ribbon-participating-schools",
