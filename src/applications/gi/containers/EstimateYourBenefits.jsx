@@ -136,7 +136,7 @@ export class EstimateYourBenefits extends React.Component {
           />
         )}
         {
-          <div className={summarySheetClassNames}>
+          <div id="eyb-summary-sheet" className={summarySheetClassNames}>
             <EstimateYourBenefitsSummarySheet
               outputs={outputs}
               expandEybSheet={this.state.expandEybSheet}
