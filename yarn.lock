@@ -775,7 +775,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@7.9.6":
+"@babel/runtime@7.9.6", "@babel/runtime@^7.5.5":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
   integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
@@ -794,13 +794,6 @@
   integrity sha512-28QvEGyQyNkB0/m2B4FU7IEZGK2NUrcMtT6BZEFALTguLk+AUT6ofsHtPk5QyjAdUkpMJ+/Em+quwz4HOt30AQ==
   dependencies:
     regenerator-runtime "^0.13.2"
-
-"@babel/runtime@^7.5.5":
-  version "7.9.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
-  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
-  dependencies:
-    regenerator-runtime "^0.13.4"
 
 "@babel/template@^7.1.0", "@babel/template@^7.1.2", "@babel/template@^7.2.2":
   version "7.2.2"
@@ -5646,7 +5639,7 @@ eslint-plugin-unicorn@^19.0.1:
     semver "^7.1.3"
 
 eslint-plugin-va@./script/eslint-plugin-va:
-  version "1.0.1"
+  version "1.0.2"
 
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
@@ -16210,9 +16203,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#55649f9ee704a28c43cbef8d3902d919b07284ca":
-  version "5.2.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#55649f9ee704a28c43cbef8d3902d919b07284ca"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#b8a9a2c54f5149dca079099a037ab4839bda7123":
+  version "6.0.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b8a9a2c54f5149dca079099a037ab4839bda7123"
 
 vinyl-file@^2.0.0:
   version "2.0.0"
