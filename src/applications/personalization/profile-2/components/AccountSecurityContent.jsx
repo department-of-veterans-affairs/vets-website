@@ -16,6 +16,7 @@ import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import IdentityVerificationStatus from './IdentityVerificationStatus';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
+import EmailAddressNotification from './EmailAddressNotification';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -39,6 +40,10 @@ export const AccountSecurityContent = ({
           useSSOe={useSSOe}
         />
       ),
+    },
+    {
+      title: 'Sign-in email address',
+      value: <EmailAddressNotification />,
     },
   ];
 
