@@ -38,13 +38,12 @@ const ContactInfoCell = props => {
     editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
   };
   const contactInfo = value ? <AddressView data={value} /> : 'not set';
-  const content = (
+  return (
     <div className={classes.wrapper}>
       {contactInfo}
       <button className={classes.editButton}>Edit</button>
     </div>
   );
-  return content;
 };
 
 const AddressesTable = ({ className, homeAddress, mailingAddress }) => (
