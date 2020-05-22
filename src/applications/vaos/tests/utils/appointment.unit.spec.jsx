@@ -530,7 +530,9 @@ describe('VAOS appointment helpers', () => {
             .subtract(65, 'minutes')
             .format(),
           facilityId: '984',
-          vaos: {},
+          vaos: {
+            isPastAppointment: true,
+          },
         },
         // video appointment less than 4 hours ago should show
         {
@@ -550,6 +552,7 @@ describe('VAOS appointment helpers', () => {
             .format(),
           vaos: {
             videoType: VIDEO_TYPES.videoConnect,
+            isPastAppointment: true,
           },
         },
         // appointment with status 'NO-SHOW' should not show

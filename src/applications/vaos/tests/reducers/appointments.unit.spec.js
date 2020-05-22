@@ -53,7 +53,9 @@ describe('VAOS reducer: appointments', () => {
             start: moment()
               .subtract(65, 'minutes')
               .format(),
-            vaos: {},
+            vaos: {
+              isPastAppointment: true,
+            },
           },
           // appointment 30 min ago should show
           {
@@ -78,6 +80,7 @@ describe('VAOS reducer: appointments', () => {
               .format(),
             vaos: {
               videoType: VIDEO_TYPES.videoConnect,
+              isPastAppointment: true,
             },
           },
           // Cancelled should not show

@@ -11,6 +11,7 @@ describe('Video visit', () => {
 
   const appointment = {
     resourceType: 'Appointment',
+    id: '123',
     status: 'booked',
     description: 'FUTURE',
     start: dateTime,
@@ -39,7 +40,6 @@ describe('Video visit', () => {
       },
     ],
     legacyVAR: {
-      id: '123',
       apiData: {
         startDate: '2020-11-25T15:17:00Z',
         clinicId: null,
