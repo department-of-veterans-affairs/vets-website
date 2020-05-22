@@ -50,6 +50,7 @@ jobs:
   e2e-test:
     docker:
       - image: cypress/base:10.15.3
+    parallelism: 2
     environment:
     steps:
       - checkout
