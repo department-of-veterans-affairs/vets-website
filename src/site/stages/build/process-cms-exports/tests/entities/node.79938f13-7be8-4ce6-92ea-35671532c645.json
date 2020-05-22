@@ -40,7 +40,7 @@
     ],
     "title": [
         {
-            "value": "Call MyVA311 for help:"
+            "value": "Call VA311 for help:"
         }
     ],
     "uid": [
@@ -84,12 +84,12 @@
     ],
     "metatag": {
         "value": {
-            "title": "Call MyVA311 for help: | Veterans Affairs",
+            "title": "Call VA311 for help: | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_title": "Call MyVA311 for help: | Veterans Affairs",
+            "twitter_cards_title": "Call VA311 for help: | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "Call MyVA311 for help: | Veterans Affairs"
+            "og_title": "Call VA311 for help: | Veterans Affairs"
         }
     },
     "path": [
