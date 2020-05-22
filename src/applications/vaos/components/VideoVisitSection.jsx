@@ -15,7 +15,10 @@ export default function VideoVisitSection({ appointment }) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
-  } else if (appointment.contained?.[0]?.telecom?.[0]?.value) {
+  } else if (
+    appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')
+      ?.value
+  ) {
     const url = appointment.contained?.[0]?.telecom?.[0]?.value;
     const diff = moment(appointment.start).diff(moment(), 'minutes');
 
@@ -33,7 +36,7 @@ export default function VideoVisitSection({ appointment }) {
         <a
           aria-describedby={
             disableVideoLink
-              ? `description-join-link-${appointment.legacyVAR.id}`
+              ? `description-join-link-${appointment.id}`
               : undefined
           }
           aria-disabled={disableVideoLink ? 'true' : 'false'}
@@ -47,7 +50,7 @@ export default function VideoVisitSection({ appointment }) {
         </a>
         {disableVideoLink && (
           <span
-            id={`description-join-link-${appointment.legacyVAR.id}`}
+            id={`description-join-link-${appointment.id}`}
             className="vads-u-display--block vads-u-font-style--italic"
           >
             You can join VA Video Connect 30 minutes prior to the start time
