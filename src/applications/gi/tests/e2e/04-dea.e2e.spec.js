@@ -30,6 +30,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Search Page
   DeaHelpers.verifySearchResults(client);
+  GiHelpers.expectLocation(
+    client,
+    `/search?category=ALL&name=${DeaHelpers.searchString}`,
+  );
   GiHelpers.selectSearchResult(client, ojtAttributes.facility_code);
 
   // OJT Profile Page
@@ -47,6 +51,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Search Page
   DeaHelpers.verifySearchResults(client);
+  GiHelpers.expectLocation(
+    client,
+    `/search?category=ALL&name=${DeaHelpers.searchString}`,
+  );
   GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
   // Profile Page

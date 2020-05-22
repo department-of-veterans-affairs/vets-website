@@ -10,7 +10,6 @@ import {
   isCountryInternational,
   locationInfo,
   handleInputFocusWithPotentialOverLap,
-  isMobileView,
   checkForEmptyFocusableElement,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
