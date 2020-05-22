@@ -267,7 +267,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const newAppointment = initialState.newAppointment;
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    const userSystemIds = selectSystemIds(initialState);
+    const userSiteIds = selectSystemIds(initialState);
     const useVSP = vaosVSPAppointmentNew(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
@@ -281,7 +281,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       // fetch them again
       if (!parentFacilities) {
         parentFacilities = await getOrganizations({
-          siteIds: userSystemIds,
+          siteIds: userSiteIds,
           useVSP,
         });
       }
@@ -624,8 +624,9 @@ export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const useVSP = vaosVSPAppointmentNew(getState());
     const newAppointment = getState().newAppointment;
-    const systemIds = newAppointment.ccEnabledSystems;
+    const siteIds = newAppointment.ccEnabledSystems;
     let parentFacilities = newAppointment.parentFacilities;
 
     dispatch({
@@ -634,7 +635,10 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
 
     try {
       if (!newAppointment.parentFacilities) {
-        parentFacilities = await getOrganizations(systemIds);
+        parentFacilities = await getOrganizations({
+          siteIds,
+          useVSP,
+        });
       }
 
       dispatch({
