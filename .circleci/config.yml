@@ -57,14 +57,18 @@ jobs:
       - restore_cache:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
-      - deploy: yarn install --frozen-lockfile
+      - deploy:
+          command: yarn install --frozen-lockfile
       - save_cache:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - deploy: yarn install-repos
-      - deploy: yarn fetch-drupal-cache
-      - deploy: yarn build
+      - deploy: 
+          command: yarn install-repos
+      - deploy: 
+          command: yarn fetch-drupal-cache
+      - deploy: 
+          command: yarn build
       - run: yarn cy:start-and-test
 
   security-audit:
