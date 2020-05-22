@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PaymentsReceived from './payments-recieved/PaymentsReceived.jsx';
+import PaymentsReceived from './payments-received/PaymentsReceived.jsx';
 import PaymentsReturned from './payments-returned/PaymentsReturned.jsx';
 import { fields } from './helpers';
 
