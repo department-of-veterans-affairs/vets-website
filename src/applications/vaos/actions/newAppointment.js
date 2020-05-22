@@ -763,6 +763,12 @@ export function submitAppointmentOrRequest(router) {
           // succeeded
           captureError(error, false, 'Request message failure', {
             messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+            hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
+              '\r\n',
+            ),
+            hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
+              '\n',
+            ),
           });
         }
 
