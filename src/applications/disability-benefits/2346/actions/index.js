@@ -49,6 +49,9 @@ export const fetchFormStatus = () => async dispatch => {
       if (body.errors) {
         // In the event there are multiple errors - but I don't think that is possible
         const firstError = head(body.errors);
+        if (firstError.code === '500') {
+          return dispatch(resetError());
+        }
         return dispatch(handleError(firstError.code.toUpperCase()));
       }
       const eligibility = body.formData.eligibility;
@@ -70,10 +73,6 @@ export const fetchFormStatus = () => async dispatch => {
         }
       }
       return dispatch(resetError());
-    })
-    // dropping error as we don't need to gracefully handle it
-    .catch(_error => {
-      dispatch(resetError());
     });
   return null;
 };

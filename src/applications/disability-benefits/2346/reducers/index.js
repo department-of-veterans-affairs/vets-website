@@ -10,6 +10,7 @@ const initialState = {
   isError: false,
   errorCode: '',
   pending: true,
+  nextAvailabilityDate: '',
 };
 
 export function mdotApiErrors(state = initialState, action) {

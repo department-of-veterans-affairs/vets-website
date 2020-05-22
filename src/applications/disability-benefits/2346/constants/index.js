@@ -78,7 +78,7 @@ export const MDOT_ERROR_MESSAGES = Object.freeze({
     ALERT_BOX: _props => (
       <AlertBox
         status="warning"
-        headling="Our records show that this Veteran is deceased"
+        headline="Our records show that this Veteran is deceased"
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <span>We can't fulfill an order for this Veteran</span>
