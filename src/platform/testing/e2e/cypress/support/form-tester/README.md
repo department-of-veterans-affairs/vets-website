@@ -29,7 +29,7 @@ It automatically fills out forms using data from JSON files that represent the b
 
 It's invoked as a function (`testForm`) that requires a configuration object (test config) as its only argument.
 
-```
+```js
 // some-form-app.cypress.spec.js
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
@@ -42,7 +42,7 @@ testForm(testConfig);
 
 The test config has settings or properties that are summarized by this typedef:
 
-```
+```js
 @typedef {Object} TestConfig
 
 @property {string} appName - Name of the app (form) to describe the test.
@@ -85,7 +85,7 @@ When using this helper, it won't be necessary to explicitly define those setting
 
 Using `createTestConfig` is recommended, as it will keep your test lean and consistent with other configs.
 
-```
+```js
 // some-form-app.cypress.spec.js
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
@@ -134,7 +134,7 @@ The data that's used to fill out the form may have a structure where the actual 
 
 In addition to the example from the `typedef`, consider data that's structured like this:
 
-```
+```json
 {
   "a": {
     "b": {
@@ -150,7 +150,7 @@ If all of the relevant data is found under `b`, the `dataPrefix` would be `a.b`.
 
 On the other hand, this setting does not need to be defined if the data looks like this:
 
-```
+```json
 {
   "firstName": "First",
   "lastName": "Last",
@@ -193,7 +193,7 @@ tests
 
 Let's say we wanted to run a suite of tests based on data from `a-test.json`, `b-test.json`, `c-test.json`, and `d-test.json`. The test config would include these settings:
 
-```
+```js
 dataSets: ['a-test', 'b-test', 'another-folder/c-test', 'another-folder/d-test'],
 fixtures: {
   // `__dirname` can be used to return the current directory path
@@ -205,7 +205,7 @@ fixtures: {
 
 **It is possible to set other fixtures when needed for special cases**, but the `data` fixture path is generally the only requirement for this setting.
 
-```
+```js
 // testConfig
 
 fixtures: {
@@ -230,7 +230,7 @@ This can also work for files that exist deeper within the directory structure: `
 
 **To provide a default behavior for simulating file uploads, the form tester automatically includes an `example-upload.png` fixture.** No extra configuration is needed to simulate file uploads.
 
-```
+```js
 // form-tester/index.js
 
 cy.syncFixtures({
@@ -250,7 +250,7 @@ Pathnames that don't start with `/` are interpreted to be relative to the `rootU
 
 Assuming the site is served at `http://localhost:3001`, and the form is served at `/some-form-app-url`, URLs for hooks resolve like so:
 
-```
+```js
 pageHooks: {
   // http://localhost:3001/some-form-app-url/introduction
   introduction: () => { ... },
@@ -269,7 +269,7 @@ pageHooks: {
 There are various use cases for this setting, but a couple of common ones are:
 
 1. Special or non-standard pages in the form, like the introduction, where the automatic form filling doesn't work or apply. Virtually every form will have an introduction page, which will require a page hook to proceed.
-   ```
+   ```js
    pageHooks: {
      introduction: () => {
        cy.findAllByText(/get started/i)
@@ -283,7 +283,7 @@ There are various use cases for this setting, but a couple of common ones are:
 
    `cy.fillPage` is a custom command bundled with the form tester that performs the automatic form filling on the current page. This is the same command that's used in the form tester's default handling of a page. It does not include interactions with any "continue" buttons to proceed to the next page.
 
-   ```
+   ```js
    pageHooks: {
      '/some-form-app-url/some-page': () => {
        cy.get('.expand-button').click();
@@ -335,19 +335,19 @@ The data set currently being used to fill the form. This data is what drives eac
 
 It will be the object structure that's returned from resolving the path with `dataPrefix`, so when using this alias, there is no need to qualify the object path with the prefix to get to the actual form data.
 
-```
+```json
 // test-data.json
 
 {
-  data: {
-    firstName: 'First',
-    lastName: 'Last',
-    dateOfBirth: '2000-01-01',
+  "data": {
+    "firstName": "First",
+    "lastName": "Last",
+    "dateOfBirth": "2000-01-01",
   }
 }
 ```
 
-```
+```js
 // testConfig
 
 dataPrefix: 'data',
@@ -367,11 +367,16 @@ setupPerTest: () => {
 },
 ```
 
+## Accessibility
+An aXe check is automatically performed on every page before and after the page is processed (either running a page hook or filling the page automatically).
+
+For now, violations will be skipped to unblock test execution. Violations will be allowed to fail tests once we have determined a plan and timeline for resolving the aXe issues that the tests encounter.
+
 ## Sample Code
 
 For reference, here is what a full spec file might look like.
 
-```
+```js
 // some-form-app.cypress.spec.js
 
 import path from 'path';
