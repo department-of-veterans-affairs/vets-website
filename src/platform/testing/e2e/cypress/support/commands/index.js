@@ -1,3 +1,10 @@
 import './axeCheck';
+import './clickIf';
+import './fillAddress';
+import './fillCheckbox';
+import './fillDate';
+import './fillMonthYear';
+import './fillName';
+import './selectYesNo';
 import './syncFixtures';
 import './upload';
