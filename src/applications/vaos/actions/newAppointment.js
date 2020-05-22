@@ -531,7 +531,6 @@ export function getAppointmentSlots(startDate, endDate) {
 
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
-      // let appointmentLength = null;
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
