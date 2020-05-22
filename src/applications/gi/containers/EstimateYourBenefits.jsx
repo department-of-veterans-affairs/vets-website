@@ -96,6 +96,23 @@ export class EstimateYourBenefits extends React.Component {
       calculated: { inputs: displayed },
     } = this.props;
 
+    const spacerClassNames = classNames(
+      'medium-1',
+      'columns',
+      'small-screen:vads-u-margin-right--neg1',
+      'small-screen:vads-u-margin--0',
+      'vads-u-margin-top--1',
+    );
+
+    const summarySheetClassNames = classNames(
+      'vads-u-display--block',
+      'small-screen:vads-u-display--none',
+      'eyb-sheet',
+      {
+        open: this.state.showEybSheet,
+      },
+    );
+
     return (
       <div className="row calculate-your-benefits">
         <EstimateYourBenefitsForm
@@ -110,6 +127,7 @@ export class EstimateYourBenefits extends React.Component {
           estimatedBenefits={this.props.estimatedBenefits}
           updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
+        <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits outputs={outputs} calculator={inputs} />
         {this.state.expandEybSheet && (
           <div
@@ -118,17 +136,7 @@ export class EstimateYourBenefits extends React.Component {
           />
         )}
         {
-          <div
-            id="eyb-summary-sheet"
-            className={classNames(
-              'vads-u-display--block',
-              'small-screen:vads-u-display--none',
-              'eyb-sheet',
-              {
-                open: this.state.showEybSheet,
-              },
-            )}
-          >
+          <div id="eyb-summary-sheet" className={summarySheetClassNames}>
             <EstimateYourBenefitsSummarySheet
               outputs={outputs}
               expandEybSheet={this.state.expandEybSheet}

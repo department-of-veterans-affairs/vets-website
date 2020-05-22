@@ -14,7 +14,7 @@ export const questions = [
     id: 'flu',
     text: (
       <div>
-        In the past 3 days, have you had any of these symptoms:
+        In the past 3 days, have you had any of these symptoms?
         <ul>
           <li>Fever or feeling feverish (chills, sweating)</li>
           <li>Sore throat</li>
@@ -33,6 +33,6 @@ export const questions = [
   {
     id: 'exposure',
     text:
-      'In the past 14 days, have you had contact with someone diagnosed with COVID-19?',
+      'In the past 14 days, have you had close contact with someone diagnosed with COVID-19?',
   },
 ];

@@ -178,7 +178,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleAccordionFocus = () => {
     const field = document.getElementById('estimate-your-benefits-accordion');
-    if (isMobileView()) {
+    if (field) {
       field.scrollIntoView();
     }
   };
@@ -1044,11 +1044,9 @@ class EstimateYourBenefitsForm extends React.Component {
   render() {
     const className = classNames(
       'estimate-your-benefits-form',
-      'medium-6',
+      'medium-5',
       'columns',
-      'small-screen:vads-u-margin-right--8',
-      'small-screen:vads-u-padding-x--0',
-      'small-screen:vads-u-margin-left--1p5',
+      'vads-u-padding-right--0',
     );
     return (
       <div className={className}>
