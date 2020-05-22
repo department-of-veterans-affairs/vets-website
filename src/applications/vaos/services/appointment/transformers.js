@@ -106,7 +106,7 @@ function getVistaStatus(appointment) {
  * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
  * @returns {String} Appointment status
  */
-function getStatus(appointment, isPastAppointment) {
+function getStatus(appointment, isPast) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
@@ -120,10 +120,8 @@ function getStatus(appointment, isPastAppointment) {
       const currentStatus = getVistaStatus(appointment);
 
       if (
-        (isPastAppointment &&
-          PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
-        (!isPastAppointment &&
-          FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
+        (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
+        (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
       ) {
         return null;
       }
@@ -159,6 +157,17 @@ function getMomentConfirmedDate(appt) {
     ? appt.vvsAppointments[0].dateTime
     : appt.startDate;
   return timezone ? moment(date).tz(timezone) : moment(date);
+}
+
+/**
+ *  Determines whether current time is less than appointment time
+ *  +60 min or +240 min in the case of video
+ * @param {*} appt VAR appointment object
+ */
+export function isPastAppointment(appt, videoType) {
+  const threshold = videoType ? 240 : 60;
+  const apptDateTime = moment(getMomentConfirmedDate(appt));
+  return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
 
 /**
@@ -288,7 +297,6 @@ function setContained(appt) {
  */
 function setLegacyVAR(appt) {
   return {
-    id: appt.id,
     apiData: appt,
   };
 }
@@ -305,12 +313,14 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
-    const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
+    const videoType = getVideoType(appt);
+    const isPast = isPastAppointment(appt, videoType);
     const isCC = isCommunityCare(appt);
 
     return {
       resourceType: 'Appointment',
-      status: getStatus(appt, isPastAppointment),
+      id: `var${appt.id}`,
+      status: getStatus(appt, isPast),
       description: getVistaStatus(appt),
       start,
       minutesDuration,
@@ -322,9 +332,9 @@ export function transformConfirmedAppointments(appointments) {
       contained: setContained(appt),
       legacyVAR: setLegacyVAR(appt),
       vaos: {
-        isPastAppointment,
+        isPastAppointment: isPast,
         appointmentType: getAppointmentType(appt),
-        videoType: getVideoType(appt),
+        videoType,
         isCommunityCare: isCC,
         timeZone: isCC ? appt.timeZone : null,
       },
