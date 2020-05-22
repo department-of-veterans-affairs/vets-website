@@ -30,6 +30,7 @@ const contestedIssuesPage = {
         label: disabilityOption,
         widgetClassNames: 'widget-outline',
         keepInPageOnReview: true,
+        customTitle: ' ',
       },
       'ui:validations': [requireRatedDisability],
       'ui:required': () => true,

@@ -4,6 +4,9 @@ const contactInfo = {
   uiSchema: {
     'ui:title': 'Contact Information',
     'ui:description': contactInfoDescription,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 
   schema: {

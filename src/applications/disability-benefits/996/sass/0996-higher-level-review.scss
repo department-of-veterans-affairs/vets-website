@@ -148,7 +148,7 @@ article[data-location="request-informal-conference"] {
     font-weight: bold;
   }
 
-  #root_scheduleTimes-label {
+  #root_informalConferenceTimes-label {
     p {
       margin-top: 0;
     }
@@ -165,8 +165,10 @@ article[data-location="request-informal-conference"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* checkbox group "Required" lable (added to */
-  #root_scheduleTimes-label {
+  /* Hide veteran information accordion (it's empty) */
+  .usa-accordion-bordered[data-chapter="infoPages"],
+  /* checkbox group "Required" label (added to */
+  #root_informalConferenceTimes-label span {
     display: none;
   }
 

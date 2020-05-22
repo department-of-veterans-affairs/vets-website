@@ -93,29 +93,37 @@ export default class SelectArrayItemsWidget extends React.Component {
             // to wrap its contents in a div instead of a dl, so we don't need
             // a include dt and dd elements in the markup; this change fixes an
             // accessibility issue
-            return (
-              <div key={index} className={widgetClasses}>
-                {checkboxVisible && (
-                  <input
-                    type="checkbox"
-                    id={elementId}
-                    name={elementId}
-                    checked={
-                      typeof itemIsSelected === 'undefined'
-                        ? false
-                        : itemIsSelected
-                    }
-                    required={required}
-                    disabled={itemIsDisabled}
-                    onChange={event =>
-                      this.onChange(index, event.target.checked)
-                    }
-                  />
-                )}
-                <label className={labelClass} htmlFor={elementId}>
-                  {labelWithData}
-                </label>
-              </div>
+            const content = (
+              <>
+                <dt key={index} className={widgetClasses}>
+                  {checkboxVisible && (
+                    <input
+                      type="checkbox"
+                      id={elementId}
+                      name={elementId}
+                      checked={
+                        typeof itemIsSelected === 'undefined'
+                          ? false
+                          : itemIsSelected
+                      }
+                      required={required}
+                      disabled={itemIsDisabled}
+                      onChange={event =>
+                        this.onChange(index, event.target.checked)
+                      }
+                    />
+                  )}
+                  <label className={labelClass} htmlFor={elementId}>
+                    {labelWithData}
+                  </label>
+                </dt>
+                <dd />
+              </>
+            );
+            return formContext.reviewMode ? (
+              content
+            ) : (
+              <dl className="review">{content}</dl>
             );
           })
         ) : (
