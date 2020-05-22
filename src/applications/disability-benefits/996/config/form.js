@@ -20,8 +20,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 
 // Pages
-import { veteranInfoDescription } from '../pages/veteranInformation';
-
+import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
 import informalConference from '../pages/informalConference';
@@ -71,19 +70,14 @@ const formConfig = {
   },
   preSubmitInfo,
   chapters: {
-    step1: {
+    infoPages: {
       title: 'Veteran information',
       pages: {
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
-          uiSchema: {
-            'ui:description': veteranInfoDescription,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
         confirmContactInformation: {
           title: 'Contact information',
