@@ -26,7 +26,7 @@ describe('VAOS Organization service', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities);
-      data = await getOrganizations(['983', '984']);
+      data = await getOrganizations({ siteIds: ['983', '984'] });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',

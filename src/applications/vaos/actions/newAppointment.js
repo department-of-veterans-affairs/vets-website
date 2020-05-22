@@ -18,6 +18,7 @@ import {
   getEligibilityStatus,
   getRootIdForChosenFacility,
   getSiteIdForChosenFacility,
+  vaosVSPAppointmentNew,
 } from '../utils/selectors';
 import {
   getFacilityInfo,
@@ -267,6 +268,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSystemIds = selectSystemIds(initialState);
+    const useVSP = vaosVSPAppointmentNew(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;
@@ -278,7 +280,10 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        parentFacilities = await getOrganizations(userSystemIds);
+        parentFacilities = await getOrganizations({
+          siteIds: userSystemIds,
+          useVSP,
+        });
       }
 
       const canShowFacilities = !!parentId || parentFacilities?.length === 1;

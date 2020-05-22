@@ -376,6 +376,8 @@ export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
 export const vaosPastAppts = state =>
   toggleValues(state).vaOnlineSchedulingPast;
+export const vaosVSPAppointmentNew = state =>
+  toggleValues(state).vaOnlineSchedulingVspAppointmentNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
 
 export const isWelcomeModalDismissed = state =>
