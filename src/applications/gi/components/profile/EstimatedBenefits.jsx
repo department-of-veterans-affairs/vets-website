@@ -23,7 +23,7 @@ const CalculatorResultRow = ({
   header,
   bold,
   visible,
-  ScreenReaderSpan,
+  screenReaderSpan,
 }) =>
   visible ? (
     <div
@@ -40,7 +40,7 @@ const CalculatorResultRow = ({
           <div>
             <h5>
               {value}
-              {ScreenReaderSpan}
+              {screenReaderSpan}
             </h5>
           </div>
         ) : (
@@ -110,7 +110,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         label="GI Bill pays to school"
         value={outputs.giBillPaysToSchool.value}
         visible={outputs.giBillPaysToSchool.visible}
-        ScreenReaderSpan={year}
+        screenReaderSpan={year}
         header
       />
       <CalculatorResultRow
@@ -135,14 +135,14 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         label="Housing allowance"
         value={outputs.housingAllowance.value}
         visible={outputs.housingAllowance.visible}
-        ScreenReaderSpan={month}
+        screenReaderSpan={month}
         header
       />
       <CalculatorResultRow
         label="Book stipend"
         value={outputs.bookStipend.value}
         visible={outputs.bookStipend.visible}
-        ScreenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
+        screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
         header
       />
       <CalculatorResultRow
