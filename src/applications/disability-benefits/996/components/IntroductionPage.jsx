@@ -100,7 +100,7 @@ class IntroductionPage extends React.Component {
                 <a
                   href="tel:1-800-827-1000"
                   aria-label="8 0 0. 8 2 7. 1 0 0 0."
-                  className="no-wrap"
+                  className="nowrap"
                 >
                   800-827-1000
                 </a>
