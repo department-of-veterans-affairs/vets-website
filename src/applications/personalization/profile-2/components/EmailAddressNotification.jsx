@@ -11,7 +11,7 @@ const EmailAddressNotification = () => (
     </p>
     <p className="vads-u-margin-bottom--0">
       <a
-        href="/verify?next=/profile"
+        href="https://wallet.id.me/settings"
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => {
