@@ -23,7 +23,6 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
 } from '../../utils/constants';
 
 const initialState = {};
@@ -44,88 +43,41 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
-          // appointment more than 395 days should not show
-          {
-            start: '2099-04-30T05:35:00',
-            facilityId: '984',
-            vaos: {},
-          },
-          // appointment less than 395 days should show
           {
             start: moment()
               .clone()
-              .add(394, 'days')
+              .add(60, 'days')
               .format(),
             facilityId: '984',
             vaos: {},
           },
-          // appointment more than 1 hour ago should not show
           {
             start: moment()
-              .subtract(65, 'minutes')
+              .clone()
+              .add(390, 'days')
               .format(),
-            vaos: {
-              isPastAppointment: true,
-            },
-          },
-          // appointment 30 min ago should show
-          {
-            start: moment()
-              .subtract(30, 'minutes')
-              .format(),
-            vaos: {},
-          },
-          // video appointment less than 4 hours ago should show
-          {
-            start: moment()
-              .subtract(230, 'minutes')
-              .format(),
-            vaos: {
-              videoType: VIDEO_TYPES.videoConnect,
-            },
-          },
-          // video appointment more than 4 hours ago should not show
-          {
-            start: moment()
-              .subtract(245, 'minutes')
-              .format(),
-            vaos: {
-              videoType: VIDEO_TYPES.videoConnect,
-              isPastAppointment: true,
-            },
-          },
-          // Cancelled should not show
-          {
-            description: 'CANCELLED BY CLINIC',
-            vaos: {},
-            vdsAppointments: [
-              {
-                currentStatus: 'CANCELLED BY CLINIC',
-              },
-            ],
-          },
-          // CC appointment scheduled less than 395 days into the future should show
-          {
-            start: moment()
-              .add(394, 'days')
-              .format(),
-            vaos: {},
-          },
-          // CC appointment scheduled more than 395 days into the future not should show
-          {
-            start: moment().add(396, 'days'),
+            facilityId: '984',
             vaos: {},
           },
         ],
         // pending appointments will show
-        [{ optionDate1: '05/29/2099' }],
+        [
+          {
+            status: 'Submitted',
+            appointmentType: 'Primary Care',
+            optionDate1: moment()
+              .add(2, 'days')
+              .format('MM/DD/YYYY'),
+          },
+        ],
       ],
       today: moment(),
     };
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(6);
+    // console.log(newState.future);
+    expect(newState.future.length).to.equal(3);
     expect(
       moment(newState.future[0].start).isBefore(
         moment(newState.future[1].start),

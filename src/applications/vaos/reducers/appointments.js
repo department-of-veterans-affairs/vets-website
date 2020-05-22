@@ -67,7 +67,6 @@ export default function appointmentsReducer(state = initialState, action) {
       ]
         .map(transformRequest)
         .sort(sortFutureRequests);
-
       return {
         ...state,
         future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],

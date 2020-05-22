@@ -660,14 +660,30 @@ describe('VAOS appointment helpers', () => {
             .format('MM/DD/YYYY'),
         },
         {
-          attributes: {
-            status: 'Submitted',
-            appointmentType: 'Primary Care',
-            optionDate1: now
-              .clone()
-              .add(-2, 'days')
-              .format('MM/DD/YYYY'),
-          },
+          status: 'Submitted',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .subtract(2, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
+          status: 'Submitted',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .add(13, 'months')
+            .subtract(1, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
+          status: 'Submitted',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .add(13, 'months')
+            .add(1, 'days')
+            .format('MM/DD/YYYY'),
         },
         {
           status: 'Submitted',
@@ -688,7 +704,7 @@ describe('VAOS appointment helpers', () => {
       ];
 
       const filteredRequests = requests.filter(r => filterRequests(r, now));
-      expect(filteredRequests.length).to.equal(2);
+      expect(filteredRequests.length).to.equal(3);
     });
   });
 

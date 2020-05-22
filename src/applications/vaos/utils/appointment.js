@@ -231,18 +231,23 @@ export function filterPastAppointments(appt, startDate, endDate) {
 
 export function filterRequests(request, today) {
   const status = request?.status;
+  const thirteenMonths = today.clone().add(13, 'months');
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
   const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
 
-  const hasValidDateAfterToday =
-    (optionDate1.isValid() && optionDate1.isAfter(today)) ||
-    (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-    (optionDate3.isValid() && optionDate3.isAfter(today));
+  const hasValidDate =
+    (optionDate1.isValid() &&
+      optionDate1.isAfter(today) &&
+      optionDate1.isBefore(thirteenMonths)) ||
+    (optionDate2.isValid() &&
+      optionDate2.isAfter(today) &&
+      optionDate2.isBefore(thirteenMonths)) ||
+    (optionDate3.isValid() &&
+      optionDate3.isAfter(today) &&
+      optionDate3.isBefore(thirteenMonths));
 
-  return (
-    status === 'Submitted' || (status === 'Cancelled' && hasValidDateAfterToday)
-  );
+  return (status === 'Submitted' || status === 'Cancelled') && hasValidDate;
 }
 
 export function sortFutureConfirmedAppointments(a, b) {
