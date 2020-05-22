@@ -66,7 +66,7 @@ jobs:
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
       - run: yarn build
-      - run: yarn cypress run "$(circleci tests glob "src/**/tests/**/*.cypress.spec.js?(x)" | circleci tests split --split-by=timings)"
+      - run: yarn cy:test:circle "$(circleci tests glob "src/**/tests/**/*.cypress.spec.js?(x)" | circleci tests split --split-by=timings)"
 
   security-audit:
     docker:
