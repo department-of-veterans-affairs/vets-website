@@ -13,6 +13,12 @@ import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import { getVARFacilityId } from '../services/appointment';
 
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id ? id.replace('var', '') : id;
+}
+
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
     return null;
@@ -51,7 +57,7 @@ export default function ConfirmedAppointmentListItem({
     location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.contained[0]?.actor?.address;
+    const address = appointment.contained[0].actor.address;
     location = `${address.line[0]} ${address.city}, ${address.state} ${
       address.postalCode
     }`;
@@ -75,7 +81,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={parseFakeFHIRId(getVARFacilityId(appointment))}
         />
       </h3>
       <AppointmentStatus
@@ -120,7 +126,6 @@ export default function ConfirmedAppointmentListItem({
               location={location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}
-              endDateTime={appointment.start}
             />
             {showCancelButton && (
               <button
