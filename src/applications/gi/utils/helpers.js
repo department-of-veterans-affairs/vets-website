@@ -100,8 +100,8 @@ export const checkForEmptyFocusableElement = element => {
 export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
 
 export const handleScrollOnInputFocus = fieldId => {
-  if (isMobileView()) {
-    const field = document.getElementById(fieldId);
+  const field = document.getElementById(fieldId);
+  if (field && isMobileView()) {
     field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 };
@@ -127,12 +127,14 @@ export const handleInputFocusWithPotentialOverLap = (
       if (hasOverLap === true) {
         const scrollableField =
           document.getElementById(scrollableFieldId) || window;
-        const scrollUpBy = fieldRect1.bottom - fieldRect2.top + 2;
-        scrollableField.scrollBy({
-          top: scrollUpBy,
-          left: 0,
-          behavior: 'smooth',
-        });
+        if (scrollableField) {
+          const scrollUpBy = fieldRect1.bottom - fieldRect2.top + 2;
+          scrollableField.scrollBy({
+            top: scrollUpBy,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
       }
     }
   }

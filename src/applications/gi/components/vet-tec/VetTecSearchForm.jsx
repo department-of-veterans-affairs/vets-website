@@ -60,7 +60,9 @@ class VetTecSearchForm extends React.Component {
     // prod flag for bah-8821
     if (environment.isProduction() && isMobileView()) {
       const field = document.getElementById(fieldId);
-      field.scrollIntoView();
+      if (field) {
+        field.scrollIntoView();
+      }
     } else {
       const seeResultsButtonFieldId = 'see-results-button';
       const scrollableFieldId = 'vet-tec-search';
