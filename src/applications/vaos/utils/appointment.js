@@ -202,10 +202,13 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
  */
 
 export function filterFutureConfirmedAppointments(appt) {
+  const apptDateTime = getMomentConfirmedDate(appt);
+
   return (
     !appt.vaos.isPastAppointment &&
     !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-    moment(appt.start).isValid()
+    moment(appt.start).isValid() &&
+    moment(apptDateTime).isBefore(moment().add(13, 'months'))
   );
 }
 

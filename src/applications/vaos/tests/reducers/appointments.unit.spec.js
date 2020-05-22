@@ -44,8 +44,19 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
+          // appointment more than 395 days should not show
           {
             start: '2099-04-30T05:35:00',
+            facilityId: '984',
+            vaos: {},
+          },
+          // appointment less than 395 days should show
+          {
+            start: moment()
+              .clone()
+              .add(394, 'days')
+              .format(),
+            facilityId: '984',
             vaos: {},
           },
           // appointment more than 1 hour ago should not show
@@ -87,8 +98,26 @@ describe('VAOS reducer: appointments', () => {
           {
             description: 'CANCELLED BY CLINIC',
             vaos: {},
+            vdsAppointments: [
+              {
+                currentStatus: 'CANCELLED BY CLINIC',
+              },
+            ],
+          },
+          // CC appointment scheduled less than 395 days into the future should show
+          {
+            start: moment()
+              .add(394, 'days')
+              .format(),
+            vaos: {},
+          },
+          // CC appointment scheduled more than 395 days into the future not should show
+          {
+            start: moment().add(396, 'days'),
+            vaos: {},
           },
         ],
+        // pending appointments will show
         [{ optionDate1: '05/29/2099' }],
       ],
       today: moment(),
@@ -96,7 +125,7 @@ describe('VAOS reducer: appointments', () => {
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(4);
+    expect(newState.future.length).to.equal(6);
     expect(
       moment(newState.future[0].start).isBefore(
         moment(newState.future[1].start),

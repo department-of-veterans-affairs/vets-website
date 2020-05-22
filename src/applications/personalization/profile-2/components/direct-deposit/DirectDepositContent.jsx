@@ -76,7 +76,7 @@ export const DirectDepositContent = ({
       }
     },
     [
-      previousUiState,
+      previousUiState?.isSaving,
       directDepositUiState.isSaving,
       directDepositUiState.responseError,
     ],

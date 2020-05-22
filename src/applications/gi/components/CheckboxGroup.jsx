@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import { handleScrollOnInputFocus } from '../utils/helpers';
 
 /**
  * A checkbox group with a label.
@@ -30,6 +31,7 @@ class CheckboxGroup extends React.Component {
             id={`${this.inputId}-${index}`}
             name={name}
             type="checkbox"
+            onFocus={this.props.onFocus.bind(this, `${this.inputId}-${index}`)}
             onChange={this.props.onChange}
             aria-labelledby={`${this.inputId}-legend ${name}-${index}-label`}
           />
@@ -75,6 +77,11 @@ CheckboxGroup.propTypes = {
     ]),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+};
+
+CheckboxGroup.defaultProps = {
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default CheckboxGroup;

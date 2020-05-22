@@ -509,8 +509,14 @@ describe('VAOS appointment helpers', () => {
   describe('filterFutureCConfirmedAppointments', () => {
     it('should filter future confirmed appointments', () => {
       const confirmed = [
+        // appointment more than 395 days should not show
+        { start: '2099-04-30T05:35:00', facilityId: '984', vaos: {} },
+        // appointment less than 395 days should show
         {
-          start: '2099-04-30T05:35:00',
+          start: now
+            .clone()
+            .add(394, 'days')
+            .format(),
           facilityId: '984',
           vaos: {},
         },

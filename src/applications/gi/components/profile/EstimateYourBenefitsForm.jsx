@@ -9,6 +9,8 @@ import {
   formatCurrency,
   isCountryInternational,
   locationInfo,
+  handleInputFocusWithPotentialOverLap,
+  checkForEmptyFocusableElement,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
@@ -18,6 +20,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 import classNames from 'classnames';
 
 class EstimateYourBenefitsForm extends React.Component {
@@ -91,6 +95,27 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  handleCalculateBenefitsClick = () => {
+    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
+    const zipcode = this.props.inputs.beneficiaryZIP;
+
+    if (
+      this.props.eligibility.giBillChapter === '33' &&
+      (beneficiaryZIPError || zipcode.length !== 5)
+    ) {
+      this.toggleLearningFormatAndSchedule(true);
+      setTimeout(() => {
+        const CheckNameOfElement = checkForEmptyFocusableElement(
+          'beneficiaryZIPCode',
+        );
+        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        CheckNameOfElement[0].focus();
+      }, 1);
+    } else {
+      this.props.updateEstimatedBenefits();
+    }
+  };
+
   handleExtensionChange = event => {
     const value = event.target.value;
     const zipCode = value.slice(value.indexOf('-') + 1);
@@ -150,10 +175,21 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleInputFocus = fieldId => {
-    const field = document.getElementById(fieldId);
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+  handleAccordionFocus = () => {
+    const field = document.getElementById('estimate-your-benefits-accordion');
+    if (field) {
       field.scrollIntoView();
+    }
+  };
+
+  handleEYBInputFocus = fieldId => {
+    const eybSheetFieldId = 'eyb-summary-sheet';
+    handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
+  };
+
+  handleInternationalCheckboxFocus = e => {
+    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      e.target.scrollIntoView();
     }
   };
 
@@ -181,7 +217,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   toggleAboutYourSchool = expanded => {
@@ -196,7 +232,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   toggleLearningFormatAndSchedule = expanded => {
@@ -211,7 +247,7 @@ class EstimateYourBenefitsForm extends React.Component {
         ? false
         : this.state.scholarshipsAndOtherFundingExpanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   toggleScholarshipsAndOtherFunding = expanded => {
@@ -226,7 +262,7 @@ class EstimateYourBenefitsForm extends React.Component {
         : this.state.learningFormatAndScheduleExpanded,
       scholarshipsAndOtherFundingExpanded: expanded,
     });
-    this.handleInputFocus('estimate-your-benefits-accordion');
+    this.handleAccordionFocus();
   };
 
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
@@ -247,6 +283,7 @@ class EstimateYourBenefitsForm extends React.Component {
         options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
         value={this.props.inputs.inState}
         onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
       />
     );
   };
@@ -271,7 +308,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, inStateFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
         />
       </div>
     );
@@ -294,7 +331,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={tuitionFeesId}
           value={formatCurrency(this.props.inputs.tuitionFees)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, tuitionFeesFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, tuitionFeesFieldId)}
         />
       </div>
     );
@@ -313,7 +350,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={booksId}
           value={formatCurrency(this.props.inputs.books)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, booksFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, booksFieldId)}
         />
       </div>
     );
@@ -356,6 +393,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {this.props.inputs.yellowRibbonRecipient === 'yes' ? (
           <div>
@@ -368,6 +406,7 @@ class EstimateYourBenefitsForm extends React.Component {
               visible={showYellowRibbonOptions}
               value={this.props.inputs.yellowRibbonDegreeLevel}
               onChange={this.handleInputChange}
+              onFocus={this.handleEYBInputFocus}
             />
             <Dropdown
               label="Division or school"
@@ -378,6 +417,7 @@ class EstimateYourBenefitsForm extends React.Component {
               visible={showYellowRibbonDetails}
               value={this.props.inputs.yellowRibbonDivision}
               onChange={this.handleInputChange}
+              onFocus={this.handleEYBInputFocus}
             />
             <div id={yellowRibbonFieldId}>
               <label htmlFor="yellowRibbonContributionAmount">
@@ -389,7 +429,10 @@ class EstimateYourBenefitsForm extends React.Component {
                 name="yellowRibbonAmount"
                 value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
                 onChange={this.handleInputChange}
-                onFocus={this.handleInputFocus.bind(this, yellowRibbonFieldId)}
+                onFocus={this.handleEYBInputFocus.bind(
+                  this,
+                  yellowRibbonFieldId,
+                )}
               />
             </div>
             <AlertBox
@@ -435,7 +478,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, scholarshipsFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, scholarshipsFieldId)}
         />
       </div>
     );
@@ -460,7 +503,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={tuitionAssistId}
           value={formatCurrency(this.props.inputs.tuitionAssist)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, tuitionAssistFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, tuitionAssistFieldId)}
         />
       </div>
     );
@@ -516,6 +559,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={value}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -541,6 +585,7 @@ class EstimateYourBenefitsForm extends React.Component {
             visible
             value={this.props.inputs.numberNontradTerms}
             onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
           />
           <Dropdown
             label="How long is each term?"
@@ -563,6 +608,7 @@ class EstimateYourBenefitsForm extends React.Component {
             visible
             value={this.props.inputs.lengthNontradTerms}
             onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
           />
         </div>
       );
@@ -586,6 +632,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.calendar}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {dependentDropdowns}
       </div>
@@ -609,7 +656,7 @@ class EstimateYourBenefitsForm extends React.Component {
             id={kickerAmountId}
             value={formatCurrency(this.props.inputs.kickerAmount)}
             onChange={this.handleInputChange}
-            onFocus={this.handleInputFocus.bind(this, kickerFieldId)}
+            onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
           />
         </div>
       );
@@ -630,6 +677,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.kickerEligible}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {amountInput}
       </div>
@@ -681,6 +729,7 @@ class EstimateYourBenefitsForm extends React.Component {
             options={extensionOptions}
             value={inputs.extension}
             onChange={this.handleExtensionChange}
+            onFocus={this.handleEYBInputFocus}
           />
         </div>
       );
@@ -702,8 +751,9 @@ class EstimateYourBenefitsForm extends React.Component {
           : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
-          <div>
+          <div name="beneficiary-zip-question">
             <ErrorableTextInput
+              autoFocus
               errorMessage={errorMessageCheck}
               label={label}
               name="beneficiaryZIPCode"
@@ -729,6 +779,7 @@ class EstimateYourBenefitsForm extends React.Component {
               "I'll be taking classes outside of the U.S. and U.S. territories"
             }
             onChange={this.handleHasClassesOutsideUSChange}
+            onFocus={this.handleInternationalCheckboxFocus}
             checked={inputs.classesOutsideUS}
             name={'classesOutsideUS'}
             id={'classesOutsideUS'}
@@ -752,6 +803,7 @@ class EstimateYourBenefitsForm extends React.Component {
           options={zipcodeRadioOptions}
           value={selectedValue}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {extensionSelector}
         {amountInput}
@@ -781,7 +833,7 @@ class EstimateYourBenefitsForm extends React.Component {
             value={formatCurrency(this.props.inputs.buyUpAmount)}
             onChange={this.handleInputChange}
             onBlur={this.resetBuyUp}
-            onFocus={this.handleInputFocus.bind(this, buyUpFieldId)}
+            onFocus={this.handleEYBInputFocus.bind(this, buyUpFieldId)}
           />
         </div>
       );
@@ -836,6 +888,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.working}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -870,6 +923,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.giBillBenefit}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -894,6 +948,7 @@ class EstimateYourBenefitsForm extends React.Component {
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
             onInputChange={this.props.calculatorInputChange}
+            handleInputFocus={this.handleEYBInputFocus}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
@@ -988,11 +1043,9 @@ class EstimateYourBenefitsForm extends React.Component {
   render() {
     const className = classNames(
       'estimate-your-benefits-form',
-      'medium-6',
+      'medium-5',
       'columns',
-      'small-screen:vads-u-margin-right--8',
-      'small-screen:vads-u-padding-x--0',
-      'small-screen:vads-u-margin-left--1p5',
+      'vads-u-padding-right--0',
     );
     return (
       <div className={className}>
@@ -1007,7 +1060,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </ul>
         <button
           className="calculate-button"
-          onClick={this.props.updateEstimatedBenefits}
+          onClick={this.handleCalculateBenefitsClick}
         >
           Calculate benefits
         </button>

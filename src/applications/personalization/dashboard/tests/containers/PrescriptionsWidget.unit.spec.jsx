@@ -6,6 +6,7 @@ import { PrescriptionsWidget } from '../../containers/PrescriptionsWidget';
 
 const props = {
   canAccessRx: true,
+  useSSOe: true,
   prescriptions: [
     {
       id: '13568747',

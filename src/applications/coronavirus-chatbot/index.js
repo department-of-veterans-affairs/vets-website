@@ -2,6 +2,7 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX, handleButtonsPostRender } from './utils';
 import * as Sentry from '@sentry/browser';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
@@ -113,9 +114,7 @@ const initBotConversation = jsonWebToken => {
   };
 };
 
-const ensureCSRFTokenIsSet = () => apiRequest('/status', { method: 'GET' });
-
-export const requestChatBot = loc => {
+export const requestChatBot = async loc => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
     ? extractLocale(params.get('locale'))
@@ -131,20 +130,29 @@ export const requestChatBot = loc => {
   if (params.has('userName')) {
     path += `&userName=${params.get('userName')}`;
   }
-  return ensureCSRFTokenIsSet().then(() =>
-    apiRequest(path, { method: 'POST' })
-      .then(({ token }) => initBotConversation(token))
-      .catch(error => {
-        Sentry.captureException(error);
-        recordEvent({
-          event: `${GA_PREFIX}-connection-failure`,
-          'error-key': 'XX_failed_to_init_bot_convo',
-        });
-      }),
-  );
+
+  try {
+    const csrfTokenStored = localStorage.getItem('csrfToken');
+    const { token } = await apiRequest(path, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'X-CSRF-Token': csrfTokenStored,
+      },
+    });
+    return initBotConversation(token);
+  } catch (error) {
+    Sentry.captureException(error);
+    recordEvent({
+      event: `${GA_PREFIX}-connection-failure`,
+      'error-key': 'XX_failed_to_init_bot_convo',
+    });
+    throw error;
+  }
 };
 
-const chatRequested = scenario => {
+const chatRequested = async scenario => {
   chatBotScenario = scenario;
   const params = new URLSearchParams(location.search);
   if (params.has('shareLocation')) {
@@ -153,7 +161,7 @@ const chatRequested = scenario => {
   return requestChatBot();
 };
 
-export default function initializeChatbot() {
+export default async function initializeChatbot() {
   handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }
