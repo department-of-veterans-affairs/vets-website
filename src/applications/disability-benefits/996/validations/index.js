@@ -1,11 +1,5 @@
 import { errorMessages } from '../constants';
 
-export const optInCheckboxRequired = (errors, isChecked) => {
-  if (!isChecked) {
-    errors.addError(errorMessages.optOutCheckbox);
-  }
-};
-
 export const requireRatedDisability = (err, fieldData /* , formData */) => {
   if (!fieldData.some(entry => entry['view:selected'])) {
     // The actual validation error is displayed as an alert field. The message

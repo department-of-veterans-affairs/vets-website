@@ -45,7 +45,7 @@ class IntroductionPage extends React.Component {
             Please complete the 20-0996 form to request a Higher-Level Review.
           </SaveInProgressIntro>
         </CallToActionWidget>
-        <h3>What is a Higher-Level Review</h3>
+        <h2 className="vads-u-font-size--h3">What is a Higher-Level Review</h2>
         <p>
           If a Veteran or their representative wants to dispute a decision they
           received on a claim, they can file a Higher-Level Review. When you
@@ -55,7 +55,7 @@ class IntroductionPage extends React.Component {
           decision can be changed based on a difference of opinion or a VA
           error.
         </p>
-        <h3>You cannot submit new evidence</h3>
+        <h2 className="vads-u-font-size--h3">You cannot submit new evidence</h2>
         <p>
           The reviewer will only consider the evidence you have already provided
           when reviewing your case. If you have new and relevant evidence, you
@@ -66,11 +66,13 @@ class IntroductionPage extends React.Component {
           in order to have that new evidence considered.
         </p>
         <div className="process schemaform-process">
-          <h4>Follow the steps below to request a Higher-Level Review.</h4>
+          <h3 className="vads-u-font-size--h4">
+            Follow the steps below to request a Higher-Level Review.
+          </h3>
           <br />
           <ol>
             <li className="process-step list-one">
-              <h5>Prepare</h5>
+              <h4 className="vads-u-font-size--h5">Prepare</h4>
               <p>To fill out this application, you’ll need your:</p>
               <ul>
                 <li>Primary address</li>
@@ -95,7 +97,11 @@ class IntroductionPage extends React.Component {
                 If you need help requesting a Higher-Level Review, you can
                 contact a VA regional office and ask to speak to a
                 representative. To find the nearest regional office, please call{' '}
-                <a href="tel:1-800-827-1000" aria-label="800. 8 2 7. 1000">
+                <a
+                  href="tel:1-800-827-1000"
+                  aria-label="8 0 0. 8 2 7. 1 0 0 0."
+                  className="no-wrap"
+                >
                   800-827-1000
                 </a>
                 {' or '}
@@ -111,7 +117,7 @@ class IntroductionPage extends React.Component {
               .
             </li>
             <li className="process-step list-two">
-              <h5>Apply</h5>
+              <h4 className="vads-u-font-size--h5">Apply</h4>
               <p>
                 Complete this Higher-Level Review form. After submitting the
                 form, you’ll get a confirmation message. You can print this for
@@ -119,7 +125,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <h5>VA Review</h5>
+              <h4 className="vads-u-font-size--h5">VA Review</h4>
               <p>
                 Our goal for completing a Higher-Level Review is 125 days. A
                 review might take longer if we need to get records or schedule a
@@ -127,7 +133,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-four">
-              <h5>Decision</h5>
+              <h4 className="vads-u-font-size--h5">Decision</h4>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
