@@ -23,7 +23,7 @@ export const secondSidebarBlock = {
         Please wait at least 3 business days (Monday-Friday) before reporting
         non-receipt of a payment as check tracing cannot be initiated before
         that period. To report non-receipt after 3 business days, call
-        <a href="tel:8008271000" aria-label="1. 800. 827. 1000s">
+        <a href="tel:8008271000" aria-label="1. 800. 827. 1000.">
           800-827-1000
         </a>{' '}
         with your Social Security Number or VA Claim Number, your address, and
@@ -38,8 +38,11 @@ export const thirdSidebarBlock = {
   content: (
     <>
       <p>
-        You can call us at <a href="tel:8008271000">800-827-1000</a>. We're here
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
+        You can call us at{' '}
+        <a href="tel:8008271000" aria-label="1. 800. 827. 1000.">
+          800-827-1000
+        </a>
+        . We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
       </p>
     </>
   ),
