@@ -111,7 +111,9 @@ testForm(testConfig);
 
 #### `appName` (required)
 
-This describes the form being tested and will be the label for the top level `describe` block in the test. It can technically be defined as any string you'd like, but it's recommended to have it correspond to the `appName` from the app's `manifest.json`. The easy way to ensure this is to use `createTestConfig`.
+This describes the form being tested and will be the label for the top level `describe` block in the test.
+
+It can technically be defined as any string you'd like, but it's recommended to have it correspond to the `appName` from the app's `manifest.json`. The easy way to ensure this is to use `createTestConfig`.
 
 #### `arrayPages` (optional)
 
@@ -162,7 +164,7 @@ This is an array of file paths for the JSON (test data) files to be included in 
 
 The file paths are relative to the path that the `data` fixture points to. File extensions are optional.
 
-Each file represents a separate test with its own set of data to fill the form. Effectively, this setting determines what tests to run.
+Each file represents a separate test with its own set of data to fill the form. Effectively, the values in this array determine which tests to run.
 
 [See the following section on the `fixtures` setting](#fixtures-required) for more details and an example of how the `dataSets` and `fixtures` settings interact.
 
@@ -201,9 +203,7 @@ fixtures: {
 },
 ```
 
-##### Other fixtures
-
-The `data` path is the only required entry for this setting, but it is possible to set other fixtures for any special cases that might require them.
+**It is possible to set other fixtures when needed for special cases**, but the `data` fixture path is generally the only requirement for this setting.
 
 ```
 // testConfig
@@ -228,9 +228,7 @@ In this example, if `src/platform/testing/e2e/folder` contains `some-file.txt`, 
 
 This can also work for files that exist deeper within the directory structure: `cy.fixtures('example-folder/subfolder/another-file')`.
 
-##### Default upload file fixture
-
-To provide a default behavior for simulating file uploads, the form tester automatically includes an `example-upload.png` fixture.
+**To provide a default behavior for simulating file uploads, the form tester automatically includes an `example-upload.png` fixture.** No extra configuration is needed to simulate file uploads.
 
 ```
 // form-tester/index.js
@@ -270,7 +268,7 @@ pageHooks: {
 
 There are various use cases for this setting, but a couple of common ones are:
 
-1. Special or non-standard pages in the form, like the introduction, where the automatic form filling doesn't work. Virtually every form will have an introduction page, which will require a page hook to proceed.
+1. Special or non-standard pages in the form, like the introduction, where the automatic form filling doesn't work or apply. Virtually every form will have an introduction page, which will require a page hook to proceed.
    ```
    pageHooks: {
      introduction: () => {
@@ -313,20 +311,29 @@ Function that performs setup before each test in the suite. Can be thought of as
 
 Cypress aliases and routes should get created here instead of `setup`, since those are reset before each test.
 
-Before `setupPerTest` runs, the form tester will have automatically started `cy.server()` and stubbed the `GET /v0/maintenance_windows` request to return `[]` (although this can be overriden by simply setting up another `cy.route` on the same endpoint).
+Before `setupPerTest` runs, the form tester will have automatically started `cy.server()` and stubbed the `GET /v0/maintenance_windows` request to return `[]`.
+
+Default stubs (like the maintenance windows request) can be overriden simply by setting up another `cy.route` on the same endpoint.
 
 ## Aliases
 
 The following aliases are available to `pageHooks` and `setupPerTest`.
 
 ### `arrayPages`
+
 Same as the test config setting `arrayPages`.
 
 ### `pageHooks`
-The test config setting `pageHooks` but with resolved pathnames. That is, all the paths start with `/` and are relative to the base URL of the site. Any paths that did not start with `/` from the test config will include the `rootUrl` of the form here.
+
+The test config setting `pageHooks` but with resolved pathnames. That is, all the paths start with `/` and are relative to the base URL of the site.
+
+Any paths in the test config that did not start with `/` will have the form's `rootUrl` prepended here.
 
 ### `testData`
-The data set currently being used to fill the form. This data is what drives each test in the suite, so its value will be specific to the test that's currently running. It will be the object structure that's returned from resolving the path with `dataPrefix`, so when using this alias, there is no need to qualify the object path with the prefix to get to the actual form data.
+
+The data set currently being used to fill the form. This data is what drives each test in the suite, so its value will be specific to the test that's currently running.
+
+It will be the object structure that's returned from resolving the path with `dataPrefix`, so when using this alias, there is no need to qualify the object path with the prefix to get to the actual form data.
 
 ```
 // test-data.json
