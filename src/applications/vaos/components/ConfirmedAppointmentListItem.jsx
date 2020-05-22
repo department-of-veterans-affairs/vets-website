@@ -60,6 +60,7 @@ export default function ConfirmedAppointmentListItem({
     <li
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
+      data-request-id={appointment.id}
       data-is-cancelable={
         !appointment.isCommunityCare && !appointment.videoType
           ? 'true'
