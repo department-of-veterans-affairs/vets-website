@@ -15,13 +15,7 @@ const renderGender = gender => {
   return content;
 };
 
-const renderDOB = dob => {
-  let content = notSetText;
-  if (dob) {
-    content = moment(dob).format('LL');
-  }
-  return content;
-};
+const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 
 const GenderAndDOBSection = ({ gender, dob, className }) => (
   <div className={className}>
