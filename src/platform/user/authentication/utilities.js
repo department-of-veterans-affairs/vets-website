@@ -1,5 +1,6 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
+import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
@@ -15,14 +16,16 @@ export const ssoKeepAliveEndpoint = () => {
 };
 
 function sessionTypeUrl(type = '', version = 'v0', application = null) {
-  const SESSIONS_URI =
+  const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
+  const params = new URLSearchParams();
 
-  return `${SESSIONS_URI}/${type}/new${
-    application ? `?application=${application}` : ''
-  }`;
+  if (application) params.append('application', application);
+  if (version === 'v1') params.append('force', 'true');
+
+  return `${base}/${type}/new?${params.toString()}`;
 }
 
 const loginUrl = (policy, version, application) => {

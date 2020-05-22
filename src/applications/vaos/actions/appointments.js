@@ -177,14 +177,14 @@ export function fetchFutureAppointments() {
               .toISOString(),
             moment()
               .startOf('day')
-              .add(1, 'years')
+              .add(13, 'months')
               .toISOString(),
           ),
           getConfirmedAppointments(
             'cc',
             moment().format('YYYY-MM-DD'),
             moment()
-              .add(1, 'years')
+              .add(13, 'months')
               .format('YYYY-MM-DD'),
           ),
           getPendingAppointments(

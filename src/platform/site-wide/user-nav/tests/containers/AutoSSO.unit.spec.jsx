@@ -1,60 +1,112 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import localStorage from 'platform/utilities/storage/localStorage';
-import * as authUtils from 'platform/user/authentication/utilities';
-import { AutoSSO, checkStatus } from '../../containers/AutoSSO';
+import * as ssoUtils from 'platform/utilities/sso';
+import * as forceAuth from 'platform/utilities/sso/forceAuth';
+
+import { AutoSSO } from '../../containers/AutoSSO';
 
 describe('<AutoSSO>', () => {
-  const props = {
-    useSSOe: false,
-    useInboundSSOe: false,
-    checkKeepAlive: sinon.spy(),
-  };
+  let props = {};
 
-  beforeEach(() => localStorage.setItem('hasSessionSSO', true));
-  afterEach(() => {
-    localStorage.clear();
-    props.checkKeepAlive.reset();
+  beforeEach(() => {
+    props = {
+      useSSOe: false,
+      useInboundSSOe: false,
+      hasCalledKeepAlive: false,
+      userLoggedIn: false,
+      checkKeepAlive: sinon.spy(),
+    };
   });
 
-  describe('checkStatus', () => {
-    it('should not call keepalive if it already has', () => {
-      const wrapper = shallow(<AutoSSO {...props} />);
-      const spy = sinon.spy(checkStatus);
-      wrapper.setProps({
-        hasCalledKeepAlive: true,
-        useSSOe: true,
-        useInboundSSOe: true,
-      });
-      expect(spy.called).to.be.false;
-      wrapper.unmount();
-    });
+  it('should not call setForceAuth if auth query param is set to "success"', () => {
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
+    const oldWindow = global.window;
+    global.window = {
+      location: {
+        search: '?auth=success',
+      },
+    };
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    global.window = oldWindow;
+    sinon.assert.notCalled(stub);
+    wrapper.unmount();
+  });
 
-    it('should automatically initiate a session log in if a SSOe-flagged user has an active SSOe session but no vets-website session', done => {
-      authUtils.autoLogin = sinon.spy();
-      const wrapper = shallow(<AutoSSO {...props} />);
-      wrapper.setProps({
-        useSSOe: true,
-        useInboundSSOe: true,
-      });
-      done();
-      expect(authUtils.autoLogin.called).to.be.true;
-      wrapper.unmount();
-    });
+  it('should call setForceAuth if auth query param is set to "failed"', () => {
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
+    const oldWindow = global.window;
+    global.window = {
+      location: {
+        search: '?auth=failed',
+      },
+    };
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    global.window = oldWindow;
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
+  });
 
-    it('should automatically log out if a SSOe-flagged user has an active vets-website session but no SSOe session', done => {
-      authUtils.autoLogout = sinon.spy();
-      const wrapper = shallow(<AutoSSO {...props} />);
-      wrapper.setProps({
-        useSSOe: true,
-        useInboundSSOe: true,
-      });
-      done();
-      expect(authUtils.autoLogout.called).to.be.true;
-      wrapper.unmount();
+  it('should call setForceAuth if auth query param is set to "force-needed"', () => {
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
+    const oldWindow = global.window;
+    global.window = {
+      location: {
+        search: '?auth=force-needed',
+      },
+    };
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    global.window = oldWindow;
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
+  });
+
+  it('should not call removeForceAuth if user is logged out', () => {
+    const stub = sinon.stub(forceAuth, 'removeForceAuth');
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.notCalled(stub);
+    wrapper.unmount();
+  });
+
+  it('should call removeForceAuth if user is logged in', () => {
+    const stub = sinon.stub(forceAuth, 'removeForceAuth');
+    Object.assign(props, {
+      userLoggedIn: true,
     });
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
+  });
+
+  it('should not call checkAutoSession if it already has', () => {
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    Object.assign(props, {
+      hasCalledKeepAlive: true,
+      useSSOe: true,
+      useInboundSSOe: true,
+    });
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.notCalled(stub);
+    wrapper.unmount();
+  });
+
+  it('should call keepalive if it has yet to', () => {
+    const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
+    Object.assign(props, {
+      hasCalledKeepAlive: false,
+      useSSOe: true,
+      useInboundSSOe: true,
+    });
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.calledOnce(stub);
+    wrapper.unmount();
   });
 });
