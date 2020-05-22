@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { handleScrollOnInputFocus } from '../utils/helpers';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import environment from 'platform/utilities/environment';
 
 class Dropdown extends React.Component {
   constructor(props) {
@@ -30,7 +32,12 @@ class Dropdown extends React.Component {
           alt={this.props.alt}
           value={this.props.value}
           onChange={this.props.onChange}
-          onFocus={this.handleFocus}
+          onFocus={
+            // prod flag for bah-8821
+            environment.isProduction()
+              ? this.handleFocus
+              : this.props.onFocus.bind(this, this.dropdownId)
+          }
         >
           {this.props.options.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -57,11 +64,13 @@ Dropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
   alt: PropTypes.string.isRequired,
   className: PropTypes.string,
+  onFocus: PropTypes.func,
 };
 
 Dropdown.defaultProps = {
   className: 'form-group top-aligned',
   visible: false,
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default Dropdown;
