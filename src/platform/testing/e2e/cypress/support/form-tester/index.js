@@ -11,6 +11,9 @@ const FIELD_SELECTOR = 'input, select, textarea';
 // that are mainly there to support more specific operations.
 const COMMAND_OPTIONS = { log: false };
 
+// Allow tests to continue running even when there are aXe violations.
+const FAIL_ON_AXE_VIOLATIONS = false;
+
 /**
  * Builds an object from a form field with attributes that are used
  * to look up test data and enter that data into the field.
@@ -120,13 +123,13 @@ const addNewArrayItem = $form => {
  */
 const processPage = () => {
   // Run aXe check before doing anything on the page.
-  cy.axeCheck();
+  cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
 
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
       // Run any page hooks for the review page, followed by an aXe check.
       cy.execHook(pathname).then(hookExecuted => {
-        if (hookExecuted) cy.axeCheck();
+        if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
       });
 
       cy.findByLabelText(/accept/i).click();
@@ -137,7 +140,7 @@ const processPage = () => {
       cy.location('pathname').then(finalPathname => {
         expect(finalPathname).to.match(/confirmation$/);
         cy.execHook(finalPathname).then(hookExecuted => {
-          if (hookExecuted) cy.axeCheck();
+          if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
         });
       });
     } else {
@@ -145,7 +148,7 @@ const processPage = () => {
       // Run the aXe check after either running the hook or filling the page.
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
-        cy.axeCheck();
+        cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
       });
 
       cy.findByText(/continue/i, { selector: 'button' })
