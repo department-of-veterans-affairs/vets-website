@@ -19,6 +19,7 @@ export function mdotApiErrors(state = initialState, action) {
         ...state,
         isError: true,
         errorCode: action.error,
+        nextAvailabilityDate: action.nextAvailabilityDate,
         pending: false,
       };
     case MDOT_RESET_ERRORS:

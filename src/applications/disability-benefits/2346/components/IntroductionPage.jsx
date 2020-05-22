@@ -14,7 +14,13 @@ class IntroductionPage extends Component {
   }
 
   render() {
-    const { errorCode, isError, isLoggedIn, pending } = this.props;
+    const {
+      errorCode,
+      isError,
+      isLoggedIn,
+      pending,
+      nextAvailabilityDate,
+    } = this.props;
     const showMainContent = !pending && !isError;
     const errorMessaging = MDOT_ERROR_MESSAGES[errorCode];
     return (
@@ -25,7 +31,16 @@ class IntroductionPage extends Component {
         {pending && (
           <LoadingIndicator setFocus message="Loading your information..." />
         )}
-        {isError && !pending && isLoggedIn && <errorMessaging.ALERT_BOX />}
+        {isError &&
+          !pending &&
+          isLoggedIn &&
+          errorMessaging && (
+            <div className="vads-u-margin-bottom--3">
+              <errorMessaging.ALERT_BOX
+                nextAvailabilityDate={nextAvailabilityDate}
+              />
+            </div>
+          )}
         {showMainContent && (
           <div className="schemaform-intro">
             <SaveInProgressIntro
@@ -143,6 +158,7 @@ const mapStateToProps = state => ({
   isError: state.mdot.isError,
   errorCode: state.mdot.errorCode,
   pending: state.mdot.pending,
+  nextAvailabilityDate: state.mdot.nextAvailabilityDate,
 });
 
 const mapDispatchToProps = dispatch => ({

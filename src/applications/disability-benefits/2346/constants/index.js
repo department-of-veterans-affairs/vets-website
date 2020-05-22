@@ -1,18 +1,20 @@
 import { states } from 'platform/forms/address';
 import React from 'react';
+import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const MDOT_ERROR_MESSAGES = Object.freeze({
-  MDOT_SUPPLIES_NOT_FOUND: {
-    ALERT_BOX: ({ reorderDate }) => (
+  MDOT_SUPPLIES_INELIGIBLE: {
+    ALERT_BOX: ({ nextAvailabilityDate }) => (
       <AlertBox
         status="warning"
         headline="You can't reorder your items at this time"
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <span>
-            Our records show that your items arent available for reorder until{' '}
-            {reorderDate}. You can only order items once every 5 months.
+            Our records show that your items aren't available for reorder until{' '}
+            {moment(nextAvailabilityDate).format('MMMM DD, YYYY')}. You can only
+            order items once every 5 months.
           </span>
           <span className="vads-u-margin-top--1">
             If you need an item sooner, call the DLC Customer Service Section at{' '}
@@ -46,6 +48,27 @@ export const MDOT_ERROR_MESSAGES = Object.freeze({
             >
               Find contact information for your local medical center.
             </a>
+          </span>
+        </div>
+      </AlertBox>
+    ),
+  },
+  MDOT_SUPPLIES_NOT_FOUND: {
+    ALERT_BOX: _props => (
+      <AlertBox
+        status="warning"
+        headline="You can't reorder your items at this time"
+      >
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <span>
+            You can't order hearing aid batteries or accessories online at this
+            time because you haven't placed an order within the past two years
+          </span>
+
+          <span className="vads-u-margin-top--1">
+            If you need to place an order, call the DLC Customer Service Section
+            at <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+            <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
           </span>
         </div>
       </AlertBox>

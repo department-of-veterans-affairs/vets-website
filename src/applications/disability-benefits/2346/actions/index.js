@@ -6,11 +6,15 @@ import {
   MDOT_API_CALL_INITIATED,
 } from '../constants';
 import moment from 'moment';
+import sortBy from 'lodash/sortBy';
+import head from 'lodash/head';
+import get from 'lodash/get';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-const handleError = error => ({
+const handleError = (error, nextAvailabilityDate = '') => ({
   type: MDOT_API_ERROR,
   error,
+  nextAvailabilityDate,
 });
 
 const resetError = () => ({
@@ -43,7 +47,27 @@ export const fetchFormStatus = () => async dispatch => {
     .then(res => res.json())
     .then(body => {
       if (body.errors) {
-        return dispatch(handleError(body.errors[0]?.code.toUpperCase()));
+        // In the event there are multiple errors - but I don't think that is possible
+        const firstError = head(body.errors);
+        return dispatch(handleError(firstError.code.toUpperCase()));
+      }
+      const eligibility = body.formData.eligibility;
+
+      if (eligibility) {
+        if (!eligibility.accessories && !eligibility.batteries) {
+          const sortedSuppliesByAvailability = sortBy(
+            body.formData.supplies,
+            'nextAvailabilityDate',
+          );
+          const firstSupplyInSupplies = head(sortedSuppliesByAvailability);
+          const nextAvailabilityDate = get(
+            firstSupplyInSupplies,
+            'nextAvailabilityDate',
+          );
+          return dispatch(
+            handleError('MDOT_SUPPLIES_INELIGIBLE', nextAvailabilityDate),
+          );
+        }
       }
       return dispatch(resetError());
     })
