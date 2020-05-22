@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
+import { selectProfile } from 'platform/user/selectors';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -21,33 +22,29 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data, formId } = this.props.form;
+    const { name, form } = this.props;
+    const { submission, formId } = form;
     const { response } = submission;
-    const name = data.name;
 
     return (
       <div>
-        <h3 className="confirmation-page-title">
+        <h2 className="confirmation-page-title vads-u-font-size--h3">
           Your request has been submitted
-        </h3>
-        <p>
-          We’ll mail you a letter confirming your request within{' '}
-          <strong>5 business days</strong>.
-        </p>
+        </h2>
         <p>
           We may contact you for more information or documents.
           <br />
           <em>Please print this page for your records.</em>
         </p>
         <div className="inset" role="presentation">
-          <h4 className="vads-u-margin-top--0">
+          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Higher-Level Review{' '}
             <span className="additional" role="presentation">
               (Form {formId})
             </span>
-          </h4>
+          </h3>
           <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
+            for {name?.first} {name?.middle} {name?.last} {name?.suffix}
           </span>
 
           {response && (
@@ -63,7 +60,9 @@ export class ConfirmationPage extends React.Component {
           )}
         </div>
 
-        <h3>What happens after I submit a request for a review?</h3>
+        <h2 className="vads-u-font-size--h3">
+          After you request a decision review
+        </h2>
         <p>
           When your review is complete, VA will mail you a decision packet that
           includes details about the decision on your case.{' '}
@@ -73,7 +72,7 @@ export class ConfirmationPage extends React.Component {
           .
         </p>
 
-        <h3>What should I do while I wait?</h3>
+        <h2 className="vads-u-font-size--h3">What should I do while I wait?</h2>
         <p>
           You don’t need to do anything unless VA sends you a letter asking for
           more information. If VA schedules any exams for you, be sure not to
@@ -82,7 +81,14 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested a decision review and haven’t heard back from VA yet,
           please don’t request another review. Call VA at{' '}
-          <a href="tel:1-800-827-1000">800-827-1000</a>.
+          <a
+            href="tel:1-800-827-1000"
+            aria-label="8 0 0. 8 2 7. 1 0 0 0."
+            className="nowrap"
+          >
+            800-827-1000
+          </a>
+          .
         </p>
         <br />
         <a
@@ -99,6 +105,7 @@ export class ConfirmationPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    name: selectProfile(state)?.userFullName,
   };
 }
 
