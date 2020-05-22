@@ -149,6 +149,12 @@ div.ac-container.ac-adaptiveCard {
   background: $color-primary-darkest !important;
 }
 
+/* Connecting... text before chatbot shows */
+.webchat__connectivityStatus.css-nd6pw {
+  align-items: flex-start;
+}
+
 .css-1t62idy {
-  flex-direction: row;
+  flex-direction: row !important;
+  min-height: 900px;
 }
