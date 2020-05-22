@@ -223,6 +223,31 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   it('should display instructions', () => {
     expect(tree.text()).to.contain('Instruction text');
   });
+
+  it('should have a green top border if in future', () => {
+    const newTree = mount(
+      <ConfirmedAppointmentListItem appointment={appointment} />,
+    );
+
+    expect(newTree.find('.vads-u-border-color--green').exists()).to.equal(true);
+    newTree.unmount();
+  });
+
+  it('should not have a green top border if time is isPastAppointment', () => {
+    const appt = {
+      ...appointment,
+      vaos: {
+        ...appointment.vaos,
+        isPastAppointment: true,
+      },
+    };
+
+    const newTree = mount(<ConfirmedAppointmentListItem appointment={appt} />);
+    expect(newTree.find('.vads-u-border-color--green').exists()).to.equal(
+      false,
+    );
+    newTree.unmount();
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
