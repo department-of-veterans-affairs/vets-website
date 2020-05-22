@@ -12,6 +12,8 @@ const EmailAddressNotification = () => (
     <p className="vads-u-margin-bottom--0">
       <a
         href="/verify?next=/profile"
+        target="_blank"
+        rel="noopener noreferrer"
         onClick={() => {
           recordEvent({ event: 'update-sign-in-email-address-clicked' });
         }}
