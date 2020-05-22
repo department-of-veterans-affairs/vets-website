@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../utils';
 import ChatbotLoadError from './ChatbotLoadError';
 import * as Sentry from '@sentry/browser';

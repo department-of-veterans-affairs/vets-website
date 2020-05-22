@@ -2,7 +2,7 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX, handleButtonsPostRender } from './utils';
 import * as Sentry from '@sentry/browser';
-import localStorage from '../../platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
