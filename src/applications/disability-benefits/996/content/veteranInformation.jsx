@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { srSubstitute } from '../../all-claims/utils';
 import { genderLabels } from 'platform/static-data/labels';
+import { selectProfile } from 'platform/user/selectors';
 
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
@@ -45,9 +46,9 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
         <strong>Note:</strong> If you need to update your personal information,
         please call Veterans Benefits Assistance toll free at{' '}
         <a
-          className="no-wrap"
           href="tel:1-800-827-1000"
           aria-label="8 0 0. 8 2 7. 1 0 0 0."
+          className="nowrap"
         >
           800-827-1000
         </a>
@@ -58,7 +59,7 @@ export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
 };
 
 export default connect(state => {
-  const profile = state.user?.profile;
+  const profile = selectProfile(state);
   const veteran = state.form?.loadedData?.formData;
   return {
     profile,
