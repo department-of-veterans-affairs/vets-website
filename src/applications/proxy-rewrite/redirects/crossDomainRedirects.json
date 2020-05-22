@@ -301,11 +301,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
-    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/#does-my-school-participate-in-"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/insurance/disabledvet.asp",
     "dest": "/life-insurance/options-eligibility/"
   },
