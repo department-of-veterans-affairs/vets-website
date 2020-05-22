@@ -2,10 +2,19 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 
-const month = <span className="sr-only">per month</span>;
-const year = <span className="sr-only"> per year</span>;
-const ariaHiddenYear = <span aria-hidden="true">/yr</span>;
-const ariaHiddenMonth = <span aria-hidden="true">/mo</span>;
+const month = (
+  <React.Fragment key="months">
+    <span className="sr-only">per month</span>
+    <span aria-hidden="true">/mo</span>
+  </React.Fragment>
+);
+
+const year = (
+  <React.Fragment key="years">
+    <span className="sr-only">per year</span>
+    <span aria-hidden="true">/yr</span>
+  </React.Fragment>
+);
 
 const CalculatorResultRow = ({
   id,
@@ -14,8 +23,7 @@ const CalculatorResultRow = ({
   header,
   bold,
   visible,
-  ScreenReaderText,
-  ariaHidden,
+  ScreenReaderSpan,
 }) =>
   visible ? (
     <div
@@ -32,8 +40,7 @@ const CalculatorResultRow = ({
           <div>
             <h5>
               {value}
-              {ScreenReaderText}
-              {ariaHidden}
+              {ScreenReaderSpan}
             </h5>
           </div>
         ) : (
@@ -103,8 +110,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         label="GI Bill pays to school"
         value={outputs.giBillPaysToSchool.value}
         visible={outputs.giBillPaysToSchool.visible}
-        ScreenReaderText={year}
-        ariaHidden={ariaHiddenYear}
+        ScreenReaderSpan={year}
         header
       />
       <CalculatorResultRow
@@ -129,18 +135,14 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         label="Housing allowance"
         value={outputs.housingAllowance.value}
         visible={outputs.housingAllowance.visible}
-        ScreenReaderText={month}
-        ariaHidden={ariaHiddenMonth}
+        ScreenReaderSpan={month}
         header
       />
       <CalculatorResultRow
         label="Book stipend"
         value={outputs.bookStipend.value}
         visible={outputs.bookStipend.visible}
-        ScreenReaderText={profile.attributes.type === 'ojt' ? month : year}
-        ariaHidden={
-          profile.attributes.type === 'ojt' ? ariaHiddenMonth : ariaHiddenYear
-        }
+        ScreenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
         header
       />
       <CalculatorResultRow
