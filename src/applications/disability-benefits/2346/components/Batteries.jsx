@@ -42,12 +42,10 @@ class Batteries extends Component {
     );
     const areBatterySuppliesEligible = eligibility.batteries;
     const haveBatteriesBeenOrderedInLastFiveMonths =
-      batterySupplies.length > 0
-        ? batterySupplies.every(
-            battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
-          )
-        : false;
-
+      batterySupplies.length > 0 &&
+      batterySupplies.every(
+        battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
+      );
     if (!areBatterySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
