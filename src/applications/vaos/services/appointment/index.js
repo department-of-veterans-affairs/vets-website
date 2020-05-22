@@ -44,6 +44,10 @@ export async function getBookedAppointments({ startDate, endDate }) {
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
+    if (appointment.vaos.videoType) {
+      return appointment.legacyVAR.apiData.facilityId;
+    }
+
     const id = appointment.participant?.[0]?.actor?.reference
       ?.split('/')?.[1]
       ?.split('_')?.[0];
