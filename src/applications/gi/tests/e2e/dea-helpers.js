@@ -1,5 +1,6 @@
 const GiHelpers = require('./gibct-helpers');
 const OjtHelpers = require('./ojt-helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
 const deaSearchResults = require('../data/dea-search-results.json');
 const institutionProfile = require('../data/institution-profile.json');
 const ojtProfile = require('../data/ojt-profile.json');
@@ -25,6 +26,10 @@ const searchAsDEA = client => {
 
 const verifySearchResults = client => {
   GiHelpers.verifySearchResults(client, deaSearchResults);
+  client.waitForElementPresent(
+    'input[name="category"][value="ALL"]',
+    Timeouts.normal,
+  );
   client.selectRadio('category', 'ALL');
 
   deaSearchResults.data.forEach(({ attributes: profile }) => {
