@@ -24,6 +24,8 @@ import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearch
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { renderVetTecLogo, renderSearchResultsHeader } from '../utils/render';
 import ServiceError from '../components/ServiceError';
+import { isMobileView } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -49,7 +51,15 @@ export class VetTecSearchPage extends React.Component {
       this.updateSearchResults();
     }
 
-    if (currentlyInProgress !== prevProps.search.inProgress) {
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (currentlyInProgress !== prevProps.search.inProgress) {
+        scroller.scrollTo('searchPage', getScrollOptions());
+      }
+    } else if (
+      !isMobileView() &&
+      currentlyInProgress !== prevProps.search.inProgress
+    ) {
       scroller.scrollTo('searchPage', getScrollOptions());
     }
 
