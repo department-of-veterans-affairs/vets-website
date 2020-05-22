@@ -10,7 +10,7 @@
     "build:content": "node --max-old-space-size=4096 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js --progress",
-    "cy:run-record": "cypress run --group 2x-electron --parallel",
+    "cy:run-record": "cypress run --record --group 2x-electron --parallel",
     "cy:start-and-test": "start-server-and-test watch http://localhost:3001 cy:run-record",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
