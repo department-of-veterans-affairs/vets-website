@@ -7,7 +7,7 @@ const NeedHelpFooter = props => {
   const FormFooter = () => (
     <footer className="caregiver-footer row vads-u-padding-x--1p5">
       <div style={{ maxWidth: '600px' }}>
-        <h5>Need help?</h5>
+        <h2 className="vads-u-font-size--h5">Need help?</h2>
         <hr />
         <p>
           You can call the VA Caregiver Support Line at
