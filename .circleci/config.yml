@@ -63,10 +63,13 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run: mkdir -p ./test-results
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
       - run: yarn build
       - run: yarn cy:test:circle
+      - store_test_results:
+          path: ./test-results
 
   security-audit:
     docker:
