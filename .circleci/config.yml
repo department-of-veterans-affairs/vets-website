@@ -70,6 +70,8 @@ jobs:
       - run: yarn cy:test:circle
       - store_test_results:
           path: ./test-results
+      - store_artifacts:
+          path: ./test_results
 
   security-audit:
     docker:
