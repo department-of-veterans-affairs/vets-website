@@ -4,7 +4,7 @@ import { fetchFormStatus } from '../actions';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
-import { MDOT_ERROR_MESSAGES } from '../constants';
+import ErrorMessage from './ErrorMessage';
 import { bindActionCreators } from 'redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
@@ -14,15 +14,9 @@ class IntroductionPage extends Component {
   }
 
   render() {
-    const {
-      errorCode,
-      isError,
-      isLoggedIn,
-      pending,
-      nextAvailabilityDate,
-    } = this.props;
+    const { isError, isLoggedIn, pending } = this.props;
     const showMainContent = !pending && !isError;
-    const errorMessaging = MDOT_ERROR_MESSAGES[errorCode];
+
     return (
       <>
         {' '}
@@ -33,12 +27,9 @@ class IntroductionPage extends Component {
         )}
         {isError &&
           !pending &&
-          isLoggedIn &&
-          errorMessaging && (
+          isLoggedIn && (
             <div className="vads-u-margin-bottom--3">
-              <errorMessaging.ALERT_BOX
-                nextAvailabilityDate={nextAvailabilityDate}
-              />
+              <ErrorMessage />
             </div>
           )}
         {showMainContent && (
@@ -156,9 +147,7 @@ class IntroductionPage extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.mdot.isError,
-  errorCode: state.mdot.errorCode,
   pending: state.mdot.pending,
-  nextAvailabilityDate: state.mdot.nextAvailabilityDate,
 });
 
 const mapDispatchToProps = dispatch => ({
