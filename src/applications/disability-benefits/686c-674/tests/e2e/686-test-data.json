@@ -23,7 +23,7 @@
           "marriageEndDateYear": "2012",
           "locationState": "California",
           "locationCity": "San Diego",
-          "reasonMarriageEnded": "DIVORCE"
+          "reasonMarriageEnded": "Death"
         }
       ]
     },
@@ -91,7 +91,7 @@
           "marriageEndDateYear": "2012",
           "locationState": "California",
           "locationCity": "San Diego",
-          "reasonMarriageEnded": "DIVORCE"
+          "reasonMarriageEnded": "Death"
         }
       ]
     },

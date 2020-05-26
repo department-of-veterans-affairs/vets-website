@@ -29,6 +29,8 @@ import SearchResult from '../components/search/SearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
+import environment from 'platform/utilities/environment';
+import { isMobileView } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -54,7 +56,15 @@ export class SearchPage extends React.Component {
       this.updateSearchResults();
     }
 
-    if (currentlyInProgress !== prevProps.search.inProgress) {
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (currentlyInProgress !== prevProps.search.inProgress) {
+        scroller.scrollTo('searchPage', getScrollOptions());
+      }
+    } else if (
+      !isMobileView() &&
+      currentlyInProgress !== prevProps.search.inProgress
+    ) {
       scroller.scrollTo('searchPage', getScrollOptions());
     }
 

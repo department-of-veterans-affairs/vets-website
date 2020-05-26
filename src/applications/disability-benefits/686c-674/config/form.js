@@ -55,6 +55,9 @@ import {
 
 const formConfig = {
   urlPrefix: '/',
+  // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
+  // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
+  // dependents_appilcations to 21-686c.
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
@@ -375,17 +378,16 @@ const formConfig = {
           uiSchema: studentLastTerm.uiSchema,
           schema: studentLastTerm.schema,
         },
+        // NOTE: These are temporarily disabled, and will be reintroduced post-launch as part of 674 pension support.
         studentIncomeInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-income-information',
           uiSchema: studentIncomeInformation.uiSchema,
           schema: studentIncomeInformation.schema,
         },
         studentNetworthInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-networth-information',
           uiSchema: studentNetworthInformation.uiSchema,

@@ -79,12 +79,18 @@ const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
 
 const mapStateToProps = state => {
   const profileVersion = localStorage.getItem(PROFILE_VERSION);
-
+  const localStorageProfile1 = profileVersion === '1';
+  const localStorageProfile2 = profileVersion === '2';
+  const FFProfile2 = selectShowProfile2(state);
   return {
     isLOA1: isLOA1Selector(state),
     isLOA3: isLOA3Selector(state),
     isInMVI: isInMVISelector(state),
-    showProfile1: !selectShowProfile2(state) || profileVersion === '1',
+    // Feature flag for Profile 2 is false, localStorage value PROFILE_VERSION is not set to 2 OR
+    // Feature flag for Profile 2 is true, localStorage value PROFILE_VERSION is set to 1
+    showProfile1:
+      (!FFProfile2 && !localStorageProfile2) ||
+      (FFProfile2 && localStorageProfile1),
   };
 };
 

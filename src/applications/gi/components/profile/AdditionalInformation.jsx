@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
@@ -7,6 +8,29 @@ export class AdditionalInformation extends React.Component {
 
     return constants.FISCALYEAR;
   }
+
+  renderSection103Info = section103Message => (
+    <div className="section-103-message">
+      <strong>
+        <button
+          type="button"
+          className="va-button-link learn-more-button"
+          onClick={() => {
+            recordEvent({
+              event: 'gibct-modal-displayed',
+              'gibct-modal-displayed': 'protection-against-late-va-payments',
+            });
+            this.props.onShowModal('section103');
+          }}
+        >
+          Protection against late VA payments:
+        </button>
+      </strong>
+      &nbsp;
+      {section103Message}
+    </div>
+  );
+
   renderInstitutionSummary() {
     const { institution } = this.props;
     const isOJT = institution.type.toLowerCase() === 'ojt';
@@ -15,19 +39,7 @@ export class AdditionalInformation extends React.Component {
       return (
         <div className="institution-summary">
           <h3>Institution summary</h3>
-          <div className="section-103-message">
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'section103')}
-              >
-                Protection against late VA payments:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.section103Message}
-          </div>
+          {this.renderSection103Info(institution.section103Message)}
         </div>
       );
     }
@@ -100,21 +112,8 @@ export class AdditionalInformation extends React.Component {
         {typeOfAccreditation}
         {vetTuitionPolicy}
         {this.props.eduSection103 &&
-          institution.section103Message && (
-            <div className="section-103-message">
-              <strong>
-                <button
-                  type="button"
-                  className="va-button-link learn-more-button"
-                  onClick={this.props.onShowModal.bind(this, 'section103')}
-                >
-                  Protection against late VA payments:
-                </button>
-              </strong>
-              &nbsp;
-              {institution.section103Message}
-            </div>
-          )}
+          institution.section103Message &&
+          this.renderSection103Info(institution.section103Message)}
         {!this.props.eduSection103 && (
           <div>
             <strong>
