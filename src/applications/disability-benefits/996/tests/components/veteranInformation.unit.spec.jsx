@@ -17,10 +17,10 @@ const data = {
     dob: '1980-12-31',
     gender: 'M',
     userFullName: {
-      first: 'Mike',
+      first: 'MIKE',
       middle: 'M',
       last: 'Wazowski',
-      suffix: 'esq',
+      suffix: 'III',
     },
   },
 };
@@ -43,10 +43,8 @@ describe('Confirm Veteran Details', () => {
         formData={data}
       />,
     );
-    const name = data.profile.userFullName;
     const fullName = tree.find('.name').text();
-    const dataName = `${name.first} ${name.middle} ${name.last} ${name.suffix}`;
-    expect(fullName).to.equal(dataName);
+    expect(fullName).to.equal('Mike M Wazowski, III');
 
     const ssn = tree.find('.ssn').text();
     expect(ssn).to.include(data.veteran.ssnLastFour);

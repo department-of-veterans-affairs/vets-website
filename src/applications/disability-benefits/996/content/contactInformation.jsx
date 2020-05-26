@@ -1,11 +1,11 @@
 import React from 'react';
-
 import { countries } from 'vets-json-schema/dist/constants.json';
-
 import titleCase from 'platform/utilities/data/titleCase';
 
-// Much of the mock data is in all caps
-const changeCase = string => titleCase((string || '').toLowerCase());
+import { makeTitle } from '../helpers';
+
+// Much of the mock data is in all caps; not good for a11y
+const changeCase = string => makeTitle(string || '');
 const addBrAfter = line => line && [changeCase(line), <br key={line} />];
 const addBrBefore = line => line && [<br key={line} />, changeCase(line)];
 

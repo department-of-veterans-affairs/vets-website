@@ -6,19 +6,25 @@ import { srSubstitute } from '../../all-claims/utils';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 
+import { makeTitle } from '../helpers';
+
 const mask = srSubstitute('●●●–●●–', 'ending with');
 
 export const veteranInfoView = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileNumber } = veteran;
   const { dob, gender, userFullName } = profile;
-  const { first = '', middle = '', last = '', suffix = '' } = userFullName;
+
+  const { first, middle, last, suffix } = userFullName;
+  // All caps isn't good for a11y
+  const fullName = makeTitle(`${first} ${middle || ''} ${last}`);
   return (
     <>
       <p>This is the personal information we have on file for you.</p>
       <br />
       <div className="blue-bar-block">
         <strong className="name">
-          {first} {middle} {last} {suffix}
+          {fullName}
+          {suffix && `, ${suffix}`}
         </strong>
         {ssnLastFour && (
           <p className="ssn">
