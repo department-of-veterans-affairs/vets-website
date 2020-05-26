@@ -8,10 +8,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
    * Tab access the links on the left nav and verify that
    * each link gets focused/active
    */
-  client.sendKeys(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
-    client.Keys.TAB,
-  );
+  client
+    .waitForElementPresent(
+      '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
+      4000,
+    )
+    .sendKeys(
+      '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
+      client.Keys.TAB,
+    );
   client.assert.isActiveElement(
     '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
   );
