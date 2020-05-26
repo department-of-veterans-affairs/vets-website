@@ -487,6 +487,42 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
     );
 };
 
+export const fillReportDivorceSpouseInformation = (client, data) => {
+  client
+    .fill(
+      'input[name="root_reportDivorce_fullName_first"]',
+      data.spouseInformation.firstName,
+    )
+    .fill(
+      'input[name="root_reportDivorce_fullName_last"]',
+      data.spouseInformation.lastName,
+    )
+    .selectDropdown(
+      'root_reportDivorce_dateMonth',
+      data.veteranInformation.marriageHistory[0].marriageEndDateMonth,
+    )
+    .selectDropdown(
+      'root_reportDivorce_dateDay',
+      data.veteranInformation.marriageHistory[0].marriageEndDateDay,
+    )
+    .fill(
+      'input[name="root_reportDivorce_dateYear"]',
+      data.veteranInformation.marriageHistory[0].marriageEndDateYear,
+    );
+};
+
+export const fillReportDivorceLocationOfDivorce = (client, data) => {
+  client
+    .fill(
+      'input[name="root_reportDivorce_location_state"]',
+      data.veteranDomesticAddress.stateCode,
+    )
+    .fill(
+      'input[name="root_reportDivorce_location_city"]',
+      data.veteranDomesticAddress.city,
+    );
+};
+
 export const initApplicationSubmitMock = token => {
   mock(token, {
     path: '/v0/21-686c',
