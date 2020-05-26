@@ -7,7 +7,6 @@ import ConfirmationDirectScheduleInfo from '../../components/ConfirmationDirectS
 describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
   it('should render', () => {
     const props = {
-      appointmentLength: 20,
       facilityDetails: {
         id: 'vha_983',
         name: 'Cheyenne VA Medical Center',
@@ -28,6 +27,10 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
         },
       },
       systemId: '983',
+      slot: {
+        start: '2019-12-20T10:00:00',
+        end: '2019-12-20T10:20:00',
+      },
     };
     const pageTitle = 'Your appointment has been scheduled';
 

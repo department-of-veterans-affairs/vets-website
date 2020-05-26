@@ -536,7 +536,16 @@ describe('VAOS data transformation', () => {
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
-        appointmentLength: '30',
+        availableSlots: [
+          {
+            start: '2019-12-22T09:30:00',
+            end: '2019-12-22T10:00:00',
+          },
+          {
+            start: '2019-11-22T09:30:00',
+            end: '2019-11-22T10:00:00',
+          },
+        ],
         parentFacilities: [
           {
             id: 'var983',
