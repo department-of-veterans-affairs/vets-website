@@ -91,11 +91,9 @@ export class GiBillApp extends React.Component {
       content = this.props.children;
     }
 
-    const banner = environment.isProduction() ? '' : <Covid19Banner />;
-
     return (
       <div className="gi-app">
-        {banner}
+        {!environment.isProduction() && <Covid19Banner />}
         <div className="row">
           <div className="columns small-12">
             {preview.display && (
@@ -104,13 +102,11 @@ export class GiBillApp extends React.Component {
                 onViewLiveVersion={this.exitPreviewMode}
               />
             )}
-
             <GiBillBreadcrumbs
               searchQuery={search.query}
               facilityCode={facilityCode}
               location={this.props.location}
             />
-
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
               {constants.error ? <ServiceError /> : content}
             </DowntimeNotification>
