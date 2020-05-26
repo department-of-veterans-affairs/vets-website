@@ -85,7 +85,7 @@ class InitializeVet360ID extends React.Component {
           </TransactionPending>
         );
 
-      case VET360_INITIALIZATION_STATUS.UNINITALIZED:
+      case VET360_INITIALIZATION_STATUS.UNINITIALIZED:
       default:
         return <div />;
     }
