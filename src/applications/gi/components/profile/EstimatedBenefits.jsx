@@ -2,7 +2,29 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 
-const CalculatorResultRow = ({ id, label, value, header, bold, visible }) =>
+const month = (
+  <React.Fragment key="months">
+    <span className="sr-only">per month</span>
+    <span aria-hidden="true">/mo</span>
+  </React.Fragment>
+);
+
+const year = (
+  <React.Fragment key="years">
+    <span className="sr-only">per year</span>
+    <span aria-hidden="true">/yr</span>
+  </React.Fragment>
+);
+
+const CalculatorResultRow = ({
+  id,
+  label,
+  value,
+  header,
+  bold,
+  visible,
+  screenReaderSpan,
+}) =>
   visible ? (
     <div
       id={`calculator-result-row-${createId(id == null ? label : id)}`}
@@ -14,7 +36,16 @@ const CalculatorResultRow = ({ id, label, value, header, bold, visible }) =>
         {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>
       <div className="small-6 columns vads-u-text-align--right">
-        {header ? <h5>{value}</h5> : <div>{value}</div>}
+        {header ? (
+          <div>
+            <h5>
+              {value}
+              {screenReaderSpan}
+            </h5>
+          </div>
+        ) : (
+          <div>{value}</div>
+        )}
       </div>
     </div>
   ) : null;
@@ -69,7 +100,7 @@ const perTermSections = (outputs, calculator) => {
   );
 };
 
-export const EstimatedBenefits = ({ outputs, calculator }) => (
+export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
   <div className="medium-6 columns your-estimated-benefits">
     <h3 id="estimated-benefits" tabIndex="-1">
       Your estimated benefits
@@ -79,6 +110,7 @@ export const EstimatedBenefits = ({ outputs, calculator }) => (
         label="GI Bill pays to school"
         value={outputs.giBillPaysToSchool.value}
         visible={outputs.giBillPaysToSchool.visible}
+        screenReaderSpan={year}
         header
       />
       <CalculatorResultRow
@@ -103,12 +135,14 @@ export const EstimatedBenefits = ({ outputs, calculator }) => (
         label="Housing allowance"
         value={outputs.housingAllowance.value}
         visible={outputs.housingAllowance.visible}
+        screenReaderSpan={month}
         header
       />
       <CalculatorResultRow
         label="Book stipend"
         value={outputs.bookStipend.value}
         visible={outputs.bookStipend.visible}
+        screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
         header
       />
       <CalculatorResultRow
