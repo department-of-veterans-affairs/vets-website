@@ -23,20 +23,20 @@ export default function FormResult({ formState }) {
   const Incomplete = () => <div>Please answer all the questions above.</div>;
 
   const Pass = () => (
-    <>
+    <Complete>
       <i aria-hidden="true" role="presentation" className="fas fa-check" />
       <h2 className="vads-u-font-size--h1">OK to proceed</h2>
-    </>
+    </Complete>
   );
 
   const Fail = () => (
     <h2 className="vads-u-font-size--h1">More screening needed</h2>
   );
 
-  function Complete(props) {
+  function Complete({ children }) {
     return (
       <div>
-        {props.children}
+        {children}
         <h3>Valid for:</h3>
         <h3>{dateText}</h3>
         <div className="vads-u-font-size--h3">
@@ -52,22 +52,14 @@ export default function FormResult({ formState }) {
     );
   }
 
-  const lookup = {
+  const results = {
     pass: {
-      content: (
-        <Complete>
-          <Pass />
-        </Complete>
-      ),
+      content: <Pass />,
       class: 'pass',
       event: 'Pass',
     },
     fail: {
-      content: (
-        <Complete>
-          <Fail />
-        </Complete>
-      ),
+      content: <Fail />,
       class: 'fail',
       event: 'More screening needed',
     },
@@ -77,25 +69,23 @@ export default function FormResult({ formState }) {
     },
   };
 
-  const completed =
-    // eslint-disable-next-line no-nested-ternary
-    Object.values(formState).length < questions.length
-      ? 'incomplete'
-      : Object.values(formState).includes('yes')
-        ? 'fail'
-        : 'pass';
+  const complete = Object.values(formState).length === questions.length;
 
-  if (completed !== 'incomplete') {
-    recordScreeningToolEvent(lookup[status].event);
+  const outcome = Object.values(formState).includes('yes') ? 'fail' : 'pass';
+
+  const status = complete ? outcome : 'incomplete';
+
+  if (complete) {
+    recordScreeningToolEvent(results[status].event);
   }
 
-  const resultContent = lookup[status].content;
+  const resultContent = results[status].content;
 
   return (
     <div
       className={classnames(
         'feature covid-screener-results',
-        `covid-screener-results-${lookup[status].class}`,
+        `covid-screener-results-${results[status].class}`,
       )}
     >
       <Element
