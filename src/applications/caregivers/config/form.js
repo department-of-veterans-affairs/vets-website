@@ -80,7 +80,7 @@ const hasSecondaryCaregiverTwo = formData =>
  */
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/caregivers-assistance-claim`,
+  submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
   transformForSubmit: submitTransform,
   trackingPrefix: 'caregiver-1010cg',
   introduction: IntroductionPage,
