@@ -1,8 +1,8 @@
 [Metalsmith Build](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/index.js#L95) Steps
 
 1. [Preserving Webpack build output](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/index.js#L59)
-2. [Create React pages](https://github.com/department-of-veterans-affairs/vets-website/blob/26707cf63777c9ff34f57da0d41a0fd995fa14d5/src/site/stages/build/plugins/create-react-pages.js#L5)
-3. [Get Drupal content](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/drupal/metalsmith-drupal.js#L278)
+2. [Create React pages](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/plugins/create-react-pages.js#L5)
+3. [Get Drupal content](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/drupal/metalsmith-drupal.js)
 4. [Add Drupal Prefix](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/plugins/add-drupal-prefix.js)
 5. [Create Outreach Assets Data](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/plugins/create-outreach-assets-data.js)
 6. [Create environment filter](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/site/stages/build/plugins/create-environment-filter.js)
