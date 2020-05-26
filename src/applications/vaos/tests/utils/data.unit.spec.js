@@ -29,24 +29,27 @@ describe('VAOS data transformation', () => {
               },
             ],
           },
-          vaParent: 'var983',
+          vaParent: 'var983A6',
           vaFacility: 'var983GB',
           facilityType: 'vamc',
           typeOfCareId: '323',
         },
         parentFacilities: [
           {
-            id: 'var983',
+            id: 'var983A6',
             identifier: [
               {
                 system: VHA_FHIR_ID,
-                value: '983',
+                value: '983A6',
               },
             ],
+            partOf: {
+              reference: 'Organization/var983',
+            },
           },
         ],
         facilities: {
-          '323_var983': [
+          '323_var983A6': [
             {
               id: 'var983GB',
               identifier: [
@@ -73,12 +76,6 @@ describe('VAOS data transformation', () => {
       typeOfCare: '323',
       typeOfCareId: '323',
       appointmentType: 'Primary care',
-      cityState: {
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-        adminParent: true,
-      },
       status: 'Submitted',
       facility: {
         name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -177,12 +174,6 @@ describe('VAOS data transformation', () => {
       typeOfCare: '349',
       typeOfCareId: '349',
       appointmentType: 'Continuous Positive Airway Pressure (CPAP)',
-      cityState: {
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-        adminParent: true,
-      },
       status: 'Submitted',
       facility: {
         name: 'CHYSHR-Cheyenne VA Medical Center',
@@ -307,12 +298,6 @@ describe('VAOS data transformation', () => {
       typeOfCare: 'CCPRMYRTNE',
       typeOfCareId: 'CCPRMYRTNE',
       appointmentType: 'Primary care',
-      cityState: {
-        institutionCode: '983',
-        parentStationCode: '983',
-        rootStationCode: '983',
-        adminParent: true,
-      },
       facility: {
         name: 'CHYSHR-Cheyenne VA Medical Center',
         facilityCode: '983',
@@ -456,12 +441,6 @@ describe('VAOS data transformation', () => {
       typeOfCare: 'CCAUDHEAR',
       typeOfCareId: 'CCAUDHEAR',
       appointmentType: 'Hearing aid support',
-      cityState: {
-        institutionCode: '983',
-        parentStationCode: '983',
-        rootStationCode: '983',
-        adminParent: true,
-      },
       facility: {
         name: 'CHYSHR-Cheyenne VA Medical Center',
         facilityCode: '983',
@@ -694,12 +673,6 @@ describe('VAOS data transformation', () => {
       typeOfCare: '407',
       typeOfCareId: '407',
       appointmentType: 'Ophthalmology',
-      cityState: {
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-        adminParent: true,
-      },
       status: 'Submitted',
       facility: {
         name: 'CHYSHR-Cheyenne VA Medical Center',

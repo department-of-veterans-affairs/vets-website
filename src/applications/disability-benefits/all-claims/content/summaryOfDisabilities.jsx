@@ -47,15 +47,18 @@ const getRedirectLink = formData => {
     destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
   }
   return (
-    <Link
-      aria-label="Add missing disabilities"
-      to={{
-        pathname: destinationPath || '/',
-        search: '?redirect',
-      }}
-    >
-      go back and add it
-    </Link>
+    <>
+      <Link
+        aria-label="go back and add any missing disabilities"
+        to={{
+          pathname: destinationPath || '/',
+          search: '?redirect',
+        }}
+      >
+        go back and add
+      </Link>{' '}
+      it
+    </>
   );
 };
 

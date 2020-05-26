@@ -43,10 +43,6 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentOrg = getChosenParentInfo(state);
-  // Calling this a facility id instead of a site id because it might be 3 or 5 digits
-  // However, in the future, I believe all of these ids from an Organization will be 3 digits
-  const parentFacilityId = getSiteIdFromOrganization(parentOrg);
   const siteId = getSiteIdForChosenFacility(state);
   const facilityId = getFacilityIdFromLocation(facility);
 
@@ -54,16 +50,10 @@ export function transformFormToVARequest(state) {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
     appointmentType: typeOfCare.name,
-    cityState: {
-      institutionCode: parentFacilityId,
-      rootStationCode: siteId,
-      parentStationCode: parentFacilityId,
-      adminParent: true,
-    },
     facility: {
       name: facility.name,
       facilityCode: facilityId,
-      parentSiteCode: parentFacilityId,
+      parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -151,12 +141,6 @@ export function transformFormToCCRequest(state) {
     typeOfCare: typeOfCare.ccId,
     typeOfCareId: typeOfCare.ccId,
     appointmentType: typeOfCare.name,
-    cityState: {
-      institutionCode: siteId,
-      rootStationCode: siteId,
-      parentStationCode: siteId,
-      adminParent: true,
-    },
     facility: {
       name: organization.name,
       facilityCode: siteId,

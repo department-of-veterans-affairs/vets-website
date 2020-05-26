@@ -14,7 +14,7 @@ export const uiSchema = {
     items: {
       'ui:title': DependentNameHeader,
       date: {
-        ...currentOrPastDateUI('Dependent’s date of death'),
+        ...currentOrPastDateUI('Date of death'),
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
       },

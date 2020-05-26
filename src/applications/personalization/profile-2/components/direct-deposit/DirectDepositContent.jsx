@@ -61,7 +61,7 @@ export const DirectDepositContent = ({
     [isEditingBankInfo],
   );
 
-  // show the user an alert after their bank info has been updated and
+  // show the user a success alert after their bank info has saved
   useEffect(
     () => {
       if (
@@ -76,14 +76,14 @@ export const DirectDepositContent = ({
       }
     },
     [
-      previousUiState,
+      previousUiState?.isSaving,
       directDepositUiState.isSaving,
       directDepositUiState.responseError,
     ],
   );
 
   const saveBankInfo = () => {
-    // NOTE: You can mock a save error by sending undefined values in the payload
+    // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
       financialInstitutionName: 'Hidden form field',
       financialInstitutionRoutingNumber: formData.routingNumber,

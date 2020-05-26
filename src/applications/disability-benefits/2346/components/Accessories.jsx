@@ -2,6 +2,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
+import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -11,7 +12,7 @@ import {
   WHITE_BACKGROUND,
 } from '../constants';
 
-class SelectArrayItemsAccessoriesWidget extends Component {
+class Accessories extends Component {
   handleChecked = (checked, supply) => {
     const { selectedProducts, formData } = this.props;
     let updatedSelectedProducts;
@@ -40,6 +41,13 @@ class SelectArrayItemsAccessoriesWidget extends Component {
     const areAccessorySuppliesIneligible = accessorySupplies.every(
       accessorySupply => accessorySupply.availableForReorder === false,
     );
+
+    if (areAccessorySuppliesIneligible) {
+      recordEvent({
+        event: 'bam-error',
+        'error-key': 'accessories_bam-ineligibility-no-prescription',
+      });
+    }
 
     const noAccessoriesContent = (
       <>
@@ -176,13 +184,13 @@ class SelectArrayItemsAccessoriesWidget extends Component {
   }
 }
 
-SelectArrayItemsAccessoriesWidget.defaultProps = {
+Accessories.defaultProps = {
   formData: {},
   supplies: [],
   selectedProducts: [],
 };
 
-SelectArrayItemsAccessoriesWidget.propTypes = {
+Accessories.propTypes = {
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -216,4 +224,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SelectArrayItemsAccessoriesWidget);
+)(Accessories);
