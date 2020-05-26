@@ -72,6 +72,10 @@ jobs:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
+      - store_artifacts:
+          path: ./cypress/videos
+      - store_artifacts:
+          path: ./cypress/screenshots
 
   security-audit:
     docker:
