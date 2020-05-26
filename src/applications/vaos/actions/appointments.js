@@ -84,7 +84,7 @@ function aggregateClinicsBySystem(appointments) {
 
   appointments.forEach(appt => {
     const facilityId = parseFakeFHIRId(getVARFacilityId(appt));
-    const clinicId = parseFakeFHIRId(getVARClinicId(appt));
+    const clinicId = getVARClinicId(appt);
 
     const facility = facilityClinicListMap.get(facilityId);
     if (facility) {
@@ -143,7 +143,7 @@ async function getClinicDataBySystem(facilityClinicListMap) {
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => !getVARClinicId(appt),
+    appt => appt.vaos?.videoType || appt.vaos?.isCommunityCare || !appt.vaos,
   );
   let facilityIds = requestsOrNonVAFacilityAppointments
     .map(appt => appt.facilityId || appt.facility?.facilityCode)
@@ -151,7 +151,7 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
   // Get facility ids from VA appointments
   const vaFacilityAppointments = futureAppointments.filter(
-    appt => !!getVARClinicId(appt),
+    appt => appt.vaos && !appt.vaos.videoType && !appt.vaos.isCommunityCare,
   );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
@@ -327,7 +327,7 @@ export function confirmCancelAppointment() {
           appointmentTime: moment(appointment.start).format(
             'MM/DD/YYYY HH:mm:ss',
           ),
-          clinicId: getVARClinicId(appointment).replace('var', ''),
+          clinicId: getVARClinicId(appointment),
           facilityId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
