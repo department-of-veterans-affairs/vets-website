@@ -10,7 +10,6 @@ import {
   isCountryInternational,
   locationInfo,
   handleInputFocusWithPotentialOverLap,
-  checkForEmptyFocusableElement,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
@@ -21,7 +20,7 @@ import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import { scroller } from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 
 class EstimateYourBenefitsForm extends React.Component {
@@ -98,18 +97,15 @@ class EstimateYourBenefitsForm extends React.Component {
   handleCalculateBenefitsClick = () => {
     const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
     const zipcode = this.props.inputs.beneficiaryZIP;
-
     if (
       this.props.eligibility.giBillChapter === '33' &&
+      this.props.inputs.beneficiaryLocationQuestion === 'other' &&
       (beneficiaryZIPError || zipcode.length !== 5)
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
-        const CheckNameOfElement = checkForEmptyFocusableElement(
-          'beneficiaryZIPCode',
-        );
         scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
-        CheckNameOfElement[0].focus();
+        focusElement('input[name=beneficiaryZIPCode]');
       }, 1);
     } else {
       this.props.updateEstimatedBenefits();

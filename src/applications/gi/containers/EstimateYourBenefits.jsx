@@ -128,7 +128,11 @@ export class EstimateYourBenefits extends React.Component {
           updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
         <div className={spacerClassNames}>&nbsp;</div>
-        <EstimatedBenefits outputs={outputs} calculator={inputs} />
+        <EstimatedBenefits
+          outputs={outputs}
+          profile={profile}
+          calculator={inputs}
+        />
         {this.state.expandEybSheet && (
           <div
             onClick={() => this.toggleEybExpansion()}

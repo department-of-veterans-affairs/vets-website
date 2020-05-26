@@ -301,11 +301,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
-    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/#does-my-school-participate-in-"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/insurance/disabledvet.asp",
     "dest": "/life-insurance/options-eligibility/"
   },
@@ -541,6 +536,351 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp02.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0118.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0114.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0113.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0112.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0111.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0109.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0108.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0107.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0106.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0105.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0104.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0103.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0102.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0101.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0100.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0199.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0218.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0214.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0213.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0212.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0211.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0209.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0208.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0207.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0206.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0205.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0204.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0203.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0202.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0201.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0200.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0299.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2019.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2018.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2014.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2013.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2012.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2011.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2009.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2008.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2007.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2006.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2005.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2004.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2003.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2002.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2001.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2000.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb1999.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2019.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2018.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2015.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2014.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2013.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2012.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2011.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2009.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2008.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2007.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2006.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2005.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2004.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2003.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2002.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2001.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2000.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_1999.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/rates-index.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
   },
@@ -723,5 +1063,275 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/fgib/vettec_veteran.asp",
     "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ak.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/al.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ar.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/az.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ca.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/co.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ct.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/dc.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/de.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/fl.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ga.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/hi.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ia.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/id.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/il.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/in.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ks.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ky.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/la.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ma.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/md.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/me.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mi.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mn.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mo.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ms.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mt.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nc.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nd.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ne.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nh.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nj.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nm.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nv.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ny.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/oh.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ok.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/or.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/overseas.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/pa.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/pr.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ri.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/sc.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/sd.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/tn.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/tx.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ut.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/va.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/vt.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wa.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wi.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wv.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wy.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
   }
 ]

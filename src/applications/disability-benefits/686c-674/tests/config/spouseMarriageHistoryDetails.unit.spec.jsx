@@ -44,7 +44,7 @@ describe('686 spouse marriage history details', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(9);
     form.unmount();
   });
 
@@ -88,7 +88,7 @@ describe('686 spouse marriage history details', () => {
     fillData(form, 'input#root_startLocation_state', 'Somewhere');
     fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
-    selectRadio(form, 'root_reasonMarriageEnded', 'DIVORCE');
+    selectRadio(form, 'root_reasonMarriageEnded', 'Divorce');
     // Date marriage ended
     changeDropdown(form, 'select#root_endDateMonth', 1);
     changeDropdown(form, 'select#root_endDateDay', 1);
@@ -123,7 +123,7 @@ describe('686 spouse marriage history details', () => {
     fillData(form, 'input#root_startLocation_state', 'Somewhere');
     fillData(form, 'input#root_startLocation_city', 'Outhere');
     // Reason marriage ended
-    selectRadio(form, 'root_reasonMarriageEnded', 'OTHER');
+    selectRadio(form, 'root_reasonMarriageEnded', 'Other');
     fillData(
       form,
       'input#root_reasonMarriageEndedOther',
