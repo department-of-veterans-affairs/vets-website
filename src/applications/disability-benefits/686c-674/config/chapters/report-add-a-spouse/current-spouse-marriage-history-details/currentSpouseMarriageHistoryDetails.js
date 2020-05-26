@@ -29,15 +29,20 @@ export const uiSchema = {
         'ui:required': formData => formData.spouseWasMarriedBefore === true,
         'ui:title': 'Reason marriage ended',
         'ui:widget': 'radio',
+        'ui:options': {
+          updateSchema: () => ({
+            enumNames: ['Divorce', 'Death', 'Annulment or other'],
+          }),
+        },
       },
       reasonMarriageEndedOther: {
         'ui:required': (formData, index) =>
           formData.spouseMarriageHistory[`${index}`].reasonMarriageEnded ===
-          'OTHER',
+          'Other',
         'ui:title': 'Please give a brief explanation',
         'ui:options': {
           expandUnder: 'reasonMarriageEnded',
-          expandUnderCondition: 'OTHER',
+          expandUnderCondition: 'Other',
           keepInPageOnReview: true,
           widgetClassNames: 'vads-u-margin-y--0',
         },
