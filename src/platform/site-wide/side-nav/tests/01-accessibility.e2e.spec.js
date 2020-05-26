@@ -4,6 +4,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.openUrl(`${E2eHelpers.baseUrl}/pittsburgh-health-care/`);
   E2eHelpers.overrideSmoothScrolling(client);
 
+  client.source(result => {
+    // Source will be stored in result.value
+    // eslint-disable-next-line no-console
+    console.log(result.value); //
+  });
+
   /**
    * Tab access the links on the left nav and verify that
    * each link gets focused/active
