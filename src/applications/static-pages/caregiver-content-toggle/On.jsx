@@ -3,29 +3,17 @@ import { rootUrl as caregiverFormUrl } from 'applications/caregivers/manifest.js
 
 export default function OnState() {
   return (
-    <div
-      itemScope=""
-      itemType="http://schema.org/Question"
-      data-template="paragraphs/q_a"
-      data-entity-id="9837"
-      data-analytics-faq-section=""
-      data-analytics-faq-text="How do I apply for this program?"
-    >
+    <div itemScope="" itemType="http://schema.org/Question">
       <h2 itemProp="name" id="how-do-i-apply-for-this-progra">
         How do I apply for this program?
       </h2>
       <div
-        data-entity-id="9837"
         itemProp="acceptedAnswer"
         itemScope=""
         itemType="http://schema.org/Answer"
       >
         <div itemProp="text">
-          <div
-            data-template="paragraphs/wysiwyg"
-            data-entity-id="9836"
-            className="processed-content"
-          >
+          <div className="processed-content">
             <p>
               You and the Veteran will need to apply together and participate in
               an application process&nbsp;to determine if you’re eligible for
