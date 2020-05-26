@@ -26,4 +26,5 @@ export default Object.freeze({
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
+  caregiver1010cgFormAccess: 'caregiver1010cgFormAccess',
 });
