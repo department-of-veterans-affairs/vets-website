@@ -10,7 +10,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import AccountApp from '../../containers/AccountApp';
 
-describe('<AccountApp>', () => {
+describe.skip('<AccountApp>', () => {
   let wrapper;
 
   function setUp() {
