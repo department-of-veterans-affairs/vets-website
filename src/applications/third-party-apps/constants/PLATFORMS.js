@@ -1,6 +1,14 @@
 export default [
   {
     label: 'iOS',
-    value: 'ios',
+    value: 'iOS',
+  },
+  {
+    label: 'Android',
+    value: 'Android',
+  },
+  {
+    label: 'Web',
+    value: 'Web',
   },
 ];

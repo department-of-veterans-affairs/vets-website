@@ -1,6 +1,6 @@
 export default [
   {
     label: 'Health',
-    value: 'health',
+    value: 'Health',
   },
 ];

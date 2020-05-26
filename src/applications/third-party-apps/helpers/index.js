@@ -1,6 +1,30 @@
 // Node modules.
 import URLSearchParams from 'url-search-params';
+import filter from 'lodash/filter';
 import map from 'lodash/map';
+// Relative imports.
+import MOCK_RESULTS from '../api/stub';
+
+export const createMockResults = (category, platform) => {
+  const data = filter(MOCK_RESULTS.data, result => {
+    if (category && !result.attributes.categories.includes(category)) {
+      return false;
+    }
+
+    if (platform && !result.attributes.platforms.includes(platform)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  return {
+    data,
+    meta: {
+      count: data.length,
+    },
+  };
+};
 
 export const normalizeResponse = response => ({
   results: map(response?.data, school => ({

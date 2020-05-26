@@ -4,8 +4,7 @@
 import appendQuery from 'append-query';
 // Relative imports.
 import { apiRequest } from 'platform/utilities/api';
-import { normalizeResponse } from '../helpers';
-import MOCK_RESULTS from './stub';
+import { createMockResults, normalizeResponse } from '../helpers';
 
 export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
@@ -28,7 +27,7 @@ export const fetchResultsApi = async (options = {}) => {
   );
 
   // Make the request for the results and update `response` with its repsonse.
-  let response = MOCK_RESULTS;
+  let response = createMockResults(category, platform);
   if (!mockRequest) {
     response = await apiRequest(RESULTS_URL);
   }

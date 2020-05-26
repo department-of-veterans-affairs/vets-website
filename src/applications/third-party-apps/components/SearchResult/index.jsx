@@ -1,6 +1,7 @@
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import join from 'lodash/join';
 import map from 'lodash/map';
 
@@ -8,15 +9,14 @@ export class SearchResult extends Component {
   static propTypes = {
     item: PropTypes.shape({
       appURL: PropTypes.string.isRequired,
-      categories: PropTypes.string.isRequired,
+      categories: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
       description: PropTypes.string.isRequired,
       iconURL: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      permissions: PropTypes.string.isRequired,
-      platforms: PropTypes.string.isRequired,
+      permissions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+      platforms: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
       privacyPolicyURL: PropTypes.string.isRequired,
-      reportAppURL: PropTypes.string.isRequired,
       termsOfServiceURL: PropTypes.string.isRequired,
     }).isRequired,
   };
@@ -59,8 +59,8 @@ export class SearchResult extends Component {
 
             {/* Category and Platform */}
             <p className="vads-u-margin--0">
-              {join(item?.categories, ', ')} app available for{' '}
-              {join(item?.platforms, ', ')}
+              {join(item?.categories, ', ') || 'Unknown category'} app available
+              for {join(item?.platforms, ', ') || 'unknown platforms'}
             </p>
           </div>
 
@@ -91,16 +91,24 @@ export class SearchResult extends Component {
             <hr />
 
             {/* Description */}
-            <h4>About this app:</h4>
-            <p className="vads-u-margin-bottom--0">{item?.description}</p>
+            {item?.description && (
+              <>
+                <h4>About this app:</h4>
+                <p className="vads-u-margin-bottom--0">{item?.description}</p>
+              </>
+            )}
 
             {/* Permissions */}
-            <h4>{item?.name} asks for:</h4>
-            <ol className="vads-u-margin--0 vads-u-padding-left--2p5">
-              {map(item?.permissions, permission => (
-                <li key={permission}>{permission}</li>
-              ))}
-            </ol>
+            {!isEmpty(item?.permissions) && (
+              <>
+                <h4>{item?.name} asks for:</h4>
+                <ol className="vads-u-margin--0 vads-u-padding-left--2p5">
+                  {map(item?.permissions, permission => (
+                    <li key={permission}>{permission}</li>
+                  ))}
+                </ol>
+              </>
+            )}
 
             {/* Legal Links */}
             <h4>More information:</h4>
