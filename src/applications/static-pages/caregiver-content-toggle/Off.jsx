@@ -28,7 +28,7 @@ export default function OffState() {
               date the form.
               <br />
               <br />
-              <a href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf">
+              <a href="/vaforms/medical/pdf/10-10CG.pdf">
                 Download VA Form 10-10CG (PDF)
               </a>
               <br />

@@ -46,7 +46,7 @@ export default function OnState() {
               Fill out a joint Application for the Program of Comprehensive
               Assistance for Family Caregivers (VA Form 10-10CG).
               <br />
-              <a href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf">
+              <a href="/vaforms/medical/pdf/10-10CG.pdf">
                 Download VA Form 10-10CG (PDF)
               </a>
               <br />
