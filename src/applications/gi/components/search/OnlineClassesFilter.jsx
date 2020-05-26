@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 
-function OnlineClassesFilter({ showModal, onlineClasses, onChange }) {
+function OnlineClassesFilter({
+  showModal,
+  onlineClasses,
+  onChange,
+  handleInputFocus,
+}) {
   return (
     <RadioButtons
       label={renderLearnMoreLabel({
@@ -22,6 +27,7 @@ function OnlineClassesFilter({ showModal, onlineClasses, onChange }) {
       ]}
       value={onlineClasses}
       onChange={onChange}
+      onFocus={handleInputFocus}
     />
   );
 }
@@ -30,6 +36,7 @@ OnlineClassesFilter.propTypes = {
   onlineClasses: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   showModal: PropTypes.func.isRequired,
+  handleInputFocus: PropTypes.func,
 };
 
 export default OnlineClassesFilter;
