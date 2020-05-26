@@ -13,7 +13,7 @@ const MilitaryInformation = lazy(() =>
   import('../profile-2/components/MilitaryInformation'),
 );
 const PersonalInformation = lazy(() =>
-  import('../profile-2/components/PersonalInformation'),
+  import('../profile-2/components/personal-information/PersonalInformation'),
 );
 
 export default [
