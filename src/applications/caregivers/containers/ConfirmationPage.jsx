@@ -73,7 +73,7 @@ const ConfirmationPage = props => {
       <div className="inset vads-u-margin-top--4">
         <h4 className="insert-title">
           Application for the Program of Comprehensive Assistance for Family
-          Caregivers (VA From 10-10CG)
+          Caregivers (VA Form 10-10CG)
         </h4>
 
         <span>
