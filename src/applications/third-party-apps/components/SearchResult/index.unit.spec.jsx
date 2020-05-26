@@ -31,12 +31,18 @@ describe('<SearchResult>', () => {
       },
     };
 
-    const tree = shallow(<SearchResult {...props} />);
-    const text = tree.text();
+    const wrapper = shallow(<SearchResult {...props} />);
+    const firstText = wrapper.text();
 
-    expect(text).to.include(props.item.name);
-    expect(text).to.include(props.item.description);
+    expect(firstText).to.include(props.item.name);
+    expect(firstText).to.not.include(props.item.description);
 
-    tree.unmount();
+    wrapper.setState({ show: true });
+    const secondText = wrapper.text();
+
+    expect(secondText).to.include(props.item.name);
+    expect(secondText).to.include(props.item.description);
+
+    wrapper.unmount();
   });
 });
