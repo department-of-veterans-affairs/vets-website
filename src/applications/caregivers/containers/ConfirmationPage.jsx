@@ -18,7 +18,11 @@ const ConfirmationPage = props => {
 
   const PrintDetails = () => (
     <div className="print-details">
-      <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+      <img
+        src="/img/design/logo/logo-black-and-white.png"
+        alt="VA logo"
+        width="300"
+      />
 
       <h1 className="vads-u-font-size--h3">
         Apply for the Program of Comprehensive Assistance for Family Caregivers
