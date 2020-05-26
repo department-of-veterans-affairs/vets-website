@@ -32,7 +32,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
         )}
         style={{
           paddingLeft: indentation,
-          fontSize: '15px',
+          fontSize: '14px',
           textTransform: 'uppercase',
         }}
       >
