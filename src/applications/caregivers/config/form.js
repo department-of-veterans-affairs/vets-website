@@ -4,7 +4,10 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
+import {
+  medicalCentersByState,
+  submitTransform,
+} from 'applications/caregivers/helpers';
 import { states } from 'platform/forms/address';
 import {
   PrimaryCaregiverInfo,
@@ -78,8 +81,7 @@ const hasSecondaryCaregiverTwo = formData =>
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers-assistance-claim`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: submitTransform,
   trackingPrefix: 'caregiver-1010cg',
   introduction: IntroductionPage,
   footerContent: NeedHelpFooter,
