@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { expect } from 'chai';
 
-import { usePrevious } from './react-hooks';
+import { usePrevious } from '../react-hooks';
 
 describe('usePrevious', () => {
   let container;
