@@ -45,7 +45,7 @@ export default function FormQuestion({
   ));
 
   return (
-    <div className="feature">
+    <div id={`question-${question.id}`} className="feature">
       <h2>{question.text}</h2>
       {options}
     </div>
