@@ -9,6 +9,7 @@ import {
   formatCurrency,
   isCountryInternational,
   locationInfo,
+  handleInputFocusWithPotentialOverLap,
   checkForEmptyFocusableElement,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
@@ -181,10 +182,14 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  handleInputFocus = fieldId => {
-    const field = document.getElementById(fieldId);
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      field.scrollIntoView();
+  handleEYBInputFocus = fieldId => {
+    const eybSheetFieldId = 'eyb-summary-sheet';
+    handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
+  };
+
+  handleInternationalCheckboxFocus = e => {
+    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      e.target.scrollIntoView();
     }
   };
 
@@ -278,6 +283,7 @@ class EstimateYourBenefitsForm extends React.Component {
         options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
         value={this.props.inputs.inState}
         onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
       />
     );
   };
@@ -302,7 +308,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, inStateFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
         />
       </div>
     );
@@ -325,7 +331,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={tuitionFeesId}
           value={formatCurrency(this.props.inputs.tuitionFees)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, tuitionFeesFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, tuitionFeesFieldId)}
         />
       </div>
     );
@@ -344,7 +350,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={booksId}
           value={formatCurrency(this.props.inputs.books)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, booksFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, booksFieldId)}
         />
       </div>
     );
@@ -387,6 +393,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {this.props.inputs.yellowRibbonRecipient === 'yes' ? (
           <div>
@@ -399,6 +406,7 @@ class EstimateYourBenefitsForm extends React.Component {
               visible={showYellowRibbonOptions}
               value={this.props.inputs.yellowRibbonDegreeLevel}
               onChange={this.handleInputChange}
+              onFocus={this.handleEYBInputFocus}
             />
             <Dropdown
               label="Division or school"
@@ -409,6 +417,7 @@ class EstimateYourBenefitsForm extends React.Component {
               visible={showYellowRibbonDetails}
               value={this.props.inputs.yellowRibbonDivision}
               onChange={this.handleInputChange}
+              onFocus={this.handleEYBInputFocus}
             />
             <div id={yellowRibbonFieldId}>
               <label htmlFor="yellowRibbonContributionAmount">
@@ -420,7 +429,10 @@ class EstimateYourBenefitsForm extends React.Component {
                 name="yellowRibbonAmount"
                 value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
                 onChange={this.handleInputChange}
-                onFocus={this.handleInputFocus.bind(this, yellowRibbonFieldId)}
+                onFocus={this.handleEYBInputFocus.bind(
+                  this,
+                  yellowRibbonFieldId,
+                )}
               />
             </div>
             <AlertBox
@@ -466,7 +478,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, scholarshipsFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, scholarshipsFieldId)}
         />
       </div>
     );
@@ -491,7 +503,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={tuitionAssistId}
           value={formatCurrency(this.props.inputs.tuitionAssist)}
           onChange={this.handleInputChange}
-          onFocus={this.handleInputFocus.bind(this, tuitionAssistFieldId)}
+          onFocus={this.handleEYBInputFocus.bind(this, tuitionAssistFieldId)}
         />
       </div>
     );
@@ -547,6 +559,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={value}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -572,6 +585,7 @@ class EstimateYourBenefitsForm extends React.Component {
             visible
             value={this.props.inputs.numberNontradTerms}
             onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
           />
           <Dropdown
             label="How long is each term?"
@@ -594,6 +608,7 @@ class EstimateYourBenefitsForm extends React.Component {
             visible
             value={this.props.inputs.lengthNontradTerms}
             onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
           />
         </div>
       );
@@ -617,6 +632,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.calendar}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {dependentDropdowns}
       </div>
@@ -640,7 +656,7 @@ class EstimateYourBenefitsForm extends React.Component {
             id={kickerAmountId}
             value={formatCurrency(this.props.inputs.kickerAmount)}
             onChange={this.handleInputChange}
-            onFocus={this.handleInputFocus.bind(this, kickerFieldId)}
+            onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
           />
         </div>
       );
@@ -661,6 +677,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.kickerEligible}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {amountInput}
       </div>
@@ -712,6 +729,7 @@ class EstimateYourBenefitsForm extends React.Component {
             options={extensionOptions}
             value={inputs.extension}
             onChange={this.handleExtensionChange}
+            onFocus={this.handleEYBInputFocus}
           />
         </div>
       );
@@ -761,6 +779,7 @@ class EstimateYourBenefitsForm extends React.Component {
               "I'll be taking classes outside of the U.S. and U.S. territories"
             }
             onChange={this.handleHasClassesOutsideUSChange}
+            onFocus={this.handleInternationalCheckboxFocus}
             checked={inputs.classesOutsideUS}
             name={'classesOutsideUS'}
             id={'classesOutsideUS'}
@@ -784,6 +803,7 @@ class EstimateYourBenefitsForm extends React.Component {
           options={zipcodeRadioOptions}
           value={selectedValue}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
         {extensionSelector}
         {amountInput}
@@ -813,7 +833,7 @@ class EstimateYourBenefitsForm extends React.Component {
             value={formatCurrency(this.props.inputs.buyUpAmount)}
             onChange={this.handleInputChange}
             onBlur={this.resetBuyUp}
-            onFocus={this.handleInputFocus.bind(this, buyUpFieldId)}
+            onFocus={this.handleEYBInputFocus.bind(this, buyUpFieldId)}
           />
         </div>
       );
@@ -868,6 +888,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.working}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -902,6 +923,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.giBillBenefit}
           onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
         />
       </div>
     );
@@ -926,6 +948,7 @@ class EstimateYourBenefitsForm extends React.Component {
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
             onInputChange={this.props.calculatorInputChange}
+            handleInputFocus={this.handleEYBInputFocus}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>

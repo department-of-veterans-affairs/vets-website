@@ -1,5 +1,7 @@
 # Keyboard End-to-End Testing
 
+**Note: This page contains outdated information. See the [automated accessibility/508 compliance testing script](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) for more recent information.**
+
 The intent of this script is to create a common language, extensible functions, and predictable test runs for automated keyboard testing.
 
 ## Methodology

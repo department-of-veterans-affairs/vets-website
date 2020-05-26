@@ -1,5 +1,9 @@
 import { states } from 'platform/forms/address';
 
+export const MDOT_API_ERROR = 'MDOT_API_ERROR';
+export const MDOT_RESET_ERRORS = 'MDOT_RESET_ERRORS';
+export const MDOT_API_CALL_INITIATED = 'MDOT_API_CALL_INITIATED';
+
 export const schemaFields = {
   fullName: 'vetFullName',
   permAddressField: 'permanentAddress',
