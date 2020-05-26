@@ -31,6 +31,7 @@ import createPost911GiBillStatusWidget, {
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
+import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle'
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -137,6 +138,8 @@ createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
 
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 create686ContentReveal(store, widgetTypes.FORM_686_CONTENT_REVEAL);
+
+createCaregiverContentToggle(store, widgetTypes.CAREGIVER_CONTENT_TOGGLE);
 
 // homepage widgets
 if (location.pathname === '/') {
