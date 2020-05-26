@@ -3,18 +3,18 @@ const E2eHelpers = require('../../../testing/e2e/helpers');
 module.exports = E2eHelpers.createE2eTest(client => {
   client.openUrl(`${E2eHelpers.baseUrl}/pittsburgh-health-care/`);
   E2eHelpers.overrideSmoothScrolling(client);
-
+  client.useXpath();
   /**
    * Tab access the links on the left nav and verify that
    * each link gets focused/active
    */
   client
     .waitForElementPresent(
-      '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
+      '//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[1]/a',
       4000,
     )
     .sendKeys(
-      '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
+      '//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[1]/a',
       client.Keys.TAB,
     );
   client.assert.isActiveElement(
@@ -61,18 +61,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
    * Focus on first level item and navigate to the page
    */
   client.sendKeys(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
+    '//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[1]/a',
     client.Keys.TAB,
   );
-  client.click(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
-  );
+  client.click('//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[2]/a');
 
   /**
    * Tab access its children items
    */
   client.sendKeys(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
+    '//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[2]/a',
     client.Keys.TAB,
   );
   client.assert.isActiveElement(
@@ -108,21 +106,19 @@ module.exports = E2eHelpers.createE2eTest(client => {
    * Navigate to level 2 (child item) page
    */
   client.sendKeys(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
+    '//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[2]/a',
     client.Keys.TAB,
   );
-  client.click(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li.va-sidenav-level-2.active.selected > ul > li:nth-child(1) > a',
-  );
+  client.click('//*[@id="va-sidenav-ul-container"]/li[1]/ul/li[2]/ul/li[1]/a');
 
   /**
    * Verify is now level 3 , page open
+   *   client.sendKeys(
+   '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
+   client.Keys.TAB,
+   );
+   client.assert.isActiveElement(
+   '#va-sidenav-ul-container > li:nth-child(2) > ul > li.va-sidenav-level-2.selected > ul > li.va-sidenav-level-3.active > a',
+   );
    */
-  client.sendKeys(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
-    client.Keys.TAB,
-  );
-  client.assert.isActiveElement(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li.va-sidenav-level-2.selected > ul > li.va-sidenav-level-3.active > a',
-  );
 });
