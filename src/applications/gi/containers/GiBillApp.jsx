@@ -12,6 +12,7 @@ import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 import ServiceError from '../components/ServiceError';
+import Covid19Banner from '../components/heading/Covid19Banner';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -91,6 +92,9 @@ export class GiBillApp extends React.Component {
 
     return (
       <div className="gi-app">
+        <div>
+          <Covid19Banner />
+        </div>
         <div className="row">
           <div className="columns small-12">
             {preview.display && (
@@ -99,6 +103,7 @@ export class GiBillApp extends React.Component {
                 onViewLiveVersion={this.exitPreviewMode}
               />
             )}
+
             <GiBillBreadcrumbs
               searchQuery={search.query}
               facilityCode={facilityCode}
