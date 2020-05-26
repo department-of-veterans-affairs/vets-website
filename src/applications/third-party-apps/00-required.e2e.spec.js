@@ -28,10 +28,14 @@ const runTest = browser => {
 
   // Fill out and submit the form.
   browser.click(
-    `${SELECTORS.SEARCH_FORM} select[name="device"] option[value="iOS"]`,
+    `${
+      SELECTORS.SEARCH_FORM
+    } select[name="platform-field"] option[value="iOS"]`,
   );
   browser.click(
-    `${SELECTORS.SEARCH_FORM} select[name="category"] option[value="Health"]`,
+    `${
+      SELECTORS.SEARCH_FORM
+    } select[name="category-field"] option[value="Health"]`,
   );
   browser.click(`${SELECTORS.SEARCH_FORM} button[type="submit"]`);
 
@@ -42,7 +46,7 @@ const runTest = browser => {
 
   // Check results.
   browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'Apple Health');
-  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'Find App');
+  browser.assert.containsText(SELECTORS.SEARCH_RESULTS, 'Find app');
   browser.assert.containsText(
     SELECTORS.SEARCH_RESULTS,
     'Health app available for iOS',

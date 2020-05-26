@@ -52,6 +52,7 @@ export class SearchResult extends Component {
             {/* App Name */}
             <h3
               className="vads-u-margin--0 vads-u-margin-bottom--0p5"
+              data-e2e-id="result-title"
               id={item?.id}
             >
               {item?.name}
