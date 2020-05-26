@@ -12,7 +12,7 @@
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js --progress",
     "cy:run-record": "cypress run --record --group 2x-electron --parallel",
     "cy:start-and-test": "start-server-and-test watch http://localhost:3001 cy:run-record",
-    "cy:test:circle": "start-server-and-test watch http://localhost:3001 'cypress run --spec \"$(circleci tests glob \"**/tests/**/*.cypress.spec.js?(x)\" | circleci tests split --split-by=timings | paste -sd \",\" -)\" --reporter junit --reporter-options \"mochaFile=test-results/e2e-test-output.xml\"'",
+    "cy:test:circle": "start-server-and-test watch http://localhost:3001 'cypress run --spec \"$(circleci tests glob \"**/tests/**/*.cypress.spec.js?\" | circleci tests split --split-by=timings | paste -sd \",\" -)\" --reporter junit --reporter-options \"mochaFile=test-results/e2e-test-output.xml\"'",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
