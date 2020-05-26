@@ -346,12 +346,12 @@ describe('VAOS selectors', () => {
     it('should return available dates data and timezone', () => {
       const availableSlots = [
         {
-          date: '2019-10-24',
-          datetime: '2019-10-24T09:00:00-07:00',
+          start: '2019-10-24T09:00:00',
+          end: '2019-10-24T09:20:00',
         },
         {
-          date: '2019-10-24',
-          datetime: '2019-10-24T09:30:00-07:00',
+          start: '2019-10-24T09:30:00',
+          end: '2019-10-24T09:50:00',
         },
       ];
 
