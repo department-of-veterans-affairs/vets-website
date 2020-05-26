@@ -8,8 +8,6 @@ import classnames from 'classnames';
 export default function FormResult({ formState }) {
   const [resultSubmitted, setResultSubmittedState] = React.useState(false);
 
-  const dateText = moment().format('dddd, MMMM D, h:mm a');
-
   function recordScreeningToolEvent(screeningToolResult) {
     if (!resultSubmitted) {
       recordEvent({
@@ -38,7 +36,7 @@ export default function FormResult({ formState }) {
       <div>
         {children}
         <h3>Valid for:</h3>
-        <h3>{dateText}</h3>
+        <h3>{moment().format('dddd, MMMM D, h:mm a')}</h3>
         <div className="vads-u-font-size--h3">
           <p>
             Please show this screen to the staff member at the facility
