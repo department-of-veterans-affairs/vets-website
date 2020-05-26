@@ -9,7 +9,6 @@ export const InformalConferenceDescription = (
       and the reviewer to discuss why you think the decision should be changed
       and identify factual erorrs.
     </p>
-    <br />
     <p className="vads-u-margin-bottom--3">
       If you request an informal conference, the reviewer will call you or your
       representative. You can request only one informal conference for each
