@@ -4,6 +4,5 @@
   "integrationFolder": "./",
   "pluginsFile": "src/platform/testing/e2e-cypress/plugins/index.js",
   "supportFile": "src/platform/testing/e2e-cypress/support/index.js",
-  "testFiles": "src/**/tests/**/*.cypress.spec.js?(x)",
-  "projectId": "unckh1"
+  "testFiles": "src/**/tests/**/*.cypress.spec.js?(x)"
 }
