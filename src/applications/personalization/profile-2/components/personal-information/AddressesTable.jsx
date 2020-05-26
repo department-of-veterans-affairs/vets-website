@@ -48,6 +48,7 @@ const ContactInfoCell = props => {
 const AddressesTable = ({ className, homeAddress, mailingAddress }) => (
   <ProfileInfoTable
     title="Addresses"
+    fieldName="addresses"
     data={[
       {
         title: 'Mailing address',
