@@ -5,21 +5,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.overrideSmoothScrolling(client);
 
   /**
-   * Start at the breadcrumbs links
+   * Tab access the links on the left nav and verify that
+   * each link gets focused/active
    */
   client.sendKeys(
-    '#va-breadcrumbs-list > li:nth-child(1) > a',
+    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
     client.Keys.TAB,
   );
-  client.keys(client.Keys.TAB);
-  client.assert.isActiveElement(
-    '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(1) > a',
-  );
-
-  /**
-   * Tab access the links on the left nav and verify active link elements
-   */
-  client.keys(client.Keys.TAB);
   client.assert.isActiveElement(
     '#va-sidenav-ul-container > li:nth-child(2) > ul > li:nth-child(2) > a',
   );
