@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import OnState from './On';
 import OffState from './Off';
 
-function CaregiverContentToggle({ isFormAccessAllowed }) {
-  if (isFormAccessAllowed) {
+function CaregiverContentToggle({ showLinkToOnlineForm }) {
+  if (showLinkToOnlineForm) {
     return <OnState />;
   }
 
@@ -16,8 +16,8 @@ function CaregiverContentToggle({ isFormAccessAllowed }) {
 
 const mapStateToProps = store => ({
   user: store.user,
-  isFormAccessAllowed: toggleValues(store)[
-    FEATURE_FLAG_NAMES.caregiver1010cgFormAccess
+  showLinkToOnlineForm: toggleValues(store)[
+    FEATURE_FLAG_NAMES.allowOnline1010cgSubmissions
   ],
 });
 
