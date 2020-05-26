@@ -74,7 +74,7 @@ export function getVARClinicId(appointment) {
       ?.split('/')?.[1]
       ?.split('_')?.[1];
 
-    return id ? `var${id}` : null;
+    return id || null;
   }
 
   return null;

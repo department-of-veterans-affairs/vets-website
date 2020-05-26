@@ -99,7 +99,7 @@ export class FutureAppointmentsList extends React.Component {
                       systemClinicToFacilityMap[
                         `${parseFakeFHIRId(
                           getVARFacilityId(appt),
-                        )}_${parseFakeFHIRId(getVARClinicId(appt))}`
+                        )}_${getVARClinicId(appt)}`
                       ]
                     }
                     showCancelButton={showCancelButton}
