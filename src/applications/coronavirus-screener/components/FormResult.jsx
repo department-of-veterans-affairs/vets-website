@@ -7,7 +7,10 @@ import recordEvent from 'platform/monitoring/record-event';
 export default function FormResult({ formState }) {
   let result;
   let resultClass = '';
-  const [resultSubmitted, setResultSubmittedState] = React.useState(false);
+  const [resultSubmitted, setResultSubmittedState] = React.useState({
+    isSubmitted: false,
+    startTime: 0,
+  });
 
   const incomplete = <div>Please answer all the questions above.</div>;
 
@@ -43,17 +46,27 @@ export default function FormResult({ formState }) {
   );
 
   function recordScreeningToolEvent(screeningToolResult) {
-    if (!resultSubmitted) {
+    if (!resultSubmitted.isSubmitted) {
+      const timeToComplete = moment.duration(
+        moment().diff(resultSubmitted.startTime, 'seconds'),
+      );
+      // TODO: format timeToComplete to hh:mm:ss
       recordEvent({
         event: 'covid-screening-tool-result-displayed',
         'screening-tool-result': screeningToolResult,
+        'time-to-complete': timeToComplete,
       });
-      setResultSubmittedState(true);
+      setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
     }
   }
+
   if (Object.values(formState).length < questions.length) {
     result = incomplete;
     resultClass = 'incomplete';
+
+    if (resultSubmitted.startTime === 0) {
+      setResultSubmittedState({ ...resultSubmitted, startTime: moment() });
+    }
   } else if (Object.values(formState).includes('yes')) {
     result = fail;
     resultClass = 'fail';
