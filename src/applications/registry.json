@@ -848,5 +848,14 @@
         }
       ]
     }
+  },
+  {
+    "appName": "Debt Letters",
+    "entryName": "debt-letters",
+    "rootUrl": "/debt-letters",
+    "template": {
+      "title": "Debt Letters",
+      "layout": "page-react.html"
+    }
   }
 ]
