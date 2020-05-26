@@ -31,7 +31,7 @@ import createPost911GiBillStatusWidget, {
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 
 import create686ContentReveal from './view-modify-dependent/686-cta/create686CcontentReveal.js';
-import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle'
+import createCaregiverContentToggle from './caregiver-content-toggle/createCaregiverContentToggle';
 
 // No-react styles.
 import './sass/static-pages.scss';
