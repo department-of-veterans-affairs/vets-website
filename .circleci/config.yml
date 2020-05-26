@@ -50,7 +50,7 @@ jobs:
   e2e-test:
     docker:
       - image: cypress/base:10.15.3
-    parallelism: 4
+    parallelism: 2
     environment:
     steps:
       - checkout
@@ -117,6 +117,25 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn build:webpack
+
+  build-e2e:
+    docker:
+      - image: cypress/browsers:node13.6.0-chrome80-ff72
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run: yarn install-repos
+      - run: yarn fetch-drupal-cache
+      - run: yarn build
 
   eslint-check:
     docker:
@@ -226,6 +245,7 @@ workflows:
             - unit-test
             - e2e-test
             - security-audit
+      - build-e2e
   additional-linting:
     jobs:
       - additional-linting
