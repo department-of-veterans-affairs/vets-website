@@ -10,3 +10,5 @@ export const ssoeEbenefitsLinks = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.ssoeEbenefitsLinks];
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
+
+export const signInServiceName = state => state.user.profile.signIn.serviceName;

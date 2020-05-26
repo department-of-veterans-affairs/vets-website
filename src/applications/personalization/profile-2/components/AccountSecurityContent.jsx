@@ -10,7 +10,10 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
-import { ssoe as ssoeSelector } from 'platform/user/authentication/selectors';
+import {
+  ssoe as ssoeSelector,
+  signInServiceName as signInServiceNameSelector,
+} from 'platform/user/authentication/selectors';
 
 import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
@@ -24,8 +27,9 @@ export const AccountSecurityContent = ({
   mhvAccount,
   showMHVTermsAndConditions,
   useSSOe,
+  signInServiceName,
 }) => {
-  const data = [
+  const securitySections = [
     {
       title: 'Identity verification',
       value: (
@@ -43,12 +47,12 @@ export const AccountSecurityContent = ({
     },
     {
       title: 'Sign-in email address',
-      value: <EmailAddressNotification />,
+      value: <EmailAddressNotification signInServiceName={signInServiceName} />,
     },
   ];
 
   if (showMHVTermsAndConditions) {
-    data.push({
+    securitySections.push({
       title: 'Terms and conditions',
       value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
     });
@@ -56,7 +60,7 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      <ProfileInfoTable data={data} fieldName="accountSecurity" />
+      <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
         headline="Have questions about signing in to VA.gov?"
@@ -105,6 +109,7 @@ export const mapStateToProps = state => {
     mhvAccount,
     showMHVTermsAndConditions,
     useSSOe: ssoeSelector(state),
+    signInServiceName: signInServiceNameSelector(state),
   };
 };
 
