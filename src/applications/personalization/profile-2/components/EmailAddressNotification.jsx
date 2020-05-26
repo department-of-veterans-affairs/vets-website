@@ -29,14 +29,7 @@ const EmailAddressNotification = ({ signInServiceName }) => {
         make there will automatically update on VA.gov.
       </p>
       <p className="vads-u-margin-bottom--0">
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => {
-            recordEvent({ event: 'update-sign-in-email-address-clicked' });
-          }}
-        >
+        <a href={link} target="_blank" rel="noopener noreferrer">
           Update email address on {buttonText}
         </a>
       </p>
