@@ -31,6 +31,50 @@
   margin-bottom: 1em;
 }
 
+/* Contested issue cards (contested issue page & review/submit page */
+  // This could go in the schemaform css, it's used in form 526, and now HLR
+  .widget-outline {
+    padding: 1em;
+    border: solid 4px $color-primary-alt-light;
+    border-radius: 7px;
+    margin-top: 0.5em;
+
+    &.selected {
+      border-color: $color-primary;
+    }
+
+    &:last-child {
+      margin-bottom: 1em;
+    }
+
+    label {
+      display: inline-block;
+    }
+
+    /* long descriptions cause the content to shift down, using flex to fix it */
+    .widget-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h4 {
+      margin-top: 0;
+    }
+
+    input[type="checkbox"] + label {
+      // The former margin was to separate the checkbox from the elements above
+      // it, but now that we have the outline, we need to move the whitespace to
+      // the outside of the border.
+      margin-top: 0em;
+      margin-bottom: 0em;
+
+      // Eliminate unnecessary margin inside the label component
+      > div *:last-child {
+        margin-bottom: 0em;
+      }
+    }
+  }
+
 /* Step 1a */
 /* Veteran details block */
 .blue-bar-block {
@@ -57,64 +101,25 @@
 
 /* Step 2 */
 /*** Contested issues block ***/
-.usa-button-secondary.btn-see-all-issues {
-  width: auto;
-}
-
-// hide Required label (added to description)
-#root_contestedIssues-label {
-  display: none;
-}
-
-.schemaform-first-field > .usa-input-error {
-  padding-top: 0;
-}
-
-.contested-issues-error.usa-alert-error {
-  margin-top: 0;
-}
-
-// This could go in the schemaform css, but it isn't used anywhere but here for
-// now
-.widget-outline {
-  padding: 1em;
-  border: solid 4px $color-primary-alt-light;
-  border-radius: 7px;
-  margin-top: 0.5em;
-
-  &.selected {
-    border-color: $color-primary;
+article[data-location="contested-issues"] {
+  .usa-button-secondary.btn-see-all-issues {
+    width: auto;
   }
 
-  &:last-child {
-    margin-bottom: 1em;
+  /* hide error; we have a huge alert box instead */
+  #root_contestedIssues-error-message,
+  // hide Required label (added to description)
+  #root_contestedIssues-label {
+    display: none;
   }
 
-  label {
-    display: inline-block;
-  }
-
-  /* long descriptions cause the content to shift down, using flex to fix it */
-  .widget-content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  h4 {
+  .usa-input-error {
+    padding-top: 0;
     margin-top: 0;
   }
 
-  input[type="checkbox"] + label {
-    // The former margin was to separate the checkbox from the elements above
-    // it, but now that we have the outline, we need to move the whitespace to
-    // the outside of the border.
-    margin-top: 0em;
-    margin-bottom: 0em;
-
-    // Eliminate unnecessary margin inside the label component
-    > div *:last-child {
-      margin-bottom: 0em;
-    }
+  dl.review {
+    border-bottom-width: 0;
   }
 }
 
