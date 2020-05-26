@@ -67,7 +67,9 @@ jobs:
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
       - run: yarn build
-      - run: yarn cy:test:circle
+      - run:
+          name: Run Cypress Tests
+          command: yarn cy:test:circle
       - store_test_results:
           path: ./test-results
       - store_artifacts:
