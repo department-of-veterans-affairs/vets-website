@@ -120,7 +120,7 @@ jobs:
 
   build-e2e:
     docker:
-      - image: cypress/browsers:node13.6.0-chrome80-ff72
+      - image: cypress/browsers:node10.16.0-chrome77-ff71
     steps:
       - checkout
       - restore_cache:
