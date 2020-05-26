@@ -8,6 +8,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main');
 
+  client.expect.element('div[id="question-fever"]').to.be.visible;
+
   client.end();
 });
 
