@@ -195,3 +195,20 @@ workflows:
   additional-linting:
     jobs:
       - additional-linting
+  nightly:
+    triggers:
+      - schedule:
+          cron: '0 4 * * *'
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - lint
+      - unit-test
+      - security-audit
+      - build:
+          requires:
+            - lint
+            - unit-test
+            - security-audit
