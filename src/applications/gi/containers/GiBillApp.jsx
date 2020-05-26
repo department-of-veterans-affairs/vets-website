@@ -13,6 +13,7 @@ import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 import ServiceError from '../components/ServiceError';
 import Covid19Banner from '../components/heading/Covid19Banner';
+import environment from 'platform/utilities/environment';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -90,11 +91,11 @@ export class GiBillApp extends React.Component {
       content = this.props.children;
     }
 
+    const banner = environment.isProduction() ? '' : <Covid19Banner />;
+
     return (
       <div className="gi-app">
-        <div>
-          <Covid19Banner />
-        </div>
+        {banner}
         <div className="row">
           <div className="columns small-12">
             {preview.display && (
