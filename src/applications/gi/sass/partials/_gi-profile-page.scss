@@ -141,6 +141,12 @@
         padding: 0;
       }
     }
+
+    .conditional-question {
+      margin-left: -(calc(2rem - 7px));
+      padding-left: calc(2rem - 7px);
+      border-left: 7px solid #9bdaf1;
+    }
   }
 
   .programs.row {
