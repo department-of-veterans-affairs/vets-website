@@ -127,7 +127,7 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - /root/.cache/Cypress
+            - ./root/.cache/Cypress
 
   eslint-check:
     docker:
