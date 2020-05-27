@@ -105,7 +105,7 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
 
-  // Logged in & not verified (missing services)
+  // Logged in & not verified (has services to allow proceeding)
   it('should render verify your identity page', () => {
     localStorage.setItem('hasSession', true);
     const tree = testPage({
