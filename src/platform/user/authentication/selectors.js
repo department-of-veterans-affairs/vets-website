@@ -13,4 +13,4 @@ export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
 
 export const signInServiceName = state =>
-  selectProfile(state).signIn.serviceName;
+  selectProfile(state).signIn?.serviceName;
