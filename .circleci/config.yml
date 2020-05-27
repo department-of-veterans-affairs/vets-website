@@ -132,9 +132,9 @@ jobs:
           root: /root
           paths:
             - project/build
+            - project/node-modules
             - project/test-results
             - .cache/Cypress
-            - .cache/yarn
 
   eslint-check:
     docker:
