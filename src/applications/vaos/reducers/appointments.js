@@ -117,7 +117,6 @@ export default function appointmentsReducer(state = initialState, action) {
           (acc, clinic) => ({
             ...acc,
             [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
-              // This var prefix should be removed when appointment list is updated to FHIR
               `var${getRealFacilityId(clinic.institutionCode)}`
             ],
           }),

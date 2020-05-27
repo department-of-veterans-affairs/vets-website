@@ -11,6 +11,7 @@ import {
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
+  APPOINTMENT_STATUS,
 } from './constants';
 import {
   getRootOrganization,
@@ -18,6 +19,11 @@ import {
   getIdOfRootOrganization,
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
+import {
+  getVARFacilityId,
+  getVARClinicId,
+  getVideoAppointmentLocation,
+} from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -326,21 +332,27 @@ export function getCancelInfo(state) {
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel?.clinicId) {
+  if (
+    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
+    !appointmentToCancel?.vaos?.videoType
+  ) {
     // Confirmed in person VA appts
     facility =
       systemClinicToFacilityMap[
-        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+        `${parseFakeFHIRId(
+          getVARFacilityId(appointmentToCancel),
+        )}_${getVARClinicId(appointmentToCancel)}`
       ];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility =
       facilityData[
-        getRealFacilityId(appointmentToCancel.facility.facilityCode)
+        `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel) {
+  } else if (appointmentToCancel?.vaos?.videoType) {
     // Video visits
-    facility = facilityData[getRealFacilityId(appointmentToCancel.facilityId)];
+    const locationId = getVideoAppointmentLocation(appointmentToCancel);
+    facility = facilityData[getRealFacilityId(locationId)];
   }
 
   return {
