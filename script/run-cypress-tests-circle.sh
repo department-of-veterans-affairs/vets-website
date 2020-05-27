@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Start the server & wait for 'http://localhost:3001' to go live.
 yarn start-server-and-test watch http://localhost:3001 \
   cypress run \
