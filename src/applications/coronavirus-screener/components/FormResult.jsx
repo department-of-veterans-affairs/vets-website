@@ -4,16 +4,15 @@ import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
-export default function FormResult({ formState }) {
+export default function FormResult({
+  formState,
+  resultSubmitted,
+  setResultSubmittedState,
+}) {
   let result;
   let resultClass = '';
-  const [resultSubmitted, setResultSubmittedState] = React.useState({
-    isSubmitted: false,
-    startTime: moment().unix(),
-  });
 
   const incomplete = <div>Please answer all the questions above.</div>;
-
   const dateText = moment().format('dddd, MMMM D, h:mm a');
 
   const pass = (
