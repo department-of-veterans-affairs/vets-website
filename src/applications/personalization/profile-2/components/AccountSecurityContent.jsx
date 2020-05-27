@@ -45,7 +45,7 @@ export const AccountSecurityContent = ({
     },
   ];
 
-  if (!isIdentityVerified) {
+  if (isIdentityVerified) {
     securitySections.unshift({
       title: 'Identity verification',
       value: <Verified>We’ve verified your identity.</Verified>,
@@ -61,7 +61,7 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      {isIdentityVerified && <IdentityNotVerified />}
+      {!isIdentityVerified && <IdentityNotVerified />}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
