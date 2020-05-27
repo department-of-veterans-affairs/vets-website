@@ -2,16 +2,18 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import fullSchemaMDOT from '../schemas/2346-schema.json';
+import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
+const { email, supplies, date } = fullSchema.definitions;
+const { currentAddress } = frontEndSchema.definitions;
 
 const {
   emailField,
@@ -122,6 +124,7 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
+    date,
     addressSchema,
     currentAddress,
   },
