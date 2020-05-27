@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
@@ -17,9 +16,10 @@ import {
 
 import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
-import IdentityVerificationStatus from './IdentityVerificationStatus';
+import IdentityNotVerified from './IdentityNotVerified';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from './EmailAddressNotification';
+import Verified from './Verified';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -30,12 +30,6 @@ export const AccountSecurityContent = ({
   signInServiceName,
 }) => {
   const securitySections = [
-    {
-      title: 'Identity verification',
-      value: (
-        <IdentityVerificationStatus isIdentityVerified={isIdentityVerified} />
-      ),
-    },
     {
       title: '2-factor authentication',
       value: (
@@ -51,6 +45,13 @@ export const AccountSecurityContent = ({
     },
   ];
 
+  if (!isIdentityVerified) {
+    securitySections.unshift({
+      title: 'Identity verification',
+      value: <Verified>We’ve verified your identity.</Verified>,
+    });
+  }
+
   if (showMHVTermsAndConditions) {
     securitySections.push({
       title: 'Terms and conditions',
@@ -60,6 +61,7 @@ export const AccountSecurityContent = ({
 
   return (
     <>
+      {isIdentityVerified && <IdentityNotVerified />}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
