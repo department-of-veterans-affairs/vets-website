@@ -54,7 +54,7 @@ jobs:
     environment:
     steps:
       - attach_workspace:
-          at: ./
+          at: /root
       - run:
           name: Run Cypress Tests
           command: yarn cy:test:circle
@@ -127,7 +127,8 @@ jobs:
       - persist_to_workspace:
           root: /root
           paths:
-            -  .cache/Cypress
+            - project
+            - .cache/Cypress
 
   eslint-check:
     docker:
