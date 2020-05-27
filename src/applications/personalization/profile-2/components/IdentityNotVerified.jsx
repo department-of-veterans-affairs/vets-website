@@ -8,8 +8,8 @@ const IdentityNotVerified = () => {
   const content = (
     <div>
       <p>
-        We need to make sure you’re you—and not someone pretending to be
-        you—before we give you access to your personal and health-related
+        We need to make sure you’re you — and not someone pretending to be you —
+        before we give you access to your personal and health-related
         information. This helps to keep your information safe and prevent fraud
         and identity theft.
       </p>
@@ -25,7 +25,7 @@ const IdentityNotVerified = () => {
           onClick={() => recordEvent({ event: 'verify-link-clicked' })}
         >
           <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-          <strong> Verify with ID.me</strong>
+          <strong>Verify with ID.me</strong>
         </a>
       </div>
     </div>

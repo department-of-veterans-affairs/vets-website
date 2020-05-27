@@ -1,6 +1,8 @@
 .account-security-content {
   margin: 2rem;
-  .form-expanding-group {
-    width: 90%;
+  .form-expanding-group-open {
+    ul {
+      list-style-type: disc;
+    }
   }
 }
