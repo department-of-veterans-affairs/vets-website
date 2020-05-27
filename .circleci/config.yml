@@ -137,7 +137,7 @@ jobs:
       - run: yarn fetch-drupal-cache
       - run: yarn build
       - persist_to_workspace:
-          root: ~/tmp/e2e-workspace
+          root: ~/
           paths:
             - app
             - ~/.cache/yarn
