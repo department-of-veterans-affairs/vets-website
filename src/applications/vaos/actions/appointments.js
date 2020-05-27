@@ -326,9 +326,9 @@ export function confirmCancelAppointment() {
         const facilityId = getVARFacilityId(appointment).replace('var', '');
 
         const cancelData = {
-          appointmentTime: moment(appointment.start).format(
-            'MM/DD/YYYY HH:mm:ss',
-          ),
+          appointmentTime: moment
+            .parseZone(appointment.start)
+            .format('MM/DD/YYYY HH:mm:ss'),
           clinicId: getVARClinicId(appointment),
           facilityId,
           remarks: '',

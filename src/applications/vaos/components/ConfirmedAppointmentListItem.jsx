@@ -136,7 +136,8 @@ export default function ConfirmedAppointmentListItem({
                 Cancel appointment
                 <span className="sr-only">
                   {' '}
-                  on {formatAppointmentDate(moment(appointment.start))}
+                  on{' '}
+                  {formatAppointmentDate(moment.parseZone(appointment.start))}
                 </span>
               </button>
             )}
