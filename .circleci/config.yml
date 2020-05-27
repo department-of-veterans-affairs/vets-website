@@ -134,6 +134,7 @@ jobs:
             - project/build
             - project/test-results
             - .cache/Cypress
+            - .cache/yarn
 
   eslint-check:
     docker:
