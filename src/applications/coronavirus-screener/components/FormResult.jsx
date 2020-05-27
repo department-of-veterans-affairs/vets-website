@@ -9,7 +9,7 @@ export default function FormResult({ formState }) {
   let resultClass = '';
   const [resultSubmitted, setResultSubmittedState] = React.useState({
     isSubmitted: false,
-    startTime: 0,
+    startTime: moment().unix(),
   });
 
   const incomplete = <div>Please answer all the questions above.</div>;
@@ -47,9 +47,7 @@ export default function FormResult({ formState }) {
 
   function recordScreeningToolEvent(screeningToolResult) {
     if (!resultSubmitted.isSubmitted) {
-      const timeToComplete = moment.duration(
-        moment().diff(resultSubmitted.startTime, 'seconds'),
-      );
+      const timeToComplete = moment().unix() - resultSubmitted.startTime;
       recordEvent({
         event: 'covid-screening-tool-result-displayed',
         'screening-tool-result': screeningToolResult,
@@ -62,10 +60,6 @@ export default function FormResult({ formState }) {
   if (Object.values(formState).length < questions.length) {
     result = incomplete;
     resultClass = 'incomplete';
-
-    if (resultSubmitted.startTime === 0) {
-      setResultSubmittedState({ ...resultSubmitted, startTime: moment() });
-    }
   } else if (Object.values(formState).includes('yes')) {
     result = fail;
     resultClass = 'fail';
