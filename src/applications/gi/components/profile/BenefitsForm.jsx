@@ -7,6 +7,7 @@ import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import ConditionalQuestion from '../ConditionalQuestion';
+import ExpandingGroup from '../ExpandingGroup';
 
 export class BenefitsForm extends React.Component {
   static propTypes = {
@@ -52,26 +53,26 @@ export class BenefitsForm extends React.Component {
     return (
       <div className="eligibility-form">
         {this.props.showHeader && <h2>Your benefits</h2>}
-        <Dropdown
-          label="What's your military status?"
-          name="militaryStatus"
-          options={[
-            { value: 'veteran', label: 'Veteran' },
-            { value: 'active duty', label: 'Active Duty' },
-            {
-              value: 'national guard / reserves',
-              label: 'National Guard / Reserves',
-            },
-            { value: 'spouse', label: 'Spouse' },
-            { value: 'child', label: 'Child' },
-          ]}
-          value={this.props.militaryStatus}
-          alt="What's your military status?"
-          visible
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
-        <ConditionalQuestion visible={this.props.militaryStatus === 'spouse'}>
+        <ExpandingGroup open={[this.props.militaryStatus === 'spouse']}>
+          <Dropdown
+            label="What's your military status?"
+            name="militaryStatus"
+            options={[
+              { value: 'veteran', label: 'Veteran' },
+              { value: 'active duty', label: 'Active Duty' },
+              {
+                value: 'national guard / reserves',
+                label: 'National Guard / Reserves',
+              },
+              { value: 'spouse', label: 'Spouse' },
+              { value: 'child', label: 'Child' },
+            ]}
+            value={this.props.militaryStatus}
+            alt="What's your military status?"
+            visible
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
           <Dropdown
             label="Is your spouse on active duty?"
             name="spouseActiveDuty"
@@ -85,7 +86,7 @@ export class BenefitsForm extends React.Component {
             onChange={this.props.eligibilityChange}
             onFocus={this.props.handleInputFocus}
           />
-        </ConditionalQuestion>
+        </ExpandingGroup>
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
@@ -126,7 +127,7 @@ export class BenefitsForm extends React.Component {
                 Post 9/11 GI Bill
               </a>{' '}
               recipients serving on Active Duty (or transferee spouses of a
-              servicemember on active duty) are not eligible to receive a
+              service member on active duty) are not eligible to receive a
               monthly housing allowance.
             </div>
           )}
