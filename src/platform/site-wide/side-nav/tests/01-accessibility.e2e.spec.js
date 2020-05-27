@@ -3,8 +3,6 @@ const E2eHelpers = require('../../../testing/e2e/helpers');
 module.exports = E2eHelpers.createE2eTest(client => {
   client.openUrl(`${E2eHelpers.baseUrl}/pittsburgh-health-care/`);
   E2eHelpers.overrideSmoothScrolling(client);
-  client.resizeWindow(1600, 1200);
-
   /**
    * Start at the breadcrumbs links
    */
