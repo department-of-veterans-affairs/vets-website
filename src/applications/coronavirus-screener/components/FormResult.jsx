@@ -28,7 +28,9 @@ export default function FormResult({ formState }) {
   );
 
   const Fail = () => (
-    <h2 className="vads-u-font-size--h1">More screening needed</h2>
+    <Complete>
+      <h2 className="vads-u-font-size--h1">More screening needed</h2>
+    </Complete>
   );
 
   function Complete({ children }) {
