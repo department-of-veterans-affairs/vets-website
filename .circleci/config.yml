@@ -132,6 +132,7 @@ jobs:
           root: /root
           paths:
             - project/build
+            - project/test-results
             - .cache/Cypress
 
   eslint-check:
