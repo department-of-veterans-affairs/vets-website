@@ -17,7 +17,11 @@
 
                 {% if serviceTaxonomy.description.processed  %}<div>{{ serviceTaxonomy.description.processed }}</div>{% endif %}
 
-                <div>{{ localServiceDescription }}</div>
+                {% if about %}
+                    {% include "src/site/paragraphs/location_info.drupal.liquid" %}
+                {% else %}
+                    <div>{{ localServiceDescription }}</div>
+                {% endif %}
 
                 <div data-widget-type="facility-appointment-wait-times-widget" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}" data-service="{{ serviceTaxonomy | healthServiceApiId | escape }}"></div>
 
