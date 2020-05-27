@@ -31,7 +31,7 @@ describe('AccountSecurityContent', () => {
     wrapper.unmount();
   });
 
-  it('should render a IdentityNotVerified as its first child when isIdentityVerified is false', () => {
+  it('should render IdentityNotVerified as its first child when isIdentityVerified is false', () => {
     const props = makeDefaultProps();
     props.isIdentityVerified = false;
     wrapper = shallow(<AccountSecurityContent {...props} />);
