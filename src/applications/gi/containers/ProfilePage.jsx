@@ -8,7 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { fetchProfile, setPageTitle, showModal } from '../actions';
+import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
@@ -50,6 +50,10 @@ export class ProfilePage extends React.Component {
     if (prevProps.location.query.version !== uuid) {
       this.props.fetchProfile(facilityCode, uuid);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.hideModal();
   }
 
   handleViewWarnings = () => {
@@ -128,6 +132,7 @@ const mapDispatchToProps = {
   fetchProfile,
   setPageTitle,
   showModal,
+  hideModal,
 };
 
 export default withRouter(

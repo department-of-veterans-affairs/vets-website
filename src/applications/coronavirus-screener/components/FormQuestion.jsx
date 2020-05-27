@@ -1,4 +1,6 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
+import _ from 'lodash/fp';
 
 export default function FormQuestion({
   question,
@@ -7,6 +9,12 @@ export default function FormQuestion({
   scrollNext,
 }) {
   function handleChange(event) {
+    if (_.isEmpty(formState)) {
+      recordEvent({
+        event: 'covid-screening-tool-start',
+        'screening-tool-question': question.id,
+      });
+    }
     // sets the current question value in form state
     setFormState({
       ...formState,

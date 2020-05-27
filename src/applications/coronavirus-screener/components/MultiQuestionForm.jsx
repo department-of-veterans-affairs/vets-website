@@ -20,10 +20,9 @@ export default function MultiQuestionForm({ questions }) {
   const [formState, setFormState] = React.useState({});
 
   const formQuestions = questions.map((question, index) => (
-    <>
+    <div key={question.id}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
       <FormQuestion
-        key={question.id}
         question={question}
         setFormState={setFormState}
         formState={formState}
@@ -31,7 +30,7 @@ export default function MultiQuestionForm({ questions }) {
           scrollTo(`multi-question-form-${index + 1}-scroll-element`)
         }
       />
-    </>
+    </div>
   ));
 
   return (

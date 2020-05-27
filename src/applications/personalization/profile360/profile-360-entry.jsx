@@ -6,10 +6,11 @@ import ProfilesWrapper from 'applications/personalization/profiles-wrapper/Profi
 import startApp from 'platform/startup';
 import manifest from './manifest.json';
 import reducer from './reducers';
+import profileUi from 'applications/personalization/profile-2/reducers';
 
 startApp({
   component: <ProfilesWrapper />,
   entryName: manifest.entryName,
-  reducer,
+  reducer: { ...reducer, profileUi },
   url: manifest.rootUrl,
 });

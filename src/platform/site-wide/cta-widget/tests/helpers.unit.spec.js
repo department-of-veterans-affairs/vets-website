@@ -1,47 +1,39 @@
 import { expect } from 'chai';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 import { toolUrl, widgetTypes } from '../helpers';
 import environment from '../../../utilities/environment';
 
 describe('CTA helpers', () => {
   describe('A signed-in SSO user', () => {
-    beforeEach(() => {
-      localStorage.setItem('hasSessionSSO', true);
-    });
-    afterEach(() => {
-      localStorage.removeItem('hasSessionSSO');
-    });
-
     it('Download my data', () => {
-      expect(toolUrl(widgetTypes.HEALTH_RECORDS).url).to.equal(
+      expect(toolUrl(widgetTypes.HEALTH_RECORDS, true).url).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data`,
       );
     });
     it('Prescription Refill', () => {
-      expect(toolUrl(widgetTypes.RX).url).to.equal(
+      expect(toolUrl(widgetTypes.RX, true).url).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=prescription_refill`,
       );
     });
     it('Secure Messaging', () => {
-      expect(toolUrl(widgetTypes.MESSAGING).url).to.equal(
+      expect(toolUrl(widgetTypes.MESSAGING, true).url).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging`,
       );
     });
     it('Appointments', () => {
-      expect(toolUrl(widgetTypes.VIEW_APPOINTMENTS).url).to.equal(
+      expect(toolUrl(widgetTypes.VIEW_APPOINTMENTS, true).url).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=appointments`,
       );
-      expect(toolUrl(widgetTypes.SCHEDULE_APPOINTMENTS).url).to.equal(
+      expect(toolUrl(widgetTypes.SCHEDULE_APPOINTMENTS, true).url).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
         }eauth.va.gov/mhv-portal-web/eauth?deeplinking=appointments`,

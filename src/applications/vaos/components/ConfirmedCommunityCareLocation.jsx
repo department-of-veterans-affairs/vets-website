@@ -1,19 +1,18 @@
 import React from 'react';
-import FacilityDirectionsLink from './FacilityDirectionsLink';
+import FacilityAddress from './FacilityAddress';
 
 export default function ConfirmedCommunityCareLocation({ appointment }) {
+  const actor = appointment.contained[0]?.actor;
+
+  if (!actor) {
+    return null;
+  }
+
   return (
     <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">
-        {appointment.providerPractice}
-      </dt>
+      <dt className="vads-u-font-weight--bold">{actor.name}</dt>
       <dd>
-        {appointment.address.street}
-        <br />
-        {appointment.address.city}, {appointment.address.state}{' '}
-        {appointment.address.zipCode}
-        <br />
-        <FacilityDirectionsLink location={appointment} />
+        <FacilityAddress facility={actor} showDirectionsLink />
       </dd>
     </dl>
   );

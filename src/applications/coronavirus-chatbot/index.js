@@ -2,6 +2,7 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX, handleButtonsPostRender } from './utils';
 import * as Sentry from '@sentry/browser';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 export const defaultLocale = 'en-US';
 const localeRegExPattern = /^[a-z]{2}(-[A-Z]{2})?$/;
@@ -113,14 +114,6 @@ const initBotConversation = jsonWebToken => {
   };
 };
 
-const ensureCSRFTokenIsSet = async () => {
-  const csrfToken = localStorage.getItem('csrfToken');
-  if (csrfToken) {
-    return;
-  }
-  await apiRequest('/status', { method: 'GET' });
-};
-
 export const requestChatBot = async loc => {
   const params = new URLSearchParams(location.search);
   const locale = params.has('locale')
@@ -139,8 +132,15 @@ export const requestChatBot = async loc => {
   }
 
   try {
-    await ensureCSRFTokenIsSet();
-    const { token } = await apiRequest(path, { method: 'POST' });
+    const csrfTokenStored = localStorage.getItem('csrfToken');
+    const { token } = await apiRequest(path, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'X-CSRF-Token': csrfTokenStored,
+      },
+    });
     return initBotConversation(token);
   } catch (error) {
     Sentry.captureException(error);
@@ -148,7 +148,7 @@ export const requestChatBot = async loc => {
       event: `${GA_PREFIX}-connection-failure`,
       'error-key': 'XX_failed_to_init_bot_convo',
     });
-    return null;
+    throw error;
   }
 };
 
@@ -161,7 +161,7 @@ const chatRequested = async scenario => {
   return requestChatBot();
 };
 
-export default async function initializeChatbot() {
+export async function initializeChatbot() {
   handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }
