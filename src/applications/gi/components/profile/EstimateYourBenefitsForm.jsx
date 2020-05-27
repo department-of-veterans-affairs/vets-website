@@ -907,7 +907,7 @@ class EstimateYourBenefitsForm extends React.Component {
     }
 
     return (
-      <div>
+      <ConditionalQuestion>
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text:
@@ -924,7 +924,7 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
-      </div>
+      </ConditionalQuestion>
     );
   };
 

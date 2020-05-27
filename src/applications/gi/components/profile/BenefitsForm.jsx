@@ -6,6 +6,7 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
+import ConditionalQuestion from '../ConditionalQuestion';
 
 export class BenefitsForm extends React.Component {
   static propTypes = {
@@ -70,19 +71,21 @@ export class BenefitsForm extends React.Component {
           onChange={this.props.eligibilityChange}
           onFocus={this.props.handleInputFocus}
         />
-        <Dropdown
-          label="Is your spouse on active duty?"
-          name="spouseActiveDuty"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.spouseActiveDuty}
-          alt="Is your spouse on active duty?"
-          visible={this.props.militaryStatus === 'spouse'}
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
+        <ConditionalQuestion visible={this.props.militaryStatus === 'spouse'}>
+          <Dropdown
+            label="Is your spouse on active duty?"
+            name="spouseActiveDuty"
+            options={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
+            value={this.props.spouseActiveDuty}
+            alt="Is your spouse on active duty?"
+            visible={this.props.militaryStatus === 'spouse'}
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
+        </ConditionalQuestion>
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
@@ -137,50 +140,56 @@ export class BenefitsForm extends React.Component {
             .
           </div>
         )}
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Cumulative Post-9/11 active-duty service',
-            modal: 'cumulativeService',
-            ariaLabel: ariaLabels.learnMore.post911Chapter33,
-          })}
-          name="cumulativeService"
-          options={this.cumulativeServiceOptions()}
-          value={this.props.cumulativeService}
-          alt="Cumulative Post-9/11 active-duty service"
-          visible={this.props.giBillChapter === '33'}
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Completed an enlistment of:',
-            modal: 'enlistmentService',
-            ariaLabel: ariaLabels.learnMore.montgomeryGIBill,
-          })}
-          name="enlistmentService"
-          options={[
-            { value: '3', label: '3 or more years' },
-            { value: '2', label: '2 or more years' },
-          ]}
-          value={this.props.enlistmentService}
-          alt="Completed an enlistment of:"
-          visible={this.props.giBillChapter === '30'}
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
-        <Dropdown
-          label="Are you eligible for the Post-9/11 GI Bill?"
-          name="eligForPostGiBill"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.eligForPostGiBill}
-          alt="Are you eligible for the Post-9/11 GI Bill?"
-          visible={this.props.giBillChapter === '31'}
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
+        <ConditionalQuestion visible={this.props.giBillChapter === '33'}>
+          <Dropdown
+            label={this.renderLearnMoreLabel({
+              text: 'Cumulative Post-9/11 active-duty service',
+              modal: 'cumulativeService',
+              ariaLabel: ariaLabels.learnMore.post911Chapter33,
+            })}
+            name="cumulativeService"
+            options={this.cumulativeServiceOptions()}
+            value={this.props.cumulativeService}
+            alt="Cumulative Post-9/11 active-duty service"
+            visible={this.props.giBillChapter === '33'}
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
+        </ConditionalQuestion>
+        <ConditionalQuestion visible={this.props.giBillChapter === '30'}>
+          <Dropdown
+            label={this.renderLearnMoreLabel({
+              text: 'Completed an enlistment of:',
+              modal: 'enlistmentService',
+              ariaLabel: ariaLabels.learnMore.montgomeryGIBill,
+            })}
+            name="enlistmentService"
+            options={[
+              { value: '3', label: '3 or more years' },
+              { value: '2', label: '2 or more years' },
+            ]}
+            value={this.props.enlistmentService}
+            alt="Completed an enlistment of:"
+            visible={this.props.giBillChapter === '30'}
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
+        </ConditionalQuestion>
+        <ConditionalQuestion visible={this.props.giBillChapter === '31'}>
+          <Dropdown
+            label="Are you eligible for the Post-9/11 GI Bill?"
+            name="eligForPostGiBill"
+            options={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
+            value={this.props.eligForPostGiBill}
+            alt="Are you eligible for the Post-9/11 GI Bill?"
+            visible={this.props.giBillChapter === '31'}
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
+        </ConditionalQuestion>
         <Dropdown
           label="How many dependents do you have?"
           name="numberOfDependents"
