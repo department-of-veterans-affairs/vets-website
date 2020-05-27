@@ -136,6 +136,11 @@ jobs:
       - run: yarn install-repos
       - run: yarn fetch-drupal-cache
       - run: yarn build
+      - persist_to_workspace:
+          root: ~/tmp/e2e-workspace
+          paths:
+            - app
+            - ~/.cache/yarn
 
   eslint-check:
     docker:
