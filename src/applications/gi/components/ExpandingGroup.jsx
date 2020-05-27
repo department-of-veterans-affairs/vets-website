@@ -37,7 +37,7 @@ export default function ExpandingGroup({
         {children.slice(1).map(
           (child, index) =>
             open[index] ? (
-              <div key="removable-group" className={additionalClass}>
+              <div key={`removable-group-${index}`} className={additionalClass}>
                 {child}
               </div>
             ) : null,

@@ -6,7 +6,6 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
-import ConditionalQuestion from '../ConditionalQuestion';
 import ExpandingGroup from '../ExpandingGroup';
 
 export class BenefitsForm extends React.Component {
@@ -87,51 +86,59 @@ export class BenefitsForm extends React.Component {
             onFocus={this.props.handleInputFocus}
           />
         </ExpandingGroup>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Which GI Bill benefit do you want to use?',
-            modal: 'giBillChapter',
-            ariaLabel: ariaLabels.learnMore.giBillBenefits,
-          })}
-          name="giBillChapter"
-          options={[
-            { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
-            { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
-            { value: '1606', label: 'Select Reserve GI Bill (Ch 1606)' },
-            {
-              value: '31',
-              label: 'Vocational Rehabilitation & Employment (VR & E)',
-            },
-            {
-              value: '35',
-              label: 'Dependents Educational Assistance (DEA)',
-            },
+        <ExpandingGroup
+          open={[
+            this.props.militaryStatus === 'active duty' &&
+              this.props.giBillChapter === '33',
+            this.props.giBillChapter === '31',
+            this.props.giBillChapter === '33',
+            this.props.giBillChapter === '30',
+            this.props.giBillChapter === '31',
+            this.props.giBillChapter === '31' &&
+              this.props.eligForPostGiBill === 'no',
           ]}
-          value={this.props.giBillChapter}
-          alt="Which GI Bill benefit do you want to use?"
-          visible
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
-        {this.props.militaryStatus === 'active duty' &&
-          this.props.giBillChapter === '33' && (
-            <div className="military-status-info warning form-group">
-              <i className="fa fa-warning" />
-              <a
-                title="Post 9/11 GI Bill"
-                href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-                id="anch_378"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Post 9/11 GI Bill
-              </a>{' '}
-              recipients serving on Active Duty (or transferee spouses of a
-              service member on active duty) are not eligible to receive a
-              monthly housing allowance.
-            </div>
-          )}
-        {this.props.giBillChapter === '31' && (
+        >
+          <Dropdown
+            label={this.renderLearnMoreLabel({
+              text: 'Which GI Bill benefit do you want to use?',
+              modal: 'giBillChapter',
+              ariaLabel: ariaLabels.learnMore.giBillBenefits,
+            })}
+            name="giBillChapter"
+            options={[
+              { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
+              { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
+              { value: '1606', label: 'Select Reserve GI Bill (Ch 1606)' },
+              {
+                value: '31',
+                label: 'Vocational Rehabilitation & Employment (VR & E)',
+              },
+              {
+                value: '35',
+                label: 'Dependents Educational Assistance (DEA)',
+              },
+            ]}
+            value={this.props.giBillChapter}
+            alt="Which GI Bill benefit do you want to use?"
+            visible
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
+          <div className="military-status-info warning form-group">
+            <i className="fa fa-warning" />
+            <a
+              title="Post 9/11 GI Bill"
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+              id="anch_378"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Post 9/11 GI Bill
+            </a>{' '}
+            recipients serving on Active Duty (or transferee spouses of a
+            service member on active duty) are not eligible to receive a monthly
+            housing allowance.
+          </div>
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
             To apply for VR&E benefits, please{' '}
@@ -140,8 +147,6 @@ export class BenefitsForm extends React.Component {
             </EbenefitsLink>
             .
           </div>
-        )}
-        <ConditionalQuestion visible={this.props.giBillChapter === '33'}>
           <Dropdown
             label={this.renderLearnMoreLabel({
               text: 'Cumulative Post-9/11 active-duty service',
@@ -156,8 +161,6 @@ export class BenefitsForm extends React.Component {
             onChange={this.props.eligibilityChange}
             onFocus={this.props.handleInputFocus}
           />
-        </ConditionalQuestion>
-        <ConditionalQuestion visible={this.props.giBillChapter === '30'}>
           <Dropdown
             label={this.renderLearnMoreLabel({
               text: 'Completed an enlistment of:',
@@ -175,8 +178,6 @@ export class BenefitsForm extends React.Component {
             onChange={this.props.eligibilityChange}
             onFocus={this.props.handleInputFocus}
           />
-        </ConditionalQuestion>
-        <ConditionalQuestion visible={this.props.giBillChapter === '31'}>
           <Dropdown
             label="Are you eligible for the Post-9/11 GI Bill?"
             name="eligForPostGiBill"
@@ -190,27 +191,28 @@ export class BenefitsForm extends React.Component {
             onChange={this.props.eligibilityChange}
             onFocus={this.props.handleInputFocus}
           />
-        </ConditionalQuestion>
-        <Dropdown
-          label="How many dependents do you have?"
-          name="numberOfDependents"
-          options={[
-            { value: '0', label: '0 Dependents' },
-            { value: '1', label: '1 Dependent' },
-            { value: '2', label: '2 Dependents' },
-            { value: '3', label: '3 Dependents' },
-            { value: '4', label: '4 Dependents' },
-            { value: '5', label: '5 Dependents' },
-          ]}
-          value={this.props.numberOfDependents}
-          alt="How many dependents do you have?"
-          visible={
-            this.props.giBillChapter === '31' &&
-            this.props.eligForPostGiBill === 'no'
-          }
-          onChange={this.props.eligibilityChange}
-          onFocus={this.props.handleInputFocus}
-        />
+          <Dropdown
+            label="How many dependents do you have?"
+            name="numberOfDependents"
+            options={[
+              { value: '0', label: '0 Dependents' },
+              { value: '1', label: '1 Dependent' },
+              { value: '2', label: '2 Dependents' },
+              { value: '3', label: '3 Dependents' },
+              { value: '4', label: '4 Dependents' },
+              { value: '5', label: '5 Dependents' },
+            ]}
+            value={this.props.numberOfDependents}
+            alt="How many dependents do you have?"
+            visible={
+              this.props.giBillChapter === '31' &&
+              this.props.eligForPostGiBill === 'no'
+            }
+            onChange={this.props.eligibilityChange}
+            onFocus={this.props.handleInputFocus}
+          />
+        </ExpandingGroup>
+
         {this.props.children}
       </div>
     );
