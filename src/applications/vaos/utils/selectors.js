@@ -11,6 +11,7 @@ import {
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
+  APPOINTMENT_STATUS,
 } from './constants';
 import {
   getRootOrganization,
@@ -18,6 +19,11 @@ import {
   getIdOfRootOrganization,
 } from '../services/organization';
 import { getParentOfLocation } from '../services/location';
+import {
+  getVARFacilityId,
+  getVARClinicId,
+  getVideoAppointmentLocation,
+} from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -192,6 +198,14 @@ export function getPreferredDate(state, pageKey) {
   return { ...getFormPageInfo(state, pageKey), typeOfCare };
 }
 
+export function getChosenSlot(state) {
+  const availableSlots = getNewAppointment(state).availableSlots;
+  const selectedTime = getFormData(state).calendarData?.selectedDates?.[0]
+    .datetime;
+
+  return availableSlots?.find(slot => slot.start === selectedTime);
+}
+
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
   const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
@@ -201,12 +215,9 @@ export function getDateTimeSelect(state, pageKey) {
   const eligibilityStatus = getEligibilityStatus(state);
   const systemId = getSiteIdForChosenFacility(state);
 
-  const availableDates = availableSlots?.reduce((acc, s) => {
-    if (!acc.includes(s.date)) {
-      acc.push(s.date);
-    }
-    return acc;
-  }, []);
+  const availableDates = Array.from(
+    new Set(availableSlots?.map(slot => slot.start.split('T')[0])),
+  );
 
   const timezone = systemId ? getTimezoneDescBySystemId(systemId) : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
@@ -265,12 +276,8 @@ export function getFacilityPageInfo(state) {
     hasEligibilityError:
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
-    // Remove parse function when converting this call to FHIR service
-    parentDetails:
-      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaParent)],
-    // Remove parse function when converting this call to FHIR service
-    facilityDetails:
-      newAppointment?.facilityDetails[parseFakeFHIRId(data.vaFacility)],
+    parentDetails: newAppointment?.facilityDetails[data.vaParent],
+    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerFacilities: selectCernerFacilities(state),
     siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
@@ -325,21 +332,27 @@ export function getCancelInfo(state) {
   } = state.appointments;
 
   let facility = null;
-  if (appointmentToCancel?.clinicId) {
+  if (
+    appointmentToCancel?.status === APPOINTMENT_STATUS.booked &&
+    !appointmentToCancel?.vaos?.videoType
+  ) {
     // Confirmed in person VA appts
     facility =
       systemClinicToFacilityMap[
-        `${appointmentToCancel.facilityId}_${appointmentToCancel.clinicId}`
+        `${parseFakeFHIRId(
+          getVARFacilityId(appointmentToCancel),
+        )}_${getVARClinicId(appointmentToCancel)}`
       ];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility =
       facilityData[
-        getRealFacilityId(appointmentToCancel.facility.facilityCode)
+        `var${getRealFacilityId(appointmentToCancel.facility.facilityCode)}`
       ];
-  } else if (appointmentToCancel) {
+  } else if (appointmentToCancel?.vaos?.videoType) {
     // Video visits
-    facility = facilityData[getRealFacilityId(appointmentToCancel.facilityId)];
+    const locationId = getVideoAppointmentLocation(appointmentToCancel);
+    facility = facilityData[getRealFacilityId(locationId)];
   }
 
   return {

@@ -8,12 +8,10 @@ describe('<VAFacilityInfoMessage>', () => {
   it('should display facility alert', () => {
     const facility = {
       name: 'Test facility',
-      address: [
-        {
-          city: 'Northampton',
-          state: 'MA',
-        },
-      ],
+      address: {
+        city: 'Northampton',
+        state: 'MA',
+      },
     };
 
     const tree = shallow(<VAFacilityInfoMessage facility={facility} />);

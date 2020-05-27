@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { prefixUtilityClasses } from '../helpers';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 const ProfileInfoTable = ({
   data,
@@ -106,7 +106,5 @@ ProfileInfoTable.propTypes = {
    */
   list: PropTypes.bool,
 };
-
-export { prefixUtilityClasses };
 
 export default ProfileInfoTable;
