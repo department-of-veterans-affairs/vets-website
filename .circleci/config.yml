@@ -86,6 +86,30 @@ jobs:
             - ~/.cache/yarn
       - run: yarn build:webpack
 
+  build-e2e:
+    docker:
+      - image: cypress/base:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run: yarn install-repos
+      - run: yarn fetch-drupal-cache
+      - run: yarn build
+      - persist_to_workspace:
+          root: /root
+          paths:
+            - project
+            - .cache/Cypress
+
   eslint-check:
     docker:
       - image: circleci/node:10.18
@@ -187,6 +211,7 @@ workflows:
       - lint
       - unit-test
       - security-audit
+      - build-e2e
       - build:
           requires:
             - lint
