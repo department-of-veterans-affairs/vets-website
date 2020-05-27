@@ -57,12 +57,12 @@ function updateTimeslots(data) {
   const startDateTime = moment()
     .add(4, 'days')
     .day(9)
-    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
     .add(4, 'days')
     .day(9)
     .add(60, 'minutes')
-    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
 
   const newSlot = {
     bookingStatus: '1',
