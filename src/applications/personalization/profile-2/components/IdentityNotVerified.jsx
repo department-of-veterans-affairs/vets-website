@@ -36,7 +36,7 @@ const IdentityNotVerified = () => {
         status="warning"
       />
       <div
-        className="account-security-content"
+        className="account-security-content vads-u-margin--2p5"
         onClick={() =>
           recordEvent({
             event: 'profile-navigation',
