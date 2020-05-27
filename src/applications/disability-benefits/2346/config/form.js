@@ -1,3 +1,4 @@
+import { snakeCase } from 'lodash';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
@@ -58,7 +59,32 @@ const asyncReturn = (returnValue, error, delay = 300) =>
     }, delay);
   });
 
+const transform = form => {
+  //  Define the transformations
+
+  /**
+   * Snake-cases field names
+   * @param query {Object} an object containing query fields
+   * @returns {Object} query object with updated field names
+   */
+  const rubyifyKeys = query =>
+    Object.keys(query).reduce(
+      (queryParams, key) => ({
+        ...queryParams,
+        [snakeCase(key)]: query[key],
+      }),
+      {},
+    );
+
+  // Apply the transformations
+  const transformedData = rubyifyKeys(form.data);
+
+  // return transformed data
+  return JSON.stringify(transformedData);
+};
+
 const submit = form => {
+  const postData = transform(form);
   const itemQuantities = form.data?.selectedProducts?.length;
 
   recordEvent({
@@ -87,6 +113,7 @@ const submit = form => {
   return asyncReturn(
     {
       attributes: { confirmationNumber: '123123123' },
+      postData,
     },
     'this is an error message',
   )
