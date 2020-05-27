@@ -1,0 +1,104 @@
+<div class="service-local-input">
+    <h3>Location and contact information</h3>
+    <div class="va-address-block">
+        {% if about.fieldTitle %}<p class="vads-u-margin-bottom--0">
+            <strong>{{ about.fieldTitle }}</strong></p>{% endif %}
+        {% if about.fieldAddress.addressLine1 %}<p
+            class="vads-u-margin-bottom--0">
+            {{ about.fieldAddress.addressLine1 }}</p>{% endif %}
+        {% if about.fieldAddress.addressLine2 %}<p
+            class="vads-u-margin-bottom--0">
+            {{ about.fieldAddress.addressLine2 }}</p>{% endif %}
+
+        {% if about.fieldAddress.locality %}
+        <p class="vads-u-margin-bottom--0">
+            {{ about.fieldAddress.locality }}{% if about.fieldAddress.administrativeArea %},
+            {{ about.fieldAddress.administrativeArea }}
+            {% endif %}
+            {% if about.fieldAddress.postalCode %}
+            &nbsp;{{ about.fieldAddress.postalCode }}
+            {% endif %}
+        </p>
+        {% endif %}
+
+        {% if about.fieldLink.url.path %}
+        <p class="vads-u-margin-bottom--0">
+            <a rel="noopener noreferrer" href="{{ about.fieldLink.url.path }}">
+                {% if about.fieldLink.title %}
+                {{ about.fieldLink.title }}
+                {% else %}
+                {{ about.fieldLink.url.path }}
+                {% endif %}
+            </a>
+        </p>
+        {% endif %}
+
+        {% if about.fieldMainPhone %}<p class="vads-u-margin-bottom--0">
+            <strong>Phone: </strong><a
+                href="tel:{{ about.fieldMainPhone }}{% if about.fieldExtension %}p{{ about.fieldExtension }}{% endif %}">{{ about.fieldMainPhone }}{% if about.fieldExtension %}p{{ about.fieldExtension }}{% endif %}</a>
+        </p>{% endif %}
+
+        {% if about.fieldAdditionalPhoneNumbers %}<p
+            class="vads-u-margin-bottom--0">
+            <strong>{% if fieldAdditionalPhNum1Title %}{{ fieldAdditionalPhNum1Title }}{% else %}Additional
+                number
+                1:{% endif %} </strong><a
+                href="tel:{{ about.fieldAdditionalPhoneNumbers }}">{{ about.fieldAdditionalPhoneNumbers }}</a>
+        </p>{% endif %}
+
+        {% if about.fieldAdditionalPhoneNumber2 %}<p
+            class="vads-u-margin-bottom--0">
+            <strong>{% if fieldAdditionalPhNum2Title %}{{ fieldAdditionalPhNum2Title }}{% else %}Additional
+                number 2:{% endif %} </strong><a
+                href="tel:{{ about.fieldAdditionalPhoneNumber2 }}">{{ about.fieldAdditionalPhoneNumber2 }}</a>
+        </p>{% endif %}
+
+        <p class="vads-u-margin-bottom--0">
+            <h4>Clinical Hours </h4>
+            <ul class="va-c-facility-hours-list">
+            {% for hours in about.fieldLocationHours%}
+            <li><strong>{{ hours.day | numToDay }}: </strong> {{hours.starthours | militaryTimeConvertor }} - {{hours.endhours | militaryTimeConvertor }}</li>
+            {% endfor %}
+            </ul>
+        </p>
+
+    </div>
+    <h3>Appointments</h3>
+
+    {% if about.fieldWysiwyg.value %}
+    <p>
+        {{ about.fieldWysiwyg.value }}
+    </p>
+    {% endif %}
+
+    {% if about.fieldServiceOffered %}<p class="vads-u-margin-bottom--0">
+        <strong>Service offered?
+        </strong>{% if about.fieldServiceOffered == true %}Yes{% else %}No{% endif %}
+    </p>{% endif %}
+
+    {% if about.fieldReferralRequired %}<p class="vads-u-margin-bottom--0">
+        <strong>Referral required?
+        </strong>{% if about.fieldReferralRequired == true %}Yes{% else %}No{% endif %}
+    </p>{% endif %}
+
+    {% if about.fieldWalkInsAccepted %}<p class="vads-u-margin-bottom--0">
+        <strong>Walk-ins accepted?
+        </strong>{% if about.fieldWalkInsAccepted == true %}Yes{% else %}No{% endif %}
+    </p>{% endif %}
+
+    {% if about.fieldOnlineSchedulingAvailabl %}<p>
+        <strong>Online Scheduling Available?
+        </strong>{% if about.fieldOnlineSchedulingAvailabl == true %}Yes{% else %}No{% endif %}
+    </p>{% endif %}
+
+    {% if about.fieldAppointmentPhone %}<p class="vads-u-margin-bottom--0">
+        <strong>Phone: </strong><a
+            href="tel:{{ about.fieldAppointmentPhone }}">{{ about.fieldAppointmentPhone }}</a>
+    </p>{% endif %}
+
+    <h3>Operating status</h3>
+    {% include "src/site/includes/operatingStatusFlags.drupal.liquid" with fieldOperatingStatusFacility = about.fieldOperatingStatus %}
+    {% if about.fieldOperatingStatusNotes.value %}
+    {{ about.fieldOperatingStatusNotes.value }}
+    {% endif %}
+</div>
