@@ -134,6 +134,10 @@ describe('VAOS Appointment transformer', () => {
         expect(data.resourceType).to.equal('Appointment');
       });
 
+      it('should set id', () => {
+        expect(data.id).to.equal('var22cdc6741c00ac67b6cbf6b972d084c0');
+      });
+
       it('should set status to "booked"', () => {
         expect(data.status).to.equal(APPOINTMENT_STATUS.booked);
       });
@@ -165,12 +169,6 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.videoType).to.equal(null);
       });
 
-      it('should return vaos.isPastAppointment', () => {
-        expect(data.vaos.isPastAppointment).to.equal(
-          moment(data.start).isBefore(moment()),
-        );
-      });
-
       it('should return vaos.isCommunityCare', () => {
         expect(data.vaos.isCommunityCare).to.equal(false);
       });
@@ -180,10 +178,6 @@ describe('VAOS Appointment transformer', () => {
           APPOINTMENT_TYPES.vaAppointment,
         );
       });
-
-      it('should set facilityId in legacyVAR', () => {
-        expect(data.legacyVAR.facilityId).to.equal('983');
-      });
     });
 
     describe('community care appointment', () => {
@@ -191,6 +185,10 @@ describe('VAOS Appointment transformer', () => {
 
       it('should set resourceType', () => {
         expect(data.resourceType).to.equal('Appointment');
+      });
+
+      it('should set id', () => {
+        expect(data.id).to.equal('var8a4888116a45cbe3016a45f482fb0002');
       });
 
       it('should set status to "booked"', () => {
@@ -247,10 +245,6 @@ describe('VAOS Appointment transformer', () => {
           APPOINTMENT_TYPES.ccAppointment,
         );
       });
-
-      it('should set facilityId in legacyVAR', () => {
-        expect(data.legacyVAR).to.equal(null);
-      });
     });
 
     describe('video appointment', () => {
@@ -258,6 +252,10 @@ describe('VAOS Appointment transformer', () => {
 
       it('should set resourceType', () => {
         expect(data.resourceType).to.equal('Appointment');
+      });
+
+      it('should set id', () => {
+        expect(data.id).to.equal('var05760f00c80ae60ce49879cf37a05fc8');
       });
 
       it('should set status to "booked"', () => {
@@ -333,6 +331,82 @@ describe('VAOS Appointment transformer', () => {
           },
         ])[0];
         expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
+      });
+    });
+
+    describe('isPastAppointment', () => {
+      describe('va appointment', () => {
+        describe('should return false if after now', () => {
+          const futureAppt = {
+            ...appt,
+            startDate: moment()
+              .add(60, 'minutes')
+              .format(),
+          };
+
+          const transformed = transformConfirmedAppointments([futureAppt])[0];
+          expect(transformed.vaos.isPastAppointment).to.equal(false);
+        });
+
+        describe('should return false if less than 60 min ago', () => {
+          const futureAppt = {
+            ...appt,
+            startDate: moment()
+              .subtract(55, 'minutes')
+              .format(),
+          };
+
+          const transformed = transformConfirmedAppointments([futureAppt])[0];
+          expect(transformed.vaos.isPastAppointment).to.equal(false);
+        });
+
+        describe('should return true if greater than 60 min ago', () => {
+          const pastAppt = {
+            ...appt,
+            startDate: moment()
+              .subtract(65, 'minutes')
+              .format(),
+          };
+
+          const transformed = transformConfirmedAppointments([pastAppt])[0];
+          expect(transformed.vaos.isPastAppointment).to.equal(true);
+        });
+
+        describe('va video appointment', () => {
+          describe('should return false after if video and less than 240 min ago', () => {
+            const futureAppt = {
+              ...videoAppt,
+              vvsAppointments: [
+                {
+                  ...videoAppt.vvsAppointments[0],
+                  dateTime: moment()
+                    .subtract(235, 'minutes')
+                    .format(),
+                },
+              ],
+            };
+
+            const transformed = transformConfirmedAppointments([futureAppt])[0];
+            expect(transformed.vaos.isPastAppointment).to.equal(false);
+          });
+
+          describe('should return true after if video and greater than 240 min ago', () => {
+            const pastAppt = {
+              ...videoAppt,
+              vvsAppointments: [
+                {
+                  ...videoAppt.vvsAppointments[0],
+                  dateTime: moment()
+                    .subtract(245, 'minutes')
+                    .format(),
+                },
+              ],
+            };
+
+            const transformed = transformConfirmedAppointments([pastAppt])[0];
+            expect(transformed.vaos.isPastAppointment).to.equal(true);
+          });
+        });
       });
     });
 

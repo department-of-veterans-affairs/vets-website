@@ -17,16 +17,24 @@ describe('VAOS <PastAppointmentsList>', () => {
     pastSelectedIndex: 0,
     past: [
       {
-        appointmentType: APPOINTMENT_TYPES.vaAppointment,
-        appointmentDate: moment('2019-12-11T15:00:00Z'),
-        clinicId: '455',
-        facilityId: '983',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        start: moment('2019-12-11T15:00:00Z'),
         status: APPOINTMENT_STATUS.booked,
+        participant: [
+          {
+            actor: {
+              reference: 'HealthcareService/var983_455',
+              display: 'CHY OPT VAR1',
+            },
+          },
+        ],
       },
       {
-        appointmentType: APPOINTMENT_TYPES.ccAppointment,
-        appointmentDate: moment('2019-11-25T13:30:00Z'),
-        timeZone: '-04:00 EDT',
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.ccAppointment,
+          timeZone: '-04:00 EDT',
+        },
+        start: moment('2019-11-25T13:30:00Z'),
         status: APPOINTMENT_STATUS.booked,
       },
       {
@@ -35,7 +43,7 @@ describe('VAOS <PastAppointmentsList>', () => {
       },
     ],
     systemClinicToFacilityMap: {
-      '983_455': {},
+      var983_455: {}, // eslint-disable-line camelcase
     },
   };
 
@@ -109,7 +117,7 @@ describe('VAOS <PastAppointmentsList>', () => {
         .find('ConfirmedAppointmentListItem')
         .first()
         .props().facility,
-    ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
+    ).to.equal(appointments.systemClinicToFacilityMap.var983_455);
 
     tree.unmount();
   });

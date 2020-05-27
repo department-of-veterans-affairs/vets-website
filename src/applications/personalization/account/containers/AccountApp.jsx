@@ -18,7 +18,7 @@ function AccountApp(props) {
   useEffect(
     () => {
       if (props.redirect) {
-        document.location.replace('/profile/account-security');
+        window.location.replace('/profile/account-security');
       }
     },
     [props.redirect],

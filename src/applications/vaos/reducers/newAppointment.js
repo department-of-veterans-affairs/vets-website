@@ -537,7 +537,6 @@ export default function formReducer(state = initialState, action) {
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
         availableSlots: action.availableSlots,
         fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
-        appointmentLength: action.appointmentLength,
       };
     }
     case FORM_CALENDAR_FETCH_SLOTS_FAILED: {

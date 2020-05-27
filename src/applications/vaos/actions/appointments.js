@@ -5,7 +5,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { resetDataLayer } from '../utils/events';
 
 import {
-  getConfirmedAppointments,
   getPendingAppointments,
   getCancelReasons,
   getRequestMessages,
@@ -14,6 +13,18 @@ import {
   getClinicInstitutions,
 } from '../api';
 import { getLocations } from '../services/location';
+
+import {
+  getBookedAppointments,
+  getVARClinicId,
+  getVARFacilityId,
+} from '../services/appointment';
+
+// Only use this when we need to pass data that comes back from one of our
+// services files to one of the older api functions
+function parseFakeFHIRId(id) {
+  return id.replace('var', '');
+}
 
 import { captureError } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
@@ -72,11 +83,14 @@ function aggregateClinicsBySystem(appointments) {
   const facilityClinicListMap = new Map();
 
   appointments.forEach(appt => {
-    const facility = facilityClinicListMap.get(appt.facilityId);
+    const facilityId = parseFakeFHIRId(getVARFacilityId(appt));
+    const clinicId = getVARClinicId(appt);
+
+    const facility = facilityClinicListMap.get(facilityId);
     if (facility) {
-      facility.add(appt.clinicId);
+      facility.add(clinicId);
     } else {
-      facilityClinicListMap.set(appt.facilityId, new Set([appt.clinicId]));
+      facilityClinicListMap.set(facilityId, new Set([clinicId]));
     }
   });
 
@@ -129,7 +143,7 @@ async function getClinicDataBySystem(facilityClinicListMap) {
 async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
-    appt => !appt.clinicId,
+    appt => appt.vaos?.videoType || appt.vaos?.isCommunityCare || !appt.vaos,
   );
   let facilityIds = requestsOrNonVAFacilityAppointments
     .map(appt => appt.facilityId || appt.facility?.facilityCode)
@@ -137,13 +151,12 @@ async function getAdditionalFacilityInfo(futureAppointments) {
 
   // Get facility ids from VA appointments
   const vaFacilityAppointments = futureAppointments.filter(
-    appt => appt.clinicId,
+    appt => appt.vaos && !appt.vaos.videoType && !appt.vaos.isCommunityCare,
   );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
     vaFacilityAppointments,
   );
-
   clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
   facilityIds = facilityIds.concat(
     clinicInstitutionList.map(clinic => clinic.institutionCode),
@@ -172,23 +185,12 @@ export function fetchFutureAppointments() {
 
       try {
         const data = await Promise.all([
-          getConfirmedAppointments(
-            'va',
-            moment()
-              .startOf('day')
-              .toISOString(),
-            moment()
-              .startOf('day')
-              .add(13, 'months')
-              .toISOString(),
-          ),
-          getConfirmedAppointments(
-            'cc',
-            moment().format('YYYY-MM-DD'),
-            moment()
+          getBookedAppointments({
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment()
               .add(13, 'months')
               .format('YYYY-MM-DD'),
-          ),
+          }),
           getPendingAppointments(
             moment()
               .subtract(30, 'days')
@@ -238,14 +240,10 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     });
 
     try {
-      const data = await Promise.all([
-        getConfirmedAppointments(
-          'va',
-          moment(startDate).toISOString(),
-          moment(endDate).toISOString(),
-        ),
-        getConfirmedAppointments('cc', startDate, endDate),
-      ]);
+      const data = await getBookedAppointments({
+        startDate,
+        endDate,
+      });
 
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
@@ -295,13 +293,16 @@ export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
     const isConfirmedAppointment =
-      appointment.appointmentType === APPOINTMENT_TYPES.vaAppointment;
+      appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
     const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
     const additionalEventdata = {
       appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
-      facilityType: appointment.isCommunityCare ? 'cc' : 'va',
+      facilityType:
+        appointment.vaos?.isCommunityCare || appointment.isCommunityCare
+          ? 'cc'
+          : 'va',
     };
-    let apiData = appointment.apiData;
+    let apiData = appointment.legacyVAR?.apiData || appointment.apiData;
     let cancelReasons = null;
     let cancelReason = null;
 
@@ -322,20 +323,23 @@ export function confirmCancelAppointment() {
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
+        const facilityId = getVARFacilityId(appointment).replace('var', '');
+
         const cancelData = {
-          appointmentTime: appointment.appointmentDate.format(
+          appointmentTime: moment(appointment.start).format(
             'MM/DD/YYYY HH:mm:ss',
           ),
-          clinicId: appointment.clinicId,
-          facilityId: appointment.facilityId,
+          clinicId: getVARClinicId(appointment),
+          facilityId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
           // we have to send the real name or if the friendly name is ok
-          clinicName: appointment.apiData.vdsAppointments[0].clinic.name,
+          clinicName:
+            appointment.legacyVAR.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        cancelReasons = await getCancelReasons(appointment.facilityId);
+        cancelReasons = await getCancelReasons(facilityId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)

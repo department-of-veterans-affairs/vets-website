@@ -26,12 +26,12 @@ const missingDateError = 'Please select a preferred date for your appointment';
 
 export function getOptionsByDate(selectedDate, availableSlots = []) {
   return availableSlots.reduce((acc, slot) => {
-    if (slot.date === selectedDate) {
-      const time = moment(slot.datetime);
+    if (slot.start.split('T')[0] === selectedDate) {
+      const time = moment(slot.start);
       const meridiem = time.format('A');
       const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
       acc.push({
-        value: slot.datetime,
+        value: slot.start,
         label: (
           <>
             {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
@@ -165,7 +165,7 @@ export class DateTimeSelectPage extends React.Component {
           <WaitTimeAlert
             eligibleForRequests={eligibleForRequests}
             facilityId={facilityId}
-            nextAvailableApptDate={availableSlots?.[0]?.datetime}
+            nextAvailableApptDate={availableSlots?.[0]?.start}
             onClickRequest={this.props.startRequestAppointmentFlow}
             preferredDate={preferredDate}
             timezone={timezone}
