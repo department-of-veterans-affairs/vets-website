@@ -49,7 +49,7 @@ jobs:
 
   e2e-test:
     docker:
-      - image: cypress/browsers:node10.16.0-chrome77-ff71
+      - image: cypress/base:10.15.3
     parallelism: 2
     environment:
     steps:
@@ -108,7 +108,7 @@ jobs:
 
   build-e2e:
     docker:
-      - image: cypress/browsers:node10.16.0-chrome77-ff71
+      - image: cypress/base:10.15.3
     steps:
       - checkout
       - restore_cache:
