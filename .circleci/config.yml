@@ -47,6 +47,26 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
+  e2e-test:
+    docker:
+      - image: cypress/base:10.15.3
+    parallelism: 2
+    environment:
+    steps:
+      - attach_workspace:
+          at: /root
+      - run:
+          name: Run Cypress Tests
+          command: yarn cy:test:circle
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+      - store_artifacts:
+          path: ./cypress/videos
+      - store_artifacts:
+          path: ./cypress/screenshots
+
   security-audit:
     docker:
       - image: circleci/node:10.15.3
@@ -217,6 +237,9 @@ workflows:
             - lint
             - unit-test
             - security-audit
+      - e2e-test:
+          requires: 
+            - build-e2e
   additional-linting:
     jobs:
       - additional-linting
