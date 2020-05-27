@@ -51,6 +51,7 @@ export default class VAPEditView extends React.Component {
     this.props.onSubmit(this.props.field.value);
   };
 
+  // TODO: delete this if possible
   isInitialized = () =>
     this.props.isInitialized ? this.props.isInitialized() : !!this.props.field;
 
