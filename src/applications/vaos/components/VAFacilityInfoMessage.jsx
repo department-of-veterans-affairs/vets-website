@@ -7,7 +7,7 @@ export default function VAFacilityInfoMessage({ facility }) {
       <p>
         <strong>{facility.name}</strong>
         <br />
-        {facility.address[0].city}, {facility.address[0].state}
+        {facility.address?.city}, {facility.address?.state}
       </p>
       Not all VA locations offer all types of care or support online scheduling.
       <p>

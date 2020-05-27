@@ -114,7 +114,7 @@ export class FutureAppointmentsList extends React.Component {
                     appointment={appt}
                     facility={
                       facilityData[
-                        getRealFacilityId(appt.facility?.facilityCode)
+                        `var${getRealFacilityId(appt.facility?.facilityCode)}`
                       ]
                     }
                     showCancelButton={showCancelButton}
