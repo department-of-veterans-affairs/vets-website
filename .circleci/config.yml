@@ -53,10 +53,6 @@ jobs:
     parallelism: 2
     environment:
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
       - attach_workspace:
           at: /root
       - run:
@@ -131,9 +127,7 @@ jobs:
       - persist_to_workspace:
           root: /root
           paths:
-            - project/build
-            - project/node-modules
-            - project/test-results
+            - project
             - .cache/Cypress
 
   eslint-check:
