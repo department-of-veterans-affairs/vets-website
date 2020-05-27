@@ -48,13 +48,19 @@ export default function FormResult({ formState }) {
   function recordScreeningToolEvent(screeningToolResult) {
     if (!resultSubmitted.isSubmitted) {
       const timeToComplete = moment.duration(
-        moment().diff(resultSubmitted.startTime, 'seconds'),
+        moment().diff(resultSubmitted.startTime),
       );
-      // TODO: format timeToComplete to hh:mm:ss
+      const formattedTimeToComplete = [
+        timeToComplete.hours(),
+        timeToComplete.minutes(),
+        timeToComplete.seconds(),
+      ]
+        .map(segment => segment.toString().padStart(2, '0'))
+        .join(':');
       recordEvent({
         event: 'covid-screening-tool-result-displayed',
         'screening-tool-result': screeningToolResult,
-        'time-to-complete': timeToComplete,
+        'time-to-complete': formattedTimeToComplete,
       });
       setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
     }
