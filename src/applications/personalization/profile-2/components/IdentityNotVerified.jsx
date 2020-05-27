@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 const IdentityNotVerified = () => {
   const content = (
-    <div>
+    <>
       <p>
         We need to make sure you’re you — and not someone pretending to be you —
         before we give you access to your personal and health-related
@@ -17,18 +17,15 @@ const IdentityNotVerified = () => {
         <strong>This one-time process takes about 5-10 minutes.</strong>
       </p>
 
-      <div>
-        <br />
-        <a
-          className="usa-button-primary va-button-primary"
-          href="/verify"
-          onClick={() => recordEvent({ event: 'verify-link-clicked' })}
-        >
-          <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-          <strong>Verify with ID.me</strong>
-        </a>
-      </div>
-    </div>
+      <a
+        className="usa-button-primary va-button-primary"
+        href="/verify"
+        onClick={() => recordEvent({ event: 'verify-link-clicked' })}
+      >
+        <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
+        <strong>Verify with ID.me</strong>
+      </a>
+    </>
   );
 
   return (
