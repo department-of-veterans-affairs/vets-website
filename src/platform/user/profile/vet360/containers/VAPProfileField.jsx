@@ -62,7 +62,7 @@ class VAPProfileField extends React.Component {
     EditView: PropTypes.func.isRequired,
     field: PropTypes.object,
     fieldName: PropTypes.string.isRequired,
-    isEditing: PropTypes.bool.isRequired,
+    showEditView: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
@@ -168,8 +168,8 @@ class VAPProfileField extends React.Component {
 
   justClosedModal(prevProps, props) {
     return (
-      (prevProps.isEditing && !props.isEditing) ||
-      (prevProps.showValidationModal && !props.showValidationModal)
+      (prevProps.showEditView && !props.showEditView) ||
+      (prevProps.showValidationView && !props.showValidationView)
     );
   }
 
@@ -208,8 +208,8 @@ class VAPProfileField extends React.Component {
     return (
       !this.props.isEmpty &&
       (!transactionPending ||
-        this.props.isEditing ||
-        this.props.showValidationModal)
+        this.props.showEditView ||
+        this.props.showValidationView)
     );
   };
 
@@ -217,12 +217,12 @@ class VAPProfileField extends React.Component {
     const {
       analyticsSectionName,
       fieldName,
-      isEditing,
+      showEditView,
       isEmpty,
       ContentView,
       EditView,
       ValidationView,
-      showValidationModal,
+      showValidationView,
       title,
       transaction,
       transactionRequest,
@@ -265,11 +265,11 @@ class VAPProfileField extends React.Component {
       );
     }
 
-    if (isEditing) {
+    if (showEditView) {
       content = <EditView {...childProps} />;
     }
 
-    if (showValidationModal) {
+    if (showValidationView) {
       content = (
         <ValidationView
           transaction={transaction}
@@ -283,7 +283,7 @@ class VAPProfileField extends React.Component {
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360Transaction
-          isModalOpen={isEditing || showValidationModal}
+          isModalOpen={showEditView || showValidationView}
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -309,7 +309,7 @@ export const mapStateToProps = (state, ownProps) => {
   const isEmpty = !data;
   const addressValidationType =
     state.vet360.addressValidation.addressValidationType;
-  const showValidationModal =
+  const showValidationView =
     ownProps.ValidationView &&
     addressValidationType === fieldName &&
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
@@ -319,8 +319,8 @@ export const mapStateToProps = (state, ownProps) => {
     data,
     fieldName,
     field: selectEditedFormField(state, fieldName),
-    isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
-    showValidationModal: !!showValidationModal,
+    showEditView: selectCurrentlyOpenEditModal(state) === fieldName,
+    showValidationView: !!showValidationView,
     isEmpty,
     transaction,
     transactionRequest,
