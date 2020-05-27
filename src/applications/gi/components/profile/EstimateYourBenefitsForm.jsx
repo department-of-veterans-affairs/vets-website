@@ -22,6 +22,7 @@ import BenefitsForm from './BenefitsForm';
 import { scroller } from 'react-scroll';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
+import ConditionalQuestion from '../ConditionalQuestion';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -290,23 +291,25 @@ class EstimateYourBenefitsForm extends React.Component {
     const inStateTuitionFeesId = 'inStateTuitionFees';
     const inStateFieldId = `${inStateTuitionFeesId}-fields`;
     const inStateTuitionInput = this.props.inputs.inState === 'no' && (
-      <div id={inStateFieldId}>
-        <label htmlFor={inStateTuitionFeesId}>
-          {this.renderLearnMoreLabel({
-            text: 'In-state tuition and fees per year',
-            modal: 'calcInStateTuition',
-            ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
-          })}
-        </label>
-        <input
-          type="text"
-          name={inStateTuitionFeesId}
-          id={inStateTuitionFeesId}
-          value={formatCurrency(this.props.inputs.inStateTuitionFees)}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
-        />
-      </div>
+      <ConditionalQuestion>
+        <div id={inStateFieldId}>
+          <label htmlFor={inStateTuitionFeesId}>
+            {this.renderLearnMoreLabel({
+              text: 'In-state tuition and fees per year',
+              modal: 'calcInStateTuition',
+              ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
+            })}
+          </label>
+          <input
+            type="text"
+            name={inStateTuitionFeesId}
+            id={inStateTuitionFeesId}
+            value={formatCurrency(this.props.inputs.inStateTuitionFees)}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
+          />
+        </div>
+      </ConditionalQuestion>
     );
 
     const tuitionFeesId = 'tuitionFees';
