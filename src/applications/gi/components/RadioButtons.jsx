@@ -5,6 +5,8 @@ import _ from 'lodash';
 import ToolTip from './ToolTip';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import { handleScrollOnInputFocus } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 /**
  * A radio button group with a label.
@@ -72,7 +74,12 @@ class RadioButtons extends React.Component {
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            onFocus={this.handleFocus}
+            onFocus={
+              // prod flag for bah-8821
+              environment.isProduction()
+                ? this.handleFocus
+                : this.props.onFocus.bind(this, `${this.inputId}-field`)
+            }
             aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
@@ -139,7 +146,10 @@ class RadioButtons extends React.Component {
     }
 
     return (
-      <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
+      <div
+        id={`${this.inputId}-field`}
+        className={this.props.errorMessage ? 'usa-input-error' : ''}
+      >
         <fieldset>
           <div>
             <span
@@ -181,6 +191,11 @@ RadioButtons.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
+  onFocus: PropTypes.func,
+};
+
+RadioButtons.defaultProps = {
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default RadioButtons;

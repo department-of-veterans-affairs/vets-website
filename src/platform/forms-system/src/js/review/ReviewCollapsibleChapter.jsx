@@ -245,7 +245,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
     });
 
     return (
-      <div id={`${this.id}-collapsiblePanel`} className={classes}>
+      <div
+        id={`${this.id}-collapsiblePanel`}
+        className={classes}
+        data-chapter={this.props.chapterKey}
+      >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
         <ul className="usa-unstyled-list">
           <li>

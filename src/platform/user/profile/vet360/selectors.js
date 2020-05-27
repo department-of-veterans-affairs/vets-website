@@ -100,7 +100,7 @@ export function selectCurrentlyOpenEditModal(state) {
 }
 
 export function selectVet360InitializationStatus(state) {
-  let status = VET360_INITIALIZATION_STATUS.UNINITALIZED;
+  let status = VET360_INITIALIZATION_STATUS.UNINITIALIZED;
 
   const { transaction, transactionRequest } = selectVet360Transaction(
     state,
