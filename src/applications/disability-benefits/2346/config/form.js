@@ -60,10 +60,8 @@ const asyncReturn = (returnValue, error, delay = 300) =>
     }, delay);
   });
 
-const transformData = formData => JSON.stringify(formData);
-
 const submit = form => {
-  const submissionData = transformData(form.data);
+  const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
 
   recordEvent({
