@@ -140,7 +140,7 @@ jobs:
           root: ~/
           paths:
             - app
-            - ~/.cache/yarn
+            - ~/.cache/Cypress
 
   eslint-check:
     docker:
