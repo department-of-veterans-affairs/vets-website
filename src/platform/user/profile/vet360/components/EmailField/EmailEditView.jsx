@@ -5,14 +5,8 @@ import VAPEditView from '../base/VAPEditView';
 import ContactInfoForm from '../ContactInfoForm';
 
 class EmailEditView extends React.Component {
-  getInitialFormValues = () => {
-    if (this.props.data) {
-      return { ...this.props.data };
-    }
-    return {
-      emailAddress: '',
-    };
-  };
+  getInitialFormValues = () =>
+    this.props.data ? { ...this.props.data } : { emailAddress: '' };
 
   renderForm = (formButtons, onSubmit) => (
     <>
