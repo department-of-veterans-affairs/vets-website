@@ -20,10 +20,11 @@ import {
 } from '../actions';
 
 import {
-  selectVet360Field,
-  selectVet360Transaction,
+  selectAddressValidationType,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
+  selectVet360Field,
+  selectVet360Transaction,
 } from '../selectors';
 
 import VAPEditButton from '../components/base/VAPEditButton';
@@ -298,11 +299,11 @@ export const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
-  const addressValidationType =
-    state.vet360.addressValidation.addressValidationType;
+  const addressValidationType = selectAddressValidationType(state);
   const showValidationView =
     ownProps.ValidationView &&
     addressValidationType === fieldName &&
+    // TODO: use a constant for 'addressValidation'
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
   return {

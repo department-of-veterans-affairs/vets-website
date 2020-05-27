@@ -133,7 +133,9 @@ describe('<VAPProfileField/>', () => {
   it('renders the edit link', () => {
     component = enzyme.shallow(<VAPProfileField {...props} />);
 
-    let onEditClick = component.find('VAPEditButton').props().onEditClick;
+    let editButton = component.find('VAPEditButton');
+
+    const onEditClick = editButton.props().onEditClick;
     onEditClick();
     props.openModal();
     expect(props.openModal.callCount, 'onEdit').to.be.equal(2);
@@ -146,11 +148,13 @@ describe('<VAPProfileField/>', () => {
       },
     });
 
-    onEditClick = component.find('VAPEditButton').props().onEditClick;
+    editButton = component.find('VAPEditButton');
+
     expect(
-      onEditClick,
-      'Should pass a null onEditClick prop if there is a transaction processing',
-    ).to.be.null;
+      editButton,
+      'Edit button should be hidden when a transaction is pending',
+    ).to.have.length(0);
+
     component.unmount();
   });
 });
