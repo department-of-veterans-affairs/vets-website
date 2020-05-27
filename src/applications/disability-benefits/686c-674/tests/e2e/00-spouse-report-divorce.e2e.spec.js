@@ -28,7 +28,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   TestHelpers.select686Options(
     client,
-    ['addChild', 'addSpouse'],
+    ['addSpouse', 'reportDivorce'],
     testData.data,
   );
   client.click('button[id="4-continueButton"]');
@@ -43,50 +43,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
   E2eHelpers.expectLocation(client, '/veteran-address');
   client.axeCheck('.main');
   TestHelpers.fillVeteranDomesticAddress(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // child information
-  E2eHelpers.expectLocation(client, '/add-child');
-  client.axeCheck('.main');
-  TestHelpers.fillChildNameInformation(client, testData.data, 0);
-  client.click('.va-growable button.usa-button-secondary.va-growable-add-btn');
-  TestHelpers.fillChildNameInformation(client, testData.data, 1);
-  client.click('button[id="4-continueButton"]');
-
-  // child 1 place of birth and status
-  E2eHelpers.expectLocation(client, '/add-child/0');
-  client.axeCheck('.main');
-  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // child 1 current living location
-  E2eHelpers.expectLocation(client, '/add-child/0/additional-information');
-  client.waitForElementVisible(
-    '#root_doesChildLiveWithYou-label',
-    Timeouts.normal,
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillChildAddressStatus(client, testData.data);
-  client.click('button[id="4-continueButton"]');
-
-  // child 2 place of birth and status
-  E2eHelpers.expectLocation(client, '/add-child/1');
-  client.axeCheck('.main');
-  TestHelpers.fillChildPlaceOfBirthAndStatusInformation(
-    client,
-    testData.data,
-    true,
-  );
-  client.click('button[id="4-continueButton"]');
-
-  // child 2 living location - lives with another person
-  E2eHelpers.expectLocation(client, '/add-child/1/additional-information');
-  client.waitForElementVisible(
-    '#root_doesChildLiveWithYou-label',
-    Timeouts.normal,
-  );
-  client.axeCheck('.main');
-  TestHelpers.fillChildAddressStatus(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
   // spouse information
@@ -147,13 +103,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   client.pause(Timeouts.normal);
-  TestHelpers.fillVeteranMarriageHistory(client, testData.data, true);
-  client.click('button[id="4-continueButton"]');
-
-  // veteran marriage history details
-  E2eHelpers.expectLocation(client, '/veteran-marriage-history/0');
-  client.waitForElementVisible('#root_startDate-label', Timeouts.normal);
-  TestHelpers.fillVeteranMarriageHistoryDetails(client, testData.data);
+  TestHelpers.fillVeteranMarriageHistory(client, testData.data, false);
   client.click('button[id="4-continueButton"]');
 
   // marriage additional evidence
@@ -175,7 +125,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   client.assert.cssClassPresent(
-    '.progress-bar-segmented div.progress-segment:nth-child(5)',
+    '.progress-bar-segmented div.progress-segment:nth-child(4)',
     'progress-segment-complete',
   );
   // privacy agreement

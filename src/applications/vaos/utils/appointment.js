@@ -201,32 +201,28 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
  * Filter and sort methods
  */
 
-export function filterFutureConfirmedAppointments(appt, today) {
-  // return appointments where current time is less than appointment time
-  // up to 395 days in the future
-  // +60 min or +240 min in the case of video
-  const isVideo = isVideoVisit(appt);
-  const threshold = isVideo ? 240 : 60;
-  const apptDateTime = getMomentConfirmedDate(appt);
-  const status = isVideo
-    ? appt.vvsAppointments?.[0]?.status?.code
-    : appt.vdsAppointments?.[0]?.currentStatus;
+export function filterFutureConfirmedAppointments(appt) {
+  const apptDateTime = moment(appt.start);
 
   return (
-    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(status) &&
+    !appt.vaos.isPastAppointment &&
+    !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
     apptDateTime.isValid() &&
-    apptDateTime.add(threshold, 'minutes').isAfter(today) &&
-    moment(apptDateTime).isBefore(moment().add(13, 'months'))
+    apptDateTime.isBefore(moment().add(13, 'months'))
   );
 }
 
 export function filterPastAppointments(appt, startDate, endDate) {
-  const apptDateTime = getMomentConfirmedDate(appt);
-  const status = isVideoVisit(appt)
-    ? appt.vvsAppointments?.[0]?.status?.code
-    : appt.vdsAppointments?.[0]?.currentStatus;
+  const apptDateTime = moment(appt.start);
+
+  if (
+    appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+    PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
+  ) {
+    return false;
+  }
+
   return (
-    !PAST_APPOINTMENTS_HIDDEN_SET.has(status) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(startDate) &&
     apptDateTime.isBefore(endDate)
@@ -235,26 +231,31 @@ export function filterPastAppointments(appt, startDate, endDate) {
 
 export function filterRequests(request, today) {
   const status = request?.status;
+  const thirteenMonths = today.clone().add(13, 'months');
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
   const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
 
-  const hasValidDateAfterToday =
-    (optionDate1.isValid() && optionDate1.isAfter(today)) ||
-    (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-    (optionDate3.isValid() && optionDate3.isAfter(today));
+  const hasValidDate =
+    (optionDate1.isValid() &&
+      optionDate1.isAfter(today) &&
+      optionDate1.isBefore(thirteenMonths)) ||
+    (optionDate2.isValid() &&
+      optionDate2.isAfter(today) &&
+      optionDate2.isBefore(thirteenMonths)) ||
+    (optionDate3.isValid() &&
+      optionDate3.isAfter(today) &&
+      optionDate3.isBefore(thirteenMonths));
 
-  return (
-    status === 'Submitted' || (status === 'Cancelled' && hasValidDateAfterToday)
-  );
+  return (status === 'Submitted' || status === 'Cancelled') && hasValidDate;
 }
 
 export function sortFutureConfirmedAppointments(a, b) {
-  return a.appointmentDate.isBefore(b.appointmentDate) ? -1 : 1;
+  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
 }
 
 export function sortPastAppointments(a, b) {
-  return a.appointmentDate.isAfter(b.appointmentDate) ? -1 : 1;
+  return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
 }
 
 export function sortFutureRequests(a, b) {
