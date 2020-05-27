@@ -19,7 +19,6 @@ const PhoneNumbersTable = ({
 }) => (
   <ProfileInfoTable
     title="Phone numbers"
-    fieldName="phoneNumber"
     data={[
       {
         title: 'Home',
