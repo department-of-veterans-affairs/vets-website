@@ -125,9 +125,9 @@ jobs:
       - run: yarn fetch-drupal-cache
       - run: yarn build
       - persist_to_workspace:
-          root: ~/project
+          root: /root/project
           paths:
-            -  ~/project/.cache/Cypress
+            -  .cache/Cypress
 
   eslint-check:
     docker:
