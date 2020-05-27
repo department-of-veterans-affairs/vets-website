@@ -183,7 +183,9 @@ const formConfig = {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
               [emailField]: email,
-              [confirmationEmailField]: email,
+              [confirmationEmailField]: {
+                type: 'string',
+              },
               [currentAddressField]: currentAddress,
             },
           },
