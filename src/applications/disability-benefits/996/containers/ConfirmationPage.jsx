@@ -6,6 +6,8 @@ import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 
+import { makeTitle } from '../helpers';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -22,9 +24,19 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { name, form } = this.props;
+    const { name = {}, form } = this.props;
     const { submission, formId } = form;
     const { response } = submission;
+    const issues = (form.data?.contestedIssues || [])
+      .filter(el => el['view:selected'])
+      .map((issue, index) => (
+        <li key={index} className="vads-u-margin-bottom--0">
+          {issue.attributes.issue}
+        </li>
+      ));
+    const fullName = makeTitle(
+      `${name.first} ${name.middle || ''} ${name.last}`,
+    );
 
     return (
       <div>
@@ -43,20 +55,23 @@ export class ConfirmationPage extends React.Component {
               (Form {formId})
             </span>
           </h3>
-          <span>
-            for {name?.first} {name?.middle} {name?.last} {name?.suffix}
-          </span>
-
+          for {fullName}
+          {name.suffix && `, ${name.suffix}`}
           {response && (
-            <ul className="claim-list">
-              <li>
+            <>
+              <p>
                 <strong>Date submitted</strong>
                 <br />
                 <span role="presentation">
                   {moment(response.timestamp).format('MMM D, YYYY')}
                 </span>
-              </li>
-            </ul>
+              </p>
+              <strong>
+                Issue
+                {issues.length > 1 ? 's' : ''} contested
+              </strong>
+              <ul className="vads-u-margin-top--0">{issues}</ul>
+            </>
           )}
         </div>
 
