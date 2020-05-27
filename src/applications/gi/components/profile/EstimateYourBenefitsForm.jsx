@@ -22,7 +22,7 @@ import BenefitsForm from './BenefitsForm';
 import { scroller } from 'react-scroll';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
-import ConditionalQuestion from '../ConditionalQuestion';
+import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -285,38 +285,43 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderTuition = () => {
-    if (!this.props.displayedInputs.tuition) return null;
+  renderInStateTuition = () => {
+    if (
+      !this.props.displayedInputs.tuition &&
+      this.props.inputs.inState === 'yes'
+    )
+      return null;
 
     const inStateTuitionFeesId = 'inStateTuitionFees';
     const inStateFieldId = `${inStateTuitionFeesId}-fields`;
-    const inStateTuitionInput = this.props.inputs.inState === 'no' && (
-      <ConditionalQuestion>
-        <div id={inStateFieldId}>
-          <label htmlFor={inStateTuitionFeesId}>
-            {this.renderLearnMoreLabel({
-              text: 'In-state tuition and fees per year',
-              modal: 'calcInStateTuition',
-              ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
-            })}
-          </label>
-          <input
-            type="text"
-            name={inStateTuitionFeesId}
-            id={inStateTuitionFeesId}
-            value={formatCurrency(this.props.inputs.inStateTuitionFees)}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
-          />
-        </div>
-      </ConditionalQuestion>
+    return (
+      <div id={inStateFieldId}>
+        <label htmlFor={inStateTuitionFeesId}>
+          {this.renderLearnMoreLabel({
+            text: 'In-state tuition and fees per year',
+            modal: 'calcInStateTuition',
+            ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
+          })}
+        </label>
+        <input
+          type="text"
+          name={inStateTuitionFeesId}
+          id={inStateTuitionFeesId}
+          value={formatCurrency(this.props.inputs.inStateTuitionFees)}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
+        />
+      </div>
     );
+  };
+
+  renderTuition = () => {
+    if (!this.props.displayedInputs.tuition) return null;
 
     const tuitionFeesId = 'tuitionFees';
     const tuitionFeesFieldId = `${tuitionFeesId}-field`;
     return (
       <div id={tuitionFeesFieldId}>
-        {inStateTuitionInput}
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
         </label>
@@ -571,7 +576,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
     if (this.props.inputs.calendar === 'nontraditional') {
       dependentDropdowns = (
-        <ConditionalQuestion>
+        <div>
           <Dropdown
             label="How many terms per year?"
             name="numberNontradTerms"
@@ -609,31 +614,33 @@ class EstimateYourBenefitsForm extends React.Component {
             onChange={this.handleInputChange}
             onFocus={this.handleEYBInputFocus}
           />
-        </ConditionalQuestion>
+        </div>
       );
     }
 
     return (
       <div>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'School Calendar',
-            modal: 'calcSchoolCalendar',
-            ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
-          })}
-          name="calendar"
-          alt="School calendar"
-          options={[
-            { value: 'semesters', label: 'Semesters' },
-            { value: 'quarters', label: 'Quarters' },
-            { value: 'nontraditional', label: 'Non-Traditional' },
-          ]}
-          visible
-          value={this.props.inputs.calendar}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-        {dependentDropdowns}
+        <ExpandingGroup open={this.props.inputs.calendar === 'nontraditional'}>
+          <Dropdown
+            label={this.renderLearnMoreLabel({
+              text: 'School Calendar',
+              modal: 'calcSchoolCalendar',
+              ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+            })}
+            name="calendar"
+            alt="School calendar"
+            options={[
+              { value: 'semesters', label: 'Semesters' },
+              { value: 'quarters', label: 'Quarters' },
+              { value: 'nontraditional', label: 'Non-Traditional' },
+            ]}
+            visible
+            value={this.props.inputs.calendar}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
+          />
+          {dependentDropdowns}
+        </ExpandingGroup>
       </div>
     );
   };
@@ -717,7 +724,9 @@ class EstimateYourBenefitsForm extends React.Component {
       zipcodeRadioOptions.push({ value: 'other', label: 'Other location' });
     }
 
-    if (inputs.beneficiaryLocationQuestion === 'extension') {
+    const displayExtensionSelector =
+      inputs.beneficiaryLocationQuestion === 'extension';
+    if (displayExtensionSelector) {
       extensionSelector = (
         <div>
           <Dropdown
@@ -734,17 +743,19 @@ class EstimateYourBenefitsForm extends React.Component {
       );
     }
 
-    if (
+    const displayInternationalCheckbox =
       inputs.beneficiaryLocationQuestion === 'other' ||
       (inputs.beneficiaryLocationQuestion === 'extension' &&
-        inputs.extension === 'other')
-    ) {
+        inputs.extension === 'other');
+    const displayZipcode = !inputs.classesOutsideUS;
+
+    if (displayInternationalCheckbox) {
       const errorMessage = this.state.invalidZip;
 
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
-      if (!inputs.classesOutsideUS) {
+      if (displayZipcode) {
         const label = this.isCountryInternational()
           ? "If you're taking classes in the U.S., enter the location's postal code"
           : "Please enter the postal code where you'll take your classes";
@@ -791,7 +802,13 @@ class EstimateYourBenefitsForm extends React.Component {
       : profile.attributes.name;
 
     return (
-      <div>
+      <ExpandingGroup
+        open={
+          displayExtensionSelector ||
+          displayInternationalCheckbox ||
+          displayZipcode
+        }
+      >
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Where will you take the majority of your classes?',
@@ -804,11 +821,13 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
-        {extensionSelector}
-        {amountInput}
-        {zipcodeLocation}
-        {internationalCheckbox}
-      </div>
+        <div>
+          {extensionSelector}
+          {amountInput}
+          {zipcodeLocation}
+          {internationalCheckbox}
+        </div>
+      </ExpandingGroup>
     );
   };
 
@@ -907,24 +926,19 @@ class EstimateYourBenefitsForm extends React.Component {
     }
 
     return (
-      <ConditionalQuestion>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text:
-              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
-            modal: 'whenUsedGiBill',
-            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
-          })}
-          name="giBillBenefit"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.inputs.giBillBenefit}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-      </ConditionalQuestion>
+      <RadioButtons
+        label={this.renderLearnMoreLabel({
+          text:
+            'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
+          modal: 'whenUsedGiBill',
+          ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
+        })}
+        name="giBillBenefit"
+        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
+        value={this.props.inputs.giBillBenefit}
+        onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
+      />
     );
   };
 
@@ -938,7 +952,7 @@ class EstimateYourBenefitsForm extends React.Component {
         expanded={this.state.yourBenefitsExpanded}
         onClick={this.toggleYourBenefits}
       >
-        <form>
+        <div>
           <BenefitsForm
             eligibilityChange={this.props.eligibilityChange}
             {...this.props.eligibility}
@@ -951,7 +965,7 @@ class EstimateYourBenefitsForm extends React.Component {
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
-        </form>
+        </div>
       </AccordionItem>
     );
   };
@@ -980,7 +994,10 @@ class EstimateYourBenefitsForm extends React.Component {
         onClick={this.toggleAboutYourSchool}
       >
         <div className="calculator-form">
-          {this.renderInState()}
+          <ExpandingGroup open={tuition && this.props.inputs.inState === 'no'}>
+            {this.renderInState()}
+            {this.renderInStateTuition()}
+          </ExpandingGroup>
           {this.renderTuition()}
           {this.renderBooks()}
           {this.renderCalendar()}
