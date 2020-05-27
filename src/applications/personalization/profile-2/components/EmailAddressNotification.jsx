@@ -1,7 +1,5 @@
 import React from 'react';
 
-import recordEvent from 'platform/monitoring/record-event';
-
 const EmailAddressNotification = ({ signInServiceName }) => {
   let link;
   let buttonText;
