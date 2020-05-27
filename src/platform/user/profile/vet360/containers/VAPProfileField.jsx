@@ -200,18 +200,7 @@ class VAPProfileField extends React.Component {
     });
   }
 
-  isEditLinkVisible = () => {
-    let transactionPending = false;
-    if (this.props.transaction) {
-      transactionPending = isPendingTransaction(this.props.transaction);
-    }
-    return (
-      !this.props.isEmpty &&
-      (!transactionPending ||
-        this.props.showEditView ||
-        this.props.showValidationView)
-    );
-  };
+  isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
 
   render() {
     const {
@@ -244,12 +233,14 @@ class VAPProfileField extends React.Component {
     let content = (
       <div className={classes.wrapper}>
         <ContentView data={this.props.data} />
-        <VAPEditButton
-          onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
-          fieldName={fieldName}
-          title={title}
-          className={classes.editButton}
-        />
+        {this.isEditLinkVisible() && (
+          <VAPEditButton
+            onEditClick={this.onEdit}
+            fieldName={fieldName}
+            title={title}
+            className={classes.editButton}
+          />
+        )}
       </div>
     );
 

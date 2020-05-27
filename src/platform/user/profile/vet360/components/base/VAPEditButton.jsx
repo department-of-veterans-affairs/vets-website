@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 
 function VAPEditButton({ title, onEditClick, fieldName, className }) {
   return (
-    onEditClick && (
-      <button
-        aria-label={`Edit ${title}`}
-        type="button"
-        data-action="edit"
-        onClick={onEditClick}
-        id={`${fieldName}-edit-link`}
-        className={className}
-      >
-        Edit
-      </button>
-    )
+    <button
+      aria-label={`Edit ${title}`}
+      type="button"
+      data-action="edit"
+      onClick={onEditClick}
+      id={`${fieldName}-edit-link`}
+      className={className}
+    >
+      Edit
+    </button>
   );
 }
 
