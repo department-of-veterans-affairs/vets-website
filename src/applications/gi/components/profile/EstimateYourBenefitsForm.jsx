@@ -571,7 +571,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
     if (this.props.inputs.calendar === 'nontraditional') {
       dependentDropdowns = (
-        <div>
+        <ConditionalQuestion>
           <Dropdown
             label="How many terms per year?"
             name="numberNontradTerms"
@@ -609,7 +609,7 @@ class EstimateYourBenefitsForm extends React.Component {
             onChange={this.handleInputChange}
             onFocus={this.handleEYBInputFocus}
           />
-        </div>
+        </ConditionalQuestion>
       );
     }
 
