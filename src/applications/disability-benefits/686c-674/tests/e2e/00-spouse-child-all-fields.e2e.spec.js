@@ -17,6 +17,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '/view-change-dependents/add-remove-form-686c',
     3,
   ).waitForElementVisible('.process.schemaform-process', Timeouts.verySlow);
+  client.waitForElementVisible(
+    '.usa-alert.usa-alert-info.schemaform-sip-alert',
+    Timeouts.verySlow,
+  );
   client.click('.usa-button-primary.va-button-primary.schemaform-start-button');
 
   // select options
@@ -32,6 +36,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
+  client.pause(Timeouts.normal);
   client.click('button[id="4-continueButton"]');
 
   // veteran address
@@ -130,6 +135,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.waitForElementVisible('#root_startDate-label', Timeouts.normal);
   E2eHelpers.expectLocation(client, '/current-spouse-marriage-history/0');
   client.axeCheck('.main');
+  client.pause(Timeouts.normal);
   TestHelpers.fillSpouseMarriageHistoryDetails(client, testData.data);
   client.click('button[id="4-continueButton"]');
 

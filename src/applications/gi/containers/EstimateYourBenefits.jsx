@@ -31,29 +31,29 @@ export class EstimateYourBenefits extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', () => this.handleScroll(), true);
+    window.addEventListener('scroll', this.handleScroll, true);
   }
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll, true);
   }
 
-  handleScroll() {
+  handleScroll = () => {
     const topOffset =
       document
         .getElementById('estimate-your-benefits-accordion')
-        .getBoundingClientRect().top -
+        ?.getBoundingClientRect().top -
         12 <
       0;
 
     const sheetHeight = document.getElementsByClassName('eyb-sheet')[0]
-      .offsetHeight;
+      ?.offsetHeight;
     const calculateButtonHeight =
-      document.getElementsByClassName('calculate-button')[0].offsetHeight + 1;
+      document.getElementsByClassName('calculate-button')[0]?.offsetHeight + 1;
 
     const bottomOffset =
       document
         .getElementsByClassName('calculate-button')[0]
-        .getBoundingClientRect().top -
+        ?.getBoundingClientRect().top -
         window.innerHeight +
         sheetHeight +
         calculateButtonHeight >
@@ -66,7 +66,7 @@ export class EstimateYourBenefits extends React.Component {
     } else if (this.state.showEybSheet === true) {
       this.setState({ showEybSheet: false, expandEybSheet: false });
     }
-  }
+  };
 
   updateEstimatedBenefits = () => {
     this.props.updateEstimatedBenefits(this.props.calculated.outputs);
@@ -128,7 +128,11 @@ export class EstimateYourBenefits extends React.Component {
           updateEstimatedBenefits={this.updateEstimatedBenefits}
         />
         <div className={spacerClassNames}>&nbsp;</div>
-        <EstimatedBenefits outputs={outputs} calculator={inputs} />
+        <EstimatedBenefits
+          outputs={outputs}
+          profile={profile}
+          calculator={inputs}
+        />
         {this.state.expandEybSheet && (
           <div
             onClick={() => this.toggleEybExpansion()}
@@ -136,7 +140,7 @@ export class EstimateYourBenefits extends React.Component {
           />
         )}
         {
-          <div className={summarySheetClassNames}>
+          <div id="eyb-summary-sheet" className={summarySheetClassNames}>
             <EstimateYourBenefitsSummarySheet
               outputs={outputs}
               expandEybSheet={this.state.expandEybSheet}

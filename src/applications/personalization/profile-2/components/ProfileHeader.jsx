@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
 
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+
 import { SERVICE_BADGE_IMAGE_PATHS } from '../constants';
-import { getServiceBranchDisplayName, prefixUtilityClasses } from '../helpers';
+import { getServiceBranchDisplayName } from '../helpers';
 
 const ProfileHeader = ({
   userFullName: { first, middle, last, suffix },
@@ -22,7 +24,7 @@ const ProfileHeader = ({
     'padding-y--2',
   ]);
   const wrapperClassesMedium = prefixUtilityClasses(
-    ['padding-y--3', 'margin-bottom--2'],
+    ['padding-y--2p5', 'margin-bottom--2'],
     'medium',
   );
 
@@ -39,12 +41,9 @@ const ProfileHeader = ({
     'medium',
   );
 
-  const serviceBadgeClasses = prefixUtilityClasses([
-    'text-align--center',
-    'margin-bottom--2',
-  ]);
+  const serviceBadgeClasses = prefixUtilityClasses(['display--none']);
   const serviceBadgeClassesMedium = prefixUtilityClasses(
-    ['text-align--right', 'margin-bottom--0', 'padding-right--2'],
+    ['display--flex', 'justify-content--flex-end', 'margin-bottom--0'],
     'medium',
   );
 
@@ -93,11 +92,9 @@ const ProfileHeader = ({
       'usa-grid',
       'usa-grid-full',
     ].join(' '),
-    serviceBadge: [
-      ...serviceBadgeClasses,
-      ...serviceBadgeClassesMedium,
-      'usa-width-one-fourth',
-    ].join(' '),
+    serviceBadge: [...serviceBadgeClasses, ...serviceBadgeClassesMedium].join(
+      ' ',
+    ),
     title: [...titleClasses, ...titleClassesMedium].join(' '),
     fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
     latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
@@ -113,14 +110,13 @@ const ProfileHeader = ({
             <img
               src={SERVICE_BADGE_IMAGE_PATHS.get(latestBranchOfService)}
               alt={`${latestBranchOfService} seal`}
-              className="profile-service-badge"
+              className="profile-service-badge vads-u-padding-right--3"
               aria-hidden="true"
               role="presentation"
             />
           )}
         </div>
         <div className="name-and-title-wrapper">
-          <h1 className={classes.title}>Your Profile</h1>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
             <dd className={classes.fullName}>{fullName}</dd>

@@ -5,16 +5,20 @@ import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
 
-export default function FormResult({ formState }) {
-  const [resultSubmitted, setResultSubmittedState] = React.useState(false);
-
+export default function FormResult({
+  formState,
+  resultSubmitted,
+  setResultSubmittedState,
+}) {
   function recordScreeningToolEvent(screeningToolResult) {
-    if (!resultSubmitted) {
+    if (!resultSubmitted.isSubmitted) {
+      const timeToComplete = moment().unix() - resultSubmitted.startTime;
       recordEvent({
         event: 'covid-screening-tool-result-displayed',
         'screening-tool-result': screeningToolResult,
+        'time-to-complete': timeToComplete,
       });
-      setResultSubmittedState(true);
+      setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
     }
   }
 

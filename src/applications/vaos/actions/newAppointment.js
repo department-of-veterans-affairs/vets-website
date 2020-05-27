@@ -20,8 +20,6 @@ import {
   getSiteIdForChosenFacility,
 } from '../utils/selectors';
 import {
-  getFacilityInfo,
-  getAvailableSlots,
   getPreferences,
   updatePreferences,
   submitRequest,
@@ -32,7 +30,11 @@ import {
   getOrganizations,
   getIdOfRootOrganization,
 } from '../services/organization';
-import { getSupportedLocationsByTypeOfCare } from '../services/location';
+import {
+  getSupportedLocationsByTypeOfCare,
+  getLocation,
+} from '../services/location';
+import { getSlots } from '../services/slot';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -234,7 +236,7 @@ export function fetchFacilityDetails(facilityId) {
     });
 
     try {
-      facilityDetails = await getFacilityInfo(facilityId);
+      facilityDetails = await getLocation({ facilityId });
     } catch (error) {
       facilityDetails = null;
       captureError(error);
@@ -348,8 +350,7 @@ export function openFacilityPage(page, uiSchema, schema) {
 
       if (parentId && !facilities.length) {
         try {
-          // Remove parse function when converting this call to FHIR service
-          const thunk = fetchFacilityDetails(parseFakeFHIRId(parentId));
+          const thunk = fetchFacilityDetails(parentId);
           await thunk(dispatch, getState);
         } catch (e) {
           captureError(e);
@@ -393,8 +394,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
         // If no available facilities, fetch system details to display contact info
         if (!facilities?.length) {
-          // Remove parse function when converting this call to FHIR service
-          dispatch(fetchFacilityDetails(parseFakeFHIRId(data.vaParent)));
+          dispatch(fetchFacilityDetails(data.vaParent));
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare,
@@ -531,7 +531,6 @@ export function getAppointmentSlots(startDate, endDate) {
 
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
-      let appointmentLength = null;
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
@@ -546,36 +545,19 @@ export function getAppointmentSlots(startDate, endDate) {
               .endOf('month')
               .format('YYYY-MM-DD');
 
-        const response = await getAvailableSlots(
-          // Remove parse function when converting this call to FHIR service
-          parseFakeFHIRId(rootOrgId),
-          data.typeOfCareId,
-          data.clinicId,
-          startDateString,
-          endDateString,
-        );
-
-        const fetchedSlots = response[0]?.appointmentTimeSlot || [];
-        appointmentLength = response[0]?.appointmentLength;
+        const fetchedSlots = await getSlots({
+          siteId: rootOrgId,
+          typeOfCareId: data.typeOfCareId,
+          clinicId: data.clinicId,
+          startDate: startDateString,
+          endDate: endDateString,
+        });
 
         const now = moment();
 
-        mappedSlots = fetchedSlots.reduce((acc, slot) => {
-          /**
-           * The datetime we get back for startDateTime and endDateTime includes
-           * an offset of +00:00 that isn't actually accurate. The times returned are
-           * already in the time zone of the facility. In order to prevent
-           * moment from using this offset, we'll remove it in the next line
-           */
-          const dateObj = moment(slot.startDateTime?.split('+')?.[0]);
-          if (dateObj.isValid() && dateObj.isAfter(now)) {
-            acc.push({
-              date: dateObj.format('YYYY-MM-DD'),
-              datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),
-            });
-          }
-          return acc;
-        }, []);
+        mappedSlots = fetchedSlots.filter(slot =>
+          moment(slot.start).isAfter(now),
+        );
 
         // Keep track of which months we've fetched already so we don't
         // make duplicate calls
@@ -588,14 +570,13 @@ export function getAppointmentSlots(startDate, endDate) {
         }
 
         const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
-          a.date.localeCompare(b.date),
+          a.start.localeCompare(b.start),
         );
 
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
-          appointmentLength,
         });
       } catch (e) {
         captureError(e);
@@ -763,6 +744,12 @@ export function submitAppointmentOrRequest(router) {
           // succeeded
           captureError(error, false, 'Request message failure', {
             messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+            hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
+              '\r\n',
+            ),
+            hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
+              '\n',
+            ),
           });
         }
 

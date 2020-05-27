@@ -57,6 +57,7 @@ export class EligibilityForm extends React.Component {
           alt="What's your military status?"
           visible
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Dropdown
           label="Is your spouse on active duty?"
@@ -69,6 +70,7 @@ export class EligibilityForm extends React.Component {
           alt="Is your spouse on active duty?"
           visible={this.props.militaryStatus === 'spouse'}
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Dropdown
           label={this.renderLearnMoreLabel({
@@ -94,6 +96,7 @@ export class EligibilityForm extends React.Component {
           alt="Which GI Bill benefit do you want to use?"
           visible
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
         {this.props.militaryStatus === 'active duty' &&
           this.props.giBillChapter === '33' && (
@@ -135,6 +138,7 @@ export class EligibilityForm extends React.Component {
           alt="Cumulative Post-9/11 active-duty service"
           visible={this.props.giBillChapter === '33'}
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Dropdown
           label={this.renderLearnMoreLabel({
@@ -151,6 +155,7 @@ export class EligibilityForm extends React.Component {
           alt="Completed an enlistment of:"
           visible={this.props.giBillChapter === '30'}
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Dropdown
           label="Are you eligible for the Post-9/11 GI Bill?"
@@ -163,6 +168,7 @@ export class EligibilityForm extends React.Component {
           alt="Are you eligible for the Post-9/11 GI Bill?"
           visible={this.props.giBillChapter === '31'}
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
         <Dropdown
           label="How many dependents do you have?"
@@ -182,6 +188,7 @@ export class EligibilityForm extends React.Component {
             this.props.eligForPostGiBill === 'no'
           }
           onChange={this.props.eligibilityChange}
+          onFocus={this.props.handleInputFocus}
         />
       </div>
     );
