@@ -28,8 +28,6 @@ import {
   getRealFacilityId,
   sortPastAppointments,
   transformRequest,
-  transformAppointment,
-  transformPastAppointment,
 } from '../utils/appointment';
 import {
   FETCH_STATUS,
@@ -59,19 +57,16 @@ export default function appointmentsReducer(state = initialState, action) {
         futureStatus: FETCH_STATUS.loading,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
-      const [vaAppointments, ccAppointments, requests] = action.data;
+      const [bookedAppointments, requests] = action.data;
 
-      const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
-        .filter(appt => filterFutureConfirmedAppointments(appt, action.today))
-        .map(transformAppointment)
+      const confirmedFilteredAndSorted = [...bookedAppointments]
+        .filter(appt => filterFutureConfirmedAppointments(appt))
         .sort(sortFutureConfirmedAppointments);
-
       const requestsFilteredAndSorted = [
         ...requests.filter(req => filterRequests(req, action.today)),
       ]
         .map(transformRequest)
         .sort(sortFutureRequests);
-
       return {
         ...state,
         future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],
@@ -92,11 +87,9 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED: {
       const { data, startDate, endDate } = action;
-      const [vaAppointments, ccAppointments] = data;
 
-      const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
+      const confirmedFilteredAndSorted = data
         .filter(appt => filterPastAppointments(appt, startDate, endDate))
-        .map(transformPastAppointment)
         .sort(sortPastAppointments);
 
       return {
@@ -115,7 +108,7 @@ export default function appointmentsReducer(state = initialState, action) {
       const facilityData = action.facilityData.reduce(
         (acc, facility) => ({
           ...acc,
-          [facility.uniqueId]: facility,
+          [facility.id]: facility,
         }),
         {},
       );
@@ -124,7 +117,7 @@ export default function appointmentsReducer(state = initialState, action) {
           (acc, clinic) => ({
             ...acc,
             [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
-              getRealFacilityId(clinic.institutionCode)
+              `var${getRealFacilityId(clinic.institutionCode)}`
             ],
           }),
           {},
@@ -169,14 +162,15 @@ export default function appointmentsReducer(state = initialState, action) {
         let newAppt = appt;
 
         if (
-          state.appointmentToCancel.appointmentType ===
+          state.appointmentToCancel.vaos?.appointmentType ===
           APPOINTMENT_TYPES.vaAppointment
         ) {
           newAppt = set(
-            'apiData.vdsAppointments[0].currentStatus',
+            'legacyVAR.apiData.vdsAppointments[0].currentStatus',
             'CANCELLED BY PATIENT',
             newAppt,
           );
+          newAppt.description = 'CANCELLED BY PATIENT';
         } else {
           newAppt = {
             ...newAppt,

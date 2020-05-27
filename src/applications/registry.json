@@ -848,5 +848,15 @@
         }
       ]
     }
+  },
+  {
+    "appName": "Debt Letters",
+    "entryName": "debt-letters",
+    "rootUrl": "/debt-letters",
+    "template": {
+      "vagovprod": false,
+      "title": "Debt Letters",
+      "layout": "page-react.html"
+    }
   }
 ]

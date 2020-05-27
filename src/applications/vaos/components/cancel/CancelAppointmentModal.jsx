@@ -24,13 +24,16 @@ export default function CancelAppointmentModal(props) {
     return null;
   }
 
-  if (appointmentToCancel.videoType) {
+  if (appointmentToCancel.vaos?.videoType) {
     return (
       <CancelVideoAppointmentModal onClose={onClose} facility={facility} />
     );
   }
 
-  if (appointmentToCancel.appointmentType === APPOINTMENT_TYPES.ccAppointment) {
+  if (
+    appointmentToCancel.vaos?.appointmentType ===
+    APPOINTMENT_TYPES.ccAppointment
+  ) {
     return (
       <CancelCommunityCareAppointmentModal
         onClose={onClose}

@@ -15,14 +15,14 @@ export default function ConfirmationDirectScheduleInfo({
   facilityDetails,
   clinic,
   pageTitle,
-  appointmentLength,
+  slot,
   systemId,
 }) {
-  const dateTime = data.calendarData.selectedDates[0].datetime;
   const timezone = getTimezoneBySystemId(systemId);
   const momentDate = timezone
-    ? moment(dateTime).tz(timezone.timezone, true)
-    : moment(dateTime);
+    ? moment(slot.start).tz(timezone.timezone, true)
+    : moment(slot.start);
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return (
     <div>
