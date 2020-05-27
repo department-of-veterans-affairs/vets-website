@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import FormQuestion from './FormQuestion';
+import sinon from 'sinon';
 
 let mockQuestion;
 let mockFormState;
@@ -59,6 +60,32 @@ describe('coronavirus-screener', () => {
       );
       expect(wrapper.find('.usa-button')).to.have.lengthOf(1);
       expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+
+    it('sets form state when clicked', () => {
+      const setFormStateSpy = sinon.spy();
+      const mockValue = 'yes';
+      const mockEvent = { target: { value: mockValue } };
+      const expectedFormState = { [mockQuestion.id]: mockValue };
+
+      const wrapper = shallow(
+        <FormQuestion
+          question={mockQuestion}
+          formState={mockFormState}
+          setFormState={setFormStateSpy}
+          scrollNext={mockScrollNext}
+        />,
+      );
+
+      wrapper
+        .find('button')
+        .at(0)
+        .simulate('click', mockEvent);
+
+      expect(setFormStateSpy.called).to.be.true;
+      expect(setFormStateSpy.args[0]).to.deep.equal([expectedFormState]);
+
       wrapper.unmount();
     });
   });
