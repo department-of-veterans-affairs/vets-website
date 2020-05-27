@@ -7,16 +7,20 @@ import { VIDEO_TYPES } from '../utils/constants';
 export default function VideoVisitSection({ appointment }) {
   let linkContent = <span>Video visit link unavailable</span>;
 
-  if (appointment.isPastAppointment) {
+  if (appointment.vaos.isPastAppointment) {
     return <span>Video conference</span>;
   }
 
-  if (appointment.videoType === VIDEO_TYPES.gfe) {
+  if (appointment.vaos.videoType === VIDEO_TYPES.gfe) {
     linkContent = (
       <span>Join the video session from the device provided by the VA.</span>
     );
-  } else if (appointment.videoLink) {
-    const diff = appointment.appointmentDate.diff(moment(), 'minutes');
+  } else if (
+    appointment.contained?.[0]?.telecom?.find(tele => tele.system === 'url')
+      ?.value
+  ) {
+    const url = appointment.contained?.[0]?.telecom?.[0]?.value;
+    const diff = moment(appointment.start).diff(moment(), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     const disableVideoLink = diff < -30 || diff > 240;
@@ -36,7 +40,7 @@ export default function VideoVisitSection({ appointment }) {
               : undefined
           }
           aria-disabled={disableVideoLink ? 'true' : 'false'}
-          href={appointment.videoLink}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
           className={linkClasses}
