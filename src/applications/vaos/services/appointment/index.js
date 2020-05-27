@@ -37,7 +37,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
 }
 
 /**
- * Gets legacy var facility id from HealthcareService reference
+ * Gets legacy VAR facility id from HealthcareService reference
  *
  * @param {Object} appointment VAR Appointment in FHIR schema
  * @returns {String} Legacy VAR facility id
