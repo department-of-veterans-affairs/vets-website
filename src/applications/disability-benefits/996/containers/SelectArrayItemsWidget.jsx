@@ -123,7 +123,9 @@ export default class SelectArrayItemsWidget extends React.Component {
             return formContext.reviewMode ? (
               content
             ) : (
-              <dl className="review">{content}</dl>
+              <dl className="review" key={index}>
+                {content}
+              </dl>
             );
           })
         ) : (
