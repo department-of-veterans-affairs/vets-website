@@ -57,7 +57,7 @@ jobs:
           at: /root
       - run:
           name: Run Cypress Tests
-          command: yarn cy:test:circle
+          command: ./script/run-cypress-tests-circle.sh
       - store_test_results:
           path: ./test-results
       - store_artifacts:
