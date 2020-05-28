@@ -4,6 +4,12 @@ export const schema = {
     first: {
       type: 'string',
     },
+    middle: {
+      type: 'string',
+    },
+    last: {
+      type: 'string',
+    },
   },
 };
 
