@@ -18,11 +18,50 @@ const testConfig = createTestConfig(
           .click();
       },
 
-      // Since there is automatic path resolution, this can simply be:
-      // 'some-page': () => { ... },
       'veteran-information': () => {
-        // cy.get('.expand-button').click();
-        // cy.fillPage();
+        cy.get('.vads-u-border-left--7px.vads-u-border-color--primary')
+          .should('include', '1200')
+          .should('include', 'April 05, 1933')
+          .should('include', 'Male');
+
+        cy.findAllByText(/continue/i)
+          .first()
+          .click();
+      },
+      'veteran-information/addresses': () => {
+        cy.get('#permanentAddress')
+          .its('checked')
+          .should('eq', true);
+
+        cy.get('#temporaryAddress')
+          .its('checked')
+          .should('eq', false);
+
+        cy.get('#temporaryAddress').click();
+
+        cy.get('#permanentAddress')
+          .its('checked')
+          .should('eq', false);
+
+        cy.get('#temporaryAddress')
+          .its('checked')
+          .should('eq', true);
+
+        cy.get('.vads-c-link')
+          .first()
+          .click();
+
+        cy.get('#root_permanentAddress_country').select('Canada');
+        cy.get('#root_permanentAddress_city').type('test city');
+        cy.get('.update-button')
+          .first()
+          .click();
+
+        cy.get('.vads-u-border-left--7px.vads-u-border-color--primary')
+          .should('include', 'Canada')
+          .should('include', 'test city');
+
+        cy.get('#root_confirmationEmail').type('test2@test1.net');
         cy.findAllByText(/continue/i)
           .first()
           .click();
