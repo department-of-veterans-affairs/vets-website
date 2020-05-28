@@ -10,7 +10,7 @@ export default function SingleSignOnInfoModal({
   if (!isLoggedIn || !useSSOe) return null;
 
   return (
-    <Modal visible onClose={dismiss} id="modal-announcment">
+    <Modal visible onClose={dismiss} id="modal-announcement">
       <h1 className="vads-u-font-size--h3 vads-u-margin-top--2">
         Sign in once to access the VA sites you use most
       </h1>
