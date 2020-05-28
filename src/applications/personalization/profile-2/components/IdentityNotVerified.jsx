@@ -51,7 +51,7 @@ const IdentityNotVerified = () => {
             strongest identity verification system available to prevent fraud
             and identity theft.
           </p>
-          <p>
+          <span>
             <strong>To verify your identity, you’ll need both of these:</strong>
             <ul>
               <li>
@@ -62,8 +62,8 @@ const IdentityNotVerified = () => {
               </li>
               <li>Your Social Security number</li>
             </ul>
-          </p>
-          <p>
+          </span>
+          <span>
             <strong>You’ll also need one of these:</strong>
             <ul>
               <li>
@@ -76,7 +76,7 @@ const IdentityNotVerified = () => {
                 prove you’re you
               </li>
             </ul>
-          </p>
+          </span>
         </AdditionalInfo>
       </div>
     </>
