@@ -8,6 +8,8 @@ let mockQuestion;
 let mockFormState;
 let mockSetFormState;
 let mockScrollNext;
+let mockResultSubmitted;
+let mockSetResultSubmittedState;
 
 beforeEach(() => {
   mockQuestion = {
@@ -17,6 +19,8 @@ beforeEach(() => {
   mockFormState = {};
   mockSetFormState = () => {};
   mockScrollNext = () => {};
+  mockResultSubmitted = {};
+  mockSetResultSubmittedState = () => {};
 });
 
 describe('coronavirus-screener', () => {
@@ -74,6 +78,8 @@ describe('coronavirus-screener', () => {
           question={mockQuestion}
           formState={mockFormState}
           setFormState={setFormStateSpy}
+          resultSubmitted={mockResultSubmitted}
+          setResultSubmittedState={mockSetResultSubmittedState}
           scrollNext={mockScrollNext}
         />,
       );
