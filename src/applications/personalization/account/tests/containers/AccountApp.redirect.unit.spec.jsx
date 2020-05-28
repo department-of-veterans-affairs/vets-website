@@ -10,11 +10,14 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import AccountApp from '../../containers/AccountApp';
 
-describe.skip('<AccountApp>', () => {
+describe('<AccountApp>', () => {
   let wrapper;
+  let oldLocation;
 
-  function setUp() {
-    global.window.location.replace = sinon.spy();
+  function setUp(featureFlag = true) {
+    oldLocation = window.location;
+    delete window.location;
+    window.location = { replace: sinon.spy() };
     const initialState = {
       user: {
         profile: {
@@ -27,7 +30,7 @@ describe.skip('<AccountApp>', () => {
         },
       },
       featureToggles: {
-        'profile_show_profile_2.0': true,
+        'profile_show_profile_2.0': featureFlag,
       },
     };
     const store = createStore(combineReducers(commonReducer), initialState);
@@ -38,14 +41,16 @@ describe.skip('<AccountApp>', () => {
     );
   }
 
+  afterEach(() => {
+    window.location = oldLocation;
+    wrapper.unmount();
+  });
+
   it('should redirect to `profile/account-security` if the feature flag is set', () => {
     setUp();
 
-    expect(
-      global.window.location.replace.calledWith('/profile/account-security'),
-    ).to.be.true;
-
-    wrapper.unmount();
+    expect(window.location.replace.calledWith('/profile/account-security')).to
+      .be.true;
   });
 
   it('should not redirect to `profile/account-security` if the feature flag is set but the "PROFILE_VERSION" localstorage key is set to "1"', () => {
@@ -53,10 +58,14 @@ describe.skip('<AccountApp>', () => {
 
     setUp();
 
-    expect(
-      global.window.location.replace.calledWith('/profile/account-security'),
-    ).to.be.false;
+    expect(window.location.replace.calledWith('/profile/account-security')).to
+      .be.false;
+  });
 
-    wrapper.unmount();
+  it('should not redirect to `profile/account-security` if the feature flag is not set', () => {
+    setUp(false);
+
+    expect(window.location.replace.calledWith('/profile/account-security')).to
+      .be.false;
   });
 });

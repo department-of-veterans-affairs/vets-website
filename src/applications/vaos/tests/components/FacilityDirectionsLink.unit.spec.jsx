@@ -5,64 +5,18 @@ import { expect } from 'chai';
 import FacilityDirectionsLink from '../../components/FacilityDirectionsLink';
 
 const location = {
-  id: 'vba_377c',
-  type: 'va_facilities',
-  uniqueId: '377c',
+  id: 'var377c',
   name: 'Marine Corp Air Station Miramar Pre-Discharge Claims Intake Site',
-  facilityType: 'va_benefits_facility',
-  classification: null,
-  website: 'NULL',
-  lat: 32.88772959,
-  long: -117.1329899,
-  address: {
-    mailing: {},
-    physical: {
-      zip: '92145',
-      city: 'San Diego',
-      state: 'CA',
-      address1: 'Marine Corps Air Station Miramar, 535 Miramar Way',
-      address2: null,
-      address3: null,
-    },
+  position: {
+    latitude: 32.88772959,
+    longitude: -117.1329899,
   },
-  phone: { fax: null, main: '858-689-2241' },
-  hours: {
-    monday: '8:00AM-4:00PM',
-    tuesday: '8:00AM-4:00PM',
-    wednesday: '8:00AM-4:00PM',
-    thursday: '8:00AM-4:00PM',
-    friday: '8:00AM-4:00PM',
-    saturday: 'Closed',
-    sunday: 'Closed',
-  },
-  services: { benefits: { other: null, standard: [] } },
-  feedback: {},
-  access: {},
-};
-
-const ccLocation = {
-  id: 'ccp_1669699724',
-  type: 'cc_provider',
-  uniqueId: '1669699724',
-  name: 'Ziad A Tomimi MD A Professional Medical Corporation',
   address: {
-    street: '4445 Eastgate Mall',
+    postalCode: '92145',
     city: 'San Diego',
     state: 'CA',
-    zip: '92121',
+    line: ['Marine Corps Air Station Miramar, 535 Miramar Way'],
   },
-  email: 'unknown@unknown.com',
-  phone: null,
-  fax: null,
-  lat: 32.878391,
-  long: -117.210539,
-  prefContact: null,
-  accNewPatients: null,
-  gender: null,
-  specialty: [
-    { name: 'Clinic/Center - Primary Care', desc: 'Definition to come...' },
-  ],
-  caresitePhone: null,
 };
 
 const ccAppt = {
@@ -87,14 +41,6 @@ describe('VAOS <FacilityDirectionsLink>', () => {
     const tree = shallow(<FacilityDirectionsLink location={location} />);
     expect(tree.find('a').props().href).to.equal(
       'https://maps.google.com?saddr=Current+Location&daddr=Marine Corps Air Station Miramar, 535 Miramar Way, San Diego, CA 92145',
-    );
-    tree.unmount();
-  });
-
-  it('should render directions for cc facility', () => {
-    const tree = shallow(<FacilityDirectionsLink location={ccLocation} />);
-    expect(tree.find('a').props().href).to.equal(
-      'https://maps.google.com?saddr=Current+Location&daddr=4445 Eastgate Mall, San Diego, CA 92121',
     );
     tree.unmount();
   });

@@ -21,7 +21,7 @@ export default function PastAppointmentsDateDropdown({
         name="options"
         id="options"
         value={dateRangeIndex}
-        onChange={e => updateDateRangeIndex(e.target.value)}
+        onChange={e => updateDateRangeIndex(Number(e.target.value))}
       >
         {options.map((o, index) => (
           <option key={`date-range-${index}`} value={o.value}>
@@ -43,7 +43,7 @@ export default function PastAppointmentsDateDropdown({
 }
 
 PastAppointmentsDateDropdown.propTypes = {
-  value: PropTypes.number.isRequired,
+  currentRange: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
 };

@@ -573,7 +573,9 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('section103')}
       >
-        <h3>Protection against late VA payments</h3>
+        <div className="align-left">
+          <h3>Protection against late VA payments</h3>
+        </div>
         <p>
           If VA is late making a tuition payment to a GI Bill school, the school
           can’t prevent a GI Bill student from attending classes or accessing
@@ -1006,7 +1008,9 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('giBillChapter')}
       >
-        <h3>Which GI Bill benefit do you want to use?</h3>
+        <div className="align-left">
+          <h3>Which GI Bill benefit do you want to use?</h3>
+        </div>
         <p>
           You may be eligible for multiple types of education and training
           programs. Different programs offer different benefits, so it’s
@@ -1209,7 +1213,7 @@ export class Modals extends React.Component {
             {' '}
             To learn more about caution flags,{' '}
             <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
               target="_blank"
               rel="noopener noreferrer"
             >
