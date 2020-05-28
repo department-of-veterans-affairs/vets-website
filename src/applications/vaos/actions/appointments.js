@@ -10,9 +10,9 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
-  getFacilitiesInfo,
   getClinicInstitutions,
 } from '../api';
+import { getLocations } from '../services/location';
 
 import {
   getBookedAppointments,
@@ -165,7 +165,9 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   const uniqueFacilityIds = new Set(facilityIds);
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
-    facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
+    facilityData = await getLocations({
+      facilityIds: Array.from(uniqueFacilityIds),
+    });
   }
 
   return {
@@ -324,9 +326,9 @@ export function confirmCancelAppointment() {
         const facilityId = getVARFacilityId(appointment).replace('var', '');
 
         const cancelData = {
-          appointmentTime: moment(appointment.start).format(
-            'MM/DD/YYYY HH:mm:ss',
-          ),
+          appointmentTime: moment
+            .parseZone(appointment.start)
+            .format('MM/DD/YYYY HH:mm:ss'),
           clinicId: getVARClinicId(appointment),
           facilityId,
           remarks: '',

@@ -126,8 +126,8 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
         enum: facilities.map(facility => facility.id),
         enumNames: facilities.map(
           facility =>
-            `${facility.name} (${facility.address[0].city}, ${
-              facility.address[0].state
+            `${facility.name} (${facility.address?.city}, ${
+              facility.address?.state
             })`,
         ),
       },
@@ -741,7 +741,7 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = systems.map(
-          system => `${system.address[0].city}, ${system.address[0].state}`,
+          system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }

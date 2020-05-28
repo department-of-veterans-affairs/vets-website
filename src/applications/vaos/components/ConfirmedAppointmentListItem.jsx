@@ -70,6 +70,12 @@ export default function ConfirmedAppointmentListItem({
     <li
       aria-labelledby={`card-${index}-type card-${index}-status`}
       className={itemClasses}
+      data-request-id={appointment.id}
+      data-is-cancelable={
+        !appointment.isCommunityCare && !appointment.videoType
+          ? 'true'
+          : 'false'
+      }
     >
       <div
         id={`card-${index}-type`}
@@ -136,7 +142,8 @@ export default function ConfirmedAppointmentListItem({
                 Cancel appointment
                 <span className="sr-only">
                   {' '}
-                  on {formatAppointmentDate(moment(appointment.start))}
+                  on{' '}
+                  {formatAppointmentDate(moment.parseZone(appointment.start))}
                 </span>
               </button>
             )}

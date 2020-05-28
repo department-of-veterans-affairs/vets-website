@@ -193,14 +193,14 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          uniqueId: '442',
+          id: 'var442',
         },
       ],
       clinicInstitutionList: null,
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
+    expect(newState.facilityData.var442).to.equal(action.facilityData[0]);
   });
 
   it('should set clinic mapping data when fetch succeeds', () => {
@@ -208,7 +208,7 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          uniqueId: '442GA',
+          id: 'var442GA',
         },
       ],
       clinicInstitutionList: [

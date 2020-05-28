@@ -249,6 +249,9 @@ function setContained(appt) {
             text: 'Patient Virtual Meeting Room',
           },
         ],
+        location: {
+          reference: `Location/var${appt.facilityId}`,
+        },
         telecom: [
           {
             system: 'url',

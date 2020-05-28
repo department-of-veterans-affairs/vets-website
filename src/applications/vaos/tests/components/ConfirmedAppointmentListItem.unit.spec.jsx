@@ -64,20 +64,20 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   };
 
   const facility = {
+    id: 'var983',
+    name: 'Cheyenne VA Medical Center',
     address: {
-      mailing: {},
-      physical: {
-        zip: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        address1: '2360 East Pershing Boulevard',
-        address2: null,
-        address3: null,
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    telecom: [
+      {
+        system: 'phone',
+        value: '307-778-7550',
       },
-    },
-    phone: {
-      main: '307-778-7550',
-    },
+    ],
   };
 
   const cancelAppointment = sinon.spy();
@@ -440,20 +440,20 @@ describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
     },
   };
   const facility = {
+    id: 'var983',
+    name: 'Cheyenne VA Medical Center',
     address: {
-      mailing: {},
-      physical: {
-        zip: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        address1: '2360 East Pershing Boulevard',
-        address2: null,
-        address3: null,
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    telecom: [
+      {
+        system: 'phone',
+        value: '307-778-7550',
       },
-    },
-    phone: {
-      main: '307-778-7550',
-    },
+    ],
   };
 
   let tree;

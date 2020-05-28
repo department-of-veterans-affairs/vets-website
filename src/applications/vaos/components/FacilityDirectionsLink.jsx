@@ -3,46 +3,31 @@ import PropTypes from 'prop-types';
 
 class FacilityDirectionsLink extends Component {
   buildAddressArray = location => {
-    if (location?.type === 'cc_provider') {
+    // Community Care appointment address format
+    if (location?.address?.street) {
       const { address } = location;
 
       if (address && Object.keys(address).length) {
         return [
           address.street,
           address.appt,
-          `${address.city}, ${address.state} ${address.zip}`,
+          `${address.city}, ${address.state} ${address.zipCode}`,
         ].filter(x => !!x);
       }
 
       return [];
     }
 
-    if (location?.vaos?.isCommunityCare) {
-      const { address } = location.contained[0]?.actor;
-      return [
-        address.line[0],
-        `${address.city}, ${address.state} ${address.postalCode}`,
-      ].filter(x => !!x);
+    // FHIR address format
+    if (location?.address) {
+      const address = location.address;
+
+      return address.line
+        .concat([`${address.city}, ${address.state} ${address.postalCode}`])
+        .filter(x => !!x);
     }
 
-    if (location?.address?.street) {
-      const { address } = location;
-      return [
-        address.street,
-        `${address.city}, ${address.state} ${address.zipCode}`,
-      ].filter(x => !!x);
-    }
-
-    const {
-      address: { physical: address },
-    } = location;
-
-    return [
-      address.address1,
-      address.address2,
-      address.address3,
-      `${address.city}, ${address.state} ${address.zip}`,
-    ].filter(x => !!x);
+    return [];
   };
 
   render() {
@@ -52,10 +37,10 @@ class FacilityDirectionsLink extends Component {
 
       if (address.length !== 0) {
         address = address.join(', ');
-      } else {
+      } else if (location.position) {
         // If we don't have an address fallback on coords
-        const { lat, long } = location;
-        address = `${lat},${long}`;
+        const { latitude, longitude } = location.position;
+        address = `${latitude},${longitude}`;
       }
 
       return (

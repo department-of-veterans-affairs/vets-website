@@ -161,7 +161,7 @@ const chatRequested = async scenario => {
   return requestChatBot();
 };
 
-export default async function initializeChatbot() {
+export async function initializeChatbot() {
   handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }
