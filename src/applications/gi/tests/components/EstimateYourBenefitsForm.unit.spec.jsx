@@ -181,4 +181,49 @@ describe('<EstimateYourBenefitsForm>', () => {
     expect(updateEstimatedBenefits.called).to.be.false;
     tree.unmount();
   });
+
+  it('displays non-OJT learning format section name', () => {
+    const wrapper = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={{}}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+      />,
+    );
+    expect(wrapper.html()).to.contain('Learning format and location');
+    wrapper.unmount();
+  });
+
+  it('displays OJT learning format section name', () => {
+    const ojtProfile = {
+      ...props.profile,
+      attributes: {
+        ...props.profile.attributes,
+        type: 'OJT',
+      },
+    };
+    const wrapper = mount(
+      <EstimateYourBenefitsForm
+        profile={ojtProfile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={{}}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+      />,
+    );
+    expect(wrapper.html()).to.contain('Learning format and schedule');
+    wrapper.unmount();
+  });
 });
