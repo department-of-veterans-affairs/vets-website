@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AlertBox from '../AlertBox';
+import _ from 'lodash';
 
+import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import {
@@ -926,7 +927,7 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   renderYourBenefits = () => {
-    const name = 'Your benefits';
+    const name = 'Your military details';
     return (
       <AccordionItem
         button={name}
@@ -966,7 +967,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
       return null;
 
-    const name = 'About your school';
+    const name = 'School costs and calendar';
 
     return (
       <AccordionItem
@@ -988,7 +989,11 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   renderLearningFormatAndSchedule = () => {
-    const name = 'Learning format and schedule';
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const name = isOjt
+      ? 'Learning format and schedule'
+      : 'Learning format and location';
     return (
       <AccordionItem
         button={name}
@@ -1016,7 +1021,7 @@ class EstimateYourBenefitsForm extends React.Component {
     } = this.props.displayedInputs;
     if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
       return null;
-    const name = 'Scholarships and other funding';
+    const name = 'Scholarships and other VA funding';
     return (
       <AccordionItem
         button={name}
