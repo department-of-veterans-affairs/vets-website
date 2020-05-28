@@ -55,12 +55,11 @@ describe('<VetTecApprovedProgramsList>', () => {
     wrapper.unmount();
   });
 
-  it('should display check icon for pre-selected program', () => {
+  it('should display check icon for selected program', () => {
     const defaultProps = {
       store: createCommonStore(),
       institution,
-      selectedProgram: '',
-      preSelectedProgram: 'Program Name 2',
+      selectedProgram: 'Program Name 2',
     };
     const wrapper = mount(<VetTecApprovedProgramsList {...defaultProps} />);
     expect(wrapper.find('.sr-only').length).to.eq(1);
