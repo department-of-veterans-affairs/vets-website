@@ -240,60 +240,12 @@ export class Modals extends React.Component {
         </p>
       </Modal>
 
-      {/* prod flag for 8524 */}
-      {environment.isProduction() && (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('yribbon')}
-        >
-          <h3>Yellow Ribbon</h3>
-          <p>
-            The{' '}
-            <a
-              title="Post-9/11 GI Bill"
-              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Post-9/11 GI Bill
-            </a>{' '}
-            can cover all in-state tuition and fees at public degree granting
-            schools, but may not cover all private degree granting schools and
-            out-of-state tuition. The Yellow Ribbon Program provides additional
-            support in those situations. Institutions voluntarily enter into an
-            agreement with VA to fund uncovered charges. VA matches each dollar
-            of unmet charges the institution agrees to contribute, up to the
-            total cost of the tuition and fees.{' '}
-            <a
-              title="Click here for FAQs about the Yellow Ribbon Program"
-              href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Click here for FAQs about the Yellow Ribbon Program
-            </a>
-          </p>
-          <p>
-            Veterans and Fry Scholarship and Purple Heart recipients are
-            entitled to the maximum benefit rate or their designated transferees
-            can receive this funding. Active-duty service members and their
-            spouses aren’t eligible for this program (child transferees of
-            active-duty service members may be eligible if the service member is
-            qualified at the 100% rate). This information will be updated
-            quarterly.
-          </p>
-        </Modal>
-      )}
-
-      {/* prod flag for 8524 */}
-      {!environment.isProduction() && (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('yribbon')}
-        >
-          <YellowRibbonModalContent />
-        </Modal>
-      )}
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('yribbon')}
+      >
+        <YellowRibbonModalContent />
+      </Modal>
 
       <Modal
         onClose={this.props.hideModal}
@@ -621,7 +573,9 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('section103')}
       >
-        <h3>Protection against late VA payments</h3>
+        <div className="align-left">
+          <h3>Protection against late VA payments</h3>
+        </div>
         <p>
           If VA is late making a tuition payment to a GI Bill school, the school
           can’t prevent a GI Bill student from attending classes or accessing
@@ -926,53 +880,12 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        {/* prod flag for 8524 */}
-        {environment.isProduction() && (
-          <Modal
-            onClose={this.props.hideModal}
-            visible={this.shouldDisplayModal('calcYr')}
-          >
-            <h3>Yellow Ribbon</h3>
-            <p>
-              The Post-9/11 GI Bill can cover all in-state tuition and fees at
-              public degree granting schools, but may not cover all private
-              degree granting schools and out-of-state tuition. The Yellow
-              Ribbon Program provides additional support in those situations.
-              Institutions voluntarily enter into an agreement with VA to fund
-              uncovered charges. VA matches each dollar of unmet charges that
-              the institution agrees to contribute, up to the total cost of the
-              tuition and fees. For Frequently Asked Questions about the Yellow
-              Ribbon Program, visit{' '}
-              <a
-                title="Click here for FAQs about the Yellow Ribbon Program"
-                href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page.
-              </a>
-            </p>
-            <p>
-              Veterans and Fry Scholarship and Purple Heart recipients are
-              entitled to the maximum benefit rate or their designated
-              transferees can receive this funding. Active-duty service members
-              and their spouses are not eligible for this program (child
-              transferees of active-duty service members may be eligible if the
-              service member is qualified at the 100% rate). This information
-              will be updated quarterly.
-            </p>
-          </Modal>
-        )}
-
-        {/* prod flag for 8524 */}
-        {!environment.isProduction() && (
-          <Modal
-            onClose={this.props.hideModal}
-            visible={this.shouldDisplayModal('calcYr')}
-          >
-            <YellowRibbonModalContent />
-          </Modal>
-        )}
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcYr')}
+        >
+          <YellowRibbonModalContent />
+        </Modal>
 
         <Modal
           onClose={this.props.hideModal}
@@ -1095,7 +1008,9 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('giBillChapter')}
       >
-        <h3>Which GI Bill benefit do you want to use?</h3>
+        <div className="align-left">
+          <h3>Which GI Bill benefit do you want to use?</h3>
+        </div>
         <p>
           You may be eligible for multiple types of education and training
           programs. Different programs offer different benefits, so it’s
@@ -1298,7 +1213,7 @@ export class Modals extends React.Component {
             {' '}
             To learn more about caution flags,{' '}
             <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
               target="_blank"
               rel="noopener noreferrer"
             >

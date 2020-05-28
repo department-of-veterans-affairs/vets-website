@@ -59,20 +59,28 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
     },
-    isMarriageAnnulledOrVoid: {
+    reasonMarriageEnded: {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
-      'ui:title': 'Was the marriage annulled or declared void?',
-      'ui:widget': 'yesNo',
+      'ui:title': 'Reason marriage ended',
+      'ui:widget': 'radio',
       'ui:errorMessages': {
         required: 'Please select yes or no',
       },
+      'ui:options': {
+        updateSchema: () => ({
+          enumNames: ['Divorce', 'Annulment or other'],
+        }),
+      },
     },
-    explanationOfAnnullmentOrVoid: {
+    explanationOfOther: {
       'ui:title': 'Please give a brief explanation',
       'ui:required': formData =>
-        formData?.reportDivorce?.isMarriageAnnulledOrVoid,
-      'ui:options': { expandUnder: 'isMarriageAnnulledOrVoid' },
+        formData?.reportDivorce?.reasonMarriageEnded === 'Other',
+      'ui:options': {
+        expandUnder: 'reasonMarriageEnded',
+        expandUnderCondition: 'Other',
+      },
     },
   },
 };

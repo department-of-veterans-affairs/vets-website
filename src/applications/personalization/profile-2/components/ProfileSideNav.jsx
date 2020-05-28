@@ -83,7 +83,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3 }) => {
             closeSideNav(true);
           }}
         />
-        <h2 className="vads-u-font-size--h4">Profile</h2>
+        <h1 className="vads-u-font-size--h4">Your Profile</h1>
         <ul>
           {routes.map(route => {
             // Do not render route if it is not isLOA3

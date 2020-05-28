@@ -960,10 +960,10 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
       expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
-        date: tomorrowString,
-        datetime: `${tomorrowString}T14:20:00`,
+        start: `${tomorrowString}T14:20:00.000`,
+        end: `${tomorrowString}T14:40:00.000`,
+        freeBusyType: 'free',
       });
-      expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
 
       resetFetch();
     });
@@ -1151,7 +1151,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           facilities: {
@@ -1221,7 +1221,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           data: {
@@ -1284,6 +1284,12 @@ describe('VAOS newAppointment actions', () => {
               },
             ],
           },
+          availableSlots: [
+            {
+              start: '2019-01-01T04:00:00',
+              end: '2019-01-01T04:20:00',
+            },
+          ],
           data: {
             vaParent: 'var983',
             vaFacility: 'var983',
@@ -1294,7 +1300,7 @@ describe('VAOS newAppointment actions', () => {
               selectedDates: [
                 {
                   date: '2019-01-01',
-                  dateTime: '2019-01-01T04:00:00',
+                  datetime: '2019-01-01T04:00:00',
                 },
               ],
             },
@@ -1341,7 +1347,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           facilities: {
@@ -1355,12 +1361,10 @@ describe('VAOS newAppointment actions', () => {
                   },
                 ],
                 name: 'CHYSHR-Cheyenne VA Medical Center',
-                address: [
-                  {
-                    city: 'Cheyenne',
-                    state: 'WY',
-                  },
-                ],
+                address: {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
                 legacyVAR: {
                   institutionTimezone: 'America/Denver',
                 },
@@ -1402,7 +1406,8 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           flowType: FLOW_TYPES.DIRECT,
           clinics: {
-            '983_323': [
+            // eslint-disable-next-line camelcase
+            var983_323: [
               {
                 clinicId: '123',
               },
@@ -1411,7 +1416,8 @@ describe('VAOS newAppointment actions', () => {
           facilities: {
             '323_var983': [
               {
-                institutionCode: '983',
+                id: 'var983',
+                legacyVAR: {},
               },
             ],
           },
@@ -1424,7 +1430,13 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
+            },
+          ],
+          availableSlots: [
+            {
+              start: '2019-01-01T04:00:00',
+              end: '2019-01-01T04:20:00',
             },
           ],
           data: {
@@ -1437,7 +1449,7 @@ describe('VAOS newAppointment actions', () => {
               selectedDates: [
                 {
                   date: '2019-01-01',
-                  dateTime: '2019-01-01T04:00:00',
+                  datetime: '2019-01-01T04:00:00',
                 },
               ],
             },
