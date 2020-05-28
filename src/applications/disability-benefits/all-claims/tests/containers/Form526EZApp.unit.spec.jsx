@@ -8,7 +8,7 @@ import { combineReducers, createStore } from 'redux';
 import { commonReducer } from 'platform/startup/store';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import Form526Entry, { serviceRequired } from '../../Form526EZApp';
+import Form526Entry, { serviceRequired, idRequired } from '../../Form526EZApp';
 import reducers from '../../reducers';
 import {
   MVI_ADD_INITIATED,
@@ -91,11 +91,26 @@ describe('Form 526EZ Entry Page', () => {
     tree.unmount();
   });
 
-  // Logged in & verified, but missing services
+  // Logged in & verified, but missing ID
+  it('should render Missing ID page', () => {
+    const tree = testPage({
+      currentlyLoggedIn: true,
+      verified: true,
+      services: [],
+    });
+    expect(tree.find('main')).to.have.lengthOf(0);
+    expect(tree.find('AlertBox')).to.have.lengthOf(1);
+    expect(tree.find('AlertBox').text()).to.contain('BIRLS ID');
+    tree.unmount();
+  });
+
+  // Logged in & verified, but missing 526 services
   it('should render Missing services page', () => {
     const tree = testPage({
       currentlyLoggedIn: true,
       verified: true,
+      // only include 'EVSS_CLAIMS' service
+      services: [idRequired[0]],
     });
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('AlertBox')).to.have.lengthOf(1);
