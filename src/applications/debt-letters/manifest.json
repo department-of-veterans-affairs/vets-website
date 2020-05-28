@@ -1,0 +1,6 @@
+{
+  "appName": "Debt Letters",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "debt-letters",
+  "rootUrl": "/debt-letters"
+}

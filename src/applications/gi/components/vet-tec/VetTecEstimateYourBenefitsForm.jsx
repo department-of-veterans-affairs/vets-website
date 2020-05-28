@@ -16,10 +16,7 @@ import environment from 'platform/utilities/environment';
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
-    const selectedProgramName =
-      this.props.selectedProgram !== ''
-        ? this.props.selectedProgram
-        : this.props.preSelectedProgram;
+    const selectedProgramName = this.props.selectedProgram;
 
     const selectedProgram = this.props.institution.programs.filter(
       program => program.description === selectedProgramName,
@@ -29,7 +26,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       scholarships: 0,
       programName: selectedProgramName,
     };
-    this.setProgramFields(this.props.preSelectedProgram);
+    this.setProgramFields(this.props.selectedProgram);
   }
 
   getProgramByName = programName =>
@@ -206,7 +203,6 @@ VetTecEstimateYourBenefitsForm.propTypes = {
   onShowModal: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
-  preSelectedProgram: PropTypes.string,
   calculatorInputChange: PropTypes.func,
 };
 

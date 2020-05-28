@@ -510,64 +510,66 @@ describe('VAOS appointment helpers', () => {
     it('should filter future confirmed appointments', () => {
       const confirmed = [
         // appointment more than 395 days should not show
-        { startDate: '2099-04-30T05:35:00', facilityId: '984' },
+        { start: '2099-04-30T05:35:00', facilityId: '984', vaos: {} },
         // appointment less than 395 days should show
         {
-          startDate: now
+          start: now
             .clone()
             .add(394, 'days')
             .format(),
           facilityId: '984',
+          vaos: {},
         },
         // appointment 30 min ago should show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(30, 'minutes')
             .format(),
           facilityId: '984',
+          vaos: {},
         },
         // appointment more than 1 hour ago should not show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(65, 'minutes')
             .format(),
           facilityId: '984',
+          vaos: {
+            isPastAppointment: true,
+          },
         },
         // video appointment less than 4 hours ago should show
         {
-          vvsAppointments: [
-            {
-              dateTime: now
-                .clone()
-                .subtract(230, 'minutes')
-                .format(),
-            },
-          ],
-          facilityId: '984',
+          start: now
+            .clone()
+            .subtract(230, 'minutes')
+            .format(),
+          vaos: {
+            videoType: VIDEO_TYPES.videoConnect,
+          },
         },
         // video appointment more than 4 hours ago should not show
         {
-          vvsAppointments: [
-            {
-              dateTime: now
-                .clone()
-                .subtract(245, 'minutes')
-                .format(),
-            },
-          ],
-          facilityId: '984',
+          start: now
+            .clone()
+            .subtract(245, 'minutes')
+            .format(),
+          vaos: {
+            videoType: VIDEO_TYPES.videoConnect,
+            isPastAppointment: true,
+          },
         },
         // appointment with status 'NO-SHOW' should not show
         {
-          vdsAppointments: [{ currentStatus: 'NO-SHOW' }],
-          facilityId: '984',
+          description: 'NO-SHOW',
+          vaos: {},
         },
         // appointment with status 'DELETED' should not show
         {
-          vdsAppointments: [{ currentStatus: 'DELETED' }],
-          facilityId: '984',
+          description: 'DELETED',
+          vaos: {},
         },
       ];
 
@@ -580,7 +582,8 @@ describe('VAOS appointment helpers', () => {
     it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
         currentStatus => ({
-          vdsAppointments: [{ currentStatus }],
+          description: currentStatus,
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
           facilityId: '984',
         }),
       );
@@ -594,8 +597,11 @@ describe('VAOS appointment helpers', () => {
 
     it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        vvsAppointments: [{ status: { code } }],
-        facilityId: '984',
+        description: code,
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          videoType: VIDEO_TYPES.videoConnect,
+        },
       }));
 
       const filtered = hiddenAppts.filter(a =>
@@ -608,8 +614,8 @@ describe('VAOS appointment helpers', () => {
     it('should filter out past appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(
         currentStatus => ({
-          vdsAppointments: [{ currentStatus }],
-          facilityId: '984',
+          description: currentStatus,
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         }),
       );
 
@@ -620,8 +626,8 @@ describe('VAOS appointment helpers', () => {
 
     it('should filter out past video appointments with status in PAST_APPOINTMENTS_HIDDEN_SET', () => {
       const hiddenAppts = [...PAST_APPOINTMENTS_HIDDEN_SET].map(code => ({
-        vvsAppointments: [{ status: { code } }],
-        facilityId: '984',
+        description: code,
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
       }));
 
       const filtered = hiddenAppts.filter(a => filterPastAppointments(a, now));
@@ -654,14 +660,30 @@ describe('VAOS appointment helpers', () => {
             .format('MM/DD/YYYY'),
         },
         {
-          attributes: {
-            status: 'Submitted',
-            appointmentType: 'Primary Care',
-            optionDate1: now
-              .clone()
-              .add(-2, 'days')
-              .format('MM/DD/YYYY'),
-          },
+          status: 'Submitted',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .subtract(2, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
+          status: 'Submitted',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .add(13, 'months')
+            .subtract(1, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
+          status: 'Submitted',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .add(13, 'months')
+            .add(1, 'days')
+            .format('MM/DD/YYYY'),
         },
         {
           status: 'Submitted',
@@ -682,7 +704,7 @@ describe('VAOS appointment helpers', () => {
       ];
 
       const filteredRequests = requests.filter(r => filterRequests(r, now));
-      expect(filteredRequests.length).to.equal(2);
+      expect(filteredRequests.length).to.equal(3);
     });
   });
 
@@ -724,19 +746,19 @@ describe('VAOS appointment helpers', () => {
       const appointments = [
         // appointment in future should not show
         {
-          startDate: now
+          start: now
             .clone()
             .add(1, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
         // appointment before startDate should not show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(100, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
       ];
 
@@ -756,11 +778,11 @@ describe('VAOS appointment helpers', () => {
       const appointments = [
         // appointment within range should show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
       ];
 
@@ -780,35 +802,32 @@ describe('VAOS appointment helpers', () => {
       const appointments = [
         // appointment within range should show
         {
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          facilityId: '984',
+          vaos: {},
         },
         {
           facilityId: '984',
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          vdsAppointments: [
-            {
-              currentStatus: 'FUTURE',
-            },
-          ],
+          description: 'FUTURE',
+          vaos: {
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
         {
-          facilityId: '984',
-          startDate: now
+          start: now
             .clone()
             .subtract(1, 'day')
             .format(),
-          vdsAppointments: [
-            {
-              currentStatus: 'DELETED',
-            },
-          ],
+          description: 'DELETED',
+          vaos: {
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
       ];
 
@@ -829,35 +848,28 @@ describe('VAOS appointment helpers', () => {
     const appointments = [
       // appointment within range should show
       {
-        startDate: now
+        start: now
           .clone()
           .subtract(1, 'day')
           .format(),
-        facilityId: '984',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+      },
+      {
+        start: now
+          .clone()
+          .subtract(1, 'day')
+          .format(),
+        description: 'NO-SHOW',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
       },
       {
         facilityId: '984',
-        startDate: now
+        start: now
           .clone()
           .subtract(1, 'day')
           .format(),
-        vdsAppointments: [
-          {
-            currentStatus: 'NO-SHOW',
-          },
-        ],
-      },
-      {
-        facilityId: '984',
-        startDate: now
-          .clone()
-          .subtract(1, 'day')
-          .format(),
-        vdsAppointments: [
-          {
-            currentStatus: 'CHECKED IN',
-          },
-        ],
+        description: 'CHECKED IN',
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
       },
     ];
 

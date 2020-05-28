@@ -262,7 +262,7 @@ const checkProfileHousingRate = (client, housingRate) => {
 
   client
     .waitForElementVisible(housingRateId, Timeouts.normal)
-    .assert.containsText(housingRateId, `${formatCurrency(housingRate)}/mo`);
+    .assert.containsText(housingRateId, formatCurrency(housingRate));
 };
 
 /**

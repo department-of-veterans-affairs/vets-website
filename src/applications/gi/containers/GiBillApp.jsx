@@ -12,6 +12,8 @@ import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 import ServiceError from '../components/ServiceError';
+import Covid19Banner from '../components/heading/Covid19Banner';
+import environment from 'platform/utilities/environment';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
@@ -91,6 +93,7 @@ export class GiBillApp extends React.Component {
 
     return (
       <div className="gi-app">
+        {!environment.isProduction() && <Covid19Banner />}
         <div className="row">
           <div className="columns small-12">
             {preview.display && (
@@ -104,7 +107,6 @@ export class GiBillApp extends React.Component {
               facilityCode={facilityCode}
               location={this.props.location}
             />
-
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
               {constants.error ? <ServiceError /> : content}
             </DowntimeNotification>
