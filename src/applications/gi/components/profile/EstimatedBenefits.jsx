@@ -152,7 +152,7 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
         visible={outputs.totalPaidToYou.visible}
       />
     </div>
-    <hr aria-hidden="true" role="presentation" />
+    <hr aria-hidden="true" />
     {perTermSections(outputs, calculator)}
   </div>
 );
