@@ -25,8 +25,10 @@ export default function SingleSignOnInfoModal({
       </p>
       <ul>
         <li>
-          Track and manage your VA benefits and services with just one username
-          and password
+          {`Track and manage your VA ${
+            useSSOeEbenefitsLinks ? 'benefits and' : ''
+          }services with just one username
+          and password`}
         </li>
         <li>
           Access the VA sites you use most without having to sign in each time
