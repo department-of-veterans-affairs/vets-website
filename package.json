@@ -10,7 +10,6 @@
     "build:content": "node --max-old-space-size=4096 script/build-content.js",
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js --progress",
-    "cy:test:circle": "start-server-and-test watch http://localhost:3001 'cypress run --reporter junit --reporter-options \"mochaFile=test-results/e2e-test-output-[hash].xml\" --spec \"$(circleci tests glob \"src/**/tests/**/*.cypress.spec.js\" | circleci tests split --split-by=timings | paste -sd \",\" -)\"'",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
