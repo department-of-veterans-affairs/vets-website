@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import ContactInformation from '../profile/ContactInformation';
 import { formatCurrency, isPresent } from '../../utils/helpers';
 
-function VetTecApprovedProgramsList(props) {
-  const programs = props.institution.programs;
-
+function VetTecApprovedProgramsList({
+  selectedProgram,
+  institution: { programs },
+}) {
   if (programs && programs.length) {
-    const selectedProgram =
-      props.selectedProgram !== ''
-        ? props.selectedProgram
-        : props.preSelectedProgram;
     const programRows = programs.map((program, index) => {
       const programLength =
         isPresent(program.lengthInHours) && program.lengthInHours !== '0'
@@ -101,7 +98,6 @@ function VetTecApprovedProgramsList(props) {
 
 ContactInformation.propTypes = {
   institution: PropTypes.object,
-  preSelectedProgram: PropTypes.string,
   selectedProgram: PropTypes.string,
 };
 
