@@ -29,7 +29,7 @@ import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
 import AdditionalInformation from './DirectDepositInformation';
 
-import { prefixUtilityClasses } from '../../helpers';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 export const DirectDepositContent = ({
   isAuthorized,
@@ -76,7 +76,7 @@ export const DirectDepositContent = ({
       }
     },
     [
-      previousUiState,
+      previousUiState?.isSaving,
       directDepositUiState.isSaving,
       directDepositUiState.responseError,
     ],
