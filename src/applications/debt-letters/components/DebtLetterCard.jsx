@@ -1,6 +1,5 @@
 import React from 'react';
-import sortBy from 'lodash/sortBy';
-import head from 'lodash/head';
+import last from 'lodash/last';
 import moment from 'moment';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 import { deductionCodes } from '../const';
@@ -14,8 +13,7 @@ class DebtLetterCard extends React.Component {
   }
   render() {
     const { debt } = this.props;
-    const sortedHistory = sortBy(debt.debtHistory, 'date');
-    const mostRecentHistory = head(sortedHistory);
+    const mostRecentHistory = last(debt.debtHistory);
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">
@@ -41,7 +39,7 @@ class DebtLetterCard extends React.Component {
         <ExpandingGroup open={this.state.panelOpen}>
           {this.state.panelOpen && <h5>Debt History:</h5>}
           <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {sortedHistory.map((debtEntry, index) => (
+            {debt.debtHistory.map((debtEntry, index) => (
               <div
                 className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
                 key={`${debtEntry.letterCode}-${index}`}
