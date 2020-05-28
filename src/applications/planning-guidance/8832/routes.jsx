@@ -7,7 +7,7 @@ const route = {
   component: App,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
 
-  childRoutes: createRoutesWithSaveInProgress(formConfig)
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
 export default route;
