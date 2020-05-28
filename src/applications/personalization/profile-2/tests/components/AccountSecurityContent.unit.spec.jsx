@@ -98,12 +98,12 @@ describe('AccountSecurityContent', () => {
       });
     });
     describe('when `isIdentityVerified` is `false`', () => {
-      it('should pass in two rows of data', () => {
+      it('should pass in three rows of data', () => {
         props = makeDefaultProps();
         props.isIdentityVerified = false;
         wrapper = shallow(<AccountSecurityContent {...props} />);
         infoTableData = wrapper.find('ProfileInfoTable').prop('data');
-        expect(infoTableData.length).to.equal(2);
+        expect(infoTableData.length).to.equal(3);
         wrapper.unmount();
       });
     });
