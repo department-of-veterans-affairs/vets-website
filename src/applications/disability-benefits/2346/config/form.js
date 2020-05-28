@@ -1,5 +1,6 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 import React from 'react';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
@@ -54,6 +55,10 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+  },
   footerContent: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
