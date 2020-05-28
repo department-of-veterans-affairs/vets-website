@@ -41,8 +41,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
     yourMilitaryDetails: 'Your military details',
     learningFormat: 'Learning format and schedule',
   };
-  GiHelpers.yourMilitaryDetails(client, eybSections);
-  GiHelpers.learningFormat(client, eybSections);
+  GiHelpers.checkSectionAccordion(
+    client,
+    false,
+    'yourMilitaryDetails',
+    eybSections,
+  );
+  GiHelpers.checkSectionAccordion(client, true, 'learningFormat', eybSections);
   // TODO: re-enable test.
   // DeaHelpers.willBeWorking(client);
 
@@ -58,8 +63,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
   // Profile Page
-  GiHelpers.yourMilitaryDetails(client);
-  GiHelpers.schoolCostsAndCalendar(client);
+  GiHelpers.checkSectionAccordion(client, false, 'yourMilitaryDetails');
+  GiHelpers.checkSectionAccordion(client, true, 'schoolCostsAndCalendar');
   DeaHelpers.enrolledOld(client);
 
   client.end();

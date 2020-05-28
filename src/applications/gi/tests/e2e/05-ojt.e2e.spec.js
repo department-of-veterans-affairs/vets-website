@@ -45,9 +45,19 @@ module.exports = E2eHelpers.createE2eTest(client => {
     scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
   };
   GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
-  GiHelpers.yourMilitaryDetails(client, eybSections);
-  GiHelpers.learningFormat(client, eybSections);
-  GiHelpers.scholarshipsAndOtherVAFunding(client, eybSections);
+  GiHelpers.checkSectionAccordion(
+    client,
+    false,
+    'yourMilitaryDetails',
+    eybSections,
+  );
+  GiHelpers.checkSectionAccordion(client, true, 'learningFormat', eybSections);
+  GiHelpers.checkSectionAccordion(
+    client,
+    true,
+    'scholarshipsAndOtherVAFunding',
+    eybSections,
+  );
 
   // Cautionary information
   GiHelpers.collapseExpandAccordion(client, 'Cautionary information');

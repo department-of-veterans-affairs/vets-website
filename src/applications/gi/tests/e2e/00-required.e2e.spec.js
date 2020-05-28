@@ -40,10 +40,14 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Estimate your benefits
   GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
-  GiHelpers.yourMilitaryDetails(client);
-  GiHelpers.schoolCostsAndCalendar(client);
-  GiHelpers.learningFormat(client);
-  GiHelpers.scholarshipsAndOtherVAFunding(client);
+  GiHelpers.checkSectionAccordion(client, false, 'yourMilitaryDetails');
+  GiHelpers.checkSectionAccordion(client, true, 'schoolCostsAndCalendar');
+  GiHelpers.checkSectionAccordion(client, true, 'learningFormat');
+  GiHelpers.checkSectionAccordion(
+    client,
+    true,
+    'scholarshipsAndOtherVAFunding',
+  );
 
   // Veteran programs
   GiHelpers.collapseExpandAccordion(client, 'Veteran programs');

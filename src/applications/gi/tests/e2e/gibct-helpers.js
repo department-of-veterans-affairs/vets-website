@@ -227,30 +227,6 @@ const calculateBenefits = client => {
 };
 
 /**
- * This is expanded by default
- * Should NOT include question checks
- * @param client
- * @param sections defaults to all sections, allows for passing in a smaller set of sections
- */
-const yourMilitaryDetails = (client, sections = eybSections) => {
-  const id = createAccordionId(sections.yourMilitaryDetails);
-
-  client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
-  eybAccordionExpandedCheck(client, sections, sections.yourMilitaryDetails);
-};
-
-/**
- * Opens section and performs generic checks
- * Should NOT include question checks
- * @param client
- * @param sections
- */
-const schoolCostsAndCalendar = (client, sections = eybSections) => {
-  clickAccordion(client, sections.schoolCostsAndCalendar);
-  eybAccordionExpandedCheck(client, sections, sections.schoolCostsAndCalendar);
-};
-
-/**
  * Verifies Housing Rate on Desktop
  * @param client
  * @param housingRate
@@ -283,26 +259,23 @@ const enrolledOld = (client, option, housingRate) => {
  * Opens section and performs generic checks
  * Should NOT include question checks
  * @param client
+ * @param clickToOpen
+ * @param sectionName
  * @param sections
  */
-const learningFormat = (client, sections = eybSections) => {
-  clickAccordion(client, sections.learningFormat);
-  eybAccordionExpandedCheck(client, sections, sections.learningFormat);
-};
-
-/**
- * Opens section and performs generic checks
- * Should NOT include question checks
- * @param client
- * @param sections
- */
-const scholarshipsAndOtherVAFunding = (client, sections = eybSections) => {
-  clickAccordion(client, sections.scholarshipsAndOtherVAFunding);
-  eybAccordionExpandedCheck(
-    client,
-    sections,
-    sections.scholarshipsAndOtherVAFunding,
-  );
+const checkSectionAccordion = (
+  client,
+  clickToOpen,
+  sectionName,
+  sections = eybSections,
+) => {
+  if (clickToOpen) {
+    clickAccordion(client, sections[sectionName]);
+  } else {
+    const id = createAccordionId(sections[sectionName]);
+    client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
+  }
+  eybAccordionExpandedCheck(client, sections, sections[sectionName]);
 };
 
 const breadCrumb = (client, breadCrumbHref) => {
@@ -331,11 +304,8 @@ module.exports = {
   formatCurrencyHalf,
   calculatorConstants,
   calculateBenefits,
-  yourMilitaryDetails,
-  schoolCostsAndCalendar,
   checkProfileHousingRate,
   enrolledOld,
-  learningFormat,
-  scholarshipsAndOtherVAFunding,
   breadCrumb,
+  checkSectionAccordion,
 };
