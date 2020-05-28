@@ -27,12 +27,12 @@
   "rules": {
     /* || Eslint main rules || */
     "camelcase": [2, { "properties": "always" }], // Override airbnb style.
-    "func-names": 2,
+    // "func-names": 2,
     "no-console": 2,
-    "no-unused-vars": [
-      2,
-      { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
-    ],
+    // "no-unused-vars": [
+    //   2,
+    //   { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
+    // ],
     "no-restricted-imports": ["error", "raven"],
     "prefer-rest-params": 2,
 
@@ -66,10 +66,6 @@
     "react/no-danger": 2,
     "react/no-deprecated": 2,
     "react/no-direct-mutation-state": 2,
-
-    /* TODO | DISABLED TEMPORARILY */
-    "react/sort-comp": 0,
-    "jsx-a11y/label-has-for": 0,
 
     /* || sonarJS plugin || */
     "sonarjs/no-all-duplicated-branches": 2,
@@ -114,8 +110,46 @@
     /* || Unicorn plugin || */
     "unicorn/no-abusive-eslint-disable": 2,
 
-
     /* ----- TODO: evaluate and potentially turn these rules back on ----- */
+
+    /* TODO | DISABLED TEMPORARILY */
+    "max-classes-per-file": 0, //1
+    "no-buffer-constructor": 0, //13
+    "prefer-promise-reject-errors": 0, //14
+    "func-names": 0, //14
+    "no-restricted-globals": 0, //28
+    "no-else-return": 0, //41 (fixable)
+    "no-unused-vars": 0, //61
+    "prefer-object-spread": 0, //78 (fixable)
+    "lines-between-class-members": 0, //103 (fixable)
+    "prefer-destructuring": 0, //261 (fixable)
+
+    "react/jsx-fragments": 0, //2 (fixable)
+    "react/jsx-closing-tag-location": 0, //3 (fixable)
+    "react/no-typos": 0, //5
+    "react/state-in-constructor": 0, //7
+    "react/no-unused-state": 0, //15
+    "react/sort-comp": 0, //23
+    "react/default-props-match-prop-types": 0, //44
+    "react/static-property-placement": 0, //50
+    "react/jsx-wrap-multilines": 0, //60 (fixable)
+    "react/jsx-curly-brace-presence": 0, //71 (fixable)
+    "react/no-access-state-in-setstate": 0, //79
+    "react/jsx-curly-newline": 0, //95 (fixable)
+    "react/button-has-type": 0, //196
+    "react/jsx-props-no-spreading": 0, //767
+    "react/jsx-one-expression-per-line": 0, //2188 (fixable)
+    "react/destructuring-assignment": 0, //3010
+
+    "jsx-a11y/control-has-associated-label": 0, //7
+    "jsx-a11y/click-events-have-key-events": 0, //10
+    "jsx-a11y/anchor-is-valid": 0, //19
+    "jsx-a11y/label-has-associated-control": 0, //35
+
+    "import/named": 0, //2
+    "import/no-useless-path-segments": 0, //59  (fixable)
+    "import/no-cycle": 0, //105
+    "import/order": 0, //544 (fixable)
 
     /* || Eslint main rules || */
     "no-plusplus": 0,
