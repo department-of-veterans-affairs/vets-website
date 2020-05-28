@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
+import { PURPOSE_TEXT } from '../utils/constants';
 import { generateICS } from '../utils/appointment';
 
 export default function AddToCalendar({
@@ -10,10 +11,16 @@ export default function AddToCalendar({
   startDateTime,
   duration,
 }) {
+  const instructions = PURPOSE_TEXT.some(purpose =>
+    description.startsWith(purpose.short),
+  )
+    ? description
+    : '';
+
   const filename = `${summary.replace(/\s/g, '_')}.ics`;
   const text = generateICS(
     summary,
-    description,
+    instructions,
     location,
     startDateTime,
     moment(startDateTime)

@@ -11,7 +11,7 @@ describe('VAOS <AddToCalendar>', () => {
     const tree = shallow(
       <AddToCalendar
         summary="VA Appointment"
-        description="Some description"
+        description="Follow-up/Routine: some description"
         location="A location"
         duration={60}
         startDateTime={moment('2020-01-02').toDate()}
@@ -28,6 +28,12 @@ describe('VAOS <AddToCalendar>', () => {
       expect(link.props().href).to.contain(encodeURIComponent('END:VCALENDAR'));
     });
 
+    it('should contain valid ICS end command', () => {
+      expect(link.props().href).to.contain(
+        encodeURIComponent('some description'),
+      );
+    });
+
     it('should download ICS commands to a file named "VA_Appointment.ics"', () => {
       expect(link.props().download).to.equal('VA_Appointment.ics');
     });
@@ -35,6 +41,28 @@ describe('VAOS <AddToCalendar>', () => {
     it('should have an aria label', () => {
       expect(link.props()['aria-label']).to.equal(
         `Add January 2, 2020 appointment to your calendar`,
+      );
+    });
+
+    tree.unmount();
+  });
+
+  describe('Comments', () => {
+    const tree = shallow(
+      <AddToCalendar
+        summary="VA Appointment"
+        description="some description"
+        location="A location"
+        duration={60}
+        startDateTime={moment('2020-01-02').toDate()}
+      />,
+    );
+
+    const link = tree.find('a');
+
+    it('should not include description if it does not start with "Follow-up/Routine"', () => {
+      expect(link.props().href).not.to.contain(
+        encodeURIComponent('some description'),
       );
     });
 
