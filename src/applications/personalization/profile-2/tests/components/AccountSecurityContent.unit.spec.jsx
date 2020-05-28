@@ -12,6 +12,7 @@ import ProfileInfoTable from '../../components/ProfileInfoTable';
 import IdentityVerificationStatus from '../../components/IdentityVerificationStatus';
 import TwoFactorAuthorizationStatus from '../../components/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '../../components/MHVTermsAndConditionsStatus';
+import EmailAddressNotification from '../../components/EmailAddressNotification';
 
 describe('AccountSecurityContent', () => {
   let wrapper;
@@ -41,13 +42,14 @@ describe('AccountSecurityContent', () => {
       afterEach(() => {
         wrapper.unmount();
       });
-      it('should pass in three rows of data', () => {
-        expect(infoTableData.length).to.equal(3);
+      it('should pass in four rows of data', () => {
+        expect(infoTableData.length).to.equal(4);
       });
       it('should have the correct row titles', () => {
         const expectedTitles = [
           'Identity verification',
           '2-factor authentication',
+          'Sign-in email address',
           'Terms and conditions',
         ];
         infoTableData.forEach((row, rowIndex) => {
@@ -68,19 +70,23 @@ describe('AccountSecurityContent', () => {
           props.isMultifactorEnabled,
         );
       });
-      it('should pass the `mhvAccount` prop to the `MHVTermsAndConditionsStatus` component in the second row', () => {
-        const thirdRowComponent = infoTableData[2].value;
+      it('should render the `EmailAddressNotification` component in the third row', () => {
+        const secondRowComponent = infoTableData[2].value;
+        expect(secondRowComponent.type).to.equal(EmailAddressNotification);
+      });
+      it('should pass the `mhvAccount` prop to the `MHVTermsAndConditionsStatus` component in the fourth row', () => {
+        const thirdRowComponent = infoTableData[3].value;
         expect(thirdRowComponent.type).to.equal(MHVTermsAndConditionsStatus);
         expect(thirdRowComponent.props.mhvAccount).to.equal(props.mhvAccount);
       });
     });
     describe('when `showMHVTermsAndConditions` is `false`', () => {
-      it('should pass in two rows of data', () => {
+      it('should pass in three rows of data', () => {
         props = makeDefaultProps();
         props.showMHVTermsAndConditions = false;
         wrapper = shallow(<AccountSecurityContent {...props} />);
         infoTableData = wrapper.find('ProfileInfoTable').prop('data');
-        expect(infoTableData.length).to.equal(2);
+        expect(infoTableData.length).to.equal(3);
         wrapper.unmount();
       });
     });

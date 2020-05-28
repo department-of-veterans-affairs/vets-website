@@ -922,7 +922,7 @@ export const getCalculatedBenefits = createSelector(
     calculatedBenefits.outputs = {
       giBillPaysToSchool: {
         visible: true,
-        value: `${formatCurrency(derived.totalToSchool)}/yr`,
+        value: formatCurrency(derived.totalToSchool),
       },
       tuitionAndFeesCharged: {
         visible: true,
@@ -938,13 +938,11 @@ export const getCalculatedBenefits = createSelector(
       },
       housingAllowance: {
         visible: true,
-        value: `${formatCurrency(derived.housingAllowanceMonthly)}/mo`,
+        value: formatCurrency(derived.housingAllowanceMonthly),
       },
       bookStipend: {
         visible: true,
-        value: `${formatCurrency(derived.bookStipendTotal)}${
-          institutionType === 'ojt' ? '/mo' : '/yr'
-        }`,
+        value: formatCurrency(derived.bookStipendTotal),
       },
       totalPaidToYou: {
         visible: true,

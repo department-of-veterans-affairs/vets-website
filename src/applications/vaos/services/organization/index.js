@@ -50,7 +50,9 @@ export function getSiteIdFromOrganization(organization) {
  * @returns {Object} The organization data for the chosen id or its parent
  */
 export function getRootOrganization(organizations, organizationId) {
-  let organization = organizations.find(parent => parent.id === organizationId);
+  let organization = organizations?.find(
+    parent => parent.id === organizationId,
+  );
 
   if (organization?.partOf) {
     const partOfId = organization.partOf.reference.split('/')[1];

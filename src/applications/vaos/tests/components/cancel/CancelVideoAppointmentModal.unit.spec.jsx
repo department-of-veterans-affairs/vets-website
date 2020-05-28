@@ -10,9 +10,12 @@ describe('VAOS <CancelVideoAppointmentModal>', () => {
     const appointment = {};
     const facility = {
       name: 'Facility name',
-      phone: {
-        main: '234-244-4444',
-      },
+      telecom: [
+        {
+          system: 'phone',
+          value: '234-244-4444',
+        },
+      ],
     };
     const tree = mount(
       <CancelVideoAppointmentModal
@@ -32,9 +35,7 @@ describe('VAOS <CancelVideoAppointmentModal>', () => {
   });
 
   it('should close modal', () => {
-    const appointment = {
-      providerPhone: '1234567890',
-    };
+    const appointment = {};
     const onClose = sinon.spy();
     const tree = mount(
       <CancelVideoAppointmentModal

@@ -106,7 +106,7 @@ function getVistaStatus(appointment) {
  * @param {Boolean} isPastAppointment Whether or not appointment's date is before now
  * @returns {String} Appointment status
  */
-function getStatus(appointment, isPastAppointment) {
+function getStatus(appointment, isPast) {
   switch (getAppointmentType(appointment)) {
     case APPOINTMENT_TYPES.ccAppointment:
       return APPOINTMENT_STATUS.booked;
@@ -120,10 +120,8 @@ function getStatus(appointment, isPastAppointment) {
       const currentStatus = getVistaStatus(appointment);
 
       if (
-        (isPastAppointment &&
-          PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
-        (!isPastAppointment &&
-          FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
+        (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
+        (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
       ) {
         return null;
       }
@@ -162,6 +160,17 @@ function getMomentConfirmedDate(appt) {
 }
 
 /**
+ *  Determines whether current time is less than appointment time
+ *  +60 min or +240 min in the case of video
+ * @param {*} appt VAR appointment object
+ */
+export function isPastAppointment(appt, videoType) {
+  const threshold = videoType ? 240 : 60;
+  const apptDateTime = moment(getMomentConfirmedDate(appt));
+  return apptDateTime.add(threshold, 'minutes').isBefore(moment());
+}
+
+/**
  * Returns url for user to join video conference
  *
  * @param {Object} appt VAR appointment object
@@ -195,19 +204,18 @@ function getAppointmentDuration(appt) {
  */
 function setParticipant(appt) {
   if (!isVideoVisit(appt)) {
-    if (
-      isCommunityCare(appt) &&
-      !!appt.name?.firstName &&
-      !!appt.name?.lastName
-    ) {
-      return [
-        {
-          actor: {
-            reference: 'Practitioner/PRACTITIONER_ID',
-            display: `${appt.name.firstName} ${appt.name.lastName}`,
+    if (isCommunityCare(appt)) {
+      if (!!appt.name?.firstName && !!appt.name?.lastName) {
+        return [
+          {
+            actor: {
+              reference: 'Practitioner/PRACTITIONER_ID',
+              display: `${appt.name.firstName} ${appt.name.lastName}`,
+            },
           },
-        },
-      ];
+        ];
+      }
+      return null;
     }
 
     return [
@@ -241,6 +249,9 @@ function setContained(appt) {
             text: 'Patient Virtual Meeting Room',
           },
         ],
+        location: {
+          reference: `Location/var${appt.facilityId}`,
+        },
         telecom: [
           {
             system: 'url',
@@ -288,13 +299,9 @@ function setContained(appt) {
  * @returns {Object}
  */
 function setLegacyVAR(appt) {
-  if (getAppointmentType(appt) === APPOINTMENT_TYPES.vaAppointment) {
-    return {
-      facilityId: appt.facilityId,
-    };
-  }
-
-  return null;
+  return {
+    apiData: appt,
+  };
 }
 
 /**
@@ -309,12 +316,14 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => {
     const minutesDuration = getAppointmentDuration(appt);
     const start = getMomentConfirmedDate(appt).format();
-    const isPastAppointment = getMomentConfirmedDate(appt).isBefore(moment());
+    const videoType = getVideoType(appt);
+    const isPast = isPastAppointment(appt, videoType);
     const isCC = isCommunityCare(appt);
 
     return {
       resourceType: 'Appointment',
-      status: getStatus(appt, isPastAppointment),
+      id: `var${appt.id}`,
+      status: getStatus(appt, isPast),
       description: getVistaStatus(appt),
       start,
       minutesDuration,
@@ -326,10 +335,11 @@ export function transformConfirmedAppointments(appointments) {
       contained: setContained(appt),
       legacyVAR: setLegacyVAR(appt),
       vaos: {
-        isPastAppointment,
+        isPastAppointment: isPast,
         appointmentType: getAppointmentType(appt),
-        videoType: getVideoType(appt),
+        videoType,
         isCommunityCare: isCC,
+        timeZone: isCC ? appt.timeZone : null,
       },
     };
   });
