@@ -7,8 +7,8 @@ export default function addHomepageBannerListeners() {
     buttonLink.addEventListener('click', event => {
       recordEvent({
         event: 'cta-default-button-click',
-        buttonText: event.target.text
+        buttonText: event.target.text,
       });
-    })
-  })
+    });
+  });
 }
