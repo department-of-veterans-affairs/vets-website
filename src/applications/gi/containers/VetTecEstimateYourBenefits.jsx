@@ -36,8 +36,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
             displayedInputs={displayed}
             onShowModal={this.props.showModal}
             institution={this.props.institution}
-            preSelectedProgram={this.props.preSelectedProgram}
-            selectedProgram={this.props.calculator.selectedProgram}
+            selectedProgram={this.props.selectedProgram}
             handleSelectedProgram={this.handleSelectedProgram}
             calculatorInputChange={this.props.calculatorInputChange}
           />
@@ -238,7 +237,7 @@ const mapDispatchToProps = {
 VetTecEstimateYourBenefits.propTypes = {
   showModal: PropTypes.func,
   institution: PropTypes.object,
-  preSelectedProgram: PropTypes.string,
+  selectedProgram: PropTypes.string,
 };
 
 export default connect(

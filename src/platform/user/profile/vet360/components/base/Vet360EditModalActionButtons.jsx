@@ -91,10 +91,7 @@ class Vet360EditModalActionButtons extends React.Component {
         </p>
         <div>
           <LoadingButton
-            isLoading={
-              this.props.transactionRequest &&
-              this.props.transactionRequest.isPending
-            }
+            isLoading={this.props.transactionRequest?.isPending}
             onClick={this.confirmDeleteAction}
           >
             Confirm

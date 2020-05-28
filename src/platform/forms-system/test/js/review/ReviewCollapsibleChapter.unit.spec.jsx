@@ -7,6 +7,43 @@ import sinon from 'sinon';
 import ReviewCollapsibleChapter from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
+  it('should add a data-attribute with the chapterKey', () => {
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test2',
+      },
+    ];
+    const chapterKey = 'chapterX';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            properties: {},
+          },
+          uiSchema: {},
+        },
+      },
+      data: {},
+    };
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const accordion = wrapper.find('.usa-accordion-bordered');
+    expect(accordion.length).to.equal(1);
+    expect(accordion.props()['data-chapter']).to.equal('chapterX');
+    wrapper.unmount();
+  });
   it('should handle editing', () => {
     const onEdit = sinon.spy();
     const pages = [

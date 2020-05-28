@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
 
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+
 import { SERVICE_BADGE_IMAGE_PATHS } from '../constants';
-import { getServiceBranchDisplayName, prefixUtilityClasses } from '../helpers';
+import { getServiceBranchDisplayName } from '../helpers';
 
 const ProfileHeader = ({
   userFullName: { first, middle, last, suffix },

@@ -43,85 +43,44 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
-          // appointment more than 395 days should not show
-          { startDate: '2099-04-30T05:35:00', facilityId: '984' },
-          // appointment less than 395 days should show
           {
-            startDate: moment()
+            start: moment()
               .clone()
-              .add(394, 'days')
+              .add(60, 'days')
               .format(),
             facilityId: '984',
+            vaos: {},
           },
-          // appointment more than 1 hour ago should not show
           {
-            startDate: moment()
-              .subtract(65, 'minutes')
+            start: moment()
+              .clone()
+              .add(390, 'days')
               .format(),
-          },
-          // appointment 30 min ago should show
-          {
-            startDate: moment()
-              .subtract(30, 'minutes')
-              .format(),
-          },
-          // video appointment less than 4 hours ago should show
-          {
-            vvsAppointments: [
-              {
-                dateTime: moment()
-                  .subtract(230, 'minutes')
-                  .format(),
-              },
-            ],
-          },
-          // video appointment more than 4 hours ago should not show
-          {
-            vvsAppointments: [
-              {
-                dateTime: moment()
-                  .subtract(245, 'minutes')
-                  .format(),
-              },
-            ],
-          },
-          // Cancelled should not show
-          {
-            vdsAppointments: [
-              {
-                currentStatus: 'CANCELLED BY CLINIC',
-              },
-            ],
-          },
-        ],
-        [
-          // CC appointment scheduled less than 395 days into the future should show
-          {
-            appointmentTime: moment()
-              .add(394, 'days')
-              .format('MM/DD/YYYY HH:mm:ss'),
-            timeZone: 'UTC',
-            appointmentRequestId: '1',
-          },
-          // CC appointment scheduled more than 395 days into the future not should show
-          {
-            appointmentTime: '05/29/2099 05:30:00',
-            timeZone: 'UTC',
-            appointmentRequestId: '1',
+            facilityId: '984',
+            vaos: {},
           },
         ],
         // pending appointments will show
-        [{ optionDate1: '05/29/2099' }],
+        [
+          {
+            status: 'Submitted',
+            appointmentType: 'Primary Care',
+            optionDate1: moment()
+              .add(2, 'days')
+              .format('MM/DD/YYYY'),
+          },
+        ],
       ],
       today: moment(),
     };
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(5);
+    // console.log(newState.future);
+    expect(newState.future.length).to.equal(3);
     expect(
-      newState.future[0].appointmentDate.isBefore(
-        newState.future[1].appointmentDate,
+      moment(newState.future[0].start).isBefore(
+        moment(newState.future[1].start),
       ),
     ).to.be.true;
   });
@@ -155,65 +114,41 @@ describe('VAOS reducer: appointments', () => {
       endDate: moment().format(),
       selectedIndex: 1,
       data: [
-        [
-          {
-            startDate: '2019-04-30T05:35:00',
-            facilityId: '984',
-            clinicId: '123',
-          },
-          // appointment before start date should not show
-          {
-            startDate: '2017-04-30T05:35:00',
-            facilityId: '984',
-            clinicId: '123',
-          },
-          // appointment 1 hour in the future should not show
-          {
-            startDate: moment()
-              .add(650, 'minutes')
-              .format(),
-            clinicId: '123',
-          },
-          // appointment 30 min ago should show
-          {
-            startDate: moment()
-              .subtract(30, 'minutes')
-              .format(),
-            clinicId: '123',
-          },
-          // Cancelled should show
-          {
-            startDate: moment()
-              .subtract(20, 'minutes')
-              .format(),
-            clinicId: '123',
-            vdsAppointments: [
-              {
-                currentStatus: 'CANCELLED BY CLINIC',
-              },
-            ],
-          },
-        ],
-        [
-          {
-            id: '8a4885896a22f88f016a2c8834b1005d',
-            appointmentRequestId: '8a4885896a22f88f016a2c8834b1005d',
-            distanceEligibleConfirmed: true,
-            name: { firstName: '', lastName: '' },
-            providerPractice: 'Atlantic Medical Care',
-            providerPhone: '(407) 555-1212',
-            address: {
-              street: '123 Main Street',
-              city: 'Orlando',
-              state: 'FL',
-              zipCode: '32826',
-            },
-            instructionsToVeteran:
-              'Please arrive 15 minutes ahead of appointment.',
-            appointmentTime: '09/25/2019 03:45:00',
-            timeZone: '+08:00 WITA',
-          },
-        ],
+        {
+          start: '2019-04-30T05:35:00',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        {
+          start: '2019-04-30T05:35:00',
+          vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
+        },
+        // appointment before start date should not show
+        {
+          start: '2017-04-30T05:35:00',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        // appointment 1 hour in the future should not show
+        {
+          start: moment()
+            .add(650, 'minutes')
+            .format(),
+          vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
+        },
+        // appointment 30 min ago should show
+        {
+          start: moment()
+            .subtract(30, 'minutes')
+            .format(),
+          vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
+        },
+        // Cancelled should show
+        {
+          start: moment()
+            .subtract(20, 'minutes')
+            .format(),
+          description: 'CANCELLED BY CLINIC',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
       ],
       today: moment(),
     };
@@ -222,9 +157,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(4);
     expect(
-      newState.past[0].appointmentDate.isAfter(
-        newState.past[1].appointmentDate,
-      ),
+      moment(newState.past[0].start).isAfter(moment(newState.past[1].start)),
     ).to.be.true;
   });
 
@@ -260,14 +193,14 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          uniqueId: '442',
+          id: 'var442',
         },
       ],
       clinicInstitutionList: null,
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
+    expect(newState.facilityData.var442).to.equal(action.facilityData[0]);
   });
 
   it('should set clinic mapping data when fetch succeeds', () => {
@@ -275,7 +208,7 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
         {
-          uniqueId: '442GA',
+          id: 'var442GA',
         },
       ],
       clinicInstitutionList: [
@@ -323,10 +256,13 @@ describe('VAOS reducer: appointments', () => {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       };
       const appt = {
-        appointmentType: APPOINTMENT_TYPES.vaAppointment,
-        clinicId: '123',
-        status: APPOINTMENT_STATUS.booked,
-        apiData: {},
+        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        legacyVAR: {
+          apiData: { vdsAppointments: [{}] },
+          clinicId: '123',
+        },
+
+        description: APPOINTMENT_STATUS.booked,
       };
       const state = {
         ...initialState,
@@ -339,7 +275,7 @@ describe('VAOS reducer: appointments', () => {
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
       expect(newState.future[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
       expect(
-        newState.future[0].apiData.vdsAppointments[0].currentStatus,
+        newState.future[0].legacyVAR.apiData.vdsAppointments[0].currentStatus,
       ).to.equal('CANCELLED BY PATIENT');
     });
 
