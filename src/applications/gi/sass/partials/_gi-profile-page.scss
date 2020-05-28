@@ -390,6 +390,15 @@
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .eyb-sheet {
+      transition: none;
+      &.open {
+        transition: none;
+      }
+    }
+  }
+
   .overlay {
     display: flex;
     flex-direction: column;

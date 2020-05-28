@@ -144,6 +144,7 @@ export class EstimateYourBenefits extends React.Component {
             <EstimateYourBenefitsSummarySheet
               outputs={outputs}
               expandEybSheet={this.state.expandEybSheet}
+              showEybSheet={this.state.showEybSheet}
               toggleEybExpansion={() => this.toggleEybExpansion()}
               type={this.props.calculator.type}
               yellowRibbon={
