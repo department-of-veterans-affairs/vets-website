@@ -388,10 +388,7 @@
       -webkit-transition-delay: 0s;
       transition-delay: 0s;
     }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .eyb-sheet {
+    @media (prefers-reduced-motion: reduce) {
       transition: none;
       &.open {
         transition: none;
