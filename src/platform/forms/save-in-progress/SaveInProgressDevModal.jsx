@@ -93,11 +93,12 @@ const SipsDevModal = props => {
           </div>
         </>
       </Modal>{' '}
-      <button
-        type="button"
-        className="va-button-link vads-u-color--gray-medium"
-        onClick={openSipsModal}
-      >
+      <button type="button" className="va-button-link" onClick={openSipsModal}>
+        <i
+          aria-hidden="true"
+          className="fas fa-cog vads-upadding-right--1"
+          role="img"
+        />
         Open save-in-progress menu
       </button>
     </>
