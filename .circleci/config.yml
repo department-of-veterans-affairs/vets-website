@@ -135,7 +135,9 @@ jobs:
             - project/build
             - project/src
             - project/package.json
+            - project/yarn.lock
             - project/test-results
+            - project/script/run-cypress-tests-circle.sh
             - .cache/Cypress
 
   eslint-check:
