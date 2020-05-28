@@ -50,7 +50,7 @@ const formConfig = {
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
         },
-        vereranOptional: {
+        veteranOptional: {
           path: 'optional-information',
           title: 'Serivce member or Veteran information',
           uiSchema: veteranOptionalInformation.uiSchema,
