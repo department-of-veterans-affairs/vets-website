@@ -1,22 +1,13 @@
 import recordEvent from 'platform/monitoring/record-event';
-import { isAnchor } from './utilities';
 
 export default function addHomepageBannerListeners() {
-  const container = document.querySelector('main');
+  const buttonLinks = document.querySelectorAll('a.usa-button');
 
-  if (!container) return;
-
-  container.addEventListener('click', event => {
-    if (!isAnchor(event.target)) {
-      return;
-    }
-
-    if (event.target.classList?.contains('usa-button')) {
-      event.preventDefault();
-      recordEvent({
-        event: 'cta-default-button-click',
-        buttonText: event.target.text
-      });
-    }
+  buttonLinks.addEventListener('click', event => {
+    event.preventDefault();
+    recordEvent({
+      event: 'cta-default-button-click',
+      buttonText: event.target.text
+    });
   });
 }
