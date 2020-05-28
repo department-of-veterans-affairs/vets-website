@@ -8,7 +8,6 @@ let mockQuestion;
 let mockFormState;
 let mockSetFormState;
 let mockScrollNext;
-let mockResultSubmitted;
 let mockSetResultSubmittedState;
 
 beforeEach(() => {
@@ -19,7 +18,6 @@ beforeEach(() => {
   mockFormState = {};
   mockSetFormState = () => {};
   mockScrollNext = () => {};
-  mockResultSubmitted = {};
   mockSetResultSubmittedState = () => {};
 });
 
@@ -32,6 +30,7 @@ describe('coronavirus-screener', () => {
           formState={mockFormState}
           setFormState={mockSetFormState}
           scrollNext={mockScrollNext}
+          setResultSubmittedState={mockSetResultSubmittedState}
         />,
       );
       expect(wrapper.find('h2').text()).to.equal(mockQuestion.text);
@@ -44,6 +43,7 @@ describe('coronavirus-screener', () => {
           formState={mockFormState}
           setFormState={mockSetFormState}
           scrollNext={mockScrollNext}
+          setResultSubmittedState={mockSetResultSubmittedState}
         />,
       );
       expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(2);
@@ -60,6 +60,7 @@ describe('coronavirus-screener', () => {
           formState={mockFormState}
           setFormState={mockSetFormState}
           scrollNext={mockScrollNext}
+          setResultSubmittedState={mockSetResultSubmittedState}
         />,
       );
       expect(wrapper.find('.usa-button')).to.have.lengthOf(1);
@@ -78,7 +79,6 @@ describe('coronavirus-screener', () => {
           question={mockQuestion}
           formState={mockFormState}
           setFormState={setFormStateSpy}
-          resultSubmitted={mockResultSubmitted}
           setResultSubmittedState={mockSetResultSubmittedState}
           scrollNext={mockScrollNext}
         />,
