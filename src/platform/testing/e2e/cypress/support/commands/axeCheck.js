@@ -32,7 +32,11 @@ const processAxeCheckResults = violations => {
  *   If false, tests will skip over violations and continue running.
  */
 Cypress.Commands.add('axeCheck', (assert = true) => {
-  Cypress.log({ name: 'axeCheck' });
+  Cypress.log({
+    name: 'axeCheck',
+    message: '',
+    consoleProps: () => ({ 'Fail test on violations': assert }),
+  });
 
   cy.checkA11y(
     '.main',
