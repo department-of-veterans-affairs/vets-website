@@ -15,11 +15,13 @@ export class BenefitsForm extends React.Component {
     eligibilityChange: PropTypes.func,
     showHeader: PropTypes.bool,
     handleInputFocus: PropTypes.func,
+    giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
   };
 
   static defaultProps = {
     showGbBenefit: false,
     showHeader: false,
+    giBillChapterOpen: [],
   };
 
   cumulativeServiceOptions = () => [
@@ -88,9 +90,8 @@ export class BenefitsForm extends React.Component {
         </ExpandingGroup>
         <ExpandingGroup
           open={
-            this.props.giBillChapter === '31' ||
-            this.props.giBillChapter === '33' ||
-            this.props.giBillChapter === '30'
+            ['30', '31', '33'].includes(this.props.giBillChapter) ||
+            this.props.giBillChapterOpen.includes(true)
           }
         >
           <Dropdown

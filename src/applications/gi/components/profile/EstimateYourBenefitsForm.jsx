@@ -200,6 +200,10 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  /**
+   * Expands "Your benefits" section and collapses other sections
+   * @param expanded
+   */
   toggleYourBenefits = expanded => {
     this.setState({
       ...this.state,
@@ -217,6 +221,10 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Expands "About your school" section and collapses other sections
+   * @param expanded
+   */
   toggleAboutYourSchool = expanded => {
     this.setState({
       ...this.state,
@@ -232,6 +240,10 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Expands "Learning format and schedule" section and collapses other sections
+   * @param expanded
+   */
   toggleLearningFormatAndSchedule = expanded => {
     this.setState({
       ...this.state,
@@ -247,6 +259,10 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Expands "Scholarships and other funding" section and collapses other sections
+   * @param expanded
+   */
   toggleScholarshipsAndOtherFunding = expanded => {
     this.setState({
       ...this.state,
@@ -262,6 +278,13 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Renders a learn more label with common props for this component being set
+   * @param text
+   * @param modal
+   * @param ariaLabel
+   * @returns {*}
+   */
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
@@ -271,27 +294,42 @@ class EstimateYourBenefitsForm extends React.Component {
       component: this,
     });
 
+  /**
+   * Displays question related to in-state
+   * to display inState institutionType needs to be PUBLIC
+   * to display tuition institutionType needs to not be OJT
+   * @returns {null|*}
+   */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
     return (
-      <RadioButtons
-        label="Are you an in-state student?"
-        name="inState"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
-        value={this.props.inputs.inState}
-        onChange={this.handleInputChange}
-        onFocus={this.handleEYBInputFocus}
-      />
+      <ExpandingGroup
+        open={
+          this.props.displayedInputs.tuition &&
+          this.props.inputs.inState === 'no'
+        }
+      >
+        <RadioButtons
+          label="Are you an in-state student?"
+          name="inState"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.inState}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
+        />
+        {this.renderInStateTuition()}
+      </ExpandingGroup>
     );
   };
 
+  /**
+   * Displays question about how a much an institution's in-state tuition is
+   * @returns {*}
+   */
   renderInStateTuition = () => {
-    if (
-      !this.props.displayedInputs.tuition &&
-      this.props.inputs.inState === 'yes'
-    )
-      return null;
-
     const inStateTuitionFeesId = 'inStateTuitionFees';
     const inStateFieldId = `${inStateTuitionFeesId}-fields`;
     return (
@@ -683,7 +721,7 @@ class EstimateYourBenefitsForm extends React.Component {
     const { profile, inputs } = this.props;
     const extensions = this.getExtensions();
 
-    let amountInput;
+    let zipcodeInput;
     let internationalCheckbox;
     let extensionSelector;
     let zipcodeLocation;
@@ -744,7 +782,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ? "If you're taking classes in the U.S., enter the location's postal code"
           : "Please enter the postal code where you'll take your classes";
 
-        amountInput = (
+        zipcodeInput = (
           <div name="beneficiary-zip-question">
             <ErrorableTextInput
               autoFocus
@@ -805,7 +843,7 @@ class EstimateYourBenefitsForm extends React.Component {
         />
         <div>
           {extensionSelector}
-          {amountInput}
+          {zipcodeInput}
           {zipcodeLocation}
           {internationalCheckbox}
         </div>
@@ -918,6 +956,11 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  /**
+   * Renders the "Your benefits" section
+   * this.props.displayedInputs?.giBillBenefit is true when selecting chapter 33 for giBillChapter
+   * @returns {*}
+   */
   renderYourBenefits = () => {
     const name = 'Your benefits';
     return (
@@ -938,6 +981,7 @@ class EstimateYourBenefitsForm extends React.Component {
             displayedInputs={this.props.displayedInputs}
             onInputChange={this.props.calculatorInputChange}
             handleInputFocus={this.handleEYBInputFocus}
+            giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
@@ -946,6 +990,11 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  /**
+   * Renders the "About your school" section
+   * If all relevant displayedInputs are false then section is not rendered
+   * @returns {null|*}
+   */
   renderAboutYourSchool = () => {
     const {
       inState,
@@ -970,10 +1019,7 @@ class EstimateYourBenefitsForm extends React.Component {
         onClick={this.toggleAboutYourSchool}
       >
         <div className="calculator-form">
-          <ExpandingGroup open={tuition && this.props.inputs.inState === 'no'}>
-            {this.renderInState()}
-            {this.renderInStateTuition()}
-          </ExpandingGroup>
+          {this.renderInState()}
           {this.renderTuition()}
           {this.renderBooks()}
           {this.renderCalendar()}
@@ -983,6 +1029,10 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  /**
+   * Renders "Learning format and schedule" section
+   * @returns {*}
+   */
   renderLearningFormatAndSchedule = () => {
     const name = 'Learning format and schedule';
     return (
@@ -1002,6 +1052,11 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  /**
+   * Renders "Scholarships and other funding" section
+   * If all relevant displayedInputs are false then section is not rendered
+   * @returns {null|*}
+   */
   renderScholarshipsAndOtherFunding = () => {
     const {
       yellowRibbon,
