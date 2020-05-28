@@ -63,6 +63,13 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
+  it('should add query params for "to" if "application" is present', () => {
+    login('idme', 'v1', 'someApplication', '/path/to/app');
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?application=someApplication&to=%2Fpath%2Fto%2Fapp',
+    );
+  });
+
   it('should redirect for login v1 with application', () => {
     login('idme', 'v1', 'my-app');
     expect(global.window.location).to.include(

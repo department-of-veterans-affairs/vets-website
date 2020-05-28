@@ -269,6 +269,20 @@ describe('selectors', () => {
       );
     });
   });
+
+  describe('selectAddressValidationType', () => {
+    beforeEach(hooks.beforeEach);
+    it('should return the current address validation type', () => {
+      const addressValidationType = 'home';
+      state.vet360.addressValidation = {
+        addressValidationType,
+      };
+
+      expect(selectors.selectAddressValidationType(state)).to.be.equal(
+        addressValidationType,
+      );
+    });
+  });
 });
 
 describe('selectVet360InitializationStatus', () => {

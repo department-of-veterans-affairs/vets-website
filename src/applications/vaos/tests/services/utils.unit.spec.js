@@ -1,6 +1,13 @@
 import { expect } from 'chai';
 
-import { mapToFHIRErrors } from '../../utils/fhir';
+import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
+import mockData from '../../services/organization/mock.json';
 
 describe('VAOS FHIR utils', () => {
   describe('mapToFHIRError', () => {
@@ -31,6 +38,20 @@ describe('VAOS FHIR utils', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('fhirSearch', () => {
+    it('should search a FHIR resource and return results', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, mockData);
+      const results = await fhirSearch({ query: 'Organization?id=test' });
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/vaos/v1/Organization?id=test',
+      );
+      expect(results.length).to.equal(2);
+      expect(results[0].resourceType).to.equal('Organization');
+      resetFetch();
     });
   });
 });

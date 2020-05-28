@@ -2,16 +2,19 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import Email from 'vet360/components/VAPEmail';
+
 import ProfileInfoTable from '../ProfileInfoTable';
 
 const EmailInformationSection = ({ className }) => (
   <div className={className}>
     <ProfileInfoTable
       title="Email address"
+      fieldName="emailAddress"
       data={[
         {
           title: 'Email address',
-          value: 'kimwashington@yahoo.com',
+          value: <Email />,
         },
       ]}
       list
