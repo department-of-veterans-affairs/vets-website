@@ -17,9 +17,9 @@ describe('VAOS Slot service', () => {
       setFetchJSONResponse(global.fetch, slots);
 
       data = await getSlots({
-        vistaFacilityId: '983',
-        vistaTypeOfCareId: '323',
-        vistaClinicId: '308',
+        siteId: 'var983',
+        typeOfCareId: '323',
+        clinicId: '308',
         startDate: '2020-05-01',
         endDate: '2020-06-30',
       });
@@ -27,7 +27,7 @@ describe('VAOS Slot service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/v0/facilities/983/available_appointments?type_of_care_id=323&clinic_ids[]=308&start_date=2020-05-01&end_date=2020-06-30',
       );
-      expect(data[0].start).to.equal('2020-02-06T21:00:00Z');
+      expect(data[0].start).to.equal('2020-02-06T14:00:00.000');
     });
 
     it('should return OperationOutcome error', async () => {
@@ -39,9 +39,9 @@ describe('VAOS Slot service', () => {
       let error;
       try {
         data = await getSlots({
-          vistaFacilityId: '983',
-          vistaTypeOfCareId: '323',
-          vistaClinicId: '308',
+          siteId: 'var983',
+          typeOfCareId: '323',
+          clinicId: '308',
           startDate: '2020-05-01',
           endDate: '2020-06-30',
         });

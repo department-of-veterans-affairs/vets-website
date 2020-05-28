@@ -8,35 +8,17 @@ import NoValidVAFacilities from '../../components/NoValidVAFacilities';
 const parentDetails = {
   name: 'Cheyenne VA Medical Center',
   address: {
-    physical: {
-      zip: '82001-5356',
-      city: 'Cheyenne',
-      state: 'WY',
-      address1: '2360 East Pershing Boulevard',
-      address2: null,
-      address3: null,
+    postalCode: '82001-5356',
+    city: 'Cheyenne',
+    state: 'WY',
+    line: ['2360 East Pershing Boulevard'],
+  },
+  telecom: [
+    {
+      system: 'phone',
+      value: '307-778-7550',
     },
-  },
-  phone: {
-    fax: '307-778-7381',
-    main: '307-778-7550',
-    pharmacy: '866-420-6337',
-    afterHours: '307-778-7550',
-    patientAdvocate: '307-778-7550 x7517',
-    mentalHealthClinic: '307-778-7349',
-    enrollmentCoordinator: '307-778-7550 x7579',
-  },
-  hours: {
-    monday: '24/7',
-    tuesday: '24/7',
-    wednesday: '24/7',
-    thursday: '24/7',
-    friday: '24/7',
-    saturday: '24/7',
-    sunday: '24/7',
-  },
-  lat: 41.1457280000001,
-  long: -104.7895949,
+  ],
 };
 
 describe('VAOS <NoValidVAFacilities>', () => {
@@ -82,8 +64,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
 
     expect(tree.text()).to.contain('Cheyenne VA Medical Center');
     expect(tree.text()).to.contain('307-778-7550');
-    expect(tree.text()).to.contain('24/7');
-    expect(tree.find('a').length).to.equal(3);
+    expect(tree.find('a').length).to.equal(2);
     tree.unmount();
   });
 

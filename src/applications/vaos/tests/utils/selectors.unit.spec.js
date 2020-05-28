@@ -21,7 +21,11 @@ import {
 } from '../../utils/selectors';
 
 import { selectIsCernerOnlyPatient } from 'platform/user/selectors';
-import { VHA_FHIR_ID } from '../../utils/constants';
+import {
+  VHA_FHIR_ID,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 
 describe('VAOS selectors', () => {
   describe('getNewAppointment', () => {
@@ -346,12 +350,12 @@ describe('VAOS selectors', () => {
     it('should return available dates data and timezone', () => {
       const availableSlots = [
         {
-          date: '2019-10-24',
-          datetime: '2019-10-24T09:00:00-07:00',
+          start: '2019-10-24T09:00:00',
+          end: '2019-10-24T09:20:00',
         },
         {
-          date: '2019-10-24',
-          datetime: '2019-10-24T09:30:00-07:00',
+          start: '2019-10-24T09:30:00',
+          end: '2019-10-24T09:50:00',
         },
       ];
 
@@ -448,7 +452,7 @@ describe('VAOS selectors', () => {
             },
           },
           facilityData: {
-            123: {},
+            var123: {},
           },
         },
       };
@@ -456,7 +460,7 @@ describe('VAOS selectors', () => {
       const cancelInfo = getCancelInfo(state);
 
       expect(cancelInfo.facility).to.equal(
-        state.appointments.facilityData['123'],
+        state.appointments.facilityData.var123,
       );
     });
     it('should fetch facility from clinic map', () => {
@@ -468,8 +472,22 @@ describe('VAOS selectors', () => {
         },
         appointments: {
           appointmentToCancel: {
-            facilityId: '123',
-            clinicId: '456',
+            status: 'booked',
+            vaos: {
+              appointmentType: APPOINTMENT_TYPES.vaAppointment,
+              videoType: null,
+            },
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var123_456',
+                  display: 'Test',
+                },
+              },
+            ],
+          },
+          facilityData: {
+            var123: {},
           },
           systemClinicToFacilityMap: {
             '123_456': {},
@@ -481,6 +499,40 @@ describe('VAOS selectors', () => {
 
       expect(cancelInfo.facility).to.equal(
         state.appointments.systemClinicToFacilityMap['123_456'],
+      );
+    });
+    it('should fetch facility from video appointment', () => {
+      const state = {
+        user: {
+          profile: {
+            facilities: [{ facilityId: '123', isCerner: true }],
+          },
+        },
+        appointments: {
+          appointmentToCancel: {
+            status: 'booked',
+            vaos: {
+              appointmentType: APPOINTMENT_TYPES.vaAppointment,
+              videoType: VIDEO_TYPES.videoConnect,
+            },
+            contained: [
+              {
+                location: {
+                  reference: 'Location/var123',
+                },
+              },
+            ],
+          },
+          facilityData: {
+            var123: {},
+          },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.facilityData.var123,
       );
     });
   });
