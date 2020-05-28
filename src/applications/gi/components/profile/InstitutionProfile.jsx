@@ -22,6 +22,7 @@ export class InstitutionProfile extends React.Component {
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
     eduSection103: PropTypes.bool,
+    gibctEybBottomSheet: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -41,6 +42,7 @@ export class InstitutionProfile extends React.Component {
       showModal,
       eduSection103,
       gibctEstimateYourBenefits,
+      gibctEybBottomSheet,
     } = this.props;
     return (
       <div>
@@ -53,7 +55,9 @@ export class InstitutionProfile extends React.Component {
           <ul>
             <AccordionItem button="Estimate your benefits">
               {gibctEstimateYourBenefits ? (
-                <EstimateYourBenefits />
+                <EstimateYourBenefits
+                  gibctEybBottomSheet={gibctEybBottomSheet}
+                />
               ) : (
                 <Calculator />
               )}
