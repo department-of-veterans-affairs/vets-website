@@ -1,11 +1,14 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 export default function FormQuestion({
   question,
   formState,
   setFormState,
+  resultSubmitted,
+  setResultSubmittedState,
   scrollNext,
 }) {
   function handleChange(event) {
@@ -13,6 +16,11 @@ export default function FormQuestion({
       recordEvent({
         event: 'covid-screening-tool-start',
         'screening-tool-question': question.id,
+      });
+      // starts duration timer for GA
+      setResultSubmittedState({
+        ...resultSubmitted,
+        startTime: moment().unix(),
       });
     }
     // sets the current question value in form state

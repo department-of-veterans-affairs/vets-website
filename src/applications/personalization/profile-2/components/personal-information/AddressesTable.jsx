@@ -5,10 +5,9 @@ import { selectVet360Field } from 'platform/user/profile/vet360/selectors';
 
 import AddressView from 'platform/user/profile/vet360/components/AddressField/AddressView';
 import { FIELD_NAMES } from 'platform/user/profile/vet360/constants';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 import ProfileInfoTable from '../ProfileInfoTable';
-
-import { prefixUtilityClasses } from '../../helpers';
 
 const ContactInfoCell = props => {
   const { value } = props;

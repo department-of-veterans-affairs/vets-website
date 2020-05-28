@@ -1213,7 +1213,7 @@ export class Modals extends React.Component {
             {' '}
             To learn more about caution flags,{' '}
             <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -3,6 +3,7 @@
     "id": "vha_983",
     "type": "va_facilities",
     "attributes": {
+      "uniqueId": "983",
       "name": "Cheyenne VA Medical Center",
       "address": {
         "physical": {
@@ -25,11 +26,11 @@
       },
       "hours": {
         "monday": "24/7",
-        "tuesday": "24/7",
-        "wednesday": "24/7",
-        "thursday": "24/7",
-        "friday": "24/7",
-        "saturday": "24/7",
+        "tuesday": "Sunrise - Sunset",
+        "wednesday": "9AM-5PM",
+        "thursday": "Closed",
+        "friday": "-",
+        "saturday": "By appointment only",
         "sunday": "24/7"
       },
       "lat": 41.1457280000001,

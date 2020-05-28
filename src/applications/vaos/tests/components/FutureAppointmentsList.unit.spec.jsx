@@ -67,12 +67,18 @@ describe('VAOS <FutureAppointmentsList>', () => {
           appointmentType: APPOINTMENT_TYPES.ccRequest,
         },
         {
-          appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          facilityId: '983',
-          clinicId: '455',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          participant: [
+            {
+              actor: {
+                reference: 'HealthcareService/var983_455',
+                display: 'CHY OPT VAR1',
+              },
+            },
+          ],
         },
         {
-          appointmentType: APPOINTMENT_TYPES.ccAppointment,
+          vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
         },
       ],
       systemClinicToFacilityMap: {

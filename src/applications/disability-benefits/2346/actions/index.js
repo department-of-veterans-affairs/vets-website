@@ -56,21 +56,19 @@ export const fetchFormStatus = () => async dispatch => {
       }
       const eligibility = body.formData.eligibility;
 
-      if (eligibility) {
-        if (!eligibility.accessories && !eligibility.batteries) {
-          const sortedSuppliesByAvailability = sortBy(
-            body.formData.supplies,
-            'nextAvailabilityDate',
-          );
-          const firstSupplyInSupplies = head(sortedSuppliesByAvailability);
-          const nextAvailabilityDate = get(
-            firstSupplyInSupplies,
-            'nextAvailabilityDate',
-          );
-          return dispatch(
-            handleError('MDOT_SUPPLIES_INELIGIBLE', nextAvailabilityDate),
-          );
-        }
+      if (eligibility && !eligibility.accessories && !eligibility.batteries) {
+        const sortedSuppliesByAvailability = sortBy(
+          body.formData.supplies,
+          'nextAvailabilityDate',
+        );
+        const firstSupplyInSupplies = head(sortedSuppliesByAvailability);
+        const nextAvailabilityDate = get(
+          firstSupplyInSupplies,
+          'nextAvailabilityDate',
+        );
+        return dispatch(
+          handleError('MDOT_SUPPLIES_INELIGIBLE', nextAvailabilityDate),
+        );
       }
       return dispatch(resetError());
     });

@@ -43,12 +43,13 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     };
     const facilityDetails = {
       name: 'Test name',
-      address: {
-        physical: {},
-      },
-      phone: {
-        main: '213131231',
-      },
+      address: {},
+      telecom: [
+        {
+          system: 'phone',
+          value: '213131231',
+        },
+      ],
     };
 
     const tree = mount(
