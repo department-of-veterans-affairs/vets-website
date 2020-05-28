@@ -3,7 +3,6 @@ import sortBy from 'lodash/sortBy';
 import head from 'lodash/head';
 import moment from 'moment';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { deductionCodes } from '../const';
 
 class DebtLetterCard extends React.Component {
@@ -18,8 +17,8 @@ class DebtLetterCard extends React.Component {
     const sortedHistory = sortBy(debt.debtHistory, 'date');
     const mostRecentHistory = head(sortedHistory);
     return (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--1 vads-u-margin-bottom--1">
-        <h4 className="vads-u-margin-bottom--0">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--1">
+        <h4 className="vads-u-margin--0">
           {deductionCodes[debt.deductionCode]}
         </h4>
         <p>

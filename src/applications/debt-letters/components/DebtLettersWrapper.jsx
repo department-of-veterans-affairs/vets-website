@@ -19,7 +19,7 @@ class DebtLettersWrapper extends Component {
           <a href="/">Home</a>
           <a href="/debt-letters">Debt Letters</a>
         </Breadcrumbs>
-        <div className="usa-grid usa-grid-full vads-u-margin-bottom--2">
+        <div className="usa-grid usa-grid-full vads-u-margin-bottom--4">
           <div className="usa-content usa-width-three-fourths">
             <CallToActionWidget appId="debt-letters">
               {isPending && <LoadingIndicator />}
