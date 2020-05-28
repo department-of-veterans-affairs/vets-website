@@ -127,6 +127,8 @@ const processPage = () => {
 
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
+      cy.expandAccordions(); // Expand all the chapters.
+
       // Run any page hooks for the review page, followed by an aXe check.
       cy.execHook(pathname).then(hookExecuted => {
         if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
@@ -148,6 +150,7 @@ const processPage = () => {
       // Run the aXe check after either running the hook or filling the page.
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
+        cy.expandAccordions();
         cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
       });
 
