@@ -1,6 +1,6 @@
-import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import React from 'react';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 
 const IntroductionPage = props => (
@@ -15,6 +15,7 @@ const IntroductionPage = props => (
       verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
       unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
       startText="Order hearing aid batteries and accessories"
+      downtime={props.route.formConfig.downtime}
     >
       Please complete the 2346 form to apply for ordering hearing aid batteries
       and accessories.
@@ -92,6 +93,7 @@ const IntroductionPage = props => (
       messages={props.route.formConfig.savedFormMessages}
       pageList={props.route.pageList}
       startText="Order hearing aid batteries and accessories"
+      downtime={props.route.formConfig.downtime}
     />
   </div>
 );
