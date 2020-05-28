@@ -44,17 +44,13 @@ export const MissingId = ({ children }) => {
       <p>
         It may expedite the process to inform the support representative that
         you are missing either your{' '}
-        <dfn>
-          <abbr title="Electronic Data Interchange Personal Identifier">
-            EDIPI
-          </abbr>
-        </dfn>
+        <abbr title="Electronic Data Interchange Personal Identifier">
+          EDIPI
+        </abbr>
         {' or '}
-        <dfn>
-          <abbr title="Beneficiary Identification and Records Locator (Sub)System">
-            BIRLS ID
-          </abbr>
-        </dfn>{' '}
+        <abbr title="Beneficiary Identification and Records Locator (Sub)System">
+          BIRLS ID
+        </abbr>{' '}
         - this is necessary tech information they will need to fix the issue. We
         apologize for the inconvenience.
       </p>
