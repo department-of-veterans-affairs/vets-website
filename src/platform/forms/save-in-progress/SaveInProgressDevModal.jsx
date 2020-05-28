@@ -41,7 +41,7 @@ const SipsDevModal = props => {
     setSipsData(value);
   };
 
-  return environment.isProduction() ? null : (
+  return (
     <>
       <Modal
         title="Save in progress data"
@@ -114,4 +114,4 @@ SipsDevModal.propTypes = {
   saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
 };
 
-export default SipsDevModal;
+export default (environment.isProduction() ? null : SipsDevModal);
