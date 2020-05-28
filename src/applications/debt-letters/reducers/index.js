@@ -36,4 +36,4 @@ export const debtsReducer = (state = initialState, action) => {
   }
 };
 
-export default { debts: debtsReducer };
+export default { debtLetters: debtsReducer };
