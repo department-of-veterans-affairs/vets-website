@@ -20,7 +20,6 @@ import {
   getSiteIdForChosenFacility,
 } from '../utils/selectors';
 import {
-  getFacilityInfo,
   getPreferences,
   updatePreferences,
   submitRequest,
@@ -31,8 +30,11 @@ import {
   getOrganizations,
   getIdOfRootOrganization,
 } from '../services/organization';
+import {
+  getSupportedLocationsByTypeOfCare,
+  getLocation,
+} from '../services/location';
 import { getSlots } from '../services/slot';
-import { getSupportedLocationsByTypeOfCare } from '../services/location';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -234,7 +236,7 @@ export function fetchFacilityDetails(facilityId) {
     });
 
     try {
-      facilityDetails = await getFacilityInfo(facilityId);
+      facilityDetails = await getLocation({ facilityId });
     } catch (error) {
       facilityDetails = null;
       captureError(error);
@@ -348,8 +350,7 @@ export function openFacilityPage(page, uiSchema, schema) {
 
       if (parentId && !facilities.length) {
         try {
-          // Remove parse function when converting this call to FHIR service
-          const thunk = fetchFacilityDetails(parseFakeFHIRId(parentId));
+          const thunk = fetchFacilityDetails(parentId);
           await thunk(dispatch, getState);
         } catch (e) {
           captureError(e);
@@ -393,8 +394,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
         // If no available facilities, fetch system details to display contact info
         if (!facilities?.length) {
-          // Remove parse function when converting this call to FHIR service
-          dispatch(fetchFacilityDetails(parseFakeFHIRId(data.vaParent)));
+          dispatch(fetchFacilityDetails(data.vaParent));
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare,

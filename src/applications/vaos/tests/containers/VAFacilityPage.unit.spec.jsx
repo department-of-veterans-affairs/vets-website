@@ -237,7 +237,7 @@ describe('VAOS <VAFacilityPage>', () => {
         singleValidVALocation
         schema={defaultSchema}
         openFacilityPage={openFormPage}
-        facility={{ address: [{}] }}
+        facility={{ address: {} }}
         parentOfChosenFacility="983"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{

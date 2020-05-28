@@ -19,6 +19,10 @@ function scrollTo(name) {
 export default function MultiQuestionForm({ questions }) {
   const [formState, setFormState] = React.useState({});
 
+  const [resultSubmitted, setResultSubmittedState] = React.useState({
+    isSubmitted: false,
+  });
+
   const formQuestions = questions.map((question, index) => (
     <div key={question.id}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
@@ -26,6 +30,8 @@ export default function MultiQuestionForm({ questions }) {
         question={question}
         setFormState={setFormState}
         formState={formState}
+        resultSubmitted={resultSubmitted}
+        setResultSubmittedState={setResultSubmittedState}
         scrollNext={() =>
           scrollTo(`multi-question-form-${index + 1}-scroll-element`)
         }
@@ -36,7 +42,11 @@ export default function MultiQuestionForm({ questions }) {
   return (
     <div>
       {formQuestions}
-      <FormResult formState={formState} />
+      <FormResult
+        formState={formState}
+        resultSubmitted={resultSubmitted}
+        setResultSubmittedState={setResultSubmittedState}
+      />
     </div>
   );
 }

@@ -37,7 +37,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
-          appointmentType: APPOINTMENT_TYPES.ccAppointment,
+          vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
         }}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}
       />,
@@ -54,8 +54,10 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
-          appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: VIDEO_TYPES.videoConnect,
+          vaos: {
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+            videoType: VIDEO_TYPES.videoConnect,
+          },
         }}
         cancelAppointmentStatus={FETCH_STATUS.succeeded}
       />,
