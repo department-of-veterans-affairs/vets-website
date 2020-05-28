@@ -96,7 +96,13 @@
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
   {% if homepage_banner and homepage_banner.visible %}
-    {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
+    <div
+      data-widget-type="homepage-banner"
+      data-banner-visible="{{ homepage_banner.visible }}"
+      data-banner-title="{{ homepage_banner.title | escape }}"
+      data-banner-content="{{ homepage_banner.content | escape }}"
+      data-banner-type="{{ homepage_banner.type }}">
+    </div>
   {% endif %}
 
   <script type="text/javascript">
