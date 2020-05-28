@@ -209,10 +209,10 @@ const createCalculatorConstants = () => {
 const calculatorConstants = createCalculatorConstants();
 
 const eybSections = {
-  yourBenefits: 'Your benefits',
-  aboutYourSchool: 'About your school',
-  learningFormatAndSchedule: 'Learning format and schedule',
-  scholarshipsAndOtherFunding: 'Scholarships and other funding',
+  yourMilitaryDetails: 'Your military details',
+  schoolCostsAndCalendar: 'School costs and calendar',
+  learningFormat: 'Learning format and location',
+  scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
 };
 
 /**
@@ -232,11 +232,11 @@ const calculateBenefits = client => {
  * @param client
  * @param sections defaults to all sections, allows for passing in a smaller set of sections
  */
-const yourBenefits = (client, sections = eybSections) => {
-  const id = createAccordionId(sections.yourBenefits);
+const yourMilitaryDetails = (client, sections = eybSections) => {
+  const id = createAccordionId(sections.yourMilitaryDetails);
 
   client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
-  eybAccordionExpandedCheck(client, sections, sections.yourBenefits);
+  eybAccordionExpandedCheck(client, sections, sections.yourMilitaryDetails);
 };
 
 /**
@@ -245,9 +245,9 @@ const yourBenefits = (client, sections = eybSections) => {
  * @param client
  * @param sections
  */
-const aboutYourSchool = (client, sections = eybSections) => {
-  clickAccordion(client, sections.aboutYourSchool);
-  eybAccordionExpandedCheck(client, sections, sections.aboutYourSchool);
+const schoolCostsAndCalendar = (client, sections = eybSections) => {
+  clickAccordion(client, sections.schoolCostsAndCalendar);
+  eybAccordionExpandedCheck(client, sections, sections.schoolCostsAndCalendar);
 };
 
 /**
@@ -285,13 +285,9 @@ const enrolledOld = (client, option, housingRate) => {
  * @param client
  * @param sections
  */
-const learningFormatAndSchedule = (client, sections = eybSections) => {
-  clickAccordion(client, sections.learningFormatAndSchedule);
-  eybAccordionExpandedCheck(
-    client,
-    sections,
-    sections.learningFormatAndSchedule,
-  );
+const learningFormat = (client, sections = eybSections) => {
+  clickAccordion(client, sections.learningFormat);
+  eybAccordionExpandedCheck(client, sections, sections.learningFormat);
 };
 
 /**
@@ -300,12 +296,12 @@ const learningFormatAndSchedule = (client, sections = eybSections) => {
  * @param client
  * @param sections
  */
-const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
-  clickAccordion(client, sections.scholarshipsAndOtherFunding);
+const scholarshipsAndOtherVAFunding = (client, sections = eybSections) => {
+  clickAccordion(client, sections.scholarshipsAndOtherVAFunding);
   eybAccordionExpandedCheck(
     client,
     sections,
-    sections.scholarshipsAndOtherFunding,
+    sections.scholarshipsAndOtherVAFunding,
   );
 };
 
@@ -335,11 +331,11 @@ module.exports = {
   formatCurrencyHalf,
   calculatorConstants,
   calculateBenefits,
-  yourBenefits,
-  aboutYourSchool,
+  yourMilitaryDetails,
+  schoolCostsAndCalendar,
   checkProfileHousingRate,
   enrolledOld,
-  learningFormatAndSchedule,
-  scholarshipsAndOtherFunding,
+  learningFormat,
+  scholarshipsAndOtherVAFunding,
   breadCrumb,
 };

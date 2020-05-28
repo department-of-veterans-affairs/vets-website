@@ -40,14 +40,14 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Estimate your benefits
 
   const eybSections = {
-    yourBenefits: 'Your benefits',
-    learningFormatAndSchedule: 'Learning format and schedule',
-    scholarshipsAndOtherFunding: 'Scholarships and other funding',
+    yourMilitaryDetails: 'Your military details',
+    learningFormat: 'Learning format and schedule',
+    scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
   };
   GiHelpers.collapseExpandAccordion(client, 'Estimate your benefits');
-  GiHelpers.yourBenefits(client, eybSections);
-  GiHelpers.learningFormatAndSchedule(client, eybSections);
-  GiHelpers.scholarshipsAndOtherFunding(client, eybSections);
+  GiHelpers.yourMilitaryDetails(client, eybSections);
+  GiHelpers.learningFormat(client, eybSections);
+  GiHelpers.scholarshipsAndOtherVAFunding(client, eybSections);
 
   // Cautionary information
   GiHelpers.collapseExpandAccordion(client, 'Cautionary information');

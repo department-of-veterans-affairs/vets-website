@@ -38,11 +38,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // OJT Profile Page
   const eybSections = {
-    yourBenefits: 'Your benefits',
-    learningFormatAndSchedule: 'Learning format and schedule',
+    yourMilitaryDetails: 'Your military details',
+    learningFormat: 'Learning format and schedule',
   };
-  GiHelpers.yourBenefits(client, eybSections);
-  GiHelpers.learningFormatAndSchedule(client, eybSections);
+  GiHelpers.yourMilitaryDetails(client, eybSections);
+  GiHelpers.learningFormat(client, eybSections);
   // TODO: re-enable test.
   // DeaHelpers.willBeWorking(client);
 
@@ -58,8 +58,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.selectSearchResult(client, institutionAttributes.facility_code);
 
   // Profile Page
-  GiHelpers.yourBenefits(client);
-  GiHelpers.aboutYourSchool(client);
+  GiHelpers.yourMilitaryDetails(client);
+  GiHelpers.schoolCostsAndCalendar(client);
   DeaHelpers.enrolledOld(client);
 
   client.end();

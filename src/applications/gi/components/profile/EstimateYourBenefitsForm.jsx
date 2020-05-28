@@ -926,7 +926,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderYourBenefits = () => {
+  renderMilitaryDetails = () => {
     const name = 'Your military details';
     return (
       <AccordionItem
@@ -954,7 +954,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderAboutYourSchool = () => {
+  renderSchoolCostsAndCalendar = () => {
     const {
       inState,
       tuition,
@@ -988,7 +988,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderLearningFormatAndSchedule = () => {
+  renderLearningFormat = () => {
     const isOjt =
       _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
     const name = isOjt
@@ -1011,7 +1011,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderScholarshipsAndOtherFunding = () => {
+  renderScholarshipsAndOtherVAFunding = () => {
     const {
       yellowRibbon,
       tuitionAssist,
@@ -1054,10 +1054,10 @@ class EstimateYourBenefitsForm extends React.Component {
           Use the fields below to calculate your benefits:
         </p>
         <ul className="vads-u-padding--0">
-          {this.renderYourBenefits()}
-          {this.renderAboutYourSchool()}
-          {this.renderLearningFormatAndSchedule()}
-          {this.renderScholarshipsAndOtherFunding()}
+          {this.renderMilitaryDetails()}
+          {this.renderSchoolCostsAndCalendar()}
+          {this.renderLearningFormat()}
+          {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
         <button
           className="calculate-button"
