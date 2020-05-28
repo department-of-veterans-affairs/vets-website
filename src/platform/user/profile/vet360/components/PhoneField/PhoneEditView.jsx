@@ -71,11 +71,7 @@ export function mapStateToProps(state, ownProps) {
     ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
     showReceiveTextNotifications &&
     isEnrolledInVAHealthCare;
-  return {
-    // showReceiveTextNotifications,
-    // isEnrolledInVAHealthCare,
-    showSMSCheckbox,
-  };
+  return { showSMSCheckbox };
 }
 
 export default connect(mapStateToProps)(PhoneEditView);
