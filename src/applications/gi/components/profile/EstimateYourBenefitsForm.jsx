@@ -382,8 +382,9 @@ class EstimateYourBenefitsForm extends React.Component {
     const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
     const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
     const yellowRibbonFieldId = 'yellowRibbonField';
+
     return (
-      <div>
+      <ExpandingGroup open={this.props.inputs.yellowRibbonRecipient === 'yes'}>
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
@@ -399,67 +400,62 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
-        {this.props.inputs.yellowRibbonRecipient === 'yes' ? (
-          <div>
-            <Dropdown
-              label="Degree Level"
-              name="yellowRibbonDegreeLevel"
-              alt="Degree Level"
-              hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
-              options={yellowRibbonDegreeLevelOptions}
-              visible={showYellowRibbonOptions}
-              value={this.props.inputs.yellowRibbonDegreeLevel}
+        <div>
+          <Dropdown
+            label="Degree Level"
+            name="yellowRibbonDegreeLevel"
+            alt="Degree Level"
+            hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
+            options={yellowRibbonDegreeLevelOptions}
+            visible={showYellowRibbonOptions}
+            value={this.props.inputs.yellowRibbonDegreeLevel}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
+          />
+          <Dropdown
+            label="Division or school"
+            name={'yellowRibbonDivision'}
+            alt="Division or school"
+            hideArrows={yellowRibbonDivisionOptions.length <= 1}
+            options={yellowRibbonDivisionOptions}
+            visible={showYellowRibbonDetails}
+            value={this.props.inputs.yellowRibbonDivision}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
+          />
+          <div id={yellowRibbonFieldId}>
+            <label htmlFor="yellowRibbonContributionAmount">
+              Yellow Ribbon amount from school per year
+            </label>
+            <input
+              id="yellowRibbonContributionAmount"
+              type="text"
+              name="yellowRibbonAmount"
+              value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
               onChange={this.handleInputChange}
-              onFocus={this.handleEYBInputFocus}
+              onFocus={this.handleEYBInputFocus.bind(this, yellowRibbonFieldId)}
             />
-            <Dropdown
-              label="Division or school"
-              name={'yellowRibbonDivision'}
-              alt="Division or school"
-              hideArrows={yellowRibbonDivisionOptions.length <= 1}
-              options={yellowRibbonDivisionOptions}
-              visible={showYellowRibbonDetails}
-              value={this.props.inputs.yellowRibbonDivision}
-              onChange={this.handleInputChange}
-              onFocus={this.handleEYBInputFocus}
-            />
-            <div id={yellowRibbonFieldId}>
-              <label htmlFor="yellowRibbonContributionAmount">
-                Yellow Ribbon amount from school per year
-              </label>
-              <input
-                id="yellowRibbonContributionAmount"
-                type="text"
-                name="yellowRibbonAmount"
-                value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-                onChange={this.handleInputChange}
-                onFocus={this.handleEYBInputFocus.bind(
-                  this,
-                  yellowRibbonFieldId,
-                )}
-              />
-            </div>
-            <AlertBox
-              isVisible={showYellowRibbonDetails}
-              key={this.props.inputs.yellowRibbonProgramIndex}
-              status="info"
-            >
-              <div>
-                Maximum amount per student:{' '}
-                <strong>
-                  {formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}
-                  /yr
-                </strong>
-                <br />
-                Number of students:{' '}
-                <strong>
-                  {this.props.inputs.yellowRibbonMaxNumberOfStudents}
-                </strong>
-              </div>
-            </AlertBox>
           </div>
-        ) : null}
-      </div>
+          <AlertBox
+            isVisible={showYellowRibbonDetails}
+            key={this.props.inputs.yellowRibbonProgramIndex}
+            status="info"
+          >
+            <div>
+              Maximum amount per student:{' '}
+              <strong>
+                {formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}
+                /yr
+              </strong>
+              <br />
+              Number of students:{' '}
+              <strong>
+                {this.props.inputs.yellowRibbonMaxNumberOfStudents}
+              </strong>
+            </div>
+          </AlertBox>
+        </div>
+      </ExpandingGroup>
     );
   };
 
@@ -550,73 +546,67 @@ class EstimateYourBenefitsForm extends React.Component {
     const value = shouldRenderEnrolled ? enrolledValue : enrolledOldValue;
 
     return (
-      <div>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Enrolled',
-            modal: 'calcEnrolled',
-            ariaLabel: ariaLabels.learnMore.calcEnrolled,
-          })}
-          name={name}
-          alt="Enrolled"
-          options={options}
-          visible
-          value={value}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-      </div>
+      <Dropdown
+        label={this.renderLearnMoreLabel({
+          text: 'Enrolled',
+          modal: 'calcEnrolled',
+          ariaLabel: ariaLabels.learnMore.calcEnrolled,
+        })}
+        name={name}
+        alt="Enrolled"
+        options={options}
+        visible
+        value={value}
+        onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
+      />
     );
   };
 
   renderCalendar = () => {
     if (!this.props.displayedInputs.calendar) return null;
 
-    let dependentDropdowns;
-
-    if (this.props.inputs.calendar === 'nontraditional') {
-      dependentDropdowns = (
-        <div>
-          <Dropdown
-            label="How many terms per year?"
-            name="numberNontradTerms"
-            alt="How many terms per year?"
-            options={[
-              { value: '3', label: 'Three' },
-              { value: '2', label: 'Two' },
-              { value: '1', label: 'One' },
-            ]}
-            visible
-            value={this.props.inputs.numberNontradTerms}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus}
-          />
-          <Dropdown
-            label="How long is each term?"
-            name="lengthNontradTerms"
-            alt="How long is each term?"
-            options={[
-              { value: '1', label: '1 month' },
-              { value: '2', label: '2 months' },
-              { value: '3', label: '3 months' },
-              { value: '4', label: '4 months' },
-              { value: '5', label: '5 months' },
-              { value: '6', label: '6 months' },
-              { value: '7', label: '7 months' },
-              { value: '8', label: '8 months' },
-              { value: '9', label: '9 months' },
-              { value: '10', label: '10 months' },
-              { value: '11', label: '11 months' },
-              { value: '12', label: '12 months' },
-            ]}
-            visible
-            value={this.props.inputs.lengthNontradTerms}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus}
-          />
-        </div>
-      );
-    }
+    const dependentDropdowns = (
+      <div>
+        <Dropdown
+          label="How many terms per year?"
+          name="numberNontradTerms"
+          alt="How many terms per year?"
+          options={[
+            { value: '3', label: 'Three' },
+            { value: '2', label: 'Two' },
+            { value: '1', label: 'One' },
+          ]}
+          visible
+          value={this.props.inputs.numberNontradTerms}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
+        />
+        <Dropdown
+          label="How long is each term?"
+          name="lengthNontradTerms"
+          alt="How long is each term?"
+          options={[
+            { value: '1', label: '1 month' },
+            { value: '2', label: '2 months' },
+            { value: '3', label: '3 months' },
+            { value: '4', label: '4 months' },
+            { value: '5', label: '5 months' },
+            { value: '6', label: '6 months' },
+            { value: '7', label: '7 months' },
+            { value: '8', label: '8 months' },
+            { value: '9', label: '9 months' },
+            { value: '10', label: '10 months' },
+            { value: '11', label: '11 months' },
+            { value: '12', label: '12 months' },
+          ]}
+          visible
+          value={this.props.inputs.lengthNontradTerms}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
+        />
+      </div>
+    );
 
     return (
       <div>
@@ -648,28 +638,24 @@ class EstimateYourBenefitsForm extends React.Component {
   renderKicker = () => {
     if (!this.props.displayedInputs.kicker) return null;
 
-    let amountInput;
-
-    if (this.props.inputs.kickerEligible === 'yes') {
-      const kickerAmountId = 'kickerAmount';
-      const kickerFieldId = `${kickerAmountId}-field`;
-      amountInput = (
-        <div id={kickerFieldId}>
-          <label htmlFor={kickerAmountId}>How much is your kicker?</label>
-          <input
-            type="text"
-            name={kickerAmountId}
-            id={kickerAmountId}
-            value={formatCurrency(this.props.inputs.kickerAmount)}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
-          />
-        </div>
-      );
-    }
+    const kickerAmountId = 'kickerAmount';
+    const kickerFieldId = `${kickerAmountId}-field`;
+    const amountInput = (
+      <div id={kickerFieldId}>
+        <label htmlFor={kickerAmountId}>How much is your kicker?</label>
+        <input
+          type="text"
+          name={kickerAmountId}
+          id={kickerAmountId}
+          value={formatCurrency(this.props.inputs.kickerAmount)}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
+        />
+      </div>
+    );
 
     return (
-      <div>
+      <ExpandingGroup open={this.props.inputs.kickerEligible === 'yes'}>
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
@@ -686,7 +672,7 @@ class EstimateYourBenefitsForm extends React.Component {
           onFocus={this.handleEYBInputFocus}
         />
         {amountInput}
-      </div>
+      </ExpandingGroup>
     );
   };
 
@@ -728,18 +714,16 @@ class EstimateYourBenefitsForm extends React.Component {
       inputs.beneficiaryLocationQuestion === 'extension';
     if (displayExtensionSelector) {
       extensionSelector = (
-        <div>
-          <Dropdown
-            label="Choose the location where you'll take your classes"
-            name="extension"
-            alt="Extension Location"
-            visible
-            options={extensionOptions}
-            value={inputs.extension}
-            onChange={this.handleExtensionChange}
-            onFocus={this.handleEYBInputFocus}
-          />
-        </div>
+        <Dropdown
+          label="Choose the location where you'll take your classes"
+          name="extension"
+          alt="Extension Location"
+          visible
+          options={extensionOptions}
+          value={inputs.extension}
+          onChange={this.handleExtensionChange}
+          onFocus={this.handleEYBInputFocus}
+        />
       );
     }
 
@@ -783,18 +767,16 @@ class EstimateYourBenefitsForm extends React.Component {
       }
 
       internationalCheckbox = (
-        <div>
-          <Checkbox
-            label={
-              "I'll be taking classes outside of the U.S. and U.S. territories"
-            }
-            onChange={this.handleHasClassesOutsideUSChange}
-            onFocus={this.handleInternationalCheckboxFocus}
-            checked={inputs.classesOutsideUS}
-            name={'classesOutsideUS'}
-            id={'classesOutsideUS'}
-          />
-        </div>
+        <Checkbox
+          label={
+            "I'll be taking classes outside of the U.S. and U.S. territories"
+          }
+          onChange={this.handleHasClassesOutsideUSChange}
+          onFocus={this.handleInternationalCheckboxFocus}
+          checked={inputs.classesOutsideUS}
+          name={'classesOutsideUS'}
+          id={'classesOutsideUS'}
+        />
       );
     }
     const selectedValue = inputs.beneficiaryLocationQuestion
@@ -834,31 +816,27 @@ class EstimateYourBenefitsForm extends React.Component {
   renderBuyUp = () => {
     if (!this.props.displayedInputs.buyUp) return null;
 
-    let amountInput;
-
-    if (this.props.inputs.buyUp === 'yes') {
-      const buyUpAmountId = 'buyUpAmount';
-      const buyUpFieldId = `${buyUpAmountId}-field`;
-      amountInput = (
-        <div id={buyUpFieldId}>
-          <label htmlFor={buyUpAmountId}>
-            How much did you pay toward buy-up (up to $600)?
-          </label>
-          <input
-            type="text"
-            name={buyUpAmountId}
-            id={buyUpAmountId}
-            value={formatCurrency(this.props.inputs.buyUpAmount)}
-            onChange={this.handleInputChange}
-            onBlur={this.resetBuyUp}
-            onFocus={this.handleEYBInputFocus.bind(this, buyUpFieldId)}
-          />
-        </div>
-      );
-    }
+    const buyUpAmountId = 'buyUpAmount';
+    const buyUpFieldId = `${buyUpAmountId}-field`;
+    const amountInput = (
+      <div id={buyUpFieldId}>
+        <label htmlFor={buyUpAmountId}>
+          How much did you pay toward buy-up (up to $600)?
+        </label>
+        <input
+          type="text"
+          name={buyUpAmountId}
+          id={buyUpAmountId}
+          value={formatCurrency(this.props.inputs.buyUpAmount)}
+          onChange={this.handleInputChange}
+          onBlur={this.resetBuyUp}
+          onFocus={this.handleEYBInputFocus.bind(this, buyUpFieldId)}
+        />
+      </div>
+    );
 
     return (
-      <div>
+      <ExpandingGroup open={this.props.inputs.buyUp === 'yes'}>
         <RadioButtons
           label="Participate in buy-up program?"
           name="buyUp"
@@ -870,45 +848,43 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
         />
         {amountInput}
-      </div>
+      </ExpandingGroup>
     );
   };
 
   renderWorking = () => {
     if (!this.props.displayedInputs.working) return null;
     return (
-      <div>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Will be working',
-            modal: 'calcWorking',
-            ariaLabel: ariaLabels.learnMore.calcWorking,
-          })}
-          name="working"
-          alt="Will be working"
-          options={[
-            { value: '30', label: '30+ hrs / week' },
-            { value: '28', label: '28 hrs / week' },
-            { value: '26', label: '26 hrs / week' },
-            { value: '24', label: '24 hrs / week' },
-            { value: '22', label: '22 hrs / week' },
-            { value: '20', label: '20 hrs / week' },
-            { value: '18', label: '18 hrs / week' },
-            { value: '16', label: '16 hrs / week' },
-            { value: '14', label: '14 hrs / week' },
-            { value: '12', label: '12 hrs / week' },
-            { value: '10', label: '10 hrs / week' },
-            { value: '8', label: '8 hrs / week' },
-            { value: '6', label: '6 hrs / week' },
-            { value: '4', label: '4 hrs / week' },
-            { value: '2', label: '2 hrs / week' },
-          ]}
-          visible
-          value={this.props.inputs.working}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-      </div>
+      <Dropdown
+        label={this.renderLearnMoreLabel({
+          text: 'Will be working',
+          modal: 'calcWorking',
+          ariaLabel: ariaLabels.learnMore.calcWorking,
+        })}
+        name="working"
+        alt="Will be working"
+        options={[
+          { value: '30', label: '30+ hrs / week' },
+          { value: '28', label: '28 hrs / week' },
+          { value: '26', label: '26 hrs / week' },
+          { value: '24', label: '24 hrs / week' },
+          { value: '22', label: '22 hrs / week' },
+          { value: '20', label: '20 hrs / week' },
+          { value: '18', label: '18 hrs / week' },
+          { value: '16', label: '16 hrs / week' },
+          { value: '14', label: '14 hrs / week' },
+          { value: '12', label: '12 hrs / week' },
+          { value: '10', label: '10 hrs / week' },
+          { value: '8', label: '8 hrs / week' },
+          { value: '6', label: '6 hrs / week' },
+          { value: '4', label: '4 hrs / week' },
+          { value: '2', label: '2 hrs / week' },
+        ]}
+        visible
+        value={this.props.inputs.working}
+        onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
+      />
     );
   };
 
