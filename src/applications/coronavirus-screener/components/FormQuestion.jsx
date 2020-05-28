@@ -1,6 +1,7 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import _ from 'lodash/fp';
+import classnames from 'classnames';
 import moment from 'moment';
 
 export default function FormQuestion({
@@ -40,11 +41,12 @@ export default function FormQuestion({
     <button
       key={index}
       type="button"
-      className={`usa-button-big  ${
+      className={classnames(
+        'usa-button-big',
         formState[question.id] === option.optionValue
           ? 'usa-button'
-          : 'usa-button-secondary'
-      }`}
+          : 'usa-button-secondary',
+      )}
       onClick={handleChange}
       value={option.optionValue}
     >
