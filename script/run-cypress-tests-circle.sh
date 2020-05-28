@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Exit if no Cypress tests exist
 if [ 'ls src/**/tests/**/*.cypress.spec.js | wc -l' == 0 ]; then
   echo "No Cypress tests found."
   exit 0
