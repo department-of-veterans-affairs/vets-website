@@ -79,8 +79,8 @@ describe('coronavirus-screener', () => {
           question={mockQuestion}
           formState={mockFormState}
           setFormState={setFormStateSpy}
-          scrollNext={mockScrollNext}
           setResultSubmittedState={mockSetResultSubmittedState}
+          scrollNext={mockScrollNext}
         />,
       );
 
