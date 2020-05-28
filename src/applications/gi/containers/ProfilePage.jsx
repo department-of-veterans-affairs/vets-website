@@ -98,7 +98,6 @@ export class ProfilePage extends React.Component {
         );
       }
     }
-
     return (
       <ScrollElement
         name="profilePage"
