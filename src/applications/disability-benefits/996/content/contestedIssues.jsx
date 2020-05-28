@@ -4,30 +4,36 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { FORM_URL, NULL_CONDITION_STRING } from '../constants';
 
 export const contestedIssuesTitle = (
-  <strong>Select the issue(s) you would like to contest</strong>
+  <>
+    <strong>Select the issue(s) you would like to contest</strong>
+    <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
+      (*Required)
+    </span>
+  </>
 );
 
 /**
  * @typedef {Object} Disability
  * @property {String} diagnosticCode
- * @property {String} name
- * @property {String} ratingPercentage
+ * @property {String} issue
+ * @property {String} percentNumber
  * @param {Disability} disability
  */
-export const disabilityOption = ({ name, description, ratingPercentage }) => {
+export const disabilityOption = ({ attributes }) => {
+  const { issue, subjectText, percentNumber } = attributes;
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
-  const showRatingPercentage = Number.isInteger(ratingPercentage);
+  const showPercentNumber = Number.isInteger(percentNumber);
 
   return (
     <div className="widget-content">
-      <h4 className="vads-u-margin-top--0">
-        {typeof name === 'string' ? name : NULL_CONDITION_STRING}
-      </h4>
-      <span>{description}</span>
-      {showRatingPercentage && (
+      <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+        {typeof issue === 'string' ? issue : NULL_CONDITION_STRING}
+      </h3>
+      <span>{subjectText}</span>
+      {showPercentNumber && (
         <p>
-          Current rating: <strong>{ratingPercentage}%</strong>
+          Current rating: <strong>{percentNumber}%</strong>
         </p>
       )}
     </div>
@@ -57,16 +63,16 @@ export const disabilitiesExplanation = (
         </li>
         <li>
           The issue or decision might not be in our system. Please refer to your
-          decision letter about what form you’ll need to submit to request a
-          Higher-Level Review.
-          <p>
-            <a
-              href="/disability/view-disability-rating/rating"
-              className="usa-button usa-button-secondary btn-see-all-issues"
-            >
-              See all your issues
-            </a>
-          </p>
+          decision letter about what form you’ll need to submit.
+        </li>
+        <li>
+          If you were unable to file a Higher-Level Review claim before the
+          deadline and need to request an extension based on good cause, you’ll
+          need to fill out a paper{' '}
+          <a href={FORM_URL}>
+            VA Form 20-0996, Decision Review Request: Higher-Level Review
+          </a>{' '}
+          with your request for an extension.
         </li>
       </ul>
     </AdditionalInfo>
