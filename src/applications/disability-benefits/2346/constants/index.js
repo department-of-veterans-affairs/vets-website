@@ -9,12 +9,9 @@ export const schemaFields = {
   permAddressField: 'permanentAddress',
   tempAddressField: 'temporaryAddress',
   emailField: 'email',
-  confirmationEmailField: 'confirmationEmail',
+  confirmationEmailField: 'view:confirmationEmail',
   suppliesField: 'supplies',
-  viewAddBatteriesField: 'view:AddBatteries',
   currentAddressField: 'currentAddress',
-  newAddressField: 'newAddress',
-  typeOfNewAddressField: 'typeOfNewAddress',
 };
 
 export const militaryStates = states.USA.filter(

@@ -1037,7 +1037,7 @@ class EstimateYourBenefitsForm extends React.Component {
       'estimate-your-benefits-form',
       'medium-5',
       'columns',
-      'vads-u-padding-right--0',
+      'small-screen:vads-u-padding-right--0',
     );
     return (
       <div className={className}>

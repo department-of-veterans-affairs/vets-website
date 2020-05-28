@@ -4,13 +4,15 @@ import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 
-export default function FormResult({ formState }) {
+export default function FormResult({
+  formState,
+  resultSubmitted,
+  setResultSubmittedState,
+}) {
   let result;
   let resultClass = '';
-  const [resultSubmitted, setResultSubmittedState] = React.useState(false);
 
   const incomplete = <div>Please answer all the questions above.</div>;
-
   const dateText = moment().format('dddd, MMMM D, h:mm a');
 
   const pass = (
@@ -43,14 +45,17 @@ export default function FormResult({ formState }) {
   );
 
   function recordScreeningToolEvent(screeningToolResult) {
-    if (!resultSubmitted) {
+    if (!resultSubmitted.isSubmitted) {
+      const timeToComplete = moment().unix() - resultSubmitted.startTime;
       recordEvent({
         event: 'covid-screening-tool-result-displayed',
         'screening-tool-result': screeningToolResult,
+        'time-to-complete': timeToComplete,
       });
-      setResultSubmittedState(true);
+      setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
     }
   }
+
   if (Object.values(formState).length < questions.length) {
     result = incomplete;
     resultClass = 'incomplete';

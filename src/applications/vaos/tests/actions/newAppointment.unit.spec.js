@@ -1151,7 +1151,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           facilities: {
@@ -1221,7 +1221,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           data: {
@@ -1347,7 +1347,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           facilities: {
@@ -1361,12 +1361,10 @@ describe('VAOS newAppointment actions', () => {
                   },
                 ],
                 name: 'CHYSHR-Cheyenne VA Medical Center',
-                address: [
-                  {
-                    city: 'Cheyenne',
-                    state: 'WY',
-                  },
-                ],
+                address: {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
                 legacyVAR: {
                   institutionTimezone: 'America/Denver',
                 },
@@ -1432,7 +1430,7 @@ describe('VAOS newAppointment actions', () => {
                   value: '983',
                 },
               ],
-              address: [{}],
+              address: {},
             },
           ],
           availableSlots: [

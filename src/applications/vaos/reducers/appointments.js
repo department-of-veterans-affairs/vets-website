@@ -108,7 +108,7 @@ export default function appointmentsReducer(state = initialState, action) {
       const facilityData = action.facilityData.reduce(
         (acc, facility) => ({
           ...acc,
-          [facility.uniqueId]: facility,
+          [facility.id]: facility,
         }),
         {},
       );
@@ -117,7 +117,7 @@ export default function appointmentsReducer(state = initialState, action) {
           (acc, clinic) => ({
             ...acc,
             [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
-              getRealFacilityId(clinic.institutionCode)
+              `var${getRealFacilityId(clinic.institutionCode)}`
             ],
           }),
           {},

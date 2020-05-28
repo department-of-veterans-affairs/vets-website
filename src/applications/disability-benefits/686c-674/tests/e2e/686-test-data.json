@@ -2,7 +2,8 @@
   "data": {
     "optionsSelection": {
       "addChild": true,
-      "addSpouse": true
+      "addSpouse": true,
+      "reportDivorce": true
     },
     "veteranInformation": {
       "firstName": "John",
