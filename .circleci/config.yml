@@ -48,7 +48,7 @@ jobs:
           path: ./test-results
 
   e2e-test:
-    working_directory: ~/root/project
+    working_directory: ~/project
     docker:
       - image: cypress/base:10.15.3
     parallelism: 2
@@ -61,7 +61,7 @@ jobs:
           keys:
             - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
-          at: ~/root/project
+          at: ~/
       - run:
           command: yarn install --frozen-lockfile
       - run:
@@ -116,7 +116,7 @@ jobs:
       - run: yarn build:webpack
 
   build-e2e:
-    working_directory: ~/root/project
+    working_directory: ~/project
     docker:
       - image: cypress/base:10.15.3
     steps:
@@ -142,9 +142,10 @@ jobs:
       - run: yarn fetch-drupal-cache
       - run: yarn build
       - persist_to_workspace:
-          root: ~/root/project
+          root: ~/
           paths:
-            - build
+            - project/build
+            - .cache/Cypress
 
   eslint-check:
     docker:
