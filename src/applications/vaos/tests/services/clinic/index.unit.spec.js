@@ -45,5 +45,17 @@ describe('VAOS Healthcare service', () => {
 
       expect(data[2].serviceType[0].specialty[0].coding.code).to.equal('117');
     });
+
+    it('should set service name to clinic name', async () => {
+      const data = await getAvailableHealthCareSystems('var983', '123', '456');
+
+      expect(data[1].serviceName).to.equal('CHY PC CASSIDY');
+    });
+
+    it('should set service name to friendly name when present', async () => {
+      const data = await getAvailableHealthCareSystems('var983', '123', '456');
+
+      expect(data[0].serviceName).to.equal('Green Team Clinic1');
+    });
   });
 });
