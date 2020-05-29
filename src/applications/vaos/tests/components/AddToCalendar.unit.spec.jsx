@@ -47,28 +47,6 @@ describe('VAOS <AddToCalendar>', () => {
     tree.unmount();
   });
 
-  describe('Comments', () => {
-    const tree = shallow(
-      <AddToCalendar
-        summary="VA Appointment"
-        description="some description"
-        location="A location"
-        duration={60}
-        startDateTime={moment('2020-01-02').toDate()}
-      />,
-    );
-
-    const link = tree.find('a');
-
-    it('should not include description if it does not start with "Follow-up/Routine"', () => {
-      expect(link.props().href).not.to.contain(
-        encodeURIComponent('some description'),
-      );
-    });
-
-    tree.unmount();
-  });
-
   describe('Add appointment request to calendar in IE', () => {
     const oldValue = window.navigator.msSaveOrOpenBlob;
     Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {

@@ -11,16 +11,10 @@ export default function AddToCalendar({
   startDateTime,
   duration,
 }) {
-  const instructions = PURPOSE_TEXT.some(purpose =>
-    description.startsWith(purpose.short),
-  )
-    ? description
-    : '';
-
   const filename = `${summary.replace(/\s/g, '_')}.ics`;
   const text = generateICS(
     summary,
-    instructions,
+    description,
     location,
     startDateTime,
     moment(startDateTime)

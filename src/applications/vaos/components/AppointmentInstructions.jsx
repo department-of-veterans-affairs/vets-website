@@ -2,13 +2,6 @@ import React from 'react';
 import { PURPOSE_TEXT } from '../utils/constants';
 
 export default function AppointmentInstructions({ instructions }) {
-  if (
-    !instructions ||
-    !PURPOSE_TEXT.some(purpose => instructions.startsWith(purpose.short))
-  ) {
-    return null;
-  }
-
   const [header, body] = instructions.split(': ', 2);
 
   return (
