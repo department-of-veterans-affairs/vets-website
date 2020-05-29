@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import { PURPOSE_TEXT } from '../utils/constants';
 import { generateICS } from '../utils/appointment';
 
 export default function AddToCalendar({
