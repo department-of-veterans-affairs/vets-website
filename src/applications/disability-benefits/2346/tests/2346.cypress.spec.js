@@ -66,6 +66,23 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
+      batteries: () => {
+        cy.get('.battery-page')
+          .should('include', 'OMEGAX d3241')
+          .should('include', 'Prescribed December 20, 2019')
+          .should('include', 'Battery: 1')
+          .should('include', 'Quantity: 60')
+          .should('include', 'Last order date: 12/25/2019');
+
+        cy.get('input[name="1"]').click();
+        cy.get('.additional-info-title').click();
+        cy.findAllByText(
+          'Find contact information for your local VA medical center',
+        ).first();
+        cy.findAllByText(/continue/i)
+          .first()
+          .click();
+      },
     },
 
     setup: () => {
