@@ -132,7 +132,7 @@ jobs:
       - save_cache:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - .cache/yarn
       - save_cache:
           key: node-v1-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
