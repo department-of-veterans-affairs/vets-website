@@ -34,12 +34,16 @@ arrays in VA.gov forms.
 **Chapter 7: Validation** takes a quick foray into how validation works in the
 Forms Library.
 
+Now that you know how to write a form, **Chapter 8: Writing Tests** covers how
+to write the tests for them. We cover the `DefinitionTester` for unit tests, and
+the automatic form tester for browser testing.
+
 Sometimes, you need something that the library doesn't provide by default.
-**Chapter 8: Writing Custom Fields and Widgets** walks you through when and how
+**Chapter 9: Writing Custom Fields and Widgets** walks you through when and how
 to create custom functionality for your data through custom fields and widgets.
 
 After you've created your form and released it to the world, you may need to
-make changes to it. In **Chapter 9: Changing a Form in Production**, you'll
+make changes to it. In **Chapter 10: Changing a Form in Production**, you'll
 learn about data migrations and how to use them to preserve saved form data
 when you have to make structural changes to the form.
 
