@@ -3,7 +3,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
 import moment from 'moment';
-import { questions } from '../config/questions';
 
 export default function FormQuestion({
   question,
