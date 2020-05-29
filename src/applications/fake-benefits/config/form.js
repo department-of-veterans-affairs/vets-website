@@ -22,7 +22,8 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for fake benefits.',
-    noAuth: 'Please sign in again to continue your application for fake benefits.',
+    noAuth:
+      'Please sign in again to continue your application for fake benefits.',
   },
   title: '123-456 Fake Benefits',
   defaultDefinitions: {},
