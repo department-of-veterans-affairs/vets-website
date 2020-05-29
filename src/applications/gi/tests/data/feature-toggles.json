@@ -64,7 +64,7 @@
       },
       {
         "name": "gibctEybBottomSheet",
-        "value": false
+        "value": true
       }
     ]
   }
