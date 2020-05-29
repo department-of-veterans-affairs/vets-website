@@ -3,895 +3,204 @@
   "title": "Higher-Level Review (20-0996)",
   "type": "object",
   "definitions": {
-    "address": {
-      "type": "object",
-      "required": [
-        "country",
-        "street",
-        "city",
-        "state",
-        "postalCode"
+    "formType": {
+      "type": "string",
+      "enum": [
+        "HigherLevelReview"
+      ]
+    },
+    "benefitType": {
+      "type": "string",
+      "enum": [
+        "compensation"
       ],
-      "properties": {
-        "country": {
-          "type": "string",
-          "enum": [
-            "Afghanistan",
-            "Albania",
-            "Algeria",
-            "Angola",
-            "Anguilla",
-            "Antigua",
-            "Antigua and Barbuda",
-            "Argentina",
-            "Armenia",
-            "Australia",
-            "Austria",
-            "Azerbaijan",
-            "Azores",
-            "Bahamas",
-            "Bahrain",
-            "Bangladesh",
-            "Barbados",
-            "Barbuda",
-            "Belarus",
-            "Belgium",
-            "Belize",
-            "Benin",
-            "Bermuda",
-            "Bhutan",
-            "Bolivia",
-            "Bosnia-Herzegovina",
-            "Botswana",
-            "Brazil",
-            "Brunei",
-            "Bulgaria",
-            "Burkina Faso",
-            "Burma",
-            "Burundi",
-            "Cambodia",
-            "Cameroon",
-            "Canada",
-            "Cape Verde",
-            "Cayman Islands",
-            "Central African Republic",
-            "Chad",
-            "Chile",
-            "China",
-            "Colombia",
-            "Comoros",
-            "Congo, Democratic Republic of",
-            "Congo, People's Republic of",
-            "Costa Rica",
-            "Cote d'Ivoire",
-            "Croatia",
-            "Cuba",
-            "Cyprus",
-            "Czech Republic",
-            "Denmark",
-            "Djibouti",
-            "Dominica",
-            "Dominican Republic",
-            "Ecuador",
-            "Egypt",
-            "El Salvador",
-            "England",
-            "Equatorial Guinea",
-            "Eritrea",
-            "Estonia",
-            "Ethiopia",
-            "Fiji",
-            "Finland",
-            "France",
-            "French Guiana",
-            "Gabon",
-            "Gambia",
-            "Georgia",
-            "Germany",
-            "Ghana",
-            "Gibraltar",
-            "Great Britain",
-            "Great Britain and Gibraltar",
-            "Greece",
-            "Greenland",
-            "Grenada",
-            "Guadeloupe",
-            "Guatemala",
-            "Guinea",
-            "Guinea, Republic of Guinea",
-            "Guinea-Bissau",
-            "Guyana",
-            "Haiti",
-            "Honduras",
-            "Hong Kong",
-            "Hungary",
-            "Iceland",
-            "India",
-            "Indonesia",
-            "Iran",
-            "Iraq",
-            "Ireland",
-            "Israel (Jerusalem)",
-            "Israel (Tel Aviv)",
-            "Italy",
-            "Jamaica",
-            "Japan",
-            "Jordan",
-            "Kazakhstan",
-            "Kenya",
-            "Kosovo",
-            "Kuwait",
-            "Kyrgyzstan",
-            "Laos",
-            "Latvia",
-            "Lebanon",
-            "Leeward Islands",
-            "Lesotho",
-            "Liberia",
-            "Libya",
-            "Liechtenstein",
-            "Lithuania",
-            "Luxembourg",
-            "Macao",
-            "Macedonia",
-            "Madagascar",
-            "Malawi",
-            "Malaysia",
-            "Mali",
-            "Malta",
-            "Martinique",
-            "Mauritania",
-            "Mauritius",
-            "Mexico",
-            "Moldavia",
-            "Mongolia",
-            "Montenegro",
-            "Montserrat",
-            "Morocco",
-            "Mozambique",
-            "Namibia",
-            "Nepal",
-            "Netherlands",
-            "Netherlands Antilles",
-            "Nevis",
-            "New Caledonia",
-            "New Zealand",
-            "Nicaragua",
-            "Niger",
-            "Nigeria",
-            "North Korea",
-            "Northern Ireland",
-            "Norway",
-            "Oman",
-            "Pakistan",
-            "Panama",
-            "Papua New Guinea",
-            "Paraguay",
-            "Peru",
-            "Philippines",
-            "Philippines (restricted payments)",
-            "Poland",
-            "Portugal",
-            "Qatar",
-            "Republic of Yemen",
-            "Romania",
-            "Russia",
-            "Rwanda",
-            "Sao-Tome/Principe",
-            "Saudi Arabia",
-            "Scotland",
-            "Senegal",
-            "Serbia",
-            "Serbia/Montenegro",
-            "Seychelles",
-            "Sicily",
-            "Sierra Leone",
-            "Singapore",
-            "Slovakia",
-            "Slovenia",
-            "Somalia",
-            "South Africa",
-            "South Korea",
-            "Spain",
-            "Sri Lanka",
-            "St. Kitts",
-            "St. Lucia",
-            "St. Vincent",
-            "Sudan",
-            "Suriname",
-            "Swaziland",
-            "Sweden",
-            "Switzerland",
-            "Syria",
-            "Taiwan",
-            "Tajikistan",
-            "Tanzania",
-            "Thailand",
-            "Togo",
-            "Trinidad and Tobago",
-            "Tunisia",
-            "Turkey (Adana only)",
-            "Turkey (except Adana)",
-            "Turkmenistan",
-            "USA",
-            "Uganda",
-            "Ukraine",
-            "United Arab Emirates",
-            "United Kingdom",
-            "Uruguay",
-            "Uzbekistan",
-            "Vanuatu",
-            "Venezuela",
-            "Vietnam",
-            "Wales",
-            "Western Samoa",
-            "Yemen Arab Republic",
-            "Zambia",
-            "Zimbabwe"
-          ],
-          "default": "USA"
-        },
-        "street": {
-          "type": "string",
-          "maxLength": 100,
-          "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
-        },
-        "street2": {
-          "type": "string",
-          "maxLength": 100
-        },
-        "street3": {
-          "type": "string",
-          "maxLength": 100
-        },
-        "city": {
-          "type": "string",
-          "maxLength": 30,
-          "pattern": "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$"
-        },
-        "state": {
-          "type": "string",
-          "enum": [
-            "AL",
-            "UM",
-            "AS",
-            "AZ",
-            "AR",
-            "AA",
-            "AE",
-            "AP",
-            "CA",
-            "CO",
-            "CT",
-            "DE",
-            "DC",
-            "FM",
-            "FL",
-            "GA",
-            "GU",
-            "HI",
-            "ID",
-            "IL",
-            "IN",
-            "IA",
-            "KS",
-            "KY",
-            "LA",
-            "ME",
-            "MH",
-            "MD",
-            "MA",
-            "MI",
-            "MN",
-            "MS",
-            "AK",
-            "MT",
-            "NE",
-            "NV",
-            "NH",
-            "NJ",
-            "NM",
-            "NY",
-            "NC",
-            "ND",
-            "MP",
-            "OH",
-            "OK",
-            "OR",
-            "PW",
-            "PA",
-            "PR",
-            "RI",
-            "SC",
-            "SD",
-            "TN",
-            "TX",
-            "UT",
-            "VT",
-            "VI",
-            "VA",
-            "WA",
-            "WV",
-            "WI",
-            "WY",
-            "PI",
-            "MO"
-          ],
-          "enumNames": [
-            "Alabama",
-            "U.S. Minor Outlying Islands",
-            "American Samoa",
-            "Arizona",
-            "Arkansas",
-            "Armed Forces Americas (AA)",
-            "Armed Forces Europe (AE)",
-            "Armed Forces Pacific (AP)",
-            "California",
-            "Colorado",
-            "Connecticut",
-            "Delaware",
-            "District Of Columbia",
-            "Federated States Of Micronesia",
-            "Florida",
-            "Georgia",
-            "Guam",
-            "Hawaii",
-            "Idaho",
-            "Illinois",
-            "Indiana",
-            "Iowa",
-            "Kansas",
-            "Kentucky",
-            "Louisiana",
-            "Maine",
-            "Marshall Islands",
-            "Maryland",
-            "Massachusetts",
-            "Michigan",
-            "Minnesota",
-            "Mississippi",
-            "Alaska",
-            "Montana",
-            "Nebraska",
-            "Nevada",
-            "New Hampshire",
-            "New Jersey",
-            "New Mexico",
-            "New York",
-            "North Carolina",
-            "North Dakota",
-            "Northern Mariana Islands",
-            "Ohio",
-            "Oklahoma",
-            "Oregon",
-            "Palau",
-            "Pennsylvania",
-            "Puerto Rico",
-            "Rhode Island",
-            "South Carolina",
-            "South Dakota",
-            "Tennessee",
-            "Texas",
-            "Utah",
-            "Vermont",
-            "Virgin Islands",
-            "Virginia",
-            "Washington",
-            "West Virginia",
-            "Wisconsin",
-            "Wyoming",
-            "Philippine Islands",
-            "Missouri"
-          ]
-        },
-        "postalCode": {
-          "type": "string",
-          "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
-        }
-      }
+      "enumNames": [
+        "Compensation"
+      ]
     },
-    "name": {
+    "phoneCountryCode": {
       "type": "string",
-      "maxLength": 30,
-      "pattern": "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$"
+      "pattern": "^[0-9]+$"
     },
-    "fullName": {
-      "type": "string"
-    },
-    "phone": {
+    "phoneAreaCode": {
       "type": "string",
-      "pattern": "^\\d{10}$"
+      "pattern": "^[2-9][0-9]{2}$"
     },
-    "date": {
-      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+    "phoneNumber": {
+      "type": "string",
+      "pattern": "^[0-9]{1,14}$"
+    },
+    "phoneExt": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]{1,10}$"
+    },
+    "zipCode5": {
+      "type": "string",
+      "pattern": "^[0-9]{5}$"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "timeZone": {
       "type": "string"
-    },
-    "effectiveDates": {
+    }
+  },
+  "properties": {
+    "data": {
       "type": "object",
       "properties": {
-        "from": {
-          "$ref": "#/definitions/date"
+        "type": {
+          "$ref": "#/definitions/formType"
         },
-        "to": {
-          "$ref": "#/definitions/date"
+        "attributes": {
+          "type": "object",
+          "required": [
+            "benefitType",
+            "veteran",
+            "sameOffice",
+            "informalConference"
+          ],
+          "benefitType": {
+            "$ref": "#/definitions/benefitType"
+          },
+          "veteran": {
+            "type": "object",
+            "required": [
+              "address"
+            ],
+            "properties": {
+              "address": {
+                "required": [
+                  "zipCode5"
+                ],
+                "properties": {
+                  "zipCode5": {
+                    "$ref": "#/definitions/zipCode5"
+                  }
+                }
+              },
+              "phone": {
+                "type": "object",
+                "properties": {
+                  "areaCode": {
+                    "$ref": "#/definitions/phoneAreaCode"
+                  },
+                  "phoneNumber": {
+                    "$ref": "#/definitions/phoneNumber"
+                  },
+                  "phoneNumberCountryCode": {
+                    "$ref": "#/definitions/phoneCountryCode"
+                  },
+                  "phoneNumberExt": {
+                    "$ref": "#/definitions/phoneExt"
+                  }
+                }
+              },
+              "emailAddressText": {
+                "$ref": "#/definitions/email"
+              },
+              "timeZone": {
+                "$ref": "#/definitions/timeZone"
+              }
+            }
+          },
+          "sameOffice": {
+            "type": "boolean"
+          },
+          "informalConference": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "informalConferenceRep": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "object",
+                "properties": {
+                  "areaCode": {
+                    "$ref": "#/definitions/phoneAreaCode"
+                  },
+                  "phoneNumber": {
+                    "$ref": "#/definitions/phoneNumber"
+                  },
+                  "phoneNumberCountryCode": {
+                    "$ref": "#/definitions/phoneCountryCode"
+                  },
+                  "phoneNumberExt": {
+                    "$ref": "#/definitions/phoneExt"
+                  }
+                }
+              }
+            }
+          },
+          "informalConferenceTimes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "800-1000 ET",
+                "1000-1230 ET",
+                "1230-1400 ET",
+                "1400-1630 ET"
+              ]
+            }
+          }
         }
       }
     },
-    "contestedIssues": {
+    "included": {
       "type": "array",
       "minItems": 1,
       "maxItems": 100,
       "items": {
         "type": "object",
         "required": [
-          "name"
+          "type"
         ],
         "properties": {
-          "name": {
-            "type": "string"
+          "type": {
+            "type": "string",
+            "enum": [
+              "ContestableIssue"
+            ]
           },
-          "description": {
-            "type": "string"
-          },
-          "ratedDisabilityId": {
-            "type": "string"
-          },
-          "ratingDecisionId": {
-            "type": "string"
-          },
-          "diagnosticCode": {
-            "type": "number"
-          },
-          "additionalNote": {
-            "type": "string"
+          "attributes": {
+            "type": "object",
+            "required": [
+              "issue",
+              "decisionDate"
+            ],
+            "properties": {
+              "issue": {
+                "type": "string",
+                "maxLength": 140
+              },
+              "decisionDate": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              },
+              "decisionIssueId": {
+                "type": "number"
+              },
+              "ratingIssueId": {
+                "type": "string"
+              },
+              "ratingDecisionIssueId": {
+                "type": "string"
+              }
+            }
           }
         }
       }
-    },
-    "sameOffice": {
-      "type": "boolean"
-    },
-    "informalConferenceChoice": {
-      "type": "string",
-      "enum": [
-        "no",
-        "me",
-        "rep"
-      ]
-    },
-    "scheduleTimes": {
-      "type": "object",
-      "properties": {
-        "time0800to1000": {
-          "type": "boolean"
-        },
-        "time1000to1200": {
-          "type": "boolean"
-        },
-        "time1230to1400": {
-          "type": "boolean"
-        },
-        "time1400to1630": {
-          "type": "boolean"
-        }
-      }
-    }
-  },
-  "properties": {
-    "emailAddress": {
-      "type": "string",
-      "minLength": 6,
-      "maxLength": 80,
-      "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-    },
-    "mailingAddress": {
-      "$ref": "#/definitions/address"
-    },
-    "phone": {
-      "$ref": "#/definitions/phone"
-    },
-    "forwardingAddress": {
-      "type": "object",
-      "properties": {
-        "country": {
-          "type": "string",
-          "enum": [
-            "Afghanistan",
-            "Albania",
-            "Algeria",
-            "Angola",
-            "Anguilla",
-            "Antigua",
-            "Antigua and Barbuda",
-            "Argentina",
-            "Armenia",
-            "Australia",
-            "Austria",
-            "Azerbaijan",
-            "Azores",
-            "Bahamas",
-            "Bahrain",
-            "Bangladesh",
-            "Barbados",
-            "Barbuda",
-            "Belarus",
-            "Belgium",
-            "Belize",
-            "Benin",
-            "Bermuda",
-            "Bhutan",
-            "Bolivia",
-            "Bosnia-Herzegovina",
-            "Botswana",
-            "Brazil",
-            "Brunei",
-            "Bulgaria",
-            "Burkina Faso",
-            "Burma",
-            "Burundi",
-            "Cambodia",
-            "Cameroon",
-            "Canada",
-            "Cape Verde",
-            "Cayman Islands",
-            "Central African Republic",
-            "Chad",
-            "Chile",
-            "China",
-            "Colombia",
-            "Comoros",
-            "Congo, Democratic Republic of",
-            "Congo, People's Republic of",
-            "Costa Rica",
-            "Cote d'Ivoire",
-            "Croatia",
-            "Cuba",
-            "Cyprus",
-            "Czech Republic",
-            "Denmark",
-            "Djibouti",
-            "Dominica",
-            "Dominican Republic",
-            "Ecuador",
-            "Egypt",
-            "El Salvador",
-            "England",
-            "Equatorial Guinea",
-            "Eritrea",
-            "Estonia",
-            "Ethiopia",
-            "Fiji",
-            "Finland",
-            "France",
-            "French Guiana",
-            "Gabon",
-            "Gambia",
-            "Georgia",
-            "Germany",
-            "Ghana",
-            "Gibraltar",
-            "Great Britain",
-            "Great Britain and Gibraltar",
-            "Greece",
-            "Greenland",
-            "Grenada",
-            "Guadeloupe",
-            "Guatemala",
-            "Guinea",
-            "Guinea, Republic of Guinea",
-            "Guinea-Bissau",
-            "Guyana",
-            "Haiti",
-            "Honduras",
-            "Hong Kong",
-            "Hungary",
-            "Iceland",
-            "India",
-            "Indonesia",
-            "Iran",
-            "Iraq",
-            "Ireland",
-            "Israel (Jerusalem)",
-            "Israel (Tel Aviv)",
-            "Italy",
-            "Jamaica",
-            "Japan",
-            "Jordan",
-            "Kazakhstan",
-            "Kenya",
-            "Kosovo",
-            "Kuwait",
-            "Kyrgyzstan",
-            "Laos",
-            "Latvia",
-            "Lebanon",
-            "Leeward Islands",
-            "Lesotho",
-            "Liberia",
-            "Libya",
-            "Liechtenstein",
-            "Lithuania",
-            "Luxembourg",
-            "Macao",
-            "Macedonia",
-            "Madagascar",
-            "Malawi",
-            "Malaysia",
-            "Mali",
-            "Malta",
-            "Martinique",
-            "Mauritania",
-            "Mauritius",
-            "Mexico",
-            "Moldavia",
-            "Mongolia",
-            "Montenegro",
-            "Montserrat",
-            "Morocco",
-            "Mozambique",
-            "Namibia",
-            "Nepal",
-            "Netherlands",
-            "Netherlands Antilles",
-            "Nevis",
-            "New Caledonia",
-            "New Zealand",
-            "Nicaragua",
-            "Niger",
-            "Nigeria",
-            "North Korea",
-            "Northern Ireland",
-            "Norway",
-            "Oman",
-            "Pakistan",
-            "Panama",
-            "Papua New Guinea",
-            "Paraguay",
-            "Peru",
-            "Philippines",
-            "Philippines (restricted payments)",
-            "Poland",
-            "Portugal",
-            "Qatar",
-            "Republic of Yemen",
-            "Romania",
-            "Russia",
-            "Rwanda",
-            "Sao-Tome/Principe",
-            "Saudi Arabia",
-            "Scotland",
-            "Senegal",
-            "Serbia",
-            "Serbia/Montenegro",
-            "Seychelles",
-            "Sicily",
-            "Sierra Leone",
-            "Singapore",
-            "Slovakia",
-            "Slovenia",
-            "Somalia",
-            "South Africa",
-            "South Korea",
-            "Spain",
-            "Sri Lanka",
-            "St. Kitts",
-            "St. Lucia",
-            "St. Vincent",
-            "Sudan",
-            "Suriname",
-            "Swaziland",
-            "Sweden",
-            "Switzerland",
-            "Syria",
-            "Taiwan",
-            "Tajikistan",
-            "Tanzania",
-            "Thailand",
-            "Togo",
-            "Trinidad and Tobago",
-            "Tunisia",
-            "Turkey (Adana only)",
-            "Turkey (except Adana)",
-            "Turkmenistan",
-            "USA",
-            "Uganda",
-            "Ukraine",
-            "United Arab Emirates",
-            "United Kingdom",
-            "Uruguay",
-            "Uzbekistan",
-            "Vanuatu",
-            "Venezuela",
-            "Vietnam",
-            "Wales",
-            "Western Samoa",
-            "Yemen Arab Republic",
-            "Zambia",
-            "Zimbabwe"
-          ],
-          "default": "USA"
-        },
-        "street": {
-          "type": "string",
-          "maxLength": 35,
-          "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
-        },
-        "street2": {
-          "type": "string",
-          "maxLength": 35,
-          "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
-        },
-        "city": {
-          "type": "string",
-          "maxLength": 30,
-          "pattern": "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$"
-        },
-        "state": {
-          "type": "string",
-          "enum": [
-            "AL",
-            "UM",
-            "AS",
-            "AZ",
-            "AR",
-            "AA",
-            "AE",
-            "AP",
-            "CA",
-            "CO",
-            "CT",
-            "DE",
-            "DC",
-            "FM",
-            "FL",
-            "GA",
-            "GU",
-            "HI",
-            "ID",
-            "IL",
-            "IN",
-            "IA",
-            "KS",
-            "KY",
-            "LA",
-            "ME",
-            "MH",
-            "MD",
-            "MA",
-            "MI",
-            "MN",
-            "MS",
-            "AK",
-            "MT",
-            "NE",
-            "NV",
-            "NH",
-            "NJ",
-            "NM",
-            "NY",
-            "NC",
-            "ND",
-            "MP",
-            "OH",
-            "OK",
-            "OR",
-            "PW",
-            "PA",
-            "PR",
-            "RI",
-            "SC",
-            "SD",
-            "TN",
-            "TX",
-            "UT",
-            "VT",
-            "VI",
-            "VA",
-            "WA",
-            "WV",
-            "WI",
-            "WY",
-            "PI",
-            "MO"
-          ],
-          "enumNames": [
-            "Alabama",
-            "U.S. Minor Outlying Islands",
-            "American Samoa",
-            "Arizona",
-            "Arkansas",
-            "Armed Forces Americas (AA)",
-            "Armed Forces Europe (AE)",
-            "Armed Forces Pacific (AP)",
-            "California",
-            "Colorado",
-            "Connecticut",
-            "Delaware",
-            "District Of Columbia",
-            "Federated States Of Micronesia",
-            "Florida",
-            "Georgia",
-            "Guam",
-            "Hawaii",
-            "Idaho",
-            "Illinois",
-            "Indiana",
-            "Iowa",
-            "Kansas",
-            "Kentucky",
-            "Louisiana",
-            "Maine",
-            "Marshall Islands",
-            "Maryland",
-            "Massachusetts",
-            "Michigan",
-            "Minnesota",
-            "Mississippi",
-            "Alaska",
-            "Montana",
-            "Nebraska",
-            "Nevada",
-            "New Hampshire",
-            "New Jersey",
-            "New Mexico",
-            "New York",
-            "North Carolina",
-            "North Dakota",
-            "Northern Mariana Islands",
-            "Ohio",
-            "Oklahoma",
-            "Oregon",
-            "Palau",
-            "Pennsylvania",
-            "Puerto Rico",
-            "Rhode Island",
-            "South Carolina",
-            "South Dakota",
-            "Tennessee",
-            "Texas",
-            "Utah",
-            "Vermont",
-            "Virgin Islands",
-            "Virginia",
-            "Washington",
-            "West Virginia",
-            "Wisconsin",
-            "Wyoming",
-            "Philippine Islands",
-            "Missouri"
-          ]
-        },
-        "postalCode": {
-          "type": "string",
-          "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
-        },
-        "effectiveDates": {
-          "$ref": "#/definitions/effectiveDates"
-        }
-      }
-    },
-    "contestedIssues": {
-      "$ref": "#/definitions/contestedIssues"
-    },
-    "sameOffice": {
-      "$ref": "#/definitions/sameOffice"
-    },
-    "informalConferenceChoice": {
-      "$ref": "#/defintions/informalConferenceChoice"
-    },
-    "contactRepresentativeChoice": {
-      "$ref": "#/definitions/contactRepresentativeChoice"
-    },
-    "representative": {
-      "fullName": {
-        "$ref": "#/definitions/fullName"
-      },
-      "phone": {
-        "$ref": "#/definitions/phone"
-      }
-    },
-    "scheduleTimes": {
-      "$ref": "#/definitions/scheduleTimes"
     }
   }
 }
