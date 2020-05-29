@@ -1,11 +1,12 @@
 import React from 'react';
-import { questions } from '../config/questions';
 import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
+import { fromRenderProps } from 'recompose';
 
 export default function FormResult({
+  questions,
   formState,
   resultSubmitted,
   setResultSubmittedState,
@@ -73,9 +74,21 @@ export default function FormResult({
     },
   };
 
-  const complete = Object.values(formState).length === questions.length;
+  const disqualifyingQuestions = questions.filter(
+    question => question.disqualifying === true,
+  );
 
-  const outcome = Object.values(formState).includes('yes') ? 'fail' : 'pass';
+  const complete = disqualifyingQuestions.reduce(
+    (isComplete, disqualifyingQuestion) =>
+      formState[disqualifyingQuestion.id] !== undefined,
+    false,
+  );
+
+  const outcome = disqualifyingQuestions.reduce(
+    (isPass, disqualifyingQuestion) =>
+      formState[disqualifyingQuestion.id] === 'yes' ? 'fail' : isPass,
+    'pass',
+  );
 
   const status = complete ? outcome : 'incomplete';
 

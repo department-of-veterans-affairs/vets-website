@@ -3,6 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
 import moment from 'moment';
+import { questions } from '../config/questions';
 
 export default function FormQuestion({
   question,
@@ -36,7 +37,6 @@ export default function FormQuestion({
     { optionValue: 'yes', optionText: 'Yes' },
     { optionValue: 'no', optionText: 'No' },
   ];
-
   const options = optionsConfig.map((option, index) => (
     <button
       key={index}
