@@ -12,7 +12,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'newOnly-test'],
     fixtures: {
-      data: path.join(__dirname, 'data'),
+      data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     pageHooks: {
