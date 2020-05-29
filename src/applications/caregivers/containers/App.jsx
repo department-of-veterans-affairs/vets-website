@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -14,7 +15,7 @@ const App = ({ loading, isFormAvailable, location, children }) => {
     return <LoadingIndicator />;
   }
 
-  if (isFormAvailable === false) {
+  if (!isFormAvailable) {
     return document.location.replace('/');
   }
 
@@ -31,5 +32,10 @@ const mapStateToProps = state => ({
     FEATURE_FLAG_NAMES.allowOnline1010cgSubmissions
   ],
 });
+
+App.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  isFormAvailable: PropTypes.bool,
+};
 
 export default connect(mapStateToProps)(App);
