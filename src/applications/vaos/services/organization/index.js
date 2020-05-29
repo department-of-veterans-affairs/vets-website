@@ -31,12 +31,10 @@ export async function getOrganizations({ siteIds, useVSP = false }) {
     }
   }
 
-  const results = await fhirSearch({
+  return fhirSearch({
     query: `Organization?identifier=${siteIds.join(',')}`,
     mock: () => import('./mock.json'),
   });
-
-  return results;
 }
 /**
  * Pulls the VistA id from an Organization resource
