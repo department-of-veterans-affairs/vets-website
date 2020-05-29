@@ -13,6 +13,7 @@ const testConfig = createTestConfig(
     },
     pageHooks: {
       introduction: () => {
+        cy.login();
         cy.findAllByText(/start/i, { selector: 'button' })
           .first()
           .click();
