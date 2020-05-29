@@ -57,6 +57,7 @@ class RoutedSavablePage extends React.Component {
           form={form}
           formConfig={formConfig}
           route={route}
+          pageList={route.pageList}
           user={user}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}

@@ -40,13 +40,12 @@ class SaveFormLink extends React.Component {
 
   render() {
     if (!this.props.user.login.currentlyLoggedIn) return null;
-
     const { savedStatus } = this.props.form;
     const { formConfig } = this.props;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
-      <div style={{ display: this.props.children ? 'inline' : null }}>
+      <div className={this.props.children ? 'vads-u-display--inline' : ''}>
         <Element name="saveFormLinkTop" />
         {saveErrors.has(savedStatus) && (
           <div

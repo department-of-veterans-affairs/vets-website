@@ -12,7 +12,7 @@ const SipsDevModal = props => {
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
 
-  const availablePaths = props?.route?.pageList.map(page => page.path) || [];
+  const availablePaths = props?.pageList.map(page => page.path) || [];
 
   const openSipsModal = () => {
     setSipsData(JSON.stringify(props.form.data, null, 2));
@@ -106,6 +106,11 @@ SipsDevModal.propTypes = {
     formId: PropTypes.string.isRequired,
     version: PropTypes.number.isRequired,
     data: PropTypes.object.isRequired,
+    pageList: PropTypes.arrayOf(
+      PropTypes.shape({
+        path: PropTypes.string.isRequired,
+      }),
+    ),
   }),
   locationPathname: PropTypes.string.isRequired,
   saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
