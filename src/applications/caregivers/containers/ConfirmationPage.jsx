@@ -8,7 +8,7 @@ import { scrollToTop } from 'applications/claims-status/utils/page';
 
 const ConfirmationPage = props => {
   useEffect(() => {
-    focusElement('.schemaform-title > h1');
+    focusElement('.schemaform-title > h2');
     scrollToTop();
   }, []);
 
@@ -16,21 +16,68 @@ const ConfirmationPage = props => {
   const { response } = submission;
   const name = data.veteranFullName;
 
+  const PrintDetails = () => (
+    <div className="print-details">
+      <img
+        src="/img/design/logo/logo-black-and-white.png"
+        alt="VA logo"
+        width="300"
+      />
+
+      <h1 className="vads-u-font-size--h3">
+        Apply for the Program of Comprehensive Assistance for Family Caregivers
+      </h1>
+
+      <span>Form 10-10CG</span>
+
+      <section>
+        <div>
+          <h2 className="vads-u-font-size--h4">
+            You’ve successfullly submitted your application.
+          </h2>
+
+          <p>
+            Once we’ve reviewed your application, a Caregiver Support
+            Coordinator will contact you to discuss next steps.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="vads-u-font-size--h4">Application details</h3>
+          {response && (
+            <p>{moment(response.timestamp).format('MMM D, YYYY')}</p>
+          )}
+        </div>
+
+        <div>
+          <h4 className="vads-u-font-size--h4">Form submitted</h4>
+          <p>
+            Application for Comprehensive Assistance for Family Caregivers
+            Program (form 10-10CG):
+          </p>
+          <span>
+            For Veteran {name.first} {name.middle} {name.last} {name.suffix}
+          </span>
+        </div>
+      </section>
+    </div>
+  );
+
   return (
-    <section>
+    <section className="caregiver-confirmation">
       <AlertBox
-        headline="Your submission was successful."
+        headline="You’ve successfully submitted your application."
         content="Once we’ve reviewed your application, a Caregiver Support Coordinator will contact you to discuss next steps."
         status="success"
       />
       <div className="inset vads-u-margin-top--4">
-        <h4>
-          Application for Comprehensive Assistance for Family Caregivers Program
-          (VA Form 10-10CG)
+        <h4 className="insert-title">
+          Application for the Program of Comprehensive Assistance for Family
+          Caregivers (VA Form 10-10CG)
         </h4>
 
         <span>
-          for {name.first} {name.middle} {name.last} {name.suffix}
+          For Veteran: {name.first} {name.middle} {name.last} {name.suffix}
         </span>
 
         {response && (
@@ -42,7 +89,13 @@ const ConfirmationPage = props => {
             </li>
           </ul>
         )}
+
+        <button className="usa-button button" onClick={() => window.print()}>
+          Print this page
+        </button>
       </div>
+
+      <PrintDetails />
     </section>
   );
 };

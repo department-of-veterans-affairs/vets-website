@@ -5,19 +5,18 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   removeNonNumberCharacters,
   formatDollarAmount,
+  handleScrollOnInputFocus,
 } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
-    const selectedProgramName =
-      this.props.selectedProgram !== ''
-        ? this.props.selectedProgram
-        : this.props.preSelectedProgram;
+    const selectedProgramName = this.props.selectedProgram;
 
     const selectedProgram = this.props.institution.programs.filter(
       program => program.description === selectedProgramName,
@@ -27,7 +26,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       scholarships: 0,
       programName: selectedProgramName,
     };
-    this.setProgramFields(this.props.preSelectedProgram);
+    this.setProgramFields(this.props.selectedProgram);
   }
 
   getProgramByName = programName =>
@@ -80,7 +79,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
   };
 
   renderScholarships = onShowModal => (
-    <div>
+    <div id="scholarships-field">
       <label
         htmlFor="vetTecScholarships"
         className="vads-u-display--inline-block"
@@ -106,13 +105,18 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
             scholarships: removeNonNumberCharacters(e.target.value),
           })
         }
+        onFocus={
+          // prod flag for bah-8821
+          !environment.isProduction() &&
+          handleScrollOnInputFocus.bind(this, 'scholarships-field')
+        }
         onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
   );
 
   renderTuitionFees = onShowModal => (
-    <div>
+    <div id="tuition-field">
       <label
         htmlFor="vetTecTuitionFees"
         className="vads-u-display--inline-block"
@@ -138,6 +142,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           this.setState({
             tuitionFees: removeNonNumberCharacters(e.target.value),
           })
+        }
+        onFocus={
+          !environment.isProduction() &&
+          handleScrollOnInputFocus.bind(this, 'tuition-field')
         }
         onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
@@ -195,7 +203,6 @@ VetTecEstimateYourBenefitsForm.propTypes = {
   onShowModal: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
-  preSelectedProgram: PropTypes.string,
   calculatorInputChange: PropTypes.func,
 };
 

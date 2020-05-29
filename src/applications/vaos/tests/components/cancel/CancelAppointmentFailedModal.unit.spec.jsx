@@ -10,10 +10,13 @@ describe('VAOS <CancelAppointmentFailedModal>', () => {
     const appointment = {};
     const facility = {
       name: 'Facility name',
-      phone: {
-        main: '234-244-4444',
-      },
-      address: { physical: {} },
+      telecom: [
+        {
+          system: 'phone',
+          value: '234-244-4444',
+        },
+      ],
+      address: {},
     };
     const tree = mount(
       <CancelAppointmentFailedModal
@@ -38,10 +41,13 @@ describe('VAOS <CancelAppointmentFailedModal>', () => {
     };
     const facility = {
       name: 'Facility name',
-      phone: {
-        main: '234-244-4444',
-      },
-      address: { physical: {} },
+      telecom: [
+        {
+          system: 'phone',
+          value: '234-244-4444',
+        },
+      ],
+      address: {},
     };
     const onClose = sinon.spy();
     const tree = mount(

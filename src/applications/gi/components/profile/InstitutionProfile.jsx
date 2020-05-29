@@ -49,7 +49,7 @@ export class InstitutionProfile extends React.Component {
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
         />
-        <div className="usa-accordion">
+        <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
               {gibctEstimateYourBenefits ? (
@@ -67,10 +67,7 @@ export class InstitutionProfile extends React.Component {
               </AccordionItem>
             )}
             {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
-              <AccordionItem
-                button="School locations"
-                headerClass="school-locations"
-              >
+              <AccordionItem button="School locations">
                 <SchoolLocations
                   institution={profile.attributes}
                   facilityMap={profile.attributes.facilityMap}

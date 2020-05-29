@@ -136,14 +136,15 @@ describe('VAOS <VAOSApp>', () => {
       },
     };
 
-    const oldReplace = window.location.replace;
-    window.location.replace = sinon.spy();
+    const oldLocation = window.location;
+    delete window.location;
+    window.location = { replace: sinon.spy() };
     const tree = mount(<VAOSApp showApplication user={user} />);
 
     expect(window.location.replace.firstCall.args[0]).to.contain('verify');
     expect(tree.find('RequiredLoginView').exists()).to.be.true;
 
-    window.location.replace = oldReplace;
+    window.location.replace = oldLocation;
     tree.unmount();
   });
 });

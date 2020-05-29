@@ -57,12 +57,12 @@ function updateTimeslots(data) {
   const startDateTime = moment()
     .add(4, 'days')
     .day(9)
-    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
     .add(4, 'days')
     .day(9)
     .add(60, 'minutes')
-    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
 
   const newSlot = {
     bookingStatus: '1',
@@ -146,6 +146,33 @@ function appointmentSubmittedTest(client) {
     .axeCheck('.main')
     .click('.usa-button[href$="appointments/"]')
     .assert.containsText('h1', 'VA appointments');
+
+  return client;
+}
+
+function showMoreTest(client) {
+  client
+    .click(
+      'li[data-request-id="8a48912a6cab0202016cb4fcaa8b0038"] .additional-info-button.va-button-link',
+    )
+    .waitForElementVisible('.additional-info-content', Timeouts.slow)
+    .pause(Timeouts.normal)
+    .axeCheck('.main')
+    .assert.containsText('#tooltip-11 dd', 'Request 2 Message 1 Text');
+
+  return client;
+}
+
+function cancelAppointmentTest(client) {
+  client
+    .click('li[data-is-cancelable="true"] button.vaos-appts__cancel-btn')
+    .waitForElementVisible('#cancelAppt', Timeouts.slow)
+    .axeCheck('.main')
+    .click('#cancelAppt .usa-button')
+    .waitForElementVisible('.usa-alert-success', Timeouts.slow)
+    .axeCheck('.main')
+    .click('#cancelAppt button')
+    .waitForElementNotPresent('#cancelAppt', Timeouts.normal);
 
   return client;
 }
@@ -293,11 +320,12 @@ function initAppointmentListMock(token) {
       },
     },
   });
-  mock(token, {
-    path: '/vaos/v0/appointment_requests',
-    verb: 'get',
-    value: facilities983,
-  });
+  // Duplicate path!!!
+  // mock(token, {
+  //   path: '/vaos/v0/appointment_requests',
+  //   verb: 'get',
+  //   value: facilities983,
+  // });
   mock(token, {
     path: '/vaos/v0/appointment_requests',
     verb: 'post',
@@ -394,6 +422,29 @@ function initAppointmentListMock(token) {
       },
     },
   });
+  mock(token, {
+    path:
+      '/vaos/v0/appointment_requests/8a48912a6cab0202016cb4fcaa8b0038/messages',
+    verb: 'get',
+    value: {
+      data: [
+        {
+          id: '8a48912a6cab0202016cb4fcaa8b0038',
+          type: 'messages',
+          attributes: {
+            surrogateIdentifier: {},
+            messageText: 'Request 2 Message 1 Text',
+            messageDateTime: '11/11/2019 12:26:13',
+            senderId: '1012845331V153043',
+            appointmentRequestId: '8a48912a6cab0202016cb4fcaa8b0038',
+            date: '2019-11-11T12:26:13.931+0000',
+            assigningAuthority: 'ICN',
+            systemId: 'var',
+          },
+        },
+      ],
+    },
+  });
 }
 
 function getUserDataWithFacilities() {
@@ -443,4 +494,6 @@ module.exports = {
   getUserDataWithSingleSystem,
   mockSingleFacility,
   mockSingleSystem,
+  showMoreTest,
+  cancelAppointmentTest,
 };

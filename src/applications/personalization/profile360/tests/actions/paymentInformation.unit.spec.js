@@ -129,6 +129,9 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).to.equal(
+            'profile-get-direct-deposit-started',
+          );
+          expect(recordEventSpy.secondCall.args[0].event).to.equal(
             'profile-get-direct-deposit-retrieved',
           );
         });

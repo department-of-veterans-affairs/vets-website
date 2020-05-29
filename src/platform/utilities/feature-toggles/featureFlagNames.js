@@ -1,4 +1,5 @@
 export default Object.freeze({
+  preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   profileShowProfile2: 'profile_show_profile_2.0',
@@ -9,6 +10,13 @@ export default Object.freeze({
   vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
   vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
   vaOnlineSchedulingPast: 'vaOnlineSchedulingPast',
+  vaOnlineSchedulingVSPAppointmentList: 'vaOnlineSchedulingVspAppointmentList',
+  vaOnlineSchedulingVSPAppointmentNew: 'vaOnlineSchedulingVspAppointmentNew',
+  vaOnlineSchedulingCCSPAppointmentList:
+    'vaOnlineSchedulingCcspAppointmentList',
+  vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
+  vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
+  vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
@@ -18,4 +26,5 @@ export default Object.freeze({
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
+  allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
 });

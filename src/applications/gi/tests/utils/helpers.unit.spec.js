@@ -10,6 +10,7 @@ import {
   rubyifyKeys,
   sortOptionsByStateName,
   formatDollarAmount,
+  handleScrollOnInputFocus,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -98,5 +99,21 @@ describe('GIBCT helpers:', () => {
   describe('formatDollarAmount', () => {
     const data = 100.5;
     expect(formatDollarAmount(data)).to.equal('$101');
+  });
+
+  describe('handleScrollOnInputFocus', () => {
+    const mainDiv = document.createElement('div');
+    let scrolledIntoViewIsCalled = false;
+    mainDiv.id = 'test';
+    mainDiv.scrollIntoView = () => {
+      scrolledIntoViewIsCalled = true;
+    };
+
+    it('should scrollIntoView', () => {
+      window.innerWidth = 480;
+      document.body.appendChild(mainDiv);
+      handleScrollOnInputFocus('test');
+      expect(scrolledIntoViewIsCalled).to.be.true;
+    });
   });
 });
