@@ -44,7 +44,7 @@ export default function CancelAppointmentModal(props) {
   }
 
   const isCerner = cernerFacilities?.some(facilityId =>
-    facilityId?.startsWith(getVARFacilityId(props.appointmentToCancel)),
+    `var${facilityId}`.startsWith(getVARFacilityId(props.appointmentToCancel)),
   );
 
   if (isCerner) {
