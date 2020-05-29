@@ -13,8 +13,25 @@ Cypress.Commands.add('syncFixtures', fixtures => {
 
   cy.task('_syncFixtures', args, opts).then(dir => {
     if (!initialized) {
+      // `cy.fixture` should look for fixtures under the temp path.
       Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
         originalFn(`${dir}/${path}`, options),
+      );
+
+      // The fixture shorthand in `cy.route` should be relative to temp path.
+      Cypress.Commands.overwrite(
+        'route',
+        (originalFn, method, url, response, options) => {
+          const modifiedResponse =
+            typeof response === 'string'
+              ? response.replace(
+                  /^(fx:|fixture:)/,
+                  (_, pattern) => `${pattern}${dir}/`,
+                )
+              : response;
+
+          return originalFn(method, url, modifiedResponse, options);
+        },
       );
 
       initialized = true;
