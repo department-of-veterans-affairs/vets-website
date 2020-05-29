@@ -39,7 +39,10 @@ const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
       <Suspense fallback={LoadingPage}>
         <Switch>
           {routes.map(route => {
-            if ((route.requiresLOA3 && !isLOA3) || !isInMVI) {
+            if (
+              (route.requiresLOA3 && !isLOA3) ||
+              (route.requiresMVI && !isInMVI)
+            ) {
               return (
                 <Redirect
                   from={route.path}
