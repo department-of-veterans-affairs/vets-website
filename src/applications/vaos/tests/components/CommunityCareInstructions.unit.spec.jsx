@@ -12,4 +12,10 @@ describe('VAOS <CommunityCareInstructions>', () => {
 
     tree.unmount();
   });
+
+  it('should not return instructions if empty', () => {
+    const tree = shallow(<CommunityCareInstructions instructions="" />);
+    expect(tree.text()).to.be.empty;
+    tree.unmount();
+  });
 });
