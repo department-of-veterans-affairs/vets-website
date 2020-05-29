@@ -5,7 +5,12 @@ import DebtLettersWrapper from '../components/DebtLettersWrapper';
 
 describe('DebtLettersWrapper', () => {
   const fakeStore = {
-    getState: () => ({}),
+    getState: () => ({
+      debtLetters: {
+        isFetching: false,
+        debts: [],
+      },
+    }),
     subscribe: () => {},
     dispatch: () => {},
   };
