@@ -145,7 +145,6 @@ jobs:
           root: /root
           paths:
             - project/build
-            - .cache/Cypress
 
   eslint-check:
     docker:
