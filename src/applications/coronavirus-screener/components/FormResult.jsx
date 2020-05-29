@@ -11,6 +11,8 @@ export default function FormResult({
   resultSubmitted,
   setResultSubmittedState,
 }) {
+  let complete;
+
   function recordScreeningToolEvent(screeningToolResult) {
     if (!resultSubmitted.isSubmitted) {
       const timeToComplete = moment().unix() - resultSubmitted.startTime;
@@ -77,19 +79,20 @@ export default function FormResult({
   const disqualifyingQuestions = questions.filter(
     question => question.disqualifying === true,
   );
-
-  const complete = disqualifyingQuestions.reduce(
-    (isComplete, disqualifyingQuestion) =>
-      formState[disqualifyingQuestion.id] !== undefined,
-    false,
-  );
-
+  if (disqualifyingQuestions.length === 0) {
+    complete = false;
+  } else {
+    complete = disqualifyingQuestions.reduce(
+      (isComplete, disqualifyingQuestion) =>
+        isComplete && formState[disqualifyingQuestion.id] !== undefined,
+      true,
+    );
+  }
   const outcome = disqualifyingQuestions.reduce(
     (isPass, disqualifyingQuestion) =>
       formState[disqualifyingQuestion.id] === 'yes' ? 'fail' : isPass,
     'pass',
   );
-
   const status = complete ? outcome : 'incomplete';
 
   if (complete) {
