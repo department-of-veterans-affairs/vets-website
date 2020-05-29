@@ -26,7 +26,7 @@ const medicalCentersByState = _.mapValues(
 );
 
 const submitTransform = (formConfig, form) => {
-  console.log('raw data', form.data);
+  // console.log('raw data', form.data);
 
   const makeObject = (data, keyName) => {
     const keys = Object.keys(data);
@@ -46,7 +46,7 @@ const submitTransform = (formConfig, form) => {
       }
     };
 
-    let objName = getObjKey(keyName);
+    const objName = getObjKey(keyName);
 
     const newObj = {
       [objName]: {},
@@ -57,8 +57,18 @@ const submitTransform = (formConfig, form) => {
 
     keys.map(key => {
       if (key.includes(keyName)) {
-        const keyWithoutPrefix = lowerCaseFirstLetter(key.split(keyName)[1]);
-        objName = { ...newObj, [keyWithoutPrefix]: data[key] };
+        if (key === 'veteranPreferredFacility') {
+          newObj[objName] = {
+            ...newObj[objName],
+            plannedClinic: data[key].plannedClinic,
+          };
+        } else {
+          const keyWithoutPrefix = lowerCaseFirstLetter(key.split(keyName)[1]);
+          newObj[objName] = {
+            ...newObj[objName],
+            [keyWithoutPrefix]: data[key],
+          };
+        }
       }
 
       return null;
@@ -75,10 +85,9 @@ const submitTransform = (formConfig, form) => {
     },
   };
 
-  console.log('remappedData', remappedData);
+  // console.log('remappedData', remappedData);
 
   const formData = transformForSubmit(formConfig, remappedData);
-  console.log('formData', formData);
 
   return JSON.stringify({
     caregiversAssistanceClaim: {
