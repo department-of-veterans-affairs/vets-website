@@ -152,7 +152,7 @@
     "concurrently": "^5.1.0",
     "cors": "^2.7.1",
     "css-loader": "^0.28.10",
-    "cypress": "^4.4.0",
+    "cypress": "^4.7.0",
     "cypress-axe": "^0.8.1",
     "decompress": "^4.2.0",
     "enhanced-resolve": "^0.7.6",
