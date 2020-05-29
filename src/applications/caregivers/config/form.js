@@ -1,10 +1,14 @@
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { states } from 'platform/forms/address';
-import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
+import environment from 'platform/utilities/environment';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
+import {
+  medicalCentersByState,
+  submitTransform,
+} from 'applications/caregivers/helpers';
+import { states } from 'platform/forms/address';
 import {
   PrimaryCaregiverInfo,
   PrimaryHealthCoverage,
@@ -76,9 +80,8 @@ const hasSecondaryCaregiverTwo = formData =>
  */
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
+  transformForSubmit: submitTransform,
   trackingPrefix: 'caregiver-1010cg',
   introduction: IntroductionPage,
   footerContent: NeedHelpFooter,
