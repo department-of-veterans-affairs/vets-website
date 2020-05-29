@@ -7,8 +7,9 @@ We'll walk through the capabilities of the library systematically. By the end of
 the book, you should have a solid grasp of how to build forms on VA.gov.
 
 ## A summary
-**Chapter 1: My First Form** takes you step-by-step through building your first
-form on VA.gov. It's intended for engineers new to the forms library.
+[**Chapter 1: My First Form**](my-first-form.md) takes you step-by-step through
+building your first form on VA.gov. It's intended for engineers new to the forms
+library.
 
 In **Chapter 2: Customizing Your Form**, we introduce you to a number of options
 for your `formConfig`.
