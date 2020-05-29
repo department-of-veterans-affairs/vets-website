@@ -116,7 +116,7 @@ jobs:
       - run: yarn build:webpack
 
   build-e2e:
-    working_directory: ~/root
+    working_directory: ~/root/project
     docker:
       - image: cypress/base:10.15.3
     steps:
