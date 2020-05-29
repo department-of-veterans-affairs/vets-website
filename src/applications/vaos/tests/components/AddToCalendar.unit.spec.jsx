@@ -28,7 +28,7 @@ describe('VAOS <AddToCalendar>', () => {
       expect(link.props().href).to.contain(encodeURIComponent('END:VCALENDAR'));
     });
 
-    it('should contain valid ICS end command', () => {
+    it('should contain description', () => {
       expect(link.props().href).to.contain(
         encodeURIComponent('some description'),
       );

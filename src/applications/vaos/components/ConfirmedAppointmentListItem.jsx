@@ -104,11 +104,11 @@ export default function ConfirmedAppointmentListItem({
       />
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-          {isVideoAppointment && (
-            <VideoVisitSection appointment={appointment} />
-          )}
           {isCommunityCare && (
             <ConfirmedCommunityCareLocation appointment={appointment} />
+          )}
+          {isVideoAppointment && (
+            <VideoVisitSection appointment={appointment} />
           )}
           {isInPersonVAAppointment && (
             <VAFacilityLocation
