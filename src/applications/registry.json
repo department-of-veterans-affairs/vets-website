@@ -867,5 +867,14 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "Example Form",
+    "entryName": "example-form",
+    "rootUrl": "/example-form",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
