@@ -44,7 +44,6 @@ module.exports = `
       value
     }
     fieldReferralRequired
-    fieldServiceOffered
     fieldWalkInsAccepted
   }
 `;

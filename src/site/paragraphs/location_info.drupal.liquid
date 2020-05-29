@@ -71,24 +71,19 @@
     </p>
     {% endif %}
 
-    {% if about.fieldServiceOffered %}<p class="vads-u-margin-bottom--0">
-        <strong>Service offered?
-        </strong>{% if about.fieldServiceOffered == true %}Yes{% else %}No{% endif %}
-    </p>{% endif %}
-
     {% if about.fieldReferralRequired %}<p class="vads-u-margin-bottom--0">
         <strong>Referral required?
-        </strong>{% if about.fieldReferralRequired == true %}Yes{% else %}No{% endif %}
+        </strong>{% if about.fieldReferralRequired == 'yes' %}Yes{% else %}No{% endif %}
     </p>{% endif %}
 
     {% if about.fieldWalkInsAccepted %}<p class="vads-u-margin-bottom--0">
         <strong>Walk-ins accepted?
-        </strong>{% if about.fieldWalkInsAccepted == true %}Yes{% else %}No{% endif %}
+        </strong>{% if about.fieldWalkInsAccepted == 'yes' %}Yes{% else %}No{% endif %}
     </p>{% endif %}
 
     {% if about.fieldOnlineSchedulingAvailabl %}<p>
         <strong>Online Scheduling Available?
-        </strong>{% if about.fieldOnlineSchedulingAvailabl == true %}Yes{% else %}No{% endif %}
+        </strong>{% if about.fieldOnlineSchedulingAvailabl == 'yes' %}Yes{% else %}No{% endif %}
     </p>{% endif %}
 
     {% if about.fieldAppointmentPhone %}<p class="vads-u-margin-bottom--0">
