@@ -54,6 +54,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
   <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
     <button
       aria-expanded={props.expandEybSheet ? 'true' : 'false'}
+      aria-controls={props.showEybSheet && 'eyb-summary-sheet'}
       className="eyb-button usa-accordion-button vads-u-padding-bottom--0"
       onClick={() => props.toggleEybExpansion()}
     >
