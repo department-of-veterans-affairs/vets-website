@@ -48,7 +48,7 @@ jobs:
           path: ./test-results
 
   e2e-test:
-    working_directory: ~/project
+    working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
     parallelism: 2
@@ -116,7 +116,7 @@ jobs:
       - run: yarn build:webpack
 
   build-e2e:
-    working_directory: ~/project
+    working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
     steps:
@@ -144,7 +144,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/build
+            - vets-website/build
             - .cache/Cypress
 
   eslint-check:
