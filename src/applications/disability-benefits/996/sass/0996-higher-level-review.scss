@@ -57,25 +57,16 @@
 
 /* Step 2 */
 /*** Contested issues block ***/
-.usa-button-secondary.btn-see-all-issues {
-  width: auto;
-}
 
+/* global definitions */
 // hide Required label (added to description)
-#root_contestedIssues-label {
+#root_contestedIssues-label .schemaform-required-span {
   display: none;
 }
 
-.schemaform-first-field > .usa-input-error {
-  padding-top: 0;
-}
-
-.contested-issues-error.usa-alert-error {
-  margin-top: 0;
-}
-
-// This could go in the schemaform css, but it isn't used anywhere but here for
-// now
+/* Contested issue cards (contested issue page & review/submit page)
+ * This could go in the schemaform css, it's used in form 526 & HLR
+ */
 .widget-outline {
   padding: 1em;
   border: solid 4px $color-primary-alt-light;
@@ -118,8 +109,40 @@
   }
 }
 
+/* Contested issue page specific definitions */
+article[data-location="contested-issues"] {
+  /* hide error; we have a huge alert box instead; but it needs to show on
+   * the review & submit page because the alert doesn't show up
+   */
+  #root_contestedIssues-error-message {
+    display: none;
+  }
+
+  .usa-input-error {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  dl.review {
+    border-bottom-width: 0;
+  }
+}
+
 /* Step 3 */
 /* Informal conference */
+/* global */
+#root_informalConferenceTimes-label {
+  p {
+    margin-top: 0;
+  }
+  .schemaform-required-span {
+    display: none;
+  }
+}
+.schemaform-block-header > p + p {
+  margin-top: 1em;
+}
+/* page specific */
 article[data-location="request-informal-conference"] {
   .schemaform-block-header {
     margin-bottom: 1.5em;
@@ -148,16 +171,6 @@ article[data-location="request-informal-conference"] {
     font-weight: bold;
   }
 
-  #root_scheduleTimes-label {
-    p {
-      margin-top: 0;
-    }
-
-    .schemaform-required-span {
-      display: none;
-    }
-  }
-
   .form-checkbox label {
     margin-top: 1em;
   }
@@ -165,9 +178,14 @@ article[data-location="request-informal-conference"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* checkbox group "Required" lable (added to */
-  #root_scheduleTimes-label {
+  /* Hide veteran information accordion (it's empty) */
+  .usa-accordion-bordered[data-chapter="infoPages"] {
     display: none;
+  }
+
+  /* reduce huge gaps where text should be rendered */
+  .schemaform-field-template {
+    margin-top: 0;
   }
 
   /* tweak second entry */
