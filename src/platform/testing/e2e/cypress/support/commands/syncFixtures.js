@@ -5,7 +5,8 @@ let initialized = false;
 
 /**
  * Runs task to sync fixtures under a temp path in the Cypress fixtures folder
- * then overwrites cy.fixture to look for fixtures under that temp path.
+ * then overwrites `cy.fixture` and the fixture shorthand in `cy.route`
+ * to look for fixtures under that temp path.
  */
 Cypress.Commands.add('syncFixtures', fixtures => {
   const args = { fixtures, initialized };
