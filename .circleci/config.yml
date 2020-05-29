@@ -53,12 +53,6 @@ jobs:
     parallelism: 2
     environment:
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
       - attach_workspace:
           at: /root
       - run:
@@ -133,8 +127,10 @@ jobs:
       - persist_to_workspace:
           root: /root
           paths:
+            - project/src
             - project/build
-            - project/test-results
+            - project/script
+            - project/node_modules
             - .cache/Cypress
 
   eslint-check:
