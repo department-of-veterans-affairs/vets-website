@@ -163,9 +163,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
 
     expect(tree.find('h3[tabIndex="-1"]').exists()).to.be.true;
-    expect(tree.find('h3[tabIndex="-1"]').text()).to.equal(
-      'Past appointments past three months',
-    );
+    expect(tree.find('h3[tabIndex="-1"]').text()).to.equal('Past appointments');
 
     tree.unmount();
   });

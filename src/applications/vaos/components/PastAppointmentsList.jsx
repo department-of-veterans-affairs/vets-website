@@ -113,7 +113,6 @@ export class PastAppointmentsList extends React.Component {
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
         <h3 tabIndex="-1" id="pastAppts">
           Past appointments
-          <span class="sr-only"> past three months</span>
         </h3>
         <PastAppointmentsDateDropdown
           currentRange={appointments.pastSelectedIndex}
