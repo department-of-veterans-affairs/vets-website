@@ -99,6 +99,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(fetchPastAppointments.firstCall.args[1]).to.equal(
       dateRangeOptions[defaultProps.appointments.pastSelectedIndex].endDate,
     );
+
     tree.unmount();
   });
 
@@ -149,6 +150,21 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
 
     expect(tree.find('AlertBox').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should render focus on H3 tag', () => {
+    const tree = shallow(
+      <PastAppointmentsList
+        appointments={appointments}
+        showPastAppointments
+        pastSelectedIndex={0}
+      />,
+    );
+
+    expect(tree.find('h3[tabIndex="-1"]').exists()).to.be.true;
+    expect(tree.find('h3[tabIndex="-1"]').text()).to.equal('Past appointments');
+
     tree.unmount();
   });
 
