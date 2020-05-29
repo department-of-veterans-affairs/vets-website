@@ -13,30 +13,31 @@ import ContactInfoForm from '../ContactInfoForm';
 
 class PhoneEditView extends React.Component {
   getInitialFormValues = () => {
-    let defaultFieldValue;
+    let initialFormValues = {
+      countryCode: '1',
+      extension: '',
+      inputPhoneNumber: '',
+      isTextable: false,
+      isTextPermitted: false,
+      'view:showSMSCheckbox': this.props.showSMSCheckbox,
+    };
 
     if (this.props.data) {
-      defaultFieldValue = {
-        ...this.props.data,
-        inputPhoneNumber: `${this.props.data.areaCode}${
-          this.props.data.phoneNumber
-        }`,
-        extension: this.props.data.extension || '',
-        isTextPermitted: this.props.data.isTextPermitted || false,
-        'view:showSMSCheckbox': this.props.showSMSCheckbox,
-      };
-    } else {
-      defaultFieldValue = {
-        countryCode: '1',
-        extension: '',
-        inputPhoneNumber: '',
-        isTextable: false,
-        isTextPermitted: false,
-        'view:showSMSCheckbox': this.props.showSMSCheckbox,
+      const {
+        data,
+        data: { extension, areaCode, phoneNumber, isTextPermitted },
+        showSMSCheckbox,
+      } = this.props;
+      initialFormValues = {
+        ...data,
+        extension: extension || '',
+        inputPhoneNumber: `${areaCode}${phoneNumber}`,
+        isTextPermitted: isTextPermitted || false,
+        'view:showSMSCheckbox': showSMSCheckbox,
       };
     }
 
-    return defaultFieldValue;
+    return initialFormValues;
   };
 
   renderForm = (formButtons, onSubmit) => (
@@ -63,14 +64,9 @@ class PhoneEditView extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const showReceiveTextNotifications = profileShowReceiveTextNotifications(
-    state,
-  );
   const isEnrolledInVAHealthCare = isEnrolledInVAHealthCareSelector(state);
   const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
-    showReceiveTextNotifications &&
-    isEnrolledInVAHealthCare;
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
   return { showSMSCheckbox };
 }
 

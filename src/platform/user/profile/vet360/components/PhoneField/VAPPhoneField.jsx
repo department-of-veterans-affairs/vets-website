@@ -101,12 +101,12 @@ export default class PhoneField extends React.Component {
       areaCode: strippedPhone.substring(0, 3),
       countryCode,
       extension: strippedExtension,
-      phoneType,
-      phoneNumber: strippedPhone.substring(3),
-      isInternational: countryCode !== USA.COUNTRY_CODE,
       inputPhoneNumber,
+      isInternational: countryCode !== USA.COUNTRY_CODE,
       isTextable,
       isTextPermitted,
+      phoneNumber: strippedPhone.substring(3),
+      phoneType,
     };
   }
 
@@ -121,10 +121,10 @@ export default class PhoneField extends React.Component {
         areaCode: cleanData.areaCode,
         countryCode: USA.COUNTRY_CODE, // currently no international phone number support
         extension: cleanData.extension,
-        phoneNumber: cleanData.phoneNumber,
         isInternational: false, // currently no international phone number support
         isTextable: cleanData.isTextable,
         isTextPermitted: cleanData.isTextPermitted,
+        phoneNumber: cleanData.phoneNumber,
         phoneType: PHONE_TYPE[fieldName],
       },
       e => !!e,
@@ -134,13 +134,13 @@ export default class PhoneField extends React.Component {
   render() {
     return (
       <VAPProfileField
-        title={this.props.title}
-        fieldName={this.props.fieldName}
         apiRoute={API_ROUTES.TELEPHONES}
-        convertCleanDataToPayload={this.convertCleanDataToPayload}
         ContentView={PhoneView}
+        convertCleanDataToPayload={this.convertCleanDataToPayload}
         EditView={PhoneEditView}
+        fieldName={this.props.fieldName}
         formSchema={formSchema}
+        title={this.props.title}
         uiSchema={uiSchema}
       />
     );
