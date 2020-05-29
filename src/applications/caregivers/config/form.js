@@ -107,7 +107,7 @@ const formConfig = {
       pages: {
         veteranInfoOne: {
           path: 'vet-1',
-          title: ' ',
+          title: 'Veteran information',
           uiSchema: {
             'ui:description': VetInfo({ headerInfo: true }),
             [vetFields.fullName]: fullNameUI(vetUI.vetInputLabel),
@@ -229,7 +229,7 @@ const formConfig = {
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
-          title: ' ',
+          title: 'Primary Family Caregiver information',
           uiSchema: {
             'ui:description': () =>
               PrimaryCaregiverInfo({ additionalInfo: true }),
@@ -363,7 +363,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',
-          title: ' ',
+          title: 'Secondary Family Caregiver information',
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({
               additionalInfo: true,
@@ -492,7 +492,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: ' ',
+          title: 'Secondary Family Caregiver (2) information',
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo,

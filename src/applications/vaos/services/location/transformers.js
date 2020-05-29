@@ -70,11 +70,10 @@ function isFacilityClosed(hours) {
   const sanitizedOperatingHours = hours.replace(/\s/g, '');
 
   // Derive if the hours are closed.
-  const isClosed =
+  return (
     sanitizedOperatingHours === '-' ||
-    sanitizedOperatingHours.toLowerCase().includes('close');
-
-  return isClosed;
+    sanitizedOperatingHours.toLowerCase().includes('close')
+  );
 }
 
 function parseHours(operatingHours) {

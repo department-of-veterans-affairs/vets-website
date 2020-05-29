@@ -3,30 +3,38 @@
  * a FHIR resource request
  */
 import { getParentFacilities } from '../../api';
-import { mapToFHIRErrors } from '../../utils/fhir';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { transformParentFacilities } from './transformers';
+import { fhirSearch, mapToFHIRErrors } from '../utils';
 
 /**
  * Fetch details about the facilities given, typically the VistA sites
  * where a user is registered
  *
  * @export
- * @param {Array} siteIds A list of three digit site ids
- * @returns {Object} A FHIR searchset of Organization resources
+ * @param {Array} params.siteIds A list of three digit site ids
+ * @param {Boolean} params.useVSP A flag that determines whether we go to the new VSP apis
+ * @returns {Array} A FHIR searchset of Organization resources
  */
-export async function getOrganizations(siteIds) {
-  try {
-    const parentFacilities = await getParentFacilities(siteIds);
+export async function getOrganizations({ siteIds, useVSP = false }) {
+  if (!useVSP) {
+    try {
+      const parentFacilities = await getParentFacilities(siteIds);
 
-    return transformParentFacilities(parentFacilities);
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
+      return transformParentFacilities(parentFacilities);
+    } catch (e) {
+      if (e.errors) {
+        throw mapToFHIRErrors(e.errors);
+      }
+
+      throw e;
     }
-
-    throw e;
   }
+
+  return fhirSearch({
+    query: `Organization?identifier=${siteIds.join(',')}`,
+    mock: () => import('./mock.json'),
+  });
 }
 /**
  * Pulls the VistA id from an Organization resource
