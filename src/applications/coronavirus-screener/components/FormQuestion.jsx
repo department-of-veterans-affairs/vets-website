@@ -8,31 +8,33 @@ export default function FormQuestion({
   question,
   formState,
   setFormState,
-  resultSubmitted,
-  setResultSubmittedState,
+  questionState,
+  setQuestionState,
   scrollNext,
 }) {
+  const questionIndex = questionState.findIndex(el => el.id === question.id);
+
   function handleChange(event) {
-    if (_.isEmpty(formState)) {
+    if (formState.startTime === null) {
       recordEvent({
         event: 'covid-screening-tool-start',
         'screening-tool-question': question.id,
       });
       // starts duration timer for GA
-      setResultSubmittedState({
-        ...resultSubmitted,
+      setFormState({
+        ...formState,
         startTime: moment().unix(),
       });
     }
-    if (question.id === 'isStaff' && !_.isEmpty(formState)) {
-      setFormState({ [question.id]: event.target.value });
-    } else {
-      // sets the current question value in form state
-      setFormState({
-        ...formState,
-        [question.id]: event.target.value,
-      });
-    }
+
+    const newQuestionState = questionState;
+    newQuestionState[questionIndex].value = event.target.value;
+
+    console.log(newQuestionState);
+
+    // sets the current question value in form state
+    setQuestionState(newQuestionState);
+
     scrollNext();
   }
 
@@ -40,13 +42,14 @@ export default function FormQuestion({
     { optionValue: 'yes', optionText: 'Yes' },
     { optionValue: 'no', optionText: 'No' },
   ];
+
   const options = optionsConfig.map((option, index) => (
     <button
       key={index}
       type="button"
       className={classnames(
         'usa-button-big',
-        formState[question.id] === option.optionValue
+        questionState[questionIndex].value === option.optionValue
           ? 'usa-button'
           : 'usa-button-secondary',
       )}

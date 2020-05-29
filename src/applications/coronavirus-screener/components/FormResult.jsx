@@ -5,59 +5,48 @@ import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
 import { fromRenderProps } from 'recompose';
 
-export default function FormResult({
-  questions,
-  formState,
-  resultSubmitted,
-  setResultSubmittedState,
-}) {
-  let complete;
+function recordScreeningToolEvent({ result, startTime }) {
+  const timeToComplete = moment().unix() - startTime;
+  recordEvent({
+    event: 'covid-screening-tool-result-displayed',
+    'screening-tool-result': result,
+    'time-to-complete': timeToComplete,
+  });
+}
 
-  function recordScreeningToolEvent(screeningToolResult) {
-    if (!resultSubmitted.isSubmitted) {
-      const timeToComplete = moment().unix() - resultSubmitted.startTime;
-      recordEvent({
-        event: 'covid-screening-tool-result-displayed',
-        'screening-tool-result': screeningToolResult,
-        'time-to-complete': timeToComplete,
-      });
-      setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
-    }
-  }
-
-  const Incomplete = () => <div>Please answer all the questions above.</div>;
-
-  const Pass = () => (
-    <Complete>
-      <i aria-hidden="true" role="presentation" className="fas fa-check" />
-      <h2 className="vads-u-font-size--h1">OK to proceed</h2>
-    </Complete>
-  );
-
-  const Fail = () => (
-    <Complete>
-      <h2 className="vads-u-font-size--h1">More screening needed</h2>
-    </Complete>
-  );
-
-  function Complete({ children }) {
-    return (
-      <div>
-        {children}
-        <h3>Valid for:</h3>
-        <h3>{moment().format('dddd, MMMM D, h:mm a')}</h3>
-        <div className="vads-u-font-size--h3">
-          <p>
-            Please show this screen to the staff member at the facility
-            entrance.
-          </p>
-          <p>
-            Thank you for helping us protect you and others during this time.
-          </p>
-        </div>
+function Complete({ children }) {
+  return (
+    <div>
+      {children}
+      <h3>Valid for:</h3>
+      <h3>{moment().format('dddd, MMMM D, h:mm a')}</h3>
+      <div className="vads-u-font-size--h3">
+        <p>
+          Please show this screen to the staff member at the facility entrance.
+        </p>
+        <p>Thank you for helping us protect you and others during this time.</p>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+const Incomplete = () => <div>Please answer all the questions above.</div>;
+
+const Pass = () => (
+  <Complete>
+    <i aria-hidden="true" role="presentation" className="fas fa-check" />
+    <h2 className="vads-u-font-size--h1">OK to proceed</h2>
+  </Complete>
+);
+
+const Fail = () => (
+  <Complete>
+    <h2 className="vads-u-font-size--h1">More screening needed</h2>
+  </Complete>
+);
+
+export default function FormResult({ questions, formState }) {
+  const status = formState.status;
 
   const results = {
     pass: {
@@ -76,27 +65,12 @@ export default function FormResult({
     },
   };
 
-  const disqualifyingQuestions = questions.filter(
-    question => question.disqualifying === true,
-  );
-  if (disqualifyingQuestions.length === 0) {
-    complete = false;
-  } else {
-    complete = disqualifyingQuestions.reduce(
-      (isComplete, disqualifyingQuestion) =>
-        isComplete && formState[disqualifyingQuestion.id] !== undefined,
-      true,
-    );
-  }
-  const outcome = disqualifyingQuestions.reduce(
-    (isPass, disqualifyingQuestion) =>
-      formState[disqualifyingQuestion.id] === 'yes' ? 'fail' : isPass,
-    'pass',
-  );
-  const status = complete ? outcome : 'incomplete';
-
-  if (complete) {
-    recordScreeningToolEvent(results[status].event);
+  if (status !== 'incomplete') {
+    console.log(status);
+    recordScreeningToolEvent({
+      result: results[status].event,
+      startTime: formState.startTime,
+    });
   }
 
   const resultContent = results[status].content;
