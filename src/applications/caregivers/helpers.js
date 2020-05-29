@@ -25,12 +25,23 @@ const medicalCentersByState = _.mapValues(
   caregiverFacilities,
 );
 
+// transforms forData to match fullSchema structure for backend submission
 const submitTransform = (formConfig, form) => {
-  const makeObject = (data, keyName) => {
-    if (keyName === null) return {};
+  // checks for optional chapters using ssnOrTin
+  const hasSecondaryOne =
+    form.data.secondaryOneSsnOrTin === undefined ? null : 'secondaryOne';
+
+  const hasSecondaryTwo =
+    form.data.secondaryTwoSsnOrTin === undefined ? null : 'secondaryTwo';
+
+  // creates chapter objects by matching chapter prefixes
+  const buildChapterSortedObject = (data, dataPrefix) => {
+    // check to make sure there is a keyName
+    if (dataPrefix === null) return {};
     const keys = Object.keys(data);
 
-    const getObjKey = key => {
+    // matches prefix to fullSchema chapter object labels/keys
+    const getChapterName = key => {
       switch (key) {
         case 'veteran':
           return 'veteran';
@@ -45,50 +56,51 @@ const submitTransform = (formConfig, form) => {
       }
     };
 
-    const objName = getObjKey(keyName);
+    const chapterName = getChapterName(dataPrefix);
 
-    const newObj = {
-      [objName]: {},
+    const sortedDataByChapter = {
+      [chapterName]: {},
     };
 
     const lowerCaseFirstLetter = string =>
       string.charAt(0).toLowerCase() + string.slice(1);
 
+    // maps over all keys, and creates objects of the same prefix then removes prefix
     keys.map(key => {
-      if (key.includes(keyName)) {
+      // if has same prefix
+      if (key.includes(dataPrefix)) {
+        // if preferredFacility grab the nested "plannedClinic" value, and surface it
         if (key === 'veteranPreferredFacility') {
-          newObj[objName] = {
-            ...newObj[objName],
+          sortedDataByChapter[chapterName] = {
+            ...sortedDataByChapter[chapterName],
             plannedClinic: data[key].plannedClinic,
           };
         } else {
-          const keyWithoutPrefix = lowerCaseFirstLetter(key.split(keyName)[1]);
-          newObj[objName] = {
-            ...newObj[objName],
+          // otherwise just remove the prefix, and populate chapter object
+          const keyWithoutPrefix = lowerCaseFirstLetter(
+            key.split(dataPrefix)[1],
+          );
+          sortedDataByChapter[chapterName] = {
+            ...sortedDataByChapter[chapterName],
             [keyWithoutPrefix]: data[key],
           };
         }
       }
 
+      // returning null due to "array-callback-return" eslint rule
       return null;
     });
 
-    return newObj;
+    return sortedDataByChapter;
   };
-
-  const hasSecondaryOne =
-    form.data.secondaryOneSsnOrTin === undefined ? null : 'secondaryOne';
-
-  const hasSecondaryTwo =
-    form.data.secondaryTwoSsnOrTin === undefined ? null : 'secondaryTwo';
 
   const remappedData = {
     ...form,
     data: {
-      ...makeObject(form.data, 'veteran'),
-      ...makeObject(form.data, 'primary'),
-      ...makeObject(form.data, hasSecondaryOne),
-      ...makeObject(form.data, hasSecondaryTwo),
+      ...buildChapterSortedObject(form.data, 'veteran'),
+      ...buildChapterSortedObject(form.data, 'primary'),
+      ...buildChapterSortedObject(form.data, hasSecondaryOne),
+      ...buildChapterSortedObject(form.data, hasSecondaryTwo),
     },
   };
 
