@@ -56,10 +56,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - restore_cache:
           keys:
-            - node-v1-{{ checksum "package.json" }}
+            - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
           at: /root
       - run:
