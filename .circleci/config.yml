@@ -48,10 +48,10 @@ jobs:
           path: ./test-results
 
   e2e-test:
+    working_directory: ~/root/project
     docker:
       - image: cypress/base:10.15.3
     parallelism: 2
-    environment:
     steps:
       - checkout
       - restore_cache:
@@ -61,7 +61,7 @@ jobs:
           keys:
             - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
-          at: /root
+          at: ~/root/project
       - run:
           command: yarn install --frozen-lockfile
       - run:
