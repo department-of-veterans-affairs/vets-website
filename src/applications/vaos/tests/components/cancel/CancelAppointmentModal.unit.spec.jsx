@@ -76,14 +76,14 @@ describe('VAOS <CancelAppointmentModal>', () => {
           participant: [
             {
               actor: {
-                reference: 'HealthcareService/var983_455',
+                reference: 'HealthcareService/123',
                 display: 'CHY OPT VAR1',
               },
             },
           ],
           vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         }}
-        cernerFacilities={['var983']}
+        cernerFacilities={['123']}
       />,
     );
 
