@@ -2,8 +2,8 @@
   {
     "appName": "COVID-19 screener",
     "entryName": "covid19screen",
-    "rootUrl":"/covid19screen",
-    "template":{
+    "rootUrl": "/covid19screen",
+    "template": {
       "title": "COVID-19 screening tool",
       "layout": "page-react.html",
       "vagovprod": true
@@ -856,6 +856,15 @@
     "template": {
       "vagovprod": false,
       "title": "Debt Letters",
+      "layout": "page-react.html"
+    }
+  },
+  {
+    "appName": "123-456 Fake Benefits",
+    "entryName": "fake-benefits",
+    "rootUrl": "/fake-benefits",
+    "template": {
+      "vagovprod": false,
       "layout": "page-react.html"
     }
   }

@@ -1,0 +1,6 @@
+{
+  "appName": "123-456 Fake Benefits",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "fake-benefits",
+  "rootUrl": "/fake-benefits"
+}
