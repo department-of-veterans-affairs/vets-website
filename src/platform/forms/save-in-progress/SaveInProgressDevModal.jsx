@@ -5,6 +5,7 @@ import ErrorableTextArea from '@department-of-veterans-affairs/formation-react/E
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
 
 import environment from 'platform/utilities/environment';
+import { getActivePages } from 'platform/forms-system/src/js/helpers';
 
 const SipsDevModal = props => {
   const [isModalVisible, toggleModal] = useState(false);
@@ -12,7 +13,10 @@ const SipsDevModal = props => {
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
 
-  const availablePaths = props?.pageList.map(page => page.path) || [];
+  const availablePaths = getActivePages(
+    props?.pageList || [],
+    props.form.data,
+  ).map(page => page.path);
 
   const openSipsModal = () => {
     setSipsData(JSON.stringify(props.form.data, null, 2));
