@@ -147,16 +147,17 @@ const processPage = () => {
       });
     } else {
       // If there's a page hook, it overrides the automatic form filling.
-      // Run the aXe check after either running the hook or filling the page.
+      // Run the aXe check after running the hook or filling the page.
+      // Continue to the next page after everything.
       cy.execHook(pathname).then(hookExecuted => {
-        if (!hookExecuted) {
-          cy.fillPage()
-            .findByText(/continue/i, { selector: 'button' })
-            .click();
-        }
+        if (!hookExecuted) cy.fillPage();
 
         cy.expandAccordions();
         cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+
+        if (!hookExecuted) {
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        }
       });
 
       cy.location('pathname', COMMAND_OPTIONS)
