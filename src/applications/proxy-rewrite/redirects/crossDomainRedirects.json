@@ -1333,5 +1333,15 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/yellow_ribbon/2019/states/wy.asp",
     "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.vba.va.gov",
+    "src": "/pubs/forms/VBA-21-0958-ARE.pdf",
+    "dest": "/decision-reviews/legacy-appeals/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/vaforms/form_detail.asp?formno=21-0958",
+    "dest": "/decision-reviews/legacy-appeals/"
   }
 ]
