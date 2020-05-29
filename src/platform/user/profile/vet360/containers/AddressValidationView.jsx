@@ -4,6 +4,17 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
+
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from 'vet360/util/transactions';
+
+import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
+
+import * as VET360 from '../constants';
 import {
   openModal,
   createTransaction,
@@ -12,19 +23,8 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
-import recordEvent from 'platform/monitoring/record-event';
-
-import * as VET360 from '../constants';
-
-import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from 'vet360/util/transactions';
-
-import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
 class AddressValidationView extends React.Component {
   componentWillUnmount() {
