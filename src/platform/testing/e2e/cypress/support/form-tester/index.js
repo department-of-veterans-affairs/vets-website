@@ -116,6 +116,18 @@ const addNewArrayItem = $form => {
 };
 
 /**
+ * Run the page hook if the page has one, expand any accordions,
+ * and run aXe check again after doing all of that.
+ *
+ * @param {string} pagePath - The path to run the page hook on.
+ */
+const runHookAndAxeCheck = pagePath => {
+  cy.execHook(pagePath);
+  cy.expandAccordions();
+  cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+};
+
+/**
  * Top level loop that invokes all of the processing for a form page
  * (either running a page hook or filling out its fields) and
  * continues on to the next page. When it gets to the review page,
@@ -127,23 +139,15 @@ const processPage = () => {
 
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
-      cy.expandAccordions(); // Expand all the chapters.
-
-      // Run any page hooks for the review page, followed by an aXe check.
-      cy.execHook(pathname).then(hookExecuted => {
-        if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
-      });
-
+      runHookAndAxeCheck(pathname);
       cy.findByLabelText(/accept/i).click();
       cy.findByText(/submit/i, { selector: 'button' }).click();
 
       // The form should end up at the confirmation page after submitting.
-      // Run any page hooks for that, followed by an aXe check.
-      cy.location('pathname').then(finalPathname => {
-        expect(finalPathname).to.match(/confirmation$/);
-        cy.execHook(finalPathname).then(hookExecuted => {
-          if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
-        });
+      cy.location('pathname').then(endPathname => {
+        expect(endPathname).to.match(/confirmation$/);
+        cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+        runHookAndAxeCheck(endPathname);
       });
     } else {
       // If there's a page hook, it overrides the automatic form filling.
