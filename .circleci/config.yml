@@ -142,9 +142,9 @@ jobs:
       - run: yarn fetch-drupal-cache
       - run: yarn build
       - persist_to_workspace:
-          root: /root
+          root: ~/root/project
           paths:
-            - project/build
+            - build
 
   eslint-check:
     docker:
