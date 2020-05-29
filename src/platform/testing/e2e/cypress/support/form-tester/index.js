@@ -149,14 +149,17 @@ const processPage = () => {
       // If there's a page hook, it overrides the automatic form filling.
       // Run the aXe check after either running the hook or filling the page.
       cy.execHook(pathname).then(hookExecuted => {
-        if (!hookExecuted) cy.fillPage();
+        if (!hookExecuted) {
+          cy.fillPage()
+            .findByText(/continue/i, { selector: 'button' })
+            .click();
+        }
+
         cy.expandAccordions();
         cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
       });
 
-      cy.findByText(/continue/i, { selector: 'button' })
-        .click()
-        .location('pathname', COMMAND_OPTIONS)
+      cy.location('pathname', COMMAND_OPTIONS)
         .then(newPathname => {
           if (pathname === newPathname) {
             throw new Error(`Expected to navigate away from ${pathname}`);
