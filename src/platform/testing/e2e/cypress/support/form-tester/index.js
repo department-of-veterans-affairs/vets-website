@@ -1,5 +1,4 @@
 import { join, sep } from 'path';
-
 import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
@@ -127,6 +126,8 @@ const processPage = () => {
 
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
+      cy.expandAccordions(); // Expand all the chapters.
+
       // Run any page hooks for the review page, followed by an aXe check.
       cy.execHook(pathname).then(hookExecuted => {
         if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
@@ -148,6 +149,7 @@ const processPage = () => {
       // Run the aXe check after either running the hook or filling the page.
       cy.execHook(pathname).then(hookExecuted => {
         if (!hookExecuted) cy.fillPage();
+        cy.expandAccordions();
         cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
       });
 
@@ -435,9 +437,9 @@ const testForm = testConfig => {
     beforeEach(() => {
       cy.wrap(arrayPages).as('arrayPages');
 
-      cy.server()
-        .route('GET', 'v0/maintenance_windows', [])
-        .as('getMaintenanceWindows');
+      // Save a couple of seconds by definitively responding with
+      // no maintenance windows instead of letting the request time out.
+      cy.server().route('GET', 'v0/maintenance_windows', []);
 
       // Resolve relative page hook paths as relative to the form's root URL.
       cy.wrap(
@@ -463,9 +465,9 @@ const testForm = testConfig => {
         });
 
         it('fills the form', () => {
-          cy.visit(rootUrl)
-            .injectAxe()
-            .wait('@getMaintenanceWindows')
+          cy.visit(rootUrl).injectAxe();
+          cy.get('.loading-indicator')
+            .should('not.exist')
             .then(processPage);
         });
       });
