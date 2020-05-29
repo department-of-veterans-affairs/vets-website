@@ -12,7 +12,7 @@ building your first form on VA.gov. It's intended for engineers new to the forms
 library.
 
 In [**Chapter 2: Customizing Your Form**](customizing-your-form.md), we
-introduce you to a number of options for your `formConfig`.
+introduce you to the common options for your `formConfig`.
 
 [**Chapter 3: Save in Progress and Pre-fill**](save-in-progress-and-prefill.md)
 will teach you how to enable Save in Progress (SiP) and allow your applications
