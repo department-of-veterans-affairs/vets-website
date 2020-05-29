@@ -26,9 +26,8 @@ const medicalCentersByState = _.mapValues(
 );
 
 const submitTransform = (formConfig, form) => {
-  // console.log('raw data', form.data);
-
   const makeObject = (data, keyName) => {
+    if (keyName === null) return {};
     const keys = Object.keys(data);
 
     const getObjKey = key => {
@@ -38,9 +37,9 @@ const submitTransform = (formConfig, form) => {
         case 'primary':
           return 'primaryCaregiver';
         case 'secondaryOne':
-          return 'veteran';
-        case 'secondaryTwo ':
-          return 'veteran';
+          return 'secondaryCaregiverOne';
+        case 'secondaryTwo':
+          return 'secondaryCaregiverTwo';
         default:
           return null;
       }
@@ -77,15 +76,21 @@ const submitTransform = (formConfig, form) => {
     return newObj;
   };
 
+  const hasSecondaryOne =
+    form.data.secondaryOneSsnOrTin === undefined ? null : 'secondaryOne';
+
+  const hasSecondaryTwo =
+    form.data.secondaryTwoSsnOrTin === undefined ? null : 'secondaryTwo';
+
   const remappedData = {
     ...form,
     data: {
       ...makeObject(form.data, 'veteran'),
       ...makeObject(form.data, 'primary'),
+      ...makeObject(form.data, hasSecondaryOne),
+      ...makeObject(form.data, hasSecondaryTwo),
     },
   };
-
-  // console.log('remappedData', remappedData);
 
   const formData = transformForSubmit(formConfig, remappedData);
 

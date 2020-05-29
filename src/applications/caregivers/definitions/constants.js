@@ -3,7 +3,6 @@ export const vetFields = {
   alternativePhoneNumber: 'veteranAlternativePhoneNumber',
   dateOfBirth: 'veteranDateOfBirth',
   email: 'veteranEmail',
-  verifyEmail: 'view:veteranEmail',
   facilityType: 'veteranFacilityType',
   fullName: 'veteranFullName',
   gender: 'veteranGender',
@@ -14,6 +13,7 @@ export const vetFields = {
   previousTreatmentFacility: 'veteranLastTreatmentFacility',
   primaryPhoneNumber: 'veteranPrimaryPhoneNumber',
   ssn: 'veteranSsnOrTin',
+  verifyEmail: 'view:veteranEmail',
 };
 
 export const primaryCaregiverFields = {
@@ -22,7 +22,6 @@ export const primaryCaregiverFields = {
   champvaEnrolled: 'primaryChampvaEnrolled',
   dateOfBirth: 'primaryDateOfBirth',
   email: 'primaryEmail',
-  verifyEmail: 'view:primaryEmail',
   fullName: 'primaryFullName',
   gender: 'primaryGender',
   hasSecondaryCaregiverOneView: 'view:hasSecondaryCaregiverOne',
@@ -34,6 +33,7 @@ export const primaryCaregiverFields = {
   primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsnOrTin',
   tricareEnrolled: 'primaryTricareEnrolled',
+  verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
 };
 
@@ -43,12 +43,12 @@ export const secondaryCaregiverFields = {
     alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
     dateOfBirth: 'secondaryOneDateOfBirth',
     email: 'secondaryOneEmail',
-    verifyEmail: 'view:secondaryOneEmail',
     fullName: 'secondaryOneFullName',
     gender: 'secondaryOneGender',
     hasSecondaryCaregiverTwoView: 'view:hassecondaryCaregiverTwo',
     primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
     ssn: 'secondaryOneSsnOrTin',
+    verifyEmail: 'view:secondaryOneEmail',
     vetRelationship: 'secondaryOneVetRelationship',
   },
   secondaryTwo: {
@@ -56,11 +56,11 @@ export const secondaryCaregiverFields = {
     alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
     dateOfBirth: 'secondaryTwoDateOfBirth',
     email: 'secondaryTwoEmail',
-    verifyEmail: 'view:secondaryTwoEmail',
     fullName: 'secondaryTwoFullName',
     gender: 'secondaryTwoGender',
     primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
     ssn: 'secondaryTwoSsnOrTin',
+    verifyEmail: 'view:secondaryTwoEmail',
     vetRelationship: 'secondaryTwoVetRelationship',
   },
 };
