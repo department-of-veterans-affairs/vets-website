@@ -56,6 +56,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
             - node-v1-{{ checksum "package.json" }}
       - attach_workspace:
           at: /root
@@ -118,6 +119,9 @@ jobs:
       - restore_cache:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
       - run:
           command: yarn install --frozen-lockfile
       - save_cache:
