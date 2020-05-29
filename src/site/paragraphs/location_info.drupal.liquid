@@ -57,7 +57,7 @@
             <h4>Clinical Hours </h4>
             <ul class="va-c-facility-hours-list">
             {% for hours in about.fieldLocationHours%}
-            <li><strong>{{ hours.day | numToDay }}: </strong> {{hours.starthours | militaryTimeConvertor }} - {{hours.endhours | militaryTimeConvertor }}</li>
+            <li><strong>{{ hours.day | numToDay }}: </strong> {{hours.starthours | militaryTimeConvertor }} - {{hours.endhours | militaryTimeConvertor }} {% if hours.comment %}{{ hours.comment }}{% endif %}</li>
             {% endfor %}
             </ul>
         </p>
