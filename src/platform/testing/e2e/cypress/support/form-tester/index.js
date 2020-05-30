@@ -4,8 +4,9 @@ import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
-
 const FIELD_SELECTOR = 'input, select, textarea';
+const FORM_SELECTOR = 'form.rjsf';
+const LOADING_SELECTOR = '.loading-indicator';
 
 // Suppress logs for most commands, particularly calls to wrap and get
 // that are mainly there to support more specific operations.
@@ -338,7 +339,7 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get('form.rjsf', COMMAND_OPTIONS)
+        cy.get(FORM_SELECTOR, COMMAND_OPTIONS)
           .then($form => {
             // Get the starting number of array items and fields to compare
             // after filling out all currently visible fields, as new fields
@@ -470,7 +471,7 @@ const testForm = testConfig => {
 
         it('fills the form', () => {
           cy.visit(rootUrl).injectAxe();
-          cy.get('.loading-indicator')
+          cy.get(LOADING_SELECTOR)
             .should('not.exist')
             .then(processPage);
         });
