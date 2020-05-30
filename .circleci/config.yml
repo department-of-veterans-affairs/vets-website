@@ -63,7 +63,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          command: yarn install --frozen-lockfile
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - run:
           name: Run Cypress Tests
           command: ./script/run-cypress-tests-circle.sh
@@ -128,7 +128,7 @@ jobs:
           keys:
             - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
-          command: yarn install --frozen-lockfile
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - save_cache:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
