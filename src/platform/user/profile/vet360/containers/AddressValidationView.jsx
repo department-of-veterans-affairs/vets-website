@@ -11,6 +11,10 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'vet360/util/transactions';
+import {
+  selectAddressValidation,
+  selectAddressValidationType,
+} from 'vet360/selectors';
 
 import Vet360EditModalErrorMessage from 'vet360/components/base/Vet360EditModalErrorMessage';
 
@@ -31,7 +35,7 @@ class AddressValidationView extends React.Component {
     focusElement(`#${this.props.addressValidationType}-edit-link`);
   }
 
-  onChangeHandler = (address, selectedAddressId) => _event => {
+  onChangeSelectedAddress = (address, selectedAddressId) => {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
@@ -131,10 +135,10 @@ class AddressValidationView extends React.Component {
 
   renderAddressOption = (address, id = 'userEntered') => {
     const {
-      validationKey,
       addressValidationError,
-      selectedAddressId,
       confirmedSuggestions,
+      selectedAddressId,
+      validationKey,
     } = this.props;
 
     const isAddressFromUser = id === 'userEntered';
@@ -160,9 +164,9 @@ class AddressValidationView extends React.Component {
               className="address-validation-input"
               type="radio"
               id={id}
-              onChange={
-                isFirstOptionOrEnabled && this.onChangeHandler(address, id)
-              }
+              onChange={() => {
+                this.onChangeSelectedAddress(address, id);
+              }}
               checked={selectedAddressId === id}
             />
           )}
@@ -189,16 +193,16 @@ class AddressValidationView extends React.Component {
 
   render() {
     const {
-      suggestedAddresses,
       addressFromUser,
-      validationKey,
       addressValidationError,
-      resetAddressValidation,
+      clearErrors,
       confirmedSuggestions,
+      resetAddressValidation,
+      suggestedAddresses,
+      title,
       transaction,
       transactionRequest,
-      title,
-      clearErrors,
+      validationKey,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
@@ -268,23 +272,30 @@ class AddressValidationView extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
-  const addressValidationType =
-    state.vet360.addressValidation.addressValidationType;
+  const {
+    addressFromUser,
+    addressValidationError,
+    addressValidationType,
+    confirmedSuggestions,
+    selectedAddress,
+    selectedAddressId,
+    suggestedAddresses,
+    validationKey,
+  } = selectAddressValidation(state);
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
       state.vet360.fieldTransactionMap[addressValidationType]?.isPending ||
       isPendingTransaction(transaction),
-    addressValidationError:
-      state.vet360.addressValidation.addressValidationError,
-    suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
-    confirmedSuggestions: state.vet360.addressValidation.confirmedSuggestions,
+    addressFromUser,
+    addressValidationError,
     addressValidationType,
-    validationKey: state.vet360.addressValidation.validationKey,
-    addressFromUser: state.vet360.addressValidation.addressFromUser,
-    selectedAddress: state.vet360.addressValidation.selectedAddress,
-    selectedAddressId: state.vet360.addressValidation.selectedAddressId,
+    confirmedSuggestions,
+    selectedAddress,
+    selectedAddressId,
+    suggestedAddresses,
+    validationKey,
   };
 };
 
