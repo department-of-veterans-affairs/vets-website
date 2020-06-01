@@ -19,7 +19,7 @@ import {
 import { VHA_FHIR_ID } from '../../utils/constants';
 
 describe('VAOS scheduling eligibility logic', () => {
-  describe('getEligibilityData', () => {
+  describe.only('getEligibilityData', () => {
     before(() => {
       mockFetch();
     });
@@ -50,12 +50,12 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '323',
+        '322',
         '983',
         true,
       );
 
-      expect(Object.keys(eligibilityData)).to.deep.equal([
+      expect(eligibilityData).to.have.all.keys(
         'requestPastVisit',
         'requestLimits',
         'directSupported',
@@ -65,42 +65,11 @@ describe('VAOS scheduling eligibility logic', () => {
         'clinics',
         'hasMatchingClinics',
         'pastAppointments',
-      ]);
+      );
 
       expect(eligibilityData.hasMatchingClinics).to.be.true;
       expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
       expect(eligibilityData.pastAppointments.length).to.be.greaterThan(0);
-    });
-    it('should skip pact if not primary care', async () => {
-      const eligibilityData = await getEligibilityData(
-        {
-          identifier: [
-            {
-              system: VHA_FHIR_ID,
-              value: '983',
-            },
-          ],
-          legacyVAR: {
-            directSchedulingSupported: true,
-            requestSupported: true,
-          },
-        },
-        '502',
-        '983',
-        true,
-      );
-
-      expect(Object.keys(eligibilityData)).to.deep.equal([
-        'requestPastVisit',
-        'requestLimits',
-        'directSupported',
-        'directEnabled',
-        'requestSupported',
-        'directPastVisit',
-        'clinics',
-        'hasMatchingClinics',
-        'pastAppointments',
-      ]);
     });
 
     it('should set hasMatchingClinics to false if there are no matching past appointments', async () => {
@@ -118,7 +87,7 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '323',
+        '322',
         '983',
         true,
       );
@@ -155,7 +124,7 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '323',
+        '322',
         '983',
         true,
       );
@@ -184,7 +153,7 @@ describe('VAOS scheduling eligibility logic', () => {
         true,
       );
 
-      expect(Object.keys(eligibilityData)).to.deep.equal([
+      expect(eligibilityData).to.have.all.keys(
         'requestPastVisit',
         'requestLimits',
         'directSupported',
@@ -194,7 +163,7 @@ describe('VAOS scheduling eligibility logic', () => {
         'clinics',
         'hasMatchingClinics',
         'pastAppointments',
-      ]);
+      );
     });
   });
   describe('getEligibilityChecks', () => {
