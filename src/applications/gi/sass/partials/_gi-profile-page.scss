@@ -388,6 +388,12 @@
       -webkit-transition-delay: 0s;
       transition-delay: 0s;
     }
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+      &.open {
+        transition: none;
+      }
+    }
   }
 
   .overlay {

@@ -16,7 +16,7 @@ import {
 import { requireRatedDisability } from '../validations';
 import SameOfficeReviewField from '../containers/SameOfficeReviewField';
 
-const { contestedIssues } = fullSchema.properties;
+const { included } = fullSchema.properties;
 
 const contestedIssuesPage = {
   uiSchema: {
@@ -30,6 +30,7 @@ const contestedIssuesPage = {
         label: disabilityOption,
         widgetClassNames: 'widget-outline',
         keepInPageOnReview: true,
+        customTitle: ' ',
       },
       'ui:validations': [requireRatedDisability],
       'ui:required': () => true,
@@ -68,7 +69,7 @@ const contestedIssuesPage = {
   schema: {
     type: 'object',
     properties: {
-      contestedIssues,
+      contestedIssues: included,
       'view:contestedIssuesAlert': {
         type: 'object',
         properties: {},

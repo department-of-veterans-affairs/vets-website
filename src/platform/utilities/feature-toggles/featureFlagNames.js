@@ -27,4 +27,5 @@ export default Object.freeze({
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
+  gibctEybBottomSheet: 'gibctEybBottomSheet',
 });
