@@ -48,13 +48,20 @@ jobs:
           path: ./test-results
 
   e2e-test:
+    working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
     parallelism: 2
-    environment:
     steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
-          at: /root
+          at: ~/
+      - run:
+          name: Verify Dependencies are Installed
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - run:
           name: Run Cypress Tests
           command: yarn cy:test:circle
@@ -107,27 +114,48 @@ jobs:
       - run: yarn build:webpack
 
   build-e2e:
+    working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
     steps:
       - checkout
       - restore_cache:
           keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          keys:
+            - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
-          command: yarn install --frozen-lockfile
+          name: Install Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+      - run:
+          name: Verify Cypress is Installed
+          command: yarn cypress verify || yarn cypress install
       - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
-      - run: mkdir -p ./test-results
-      - run: yarn install-repos
-      - run: yarn fetch-drupal-cache
-      - run: yarn build
+            - ~/.cache
+      - save_cache:
+          key: node-v1-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Make Test Results Folder
+          command: mkdir -p ./test-results
+      - run:
+          name: Install Sibling Repositories
+          command: yarn install-repos
+      - run:
+          name: Fetch the Latest Drupal Content
+          command: yarn fetch-drupal-cache
+      - run:
+          name: Build vets-website
+          command: yarn build
       - persist_to_workspace:
-          root: /root
+          root: ~/
           paths:
-            - project
+            - vets-website/build
+            - vets-website/test-results
             - .cache/Cypress
 
   eslint-check:
