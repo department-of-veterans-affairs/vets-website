@@ -21,10 +21,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Navigate to facility dropdown and interact with some options
   client.keys(client.Keys.TAB);
   client.assert.isActiveElement('#facility-type-dropdown');
+  client.keys(client.Keys.DOWN_ARROW);
+  client.assert.visible('select option[value="health"]');
 
   // Navigate to service dropdown and interact with some options
   client.keys(client.Keys.TAB);
   client.assert.isActiveElement('#service-type-dropdown');
+  client.keys(client.Keys.DOWN_ARROW);
 
   // Navigate to search button
   client.keys(client.Keys.TAB);
