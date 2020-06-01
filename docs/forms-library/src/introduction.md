@@ -24,17 +24,19 @@ Practices**](best-practices.md). You may want to skim this one and refer back to
 it later when you're building out your form.
 
 In [**Chapter 5: Working with the `uiSchema`**](working-with-the-uischema.md),
-we get into the details of how to construct your `uiSchema`. We list the common
-options that you'll probably find yourself using the most and call out some
-common quirks of the library. This chapter isn't intended to be a comprehensive
-catalog of all the things you can do with the library. For that, see the
+we get into the details of how to adjust your form's UI configuration, which is
+where the UI layout and logic is kept. We list the common options that you'll
+probably find yourself using the most and call out some common quirks of the
+library. This chapter isn't intended to be a comprehensive catalog of all the
+things you can do with the library. For that, see the
 [**Reference**](reference.md).
 
 [**Chapter 6: Working with Arrays**](working-with-arrays.md) introduces the two
-most common uses of arrays in VA.gov forms.
+most common ways to store information in arrays in VA.gov forms.
 
 [**Chapter 7: Validation**](validation.md) takes a quick foray into how
-validation works in the Forms Library.
+validation works in the Forms Library and how to write and use your own custom
+validation functions.
 
 Now that you know how to write a form, [**Chapter 8: Writing
 Tests**](writing-tests.md) covers how to write the tests for them. We cover the
