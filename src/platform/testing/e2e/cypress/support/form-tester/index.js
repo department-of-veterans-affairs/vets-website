@@ -4,8 +4,9 @@ import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
-
 const FIELD_SELECTOR = 'input, select, textarea';
+const FORM_SELECTOR = 'form.rjsf';
+const LOADING_SELECTOR = '.loading-indicator';
 
 // Suppress logs for most commands, particularly calls to wrap and get
 // that are mainly there to support more specific operations.
@@ -116,10 +117,30 @@ const addNewArrayItem = $form => {
 };
 
 /**
- * Top level loop that invokes all of the processing for a form page
- * (either running a page hook or filling out its fields) and
- * continues on to the next page. When it gets to the review page,
- * it submits the form.
+ * Run the page hook if the page has one, optionally automatically fill the page
+ * if no hook ran, expand any accordions, and run an aXe check. Finally, if the
+ * page was automatically filled, also automatically continue to the next page.
+ *
+ * @param {string} pathname - The pathname of the page to run the page hook on.
+ * @param {boolean} [autofill] - If true, and if no page hook ran, automatically
+ *     fill the page. If false, don't fill the page, even if no page hook ran.
+ */
+const performPageActions = (pathname, autofill = true) => {
+  cy.execHook(pathname).then(hookExecuted => {
+    if (!hookExecuted && autofill) cy.fillPage();
+
+    cy.expandAccordions();
+    cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+
+    if (!hookExecuted && autofill) {
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    }
+  });
+};
+
+/**
+ * Top level loop that invokes all of the processing for a form page and
+ * proceeds to the next page. When it gets to the end, it submits the form.
  */
 const processPage = () => {
   // Run aXe check before doing anything on the page.
@@ -127,37 +148,20 @@ const processPage = () => {
 
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
-      cy.expandAccordions(); // Expand all the chapters.
-
-      // Run any page hooks for the review page, followed by an aXe check.
-      cy.execHook(pathname).then(hookExecuted => {
-        if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
-      });
-
+      performPageActions(pathname, false);
       cy.findByLabelText(/accept/i).click();
       cy.findByText(/submit/i, { selector: 'button' }).click();
 
       // The form should end up at the confirmation page after submitting.
-      // Run any page hooks for that, followed by an aXe check.
-      cy.location('pathname').then(finalPathname => {
-        expect(finalPathname).to.match(/confirmation$/);
-        cy.execHook(finalPathname).then(hookExecuted => {
-          if (hookExecuted) cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
-        });
+      cy.location('pathname').then(endPathname => {
+        expect(endPathname).to.match(/confirmation$/);
+        cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+        performPageActions(endPathname, false);
       });
     } else {
-      // If there's a page hook, it overrides the automatic form filling.
-      // Run the aXe check after either running the hook or filling the page.
-      cy.execHook(pathname).then(hookExecuted => {
-        if (!hookExecuted) cy.fillPage();
-        cy.expandAccordions();
-        cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
-      });
-
-      cy.findByText(/continue/i, { selector: 'button' })
-        .click()
-        .location('pathname', COMMAND_OPTIONS)
-        .then(newPathname => {
+      performPageActions(pathname);
+      cy.location('pathname', COMMAND_OPTIONS)
+        .should(newPathname => {
           if (pathname === newPathname) {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
@@ -335,7 +339,7 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get('form.rjsf', COMMAND_OPTIONS)
+        cy.get(FORM_SELECTOR, COMMAND_OPTIONS)
           .then($form => {
             // Get the starting number of array items and fields to compare
             // after filling out all currently visible fields, as new fields
@@ -467,7 +471,7 @@ const testForm = testConfig => {
 
         it('fills the form', () => {
           cy.visit(rootUrl).injectAxe();
-          cy.get('.loading-indicator')
+          cy.get(LOADING_SELECTOR)
             .should('not.exist')
             .then(processPage);
         });
