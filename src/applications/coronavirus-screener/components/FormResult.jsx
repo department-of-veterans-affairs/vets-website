@@ -3,7 +3,6 @@ import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
-import { fromRenderProps } from 'recompose';
 
 function recordScreeningToolEvent({ result, startTime }) {
   const timeToComplete = moment().unix() - startTime;

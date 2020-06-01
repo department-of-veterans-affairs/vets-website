@@ -9,21 +9,18 @@ export default function FormQuestion({
   setQuestionState,
   scrollNext,
   recordStart,
+  optionsConfig,
 }) {
   function handleChange(event) {
     recordStart(question.id);
+
+    // sets the current question value in question state
     const newQuestionState = questionState;
     newQuestionState[questionIndex].value = event.target.value;
-
-    // sets the current question value in form state
     setQuestionState([...newQuestionState]);
+
     scrollNext();
   }
-
-  const optionsConfig = [
-    { optionValue: 'yes', optionText: 'Yes' },
-    { optionValue: 'no', optionText: 'No' },
-  ];
 
   const options = optionsConfig.map((option, index) => (
     <button

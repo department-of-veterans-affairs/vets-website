@@ -37,7 +37,7 @@ function checkFormStatus(questionState) {
   }
 }
 
-export default function MultiQuestionForm({ questions }) {
+export default function MultiQuestionForm({ questions, defaultOptions }) {
   const [formState, setFormState] = useState({
     status: 'incomplete',
     startTime: null,
@@ -84,14 +84,13 @@ export default function MultiQuestionForm({ questions }) {
       <FormQuestion
         question={question}
         questionIndex={index}
-        formState={formState}
-        setFormState={setFormState}
         questionState={questionState}
         setQuestionState={setQuestionState}
         recordStart={recordStart}
         scrollNext={() =>
           scrollTo(`multi-question-form-${index + 1}-scroll-element`)
         }
+        optionsConfig={defaultOptions}
       />
     </div>
   ));

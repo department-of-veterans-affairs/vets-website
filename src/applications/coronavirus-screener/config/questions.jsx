@@ -52,3 +52,8 @@ export const questions = [
     },
   },
 ];
+
+export const defaultOptions = [
+  { optionValue: 'yes', optionText: 'Yes' },
+  { optionValue: 'no', optionText: 'No' },
+];
