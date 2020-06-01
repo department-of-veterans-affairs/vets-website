@@ -54,9 +54,16 @@ jobs:
     parallelism: 2
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          keys:
+            - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/
       - run:
+          name: Verify Dependencies are Installed
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - run:
           name: Run Cypress Tests
@@ -142,7 +149,6 @@ jobs:
           root: ~/
           paths:
             - vets-website/build
-            - vets-website/node_modules
             - .cache/Cypress
 
   eslint-check:
