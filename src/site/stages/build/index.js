@@ -31,6 +31,7 @@ const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
+const createServiceData = require('./plugins/create-service-data');
 const createReactPages = require('./plugins/create-react-pages');
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
@@ -122,6 +123,8 @@ function build(BUILD_OPTIONS) {
     createOutreachAssetsData(BUILD_OPTIONS),
     'Create Outreach Assets Data',
   );
+
+  smith.use(createServiceData(BUILD_OPTIONS), 'Create Service Data');
 
   smith.use(
     createEnvironmentFilter(BUILD_OPTIONS),

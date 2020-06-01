@@ -24,7 +24,7 @@
   display: inline-block;
   vertical-align: middle;
   line-height: 20px;
-  margin-left: 48px
+  margin-left: 48px;
 }
 .vads-facility-hub-cta-circle {
   color: $color-primary-darker;
@@ -53,6 +53,45 @@
   border-bottom: 1px solid $color-primary-alt-light;
 }
 
-.vads-facility-hub-button>a {
-  text-decoration:  none;
+.vads-facility-hub-button > a {
+  text-decoration: none;
+}
+
+dl.facility-opstatus-dl {
+  .full-list-row {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 2px solid $color-gray-light;
+    &:last-child {
+      border-bottom: none;
+    }
+    .yellow-dash {
+      border-bottom: dotted 2px yellow;
+    }
+    .red-dash {
+      border-bottom: dotted 2px red;
+    }
+    .half-list-row {
+      display: inline-block;
+      width: 50%;
+    }
+    .dl-legend {
+      font-weight: bold;
+    }
+    .fa {
+      color: black;
+    }
+    .ops-status {
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+    .ops-hidden {
+      display: none;
+    }
+    .operating-caret {
+      vertical-align: text-bottom;
+      font-size: 120%;
+    }
+  }
 }

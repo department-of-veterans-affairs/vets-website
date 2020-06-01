@@ -107,6 +107,7 @@ module.exports = `
     ${socialMediaFields}
     fieldLocalHealthCareService {
       entity {
+        entityId
         ... on NodeHealthCareLocalHealthService {
           fieldAbout {
             entity {
