@@ -64,7 +64,7 @@ jobs:
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - run:
           name: Run Cypress Tests
-          command: ./script/run-cypress-tests-circle.sh
+          command: yarn cy:test:circle
       - store_test_results:
           path: ./test-results
       - store_artifacts:
