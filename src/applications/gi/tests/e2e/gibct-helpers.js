@@ -1,3 +1,4 @@
+const E2eHelpers = require('platform/testing/e2e/helpers');
 const UtilHelpers = require('../../utils/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const autocomplete = require('../data/autocomplete.json');
@@ -101,6 +102,7 @@ const verifySearchResults = (client, results = searchResults) => {
   client
     .waitForElementVisible('.search-page', Timeouts.normal)
     .axeCheck('.main');
+  expectLocation(client, `/search`);
 
   results.data.forEach(({ attributes: profile }) => {
     const id = `#search-result-${profile.facility_code}`;
@@ -281,6 +283,7 @@ const checkSectionAccordion = (
 const breadCrumb = (client, breadCrumbHref) => {
   const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
   client.waitForElementVisible(id, Timeouts.normal).click(id);
+  client.assert.urlEquals(`${E2eHelpers.baseUrl}${breadCrumbHref}`);
 };
 
 module.exports = {
