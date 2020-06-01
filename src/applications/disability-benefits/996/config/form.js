@@ -1,10 +1,3 @@
-import fullSchema from '../20-0996-schema.json';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -27,8 +20,6 @@ import informalConference from '../pages/informalConference';
 
 import { errorMessages } from '../constants';
 // import initialData from '../tests/schema/initialData';
-
-const { email } = fullSchema.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -65,9 +56,7 @@ const formConfig = {
 
   title: 'Request a Higher-Level Review',
   subTitle: 'Equal to VA Form 20-0996',
-  defaultDefinitions: {
-    email,
-  },
+  defaultDefinitions: {},
   preSubmitInfo,
   chapters: {
     infoPages: {
