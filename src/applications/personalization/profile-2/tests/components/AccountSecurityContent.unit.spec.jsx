@@ -23,6 +23,7 @@ describe('AccountSecurityContent', () => {
     mhvAccount: { termsAndConditionsAccepted: true },
     showMHVTermsAndConditions: true,
     useSSOe: true,
+    isInMVI: true,
   });
 
   it('should render a ProfileInfoTable as its first child', () => {
@@ -152,6 +153,35 @@ describe('mapStateToProps', () => {
         },
       });
       expect(mappedProps.isIdentityVerified).to.be.false;
+    });
+  });
+
+  describe('isInMVI', () => {
+    it('should be `true` if the user can be found in the MVI/MPI', () => {
+      const mappedProps = mapStateToProps({
+        user: {
+          profile: {
+            loa: {
+              current: 3,
+            },
+            status: 'OK',
+          },
+        },
+      });
+      expect(mappedProps.isInMVI).to.be.true;
+    });
+    it('should be `false` if the user cannot be found in the MVI/MPI', () => {
+      const mappedProps = mapStateToProps({
+        user: {
+          profile: {
+            loa: {
+              current: 3,
+            },
+            status: null,
+          },
+        },
+      });
+      expect(mappedProps.isInMVI).to.be.false;
     });
   });
 

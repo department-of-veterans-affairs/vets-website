@@ -6,6 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
+  isInMVI as isInMVISelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
@@ -17,6 +18,7 @@ import {
 import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import IdentityNotVerified from './IdentityNotVerified';
+import NotInMVI from './NotInMVI';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from './EmailAddressNotification';
 import Verified from './Verified';
@@ -28,6 +30,7 @@ export const AccountSecurityContent = ({
   showMHVTermsAndConditions,
   useSSOe,
   signInServiceName,
+  isInMVI,
 }) => {
   const securitySections = [
     {
@@ -61,7 +64,8 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      {!isIdentityVerified && <IdentityNotVerified />}
+      {!isInMVI && <NotInMVI />}
+      {!isIdentityVerified && isInMVI && <IdentityNotVerified />}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
@@ -111,6 +115,7 @@ export const mapStateToProps = state => {
     mhvAccount,
     showMHVTermsAndConditions,
     useSSOe: ssoeSelector(state),
+    isInMVI: isInMVISelector(state),
     signInServiceName: signInServiceNameSelector(state),
   };
 };
