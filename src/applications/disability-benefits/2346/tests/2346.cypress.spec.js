@@ -13,8 +13,9 @@ const testConfig = createTestConfig(
     },
     pageHooks: {
       introduction: () => {
-        cy.login();
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.get(
+          '.usa-button-primary.va-button-primary.schemaform-start-button.null',
+        )
           .first()
           .click();
       },
@@ -90,21 +91,22 @@ const testConfig = createTestConfig(
       cy.log('Log before starting tests.');
     },
 
-    // setupPerTest: () => {
-    //   // `cy.server` is already'Log before starting tests.'start adding routes.
+    setupPerTest: () => {
+      cy.login();
+      //   // `cy.server` is already'Log before starting tests.'start adding routes.
 
-    //   cy.route({
-    //     method: 'GET',
-    //     url: '/v0/endpoint',
-    //     response: { body: 'mock body' },
-    //   });
+      //   cy.route({
+      //     method: 'GET',
+      //     url: '/v0/endpoint',
+      //     response: { body: 'mock body' },
+      //   });
 
-    //   cy.route({
-    //     method: 'POST',
-    //     url: '/v0/endpoint',
-    //     status: 200,
-    //   });
-    // },
+      //   cy.route({
+      //     method: 'POST',
+      //     url: '/v0/endpoint',
+      //     status: 200,
+      //   });
+    },
   },
   manifest,
   formConfig,
