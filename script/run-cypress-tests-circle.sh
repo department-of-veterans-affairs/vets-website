@@ -10,6 +10,7 @@ else
   # Use the CircleCI CLI to get Cypress tests & split them on different machines by timing. Commas are inserted as the delimiter for file paths.
   specArgs="--spec $(echo '"$(circleci tests glob "src/**/tests/**/*.cypress.spec.js" | circleci tests split --split-by=timings | paste -sd "," -)"')"
 
-  # Start the server & wait for 'http://localhost:3001' to go live.
-  yarn start-server-and-test watch http-get://localhost:3001 "cypress run $reporterArgs $specArgs"
+  # Start the web server & run Cypress tests.
+  # Wait for http://localhost:3001/generated/style.css to finish bundling so Cypress doesn't start too soon.
+  yarn start-server-and-test watch http-get://localhost:3001/generated/style.css "cypress run $reporterArgs $specArgs"
 fi
