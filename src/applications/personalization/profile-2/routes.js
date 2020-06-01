@@ -4,7 +4,7 @@ const AccountSecurity = lazy(() =>
   import('../profile-2/components/AccountSecurity'),
 );
 const ConnectedApplications = lazy(() =>
-  import('../profile-2/components/ConnectedApplications'),
+  import('../profile-2/components/connected-apps/ConnectedApps'),
 );
 const DirectDeposit = lazy(() =>
   import('../profile-2/components/direct-deposit/DirectDeposit'),
@@ -47,7 +47,7 @@ export default [
   },
   {
     component: ConnectedApplications,
-    name: 'Connected applications',
+    name: 'Connected apps',
     path: '/profile/connected-applications',
     requiresLOA3: true,
     requiresMVI: true,
