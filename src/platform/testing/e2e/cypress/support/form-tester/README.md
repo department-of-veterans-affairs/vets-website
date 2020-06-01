@@ -319,9 +319,9 @@ Default stubs (like the maintenance windows request) can be overriden simply by 
 
 This is also generally the place to set anything in `localStorage` and `sessionStorage` before the test runs.
 
-Authenticated sessions are generally set up here as well with `cy.login()`. This is a custom command that sets the `hasSession` flag in `localStorage` and stubs the `GET v0/user` endpoint.
+Authenticated sessions are typically set up here as well with `cy.login()`. This is a custom command that sets the `hasSession` flag in `localStorage` and stubs the `GET v0/user` endpoint.
 
-If your test requires a specific `localStorage` or `sessionStorage` state or authenticated session at a later point in the test, as in the middle instead of the beginning, you may set those on a page hook, but be aware that you **may need to reload the page for see the effects**.
+If your test requires a specific `localStorage` or `sessionStorage` state or authenticated session at a later point in the test, as in the middle instead of the beginning, you may set those in a page hook, but you **may need to reload the page (`cy.reload()`) to see the effects**.
 
 In particular, the `hasSession` flag to activate an authenticated session needs to be `true` when the page loads, so setting it to `true` after it has already loaded will not change the page to a logged in state.
 
@@ -446,12 +446,13 @@ const testConfig = createTestConfig(
         cy.fixture('sample-file').then(fileContent => {
         });
 
-        cy.fixture('sample-folder/json-file').then(fileContent => {
+        cy.fixture('sample-folder/json-file').then(({ attrA, attrB }) => {
         });
 
         // Example of uploading a fixture. For general uploading purposes,
-        // 'example-file.png' is already included in the form tester by default
-        // if you don't have any specific requirements for file upload data.
+        // 'example-file.png' is already included in the form tester by default,
+        // and `cy.fillPage()` automatically fills upload fields with that file.
+        // Use those if you have no specific requirements for file upload data.
         cy.get(`input[id="root_upload_field"]`)
           .upload('sample-folder/png-file', 'image/png')
           .get('.schemaform-file-uploading')
