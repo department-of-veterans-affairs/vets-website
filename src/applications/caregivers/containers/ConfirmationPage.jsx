@@ -19,7 +19,7 @@ const ConfirmationPage = props => {
   const PrintDetails = () => (
     <div className="print-details">
       <img
-        src="/img/design/logo/logo-black-and-white.png"
+        src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
         alt="VA logo"
         width="300"
       />
