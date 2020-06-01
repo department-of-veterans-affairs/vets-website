@@ -23,6 +23,11 @@ export const api = {
   },
 };
 
+// Created from drupal data at buildtime.
+export const facilityServiceStatus = `${
+  environment.BASE_URL
+}/drupal/facility-services.json`;
+
 /**
  * Feature Flag Function
  *

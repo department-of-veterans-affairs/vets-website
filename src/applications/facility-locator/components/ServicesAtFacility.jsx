@@ -3,12 +3,84 @@ import { object } from 'prop-types';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { vetCenterServices } from '../config';
+import { vetCenterServices, facilityServiceStatus } from '../config';
 
 /**
  * VA Facility-specific Services Component
  */
 class ServicesAtFacility extends Component {
+  constructor(props) {
+    super(props);
+    this.toggleClass = this.toggleClass.bind(this);
+    this.state = {
+      ops: [],
+      active: false,
+    };
+  }
+
+  toggleClass() {
+    const currentState = this.state.active;
+    this.setState({ active: !currentState });
+  }
+
+  renderOperations() {
+    fetch(facilityServiceStatus)
+      .then(response => response.json())
+      .then(data => {
+        const filtered = data.filter(
+          dataItem => dataItem[this.props.facility.id],
+        );
+        const opStatus = filtered.map(filteredItem => [
+          { service: filteredItem[this.props.facility.id].service },
+          { status: filteredItem[this.props.facility.id].status },
+          { notes: filteredItem[this.props.facility.id].notes },
+        ]);
+
+        this.setState({ ops: opStatus });
+      });
+
+    const opOutput = this.state.ops;
+    const items = [];
+    opOutput.forEach((element, i) => {
+      let fa = `Normal operating status`;
+      let toggle = '';
+      if (element[2].notes) {
+        toggle = '<span class="operating-caret">⌄</span>';
+      }
+      if (element[1].status === 'closed') {
+        fa = `<i class="fa fa-exclamation-circle"></i><span class="yellow-dash">Limited hours of operation${toggle}</span>`;
+      }
+      if (element[1].status === 'limited') {
+        fa = `<i class="fa fa-exclamation-triangle"></i><span class="red-dash">Closed${toggle}</span>`;
+      }
+      // Our html is sanitized on the way in to Drupal.
+      items.push(
+        <div key={i} className="full-list-row">
+          <dt className="half-list-row">{element[0].service}</dt>
+          <dd
+            role="presentation"
+            onClick={this.toggleClass}
+            className="half-list-row ops-status"
+          >
+            <span className="ops-status-span">{fa}</span>
+            <div className={this.state.active ? null : 'ops-hidden'}>
+              {element[2].notes}
+            </div>
+          </dd>
+        </div>,
+      );
+    });
+    return (
+      <dl className="facility-opstatus-dl">
+        <div className="full-list-row">
+          <dt className="half-list-row dl-legend">Service</dt>
+          <dd className="half-list-row dl-legend">Operating status</dd>
+        </div>
+        {items}
+      </dl>
+    );
+  }
+
   renderService(service) {
     const label = service.replace(/([A-Z])/g, ' $1');
 
@@ -113,8 +185,6 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
-    const alertHeading =
-      'This list may not include all of the services available at this location.';
     const alertContent =
       'Please check on the facility’s website or call them for this information.';
 
@@ -128,14 +198,10 @@ class ServicesAtFacility extends Component {
         </p>
 
         <div className="mb2">
-          <AlertBox
-            isVisible
-            status="warning"
-            headline={alertHeading}
-            content={alertContent}
-          />
+          <AlertBox isVisible status="warning" content={alertContent} />
         </div>
 
+<<<<<<< HEAD
         <div className="mb2">
           <ul>
             {services.health.map(
@@ -144,6 +210,9 @@ class ServicesAtFacility extends Component {
             )}
           </ul>
         </div>
+=======
+        <div className="mb2">{this.renderOperations()}</div>
+>>>>>>> VAVFS-9237: Adding json services endpoint for drupal data, and component handling.
       </div>
     );
   }

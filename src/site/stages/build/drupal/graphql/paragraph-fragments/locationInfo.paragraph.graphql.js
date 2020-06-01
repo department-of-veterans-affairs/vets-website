@@ -4,10 +4,28 @@
  */
 module.exports = `
   fragment locationInfo on ParagraphLocationInfo {
-    fieldAdditionalPhoneNumbers
-    fieldAdditionalPhNum1Title
-    fieldAdditionalPhNum2Title
-    fieldAdditionalPhoneNumber2
+    fieldPhoneNumbersParagraph {
+      entity {
+        ... on ParagraphPhoneNumbers {
+          fieldPhoneNumber
+          fieldPhoneExtension
+          fieldFax
+          fieldSmsNumber
+          fieldTtyNumber
+        }
+      }
+    }
+    fieldAppointmentPhoneNumbers {
+      entity {
+        ... on ParagraphPhoneNumbers {
+          fieldPhoneNumber
+          fieldPhoneExtension
+          fieldFax
+          fieldSmsNumber
+          fieldTtyNumber
+        }
+      }
+    }
     fieldLink {
       title
       url {
@@ -21,28 +39,22 @@ module.exports = `
       administrativeArea
       postalCode
       locality
+      organization
       dependentLocality
       countryCode
       sortingCode
     }
-    fieldAppointmentPhone
     fieldTitle
-    fieldExtension
-    fieldWysiwyg {
-      value
-    }
     fieldLocationHours {
       day
       starthours
       endhours
       comment
     }
-    fieldMainPhone
+    fieldFacilityDescription
     fieldOnlineSchedulingAvailabl
     fieldOperatingStatus
-    fieldOperatingStatusNotes {
-      value
-    }
+    fieldOperatingStatusInfo
     fieldReferralRequired
     fieldWalkInsAccepted
   }
