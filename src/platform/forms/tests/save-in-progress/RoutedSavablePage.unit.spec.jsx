@@ -12,6 +12,9 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
   it('should include SaveLink and SaveStatus', () => {
     const route = {
+      formConfig: {
+        finishLaterLinkText: 'foo',
+      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -62,6 +65,9 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
   it('should pass correct text to SaveFormlink', () => {
     const route = {
+      formConfig: {
+        finishLaterLinkText: 'foo',
+      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -77,7 +83,6 @@ describe('Schemaform <RoutedSavablePage>', () => {
     };
     const form = {
       disableSave: false,
-      finishLaterLinkText: 'foo',
       pages: {
         testPage: {
           schema: {},
@@ -118,6 +123,9 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
   it('should auto save on change', () => {
     const route = {
+      formConfig: {
+        finishLaterLinkText: 'foo',
+      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
