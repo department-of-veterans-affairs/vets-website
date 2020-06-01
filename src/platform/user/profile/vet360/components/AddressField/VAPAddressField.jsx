@@ -19,7 +19,7 @@ import AddressView from './AddressView';
 
 import { getFormSchema, getUiSchema } from './address-schemas';
 
-export const inferAddressType = (countryCodeIso3, stateCode) => {
+const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
   if (countryCodeIso3 !== USA.COUNTRY_ISO3_CODE) {
     addressType = ADDRESS_TYPES.INTERNATIONAL;
@@ -30,7 +30,7 @@ export const inferAddressType = (countryCodeIso3, stateCode) => {
   return addressType;
 };
 
-export const convertNextValueToCleanData = value => {
+const convertNextValueToCleanData = value => {
   const {
     id,
     addressLine1,

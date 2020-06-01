@@ -31,43 +31,19 @@ class AddressEditView extends React.Component {
     };
 
   /**
-   * Returns a copy of the input object with keys removed for values that are
-   * falsy
-   *
-   */
-  removeEmptyKeys = data =>
-    pickBy(
-      {
-        id: data.id,
-        addressLine1: data.addressLine1,
-        addressLine2: data.addressLine2,
-        addressLine3: data.addressLine3,
-        addressType: data.addressType,
-        city: data.city,
-        countryCodeIso3: data.countryCodeIso3,
-        stateCode: data.stateCode,
-        internationalPostalCode: data.internationalPostalCode,
-        zipCode: data.zipCode,
-        province: data.province,
-        addressPou: data.addressPou,
-      },
-      e => !!e,
-    );
-
-  /**
    * Returns a copy of the input object with an added `view:livesOnMilitaryBase`
    * value if the address is a overseas military mailing address
    *
    */
-  selectLivesOnMilitaryBaseCheckbox = data => {
+  livesOnMilitaryBase = data => {
     if (
       data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
       ADDRESS_DATA.militaryStates.includes(data?.stateCode) &&
       ADDRESS_DATA.militaryCities.includes(data?.city)
     ) {
-      return { ...data, 'view:livesOnMilitaryBase': true };
+      return true;
     }
-    return data;
+    return false;
   };
 
   /**
@@ -83,8 +59,12 @@ class AddressEditView extends React.Component {
     if (!(initialFormValues instanceof Object)) {
       return initialFormValues;
     }
-    let transformedData = this.removeEmptyKeys(initialFormValues);
-    transformedData = this.selectLivesOnMilitaryBaseCheckbox(transformedData);
+    // totally removes data fields with falsey values from initialFormValues
+    // to prevent form validation errors.
+    const transformedData = pickBy(initialFormValues);
+    if (this.livesOnMilitaryBase(transformedData)) {
+      transformedData['view:livesOnMilitaryBase'] = true;
+    }
     return transformedData;
   };
 
