@@ -38,6 +38,8 @@ const testConfig = { ... };
 testForm(testConfig);
 ```
 
+See some [sample code](#sample-code) as a reference for your own test.
+
 ## Configuration
 
 The test config has settings or properties that are summarized by this typedef:
@@ -176,7 +178,7 @@ The object values are file or directory paths, relative to the project root, to 
 
 Fixtures are shared across all tests in the suite and do not reset in between.
 
-The `data` fixture path is special and required for the `dataSets` setting to work properly, which is necessary for any tests to run at all.
+**The `data` fixture path is special and required for the `dataSets` setting to work properly, which is necessary for any tests to run at all.**
 
 For a more involved example of the interaction with the `dataSets` setting, consider the following `tests` directory structure containing the spec file:
 
@@ -315,6 +317,14 @@ Before `setupPerTest` runs, the form tester will have automatically started `cy.
 
 Default stubs (like the maintenance windows request) can be overriden simply by setting up another `cy.route` on the same endpoint.
 
+This is also generally the place to set anything in `localStorage` and `sessionStorage` before the test runs.
+
+Authenticated sessions are generally set up here as well with `cy.login()`. This is a custom command that sets the `hasSession` flag in `localStorage` and stubs the `GET v0/user` endpoint.
+
+If your test requires a specific `localStorage` or `sessionStorage` state or authenticated session at a later point in the test, as in the middle instead of the beginning, you may set those on a page hook, but be aware that you **may need to reload the page for see the effects**.
+
+In particular, the `hasSession` flag to activate an authenticated session needs to be `true` when the page loads, so setting it to `true` after it has already loaded will not change the page to a logged in state.
+
 ## Aliases
 
 The following aliases are available to `pageHooks` and `setupPerTest`.
@@ -402,25 +412,50 @@ const testConfig = createTestConfig(
     dataSets: ['minimal-test', 'maximal-test'],
 
     fixtures: {
-      data: path.join(__dirname, 'schemas'),
-      'sample-file': path.join(__dirname, 'other-folder/some-file.json'),
+      data: path.join(__dirname, 'fixtures'),
+      'sample-file': path.join(__dirname, 'some-folder/some-file.json'),
+      'sample-folder': path.join(__dirname, 'other-folder'),
     },
 
     pageHooks: {
+      // Due to automatic path resolution, this URL expands to:
+      // '/some-form-app-url/introduction'. Either format can be used.
       introduction: () => {
         cy.findAllByText(/start/i, { selector: 'button' })
           .first()
           .click();
       },
 
-      // Since there is automatic path resolution, this can simply be:
-      // 'some-page': () => { ... },
-     '/some-form-app-url/some-page': () => {
-        cy.get('.expand-button').click();
+      'sub-page/do-stuff-before-filling': () => {
+        // The `@testData` alias is available in `pageHooks` and `setupPerTest`.
+        cy.get('@testData').then(testData => {
+          if (testData.isSomethingTrue) doSomething();
+        });
+
+        // Fill out the rest of the page like normal.
         cy.fillPage();
-        cy.findAllByTest(/continue/i)
+
+        // Don't forget to click continue!
+        cy.findAllByTest(/continue/i, { selector: 'button' })
           .first()
           .click();
+      },
+
+      // Use files synced to fixtures, either individually or from folders.
+      'fun-with-fixtures': () => {
+        cy.fixture('sample-file').then(fileContent => {
+        });
+
+        cy.fixture('sample-folder/json-file').then(fileContent => {
+        });
+
+        // Example of uploading a fixture. For general uploading purposes,
+        // 'example-file.png' is already included in the form tester by default
+        // if you don't have any specific requirements for file upload data.
+        cy.get(`input[id="root_upload_field"]`)
+          .upload('sample-folder/png-file', 'image/png')
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
       },
     },
 
@@ -429,11 +464,14 @@ const testConfig = createTestConfig(
     // rootUrl: '/some-form-app-url',
 
     setup: () => {
-      cy.log("Log before starting tests.");
+      cy.log("Logging something before starting tests.");
     },
 
     setupPerTest: () => {
       // `cy.server` is already set up by default, so just start adding routes.
+
+      // Start an auth'd session here if your form requires it.
+      cy.login();
 
       cy.route({
         method: 'GET',
