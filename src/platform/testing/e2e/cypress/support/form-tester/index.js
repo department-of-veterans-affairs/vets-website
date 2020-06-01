@@ -161,7 +161,7 @@ const processPage = () => {
     } else {
       performPageActions(pathname);
       cy.location('pathname', COMMAND_OPTIONS)
-        .then(newPathname => {
+        .should(newPathname => {
           if (pathname === newPathname) {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
