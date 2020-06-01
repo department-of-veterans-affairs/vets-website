@@ -164,7 +164,7 @@ describe('mapStateToProps', () => {
             loa: {
               current: 3,
             },
-            status: "OK",
+            status: 'OK',
           },
         },
       });
