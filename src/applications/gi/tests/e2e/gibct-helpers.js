@@ -1,3 +1,4 @@
+const E2eHelpers = require('platform/testing/e2e/helpers');
 const UtilHelpers = require('../../utils/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 const autocomplete = require('../data/autocomplete.json');
@@ -282,7 +283,7 @@ const checkSectionAccordion = (
 const breadCrumb = (client, breadCrumbHref) => {
   const id = `.va-nav-breadcrumbs a[href='${breadCrumbHref}']`;
   client.waitForElementVisible(id, Timeouts.normal).click(id);
-  expectLocation(client, breadCrumbHref);
+  client.assert.urlEquals(`${E2eHelpers.baseUrl}${breadCrumbHref}`);
 };
 
 module.exports = {
