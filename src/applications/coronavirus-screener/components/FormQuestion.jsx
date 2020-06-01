@@ -11,7 +11,7 @@ export default function FormQuestion({
   recordStart,
   optionsConfig,
 }) {
-  function handleChange(event) {
+  function handleClick(event) {
     recordStart(question.id);
 
     // sets the current question value in question state
@@ -35,7 +35,7 @@ export default function FormQuestion({
           ? 'usa-button'
           : 'usa-button-secondary',
       )}
-      onClick={handleChange}
+      onClick={handleClick}
       value={option.optionValue}
     >
       {option.optionText}

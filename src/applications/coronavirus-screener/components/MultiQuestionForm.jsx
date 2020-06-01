@@ -27,13 +27,23 @@ function checkFormStatus(questionState) {
   );
   const complete = !completedQuestions.includes(false);
 
-  // console.log(completedQuestions);
-  // console.log(complete);
-
-  if (complete) {
-    return 'pass';
-  } else {
+  // determine result of form
+  if (!complete) {
     return 'incomplete';
+  } else {
+    const answers = questionState.map(question => question.value);
+    return answers.includes('yes') ? 'fail' : 'pass';
+  }
+}
+
+function recordCompletion({ formState, setFormState }) {
+  if (formState.status !== 'incomplete' && formState.completed === false) {
+    recordEvent({
+      event: 'covid-screening-tool-result-displayed',
+      'screening-tool-result': formState.result,
+      'time-to-complete': moment().unix() - formState.startTime,
+    });
+    setFormState({ ...formState, completed: true });
   }
 }
 
@@ -41,6 +51,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
   const [formState, setFormState] = useState({
     status: 'incomplete',
     startTime: null,
+    completed: false,
   });
 
   const [questionState, setQuestionState] = useState(questions);
@@ -56,6 +67,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
           ...formState,
           status: checkFormStatus(questionState),
         });
+        recordCompletion({ formState, setFormState });
       }
 
       console.log('formState', formState);
@@ -81,17 +93,20 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
   const formQuestions = questionState.map((question, index) => (
     <div key={`question-${index}`}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
-      <FormQuestion
-        question={question}
-        questionIndex={index}
-        questionState={questionState}
-        setQuestionState={setQuestionState}
-        recordStart={recordStart}
-        scrollNext={() =>
-          scrollTo(`multi-question-form-${index + 1}-scroll-element`)
-        }
-        optionsConfig={defaultOptions}
-      />
+      {(index === 0 ||
+        Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
+        <FormQuestion
+          question={question}
+          questionIndex={index}
+          questionState={questionState}
+          setQuestionState={setQuestionState}
+          recordStart={recordStart}
+          scrollNext={() =>
+            scrollTo(`multi-question-form-${index + 1}-scroll-element`)
+          }
+          optionsConfig={defaultOptions}
+        />
+      )}
     </div>
   ));
 
@@ -99,11 +114,9 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     <div>
       {formQuestions}
       <FormResult
-        questions={questions}
         formState={formState}
         setFormState={setFormState}
         questionState={questionState}
-        setQuestionState={setQuestionState}
       />
     </div>
   );

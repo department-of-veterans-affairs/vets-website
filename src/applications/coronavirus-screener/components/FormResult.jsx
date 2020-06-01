@@ -4,14 +4,7 @@ import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
 
-function recordScreeningToolEvent({ result, startTime }) {
-  const timeToComplete = moment().unix() - startTime;
-  recordEvent({
-    event: 'covid-screening-tool-result-displayed',
-    'screening-tool-result': result,
-    'time-to-complete': timeToComplete,
-  });
-}
+const Incomplete = () => <div>Please answer all the questions above.</div>;
 
 function Complete({ children }) {
   return (
@@ -29,8 +22,6 @@ function Complete({ children }) {
   );
 }
 
-const Incomplete = () => <div>Please answer all the questions above.</div>;
-
 const Pass = () => (
   <Complete>
     <i aria-hidden="true" role="presentation" className="fas fa-check" />
@@ -44,19 +35,15 @@ const Fail = () => (
   </Complete>
 );
 
-export default function FormResult({ questions, formState }) {
-  const status = formState.status;
-
-  const results = {
+export default function FormResult({ questionState, formState }) {
+  const resultList = {
     pass: {
       content: <Pass />,
       class: 'pass',
-      event: 'Pass',
     },
     fail: {
       content: <Fail />,
       class: 'fail',
-      event: 'More screening needed',
     },
     incomplete: {
       content: <Incomplete />,
@@ -64,25 +51,18 @@ export default function FormResult({ questions, formState }) {
     },
   };
 
-  if (status !== 'incomplete') {
-    console.log(status);
-    recordScreeningToolEvent({
-      result: results[status].event,
-      startTime: formState.startTime,
-    });
-  }
-
-  const resultContent = results[status].content;
+  const resultContent = resultList[formState.status].content;
 
   return (
     <div
       className={classnames(
-        'feature covid-screener-results',
-        `covid-screener-results-${results[status].class}`,
+        'feature',
+        'covid-screener-results',
+        `covid-screener-results-${resultList[formState.status].class}`,
       )}
     >
       <Element
-        name={`multi-question-form-${questions.length}-scroll-element`}
+        name={`multi-question-form-${questionState.length}-scroll-element`}
       />
       <div>{resultContent}</div>
     </div>
