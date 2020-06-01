@@ -25,6 +25,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.assert.visible('select option[value="health"]');
   client.keys(client.Keys.DOWN_ARROW);
   client.assert.visible('select option[value="urgent_care"]');
+  client.keys(client.keys.Backspace);
 
   // Navigate to service dropdown and interact with some options
   client.keys(client.Keys.TAB);
