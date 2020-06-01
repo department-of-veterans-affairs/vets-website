@@ -39,7 +39,7 @@ export class SearchResult extends React.Component {
 
     const linkTo = {
       pathname: `/profile/${facilityCode}`,
-      query: version ? { version } : {},
+      search: version ? { version } : {},
     };
 
     return (
