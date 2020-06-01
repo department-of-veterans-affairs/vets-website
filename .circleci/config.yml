@@ -56,9 +56,6 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          keys:
             - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/
