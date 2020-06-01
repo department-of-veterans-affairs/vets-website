@@ -209,10 +209,10 @@ const createCalculatorConstants = () => {
 const calculatorConstants = createCalculatorConstants();
 
 const eybSections = {
-  yourBenefits: 'Your benefits',
-  aboutYourSchool: 'About your school',
-  learningFormatAndSchedule: 'Learning format and schedule',
-  scholarshipsAndOtherFunding: 'Scholarships and other funding',
+  yourMilitaryDetails: 'Your military details',
+  schoolCostsAndCalendar: 'School costs and calendar',
+  learningFormat: 'Learning format and location',
+  scholarshipsAndOtherVAFunding: 'Scholarships and other VA funding',
 };
 
 /**
@@ -224,30 +224,6 @@ const calculateBenefits = client => {
     .waitForElementVisible('.calculate-button', Timeouts.normal)
     .click('.calculate-button')
     .pause(1000);
-};
-
-/**
- * This is expanded by default
- * Should NOT include question checks
- * @param client
- * @param sections defaults to all sections, allows for passing in a smaller set of sections
- */
-const yourBenefits = (client, sections = eybSections) => {
-  const id = createAccordionId(sections.yourBenefits);
-
-  client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
-  eybAccordionExpandedCheck(client, sections, sections.yourBenefits);
-};
-
-/**
- * Opens section and performs generic checks
- * Should NOT include question checks
- * @param client
- * @param sections
- */
-const aboutYourSchool = (client, sections = eybSections) => {
-  clickAccordion(client, sections.aboutYourSchool);
-  eybAccordionExpandedCheck(client, sections, sections.aboutYourSchool);
 };
 
 /**
@@ -283,30 +259,23 @@ const enrolledOld = (client, option, housingRate) => {
  * Opens section and performs generic checks
  * Should NOT include question checks
  * @param client
+ * @param clickToOpen
+ * @param sectionName
  * @param sections
  */
-const learningFormatAndSchedule = (client, sections = eybSections) => {
-  clickAccordion(client, sections.learningFormatAndSchedule);
-  eybAccordionExpandedCheck(
-    client,
-    sections,
-    sections.learningFormatAndSchedule,
-  );
-};
-
-/**
- * Opens section and performs generic checks
- * Should NOT include question checks
- * @param client
- * @param sections
- */
-const scholarshipsAndOtherFunding = (client, sections = eybSections) => {
-  clickAccordion(client, sections.scholarshipsAndOtherFunding);
-  eybAccordionExpandedCheck(
-    client,
-    sections,
-    sections.scholarshipsAndOtherFunding,
-  );
+const checkSectionAccordion = (
+  client,
+  clickToOpen,
+  sectionName,
+  sections = eybSections,
+) => {
+  if (clickToOpen) {
+    clickAccordion(client, sections[sectionName]);
+  } else {
+    const id = createAccordionId(sections[sectionName]);
+    client.waitForElementVisible(id, Timeouts.normal).axeCheck(id);
+  }
+  eybAccordionExpandedCheck(client, sections, sections[sectionName]);
 };
 
 const breadCrumb = (client, breadCrumbHref) => {
@@ -335,11 +304,8 @@ module.exports = {
   formatCurrencyHalf,
   calculatorConstants,
   calculateBenefits,
-  yourBenefits,
-  aboutYourSchool,
   checkProfileHousingRate,
   enrolledOld,
-  learningFormatAndSchedule,
-  scholarshipsAndOtherFunding,
   breadCrumb,
+  checkSectionAccordion,
 };
