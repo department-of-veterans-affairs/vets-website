@@ -37,7 +37,6 @@ export default function PastAppointmentsDateDropdown({
         disabled={currentRange === dateRangeIndex}
         onClick={() => {
           onChange(dateRangeIndex);
-          focusElement(`#pastAppts`);
         }}
       >
         Update

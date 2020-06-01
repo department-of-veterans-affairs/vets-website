@@ -10,6 +10,7 @@ import { vaosPastAppts } from '../utils/selectors';
 import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import { focusElement } from 'platform/utilities/ui';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -38,6 +39,13 @@ export class PastAppointmentsList extends React.Component {
         selectedDateRange.endDate,
         appointments.pastSelectedIndex,
       );
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.appointments.pastStatus === 'succeeded') {
+      console.log('past status = succeeded');
+      focusElement('#pastAppts');
     }
   }
 
