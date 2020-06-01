@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ssoe } from 'platform/user/authentication/selectors';
+import {
+  ssoe,
+  ssoeEbenefitsLinks,
+} from 'platform/user/authentication/selectors';
 // Relative imports.
 import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
@@ -67,6 +70,7 @@ export class Announcement extends Component {
         dismiss={dismiss}
         isLoggedIn={this.props.isLoggedIn}
         useSSOe={this.props.useSSOe}
+        useSSOeEbenefitsLinks={this.props.useSSOeEbenefitsLinks}
         profile={profile}
       />
     );
@@ -78,6 +82,7 @@ const mapStateToProps = state => ({
   isLoggedIn: isLoggedIn(state),
   profile: selectProfile(state),
   useSSOe: ssoe(state),
+  useSSOeEbenefitsLinks: ssoeEbenefitsLinks(state),
   ...state.announcements,
 });
 

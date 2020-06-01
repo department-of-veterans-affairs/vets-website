@@ -90,10 +90,13 @@ export class GiBillApp extends React.Component {
     } else {
       content = this.props.children;
     }
-
     return (
       <div className="gi-app">
-        {!environment.isProduction() && <Covid19Banner />}
+        {!environment.isProduction() &&
+          (location.pathname === '/gi-bill-comparison-tool/' ||
+            location.pathname === '/gi-bill-comparison-tool') && (
+            <Covid19Banner />
+          )}
         <div className="row">
           <div className="columns small-12">
             {preview.display && (
