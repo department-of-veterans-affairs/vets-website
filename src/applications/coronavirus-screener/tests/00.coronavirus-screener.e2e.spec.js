@@ -16,6 +16,17 @@ module.exports = E2eHelpers.createE2eTest(browser => {
   browser.end();
 });
 
+// TODO: get correct module disable logic from VFS team
+/*
+to run locally:
+
+yarn fetch-drupal-cache
+NODE_ENV=production yarn build --buildtype vagovprod
+yarn watch
+yarn test:e2e src/applications/coronavirus-screener/tests/00.coronavirus-screener.e2e.spec.js
+
+*/
+
 // check if app is enabled in prod
 const appInProd = registry.find(
   entry => entry.entryName === manifest.entryName,
@@ -30,13 +41,3 @@ const appInProd = registry.find(
 const enable = appInProd; // needed due to __BUILDTYPE__ error
 
 module.exports['@disabled'] = !enable;
-
-/*
-to run locally:
-
-NODE_ENV=production yarn build --buildtype vagovprod
-yarn watch
-
-yarn test:e2e src/applications/coronavirus-screener/tests/00.coronavirus-screener.e2e.spec.js
-
-*/
