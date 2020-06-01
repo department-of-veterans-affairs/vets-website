@@ -129,6 +129,7 @@ jobs:
           keys:
             - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
+          name: Install Dependencies
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - run:
           name: Verify Cypress is Installed
@@ -141,14 +142,23 @@ jobs:
           key: node-v1-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: mkdir -p ./test-results
-      - run: yarn install-repos
-      - run: yarn fetch-drupal-cache
-      - run: yarn build
+      - run:
+          name: Make Test Results Folder
+          command: mkdir -p ./test-results
+      - run:
+          name: Install Sibling Repositories
+          command: yarn install-repos
+      - run:
+          name: Fetch the Latest Drupal Content
+          command: yarn fetch-drupal-cache
+      - run:
+          name: Build vets-website
+          command: yarn build
       - persist_to_workspace:
           root: ~/
           paths:
             - vets-website/build
+            - vets-website/test-results
             - .cache/Cypress
 
   eslint-check:
