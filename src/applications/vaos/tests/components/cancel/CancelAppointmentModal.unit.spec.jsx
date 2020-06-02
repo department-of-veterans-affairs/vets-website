@@ -73,12 +73,17 @@ describe('VAOS <CancelAppointmentModal>', () => {
       <CancelAppointmentModal
         showCancelModal
         appointmentToCancel={{
-          appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          clinicId: '123',
-          clinicName: 'Testing',
-          facilityId: '123',
+          participant: [
+            {
+              actor: {
+                reference: 'HealthcareService/var983_455',
+                display: 'CHY OPT VAR1',
+              },
+            },
+          ],
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
         }}
-        cernerFacilities={['123']}
+        cernerFacilities={['983']}
       />,
     );
 

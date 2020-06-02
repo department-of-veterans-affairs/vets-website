@@ -41,7 +41,7 @@ export function updateRoute(location) {
 }
 
 export function showModal(modal) {
-  if (modal) {
+  if (modal && modal !== 'section103') {
     recordEvent({
       event: 'gibct-learn-more',
       'gibct-modal-displayed': modal,

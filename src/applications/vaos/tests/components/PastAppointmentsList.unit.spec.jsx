@@ -118,7 +118,7 @@ describe('VAOS <PastAppointmentsList>', () => {
         .find('ConfirmedAppointmentListItem')
         .first()
         .props().facility,
-    ).to.equal(appointments.systemClinicToFacilityMap.var983_455);
+    ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
 
     tree.unmount();
   });

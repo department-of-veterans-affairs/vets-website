@@ -87,9 +87,9 @@ export class PastAppointmentsList extends React.Component {
                       appointment={appt}
                       facility={
                         systemClinicToFacilityMap[
-                          `${getVARFacilityId(appt)}_${parseFakeFHIRId(
-                            getVARClinicId(appt),
-                          )}`
+                          `${parseFakeFHIRId(
+                            getVARFacilityId(appt),
+                          )}_${parseFakeFHIRId(getVARClinicId(appt))}`
                         ]
                       }
                     />

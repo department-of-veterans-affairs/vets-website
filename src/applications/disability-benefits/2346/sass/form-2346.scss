@@ -7,148 +7,26 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.button-dimensions {
-  margin-top: 2rem;
-  width: 267px;
-  max-width: 100%;
-  height: 42px;
-  line-height: 36px;
-  padding-left: 15px;
-  border-radius: 4px;
+.address-page {
+  [type=radio]:checked + label::before {
+    background-color: $color-white;
+    box-shadow: 0 0 0 2px #0071BB, 0 0 0 4px #ffffff;
+  }
 }
-
-.vads-u-width-267px {
-  width: 267px;
-}
-
-.accessory-page-order-btns {
-  margin-top: 1rem;
-  width: 207px;
-  height: 42px;
-  line-height: 36px;
-  padding-left: 15px;
-  border-radius: 4px;
-}
-
-label {
-  margin-top: 0.1rem !important;
-}
-
-[type="checkbox"]:checked + label::before {
-  background: $color-white !important;
-  color: $color-primary !important;
-  content: "\2713";
-}
-
-[type="checkbox"]:focus + label::before {
-  outline: none;
-}
-
-.schemaform-field-container.schemaform-block {
-  margin-top: 0;
-}
-
-//Radio button/ checkbox selection color
-[type=checkbox]:checked + label::before, [type=radio]:checked + label::before {
-  background-color: $color-white;
-  box-shadow: 0 0 0 2px #0071BB, 0 0 0 4px #ffffff;
-}
-
-//Radio button/ checkbox selection color
-.accessory-page {
+.battery-page, .accessory-page {
   [type=checkbox]:checked + label::before {
     background-color: $color-white;
-    box-shadow: 0 0 0 0 #0071BB, 0 0 0 4px #ffffff;
-  }
-}
-
-//using uiSchema className option to drill down to the radio buttons
-.product-selection-radio-btns>.schemaform-widget-wrapper>div>.form-radio-buttons>input[type=radio]:checked + label::before {
-  background-color: $color-primary;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0071BB;
-}
-
-[type=checkbox]:not(:checked) + label::before, [type=radio]:not(:checked) + label::before {
-  background-color: $color-white;
-  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #0071BB;
-}
-
-[type=checkbox] + label::before {
-  height: 1.8rem;
-  line-height: 1.8rem;
-  margin-left: 1px;
-  margin-right: 0.7em;
-  width: 1.8rem;
-  border-radius: 0;
-}
-
-[type=checkbox] + label {
-  font-weight: bold
-}
-
-.schemaform-label {
-  max-width: 100% !important;
-}
-
-.battery-page {
-  [type=checkbox]:checked + label::before {
-    background-color: $color-white;
-    box-shadow: 0 0 0 0 #0071BB, 0 0 0 4px #ffffff;
-  }
-}
-
-// ReviewCardField styles
-.review-card {
-  .review-card--header {
-    background-color: $color-gray-lightest;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 5rem;
-
-    .review-card--title {
-      margin: 0;
-      display: inline-block;
+    color: $color-primary;
+    content: '\f00c';
+    font-family: "Font Awesome 5 Free";
+    padding-right: 2px;
     }
-  }
-
-  .review-card--body {
-    border: 2px solid $color-gray-lightest;
-    // Remove the top border because it looks like it just extends the header
-    border-top: none;
-    margin-bottom: 1em;
-
-    .review-card--title {
-      margin: 1.5rem 0 2.5rem;
+    .usa-alert-warning {
+      width: 90%;
     }
-
-    input[type="text"]:disabled {
-      background-color: $color-gray-lightest;
+    .usa-alert-heading {
+      font-size: 16px;
     }
-
-    .update-button,
-    .cancel-button {
-      width: auto;
-      margin-top: 1rem;
-    }
-  }
-
-  .edit-button {
-    width: auto;
-    min-width: 8rem;
-    margin-right: 0;
-  }
-}
-
-.usa-alert-warning {
-  width: 90%;
-}
-
-.usa-alert {
-  .usa-alert-heading {
-    font-size: 16px;
-  }
 }
 
 dt {

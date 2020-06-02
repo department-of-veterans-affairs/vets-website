@@ -28,9 +28,6 @@ describe('ProfileInfoTable', () => {
   it('renders a `section`', () => {
     expect(wrapper.type()).to.equal('section');
   });
-  it("sets the section's data-field-name to the fieldName prop", () => {
-    expect(wrapper.prop('data-field-name')).to.equal(props.fieldName);
-  });
   it('renders the title prop in an h3 tag', () => {
     const h3 = wrapper.find('h3');
     expect(h3.text()).to.equal(props.title);

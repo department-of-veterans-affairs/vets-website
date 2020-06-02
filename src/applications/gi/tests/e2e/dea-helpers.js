@@ -28,7 +28,7 @@ const verifySearchResults = client => {
   GiHelpers.verifySearchResults(client, deaSearchResults);
   client.waitForElementPresent(
     'input[name="category"][value="ALL"]',
-    Timeouts.normal,
+    Timeouts.verySlow,
   );
   client.selectRadio('category', 'ALL');
 
