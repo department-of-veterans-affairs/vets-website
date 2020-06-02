@@ -38,19 +38,14 @@ const VetTecInstitutionProfile = ({
       }
       <VetTecHeadingSummary institution={institution} showModal={showModal} />
       <ul className="profile-accordion-list">
-        <AccordionItem button="Approved programs">
-          {gibctEstimateYourBenefits ? (
-            <VetTecApprovedProgramsList
-              institution={institution}
-              selectedProgram={program}
-            />
-          ) : (
+        {gibctEstimateYourBenefits ? null : (
+          <AccordionItem button="Approved programs">
             <VetTecApprovedPrograms
               institution={institution}
               preSelectedProgram={preSelectedProgram}
             />
-          )}
-        </AccordionItem>
+          </AccordionItem>
+        )}
         <AccordionItem button="Estimate your benefits">
           {gibctEstimateYourBenefits ? (
             <VetTecEstimateYourBenefits
@@ -63,6 +58,14 @@ const VetTecInstitutionProfile = ({
             <VetTecCalculator showModal={showModal} />
           )}
         </AccordionItem>
+        {gibctEstimateYourBenefits ? (
+          <AccordionItem button="Approved programs">
+            <VetTecApprovedProgramsList
+              institution={institution}
+              selectedProgram={program}
+            />
+          </AccordionItem>
+        ) : null}
         <AccordionItem button="Veteran programs">
           <VetTecVeteranPrograms
             institution={institution}
