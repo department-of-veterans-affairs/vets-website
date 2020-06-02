@@ -254,8 +254,8 @@ few options.
 
 See [`ui:title`](#uititle) for usage; it's the same.
 
-If a field in the object has both a `title` in the schema **and** a `ui:title`,
-the `ui:title` will be used.
+If a field in the object has both a `title` in the schema **and** a `ui:title`
+in the `uiSchema`, the `ui:title` will be used.
 
 #### `ui:collapsed`
 
