@@ -933,14 +933,14 @@ export class Modals extends React.Component {
             or less won’t get a monthly housing allowance.
           </p>
           <p>
-            For more information about MHA increases or decreases, visit{' '}
+            Learn more about{' '}
             <a
               title="For more information about MHA increases or decreases click here"
-              href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
+              href="https://gibill.custhelp.va.gov/app/answers/detail/a_id/1480/kw/pro-rated%20monthly%20housing%20allowance"
               target="_blank"
               rel="noopener noreferrer"
             >
-              this page
+              pro-rated housing allowance calculations
             </a>
             .
           </p>
@@ -963,17 +963,21 @@ export class Modals extends React.Component {
         >
           <h3>Eligible for kicker bonus?</h3>
           <p>
-            A kicker bonus or college fund is an additional incentive, paid for
-            by the Department of Defense, to extend a tour of duty or retain
-            highly skilled military personnel. The money is a bonus on top of
-            any GI Bill payments paid directly to the Veteran. To learn more,
-            visit{' '}
+            A kicker bonus (also known as the “College Fund”) is an additional
+            incentive paid by an individual’s branch of service. The kicker
+            bonus may be offered to extend a tour of duty, retain highly-skilled
+            military personnel, or for other reasons the branch of service
+            determines. The money is on top of any GI Bill payments paid
+            directly to the Veteran.
+          </p>
+          <p>
+            Learn more about{' '}
             <a
               href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
               target="_blank"
               rel="noopener noreferrer"
             >
-              this page
+              the GI Bill kicker bonus
             </a>
             .
           </p>
@@ -1018,14 +1022,13 @@ export class Modals extends React.Component {
           this tool to compare programs and schools.
         </p>
         <p>
-          For detailed information on eligibility requirements and general
-          program benefits, visit{' '}
+          Learn more about{' '}
           <a
             href="/education/eligibility/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            this page
+            GI Bill program benefits and eligibility requirements
           </a>
           .
         </p>
@@ -1072,28 +1075,17 @@ export class Modals extends React.Component {
         <p>
           The{' '}
           <a
-            title="Post-9/11 GI Bill"
-            href="../post911_gibill.asp"
-            id="anch_375"
-          >
-            Post-9/11 GI Bill
-          </a>{' '}
-          provides financial support for education and a housing allowance. To
-          qualify for this program, you must have served after September 10,
-          2001 for at least 90 days or, if you were discharged with a
-          service-connected disability, for at least 30 days. You also need to
-          have received an honorable discharge.
-        </p>
-        <p>
-          For detailed information about Cumulative Post-9/11 Service, visit{' '}
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
+            href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            this page
-          </a>
-          .
+            Post-9/11 GI Bill
+          </a>{' '}
+          education benefits you receive depend on how much active duty service
+          you’ve completed since September 10, 2001. We calculate the amount
+          based on the total (cumulative) time you’ve spent on active duty. If
+          you’re a Purple Heart or Fry Scholarship recipient, or have a
+          service-connected discharge, you’ll receive 100% of the benefits.
         </p>
       </Modal>
 
