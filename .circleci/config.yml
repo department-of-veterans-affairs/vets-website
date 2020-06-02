@@ -54,9 +54,6 @@ jobs:
     parallelism: 2
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/
       - run:
@@ -138,10 +135,6 @@ jobs:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
-      - save_cache:
-          key: node-v1-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
       - run:
           name: Install Sibling Repositories
           command: yarn install-repos
