@@ -1,22 +1,19 @@
 # Available ui:fields
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
 - [`ObjectField`](#objectfield)
     - [`schema` options](#schema-options)
-        - [`ui:hidden`](#uihidden)
         - [`title`](#title)
+        - [`ui:hidden`](#uihidden)
     - [`uiSchema` options](#uischema-options)
-        - [`ui:title`](#uititle)
         - [`ui:description`](#uidescription)
-        - [`ui:order`](#uiorder)
         - [`ui:options`](#uioptions)
             - [`expandUnder`](#expandunder)
             - [`expandUnderClassName`](#expandunderclassname)
             - [`showFieldLabel`](#showfieldlabel)
             - [`classNames`](#classnames)
-
-<!-- markdown-toc end -->
+        - [`ui:order`](#uiorder)
+        - [`ui:title`](#uititle)
 
 ## `ObjectField`
 This is the default field for `type: 'object'` schemas.
