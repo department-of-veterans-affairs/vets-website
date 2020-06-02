@@ -15,12 +15,6 @@ describe('VAOS <AppointmentInstructions>', () => {
     tree.unmount();
   });
 
-  it('should not return instructions without matching prefix', () => {
-    const tree = shallow(<AppointmentInstructions instructions="test" />);
-    expect(tree.text()).to.be.empty;
-    tree.unmount();
-  });
-
   it('should not return instructions if empty', () => {
     const tree = shallow(<AppointmentInstructions instructions="" />);
     expect(tree.text()).to.be.empty;

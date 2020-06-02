@@ -1,15 +1,18 @@
 import React from 'react';
-import { questions } from '../config/questions';
 import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
+import { fromRenderProps } from 'recompose';
 
 export default function FormResult({
+  questions,
   formState,
   resultSubmitted,
   setResultSubmittedState,
 }) {
+  let complete;
+
   function recordScreeningToolEvent(screeningToolResult) {
     if (!resultSubmitted.isSubmitted) {
       const timeToComplete = moment().unix() - resultSubmitted.startTime;
@@ -73,10 +76,23 @@ export default function FormResult({
     },
   };
 
-  const complete = Object.values(formState).length === questions.length;
-
-  const outcome = Object.values(formState).includes('yes') ? 'fail' : 'pass';
-
+  const disqualifyingQuestions = questions.filter(
+    question => question.disqualifying === true,
+  );
+  if (disqualifyingQuestions.length === 0) {
+    complete = false;
+  } else {
+    complete = disqualifyingQuestions.reduce(
+      (isComplete, disqualifyingQuestion) =>
+        isComplete && formState[disqualifyingQuestion.id] !== undefined,
+      true,
+    );
+  }
+  const outcome = disqualifyingQuestions.reduce(
+    (isPass, disqualifyingQuestion) =>
+      formState[disqualifyingQuestion.id] === 'yes' ? 'fail' : isPass,
+    'pass',
+  );
   const status = complete ? outcome : 'incomplete';
 
   if (complete) {

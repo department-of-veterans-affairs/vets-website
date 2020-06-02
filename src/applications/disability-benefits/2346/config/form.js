@@ -111,6 +111,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
+  finishLaterLinkText: 'Finish this order later.',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound:

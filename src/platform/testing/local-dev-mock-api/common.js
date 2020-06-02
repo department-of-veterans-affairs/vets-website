@@ -73,6 +73,7 @@ const responses = {
         { name: 'gibctEstimateYourBenefits', value: true },
         { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
+        { name: 'gibctEybBottomSheet', value: true },
       ],
     },
   },

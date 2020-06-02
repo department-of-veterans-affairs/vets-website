@@ -40,13 +40,23 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
+        <div className="print-only">
+          <img
+            src="https://va.gov/img/design/logo/logo-black-and-white.png"
+            alt="VA logo"
+            width="300"
+          />
+          <h2>Request for Higher-Level Review</h2>
+        </div>
         <h2 className="confirmation-page-title vads-u-font-size--h3">
           Your request has been submitted
         </h2>
         <p>
           We may contact you for more information or documents.
-          <br />
-          <em>Please print this page for your records.</em>
+          <br className="screen-only" />
+          <em className="screen-only">
+            Please print this page for your records.
+          </em>
         </p>
         <div className="inset" role="presentation">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
@@ -71,6 +81,12 @@ export class ConfirmationPage extends React.Component {
                 {issues.length > 1 ? 's' : ''} contested
               </strong>
               <ul className="vads-u-margin-top--0">{issues}</ul>
+              <button
+                className="usa-button screen-only"
+                onClick={() => window.print()}
+              >
+                Print for your records
+              </button>
             </>
           )}
         </div>

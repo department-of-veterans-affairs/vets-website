@@ -1116,10 +1116,10 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.3.1.tgz#de6c1606baca26a9a520b3c49b960dc1cc1e2fc4"
-  integrity sha512-gaFUzreQHlabWUOCqLHk1hgf1W+V6yfSb9X8fTzCk5OH9ZXe/1W//VD+/F7T+Wyjre6Gqe/DEnabm+mFfB432g==
+"@department-of-veterans-affairs/generator-vets-website@^3.3.5":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.3.5.tgz#08d3ca8ed97990bbc81b486fe6c094b327e2ad9f"
+  integrity sha512-EtMNkXCDvmZ7MZr97KIwsWXtvr/CjBExFDnmdnIUwgJB+RoJZbmCrXcz7icZM/Ra1f4u9hsaAHrE989pjmiHCw==
   dependencies:
     chalk "^2.1.0"
     yeoman-generator "^2.0.1"
