@@ -250,7 +250,6 @@ few options.
 > properties as needed. This reference makes mention of these only for the sake
 > of completeness.
 
-#### `ui:collapsed`
 
 #### `title`
 **Type:** `string`, React component
@@ -259,6 +258,8 @@ See [`ui:title`](#uititle) for usage; it's the same.
 
 If a field in the object has both a `title` in the schema **and** a `ui:title`,
 the `ui:title` will be used.
+
+#### `ui:collapsed`
 
 #### `ui:hidden`
 **Type:** `bool`
