@@ -2,8 +2,8 @@
   {
     "appName": "COVID-19 screener",
     "entryName": "covid19screen",
-    "rootUrl":"/covid19screen",
-    "template":{
+    "rootUrl": "/covid19screen",
+    "template": {
       "title": "COVID-19 screening tool",
       "layout": "page-react.html",
       "vagovprod": true
@@ -275,7 +275,7 @@
           "name": "View or change your dependents"
         },
         {
-          "name": "686c-674"
+          "name": "Add or remove dependents Form 21-686c"
         }
       ]
     }
@@ -847,6 +847,16 @@
           "name": "Apply for an ID Card"
         }
       ]
+    }
+  },
+  {
+    "appName": "Debt Letters",
+    "entryName": "debt-letters",
+    "rootUrl": "/debt-letters",
+    "template": {
+      "vagovprod": false,
+      "title": "Debt Letters",
+      "layout": "page-react.html"
     }
   }
 ]

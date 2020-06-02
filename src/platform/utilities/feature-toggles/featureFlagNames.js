@@ -2,6 +2,7 @@ export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
+  facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   profileShowProfile2: 'profile_show_profile_2.0',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
   vaOnlineScheduling: 'vaOnlineScheduling',
@@ -26,4 +27,6 @@ export default Object.freeze({
   gibctEstimateYourBenefits: 'gibctEstimateYourBenefits',
   form526OriginalClaims: 'form526OriginalClaims',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
+  allowOnline1010cgSubmissions: 'allow_online_10_10cg_submissions',
+  gibctEybBottomSheet: 'gibctEybBottomSheet',
 });

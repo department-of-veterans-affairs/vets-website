@@ -1,17 +1,20 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import fullSchemaMDOT from '../schemas/2346-schema.json';
+import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
+const { email, supplies, date } = fullSchema.definitions;
+const { currentAddress } = frontEndSchema.definitions;
 
 const {
   emailField,
@@ -59,6 +62,7 @@ const asyncReturn = (returnValue, error, delay = 300) =>
   });
 
 const submit = form => {
+  const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
 
   recordEvent({
@@ -87,6 +91,7 @@ const submit = form => {
   return asyncReturn(
     {
       attributes: { confirmationNumber: '123123123' },
+      submissionData,
     },
     'this is an error message',
   )
@@ -102,11 +107,13 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  footerContent: FooterInfo,
+  footerContent: FormFooter,
+  getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
+  finishLaterLinkText: 'Finish this order later.',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound:
@@ -118,6 +125,7 @@ const formConfig = {
   defaultDefinitions: {
     email,
     supplies,
+    date,
     addressSchema,
     currentAddress,
   },

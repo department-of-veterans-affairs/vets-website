@@ -90,13 +90,6 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
-export const checkForEmptyFocusableElement = element => {
-  if (document.getElementsByName(element) === null) {
-    return '';
-  }
-  return document.getElementsByName(element);
-};
-
 export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
 
 export const handleScrollOnInputFocus = fieldId => {
@@ -128,7 +121,8 @@ export const handleInputFocusWithPotentialOverLap = (
         const scrollableField =
           document.getElementById(scrollableFieldId) || window;
         if (scrollableField) {
-          const scrollUpBy = fieldRect1.bottom - fieldRect2.top + 2;
+          const pixelOffset = 10;
+          const scrollUpBy = fieldRect1.bottom - fieldRect2.top + pixelOffset;
           scrollableField.scrollBy({
             top: scrollUpBy,
             left: 0,

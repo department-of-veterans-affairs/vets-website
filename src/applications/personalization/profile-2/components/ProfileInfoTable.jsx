@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { prefixUtilityClasses } from '../helpers';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 const ProfileInfoTable = ({
   data,
   dataTransformer,
-  fieldName,
   title,
   className,
   list,
@@ -74,7 +73,7 @@ const ProfileInfoTable = ({
   const dtAttributes = list ? { role: 'listitem' } : null;
 
   return (
-    <section className={classes.table} data-field-name={fieldName}>
+    <section className={classes.table}>
       {title && <h3 className={classes.title}>{title}</h3>}
       <dl className="vads-u-margin--0" {...dlAttributes}>
         {data
@@ -96,7 +95,6 @@ const ProfileInfoTable = ({
 
 ProfileInfoTable.propTypes = {
   title: PropTypes.string,
-  fieldName: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
@@ -106,7 +104,5 @@ ProfileInfoTable.propTypes = {
    */
   list: PropTypes.bool,
 };
-
-export { prefixUtilityClasses };
 
 export default ProfileInfoTable;

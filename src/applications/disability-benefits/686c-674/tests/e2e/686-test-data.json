@@ -2,7 +2,12 @@
   "data": {
     "optionsSelection": {
       "addChild": true,
-      "addSpouse": true
+      "addSpouse": true,
+      "reportDivorce": true,
+      "reportDeath": true,
+      "reportStepchildNotInHousehold": true,
+      "reportMarriageOfChildUnder18": true,
+      "reportChild18OrOlderIsNotAttendingSchool": true
     },
     "veteranInformation": {
       "firstName": "John",
@@ -23,7 +28,7 @@
           "marriageEndDateYear": "2012",
           "locationState": "California",
           "locationCity": "San Diego",
-          "reasonMarriageEnded": "DIVORCE"
+          "reasonMarriageEnded": "Death"
         }
       ]
     },
@@ -91,7 +96,7 @@
           "marriageEndDateYear": "2012",
           "locationState": "California",
           "locationCity": "San Diego",
-          "reasonMarriageEnded": "DIVORCE"
+          "reasonMarriageEnded": "Death"
         }
       ]
     },
@@ -125,6 +130,59 @@
       "filePath": "/src/platform/testing/",
       "fileName": "example-upload.png",
       "fileTypeSelection": "7"
+    },
+    "deceasedDependent": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "type": "CHILD",
+      "childTypes": {
+        "under18": true,
+        "stepchild": true
+      },
+      "date": {
+        "month": "3",
+        "day": "3",
+        "year": "2008"
+      },
+      "location": {
+        "state": "Texas",
+        "city": "Dallas"
+      }
+    },
+    "marriedChild": {
+      "firstName": "James",
+      "lastName": "Doe",
+      "date": {
+        "month": "3",
+        "day": "3",
+        "year": "2008"
+      }
+    },
+    "childStoppedAttending": {
+      "firstName": "James",
+      "lastName": "Doe",
+      "date": {
+        "month": "3",
+        "day": "3",
+        "year": "2008"
+      }
+    },
+    "stepchild": {
+      "firstName": "James",
+      "lastName": "Doe",
+      "supporting": "Y",
+      "supportingValue": "Half",
+      "personChildLivesWith": {
+        "first": "Joseph",
+        "last": "Doe"
+      },
+      "address": {
+        "countryName": "USA",
+        "addressLine1": "123 at home dr",
+        "city": "The City",
+        "stateCode": "AL",
+        "zipCode": "12345"
+      }
     }
   }
 }

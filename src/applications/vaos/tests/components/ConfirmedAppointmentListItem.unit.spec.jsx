@@ -13,30 +13,73 @@ import ConfirmedAppointmentListItem from '../../components/ConfirmedAppointmentL
 
 describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   const appointment = {
+    resourceType: 'Appointment',
     status: APPOINTMENT_STATUS.booked,
-    appointmentDate: moment('2019-12-11T16:00:00Z'),
-    facilityId: '983',
-    clinicId: '123',
-    duration: 60,
-    clinicName: 'C&P BEV AUDIO FTC1',
-    instructions: 'Follow-up/Routine: Instructions',
-  };
-  const facility = {
-    address: {
-      mailing: {},
-      physical: {
-        zip: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        address1: '2360 East Pershing Boulevard',
-        address2: null,
-        address3: null,
+    description: 'NO ACTION TAKEN/TODAY',
+    start: '2019-12-11T10:00:00-07:00',
+    minutesDuration: 60,
+    comment: 'Follow-up/Routine: Instructions',
+    participant: [
+      {
+        actor: {
+          reference: 'HealthcareService/var983_455',
+          display: 'C&P BEV AUDIO FTC1',
+        },
+      },
+    ],
+    contained: null,
+    legacyVAR: {
+      id: '17dd714287e151195b99164cc1a8e49a',
+      apiData: {
+        startDate: '2020-11-07T17:00:00Z',
+        clinicId: '455',
+        clinicFriendlyName: null,
+        facilityId: '983',
+        communityCare: false,
+        vdsAppointments: [
+          {
+            bookingNote: null,
+            appointmentLength: '60',
+            appointmentTime: '2020-11-07T17:00:00Z',
+            clinic: {
+              name: 'CHY OPT VAR1',
+              askForCheckIn: false,
+              facilityCode: '983',
+            },
+            type: 'REGULAR',
+            currentStatus: 'NO ACTION TAKEN/TODAY',
+          },
+        ],
+        vvsAppointments: [],
+        id: '17dd714287e151195b99164cc1a8e49a',
       },
     },
-    phone: {
-      main: '307-778-7550',
+    vaos: {
+      isPastAppointment: false,
+      appointmentType: APPOINTMENT_TYPES.vaAppointment,
+      videoType: null,
+      isCommunityCare: false,
+      timeZone: null,
     },
   };
+
+  const facility = {
+    id: 'var983',
+    name: 'Cheyenne VA Medical Center',
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    telecom: [
+      {
+        system: 'phone',
+        value: '307-778-7550',
+      },
+    ],
+  };
+
   const cancelAppointment = sinon.spy();
 
   let tree;
@@ -98,23 +141,73 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       .onClick();
     expect(cancelAppointment.called).to.be.true;
   });
+
+  it('should not show instructions if comment does not start with preset purpose text', () => {
+    const appt = {
+      ...appointment,
+      comment: 'some comment',
+    };
+
+    const component = mount(
+      <ConfirmedAppointmentListItem
+        showCancelButton
+        cancelAppointment={cancelAppointment}
+        appointment={appt}
+        facility={facility}
+      />,
+    );
+
+    expect(component.text()).not.to.contain('some comment');
+    expect(component.text()).not.to.contain('Instructions');
+
+    component.unmount();
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () => {
   const appointment = {
-    id: 'guid',
-    appointmentType: APPOINTMENT_TYPES.ccAppointment,
-    isCommunityCare: true,
+    resourceType: 'Appointment',
     status: APPOINTMENT_STATUS.booked,
-    appointmentDate: moment('05/22/2019 10:00:00', 'MM/DD/YYYY HH:mm:ss'),
-    providerPractice: 'My Clinic',
-    timeZone: 'UTC',
-    instructions: 'Instruction text',
-    address: {
-      street: '123 second st',
-      city: 'Northampton',
-      state: 'MA',
-      zipCode: '22222',
+    description: null,
+    start: '2019-05-22T10:00:00Z',
+    minutesDuration: 60,
+    comment: 'Instruction text',
+    participant: [
+      {
+        actor: {
+          reference: 'Practitioner/PRACTITIONER_ID',
+          display: 'Rick Katz',
+        },
+      },
+    ],
+    contained: [
+      {
+        actor: {
+          name: 'My Clinic',
+          address: {
+            line: ['123 second st'],
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '22222',
+          },
+          telecom: [
+            {
+              system: 'phone',
+              value: '(703) 555-1264',
+            },
+          ],
+        },
+      },
+    ],
+    legacyVAR: {
+      id: '8a4885896a22f88f016a2cb7f5de0062',
+    },
+    vaos: {
+      isPastAppointment: false,
+      appointmentType: APPOINTMENT_TYPES.ccAppointment,
+      videoType: null,
+      isCommunityCare: true,
+      timeZone: 'UTC',
     },
   };
 
@@ -151,22 +244,156 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   it('should display instructions', () => {
     expect(tree.text()).to.contain('Instruction text');
   });
+
+  it('should have a green top border if in future', () => {
+    const newTree = mount(
+      <ConfirmedAppointmentListItem appointment={appointment} />,
+    );
+
+    expect(newTree.find('.vads-u-border-color--green').exists()).to.equal(true);
+    newTree.unmount();
+  });
+
+  it('should not have a green top border if time is isPastAppointment', () => {
+    const appt = {
+      ...appointment,
+      vaos: {
+        ...appointment.vaos,
+        isPastAppointment: true,
+      },
+    };
+
+    const newTree = mount(<ConfirmedAppointmentListItem appointment={appt} />);
+    expect(newTree.find('.vads-u-border-color--green').exists()).to.equal(
+      false,
+    );
+    newTree.unmount();
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
-  const apptTime = moment().add(20, 'minutes');
-
-  const url =
-    'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#';
+  const apptTime = moment()
+    .add(20, 'minutes')
+    .format();
   const appointment = {
-    appointmentType: APPOINTMENT_TYPES.vaAppointment,
-    videoType: VIDEO_TYPES.videoConnect,
-    appointmentDate: apptTime,
-    facilityId: '984',
-    clinicId: '456',
-    videoLink: url,
+    resourceType: 'Appointment',
     status: APPOINTMENT_STATUS.booked,
-    instructions: 'My reason isn’t listed: Booking note',
+    description: 'FUTURE',
+    start: apptTime,
+    minutesDuration: 20,
+    comment: 'T+90 Testing',
+    participant: null,
+    contained: [
+      {
+        resourceType: 'HealthcareService',
+        id: 'HealthcareService/var8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
+        type: [
+          {
+            text: 'Patient Virtual Meeting Room',
+          },
+        ],
+        telecom: [
+          {
+            system: 'url',
+            value:
+              'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
+            period: {
+              start: apptTime,
+            },
+          },
+        ],
+      },
+    ],
+    legacyVAR: {
+      id: '05760f00c80ae60ce49879cf37a05fc8',
+      apiData: {
+        startDate: '2020-11-25T15:17:00Z',
+        clinicId: null,
+        clinicFriendlyName: null,
+        facilityId: '983',
+        communityCare: false,
+        vdsAppointments: [],
+        vvsAppointments: [
+          {
+            id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
+            appointmentKind: 'ADHOC',
+            sourceSystem: 'SM',
+            dateTime: '2020-11-25T15:17:00Z',
+            duration: 20,
+            status: {
+              description: 'F',
+              code: 'FUTURE',
+            },
+            schedulingRequestType: 'NEXT_AVAILABLE_APPT',
+            type: 'REGULAR',
+            bookingNotes: 'T+90 Testing',
+            instructionsOther: false,
+            patients: [
+              {
+                name: {
+                  firstName: 'JUDY',
+                  lastName: 'MORRISON',
+                },
+                contactInformation: {
+                  mobile: '7036520000',
+                  preferredEmail: 'marcy.nadeau@va.gov',
+                },
+                location: {
+                  type: 'NonVA',
+                  facility: {
+                    name: 'CHEYENNE VAMC',
+                    siteCode: '983',
+                    timeZone: '10',
+                  },
+                },
+                patientAppointment: true,
+                virtualMeetingRoom: {
+                  conference: 'VVC8275247',
+                  pin: '3242949390#',
+                  url:
+                    'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=3242949390#',
+                },
+              },
+            ],
+            providers: [
+              {
+                name: {
+                  firstName: 'Test T+90',
+                  lastName: 'Test',
+                },
+                contactInformation: {
+                  mobile: '8888888888',
+                  preferredEmail: 'marcy.nadeau@va.gov',
+                  timeZone: '10',
+                },
+                location: {
+                  type: 'VA',
+                  facility: {
+                    name: 'CHEYENNE VAMC',
+                    siteCode: '983',
+                    timeZone: '10',
+                  },
+                },
+                virtualMeetingRoom: {
+                  conference: 'VVC8275247',
+                  pin: '7172705#',
+                  url:
+                    'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+                },
+              },
+            ],
+          },
+        ],
+        id: '05760f00c80ae60ce49879cf37a05fc8',
+      },
+    },
+    vaos: {
+      isPastAppointment: false,
+      appointmentType: APPOINTMENT_TYPES.vaAppointment,
+      videoType: VIDEO_TYPES.videoConnect,
+      isCommunityCare: false,
+      timeZone: null,
+    },
   };
 
   const tree = mount(
@@ -185,27 +412,69 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
 
 describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
   const appointment = {
-    appointmentDate: moment('2019-12-11T16:00:00Z'),
+    resourceType: 'Appointment',
     status: APPOINTMENT_STATUS.cancelled,
-    facilityId: '983',
-    clinicId: '123',
-    clinicName: 'C&P BEV AUDIO FTC1',
-  };
-  const facility = {
-    address: {
-      mailing: {},
-      physical: {
-        zip: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        address1: '2360 East Pershing Boulevard',
-        address2: null,
-        address3: null,
+    description: 'NO ACTION TAKEN/TODAY',
+    start: '2019-12-11T10:00:00-07:00',
+    minutesDuration: 60,
+    participant: [
+      {
+        actor: {
+          reference: 'HealthcareService/var983_455',
+          display: 'C&P BEV AUDIO FTC1',
+        },
+      },
+    ],
+    contained: null,
+    legacyVAR: {
+      id: '17dd714287e151195b99164cc1a8e49a',
+      apiData: {
+        startDate: '2020-11-07T17:00:00Z',
+        clinicId: '455',
+        clinicFriendlyName: null,
+        facilityId: '983',
+        communityCare: false,
+        vdsAppointments: [
+          {
+            bookingNote: null,
+            appointmentLength: '60',
+            appointmentTime: '2020-11-07T17:00:00Z',
+            clinic: {
+              name: 'C&P BEV AUDIO FTC1',
+              askForCheckIn: false,
+              facilityCode: '983',
+            },
+            type: 'REGULAR',
+            currentStatus: 'NO ACTION TAKEN/TODAY',
+          },
+        ],
+        vvsAppointments: [],
+        id: '17dd714287e151195b99164cc1a8e49a',
       },
     },
-    phone: {
-      main: '307-778-7550',
+    vaos: {
+      isPastAppointment: false,
+      appointmentType: 'vaAppointment',
+      videoType: null,
+      isCommunityCare: false,
+      timeZone: null,
     },
+  };
+  const facility = {
+    id: 'var983',
+    name: 'Cheyenne VA Medical Center',
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
+    telecom: [
+      {
+        system: 'phone',
+        value: '307-778-7550',
+      },
+    ],
   };
 
   let tree;

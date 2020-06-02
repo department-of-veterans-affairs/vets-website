@@ -1,77 +1,117 @@
 import React from 'react';
-import { questions } from '../config/questions';
 import { Element } from 'react-scroll';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
+import classnames from 'classnames';
+import { fromRenderProps } from 'recompose';
 
-export default function FormResult({ formState }) {
-  let result;
-  let resultClass = '';
-  const [resultSubmitted, setResultSubmittedState] = React.useState(false);
-
-  const incomplete = <div>Please answer all the questions above.</div>;
-
-  const dateText = moment().format('dddd, MMMM D, h:mm a');
-
-  const pass = (
-    <div>
-      <i aria-hidden="true" role="presentation" className="fas fa-check" />
-      <h2 className="vads-u-font-size--h1">OK to proceed</h2>
-      <h3>Valid for:</h3>
-      <h3>{dateText}</h3>
-      <div className="vads-u-font-size--h3">
-        <p>
-          Please show this screen to the staff member at the facility entrance.
-        </p>
-        <p>Thank you for helping us protect you and others during this time.</p>
-      </div>
-    </div>
-  );
-
-  const fail = (
-    <div>
-      <h2 className="vads-u-font-size--h1">More screening needed</h2>
-      <h3>Valid for:</h3>
-      <h3>{dateText}</h3>
-      <div className="vads-u-font-size--h3">
-        <p>
-          Please show this screen to the staff member at the facility entrance.
-        </p>
-        <p>Thank you for helping us protect you and others during this time.</p>
-      </div>
-    </div>
-  );
+export default function FormResult({
+  questions,
+  formState,
+  resultSubmitted,
+  setResultSubmittedState,
+}) {
+  let complete;
 
   function recordScreeningToolEvent(screeningToolResult) {
-    if (!resultSubmitted) {
+    if (!resultSubmitted.isSubmitted) {
+      const timeToComplete = moment().unix() - resultSubmitted.startTime;
       recordEvent({
         event: 'covid-screening-tool-result-displayed',
         'screening-tool-result': screeningToolResult,
+        'time-to-complete': timeToComplete,
       });
-      setResultSubmittedState(true);
+      setResultSubmittedState({ ...resultSubmitted, isSubmitted: true });
     }
   }
-  if (Object.values(formState).length < questions.length) {
-    result = incomplete;
-    resultClass = 'incomplete';
-  } else if (Object.values(formState).includes('yes')) {
-    result = fail;
-    resultClass = 'fail';
-    recordScreeningToolEvent('More screening needed');
-  } else {
-    result = pass;
-    resultClass = 'pass';
-    recordScreeningToolEvent('Pass');
+
+  const Incomplete = () => <div>Please answer all the questions above.</div>;
+
+  const Pass = () => (
+    <Complete>
+      <i aria-hidden="true" role="presentation" className="fas fa-check" />
+      <h2 className="vads-u-font-size--h1">OK to proceed</h2>
+    </Complete>
+  );
+
+  const Fail = () => (
+    <Complete>
+      <h2 className="vads-u-font-size--h1">More screening needed</h2>
+    </Complete>
+  );
+
+  function Complete({ children }) {
+    return (
+      <div>
+        {children}
+        <h3>Valid for:</h3>
+        <h3>{moment().format('dddd, MMMM D, h:mm a')}</h3>
+        <div className="vads-u-font-size--h3">
+          <p>
+            Please show this screen to the staff member at the facility
+            entrance.
+          </p>
+          <p>
+            Thank you for helping us protect you and others during this time.
+          </p>
+        </div>
+      </div>
+    );
   }
+
+  const results = {
+    pass: {
+      content: <Pass />,
+      class: 'pass',
+      event: 'Pass',
+    },
+    fail: {
+      content: <Fail />,
+      class: 'fail',
+      event: 'More screening needed',
+    },
+    incomplete: {
+      content: <Incomplete />,
+      class: 'incomplete',
+    },
+  };
+
+  const disqualifyingQuestions = questions.filter(
+    question => question.disqualifying === true,
+  );
+  if (disqualifyingQuestions.length === 0) {
+    complete = false;
+  } else {
+    complete = disqualifyingQuestions.reduce(
+      (isComplete, disqualifyingQuestion) =>
+        isComplete && formState[disqualifyingQuestion.id] !== undefined,
+      true,
+    );
+  }
+  const outcome = disqualifyingQuestions.reduce(
+    (isPass, disqualifyingQuestion) =>
+      formState[disqualifyingQuestion.id] === 'yes' ? 'fail' : isPass,
+    'pass',
+  );
+  const status = complete ? outcome : 'incomplete';
+
+  if (complete) {
+    recordScreeningToolEvent(results[status].event);
+  }
+
+  const resultContent = results[status].content;
 
   return (
     <div
-      className={`feature covid-screener-results covid-screener-results-${resultClass}`}
+      className={classnames(
+        'feature covid-screener-results',
+        `covid-screener-results-${results[status].class}`,
+      )}
     >
       <Element
         name={`multi-question-form-${questions.length}-scroll-element`}
       />
-      <div>{result}</div>
+      <div>{resultContent}</div>
     </div>
   );
 }
