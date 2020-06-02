@@ -2,62 +2,25 @@
 **Table of Contents**
 
 - [`ObjectField`](#objectfield)
-    - [`schema` options](#schema-options)
-        - [`title`](#title)
-        - [`ui:hidden`](#uihidden)
     - [`uiSchema` options](#uischema-options)
         - [`ui:description`](#uidescription)
         - [`ui:options`](#uioptions)
             - [`expandUnder`](#expandunder)
-            - [`expandUnderClassName`](#expandunderclassname)
+            - [`expandUnderClassNames`](#expandunderclassnames)
             - [`showFieldLabel`](#showfieldlabel)
             - [`classNames`](#classnames)
         - [`ui:order`](#uiorder)
         - [`ui:title`](#uititle)
+    - [`schema` options](#schema-options)
+        - [`ui:collapsed`](#uicollapsed)
+        - [`title`](#title)
+        - [`ui:hidden`](#uihidden)
+
 
 ## `ObjectField`
 This is the default field for `type: 'object'` schemas.
 
-### `schema` options
-While most UI configuration is held in the `uiSchema`, the `ObjectField` has a
-few options.
-
-#### `title`
-**Type:** `string`, React component
-
-See [`ui:title`](#uititle) for usage; it's the same.
-
-If a field in the object has both a `title` in the schema **and** a `ui:title`,
-the `ui:title` will be used.
-
-#### `ui:hidden`
-**Type:** `bool`
-
-When `ui:hidden` is added to the `schema` (**NOT** `uiSchema`) for an object's
-property, it's not rendered in the form.
-
-<!-- TODO: Change this into a warning box if possible -->
-> **Note:** You almost never want to set this explicitly in your form's `schema`.
-> This is used internally by some `uiSchema` options.
-
-**Example**
-```js
-const schema = {
-  type: 'object',
-  properties: {
-    field1: {
-      type: 'string',
-      'ui:hidden': true,
-    },
-    field2: { type: 'string' },
-  },
-};
-```
-
-![ui:hidden example](images/objectfield-uihidden.png)
-
 ### `uiSchema` options
-#### `ui:collapsed`
 #### `ui:description`
 **Type:** `string`, React component
 
@@ -276,3 +239,45 @@ const uiSchema = {
 };
 ```
 ![ui:title example](images/objectfield-uititle-react.png)
+
+### `schema` options
+While most UI configuration is held in the `uiSchema`, the `ObjectField` has a
+few options.
+
+<!-- TODO: Change this into a warning box if possible -->
+> **You'll almost never want to manually set these options in your
+> `schema`.** Internal functions will modify the schema to add and remove these
+> properties as needed. This reference makes mention of these only for the sake
+> of completeness.
+
+#### `ui:collapsed`
+
+#### `title`
+**Type:** `string`, React component
+
+See [`ui:title`](#uititle) for usage; it's the same.
+
+If a field in the object has both a `title` in the schema **and** a `ui:title`,
+the `ui:title` will be used.
+
+#### `ui:hidden`
+**Type:** `bool`
+
+When `ui:hidden` is added to the `schema` (**NOT** `uiSchema`) for an object's
+property, it's not rendered in the form.
+
+**Example**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: {
+      type: 'string',
+      'ui:hidden': true,
+    },
+    field2: { type: 'string' },
+  },
+};
+```
+
+![ui:hidden example](images/objectfield-uihidden.png)
