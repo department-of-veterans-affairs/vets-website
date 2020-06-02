@@ -60,7 +60,7 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: Verify Dependencies are Installed
+          name: Installed Dependencies
           command: yarn install --frozen-lockfile
       - run:
           name: Make Test Results Folder
