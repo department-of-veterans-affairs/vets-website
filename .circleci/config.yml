@@ -155,7 +155,6 @@ jobs:
           root: ~/
           paths:
             - vets-website/build
-            - vets-website/test-results
             - .cache/Cypress
 
   eslint-check:
