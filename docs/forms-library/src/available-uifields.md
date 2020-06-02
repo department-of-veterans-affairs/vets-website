@@ -85,8 +85,6 @@ const uiSchema = {
 ```
 ![ui:description example](images/objectfield-uidescription-react.png)
 
-**Example: React component**
-
 #### `ui:options`
 <!-- TODO: Describe this--why it's a separate section in uiSchema -->
 
@@ -96,6 +94,7 @@ const uiSchema = {
 Show some fields only if the field referenced by `expandUnder` is truthy.
 `expandUnder` must be the name of a field on the page.
 
+**Example:**
 ```js
 const schema = {
   type: 'object',
@@ -145,6 +144,7 @@ Apply an HTML class to the expanded fields.
 > **Note:** This must be put on the **target** of `expandUnder`, not the fields to
 > be expanded.
 
+**Example:**
 ```js
 const schema = {
   type: 'object',
@@ -170,15 +170,13 @@ const uiSchema = {
 ```
 
 ![expandUnderClassNames example](images/objectfield-expandunderclassnames.png)
+
 ##### `showFieldLabel`
 ##### `classNames`
 #### `ui:order`
 
 #### `ui:title`
 **Type:** `string`, React component
-
-<!-- TODO: Add React component to the available types and give an example...if -->
-<!-- we can use one, anyhow. Probably see what else we can use too -->
 
 Display a title for the whole object.
 
