@@ -24,6 +24,3 @@ const schema = {
   },
 };
 ```
-
-### `uiSchema` options
-#### `ui:description`
