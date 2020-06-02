@@ -15,7 +15,9 @@
         - [`ui:collapsed`](#uicollapsed)
         - [`title`](#title)
         - [`ui:hidden`](#uihidden)
-
+        
+<!-- TODO: Document the `FieldTemplate` options; possibly in another reference -->
+<!-- section since it's not really a field or widget -->
 
 ## `ObjectField`
 This is the default field for `type: 'object'` schemas.
@@ -174,6 +176,8 @@ const uiSchema = {
 ##### `showFieldLabel`
 **Type:** `bool`, `string` (`'label'` is the only meaningful string)
 
+<!-- TODO: Link to the `FieldTemplate` docs for showFieldLabel -->
+
 If `showFieldLabel` is falsey, `ObjectField` renders the `ui:title`. If this is
 truthy, `FieldTemplate` will render the `ui:title` and `ui:description`. The
 `ui:title` will be a
@@ -183,7 +187,7 @@ truthy, `FieldTemplate` will render the `ui:title` and `ui:description`. The
 In the following examples, take note of two things:
 - What the `ObjectField` is rendering (everything else is rendered by the `FieldTemplate`)
 - What the `ui:title`'s DOM element is
-  - `fieldset` vs `label`
+  - `legend` vs `label`
 
 **Example: `false` or `undefined`**
 ```js
