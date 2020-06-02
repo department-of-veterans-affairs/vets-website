@@ -125,9 +125,6 @@ jobs:
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
-      - run:
-          name: Verify Cypress is Installed
-          command: yarn cypress verify || yarn cypress install
       - save_cache:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
