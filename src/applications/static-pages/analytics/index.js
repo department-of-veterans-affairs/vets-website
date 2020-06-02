@@ -1,7 +1,10 @@
+import environment from 'platform/utilities/environment';
+
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
 import addHomepageBannerListeners from './addHomepageBannerListeners';
+import addButtonLinkListeners from './addButtonLinkListeners';
 
 /**
  * Use pageListenersMap.set(<page path>, <array of functions>) to register
@@ -26,6 +29,10 @@ function attachAnalytics() {
 
   // Global listeners
   addTeaserListeners();
+
+  if (!environment.isProduction()) {
+    addButtonLinkListeners();
+  }
 }
 
 // Prevent the window from navigating away.

@@ -54,15 +54,13 @@ import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    const { appId, useSSOe } = props;
-    const { url, redirect } = toolUrl(appId, useSSOe);
+    const { appId } = props;
 
-    this._hasRedirect = redirect;
     this._popup = null;
     this._requiredServices = requiredServices(appId);
     this._serviceDescription = serviceDescription(appId);
     this._mhvToolName = mhvToolName(appId);
-    this._toolUrl = url;
+    this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
   }
 
@@ -82,7 +80,10 @@ export class CallToActionWidget extends React.Component {
     }
 
     if (this.isAccessible()) {
-      if (this._hasRedirect && !this._popup) this.goToTool();
+      const { appId, useSSOe } = this.props;
+      const { url, redirect } = toolUrl(appId, useSSOe);
+      this._toolUrl = url;
+      if (redirect && !this._popup) this.goToTool();
     } else if (this.isHealthTool()) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
@@ -443,6 +444,10 @@ export class CallToActionWidget extends React.Component {
         />
       );
     }
+
+    const { appId, useSSOe } = this.props;
+    const { url } = toolUrl(appId, useSSOe);
+    this._toolUrl = url;
 
     const content = this.getContent();
 

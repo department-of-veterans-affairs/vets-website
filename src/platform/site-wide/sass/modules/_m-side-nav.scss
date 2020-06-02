@@ -220,6 +220,11 @@ $side-nav-color-dark: #323a45;
         border-bottom: thin solid $side-nav-color-dark;
         &.active {
           pointer-events: none;
+          .va-sidenav-level-3,
+          .va-sidenav-level-4,
+          .va-sidenav-level-5 {
+            pointer-events: all;
+          }
         }
         &.hasChildren {
           padding-bottom: 20px;

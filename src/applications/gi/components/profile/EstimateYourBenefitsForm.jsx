@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AlertBox from '../AlertBox';
+import _ from 'lodash';
 
+import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import {
@@ -925,8 +926,8 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderYourBenefits = () => {
-    const name = 'Your benefits';
+  renderMilitaryDetails = () => {
+    const name = 'Your military details';
     return (
       <AccordionItem
         button={name}
@@ -953,7 +954,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderAboutYourSchool = () => {
+  renderSchoolCostsAndCalendar = () => {
     const {
       inState,
       tuition,
@@ -966,7 +967,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
       return null;
 
-    const name = 'About your school';
+    const name = 'School costs and calendar';
 
     return (
       <AccordionItem
@@ -987,8 +988,12 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderLearningFormatAndSchedule = () => {
-    const name = 'Learning format and schedule';
+  renderLearningFormat = () => {
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const name = isOjt
+      ? 'Learning format and schedule'
+      : 'Learning format and location';
     return (
       <AccordionItem
         button={name}
@@ -1006,7 +1011,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderScholarshipsAndOtherFunding = () => {
+  renderScholarshipsAndOtherVAFunding = () => {
     const {
       yellowRibbon,
       tuitionAssist,
@@ -1016,7 +1021,7 @@ class EstimateYourBenefitsForm extends React.Component {
     } = this.props.displayedInputs;
     if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
       return null;
-    const name = 'Scholarships and other funding';
+    const name = 'Scholarships and other VA funding';
     return (
       <AccordionItem
         button={name}
@@ -1049,10 +1054,10 @@ class EstimateYourBenefitsForm extends React.Component {
           Use the fields below to calculate your benefits:
         </p>
         <ul className="vads-u-padding--0">
-          {this.renderYourBenefits()}
-          {this.renderAboutYourSchool()}
-          {this.renderLearningFormatAndSchedule()}
-          {this.renderScholarshipsAndOtherFunding()}
+          {this.renderMilitaryDetails()}
+          {this.renderSchoolCostsAndCalendar()}
+          {this.renderLearningFormat()}
+          {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
         <button
           className="calculate-button"
