@@ -61,7 +61,7 @@ const ConfirmationPage = ({
             `}
             </p>
           </div>
-          <p className="vads-u-margin--0">
+          <p className="vads-u-margin-bottom--0">
             <strong>Date submitted</strong>
           </p>
           <p className="vads-u-margin-top--0">
