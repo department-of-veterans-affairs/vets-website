@@ -63,6 +63,19 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.contain('Finish this application later');
   });
+  it('should render overridden save message when prop is passed', () => {
+    const tree = SkinDeep.shallowRender(
+      <SaveFormLink
+        user={loggedInUser}
+        form={form}
+        toggleLoginModal={toggleLoginModalSpy}
+      >
+        Test
+      </SaveFormLink>,
+    );
+
+    expect(tree.text()).to.contain('Test');
+  });
   it('should show error message', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink

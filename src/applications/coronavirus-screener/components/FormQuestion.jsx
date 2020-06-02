@@ -24,11 +24,15 @@ export default function FormQuestion({
         startTime: moment().unix(),
       });
     }
-    // sets the current question value in form state
-    setFormState({
-      ...formState,
-      [question.id]: event.target.value,
-    });
+    if (question.id === 'isStaff' && !_.isEmpty(formState)) {
+      setFormState({ [question.id]: event.target.value });
+    } else {
+      // sets the current question value in form state
+      setFormState({
+        ...formState,
+        [question.id]: event.target.value,
+      });
+    }
     scrollNext();
   }
 
@@ -36,7 +40,6 @@ export default function FormQuestion({
     { optionValue: 'yes', optionText: 'Yes' },
     { optionValue: 'no', optionText: 'No' },
   ];
-
   const options = optionsConfig.map((option, index) => (
     <button
       key={index}

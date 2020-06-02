@@ -27,13 +27,19 @@ class RadioButtons extends React.Component {
   }
 
   handleChange = domEvent => {
+    this.handleFocus();
     this.props.onChange(domEvent);
   };
 
   handleFocus = () => {
-    const field = document.getElementById(`${this.inputId}-legend`);
-    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      field.scrollIntoView();
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      const field = document.getElementById(`${this.inputId}-legend`);
+      if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+        field.scrollIntoView();
+      }
+    } else {
+      this.props.onFocus(`${this.inputId}-field`);
     }
   };
 
@@ -74,12 +80,6 @@ class RadioButtons extends React.Component {
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            onFocus={
-              // prod flag for bah-8821
-              environment.isProduction()
-                ? this.handleFocus
-                : this.props.onFocus.bind(this, `${this.inputId}-field`)
-            }
             aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
