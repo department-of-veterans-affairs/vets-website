@@ -268,6 +268,26 @@ const uiSchema = {
 ![classNames example](images/objectfield-classnames.png)
 
 #### `ui:order`
+**Type: `string[]`**
+
+Reorder the fields by passing an array of field names in the order they should
+show up in your form.
+
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+    field2: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:order': ['field2', 'field1'],
+};
+```
+
+![ui:order example](images/objectfield-uiorder.png)
 
 #### `ui:title`
 **Type:** `string`, React component
