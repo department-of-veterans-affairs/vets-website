@@ -12,6 +12,7 @@ import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
+import { renderLearnMoreLabel } from '../../utils/render';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -78,23 +79,28 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     focusElement('.estimated-benefits-header');
   };
 
-  renderScholarships = onShowModal => (
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      ariaLabel,
+      showModal: this.props.onShowModal,
+      component: this,
+    });
+
+  renderScholarships = () => (
     <div id="scholarships-field">
       <label
         htmlFor="vetTecScholarships"
         className="vads-u-display--inline-block"
         id="scholarships-label"
       >
-        Scholarships (excluding Pell)
-      </label>{' '}
-      <button
-        aria-label={ariaLabels.learnMore.scholarships}
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={() => onShowModal('scholarships')}
-      >
-        (Learn more)
-      </button>
+        {this.renderLearnMoreLabel({
+          text: 'Scholarships (excluding Pell)',
+          modal: 'scholarships',
+          ariaLabel: ariaLabels.learnMore.scholarships,
+        })}
+      </label>
       <input
         aria-labelledby="scholarships-label"
         type="text"
@@ -115,24 +121,19 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     </div>
   );
 
-  renderTuitionFees = onShowModal => (
+  renderTuitionFees = () => (
     <div id="tuition-field">
       <label
         htmlFor="vetTecTuitionFees"
         className="vads-u-display--inline-block"
         id="tuition-fees-label"
       >
-        {' '}
-        Tuition and fees for program
-      </label>{' '}
-      <button
-        aria-label={ariaLabels.learnMore.tuitionAndFees}
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={() => onShowModal('tuitionAndFees')}
-      >
-        (Learn more)
-      </button>
+        {this.renderLearnMoreLabel({
+          text: 'Tuition and fees for program',
+          modal: 'tuitionAndFees',
+          ariaLabel: ariaLabels.learnMore.tuitionAndFees,
+        })}
+      </label>
       <input
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
@@ -183,14 +184,14 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       <div className="calculator-form">
         <p>Use the fields below to calculate your benefits</p>
         {this.renderApprovedProgramsSelector(this.props.institution)}
-        {this.renderTuitionFees(this.props.onShowModal)}
-        {this.renderScholarships(this.props.onShowModal)}
+        {this.renderTuitionFees()}
+        {this.renderScholarships()}
         <button
           type="button"
           className="vads-u-margin-top--2p5"
           onClick={this.calculateBenefitsOnClick}
         >
-          Calculate benefits
+          Update benefits
         </button>
       </div>
     );
