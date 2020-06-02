@@ -152,10 +152,6 @@ function isUnderRequestLimit(eligibilityData) {
   );
 }
 
-function isDirectSchedulingEnabled(eligibilityData) {
-  return typeof eligibilityData.directPastVisit !== 'undefined';
-}
-
 function hasRequestFailed(eligibilityData) {
   return Object.values(eligibilityData).some(result => result?.requestFailed);
 }
@@ -172,10 +168,6 @@ function hasDirectFailed(eligibilityData) {
  * even if another path is blocked.
 */
 export function getEligibilityChecks(eligibilityData) {
-  // If we're missing this property, it means no DS checks were made
-  // because it's disabled
-  const directSchedulingEnabled = isDirectSchedulingEnabled(eligibilityData);
-
   let eligibilityChecks = {
     requestSupported: eligibilityData.requestSupported,
     requestFailed: hasRequestFailed(eligibilityData),
@@ -187,7 +179,9 @@ export function getEligibilityChecks(eligibilityData) {
     eligibilityChecks = {
       ...eligibilityChecks,
       requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
-      requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
+      requestPastVisitValue: eligibilityData.requestPastVisit
+        ? eligibilityData.requestPastVisit.durationInMonths
+        : null,
       requestLimit: isUnderRequestLimit(eligibilityData),
       requestLimitValue: eligibilityData.requestLimits.requestLimit,
     };
@@ -196,16 +190,12 @@ export function getEligibilityChecks(eligibilityData) {
   if (!eligibilityChecks.directFailed) {
     eligibilityChecks = {
       ...eligibilityChecks,
-      directPastVisit:
-        directSchedulingEnabled &&
-        hasVisitedInPastMonthsDirect(eligibilityData),
-      directPastVisitValue:
-        directSchedulingEnabled &&
-        eligibilityData.directPastVisit.durationInMonths,
+      directPastVisit: hasVisitedInPastMonthsDirect(eligibilityData),
+      directPastVisitValue: eligibilityData.directPastVisit
+        ? eligibilityData.directPastVisit.durationInMonths
+        : null,
       directClinics:
-        directSchedulingEnabled &&
-        !!eligibilityData.clinics.length &&
-        eligibilityData.hasMatchingClinics,
+        !!eligibilityData.clinics.length && eligibilityData.hasMatchingClinics,
     };
   }
 
