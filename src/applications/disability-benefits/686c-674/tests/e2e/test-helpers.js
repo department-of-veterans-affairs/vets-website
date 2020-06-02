@@ -487,6 +487,169 @@ export const fillVeteranMarriageHistoryDetails = (client, data) => {
     );
 };
 
+export const fillReportDivorceSpouseInformation = (client, data) => {
+  client
+    .fill(
+      'input[name="root_reportDivorce_fullName_first"]',
+      data.spouseInformation.firstName,
+    )
+    .fill(
+      'input[name="root_reportDivorce_fullName_last"]',
+      data.spouseInformation.lastName,
+    )
+    .selectDropdown(
+      'root_reportDivorce_dateMonth',
+      data.veteranInformation.marriageHistory[0].marriageEndDateMonth,
+    )
+    .selectDropdown(
+      'root_reportDivorce_dateDay',
+      data.veteranInformation.marriageHistory[0].marriageEndDateDay,
+    )
+    .fill(
+      'input[name="root_reportDivorce_dateYear"]',
+      data.veteranInformation.marriageHistory[0].marriageEndDateYear,
+    );
+};
+
+export const fillReportDivorceLocationOfDivorce = (client, data) => {
+  client
+    .fill(
+      'input[name="root_reportDivorce_location_state"]',
+      data.veteranDomesticAddress.stateCode,
+    )
+    .fill(
+      'input[name="root_reportDivorce_location_city"]',
+      data.veteranDomesticAddress.city,
+    );
+};
+
+export const fillDeceasedName = (client, data) => {
+  client
+    .fill(
+      'input[name="root_deaths_0_fullName_first"]',
+      data.deceasedDependent.firstName,
+    )
+    .fill(
+      'input[name="root_deaths_0_fullName_last"]',
+      data.deceasedDependent.lastName,
+    )
+    .selectRadio('root_deaths_0_dependentType', data.deceasedDependent.type)
+    .fillCheckbox(
+      'input[name="root_deaths_0_childStatus_childUnder18"]',
+      data.deceasedDependent.childTypes.under18,
+    )
+    .fillCheckbox(
+      'input[name="root_deaths_0_childStatus_stepChild"]',
+      data.deceasedDependent.childTypes.stepchild,
+    );
+};
+
+export const fillDeceasedDetails = (client, data) => {
+  client
+    .selectDropdown('root_dateMonth', data.deceasedDependent.date.month)
+    .selectDropdown('root_dateDay', data.deceasedDependent.date.day)
+    .fill('input[name="root_dateYear"]', data.deceasedDependent.date.year)
+    .fill(
+      'input[name="root_location_state"]',
+      data.deceasedDependent.location.state,
+    )
+    .fill(
+      'input[name="root_location_city"]',
+      data.deceasedDependent.location.city,
+    );
+};
+
+export const fillChildMarriageDetails = (client, data) => {
+  client
+    .fill(
+      'input[name="root_childMarriage_fullName_first"]',
+      data.marriedChild.firstName,
+    )
+    .fill(
+      'input[name="root_childMarriage_fullName_last"]',
+      data.marriedChild.lastName,
+    )
+    .selectDropdown(
+      'root_childMarriage_dateMarriedMonth',
+      data.marriedChild.date.month,
+    )
+    .selectDropdown(
+      'root_childMarriage_dateMarriedDay',
+      data.marriedChild.date.day,
+    )
+    .fill(
+      'input[name="root_childMarriage_dateMarriedYear"]',
+      data.marriedChild.date.year,
+    );
+};
+
+export const fillChildStoppedAttendingDetails = (client, data) => {
+  client
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_fullName_first"]',
+      data.childStoppedAttending.firstName,
+    )
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_fullName_last"]',
+      data.childStoppedAttending.lastName,
+    )
+    .selectDropdown(
+      'root_childStoppedAttendingSchool_dateChildLeftSchoolMonth',
+      data.childStoppedAttending.date.month,
+    )
+    .selectDropdown(
+      'root_childStoppedAttendingSchool_dateChildLeftSchoolDay',
+      data.childStoppedAttending.date.day,
+    )
+    .fill(
+      'input[name="root_childStoppedAttendingSchool_dateChildLeftSchoolYear"]',
+      data.childStoppedAttending.date.year,
+    );
+};
+
+export const fillStepchildName = (client, data) => {
+  client
+    .fill(
+      'input[name="root_stepChildren_0_fullName_first"]',
+      data.deceasedDependent.firstName,
+    )
+    .fill(
+      'input[name="root_stepChildren_0_fullName_last"]',
+      data.deceasedDependent.lastName,
+    );
+};
+
+export const fillStepchildDetails = (client, data) => {
+  client
+    .selectRadio('root_supportingStepchild', data.stepchild.supporting)
+    .selectRadio('root_livingExpensesPaid', data.stepchild.supportingValue)
+    .fill(
+      'input[name="root_whoDoesTheStepchildLiveWith_first"]',
+      data.stepchild.personChildLivesWith.first,
+    )
+    .fill(
+      'input[name="root_whoDoesTheStepchildLiveWith_last"]',
+      data.stepchild.personChildLivesWith.last,
+    )
+    .selectDropdown(
+      'root_address_countryName',
+      data.veteranDomesticAddress.countryName,
+    )
+    .fill(
+      'input[name="root_address_addressLine1"]',
+      data.veteranDomesticAddress.addressLine1,
+    )
+    .fill('input[name="root_address_city"]', data.veteranDomesticAddress.city)
+    .selectDropdown(
+      'root_address_stateCode',
+      data.veteranDomesticAddress.stateCode,
+    )
+    .fill(
+      'input[name="root_address_zipCode"]',
+      data.veteranDomesticAddress.zipCode,
+    );
+};
+
 export const initApplicationSubmitMock = token => {
   mock(token, {
     path: '/v0/21-686c',

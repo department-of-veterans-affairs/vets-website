@@ -2,7 +2,7 @@
   // All rules should be disabled or they should produce errors. No warnings.
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 11,
     "sourceType": "module"
   },
   "settings": {
@@ -15,7 +15,7 @@
   "env": {
     "browser": true,
     "commonjs": true,
-    "es6": true,
+    "es2020": true,
     "mocha": true,
     "jest": true
   },
@@ -145,6 +145,7 @@
     "jsx-a11y/click-events-have-key-events": 0, //10
     "jsx-a11y/anchor-is-valid": 0, //19
     "jsx-a11y/label-has-associated-control": 0, //35
+    "jsx-a11y/label-has-for": 0, //66
 
     "import/named": 0, //2
     "import/no-useless-path-segments": 0, //59  (fixable)

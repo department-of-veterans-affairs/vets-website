@@ -12,6 +12,7 @@ import {
   getOrganizationBySiteId,
 } from '../../../services/organization';
 import facilities from '../../../api/facilities.json';
+import mockOrganizations from '../../../services/organization/mock.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 
 const facilitiesParsed = facilities.data.map(f => ({
@@ -26,7 +27,7 @@ describe('VAOS Organization service', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, facilities);
-      data = await getOrganizations(['983', '984']);
+      data = await getOrganizations({ siteIds: ['983', '984'] });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
@@ -42,7 +43,7 @@ describe('VAOS Organization service', () => {
 
       let error;
       try {
-        data = await getOrganizations(['983', '984']);
+        data = await getOrganizations({ siteIds: ['983', '984'] });
       } catch (e) {
         error = e;
       }
@@ -51,6 +52,18 @@ describe('VAOS Organization service', () => {
         '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
+    });
+
+    it('should make successful request to VSP api', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, mockOrganizations);
+      data = await getOrganizations({ siteIds: ['983', '984'], useVSP: true });
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        '/vaos/v1/Organization?identifier=983,984',
+      );
+      expect(data.length).to.equal(2);
+      expect(data[0].resourceType).to.equal('Organization');
     });
   });
   describe('getSiteIdFromOrganization', () => {

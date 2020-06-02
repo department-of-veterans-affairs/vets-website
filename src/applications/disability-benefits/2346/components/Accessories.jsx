@@ -6,11 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  BLUE_BACKGROUND,
-  HEARING_AID_ACCESSORIES,
-  WHITE_BACKGROUND,
-} from '../constants';
+import { HEARING_AID_ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
@@ -66,7 +62,7 @@ class Accessories extends Component {
       </>
     );
     return (
-      <>
+      <div className="accessory-page">
         {!areAccessorySuppliesIneligible && (
           <>
             <h3 className="vads-u-font-size--h4">
@@ -79,33 +75,34 @@ class Accessories extends Component {
             </p>
           </>
         )}
-        {accessorySupplies.map(supply => (
+        {accessorySupplies.map(accessorySupply => (
           <div
-            key={supply.productId}
+            key={accessorySupply.productId}
             className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 accessory-page"
           >
             <h4 className="vads-u-font-size--md vads-u-margin-top--0">
-              {supply.productName}
+              {accessorySupply.productName}
             </h4>
             <div className="vads-u-border-color--gray-lightest">
               <div className="usa-alert-body">
                 <p className="vads-u-margin-y--1p5">
                   <span className="vads-u-font-weight--bold">Quantity: </span>
-                  {supply.quantity}
+                  {accessorySupply.quantity}
                 </p>
                 <p className="vads-u-margin-y--1p5">
                   <span className="vads-u-font-weight--bold">
                     Last order date:{' '}
                   </span>{' '}
-                  {moment(supply.lastOrderDate).format('MM/DD/YYYY')}
+                  {moment(accessorySupply.lastOrderDate).format('MM/DD/YYYY')}
                 </p>
               </div>
             </div>
-            {currentDate.diff(supply.nextAvailabilityDate, 'days') < 0 ? (
+            {currentDate.diff(accessorySupply.nextAvailabilityDate, 'days') <
+            0 ? (
               <AlertBox
                 className="vads-u-color--black vads-u-background-color--white"
                 headline={`You can't reorder this item online until ${moment(
-                  supply.nextAvailabilityDate,
+                  accessorySupply.nextAvailabilityDate,
                 ).format('MMMM D, YYYY')}`}
                 content={
                   <>
@@ -131,28 +128,31 @@ class Accessories extends Component {
                 status="warning"
               />
             ) : (
-              <div
-                className={
-                  selectedProducts.find(
-                    selectedProduct =>
-                      selectedProduct.productId === supply.productId,
-                  )
-                    ? `${BLUE_BACKGROUND} accessory-page-order-btns accessory-page`
-                    : `${WHITE_BACKGROUND} accessory-page-order-btns`
-                }
-              >
+              <div>
                 <input
-                  id={supply.productId}
+                  id={accessorySupply.productId}
                   type="checkbox"
-                  onChange={e => this.handleChecked(e.target.checked, supply)}
+                  onChange={e =>
+                    this.handleChecked(e.target.checked, accessorySupply)
+                  }
                   checked={
                     !!selectedProducts.find(
                       selectedProduct =>
-                        selectedProduct.productId === supply.productId,
+                        selectedProduct.productId === accessorySupply.productId,
                     )
                   }
                 />
-                <label htmlFor={supply.productId} className="main">
+                <label
+                  htmlFor={accessorySupply.productId}
+                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
+                    selectedProducts.find(
+                      selectedProduct =>
+                        selectedProduct.productId === accessorySupply.productId,
+                    )
+                      ? 'vads-u-color--white'
+                      : 'vads-u-background-color--white vads-u-color--primary'
+                  }`}
+                >
                   Order this accessory
                 </label>
               </div>
@@ -179,7 +179,7 @@ class Accessories extends Component {
             isVisible
           />
         )}
-      </>
+      </div>
     );
   }
 }
