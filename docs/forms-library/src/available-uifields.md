@@ -258,6 +258,7 @@ If a field in the object has both a `title` in the schema **and** a `ui:title`
 in the `uiSchema`, the `ui:title` will be used.
 
 #### `ui:collapsed`
+Used by `hideIf`?
 
 #### `ui:hidden`
 **Type:** `bool`
