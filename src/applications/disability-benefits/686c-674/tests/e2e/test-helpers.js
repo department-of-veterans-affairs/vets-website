@@ -520,6 +520,9 @@ export const fillReportDivorceLocationOfDivorce = (client, data) => {
     .fill(
       'input[name="root_reportDivorce_location_city"]',
       data.veteranDomesticAddress.city,
+    );
+};
+
 export const fillDeceasedName = (client, data) => {
   client
     .fill(
