@@ -92,7 +92,7 @@ const uiSchema = {
   - The entire `ui:options` object used by the `ObjectField`
 
 **Example: React component**
-```js
+```jsx
 const CustomDescription = ({ formData, options }) => (
   <div>
     This is a custom description. The first field contains '{formData.field1}
@@ -124,7 +124,55 @@ const uiSchema = {
 **Example: React component**
 
 #### `ui:options`
+<!-- TODO: Describe this--why it's a separate section in uiSchema -->
+
 ##### `expandUnder`
+**Type:** `string`
+
+Show some fields only if the field referenced by `expandUnder` is truthy.
+`expandUnder` must be the name of a field on the page.
+
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'boolean' },
+    optionalQuestions: {
+      type: 'object',
+      properties: {
+        field1: { type: 'string' },
+        field2: { type: 'string' },
+      },
+    },
+    field2: { type: 'boolean' },
+    nestedInput: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  field1: {
+    'ui:title': 'Expand the nested fields?',
+  },
+  optionalQuestions: {
+    'ui:options': {
+      expandUnder: 'field1',
+    },
+  },
+  field2: {
+    'ui:title': 'Expand a single nested field?',
+  },
+  nestedInput: {
+    'ui:options': {
+      expandUnder: 'field2',
+    },
+  },
+};
+
+```
+
+![expandUnder unexpanded](images/objectfield-expandunder-unexpanded.png)
+![expandUnder expanded](images/objectfield-expandunder-expanded.png)
+
 ##### `expandUnderClassName`
 ##### `showFieldLabel`
 ##### `classNames`
