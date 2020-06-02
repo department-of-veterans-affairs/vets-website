@@ -58,10 +58,10 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Verify Dependencies are Installed
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+          command: yarn install --frozen-lockfile
       - run:
           name: Make Test Results Folder
           command: mkdir -p ./test-results
@@ -124,12 +124,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+          command: yarn install --frozen-lockfile
       - save_cache:
-          key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - run:
