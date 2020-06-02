@@ -37,44 +37,40 @@ const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
   return (
     <BrowserRouter>
       <Suspense fallback={LoadingPage}>
-        <Switch>
-          {routes.map(route => {
-            if (
-              (route.requiresLOA3 && !isLOA3) ||
-              (route.requiresMVI && !isInMVI)
-            ) {
+        <Profile2Wrapper>
+          <Switch>
+            {routes.map(route => {
+              if (
+                (route.requiresLOA3 && !isLOA3) ||
+                (route.requiresMVI && !isInMVI)
+              ) {
+                return (
+                  <Redirect
+                    from={route.path}
+                    key="/profile/account-security"
+                    to="/profile/account-security"
+                  />
+                );
+              }
+
               return (
-                <Redirect
-                  from={route.path}
-                  key="/profile/account-security"
-                  to="/profile/account-security"
+                <Route
+                  component={route.component}
+                  exact
+                  key={route.path}
+                  path={route.path}
                 />
               );
-            }
+            })}
 
-            const Component = route.component;
-
-            return (
-              <Route
-                component={props => (
-                  <Profile2Wrapper {...props}>
-                    <Component />
-                  </Profile2Wrapper>
-                )}
-                exact
-                key={route.path}
-                path={route.path}
-              />
-            );
-          })}
-
-          <Redirect
-            exact
-            from="/profile"
-            key="/profile/personal-information"
-            to="/profile/personal-information"
-          />
-        </Switch>
+            <Redirect
+              exact
+              from="/profile"
+              key="/profile/personal-information"
+              to="/profile/personal-information"
+            />
+          </Switch>
+        </Profile2Wrapper>
       </Suspense>
     </BrowserRouter>
   );

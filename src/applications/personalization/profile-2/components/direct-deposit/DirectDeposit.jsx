@@ -25,6 +25,7 @@ const DirectDeposit = () => {
         benefits
       </h2>
       <DowntimeNotification
+        appTitle="direct deposit"
         render={handleDowntimeForSection('direct deposit')}
         dependencies={[externalServices.evss]}
       >
