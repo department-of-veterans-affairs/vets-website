@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ContactInformation from '../profile/ContactInformation';
 import { formatCurrency, isPresent } from '../../utils/helpers';
+import classNames from 'classnames';
 
 function VetTecApprovedProgramsList({
   selectedProgram,
@@ -19,6 +20,10 @@ function VetTecApprovedProgramsList({
       const checked =
         selectedProgram &&
         program.description.toLowerCase() === selectedProgram.toLowerCase();
+
+      const programDescriptionClassNames = classNames('vads-l-col--10', {
+        'vads-u-font-weight--bold': checked,
+      });
       return (
         <tr key={index}>
           <th
@@ -26,24 +31,9 @@ function VetTecApprovedProgramsList({
             className="vads-u-padding-left--0 vads-l-grid-container"
           >
             <div className="program-description vads-l-row">
-              <div className="vads-l-col--2 checked-program">
-                <i
-                  aria-hidden="true"
-                  role="presentation"
-                  className={
-                    checked
-                      ? 'fas fa-check vads-u-padding-right--0p5 vads-u-color--green'
-                      : 'vads-u-padding-right--2p5'
-                  }
-                />
-              </div>
-              <div className="vads-l-col--10 ">
-                {program.description}{' '}
-                {checked ? (
-                  <span className="sr-only">Selected program</span>
-                ) : (
-                  ''
-                )}
+              <div className={programDescriptionClassNames}>
+                {program.description}
+                {checked ? <b> (Your selected program)</b> : null}
               </div>
             </div>
           </th>
