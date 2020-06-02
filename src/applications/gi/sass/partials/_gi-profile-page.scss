@@ -141,6 +141,10 @@
         padding: 0;
       }
     }
+
+    li.section-item button.usa-accordion-button {
+      padding-right: 4rem;
+    }
   }
 
   .programs.row {
@@ -387,6 +391,12 @@
       transition: max-height 1.5s ease-in-out;
       -webkit-transition-delay: 0s;
       transition-delay: 0s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+      &.open {
+        transition: none;
+      }
     }
   }
 

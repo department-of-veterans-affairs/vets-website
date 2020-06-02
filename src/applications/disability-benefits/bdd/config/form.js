@@ -104,12 +104,12 @@ const formConfig = {
     environment.API_URL
   }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitFormFor('disability-526EZ'),
-  trackingPrefix: 'disability-526EZ-',
+  trackingPrefix: 'disability-526EZ-bdd-',
   downtime: {
     requiredForPrefill: true,
     dependencies: [services.evss, services.emis, services.mvi, services.vet360],
   },
-  formId: VA_FORM_IDS.FORM_21_526EZ,
+  formId: VA_FORM_IDS.FORM_21_526EZ_BDD,
   onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
