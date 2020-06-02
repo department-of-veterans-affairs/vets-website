@@ -824,11 +824,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
     return (
       <ExpandingGroup
-        open={
-          displayExtensionSelector ||
-          displayInternationalCheckbox ||
-          displayZipcode
-        }
+        open={displayExtensionSelector || displayInternationalCheckbox}
       >
         <RadioButtons
           label={this.renderLearnMoreLabel({
@@ -957,7 +953,6 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-
   renderMilitaryDetails = () => {
     const name = 'Your military details';
     return (
@@ -986,7 +981,6 @@ class EstimateYourBenefitsForm extends React.Component {
       </AccordionItem>
     );
   };
-
 
   renderSchoolCostsAndCalendar = () => {
     const {
