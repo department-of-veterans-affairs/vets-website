@@ -49,6 +49,8 @@ const schema = {
 };
 ```
 
+![ui:hidden example](images/objectfield-uihidden.png)
+
 #### `title`
 **Type:** `string`, React component
 
@@ -56,8 +58,6 @@ See [`ui:title`](#uititle) for usage; it's the same.
 
 If a field in the object has both a `title` in the schema **and** a `ui:title`,
 the `ui:title` will be used.
-
-![ui:hidden example](images/objectfield-uihidden.png)
 
 ### `uiSchema` options
 #### `ui:title`
@@ -93,12 +93,13 @@ const uiSchema = {
   - This will match the `id` for the input it's associated with, appended with `__title`
   - In the example below, the `id` passed to `CustomTitleComponent` is
   `root_title` because the object its on is the root of the schema
+- `formContext`: `object`
+  - Contains information about the page
+  - **TODO:** Document this in a separate place and link to it here
 - `formData`: `object`
   - The user data gathered by the form
 - `required`: `bool`
   - Whether the field is required or not
-- `formContext`: ??
-  - ??
 
 **Example: React component**
 ```jsx
