@@ -30,7 +30,7 @@ const ConfirmationPage = ({
       content={
         <section>
           <h4 className="vads-u-margin-top--0">
-            Request for Batteries and Accessories
+            Request for Batteries and Accessories{' '}
             <span className="vads-u-font-weight--normal">(Form 2346)</span>
           </h4>
           <p className="vads-u-margin--0">
@@ -49,16 +49,18 @@ const ConfirmationPage = ({
           <p className="vads-u-margin-bottom--0">
             <strong>Shipping Address</strong>
           </p>
-          <p className="vads-u-margin-y--0">
-            {shippingAddress.street} {shippingAddress.street2 || ''}
-          </p>
-          <p className="vads-u-margin-top--0">
-            {`${shippingAddress.city},
+          <div className="shippingAddress">
+            <p className="vads-u-margin-y--0">
+              {shippingAddress.street} {shippingAddress.street2 || ''}
+            </p>
+            <p className="vads-u-margin-top--0">
+              {`${shippingAddress.city},
             ${shippingAddress.state || shippingAddress.province} ${' '}
             ${shippingAddress.postalCode ||
               shippingAddress.internationalPostalCode}
             `}
-          </p>
+            </p>
+          </div>
           <p className="vads-u-margin--0">
             <strong>Date submitted</strong>
           </p>
