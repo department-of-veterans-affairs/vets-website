@@ -174,7 +174,39 @@ const uiSchema = {
 ![expandUnder unexpanded](images/objectfield-expandunder-unexpanded.png)
 ![expandUnder expanded](images/objectfield-expandunder-expanded.png)
 
-##### `expandUnderClassName`
+##### `expandUnderClassNames`
+**Type:** `string`
+
+Apply an HTML class to the expanded fields.
+
+> **Note:** This must be put on the **target** of `expandUnder`, not the fields to
+> be expanded.
+
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'boolean' },
+    nestedInput: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  field1: {
+    'ui:title': 'Expand a single nested field?',
+    'ui:options': {
+      expandUnderClassNames: 'foo',
+    },
+  },
+  nestedInput: {
+    'ui:options': {
+      expandUnder: 'field1',
+    },
+  },
+};
+```
+
+![expandUnderClassNames example](images/objectfield-expandunderclassnames.png)
 ##### `showFieldLabel`
 ##### `classNames`
 #### `ui:order`
