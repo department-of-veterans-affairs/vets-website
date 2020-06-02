@@ -172,6 +172,74 @@ const uiSchema = {
 ![expandUnderClassNames example](images/objectfield-expandunderclassnames.png)
 
 ##### `showFieldLabel`
+**Type:** `bool`, `string` (`'label'` is the only meaningful string)
+
+If `showFieldLabel` is falsey, `ObjectField` renders the `ui:title`. If this is
+truthy, `FieldTemplate` will render the `ui:title` and `ui:description`. The
+`ui:title` will be a
+- `<legend>` if truthy
+- `<label>` if `'label'`
+
+In the following examples, take note of two things:
+- What the `ObjectField` is rendering (everything else is rendered by the `FieldTemplate`)
+- What the `ui:title`'s DOM element is
+  - `fieldset` vs `label`
+
+**Example: `false` or `undefined`**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:title': 'The title for the whole object',
+  'ui:description': 'Some description for the object goes here.',
+};
+```
+![showFieldLabel example](images/objectfield-showfieldlabel-false.png)
+
+**Example: `true`**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:title': 'The title for the whole object',
+  'ui:description': 'Some description for the object goes here.',
+  'ui:options': {
+    showFieldLabel: true,
+  },
+};
+```
+![showFieldLabel example](images/objectfield-showfieldlabel-true.png)
+![showFieldLabel example](images/objectfield-showfieldlabel-true-legend.png)
+
+**Example: `'label'`**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:title': 'The title for the whole object',
+  'ui:description': 'Some description for the object goes here.',
+  'ui:options': {
+    showFieldLabel: 'label',
+  },
+};
+```
+![showFieldLabel example](images/objectfield-showfieldlabel-label.png)
+
 ##### `classNames`
 #### `ui:order`
 
