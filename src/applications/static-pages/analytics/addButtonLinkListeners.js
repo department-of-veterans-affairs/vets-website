@@ -1,6 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 
-export default function addHomepageBannerListeners() {
+export default function addButtonLinkListeners() {
   const ignoreReactWidgets = ':not([data-template="paragraphs/react_widget"])';
   const defaultButtons = 'a.usa-button';
   const ignorePrimaryButtons = ':not(.usa-button-primary)';
