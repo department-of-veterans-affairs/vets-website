@@ -44,8 +44,8 @@ describe('<VetTecApprovedProgram>', () => {
       },
     };
     const wrapper = mount(<VetTecApprovedPrograms {...defaultProps} />);
-    expect(wrapper.find('.program-length').length).to.eq(1);
-    expect(wrapper.find('.program-length').text()).to.eq('TBD');
+    expect(wrapper.find('#program-length').length).to.eq(1);
+    expect(wrapper.find('#program-length').text()).to.eq('TBD');
     wrapper.unmount();
   });
 

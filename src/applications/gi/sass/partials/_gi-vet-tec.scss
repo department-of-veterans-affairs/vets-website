@@ -52,4 +52,54 @@
       margin-top: 0;
     }
   }
+
+  .vet-tec-programs-table {
+    @include media-maxwidth($small-screen) {
+      display: none;
+    }
+
+    .name-col {
+      width: 70%;
+    }
+    .hours-col {
+      width: 15%;
+    }
+    .tuition-col {
+      width: 15%;
+    }
+    thead {
+      tr {
+        th {
+          border-top: 0;
+          border-right: 0;
+          border-left: 0;
+        }
+      }
+    }
+    tr {
+      th {
+        border-right: 0;
+        border-left: 0;
+      }
+      td {
+        border-right: 0;
+        border-left: 0;
+      }
+    }
+  }
+
+  .vet-tec-programs-list {
+    @media screen and (min-width: $small-screen) {
+      display: none;
+    }
+  }
+
+
+  .program-description {
+    margin-top: 1.0rem;
+    margin-bottom: 1.0rem;
+    label {
+      margin-left: 1.7rem;
+    }
+  }
 }

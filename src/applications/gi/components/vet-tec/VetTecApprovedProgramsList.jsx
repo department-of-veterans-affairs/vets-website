@@ -4,28 +4,32 @@ import ContactInformation from '../profile/ContactInformation';
 import { formatCurrency, isPresent } from '../../utils/helpers';
 import classNames from 'classnames';
 
+const programLength = program =>
+  isPresent(program.lengthInHours) && program.lengthInHours !== '0'
+    ? `${program.lengthInHours} hours`
+    : 'TBD';
+
+const tuition = program =>
+  isPresent(program.tuitionAmount)
+    ? formatCurrency(program.tuitionAmount)
+    : 'TBD';
+
+const isSelected = (program, selectedProgram) =>
+  selectedProgram &&
+  program.description.toLowerCase() === selectedProgram.toLowerCase();
+
 function VetTecApprovedProgramsList({
   selectedProgram,
   institution: { programs },
 }) {
   if (programs && programs.length) {
     const programRows = programs.map((program, index) => {
-      const programLength =
-        isPresent(program.lengthInHours) && program.lengthInHours !== '0'
-          ? `${program.lengthInHours} hours`
-          : 'TBD';
-      const tuition = isPresent(program.tuitionAmount)
-        ? formatCurrency(program.tuitionAmount)
-        : 'TBD';
-      const checked =
-        selectedProgram &&
-        program.description.toLowerCase() === selectedProgram.toLowerCase();
-
+      const selected = isSelected(program, selectedProgram);
       const programDescriptionClassNames = classNames('vads-l-col--10', {
-        'vads-u-font-weight--bold': checked,
+        'vads-u-font-weight--bold': selected,
       });
       return (
-        <tr key={index}>
+        <tr key={`${index}-table`}>
           <th
             scope="row"
             className="vads-u-padding-left--0 vads-l-grid-container"
@@ -33,21 +37,42 @@ function VetTecApprovedProgramsList({
             <div className="program-description vads-l-row">
               <div className={programDescriptionClassNames}>
                 {program.description}
-                {checked ? <b> (Your selected program)</b> : null}
+                {selected ? <b> (Your selected program)</b> : null}
               </div>
             </div>
           </th>
-          <td className="vads-u-padding-y--0 program-length">
-            {programLength}
+          <td id="program-length" className="vads-u-padding-y--0">
+            {programLength(program)}
           </td>
-          <td className="vads-u-padding-y--0">{tuition}</td>
+          <td className="vads-u-padding-y--0">{tuition(program)}</td>
         </tr>
+      );
+    });
+
+    const programList = programs.map((program, index) => {
+      const selected = isSelected(program, selectedProgram);
+
+      const programDescriptionClassNames = classNames('program-description', {
+        'vads-u-font-weight--bold': selected,
+      });
+      return (
+        <li key={`${index}-list`}>
+          <div className={programDescriptionClassNames}>
+            {program.description}
+            {selected ? <b> (Your selected program)</b> : null}
+          </div>
+          <div id="program-length">{programLength(program)}</div>
+          <div className="vads-u-padding-y--0">{tuition}</div>
+        </li>
       );
     });
 
     return (
       <div className="vads-u-margin-top--2">
         <span>The following training programs are approved for VET TEC:</span>
+        <div className="vet-tec-programs-list">
+          <ul>{programList}</ul>
+        </div>
         <table className="vet-tec-programs-table">
           <colgroup>
             <col className="name-col" />
