@@ -35,7 +35,7 @@ const Fail = () => (
   </Complete>
 );
 
-export default function FormResult({ questionState, formState }) {
+export default function FormResult({ scrollIndex, formState }) {
   const resultList = {
     pass: {
       content: <Pass />,
@@ -61,9 +61,7 @@ export default function FormResult({ questionState, formState }) {
         `covid-screener-results-${resultList[formState.status].class}`,
       )}
     >
-      <Element
-        name={`multi-question-form-${questionState.length}-scroll-element`}
-      />
+      <Element name={`multi-question-form-${scrollIndex}-scroll-element`} />
       <div>{resultContent}</div>
     </div>
   );

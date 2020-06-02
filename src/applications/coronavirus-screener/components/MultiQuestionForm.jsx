@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
-import FormQuestion from './FormQuestion';
 import { Element, scroller } from 'react-scroll';
+import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
-import _ from 'lodash/fp';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
+import _ from 'lodash/fp';
 
 // scoller usage based on https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation-react/src/components/CollapsiblePanel/CollapsiblePanel.jsx
 
@@ -20,20 +20,35 @@ function scrollTo(name) {
   );
 }
 
-function checkFormStatus(questionState) {
-  // check if all questions have been answered
-  const completedQuestions = questionState.map(question =>
+function getEnabledQuestions(questionState) {
+  return questionState.filter(question => question.enabled ?? true);
+}
+
+// check if all enabled questions have been answered
+function checkFormComplete(questionState) {
+  const completedQuestions = getEnabledQuestions(questionState).map(question =>
     Object.prototype.hasOwnProperty.call(question, 'value'),
   );
-  const complete = !completedQuestions.includes(false);
+  return !completedQuestions.includes(false);
+}
 
-  // determine result of form
-  if (!complete) {
-    return 'incomplete';
-  } else {
-    const answers = questionState.map(question => question.value);
-    return answers.includes('yes') ? 'fail' : 'pass';
-  }
+// check result of answers
+function checkFormResult(questionState) {
+  return getEnabledQuestions(questionState)
+    .map(question => {
+      const passValues = question.passValues ?? ['no'];
+      return passValues.contains(question.value);
+    })
+    .includes(false)
+    ? 'fail'
+    : 'pass';
+}
+
+// check the overall status of the form
+function checkFormStatus(questionState) {
+  return !checkFormComplete(questionState)
+    ? 'incomplete'
+    : checkFormResult(questionState);
 }
 
 function recordCompletion({ formState, setFormState }) {
@@ -75,6 +90,30 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     [questionState, formState],
   );
 
+  function checkEnabled(question) {
+    if (Object.hasOwnProperty.call(question, 'dependsOn')) {
+      const dependsOnQuestion = questionState.find(
+        el => el.id === question.dependsOn.id,
+      );
+      const match = dependsOnQuestion.value === question.dependsOn.value;
+      return { ...question, enabled: match };
+    } else return question;
+  }
+
+  // sets enabled status of questions in state
+  // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
+  useEffect(
+    () => {
+      const newQuestionState = questionState.map(question =>
+        checkEnabled(question),
+      );
+      if (!_.isEqual(newQuestionState, questionState)) {
+        setQuestionState(newQuestionState);
+      }
+    },
+    [questionState],
+  );
+
   // records startTime and log to GA
   const recordStart = question => {
     if (formState.startTime === null) {
@@ -90,7 +129,9 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     }
   };
 
-  const formQuestions = questionState.map((question, index) => (
+  const enabledQuestions = getEnabledQuestions(questionState);
+
+  const formQuestions = enabledQuestions.map((question, index) => (
     <div key={`question-${index}`}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
       {(index === 0 ||
@@ -116,7 +157,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
       <FormResult
         formState={formState}
         setFormState={setFormState}
-        questionState={questionState}
+        scrollIndex={enabledQuestions.length}
       />
     </div>
   );

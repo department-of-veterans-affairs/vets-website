@@ -4,7 +4,7 @@ export const questions = [
   {
     id: 'isStaff',
     text: 'Are you a VA employee or contractor?',
-    pass: null,
+    passValue: ['yes', 'no'],
   },
   {
     id: 'fever',
@@ -40,7 +40,8 @@ export const questions = [
     text:
       'In the past 14 days, have you had close contact with someone who you know was diagnosed with COVID-19?',
     dependsOn: {
-      isStaff: 'no',
+      id: 'isStaff',
+      value: 'no',
     },
   },
   {
@@ -48,7 +49,8 @@ export const questions = [
     text:
       "In the past 14 days, have you had close contact with someone diagnosed with COVID-19 when you weren't wearing a face covering?",
     dependsOn: {
-      isStaff: 'yes',
+      id: 'isStaff',
+      value: 'yes',
     },
   },
 ];
