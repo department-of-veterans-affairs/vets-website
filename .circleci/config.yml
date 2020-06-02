@@ -122,9 +122,6 @@ jobs:
       - restore_cache:
           keys:
             - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          keys:
-            - node-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
