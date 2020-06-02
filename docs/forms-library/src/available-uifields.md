@@ -245,6 +245,28 @@ const uiSchema = {
 ![showFieldLabel example](images/objectfield-showfieldlabel-label.png)
 
 ##### `classNames`
+**Type:** `string`
+
+Apply class names to the container DOM element for the object.
+
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:title': 'The title for the whole object',
+  'ui:description': 'Some description for the object goes here.',
+  'ui:options': {
+    classNames: 'foo',
+  },
+};
+```
+![classNames example](images/objectfield-classnames.png)
+
 #### `ui:order`
 
 #### `ui:title`
