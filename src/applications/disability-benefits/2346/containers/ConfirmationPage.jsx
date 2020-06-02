@@ -111,8 +111,6 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
-  /* eslint-disable no-debugger */
-  debugger;
   const supplies = state.form?.data?.supplies;
   const selectedProducts = state.form?.data?.selectedProducts;
   const productIdArray = selectedProducts?.map(product => product.productId);
