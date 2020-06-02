@@ -2,7 +2,7 @@
   // All rules should be disabled or they should produce errors. No warnings.
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 11,
     "sourceType": "module"
   },
   "settings": {
@@ -15,7 +15,7 @@
   "env": {
     "browser": true,
     "commonjs": true,
-    "es6": true,
+    "es2020": true,
     "mocha": true,
     "jest": true
   },
