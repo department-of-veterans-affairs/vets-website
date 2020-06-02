@@ -38,8 +38,8 @@ function VetTecProgramSearchResult(props) {
   const displayHours = lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
 
   const linkTo = {
-    pathname: `profile/${facilityCode}/${description}`,
-    query: version ? { version } : {},
+    pathname: `/profile/${facilityCode}`,
+    search: version ? `?version=${version}` : '',
   };
 
   const handleLinkClickEvent = event => {
