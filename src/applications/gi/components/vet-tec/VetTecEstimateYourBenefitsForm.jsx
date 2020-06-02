@@ -182,7 +182,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
   render() {
     return (
       <div className="calculator-form">
-        <p>Use the fields below to calculate your benefits</p>
+        <p>Use the fields below to update your benefits.</p>
         {this.renderApprovedProgramsSelector(this.props.institution)}
         {this.renderTuitionFees()}
         {this.renderScholarships()}
