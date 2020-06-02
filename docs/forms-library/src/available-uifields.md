@@ -211,7 +211,7 @@ const uiSchema = {
   - The ID for the title field
   - This will match the `id` for the input it's associated with, appended with `__title`
   - In the example below, the `id` passed to `CustomTitleComponent` is
-  `root_title` because the object its on is the root of the schema
+  `root__title` because the object its on is the root of the schema
 - `formContext`: `object`
   - Contains information about the page
   - **TODO:** Document this in a separate place and link to it here
