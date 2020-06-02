@@ -57,4 +57,5 @@ ConfirmationPage.propTypes = {
   submittedAt: PropTypes.string.isRequired,
   claimId: PropTypes.string,
   jobId: PropTypes.string,
+  submissionId: PropTypes.string,
 };
