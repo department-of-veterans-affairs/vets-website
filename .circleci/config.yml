@@ -127,7 +127,7 @@ jobs:
             - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+          command: yarn install --frozen-lockfile
       - save_cache:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
@@ -145,7 +145,6 @@ jobs:
           root: ~/
           paths:
             - vets-website/build
-            - .cache/Cypress
 
   eslint-check:
     docker:
