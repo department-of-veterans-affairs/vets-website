@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
 
 export default function PastAppointmentsDateDropdown({
   currentRange,
