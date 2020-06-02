@@ -52,12 +52,12 @@ const addressSchema = buildAddressSchema(true);
 const asyncReturn = (returnValue, error, delay = 300) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      // const randomNumber = Math.round(Math.random() * 10);
-      // const isNumberEven = randomNumber % 2 === 0;
-      // if (isNumberEven) {
-      return resolve(returnValue);
-      // }
-      // return reject(error);
+      const shouldIReturnTrue = true;
+      if (shouldIReturnTrue) {
+        return resolve(returnValue);
+      } else {
+        return reject(error);
+      }
     }, delay);
   });
 
