@@ -128,6 +128,70 @@ const uiSchema = {
 
 #### `ui:description`
 **Type:** `string`, React component
+
+Describe the fields in more detail than a title can convey. Often, objects will
+have a `ui:description` without a `ui:title`.
+
+**Example: `string`**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:description':
+    "The ui:description shows here. It's frequently used to display long-form text describing what the page is asking for.",
+  field1: {
+    'ui:title': 'First field',
+  },
+};
+```
+![ui:description example](images/objectfield-uidescription-string.png)
+
+**React component props:**
+- `formContext`: `object`
+  - Contains information about the page
+  - **TODO:** Document this in a separate place and link to it here
+- `formData`: `object`
+  - The user data gathered by the form
+- `options`: `object`
+  - The entire `ui:options` object used by the `ObjectField`
+
+**Example: React component**
+```js
+const CustomDescription = ({ formData, options }) => (
+  <div>
+    This is a custom description. The first field contains '{formData.field1}
+    ', and the pointless ui:option value in the uiSchema is '{options.pointless}
+    '.
+  </div>
+);
+
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'string' },
+  },
+};
+
+const uiSchema = {
+  'ui:description': CustomDescription,
+  'ui:options': {
+    pointless:
+      'This value is not used by the forms library, but is passed to the custom description component',
+  },
+  field1: {
+    'ui:title': 'First field',
+  },
+};
+```
+![ui:description example](images/objectfield-uidescription-react.png)
+
+**Example: React component**
+
 #### `ui:order`
 #### `ui:options`
 ##### `expandUnder`
