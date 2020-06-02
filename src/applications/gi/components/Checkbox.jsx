@@ -30,12 +30,18 @@ class Checkbox extends React.Component {
   }
 
   handleChange(domEvent) {
+    this.handleFocus();
     this.props.onChange(domEvent);
   }
 
   handleFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
+        e.target.scrollIntoView();
+      }
+    } else {
+      this.props.onFocus(this.inputId);
     }
   };
 
@@ -83,12 +89,6 @@ class Checkbox extends React.Component {
           id={this.inputId}
           name={this.props.name}
           type="checkbox"
-          onFocus={
-            // prod flag for bah-8821
-            environment.isProduction()
-              ? this.handleFocus
-              : this.props.onFocus.bind(this, this.inputId)
-          }
           onChange={this.handleChange}
         />
         <label

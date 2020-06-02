@@ -9,10 +9,11 @@ import {
   mapStateToProps,
 } from '../../components/AccountSecurityContent';
 import ProfileInfoTable from '../../components/ProfileInfoTable';
-import IdentityVerificationStatus from '../../components/IdentityVerificationStatus';
+import IdentityNotVerified from '../../components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '../../components/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '../../components/MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../../components/EmailAddressNotification';
+import Verified from '../../components/Verified';
 
 describe('AccountSecurityContent', () => {
   let wrapper;
@@ -22,6 +23,7 @@ describe('AccountSecurityContent', () => {
     mhvAccount: { termsAndConditionsAccepted: true },
     showMHVTermsAndConditions: true,
     useSSOe: true,
+    isInMVI: true,
   });
 
   it('should render a ProfileInfoTable as its first child', () => {
@@ -30,9 +32,18 @@ describe('AccountSecurityContent', () => {
     wrapper.unmount();
   });
 
+  it('should render IdentityNotVerified as its first child when isIdentityVerified is false', () => {
+    const props = makeDefaultProps();
+    props.isIdentityVerified = false;
+    wrapper = shallow(<AccountSecurityContent {...props} />);
+    expect(wrapper.childAt(0).type()).to.equal(IdentityNotVerified);
+    wrapper.unmount();
+  });
+
   describe('child ProfileInfoTable', () => {
     let infoTableData;
     let props;
+
     describe('when `showMHVTermsAndConditions` is `true`', () => {
       beforeEach(() => {
         props = makeDefaultProps();
@@ -56,12 +67,9 @@ describe('AccountSecurityContent', () => {
           expect(row.title).to.equal(expectedTitles[rowIndex]);
         });
       });
-      it('should pass the `isIdentityVerified` prop to the `IdentityVerificationStatus` component in the first row', () => {
+      it('should render "Verified" in the first row when isIdentityVerified is true', () => {
         const firstRowComponent = infoTableData[0].value;
-        expect(firstRowComponent.type).to.equal(IdentityVerificationStatus);
-        expect(firstRowComponent.props.isIdentityVerified).to.equal(
-          props.isIdentityVerified,
-        );
+        expect(firstRowComponent.type).to.equal(Verified);
       });
       it('should pass the `isMultifactorEnabled` prop to the `TwoFactorAuthorizationStatus` component in the second row', () => {
         const secondRowComponent = infoTableData[1].value;
@@ -84,6 +92,16 @@ describe('AccountSecurityContent', () => {
       it('should pass in three rows of data', () => {
         props = makeDefaultProps();
         props.showMHVTermsAndConditions = false;
+        wrapper = shallow(<AccountSecurityContent {...props} />);
+        infoTableData = wrapper.find('ProfileInfoTable').prop('data');
+        expect(infoTableData.length).to.equal(3);
+        wrapper.unmount();
+      });
+    });
+    describe('when `isIdentityVerified` is `false`', () => {
+      it('should pass in three rows of data', () => {
+        props = makeDefaultProps();
+        props.isIdentityVerified = false;
         wrapper = shallow(<AccountSecurityContent {...props} />);
         infoTableData = wrapper.find('ProfileInfoTable').prop('data');
         expect(infoTableData.length).to.equal(3);
@@ -135,6 +153,35 @@ describe('mapStateToProps', () => {
         },
       });
       expect(mappedProps.isIdentityVerified).to.be.false;
+    });
+  });
+
+  describe('isInMVI', () => {
+    it('should be `true` if the user can be found in the MVI/MPI', () => {
+      const mappedProps = mapStateToProps({
+        user: {
+          profile: {
+            loa: {
+              current: 3,
+            },
+            status: 'OK',
+          },
+        },
+      });
+      expect(mappedProps.isInMVI).to.be.true;
+    });
+    it('should be `false` if the user cannot be found in the MVI/MPI', () => {
+      const mappedProps = mapStateToProps({
+        user: {
+          profile: {
+            loa: {
+              current: 3,
+            },
+            status: null,
+          },
+        },
+      });
+      expect(mappedProps.isInMVI).to.be.false;
     });
   });
 

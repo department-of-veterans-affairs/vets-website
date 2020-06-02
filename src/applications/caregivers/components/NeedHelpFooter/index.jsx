@@ -7,12 +7,13 @@ const NeedHelpFooter = props => {
   const FormFooter = () => (
     <footer className="caregiver-footer row vads-u-padding-x--1p5">
       <div style={{ maxWidth: '600px' }}>
-        <h5>Need help?</h5>
+        <h2 className="vads-u-font-size--h5">Need help?</h2>
         <hr />
         <p>
           You can call the VA Caregiver Support Line at
           <a
             href={links.caregiverHelp.phoneLink}
+            aria-label={links.caregiverHelp.phoneAriaLabel}
             className="vads-u-margin-left--0p5"
           >
             {links.caregiverHelp.phoneLabel}
@@ -22,7 +23,11 @@ const NeedHelpFooter = props => {
 
         <p>
           You can also call our main VA information line at
-          <a href={links.VAHelpLine.label} className="vads-u-margin-left--0p5">
+          <a
+            href={links.VAHelpLine.label}
+            aria-label={links.VAHelpLine.phoneAriaLabel}
+            className="vads-u-margin-left--0p5"
+          >
             {links.VAHelpLine.link}
           </a>
           , or contact your local Caregiver Support Coordinator.
@@ -41,7 +46,11 @@ const NeedHelpFooter = props => {
 
         <p>
           If this form isn't working right for you, please call us at at
-          <a href={links.reportLine.link} className="vads-u-margin-left--0p5">
+          <a
+            href={links.reportLine.link}
+            aria-label={links.reportLine.phoneAriaLabel}
+            className="vads-u-margin-left--0p5"
+          >
             {links.reportLine.label}
           </a>
           .<br />

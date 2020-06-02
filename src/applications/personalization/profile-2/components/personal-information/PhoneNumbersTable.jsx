@@ -1,40 +1,31 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { selectVet360Field } from 'platform/user/profile/vet360/selectors';
-
-import PhoneView from 'platform/user/profile/vet360/components/PhoneField/PhoneView';
-import { FIELD_NAMES } from 'platform/user/profile/vet360/constants';
+import HomePhone from 'vet360/components/VAPHomePhone';
+import WorkPhone from 'vet360/components/VAPWorkPhone';
+import MobilePhone from 'vet360/components/VAPMobilePhone';
+import FaxNumber from 'vet360/components/VAPFaxNumber';
 
 import ProfileInfoTable from '../ProfileInfoTable';
 
-const renderValue = value => (value ? <PhoneView data={value} /> : 'not set');
-
-const PhoneNumbersTable = ({
-  className,
-  homePhone,
-  workPhone,
-  mobilePhone,
-  faxNumber,
-}) => (
+const PhoneNumbersTable = ({ className }) => (
   <ProfileInfoTable
     title="Phone numbers"
     data={[
       {
         title: 'Home',
-        value: renderValue(homePhone),
+        value: <HomePhone />,
       },
       {
         title: 'Work',
-        value: renderValue(workPhone),
+        value: <WorkPhone />,
       },
       {
         title: 'Mobile',
-        value: renderValue(mobilePhone),
+        value: <MobilePhone />,
       },
       {
         title: 'Fax',
-        value: renderValue(faxNumber),
+        value: <FaxNumber />,
       },
     ]}
     list
@@ -42,11 +33,4 @@ const PhoneNumbersTable = ({
   />
 );
 
-const mapStateToProps = state => ({
-  homePhone: selectVet360Field(state, FIELD_NAMES.HOME_PHONE),
-  workPhone: selectVet360Field(state, FIELD_NAMES.WORK_PHONE),
-  mobilePhone: selectVet360Field(state, FIELD_NAMES.MOBILE_PHONE),
-  faxNumber: selectVet360Field(state, FIELD_NAMES.FAX_NUMBER),
-});
-
-export default connect(mapStateToProps)(PhoneNumbersTable);
+export default PhoneNumbersTable;

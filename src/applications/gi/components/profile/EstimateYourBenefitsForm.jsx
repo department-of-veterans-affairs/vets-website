@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AlertBox from '../AlertBox';
+import _ from 'lodash';
 
+import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import {
@@ -956,13 +957,9 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  /**
-   * Renders the "Your benefits" section
-   * this.props.displayedInputs?.giBillBenefit is true when selecting chapter 33 for giBillChapter
-   * @returns {*}
-   */
-  renderYourBenefits = () => {
-    const name = 'Your benefits';
+
+  renderMilitaryDetails = () => {
+    const name = 'Your military details';
     return (
       <AccordionItem
         button={name}
@@ -990,12 +987,8 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  /**
-   * Renders the "About your school" section
-   * If all relevant displayedInputs are false then section is not rendered
-   * @returns {null|*}
-   */
-  renderAboutYourSchool = () => {
+
+  renderSchoolCostsAndCalendar = () => {
     const {
       inState,
       tuition,
@@ -1008,7 +1001,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
       return null;
 
-    const name = 'About your school';
+    const name = 'School costs and calendar';
 
     return (
       <AccordionItem
@@ -1029,12 +1022,12 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  /**
-   * Renders "Learning format and schedule" section
-   * @returns {*}
-   */
-  renderLearningFormatAndSchedule = () => {
-    const name = 'Learning format and schedule';
+  renderLearningFormat = () => {
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const name = isOjt
+      ? 'Learning format and schedule'
+      : 'Learning format and location';
     return (
       <AccordionItem
         button={name}
@@ -1052,12 +1045,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  /**
-   * Renders "Scholarships and other funding" section
-   * If all relevant displayedInputs are false then section is not rendered
-   * @returns {null|*}
-   */
-  renderScholarshipsAndOtherFunding = () => {
+  renderScholarshipsAndOtherVAFunding = () => {
     const {
       yellowRibbon,
       tuitionAssist,
@@ -1067,7 +1055,7 @@ class EstimateYourBenefitsForm extends React.Component {
     } = this.props.displayedInputs;
     if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
       return null;
-    const name = 'Scholarships and other funding';
+    const name = 'Scholarships and other VA funding';
     return (
       <AccordionItem
         button={name}
@@ -1100,10 +1088,10 @@ class EstimateYourBenefitsForm extends React.Component {
           Use the fields below to calculate your benefits:
         </p>
         <ul className="vads-u-padding--0">
-          {this.renderYourBenefits()}
-          {this.renderAboutYourSchool()}
-          {this.renderLearningFormatAndSchedule()}
-          {this.renderScholarshipsAndOtherFunding()}
+          {this.renderMilitaryDetails()}
+          {this.renderSchoolCostsAndCalendar()}
+          {this.renderLearningFormat()}
+          {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
         <button
           className="calculate-button"

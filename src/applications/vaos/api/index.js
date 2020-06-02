@@ -22,6 +22,10 @@ function vaosApiRequest(url, ...options) {
   return apiRequest(`${environment.API_URL}/vaos${url}`, ...options);
 }
 
+function v1ApiRequest(url, ...options) {
+  return apiRequest(`${environment.API_URL}/v1${url}`, ...options);
+}
+
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
@@ -333,7 +337,7 @@ export function getFacilityInfo(facilityId) {
       );
     }
   } else {
-    promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
+    promise = v1ApiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
   return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
@@ -351,7 +355,7 @@ export function getFacilitiesInfo(facilityIds) {
       .map(id => `vha_${id}`)
       .join(',');
 
-    promise = apiRequest(`/facilities/va?ids=${idList}`);
+    promise = v1ApiRequest(`/facilities/va?ids=${idList}`);
   }
 
   return promise.then(resp => resp.data.map(item => item.attributes));

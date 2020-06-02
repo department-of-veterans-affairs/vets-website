@@ -206,28 +206,28 @@ class VAPProfileField extends React.Component {
   render() {
     const {
       analyticsSectionName,
-      fieldName,
-      showEditView,
-      isEmpty,
       ContentView,
       EditView,
-      ValidationView,
+      fieldName,
+      isEmpty,
+      showEditView,
       showValidationView,
       title,
       transaction,
       transactionRequest,
+      ValidationView,
     } = this.props;
 
     const childProps = {
       ...this.props,
-      refreshTransaction: this.refreshTransaction,
       clearErrors: this.clearErrors,
       onAdd: this.onAdd,
-      onEdit: this.onEdit,
+      onCancel: this.onCancel,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
       onDelete: this.onDelete,
-      onCancel: this.onCancel,
+      onEdit: this.onEdit,
       onSubmit: this.onSubmit,
+      refreshTransaction: this.refreshTransaction,
     };
 
     // default the content to the read-view
@@ -280,9 +280,7 @@ class VAPProfileField extends React.Component {
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
-          refreshTransaction={() =>
-            this.props.refreshTransaction(transaction, analyticsSectionName)
-          }
+          refreshTransaction={this.refreshTransaction}
         >
           {content}
         </Vet360Transaction>
@@ -336,7 +334,6 @@ const mapDispatchToProps = {
  * @property {func} ValidationView The component used to render validation mode the field.
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the VA Profile contact info field.
- * @property {func} convertNextValueToCleanData A function called to derive or make changes to form values after form values are changed in the edit view. Called prior to validation.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in the VA Profile service.
  */
 const Vet360ProfileFieldContainer = connect(
