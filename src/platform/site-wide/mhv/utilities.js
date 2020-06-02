@@ -4,7 +4,7 @@ import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
 const eauthPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
 const mhvPrefix = environment.isProduction() ? 'www' : 'mhv-syst';
 
-// TODO: Add labs-and-tests route
+// TODO: Update labs-and-tests route once deep link is provided
 const mhvToEauthRoutes = {
   'download-my-data': 'eauth?deeplinking=download_my_data',
   'web/myhealthevet/refill-prescriptions':
@@ -12,6 +12,7 @@ const mhvToEauthRoutes = {
   'secure-messaging': 'eauth?deeplinking=secure_messaging',
   appointments: 'eauth?deeplinking=appointments',
   home: 'eauth',
+  'labs-tests': 'eauth',
 };
 
 // An MHV URL is a function of the following parameters:

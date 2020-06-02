@@ -9,25 +9,23 @@ const FooterInfo = ({ isError, pending }) => {
       {!isError &&
         !pending && (
           <section className="need-help-footer row vads-u-padding-x--1p5">
-            <h3 className="vads-u-font-size--h5">Need Help?</h3>
-            <hr />
             <span>
               For help filling out this form, you can contact your local
-              coordinator, or call our main VA information line at :{' '}
+              coordinator, or call our main VA information line at{' '}
+              <a href="tel:855-260-3274">855-260-3274</a>.
             </span>
-
-            <section className={sectionClassNames}>
-              <a href="tel:18008271000">1-800-827-1000</a>
-            </section>
 
             <section className={sectionClassNames}>
               <span>
                 To report a problem with this form, please call the Technical
-                Help Desk:
+                Help Desk at <a href="tel:855-574-7286">855-574-7286</a>.
               </span>
-              <a href="tel:18555747286">1-855-574-7286</a>
-              <a href="tel:18008778339">TTY: 1-800-877-8339</a>
-              <span>Monday through Friday, 8:00a.m. — 7:00p.m. ET.</span>
+              <span className="vads-u-margin-top--1p5">
+                <a href="tel:800-877-8339">TTY: 800-877-8339</a>
+              </span>
+              <span className="vads-u-margin-top--1p5">
+                Monday — Friday, 8:00am — 7:00pm (ET)
+              </span>
             </section>
           </section>
         )}
