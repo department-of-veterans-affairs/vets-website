@@ -12,10 +12,10 @@
         - [`ui:order`](#uiorder)
         - [`ui:title`](#uititle)
     - [`schema` options](#schema-options)
-        - [`ui:collapsed`](#uicollapsed)
         - [`title`](#title)
+        - [`ui:collapsed`](#uicollapsed)
         - [`ui:hidden`](#uihidden)
-        
+ 
 <!-- TODO: Document the `FieldTemplate` options; possibly in another reference -->
 <!-- section since it's not really a field or widget -->
 
