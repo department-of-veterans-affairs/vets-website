@@ -152,8 +152,6 @@ describe('ConfirmationPage', () => {
     expect(alertBox.text()).to.include('101 Example Street Apt 2');
     expect(alertBox.text()).to.include('Kansas City');
     expect(alertBox.text()).to.include('MO');
-
-    // MO \n 64117');
     confirmationPage.unmount();
   });
 });
