@@ -32,7 +32,7 @@ function mapSecondaryStopCode(clinic) {
  *
  */
 export function transformAvailableClinic(facilityId, clinic) {
-  const data = {
+  return {
     id: `var${facilityId}_${clinic.clinicId}`,
     resourceType: 'HealthcareService',
     // External identifiers for this item
@@ -142,8 +142,6 @@ export function transformAvailableClinic(facilityId, clinic) {
     // Description of availability exceptions
     availabilityExceptions: '',
   };
-
-  return data;
 }
 
 /**
