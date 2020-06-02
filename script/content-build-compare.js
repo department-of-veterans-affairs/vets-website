@@ -39,12 +39,18 @@ function hashBuildOutput(outputDir, hashFile) {
     const hash = crypto.createHash('md5');
     hash.update(data);
 
-    return { filename, hash: hash.digest('hex') };
+    const relativeFilename = path.relative(outputDir, filename);
+
+    return { filename: relativeFilename, hash: hash.digest('hex') };
   });
 
   writeArrayToFile(fileHashes, hashFile);
+  // return fileHashes;
 }
 
-hashBuildOutput('../build/localhost', 'buildOutput.txt');
+function compareBuilds() {
+  hashBuildOutput('../build/localhost', 'buildOutput.txt');
+  hashBuildOutput('../../content-build/build/localhost', 'buildOutput2.txt');
+}
 
-hashBuildOutput('../../content-build/build/localhost', 'buildOutput2.txt');
+compareBuilds();
