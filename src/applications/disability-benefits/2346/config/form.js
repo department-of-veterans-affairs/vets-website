@@ -36,8 +36,8 @@ const {
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
-  veteranInformation: 'Veteran Information',
-  orderSupplies: 'Order your supplies',
+  veteranInformation: 'Veteran information',
+  selectSupplies: 'Select your supplies',
 };
 
 const formPageTitlesLookup = {
@@ -52,18 +52,25 @@ const addressSchema = buildAddressSchema(true);
 const asyncReturn = (returnValue, error, delay = 300) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      const randomNumber = Math.round(Math.random() * 10);
-      const isNumberEven = randomNumber % 2 === 0;
-      if (isNumberEven) {
-        return resolve(returnValue);
-      }
-      return reject(error);
+      // const randomNumber = Math.round(Math.random() * 10);
+      // const isNumberEven = randomNumber % 2 === 0;
+      // if (isNumberEven) {
+      return resolve(returnValue);
+      // }
+      // return reject(error);
     }, delay);
   });
 
 const submit = form => {
   const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
+  const selectedAddress = form.data?.currentAddress;
+  let shippingAddress;
+  if (selectedAddress === 'permanentAddress') {
+    shippingAddress = form.data?.permanentAddress;
+  } else if (selectedAddress === 'temporaryAddress') {
+    shippingAddress = form.data?.temporaryAddress;
+  }
 
   recordEvent({
     event: 'bam-2346a-submission',
@@ -92,6 +99,7 @@ const submit = form => {
     {
       attributes: { confirmationNumber: '123123123' },
       submissionData,
+      shippingAddress,
     },
     'this is an error message',
   )
@@ -114,7 +122,7 @@ const formConfig = {
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
   finishLaterLinkText: 'Finish this order later.',
-  subTitle: 'VA Form 2346A',
+  subTitle: 'VA Form 2346',
   savedFormMessages: {
     notFound:
       'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',
@@ -171,8 +179,8 @@ const formConfig = {
         },
       },
     },
-    orderSuppliesChapter: {
-      title: formChapterTitles.orderSupplies,
+    selectSuppliesChapter: {
+      title: formChapterTitles.selectSupplies,
       pages: {
         [formPageTitlesLookup.addBatteriesPage]: {
           path: 'batteries',

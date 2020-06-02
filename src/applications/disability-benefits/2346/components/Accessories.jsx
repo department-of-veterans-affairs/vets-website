@@ -53,7 +53,7 @@ class Accessories extends Component {
         </p>
         <p>
           If you need accessories like domes, wax guards, cleaning supplies, or
-          desiccant, call the DLC Customer Service Station at{' '}
+          desiccant, call the DLC Customer Service Section at{' '}
           <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
             303-273-6200
           </a>{' '}
@@ -78,9 +78,9 @@ class Accessories extends Component {
         {accessorySupplies.map(accessorySupply => (
           <div
             key={accessorySupply.productId}
-            className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 accessory-page"
+            className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
           >
-            <h4 className="vads-u-font-size--md vads-u-margin-top--0">
+            <h4 className="vads-u-margin-top--0">
               {accessorySupply.productName}
             </h4>
             <div className="vads-u-border-color--gray-lightest">
@@ -113,7 +113,7 @@ class Accessories extends Component {
                     </p>
                     <p>
                       If you need an item sooner, call the DLC Customer Service
-                      Station at{' '}
+                      Section at{' '}
                       <a
                         aria-label="3 0 3. 2 7 3. 6 2 0 0."
                         href="tel:303-273-6200"
@@ -162,13 +162,26 @@ class Accessories extends Component {
         {accessorySupplies.length > 0 && (
           <AdditionalInfo triggerText="What if I don't see the accessories I need?">
             <p>
-              If you need a different accessory or an adjustment to an available
-              item, call the DLC Customer Service Station at{' '}
+              You may not see the accessories you need if you haven't placed an
+              order for resupply items within the last 2 years. If you need an
+              accessory that hasn't been ordered within the last 2 years, call
+              the DLC Customer Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
                 303-273-6200
               </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov.</a>
             </p>
+            <p>
+              If you need a smaller dome for your hearing aid, you'll need to
+              call your audiologist.
+            </p>
+            <a
+              href="https://www.va.gov/find-locations/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Find contact information for your local VA medical center.
+            </a>
           </AdditionalInfo>
         )}
         {accessorySupplies.length <= 0 && (

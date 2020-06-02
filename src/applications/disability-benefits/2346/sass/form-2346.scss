@@ -28,6 +28,9 @@
       font-size: 16px;
     }
 }
+.confirmation-page > .usa-alert-success::before {
+    color: #000;
+}
 
 dt {
   h4 {

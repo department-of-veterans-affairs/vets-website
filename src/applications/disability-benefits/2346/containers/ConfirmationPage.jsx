@@ -1,8 +1,8 @@
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 const ConfirmationPage = ({
   email,
@@ -10,8 +10,12 @@ const ConfirmationPage = ({
   selectedProductArray,
   confirmationNumber,
   fullName,
+  shippingAddress,
 }) => (
-  <>
+  <div className="confirmation-page">
+    <p className="vads-u-font-weight--bold">
+      Please print this page for your records.
+    </p>
     <AlertBox
       headline="Your order has been submitted"
       content={
@@ -26,7 +30,8 @@ const ConfirmationPage = ({
       content={
         <section>
           <h4 className="vads-u-margin-top--0">
-            Request for Batteries and Accessories (Form 2346)
+            Request for Batteries and Accessories
+            <span className="vads-u-font-weight--normal">(Form 2346)</span>
           </h4>
           <p className="vads-u-margin--0">
             for {fullName.first} {fullName.last}
@@ -41,6 +46,19 @@ const ConfirmationPage = ({
               </li>
             ))}
           </ul>
+          <p className="vads-u-margin-bottom--0">
+            <strong>Shipping Address</strong>
+          </p>
+          <p className="vads-u-margin-y--0">
+            {shippingAddress.street} {shippingAddress.street2 || ''}
+          </p>
+          <p className="vads-u-margin-top--0">
+            {`${shippingAddress.city},
+            ${shippingAddress.state || shippingAddress.province} ${' '}
+            ${shippingAddress.postalCode ||
+              shippingAddress.internationalPostalCode}
+            `}
+          </p>
           <p className="vads-u-margin--0">
             <strong>Date submitted</strong>
           </p>
@@ -58,7 +76,7 @@ const ConfirmationPage = ({
       backgroundOnly
     />
     <section>
-      <h5>How long will it take to receive my order?</h5>
+      <h4>How long will it take to receive my order?</h4>
       <p>
         You'll receive an email with your order tracking number within 1 to 2
         days of your order. Orders typically arrive within 7 to 10 business
@@ -66,7 +84,7 @@ const ConfirmationPage = ({
       </p>
     </section>
     <section className="vads-u-margin-bottom--4">
-      <h5>What if I have questions about my order?</h5>
+      <h4>What if I have questions about my order?</h4>
       <p>
         If you have any questions about your order, please call the DLC Customer
         Service Section at{' '}
@@ -76,19 +94,23 @@ const ConfirmationPage = ({
         or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
       </p>
     </section>
-  </>
+  </div>
 );
 
 ConfirmationPage.propTypes = {
   email: PropTypes.string.isRequired,
   confirmationNumber: PropTypes.string.isRequired,
+  shippingAddress: PropTypes.object.isRequired,
 };
 
 ConfirmationPage.defaultProps = {
   email: '',
+  shippingAddress: {},
 };
 
 const mapStateToProps = state => {
+  /* eslint-disable no-debugger */
+  debugger;
   const supplies = state.form?.data?.supplies;
   const selectedProducts = state.form?.data?.selectedProducts;
   const productIdArray = selectedProducts?.map(product => product.productId);
@@ -105,6 +127,7 @@ const mapStateToProps = state => {
     confirmationNumber:
       state.form?.submission?.response?.attributes?.confirmationNumber,
     fullName: state.form?.data?.fullName,
+    shippingAddress: state.form?.submission?.response?.shippingAddress,
   };
 };
 
