@@ -57,6 +57,7 @@ const schema = {
 ![ui:hidden example](images/objectfield-uihidden.png)
 
 ### `uiSchema` options
+#### `ui:collapsed`
 #### `ui:description`
 **Type:** `string`, React component
 
