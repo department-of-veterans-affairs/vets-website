@@ -22,18 +22,16 @@ export default function FormQuestion({
     scrollNext();
   }
 
+  console.log('question', question);
+
   const options = optionsConfig.map((option, index) => (
     <button
       key={index}
       type="button"
       className={classnames(
         'usa-button-big',
-        Object.prototype.hasOwnProperty.call(
-          questionState[questionIndex],
-          'value',
-        ) && questionState[questionIndex].value === option.optionValue
-          ? 'usa-button'
-          : 'usa-button-secondary',
+        (question.value === option.optionValue ? 'usa-button' : null) ??
+          'usa-button-secondary',
       )}
       onClick={handleClick}
       value={option.optionValue}
