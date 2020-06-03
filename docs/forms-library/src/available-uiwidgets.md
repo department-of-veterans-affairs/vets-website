@@ -1,5 +1,24 @@
 # Available ui:widgets
 
+**Table of Contents**
+
+- [`CheckboxWidget`](#checkboxwidget)
+- [`DateWidget`](#datewidget)
+- [`EmailWidget`](#emailwidget)
+- [`RadioWidget`](#radiowidget)
+- [`SelectWidget`](#selectwidget)
+- [`TextWidget`](#textwidget)
+    - [`uiSchema` options](#uischema-options)
+        - [`ui:options`](#uioptions)
+            - [`autocomplete`](#autocomplete)
+            - [`inputType`](#inputtype)
+            - [`widgetClassNames`](#widgetclassnames)
+    - [`schema` options](#schema-options)
+        - [`maxLength`](#maxlength)
+- [`TextareaWidget`](#textareawidget)
+- [`YesNoWidget`](#yesnowidget)
+
+
 ## `CheckboxWidget`
 **`ui:widget` key:** `checkbox`
 
