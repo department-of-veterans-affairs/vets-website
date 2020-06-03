@@ -3,6 +3,7 @@ import React from 'react';
 export const FooterInfo = () => {
   const sectionClassNames =
     'vads-u-margin-y--2p5 vads-u-display--flex vads-u-flex-direction--column';
+
   return (
     <>
       <section className="need-help-footer row vads-u-padding-x--1p5">
