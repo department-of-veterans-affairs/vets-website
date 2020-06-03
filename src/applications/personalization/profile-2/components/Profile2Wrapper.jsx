@@ -88,7 +88,7 @@ class Profile2 extends Component {
         {/* Breadcrumbs */}
         <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
           <a href="/">Home</a>
-          {!onPersonalInformationMobile && <Link to="/">Profile</Link>}
+          {!onPersonalInformationMobile && <Link to="/">Your profile</Link>}
           <a href={activeLocation}>{activeRouteName}</a>
         </Breadcrumbs>
 
