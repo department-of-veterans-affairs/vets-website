@@ -29,7 +29,7 @@ import ProfileInfoTable from '../ProfileInfoTable';
 import FraudVictimAlert from './FraudVictimAlert';
 import AdditionalInformation from './DirectDepositInformation';
 
-import { prefixUtilityClasses } from '../../helpers';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 
 export const DirectDepositContent = ({
   isAuthorized,
@@ -42,48 +42,42 @@ export const DirectDepositContent = ({
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
-  const previousUiState = usePrevious(directDepositUiState);
+  const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
+  const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
   const isEditingBankInfo = directDepositUiState.isEditing;
+  const isSavingBankInfo = directDepositUiState.isSaving;
+  const saveError = directDepositUiState.responseError;
 
   // when we enter and exit edit mode...
   useEffect(
     () => {
-      // reset the bank info form when we enter edit mode
-      if (isEditingBankInfo) {
+      if (wasEditingBankInfo && !isEditingBankInfo) {
+        // clear the form data when exiting edit mode so it's blank when the
+        // edit form is shown again
         setFormData({});
-      }
-      // focus the edit button when we exit edit mode
-      if (isEditingBankInfo === false) {
+        // focus the edit button when we exit edit mode
         editBankInfoButton.current.focus();
       }
     },
-    [isEditingBankInfo],
+    [isEditingBankInfo, wasEditingBankInfo],
   );
 
-  // show the user an alert after their bank info has been updated and
+  // show the user a success alert after their bank info has saved
   useEffect(
     () => {
-      if (
-        previousUiState?.isSaving &&
-        !directDepositUiState.isSaving &&
-        !directDepositUiState.responseError
-      ) {
+      if (wasSavingBankInfo && !isSavingBankInfo && !saveError) {
         setShowSaveSucceededAlert(true);
         setTimeout(() => {
           setShowSaveSucceededAlert(false);
         }, 6000);
       }
     },
-    [
-      previousUiState,
-      directDepositUiState.isSaving,
-      directDepositUiState.responseError,
-    ],
+    [wasSavingBankInfo, isSavingBankInfo, saveError],
   );
 
   const saveBankInfo = () => {
-    // NOTE: You can mock a save error by sending undefined values in the payload
+    // NOTE: You can trigger a save error by sending undefined values in the payload
     const payload = {
       financialInstitutionName: 'Hidden form field',
       financialInstitutionRoutingNumber: formData.routingNumber,
@@ -160,9 +154,9 @@ export const DirectDepositContent = ({
   const editingBankInfoContent = (
     <>
       <div id="errors" role="alert" aria-atomic="true">
-        {!!directDepositUiState.responseError && (
+        {!!saveError && (
           <PaymentInformationEditError
-            responseError={directDepositUiState.responseError}
+            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
           />
         )}

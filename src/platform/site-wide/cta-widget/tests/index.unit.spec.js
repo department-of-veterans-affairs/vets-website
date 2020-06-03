@@ -249,9 +249,7 @@ describe('<CallToActionWidget>', () => {
       global.dom.reconfigure({ url: 'http://localhost' });
     });
 
-    it('should open rx tool', () => {
-      const jsdomOpen = window.open;
-      window.open = sinon.spy();
+    it('should open myhealthevet popup', () => {
       const tree = mount(
         <CallToActionWidget
           appId="rx"
@@ -276,9 +274,8 @@ describe('<CallToActionWidget>', () => {
         isLoggedIn: true,
       });
 
-      expect(window.open.firstCall.args[0]).to.contain('refill-prescriptions');
+      expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
       tree.unmount();
-      window.open = jsdomOpen;
     });
 
     it('should show mvi server error', () => {
@@ -567,6 +564,63 @@ describe('<CallToActionWidget>', () => {
 
         expect(tree.find('NeedsVAPatient').exists()).to.be.true;
         tree.unmount();
+      });
+
+      describe('ssoe', () => {
+        const ssoeProps = { ...defaultProps, useSSOe: true };
+
+        it('should show verify message', () => {
+          const tree = mount(
+            <CallToActionWidget
+              {...ssoeProps}
+              profile={{
+                verified: false,
+              }}
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+            />,
+          );
+
+          expect(tree.find('Verify').exists()).to.be.true;
+          tree.unmount();
+        });
+
+        it('should show deactivated message', () => {
+          const tree = mount(
+            <CallToActionWidget
+              {...ssoeProps}
+              mhvAccountIdState="DEACTIVATED"
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+            />,
+          );
+
+          expect(tree.find('DeactivatedMHVIds').exists()).to.be.true;
+          tree.unmount();
+        });
+
+        it('should show needs va patient message', () => {
+          const tree = mount(
+            <CallToActionWidget
+              {...ssoeProps}
+              isVaPatient={false}
+              mhvAccount={{
+                loading: false,
+                accountState: 'needs_identity_verification',
+                accountLevel: 'Basic',
+              }}
+            />,
+          );
+
+          expect(tree.find('NeedsVAPatient').exists()).to.be.true;
+          tree.unmount();
+        });
       });
     });
     it('should show MHV link', () => {

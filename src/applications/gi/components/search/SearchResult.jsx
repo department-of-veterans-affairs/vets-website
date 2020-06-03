@@ -32,22 +32,21 @@ export class SearchResult extends React.Component {
       country,
       studentCount,
       cautionFlags,
-      handleLinkClick,
     } = this.props;
 
     const tuition = this.estimate(estimated.tuition);
     const housing = this.estimate(estimated.housing);
     const books = this.estimate(estimated.books);
 
-    const linkTo = {
-      pathname: `/profile/${facilityCode}`,
-      query: version ? { version } : {},
-    };
-
-    const handleLinkClickEvent = event => {
-      event.preventDefault();
-      handleLinkClick(facilityCode);
-    };
+    const linkTo = environment.isProduction()
+      ? {
+          pathname: `/profile/${facilityCode}`,
+          query: version ? { version } : {},
+        }
+      : {
+          pathname: `/profile/${facilityCode}`,
+          search: version ? `?version=${version}` : '',
+        };
 
     return (
       <div id={`search-result-${facilityCode}`} className="search-result">
@@ -58,9 +57,6 @@ export class SearchResult extends React.Component {
                 <h2>
                   <Link
                     to={linkTo}
-                    onClick={
-                      environment.isProduction ? () => {} : handleLinkClickEvent
-                    }
                     aria-label={`${name} ${locationInfo(city, state, country)}`}
                   >
                     {name}
@@ -124,14 +120,7 @@ export class SearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns">
-                <Link
-                  to={linkTo}
-                  onClick={
-                    environment.isProduction ? () => {} : handleLinkClickEvent
-                  }
-                >
-                  View details ›
-                </Link>
+                <Link to={linkTo}>View details ›</Link>
               </div>
             </div>
           </div>

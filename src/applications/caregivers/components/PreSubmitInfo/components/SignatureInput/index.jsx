@@ -31,20 +31,18 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
   );
 
   return (
-    <>
-      <label htmlFor="vet-signature-input">{label}</label>
-      <ErrorableTextInput
-        ref={inputRef}
-        name="vet-signature-input"
-        required={required}
-        onValueChange={value => setSignature(value)}
-        field={{ value: signature.value, dirty: signature.dirty }}
-        errorMessage={
-          hasError &&
-          'Your signature must match your first and last name as previously entered.'
-        }
-      />
-    </>
+    <ErrorableTextInput
+      additionalClass="signature-input"
+      ref={inputRef}
+      label={label}
+      required={required}
+      onValueChange={value => setSignature(value)}
+      field={{ value: signature.value, dirty: signature.dirty }}
+      errorMessage={
+        hasError &&
+        'Your signature must match your first and last name as previously entered.'
+      }
+    />
   );
 };
 

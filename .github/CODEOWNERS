@@ -2,6 +2,9 @@
 # the repo. Unless a later match takes precedence,
 #  @department-of-veterans-affairs/frontend-review-group will be requested for
 # review when someone opens a pull request.
+#
+# Review the CODEOWNERS guide before editing:
+# https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/codeowners.md
 
 *       @department-of-veterans-affairs/frontend-review-group
 
@@ -17,6 +20,7 @@ src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-f
 
 # Benefits and Memorials 2
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/applications/debt-letters @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 
 # eBenefits
 src/applications/disability-benefits/686 @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
@@ -41,6 +45,8 @@ src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-fronte
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
+src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
+src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 
 # Booz Allen Team
 src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers

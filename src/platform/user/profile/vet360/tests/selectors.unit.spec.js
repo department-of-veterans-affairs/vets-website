@@ -269,6 +269,36 @@ describe('selectors', () => {
       );
     });
   });
+
+  describe('selectAddressValidation', () => {
+    beforeEach(hooks.beforeEach);
+    it('should return the address validation data', () => {
+      const addressValidation = {
+        addressValidationType: 'foo',
+        validationKey: '123',
+        addressValidationError: null,
+      };
+      state.vet360.addressValidation = addressValidation;
+
+      expect(selectors.selectAddressValidation(state)).to.deep.equal(
+        addressValidation,
+      );
+    });
+  });
+
+  describe('selectAddressValidationType', () => {
+    beforeEach(hooks.beforeEach);
+    it('should return the current address validation type', () => {
+      const addressValidationType = 'home';
+      state.vet360.addressValidation = {
+        addressValidationType,
+      };
+
+      expect(selectors.selectAddressValidationType(state)).to.be.equal(
+        addressValidationType,
+      );
+    });
+  });
 });
 
 describe('selectVet360InitializationStatus', () => {
@@ -291,7 +321,7 @@ describe('selectVet360InitializationStatus', () => {
     state.user.profile.services = [];
     const result = selectors.selectVet360InitializationStatus(state);
     expect(result.status).to.be.equal(
-      VET360_INITIALIZATION_STATUS.UNINITALIZED,
+      VET360_INITIALIZATION_STATUS.UNINITIALIZED,
     );
   });
 

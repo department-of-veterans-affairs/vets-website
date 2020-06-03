@@ -22,6 +22,7 @@ export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
     dispatch({ type: PAYMENT_INFORMATION_FETCH_STARTED });
 
+    recordEvent({ event: 'profile-get-direct-deposit-started' });
     const response = await getData('/ppiu/payment_information');
 
     if (response.error) {

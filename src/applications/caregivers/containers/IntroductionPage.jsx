@@ -66,6 +66,7 @@ const IntroductionPage = ({ route, router }) => {
                   Call us at
                   <a
                     href={links.VAHelpLine.label}
+                    aria-label={links.VAHelpLine.phoneAriaLabel}
                     className="vads-u-margin-x--0p5"
                   >
                     877-222-8387
@@ -159,6 +160,7 @@ const IntroductionPage = ({ route, router }) => {
               more, contact VA’s Caregiver Support Line at
               <a
                 href={links.caregiverHelp.phoneLink}
+                aria-label={links.caregiverHelp.phoneAriaLabel}
                 className="vads-u-margin-left--0p5"
               >
                 {links.caregiverHelp.phoneLabel}
@@ -188,8 +190,7 @@ const IntroductionPage = ({ route, router }) => {
         title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
       />
       <p>
-        Equal to VA Form 10-10CG (Application for the Program of Comprehensive
-        Assistance for Family Caregivers)
+        Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
       </p>
       <p className="va-introtext">
         We recognize the important role of family caregivers in supporting the

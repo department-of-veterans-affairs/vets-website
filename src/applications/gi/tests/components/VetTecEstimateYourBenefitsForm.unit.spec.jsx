@@ -9,8 +9,7 @@ const defaultProps = {
   displayedInputs: {},
   onShowModal: () => {},
   onInputChange: () => {},
-  selectedProgram: '',
-  preSelectedProgram: 'Program Name 1',
+  selectedProgram: 'Program Name 1',
   calculatorInputChange: () => {},
   institution: {
     programs: [

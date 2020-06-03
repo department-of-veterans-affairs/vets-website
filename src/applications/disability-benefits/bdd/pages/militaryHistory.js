@@ -31,7 +31,7 @@ export const uiSchema = {
     servicePeriods: {
       'ui:title': 'Military service history',
       'ui:description':
-        'This is the military service history we have on file for you.',
+        'Please add your military service history details below.',
       'ui:options': {
         itemName: 'Service Period',
         viewField: ValidatedServicePeriodView,

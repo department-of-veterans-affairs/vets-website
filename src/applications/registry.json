@@ -1,5 +1,15 @@
 [
   {
+    "appName": "COVID-19 screener",
+    "entryName": "covid19screen",
+    "rootUrl": "/covid19screen",
+    "template": {
+      "title": "COVID-19 screening tool",
+      "layout": "page-react.html",
+      "vagovprod": true
+    }
+  },
+  {
     "appName": "Verify identity",
     "entryName": "verify",
     "rootUrl": "/verify",
@@ -106,16 +116,6 @@
     "entryName": "profile-360",
     "rootUrl": "/profile",
     "template": {
-      "title": "Your Profile",
-      "layout": "page-react.html"
-    }
-  },
-  {
-    "appName": "VA Profile",
-    "entryName": "profile-2",
-    "rootUrl": "/profile-2",
-    "template": {
-      "vagovprod": false,
       "title": "Your Profile",
       "layout": "page-react.html"
     }
@@ -262,12 +262,22 @@
     }
   },
   {
-    "appName": "New 686",
+    "appName": "686c-674",
     "entryName": "new-686",
     "rootUrl": "/view-change-dependents/add-remove-form-686c",
     "template": {
       "layout": "page-react.html",
-      "vagovprod": false
+      "vagovprod": false,
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "path": "/view-change-dependents/view",
+          "name": "View or change your dependents"
+        },
+        {
+          "name": "Add or remove dependents Form 21-686c"
+        }
+      ]
     }
   },
   {
@@ -837,6 +847,16 @@
           "name": "Apply for an ID Card"
         }
       ]
+    }
+  },
+  {
+    "appName": "Debt Letters",
+    "entryName": "debt-letters",
+    "rootUrl": "/debt-letters",
+    "template": {
+      "vagovprod": false,
+      "title": "Debt Letters",
+      "layout": "page-react.html"
     }
   }
 ]

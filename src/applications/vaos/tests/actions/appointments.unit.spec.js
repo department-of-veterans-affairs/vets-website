@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
 
 import {
   resetFetch,
@@ -158,8 +157,28 @@ describe('VAOS actions: appointments', () => {
       appointments: {
         futureStatus: 'notStarted',
         future: [
-          { facilityId: '983', clinicId: '455' },
-          { facilityId: '983', clinicId: '455' },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+            vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+            vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          },
         ],
       },
     });
@@ -196,10 +215,46 @@ describe('VAOS actions: appointments', () => {
       appointments: {
         futureStatus: 'notStarted',
         future: [
-          { facilityId: '983', clinicId: '455' },
-          { facilityId: '984', clinicId: '455' },
-          { facilityId: '985', clinicId: '455' },
-          { facilityId: '986', clinicId: '455' },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var984_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var985_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
+          {
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var986_455',
+                  display: 'CHY OPT VAR1',
+                },
+              },
+            ],
+          },
         ],
       },
     });
@@ -293,20 +348,54 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            apiData: {
-              vdsAppointments: [
-                {
-                  clinic: {
-                    name: 'Clinic name',
-                  },
+            resourceType: 'Appointment',
+            status: 'booked',
+            description: 'NO ACTION TAKEN/TODAY',
+            start: '2019-12-11T10:00:00-07:00',
+            minutesDuration: 60,
+            comment: 'Follow-up/Routine: Instructions',
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'C&P BEV AUDIO FTC1',
                 },
-              ],
+              },
+            ],
+            contained: null,
+            legacyVAR: {
+              id: '17dd714287e151195b99164cc1a8e49a',
+              apiData: {
+                startDate: '2020-11-07T17:00:00Z',
+                clinicId: '455',
+                clinicFriendlyName: null,
+                facilityId: '983',
+                communityCare: false,
+                vdsAppointments: [
+                  {
+                    bookingNote: null,
+                    appointmentLength: '60',
+                    appointmentTime: '2020-11-07T17:00:00Z',
+                    clinic: {
+                      name: 'CHY OPT VAR1',
+                      askForCheckIn: false,
+                      facilityCode: '983',
+                    },
+                    type: 'REGULAR',
+                    currentStatus: 'NO ACTION TAKEN/TODAY',
+                  },
+                ],
+                vvsAppointments: [],
+                id: '17dd714287e151195b99164cc1a8e49a',
+              },
             },
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-            appointmentDate: moment('2019-01-02'),
-            status: APPOINTMENT_STATUS.booked,
-            facilityId: '983',
-            clinicId: '1234',
+            vaos: {
+              isPastAppointment: false,
+              appointmentType: 'vaAppointment',
+              videoType: null,
+              isCommunityCare: false,
+              timeZone: null,
+            },
           },
         },
       };
@@ -320,7 +409,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData: state.appointments.appointmentToCancel.apiData,
+        apiData: state.appointments.appointmentToCancel.legacyVAR.apiData,
       });
 
       expect(global.window.dataLayer[0]).to.deep.equal({
@@ -344,17 +433,53 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            facilityId: '983',
-            clinicId: '455',
-            status: APPOINTMENT_STATUS.booked,
-            appointmentDate: moment('2020-01-01'),
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-            apiData: {
-              vdsAppointments: [
-                {
-                  clinic: {},
+            resourceType: 'Appointment',
+            status: 'booked',
+            description: 'NO ACTION TAKEN/TODAY',
+            start: '2019-12-11T10:00:00-07:00',
+            minutesDuration: 60,
+            comment: 'Follow-up/Routine: Instructions',
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'C&P BEV AUDIO FTC1',
                 },
-              ],
+              },
+            ],
+            contained: null,
+            legacyVAR: {
+              id: '17dd714287e151195b99164cc1a8e49a',
+              apiData: {
+                startDate: '2020-11-07T17:00:00Z',
+                clinicId: '455',
+                clinicFriendlyName: null,
+                facilityId: '983',
+                communityCare: false,
+                vdsAppointments: [
+                  {
+                    bookingNote: null,
+                    appointmentLength: '60',
+                    appointmentTime: '2020-11-07T17:00:00Z',
+                    clinic: {
+                      name: 'CHY OPT VAR1',
+                      askForCheckIn: false,
+                      facilityCode: '983',
+                    },
+                    type: 'REGULAR',
+                    currentStatus: 'NO ACTION TAKEN/TODAY',
+                  },
+                ],
+                vvsAppointments: [],
+                id: '17dd714287e151195b99164cc1a8e49a',
+              },
+            },
+            vaos: {
+              isPastAppointment: false,
+              appointmentType: 'vaAppointment',
+              videoType: null,
+              isCommunityCare: false,
+              timeZone: null,
             },
           },
         },
@@ -369,7 +494,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData: state.appointments.appointmentToCancel.apiData,
+        apiData: state.appointments.appointmentToCancel.legacyVAR.apiData,
       });
 
       expect(
@@ -412,18 +537,56 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            apiData: {
-              vdsAppointments: [
-                {
-                  clinic: {
-                    name: 'Testing',
-                  },
+            resourceType: 'Appointment',
+            status: 'booked',
+            description: 'NO ACTION TAKEN/TODAY',
+            start: '2019-12-11T10:00:00-07:00',
+            minutesDuration: 60,
+            comment: 'Follow-up/Routine: Instructions',
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'C&P BEV AUDIO FTC1',
                 },
-              ],
+              },
+            ],
+            contained: null,
+            legacyVAR: {
+              id: '17dd714287e151195b99164cc1a8e49a',
+              facilityId: '983',
+              clinicId: '455',
+              apiData: {
+                startDate: '2020-11-07T17:00:00Z',
+                clinicId: '455',
+                clinicFriendlyName: null,
+                facilityId: '983',
+                communityCare: false,
+                vdsAppointments: [
+                  {
+                    bookingNote: null,
+                    appointmentLength: '60',
+                    appointmentTime: '2020-11-07T17:00:00Z',
+                    clinic: {
+                      name: 'CHY OPT VAR1',
+                      askForCheckIn: false,
+                      facilityCode: '983',
+                    },
+                    type: 'REGULAR',
+                    currentStatus: 'NO ACTION TAKEN/TODAY',
+                  },
+                ],
+                vvsAppointments: [],
+                id: '17dd714287e151195b99164cc1a8e49a',
+              },
             },
-            facilityId: '983',
-            appointmentDate: moment('2019-01-01'),
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+            vaos: {
+              isPastAppointment: false,
+              appointmentType: 'vaAppointment',
+              videoType: null,
+              isCommunityCare: false,
+              timeZone: null,
+            },
           },
         },
       };

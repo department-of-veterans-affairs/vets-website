@@ -3,9 +3,10 @@
 @import "./profile-info-table";
 @import "./profile-sidenav";
 @import "./mobile-sidenav-trigger";
+@import "./connected-apps";
 
 .profile-service-badge {
-  max-height: 108px;
+  max-height: 75px;
 }
 
 [tabindex="-1"]:focus {

@@ -9,6 +9,7 @@ import {
   getChosenFacilityInfo,
   getSiteIdForChosenFacility,
   getChosenParentInfo,
+  getChosenSlot,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 import { getFacilityIdFromLocation } from '../services/location';
@@ -43,10 +44,6 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const parentOrg = getChosenParentInfo(state);
-  // Calling this a facility id instead of a site id because it might be 3 or 5 digits
-  // However, in the future, I believe all of these ids from an Organization will be 3 digits
-  const parentFacilityId = getSiteIdFromOrganization(parentOrg);
   const siteId = getSiteIdForChosenFacility(state);
   const facilityId = getFacilityIdFromLocation(facility);
 
@@ -54,16 +51,10 @@ export function transformFormToVARequest(state) {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
     appointmentType: typeOfCare.name,
-    cityState: {
-      institutionCode: parentFacilityId,
-      rootStationCode: siteId,
-      parentStationCode: parentFacilityId,
-      adminParent: true,
-    },
     facility: {
       name: facility.name,
       facilityCode: facilityId,
-      parentSiteCode: parentFacilityId,
+      parentSiteCode: siteId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -140,8 +131,8 @@ export function transformFormToCCRequest(state) {
     };
   } else {
     cityState = {
-      preferredCity: organization.address[0].city,
-      preferredState: organization.address[0].state,
+      preferredCity: organization.address?.city,
+      preferredState: organization.address?.state,
     };
   }
 
@@ -151,12 +142,6 @@ export function transformFormToCCRequest(state) {
     typeOfCare: typeOfCare.ccId,
     typeOfCareId: typeOfCare.ccId,
     appointmentType: typeOfCare.name,
-    cityState: {
-      institutionCode: siteId,
-      rootStationCode: siteId,
-      parentStationCode: siteId,
-      adminParent: true,
-    },
     facility: {
       name: organization.name,
       facilityCode: siteId,
@@ -199,12 +184,9 @@ export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
   const facility = getChosenFacilityInfo(state);
-  const slot = data.calendarData.selectedDates[0];
+  const slot = getChosenSlot(state);
   const purpose = getUserMessage(data);
-  const appointmentLength = parseInt(
-    state.newAppointment.appointmentLength,
-    10,
-  );
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return {
     appointmentType: getTypeOfCare(data).name,
@@ -212,7 +194,7 @@ export function transformFormToAppointment(state) {
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
     desiredDate: `${data.preferredDate}T00:00:00+00:00`,
-    dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
+    dateTime: `${slot.start}+00:00`,
     duration: appointmentLength,
     bookingNotes: purpose,
     preferredEmail: data.email,

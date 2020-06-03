@@ -1,5 +1,6 @@
 import { snakeCase } from 'lodash';
 import constants from 'vets-json-schema/dist/constants.json';
+import { SMALL_SCREEN_WIDTH } from '../constants';
 
 export const formatNumber = value => {
   const str = (+value).toString();
@@ -87,4 +88,48 @@ export const removeNonNumberCharacters = value =>
 export const formatDollarAmount = value => {
   const output = value != null ? removeNonNumberCharacters(value) : 0;
   return formatCurrency(output);
+};
+
+export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
+
+export const handleScrollOnInputFocus = fieldId => {
+  const field = document.getElementById(fieldId);
+  if (field && isMobileView()) {
+    field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
+export const handleInputFocusWithPotentialOverLap = (
+  fieldId1,
+  fieldId2,
+  scrollableFieldId,
+) => {
+  if (isMobileView()) {
+    const field1 = document.getElementById(fieldId1);
+    const field2 = document.getElementById(fieldId2);
+    if (field1 && field2) {
+      field1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const fieldRect1 = field1.getBoundingClientRect();
+      const fieldRect2 = field2.getBoundingClientRect();
+      const hasOverLap = !(
+        fieldRect1.right < fieldRect2.left ||
+        fieldRect1.left > fieldRect2.right ||
+        fieldRect1.bottom < fieldRect2.top ||
+        fieldRect1.top > fieldRect2.bottom
+      );
+      if (hasOverLap === true) {
+        const scrollableField =
+          document.getElementById(scrollableFieldId) || window;
+        if (scrollableField) {
+          const pixelOffset = 10;
+          const scrollUpBy = fieldRect1.bottom - fieldRect2.top + pixelOffset;
+          scrollableField.scrollBy({
+            top: scrollUpBy,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }
+      }
+    }
+  }
 };

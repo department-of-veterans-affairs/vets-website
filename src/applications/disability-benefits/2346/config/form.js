@@ -1,16 +1,20 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import fullSchemaMDOT from '../schemas/2346-schema.json';
+import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies, currentAddress } = fullSchemaMDOT.definitions;
+const { email, supplies, date } = fullSchema.definitions;
+const { currentAddress } = frontEndSchema.definitions;
 
 const {
   emailField,
@@ -45,28 +49,83 @@ const formPageTitlesLookup = {
 
 const addressSchema = buildAddressSchema(true);
 
+const asyncReturn = (returnValue, error, delay = 300) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const randomNumber = Math.round(Math.random() * 10);
+      const isNumberEven = randomNumber % 2 === 0;
+      if (isNumberEven) {
+        return resolve(returnValue);
+      }
+      return reject(error);
+    }, delay);
+  });
+
+const submit = form => {
+  const submissionData = JSON.stringify(form.data);
+  const itemQuantities = form.data?.selectedProducts?.length;
+
+  recordEvent({
+    event: 'bam-2346a-submission',
+    'bam-quantityOrdered': itemQuantities,
+  });
+
+  const onSuccess = resp =>
+    new Promise(resolve => {
+      recordEvent({
+        event: 'bam-2346a-submission-successful',
+        'bam-quantityOrdered': itemQuantities,
+      });
+      return resolve(resp);
+    });
+
+  const onFailure = error =>
+    new Promise(reject => {
+      recordEvent({
+        event: 'bam-2346a-submission-failure',
+        'bam-quantityOrdered': itemQuantities,
+      });
+      return reject(error);
+    });
+
+  return asyncReturn(
+    {
+      attributes: { confirmationNumber: '123123123' },
+      submissionData,
+    },
+    'this is an error message',
+  )
+    .then(onSuccess)
+    .catch(onFailure);
+};
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/posts',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'va-2346a-',
+  submit,
+  trackingPrefix: 'bam-2346a-',
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  footerContent: FooterInfo,
+  footerContent: FormFooter,
+  getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
+  finishLaterLinkText: 'Finish this order later.',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
+    notFound:
+      'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',
     noAuth: 'Please sign in again to continue your application for benefits.',
+    forbidden:
+      'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
   },
   defaultDefinitions: {
     email,
     supplies,
+    date,
     addressSchema,
     currentAddress,
   },

@@ -8,7 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { fetchProfile, setPageTitle, showModal } from '../actions';
+import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
@@ -52,6 +52,10 @@ export class ProfilePage extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.hideModal();
+  }
+
   handleViewWarnings = () => {
     this._cautionaryInfo.setState({ expanded: true });
     focusElement('#viewWarnings');
@@ -89,6 +93,7 @@ export class ProfilePage extends React.Component {
             version={this.props.location.query.version}
             eduSection103={this.props.eduSection103}
             gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
+            gibctEybBottomSheet={this.props.gibctEybBottomSheet}
           />
         );
       }
@@ -121,6 +126,9 @@ const mapStateToProps = state => {
     gibctEstimateYourBenefits: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
     ],
+    gibctEybBottomSheet: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctEybBottomSheet
+    ],
   };
 };
 
@@ -128,6 +136,7 @@ const mapDispatchToProps = {
   fetchProfile,
   setPageTitle,
   showModal,
+  hideModal,
 };
 
 export default withRouter(

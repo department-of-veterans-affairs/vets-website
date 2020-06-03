@@ -22,6 +22,7 @@ export class InstitutionProfile extends React.Component {
     calculator: PropTypes.object,
     eligibility: PropTypes.object,
     eduSection103: PropTypes.bool,
+    gibctEybBottemSheet: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -41,6 +42,7 @@ export class InstitutionProfile extends React.Component {
       showModal,
       eduSection103,
       gibctEstimateYourBenefits,
+      gibctEybBottomSheet,
     } = this.props;
     return (
       <div>
@@ -49,11 +51,13 @@ export class InstitutionProfile extends React.Component {
           onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
         />
-        <div className="usa-accordion">
+        <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
               {gibctEstimateYourBenefits ? (
-                <EstimateYourBenefits />
+                <EstimateYourBenefits
+                  gibctEybBottomSheet={gibctEybBottomSheet}
+                />
               ) : (
                 <Calculator />
               )}
@@ -67,10 +71,7 @@ export class InstitutionProfile extends React.Component {
               </AccordionItem>
             )}
             {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
-              <AccordionItem
-                button="School locations"
-                headerClass="school-locations"
-              >
+              <AccordionItem button="School locations">
                 <SchoolLocations
                   institution={profile.attributes}
                   facilityMap={profile.attributes.facilityMap}

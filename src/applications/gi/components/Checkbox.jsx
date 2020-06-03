@@ -5,6 +5,8 @@ import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import { handleScrollOnInputFocus } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 /**
  * A form checkbox with a label that can display error messages.
@@ -28,12 +30,18 @@ class Checkbox extends React.Component {
   }
 
   handleChange(domEvent) {
+    this.handleFocus();
     this.props.onChange(domEvent);
   }
 
   handleFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
+    // prod flag for bah-8821
+    if (environment.isProduction()) {
+      if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
+        e.target.scrollIntoView();
+      }
+    } else {
+      this.props.onFocus(this.inputId);
     }
   };
 
@@ -82,7 +90,6 @@ class Checkbox extends React.Component {
           name={this.props.name}
           type="checkbox"
           onChange={this.handleChange}
-          onFocus={this.handleFocus}
         />
         <label
           className={classNames('gi-checkbox-label', {
@@ -108,6 +115,11 @@ Checkbox.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
+  onFocus: PropTypes.func,
+};
+
+Checkbox.defaultProps = {
+  onFocus: handleScrollOnInputFocus,
 };
 
 export default Checkbox;

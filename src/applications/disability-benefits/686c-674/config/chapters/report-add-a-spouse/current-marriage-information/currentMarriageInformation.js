@@ -36,7 +36,7 @@ export const uiSchema = {
     },
     type: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
-      'ui:title': 'Type of marriage',
+      'ui:title': 'Type of marriage:',
       'ui:widget': 'radio',
     },
     typeOther: {

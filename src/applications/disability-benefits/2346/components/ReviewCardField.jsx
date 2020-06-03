@@ -12,7 +12,6 @@ import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { BLUE_BACKGROUND, WHITE_BACKGROUND } from '../constants';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -361,10 +360,10 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div className="vads-u-width-267px">
+              <div>
                 <button
                   id={this.props.name}
-                  className="vads-u-font-weight--bold"
+                  className="usa-button vads-u-font-weight--bold"
                   onChange={() =>
                     this.onChange('currentAddress', this.props.name)
                   }
@@ -378,13 +377,7 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div
-                className={
-                  this.props.name === this.props.currentAddress
-                    ? BLUE_BACKGROUND
-                    : WHITE_BACKGROUND
-                }
-              >
+              <div className="vads-u-margin-top--2">
                 <input
                   id={this.props.name}
                   type="radio"
@@ -394,7 +387,11 @@ class ReviewCardField extends React.Component {
                   }
                 />
                 <label
-                  className="vads-u-font-weight--bold"
+                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
+                    this.props.name === this.props.currentAddress
+                      ? 'vads-u-color--white'
+                      : 'vads-u-background-color--white vads-u-color--primary'
+                  }`}
                   htmlFor={this.props.name}
                 >
                   Send my order to this address
@@ -504,11 +501,11 @@ class ReviewCardField extends React.Component {
       : this.getReviewView();
 
     return (
-      <>
+      <div className="address-page">
         {this.props.name === 'permanentAddress' ? <>{pageDescription}</> : null}
         {description}
         {viewOrEditCard}
-      </>
+      </div>
     );
   }
 }

@@ -1,4 +1,4 @@
-import { mhvBaseUrl } from '../../site-wide/cta-widget/helpers';
+import { mhvBaseUrl } from '../../site-wide/mhv/utilities';
 import environment from '.';
 
 // This list also exists in script/options.js

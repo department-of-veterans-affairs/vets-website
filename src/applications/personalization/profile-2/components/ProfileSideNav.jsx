@@ -1,21 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-
+import { NavLink } from 'react-router-dom';
 import {
   isEscape,
   isTab,
   isReverseTab,
   getTabbableElements,
 } from 'platform/utilities/accessibility';
-
-import { childRoutes } from '../routes';
-
+import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import { closeSideNav as closeSideNavAction } from '../actions';
 import { selectIsSideNavOpen } from '../selectors';
+import routes from '../routes';
 
-const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
+const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3 }) => {
   const closeButton = useRef(null);
   const lastMenuItem = useRef(null);
 
@@ -85,21 +83,29 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
             closeSideNav(true);
           }}
         />
-        <h2 className="vads-u-font-size--h4">Profile</h2>
+        <h1 className="vads-u-font-size--h4">Your Profile</h1>
         <ul>
-          {Object.values(childRoutes).map((route, i) => (
-            <li key={i}>
-              <Link
-                activeClassName="is-active"
-                to={route.path}
-                onClick={() => {
-                  closeSideNav(false);
-                }}
-              >
-                {route.name}
-              </Link>
-            </li>
-          ))}
+          {routes.map(route => {
+            // Do not render route if it is not isLOA3
+            if (route.requiresLOA3 && !isLOA3) {
+              return null;
+            }
+
+            return (
+              <li key={route.path}>
+                <NavLink
+                  activeClassName="is-active"
+                  exact
+                  to={route.path}
+                  onClick={() => {
+                    closeSideNav(false);
+                  }}
+                >
+                  {route.name}
+                </NavLink>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>
@@ -107,6 +113,7 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen }) => {
 };
 
 const mapStateToProps = state => ({
+  isLOA3: isLOA3Selector(state),
   isSideNavOpen: selectIsSideNavOpen(state),
 });
 
