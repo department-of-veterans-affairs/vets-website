@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import { scroller } from 'react-scroll';
+import classNames from 'classnames';
 
+import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -13,17 +19,11 @@ import {
   handleInputFocusWithPotentialOverLap,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
-import { scroller } from 'react-scroll';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -34,6 +34,7 @@ class EstimateYourBenefitsForm extends React.Component {
       aboutYourSchoolExpanded: false,
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
+      inputUpdated: false,
     };
   }
 
@@ -88,6 +89,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
+      this.setState({ inputUpdated: true });
       this.props.onBeneficiaryZIPCodeChanged(event.value);
       this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
@@ -110,8 +112,14 @@ class EstimateYourBenefitsForm extends React.Component {
         focusElement('input[name=beneficiaryZIPCode]');
       }, 1);
     } else {
+      this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
     }
+  };
+
+  updateEligibility = e => {
+    this.setState({ inputUpdated: true });
+    this.props.eligibilityChange(e);
   };
 
   handleExtensionChange = event => {
@@ -146,12 +154,15 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
   };
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
     const { profile } = this.props;
+
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
     if (value === 'extension' || value === profile.attributes.name) {
@@ -194,6 +205,7 @@ class EstimateYourBenefitsForm extends React.Component {
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
+      this.setState({ inputUpdated: true });
       this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
@@ -926,7 +938,7 @@ class EstimateYourBenefitsForm extends React.Component {
   renderOnlineClasses = () => (
     <OnlineClassesFilter
       onlineClasses={this.props.eligibility.onlineClasses}
-      onChange={this.props.eligibilityChange}
+      onChange={this.updateEligibility}
       showModal={this.props.showModal}
     />
   );
@@ -965,19 +977,25 @@ class EstimateYourBenefitsForm extends React.Component {
       >
         <div>
           <BenefitsForm
-            eligibilityChange={this.props.eligibilityChange}
+            eligibilityChange={this.updateEligibility}
             {...this.props.eligibility}
             hideModal={this.props.hideModal}
             showModal={this.props.showModal}
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
-            onInputChange={this.props.calculatorInputChange}
             handleInputFocus={this.handleEYBInputFocus}
             giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1012,6 +1030,13 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderCalendar()}
           {this.renderEnrolled()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1035,6 +1060,13 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderExtensionBeneficiaryZIP()}
           {this.renderWorking()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1065,6 +1097,13 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderBuyUp()}
           {this.renderScholarships()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1087,12 +1126,6 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderLearningFormat()}
           {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
-        <button
-          className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
-        >
-          Calculate benefits
-        </button>
       </div>
     );
   }
@@ -1109,6 +1142,7 @@ EstimateYourBenefitsForm.propTypes = {
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
   updateEstimatedBenefits: PropTypes.func.isRequired,
+  updateBenefitsButtonEnabled: PropTypes.bool,
 };
 
 export default EstimateYourBenefitsForm;
