@@ -262,7 +262,7 @@
     "ics-js": "^0.10.2",
     "ismobilejs": "^0.4.0",
     "js-cookie": "^2.2.1",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.0",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
     "leaflet-control-geocoder": "^1.5.1",
