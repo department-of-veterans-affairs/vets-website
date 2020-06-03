@@ -18,6 +18,9 @@ function getAllFiles(dirPath, arrayOfFiles = []) {
   return arrayOfFiles;
 }
 
+/**
+ * Writes the array of filenames & hashes to a file
+ */
 function writeArrayToFile(arr, outputFile) {
   const file = fs.createWriteStream(outputFile);
   file.on('error', err => {
@@ -31,8 +34,15 @@ function writeArrayToFile(arr, outputFile) {
   file.end();
 }
 
+/**
+ * Hash all of the build files in the outputDir and create a file
+ * listing the hash for each build file
+ */
 function hashBuildOutput(outputDir, hashFile) {
-  const buildFiles = getAllFiles(outputDir);
+  // Get only the HTML build files
+  const buildFiles = getAllFiles(outputDir).filter(
+    filename => filename.split('.').slice(-1)[0] === 'html',
+  );
 
   const fileHashes = buildFiles.map(filename => {
     const data = fs.readFileSync(filename, { encoding: 'utf8' });
