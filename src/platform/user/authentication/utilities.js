@@ -20,14 +20,14 @@ function sessionTypeUrl(
   version = 'v0',
   application = null,
   to = null,
-  queryParams = null,
+  queryParams = {},
 ) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
 
-  const searchParams = new URLSearchParams(queryParams || {});
+  const searchParams = new URLSearchParams(queryParams);
   if (application) {
     searchParams.append('application', application);
 
