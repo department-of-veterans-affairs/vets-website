@@ -4,25 +4,18 @@ import classnames from 'classnames';
 
 export default function FormQuestion({
   question,
-  questionIndex,
-  questionState,
-  setQuestionState,
   scrollNext,
   recordStart,
   optionsConfig,
+  handleQuestionClick,
 }) {
   function handleClick(event) {
     recordStart(question.id);
-
-    // sets the current question value in question state
-    const newQuestionState = questionState;
-    newQuestionState[questionIndex].value = event.target.value;
-    setQuestionState([...newQuestionState]);
-
+    handleQuestionClick({ event, questionId: question.id });
     scrollNext();
   }
 
-  console.log('question', question);
+  // console.log('question', question);
 
   const options = optionsConfig.map((option, index) => (
     <button

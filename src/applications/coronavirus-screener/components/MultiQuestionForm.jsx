@@ -131,6 +131,16 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
 
   const enabledQuestions = getEnabledQuestions(questionState);
 
+  function handleQuestionClick({ event, questionId }) {
+    // sets the question value in question state
+    const index = questionState.findIndex(
+      question => question.id === questionId,
+    );
+    const newQuestionState = questionState;
+    newQuestionState[index].value = event.target.value;
+    setQuestionState([...newQuestionState]);
+  }
+
   const formQuestions = enabledQuestions.map((question, index) => (
     <div key={`question-${index}`}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
@@ -138,10 +148,8 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
         Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
         <FormQuestion
           question={question}
-          questionIndex={index}
-          questionState={questionState}
-          setQuestionState={setQuestionState}
           recordStart={recordStart}
+          handleQuestionClick={handleQuestionClick}
           scrollNext={() =>
             scrollTo(`multi-question-form-${index + 1}-scroll-element`)
           }
