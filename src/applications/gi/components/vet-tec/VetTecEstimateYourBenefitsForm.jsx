@@ -75,7 +75,6 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       tuitionFees: program.tuitionAmount,
     });
     this.trackChange('Approved Programs Field', event);
-    this.props.calculatorInputChange({ vetTecProgramName });
   };
 
   trackChange = (fieldName, event) => {
