@@ -47,7 +47,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
           <VetTecEstimateYourBenefitsForm
             inputs={inputs}
             displayedInputs={displayed}
-            onShowModal={this.props.showModal}
+            showModal={this.props.showModal}
             institution={this.props.institution}
             selectedProgram={this.props.selectedProgram}
             handleSelectedProgram={this.handleSelectedProgram}

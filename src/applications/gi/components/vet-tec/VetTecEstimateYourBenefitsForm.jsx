@@ -98,7 +98,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       text,
       modal,
       ariaLabel,
-      showModal: this.props.onShowModal,
+      showModal: this.props.showModal,
       component: this,
     });
 
@@ -216,7 +216,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 VetTecEstimateYourBenefitsForm.propTypes = {
   inputs: PropTypes.object,
   displayedInputs: PropTypes.object,
-  onShowModal: PropTypes.func,
+  showModal: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
   calculatorInputChange: PropTypes.func,
