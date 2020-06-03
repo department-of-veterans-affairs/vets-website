@@ -173,7 +173,7 @@ class RoutedSavableReviewPage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {this.props.route.formConfig.finishLaterLinkText}
+          {formConfig.finishLaterLinkText}
         </SaveFormLink>
       </div>
     );
