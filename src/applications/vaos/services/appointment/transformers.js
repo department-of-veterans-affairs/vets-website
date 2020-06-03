@@ -226,6 +226,11 @@ function setParticipant(appt) {
             appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
         },
       },
+      {
+        actor: {
+          reference: `Location/var${appt.sta6aid}`,
+        },
+      },
     ];
   }
 
