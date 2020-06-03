@@ -6,6 +6,7 @@
     "template": {
       "title": "COVID-19 screening tool",
       "layout": "page-react.html",
+      "private": true,
       "vagovprod": true
     }
   },
