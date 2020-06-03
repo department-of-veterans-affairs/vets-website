@@ -54,7 +54,7 @@
   }
 
   .vet-tec-programs-table {
-    @include media-maxwidth($small-screen) {
+    @include media-maxwidth($small-screen - 1) {
       display: none;
     }
 
