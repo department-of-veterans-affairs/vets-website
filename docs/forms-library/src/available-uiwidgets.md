@@ -37,7 +37,7 @@
 ## `TextWidget`
 **`ui:widget` key:** `text`
 
-Display a text box.
+Render an `<input>` element to the DOM.
 
 **Compatible schema types:** `string`, `number`
 
