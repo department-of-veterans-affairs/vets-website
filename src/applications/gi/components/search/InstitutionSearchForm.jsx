@@ -33,7 +33,7 @@ function InstitutionSearchForm(props) {
   return (
     <div className="row">
       <div id="institution-search" className={props.filtersClass}>
-        <div className={'filters-sidebar-inner'}>
+        <div className="filters-sidebar-inner vads-u-margin-left--1p5">
           {props.search.filterOpened && <h1>Filter your search</h1>}
           <h2>Keywords</h2>
           <KeywordSearch
