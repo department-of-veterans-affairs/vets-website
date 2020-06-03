@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup } from 'react-transition-group';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -222,7 +222,7 @@ export const DirectDepositContent = ({
   return (
     <>
       <div id="success" role="alert" aria-atomic="true">
-        <ReactCSSTransitionGroup
+        <TransitionGroup
           transitionName="form-expanding-group-inner"
           transitionAppear
           transitionAppearTimeout={500}
@@ -238,7 +238,7 @@ export const DirectDepositContent = ({
               We’ve saved your direct deposit information.
             </AlertBox>
           )}
-        </ReactCSSTransitionGroup>
+        </TransitionGroup>
       </div>
       <ProfileInfoTable
         title="Bank information"
