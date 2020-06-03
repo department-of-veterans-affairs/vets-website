@@ -30,6 +30,21 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     this.setProgramFields(this.props.selectedProgram);
   }
 
+  disableUpdateBenefits = () => {
+    const {
+      vetTecTuitionFees,
+      vetTecProgramName,
+      vetTecScholarships,
+    } = this.props.inputs;
+
+    const { tuitionFees, programName, scholarships } = this.state;
+    return (
+      vetTecTuitionFees === tuitionFees &&
+      vetTecProgramName === programName &&
+      vetTecScholarships === scholarships
+    );
+  };
+
   getProgramByName = programName =>
     this.props.institution.programs.find(
       p => p.description.toLowerCase() === programName.toLowerCase(),
@@ -59,7 +74,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       programName: vetTecProgramName,
       tuitionFees: program.tuitionAmount,
     });
-
+    this.trackChange('Approved Programs Field', event);
     this.props.calculatorInputChange({ vetTecProgramName });
   };
 
@@ -73,7 +88,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     });
   };
 
-  calculateBenefitsOnClick = event => {
+  updateBenefitsOnClick = event => {
     event.preventDefault();
     this.setProgramFields(this.state.programName);
     focusElement('.estimated-benefits-header');
@@ -153,8 +168,8 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     </div>
   );
 
-  renderApprovedProgramsSelector = institution => {
-    const options = institution.programs.map(program => ({
+  renderApprovedProgramsSelector = () => {
+    const options = this.props.institution.programs.map(program => ({
       value: program.description,
       label: program.description,
     }));
@@ -183,13 +198,14 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     return (
       <div className="calculator-form">
         <p>Use the fields below to update your benefits.</p>
-        {this.renderApprovedProgramsSelector(this.props.institution)}
+        {this.renderApprovedProgramsSelector()}
         {this.renderTuitionFees()}
         {this.renderScholarships()}
         <button
           type="button"
           className="vads-u-margin-top--2p5"
-          onClick={this.calculateBenefitsOnClick}
+          onClick={this.updateBenefitsOnClick}
+          disabled={this.disableUpdateBenefits()}
         >
           Update benefits
         </button>
