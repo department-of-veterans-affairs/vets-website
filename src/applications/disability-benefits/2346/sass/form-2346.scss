@@ -28,8 +28,19 @@
       }
     }
 }
+
+.address-page, .battery-page, .accessory-page {
+  [type=checkbox], [type=radio] {
+    width: inherit;
+  }
+}
+
+.vads-u-width-293 {
+  width: 293px;
+}
+
 .confirmation-page > .usa-alert-success::before {
-    color: $color-black;
+  color: $color-black;
 }
 
 dt {

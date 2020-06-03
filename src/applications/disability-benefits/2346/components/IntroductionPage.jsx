@@ -21,7 +21,7 @@ class IntroductionPage extends Component {
       <>
         {' '}
         <FormTitle title="Order hearing aid batteries and accessories" />
-        <p>Equal to VA Form 2346 (Request for Batteries and Accessories).</p>
+        <p>Equal to VA Form 2346A (Request for Batteries and Accessories).</p>
         {pending && (
           <LoadingIndicator setFocus message="Loading your information..." />
         )}
@@ -49,7 +49,7 @@ class IntroductionPage extends Component {
               batteries and accessories.
             </SaveInProgressIntro>
             <h2
-              className="vads-u-font-size--h4"
+              className="vads-u-font-size--h3"
               itemProp="name"
               id="am-i-eligible-to-order-prosthe"
             >
@@ -119,7 +119,9 @@ class IntroductionPage extends Component {
                     You should receive your order within the timeframe indicated
                     by the order tracking number.
                   </p>
-                  <h4>What if I have questions about my order?</h4>
+                  <p className="vads-u-font-weight--bold">
+                    What if I have questions about my order?
+                  </p>
                   <p>
                     If you have questions about your order, you can call the DLC
                     Customer Service Section at{' '}

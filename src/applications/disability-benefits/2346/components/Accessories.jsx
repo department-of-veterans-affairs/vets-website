@@ -70,7 +70,7 @@ class Accessories extends Component {
             </p>
             <p>
               If you need unavailable items sooner, call the DLC Customer
-              Service Station at{' '}
+              Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
                 303-273-6200
               </a>{' '}
@@ -96,7 +96,7 @@ class Accessories extends Component {
                     </p>
                     <p>
                       If you need unavailable batteries sooner, call the DLC
-                      Customer Service Station at{' '}
+                      Customer Service Section at{' '}
                       <a
                         aria-label="3 0 3. 2 7 3. 6 2 0 0."
                         href="tel:303-273-6200"
@@ -130,7 +130,7 @@ class Accessories extends Component {
                   <p>
                     If you need accessories like domes, wax guards, cleaning
                     supplies, or dessicant, call the DLC Customer Service
-                    Station at{' '}
+                    Section at{' '}
                     <a
                       aria-label="3 0 3. 2 7 3. 6 2 0 0."
                       href="tel:303-273-6200"
@@ -151,7 +151,14 @@ class Accessories extends Component {
           accessorySupplies.map(accessorySupply => (
             <div
               key={accessorySupply.productId}
-              className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 accessory-page"
+              className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 accessory-page ${
+                selectedProducts.find(
+                  selectedProduct =>
+                    selectedProduct.productId === accessorySupply.productId,
+                )
+                  ? 'vads-u-border-color--primary vads-u-border--3px'
+                  : ''
+              }`}
             >
               <h4 className="vads-u-font-size--md vads-u-margin-top--0">
                 {accessorySupply.productName}
@@ -180,9 +187,10 @@ class Accessories extends Component {
                   status="warning"
                 />
               ) : (
-                <div>
+                <div className="vads-u-width-293">
                   <input
                     id={accessorySupply.productId}
+                    className="vads-u-margin-left--0"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)

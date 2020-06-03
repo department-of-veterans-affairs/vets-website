@@ -61,10 +61,13 @@ const asyncReturn = (returnValue, error, delay = 300) =>
     }, delay);
   });
 
-const submit = form => {
+const submit = (form, formConfig) => {
   const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
   const selectedAddress = form.data?.currentAddress;
+  /* eslint-disable no-param-reassign */
+  formConfig.subTitle = '';
+  /* eslint-enable no-param-reassign */
   let shippingAddress;
   if (selectedAddress === 'permanentAddress') {
     shippingAddress = form.data?.permanentAddress;
@@ -100,6 +103,7 @@ const submit = form => {
       attributes: { confirmationNumber: '123123123' },
       submissionData,
       shippingAddress,
+      // updatedFormSubtitle,
     },
     'this is an error message',
   )
@@ -122,7 +126,7 @@ const formConfig = {
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
   finishLaterLinkText: 'Finish this order later.',
-  subTitle: 'VA Form 2346',
+  subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound:
       'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',

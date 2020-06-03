@@ -161,7 +161,14 @@ class Batteries extends Component {
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
-              className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+              className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 ${
+                selectedProducts.find(
+                  selectedProduct =>
+                    selectedProduct.productId === batterySupply.productId,
+                )
+                  ? 'vads-u-border-color--primary vads-u-border--3px'
+                  : ''
+              }`}
             >
               <h4 className="vads-u-margin-top--0">
                 {batterySupply.deviceName}
@@ -198,9 +205,10 @@ class Batteries extends Component {
                   status="warning"
                 />
               ) : (
-                <div>
+                <div className="vads-u-width-293">
                   <input
                     name={batterySupply.productId}
+                    className="vads-u-margin-left--0"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, batterySupply)

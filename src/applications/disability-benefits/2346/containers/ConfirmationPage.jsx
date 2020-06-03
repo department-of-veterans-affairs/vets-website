@@ -13,6 +13,7 @@ const ConfirmationPage = ({
   shippingAddress,
 }) => (
   <div className="confirmation-page">
+    <p>Equal to VA Form 2346A (Request for Batteries and Accessories).</p>
     <p className="vads-u-font-weight--bold">
       Please print this page for your records.
     </p>

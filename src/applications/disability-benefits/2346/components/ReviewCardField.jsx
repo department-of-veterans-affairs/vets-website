@@ -276,13 +276,12 @@ class ReviewCardField extends React.Component {
 
     const headerClasses = [
       'review-card--header',
-      'vads-u-background-color--gray-lightest',
-      'vads-u-padding-top--0',
-      'vads-u-padding-x--1',
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
-      'vads-u-padding--2',
+      'vads-u-padding-top--3',
+      'vads-u-padding-x--3',
+      'vads-u-padding-bottom--2',
     ].join(' ');
     const titleClasses = [
       'review-card--title',
@@ -292,14 +291,11 @@ class ReviewCardField extends React.Component {
     const bodyClasses = [
       'review-card--body',
       'vads-u-border-color--gray-lightest',
-      'vads-u-background-color--gray-lightest',
       'vads-u-border--2px',
       /* Remove the top border because it looks like it just extends the header */
-      'vads-u-border-top--0',
-      'vads-u-padding-x--2',
-      'vads-u-padding-bottom--2',
-      'vads-u-padding-top--0',
+      'vads-u-padding-x--3',
       'vads-u-margin-bottom--1',
+      'vads-u-padding-bottom--3',
     ].join(' ');
     const editLink = [
       'vads-c-link',
@@ -323,8 +319,15 @@ class ReviewCardField extends React.Component {
     const isTempAddressMissing = Object.values(temporaryAddress).every(
       prop => !prop,
     );
+
     return (
-      <div className="review-card">
+      <div
+        className={`review-card vads-u-margin-bottom--2 vads-u-background-color--gray-lightest ${
+          this.props.name === this.props.currentAddress
+            ? 'vads-u-border-color--primary vads-u-border--3px'
+            : ''
+        }`}
+      >
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
           <h4 className={titleClasses}>{title}</h4>
         </div>
@@ -377,9 +380,10 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div className="vads-u-margin-top--2">
+              <div className="vads-u-margin-top--2 vads-u-width-293">
                 <input
                   id={this.props.name}
+                  className="vads-u-margin-left--0"
                   type="radio"
                   checked={this.props.currentAddress === this.props.name}
                   onChange={() =>
@@ -387,7 +391,7 @@ class ReviewCardField extends React.Component {
                   }
                 />
                 <label
-                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
+                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 ${
                     this.props.name === this.props.currentAddress
                       ? 'vads-u-color--white'
                       : 'vads-u-background-color--white vads-u-color--primary'
