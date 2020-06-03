@@ -131,7 +131,8 @@ jobs:
       - save_cache:
           key: yarn-packages-e2e-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache
+            - ~/.cache/yarn
+            - ~/.cache/Cypress
       - run:
           name: Install Sibling Repositories
           command: yarn install-repos
