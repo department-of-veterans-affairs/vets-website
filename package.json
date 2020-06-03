@@ -296,7 +296,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.4",
+    "reselect": "^4.0.0",
     "sanitize-html": "^1.20.1",
     "syswide-cas": "^5.3.0",
     "tar-fs": "^2.0.1",
