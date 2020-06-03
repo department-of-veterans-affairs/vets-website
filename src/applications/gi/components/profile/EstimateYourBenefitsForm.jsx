@@ -301,6 +301,8 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           type="text"
+          inputMode="decimal"
+          pattern="[0-9]*"
           name={inStateTuitionFeesId}
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
@@ -323,6 +325,8 @@ class EstimateYourBenefitsForm extends React.Component {
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
         })}
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={tuitionFeesId}
           id={tuitionFeesId}
@@ -470,7 +474,9 @@ class EstimateYourBenefitsForm extends React.Component {
           })}
         </label>
         <input
+          inputMode="decimal"
           type="text"
+          pattern="[0-9]*"
           name={scholarshipsId}
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
