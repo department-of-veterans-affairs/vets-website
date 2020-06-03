@@ -86,6 +86,14 @@
         border-left: 0;
       }
     }
+
+    .program-description {
+      margin-top: 1.0rem;
+      margin-bottom: 1.0rem;
+      label {
+        margin-left: 1.7rem;
+      }
+    }
   }
 
   .vet-tec-programs-list {
@@ -95,11 +103,5 @@
   }
 
 
-  .program-description {
-    margin-top: 1.0rem;
-    margin-bottom: 1.0rem;
-    label {
-      margin-left: 1.7rem;
-    }
-  }
+
 }

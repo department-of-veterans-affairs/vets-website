@@ -56,22 +56,29 @@ function VetTecApprovedProgramsList({
         'vads-u-font-weight--bold': selected,
       });
       return (
-        <li key={`${index}-list`}>
+        <div key={`${index}-list`}>
+          {index > 0 && <hr aria-hidden="true" />}
           <div className={programDescriptionClassNames}>
             {program.description}
             {selected ? <b> (Your selected program)</b> : null}
           </div>
-          <div id="program-length">{programLength(program)}</div>
-          <div className="vads-u-padding-y--0">{tuition}</div>
-        </li>
+          <div id="program-length">
+            <b>Length: </b>
+            {programLength(program)}
+          </div>
+          <div>
+            <b>Tuition and fees: </b>
+            {tuition(program)}
+          </div>
+        </div>
       );
     });
 
     return (
       <div className="vads-u-margin-top--2">
         <span>The following training programs are approved for VET TEC:</span>
-        <div className="vet-tec-programs-list">
-          <ul>{programList}</ul>
+        <div className="vet-tec-programs-list vads-u-margin-top--4">
+          {programList}
         </div>
         <table className="vet-tec-programs-table">
           <colgroup>
@@ -90,6 +97,9 @@ function VetTecApprovedProgramsList({
           </thead>
           <tbody>{programRows}</tbody>
         </table>
+        <div className="vads-u-margin-top--4 vads-u-font-style--italic">
+          Showing {programs.length} of {programs.length} programs
+        </div>
       </div>
     );
   }
