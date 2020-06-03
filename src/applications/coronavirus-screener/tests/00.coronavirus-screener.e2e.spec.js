@@ -87,6 +87,7 @@ module.exports = E2eHelpers.createE2eTest(browser => {
 });
 
 // disable E2E test in CI if app is not in prod
+// TODO: update per result of https://github.com/department-of-veterans-affairs/generator-vets-website/pull/27
 module.exports['@disabled'] =
-  !registry.find(entry => entry.entryName === manifest.entryName) &&
-  __BUILDTYPE__ !== 'production';
+  registry.find(entry => entry.entryName === manifest.entryName).template
+    .vagovprod !== true && __BUILDTYPE__ !== 'production';
