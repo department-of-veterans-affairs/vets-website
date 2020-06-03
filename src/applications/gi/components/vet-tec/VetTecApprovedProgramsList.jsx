@@ -39,7 +39,7 @@ class VetTecApprovedProgramsList extends React.Component {
               </div>
             </div>
           </th>
-          <td id="program-length" className="vads-u-padding-y--0">
+          <td className="program-length vads-u-padding-y--0">
             {this.programLength(program)}
           </td>
           <td className="vads-u-padding-y--0">
@@ -66,7 +66,7 @@ class VetTecApprovedProgramsList extends React.Component {
             {program.description}
             {selected ? <b> (Your selected program)</b> : null}
           </div>
-          <div id="program-length">
+          <div className="program-length">
             <b>Length: </b>
             {this.programLength(program)}
           </div>

@@ -48,10 +48,10 @@ describe('<VetTecApprovedProgramsList>', () => {
     };
     const wrapper = mount(<VetTecApprovedProgramsList {...props} />);
     expect(
-      wrapper.find('.vet-tec-programs-table #program-length').length,
+      wrapper.find('.vet-tec-programs-table .program-length').length,
     ).to.eq(1);
     expect(
-      wrapper.find('.vet-tec-programs-table #program-length').text(),
+      wrapper.find('.vet-tec-programs-table .program-length').text(),
     ).to.eq('TBD');
     wrapper.unmount();
   });
