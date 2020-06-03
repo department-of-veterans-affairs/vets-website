@@ -65,9 +65,6 @@ const submit = (form, formConfig) => {
   const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
   const selectedAddress = form.data?.currentAddress;
-  /* eslint-disable no-param-reassign */
-  formConfig.subTitle = '';
-  /* eslint-enable no-param-reassign */
   let shippingAddress;
   if (selectedAddress === 'permanentAddress') {
     shippingAddress = form.data?.permanentAddress;
