@@ -147,7 +147,7 @@ export class Modals extends React.Component {
           providers in three installments based on the progress and success of
           their Veteran students.
         </p>
-        <p>
+        <div>
           Training providers receive:
           <ul>
             <li>
@@ -162,7 +162,7 @@ export class Modals extends React.Component {
               employment in their field of study
             </li>
           </ul>
-        </p>
+        </div>
       </Modal>
       <Modal
         onClose={this.props.hideModal}
