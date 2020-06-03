@@ -52,6 +52,7 @@ const uiSchema = {
 - `formContext`: `object`
   - Contains information about the page
   - **TODO:** Document this in a separate place and link to it here
+    - It's originally set in `SchemaForm#getEmptyState`
 - `formData`: `object`
   - The user data gathered by the form
 - `options`: `object`
