@@ -42,6 +42,12 @@ class Batteries extends Component {
       batterySupplies.every(
         battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
       );
+    const haveBatteriesBeenOrderedInLastTwoYears =
+      batterySupplies.length > 0 &&
+      batterySupplies.every(
+        battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
+      );
+
     if (!areBatterySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -115,6 +121,7 @@ class Batteries extends Component {
             </>
           )}
         {!haveBatteriesBeenOrderedInLastFiveMonths &&
+          !haveBatteriesBeenOrderedInLastTwoYears &&
           !areBatterySuppliesEligible && (
             <AlertBox
               headline="Your batteries aren't available for online ordering"
@@ -150,6 +157,7 @@ class Batteries extends Component {
             />
           )}
         {batterySupplies.length > 0 &&
+          haveBatteriesBeenOrderedInLastTwoYears &&
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
