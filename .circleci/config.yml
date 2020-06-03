@@ -48,16 +48,26 @@ jobs:
           path: ./test-results
 
   e2e-test:
+    working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
     parallelism: 2
-    environment:
     steps:
+      - checkout
       - attach_workspace:
-          at: /root
+          at: ~/
+      - restore_cache:
+          keys:
+            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
+      - run:
+          name: Installed Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+      - run:
+          name: Make Test Results Folder
+          command: mkdir -p ./test-results
       - run:
           name: Run Cypress Tests
-          command: ./script/run-cypress-tests-circle.sh
+          command: yarn cy:test:circle
       - store_test_results:
           path: ./test-results
       - store_artifacts:
@@ -107,28 +117,35 @@ jobs:
       - run: yarn build:webpack
 
   build-e2e:
+    working_directory: ~/vets-website
     docker:
       - image: cypress/base:10.15.3
     steps:
       - checkout
       - restore_cache:
           keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
       - run:
-          command: yarn install --frozen-lockfile
+          name: Install Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
+          key: yarn-packages-e2e-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: mkdir -p ./test-results
-      - run: yarn install-repos
-      - run: yarn fetch-drupal-cache
-      - run: yarn build
+            - ~/.cache/Cypress
+      - run:
+          name: Install Sibling Repositories
+          command: yarn install-repos
+      - run:
+          name: Fetch the Latest Drupal Content
+          command: yarn fetch-drupal-cache
+      - run:
+          name: Build vets-website
+          command: yarn build
       - persist_to_workspace:
-          root: /root
+          root: ~/
           paths:
-            - project
-            - .cache/Cypress
+            - vets-website/build
 
   eslint-check:
     docker:
