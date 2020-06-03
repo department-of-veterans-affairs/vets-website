@@ -33,7 +33,7 @@ export class ConnectedApp extends Component {
 
     return (
       <div
-        className="border-box vads-u-display--flex vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lightest vads-u-border--2px
+        className="border-box vads-u-display--flex vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
         vads-u-margin-y--2"
       >
         <img

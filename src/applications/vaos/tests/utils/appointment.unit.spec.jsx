@@ -639,8 +639,8 @@ describe('VAOS appointment helpers', () => {
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
       const confirmed = [
-        { appointmentDate: moment('2099-04-30T05:35:00'), facilityId: '984' },
-        { appointmentDate: moment('2099-04-27T05:35:00'), facilityId: '983' },
+        { start: moment('2099-04-30T05:35:00'), facilityId: '984' },
+        { start: moment('2099-04-27T05:35:00'), facilityId: '983' },
       ];
 
       const sorted = confirmed.sort(sortFutureConfirmedAppointments);

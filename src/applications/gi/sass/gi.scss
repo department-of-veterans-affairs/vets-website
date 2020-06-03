@@ -86,6 +86,9 @@
   h1:focus {
     outline: none;
   }
+  nav {
+    margin-left: 0.5rem;
+  }
 }
 @media (max-width: 481px) {
   .about-this-tool-mobile {
@@ -120,8 +123,12 @@
   padding-left: .50rem;
 }
 
-.form-expanding-group-open {
-  border-left: none;
+.program-description {
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+  label {
+    margin-left: 1.7rem;
+  }
 }
 
 .gids-radio-buttons-input {

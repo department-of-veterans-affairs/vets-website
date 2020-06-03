@@ -1,4 +1,5 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
@@ -106,7 +107,8 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  footerContent: FooterInfo,
+  footerContent: FormFooter,
+  getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
