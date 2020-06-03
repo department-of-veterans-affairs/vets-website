@@ -61,7 +61,7 @@ const VetTecInstitutionProfile = ({
         {gibctEstimateYourBenefits ? (
           <AccordionItem button="Approved programs">
             <VetTecApprovedProgramsList
-              institution={institution}
+              programs={institution.programs}
               selectedProgram={program}
             />
           </AccordionItem>

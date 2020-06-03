@@ -19,10 +19,7 @@ class VetTecApprovedProgramsList extends React.Component {
     program.description.toLowerCase() === selectedProgram.toLowerCase();
 
   programRows = () => {
-    const {
-      selectedProgram,
-      institution: { programs },
-    } = this.props;
+    const { selectedProgram, programs } = this.props;
 
     return programs.map((program, index) => {
       const selected = this.isProgramSelected(program, selectedProgram);
@@ -54,10 +51,7 @@ class VetTecApprovedProgramsList extends React.Component {
   };
 
   programList = () => {
-    const {
-      selectedProgram,
-      institution: { programs },
-    } = this.props;
+    const { selectedProgram, programs } = this.props;
 
     return programs.map((program, index) => {
       const selected = this.isProgramSelected(program, selectedProgram);
@@ -86,9 +80,7 @@ class VetTecApprovedProgramsList extends React.Component {
   };
 
   render() {
-    const {
-      institution: { programs },
-    } = this.props;
+    const { programs } = this.props;
 
     if (programs && programs.length) {
       return (
@@ -140,7 +132,7 @@ class VetTecApprovedProgramsList extends React.Component {
 }
 
 VetTecApprovedProgramsList.propTypes = {
-  institution: PropTypes.object,
+  programs: PropTypes.arrayOf(PropTypes.object),
   selectedProgram: PropTypes.string,
 };
 
