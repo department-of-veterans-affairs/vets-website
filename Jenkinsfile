@@ -76,6 +76,7 @@ node('vetsgov-general-purpose') {
               commonStages.puppeteerNotification()
               throw error
             }
+            sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run cy:run"
           },
 
           accessibility: {

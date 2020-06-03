@@ -13,6 +13,7 @@
     "cy:run-record": "cypress run --record --group 2x-electron --parallel",
     "cy:start-and-test": "start-server-and-test watch http://localhost:3001 cy:run-record",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
+    "cy:run": "cypress run",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
