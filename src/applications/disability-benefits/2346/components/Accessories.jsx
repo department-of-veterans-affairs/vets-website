@@ -48,7 +48,7 @@ class Accessories extends Component {
     const accessorySupplyAvailabilityDates = accessorySupplies.map(
       accessorySupply => accessorySupply.nextAvailabilityDate,
     );
-    const earliestAvailabilityDate = accessorySupplyAvailabilityDates.sort()[0];
+    const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
     if (!areAccessorySuppliesEligible) {
       recordEvent({
@@ -89,8 +89,10 @@ class Accessories extends Component {
                     <p>
                       Our records show that your accessories aren't available
                       for reorder until{' '}
-                      {moment(earliestAvailabilityDate).format('MMMM D, YYYY')}.
-                      You can only order items once every 5 months.
+                      {moment(earliestAvailableDateForReordering).format(
+                        'MMMM D, YYYY',
+                      )}
+                      . You can only order items once every 5 months.
                     </p>
                     <p>
                       If you need unavailable batteries sooner, call the DLC
