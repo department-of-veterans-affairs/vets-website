@@ -58,7 +58,7 @@ jobs:
           at: ~/
       - restore_cache:
           keys:
-            - yarn-packages-cypress-{{ checksum "yarn.lock" }}
+            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
       - run:
           name: Installed Dependencies
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
@@ -124,12 +124,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-packages-cypress-{{ checksum "yarn.lock" }}
+            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - save_cache:
-          key: yarn-packages-cypress-{{ checksum "yarn.lock" }}
+          key: yarn-packages-e2e-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - run:
