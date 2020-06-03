@@ -338,7 +338,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Edit ${title.toLowerCase()}`}
               >
                 Edit {title.toLowerCase()}
               </a>
@@ -351,7 +350,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Add a ${title.toLowerCase()}`}
               >
                 Add a {title.toLowerCase()}
               </a>
@@ -404,7 +402,6 @@ class ReviewCardField extends React.Component {
             className={`usa-button-primary ${editButton}`}
             style={{ minWidth: '8rem' }}
             onClick={this.startEditing}
-            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
             {itemNameAction || 'New'} {itemName || title}
           </button>
