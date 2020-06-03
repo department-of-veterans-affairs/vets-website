@@ -256,7 +256,7 @@
     "express": "^4.14.0",
     "express-http-proxy": "^1.5.1",
     "fast-levenshtein": "^2.0.6",
-    "fine-uploader": "^5.11.8",
+    "fine-uploader": "^5.16.2",
     "foundation-sites": "^5.5.3",
     "history": "3",
     "ics-js": "^0.10.2",

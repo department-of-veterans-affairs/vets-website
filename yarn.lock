@@ -6741,9 +6741,10 @@ findup-sync@3.0.0:
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
 
-fine-uploader@^5.11.8:
-  version "5.14.2"
-  resolved "https://registry.yarnpkg.com/fine-uploader/-/fine-uploader-5.14.2.tgz#2bd3a6fd9ce2c086e968caf093fc4f4064740e16"
+fine-uploader@^5.16.2:
+  version "5.16.2"
+  resolved "https://registry.yarnpkg.com/fine-uploader/-/fine-uploader-5.16.2.tgz#0d878da1cd2753f80683ac091df5daff9ffb8c44"
+  integrity sha1-DYeNoc0nU/gGg6wJHfXa/5/7jEQ=
 
 first-chunk-stream@^2.0.0:
   version "2.0.0"
