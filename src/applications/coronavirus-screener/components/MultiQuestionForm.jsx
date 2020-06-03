@@ -37,7 +37,7 @@ function checkFormResult(questionState) {
   return getEnabledQuestions(questionState)
     .map(question => {
       const passValues = question.passValues ?? ['no'];
-      return passValues.contains(question.value);
+      return passValues.includes(question.value);
     })
     .includes(false)
     ? 'fail'
