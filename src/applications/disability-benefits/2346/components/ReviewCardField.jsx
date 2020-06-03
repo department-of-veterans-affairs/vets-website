@@ -12,7 +12,6 @@ import set from 'platform/utilities/data/set';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { BLUE_BACKGROUND, WHITE_BACKGROUND } from '../constants';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -220,7 +219,7 @@ class ReviewCardField extends React.Component {
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          {needsDlWrapper ? <div className="review">{Field}</div> : Field}
+          {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
@@ -339,7 +338,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Edit ${title.toLowerCase()}`}
               >
                 Edit {title.toLowerCase()}
               </a>
@@ -352,7 +350,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Add a ${title.toLowerCase()}`}
               >
                 Add a {title.toLowerCase()}
               </a>
@@ -361,10 +358,10 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div className="vads-u-width-267px">
+              <div>
                 <button
                   id={this.props.name}
-                  className="vads-u-font-weight--bold"
+                  className="usa-button vads-u-font-weight--bold"
                   onChange={() =>
                     this.onChange('currentAddress', this.props.name)
                   }
@@ -378,13 +375,7 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div
-                className={
-                  this.props.name === this.props.currentAddress
-                    ? BLUE_BACKGROUND
-                    : WHITE_BACKGROUND
-                }
-              >
+              <div className="vads-u-margin-top--2">
                 <input
                   id={this.props.name}
                   type="radio"
@@ -394,7 +385,11 @@ class ReviewCardField extends React.Component {
                   }
                 />
                 <label
-                  className="vads-u-font-weight--bold"
+                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
+                    this.props.name === this.props.currentAddress
+                      ? 'vads-u-color--white'
+                      : 'vads-u-background-color--white vads-u-color--primary'
+                  }`}
                   htmlFor={this.props.name}
                 >
                   Send my order to this address
@@ -407,7 +402,6 @@ class ReviewCardField extends React.Component {
             className={`usa-button-primary ${editButton}`}
             style={{ minWidth: '8rem' }}
             onClick={this.startEditing}
-            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
             {itemNameAction || 'New'} {itemName || title}
           </button>
@@ -492,10 +486,12 @@ class ReviewCardField extends React.Component {
   render() {
     const pageDescription = (
       <>
-        <p className="vads-u-margin-top--2">
-          We'll ship your order to the address below. Orders typically arrive
-          within 7 to 10 business days.
-        </p>
+        <dd className="vads-u-margin-top--2">
+          <p>
+            We'll ship your order to the address below. Orders typically arrive
+            within 7 to 10 business days.
+          </p>
+        </dd>
       </>
     );
     const description = this.getDescription();
@@ -504,11 +500,11 @@ class ReviewCardField extends React.Component {
       : this.getReviewView();
 
     return (
-      <>
+      <div className="address-page">
         {this.props.name === 'permanentAddress' ? <>{pageDescription}</> : null}
         {description}
         {viewOrEditCard}
-      </>
+      </div>
     );
   }
 }

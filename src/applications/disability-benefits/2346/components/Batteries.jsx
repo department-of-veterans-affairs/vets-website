@@ -6,11 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  BLUE_BACKGROUND,
-  HEARING_AID_BATTERIES,
-  WHITE_BACKGROUND,
-} from '../constants';
+import { HEARING_AID_BATTERIES } from '../constants';
 
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
@@ -46,6 +42,12 @@ class Batteries extends Component {
       batterySupplies.every(
         battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
       );
+    const haveBatteriesBeenOrderedInLastTwoYears =
+      batterySupplies.length > 0 &&
+      batterySupplies.every(
+        battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
+      );
+
     if (!areBatterySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -54,7 +56,7 @@ class Batteries extends Component {
     }
 
     return (
-      <>
+      <div className="battery-page">
         {areBatterySuppliesEligible && (
           <>
             <h3 className="vads-u-font-size--h4">
@@ -119,6 +121,7 @@ class Batteries extends Component {
             </>
           )}
         {!haveBatteriesBeenOrderedInLastFiveMonths &&
+          !haveBatteriesBeenOrderedInLastTwoYears &&
           !areBatterySuppliesEligible && (
             <AlertBox
               headline="Your batteries aren't available for online ordering"
@@ -154,6 +157,7 @@ class Batteries extends Component {
             />
           )}
         {batterySupplies.length > 0 &&
+          haveBatteriesBeenOrderedInLastTwoYears &&
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
@@ -194,16 +198,7 @@ class Batteries extends Component {
                   status="warning"
                 />
               ) : (
-                <div
-                  className={
-                    selectedProducts.find(
-                      selectedProduct =>
-                        selectedProduct.productId === batterySupply.productId,
-                    )
-                      ? BLUE_BACKGROUND
-                      : WHITE_BACKGROUND
-                  }
-                >
+                <div>
                   <input
                     name={batterySupply.productId}
                     type="checkbox"
@@ -217,7 +212,17 @@ class Batteries extends Component {
                       )
                     }
                   />
-                  <label htmlFor={batterySupply.productId} className="main">
+                  <label
+                    className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
+                      selectedProducts.find(
+                        selectedProduct =>
+                          selectedProduct.productId === batterySupply.productId,
+                      )
+                        ? 'vads-u-color--white'
+                        : 'vads-u-background-color--white vads-u-color--primary'
+                    }`}
+                    htmlFor={batterySupply.productId}
+                  >
                     Order batteries for this device
                   </label>
                 </div>
@@ -239,7 +244,7 @@ class Batteries extends Component {
             </a>
           </AdditionalInfo>
         )}
-      </>
+      </div>
     );
   }
 }

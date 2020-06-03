@@ -660,6 +660,14 @@ describe('VAOS appointment helpers', () => {
             .format('MM/DD/YYYY'),
         },
         {
+          status: 'Cancelled',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .subtract(2, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
           status: 'Submitted',
           appointmentType: 'Primary Care',
           optionDate1: now
@@ -704,7 +712,15 @@ describe('VAOS appointment helpers', () => {
       ];
 
       const filteredRequests = requests.filter(r => filterRequests(r, now));
-      expect(filteredRequests.length).to.equal(3);
+      expect(
+        filteredRequests.filter(req => req.status === 'Cancelled').length,
+      ).to.equal(1);
+      expect(
+        filteredRequests.filter(req => req.status === 'Submitted').length,
+      ).to.equal(4);
+      expect(
+        filteredRequests.filter(req => req.status === 'Booked').length,
+      ).to.equal(0);
     });
   });
 
