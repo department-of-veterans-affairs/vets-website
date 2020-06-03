@@ -47,6 +47,7 @@ class Batteries extends Component {
       batterySupplies.every(
         battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
       );
+
     if (!areBatterySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -76,8 +77,7 @@ class Batteries extends Component {
             </p>
           </>
         )}
-        {!haveBatteriesBeenOrderedInLastFiveMonths &&
-          haveBatteriesBeenOrderedInLastTwoYears &&
+        {haveBatteriesBeenOrderedInLastFiveMonths &&
           !areBatterySuppliesEligible && (
             <>
               <AlertBox
