@@ -7,11 +7,11 @@ export default function FormQuestion({
   scrollNext,
   recordStart,
   optionsConfig,
-  handleQuestionClick,
+  setQuestionValue,
 }) {
   function handleClick(event) {
     recordStart(question.id);
-    handleQuestionClick({ event, questionId: question.id });
+    setQuestionValue({ event, questionId: question.id });
     scrollNext();
   }
 

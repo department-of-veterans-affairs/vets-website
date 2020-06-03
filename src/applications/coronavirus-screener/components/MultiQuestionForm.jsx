@@ -131,7 +131,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
 
   const enabledQuestions = getEnabledQuestions(questionState);
 
-  function handleQuestionClick({ event, questionId }) {
+  function setQuestionValue({ event, questionId }) {
     // sets the question value in question state
     const index = questionState.findIndex(
       question => question.id === questionId,
@@ -149,7 +149,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
         <FormQuestion
           question={question}
           recordStart={recordStart}
-          handleQuestionClick={handleQuestionClick}
+          setQuestionValue={setQuestionValue}
           scrollNext={() =>
             scrollTo(`multi-question-form-${index + 1}-scroll-element`)
           }
