@@ -11,9 +11,8 @@ import {
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import { closeSideNav as closeSideNavAction } from '../actions';
 import { selectIsSideNavOpen } from '../selectors';
-import routes from '../routes';
 
-const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3 }) => {
+const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3, routes }) => {
   const closeButton = useRef(null);
   const lastMenuItem = useRef(null);
 
