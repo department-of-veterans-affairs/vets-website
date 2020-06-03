@@ -25,7 +25,7 @@ export const contactInfoDescription = ({ formData }) => {
     stateOrProvinceCode = '',
     zipPostalCode,
     countryCode = 'USA',
-  } = formData;
+  } = formData.veteran;
 
   let postalString = zipPostalCode || '';
   if (countryCode === 'USA' && zipPostalCode) {
