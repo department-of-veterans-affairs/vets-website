@@ -46,6 +46,7 @@ src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-fronte
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
+src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 
 # Booz Allen Team
 src/applications/static-pages/school-resources @department-of-veterans-affairs/bah-code-reviewers

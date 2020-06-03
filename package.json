@@ -22,7 +22,7 @@
     "lint:js:fix": "eslint --fix --quiet --ext .js --ext .jsx .",
     "lint:js:changed": "LIST=`git diff-index --name-only --cached HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:js:changed:fix": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
-    "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
+    "lint:sass": "sass-lint --verbose",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "new:app": "yo @department-of-veterans-affairs/vets-website",
     "new:cms-content-model": "yo ./src/site/stages/build/process-cms-exports/generator-cms-content-model/generators/app/index.js",
@@ -89,6 +89,7 @@
       "**/*.spec.jsx"
     ]
   },
+  "sasslintConfig": "config/sass-lint.yml",
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "browserslist": [
     "Chrome 60",
@@ -115,7 +116,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/register": "^7.9.0",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.3.1",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.3.5",
     "@octokit/rest": "^16.43.1",
     "@sentry/browser": "^5.4.0",
     "ajv": "^6.10.2",
@@ -239,7 +240,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "6.9.2",
-    "@department-of-veterans-affairs/formation-react": "5.2.6",
+    "@department-of-veterans-affairs/formation-react": "5.3.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.9.0",
