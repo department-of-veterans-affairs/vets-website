@@ -151,7 +151,7 @@ class Accessories extends Component {
           accessorySupplies.map(accessorySupply => (
             <div
               key={accessorySupply.productId}
-              className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 accessory-page ${
+              className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 ${
                 selectedProducts.find(
                   selectedProduct =>
                     selectedProduct.productId === accessorySupply.productId,
