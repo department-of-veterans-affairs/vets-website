@@ -5,8 +5,8 @@ import manifest from './manifest.json';
 
 // Base URL to be used in API requests.
 export const api = {
-  baseUrl: `${environment.API_URL}/v0/facilities`,
-  url: `${environment.API_URL}/v0/facilities/va`,
+  baseUrl: `${environment.API_URL}/v1/facilities`,
+  url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
   settings: {
     credentials: 'include',
