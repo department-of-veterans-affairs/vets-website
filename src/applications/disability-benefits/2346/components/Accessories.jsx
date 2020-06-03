@@ -56,23 +56,6 @@ class Accessories extends Component {
         'error-key': 'accessories_bam-ineligibility-no-prescription',
       });
     }
-
-    const noAccessoriesContent = (
-      <>
-        <p>
-          You can only order accessories online that you have received in the
-          past two years.
-        </p>
-        <p>
-          If you need accessories like domes, wax guards, cleaning supplies, or
-          desiccant, call the DLC Customer Service Station at{' '}
-          <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-            303-273-6200
-          </a>{' '}
-          or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-        </p>
-      </>
-    );
     return (
       <div className="accessory-page">
         {areAccessorySuppliesEligible && (
@@ -239,14 +222,6 @@ class Accessories extends Component {
               or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </AdditionalInfo>
-        )}
-        {accessorySupplies.length <= 0 && (
-          <AlertBox
-            headline="You're hearing accessories aren't available for online ordering"
-            content={noAccessoriesContent}
-            status="info"
-            isVisible
-          />
         )}
       </div>
     );
