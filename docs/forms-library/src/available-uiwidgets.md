@@ -1,5 +1,6 @@
 # Available ui:widgets
 
+
 **Table of Contents**
 
 - [`CheckboxWidget`](#checkboxwidget)
@@ -17,7 +18,10 @@
         - [`maxLength`](#maxlength)
 - [`TextareaWidget`](#textareawidget)
 - [`YesNoWidget`](#yesnowidget)
-
+    - [`uiSchema` options](#uischema-options-1)
+        - [`ui:options`](#uioptions-1)
+            - [`labels`](#labels)
+            - [`yesNoReverse`](#yesnoreverse)
 
 ## `CheckboxWidget`
 **`ui:widget` key:** `checkbox`
@@ -177,3 +181,89 @@ const schema = {
 
 ## `YesNoWidget`
 **`ui:widget` key:** `yesNo`
+
+Render "Yes" and "No" radio buttons. Selecting "Yes" sets the field data to
+`true` and "No" sets it to `false`.
+
+**Compatible schema types:** `boolean`
+
+**Default for schema types:** None
+
+**Example:**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'boolean' },
+  },
+};
+
+const uiSchema = {
+  field1: {
+    'ui:widget': 'yesNo',
+  },
+};
+```
+![YesNoWidget example](images/yesnowidget.png)
+
+### `uiSchema` options
+#### `ui:options`
+##### `labels`
+**Type:** `object`
+
+**Shape:**
+```js
+{
+  Y: string,
+  N: string
+}
+```
+
+Change the labels for the "Yes" and "No" options.
+
+**Example:**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'boolean' },
+  },
+};
+
+const uiSchema = {
+  field1: {
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      labels: {
+        Y: 'Alternative label for Yes',
+        N: 'Alternative label for No',
+      },
+    },
+  },
+};
+```
+![YesNoWidget example](images/yesnowidget-labels.png)
+
+##### `yesNoReverse`
+**Type:** `boolean`
+
+If `yesNoReverse` is `true`, selecting "Yes" sets the field data to `false`, and
+"No" sets it to `true`,
+
+**Example:**
+```js
+const schema = {
+  type: 'object',
+  properties: {
+    field1: { type: 'boolean' },
+  },
+};
+
+const uiSchema = {
+  field1: {
+    'ui:widget': 'yesNo',
+    'ui:options': { yesNoReverse: true },
+  },
+};
+```
+![YesNoWidget example](images/yesnowidget-yesnoreverse.png)
