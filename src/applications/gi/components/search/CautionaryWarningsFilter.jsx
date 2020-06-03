@@ -22,24 +22,6 @@ class CautionaryWarningsFilter extends React.Component {
       component: this,
     });
   render() {
-    // prod flag for bah-8187. Remove after approval.
-    if (environment.isProduction()) {
-      return (
-        <div>
-          <p>
-            Cautionary warnings
-            {this.renderProfileCautionFlagModal()}
-          </p>
-          <Checkbox
-            checked={this.props.excludeCautionFlags}
-            name="excludeCautionFlags"
-            label="Exclude institutions with warnings"
-            onChange={this.props.onChange}
-            onFocus={this.props.handleInputFocus}
-          />
-        </div>
-      );
-    }
     return (
       <div>
         <p>

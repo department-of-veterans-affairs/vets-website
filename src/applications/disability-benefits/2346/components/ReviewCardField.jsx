@@ -219,7 +219,7 @@ class ReviewCardField extends React.Component {
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          {needsDlWrapper ? <div className="review">{Field}</div> : Field}
+          {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
@@ -341,7 +341,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Edit ${title.toLowerCase()}`}
               >
                 Edit {title.toLowerCase()}
               </a>
@@ -354,7 +353,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Add a ${title.toLowerCase()}`}
               >
                 Add a {title.toLowerCase()}
               </a>
@@ -408,7 +406,6 @@ class ReviewCardField extends React.Component {
             className={`usa-button-primary ${editButton}`}
             style={{ minWidth: '8rem' }}
             onClick={this.startEditing}
-            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
             {itemNameAction || 'New'} {itemName || title}
           </button>
@@ -494,10 +491,12 @@ class ReviewCardField extends React.Component {
     const pageDescription = (
       <>
         <h3 className="vads-u-font-size--h4">Shipping address</h3>
-        <p className="vads-u-margin-top--2">
-          We'll ship your order to the address below. Orders typically arrive
-          within 7 to 10 business days.
-        </p>
+        <dd className="vads-u-margin-top--2">
+          <p>
+            We'll ship your order to the address below. Orders typically arrive
+            within 7 to 10 business days.
+          </p>
+        </dd>
         <p className="vads-u-font-weight--bold">
           Select the address where you'd like to send your order:{' '}
           <span className="vads-u-font-weight--normal schemaform-required-span">
