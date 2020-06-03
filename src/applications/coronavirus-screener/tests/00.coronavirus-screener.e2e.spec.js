@@ -86,28 +86,7 @@ module.exports = E2eHelpers.createE2eTest(browser => {
   browser.end();
 });
 
-// TODO: get correct module disable logic from VFS team
-/*
-to run locally:
-
-yarn fetch-drupal-cache
-NODE_ENV=production yarn build --buildtype vagovprod
-yarn watch
-yarn test:e2e src/applications/coronavirus-screener/tests/00.coronavirus-screener.e2e.spec.js
-
-*/
-
-// check if app is enabled in prod
-const appInProd = registry.find(
-  entry => entry.entryName === manifest.entryName,
-);
-
-// check if build type is production
-// consistent problem:  `__BUILDTYPE__ is not defined`
-// const buildIsProd = __BUILDTYPE__ !== 'production';
-
-// only run if both are true
-// const enable = appInProd && buildIsProd;
-const enable = appInProd; // needed due to __BUILDTYPE__ error
-
-module.exports['@disabled'] = !enable;
+// disable E2E test in CI if app is not in prod
+module.exports['@disabled'] =
+  !registry.find(entry => entry.entryName === manifest.entryName) &&
+  __BUILDTYPE__ !== 'production';
