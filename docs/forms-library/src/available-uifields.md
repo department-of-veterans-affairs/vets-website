@@ -1,6 +1,8 @@
 # Available ui:fields
 **Table of Contents**
 
+- [`ArrayField`](#arrayfield)
+- [`BasicArrayField`](#basicarrayfield)
 - [`ObjectField`](#objectfield)
     - [`uiSchema` options](#uischema-options)
         - [`ui:description`](#uidescription)
@@ -15,9 +17,13 @@
         - [`title`](#title)
         - [`ui:collapsed`](#uicollapsed)
         - [`ui:hidden`](#uihidden)
+- [`TitleField`](#titlefield)
  
 <!-- TODO: Document the `FieldTemplate` options; possibly in another reference -->
 <!-- section since it's not really a field or widget -->
+## `ArrayField`
+
+## `BasicArrayField`
 
 ## `ObjectField`
 This is the default field for `type: 'object'` schemas.
@@ -396,3 +402,11 @@ const schema = {
 ```
 
 ![ui:hidden example](images/objectfield-uihidden.png)
+
+## `TitleField`
+This field is listed here for completeness only, but is not intended for use
+outside of the `FieldTemplate` since you can't pass the `title` prop it requires
+from the `schema` or `uiSchema`.
+
+<!-- TODO: Probably should refactor the forms library to remove this from the -->
+<!-- list of fields in SchemaForm -->
