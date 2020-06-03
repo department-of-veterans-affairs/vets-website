@@ -1,5 +1,11 @@
 # Schema Types
 
+## `type: 'number'`
+
+**Default field:** ??
+
+**Default widget:** [`TextWidget`](available-uiwidgets.md#textwidget)
+
 ## `type: 'object'`
 The object type is used to group user input together in the form data.
 
@@ -8,8 +14,7 @@ The object type is used to group user input together in the form data.
 **Default field:** [`ObjectField`](available-uifields.md#objectfield)
 
 **Default widget:** None; the objects are used to group inputs, but can gather
-no data by themselves
-<!-- TODO: Verify this is true -->
+no data by themselves.
 
 **Requirements:**
 1. Must have a `properties` object in the schema
@@ -24,3 +29,9 @@ const schema = {
   },
 };
 ```
+
+## `type: 'string'`
+
+**Default field:** ??
+
+**Default widget:** [`TextWidget`](available-uiwidgets.md#textwidget)
