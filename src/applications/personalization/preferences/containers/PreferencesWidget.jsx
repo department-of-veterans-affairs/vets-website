@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 
@@ -237,17 +237,17 @@ class PreferencesWidget extends React.Component {
               </Link>
             )}
         </div>
-        <TransitionGroup
-          transitionName="form-expanding-group-inner"
-          transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
+        <TransitionGroup>
           {showSavedMessage && (
-            <SaveSucceededMessageComponent
-              handleCloseAlert={this.handleCloseSavedAlert}
-            />
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={(500, 500)}
+            >
+              <SaveSucceededMessageComponent
+                handleCloseAlert={this.handleCloseSavedAlert}
+              />
+            </CSSTransition>
           )}
         </TransitionGroup>
         {this.renderContent()}

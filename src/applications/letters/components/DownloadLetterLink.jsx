@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { getLetterPdf } from '../actions/letters';
@@ -81,14 +81,15 @@ export class DownloadLetterLink extends React.Component {
     return (
       <div>
         <div className="form-expanding-group form-expanding-group-open">
-          <TransitionGroup
-            transitionName="form-expanding-group-inner"
-            transitionAppear
-            transitionAppearTimeout={700}
-            transitionEnterTimeout={700}
-            transitionLeave={false}
-          >
-            {message}
+          <TransitionGroup>
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={(700, 700)}
+              exit={false}
+            >
+              {message}
+            </CSSTransition>
           </TransitionGroup>
         </div>
         <div className="download-button">

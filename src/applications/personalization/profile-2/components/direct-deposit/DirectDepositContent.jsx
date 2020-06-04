@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -222,21 +222,21 @@ export const DirectDepositContent = ({
   return (
     <>
       <div id="success" role="alert" aria-atomic="true">
-        <TransitionGroup
-          transitionName="form-expanding-group-inner"
-          transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
+        <TransitionGroup>
           {showSaveSucceededAlert && (
-            <AlertBox
-              status="success"
-              backgroundOnly
-              className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={(500, 500)}
             >
-              We’ve saved your direct deposit information.
-            </AlertBox>
+              <AlertBox
+                status="success"
+                backgroundOnly
+                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+              >
+                We’ve saved your direct deposit information.
+              </AlertBox>
+            </CSSTransition>
           )}
         </TransitionGroup>
       </div>
