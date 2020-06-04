@@ -44,8 +44,8 @@ export class PastAppointmentsList extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.appointments.pastStatus === 'loading' &&
-      this.props.appointments.pastStatus === 'succeeded'
+      prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
+      this.props.appointments.pastStatus === FETCH_STATUS.succeeded
     ) {
       focusElement('#pastAppts');
     }

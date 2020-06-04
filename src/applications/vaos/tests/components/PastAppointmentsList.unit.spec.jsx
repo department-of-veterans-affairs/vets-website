@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 import { PastAppointmentsList } from '../../components/PastAppointmentsList';
 import {
@@ -154,16 +154,33 @@ describe('VAOS <PastAppointmentsList>', () => {
   });
 
   it('should render focus on H3 tag', () => {
-    const tree = shallow(
+    const appointments = sinon.spy();
+    const fetchPastAppointments = sinon.spy();
+
+    const defaultProps = {
+      appointments: {
+        pastStatus: FETCH_STATUS.loading,
+        pastSelectedIndex: 5,
+      },
+    };
+
+    const tree = mount(
       <PastAppointmentsList
-        appointments={appointments}
+        {...defaultProps}
+        fetchPastAppointments={fetchPastAppointments}
         showPastAppointments
-        pastSelectedIndex={0}
       />,
     );
 
+    tree.setProps({
+      pastStatus: FETCH_STATUS.succeeded,
+    });
+
     expect(tree.find('h3[tabIndex="-1"]').exists()).to.be.true;
     expect(tree.find('h3[tabIndex="-1"]').text()).to.equal('Past appointments');
+
+    // expect(document.activeElement.id).to.equal('pastAppts');
+    expect(document.activeElement.nodeName).to.equal('h3');
 
     tree.unmount();
   });
