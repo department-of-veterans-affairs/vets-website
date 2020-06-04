@@ -7,7 +7,7 @@ import FacilityAddress from '../FacilityAddress';
 export default function CancelAppointmentFailedModal({
   appointment,
   facility,
-  cancelAppointmentStatus,
+  status,
   onClose,
 }) {
   return (
@@ -18,7 +18,7 @@ export default function CancelAppointmentFailedModal({
       onClose={onClose}
       title="We couldn’t cancel your appointment"
     >
-      {cancelAppointmentStatus === FETCH_STATUS.failedVaos400 ? (
+      {status === FETCH_STATUS.failedVaos400 ? (
         <p>
           We’re sorry. You can’t cancel your appointment on the VA appointments
           tool. Please contact your local VA medical center to cancel this

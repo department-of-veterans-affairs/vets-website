@@ -968,7 +968,18 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
     });
+
+    it('should set vaos 400 error', () => {
+      const action = {
+        type: FORM_SUBMIT_FAILED,
+        isVaos400Error: true,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.failedVaos400);
+    });
   });
+
   it('should open the type of care page and prefill contact info', () => {
     const currentState = {
       data: {},

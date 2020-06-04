@@ -63,7 +63,7 @@ export default function CancelAppointmentModal(props) {
     return (
       <CancelAppointmentFailedModal
         appointment={appointmentToCancel}
-        cancelAppointmentStatus={cancelAppointmentStatus}
+        status={cancelAppointmentStatus}
         facility={facility}
         onClose={onClose}
       />

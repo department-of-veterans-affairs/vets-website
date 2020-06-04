@@ -311,6 +311,19 @@ describe('VAOS reducer: appointments', () => {
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.failed);
     });
 
+    it('should set status to failed', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error: true,
+      };
+      const newState = appointmentsReducer(initialState, action);
+
+      expect(newState.showCancelModal).to.be.true;
+      expect(newState.cancelAppointmentStatus).to.equal(
+        FETCH_STATUS.failedVaos400,
+      );
+    });
+
     it('should close modal', () => {
       const action = {
         type: CANCEL_APPOINTMENT_CLOSED,
