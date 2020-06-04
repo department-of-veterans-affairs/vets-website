@@ -70,6 +70,10 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
+                Please be aware that you will need to be available for 45 days
+                after you file in order to complete VA exams during this period.
+              </p>
+              <p>
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
                 nearest regional office, please call{' '}

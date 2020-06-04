@@ -18,6 +18,7 @@ import prefillTransformer from './prefill-transformer';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
+import ReviewDescription from '../containers/ReviewDescription';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -72,6 +73,7 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran information',
+      reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
