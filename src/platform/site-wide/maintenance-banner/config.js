@@ -2,8 +2,8 @@
 import moment from 'moment';
 
 // Derive startsAt and expiresAt.
-const startsAt = moment.utc('2020-06-04T17:00:00.248Z').local();
-const expiresAt = moment.utc('2020-06-05T19:00:00.248Z').local();
+const startsAt = moment.utc('2020-06-02T17:00:00.248Z').local();
+const expiresAt = moment.utc('2020-06-03T19:00:00.248Z').local();
 
 export default {
   id: '1',
