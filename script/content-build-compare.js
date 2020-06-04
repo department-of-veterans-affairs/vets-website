@@ -1,6 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
+const { isEqual } = require('lodash');
 
 // Modeled after https://coderrocketfuel.com/article/recursively-list-all-the-files-in-a-directory-using-node-js
 function getAllFiles(dirPath, arrayOfFiles = []) {
@@ -55,11 +56,26 @@ function hashBuildOutput(outputDir, hashFile) {
   });
 
   writeArrayToFile(fileHashes, hashFile);
+  return fileHashes;
 }
 
 function compareBuilds(buildtype) {
-  hashBuildOutput(`../build/${buildtype}`, 'buildOutput.txt');
-  hashBuildOutput(`../../content-build/build/${buildtype}`, 'buildOutput2.txt');
+  const websiteContentBuild = hashBuildOutput(
+    `../build/${buildtype}`,
+    'buildOutput.txt',
+  );
+  const standaloneContentBuild = hashBuildOutput(
+    `../../content-build/build/${buildtype}`,
+    'buildOutput2.txt',
+  );
+
+  /* eslint-disable no-console */
+  if (isEqual(websiteContentBuild, standaloneContentBuild)) {
+    console.log('The content builds match!');
+  } else {
+    console.log('The content builds do not match');
+  }
+  /* eslint-enable no-console */
 }
 
 compareBuilds('localhost');
