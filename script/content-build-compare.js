@@ -62,11 +62,11 @@ function hashBuildOutput(outputDir, hashFile) {
 function compareBuilds(buildtype) {
   const websiteContentBuild = hashBuildOutput(
     path.join(__dirname, `../build/${buildtype}`),
-    '.buildOutput.txt',
+    'websiteContentBuildHash.txt',
   );
   const standaloneContentBuild = hashBuildOutput(
     path.join(__dirname, `../../content-build/build/${buildtype}`),
-    '.buildOutput2.txt',
+    'standaloneContentBuildHash.txt',
   );
 
   /* eslint-disable no-console */
