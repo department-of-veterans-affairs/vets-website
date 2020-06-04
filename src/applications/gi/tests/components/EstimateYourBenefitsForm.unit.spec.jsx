@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
 import sinon from 'sinon';
+import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
+import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
 
 const props = {
   eligibility: {
@@ -145,6 +146,12 @@ describe('<EstimateYourBenefitsForm>', () => {
         updateEstimatedBenefits={updateEstimatedBenefits}
       />,
     );
+
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+
     tree
       .find('.calculate-button')
       .at(0)
@@ -174,6 +181,10 @@ describe('<EstimateYourBenefitsForm>', () => {
         updateEstimatedBenefits={updateEstimatedBenefits}
       />,
     );
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
     tree
       .find('.calculate-button')
       .at(0)
