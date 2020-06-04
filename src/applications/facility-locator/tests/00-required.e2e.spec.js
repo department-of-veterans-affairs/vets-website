@@ -19,7 +19,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .click('input[type="submit"]')
-    .waitForElementVisible('.facility-result', Timeouts.normal)
+    .waitForElementVisible('.facility-result', Timeouts.verySlow)
     .axeCheck('.main');
 
   // check detail pages
