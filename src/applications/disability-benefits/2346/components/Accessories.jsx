@@ -1,5 +1,6 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
@@ -158,11 +159,12 @@ class Accessories extends Component {
           accessorySupplies.map(accessorySupply => (
             <div
               key={accessorySupply.productId}
-              className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 ${
-                isAccessorySelected(accessorySupply.productId)
-                  ? 'vads-u-border-color--primary vads-u-border--3px'
-                  : ''
-              }`}
+              className={classnames({
+                'vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3': true,
+                'vads-u-border-color--primary vads-u-border--3px': isAccessorySelected(
+                  accessorySupply.productId,
+                ),
+              })}
             >
               <h4 className="vads-u-font-size--md vads-u-margin-top--0">
                 {accessorySupply.productName}
@@ -203,11 +205,15 @@ class Accessories extends Component {
                   />
                   <label
                     htmlFor={accessorySupply.productId}
-                    className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                      isAccessorySelected(accessorySupply.productId)
-                        ? 'vads-u-color--white'
-                        : 'vads-u-background-color--white vads-u-color--primary'
-                    }`}
+                    className={classnames({
+                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary': true,
+                      'vads-u-color--white': isAccessorySelected(
+                        accessorySupply.productId,
+                      ),
+                      'vads-u-background-color--white vads-u-color--primary': !isAccessorySelected(
+                        accessorySupply.productId,
+                      ),
+                    })}
                   >
                     Order this accessory
                   </label>

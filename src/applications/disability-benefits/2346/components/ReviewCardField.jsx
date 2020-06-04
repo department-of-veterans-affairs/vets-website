@@ -3,6 +3,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
+import classnames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
@@ -322,11 +323,11 @@ class ReviewCardField extends React.Component {
 
     return (
       <div
-        className={`review-card vads-u-margin-bottom--2 vads-u-background-color--gray-lightest ${
-          this.props.name === this.props.currentAddress
-            ? 'vads-u-border-color--primary vads-u-border--3px'
-            : ''
-        }`}
+        className={classnames({
+          'review-card vads-u-margin-bottom--2 vads-u-background-color--gray-lightest': true,
+          'vads-u-border-color--primary vads-u-border--3px':
+            this.props.name === this.props.currentAddress,
+        })}
       >
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
           <h4 className={titleClasses}>{title}</h4>
@@ -389,11 +390,13 @@ class ReviewCardField extends React.Component {
                   }
                 />
                 <label
-                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 ${
-                    this.props.name === this.props.currentAddress
-                      ? 'vads-u-color--white'
-                      : 'vads-u-background-color--white vads-u-color--primary'
-                  }`}
+                  className={classnames({
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0': true,
+                    'vads-u-color--white':
+                      this.props.name === this.props.currentAddress,
+                    'vads-u-background-color--white vads-u-color--primary':
+                      this.props.name !== this.props.currentAddress,
+                  })}
                   htmlFor={this.props.name}
                 >
                   Send my order to this address

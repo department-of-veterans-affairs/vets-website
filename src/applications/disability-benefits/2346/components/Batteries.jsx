@@ -1,5 +1,6 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
@@ -167,11 +168,12 @@ class Batteries extends Component {
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
-              className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 ${
-                isBatterySelected(batterySupply.productId)
-                  ? 'vads-u-border-color--primary vads-u-border--3px'
-                  : ''
-              }`}
+              className={classnames({
+                'vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2': true,
+                'vads-u-border-color--primary vads-u-border--3px': isBatterySelected(
+                  batterySupply.productId,
+                ),
+              })}
             >
               <h4 className="vads-u-margin-top--0">
                 {batterySupply.deviceName}
@@ -219,11 +221,15 @@ class Batteries extends Component {
                     checked={isBatterySelected(batterySupply.productId)}
                   />
                   <label
-                    className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                      isBatterySelected(batterySupply.productId)
-                        ? 'vads-u-color--white'
-                        : 'vads-u-background-color--white vads-u-color--primary'
-                    }`}
+                    className={classnames({
+                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary': true,
+                      'vads-u-color--white': isBatterySelected(
+                        batterySupply.productId,
+                      ),
+                      'vads-u-background-color--white vads-u-color--primary': !isBatterySelected(
+                        batterySupply.productId,
+                      ),
+                    })}
                     htmlFor={batterySupply.productId}
                   >
                     Order batteries for this device
