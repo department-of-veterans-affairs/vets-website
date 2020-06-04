@@ -55,12 +55,11 @@ function hashBuildOutput(outputDir, hashFile) {
   });
 
   writeArrayToFile(fileHashes, hashFile);
-  // return fileHashes;
 }
 
-function compareBuilds() {
-  hashBuildOutput('../build/localhost', 'buildOutput.txt');
-  hashBuildOutput('../../content-build/build/localhost', 'buildOutput2.txt');
+function compareBuilds(buildtype) {
+  hashBuildOutput(`../build/${buildtype}`, 'buildOutput.txt');
+  hashBuildOutput(`../../content-build/build/${buildtype}`, 'buildOutput2.txt');
 }
 
-compareBuilds();
+compareBuilds('localhost');
