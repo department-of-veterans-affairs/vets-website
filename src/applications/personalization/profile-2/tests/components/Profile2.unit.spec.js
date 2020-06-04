@@ -94,7 +94,9 @@ describe('Profile2', () => {
         .last()
         .text();
 
-      expect(activeRouteText).to.include('Personal and contact Information');
+      expect(activeRouteText.toLowerCase()).to.include(
+        'personal and contact information',
+      );
       wrapper.unmount();
     });
 
