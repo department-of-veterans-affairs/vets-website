@@ -854,6 +854,7 @@
     "appName": "Debt Letters",
     "entryName": "debt-letters",
     "rootUrl": "/debt-letters",
+    "includeBreadcrumbs": true,
     "template": {
       "vagovprod": false,
       "title": "Debt Letters",

@@ -1,7 +1,7 @@
 import React from 'react';
 import DebtLetterCard from './DebtLetterCard';
 
-const DebtLettersContainer = ({ debts }) => (
+const DebtLettersList = ({ debts }) => (
   <>
     {debts.length &&
       debts.map((debt, index) => (
@@ -10,4 +10,4 @@ const DebtLettersContainer = ({ debts }) => (
   </>
 );
 
-export default DebtLettersContainer;
+export default DebtLettersList;
