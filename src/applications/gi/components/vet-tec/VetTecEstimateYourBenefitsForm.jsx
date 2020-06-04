@@ -19,11 +19,13 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     super(props);
     const selectedProgramName = this.props.selectedProgram;
 
-    const selectedProgram = this.props.institution.programs.filter(
+    let selectedProgram = this.props.institution.programs.find(
       program => program.description === selectedProgramName,
     );
+    selectedProgram = selectedProgram || this.props.institution.programs[0];
+
     this.state = {
-      tuitionFees: selectedProgram[0].tuitionAmount,
+      tuitionFees: selectedProgram.tuitionAmount,
       scholarships: 0,
       programName: selectedProgramName,
     };
