@@ -36,6 +36,17 @@ function writeArrayToFile(arr, outputFile) {
 }
 
 /**
+ * Reads a file and returns its md5 hash
+ */
+function getFileHash(filename) {
+  const data = fs.readFileSync(filename, { encoding: 'utf8' });
+  const hash = crypto.createHash('md5');
+  hash.update(data);
+
+  return hash.digest('hex');
+}
+
+/**
  * Hash all of the build files in the outputDir and create a file
  * listing the hash for each build file
  */
@@ -45,14 +56,12 @@ function hashBuildOutput(outputDir, hashFile) {
     filename => filename.split('.').slice(-1)[0] === 'html',
   );
 
+  // Create a list of filenames and their hashed contents
   const fileHashes = buildFiles.map(filename => {
-    const data = fs.readFileSync(filename, { encoding: 'utf8' });
-    const hash = crypto.createHash('md5');
-    hash.update(data);
-
+    const hash = getFileHash(filename);
     const relativeFilename = path.relative(outputDir, filename);
 
-    return { filename: relativeFilename, hash: hash.digest('hex') };
+    return { filename: relativeFilename, hash };
   });
 
   writeArrayToFile(fileHashes, hashFile);
