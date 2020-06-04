@@ -51,7 +51,7 @@ export const uiSchema = {
         !formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
-        expandUnderCondition: false,
+        expandUnderCondition: true,
       },
       'ui:title': 'Course of study or educational program',
       'ui:errorMessages': { required: 'Please enter a course or program name' },
@@ -61,7 +61,7 @@ export const uiSchema = {
         !formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
-        expandUnderCondition: false,
+        expandUnderCondition: true,
         widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Number of classes a week',
@@ -72,7 +72,7 @@ export const uiSchema = {
         !formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
-        expandUnderCondition: false,
+        expandUnderCondition: true,
         widgetClassNames: 'form-select-medium',
       },
       'ui:title': 'Hours a week',
