@@ -1,5 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import moment from 'moment';
+
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { EBEN_526_PATH } from '../../constants';
@@ -56,7 +58,7 @@ export default function ValidatedServicePeriodView({ formData, onEdit }) {
     <div>
       <strong>{formData.serviceBranch}</strong>
       <br />
-      {from} &mdash; {to}
+      {moment(from).format('LL')} to {moment(to).format('LL')}
       {stillInServiceWarning}
     </div>
   );
