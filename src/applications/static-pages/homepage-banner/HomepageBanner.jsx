@@ -12,12 +12,14 @@ class HomepageBanner extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dismissed: localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) ===
-      this.prepareHomepageBannerID(),
+      dismissed:
+        localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) ===
+        this.prepareHomepageBannerID(),
     };
   }
 
-  prepareHomepageBannerID = () => `${this.props.bannerTitle}:${this.props.bannerContent}`;
+  prepareHomepageBannerID = () =>
+    `${this.props.bannerTitle}:${this.props.bannerContent}`;
 
   dismiss = () => {
     localStorage.setItem(
