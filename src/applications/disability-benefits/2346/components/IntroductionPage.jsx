@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchFormStatus } from '../actions';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
-import ErrorMessage from './ErrorMessage';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { fetchFormStatus } from '../actions';
+import ErrorMessage from './ErrorMessage';
+import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 
 class IntroductionPage extends Component {
   componentDidMount() {
@@ -21,7 +21,7 @@ class IntroductionPage extends Component {
       <>
         {' '}
         <FormTitle title="Order hearing aid batteries and accessories" />
-        <p>Equal to VA Form 2346 (Request for Batteries and Accessories).</p>
+        <p>Equal to VA Form 2346A (Request for Batteries and Accessories).</p>
         {pending && (
           <LoadingIndicator setFocus message="Loading your information..." />
         )}
@@ -49,7 +49,7 @@ class IntroductionPage extends Component {
               batteries and accessories.
             </SaveInProgressIntro>
             <h2
-              className="vads-u-font-size--h4"
+              className="vads-u-font-size--h3"
               itemProp="name"
               id="am-i-eligible-to-order-prosthe"
             >
@@ -59,14 +59,16 @@ class IntroductionPage extends Component {
             <div className="process schemaform-process">
               <ol>
                 <li className="process-step list-one">
-                  <h3 className="vads-u-font-size--h5">Prepare</h3>
+                  <h3 className="vads-u-font-size--h4">Prepare</h3>
                   <p>To place an order, you’ll need your:</p>
                   <ul>
                     <li>Shipping address</li>
                     <li>Email address</li>
                     <li>Hearing aid information</li>
                   </ul>
-                  <h4>What if I need help with my order?</h4>
+                  <p className="vads-u-font-weight--bold">
+                    What if I need help with my order?
+                  </p>
                   <p>
                     If you need help ordering hearing aid batteries and
                     accessories, you can call the Denver Logistics Center
@@ -76,11 +78,13 @@ class IntroductionPage extends Component {
                       href="tel:303-273-6200"
                     >
                       303-273-6200
-                    </a>
+                    </a>{' '}
+                    or email{' '}
+                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                   </p>
                 </li>
                 <li className="process-step list-two">
-                  <h3 className="vads-u-font-size--h5">Place your order</h3>
+                  <h3 className="vads-u-font-size--h4">Place your order</h3>
                   <p>
                     Complete this hearing aid batteries and accessories order
                     form.
@@ -103,19 +107,21 @@ class IntroductionPage extends Component {
                   </p>
                 </li>
                 <li className="process-step list-three">
-                  <h3>Track your order </h3>
+                  <h3 className="vads-u-font-size--h4">Track your order </h3>
                   <p>
                     You will receive an email with an order tracking number 1-2
                     days after your order is submitted.
                   </p>
                 </li>
                 <li className="process-step list-four">
-                  <h3 className="vads-u-font-size--h5">Receive your order</h3>
+                  <h3 className="vads-u-font-size--h4">Receive your order</h3>
                   <p>
                     You should receive your order within the timeframe indicated
                     by the order tracking number.
                   </p>
-                  <h4>What if I have questions about my order?</h4>
+                  <p className="vads-u-font-weight--bold">
+                    What if I have questions about my order?
+                  </p>
                   <p>
                     If you have questions about your order, you can call the DLC
                     Customer Service Section at{' '}
@@ -124,8 +130,9 @@ class IntroductionPage extends Component {
                       href="tel:303-273-6200"
                     >
                       303-273-6200
-                    </a>
-                    .{' '}
+                    </a>{' '}
+                    or email{' '}
+                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.{' '}
                   </p>
                 </li>
               </ol>
