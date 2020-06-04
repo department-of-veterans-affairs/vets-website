@@ -5,6 +5,7 @@ export const questions = [
     id: 'isStaff',
     text: 'Are you a VA employee or contractor?',
     passValues: ['yes', 'no'],
+    clearValues: true,
   },
   {
     id: 'fever',

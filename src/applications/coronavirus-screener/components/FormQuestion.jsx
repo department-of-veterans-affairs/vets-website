@@ -8,10 +8,14 @@ export default function FormQuestion({
   recordStart,
   optionsConfig,
   setQuestionValue,
+  clearQuestionValues,
 }) {
   function handleClick(event) {
     recordStart(question.id);
     setQuestionValue({ event, questionId: question.id });
+    if (question.clearValues ?? false) {
+      clearQuestionValues(question.id);
+    }
     scrollNext();
   }
 

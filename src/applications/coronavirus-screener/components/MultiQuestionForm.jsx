@@ -93,6 +93,21 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     setQuestionState([...newQuestionState]);
   }
 
+  // removes value from every question after given questionId
+  function clearQuestionValues(afterQuestionId) {
+    const afterQuestionIndex = questionState.findIndex(
+      question => question.id === afterQuestionId,
+    );
+    const newQuestionState = questionState.map((question, index) => {
+      const returnQuestion = question;
+      if (index > afterQuestionIndex) {
+        delete returnQuestion.value;
+      }
+      return returnQuestion;
+    });
+    setQuestionState([...newQuestionState]);
+  }
+
   const formQuestions = enabledQuestions.map((question, index) => (
     <div key={`question-${index}`}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
@@ -100,12 +115,13 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
         Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
         <FormQuestion
           question={question}
-          recordStart={recordStart}
-          setQuestionValue={setQuestionValue}
           scrollNext={() =>
             scrollTo(`multi-question-form-${index + 1}-scroll-element`)
           }
+          recordStart={recordStart}
           optionsConfig={defaultOptions}
+          setQuestionValue={setQuestionValue}
+          clearQuestionValues={clearQuestionValues}
         />
       )}
     </div>
