@@ -1,8 +1,11 @@
 import React from 'react';
 import last from 'lodash/last';
 import moment from 'moment';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import { Link } from 'react-router';
 import { deductionCodes } from '../const';
+import { bindActionCreators } from 'redux';
+import { setActiveDebt } from '../actions';
+import { connect } from 'react-redux';
 
 class DebtLetterCard extends React.Component {
   constructor(props) {
@@ -11,6 +14,7 @@ class DebtLetterCard extends React.Component {
       panelOpen: false,
     };
   }
+
   render() {
     const { debt } = this.props;
     const mostRecentHistory = last(debt.debtHistory);
@@ -26,34 +30,27 @@ class DebtLetterCard extends React.Component {
           <strong>Last updated:</strong>{' '}
           {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
         </p>
-        <button
-          onClick={() => {
-            this.setState({
-              panelOpen: !this.state.panelOpen,
-            });
-          }}
+        <Link
+          className="usa-button"
+          onClick={() => this.props.setActiveDebt(debt)}
+          to="/view-details"
         >
-          View History
-        </button>
-
-        <ExpandingGroup open={this.state.panelOpen}>
-          {this.state.panelOpen && <h5>Debt History:</h5>}
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {debt.debtHistory.map((debtEntry, index) => (
-              <div
-                className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
-                key={`${debtEntry.letterCode}-${index}`}
-              >
-                <span>{debtEntry.date}</span>
-                <span>{debtEntry.status}</span>
-                <span>{debtEntry.description}</span>
-              </div>
-            ))}
-          </div>
-        </ExpandingGroup>
+          View Details
+        </Link>
       </div>
     );
   }
 }
 
-export default DebtLetterCard;
+const mapStateToProps = state => ({
+  selectedDebt: state.debtLetters.selectedDebt,
+});
+
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ setActiveDebt }, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DebtLetterCard);
