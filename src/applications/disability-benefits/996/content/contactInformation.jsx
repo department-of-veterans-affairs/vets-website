@@ -19,7 +19,7 @@ export const getCountryName = (countryCode = 'USA') =>
     ? ''
     : countries.find(country => country.value === countryCode)?.label || '';
 
-export const contactInfoDescription = ({ formData }) => {
+export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
   const {
     phoneNumber,
     emailAddress,
@@ -30,7 +30,7 @@ export const contactInfoDescription = ({ formData }) => {
     stateOrProvinceCode = '',
     zipPostalCode,
     countryCode = 'USA',
-  } = formData.veteran;
+  } = veteran;
 
   let postalString = zipPostalCode || '';
   if (countryCode === 'USA' && zipPostalCode) {
