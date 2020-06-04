@@ -57,12 +57,10 @@ function hashBuildOutput(outputDir, hashFile) {
   );
 
   // Create a list of filenames and their hashed contents
-  const fileHashes = buildFiles.map(filename => {
-    const hash = getFileHash(filename);
-    const relativeFilename = path.relative(outputDir, filename);
-
-    return { filename: relativeFilename, hash };
-  });
+  const fileHashes = buildFiles.map(filename => ({
+    filename: path.relative(outputDir, filename),
+    hash: getFileHash(filename),
+  }));
 
   writeArrayToFile(fileHashes, hashFile);
   return fileHashes;
