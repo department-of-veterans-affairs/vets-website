@@ -99,8 +99,12 @@ export function selectCurrentlyOpenEditModal(state) {
   return state.vet360.modal;
 }
 
+export function selectAddressValidation(state) {
+  return state.vet360?.addressValidation || {};
+}
+
 export function selectAddressValidationType(state) {
-  return state.vet360.addressValidation.addressValidationType;
+  return selectAddressValidation(state).addressValidationType;
 }
 
 export function selectVet360InitializationStatus(state) {

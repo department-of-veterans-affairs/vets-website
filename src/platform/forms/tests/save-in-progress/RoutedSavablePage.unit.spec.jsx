@@ -12,6 +12,9 @@ describe('Schemaform <RoutedSavablePage>', () => {
 
   it('should include SaveLink and SaveStatus', () => {
     const route = {
+      formConfig: {
+        finishLaterLinkText: 'foo',
+      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},
@@ -60,8 +63,69 @@ describe('Schemaform <RoutedSavablePage>', () => {
     tree.unmount();
   });
 
+  it('should pass correct text to SaveFormlink', () => {
+    const route = {
+      formConfig: {
+        finishLaterLinkText: 'foo',
+      },
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+      },
+      pageList: [
+        {
+          path: 'testing',
+        },
+      ],
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        },
+      },
+      data: {},
+    };
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const tree = shallow(
+      <RoutedSavablePage
+        form={form}
+        route={route}
+        user={user}
+        location={location}
+      />,
+    )
+      .find('FormPage')
+      .dive();
+
+    expect(tree.find('SaveFormLink').exists()).to.be.true;
+    expect(
+      tree
+        .find('SaveFormLink')
+        .children()
+        .text(),
+    ).to.equal('foo');
+    tree.unmount();
+  });
+
   it('should auto save on change', () => {
     const route = {
+      formConfig: {
+        finishLaterLinkText: 'foo',
+      },
       pageConfig: {
         pageKey: 'testPage',
         schema: {},

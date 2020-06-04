@@ -20,7 +20,7 @@ const emailUIDescription = (
       We will send an order confirmation email with a tracking number to this
       email address.
     </p>
-    <p>Email address</p>
+    <p className="vads-u-margin-bottom--1">Email address</p>
   </>
 );
 

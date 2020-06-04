@@ -270,6 +270,22 @@ describe('selectors', () => {
     });
   });
 
+  describe('selectAddressValidation', () => {
+    beforeEach(hooks.beforeEach);
+    it('should return the address validation data', () => {
+      const addressValidation = {
+        addressValidationType: 'foo',
+        validationKey: '123',
+        addressValidationError: null,
+      };
+      state.vet360.addressValidation = addressValidation;
+
+      expect(selectors.selectAddressValidation(state)).to.deep.equal(
+        addressValidation,
+      );
+    });
+  });
+
   describe('selectAddressValidationType', () => {
     beforeEach(hooks.beforeEach);
     it('should return the current address validation type', () => {

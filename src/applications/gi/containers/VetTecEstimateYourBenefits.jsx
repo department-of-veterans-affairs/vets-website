@@ -209,7 +209,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
               {this.props.calculator.vetTecProgramName}
             </div>
             {this.renderTuitionSection(outputs, showModal)}
-            <hr />
+            <hr aria-hidden="true" />
             {this.renderHousingSection(outputs, showModal)}
           </div>
           <div>

@@ -3,3 +3,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 export const facilityLocatorShowCommunityCares = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorShowCommunityCares];
+
+export const facilitiesPpmsSuppressPharmacies = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressPharmacies];

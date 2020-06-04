@@ -1,25 +1,13 @@
-import { lazy } from 'react';
-
-const AccountSecurity = lazy(() =>
-  import('../profile-2/components/AccountSecurity'),
-);
-const ConnectedApplications = lazy(() =>
-  import('../profile-2/components/ConnectedApplications'),
-);
-const DirectDeposit = lazy(() =>
-  import('../profile-2/components/direct-deposit/DirectDeposit'),
-);
-const MilitaryInformation = lazy(() =>
-  import('../profile-2/components/MilitaryInformation'),
-);
-const PersonalInformation = lazy(() =>
-  import('../profile-2/components/personal-information/PersonalInformation'),
-);
+import AccountSecurity from './components/AccountSecurity';
+import PersonalInformation from './components/personal-information/PersonalInformation';
+import MilitaryInformation from './components/MilitaryInformation';
+import DirectDeposit from './components/direct-deposit/DirectDeposit';
+import ConnectedApplications from './components/connected-apps/ConnectedApps';
 
 export default [
   {
     component: PersonalInformation,
-    name: 'Personal and contact Information',
+    name: 'Personal and contact information',
     path: '/profile/personal-information',
     requiresLOA3: true,
     requiresMVI: true,
@@ -47,7 +35,7 @@ export default [
   },
   {
     component: ConnectedApplications,
-    name: 'Connected applications',
+    name: 'Connected apps',
     path: '/profile/connected-applications',
     requiresLOA3: true,
     requiresMVI: true,

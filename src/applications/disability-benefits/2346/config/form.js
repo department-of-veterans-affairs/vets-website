@@ -1,4 +1,5 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
@@ -35,8 +36,8 @@ const {
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
-  veteranInformation: 'Veteran Information',
-  orderSupplies: 'Order your supplies',
+  veteranInformation: 'Veteran information',
+  selectSupplies: 'Select your supplies',
 };
 
 const formPageTitlesLookup = {
@@ -51,18 +52,25 @@ const addressSchema = buildAddressSchema(true);
 const asyncReturn = (returnValue, error, delay = 300) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      const randomNumber = Math.round(Math.random() * 10);
-      const isNumberEven = randomNumber % 2 === 0;
-      if (isNumberEven) {
+      const shouldIReturnTrue = true;
+      if (shouldIReturnTrue) {
         return resolve(returnValue);
+      } else {
+        return reject(error);
       }
-      return reject(error);
     }, delay);
   });
 
 const submit = form => {
   const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
+  const selectedAddress = form.data?.currentAddress;
+  let shippingAddress;
+  if (selectedAddress === 'permanentAddress') {
+    shippingAddress = form.data?.permanentAddress;
+  } else if (selectedAddress === 'temporaryAddress') {
+    shippingAddress = form.data?.temporaryAddress;
+  }
 
   recordEvent({
     event: 'bam-2346a-submission',
@@ -91,6 +99,7 @@ const submit = form => {
     {
       attributes: { confirmationNumber: '123123123' },
       submissionData,
+      shippingAddress,
     },
     'this is an error message',
   )
@@ -106,11 +115,13 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  footerContent: FooterInfo,
+  footerContent: FormFooter,
+  getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
+  finishLaterLinkText: 'Finish this order later.',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound:
@@ -168,8 +179,8 @@ const formConfig = {
         },
       },
     },
-    orderSuppliesChapter: {
-      title: formChapterTitles.orderSupplies,
+    selectSuppliesChapter: {
+      title: formChapterTitles.selectSupplies,
       pages: {
         [formPageTitlesLookup.addBatteriesPage]: {
           path: 'batteries',
