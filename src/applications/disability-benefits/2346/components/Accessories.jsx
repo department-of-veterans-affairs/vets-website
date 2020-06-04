@@ -1,5 +1,6 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
@@ -50,6 +51,13 @@ class Accessories extends Component {
     );
     const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
+    const isAccessorySelected = accessoryProductId => {
+      const selectedProductIds = selectedProducts.map(
+        selectedProduct => selectedProduct.productId,
+      );
+      return selectedProductIds.includes(accessoryProductId);
+    };
+
     if (!areAccessorySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -70,7 +78,7 @@ class Accessories extends Component {
             </p>
             <p>
               If you need unavailable items sooner, call the DLC Customer
-              Service Station at{' '}
+              Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
                 303-273-6200
               </a>{' '}
@@ -96,7 +104,7 @@ class Accessories extends Component {
                     </p>
                     <p>
                       If you need unavailable batteries sooner, call the DLC
-                      Customer Service Station at{' '}
+                      Customer Service Section at{' '}
                       <a
                         aria-label="3 0 3. 2 7 3. 6 2 0 0."
                         href="tel:303-273-6200"
@@ -130,7 +138,7 @@ class Accessories extends Component {
                   <p>
                     If you need accessories like domes, wax guards, cleaning
                     supplies, or dessicant, call the DLC Customer Service
-                    Station at{' '}
+                    Section at{' '}
                     <a
                       aria-label="3 0 3. 2 7 3. 6 2 0 0."
                       href="tel:303-273-6200"
@@ -151,7 +159,12 @@ class Accessories extends Component {
           accessorySupplies.map(accessorySupply => (
             <div
               key={accessorySupply.productId}
-              className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 accessory-page"
+              className={classnames({
+                'vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3': true,
+                'vads-u-border-color--primary vads-u-border--3px': isAccessorySelected(
+                  accessorySupply.productId,
+                ),
+              })}
             >
               <h4 className="vads-u-font-size--md vads-u-margin-top--0">
                 {accessorySupply.productName}
@@ -180,32 +193,27 @@ class Accessories extends Component {
                   status="warning"
                 />
               ) : (
-                <div>
+                <div className="vads-u-max-width--226">
                   <input
                     id={accessorySupply.productId}
+                    className="vads-u-margin-left--0 vads-u-max-width--226"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)
                     }
-                    checked={
-                      !!selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId ===
-                          accessorySupply.productId,
-                      )
-                    }
+                    checked={isAccessorySelected(accessorySupply.productId)}
                   />
                   <label
                     htmlFor={accessorySupply.productId}
-                    className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                      selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId ===
-                          accessorySupply.productId,
-                      )
-                        ? 'vads-u-color--white'
-                        : 'vads-u-background-color--white vads-u-color--primary'
-                    }`}
+                    className={classnames({
+                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary': true,
+                      'vads-u-color--white': isAccessorySelected(
+                        accessorySupply.productId,
+                      ),
+                      'vads-u-background-color--white vads-u-color--primary': !isAccessorySelected(
+                        accessorySupply.productId,
+                      ),
+                    })}
                   >
                     Order this accessory
                   </label>
@@ -216,13 +224,26 @@ class Accessories extends Component {
         {accessorySupplies.length > 0 && (
           <AdditionalInfo triggerText="What if I don't see the accessories I need?">
             <p>
-              If you need a different accessory or an adjustment to an available
-              item, call the DLC Customer Service Station at{' '}
+              You may not see the accessories you need if you haven't placed an
+              order for resupply items within the last 2 years. If you need an
+              accessory that hasn't been ordered within the last 2 years, call
+              the DLC Customer Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
                 303-273-6200
               </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov.</a>
             </p>
+            <p>
+              If you need a smaller dome for your hearing aid, you'll need to
+              call your audiologist.
+            </p>
+            <a
+              href="https://www.va.gov/find-locations/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Find contact information for your local VA medical center.
+            </a>
           </AdditionalInfo>
         )}
       </div>
