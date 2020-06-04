@@ -1,11 +1,13 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../FacilityAddress';
 
 export default function CancelAppointmentFailedModal({
   appointment,
   facility,
+  cancelAppointmentStatus,
   onClose,
 }) {
   return (
@@ -16,10 +18,18 @@ export default function CancelAppointmentFailedModal({
       onClose={onClose}
       title="We couldn’t cancel your appointment"
     >
-      <p>
-        Something went wrong when we tried to cancel this appointment. Please
-        contact your medical center to cancel:
-      </p>
+      {cancelAppointmentStatus === FETCH_STATUS.failedVaos400 ? (
+        <p>
+          We’re sorry. You can’t cancel your appointment on the VA appointments
+          tool. Please contact your local VA medical center to cancel this
+          appointment:
+        </p>
+      ) : (
+        <p>
+          Something went wrong when we tried to cancel this appointment. Please
+          contact your medical center to cancel:
+        </p>
+      )}
       <p>
         {appointment.clinicName ? (
           <>

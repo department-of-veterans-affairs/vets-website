@@ -702,9 +702,11 @@ export function submitAppointmentOrRequest(router) {
         resetDataLayer();
         router.push('/new-appointment/confirmation');
       } catch (error) {
+        const isVaos400Error = error?.errors?.[0]?.code === 'VAOS_400';
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error,
         });
 
         // Remove parse function when converting this call to FHIR service

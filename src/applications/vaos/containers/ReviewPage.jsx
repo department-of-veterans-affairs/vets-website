@@ -79,21 +79,34 @@ export class ReviewPage extends React.Component {
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
           </LoadingButton>
         </div>
-        {submitStatus === FETCH_STATUS.failed && (
+        {(submitStatus === FETCH_STATUS.failed ||
+          submitStatus === FETCH_STATUS.failedVaos400) && (
           <AlertBox
             status="error"
-            headline={`Your ${
-              isDirectSchedule ? 'appointment' : 'request'
-            } didn’t go through`}
+            headline={
+              submitStatus === FETCH_STATUS.failedVaos400
+                ? 'We can’t schedule your appointment'
+                : `Your ${
+                    isDirectSchedule ? 'appointment' : 'request'
+                  } didn’t go through`
+            }
             content={
               <>
-                <p>
-                  Something went wrong when we tried to submit your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'} and you’ll need
-                  to start over. We suggest you wait a day to try again or you
-                  can call your medical center to help with your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'}.
-                </p>
+                {submitStatus === FETCH_STATUS.failedVaos400 ? (
+                  <p>
+                    We’re sorry. You can’t schedule your appointment on the VA
+                    appointments tool. Please contact your local VA medical
+                    center to schedule this appointment:
+                  </p>
+                ) : (
+                  <p>
+                    Something went wrong when we tried to submit your{' '}
+                    {isDirectSchedule ? 'appointment' : 'request'} and you’ll
+                    need to start over. We suggest you wait a day to try again
+                    or you can call your medical center to help with your{' '}
+                    {isDirectSchedule ? 'appointment' : 'request'}.
+                  </p>
+                )}
                 <p>
                   {!facilityDetails && (
                     <a
@@ -103,7 +116,9 @@ export class ReviewPage extends React.Component {
                         data.vaFacility || data.communityCareSystemId,
                       )}`}
                     >
-                      Contact your local VA medical center
+                      {submitStatus === FETCH_STATUS.failedVaos400
+                        ? 'Find facility contact information'
+                        : 'Contact your local VA medical center'}
                     </a>
                   )}
                   {!!facilityDetails && (

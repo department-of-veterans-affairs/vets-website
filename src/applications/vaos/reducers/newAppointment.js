@@ -775,7 +775,9 @@ export default function formReducer(state = initialState, action) {
     case FORM_SUBMIT_FAILED:
       return {
         ...state,
-        submitStatus: FETCH_STATUS.failed,
+        submitStatus: action.isVaos400Error
+          ? FETCH_STATUS.failedVaos400
+          : FETCH_STATUS.failed,
       };
     case FORM_UPDATE_CC_ELIGIBILITY: {
       return {
