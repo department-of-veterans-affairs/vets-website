@@ -11,7 +11,7 @@
     "build:content:test": "node script/test-cms-export.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js --progress",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
-    "cy:test:docker": "cypress run --config baseUrl=http://vets-website:3001",
+    "cy:test:docker": "./script/run-cypress-tests-docker.sh",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
     "prebuild": "node script/prebuild.js",
