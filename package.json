@@ -247,7 +247,7 @@
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
     "classlist-polyfill": "^1.0.3",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.7",
