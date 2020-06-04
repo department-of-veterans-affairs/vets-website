@@ -46,6 +46,8 @@ export class ReviewPage extends React.Component {
       systemId,
     } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
+    const submitFailed = submitStatus === FETCH_STATUS.failed;
+    const isVaos400Error = submitStatus === FETCH_STATUS.failedVaos400;
 
     return (
       <div>
@@ -68,10 +70,7 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
-            disabled={
-              submitStatus === FETCH_STATUS.succeeded ||
-              submitStatus === FETCH_STATUS.failed
-            }
+            disabled={submitStatus === FETCH_STATUS.succeeded || submitFailed}
             isLoading={submitStatus === FETCH_STATUS.loading}
             onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
@@ -79,12 +78,11 @@ export class ReviewPage extends React.Component {
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
           </LoadingButton>
         </div>
-        {(submitStatus === FETCH_STATUS.failed ||
-          submitStatus === FETCH_STATUS.failedVaos400) && (
+        {(submitFailed || isVaos400Error) && (
           <AlertBox
             status="error"
             headline={
-              submitStatus === FETCH_STATUS.failedVaos400
+              isVaos400Error
                 ? 'We can’t schedule your appointment'
                 : `Your ${
                     isDirectSchedule ? 'appointment' : 'request'
@@ -92,7 +90,7 @@ export class ReviewPage extends React.Component {
             }
             content={
               <>
-                {submitStatus === FETCH_STATUS.failedVaos400 ? (
+                {isVaos400Error ? (
                   <p>
                     We’re sorry. You can’t schedule your appointment on the VA
                     appointments tool. Please contact your local VA medical
@@ -116,7 +114,7 @@ export class ReviewPage extends React.Component {
                         data.vaFacility || data.communityCareSystemId,
                       )}`}
                     >
-                      {submitStatus === FETCH_STATUS.failedVaos400
+                      {isVaos400Error
                         ? 'Find facility contact information'
                         : 'Contact your local VA medical center'}
                     </a>
