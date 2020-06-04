@@ -15,18 +15,18 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .clearValue('input[name="street-city-state-zip"]')
-    .setValue('input[name="street-city-state-zip"]', 'Dallas, TX');
+    .setValue('input[name="street-city-state-zip"]', 'Seattle, WA');
 
   client
     .click('input[type="submit"]')
-    .waitForElementVisible('.facility-result', Timeouts.verySlow)
+    .waitForElementVisible('.facility-result', Timeouts.normal)
     .axeCheck('.main');
 
   // check detail pages
   client
-    .waitForElementVisible('.facility-result a', Timeouts.verySlow)
+    .waitForElementVisible('.facility-result a', Timeouts.slow)
     .click('.facility-result a')
-    .waitForElementVisible('.all-details', Timeouts.verySlow)
+    .waitForElementVisible('.all-details', Timeouts.slow)
     .axeCheck('.main');
 
   client.end();
