@@ -61,7 +61,7 @@ const asyncReturn = (returnValue, error, delay = 300) =>
     }, delay);
   });
 
-const submit = (form, formConfig) => {
+const submit = form => {
   const submissionData = JSON.stringify(form.data);
   const itemQuantities = form.data?.selectedProducts?.length;
   const selectedAddress = form.data?.currentAddress;
@@ -100,7 +100,6 @@ const submit = (form, formConfig) => {
       attributes: { confirmationNumber: '123123123' },
       submissionData,
       shippingAddress,
-      // updatedFormSubtitle,
     },
     'this is an error message',
   )
