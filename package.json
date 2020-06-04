@@ -202,7 +202,7 @@
     "polyfill-function-prototype-bind": "0.0.1",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.14.3",
-    "puppeteer": "^1.9.0",
+    "puppeteer": "^3.3.0",
     "quick_check": "^0.7.0",
     "react-test-renderer": "^16.7.0",
     "recursive-readdir": "^2.2.2",
