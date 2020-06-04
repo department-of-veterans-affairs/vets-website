@@ -34,7 +34,6 @@ export default function ExpandingGroup({
             id={expandedContentId}
             classNames="form-expanding-group-inner"
             timeout={700}
-            exit={false}
           >
             <div key="removable-group" className={additionalClass}>
               {children[1]}
