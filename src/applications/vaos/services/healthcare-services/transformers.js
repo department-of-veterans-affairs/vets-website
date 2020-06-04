@@ -1,33 +1,3 @@
-const CodeableConcept = {
-  // Code defined by a terminology system
-  coding: {
-    // The identification of the code system that defines the meaning of the symbol in the code.
-    system: '',
-    // The version of the code system which was used when choosing this code.
-    version: '',
-    // A symbol in syntax defined by the system.
-    code: '',
-    // A representation of the meaning of the code in the system, following the rules of the system.
-    display: '',
-    userSelected: false,
-  },
-  // Plain text representation of the concept
-  text: '',
-};
-
-function mapSecondaryStopCode(clinic) {
-  if (clinic.secondaryStopCode) {
-    const obj = {
-      ...CodeableConcept,
-    };
-    obj.coding.code = clinic.secondaryStopCode;
-
-    return [obj];
-  }
-
-  return [];
-}
-
 /**
  * Transforms
  * /vaos/v0/facilities/{facilityId}/clinics
@@ -39,7 +9,7 @@ function mapSecondaryStopCode(clinic) {
  *
  * @returns {Object} A FHIR HealthcareService object
  */
-export function transformAvailableClinic(facilityId, clinic) {
+export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
   return {
     id: `var${facilityId}_${clinic.clinicId}`,
     resourceType: 'HealthcareService',
@@ -47,7 +17,6 @@ export function transformAvailableClinic(facilityId, clinic) {
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
-        // TODO: get clinic id
         value: `urn:va:healthcareservice:${clinic.siteCode}:${facilityId}:${
           clinic.clinicId
         }`,
@@ -55,44 +24,26 @@ export function transformAvailableClinic(facilityId, clinic) {
     ],
 
     // Organization that provides this service
-    // NOTE: Is this the location or the Organization????
-    providedBy: 'Organization/39383',
-
-    // Broad category of service being performed or delivered
-    serviceCategory: { ...CodeableConcept },
+    providedBy: `Organization/var${clinic.siteCode}`,
 
     // Specific service delivered or performed
     serviceType: [
       {
         // Type of service delivered or performed.
-        // NOTE: Use for primary stop code
-        type: [
-          {
-            // Code defined by a terminology system
-            coding: {
-              // The identification of the code system that defines the meaning of the symbol in the code.
-              system: '',
-              // The version of the code system which was used when choosing this code.
-              version: '',
-              // A symbol in syntax defined by the system.
-              code: clinic.primaryStopCode,
-              // A representation of the meaning of the code in the system, following the rules of the system.
-              display: '',
-              userSelected: false,
-            },
-            // Plain text representation of the concept
-            text: '',
+        type: {
+          // Code defined by a terminology system
+          coding: {
+            // A symbol in syntax defined by the system.
+            code: typeOfCareId,
+            userSelected: false,
           },
-        ],
-        // Specialties handled by the Service Site
-        // NOTE: Use for secondary stop code if available
-        specialty: mapSecondaryStopCode(clinic),
+        },
       },
     ],
 
     // Location where service may be provided
     location: {
-      reference: `Location/3938336763`,
+      reference: `Location/var${facilityId}`,
     },
 
     // Description of service as presented to a consumer while searching
@@ -100,21 +51,11 @@ export function transformAvailableClinic(facilityId, clinic) {
       ? clinic.clinicFriendlyLocationName
       : clinic.clinicName,
 
-    // Additional description and/or any specific issues not covered elsewhere
-    comment: '',
-
-    // Extra details about the service that can't be placed in the other fields
-    extraDetails: '',
-
     // Collection of characteristics (attributes)
     characteristic: [
       {
         // Code defined by a terminology system
         coding: {
-          // The identification of the code system that defines the meaning of the symbol in the code.
-          system: '',
-          // The version of the code system which was used when choosing this code.
-          version: '',
           // A symbol in syntax defined by the system.
           code: clinic.directSchedulingFlag,
           // A representation of the meaning of the code in the system, following the rules of the system.
@@ -128,10 +69,6 @@ export function transformAvailableClinic(facilityId, clinic) {
       {
         // Code defined by a terminology system
         coding: {
-          // The identification of the code system that defines the meaning of the symbol in the code.
-          system: '',
-          // The version of the code system which was used when choosing this code.
-          version: '',
           // A symbol in syntax defined by the system.
           code: clinic.displayToPatientFlag,
           // A representation of the meaning of the code in the system, following the rules of the system.
@@ -146,9 +83,6 @@ export function transformAvailableClinic(facilityId, clinic) {
 
     // If an appointment is required for access to this service
     appointmentRequired: true,
-
-    // Description of availability exceptions
-    availabilityExceptions: '',
   };
 }
 
@@ -163,6 +97,8 @@ export function transformAvailableClinic(facilityId, clinic) {
  *
  * @returns {Array} An array of FHIR HealthcareService objects
  */
-export function transformAvailableClinics(facilityId, clinics) {
-  return clinics.map(clinic => transformAvailableClinic(facilityId, clinic));
+export function transformAvailableClinics(facilityId, typeOfCareId, clinics) {
+  return clinics.map(clinic =>
+    transformAvailableClinic(facilityId, typeOfCareId, clinic),
+  );
 }

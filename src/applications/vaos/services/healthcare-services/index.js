@@ -10,7 +10,7 @@ function parseId(id) {
   return id.replace('var', '');
 }
 
-export async function getAvailableHealthCareSystems(
+export async function getAvailableHealthcareServices(
   facilityId,
   typeOfCareId,
   systemId,
@@ -22,7 +22,11 @@ export async function getAvailableHealthCareSystems(
       systemId,
     );
 
-    return transformAvailableClinics(parseId(facilityId), clinics);
+    return transformAvailableClinics(
+      parseId(facilityId),
+      typeOfCareId,
+      clinics,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
