@@ -209,7 +209,7 @@
     "recursive-uncache": "^0.1.1",
     "request": "^2.79.0",
     "sass-lint": "^1.10.2",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^8.0.2",
     "saucelabs": "^1.4.0",
     "selenium-server": "^3.4.0",
     "semver": "^5.3.0",
