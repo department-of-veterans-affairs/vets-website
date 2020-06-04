@@ -267,3 +267,46 @@ const uiSchema = {
 };
 ```
 ![YesNoWidget example](images/yesnowidget-yesnoreverse.png)
+
+To get an idea of when this would be appropriate, see the following example from
+the 21-526EZ All Claims form:
+**Example:**
+```jsx
+const waiveTrainingPayDescription = (
+  <p>
+    You can’t get VA compensation for the same days you get training pay. If you
+    want to keep your training pay, you’ll need to waive (or tell us you don’t
+    want to get) VA compensation pay for the days you receive training pay.{' '}
+    <strong>
+      In general, training pay is going to be more than your compensation pay
+      for any given day.
+    </strong>
+  </p>
+);
+
+const schema = {
+  type: 'object',
+  properties: {
+    waiveTrainingPay: { type: 'boolean' },
+  },
+};
+
+const uiSchema = {
+  'ui:title': 'Training pay waiver',
+  waiveTrainingPay: {
+    'ui:title': ' ',
+    'ui:description': waiveTrainingPayDescription,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      yesNoReverse: true,
+      labels: {
+        Y:
+          'I don’t want to get VA compensation pay for the days I receive training pay.',
+        N: 'I want to get VA compensation pay instead of training pay.',
+      },
+    },
+  },
+};
+```
+
+![YesNoWidget example](images/yesnowidget-yesnoreverse-2.png)
