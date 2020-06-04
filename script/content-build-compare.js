@@ -12,7 +12,7 @@ function getAllFiles(dirPath, arrayOfFiles = []) {
       /* eslint-disable no-param-reassign */
       arrayOfFiles = getAllFiles(`${dirPath}/${file}`, arrayOfFiles);
     } else {
-      arrayOfFiles.push(path.join(__dirname, dirPath, '/', file));
+      arrayOfFiles.push(path.join(dirPath, '/', file));
     }
   });
 
@@ -61,12 +61,12 @@ function hashBuildOutput(outputDir, hashFile) {
 
 function compareBuilds(buildtype) {
   const websiteContentBuild = hashBuildOutput(
-    `../build/${buildtype}`,
-    'buildOutput.txt',
+    path.join(__dirname, `../build/${buildtype}`),
+    '.buildOutput.txt',
   );
   const standaloneContentBuild = hashBuildOutput(
-    `../../content-build/build/${buildtype}`,
-    'buildOutput2.txt',
+    path.join(__dirname, `../../content-build/build/${buildtype}`),
+    '.buildOutput2.txt',
   );
 
   /* eslint-disable no-console */
