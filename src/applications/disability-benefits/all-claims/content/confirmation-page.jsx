@@ -193,8 +193,8 @@ export const submitErrorContent = props =>
           <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
             800-827-1000
           </a>
-          , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET,{' '}
-          <strong>or</strong>
+          , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET and provide this
+          reference number {props.submissionId}, <strong>or</strong>
         </li>
         <li>
           Get in touch with your nearest Veterans Service Officer (VSO).{' '}

@@ -639,8 +639,8 @@ describe('VAOS appointment helpers', () => {
   describe('sortFutureConfirmedAppointments', () => {
     it('should sort future confirmed appointments', () => {
       const confirmed = [
-        { appointmentDate: moment('2099-04-30T05:35:00'), facilityId: '984' },
-        { appointmentDate: moment('2099-04-27T05:35:00'), facilityId: '983' },
+        { start: moment('2099-04-30T05:35:00'), facilityId: '984' },
+        { start: moment('2099-04-27T05:35:00'), facilityId: '983' },
       ];
 
       const sorted = confirmed.sort(sortFutureConfirmedAppointments);
@@ -657,6 +657,14 @@ describe('VAOS appointment helpers', () => {
           optionDate1: now
             .clone()
             .add(2, 'days')
+            .format('MM/DD/YYYY'),
+        },
+        {
+          status: 'Cancelled',
+          appointmentType: 'Primary Care',
+          optionDate1: now
+            .clone()
+            .subtract(2, 'days')
             .format('MM/DD/YYYY'),
         },
         {
@@ -704,7 +712,15 @@ describe('VAOS appointment helpers', () => {
       ];
 
       const filteredRequests = requests.filter(r => filterRequests(r, now));
-      expect(filteredRequests.length).to.equal(3);
+      expect(
+        filteredRequests.filter(req => req.status === 'Cancelled').length,
+      ).to.equal(1);
+      expect(
+        filteredRequests.filter(req => req.status === 'Submitted').length,
+      ).to.equal(4);
+      expect(
+        filteredRequests.filter(req => req.status === 'Booked').length,
+      ).to.equal(0);
     });
   });
 

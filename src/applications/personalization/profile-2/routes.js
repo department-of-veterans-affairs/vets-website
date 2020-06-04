@@ -7,7 +7,7 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 export default [
   {
     component: PersonalInformation,
-    name: 'Personal and contact Information',
+    name: 'Personal and contact information',
     path: '/profile/personal-information',
     requiresLOA3: true,
     requiresMVI: true,
