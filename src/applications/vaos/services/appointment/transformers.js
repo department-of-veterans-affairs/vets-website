@@ -218,7 +218,7 @@ function setParticipant(appt) {
       return null;
     }
 
-    return [
+    const participants = [
       {
         actor: {
           reference: `HealthcareService/var${appt.facilityId}_${appt.clinicId}`,
@@ -226,12 +226,17 @@ function setParticipant(appt) {
             appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
         },
       },
-      {
+    ];
+
+    if (appt.sta6aid) {
+      participants.push({
         actor: {
           reference: `Location/var${appt.sta6aid}`,
         },
-      },
-    ];
+      });
+    }
+
+    return participants;
   }
 
   return null;
