@@ -29,14 +29,12 @@
     }
 }
 
-.address-page, .battery-page, .accessory-page {
-  [type=checkbox], [type=radio] {
-    width: inherit;
-  }
+.vads-u-max-width--226 {
+  max-width: 226px;
 }
 
-.vads-u-width-293 {
-  width: 293px;
+.vads-u-max-width--293 {
+  max-width: 293px;
 }
 
 .confirmation-page > .usa-alert-success::before {

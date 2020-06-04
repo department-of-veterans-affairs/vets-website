@@ -378,10 +378,10 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div className="vads-u-margin-top--2 vads-u-width-293">
+              <div className="vads-u-margin-top--2 vads-u-max-width--293">
                 <input
                   id={this.props.name}
-                  className="vads-u-margin-left--0"
+                  className="vads-u-margin-left--0 vads-u-max-width--293"
                   type="radio"
                   checked={this.props.currentAddress === this.props.name}
                   onChange={() =>

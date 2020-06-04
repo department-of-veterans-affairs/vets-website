@@ -47,6 +47,12 @@ class Batteries extends Component {
       batterySupplies.every(
         battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
       );
+    const isBatterySelected = batteryProductId => {
+      const selectedProductIds = selectedProducts.map(
+        selectedProduct => selectedProduct.productId,
+      );
+      return selectedProductIds.includes(batteryProductId);
+    };
 
     if (!areBatterySuppliesEligible) {
       recordEvent({
@@ -162,10 +168,7 @@ class Batteries extends Component {
             <div
               key={batterySupply.productId}
               className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2 ${
-                selectedProducts.find(
-                  selectedProduct =>
-                    selectedProduct.productId === batterySupply.productId,
-                )
+                isBatterySelected(batterySupply.productId)
                   ? 'vads-u-border-color--primary vads-u-border--3px'
                   : ''
               }`}
@@ -205,27 +208,19 @@ class Batteries extends Component {
                   status="warning"
                 />
               ) : (
-                <div className="vads-u-width-293">
+                <div className="vads-u-max-width--293">
                   <input
                     name={batterySupply.productId}
-                    className="vads-u-margin-left--0"
+                    className="vads-u-margin-left--0 vads-u-max-width--293"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, batterySupply)
                     }
-                    checked={
-                      !!selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId === batterySupply.productId,
-                      )
-                    }
+                    checked={isBatterySelected(batterySupply.productId)}
                   />
                   <label
                     className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                      selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId === batterySupply.productId,
-                      )
+                      isBatterySelected(batterySupply.productId)
                         ? 'vads-u-color--white'
                         : 'vads-u-background-color--white vads-u-color--primary'
                     }`}

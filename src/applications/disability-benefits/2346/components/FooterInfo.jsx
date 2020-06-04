@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const FooterInfo = () => {
+const FooterInfo = () => {
   const sectionClassNames =
     'vads-u-margin-y--2p5 vads-u-display--flex vads-u-flex-direction--column';
 
@@ -29,3 +29,5 @@ export const FooterInfo = () => {
     </>
   );
 };
+
+export default FooterInfo;

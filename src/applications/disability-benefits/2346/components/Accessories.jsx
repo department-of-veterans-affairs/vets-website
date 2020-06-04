@@ -50,6 +50,13 @@ class Accessories extends Component {
     );
     const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
+    const isAccessorySelected = accessoryProductId => {
+      const selectedProductIds = selectedProducts.map(
+        selectedProduct => selectedProduct.productId,
+      );
+      return selectedProductIds.includes(accessoryProductId);
+    };
+
     if (!areAccessorySuppliesEligible) {
       recordEvent({
         event: 'bam-error',
@@ -152,10 +159,7 @@ class Accessories extends Component {
             <div
               key={accessorySupply.productId}
               className={`vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3 ${
-                selectedProducts.find(
-                  selectedProduct =>
-                    selectedProduct.productId === accessorySupply.productId,
-                )
+                isAccessorySelected(accessorySupply.productId)
                   ? 'vads-u-border-color--primary vads-u-border--3px'
                   : ''
               }`}
@@ -187,30 +191,20 @@ class Accessories extends Component {
                   status="warning"
                 />
               ) : (
-                <div className="vads-u-width-293">
+                <div className="vads-u-max-width--226">
                   <input
                     id={accessorySupply.productId}
-                    className="vads-u-margin-left--0"
+                    className="vads-u-margin-left--0 vads-u-max-width--226"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)
                     }
-                    checked={
-                      !!selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId ===
-                          accessorySupply.productId,
-                      )
-                    }
+                    checked={isAccessorySelected(accessorySupply.productId)}
                   />
                   <label
                     htmlFor={accessorySupply.productId}
                     className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                      selectedProducts.find(
-                        selectedProduct =>
-                          selectedProduct.productId ===
-                          accessorySupply.productId,
-                      )
+                      isAccessorySelected(accessorySupply.productId)
                         ? 'vads-u-color--white'
                         : 'vads-u-background-color--white vads-u-color--primary'
                     }`}
