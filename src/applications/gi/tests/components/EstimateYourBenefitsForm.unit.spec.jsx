@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import EstimateYourBenefitsForm from '../../components/profile/EstimateYourBenefitsForm';
 
 const props = {
