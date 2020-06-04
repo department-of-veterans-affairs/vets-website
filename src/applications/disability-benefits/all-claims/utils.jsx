@@ -10,6 +10,8 @@ import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
+import titleCase from 'platform/utilities/data/titleCase';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
@@ -69,6 +71,8 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const forceTitleCase = text => titleCase(text.toLowerCase());
 
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
