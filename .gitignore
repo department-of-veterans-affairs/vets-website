@@ -36,6 +36,7 @@ all-links.csv
 .tern-port
 *.iml
 
-# Track recommended extensions
+# Track shared IDE config
 !.vscode/extensions.json
+!.vscode/launch.json
 
