@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import { Element } from 'react-scroll';
 import FormQuestion from './FormQuestion';
@@ -6,12 +5,7 @@ import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import {
-  getEnabledQuestions,
-  checkFormStatus,
-  recordCompletion,
-  scrollTo,
-} from '../lib';
+import { getEnabledQuestions, checkFormStatus, scrollTo } from '../lib';
 
 export default function MultiQuestionForm({ questions, defaultOptions }) {
   const [formState, setFormState] = useState({
@@ -26,17 +20,24 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
   // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
   useEffect(
     () => {
-      console.log('questionState', questionState);
-
-      if (formState.status !== checkFormStatus(questionState)) {
+      let completed = formState.completed;
+      const newStatus = checkFormStatus(questionState);
+      if (formState.status !== newStatus) {
+        // record first completion of form
+        if (completed === false) {
+          recordEvent({
+            event: 'covid-screening-tool-result-displayed',
+            'screening-tool-result': formState.result,
+            'time-to-complete': moment().unix() - formState.startTime,
+          });
+          completed = true;
+        }
         setFormState({
           ...formState,
-          status: checkFormStatus(questionState),
+          status: newStatus,
+          completed,
         });
-        recordCompletion({ formState, setFormState });
       }
-
-      console.log('formState', formState);
     },
     [questionState, formState],
   );
