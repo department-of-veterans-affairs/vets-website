@@ -52,14 +52,6 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
-function prefillTransformer(pages, formData, metadata) {
-  console.log('the pages are ');
-  console.log(pages);
-
-  console.log('The formData is ');
-  console.log(formData);
-}
-
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
@@ -74,7 +66,6 @@ const formConfig = {
   version: migrations.length,
   migrations,
   prefillEnabled: true,
-  prefillTransformer,
   verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
