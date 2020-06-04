@@ -375,9 +375,8 @@ export function confirmCancelAppointment() {
       });
       resetDataLayer();
     } catch (e) {
-      let isVaos400Error = false;
-      if (e?.errors?.[0]?.code === 'VAOS_400') {
-        isVaos400Error = true;
+      const isVaos400Error = e?.errors?.[0]?.code === 'VAOS_400';
+      if (isVaos400Error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', e);
           scope.setExtra('cancelReasons', cancelReasons);
