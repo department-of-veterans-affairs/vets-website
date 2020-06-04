@@ -29,7 +29,15 @@ function mapSecondaryStopCode(clinic) {
 }
 
 /**
+ * Transforms
+ * /vaos/v0/facilities/{facilityId}/clinics
+ * to
+ * /HealthcareService
  *
+ * @param {String} facilityId
+ * @param {Object} clinic Clinic object to transform to HealthcareService object
+ *
+ * @returns {Object} A FHIR HealthcareService object
  */
 export function transformAvailableClinic(facilityId, clinic) {
   return {
@@ -145,9 +153,15 @@ export function transformAvailableClinic(facilityId, clinic) {
 }
 
 /**
+ * Transforms
+ * /vaos/v0/facilities/{facilityId}/clinics
+ * to
+ * /HealthcareService
  *
- * @param {*} location
- * @param {*} clinics
+ * @param {String} facilityId
+ * @param {Array} clinics Array of clinic objects to transform to HealthcareService objects
+ *
+ * @returns {Array} An array of FHIR HealthcareService objects
  */
 export function transformAvailableClinics(facilityId, clinics) {
   return clinics.map(clinic => transformAvailableClinic(facilityId, clinic));
