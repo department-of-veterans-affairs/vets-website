@@ -3,9 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  // eslint-disable-next-line no-console
-  console.log(`${E2eHelpers.baseUrl}/find-locations/`);
-  client.url(`${E2eHelpers.baseUrl}/find-locations/`);
+  client.url(`https://staging.va.gov/find-locations/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
   FacilityHelpers.initApplicationMock();
