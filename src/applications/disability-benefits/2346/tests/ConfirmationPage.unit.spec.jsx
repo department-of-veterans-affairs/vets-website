@@ -1,6 +1,6 @@
-import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import React from 'react';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
@@ -12,6 +12,15 @@ describe('ConfirmationPage', () => {
           response: {
             attributes: {
               confirmationNumber: '123456',
+            },
+            shippingAddress: {
+              'view:livesOnMilitaryBaseInfo': {},
+              country: 'USA',
+              street: '101 Example Street',
+              street2: 'Apt 2',
+              city: 'Kansas City',
+              state: 'MO',
+              postalCode: '64117',
             },
           },
         },
@@ -121,7 +130,7 @@ describe('ConfirmationPage', () => {
 
   it('verify second alertbox content', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
-    const alertBox = confirmationPage.find('AlertBox');
+    const alertBox = confirmationPage.find('AlertBox').last();
     expect(alertBox.find('h4').text()).to.equal(
       'Request for Batteries and Accessories (Form 2346)',
     );
@@ -137,18 +146,12 @@ describe('ConfirmationPage', () => {
         .at(1)
         .text(),
     ).to.equal('WaxBuster Single Unit (Quantity: 10)');
-    expect(
-      alertBox
-        .find('p')
-        .at(4)
-        .text(),
-    ).to.equal(' May 8, 2020');
-    expect(
-      alertBox
-        .find('p')
-        .at(6)
-        .text(),
-    ).to.equal('123456');
+    expect(alertBox.text()).to.include('May 8, 2020');
+    expect(alertBox.text()).to.include('123456');
+    expect(alertBox.text()).to.include('Shipping Address');
+    expect(alertBox.text()).to.include('101 Example Street Apt 2');
+    expect(alertBox.text()).to.include('Kansas City');
+    expect(alertBox.text()).to.include('MO');
     confirmationPage.unmount();
   });
 });
