@@ -125,7 +125,7 @@ describe('<EstimateYourBenefitsForm>', () => {
     expect(errorMessage.length).to.equal(0);
   });
 
-  it('should invoke updateEstimatedBenefits on "Calculate benefits" click, with valid data', () => {
+  it('should invoke updateEstimatedBenefits on "Update benefits" click, with valid data', () => {
     const validInput = {
       beneficiaryLocationQuestion: 'other',
       beneficiaryZIP: '60641',
@@ -160,7 +160,7 @@ describe('<EstimateYourBenefitsForm>', () => {
     tree.unmount();
   });
 
-  it('should not invoke updateEstimatedBenefits on "Calculate benefits" click, with invalid data', () => {
+  it('should not invoke updateEstimatedBenefits on "Update benefits" click, with invalid data', () => {
     const validInput = {
       beneficiaryLocationQuestion: 'other',
       beneficiaryZIP: '#',
@@ -190,6 +190,70 @@ describe('<EstimateYourBenefitsForm>', () => {
       .at(0)
       .simulate('click');
     expect(updateEstimatedBenefits.called).to.be.false;
+    tree.unmount();
+  });
+
+  it('"Update benefits" is disabled without input change', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={() => {}}
+      />,
+    );
+
+    expect(
+      tree
+        .find('.calculate-button')
+        .at(0)
+        .prop('disabled'),
+    ).to.be.true;
+    tree.unmount();
+  });
+
+  it('"Update benefits" is enabled after input change', () => {
+    const validInput = {
+      beneficiaryLocationQuestion: 'other',
+      beneficiaryZIP: '60641',
+    };
+    const tree = mount(
+      <EstimateYourBenefitsForm
+        profile={props.profile}
+        eligibility={props.eligibility}
+        eligibilityChange={() => {}}
+        inputs={validInput}
+        displayedInputs={{}}
+        showModal={() => {}}
+        calculatorInputChange={() => {}}
+        onBeneficiaryZIPCodeChanged={() => {}}
+        estimatedBenefits={{}}
+        isLoggedIn={false}
+        updateEstimatedBenefits={() => {}}
+      />,
+    );
+    tree
+      .find('#militaryStatus')
+      .at(0)
+      .simulate('change', { target: 'active duty' });
+
+    expect(
+      tree
+        .find('.calculate-button')
+        .at(0)
+        .prop('disabled'),
+    ).to.be.false;
     tree.unmount();
   });
 
