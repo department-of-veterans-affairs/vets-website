@@ -650,6 +650,59 @@ export const fillStepchildDetails = (client, data) => {
     );
 };
 
+export const fill674StudentInformation = (client, data) => {
+  client
+    .fill(
+      'input[name="root_studentNameAndSSN_fullName_first"]',
+      data.childInformation.firstName,
+    )
+    .fill(
+      'input[name="root_studentNameAndSSN_fullName_last"]',
+      data.childInformation.lastName,
+    )
+    .fill('input[name"root_studentNameAndSSN_ssn"]', data.childInformation.ssn)
+    .selectDropdown(
+      'root_studentNameAndSSN_birthDateMonth',
+      data.childStoppedAttending.date.month,
+    )
+    .selectDropdown(
+      'root_studentNameAndSSN_birthDateDay',
+      data.childStoppedAttending.date.day,
+    )
+    .selectDropdown(
+      'root_studentNameAndSSN_birthDateYear',
+      data.childStoppedAttending.date.year,
+    );
+};
+
+export const fill674StudentAddress = (client, data) => {
+  client
+    .selectDropdown(
+      'root_veteranContactInformation_veteranAddress_countryName',
+      data.veteranDomesticAddress.countryName,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_veteranAddress_addressLine1"]',
+      data.veteranDomesticAddress.addressLine1,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_veteranAddress_city"]',
+      data.veteranDomesticAddress.city,
+    )
+    .selectDropdown(
+      'root_veteranContactInformation_veteranAddress_stateCode',
+      data.veteranDomesticAddress.stateCode,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_veteranAddress_zipCode"]',
+      data.veteranDomesticAddress.zipCode,
+    )
+    .fill(
+      'input[name="root_veteranContactInformation_phoneNumber"]',
+      data.veteranDomesticAddress.phoneNumber,
+    );
+};
+
 export const initApplicationSubmitMock = token => {
   mock(token, {
     path: '/v0/21-686c',
