@@ -10,14 +10,14 @@
 .address-page {
   [type=radio]:checked + label::before {
     background-color: $color-white;
-    box-shadow: 0 0 0 2px #0071BB, 0 0 0 4px #ffffff;
+    box-shadow: 0 0 0 2px $color-primary, 0 0 0 4px $color-white;
   }
 }
 .battery-page, .accessory-page {
   [type=checkbox]:checked + label::before {
     background-color: $color-white;
     color: $color-primary;
-    content: '\f00c';
+    content: "\f00c";
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
     }
@@ -27,6 +27,18 @@
         font-size: 16px;
       }
     }
+}
+
+.vads-u-max-width--226 {
+  max-width: 226px;
+}
+
+.vads-u-max-width--293 {
+  max-width: 293px;
+}
+
+.confirmation-page > .usa-alert-success::before {
+  color: $color-black;
 }
 
 dt {
