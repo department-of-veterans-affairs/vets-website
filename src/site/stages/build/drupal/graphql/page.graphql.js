@@ -30,6 +30,7 @@ module.exports = `
     ${entityElementsFromPages}
     fieldIntroText
     fieldDescription
+    fieldTableOfContentsBoolean
     fieldFeaturedContent {
       entity {
         entityType

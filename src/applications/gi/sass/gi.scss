@@ -86,6 +86,9 @@
   h1:focus {
     outline: none;
   }
+  nav {
+    margin-left: 0.5rem;
+  }
 }
 @media (max-width: 481px) {
   .about-this-tool-mobile {
@@ -128,43 +131,8 @@
   }
 }
 
-.form-expanding-group-open {
-  border-left: none;
-}
-
 .gids-radio-buttons-input {
   width: 40px;
-}
-
-.vet-tec-programs-table {
-  .name-col {
-    width: 70%;
-  }
-  .hours-col {
-    width: 15%;
-  }
-  .tuition-col {
-    width: 15%;
-  }
-  thead {
-    tr {
-      th {
-        border-top: 0;
-        border-right: 0;
-        border-left: 0;
-      }
-    }
-  }
-  tr {
-    th {
-      border-right: 0;
-      border-left: 0;
-    }
-    td {
-      border-right: 0;
-      border-left: 0;
-    }
-  }
 }
 
 .section-item {

@@ -50,6 +50,13 @@
         </div>
         {% endif %}
 
+        {% if fieldTableOfContentsBoolean != empty and fieldTableOfContentsBoolean %}
+        <section id="table-of-contents">
+          <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+          <ul class="usa-unstyled-list"></ul>
+        </section>
+        {% endif %}
+
         {% for block in fieldContentBlock %}
           {% assign bundleComponent = "src/site/paragraphs/" | append: block.entity.entityBundle %}
           {% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}

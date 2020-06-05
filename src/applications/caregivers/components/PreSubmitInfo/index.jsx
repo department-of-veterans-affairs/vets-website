@@ -4,8 +4,7 @@ import SignatureCheckbox from './components/SignatureBox';
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData }) => {
   const veteranLabel = `Enter Veteran's or service member\u2019s full name`;
   const primaryLabel = 'Enter Primary Family Caregiver\u2019s full name';
-  const secondaryOneLabel =
-    'Enter Secondary Family Caregiver&apos\u2019s full name';
+  const secondaryOneLabel = 'Enter Secondary Family Caregiver\u2019s full name';
   const secondaryTwoLabel =
     'Enter Secondary Family Caregiver\u2019s (2) full name';
   const [signatures, setSignature] = useState({});

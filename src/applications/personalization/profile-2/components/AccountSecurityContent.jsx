@@ -64,8 +64,8 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      {!isInMVI && <NotInMVI />}
-      {!isIdentityVerified && isInMVI && <IdentityNotVerified />}
+      {!isIdentityVerified && <IdentityNotVerified />}
+      {!isInMVI && isIdentityVerified && <NotInMVI />}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
