@@ -170,7 +170,6 @@ const processPage = () => {
 
 /**
  * Runs the page hook if there is one for the current page.
- *
  * @param {string} pathname - The pathname for the current URL.
  * @returns {boolean} Resolves true if a hook ran and false otherwise.
  */
@@ -197,7 +196,6 @@ Cypress.Commands.add('execHook', pathname => {
 
 /**
  * Looks up data for a field.
- *
  * @param {Field}
  * @returns {*} Resolves to the field data if found or undefined otherwise.
  */
@@ -226,18 +224,17 @@ Cypress.Commands.add('findData', field => {
 
 /**
  * Enters data for a field.
- *
  * @param {Field}
  */
 Cypress.Commands.add('enterData', field => {
   switch (field.type) {
-    // Select fields register as having a type === 'select-one'
+    // Select fields register as having type 'select-one'.
     case 'select-one':
       cy.wrap(field.element).select(field.data);
       break;
 
     case 'checkbox': {
-      // Only click the checkbox if we need to
+      // Only click the checkbox if we need to.
       const checked = field.element.prop('checked');
       if ((checked && !field.data) || (!checked && field.data)) {
         cy.wrap(field.element).click();
@@ -254,7 +251,7 @@ Cypress.Commands.add('enterData', field => {
         .clear()
         .type(field.data)
         .then(element => {
-          // Get the autocomplete menu out of the way
+          // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') {
             cy.wrap(element).type('{downarrow}{enter}');
           }
@@ -264,34 +261,30 @@ Cypress.Commands.add('enterData', field => {
 
     case 'radio': {
       let value = field.data;
-      // Use 'Y' / 'N' because of the yesNo widget
-      if (typeof field.data === 'boolean') value = field.data ? 'Y' : 'N';
+      // Use 'Y' / 'N' because of the yesNo widget.
+      if (typeof value === 'boolean') value = value ? 'Y' : 'N';
       cy.get(`input[name="${field.key}"][value="${value}"]`).click();
       break;
     }
 
     case 'date': {
-      const dateComponents = field.data.split('-');
+      const [year, month, day] = field.data
+        .split('-')
+        .map(dateComponent => parseInt(dateComponent, 10).toString());
 
-      cy.get(`input[name="${field.key}Year"]`)
+      cy.get(`#${field.key}Year`)
         .clear()
-        .type(dateComponents[0]);
+        .type(year);
 
-      cy.get(`select[name="${field.key}Month"]`).select(
-        parseInt(dateComponents[1], 10).toString(),
-      );
+      cy.get(`#${field.key}Month`).select(month);
 
-      if (dateComponents[2] !== 'XX') {
-        cy.get(`select[name="${field.key}Day"]`).select(
-          parseInt(dateComponents[2], 10).toString(),
-        );
-      }
+      if (day !== 'XX') cy.get(`#${field.key}Day`).select(day);
 
       break;
     }
 
     case 'file': {
-      cy.get(`input[id="${field.key}"]`)
+      cy.get(`#${field.key}`)
         .upload('example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
@@ -318,19 +311,31 @@ Cypress.Commands.add('fillPage', () => {
       const touchedFields = new Set();
       const snapshot = {};
 
+      /**
+       * Fills out a field (or set of fields) using the created field object,
+       * if it's eligible, and exempts it from further processing.
+       *
+       * There are several reasons a field might not be eligible:
+       * 1. No key was derived; the element has no name or id.
+       * 2. The field was already processed individually or as part of a set.
+       * 3. The element isn't part of the form schema.
+       * 4. The element detached from the DOM, possibly due to re-rendering.
+       *    It also may have changed as a result of interacting with another
+       *    field. It will be processed in a later iteration.
+       *
+       * @param {Field}
+       */
       const processFieldObject = field => {
         const shouldSkipField =
           !field.key ||
           touchedFields.has(field.key) ||
-          !field.key.startsWith('root_');
+          !field.key.startsWith('root_') ||
+          Cypress.dom.isDetached(field.element);
 
         if (shouldSkipField) return;
 
         cy.findData({ ...field, arrayItemPath }).then(data => {
-          if (typeof data !== 'undefined') {
-            cy.enterData({ ...field, data });
-          }
-
+          if (typeof data !== 'undefined') cy.enterData({ ...field, data });
           touchedFields.add(field.key);
         });
       };
