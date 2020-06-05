@@ -3,6 +3,7 @@ import {
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import * as Sentry from '@sentry/browser';
+import classnames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import recordEvent from 'platform/monitoring/record-event';
@@ -219,7 +220,7 @@ class ReviewCardField extends React.Component {
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
-          {needsDlWrapper ? <div className="review">{Field}</div> : Field}
+          {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
@@ -276,13 +277,12 @@ class ReviewCardField extends React.Component {
 
     const headerClasses = [
       'review-card--header',
-      'vads-u-background-color--gray-lightest',
-      'vads-u-padding-top--0',
-      'vads-u-padding-x--1',
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
-      'vads-u-padding--2',
+      'vads-u-padding-top--3',
+      'vads-u-padding-x--3',
+      'vads-u-padding-bottom--2',
     ].join(' ');
     const titleClasses = [
       'review-card--title',
@@ -292,14 +292,11 @@ class ReviewCardField extends React.Component {
     const bodyClasses = [
       'review-card--body',
       'vads-u-border-color--gray-lightest',
-      'vads-u-background-color--gray-lightest',
       'vads-u-border--2px',
       /* Remove the top border because it looks like it just extends the header */
-      'vads-u-border-top--0',
-      'vads-u-padding-x--2',
-      'vads-u-padding-bottom--2',
-      'vads-u-padding-top--0',
+      'vads-u-padding-x--3',
       'vads-u-margin-bottom--1',
+      'vads-u-padding-bottom--3',
     ].join(' ');
     const editLink = [
       'vads-c-link',
@@ -323,8 +320,15 @@ class ReviewCardField extends React.Component {
     const isTempAddressMissing = Object.values(temporaryAddress).every(
       prop => !prop,
     );
+
     return (
-      <div className="review-card">
+      <div
+        className={classnames({
+          'review-card vads-u-margin-bottom--2 vads-u-background-color--gray-lightest': true,
+          'vads-u-border-color--primary vads-u-border--3px':
+            this.props.name === this.props.currentAddress,
+        })}
+      >
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
           <h4 className={titleClasses}>{title}</h4>
         </div>
@@ -338,7 +342,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Edit ${title.toLowerCase()}`}
               >
                 Edit {title.toLowerCase()}
               </a>
@@ -351,7 +354,6 @@ class ReviewCardField extends React.Component {
                 className={editLink}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
-                aria-label={`Add a ${title.toLowerCase()}`}
               >
                 Add a {title.toLowerCase()}
               </a>
@@ -377,9 +379,10 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div className="vads-u-margin-top--2">
+              <div className="vads-u-margin-top--2 vads-u-max-width--293">
                 <input
                   id={this.props.name}
+                  className="vads-u-margin-left--0 vads-u-max-width--293"
                   type="radio"
                   checked={this.props.currentAddress === this.props.name}
                   onChange={() =>
@@ -387,11 +390,13 @@ class ReviewCardField extends React.Component {
                   }
                 />
                 <label
-                  className={`usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary ${
-                    this.props.name === this.props.currentAddress
-                      ? 'vads-u-color--white'
-                      : 'vads-u-background-color--white vads-u-color--primary'
-                  }`}
+                  className={classnames({
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0': true,
+                    'vads-u-color--white':
+                      this.props.name === this.props.currentAddress,
+                    'vads-u-background-color--white vads-u-color--primary':
+                      this.props.name !== this.props.currentAddress,
+                  })}
                   htmlFor={this.props.name}
                 >
                   Send my order to this address
@@ -404,7 +409,6 @@ class ReviewCardField extends React.Component {
             className={`usa-button-primary ${editButton}`}
             style={{ minWidth: '8rem' }}
             onClick={this.startEditing}
-            aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
             {itemNameAction || 'New'} {itemName || title}
           </button>
@@ -489,9 +493,18 @@ class ReviewCardField extends React.Component {
   render() {
     const pageDescription = (
       <>
-        <p className="vads-u-margin-top--2">
-          We'll ship your order to the address below. Orders typically arrive
-          within 7 to 10 business days.
+        <h3 className="vads-u-font-size--h4">Shipping address</h3>
+        <dd className="vads-u-margin-top--2">
+          <p>
+            We'll ship your order to the address below. Orders typically arrive
+            within 7 to 10 business days.
+          </p>
+        </dd>
+        <p className="vads-u-font-weight--bold">
+          Select the address where you'd like to send your order:{' '}
+          <span className="vads-u-font-weight--normal schemaform-required-span">
+            (*Required)
+          </span>
         </p>
       </>
     );

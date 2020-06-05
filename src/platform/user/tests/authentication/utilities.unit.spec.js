@@ -125,12 +125,14 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
-  it.skip('should redirect for SSO auto-login', () => {
+  it('should redirect for SSO auto-login', () => {
     autoLogin();
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?inbound=true',
+    );
   });
 
-  it.skip('should redirect for SSO auto-logout', () => {
+  it('should redirect for SSO auto-logout', () => {
     autoLogout();
     expect(global.window.location).to.include('/v1/sessions/slo/new');
   });

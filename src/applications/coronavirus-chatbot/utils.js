@@ -1,7 +1,25 @@
+import recordEvent from 'platform/monitoring/record-event';
+
+export const GA_PREFIX = 'chatbot';
+
+export const recordLinkClicks = () => {
+  const root = document.getElementById('webchat');
+  root.addEventListener('click', event => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+      recordEvent({
+        event: `${GA_PREFIX}-resource-link-click`,
+        'error-key': undefined,
+      });
+    }
+  });
+};
+
 const disableButtons = event => {
   // if user clicked the div, bubble up to parent to disable the button
   const targetButton =
-    event.target.tagName === 'BUTTON' ? event.target : event.target.parentNode;
+    event.target.tagName.toLowerCase() === 'button'
+      ? event.target
+      : event.target.parentNode;
   const siblingButtons = targetButton.parentNode.childNodes;
 
   for (let i = 0; i < siblingButtons.length; i++) {
@@ -28,6 +46,11 @@ const scrollToNewMessage = () => {
 };
 
 const handleDisableAndScroll = event => {
+  recordEvent({
+    event: `${GA_PREFIX}-button-click`,
+    'error-key': undefined,
+  });
+
   disableButtons(event);
   disableCheckboxes();
   setTimeout(() => {
@@ -62,5 +85,3 @@ export const handleButtonsPostRender = () => {
     addEventListenerToButtons();
   }, 10);
 };
-
-export const GA_PREFIX = 'chatbot';

@@ -5,16 +5,21 @@ import titleCase from 'platform/utilities/data/titleCase';
 import { makeTitle } from '../helpers';
 
 // Much of the mock data is in all caps; not good for a11y
-const changeCase = string => makeTitle(string || '');
+export const changeCase = string => makeTitle(string || '');
 const addBrAfter = line => line && [changeCase(line), <br key={line} />];
 const addBrBefore = line => line && [<br key={line} />, changeCase(line)];
 
-const formatPhone = number => {
+export const formatPhone = number => {
   let i = 0;
   return '###-###-####'.replace(/#/g, () => number[i++] || '');
 };
 
-export const contactInfoDescription = ({ formData }) => {
+export const getCountryName = (countryCode = 'USA') =>
+  countryCode === 'USA'
+    ? ''
+    : countries.find(country => country.value === countryCode)?.label || '';
+
+export const contactInfoDescription = ({ formData: { veteran = {} } }) => {
   const {
     phoneNumber,
     emailAddress,
@@ -25,7 +30,7 @@ export const contactInfoDescription = ({ formData }) => {
     stateOrProvinceCode = '',
     zipPostalCode,
     countryCode = 'USA',
-  } = formData;
+  } = veteran;
 
   let postalString = zipPostalCode || '';
   if (countryCode === 'USA' && zipPostalCode) {
@@ -33,11 +38,6 @@ export const contactInfoDescription = ({ formData }) => {
       zipPostalCode.length > 5 ? `-${zipPostalCode.slice(5)}` : '';
     postalString = `${zipPostalCode.slice(0, 5)}${lastChunk}`;
   }
-
-  const displayedCountry =
-    countryCode === 'USA'
-      ? ''
-      : countries.find(country => country.value === countryCode)?.label || '';
 
   return (
     <>
@@ -67,7 +67,7 @@ export const contactInfoDescription = ({ formData }) => {
           {addBrAfter(addressLine3)}
           {changeCase(city)}
           {city && ','} {titleCase(stateOrProvinceCode)} {postalString}
-          {addBrBefore(displayedCountry)}
+          {addBrBefore(getCountryName(countryCode))}
           &nbsp;
         </p>
       </div>
