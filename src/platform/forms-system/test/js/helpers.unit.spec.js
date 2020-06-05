@@ -674,38 +674,40 @@ describe('Schemaform helpers:', () => {
       });
     });
     it('should return fields without array', () => {
-      const result = getNonArraySchema({
-        type: 'object',
-        required: ['field1', 'field2'],
-        properties: {
-          'field1': {
-            type: 'string',
-            properties: {}
+      const result = getNonArraySchema(
+        {
+          type: 'object',
+          required: ['field1', 'field2'],
+          properties: {
+            field1: {
+              type: 'string',
+              properties: {},
+            },
+            field2: {
+              type: 'object',
+              properties: {},
+            },
           },
-          'field2': {
-            type: 'object',
-            properties: {}
-          }
         },
-      },
-      {
-        'ui:order': ['field1', 'field2'],
-        'field1': {
-          'ui:description': 'My field1 text'
+        {
+          'ui:order': ['field1', 'field2'],
+          field1: {
+            'ui:description': 'My field1 text',
+          },
+          field2: {
+            'ui:description': 'My field2 text',
+          },
         },
-        'field2': {
-          'ui:description': 'My field2 text'
-        }
-      });
+      );
 
       expect(result.uiSchema).to.eql({
         'ui:order': ['field1'],
-        'field1': {
-          'ui:description': 'My field1 text'
+        field1: {
+          'ui:description': 'My field1 text',
         },
-        'field2': {
-          'ui:description': 'My field2 text'
-        }
+        field2: {
+          'ui:description': 'My field2 text',
+        },
       });
     });
   });
