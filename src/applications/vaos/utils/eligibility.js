@@ -179,9 +179,8 @@ export function getEligibilityChecks(eligibilityData) {
     eligibilityChecks = {
       ...eligibilityChecks,
       requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
-      requestPastVisitValue: eligibilityData.requestPastVisit
-        ? eligibilityData.requestPastVisit.durationInMonths
-        : null,
+      requestPastVisitValue:
+        eligibilityData.requestPastVisit?.durationInMonths || null,
       requestLimit: isUnderRequestLimit(eligibilityData),
       requestLimitValue: eligibilityData.requestLimits.requestLimit,
     };
@@ -191,9 +190,8 @@ export function getEligibilityChecks(eligibilityData) {
     eligibilityChecks = {
       ...eligibilityChecks,
       directPastVisit: hasVisitedInPastMonthsDirect(eligibilityData),
-      directPastVisitValue: eligibilityData.directPastVisit
-        ? eligibilityData.directPastVisit.durationInMonths
-        : null,
+      directPastVisitValue:
+        eligibilityData.directPastVisit?.durationInMonths || null,
       directClinics:
         !!eligibilityData.clinics.length && eligibilityData.hasMatchingClinics,
     };
