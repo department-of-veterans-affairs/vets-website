@@ -7,7 +7,7 @@ import VetTecEstimateYourBenefitsForm from '../../components/vet-tec/VetTecEstim
 const defaultProps = {
   inputs: {},
   displayedInputs: {},
-  onShowModal: () => {},
+  showModal: () => {},
   onInputChange: () => {},
   selectedProgram: 'Program Name 1',
   calculatorInputChange: () => {},

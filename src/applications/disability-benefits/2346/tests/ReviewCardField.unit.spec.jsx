@@ -323,7 +323,7 @@ describe("the ReviewCardField's", () => {
           formContext={{ onReviewPage: true, reviewMode: true }}
         />,
       );
-      expect(tree.find('div.review').length).to.equal(1);
+      expect(tree.find('.review').length).to.equal(1);
       tree.unmount();
     });
 

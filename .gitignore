@@ -39,3 +39,7 @@ all-links.csv
 # Ignore the hashed build files for comparison
 standaloneContentBuildHash.txt
 websiteContentBuildHash.txt
+
+# Track recommended extensions
+!.vscode/extensions.json
+

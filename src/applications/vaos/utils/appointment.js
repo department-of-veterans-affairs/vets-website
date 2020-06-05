@@ -247,7 +247,7 @@ export function filterRequests(request, today) {
       optionDate3.isAfter(today) &&
       optionDate3.isBefore(thirteenMonths));
 
-  return (status === 'Submitted' || status === 'Cancelled') && hasValidDate;
+  return status === 'Submitted' || (status === 'Cancelled' && hasValidDate);
 }
 
 export function sortFutureConfirmedAppointments(a, b) {

@@ -131,7 +131,6 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     migrations: formConfig.migrations,
     prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix,
-    finishLaterLinkText: formConfig.finishLaterLinkText,
     additionalRoutes: formConfig.additionalRoutes,
   });
 }
