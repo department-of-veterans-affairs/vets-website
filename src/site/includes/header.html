@@ -95,17 +95,13 @@
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if homepage_banner and homepage_banner.visible %}
-    <div
-      data-widget-type="homepage-banner"
-      data-banner-visible="{{ homepage_banner.visible }}"
-      data-banner-title="{{ homepage_banner.title | escape }}"
-      data-banner-content="{{ homepage_banner.content | escape }}"
-      data-banner-type="{{ homepage_banner.type }}">
-    </div>
-  {% endif %}
-
-  <div data-widget-type="maintenance-banner"></div>
+  <div
+    data-widget-type="banners"
+    data-homepage-banner-content="{{ homepage_banner.content | escape }}"
+    data-homepage-banner-title="{{ homepage_banner.title | escape }}"
+    data-homepage-banner-type="{{ homepage_banner.type }}"
+    data-homepage-banner-visible="{{ homepage_banner.visible }}"
+  ></div>
 
   <script type="text/javascript">
   (function() {
