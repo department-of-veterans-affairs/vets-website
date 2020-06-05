@@ -57,7 +57,9 @@ describe('VAOS <FutureAppointmentsList>', () => {
 
   it('should render 4 appointments', () => {
     const appointments = {
-      facilityData: {},
+      facilityData: {
+        var442: {},
+      },
       futureStatus: FETCH_STATUS.succeeded,
       future: [
         {
@@ -75,15 +77,17 @@ describe('VAOS <FutureAppointmentsList>', () => {
                 display: 'CHY OPT VAR1',
               },
             },
+            {
+              actor: {
+                reference: 'Location/var983',
+              },
+            },
           ],
         },
         {
           vaos: { appointmentType: APPOINTMENT_TYPES.ccAppointment },
         },
       ],
-      systemClinicToFacilityMap: {
-        '983_455': {},
-      },
     };
 
     const tree = shallow(
@@ -96,7 +100,7 @@ describe('VAOS <FutureAppointmentsList>', () => {
         .find('ConfirmedAppointmentListItem')
         .first()
         .props().facility,
-    ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
+    ).to.equal(appointments.facilityData.var442);
     expect(tree.find('AppointmentRequestListItem').length).to.equal(2);
 
     tree.unmount();
