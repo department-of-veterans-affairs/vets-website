@@ -211,3 +211,4 @@ for doing very specific things.
 
 1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
 1. [Docs Directory](./docs)
+1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing
