@@ -320,7 +320,7 @@ Cypress.Commands.add('fillPage', () => {
 
       /**
        * Fills out a field (or set of fields) using the created field object,
-       * if it's eligible, and exempt it from further processing.
+       * if it's eligible, and exempts it from further processing.
        *
        * There are several reasons a field might not be eligible:
        * 1. No key was derived; the element has no name or id.
