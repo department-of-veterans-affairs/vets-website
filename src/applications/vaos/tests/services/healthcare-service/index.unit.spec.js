@@ -12,7 +12,7 @@ import facilities983 from '../../../api/facilities_983.json';
 import clinicList983 from '../../../api/clinicList983.json';
 
 describe('VAOS Healthcare service', () => {
-  before(() => {
+  beforeEach(() => {
     mockFetch();
     setFetchJSONResponse(global.fetch, clinicList983);
   });
@@ -62,6 +62,29 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices('var983', '123', '456');
 
       expect(data[0].serviceName).to.equal('Green Team Clinic1');
+    });
+
+    it('should return OperationOutcome error', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch, {
+        errors: [],
+      });
+
+      let error;
+      try {
+        const data = await getAvailableHealthcareServices(
+          'var983',
+          '123',
+          '456',
+        );
+      } catch (e) {
+        error = e;
+      }
+
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
+      );
+      expect(error?.resourceType).to.equal('OperationOutcome');
     });
   });
 });
