@@ -11,7 +11,7 @@ export function checkFormResult(questionState) {
       return passValues.includes(question.value);
     })
     .includes(false)
-    ? 'fail'
+    ? 'more-screening'
     : 'pass';
 }
 

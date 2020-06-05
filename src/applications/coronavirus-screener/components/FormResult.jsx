@@ -1,7 +1,6 @@
 import React from 'react';
 import { Element } from 'react-scroll';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
 import classnames from 'classnames';
 
 const Incomplete = () => <div>Please answer all the questions above.</div>;
@@ -29,7 +28,7 @@ const Pass = () => (
   </Complete>
 );
 
-const Fail = () => (
+const MoreScreening = () => (
   <Complete>
     <h2 className="vads-u-font-size--h1">More screening needed</h2>
   </Complete>
@@ -41,9 +40,9 @@ export default function FormResult({ scrollIndex, formState }) {
       content: <Pass />,
       class: 'pass',
     },
-    fail: {
-      content: <Fail />,
-      class: 'fail',
+    'more-screening': {
+      content: <MoreScreening />,
+      class: 'more-screening',
     },
     incomplete: {
       content: <Incomplete />,
