@@ -40,7 +40,7 @@ class VetTecApprovedProgramsList extends React.Component {
       </div>
     );
   };
-    
+
   programLength = program =>
     isPresent(program.lengthInHours) && program.lengthInHours !== '0'
       ? `${program.lengthInHours} hours`
