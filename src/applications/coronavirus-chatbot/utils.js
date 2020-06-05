@@ -25,7 +25,6 @@ const disableButtons = event => {
   siblingButtons.forEach(button => {
     const currentButton = button;
     currentButton.disabled = true;
-    return currentButton;
   });
 };
 
@@ -35,7 +34,6 @@ const disableCheckboxes = () => {
     .forEach(input => {
       const currentInput = input;
       currentInput.disabled = true;
-      return currentInput;
     });
 };
 
