@@ -96,8 +96,22 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fill674StudentInformation(client, testData.data);
-  TestHelpers.fill674StudentAddress(client, testData.data);
+  client.expectElementNotPresent('.usa-input-error-message');
   client.click('button[id="4-continueButton"]');
+
+  // Student Address for 674
+  E2eHelpers.expectLocation(client, '/report-674-student-address');
+  // client.waitForElementVisible(
+  //  '#root_studentAddressMarriageTuition_address_countryName',
+  //  Timeouts.normal,
+  // );
+  // client.axeCheck('.main');
+  // TestHelpers.fill674StudentAddress(client, testData.data);
+  // client.click('button[id="4-continueButton"]');
+
+  // report-674-student-address
+
+  //
 
   // review page
   // E2eHelpers.expectLocation(client, '/review-and-submit');

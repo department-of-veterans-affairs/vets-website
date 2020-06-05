@@ -660,7 +660,7 @@ export const fill674StudentInformation = (client, data) => {
       'input[name="root_studentNameAndSSN_fullName_last"]',
       data.childInformation.lastName,
     )
-    .fill('input[name"root_studentNameAndSSN_ssn"]', data.childInformation.ssn)
+    .fill('#root_studentNameAndSSN_ssn', data.childInformation.ssn)
     .selectDropdown(
       'root_studentNameAndSSN_birthDateMonth',
       data.childStoppedAttending.date.month,
@@ -669,8 +669,8 @@ export const fill674StudentInformation = (client, data) => {
       'root_studentNameAndSSN_birthDateDay',
       data.childStoppedAttending.date.day,
     )
-    .selectDropdown(
-      'root_studentNameAndSSN_birthDateYear',
+    .fill(
+      'input[name="root_studentNameAndSSN_birthDateYear"]',
       data.childStoppedAttending.date.year,
     );
 };
@@ -678,28 +678,33 @@ export const fill674StudentInformation = (client, data) => {
 export const fill674StudentAddress = (client, data) => {
   client
     .selectDropdown(
-      'root_veteranContactInformation_veteranAddress_countryName',
+      'input[name="root_studentAddressMarriageTuition_address_countryName"]',
       data.veteranDomesticAddress.countryName,
     )
     .fill(
-      'input[name="root_veteranContactInformation_veteranAddress_addressLine1"]',
+      'input[name="root_studentAddressMarriageTuition_address_addressLine1"]',
       data.veteranDomesticAddress.addressLine1,
     )
     .fill(
-      'input[name="root_veteranContactInformation_veteranAddress_city"]',
+      'input[name="root_studentAddressMarriageTuition_address_city"]',
       data.veteranDomesticAddress.city,
     )
     .selectDropdown(
-      'root_veteranContactInformation_veteranAddress_stateCode',
+      'root_studentAddressMarriageTuition_address_stateCode',
       data.veteranDomesticAddress.stateCode,
     )
     .fill(
-      'input[name="root_veteranContactInformation_veteranAddress_zipCode"]',
+      'input[name="root_studentAddressMarriageTuition_address_zipCode"]',
       data.veteranDomesticAddress.zipCode,
     )
     .fill(
-      'input[name="root_veteranContactInformation_phoneNumber"]',
+      'input[name="root_studentAddressMarriageTuition_address_phoneNumber"]',
       data.veteranDomesticAddress.phoneNumber,
+    )
+    .selectRadio('root_studentAddressMarriageTuition_wasMarried', 'N')
+    .selectRadio(
+      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+      'N',
     );
 };
 
