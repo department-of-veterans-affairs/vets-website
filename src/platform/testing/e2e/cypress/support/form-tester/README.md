@@ -436,7 +436,7 @@ const testConfig = createTestConfig(
         cy.fillPage();
 
         // Don't forget to click continue!
-        cy.findAllByTest(/continue/i, { selector: 'button' })
+        cy.findAllByText(/continue/i, { selector: 'button' })
           .first()
           .click();
       },
