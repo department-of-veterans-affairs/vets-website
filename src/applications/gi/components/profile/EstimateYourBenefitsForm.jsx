@@ -187,7 +187,10 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleInternationalCheckboxFocus = e => {
     if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
+      const field = document.getElementById('classesOutsideUS');
+      if (field) {
+        field.scrollIntoView();
+      }
     }
   };
 
