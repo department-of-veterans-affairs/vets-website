@@ -211,6 +211,7 @@ describe('VAOS scheduling eligibility logic', () => {
         clinics: [],
         directSupported: true,
         requestSupported: true,
+        directEnabled: true,
         directPastVisit: {
           durationInMonths: 12,
           hasVisitedInPastMonths: false,
@@ -247,6 +248,7 @@ describe('VAOS scheduling eligibility logic', () => {
         clinics: [{}],
         directSupported: true,
         requestSupported: true,
+        directEnabled: true,
         directPastVisit: {
           durationInMonths: 12,
           hasVisitedInPastMonths: true,
@@ -275,12 +277,13 @@ describe('VAOS scheduling eligibility logic', () => {
         requestLimitValue: 1,
       });
     });
-    it('should skip direct status on direct failure', () => {
+    it('should set direct checks to default state on direct service failure', () => {
       const eligibilityChecks = getEligibilityChecks({
         pacTeam: [],
         clinics: [],
         directSupported: true,
         requestSupported: true,
+        directEnabled: true,
         directPastVisit: {
           directFailed: true,
         },
@@ -303,6 +306,9 @@ describe('VAOS scheduling eligibility logic', () => {
         requestLimitValue: 1,
         directSupported: true,
         requestSupported: true,
+        directClinics: null,
+        directPastVisit: false,
+        directPastVisitValue: null,
       });
     });
     it('should skip request status on request failure', () => {
@@ -310,6 +316,7 @@ describe('VAOS scheduling eligibility logic', () => {
         pacTeam: [],
         clinics: [],
         directSupported: true,
+        directEnabled: true,
         requestSupported: true,
         directPastVisit: {
           durationInMonths: 12,
@@ -340,6 +347,7 @@ describe('VAOS scheduling eligibility logic', () => {
         pastAppointments: [{}],
         clinics: [{}],
         directSupported: true,
+        directEnabled: true,
         requestSupported: true,
         requestLimits: {
           requestLimit: 1,
@@ -475,6 +483,7 @@ describe('VAOS scheduling eligibility logic', () => {
           pacTeam: [{ facilityId: '983' }],
           clinics: [{}],
           directSupported: true,
+          directEnabled: true,
           requestSupported: true,
           directPastVisit: {
             durationInMonths: 12,

@@ -173,6 +173,9 @@ export function getEligibilityChecks(eligibilityData) {
     requestFailed: hasRequestFailed(eligibilityData),
     directSupported: eligibilityData.directSupported,
     directFailed: hasDirectFailed(eligibilityData),
+    directPastVisit: false,
+    directPastVisitValue: null,
+    directClinics: null,
   };
 
   if (!eligibilityChecks.requestFailed) {
@@ -186,14 +189,22 @@ export function getEligibilityChecks(eligibilityData) {
     };
   }
 
-  if (!eligibilityChecks.directFailed) {
+  if (
+    !eligibilityChecks.directFailed &&
+    eligibilityData.directSupported &&
+    eligibilityData.directEnabled
+  ) {
     eligibilityChecks = {
       ...eligibilityChecks,
-      directPastVisit: hasVisitedInPastMonthsDirect(eligibilityData),
+      directPastVisit:
+        eligibilityData.directEnabled &&
+        hasVisitedInPastMonthsDirect(eligibilityData),
       directPastVisitValue:
         eligibilityData.directPastVisit?.durationInMonths || null,
       directClinics:
-        !!eligibilityData.clinics.length && eligibilityData.hasMatchingClinics,
+        eligibilityData.directEnabled &&
+        !!eligibilityData.clinics?.length &&
+        eligibilityData.hasMatchingClinics,
     };
   }
 
