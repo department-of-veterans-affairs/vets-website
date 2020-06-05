@@ -160,8 +160,11 @@ class Accessories extends Component {
             <div
               key={accessorySupply.productId}
               className={classnames({
-                'vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-y--3': true,
-                'vads-u-border-color--primary vads-u-border--3px': isAccessorySelected(
+                'vads-u-background-color--gray-lightest vads-u-margin-y--3': true,
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isAccessorySelected(
+                  accessorySupply.productId,
+                ),
+                'vads-u-padding--3': !isAccessorySelected(
                   accessorySupply.productId,
                 ),
               })}

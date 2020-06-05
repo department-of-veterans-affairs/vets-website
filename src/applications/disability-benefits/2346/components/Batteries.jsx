@@ -169,8 +169,11 @@ class Batteries extends Component {
             <div
               key={batterySupply.productId}
               className={classnames({
-                'vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2': true,
-                'vads-u-border-color--primary vads-u-border--3px': isBatterySelected(
+                'vads-u-background-color--gray-lightest vads-u-margin-bottom--2': true,
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isBatterySelected(
+                  batterySupply.productId,
+                ),
+                'vads-u-padding--3': !isBatterySelected(
                   batterySupply.productId,
                 ),
               })}
