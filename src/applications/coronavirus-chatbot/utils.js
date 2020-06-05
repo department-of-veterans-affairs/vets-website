@@ -22,18 +22,18 @@ const disableButtons = event => {
       : event.target.parentNode;
   const siblingButtons = targetButton.parentNode.childNodes;
 
-  siblingButtons.forEach(button => {
-    const currentButton = button;
-    currentButton.disabled = true;
+  siblingButtons.forEach((_button, index) => {
+    siblingButtons[index].disabled = true;
   });
 };
 
 const disableCheckboxes = () => {
-  document
-    .querySelectorAll('#webchat input[type="checkbox"]')
-    .forEach((input, index) => {
-      this[index].disabled = true;
-    }, this);
+  const checkboxes = document.querySelectorAll(
+    '#webchat input[type="checkbox"]',
+  );
+  checkboxes.forEach((_input, index) => {
+    checkboxes[index].disabled = true;
+  });
 };
 
 const scrollToNewMessage = () => {
