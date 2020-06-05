@@ -26,8 +26,9 @@ const processAxeCheckResults = violations => {
 
 /**
  * Checks the current page for aXe violations.
+ * @param {string} [context] - Selector for the container element to aXe check.
  */
-Cypress.Commands.add('axeCheck', () => {
+Cypress.Commands.add('axeCheck', (context = 'main') => {
   Cypress.log({
     name: 'axeCheck',
     message: '',
@@ -37,5 +38,5 @@ Cypress.Commands.add('axeCheck', () => {
     includedImpacts: ['critical'],
   };
 
-  cy.checkA11y('.main', options, processAxeCheckResults);
+  cy.checkA11y(context, options, processAxeCheckResults);
 });
