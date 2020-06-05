@@ -1,22 +1,39 @@
+import recordEvent from 'platform/monitoring/record-event';
+
+export const GA_PREFIX = 'chatbot';
+
+export const recordLinkClicks = () => {
+  const root = document.getElementById('webchat');
+  root.addEventListener('click', event => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+      recordEvent({
+        event: `${GA_PREFIX}-resource-link-click`,
+        'error-key': undefined,
+      });
+    }
+  });
+};
+
 const disableButtons = event => {
   // if user clicked the div, bubble up to parent to disable the button
   const targetButton =
-    event.target.tagName === 'BUTTON' ? event.target : event.target.parentNode;
+    event.target.tagName.toLowerCase() === 'button'
+      ? event.target
+      : event.target.parentNode;
   const siblingButtons = targetButton.parentNode.childNodes;
 
-  for (let i = 0; i < siblingButtons.length; i++) {
-    siblingButtons[i].disabled = true;
-  }
+  siblingButtons.forEach((_button, index) => {
+    siblingButtons[index].disabled = true;
+  });
 };
 
 const disableCheckboxes = () => {
-  [...document.querySelectorAll('#webchat input[type="checkbox"]')].forEach(
-    input => {
-      const currentInput = input;
-      currentInput.disabled = true;
-      return currentInput;
-    },
+  const checkboxes = document.querySelectorAll(
+    '#webchat input[type="checkbox"]',
   );
+  checkboxes.forEach((_input, index) => {
+    checkboxes[index].disabled = true;
+  });
 };
 
 const scrollToNewMessage = () => {
@@ -28,6 +45,11 @@ const scrollToNewMessage = () => {
 };
 
 const handleDisableAndScroll = event => {
+  recordEvent({
+    event: `${GA_PREFIX}-button-click`,
+    'error-key': undefined,
+  });
+
   disableButtons(event);
   disableCheckboxes();
   setTimeout(() => {
@@ -42,18 +64,18 @@ tab index to -1 so button containers have javascript-only focus.
 */
 const removeKeyboardFocusFromContainer = () => {
   const buttonContainers = document.getElementsByClassName('ac-adaptiveCard');
-  for (let i = 0; i < buttonContainers.length; i++) {
-    if (buttonContainers[i].hasAttribute('tabIndex')) {
-      buttonContainers[i].setAttribute('tabIndex', '-1');
+  buttonContainers.forEach(buttonContainer => {
+    if (buttonContainer.hasAttribute('tabIndex')) {
+      buttonContainer.setAttribute('tabIndex', '-1');
     }
-  }
+  });
 };
 
 const addEventListenerToButtons = () => {
   const buttons = document.getElementsByClassName('ac-pushButton');
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', handleDisableAndScroll);
-  }
+  buttons.forEach(button => {
+    button.addEventListener('click', handleDisableAndScroll);
+  });
 };
 
 export const handleButtonsPostRender = () => {
@@ -62,5 +84,3 @@ export const handleButtonsPostRender = () => {
     addEventListenerToButtons();
   }, 10);
 };
-
-export const GA_PREFIX = 'chatbot';

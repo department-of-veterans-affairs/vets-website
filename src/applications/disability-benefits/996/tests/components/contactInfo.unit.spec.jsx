@@ -34,7 +34,7 @@ describe('Higher-Level Review 0996 contact information', () => {
       <DefinitionTester
         definitions={{}}
         schema={contactInfo.schema}
-        data={data}
+        data={{ veteran: data }}
         formData={{}}
         uiSchema={contactInfo.uiSchema}
       />,
@@ -63,7 +63,7 @@ describe('Higher-Level Review 0996 contact information', () => {
       <DefinitionTester
         definitions={{}}
         schema={contactInfo.schema}
-        data={data}
+        data={{ veteran: data }}
         formData={{}}
         uiSchema={contactInfo.uiSchema}
       />,

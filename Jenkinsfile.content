@@ -53,8 +53,8 @@ node('vetsgov-general-purpose') {
   }
 
   dir("vets-website") {
-    checkout 
-      scm: [$class: 'GitSCM', 
+    checkout scm: [
+      $class: 'GitSCM', 
       branches: [[name: ref]], 
       userRemoteConfigs: [[
         credentialsId: 'va-bot', 
