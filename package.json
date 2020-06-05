@@ -171,7 +171,7 @@
     "express-history-api-fallback": "^2.0.0",
     "extract-text-webpack-plugin": "next",
     "file-loader": "^1.1.11",
-    "find": "^0.2.9",
+    "find": "^0.3.0",
     "find-root": "^1.1.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
