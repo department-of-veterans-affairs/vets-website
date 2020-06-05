@@ -12,6 +12,9 @@
     background-color: $color-white;
     box-shadow: 0 0 0 2px $color-primary, 0 0 0 4px $color-white;
   }
+  .schemaform-first-field .schemaform-label {
+    margin-top: 3rem;
+  }
 }
 .battery-page, .accessory-page {
   [type=checkbox]:checked + label::before {
