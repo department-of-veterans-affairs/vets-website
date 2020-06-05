@@ -21,7 +21,11 @@ import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import { scroller } from 'react-scroll';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import {
+  getScrollOptions,
+  focusElement,
+  scrollAndFocus,
+} from 'platform/utilities/ui';
 import classNames from 'classnames';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
@@ -189,7 +193,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
       const field = document.getElementById('classesOutsideUS');
       if (field) {
-        field.scrollIntoView();
+        scrollAndFocus(field);
       }
     }
   };
