@@ -362,18 +362,16 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <div>
-                <button
-                  id={this.props.name}
-                  className="usa-button vads-u-font-weight--bold"
-                  onChange={() =>
-                    this.onChange('currentAddress', this.props.name)
-                  }
-                  type="button"
-                >
-                  Send my order to this address
-                </button>
-              </div>
+              <button
+                id={this.props.name}
+                className="usa-button vads-u-font-weight--bold vads-u-max-width--293 vads-u-display--block vads-u-margin-top--2"
+                onChange={() =>
+                  this.onChange('currentAddress', this.props.name)
+                }
+                type="button"
+              >
+                Send my order to this address
+              </button>
             )}
           {!isTempAddressMissing &&
             street &&
