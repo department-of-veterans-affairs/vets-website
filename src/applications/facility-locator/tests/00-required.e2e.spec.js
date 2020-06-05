@@ -2,13 +2,8 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
 
-import { api } from '../config';
-
 module.exports = E2eHelpers.createE2eTest(client => {
   client.openUrl(`https://staging.va.gov/find-locations/`);
-
-  // eslint-disable-next-line no-console
-  console.log({ api });
   // eslint-disable-next-line no-console
   console.log(`${E2eHelpers.apiUrl}`);
 
