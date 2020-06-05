@@ -273,16 +273,16 @@ Cypress.Commands.add('enterData', field => {
     case 'date': {
       const dateComponents = field.data.split('-');
 
-      cy.get(`input[name="${field.key}Year"]`)
+      cy.get(`#${field.key}Year`)
         .clear()
         .type(dateComponents[0]);
 
-      cy.get(`select[name="${field.key}Month"]`).select(
+      cy.get(`#${field.key}Month`).select(
         parseInt(dateComponents[1], 10).toString(),
       );
 
       if (dateComponents[2] !== 'XX') {
-        cy.get(`select[name="${field.key}Day"]`).select(
+        cy.get(`#${field.key}Day`).select(
           parseInt(dateComponents[2], 10).toString(),
         );
       }
@@ -291,7 +291,7 @@ Cypress.Commands.add('enterData', field => {
     }
 
     case 'file': {
-      cy.get(`input[id="${field.key}"]`)
+      cy.get(`#${field.key}`)
         .upload('example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
