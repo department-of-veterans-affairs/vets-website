@@ -12,9 +12,6 @@ const LOADING_SELECTOR = '.loading-indicator';
 // that are mainly there to support more specific operations.
 const COMMAND_OPTIONS = { log: false };
 
-// Allow tests to continue running even when there are aXe violations.
-const FAIL_ON_AXE_VIOLATIONS = false;
-
 /**
  * Builds an object from a form field with attributes that are used
  * to look up test data and enter that data into the field.
@@ -130,7 +127,7 @@ const performPageActions = (pathname, autofill = true) => {
     if (!hookExecuted && autofill) cy.fillPage();
 
     cy.expandAccordions();
-    cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+    cy.axeCheck();
 
     if (!hookExecuted && autofill) {
       cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -144,7 +141,7 @@ const performPageActions = (pathname, autofill = true) => {
  */
 const processPage = () => {
   // Run aXe check before doing anything on the page.
-  cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+  cy.axeCheck();
 
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
@@ -155,7 +152,7 @@ const processPage = () => {
       // The form should end up at the confirmation page after submitting.
       cy.location('pathname').then(endPathname => {
         expect(endPathname).to.match(/confirmation$/);
-        cy.axeCheck(FAIL_ON_AXE_VIOLATIONS);
+        cy.axeCheck();
         performPageActions(endPathname, false);
       });
     } else {

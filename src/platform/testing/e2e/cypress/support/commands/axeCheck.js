@@ -26,28 +26,17 @@ const processAxeCheckResults = violations => {
 
 /**
  * Checks the current page for aXe violations.
- *
- * @param {boolean} assert - Flag for how tests handle aXe violations.
- *   If true, tests will stop and fail when there are violations.
- *   If false, tests will skip over violations and continue running.
+ * @param {string} [context] - Selector for the container element to aXe check.
  */
-Cypress.Commands.add('axeCheck', (assert = true) => {
+Cypress.Commands.add('axeCheck', (context = 'main') => {
   Cypress.log({
     name: 'axeCheck',
     message: '',
-    consoleProps: () => ({ 'Fail test on violations': assert }),
   });
 
-  cy.checkA11y(
-    '.main',
-    {
-      includedImpacts: ['critical'],
-      runOnly: {
-        type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
-      },
-    },
-    processAxeCheckResults,
-    !assert,
-  );
+  const options = {
+    includedImpacts: ['critical'],
+  };
+
+  cy.checkA11y(context, options, processAxeCheckResults);
 });
