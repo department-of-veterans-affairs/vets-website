@@ -33,8 +33,8 @@ export default class ArrayField extends React.Component {
     }
 
     /*
-     * We’re keeping the editing state in local state because it’s easier to manage and
-     * doesn’t need to persist from page to page
+     * We’re keeping the editing state in local state because it’s easier to
+     * manage and doesn’t need to persist from page to page
      */
 
     this.state = {
@@ -386,13 +386,13 @@ export default class ArrayField extends React.Component {
             }
             return (
               <div key={index} className="va-growable-background">
-                <div className="row small-collapse">
+                <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                   <ViewField
                     formData={item}
                     onEdit={() => this.handleEdit(index)}
                   />
                   <button
-                    className="usa-button-secondary float-right"
+                    className="usa-button-secondary vads-u-flex--auto"
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
