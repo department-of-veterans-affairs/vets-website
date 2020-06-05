@@ -6,6 +6,11 @@ import DebtLettersWrapper from '../components/DebtLettersWrapper';
 describe('DebtLettersWrapper', () => {
   const fakeStore = {
     getState: () => ({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
       debtLetters: {
         isFetching: false,
         debts: [],

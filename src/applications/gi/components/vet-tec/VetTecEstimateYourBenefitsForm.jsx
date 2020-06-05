@@ -97,7 +97,9 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       </button>
       <input
         aria-labelledby="scholarships-label"
+        inputMode="decimal"
         type="text"
+        pattern="[0-9]*"
         name="vetTecScholarships"
         value={formatDollarAmount(this.state.scholarships)}
         onChange={e =>
@@ -136,7 +138,9 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       <input
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
+        pattern="[0-9]*"
         type="text"
+        inputMode="decimal"
         value={formatDollarAmount(this.state.tuitionFees)}
         onChange={e =>
           this.setState({
