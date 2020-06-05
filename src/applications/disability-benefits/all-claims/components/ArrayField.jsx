@@ -10,7 +10,10 @@ import {
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  scrollToFirstError,
+  focusElement,
+} from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
@@ -36,19 +39,9 @@ export default class ArrayField extends React.Component {
      * We’re keeping the editing state in local state because it’s easier to
      * manage and doesn’t need to persist from page to page
      */
-
     this.state = {
       editing: props.formData ? props.formData.map(() => false) : [true],
     };
-
-    this.handleAdd = this.handleAdd.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.onItemChange = this.onItemChange.bind(this);
-    this.scrollToRow = this.scrollToRow.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   // This fills in an empty item in the array if it has minItems set
@@ -74,10 +67,10 @@ export default class ArrayField extends React.Component {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
 
-  onItemChange(indexToChange, value) {
+  onItemChange = (indexToChange, value) => {
     const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
-  }
+  };
 
   getItemSchema(index) {
     const schema = this.props.schema;
@@ -88,7 +81,7 @@ export default class ArrayField extends React.Component {
     return schema.additionalItems;
   }
 
-  scrollToTop() {
+  scrollToTop = () => {
     setTimeout(() => {
       scroller.scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
@@ -100,9 +93,9 @@ export default class ArrayField extends React.Component {
         },
       );
     }, 100);
-  }
+  };
 
-  scrollToRow(id) {
+  scrollToRow = id => {
     setTimeout(() => {
       scroller.scrollTo(
         `table_${id}`,
@@ -114,19 +107,56 @@ export default class ArrayField extends React.Component {
         },
       );
     }, 100);
-  }
+  };
+
+  findElementsFromIndex = (index, selector) => {
+    // The indexed scroll element doesn't exist when the card is collapsed
+    // target scrollElement; then find element
+    const target =
+      index < 0
+        ? `topOfTable_${this.props.idSchema.$id}`
+        : `table_${this.props.idSchema.$id}_${index}`;
+    return (
+      document
+        ?.querySelector(`[name="${target}"]`)
+        ?.parentElement?.querySelectorAll(selector) || []
+    );
+  };
+
+  focusOnEditButton = index => {
+    const editButton = this.findElementsFromIndex(-1, '.edit');
+    focusElement(editButton[index]);
+  };
+
+  targetLabel = index => {
+    this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+    // Focus on first label
+    const labels = this.findElementsFromIndex(index, 'label, legend');
+    focusElement(labels[0]);
+  };
+
+  targetError = index => {
+    scrollToFirstError();
+    const errorMessage = this.findElementsFromIndex(
+      index,
+      '.usa-input-error-message',
+    );
+    focusElement(errorMessage[0]);
+  };
 
   // restore data in event of cancellation
   handleCancelEdit = index => {
     this.props.onChange(this.state.oldData);
-    this.setState(_.set(['editing', index], false, this.state));
+    this.setState(_.set(['editing', index], false, this.state), () => {
+      this.focusOnEditButton(index);
+    });
   };
 
   /*
    * Clicking edit on an item that’s not last and so is in view mode
    * also cache the original data in case of cancellation
    */
-  handleEdit(index, status = true) {
+  handleEdit = (index, status = true) => {
     this.setState(
       _.set(
         ['editing', index],
@@ -134,54 +164,61 @@ export default class ArrayField extends React.Component {
         _.assign(this.state, { oldData: this.props.formData }),
       ),
       () => {
-        this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+        this.targetLabel(index);
       },
     );
-  }
+  };
 
   /*
    * Clicking Update on an item that’s not last and is in edit mode
    */
-  handleUpdate(index) {
+  handleUpdate = index => {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(_.set(['editing', index], false, this.state), () => {
         this.scrollToTop();
+        this.focusOnEditButton(index);
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
       const touched = setArrayRecordTouched(this.props.idSchema.$id, index);
       this.props.formContext.setTouched(touched, () => {
-        scrollToFirstError();
+        this.targetError(index);
       });
     }
-  }
+  };
 
   /*
    * Clicking Save
    */
-  handleSave() {
+  handleSave = () => {
     const lastIndex = this.props.formData.length - 1;
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      this.setState(state => {
-        const newEditing = this.state.editing.map(
-          (val, index) => (index + 1 === state.editing.length ? false : val),
-        );
-        return { editing: newEditing };
-      });
+      this.setState(
+        state => {
+          const newEditing = this.state.editing.map(
+            (val, index) => (index + 1 === state.editing.length ? false : val),
+          );
+          return { editing: newEditing };
+        },
+        () => {
+          // Focus on edit button after saving
+          this.focusOnEditButton(lastIndex);
+        },
+      );
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
       this.props.formContext.setTouched(touched, () => {
-        scrollToFirstError();
+        this.targetError(lastIndex);
       });
     }
-  }
+  };
 
   /*
    * Clicking Add Another
    */
-  handleAdd() {
+  handleAdd = () => {
     const lastIndex = this.props.formData.length - 1;
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
@@ -202,20 +239,23 @@ export default class ArrayField extends React.Component {
           ) || {},
         );
         this.props.onChange(newFormData);
-        this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
+        // Allow DOM to render the new card
+        setTimeout(() => {
+          this.targetLabel(lastIndex + 1);
+        });
       });
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
       this.props.formContext.setTouched(touched, () => {
-        scrollToFirstError();
+        this.targetError(lastIndex);
       });
     }
-  }
+  };
 
   /*
    * Clicking Remove on an item in edit mode
    */
-  handleRemove(indexToRemove) {
+  handleRemove = indexToRemove => {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
@@ -226,9 +266,17 @@ export default class ArrayField extends React.Component {
     });
     this.props.onChange(newItems);
     this.setState(newState, () => {
-      this.scrollToTop();
+      const lastIndex = this.props.formData.length - 1;
+      if (lastIndex < 0) {
+        this.scrollToTop();
+      } else {
+        // Scroll to last entry
+        this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
+      }
+      // Focus on "Add Another Disability" button after removing
+      focusElement('.va-growable-add-btn');
     });
-  }
+  };
 
   render() {
     const {
@@ -392,7 +440,7 @@ export default class ArrayField extends React.Component {
                     onEdit={() => this.handleEdit(index)}
                   />
                   <button
-                    className="usa-button-secondary vads-u-flex--auto"
+                    className="edit usa-button-secondary vads-u-flex--auto"
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
