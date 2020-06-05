@@ -22,19 +22,18 @@ const disableButtons = event => {
       : event.target.parentNode;
   const siblingButtons = targetButton.parentNode.childNodes;
 
-  for (let i = 0; i < siblingButtons.length; i++) {
-    siblingButtons[i].disabled = true;
-  }
+  siblingButtons.forEach((_button, index) => {
+    siblingButtons[index].disabled = true;
+  });
 };
 
 const disableCheckboxes = () => {
-  [...document.querySelectorAll('#webchat input[type="checkbox"]')].forEach(
-    input => {
-      const currentInput = input;
-      currentInput.disabled = true;
-      return currentInput;
-    },
+  const checkboxes = document.querySelectorAll(
+    '#webchat input[type="checkbox"]',
   );
+  checkboxes.forEach((_input, index) => {
+    checkboxes[index].disabled = true;
+  });
 };
 
 const scrollToNewMessage = () => {
@@ -65,18 +64,18 @@ tab index to -1 so button containers have javascript-only focus.
 */
 const removeKeyboardFocusFromContainer = () => {
   const buttonContainers = document.getElementsByClassName('ac-adaptiveCard');
-  for (let i = 0; i < buttonContainers.length; i++) {
-    if (buttonContainers[i].hasAttribute('tabIndex')) {
-      buttonContainers[i].setAttribute('tabIndex', '-1');
+  buttonContainers.forEach(buttonContainer => {
+    if (buttonContainer.hasAttribute('tabIndex')) {
+      buttonContainer.setAttribute('tabIndex', '-1');
     }
-  }
+  });
 };
 
 const addEventListenerToButtons = () => {
   const buttons = document.getElementsByClassName('ac-pushButton');
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', handleDisableAndScroll);
-  }
+  buttons.forEach(button => {
+    button.addEventListener('click', handleDisableAndScroll);
+  });
 };
 
 export const handleButtonsPostRender = () => {
