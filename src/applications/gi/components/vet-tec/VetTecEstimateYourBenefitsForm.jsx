@@ -40,10 +40,13 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     } = this.props.inputs;
 
     const { tuitionFees, programName, scholarships } = this.state;
+
     return (
-      vetTecTuitionFees === tuitionFees &&
+      formatDollarAmount(vetTecTuitionFees) ===
+        formatDollarAmount(tuitionFees) &&
       vetTecProgramName === programName &&
-      vetTecScholarships === scholarships
+      formatDollarAmount(vetTecScholarships) ===
+        formatDollarAmount(scholarships)
     );
   };
 
