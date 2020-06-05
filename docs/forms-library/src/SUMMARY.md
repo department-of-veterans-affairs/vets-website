@@ -21,3 +21,4 @@
   - [Available `ui:widget`s](./available-uiwidgets.md)
   - [`formConfig` Options](./formconfig-options.md)
   - [Page Options](./page-options.md)
+  - [Other `uiSchema` options](./other-uischema-options.md)
