@@ -653,14 +653,10 @@ export const fillStepchildDetails = (client, data) => {
 export const fill674StudentInformation = (client, data) => {
   client
     .fill(
-      'input[name="root_studentNameAndSSN_fullName_first"]',
-      data.childInformation.firstName,
-    )
-    .fill(
       'input[name="root_studentNameAndSSN_fullName_last"]',
       data.childInformation.lastName,
     )
-    .fill('#root_studentNameAndSSN_ssn', data.childInformation.ssn)
+    .fill('input[name="root_studentNameAndSSN_ssn"]', data.childInformation.ssn)
     .selectDropdown(
       'root_studentNameAndSSN_birthDateMonth',
       data.childStoppedAttending.date.month,

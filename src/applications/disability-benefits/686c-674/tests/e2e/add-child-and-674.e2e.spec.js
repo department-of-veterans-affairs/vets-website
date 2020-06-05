@@ -95,9 +95,32 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   client.axeCheck('.main');
+
+  client.fill(
+    'input[name="root_studentNameAndSSN_fullName_first"]',
+    testData.data.childInformation.firstName,
+  );
+  // client.fill(
+  //  'input[name="root_studentNameAndSSN_fullName_last"]',
+  //  testData.data.childInformation.lastName,
+  // );
   TestHelpers.fill674StudentInformation(client, testData.data);
-  client.expectElementNotPresent('.usa-input-error-message');
-  client.click('button[id="4-continueButton"]');
+  // client.assert.elementPresent('.form-error-date');
+  // client.assert.elementPresent(
+  //  '#root_studentNameAndSSN_fullName_first-error-message',
+  // );
+  client.click('button[id="4-continueButton"]').perform(function() {
+    client.url(function(result) {
+      // return the current url
+      console.log(result);
+    });
+    // without any defined parameters, perform
+    // completes immediately (synchronously)
+  });
+  // client.assert.elementPresent(
+  //  '#root_studentNameAndSSN_fullName_last-error-message',
+  // );
+  // client.assert.elementPresent('#root_studentNameAndSSN_ssn-error-message');
 
   // Student Address for 674
   E2eHelpers.expectLocation(client, '/report-674-student-address');
