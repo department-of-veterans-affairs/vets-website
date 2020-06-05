@@ -5,6 +5,7 @@ import URLSearchParams from 'url-search-params';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
+import { setForceAuth, getForceAuth } from 'platform/utilities/sso/forceAuth';
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
@@ -14,6 +15,11 @@ export const ssoKeepAliveEndpoint = () => {
   const envPrefix = eauthEnvironmentPrefixes[environment.BUILDTYPE];
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
+
+function inboundSSOe() {
+  // TODO: check to see if inbound ssoe is enabled
+  return false;
+}
 
 function sessionTypeUrl(
   type = '',
@@ -36,7 +42,9 @@ function sessionTypeUrl(
     }
   }
 
-  if (version === 'v1') searchParams.append('force', 'true');
+  if (version === 'v1' && (getForceAuth() || !inboundSSOe())) {
+    searchParams.append('force', 'true');
+  }
 
   const queryString =
     searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
@@ -105,16 +113,16 @@ function redirect(redirectUrl, clickedEvent) {
 }
 
 export function login(policy, version = 'v0', application = null, to = null) {
-  return redirect(
-    loginUrl(policy, version, application, to),
-    'login-link-clicked-modal',
-  );
+  const url = loginUrl(policy, version, application, to);
+  setForceAuth();
+  return redirect(url, 'login-link-clicked-modal');
 }
 
 export function autoLogin() {
   const url = sessionTypeUrl('idme', 'v1', undefined, undefined, {
     inbound: 'true',
   });
+  setForceAuth();
   return redirect(url, 'sso-automatic-login');
 }
 
