@@ -193,14 +193,9 @@ for doing very specific things.
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                               |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) sibling to `vets-website`)                                                                            |
 
-## Debugging React with VS Code
 
-1. Install [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) extension.
-1. Start development server: `yarn watch`
-1. Set a breakpoint in VS Code
-1. Run "Lauch Chrome Debugger" from VS Code debug panel
 
- [_Reference_](https://code.visualstudio.com/docs/nodejs/reactjs-tutorial#_debugging-react)
+
 
 ## Supported Browsers
 
@@ -211,3 +206,8 @@ for doing very specific things.
 | Safari / iOS Safari       | 9               |                                        |
 | Chrome / Android Web view | 44              | _Latest version with >0.5% of traffic_ |
 | Firefox                   | 52              | _Latest version with >0.5% of traffic_ |
+
+## Additional Resources
+
+1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
+1. [Docs Directory](./docs)
