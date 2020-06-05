@@ -25,18 +25,17 @@ are available at
 - The input field level
   - `uiSchema` options are used at this level
 
-`uiSchema` options may be used in:
+`uiSchema` options may be used by:
 - The [`ui:field`](./available-uifields.md) component
 - The [`ui:widget`](./available-uiwidgets.md) component
-- [Helper functions](./other-uischema-options.md) which live outside both
+- [Helper functions](./other-uischema-options.md) that live outside both
   `ui:field` and `ui:widget`.
 
-
-To determine the field's `ui:field` and `ui:widget`. This can be found in two
-places:
-- The `uiSchema`'s `ui:field` and `ui:widget`
-- The default `ui:field` and `ui:widget` in [**Schema
-    Types**](schema-types.md)
+The forms library will determine the `ui:field` and `ui:widget` components in
+one of two ways. It will either use:
+- The `uiSchema`'s `ui:field` and `ui:widget`, or
+- The default `ui:field` and `ui:widget` for the [**schema
+    type**](schema-types.md)
 
 ## What each reference section contains
 The first section, [**Schema Types**](schema-types.md) contains—you guessed it—a
