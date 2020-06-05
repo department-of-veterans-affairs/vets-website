@@ -17,7 +17,7 @@ const emailUITitle = <h4>Email address</h4>;
 const emailUIDescription = (
   <>
     <p>
-      We will send an order confirmation email with a tracking number to this
+      We'll send an order confirmation email with a tracking number to this
       email address.
     </p>
     <p className="vads-u-margin-bottom--1">Email address</p>
