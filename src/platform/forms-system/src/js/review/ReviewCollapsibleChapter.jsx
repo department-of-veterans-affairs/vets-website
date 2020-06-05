@@ -128,11 +128,12 @@ export default class ReviewCollapsibleChapter extends React.Component {
               arrayFields = getArrayFields(pageState, page);
               // This will be undefined if there are no fields other than an array
               // in a page, in which case we won’t render the form, just the array
-              pageSchema = getNonArraySchema(
+              const pageSchemaObjects = getNonArraySchema(
                 pageState.schema,
                 pageState.uiSchema,
               );
-              pageUiSchema = pageState.uiSchema;
+              pageSchema = pageSchemaObjects.schema;
+              pageUiSchema = pageSchemaObjects.uiSchema;
               pageData = form.data;
               fullPageKey = page.pageKey;
             }

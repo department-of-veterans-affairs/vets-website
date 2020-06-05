@@ -36,3 +36,7 @@ temp
 all-links.csv
 .tern-port
 *.iml
+
+# Track recommended extensions
+!.vscode/extensions.json
+
