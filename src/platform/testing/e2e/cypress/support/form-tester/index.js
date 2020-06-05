@@ -271,20 +271,16 @@ Cypress.Commands.add('enterData', field => {
     }
 
     case 'date': {
-      const dateComponents = field.data.split('-');
+      const [year, month, day] = field.data.split('-');
 
       cy.get(`#${field.key}Year`)
         .clear()
-        .type(dateComponents[0]);
+        .type(year);
 
-      cy.get(`#${field.key}Month`).select(
-        parseInt(dateComponents[1], 10).toString(),
-      );
+      cy.get(`#${field.key}Month`).select(parseInt(month, 10).toString());
 
-      if (dateComponents[2] !== 'XX') {
-        cy.get(`#${field.key}Day`).select(
-          parseInt(dateComponents[2], 10).toString(),
-        );
+      if (day !== 'XX') {
+        cy.get(`#${field.key}Day`).select(parseInt(day, 10).toString());
       }
 
       break;
