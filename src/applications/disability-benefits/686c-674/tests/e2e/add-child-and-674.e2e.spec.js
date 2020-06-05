@@ -35,7 +35,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // veteran information
   E2eHelpers.expectLocation(client, '/veteran-information');
-  client.axeCheck('.main');
+  // client.axeCheck('.main');
   client.click('button[id="4-continueButton"]');
 
   // veteran address
@@ -96,17 +96,46 @@ const runTest = E2eHelpers.createE2eTest(client => {
   );
   client.axeCheck('.main');
   TestHelpers.fill674StudentInformation(client, testData.data);
+  // TestHelpers.fill674StudentInformation(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
   // Student Address for 674
   E2eHelpers.expectLocation(client, '/report-674-student-address');
+  client.waitForElementVisible(
+    '#root_studentAddressMarriageTuition_address_countryName',
+    Timeouts.normal,
+  );
+  TestHelpers.fill674StudentAddress(client, testData.data);
+  client.click('button[id="4-continueButton"]');
 
-  // report-674-student-address
+  // School Address for 674
+  E2eHelpers.expectLocation(client, '/report-674-student-school-address');
+  client.waitForElementVisible('#root_schoolInformation_name', Timeouts.normal);
+  TestHelpers.fill674StudentSchoolAddress(client, testData.data);
+  client.click('button[id="4-continueButton"]');
 
-  //
+  // School term dates
+  E2eHelpers.expectLocation(client, '/report-674-student-school-term-dates');
+  client.waitForElementVisible(
+    '#root_currentTermDates_officialSchoolStartDateMonth',
+    Timeouts.normal,
+  );
+  TestHelpers.fill674StudentTermDates(client, testData.data);
+  client.click('button[id="4-continueButton"]');
 
+  // Student last term
+  E2eHelpers.expectLocation(
+    client,
+    '/report-674-student-last-term-information',
+  );
+  client.waitForElementVisible(
+    'input[name="root_studentDidAttendSchoolLastTerm"]',
+    Timeouts.normal,
+  );
+  client.selectRadio('root_studentDidAttendSchoolLastTerm', 'N');
+  client.pause();
   // review page
-  // E2eHelpers.expectLocation(client, '/review-and-submit');
+  E2eHelpers.expectLocation(client, '/review-and-submit');
   // client.waitForElementVisible(
   //  '.usa-accordion-bordered.form-review-panel',
   //  Timeouts.normal,

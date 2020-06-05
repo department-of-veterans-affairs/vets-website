@@ -1,5 +1,12 @@
 const mock = require('platform/testing/e2e/mock-helpers');
 
+// Helper for filling a date
+const dateFiller = (client, selector, month, day, year) => {
+  client.selectDropdown(`${selector}Month`, month);
+  client.selectDropdown(`${selector}Day`, day);
+  client.fill(`input[name="${selector}Year"]`, year);
+};
+
 // loop through all options and click each one
 export const select686Options = (client, options, data) => {
   options.forEach(option => {
@@ -651,57 +658,116 @@ export const fillStepchildDetails = (client, data) => {
 };
 
 export const fill674StudentInformation = (client, data) => {
-  client
-    .fill(
-      'input[name="root_studentNameAndSSN_fullName_last"]',
-      data.childInformation.lastName,
-    )
-    .fill('input[name="root_studentNameAndSSN_ssn"]', data.childInformation.ssn)
-    .selectDropdown(
-      'root_studentNameAndSSN_birthDateMonth',
-      data.childStoppedAttending.date.month,
-    )
-    .selectDropdown(
-      'root_studentNameAndSSN_birthDateDay',
-      data.childStoppedAttending.date.day,
-    )
-    .fill(
-      'input[name="root_studentNameAndSSN_birthDateYear"]',
-      data.childStoppedAttending.date.year,
-    );
+  client.fill(
+    'input[name="root_studentNameAndSSN_fullName_first"]',
+    data.for674.studentInformation.firstName,
+  );
+  client.fill(
+    'input[name="root_studentNameAndSSN_fullName_last"]',
+    data.for674.studentInformation.lastName,
+  );
+  client.fill(
+    'input[name="root_studentNameAndSSN_ssn"]',
+    data.for674.studentInformation.ssn,
+  );
+  client.selectDropdown(
+    'root_studentNameAndSSN_birthDateMonth',
+    data.for674.studentInformation.dob.month,
+  );
+  client.selectDropdown(
+    'root_studentNameAndSSN_birthDateDay',
+    data.for674.studentInformation.dob.day,
+  );
+  client.fill(
+    'input[name="root_studentNameAndSSN_birthDateYear"]',
+    data.for674.studentInformation.dob.year,
+  );
 };
 
 export const fill674StudentAddress = (client, data) => {
-  client
-    .selectDropdown(
-      'input[name="root_studentAddressMarriageTuition_address_countryName"]',
-      data.veteranDomesticAddress.countryName,
-    )
-    .fill(
-      'input[name="root_studentAddressMarriageTuition_address_addressLine1"]',
-      data.veteranDomesticAddress.addressLine1,
-    )
-    .fill(
-      'input[name="root_studentAddressMarriageTuition_address_city"]',
-      data.veteranDomesticAddress.city,
-    )
-    .selectDropdown(
-      'root_studentAddressMarriageTuition_address_stateCode',
-      data.veteranDomesticAddress.stateCode,
-    )
-    .fill(
-      'input[name="root_studentAddressMarriageTuition_address_zipCode"]',
-      data.veteranDomesticAddress.zipCode,
-    )
-    .fill(
-      'input[name="root_studentAddressMarriageTuition_address_phoneNumber"]',
-      data.veteranDomesticAddress.phoneNumber,
-    )
-    .selectRadio('root_studentAddressMarriageTuition_wasMarried', 'N')
-    .selectRadio(
-      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
-      'N',
-    );
+  client.selectDropdown(
+    'root_studentAddressMarriageTuition_address_countryName',
+    data.for674.studentAddress.country,
+  );
+
+  client.fill(
+    'input[name="root_studentAddressMarriageTuition_address_addressLine1"]',
+    data.for674.studentAddress.line1,
+  );
+
+  client.fill(
+    'input[name="root_studentAddressMarriageTuition_address_city"]',
+    data.for674.studentAddress.city,
+  );
+
+  client.selectDropdown(
+    'root_studentAddressMarriageTuition_address_stateCode',
+    data.for674.studentAddress.state,
+  );
+
+  client.fill(
+    'input[name="root_studentAddressMarriageTuition_address_zipCode"]',
+    data.for674.studentAddress.postal,
+  );
+
+  client.selectRadio('root_studentAddressMarriageTuition_wasMarried', 'N');
+  client.selectRadio(
+    'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+    'N',
+  );
+};
+
+export const fill674StudentSchoolAddress = (client, data) => {
+  client.fill(
+    'input[name="root_schoolInformation_name"]',
+    data.for674.schoolAddress.name,
+  );
+  client.selectDropdown(
+    'root_schoolInformation_address_countryName',
+    data.for674.schoolAddress.country,
+  );
+  client.fill(
+    'input[name="root_schoolInformation_address_addressLine1"]',
+    data.for674.schoolAddress.line1,
+  );
+  client.fill(
+    'input[name="root_schoolInformation_address_city"]',
+    data.for674.schoolAddress.city,
+  );
+  client.selectDropdown(
+    'root_schoolInformation_address_stateCode',
+    data.for674.schoolAddress.state,
+  );
+  client.fill(
+    'input[name="root_schoolInformation_address_zipCode"]',
+    data.for674.schoolAddress.postal,
+  );
+};
+
+export const fill674StudentTermDates = (client, data) => {
+  dateFiller(
+    client,
+    'root_currentTermDates_officialSchoolStartDate',
+    data.for674.studentTermDates.schoolStart.month,
+    data.for674.studentTermDates.schoolStart.day,
+    data.for674.studentTermDates.schoolStart.year,
+  );
+  dateFiller(
+    client,
+    'root_currentTermDates_expectedStudentStartDate',
+    data.for674.studentTermDates.studentStart.month,
+    data.for674.studentTermDates.studentStart.day,
+    data.for674.studentTermDates.studentStart.year,
+  );
+  dateFiller(
+    client,
+    'root_currentTermDates_expectedGraduationDate',
+    data.for674.studentTermDates.graduation.month,
+    data.for674.studentTermDates.graduation.day,
+    data.for674.studentTermDates.graduation.year,
+  );
+  // This will need to change to 'N' when the bug fix for ticket #9835 is merged
+  client.selectRadio('root_programInformation_studentIsEnrolledFullTime', 'Y');
 };
 
 export const initApplicationSubmitMock = token => {
