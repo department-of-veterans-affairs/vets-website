@@ -9,7 +9,7 @@ const DebtDetails = ({ selectedDebt }) => (
     <Breadcrumbs>
       <a href="/">Home</a>
       <a href="/debt-letters">Debt Letters</a>
-      <a href="/view-letters/debt-list">Debt List</a>
+      <a href="/debt-letters/debt-list">Debt List</a>
       <a href="/view-details">Debt Details</a>
     </Breadcrumbs>
     {reverse(selectedDebt.debtHistory).map((debtEntry, index) => (
