@@ -1,6 +1,5 @@
 import { normal, slow } from 'platform/testing/e2e/timeouts';
 import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
-import { production } from '../manifest.json';
 
 const visitorPass = {
   title: 'Visitor pass',
@@ -64,7 +63,7 @@ const staffScreening = {
 
 function testQuestionScenario({ scenario, client }) {
   client.refresh().waitForElementVisible('body', normal);
-  scenario.questions.forEach((question, index, arr) => {
+  scenario.questions.forEach(question => {
     client
       .waitForElementVisible(`div[id=${question.id}]`, slow)
       .assert.visible(`div[id=${question.id}]`)
@@ -97,5 +96,3 @@ export default createE2eTest(client => {
   // staff needs more screening
   testQuestionScenario({ scenario: staffScreening, client });
 });
-
-// module.exports['@disabled'] = !production || __BUILDTYPE__ !== 'production';
