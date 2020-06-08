@@ -1,5 +1,6 @@
 // import recordEvent from 'platform/monitoring/record-event';
 // import { isServerError, isClientError } from '../config/utilities';
+import { getData, isServerError, isClientError } from '../util';
 
 export const VERIFY_VA_FILE_NUMBER_STARTED = 'VERIFY_VA_FILE_NUMBER_STARTED';
 export const VERIFY_VA_FILE_NUMBER_SUCCEEDED =
@@ -10,12 +11,10 @@ export const VERIFY_VA_FILE_NUMBER_FAILED = 'VERIFY_VA_FILE_NUMBER_FAILED';
 
 // This will eventually take apiRoute and options as it's params.
 // stub out a response for now.
-const getVaFileNumber = () =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve({ data: { attributes: true } });
-    }, 4000);
-  });
+async function getVaFileNumber() {
+  const response = await getData('/profile/va_file_number');
+  return response;
+}
 
 // stub out error response
 // const getVaFileNumber = () =>
