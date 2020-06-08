@@ -1050,9 +1050,7 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
-  renderLearningFormat = () => {
-    const isOjt =
-      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+  renderLearningFormat = isOjt => {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
@@ -1118,21 +1116,27 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   render() {
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const sectionCount = isOjt ? '3' : '4';
     const className = classNames(
       'estimate-your-benefits-form',
       'medium-5',
       'columns',
       'small-screen:vads-u-padding-right--0',
     );
+
     return (
       <div className={className}>
         <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-          Use the fields below to calculate your benefits:
+          The {sectionCount} sections below include questions that will refine
+          your benefits estimate. Use the fields in each section to make your
+          updates.
         </p>
         <ul className="vads-u-padding--0">
           {this.renderMilitaryDetails()}
           {this.renderSchoolCostsAndCalendar()}
-          {this.renderLearningFormat()}
+          {this.renderLearningFormat(isOjt)}
           {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
       </div>
