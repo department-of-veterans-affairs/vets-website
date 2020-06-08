@@ -3,7 +3,6 @@ export const FETCH_STATUS = {
   notStarted: 'notStarted',
   succeeded: 'succeeded',
   failed: 'failed',
-  failedVaos400: 'failedVaos400',
 };
 
 export const APPOINTMENT_TYPES = {

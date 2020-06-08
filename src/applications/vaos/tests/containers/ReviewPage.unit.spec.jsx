@@ -110,7 +110,8 @@ describe('VAOS <ReviewPage>', () => {
 
     const tree = shallow(
       <ReviewPage
-        submitStatus={FETCH_STATUS.failedVaos400}
+        submitStatus={FETCH_STATUS.failed}
+        submitStatusVaos400
         flowType={flowType}
         data={data}
         facilityDetails={{}}

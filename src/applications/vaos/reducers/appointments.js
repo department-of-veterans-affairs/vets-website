@@ -185,15 +185,15 @@ export default function appointmentsReducer(state = initialState, action) {
         showCancelModal: true,
         future,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
+        cancelAppointmentStatusVaos400: false,
       };
     }
     case CANCEL_APPOINTMENT_CONFIRMED_FAILED:
       return {
         ...state,
         showCancelModal: true,
-        cancelAppointmentStatus: action.isVaos400Error
-          ? FETCH_STATUS.failedVaos400
-          : FETCH_STATUS.failed,
+        cancelAppointmentStatus: FETCH_STATUS.failed,
+        cancelAppointmentStatusVaos400: action.isVaos400Error,
       };
     case CANCEL_APPOINTMENT_CLOSED:
       return {

@@ -52,7 +52,7 @@ describe('VAOS <CancelAppointmentFailedModal>', () => {
       <CancelAppointmentFailedModal
         facility={facility}
         appointment={appointment}
-        status={FETCH_STATUS.failedVaos400}
+        isBadRequest
       />,
     );
 

@@ -299,16 +299,19 @@ describe('VAOS reducer: appointments', () => {
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
       expect(newState.future[0].apiData).to.equal(action.apiData);
       expect(newState.future[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
+      expect(newState.cancelAppointmentStatusVaos400).to.equal(false);
     });
 
     it('should set status to failed', () => {
       const action = {
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error: false,
       };
       const newState = appointmentsReducer(initialState, action);
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.cancelAppointmentStatusVaos400).to.equal(false);
     });
 
     it('should set status to failed', () => {
@@ -319,9 +322,8 @@ describe('VAOS reducer: appointments', () => {
       const newState = appointmentsReducer(initialState, action);
 
       expect(newState.showCancelModal).to.be.true;
-      expect(newState.cancelAppointmentStatus).to.equal(
-        FETCH_STATUS.failedVaos400,
-      );
+      expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.cancelAppointmentStatusVaos400).to.equal(true);
     });
 
     it('should close modal', () => {

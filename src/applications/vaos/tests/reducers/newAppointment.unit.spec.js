@@ -959,6 +959,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.submitStatusVaos400).to.equal(false);
     });
     it('should set error', () => {
       const action = {
@@ -967,6 +968,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.submitStatusVaos400).to.equal(undefined);
     });
 
     it('should set vaos 400 error', () => {
@@ -976,7 +978,8 @@ describe('VAOS reducer: newAppointment', () => {
       };
 
       const newState = newAppointmentReducer({}, action);
-      expect(newState.submitStatus).to.equal(FETCH_STATUS.failedVaos400);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.submitStatusVaos400).to.equal(true);
     });
   });
 

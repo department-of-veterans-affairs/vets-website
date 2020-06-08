@@ -43,11 +43,10 @@ export class ReviewPage extends React.Component {
       flowType,
       router,
       submitStatus,
+      submitStatusVaos400,
       systemId,
     } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
-    const submitFailed = submitStatus === FETCH_STATUS.failed;
-    const isVaos400Error = submitStatus === FETCH_STATUS.failedVaos400;
 
     return (
       <div>
@@ -70,7 +69,10 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
-            disabled={submitStatus === FETCH_STATUS.succeeded || submitFailed}
+            disabled={
+              submitStatus === FETCH_STATUS.succeeded ||
+              submitStatus === FETCH_STATUS.failed
+            }
             isLoading={submitStatus === FETCH_STATUS.loading}
             onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
@@ -78,11 +80,11 @@ export class ReviewPage extends React.Component {
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
           </LoadingButton>
         </div>
-        {(submitFailed || isVaos400Error) && (
+        {submitStatus === FETCH_STATUS.failed && (
           <AlertBox
             status="error"
             headline={
-              isVaos400Error
+              submitStatusVaos400
                 ? 'We can’t schedule your appointment'
                 : `Your ${
                     isDirectSchedule ? 'appointment' : 'request'
@@ -90,7 +92,7 @@ export class ReviewPage extends React.Component {
             }
             content={
               <>
-                {isVaos400Error ? (
+                {submitStatusVaos400 ? (
                   <p>
                     We’re sorry. You can’t schedule your appointment on the VA
                     appointments tool. Please contact your local VA medical
@@ -114,7 +116,7 @@ export class ReviewPage extends React.Component {
                         data.vaFacility || data.communityCareSystemId,
                       )}`}
                     >
-                      {isVaos400Error
+                      {submitStatusVaos400
                         ? 'Find facility contact information'
                         : 'Contact your local VA medical center'}
                     </a>
@@ -151,6 +153,7 @@ function mapStateToProps(state) {
     vaCityState: getChosenVACityState(state),
     flowType: getFlowType(state),
     submitStatus: state.newAppointment.submitStatus,
+    submitStatusVaos400: state.newAppointment.submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
   };
 }

@@ -15,6 +15,7 @@ export default function CancelAppointmentModal(props) {
     showCancelModal,
     appointmentToCancel,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     onClose,
     onConfirm,
     facility,
@@ -56,14 +57,12 @@ export default function CancelAppointmentModal(props) {
     );
   }
 
-  if (
-    cancelAppointmentStatus === FETCH_STATUS.failed ||
-    cancelAppointmentStatus === FETCH_STATUS.failedVaos400
-  ) {
+  if (cancelAppointmentStatus === FETCH_STATUS.failed) {
     return (
       <CancelAppointmentFailedModal
         appointment={appointmentToCancel}
         status={cancelAppointmentStatus}
+        isBadRequest={cancelAppointmentStatusVaos400}
         facility={facility}
         onClose={onClose}
       />
