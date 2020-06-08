@@ -21,7 +21,11 @@ import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import { scroller } from 'react-scroll';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import {
+  getScrollOptions,
+  focusElement,
+  scrollAndFocus,
+} from 'platform/utilities/ui';
 import classNames from 'classnames';
 import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
@@ -183,12 +187,6 @@ class EstimateYourBenefitsForm extends React.Component {
   handleEYBInputFocus = fieldId => {
     const eybSheetFieldId = 'eyb-summary-sheet';
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
-  };
-
-  handleInternationalCheckboxFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
-    }
   };
 
   resetBuyUp = event => {
@@ -825,7 +823,6 @@ class EstimateYourBenefitsForm extends React.Component {
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={this.handleHasClassesOutsideUSChange}
-          onFocus={this.handleInternationalCheckboxFocus}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
           id={'classesOutsideUS'}
