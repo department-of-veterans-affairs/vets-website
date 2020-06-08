@@ -117,6 +117,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   reviewPageTitle: 'Review order details',
   saveSuccessMessage: 'Order has been saved.',
+  startAppMessage: 'Start your order',
   footerContent: FormFooter,
   getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
