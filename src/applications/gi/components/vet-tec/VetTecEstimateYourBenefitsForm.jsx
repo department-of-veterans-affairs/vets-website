@@ -12,22 +12,43 @@ import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
+import { renderLearnMoreLabel } from '../../utils/render';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
     super(props);
     const selectedProgramName = this.props.selectedProgram;
 
-    const selectedProgram = this.props.institution.programs.filter(
+    let selectedProgram = this.props.institution.programs.find(
       program => program.description === selectedProgramName,
     );
+    selectedProgram = selectedProgram || this.props.institution.programs[0];
+
     this.state = {
-      tuitionFees: selectedProgram[0].tuitionAmount,
+      tuitionFees: selectedProgram.tuitionAmount,
       scholarships: 0,
       programName: selectedProgramName,
     };
     this.setProgramFields(this.props.selectedProgram);
   }
+
+  disableUpdateBenefits = () => {
+    const {
+      vetTecTuitionFees,
+      vetTecProgramName,
+      vetTecScholarships,
+    } = this.props.inputs;
+
+    const { tuitionFees, programName, scholarships } = this.state;
+
+    return (
+      formatDollarAmount(vetTecTuitionFees) ===
+        formatDollarAmount(tuitionFees) &&
+      vetTecProgramName === programName &&
+      formatDollarAmount(vetTecScholarships) ===
+        formatDollarAmount(scholarships)
+    );
+  };
 
   getProgramByName = programName =>
     this.props.institution.programs.find(
@@ -58,8 +79,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       programName: vetTecProgramName,
       tuitionFees: program.tuitionAmount,
     });
-
-    this.props.calculatorInputChange({ vetTecProgramName });
+    this.trackChange('Approved Programs Field', event);
   };
 
   trackChange = (fieldName, event) => {
@@ -72,32 +92,39 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     });
   };
 
-  calculateBenefitsOnClick = event => {
+  updateBenefitsOnClick = event => {
     event.preventDefault();
     this.setProgramFields(this.state.programName);
     focusElement('.estimated-benefits-header');
   };
 
-  renderScholarships = onShowModal => (
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      ariaLabel,
+      showModal: this.props.showModal,
+      component: this,
+    });
+
+  renderScholarships = () => (
     <div id="scholarships-field">
       <label
         htmlFor="vetTecScholarships"
         className="vads-u-display--inline-block"
         id="scholarships-label"
       >
-        Scholarships (excluding Pell)
-      </label>{' '}
-      <button
-        aria-label={ariaLabels.learnMore.scholarships}
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={() => onShowModal('scholarships')}
-      >
-        (Learn more)
-      </button>
+        {this.renderLearnMoreLabel({
+          text: 'Scholarships (excluding Pell)',
+          modal: 'scholarships',
+          ariaLabel: ariaLabels.learnMore.scholarships,
+        })}
+      </label>
       <input
         aria-labelledby="scholarships-label"
+        inputMode="decimal"
         type="text"
+        pattern="[0-9]*"
         name="vetTecScholarships"
         value={formatDollarAmount(this.state.scholarships)}
         onChange={e =>
@@ -115,28 +142,25 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     </div>
   );
 
-  renderTuitionFees = onShowModal => (
+  renderTuitionFees = () => (
     <div id="tuition-field">
       <label
         htmlFor="vetTecTuitionFees"
         className="vads-u-display--inline-block"
         id="tuition-fees-label"
       >
-        {' '}
-        Tuition and fees for program
-      </label>{' '}
-      <button
-        aria-label={ariaLabels.learnMore.tuitionAndFees}
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={() => onShowModal('tuitionAndFees')}
-      >
-        (Learn more)
-      </button>
+        {this.renderLearnMoreLabel({
+          text: 'Tuition and fees for program',
+          modal: 'tuitionAndFees',
+          ariaLabel: ariaLabels.learnMore.tuitionAndFees,
+        })}
+      </label>
       <input
         aria-labelledby="tuition-fees-label"
         name="vetTecTuitionFees"
+        pattern="[0-9]*"
         type="text"
+        inputMode="decimal"
         value={formatDollarAmount(this.state.tuitionFees)}
         onChange={e =>
           this.setState({
@@ -152,8 +176,8 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     </div>
   );
 
-  renderApprovedProgramsSelector = institution => {
-    const options = institution.programs.map(program => ({
+  renderApprovedProgramsSelector = () => {
+    const options = this.props.institution.programs.map(program => ({
       value: program.description,
       label: program.description,
     }));
@@ -181,16 +205,17 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
   render() {
     return (
       <div className="calculator-form">
-        <p>Use the fields below to calculate your benefits</p>
-        {this.renderApprovedProgramsSelector(this.props.institution)}
-        {this.renderTuitionFees(this.props.onShowModal)}
-        {this.renderScholarships(this.props.onShowModal)}
+        <p>Use the fields below to update your benefits.</p>
+        {this.renderApprovedProgramsSelector()}
+        {this.renderTuitionFees()}
+        {this.renderScholarships()}
         <button
           type="button"
           className="vads-u-margin-top--2p5"
-          onClick={this.calculateBenefitsOnClick}
+          onClick={this.updateBenefitsOnClick}
+          disabled={this.disableUpdateBenefits()}
         >
-          Calculate benefits
+          Update benefits
         </button>
       </div>
     );
@@ -200,7 +225,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 VetTecEstimateYourBenefitsForm.propTypes = {
   inputs: PropTypes.object,
   displayedInputs: PropTypes.object,
-  onShowModal: PropTypes.func,
+  showModal: PropTypes.func,
   institution: PropTypes.object,
   selectedProgram: PropTypes.string,
   calculatorInputChange: PropTypes.func,

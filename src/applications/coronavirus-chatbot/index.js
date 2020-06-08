@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import { GA_PREFIX, handleButtonsPostRender } from './utils';
+import { recordLinkClicks, GA_PREFIX, handleButtonsPostRender } from './utils';
 import * as Sentry from '@sentry/browser';
 import localStorage from 'platform/utilities/storage/localStorage';
 
@@ -162,6 +162,7 @@ const chatRequested = async scenario => {
 };
 
 export async function initializeChatbot() {
+  recordLinkClicks();
   handleButtonsPostRender();
   return chatRequested('va_coronavirus_chatbot');
 }

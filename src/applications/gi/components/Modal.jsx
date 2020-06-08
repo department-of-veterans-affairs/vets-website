@@ -40,12 +40,10 @@ class Modal extends React.Component {
     }
   }
 
-  teardownModal() {
+  async teardownModal() {
     if (this.state.lastFocus) {
       // Ensure last focus is set before completing modal teardown
-      setTimeout(() => {
-        this.state.lastFocus.focus();
-      }, 0);
+      await this.state.lastFocus.focus();
     }
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', this.handleDocumentKeyDown, false);
@@ -58,8 +56,7 @@ class Modal extends React.Component {
   handleDocumentKeyDown = event => {
     if (event.keyCode === ESCAPE_KEY) {
       this.handleClose(event);
-    }
-    if (event.keyCode === TAB_KEY) {
+    } else if (event.keyCode === TAB_KEY) {
       if (event.shiftKey) {
         this.setState({ isTabbingBackwards: true });
       } else {
