@@ -9,10 +9,7 @@ import {
   hasCheckedKeepAlive,
 } from 'platform/user/authentication/selectors';
 import { checkAutoSession } from 'platform/utilities/sso';
-import {
-  setForceAuth,
-  removeForceAuth,
-} from 'platform/utilities/sso/forceAuth';
+import { removeForceAuth } from 'platform/utilities/sso/forceAuth';
 
 function AutoSSO(props) {
   const { useSSOe, useInboundSSOe, hasCalledKeepAlive, userLoggedIn } = props;
@@ -20,8 +17,6 @@ function AutoSSO(props) {
 
   if (userLoggedIn) {
     removeForceAuth();
-  } else if (params.get('auth') !== 'success') {
-    setForceAuth();
   }
 
   if (useSSOe && useInboundSSOe && !hasCalledKeepAlive) {
