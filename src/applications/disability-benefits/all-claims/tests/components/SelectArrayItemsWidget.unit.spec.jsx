@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import SelectArrayItemsWidget from '../../../all-claims/components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../../components/SelectArrayItemsWidget';
 
 import get from 'platform/utilities/data/get';
 
@@ -41,7 +41,7 @@ describe('<SelectArrayItemsWidget>', () => {
       options: {
         label: labelElement,
         selectedPropName,
-        customTitle: 'Title',
+        customTitle: 'Custom title',
       },
       formContext: {
         onReviewPage: true,
@@ -60,6 +60,26 @@ describe('<SelectArrayItemsWidget>', () => {
 
   it('should render a custom label component for the checkboxes', () => {
     const wrapper = shallow(<SelectArrayItemsWidget {...defaultProps} />);
+    expect(wrapper.find('fieldset').length).to.equal(1);
+    expect(wrapper.find('legend').text()).to.equal('Custom title');
+    expect(wrapper.find('labelElement').length).to.equal(
+      defaultProps.value.length,
+    );
+    wrapper.unmount();
+  });
+
+  it('should not wrap the checkboxes in a fieldset', () => {
+    const props = {
+      ...defaultProps,
+      options: {
+        label: labelElement,
+        selectedPropName,
+        // title is trimmed of whitespace, making this the same as undefined
+        customTitle: ' ',
+      },
+    };
+    const wrapper = shallow(<SelectArrayItemsWidget {...props} />);
+    expect(wrapper.find('fieldset').length).to.equal(0);
     expect(wrapper.find('labelElement').length).to.equal(
       defaultProps.value.length,
     );
