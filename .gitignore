@@ -36,6 +36,10 @@ all-links.csv
 .tern-port
 *.iml
 
+# Ignore the hashed build files for comparison
+standaloneContentBuildHash.txt
+websiteContentBuildHash.txt
+
 # Track recommended extensions
 !.vscode/extensions.json
 
