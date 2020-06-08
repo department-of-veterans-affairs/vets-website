@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { genderLabels } from 'platform/static-data/labels';
-import { srSubstitute, forceTitleCase, formatDate } from '../utils';
+import { srSubstitute, formatDate } from '../utils';
 import { editNote } from './common';
 
 const unconnectedVetInfoView = profile => {
@@ -10,14 +10,13 @@ const unconnectedVetInfoView = profile => {
   const { ssn, vaFileNumber, dob, gender } = profile;
   const { first, middle, last, suffix } = profile.userFullName;
   const mask = srSubstitute('●●●–●●–', 'ending with');
-  // All caps isn't good for a11y
-  const fullName = forceTitleCase(`${first} ${middle || ''} ${last}`);
+
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
       <div className="blue-bar-block">
         <strong>
-          {fullName}
+          {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix && `, ${suffix}`}
         </strong>
         {ssn && (

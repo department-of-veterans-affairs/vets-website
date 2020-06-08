@@ -73,8 +73,6 @@ export const srSubstitute = (srIgnored, substitutionText) => (
   </span>
 );
 
-export const forceTitleCase = text => titleCase(text.toLowerCase());
-
 export const formatDate = date => {
   const m = moment(date);
   return m.isValid() ? m.format(DATE_FORMAT) : null;
