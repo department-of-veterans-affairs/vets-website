@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { withRouter } from 'react-router';
 
 class FormStartControls extends React.Component {
   constructor(props) {
@@ -64,6 +63,7 @@ class FormStartControls extends React.Component {
   };
 
   render() {
+    const { formConfig } = this.props.routes[1];
     if (this.props.formSaved) {
       return (
         <div>
@@ -77,7 +77,9 @@ class FormStartControls extends React.Component {
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}
-              buttonText="Start a new application"
+              buttonText={
+                formConfig.startAppMessage || 'Start a new application'
+              }
               buttonClass={
                 this.props.isExpired
                   ? 'usa-button-primary'
@@ -95,7 +97,9 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start a new application"
+              buttonText={
+                formConfig.startAppMessage || 'Start a new application'
+              }
               buttonClass="usa-button-primary"
             />
             <ProgressButton

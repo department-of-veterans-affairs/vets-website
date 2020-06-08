@@ -1,16 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { connect } from 'react-redux';
-
-import {
-  formLinks,
-  formDescriptions,
-  formBenefits,
-} from 'applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
+import {
+  formBenefits,
+  formDescriptions,
+  formLinks,
+} from 'applications/personalization/dashboard/helpers';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import { removeSavedForm } from '../../user/profile/actions';
 
 export class ApplicationStatus extends React.Component {
@@ -73,6 +72,7 @@ export class ApplicationStatus extends React.Component {
 
     let savedForm;
     let { formId } = this.props;
+    const { formConfig } = this.props;
     let multipleForms = false;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) =>
@@ -133,7 +133,7 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
-                Start a new application
+                {formConfig.startAppMessage || 'Start a new application'}
               </button>
             </p>
             {multipleForms && (
@@ -155,7 +155,9 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
-                buttonText="Start a new application"
+                buttonText={
+                  formConfig.startAppMessage || 'Start a new application'
+                }
                 buttonClass="usa-button-primary"
               />
               <ProgressButton
@@ -177,7 +179,7 @@ export class ApplicationStatus extends React.Component {
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>
-              Start a new application
+              {formConfig.startAppMessage || 'Start a new application'}
             </button>
           </p>
           {multipleForms && (
@@ -199,7 +201,9 @@ export class ApplicationStatus extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={() => this.removeForm(formId)}
-              buttonText="Start a new application"
+              buttonText={
+                formConfig.startAppMessage || 'Start a new application'
+              }
               buttonClass="usa-button-primary"
             />
             <ProgressButton
@@ -263,18 +267,20 @@ ApplicationStatus.propTypes = {
   }),
   stayAfterDelete: PropTypes.bool,
   showLearnMoreLink: PropTypes.bool,
+  formConfig: PropTypes.object,
 };
 
 ApplicationStatus.defaultProps = {
   applyHeading: 'Ready to apply?',
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const { login, profile } = state.user;
 
   return {
     login,
     profile,
+    formConfig: ownProps.formConfig,
   };
 }
 
