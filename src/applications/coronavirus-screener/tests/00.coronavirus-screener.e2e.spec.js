@@ -2,6 +2,34 @@ import { normal, slow } from 'platform/testing/e2e/timeouts';
 import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
 import { production } from '../manifest.json';
 
+const allNo = {
+  questions: [
+    { id: 'question-isStaff', value: 'no' },
+    { id: 'question-fever', value: 'no' },
+    { id: 'question-cough', value: 'no' },
+    { id: 'question-flu', value: 'no' },
+    { id: 'question-congestion', value: 'no' },
+    { id: 'question-exposure', value: 'no' },
+  ],
+  result: {
+    class: 'covid-screener-results-pass',
+  },
+};
+
+function testQuestionScenario({ scenario, client }) {
+  scenario.questions.forEach((question, index, arr) => {
+    client
+      .waitForElementVisible(`div[id=${question.id}]`, slow)
+      .assert.visible(`div[id=${question.id}]`)
+      // extra click workaround for https://github.com/nightwatchjs/nightwatch/issues/1221
+      .click(`div[id=${question.id}] > button[value=${question.value}]`)
+      .click(`div[id=${question.id}] > button[value=${question.value}]`);
+  });
+  client
+    .waitForElementVisible(`div[class*=${scenario.result.class}]`, slow)
+    .assert.visible(`div[class*=${scenario.result.class}]`);
+}
+
 export default createE2eTest(client => {
   client
     .url(`${baseUrl}/covid19screen`)
@@ -10,29 +38,8 @@ export default createE2eTest(client => {
     .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  // answering question brings up next question
-  client
-    .pause(1000) // needed for click to work
-    .click('div[id=question-isStaff] > button[value=no]')
-    .waitForElementVisible('div[id=question-fever]', slow)
-    .assert.visible('div[id=question-fever]')
-
-    .pause(1000) // needed for click to work
-    .click('div[id=question-fever] > button[value=no]')
-    .waitForElementVisible('div[id=question-cough]', slow)
-    .assert.visible('div[id=question-cough]')
-
-    .pause(1000) // needed for click to work
-    .click('div[id=question-cough] > button[value=no]')
-    .waitForElementVisible('div[id=question-flu]', slow)
-    .assert.visible('div[id=question-flu]')
-
-    .pause(1000) // needed for click to work
-    .click('div[id=question-flu] > button[value=no]')
-    .waitForElementVisible('div[id=question-congestion]', slow)
-    .assert.visible('div[id=question-congestion]');
-
-  client.end();
+  // all "no" should result in "pass"
+  testQuestionScenario({ scenario: allNo, client });
 });
 
 // module.exports['@disabled'] = !production || __BUILDTYPE__ !== 'production';
