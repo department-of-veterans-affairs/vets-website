@@ -394,7 +394,7 @@ export function getNonArraySchema(schema, uiSchema = {}) {
         }
 
         if (newSchema.schema !== schema.properties[next]) {
-          return _.set(next, newSchema, current);
+          return _.set(next, newSchema.schema, current);
         }
 
         return current;
