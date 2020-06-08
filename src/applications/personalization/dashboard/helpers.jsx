@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
@@ -43,6 +42,8 @@ import pensionConfig from 'applications/pensions/config/form.js';
 import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
 import bddConfig from 'applications/disability-benefits/bdd/config/form.js';
 import hlrConfig from 'applications/disability-benefits/996/config/form';
+import mdotConfig from 'applications/disability-benefits/2346/config/form';
+import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
@@ -62,6 +63,7 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
   [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
+  [VA_FORM_IDS.FORM_VA_2346A]: mdotConfig,
 };
 
 export const formBenefits = {
@@ -83,6 +85,8 @@ export const formBenefits = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
+  [VA_FORM_IDS.FORM_VA_2346A]:
+    'order for hearing aid batteries and accessories',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -111,7 +115,10 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
-    const formDescription = `${formBenefits[key]} application ${formNumber}`;
+    const formDescription =
+      key === VA_FORM_IDS.FORM_VA_2346A
+        ? `${formBenefits[key]} ${formNumber}`
+        : `${formBenefits[key]} application ${formNumber}`;
     descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
     return descriptions;
   },
@@ -136,6 +143,7 @@ export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
@@ -156,6 +164,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
   [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
+  [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
 };
 
 export const sipEnabledForms = new Set([
@@ -176,6 +185,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_20_0996,
+  VA_FORM_IDS.FORM_VA_2346A,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself

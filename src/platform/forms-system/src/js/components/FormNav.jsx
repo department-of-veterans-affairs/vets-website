@@ -10,6 +10,9 @@ import {
   getActiveExpandedPages,
 } from '../helpers';
 
+import PropTypes from 'prop-types';
+import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
+
 export default class FormNav extends React.Component {
   // The formConfig transforming is a little heavy, so skip it if we can
   shouldComponentUpdate(newProps) {
@@ -46,7 +49,7 @@ export default class FormNav extends React.Component {
       // The review page is always part of our forms, but isn’t listed in chapter list
       chapterName =
         page.chapterKey === 'review'
-          ? 'Review Application'
+          ? formConfig.customText.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
           : formConfig.chapters[page.chapterKey].title;
       if (typeof chapterName === 'function') {
         chapterName = chapterName();
@@ -78,3 +81,21 @@ export default class FormNav extends React.Component {
     );
   }
 }
+
+FormNav.defaultProps = {
+  formConfig: {
+    customText: {
+      reviewPageTitle: '',
+    },
+  },
+  currentPath: '',
+  formData: {},
+};
+
+FormNav.propTypes = {
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      reviewPageTitle: PropTypes.string,
+    }),
+  }).isRequired,
+};
