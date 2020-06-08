@@ -19,7 +19,7 @@ describe('<HomepageBanner>', () => {
     wrapper.unmount();
   });
 
-  it('should render maintenance banner', () => {
+  it('should not render when invisible', () => {
     const wrapper = shallow(
       <HomepageBanner {...defaultProps} visible={false} />,
     );
