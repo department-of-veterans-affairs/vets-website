@@ -73,14 +73,17 @@ export const srSubstitute = (srIgnored, substitutionText) => (
   </span>
 );
 
-export const formatDate = date => {
+export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
-  return m.isValid() ? m.format(DATE_FORMAT) : null;
+  return m.isValid() ? m.format(format) : null;
 };
 
-export const formatDateRange = (dateRange = {}) =>
+export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
   dateRange?.from || dateRange?.to
-    ? `${formatDate(dateRange.from)} to ${formatDate(dateRange.to)}`
+    ? `${formatDate(dateRange.from, format)} to ${formatDate(
+        dateRange.to,
+        format,
+      )}`
     : null;
 
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
