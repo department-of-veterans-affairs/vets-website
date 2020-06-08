@@ -20,13 +20,14 @@ function sessionTypeUrl(
   version = 'v0',
   application = null,
   to = null,
+  queryParams = {},
 ) {
   const base =
     version === 'v1'
       ? `${environment.API_URL}/v1/sessions`
       : `${environment.API_URL}/sessions`;
 
-  const searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams(queryParams);
   if (application) {
     searchParams.append('application', application);
 
@@ -111,7 +112,10 @@ export function login(policy, version = 'v0', application = null, to = null) {
 }
 
 export function autoLogin() {
-  return redirect(sessionTypeUrl('idme', 'v1'), 'sso-automatic-login');
+  const url = sessionTypeUrl('idme', 'v1', undefined, undefined, {
+    inbound: 'true',
+  });
+  return redirect(url, 'sso-automatic-login');
 }
 
 export function mfa(version = 'v0') {

@@ -27,6 +27,11 @@ describe('VAOS <PastAppointmentsList>', () => {
               display: 'CHY OPT VAR1',
             },
           },
+          {
+            actor: {
+              reference: 'Location/var983',
+            },
+          },
         ],
       },
       {
@@ -42,8 +47,8 @@ describe('VAOS <PastAppointmentsList>', () => {
         status: APPOINTMENT_STATUS.cancelled,
       },
     ],
-    systemClinicToFacilityMap: {
-      var983_455: {}, // eslint-disable-line camelcase
+    facilityData: {
+      var442: {},
     },
   };
 
@@ -117,7 +122,7 @@ describe('VAOS <PastAppointmentsList>', () => {
         .find('ConfirmedAppointmentListItem')
         .first()
         .props().facility,
-    ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
+    ).to.equal(appointments.facilityData.var442);
 
     tree.unmount();
   });

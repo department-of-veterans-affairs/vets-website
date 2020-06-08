@@ -11,7 +11,10 @@ import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
-import { getVARFacilityId } from '../services/appointment';
+import {
+  getVARFacilityId,
+  getVAAppointmentLocationId,
+} from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -113,6 +116,9 @@ export default function ConfirmedAppointmentListItem({
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
+              facilityId={parseFakeFHIRId(
+                getVAAppointmentLocationId(appointment),
+              )}
               clinicName={appointment.participant[0].actor.display}
             />
           )}

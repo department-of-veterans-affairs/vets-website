@@ -375,7 +375,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     schema.type === 'array' &&
     !_.get('ui:options.keepInPageOnReview', uiSchema)
   ) {
-    return undefined;
+    return {
+      schema: undefined,
+      uiSchema,
+    };
   }
 
   if (schema.type === 'object') {
@@ -386,12 +389,12 @@ export function getNonArraySchema(schema, uiSchema = {}) {
           uiSchema[next],
         );
 
-        if (typeof newSchema === 'undefined') {
+        if (typeof newSchema.schema === 'undefined') {
           return _.unset(next, current);
         }
 
-        if (newSchema !== schema.properties[next]) {
-          return _.set(next, newSchema, current);
+        if (newSchema.schema !== schema.properties[next]) {
+          return _.set(next, newSchema.schema, current);
         }
 
         return current;
@@ -400,7 +403,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     );
 
     if (Object.keys(newProperties).length === 0) {
-      return undefined;
+      return {
+        schema: undefined,
+        uiSchema,
+      };
     }
 
     if (newProperties !== schema.properties) {
@@ -415,11 +421,23 @@ export function getNonArraySchema(schema, uiSchema = {}) {
         }
       }
 
-      return newSchema;
+      const schemaPropertyKeys = Object.keys(newSchema.properties);
+      const newUiSchema = Object.assign({}, uiSchema);
+      newUiSchema['ui:order'] = uiSchema['ui:order']?.filter(item => {
+        return schemaPropertyKeys.includes(item);
+      });
+
+      return {
+        schema: newSchema,
+        uiSchema: newUiSchema,
+      };
     }
   }
 
-  return schema;
+  return {
+    schema,
+    uiSchema,
+  };
 }
 
 export const pureWithDeepEquals = shouldUpdate(
