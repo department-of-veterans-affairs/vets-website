@@ -1,20 +1,17 @@
-import React from 'react';
+import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-
+import { toggleLoginModal } from '../../site-wide/user-nav/actions';
+import SignInLink from '../components/SignInLink';
 import {
+  fetchInProgressForm,
   LOAD_STATUSES,
   PREFILL_STATUSES,
-  fetchInProgressForm,
-  setFetchFormStatus,
   removeInProgressForm,
+  setFetchFormStatus,
 } from './actions';
-
-import SignInLink from '../components/SignInLink';
-import ProgressButton from '@department-of-veterans-affairs/formation-react/ProgressButton';
-
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 
 const DEFAULT_FORBIDDEN_MESSAGE = `
   We're sorry. We can't give you access to this information. For help, please call the VA.gov help desk at 855-574-7286 (TTY: 711). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
@@ -61,9 +58,8 @@ class SaveInProgressErrorPage extends React.Component {
   };
 
   render() {
-    const { loadedStatus } = this.props;
-    const { forbidden, noAuth, notFound } =
-      this.props.route.formConfig.savedFormMessages || {};
+    const { loadedStatus, formConfig } = this.props;
+    const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
     let content;
 
     switch (loadedStatus) {
@@ -101,7 +97,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                Continue Your Application
+                {formConfig.continueAppMessage || 'Continue Your Application'}
               </button>
             </div>
           </div>
@@ -127,7 +123,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                Continue Your Application
+                {formConfig.continueAppMessage || 'Continue Your Application'}
               </button>
             </div>
           </div>
@@ -144,7 +140,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                Continue Your Application
+                {formConfig.continueAppMessage || 'Continue Your Application'}
               </button>
             </div>
           </div>
@@ -182,14 +178,16 @@ SaveInProgressErrorPage.propTypes = {
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
+  formConfig: PropTypes.object,
 };
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store, ownProps) => ({
   loadedStatus: store.form.loadedStatus,
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
   showLoginModal: store.navigation.showLoginModal,
   isStartingOver: store.form.isStartingOver,
+  formConfig: ownProps.formConfig,
 });
 
 const mapDispatchToProps = {

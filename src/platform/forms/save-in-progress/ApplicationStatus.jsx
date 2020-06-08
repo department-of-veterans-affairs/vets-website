@@ -127,7 +127,7 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-primary"
                 href={`${formLinks[formId]}resume`}
               >
-                Continue your application
+                {formConfig.continueAppMessage || 'Continue Your Application'}
               </a>
               <button
                 className="usa-button-secondary"
