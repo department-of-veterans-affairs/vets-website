@@ -1,14 +1,12 @@
-import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import React from 'react';
 import shallowEqual from 'recompose/shallowEqual';
-
-import SegmentedProgressBar from './SegmentedProgressBar';
-
 import {
   createFormPageList,
   createPageList,
   getActiveExpandedPages,
 } from '../helpers';
+import SegmentedProgressBar from './SegmentedProgressBar';
 
 export default class FormNav extends React.Component {
   // The formConfig transforming is a little heavy, so skip it if we can
@@ -46,7 +44,7 @@ export default class FormNav extends React.Component {
       // The review page is always part of our forms, but isn’t listed in chapter list
       chapterName =
         page.chapterKey === 'review'
-          ? 'Review Application'
+          ? formConfig.reviewPageTitle || 'Review Application'
           : formConfig.chapters[page.chapterKey].title;
       if (typeof chapterName === 'function') {
         chapterName = chapterName();
