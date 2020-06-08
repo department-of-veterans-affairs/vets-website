@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { capitalizeEachWord } from '../utils';
 import {
@@ -118,11 +121,8 @@ const template = (props, title, content, submissionMessage, messageType) => {
           You can check the status of your claim online. Please allow 24 hours
           for your disability claim to show up there. If you don’t see your
           disability claim online after 24 hours, please call Veterans Benefits
-          Assistance at{' '}
-          <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
-            800-827-1000
-          </a>
-          , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET.
+          Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday
+          through Friday, 8:30 a.m. to 4:30 p.m. ET.
         </p>
         <p>
           <a href="/track-claims">Check the status of your claim</a>
@@ -161,11 +161,9 @@ export const retryableErrorContent = props =>
           If you don’t see your disability claim online after 24 hours,
         </strong>{' '}
         please call Veterans Benefits Assistance at{' '}
-        <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
-          800-827-1000
-        </a>
-        , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET and provide this
-        reference number {props.jobId}.
+        <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        8:30 a.m. to 4:30 p.m. ET and provide this reference number{' '}
+        {props.jobId}.
       </p>
     </div>,
     checkLaterMessage(props.jobId),
@@ -190,11 +188,9 @@ export const submitErrorContent = props =>
       <ul>
         <li>
           Please call Veterans Benefits Assistance at{' '}
-          <a href="tel:+18008271000" aria-label="800. 8 2 7. 1000">
-            800-827-1000
-          </a>
-          , Monday through Friday, 8:30 a.m. to 4:30 p.m. ET and provide this
-          reference number {props.submissionId}, <strong>or</strong>
+          <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+          8:30 a.m. to 4:30 p.m. ET and provide this reference number{' '}
+          {props.submissionId}, <strong>or</strong>
         </li>
         <li>
           Get in touch with your nearest Veterans Service Officer (VSO).{' '}
