@@ -112,18 +112,22 @@ export default class SelectArrayItemsWidget extends React.Component {
     const hasCustomTitle = !!customTitle?.trim();
     const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
-    if (items && (!inReviewMode || (inReviewMode && hasSelections))) {
-      return hasCustomTitle ? (
-        <fieldset>
-          <legend>
-            <Tag className="vads-u-font-size--h5">{customTitle}</Tag>
-          </legend>
-          {itemsList}
-        </fieldset>
-      ) : (
+    const content =
+      items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
         itemsList
+      ) : (
+        <p>No items selected</p>
       );
-    }
-    return <p>No items selected</p>;
+
+    return hasCustomTitle ? (
+      <fieldset>
+        <legend>
+          <Tag className="vads-u-font-size--h5">{customTitle}</Tag>
+        </legend>
+        {content}
+      </fieldset>
+    ) : (
+      content
+    );
   }
 }
