@@ -71,7 +71,7 @@ class FormStartControls extends React.Component {
             <ProgressButton
               onButtonClick={this.handleLoadForm}
               buttonText={
-                formConfig.continueAppMessage || 'Continue Your Application'
+                formConfig.continueAppMessage || 'Continue your application'
               }
               buttonClass="usa-button-primary no-text-transform"
             />
