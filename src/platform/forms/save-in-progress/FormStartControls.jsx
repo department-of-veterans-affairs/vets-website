@@ -70,7 +70,9 @@ class FormStartControls extends React.Component {
           {!this.props.isExpired && (
             <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText="Continue your application"
+              buttonText={
+                formConfig.continueAppMessage || 'Continue Your Application'
+              }
               buttonClass="usa-button-primary no-text-transform"
             />
           )}
