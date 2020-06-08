@@ -29,10 +29,7 @@ function attachAnalytics() {
 
   // Global listeners
   addTeaserListeners();
-
-  if (!environment.isProduction()) {
-    addButtonLinkListeners();
-  }
+  addButtonLinkListeners();
 }
 
 // Prevent the window from navigating away.

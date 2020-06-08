@@ -144,13 +144,12 @@ describe('VAOS actions: appointments', () => {
     );
   });
 
-  it('should fetch clinic institution mapping', async () => {
+  it('should fetch location data', async () => {
     const data = {
       data: [],
     };
     setFetchJSONResponse(global.fetch, data);
-    setFetchJSONResponse(global.fetch.onCall(3), clinicData);
-    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
+    setFetchJSONResponse(global.fetch.onCall(3), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
     const getState = () => ({
@@ -165,6 +164,11 @@ describe('VAOS actions: appointments', () => {
                   display: 'CHY OPT VAR1',
                 },
               },
+              {
+                actor: {
+                  reference: 'Location/var983',
+                },
+              },
             ],
             vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
           },
@@ -174,6 +178,11 @@ describe('VAOS actions: appointments', () => {
                 actor: {
                   reference: 'HealthcareService/var983_455',
                   display: 'CHY OPT VAR1',
+                },
+              },
+              {
+                actor: {
+                  reference: 'Location/var983GC',
                 },
               },
             ],
@@ -192,16 +201,8 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
-    expect(
-      dispatchSpy.thirdCall.args[0].clinicInstitutionList.some(
-        clinic => clinic.locationIen === '455',
-      ),
-    ).to.be.true;
 
-    expect(global.fetch.getCall(3).args[0]).to.contain(
-      'systems/983/clinic_institutions?clinic_ids[]=455',
-    );
-    expect(global.fetch.getCall(4).args[0]).to.contain('ids=vha_442');
+    expect(global.fetch.getCall(3).args[0]).to.contain('ids=vha_442');
   });
 
   it('should abort fetching clinics if more than 3 systems', async () => {

@@ -180,6 +180,89 @@
           }
         }
       }
+    },
+    {
+      "id": "vha_442GC",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            { "service": "Audiology", "new": null, "established": 0.0 },
+            {
+              "service": "MentalHealthCare",
+              "new": 4.777777,
+              "established": 4.568181
+            },
+            { "service": "Orthopedics", "new": null, "established": 0.0 },
+            { "service": "PrimaryCare", "new": 5.5, "established": 1.329113 },
+            {
+              "service": "SpecialtyCare",
+              "new": 14.447368,
+              "established": 3.838709
+            }
+          ],
+          "effectiveDate": "2020-05-25"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "80526-8108",
+            "city": "Fort Collins",
+            "state": "CO",
+            "address1": "2509 Research Boulevard",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "Multi-Specialty CBOC",
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.6200000047683716,
+            "primaryCareRoutine": 0.800000011920929
+          },
+          "effectiveDate": "2019-06-20"
+        },
+        "hours": {
+          "monday": "730AM-445PM",
+          "tuesday": "730AM-445PM",
+          "wednesday": "730AM-445PM",
+          "thursday": "730AM-445PM",
+          "friday": "730AM-445PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "id": "vha_442GC",
+        "lat": 40.55441312,
+        "long": -105.08653909,
+        "mobile": false,
+        "name": "Fort Collins VA Clinic",
+        "operatingStatus": { "code": "NORMAL" },
+        "phone": {
+          "fax": "970-407-7440",
+          "main": "970-224-1550",
+          "pharmacy": "866-420-6337",
+          "afterHours": "307-778-7550",
+          "patientAdvocate": "307-778-7550 x7517",
+          "mentalHealthClinic": "307-778-7349",
+          "enrollmentCoordinator": "307-778-7550 x7579"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "MentalHealthCare",
+            "Orthopedics",
+            "PrimaryCare",
+            "SpecialtyCare"
+          ],
+          "lastUpdated": "2020-05-25"
+        },
+        "uniqueId": "442GC",
+        "visn": "19",
+        "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp"
+      }
     }
   ],
   "links": {
