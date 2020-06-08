@@ -189,15 +189,6 @@ class EstimateYourBenefitsForm extends React.Component {
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
   };
 
-  handleInternationalCheckboxFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      const field = document.getElementById('classesOutsideUS');
-      if (field) {
-        scrollAndFocus(field);
-      }
-    }
-  };
-
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
@@ -832,7 +823,6 @@ class EstimateYourBenefitsForm extends React.Component {
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={this.handleHasClassesOutsideUSChange}
-          onFocus={this.handleInternationalCheckboxFocus}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
           id={'classesOutsideUS'}
