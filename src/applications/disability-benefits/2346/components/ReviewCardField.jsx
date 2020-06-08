@@ -499,13 +499,13 @@ class ReviewCardField extends React.Component {
             We'll ship your order to the address below. Orders typically arrive
             within 7 to 10 business days.
           </p>
+          <p className="vads-u-font-weight--bold">
+            Select the address where you'd like to send your order:{' '}
+            <span className="vads-u-font-weight--normal schemaform-required-span">
+              (*Required)
+            </span>
+          </p>
         </dd>
-        <p className="vads-u-font-weight--bold">
-          Select the address where you'd like to send your order:{' '}
-          <span className="vads-u-font-weight--normal schemaform-required-span">
-            (*Required)
-          </span>
-        </p>
       </>
     );
     const description = this.getDescription();
