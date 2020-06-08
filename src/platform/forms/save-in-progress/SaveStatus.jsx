@@ -1,12 +1,12 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
-
 import SignInLink from '../components/SignInLink';
-import { SAVE_STATUSES, saveErrors } from './actions';
+import { saveErrors, SAVE_STATUSES } from './actions';
 
 function SaveStatus({
   form: { lastSavedDate, autoSavedStatus },
+  formConfig,
   isLoggedIn,
   showLoginModal,
   toggleLoginModal,
@@ -31,7 +31,7 @@ function SaveStatus({
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon" />
-          Application has been saved.
+          {formConfig.savedSuccessMessage || 'Application has been saved.'}
           {savedAtMessage}
         </div>
       )}
@@ -71,6 +71,7 @@ function SaveStatus({
 SaveStatus.propTypes = {
   form: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  formConfig: PropTypes.object,
 };
 
 export default SaveStatus;

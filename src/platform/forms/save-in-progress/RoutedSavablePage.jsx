@@ -1,22 +1,19 @@
+import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
+import { FormPage } from 'platform/forms-system/src/js/containers/FormPage';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-
-import { FormPage } from 'platform/forms-system/src/js/containers/FormPage';
-import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
-
+import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import debounce from '../../utilities/data/debounce';
-
-import SaveFormLink from './SaveFormLink';
-import SaveStatus from './SaveStatus';
 import {
-  saveErrors,
   autoSaveForm,
   saveAndRedirectToReturnUrl,
+  saveErrors,
 } from './actions';
+import SaveFormLink from './SaveFormLink';
+import SaveStatus from './SaveStatus';
 import { getFormContext } from './selectors';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
@@ -41,7 +38,7 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form } = this.props;
+    const { user, form, formConfig } = this.props;
     const contentAfterButtons = (
       <div>
         <SaveStatus
@@ -49,6 +46,7 @@ class RoutedSavablePage extends React.Component {
           showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
           form={form}
+          formConfig={formConfig}
         />
         <SaveFormLink
           locationPathname={this.props.location.pathname}
@@ -58,7 +56,7 @@ class RoutedSavablePage extends React.Component {
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
           toggleLoginModal={this.props.toggleLoginModal}
         >
-          {this.props.route.formConfig.finishLaterLinkText}
+          {formConfig.finishLaterLinkText}
         </SaveFormLink>
       </div>
     );
@@ -82,6 +80,7 @@ function mapStateToProps(state, ownProps) {
     user: state.user,
     showLoginModal: state.navigation.showLoginModal,
     appStateData: appStateSelector && appStateSelector(state),
+    formConfig: ownProps.route.formConfig,
   };
 }
 
@@ -108,6 +107,7 @@ RoutedSavablePage.propTypes = {
     ),
   }),
   setData: PropTypes.func,
+  formConfig: PropTypes.object,
 };
 
 export default withRouter(
