@@ -105,12 +105,14 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '#root_studentAddressMarriageTuition_address_countryName',
     Timeouts.normal,
   );
+  client.axeCheck('.main');
   TestHelpers.fill674StudentAddress(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
   // School Address for 674
   E2eHelpers.expectLocation(client, '/report-674-student-school-address');
   client.waitForElementVisible('#root_schoolInformation_name', Timeouts.normal);
+  client.axeCheck('.main');
   TestHelpers.fill674StudentSchoolAddress(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
@@ -120,6 +122,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '#root_currentTermDates_officialSchoolStartDateMonth',
     Timeouts.normal,
   );
+  client.axeCheck('.main');
   TestHelpers.fill674StudentTermDates(client, testData.data);
   client.click('button[id="4-continueButton"]');
 
@@ -128,31 +131,30 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     '/report-674-student-last-term-information',
   );
-  client.waitForElementVisible(
-    'input[name="root_studentDidAttendSchoolLastTerm"]',
-    Timeouts.normal,
-  );
+  client.waitForElementVisible('.main', Timeouts.normal);
+  client.axeCheck('.main');
   client.selectRadio('root_studentDidAttendSchoolLastTerm', 'N');
-  client.pause();
+  client.click('button[id="4-continueButton"]');
+
   // review page
   E2eHelpers.expectLocation(client, '/review-and-submit');
-  // client.waitForElementVisible(
-  //  '.usa-accordion-bordered.form-review-panel',
-  //  Timeouts.normal,
-  // );
-  // client.axeCheck('.main');
-  // client.assert.cssClassPresent(
-  //  '.progress-bar-segmented div.progress-segment:nth-child(5)',
-  //  'progress-segment-complete',
-  // );
+  client.waitForElementVisible(
+    '.usa-accordion-bordered.form-review-panel',
+    Timeouts.normal,
+  );
+  client.axeCheck('.main');
+  client.assert.cssClassPresent(
+    '.progress-bar-segmented div.progress-segment:nth-child(5)',
+    'progress-segment-complete',
+  );
   // privacy agreement
-  // client.waitForElementVisible(
-  //  'label[name="privacyAgreementAccepted-label"]',
-  //  Timeouts.normal,
-  // );
-  // client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
-  // client.click('.form-progress-buttons .usa-button-primary');
-  // E2eHelpers.expectLocation(client, '/confirmation');
+  client.waitForElementVisible(
+    'label[name="privacyAgreementAccepted-label"]',
+    Timeouts.normal,
+  );
+  client.click('.form-checkbox input[name="privacyAgreementAccepted"]');
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectLocation(client, '/confirmation');
 
   // confirmation
   client.axeCheck('.main');
@@ -160,3 +162,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
+
+// TODO: Remove this when CI builds temporary landing pages to run e2e tests
+module.exports['@disabled'] =
+  manifest.e2eTestsDisabled && process.env.BUILDTYPE !== environments.LOCALHOST;
