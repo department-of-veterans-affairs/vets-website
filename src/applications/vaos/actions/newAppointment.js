@@ -789,7 +789,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true, 'Request submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
-          isVaos400Error: error?.errors?.[0]?.code === 'VAOS_400',
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service
