@@ -1,4 +1,4 @@
-import fullSchema from '../20-0996-schema.json';
+import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import SelectArrayItemsWidget from '../containers/SelectArrayItemsWidget';
 
 import {

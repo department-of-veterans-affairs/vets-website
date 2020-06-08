@@ -1,52 +1,129 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Element } from 'react-scroll';
 import FormQuestion from './FormQuestion';
-import { Element, scroller } from 'react-scroll';
 import FormResult from './FormResult';
+import recordEvent from 'platform/monitoring/record-event';
+import moment from 'moment';
 import _ from 'lodash/fp';
+import { getEnabledQuestions, checkFormStatus, scrollTo } from '../lib';
 
-// scoller usage based on https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/master/packages/formation-react/src/components/CollapsiblePanel/CollapsiblePanel.jsx
-
-function scrollTo(name) {
-  scroller.scrollTo(
-    name,
-    window.VetsGov.scroll || {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    },
-  );
-}
-
-export default function MultiQuestionForm({ questions }) {
-  const [formState, setFormState] = React.useState({});
-
-  const [resultSubmitted, setResultSubmittedState] = React.useState({
-    isSubmitted: false,
+export default function MultiQuestionForm({ questions, defaultOptions }) {
+  const [formState, setFormState] = useState({
+    status: 'incomplete',
+    startTime: null,
+    completed: false,
   });
-  let filteredQuestions;
 
-  if (_.isEmpty(formState)) {
-    filteredQuestions = questions.filter(question => question.id === 'isStaff');
-  } else {
-    const scope = formState.isStaff === 'no' ? 'veteran' : 'staff';
-    filteredQuestions = questions.filter(
-      question => question.scope === scope || question.scope === 'both',
-    );
+  const [questionState, setQuestionState] = useState(questions);
+
+  // updates formState based on questionState
+  // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
+  useEffect(
+    () => {
+      let completed = formState.completed;
+      const newStatus = checkFormStatus(questionState);
+      if (formState.status !== newStatus) {
+        // record first completion of form
+        if (completed === false) {
+          recordEvent({
+            event: 'covid-screening-tool-result-displayed',
+            'screening-tool-result': formState.result,
+            'time-to-complete': moment().unix() - formState.startTime,
+          });
+          completed = true;
+        }
+        setFormState({
+          ...formState,
+          status: newStatus,
+          completed,
+        });
+      }
+    },
+    [questionState, formState],
+  );
+
+  function checkEnabled(question) {
+    if (Object.hasOwnProperty.call(question, 'dependsOn')) {
+      const dependsOnQuestion = questionState.find(
+        el => el.id === question.dependsOn.id,
+      );
+      const match = dependsOnQuestion.value === question.dependsOn.value;
+      return { ...question, enabled: match };
+    } else return question;
   }
 
-  const formQuestions = filteredQuestions.map((question, index) => (
-    <div key={question.id}>
+  // sets enabled status of questions in state
+  // note: investigate https://reactjs.org/docs/hooks-reference.html#usereducer
+  useEffect(
+    () => {
+      const newQuestionState = questionState.map(question =>
+        checkEnabled(question),
+      );
+      if (!_.isEqual(newQuestionState, questionState)) {
+        setQuestionState(newQuestionState);
+      }
+    },
+    [questionState],
+  );
+
+  // records startTime and log to GA
+  function recordStart(question) {
+    if (formState.startTime === null) {
+      recordEvent({
+        event: 'covid-screening-tool-start',
+        'screening-tool-question': question.id,
+      });
+      // starts duration timer for GA
+      setFormState({
+        ...formState,
+        startTime: moment().unix(),
+      });
+    }
+  }
+
+  const enabledQuestions = getEnabledQuestions(questionState);
+
+  function setQuestionValue({ event, questionId }) {
+    // sets the question value in question state
+    const index = questionState.findIndex(
+      question => question.id === questionId,
+    );
+    const newQuestionState = questionState;
+    newQuestionState[index].value = event.target.value;
+    setQuestionState([...newQuestionState]);
+  }
+
+  // removes value from every question after given questionId
+  function clearQuestionValues(afterQuestionId) {
+    const afterQuestionIndex = questionState.findIndex(
+      question => question.id === afterQuestionId,
+    );
+    const newQuestionState = questionState.map((question, index) => {
+      const returnQuestion = question;
+      if (index > afterQuestionIndex) {
+        delete returnQuestion.value;
+      }
+      return returnQuestion;
+    });
+    setQuestionState([...newQuestionState]);
+  }
+
+  const formQuestions = enabledQuestions.map((question, index) => (
+    <div key={`question-${index}`}>
       <Element name={`multi-question-form-${index}-scroll-element`} />
-      <FormQuestion
-        question={question}
-        setFormState={setFormState}
-        formState={formState}
-        resultSubmitted={resultSubmitted}
-        setResultSubmittedState={setResultSubmittedState}
-        scrollNext={() =>
-          scrollTo(`multi-question-form-${index + 1}-scroll-element`)
-        }
-      />
+      {(index === 0 ||
+        Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
+        <FormQuestion
+          question={question}
+          scrollNext={() =>
+            scrollTo(`multi-question-form-${index + 1}-scroll-element`)
+          }
+          recordStart={recordStart}
+          optionsConfig={defaultOptions}
+          setQuestionValue={setQuestionValue}
+          clearQuestionValues={clearQuestionValues}
+        />
+      )}
     </div>
   ));
 
@@ -54,10 +131,9 @@ export default function MultiQuestionForm({ questions }) {
     <div>
       {formQuestions}
       <FormResult
-        questions={filteredQuestions}
         formState={formState}
-        resultSubmitted={resultSubmitted}
-        setResultSubmittedState={setResultSubmittedState}
+        setFormState={setFormState}
+        scrollIndex={enabledQuestions.length}
       />
     </div>
   );

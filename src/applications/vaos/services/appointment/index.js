@@ -96,3 +96,22 @@ export function getVideoAppointmentLocation(appointment) {
 
   return null;
 }
+
+/**
+ * Returns the lcoation of a VA appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns The location id where the VA appointment is located
+ */
+export function getVAAppointmentLocationId(appointment) {
+  const locationReference = appointment.participant?.find(p =>
+    p.actor.reference?.startsWith('Location'),
+  )?.actor?.reference;
+
+  if (locationReference) {
+    return locationReference.split('/')[1];
+  }
+
+  return null;
+}

@@ -87,7 +87,7 @@ export const renderLearnMoreLabel = ({
   component,
 }) => (
   <span className="vads-u-margin--0 vads-u-display--inline-block ">
-    {text}{' '}
+    {text && <React.Fragment>{text} </React.Fragment>}
     <span className="vads-u-margin--0 vads-u-display--inline-block ">
       (
       <button
