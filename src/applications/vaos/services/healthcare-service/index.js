@@ -10,11 +10,20 @@ function parseId(id) {
   return id.replace('var', '');
 }
 
-export async function getAvailableHealthcareServices(
+/**
+ * Method to get available HealthcareService objects.
+ *
+ * @param {String} facilityId
+ * @param {String} typeOfCareId
+ * @param {String} systemId
+ *
+ * @returns {Array} An a collection of HealthcareService objects.
+ */
+export async function getAvailableHealthcareServices({
   facilityId,
   typeOfCareId,
   systemId,
-) {
+}) {
   try {
     const clinics = await getAvailableClinics(
       parseId(facilityId),
