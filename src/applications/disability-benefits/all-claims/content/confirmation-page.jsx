@@ -1,11 +1,10 @@
 import React from 'react';
-import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/formation-react/Telephone';
 
-import { capitalizeEachWord } from '../utils';
+import { capitalizeEachWord, formatDate } from '../utils';
 import {
   successMessage,
   checkLaterMessage,
@@ -74,7 +73,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <li>
             <strong>Date submitted</strong>
             <br />
-            <span>{moment(submittedAt).format('MMM D, YYYY')}</span>
+            <span>{formatDate(submittedAt)}</span>
           </li>
           <li>
             <strong>Conditions claimed</strong>

@@ -1,19 +1,11 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import moment from 'moment';
+import { formatDateRange } from '../utils';
 
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { EBEN_526_PATH } from '../../constants';
 
 export default function ValidatedServicePeriodView({ formData, onEdit }) {
-  let from = '';
-  let to = '';
-  if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.from);
-    to = formatReviewDate(formData.dateRange.to);
-  }
-
   let stillInServiceWarning;
 
   if (new Date(formData.dateRange.to).getTime() > Date.now()) {
@@ -57,8 +49,7 @@ export default function ValidatedServicePeriodView({ formData, onEdit }) {
   return (
     <div>
       <strong>{formData.serviceBranch}</strong>
-      <br />
-      {moment(from).format('LL')} to {moment(to).format('LL')}
+      <p>{formatDateRange(formData.dateRange)}</p>
       {stillInServiceWarning}
     </div>
   );

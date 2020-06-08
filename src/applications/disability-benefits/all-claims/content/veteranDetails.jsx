@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import { genderLabels } from 'platform/static-data/labels';
-import { srSubstitute, forceTitleCase } from '../utils';
+import { srSubstitute, forceTitleCase, formatDate } from '../utils';
 import { editNote } from './common';
 
 const unconnectedVetInfoView = profile => {
@@ -33,7 +32,7 @@ const unconnectedVetInfoView = profile => {
             {vaFileNumber.slice(5)}
           </p>
         )}
-        <p>Date of birth: {dob ? moment(dob).format('LL') : ''}</p>
+        <p>Date of birth: {dob ? formatDate(dob) : ''}</p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
       {editNote('personal information')}

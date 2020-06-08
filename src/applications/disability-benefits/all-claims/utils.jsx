@@ -40,6 +40,7 @@ import {
   TYPO_THRESHOLD,
   itfStatuses,
   NULL_CONDITION_STRING,
+  DATE_FORMAT,
 } from './constants';
 
 /**
@@ -73,6 +74,16 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 );
 
 export const forceTitleCase = text => titleCase(text.toLowerCase());
+
+export const formatDate = date => {
+  const m = moment(date);
+  return m.isValid() ? m.format(DATE_FORMAT) : null;
+};
+
+export const formatDateRange = (dateRange = {}) =>
+  dateRange?.from || dateRange?.to
+    ? `${formatDate(dateRange.from)} to ${formatDate(dateRange.to)}`
+    : null;
 
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
@@ -139,7 +150,7 @@ export const ReservesGuardDescription = ({ formData }) => {
   return (
     <div>
       Please tell us more about your {serviceBranch} service that ended on{' '}
-      {moment(to).format('MMMM DD, YYYY')}.
+      {formatDate(to)}.
     </div>
   );
 };
@@ -696,10 +707,7 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
     The dates you enter must be within one of the service periods you entered.
     <ul>
       {servicePeriodDateRanges.map((range, index) => (
-        <li key={index}>
-          {moment(range.from).format('MMM DD, YYYY')} —{' '}
-          {moment(range.to).format('MMM DD, YYYY')}
-        </li>
+        <li key={index}>{formatDateRange(range)}</li>
       ))}
     </ul>
   </span>
