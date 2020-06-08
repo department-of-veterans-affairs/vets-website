@@ -1,12 +1,28 @@
 <!-- TODO: Add links -->
 
-# A Brief Introduction
+# Target audience
+This book is for software engineers building forms on VA.gov using the VA Forms
+Library. We assume you have at least a basic knowledge of:
+- JavaScript
+- [JSON schema](https://json-schema.org/learn/)
 
-This book is for engineers building forms on VA.gov using the VA Forms Library.
-We'll walk through the capabilities of the library systematically. By the end of
-the book, you should have a solid grasp of how to build forms on VA.gov.
+# Learning objectives
+We'll walk through the capabilities of the library systematically. By
+the end of the book, you should understand:
+- The typical form flow
+- What the `formConfig` does
+- What the `schema` does
+- What the `uiSchema` does
+- How to scaffold a new form
+- How to add new chapters and pages
+- How to add new fields on a page
+- How to validate user input
+- How to add custom UI logic to fields
+- How to find the customization hooks available on any given field
+- When and how to write custom `ui:field`s and `ui:widget`s
+- When and how to write migrations for saved form data
 
-## A summary
+# Chapter summary
 [**Chapter 1: My First Form**](my-first-form.md) takes you step-by-step through
 building your first form on VA.gov. It's intended for engineers new to the forms
 library.
@@ -60,14 +76,14 @@ and widgets for the available schema `type`s, the `uiSchema` options available
 to each field and widget, and all the `formConfig` options. Once you're familiar
 with the library, this is the section you're most likely to come back to.
 
-## How to read this book
+# How to read this book
 If you're brand new to the VA Forms Library, we recommend reading the entire
 first chapter and writing out the code yourself. From there, the book is
 intended to be read sequentially all the way through, as we build on knowledge
 gained in previous chapters, but once you have an understanding of the
 fundamentals, you should be able to skip around to different chapters freely.
 
-## Resources
+# Resources
 - [json-schema.org](https://json-schema.org/learn/)
 - [Understanding JSON Schema](https://spacetelescope.github.io/understanding-json-schema/)
 - The _Forms Library Cookbook_
