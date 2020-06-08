@@ -31,7 +31,7 @@ function SaveStatus({
       {autoSavedStatus === SAVE_STATUSES.success && (
         <div className="panel saved-success-container">
           <i className="fa fa-check-circle saved-success-icon" />
-          {formConfig.savedSuccessMessage || 'Application has been saved.'}
+          {formConfig.saveSuccessMessage || 'Application has been saved.'}
           {savedAtMessage}
         </div>
       )}
