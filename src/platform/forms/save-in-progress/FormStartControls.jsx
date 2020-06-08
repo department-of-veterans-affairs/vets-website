@@ -80,7 +80,7 @@ class FormStartControls extends React.Component {
             <ProgressButton
               onButtonClick={this.toggleModal}
               buttonText={
-                formConfig.startAppMessage || 'Start a new application'
+                formConfig.startNewAppMessage || 'Start a new application'
               }
               buttonClass={
                 this.props.isExpired
@@ -100,7 +100,7 @@ class FormStartControls extends React.Component {
             <ProgressButton
               onButtonClick={this.startOver}
               buttonText={
-                formConfig.startAppMessage || 'Start a new application'
+                formConfig.startNewAppMessage || 'Start a new application'
               }
               buttonClass="usa-button-primary"
             />

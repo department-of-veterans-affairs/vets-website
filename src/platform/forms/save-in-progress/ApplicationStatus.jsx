@@ -133,7 +133,7 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
-                {formConfig.startAppMessage || 'Start a new application'}
+                {formConfig.startNewAppMessage || 'Start a new application'}
               </button>
             </p>
             {multipleForms && (
@@ -179,7 +179,7 @@ export class ApplicationStatus extends React.Component {
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>
-              {formConfig.startAppMessage || 'Start a new application'}
+              {formConfig.startNewAppMessage || 'Start a new application'}
             </button>
           </p>
           {multipleForms && (
@@ -202,7 +202,7 @@ export class ApplicationStatus extends React.Component {
             <ProgressButton
               onButtonClick={() => this.removeForm(formId)}
               buttonText={
-                formConfig.startAppMessage || 'Start a new application'
+                formConfig.startNewAppMessage || 'Start a new application'
               }
               buttonClass="usa-button-primary"
             />
