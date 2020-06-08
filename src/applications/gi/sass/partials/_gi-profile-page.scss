@@ -124,7 +124,7 @@
     }
 
     button {
-      margin: 0.5em 0;
+      margin: 0.75em 0 0 0;
       padding: 1rem 2rem;
     }
 
@@ -136,6 +136,11 @@
 
     li.section-item button.usa-accordion-button {
       padding-right: 4rem;
+    }
+
+    .calculate-button:disabled {
+      color: $color-white;
+      background-color: $color-gray-lighter;
     }
   }
 
