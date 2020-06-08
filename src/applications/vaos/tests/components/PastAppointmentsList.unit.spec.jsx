@@ -68,9 +68,7 @@ describe('VAOS <PastAppointmentsList>', () => {
         status: APPOINTMENT_STATUS.booked,
       },
     ],
-    facilityData: {
-      var442: {},
-    },
+    facilityData: {},
   };
 
   it('should display loading indicator', () => {
