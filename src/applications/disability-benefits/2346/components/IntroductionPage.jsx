@@ -140,9 +140,11 @@ class IntroductionPage extends Component {
             <SaveInProgressIntro
               buttonOnly
               hideUnauthedStartLink
+              prefillEnabled={this.props.route.formConfig.prefillEnabled}
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
               startText="Order hearing aid batteries and accessories"
+              unverifiedStartText="Sign in to start your order"
             />
           </div>
         )}

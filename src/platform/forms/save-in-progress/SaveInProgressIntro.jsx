@@ -1,26 +1,24 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import recordEvent from 'platform/monitoring/record-event';
-import _ from 'platform/utilities/data';
-
 import {
-  formDescriptions,
   formBenefits,
+  formDescriptions,
 } from 'applications/personalization/dashboard/helpers';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { fetchInProgressForm, removeInProgressForm } from './actions';
-import FormStartControls from './FormStartControls';
-import { getIntroState } from './selectors';
+import moment from 'moment';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import _ from 'platform/utilities/data';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { fetchInProgressForm, removeInProgressForm } from './actions';
 import DowntimeMessage from './DowntimeMessage';
+import FormStartControls from './FormStartControls';
+import { getIntroState } from './selectors';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -129,11 +127,11 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const { buttonOnly, retentionPeriod, startText } = this.props;
+      const { buttonOnly, retentionPeriod, unverifiedStartText } = this.props;
       alert = buttonOnly ? (
         <>
           <button className="usa-button-primary" onClick={this.openLoginModal}>
-            Sign in to start your application
+            {unverifiedStartText || 'Sign in to start your application'}
           </button>
           {!this.props.hideUnauthedStartLink && (
             <p>
@@ -177,7 +175,7 @@ class SaveInProgressIntro extends React.Component {
                 className="usa-button-primary"
                 onClick={this.openLoginModal}
               >
-                {startText || 'Sign in to start your application'}
+                {unverifiedStartText || 'Sign in to start your application'}
               </button>
               {!this.props.hideUnauthedStartLink && (
                 <p>
@@ -363,7 +361,7 @@ SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     ...getIntroState(state),
   };
