@@ -67,6 +67,10 @@
     <script nonce="**CSP_NONCE**" src="{{ botframework_cdn }}"></script>
   {% endif %}
 
+  {% if path == 'coronavirus-veteran-frequently-asked-questions' %}
+    {% include "src/site/includes/coronavirus-schema-org.json.liquid" %}
+  {% endif %}
+
   <script defer nomodule data-entry-name="polyfills.js"></script>
   <script defer data-entry-name="vendor.js"></script>
   <script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
