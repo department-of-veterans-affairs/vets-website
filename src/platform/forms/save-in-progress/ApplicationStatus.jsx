@@ -156,7 +156,7 @@ export class ApplicationStatus extends React.Component {
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
                 buttonText={
-                  formConfig.startAppMessage || 'Start a new application'
+                  formConfig.startNewAppMessage || 'Start a new application'
                 }
                 buttonClass="usa-button-primary"
               />
