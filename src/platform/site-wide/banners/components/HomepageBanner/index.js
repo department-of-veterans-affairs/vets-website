@@ -57,6 +57,7 @@ export class HomepageBanner extends Component {
           'usa-alert-full-width',
           `usa-alert-full-width-${type}`,
         )}
+        data-e2e-id="homepage-banner"
       >
         <AlertBox
           // eslint-disable-next-line react/no-danger

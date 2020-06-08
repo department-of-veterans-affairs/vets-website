@@ -80,7 +80,10 @@ export class MaintenanceBanner extends Component {
     // Show pre-downtime.
     if (now.isBefore(startsAt)) {
       return (
-        <div className="usa-alert-full-width vads-u-border-top--10px vads-u-border-color--warning-message">
+        <div
+          className="usa-alert-full-width vads-u-border-top--10px vads-u-border-color--warning-message"
+          data-e2e-id="maintenance-banner-pre-downtime"
+        >
           <AlertBox
             content={warnContent}
             headline={warnTitle}
@@ -93,7 +96,10 @@ export class MaintenanceBanner extends Component {
 
     // Show downtime.
     return (
-      <div className="usa-alert-full-width vads-u-border-top--10px vads-u-border-color--secondary">
+      <div
+        className="usa-alert-full-width vads-u-border-top--10px vads-u-border-color--secondary"
+        data-e2e-id="maintenance-banner-downtime"
+      >
         <AlertBox
           content={content}
           headline={title}
