@@ -271,11 +271,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/claimexam.asp",
-    "dest": "/disability/va-claim-exam/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/NPRC1973Fire.asp",
     "dest": "/records/get-military-service-records/reconstruct-records/"
   },
@@ -703,11 +698,6 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/rates-index.asp",
     "dest": "/disability/compensation-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/claimexam.asp",
-    "dest": "/disability/va-claim-exam/"
   },
   {
     "domain": "www.benefits.va.gov",
