@@ -16,7 +16,22 @@ const allNo = {
   },
 };
 
+const staffPass = {
+  questions: [
+    { id: 'question-isStaff', value: 'yes' },
+    { id: 'question-fever', value: 'no' },
+    { id: 'question-cough', value: 'no' },
+    { id: 'question-flu', value: 'no' },
+    { id: 'question-congestion', value: 'no' },
+    { id: 'question-exposure-staff', value: 'no' },
+  ],
+  result: {
+    class: 'covid-screener-results-pass',
+  },
+};
+
 function testQuestionScenario({ scenario, client }) {
+  client.refresh().waitForElementVisible('body', normal);
   scenario.questions.forEach((question, index, arr) => {
     client
       .waitForElementVisible(`div[id=${question.id}]`, slow)
@@ -40,6 +55,9 @@ export default createE2eTest(client => {
 
   // all "no" should result in "pass"
   testQuestionScenario({ scenario: allNo, client });
+
+  // staff passing answers
+  testQuestionScenario({ scenario: staffPass, client });
 });
 
 // module.exports['@disabled'] = !production || __BUILDTYPE__ !== 'production';
