@@ -2,7 +2,8 @@ import { normal, slow } from 'platform/testing/e2e/timeouts';
 import { createE2eTest, baseUrl } from 'platform/testing/e2e/helpers';
 import { production } from '../manifest.json';
 
-const allNo = {
+const visitorPass = {
+  title: 'Visitor pass',
   questions: [
     { id: 'question-isStaff', value: 'no' },
     { id: 'question-fever', value: 'no' },
@@ -16,7 +17,23 @@ const allNo = {
   },
 };
 
+const visitorScreening = {
+  title: 'Visitor needs more screening',
+  questions: [
+    { id: 'question-isStaff', value: 'no' },
+    { id: 'question-fever', value: 'no' },
+    { id: 'question-cough', value: 'yes' },
+    { id: 'question-flu', value: 'no' },
+    { id: 'question-congestion', value: 'no' },
+    { id: 'question-exposure', value: 'no' },
+  ],
+  result: {
+    class: 'covid-screener-results-more-screening',
+  },
+};
+
 const staffPass = {
+  title: 'Staff pass',
   questions: [
     { id: 'question-isStaff', value: 'yes' },
     { id: 'question-fever', value: 'no' },
@@ -27,6 +44,21 @@ const staffPass = {
   ],
   result: {
     class: 'covid-screener-results-pass',
+  },
+};
+
+const staffScreening = {
+  title: 'Staff needs more screening',
+  questions: [
+    { id: 'question-isStaff', value: 'yes' },
+    { id: 'question-fever', value: 'no' },
+    { id: 'question-cough', value: 'no' },
+    { id: 'question-flu', value: 'no' },
+    { id: 'question-congestion', value: 'no' },
+    { id: 'question-exposure-staff', value: 'yes' },
+  ],
+  result: {
+    class: 'covid-screener-results-more-screening',
   },
 };
 
@@ -42,7 +74,7 @@ function testQuestionScenario({ scenario, client }) {
   });
   client
     .waitForElementVisible(`div[class*=${scenario.result.class}]`, slow)
-    .assert.visible(`div[class*=${scenario.result.class}]`);
+    .assert.visible(`div[class*=${scenario.result.class}]`, scenario.title);
 }
 
 export default createE2eTest(client => {
@@ -53,11 +85,17 @@ export default createE2eTest(client => {
     .assert.visible('div[class*=covid-screener-results-incomplete]')
     .axeCheck('.main');
 
-  // all "no" should result in "pass"
-  testQuestionScenario({ scenario: allNo, client });
+  // visitor passing answers
+  testQuestionScenario({ scenario: visitorPass, client });
+
+  // visitor needs more screening
+  testQuestionScenario({ scenario: visitorScreening, client });
 
   // staff passing answers
   testQuestionScenario({ scenario: staffPass, client });
+
+  // staff needs more screening
+  testQuestionScenario({ scenario: staffScreening, client });
 });
 
 // module.exports['@disabled'] = !production || __BUILDTYPE__ !== 'production';
