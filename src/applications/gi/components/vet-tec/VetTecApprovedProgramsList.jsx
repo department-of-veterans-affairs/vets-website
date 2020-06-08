@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatCurrency, isPresent, createId } from '../../utils/helpers';
 import classNames from 'classnames';
+import { focusElement } from 'platform/utilities/ui';
 
 const DEFAULT_ROWS_VIEWABLE = 5;
 const MINIMUM_ROWS_FOR_PAGING = 10;
@@ -56,11 +57,11 @@ class VetTecApprovedProgramsList extends React.Component {
     program.description.toLowerCase() === selectedProgram.toLowerCase();
 
   handleAccordionFocus = () => {
-    const field = document.getElementById(
-      `${createId('Approved programs')}-accordion`,
-    );
+    const accordionId = `${createId('Approved programs')}-accordion`;
+    const field = document.getElementById(accordionId);
     if (field) {
       field.scrollIntoView();
+      focusElement(`#${accordionId} button`);
     }
   };
 
