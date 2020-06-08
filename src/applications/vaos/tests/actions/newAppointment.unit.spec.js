@@ -521,7 +521,7 @@ describe('VAOS newAppointment actions', () => {
       },
       newAppointment: {
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: '502',
         },
         pages: {},
         systemsStatus: FETCH_STATUS.notStarted,
@@ -545,7 +545,7 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           ...defaultState.newAppointment,
           facilities: {
-            '323_var983': facilities983Parsed,
+            '502_var983': facilities983Parsed,
           },
           data: {
             ...defaultState.newAppointment.data,
@@ -573,7 +573,7 @@ describe('VAOS newAppointment actions', () => {
         set(
           'newAppointment.facilities',
           {
-            '323_var983': facilities983Parsed,
+            '502_var983': facilities983Parsed,
           },
           defaultState,
         );
@@ -688,16 +688,16 @@ describe('VAOS newAppointment actions', () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           attributes: {
-            durationInMonths: 0,
-            hasVisitedInPastMonths: false,
+            numberOfRequests: 0,
+            requestLimit: 0,
           },
         },
       });
       setFetchJSONResponse(global.fetch.onCall(1), {
         data: {
           attributes: {
-            numberOfRequests: 0,
-            requestLimit: 0,
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
           },
         },
       });
@@ -725,7 +725,7 @@ describe('VAOS newAppointment actions', () => {
             vaParent: 'var983',
           },
           facilities: {
-            '323_var983': facilities983Parsed,
+            '502_var983': facilities983Parsed,
           },
         },
       };
@@ -779,7 +779,7 @@ describe('VAOS newAppointment actions', () => {
           },
           facilities: {
             // This is an unexpected data type that causes an error
-            '323_var983': {},
+            '502_var983': {},
           },
         },
       };
