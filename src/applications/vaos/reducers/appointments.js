@@ -112,20 +112,9 @@ export default function appointmentsReducer(state = initialState, action) {
         }),
         {},
       );
-      const systemClinicToFacilityMap =
-        action.clinicInstitutionList?.reduce(
-          (acc, clinic) => ({
-            ...acc,
-            [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
-              `var${getRealFacilityId(clinic.institutionCode)}`
-            ],
-          }),
-          {},
-        ) || state.systemClinicToFacilityMap;
       return {
         ...state,
         facilityData,
-        systemClinicToFacilityMap,
       };
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {

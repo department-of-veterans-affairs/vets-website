@@ -203,7 +203,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.facilityData.var442).to.equal(action.facilityData[0]);
   });
 
-  it('should set clinic mapping data when fetch succeeds', () => {
+  it('should set facility data when fetch succeeds', () => {
     const action = {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
@@ -211,19 +211,10 @@ describe('VAOS reducer: appointments', () => {
           id: 'var442GA',
         },
       ],
-      clinicInstitutionList: [
-        {
-          locationIen: '455',
-          institutionCode: '442GA',
-          systemId: '442',
-        },
-      ],
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.systemClinicToFacilityMap['442_455']).to.equal(
-      action.facilityData[0],
-    );
+    expect(newState.facilityData.var442GA).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {

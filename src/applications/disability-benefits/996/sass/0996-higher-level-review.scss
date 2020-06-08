@@ -178,11 +178,6 @@ article[data-location="request-informal-conference"] {
 
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
-  /* Hide veteran information accordion (it's empty) */
-  .usa-accordion-bordered[data-chapter="infoPages"] {
-    display: none;
-  }
-
   /* reduce huge gaps where text should be rendered */
   .schemaform-field-template {
     margin-top: 0;

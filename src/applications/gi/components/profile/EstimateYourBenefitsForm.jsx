@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import { scroller } from 'react-scroll';
+import classNames from 'classnames';
 
+import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -13,17 +19,11 @@ import {
   handleInputFocusWithPotentialOverLap,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
-import { scroller } from 'react-scroll';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -34,6 +34,7 @@ class EstimateYourBenefitsForm extends React.Component {
       aboutYourSchoolExpanded: false,
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
+      inputUpdated: false,
     };
   }
 
@@ -88,6 +89,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
+      this.setState({ inputUpdated: true });
       this.props.onBeneficiaryZIPCodeChanged(event.value);
       this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
@@ -110,8 +112,14 @@ class EstimateYourBenefitsForm extends React.Component {
         focusElement('input[name=beneficiaryZIPCode]');
       }, 1);
     } else {
+      this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
     }
+  };
+
+  updateEligibility = e => {
+    this.setState({ inputUpdated: true });
+    this.props.eligibilityChange(e);
   };
 
   handleExtensionChange = event => {
@@ -146,12 +154,15 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
   };
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
     const { profile } = this.props;
+
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
     if (value === 'extension' || value === profile.attributes.name) {
@@ -185,15 +196,10 @@ class EstimateYourBenefitsForm extends React.Component {
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
   };
 
-  handleInternationalCheckboxFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
-    }
-  };
-
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
+      this.setState({ inputUpdated: true });
       this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
@@ -344,6 +350,8 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           type="text"
+          inputMode="decimal"
+          pattern="[0-9]*"
           name={inStateTuitionFeesId}
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
@@ -369,6 +377,8 @@ class EstimateYourBenefitsForm extends React.Component {
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
         })}
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={tuitionFeesId}
           id={tuitionFeesId}
@@ -388,6 +398,8 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={booksFieldId}>
         <label htmlFor={booksId}>Books and supplies per year</label>
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={booksId}
           id={booksId}
@@ -467,6 +479,8 @@ class EstimateYourBenefitsForm extends React.Component {
               Yellow Ribbon amount from school per year
             </label>
             <input
+              inputMode="decimal"
+              pattern="[0-9]*"
               id="yellowRibbonContributionAmount"
               type="text"
               name="yellowRibbonAmount"
@@ -512,7 +526,9 @@ class EstimateYourBenefitsForm extends React.Component {
           })}
         </label>
         <input
+          inputMode="decimal"
           type="text"
+          pattern="[0-9]*"
           name={scholarshipsId}
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
@@ -537,6 +553,8 @@ class EstimateYourBenefitsForm extends React.Component {
           })}
         </label>
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={tuitionAssistId}
           id={tuitionAssistId}
@@ -683,6 +701,8 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={kickerFieldId}>
         <label htmlFor={kickerAmountId}>How much is your kicker?</label>
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={kickerAmountId}
           id={kickerAmountId}
@@ -811,7 +831,6 @@ class EstimateYourBenefitsForm extends React.Component {
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={this.handleHasClassesOutsideUSChange}
-          onFocus={this.handleInternationalCheckboxFocus}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
           id={'classesOutsideUS'}
@@ -859,6 +878,8 @@ class EstimateYourBenefitsForm extends React.Component {
           How much did you pay toward buy-up (up to $600)?
         </label>
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={buyUpAmountId}
           id={buyUpAmountId}
@@ -926,7 +947,7 @@ class EstimateYourBenefitsForm extends React.Component {
   renderOnlineClasses = () => (
     <OnlineClassesFilter
       onlineClasses={this.props.eligibility.onlineClasses}
-      onChange={this.props.eligibilityChange}
+      onChange={this.updateEligibility}
       showModal={this.props.showModal}
     />
   );
@@ -965,19 +986,25 @@ class EstimateYourBenefitsForm extends React.Component {
       >
         <div>
           <BenefitsForm
-            eligibilityChange={this.props.eligibilityChange}
+            eligibilityChange={this.updateEligibility}
             {...this.props.eligibility}
             hideModal={this.props.hideModal}
             showModal={this.props.showModal}
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
-            onInputChange={this.props.calculatorInputChange}
             handleInputFocus={this.handleEYBInputFocus}
             giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1012,13 +1039,18 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderCalendar()}
           {this.renderEnrolled()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
-  renderLearningFormat = () => {
-    const isOjt =
-      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+  renderLearningFormat = isOjt => {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
@@ -1035,6 +1067,13 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderExtensionBeneficiaryZIP()}
           {this.renderWorking()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1065,34 +1104,41 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderBuyUp()}
           {this.renderScholarships()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
   render() {
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const sectionCount = isOjt ? '3' : '4';
     const className = classNames(
       'estimate-your-benefits-form',
       'medium-5',
       'columns',
       'small-screen:vads-u-padding-right--0',
     );
+
     return (
       <div className={className}>
         <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-          Use the fields below to calculate your benefits:
+          The {sectionCount} sections below include questions that will refine
+          your benefits estimate. Use the fields in each section to make your
+          updates.
         </p>
         <ul className="vads-u-padding--0">
           {this.renderMilitaryDetails()}
           {this.renderSchoolCostsAndCalendar()}
-          {this.renderLearningFormat()}
+          {this.renderLearningFormat(isOjt)}
           {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
-        <button
-          className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
-        >
-          Calculate benefits
-        </button>
       </div>
     );
   }
@@ -1109,6 +1155,7 @@ EstimateYourBenefitsForm.propTypes = {
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
   updateEstimatedBenefits: PropTypes.func.isRequired,
+  updateBenefitsButtonEnabled: PropTypes.bool,
 };
 
 export default EstimateYourBenefitsForm;
