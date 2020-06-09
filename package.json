@@ -254,7 +254,7 @@
     "core-js": "^2.5.7",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
-    "express": "^4.14.0",
+    "express": "^4.17.1",
     "express-http-proxy": "^1.5.1",
     "fast-levenshtein": "^2.0.6",
     "fine-uploader": "^5.16.2",
