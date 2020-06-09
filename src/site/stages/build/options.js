@@ -210,13 +210,15 @@ async function setUpFeatureFlags(options) {
   });
 }
 
-async function getOptions(commandLineOptions) {
+async function getOptions(commandLineOptions, getFeatureFlags = true) {
   const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
-  await setUpFeatureFlags(options);
+  if (getFeatureFlags) {
+    await setUpFeatureFlags(options);
+  }
 
   return options;
 }
