@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ConnectedApp } from './ConnectedApp';
@@ -29,6 +30,8 @@ export class ConnectedApps extends Component {
     const activeApps = apps ? apps.filter(app => !app.deleted) : [];
 
     const allAppsDeleted = deletedApps?.length === apps?.length;
+
+    console.log('This is props', this.props);
 
     return (
       <div className="va-connected-apps">
@@ -67,7 +70,7 @@ export class ConnectedApps extends Component {
         {deletedApps.map(app => (
           <AppDeletedAlert
             id={app.id}
-            appName={app?.attributes?.title}
+            title={app?.attributes?.title}
             key={app.id}
             dismissAlert={this.dismissAlert}
           />
@@ -118,6 +121,30 @@ const mapDispatchToProps = {
   loadConnectedApps,
   deleteConnectedApp,
   dismissDeletedAppAlert,
+};
+
+ConnectedApps.propTypes = {
+  apps: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      attributes: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        logo: PropTypes.string.isRequired,
+        grants: PropTypes.arrayOf(
+          PropTypes.shape({
+            created: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+          }),
+        ).isRequired,
+      }),
+    }),
+  ).isRequired,
+  loadConnectedApps: PropTypes.func.isRequired,
+  deleteConnectedApp: PropTypes.func.isRequired,
+  dismissDeletedAppAlert: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default connect(

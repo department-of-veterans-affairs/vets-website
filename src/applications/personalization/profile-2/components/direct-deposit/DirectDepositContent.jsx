@@ -252,10 +252,21 @@ export const DirectDepositContent = ({
 };
 
 DirectDepositContent.propTypes = {
-  directDepositAccount: PropTypes.object,
-  directDepositAccountInfo: PropTypes.object.isRequired,
-  isDirectDepositSetUp: PropTypes.bool.isRequired,
-  directDepositUiState: PropTypes.object.isRequired,
+  isAuthorized: PropTypes.bool.isRequired,
+  directDepositAccountInfo: PropTypes.shape({
+    accountNumber: PropTypes.string.isRequired,
+    accountType: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionRoutingNumber: PropTypes.string.isRequired,
+  }),
+  isDirectDepositSetUp: PropTypes.boolean.isRequired,
+  directDepositUiState: PropTypes.shape({
+    isEditing: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    responseError: PropTypes.string,
+  }),
+  saveBankInformation: PropTypes.func.isRequired,
+  toggleEditState: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = state => ({

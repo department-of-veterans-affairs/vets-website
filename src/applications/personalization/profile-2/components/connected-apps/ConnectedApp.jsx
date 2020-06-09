@@ -62,10 +62,10 @@ export class ConnectedApp extends Component {
 
           <ConnectedAppDeleteModal
             deleting={this.props.deleting}
-            appName={title}
+            title={title}
             modalOpen={this.state.modalOpen}
-            onCloseModal={this.closeModal}
-            onConfirmDelete={this.confirmDelete}
+            closeModal={this.closeModal}
+            confirmDelete={this.confirmDelete}
           />
 
           <AdditionalInfo triggerText={`Learn about ${title}`}>
@@ -86,6 +86,16 @@ export class ConnectedApp extends Component {
 ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  attributes: PropTypes.object.isRequired,
+  attributes: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
+    grants: PropTypes.arrayOf(
+      PropTypes.shape({
+        created: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }),
   confirmDelete: PropTypes.func.isRequired,
 };
