@@ -219,7 +219,7 @@
     "skin-deep": "^1.0.0",
     "socks-proxy-agent": "^4.0.2",
     "style-loader": "^1.2.1",
-    "svg-url-loader": "^6.0.0",
+    "svg-url-loader": "^2.3.2",
     "terser-webpack-plugin": "^1.3.0",
     "text-loader": "^0.0.1",
     "uglify-js": "^3.9.4",
@@ -305,7 +305,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8a1e91213e28610d0f682a67797e65fe862f3b65",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c229c93e0549b82c78970dcdd184f2f8918c18e",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
