@@ -46,6 +46,7 @@ class ReviewCardField extends React.Component {
 
   constructor(props) {
     super(props);
+    this.editTitle = React.createRef();
 
     // Throw an error if there’s no viewComponent (should be React component)
     if (
@@ -215,6 +216,7 @@ class ReviewCardField extends React.Component {
       formContext.reviewMode &&
       // volatileData is for arrays, which displays separate blocks
       uiSchema['ui:options']?.volatileData;
+    title.focus();
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
