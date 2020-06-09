@@ -1,15 +1,18 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
+
 import {
   getDefaultFormState,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import * as Sentry from '@sentry/browser';
-import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+
 import recordEvent from 'platform/monitoring/record-event';
+import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+
+import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
-import set from 'platform/utilities/data/set';
-import PropTypes from 'prop-types';
-import React from 'react';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -211,8 +214,6 @@ export default class ReviewCardField extends React.Component {
       uiSchema['ui:options']?.volatileData;
 
     const Tag = formContext.onReviewPage ? 'h4' : 'h3';
-
-    title.focus();
 
     return (
       <div className="review-card">
