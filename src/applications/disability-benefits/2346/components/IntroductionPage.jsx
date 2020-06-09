@@ -44,6 +44,7 @@ class IntroductionPage extends Component {
               }
               unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
               startText="Order hearing aid batteries and accessories"
+              unverifiedStartText="Sign in to start your order"
             >
               Please complete the 2346 form to apply for ordering hearing aid
               batteries and accessories.
