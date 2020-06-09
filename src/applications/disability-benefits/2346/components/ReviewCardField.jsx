@@ -494,18 +494,18 @@ class ReviewCardField extends React.Component {
     const pageDescription = (
       <>
         <h3 className="vads-u-font-size--h4">Shipping address</h3>
-        <dd className="vads-u-margin-top--2">
+        <div className="vads-u-margin-top--2">
           <p>
             We'll ship your order to the address below. Orders typically arrive
             within 7 to 10 business days.
           </p>
-        </dd>
-        <p className="vads-u-font-weight--bold">
-          Select the address where you'd like to send your order:{' '}
-          <span className="vads-u-font-weight--normal schemaform-required-span">
-            (*Required)
-          </span>
-        </p>
+          <p className="vads-u-font-weight--bold">
+            Select the address where you'd like to send your order:{' '}
+            <span className="vads-u-font-weight--normal schemaform-required-span">
+              (*Required)
+            </span>
+          </p>
+        </div>
       </>
     );
     const description = this.getDescription();
