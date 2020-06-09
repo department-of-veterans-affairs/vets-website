@@ -280,7 +280,7 @@ Batteries.propTypes = {
       deviceName: PropTypes.string,
       productName: PropTypes.string,
       productGroup: PropTypes.string.isRequired,
-      productId: PropTypes.string.isRequired,
+      productId: PropTypes.number.isRequired,
       availableForReorder: PropTypes.bool,
       lastOrderDate: PropTypes.string.isRequired,
       nextAvailabilityDate: PropTypes.string.isRequired,
@@ -291,7 +291,7 @@ Batteries.propTypes = {
   ),
   selectedProducts: PropTypes.arrayOf(
     PropTypes.shape({
-      productId: PropTypes.string,
+      productId: PropTypes.number,
     }),
   ),
   formData: PropTypes.object,

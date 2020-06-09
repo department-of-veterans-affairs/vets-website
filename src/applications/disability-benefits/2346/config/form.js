@@ -13,8 +13,8 @@ import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies, date } = fullSchema.definitions;
-const { currentAddress } = frontEndSchema.definitions;
+const { email, date } = fullSchema.definitions;
+const { currentAddress, supplies } = frontEndSchema.definitions;
 
 const {
   emailField,
