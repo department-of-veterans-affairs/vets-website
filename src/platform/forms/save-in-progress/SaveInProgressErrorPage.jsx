@@ -60,6 +60,8 @@ class SaveInProgressErrorPage extends React.Component {
   render() {
     const { loadedStatus, formConfig } = this.props;
     const { forbidden, noAuth, notFound } = formConfig.savedFormMessages || {};
+    const continueAppMessage =
+      formConfig.continueAppMessage || 'Continue your application';
     let content;
 
     switch (loadedStatus) {
@@ -97,7 +99,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                {formConfig.continueAppMessage || 'Continue your application'}
+                {continueAppMessage}
               </button>
             </div>
           </div>
@@ -123,7 +125,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                {formConfig.continueAppMessage || 'Continue your application'}
+                {continueAppMessage}
               </button>
             </div>
           </div>
@@ -140,7 +142,7 @@ class SaveInProgressErrorPage extends React.Component {
             <div style={{ marginTop: '30px' }}>
               {this.getBackButton()}
               <button className="usa-button-primary" onClick={this.reloadForm}>
-                {formConfig.continueAppMessage || 'Continue your application'}
+                {continueAppMessage}
               </button>
             </div>
           </div>

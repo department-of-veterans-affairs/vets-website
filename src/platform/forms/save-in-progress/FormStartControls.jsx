@@ -64,24 +64,22 @@ class FormStartControls extends React.Component {
 
   render() {
     const { formConfig } = this.props.routes[1];
+    const startNewAppMessage =
+      formConfig.startNewAppMessage || 'Start a new application';
     if (this.props.formSaved) {
       return (
         <div>
           {!this.props.isExpired && (
             <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText={
-                formConfig.continueAppMessage || 'Continue your application'
-              }
+              buttonText={startNewAppMessage}
               buttonClass="usa-button-primary no-text-transform"
             />
           )}
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}
-              buttonText={
-                formConfig.startNewAppMessage || 'Start a new application'
-              }
+              buttonText={startNewAppMessage}
               buttonClass={
                 this.props.isExpired
                   ? 'usa-button-primary'
@@ -99,9 +97,7 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText={
-                formConfig.startNewAppMessage || 'Start a new application'
-              }
+              buttonText={startNewAppMessage}
               buttonClass="usa-button-primary"
             />
             <ProgressButton

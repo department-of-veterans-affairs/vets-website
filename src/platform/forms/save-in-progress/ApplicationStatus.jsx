@@ -74,6 +74,10 @@ export class ApplicationStatus extends React.Component {
     let { formId } = this.props;
     const { formConfig } = this.props;
     let multipleForms = false;
+    const startNewAppMessage =
+      formConfig.startNewAppMessage || 'Start a new application';
+    const continueAppMessage =
+      formConfig.continueAppMessage || 'Continue your application';
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) =>
         formIds.has(form),
@@ -127,13 +131,13 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-primary"
                 href={`${formLinks[formId]}resume`}
               >
-                {formConfig.continueAppMessage || 'Continue your application'}
+                {continueAppMessage}
               </a>
               <button
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
-                {formConfig.startNewAppMessage || 'Start a new application'}
+                {startNewAppMessage}
               </button>
             </p>
             {multipleForms && (
@@ -155,9 +159,7 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
-                buttonText={
-                  formConfig.startNewAppMessage || 'Start a new application'
-                }
+                buttonText={startNewAppMessage}
                 buttonClass="usa-button-primary"
               />
               <ProgressButton
@@ -179,7 +181,7 @@ export class ApplicationStatus extends React.Component {
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>
-              {formConfig.startNewAppMessage || 'Start a new application'}
+              {startNewAppMessage}
             </button>
           </p>
           {multipleForms && (
@@ -201,9 +203,7 @@ export class ApplicationStatus extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={() => this.removeForm(formId)}
-              buttonText={
-                formConfig.startNewAppMessage || 'Start a new application'
-              }
+              buttonText={startNewAppMessage}
               buttonClass="usa-button-primary"
             />
             <ProgressButton
