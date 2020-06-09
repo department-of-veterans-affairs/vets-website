@@ -361,7 +361,7 @@ SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
 };
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     ...getIntroState(state),
   };
