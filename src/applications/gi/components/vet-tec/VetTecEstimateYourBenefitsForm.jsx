@@ -185,7 +185,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         alt="Choose the training program you'd like to attend"
         options={options}
         value={this.state.programName}
-        onChange={e => this.handleApprovedProgramsChange(e)}
+        onChange={e => {
+          this.setState({ inputUpdated: true });
+          this.handleApprovedProgramsChange(e);
+        }}
         visible
       />
     );
