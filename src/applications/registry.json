@@ -859,5 +859,14 @@
       "title": "Debt Letters",
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "chapter31",
+    "entryName": "chpt31",
+    "rootUrl": "/vre/chpt31",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
