@@ -1,5 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -45,10 +48,8 @@ const VeteranInformationComponent = ({
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         please call Veterans Benefits Assistance at{' '}
-        <a aria-label="800. 8 2 7. 1000" href="tel:800 827 1000">
-          800-827-1000
-        </a>{' '}
-        between 8:00 a.m. and 9:00 p.m. ET Monday through Friday.
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00 a.m. and 9:00
+        p.m. ET Monday through Friday.
       </p>
     </div>
   );

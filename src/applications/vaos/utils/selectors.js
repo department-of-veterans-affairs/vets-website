@@ -327,6 +327,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     facilityData,
     systemClinicToFacilityMap,
   } = state.appointments;
@@ -360,6 +361,7 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    cancelAppointmentStatusVaos400,
     cernerFacilities,
   };
 }

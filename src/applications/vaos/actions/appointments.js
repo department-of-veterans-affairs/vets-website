@@ -27,7 +27,7 @@ function parseFakeFHIRId(id) {
   return id.replace('var', '');
 }
 
-import { captureError } from '../utils/error';
+import { captureError, getErrorCodes } from '../utils/error';
 import { STARTED_NEW_APPOINTMENT_FLOW } from './sitewide';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -312,7 +312,8 @@ export function confirmCancelAppointment() {
       });
       resetDataLayer();
     } catch (e) {
-      if (e?.errors?.[0]?.code === 'VAOS_400') {
+      const isVaos400Error = getErrorCodes(e).includes('VAOS_400');
+      if (isVaos400Error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', e);
           scope.setExtra('cancelReasons', cancelReasons);
@@ -324,6 +325,7 @@ export function confirmCancelAppointment() {
       }
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error,
       });
 
       recordEvent({
