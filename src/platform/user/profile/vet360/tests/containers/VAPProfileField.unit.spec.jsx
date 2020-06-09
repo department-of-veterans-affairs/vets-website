@@ -7,7 +7,7 @@ import {
   VAPProfileField,
   mapStateToProps,
 } from '../../containers/VAPProfileField';
-import { TRANSACTION_STATUS } from '../../constants';
+import { FIELD_NAMES, TRANSACTION_STATUS } from '../../constants';
 
 function ContentView() {
   return <h1>Content</h1>;
@@ -33,7 +33,7 @@ describe('<VAPProfileField/>', () => {
       data: { someField: 'someFieldValue' },
       EditView: () => <EditView />,
       field: null,
-      fieldName: 'someField',
+      fieldName: FIELD_NAMES.HOME_PHONE,
       showEditView: false,
       showValidationView: false,
       isEmpty: false,
@@ -160,33 +160,91 @@ describe('<VAPProfileField/>', () => {
 });
 
 describe('mapStateToProps', () => {
-  const showValidationModalState = () => ({
-    featureToggles: { vaProfileAddressValidation: true },
+  const getBasicState = () => ({
     user: {
       profile: {
         vet360: {
-          mailingAddress: '',
+          mobilePhone: '',
         },
       },
     },
     vet360: {
-      addressValidation: {
-        addressValidationType: 'mailingAddress',
-      },
+      addressValidation: {},
       formFields: {
-        mailingAddress: {},
+        mobilePhone: {},
       },
-      modal: 'addressValidation',
+      modal: null,
       transactions: [],
       fieldTransactionMap: {},
     },
   });
+  describe('#blockEditMode', () => {
+    it('should be false if no field is in edit mode', () => {
+      const state = getBasicState();
+      const mappedProps = mapStateToProps(state, {
+        fieldName: FIELD_NAMES.MOBILE_PHONE,
+      });
+      expect(mappedProps.blockEditMode).to.be.false;
+    });
+    it('should be true if currently editing another field', () => {
+      const state = getBasicState();
+      state.vet360.modal = 'homePhone';
+      const mappedProps = mapStateToProps(state, {
+        fieldName: FIELD_NAMES.MOBILE_PHONE,
+      });
+      expect(mappedProps.blockEditMode).to.be.true;
+    });
+  });
+  describe('#activeEditView', () => {
+    it('should be the field name of the field that is being edited', () => {
+      const state = getBasicState();
+      state.vet360.modal = FIELD_NAMES.RESIDENTIAL_ADDRESS;
+      const mappedProps = mapStateToProps(state, {
+        fieldName: FIELD_NAMES.MOBILE_PHONE,
+      });
+      expect(mappedProps.activeEditView).to.equal(
+        FIELD_NAMES.RESIDENTIAL_ADDRESS,
+      );
+    });
+    it('should be the field name of the address field that is being validated', () => {
+      const state = getBasicState();
+      state.vet360.modal = 'addressValidation';
+      state.vet360.addressValidation.addressValidationType =
+        FIELD_NAMES.RESIDENTIAL_ADDRESS;
+      const mappedProps = mapStateToProps(state, {
+        fieldName: FIELD_NAMES.MOBILE_PHONE,
+      });
+      expect(mappedProps.activeEditView).to.equal(
+        FIELD_NAMES.RESIDENTIAL_ADDRESS,
+      );
+    });
+  });
   describe('#showValidationView', () => {
+    const showValidationModalState = () => ({
+      user: {
+        profile: {
+          vet360: {
+            mailingAddress: '',
+          },
+        },
+      },
+      vet360: {
+        addressValidation: {
+          addressValidationType: FIELD_NAMES.MAILING_ADDRESS,
+        },
+        formFields: {
+          mailingAddress: {},
+        },
+        modal: 'addressValidation',
+        transactions: [],
+        fieldTransactionMap: {},
+      },
+    });
     describe('when all the correct conditions are met', () => {
       it('sets `showValidationView` to `true`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
+          fieldName: FIELD_NAMES.MAILING_ADDRESS,
           ValidationView: () => {},
         });
         expect(mappedProps.showValidationView).to.be.true;
@@ -197,7 +255,7 @@ describe('mapStateToProps', () => {
         const state = showValidationModalState();
         state.vet360.modal = 'notTheValidationModal';
         const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
+          fieldName: FIELD_NAMES.MAILING_ADDRESS,
           ValidationView: () => {},
         });
         expect(mappedProps.showValidationView).to.be.false;
@@ -207,7 +265,7 @@ describe('mapStateToProps', () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
+          fieldName: FIELD_NAMES.MAILING_ADDRESS,
         });
         expect(mappedProps.showValidationView).to.be.false;
       });
@@ -216,7 +274,7 @@ describe('mapStateToProps', () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {
-          fieldName: 'residentialAddress',
+          fieldName: FIELD_NAMES.RESIDENTIAL_ADDRESS,
           ValidationView: () => {},
         });
         expect(mappedProps.showValidationView).to.be.false;
