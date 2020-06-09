@@ -259,7 +259,7 @@ DirectDepositContent.propTypes = {
     financialInstitutionName: PropTypes.string.isRequired,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
-  isDirectDepositSetUp: PropTypes.boolean.isRequired,
+  isDirectDepositSetUp: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
