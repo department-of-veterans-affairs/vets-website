@@ -49,7 +49,7 @@ export function deleteConnectedApp(appId) {
       return;
     }
 
-    apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
+    await apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
       .then(() => dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId }))
       .catch(({ errors }) =>
         dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),
