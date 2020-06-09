@@ -166,15 +166,17 @@ const MilitaryInformation = ({ militaryInformation }) => (
 );
 
 MilitaryInformation.propTypes = {
-  serviceHistory: PropTypes.shape({
-    serviceHistory: PropTypes.arrayOf(
-      PropTypes.shape({
-        branchOfService: PropTypes.string,
-        beginDate: PropTypes.string,
-        endDate: PropTypes.string,
-      }),
-    ),
-  }),
+  militaryInformation: PropTypes.shape({
+    serviceHistory: PropTypes.shape({
+      serviceHistory: PropTypes.arrayOf(
+        PropTypes.shape({
+          branchOfService: PropTypes.string,
+          beginDate: PropTypes.string,
+          endDate: PropTypes.string,
+        }),
+      ),
+    }).isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({
