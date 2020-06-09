@@ -25,7 +25,6 @@ export class ConnectedApp extends Component {
       'account-section': 'connected-accounts',
     });
     this.props.confirmDelete(this.props.id);
-    this.closeModal();
   };
 
   render() {
@@ -68,6 +67,7 @@ export class ConnectedApp extends Component {
             onCloseModal={this.closeModal}
             onConfirmDelete={this.confirmDelete}
           />
+
           <AdditionalInfo triggerText={`Learn about ${title}`}>
             <p>
               <strong>{title}</strong>
@@ -88,5 +88,4 @@ ConnectedApp.propTypes = {
   type: PropTypes.string.isRequired,
   attributes: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
-  isLast: PropTypes.bool,
 };

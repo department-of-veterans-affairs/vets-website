@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 import { PastAppointmentsList } from '../../components/PastAppointmentsList';
 import {
@@ -17,7 +17,11 @@ describe('VAOS <PastAppointmentsList>', () => {
     pastSelectedIndex: 0,
     past: [
       {
-        vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          videoType: null,
+          isCommunityCare: false,
+        },
         start: moment('2019-12-11T15:00:00Z'),
         status: APPOINTMENT_STATUS.booked,
         participant: [
@@ -38,18 +42,33 @@ describe('VAOS <PastAppointmentsList>', () => {
         vaos: {
           appointmentType: APPOINTMENT_TYPES.ccAppointment,
           timeZone: '-04:00 EDT',
+          isCommunityCare: true,
+          videoType: null,
         },
+        contained: [
+          {
+            actor: {
+              name: 'Practice name',
+              address: {
+                line: ['123 second st'],
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '22222',
+              },
+              telecom: [
+                {
+                  system: 'phone',
+                  value: '1234567890',
+                },
+              ],
+            },
+          },
+        ],
         start: moment('2019-11-25T13:30:00Z'),
         status: APPOINTMENT_STATUS.booked,
       },
-      {
-        appointmentType: APPOINTMENT_TYPES.request,
-        status: APPOINTMENT_STATUS.cancelled,
-      },
     ],
-    facilityData: {
-      var442: {},
-    },
+    facilityData: {},
   };
 
   it('should display loading indicator', () => {
@@ -104,6 +123,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(fetchPastAppointments.firstCall.args[1]).to.equal(
       dateRangeOptions[defaultProps.appointments.pastSelectedIndex].endDate,
     );
+
     tree.unmount();
   });
 
@@ -154,6 +174,39 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
 
     expect(tree.find('AlertBox').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should render focus on H3 tag', () => {
+    // For some reason, testing for document.activeElement doesn't work
+    // unless the component is first attached to a div
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const tree = mount(
+      <PastAppointmentsList
+        appointments={{
+          ...appointments,
+          pastStatus: FETCH_STATUS.loading,
+        }}
+        showPastAppointments
+        pastSelectedIndex={0}
+      />,
+      { attachTo: div },
+    );
+
+    tree.setProps({
+      appointments: {
+        ...appointments,
+        pastStatus: FETCH_STATUS.succeeded,
+      },
+    });
+
+    expect(tree.find('h3[tabIndex="-1"]').exists()).to.be.true;
+    expect(tree.find('h3[tabIndex="-1"]').text()).to.equal('Past appointments');
+    expect(document.activeElement.id).to.equal('pastAppts');
+    expect(document.activeElement.nodeName).to.equal('H3');
+
     tree.unmount();
   });
 
