@@ -11,9 +11,13 @@ import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import frontEndSchema from '../schemas/2346-schema.json';
 import UIDefinitions from '../schemas/2346UI';
-import { buildAddressSchema } from '../schemas/address-schema';
 
-const { email, date, supplies } = fullSchema.definitions;
+const {
+  email,
+  date,
+  supplies,
+  addressWithIsMilitaryBase,
+} = fullSchema.definitions;
 const { currentAddress } = frontEndSchema.definitions;
 
 const {
@@ -46,8 +50,6 @@ const formPageTitlesLookup = {
   addAccessoriesPage: 'Add accessories to your order',
   addBatteriesPage: 'Add batteries to your order',
 };
-
-const addressSchema = buildAddressSchema(true);
 
 const asyncReturn = (returnValue, error, delay = 300) =>
   new Promise((resolve, reject) => {
@@ -107,6 +109,21 @@ const submit = form => {
     .catch(onFailure);
 };
 
+// adding this property to display additional info component underneath isMilitaryBase field
+addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
+  type: 'object',
+  properties: {},
+};
+
+// the following are temporary additions until updated in vets-json-schema
+addressWithIsMilitaryBase.properties.country = {
+  type: 'string',
+};
+
+addressWithIsMilitaryBase.properties.state = {
+  type: 'string',
+};
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/posts',
@@ -134,7 +151,7 @@ const formConfig = {
     email,
     supplies,
     date,
-    addressSchema,
+    addressWithIsMilitaryBase,
     currentAddress,
   },
   chapters: {
@@ -169,8 +186,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [permAddressField]: addressSchema,
-              [tempAddressField]: addressSchema,
+              [permAddressField]: addressWithIsMilitaryBase,
+              [tempAddressField]: addressWithIsMilitaryBase,
               [vetEmailField]: email,
               [confirmationEmailField]: email,
               [currentAddressField]: currentAddress,

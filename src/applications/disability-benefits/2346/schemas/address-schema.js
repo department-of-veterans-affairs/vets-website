@@ -50,7 +50,7 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
 
 const USA = {
   value: 'USA',
-  name: 'United States',
+  label: 'United States',
 };
 
 const MilitaryBaseInfo = () => (
@@ -70,7 +70,7 @@ const MilitaryBaseInfo = () => (
 const addressSchema = {
   type: 'object',
   properties: {
-    'view:livesOnMilitaryBase': {
+    isMilitaryBase: {
       type: 'boolean',
     },
     'view:livesOnMilitaryBaseInfo': {
@@ -122,7 +122,6 @@ const addressSchema = {
 export const buildAddressSchema = isMilitaryBaseAddress => {
   if (isMilitaryBaseAddress) return cloneDeep(addressSchema);
   const schema = cloneDeep(addressSchema);
-  delete schema.properties['view:livesOnMilitaryBase'];
   delete schema.properties['view:livesOnMilitaryBaseInfo'];
   return schema;
 };
@@ -148,7 +147,19 @@ export const addressUISchema = (
 
   return (function returnAddressUI() {
     return {
-      'view:livesOnMilitaryBase': {
+      'ui:order': [
+        'isMilitaryBase',
+        'view:livesOnMilitaryBaseInfo',
+        'country',
+        'street',
+        'street2',
+        'city',
+        'state',
+        'province',
+        'postalCode',
+        'internationalPostalCode',
+      ],
+      isMilitaryBase: {
         'ui:title':
           'I live on a United States military base outside of the United States',
         'ui:options': {
@@ -173,10 +184,10 @@ export const addressUISchema = (
             const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               countryUI['ui:disabled'] = true;
-              countryFormData.country = USA.name;
+              countryFormData.country = USA.label;
               return {
-                enum: [USA.name],
-                default: USA.name,
+                enum: [USA.label],
+                default: USA.label,
               };
             }
             countryUI['ui:disabled'] = false;
@@ -239,7 +250,7 @@ export const addressUISchema = (
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
-            (countryName && countryName === USA.name) || livesOnMilitaryBase
+            (countryName && countryName === USA.label) || livesOnMilitaryBase
           );
         },
         'ui:title': 'State',
@@ -260,7 +271,7 @@ export const addressUISchema = (
               return false;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName && countryName !== USA.name;
+            return countryName && countryName !== USA.label;
           },
           hideOnReviewIfFalse: true,
           updateSchema: formData => {
@@ -289,7 +300,7 @@ export const addressUISchema = (
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const countryName = get(countryNamePath, formData);
-          return countryName && countryName !== USA.name;
+          return countryName && countryName !== USA.label;
         },
         'ui:options': {
           hideIf: (formData, index) => {
@@ -302,7 +313,7 @@ export const addressUISchema = (
               return true;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName === USA.name || !countryName;
+            return countryName === USA.label || !countryName;
           },
           hideOnReviewIfFalse: true,
         },
@@ -316,7 +327,7 @@ export const addressUISchema = (
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
-            (countryName && countryName === USA.name) ||
+            (countryName && countryName === USA.label) ||
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
@@ -340,7 +351,7 @@ export const addressUISchema = (
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return false;
             }
-            return countryName && countryName !== USA.name;
+            return countryName && countryName !== USA.label;
           },
           hideOnReviewIfFalse: true,
         },
@@ -352,7 +363,7 @@ export const addressUISchema = (
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const countryName = get(countryNamePath, formData);
-          return countryName && countryName !== USA.name;
+          return countryName && countryName !== USA.label;
         },
         'ui:title': 'Please enter an international postal code',
         'ui:errorMessages': {
@@ -370,7 +381,7 @@ export const addressUISchema = (
               return true;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName === USA.name || !countryName;
+            return countryName === USA.label || !countryName;
           },
           hideOnReviewIfFalse: true,
         },
