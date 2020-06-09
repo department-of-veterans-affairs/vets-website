@@ -41,13 +41,44 @@ export class MaintenanceBanner extends Component {
     };
   }
 
+  derivePostContent = () => {
+    const { startsAt, expiresAt } = this.props;
+
+    if (startsAt.isSame(expiresAt, 'day')) {
+      return (
+        <>
+          <p>
+            <strong>Date:</strong> {startsAt.format('dddd MMMM D, YYYY')}
+          </p>
+          <p>
+            <strong>Start/End time:</strong> {startsAt.format('h:mm a')} to{' '}
+            {expiresAt.format('h:mm a')}
+          </p>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <p>
+          <strong>Start:</strong>{' '}
+          {startsAt.format('dddd MMMM D, YYYY, [at] h:mm a')}
+        </p>
+        <p>
+          <strong>End:</strong>{' '}
+          {expiresAt.format('dddd MMMM D, YYYY, [at] h:mm a')}
+        </p>
+      </>
+    );
+  };
+
   onCloseAlert = () => {
     localStorage.setItem(MAINTENANCE_BANNER, this.props.id);
     this.setState({ dismissed: true });
   };
 
   render() {
-    const { onCloseAlert } = this;
+    const { derivePostContent, onCloseAlert } = this;
     const { dismissed } = this.state;
     const {
       content,
@@ -60,7 +91,9 @@ export class MaintenanceBanner extends Component {
       warnTitle,
     } = this.props;
 
+    // Derive dates.
     const now = moment();
+    const postContent = derivePostContent();
 
     // Escape early if the banner is dismissed.
     if (dismissed) {
@@ -85,7 +118,12 @@ export class MaintenanceBanner extends Component {
           data-e2e-id="maintenance-banner-pre-downtime"
         >
           <AlertBox
-            content={warnContent}
+            content={
+              <>
+                <p>{warnContent}</p>
+                {postContent}
+              </>
+            }
             headline={warnTitle}
             onCloseAlert={onCloseAlert}
             status="warning"
@@ -101,7 +139,12 @@ export class MaintenanceBanner extends Component {
         data-e2e-id="maintenance-banner-downtime"
       >
         <AlertBox
-          content={content}
+          content={
+            <>
+              <p>{content}</p>
+              {postContent}
+            </>
+          }
           headline={title}
           onCloseAlert={onCloseAlert}
           status="error"

@@ -9,14 +9,18 @@ const expiresAt = moment.utc('2020-06-03T19:00:00.248Z').local();
 const formattedStartsAt = startsAt.format('dddd M/D, h:mm a');
 const formattedExpiresAt = expiresAt.format('dddd M/D, h:mm a');
 
+// Derive the how long the downtime will be in hours.
+const duration = moment.duration(expiresAt.diff(startsAt));
+const hours = duration.asHours();
+
 export default {
   id: '1',
   startsAt,
   expiresAt,
-  title: 'DS Logon is down for maintenance.',
+  title: 'Site maintenance',
   content:
-    'DS Logon is down for maintenance. Please use ID.me or MyHealtheVet to sign in or use online tools.',
+    "We’re working on VA.gov right now. If you have trouble signing in or using tools, check back after we're finished. Thank you for your patience.",
   warnStartsAt: startsAt.clone().subtract(12, 'hours'),
-  warnTitle: 'DS Logon will be down for maintenance',
-  warnContent: `DS Logon will be unavailable from ${formattedStartsAt} to ${formattedExpiresAt} Please use ID.me or MyHealtheVet to sign in or use online tools during this time.`,
+  warnTitle: 'Upcoming site maintenance',
+  warnContent: `We’ll be doing some work on VA.gov. The maintenance will last ${hours} hour(s). During that time, you won’t be able to sign in or use tools.`,
 };
