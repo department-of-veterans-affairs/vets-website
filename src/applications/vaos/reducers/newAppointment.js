@@ -649,7 +649,8 @@ export default function formReducer(state = initialState, action) {
         });
 
         clinics = clinics.filter(clinic =>
-          pastAppointmentDateMap.has(clinic.clinicId),
+          // Get clinic portion of id
+          pastAppointmentDateMap.has(clinic.id?.split('_')[1]),
         );
       }
 
@@ -660,9 +661,10 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${clinic.clinicFriendlyLocationName ||
-                clinic.clinicName}?`,
-              enum: [clinic.clinicId, 'NONE'],
+              title: `Would you like to make an appointment at ${
+                clinic.serviceName
+              }?`,
+              enum: [clinic.id, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
                 'No, I need a different clinic',
@@ -678,12 +680,9 @@ export default function formReducer(state = initialState, action) {
               type: 'string',
               title:
                 'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
-              enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
+              enum: clinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: clinics
-                .map(
-                  clinic =>
-                    clinic.clinicFriendlyLocationName || clinic.clinicName,
-                )
+                .map(clinic => clinic.serviceName)
                 .concat('I need a different clinic'),
             },
           },
