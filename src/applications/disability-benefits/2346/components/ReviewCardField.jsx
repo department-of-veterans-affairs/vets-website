@@ -419,8 +419,7 @@ class ReviewCardField extends React.Component {
     );
   };
 
-  startEditing = event => {
-    event.preventDefault();
+  startEditing = () => {
     const newState = { editing: true };
 
     // If the data is volatile, cache the original data before clearing it out so we
