@@ -86,6 +86,7 @@ export class ConnectedApp extends Component {
 ConnectedApp.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  deleting: PropTypes.bool,
   attributes: PropTypes.shape({
     title: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,

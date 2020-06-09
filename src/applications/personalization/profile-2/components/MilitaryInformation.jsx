@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
@@ -163,6 +164,18 @@ const MilitaryInformation = ({ militaryInformation }) => (
     </DowntimeNotification>
   </>
 );
+
+MilitaryInformation.propTypes = {
+  serviceHistory: PropTypes.shape({
+    serviceHistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        branchOfService: PropTypes.string,
+        beginDate: PropTypes.string,
+        endDate: PropTypes.string,
+      }),
+    ),
+  }),
+};
 
 const mapStateToProps = state => ({
   militaryInformation: state.vaProfile?.militaryInformation,
