@@ -431,7 +431,7 @@ class VAMap extends Component {
    * Use the list of search results to generate map markers and current position marker
    */
   renderMapMarkers = () => {
-    const { results, position } = this.props;
+    const { results } = this.props;
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
