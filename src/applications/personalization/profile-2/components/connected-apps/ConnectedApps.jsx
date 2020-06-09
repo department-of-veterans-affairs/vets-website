@@ -77,7 +77,6 @@ export class ConnectedApps extends Component {
           <ConnectedApp
             key={app.id}
             confirmDelete={this.confirmDelete}
-            isLast={idx + 1 === activeApps.length}
             {...app}
           />
         ))}

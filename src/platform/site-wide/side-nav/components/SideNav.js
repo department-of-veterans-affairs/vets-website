@@ -149,13 +149,6 @@ class SideNav extends Component {
             'vads-u-padding--0',
           )}
         >
-          <div
-            className={classNames(
-              'line',
-              'medium-screen:vads-u-display--none',
-              'va-sidenav-display-onclick-line',
-            )}
-          />
           {/* Render all the items recursively. */}
           {renderChildItems(parentMostID, 1)}
         </ul>

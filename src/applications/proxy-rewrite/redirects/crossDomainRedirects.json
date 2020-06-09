@@ -271,11 +271,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/claimexam.asp",
-    "dest": "/disability/va-claim-exam/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/NPRC1973Fire.asp",
     "dest": "/records/get-military-service-records/reconstruct-records/"
   },
@@ -546,81 +541,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0114.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0113.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0112.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0111.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0109.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0108.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0107.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0106.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0105.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0104.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0103.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0102.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0101.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0100.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0199.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/resources_comp0218.asp",
     "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
   },
@@ -636,61 +556,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2009.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2008.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2007.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2006.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2005.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2004.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2003.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2002.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2001.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2000.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb1999.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/special_benefit_allowances_2019.asp",
     "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
   },
@@ -698,16 +563,6 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/special_benefit_allowances_2018.asp",
     "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/rates-index.asp",
-    "dest": "/disability/compensation-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/claimexam.asp",
-    "dest": "/disability/va-claim-exam/"
   },
   {
     "domain": "www.benefits.va.gov",
