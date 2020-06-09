@@ -52,17 +52,6 @@ function sessionTypeUrl(
   return `${base}/${type}/new${queryString}`;
 }
 
-const loginUrl = (policy, version, application, to) => {
-  switch (policy) {
-    case 'mhv':
-      return sessionTypeUrl('mhv', version, application, to);
-    case 'dslogon':
-      return sessionTypeUrl('dslogon', version, application, to);
-    default:
-      return sessionTypeUrl('idme', version, application, to);
-  }
-};
-
 export function setSentryLoginType(loginType) {
   Sentry.setTag('loginType', loginType);
 }
@@ -112,18 +101,17 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy, version = 'v0', application = null, to = null) {
-  const url = loginUrl(policy, version, application, to);
+export function login(
+  policy,
+  version = 'v0',
+  application = null,
+  to = null,
+  queryParams = {},
+  clickedEvent = 'login-link-clicked-modal',
+) {
+  const url = sessionTypeUrl(policy, version, application, to, queryParams);
   setForceAuth();
-  return redirect(url, 'login-link-clicked-modal');
-}
-
-export function autoLogin() {
-  const url = sessionTypeUrl('idme', 'v1', undefined, undefined, {
-    inbound: 'true',
-  });
-  setForceAuth();
-  return redirect(url, 'sso-automatic-login');
+  return redirect(url, clickedEvent);
 }
 
 export function mfa(version = 'v0') {
@@ -134,13 +122,9 @@ export function verify(version = 'v0') {
   return redirect(sessionTypeUrl('verify', version), 'verify-link-clicked');
 }
 
-export function logout(version = 'v0') {
+export function logout(version = 'v0', clickedEvent = 'logout-link-clicked') {
   clearSentryLoginType();
-  return redirect(sessionTypeUrl('slo', version), 'logout-link-clicked');
-}
-
-export function autoLogout() {
-  return redirect(sessionTypeUrl('slo', 'v1'), 'sso-automatic-logout');
+  return redirect(sessionTypeUrl('slo', version), clickedEvent);
 }
 
 export function signup(version = 'v0', application = null, to = null) {
