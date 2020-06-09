@@ -10,8 +10,8 @@ import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import frontEndSchema from '../schemas/2346-schema.json';
+import UIDefinitions from '../schemas/2346UI';
 import { buildAddressSchema } from '../schemas/address-schema';
-import UIDefinitions from '../schemas/definitions/2346UI';
 
 const { email, date, supplies } = fullSchema.definitions;
 const { currentAddress } = frontEndSchema.definitions;

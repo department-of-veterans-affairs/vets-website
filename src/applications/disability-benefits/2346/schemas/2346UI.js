@@ -1,14 +1,14 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
-import Accessories from '../../components/Accessories';
-import AddressViewField from '../../components/AddressViewField';
-import Batteries from '../../components/Batteries';
-import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageAccessories from '../../components/ReviewPageAccessories';
-import ReviewPageBatteries from '../../components/ReviewPageBatteries';
-import { schemaFields } from '../../constants';
-import fullSchema from '../2346-schema.json';
-import { addressUISchema } from '../address-schema';
+import Accessories from '../components/Accessories';
+import AddressViewField from '../components/AddressViewField';
+import Batteries from '../components/Batteries';
+import ReviewCardField from '../components/ReviewCardField';
+import ReviewPageAccessories from '../components/ReviewPageAccessories';
+import ReviewPageBatteries from '../components/ReviewPageBatteries';
+import { schemaFields } from '../constants';
+import fullSchema from './2346-schema.json';
+import { addressUISchema } from './address-schema';
 
 const { permAddressField, tempAddressField } = schemaFields;
 
