@@ -124,7 +124,14 @@ describe('Report 674 term information', () => {
       'input#root_currentTermDates_expectedGraduationDateYear',
       2010,
     );
-    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'N');
+    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'Y');
+    fillData(
+      form,
+      'input#root_programInformation_courseOfStudy',
+      'Marine Biology',
+    );
+    fillData(form, 'input#root_programInformation_classesPerWeek', 2);
+    fillData(form, 'input#root_programInformation_hoursPerWeek', 2);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -188,13 +195,6 @@ describe('Report 674 term information', () => {
       2010,
     );
     selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'N');
-    fillData(
-      form,
-      'input#root_programInformation_courseOfStudy',
-      'Marine Biology',
-    );
-    fillData(form, 'input#root_programInformation_classesPerWeek', 2);
-    fillData(form, 'input#root_programInformation_hoursPerWeek', 2);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
