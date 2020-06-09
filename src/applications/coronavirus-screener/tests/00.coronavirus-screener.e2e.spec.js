@@ -61,6 +61,7 @@ const staffScreening = {
   },
 };
 
+// wait time before clicking
 const pause = 500;
 
 function testQuestionScenario({ scenario, client }) {
