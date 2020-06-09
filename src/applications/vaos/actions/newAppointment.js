@@ -56,7 +56,7 @@ import {
 
 import { recordEligibilityFailure, resetDataLayer } from '../utils/events';
 
-import { captureError } from '../utils/error';
+import { captureError, getErrorCodes } from '../utils/error';
 
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -705,6 +705,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service
@@ -788,6 +789,7 @@ export function submitAppointmentOrRequest(router) {
         captureError(error, true, 'Request submission failure', extraData);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+          isVaos400Error: getErrorCodes(error).includes('VAOS_400'),
         });
 
         // Remove parse function when converting this call to FHIR service
