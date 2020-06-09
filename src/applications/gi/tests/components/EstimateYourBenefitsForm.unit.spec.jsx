@@ -161,7 +161,7 @@ describe('<EstimateYourBenefitsForm>', () => {
 
   it('should not invoke updateEstimatedBenefits on "Update benefits" click, with invalid data', () => {
     const validInput = {
-      beneficiaryLocationQuestion: 'other',
+      extension: 'other',
       beneficiaryZIP: '#',
     };
     const updateEstimatedBenefits = sinon.spy();
