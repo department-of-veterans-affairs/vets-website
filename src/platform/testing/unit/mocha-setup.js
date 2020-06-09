@@ -6,9 +6,10 @@
 
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
+
+const jsdom = require('jsdom');
 
 // import sinon from 'sinon'
 
@@ -33,7 +34,7 @@ export default function setupJSDom() {
   /* eslint-enable no-console */
 
   // setup the simplest document possible
-  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const dom = new jsdom.JSDOM('<!doctype html><html><body></body></html>');
 
   // get the window object out of the document
   const win = dom.window;
