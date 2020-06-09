@@ -5,11 +5,12 @@ import * as actions from '../../../components/connected-apps/actions';
 
 describe('Connected Apps actions', () => {
   const appId = '1';
+  const mockRequest = true;
 
   describe('loadConnectedApps', () => {
     it('creates the correct action', async () => {
       const dispatch = sinon.stub();
-      const thunk = await actions.loadConnectedApps(appId);
+      const thunk = await actions.loadConnectedApps(mockRequest);
       await thunk(dispatch);
 
       expect(
@@ -27,7 +28,7 @@ describe('Connected Apps actions', () => {
   describe('deleteConnectedApp', () => {
     it('creates the correct action', async () => {
       const dispatch = sinon.stub();
-      const thunk = await actions.deleteConnectedApp(appId);
+      const thunk = await actions.deleteConnectedApp(appId, mockRequest);
       await thunk(dispatch);
 
       expect(
