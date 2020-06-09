@@ -61,14 +61,16 @@ const staffScreening = {
   },
 };
 
+const pause = 500;
+
 function testQuestionScenario({ scenario, client }) {
   client.refresh().waitForElementVisible('body', normal);
   scenario.questions.forEach(question => {
     client
       .waitForElementVisible(`div[id=${question.id}]`, slow)
       .assert.visible(`div[id=${question.id}]`)
-      // extra click workaround for https://github.com/nightwatchjs/nightwatch/issues/1221
-      .click(`div[id=${question.id}] > button[value=${question.value}]`)
+      // extra workaround for https://github.com/nightwatchjs/nightwatch/issues/1221
+      .pause(pause)
       .click(`div[id=${question.id}] > button[value=${question.value}]`);
   });
   client
@@ -85,15 +87,14 @@ export default createE2eTest(client => {
     .axeCheck('.main');
 
   // visitor passing answers
-  // testQuestionScenario({ scenario: visitorPass, client });
+  testQuestionScenario({ scenario: visitorPass, client });
 
-  // TODO: reenable tests
   // visitor needs more screening
-  // testQuestionScenario({ scenario: visitorScreening, client });
+  testQuestionScenario({ scenario: visitorScreening, client });
 
   // staff passing answers
-  // testQuestionScenario({ scenario: staffPass, client });
+  testQuestionScenario({ scenario: staffPass, client });
 
   // staff needs more screening
-  // testQuestionScenario({ scenario: staffScreening, client });
+  testQuestionScenario({ scenario: staffScreening, client });
 });
