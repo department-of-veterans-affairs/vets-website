@@ -1069,6 +1069,8 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.data).to.deep.equal({});
+    expect(newState.eligibility).to.deep.equal({});
+    expect(newState.clinics).to.deep.equal({});
     expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.notStarted);
     expect(newState.eligibilityStatus).to.equal(FETCH_STATUS.notStarted);
   });
