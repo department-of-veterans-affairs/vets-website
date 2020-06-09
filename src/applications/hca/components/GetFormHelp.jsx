@@ -1,23 +1,19 @@
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        Need help enrolling or have questions about enrollment or eligibility?
-        Call our toll-free number:
+        If you have questions or need help filling out this form, please call
+        the VA Help Line at <Telephone contact={CONTACTS['222_VETS']} />. We’re
+        here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
-      <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:1-877-222-8387">
-          877-222-8387
-        </a>
-        <br />
-        TTY:{' '}
-        <a className="help-phone-number-link" href="tel:1-800-877-8339">
-          800-877-8339
-        </a>
-        <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
+      <p>
+        If you have hearing loss, call TTY:{' '}
+        <Telephone contact={CONTACTS.HELP_TTY} />
       </p>
     </div>
   );

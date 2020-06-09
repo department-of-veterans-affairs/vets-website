@@ -9,6 +9,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 .confirmation-page {
   padding-bottom: 5rem;
 }
