@@ -48,7 +48,7 @@ export const uiSchema = {
     },
     courseOfStudy: {
       'ui:required': formData =>
-        !formData?.programInformation?.studentIsEnrolledFullTime,
+        formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: true,
@@ -58,7 +58,7 @@ export const uiSchema = {
     },
     classesPerWeek: {
       'ui:required': formData =>
-        !formData?.programInformation?.studentIsEnrolledFullTime,
+        formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: true,
@@ -69,7 +69,7 @@ export const uiSchema = {
     },
     hoursPerWeek: {
       'ui:required': formData =>
-        !formData?.programInformation?.studentIsEnrolledFullTime,
+        formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
         expandUnder: 'studentIsEnrolledFullTime',
         expandUnderCondition: true,
