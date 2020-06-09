@@ -113,6 +113,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Contact Information Page.
   client.expect.element('input[name="root_email"]').to.be.visible;
+  HcaHelpers.completeVeteranContactInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
@@ -276,6 +277,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible(
       'label[name="privacyAgreementAccepted-label"]',
       Timeouts.slow,
+    )
+    // expand all the accordions
+    .elements('css selector', 'main button[aria-expanded="false"]', result =>
+      result.value.forEach(elm => client.elementIdClick(elm.ELEMENT)),
     )
     .pause(1000)
     .click('input[type="checkbox"]')
