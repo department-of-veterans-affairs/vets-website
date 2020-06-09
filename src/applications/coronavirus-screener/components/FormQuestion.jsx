@@ -19,8 +19,6 @@ export default function FormQuestion({
     scrollNext();
   }
 
-  // console.log('question', question);
-
   const options = optionsConfig.map((option, index) => (
     <button
       key={index}
@@ -38,7 +36,7 @@ export default function FormQuestion({
   ));
 
   return (
-    <div className="feature">
+    <div className="feature" id={`question-${question.id}`}>
       <h2>{question.text}</h2>
       {options}
     </div>

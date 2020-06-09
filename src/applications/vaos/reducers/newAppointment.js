@@ -196,8 +196,6 @@ export default function formReducer(state = initialState, action) {
         ...initialState,
         parentFacilities: state.parentFacilities,
         facilities: state.facilities,
-        clinics: state.clinics,
-        eligibility: state.eligibility,
         pastAppointments: state.pastAppointments,
         submitStatus: FETCH_STATUS.notStarted,
       };
