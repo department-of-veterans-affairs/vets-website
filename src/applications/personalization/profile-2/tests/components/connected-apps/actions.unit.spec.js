@@ -32,8 +32,8 @@ describe('Connected Apps actions', () => {
 
       expect(
         dispatch.firstCall.calledWith({
-          type: actions.DELETING_CONNECTED_APP,
           appId,
+          type: actions.DELETING_CONNECTED_APP,
         }),
       ).to.be.true;
 
@@ -53,8 +53,8 @@ describe('Connected Apps actions', () => {
 
       expect(
         dispatch.firstCall.calledWith({
-          type: actions.DELETED_APP_ALERT_DISMISSED,
           appId,
+          type: actions.DELETED_APP_ALERT_DISMISSED,
         }),
       ).to.be.true;
     });

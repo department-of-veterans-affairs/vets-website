@@ -10,11 +10,12 @@ import {
 
 const initialState = {
   apps: [],
-  loading: false,
+  deleting: false,
   errors: [],
+  loading: false,
 };
 
-function connectedApps(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case LOADING_CONNECTED_APPS:
       return { ...state, loading: true };
@@ -63,6 +64,4 @@ function connectedApps(state = initialState, action) {
     default:
       return state;
   }
-}
-
-export default connectedApps;
+};
