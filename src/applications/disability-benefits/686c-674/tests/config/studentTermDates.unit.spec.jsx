@@ -124,7 +124,7 @@ describe('Report 674 term information', () => {
       'input#root_currentTermDates_expectedGraduationDateYear',
       2010,
     );
-    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'Y');
+    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'N');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
