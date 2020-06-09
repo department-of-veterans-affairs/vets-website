@@ -31,8 +31,6 @@ export class ConnectedApps extends Component {
 
     const allAppsDeleted = deletedApps?.length === apps?.length;
 
-    console.log('This is props', this.props);
-
     return (
       <div className="va-connected-apps">
         <h2
