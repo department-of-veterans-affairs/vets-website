@@ -4,7 +4,7 @@
 --require @babel/polyfill
 --require blob-polyfill
 --require isomorphic-fetch
---require js:@babel/register,jsx:@babel/register
+--require @babel/register
 --prof
 --reporter progress
 --timeout 5000
