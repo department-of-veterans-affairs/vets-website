@@ -8,7 +8,7 @@ export const schemaFields = {
   fullName: 'vetFullName',
   permAddressField: 'permanentAddress',
   tempAddressField: 'temporaryAddress',
-  emailField: 'email',
+  vetEmailField: 'vetEmail',
   confirmationEmailField: 'view:confirmationEmail',
   suppliesField: 'supplies',
   currentAddressField: 'currentAddress',

@@ -17,7 +17,7 @@ const { email, date } = fullSchema.definitions;
 const { currentAddress, supplies } = frontEndSchema.definitions;
 
 const {
-  emailField,
+  vetEmailField,
   confirmationEmailField,
   suppliesField,
   permAddressField,
@@ -162,7 +162,7 @@ const formConfig = {
           uiSchema: {
             [permAddressField]: permanentAddressUI,
             [tempAddressField]: temporaryAddressUI,
-            [emailField]: emailUI,
+            [vetEmailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
             [currentAddressField]: currentAddressUI,
           },
@@ -171,7 +171,7 @@ const formConfig = {
             properties: {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
-              [emailField]: email,
+              [vetEmailField]: email,
               [confirmationEmailField]: email,
               [currentAddressField]: currentAddress,
             },
