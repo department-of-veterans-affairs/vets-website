@@ -80,5 +80,5 @@ export const states50AndDC = [
   { label: 'Wyoming', value: 'WY' },
 ];
 
-export const HEARING_AID_ACCESSORIES = 'hearing aid accessories';
-export const HEARING_AID_BATTERIES = 'hearing aid batteries';
+export const ACCESSORIES = 'ACCESSORIES';
+export const BATTERIES = 'BATTERIES';

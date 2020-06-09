@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HEARING_AID_BATTERIES } from '../constants';
+import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
@@ -35,7 +35,7 @@ class Batteries extends Component {
     const { supplies, selectedProducts, eligibility } = this.props;
     const currentDate = moment();
     const batterySupplies = supplies.filter(
-      batterySupply => batterySupply.productGroup === HEARING_AID_BATTERIES,
+      batterySupply => batterySupply.productGroup === BATTERIES,
     );
     const areBatterySuppliesEligible = eligibility.batteries;
     const haveBatteriesBeenOrderedInLastFiveMonths =
