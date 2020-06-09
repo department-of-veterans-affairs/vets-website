@@ -342,6 +342,7 @@ class ReviewCardField extends React.Component {
                 className={`${editLink} va-button-link`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
+                type="button"
               >
                 Edit {title.toLowerCase()}
               </button>
@@ -354,6 +355,7 @@ class ReviewCardField extends React.Component {
                 className={`${editLink} va-button-link`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
+                type="button"
               >
                 Add a {title.toLowerCase()}
               </button>
@@ -417,7 +419,8 @@ class ReviewCardField extends React.Component {
     );
   };
 
-  startEditing = () => {
+  startEditing = event => {
+    event.preventDefault();
     const newState = { editing: true };
 
     // If the data is volatile, cache the original data before clearing it out so we
