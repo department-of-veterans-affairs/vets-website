@@ -1,0 +1,10 @@
+require:
+  - 'src/platform/testing/unit/mocha-setup.js'
+  - 'src/platform/testing/unit/enzyme-setup.js'
+  - 'choma'
+  - '@babel/polyfill'
+  - 'blob-polyfill'
+  - 'isomorphic-fetch'
+  - '@babel/register'
+reporter: 'progress'
+timeout: '5000'

@@ -52,7 +52,7 @@
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
     "test:unit": "./script/run-unit-test.sh",
     "test:unit:form-system": "BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/forms-system/test/js/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js '$@'",
-    "test:unit:hca": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/hca/**/tests/**/*.unit.spec.js?(x)' ",
+    "test:unit:hca": "BABEL_ENV=test mocha --config .mocharc.yml --recursive 'src/applications/hca/**/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:personalization": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/**/tests/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch-tests.js",
     "test:visual": "./script/run-nightwatch.sh --visual",
