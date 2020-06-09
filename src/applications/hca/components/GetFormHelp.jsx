@@ -7,9 +7,10 @@ function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        If you have questions or need help filling out this form, please call
-        the VA Help Line at <Telephone contact={CONTACTS['222_VETS']} />. We’re
-        here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        If you have questions about enrollment or eligibility, or need help
+        filling out this form, please call the VA Help Line at{' '}
+        <Telephone contact={CONTACTS['222_VETS']} />. We’re here Monday through
+        Friday, 8:00 a.m. to 8:00 p.m. <abbr title="eastern time">ET</abbr>.
       </p>
       <p>
         If you have hearing loss, call TTY:{' '}

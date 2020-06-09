@@ -1,6 +1,9 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import classNames from 'classnames';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 export default function DowntimeMessage({ isAfterSteps }) {
   return (
@@ -19,9 +22,9 @@ export default function DowntimeMessage({ isAfterSteps }) {
         </p>
         <p>
           In the meantime, you can call{' '}
-          <a href="tel:+18772228387">877-222-8387</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>) and
-          press 2 to complete this application over the phone.
+          <Telephone contact={CONTACTS['222_VETS']} /> and press 2 to complete
+          this application over the phone. We’re here Monday through Friday,
+          8:00 a.m. to 8:00 p.m. <abbr title="eastern time">ET</abbr>.
         </p>
       </div>
     </AlertBox>

@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
+
 import HealthcareModalContent from 'platform/forms/components/OMBInfoModalContent/HealthcareModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
@@ -59,9 +62,10 @@ const VerificationRequiredAlert = () => (
             </a>
           </li>
           <li>
-            Or call us at <a href="tel:+18772228387">877-222-8387</a>. If you
-            have hearing loss, call TTY: 800-877-8339. We’re here Monday through
-            Friday, 8:00 a.m. to 8:00 p.m. ET.
+            Or call us at <Telephone contact={CONTACTS['222_VETS']} />. If you
+            have hearing loss, call TTY:{' '}
+            <Telephone contact={CONTACTS.HELP_TTY} />. We’re here Monday through
+            Friday, 8:00 a.m. to 8:00 p.m. <abbr title="eastern time">ET</abbr>.
           </li>
         </ul>
         <p>

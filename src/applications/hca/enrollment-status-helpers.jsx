@@ -1,5 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { isValidDateString } from 'platform/utilities/date';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
@@ -263,11 +266,7 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>We can’t accept an application for this Veteran.</p>
           <p>
             If this information is incorrect, please call our enrollment case
-            management team at{' '}
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
-            .
+            management team at <Telephone contact={CONTACTS['222_VETS']} />.
           </p>
         </>
       );
@@ -345,14 +344,15 @@ export function getFAQContent(enrollmentStatus) {
   const callOurTeam = (
     <>
       call our enrollment case management team at{' '}
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-8387
-      </a>
+      <Telephone contact={CONTACTS['222_VETS']} />
     </>
   );
 
   const ourHours = (
-    <>We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET</>
+    <>
+      We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+      <abbr title="eastern time">ET</abbr>
+    </>
   );
 
   const faqBlock1 = (
@@ -924,10 +924,8 @@ export function getAlertContent(
   const whatShouldIDo1 = (
     <p key="what-should-i-do-1">
       If you have questions, please call our enrollment case management team at
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-8387
-      </a>
-      . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact={CONTACTS['222_VETS']} />. We’re here Monday through
+      Friday, 8:00 a.m. to 8:00 p.m. <abbr title="eastern time">ET</abbr>.
     </p>
   );
   // this block will also be used for character of discharge status

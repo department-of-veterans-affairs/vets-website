@@ -2,6 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -90,8 +93,9 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             Please don’t apply again. Instead, please call our toll-free hotline
-            at <a href="tel:+18772228387">877-222-8387</a>. We’re here Monday
-            through Friday, 8:00 am to 8:00 pm ET.
+            at <Telephone contact={CONTACTS['222_VETS']} />. We’re here Monday
+            through Friday, 8:00 am to 8:00 pm{' '}
+            <abbr title="eastern time">ET</abbr>.
           </p>
           <h4 className="confirmation-guidance-heading">
             How can I check the status of my application?
@@ -158,8 +162,9 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h4>
           <p className="confirmation-guidance-message">
-            Please call <a href="tel:+18772228387">877-222-8387</a> and select
-            2. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            Please call <Telephone contact={CONTACTS['222_VETS']} /> and select
+            2. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+            <abbr title="eastern time">ET</abbr>.
           </p>
         </div>
       </div>
