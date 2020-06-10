@@ -296,7 +296,7 @@
     "react-tabs": "^2.3.0",
     "react-transition-group": "1",
     "recompose": "^0.30.0",
-    "redux": "^4.0.0",
+    "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reselect": "^2.5.4",
     "sanitize-html": "^1.20.1",
