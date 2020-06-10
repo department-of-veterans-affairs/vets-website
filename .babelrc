@@ -26,7 +26,6 @@
         },
         "useBuiltIns": "entry",
         "corejs": "2.0.0",
-        "modules": false,
         "debug": false
       }
     ],
