@@ -300,13 +300,18 @@ function setParticipant(appt) {
       return null;
     }
     case APPOINTMENT_TYPES.request: {
+      const hasName =
+        appt.patient?.displayName ||
+        (!!appt.patient?.firstName && !!appt.patient?.lastName);
+
       const participant = [
         {
           actor: {
             reference: 'Patient/PATIENT_ID',
-            display:
-              appt.patient?.displayName ||
-              `${appt.patient?.firstName} ${appt.patient?.lastName}`,
+            display: hasName
+              ? appt.patient?.displayName ||
+                `${appt.patient?.firstName} ${appt.patient?.lastName}`
+              : null,
             telecom: [
               {
                 system: 'phone',

@@ -143,6 +143,7 @@ const vaRequest = {
     parentSiteCode: '983',
   },
   patient: {
+    displayName: 'MORRISON, JUDY',
     inpatient: false,
     textMessagingAllowed: false,
   },
@@ -428,6 +429,7 @@ describe('VAOS Appointment transformer', () => {
         const patientActor = data.participant.filter(p =>
           p.actor.reference.includes('Patient'),
         )[0];
+        expect(patientActor.actor.display).to.equal('MORRISON, JUDY');
         const telecomPhone = patientActor.actor.telecom.filter(
           t => t.system === 'phone',
         )[0];
