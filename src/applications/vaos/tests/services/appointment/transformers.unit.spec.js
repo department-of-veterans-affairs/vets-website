@@ -413,12 +413,29 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set facility as Location in participants', () => {
-        expect(data.participant[0].actor.reference).to.equal(
+        const healthcareActor = data.participant.filter(p =>
+          p.actor.reference.includes('HealthcareService'),
+        )[0];
+        expect(healthcareActor.actor.reference).to.equal(
           'HealthcareService/var983_983',
         );
-        expect(data.participant[0].actor.display).to.equal(
+        expect(healthcareActor.actor.display).to.equal(
           'CHYSHR-Cheyenne VA Medical Center',
         );
+      });
+
+      it('should set patient info in participants', () => {
+        const patientActor = data.participant.filter(p =>
+          p.actor.reference.includes('Patient'),
+        )[0];
+        const telecomPhone = patientActor.actor.telecom.filter(
+          t => t.system === 'phone',
+        )[0];
+        expect(telecomPhone.value).to.equal('(999) 999-9999');
+        const telecomEmail = patientActor.actor.telecom.filter(
+          t => t.system === 'email',
+        )[0];
+        expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
       });
 
       it('should return vaos.isPastAppointment', () => {

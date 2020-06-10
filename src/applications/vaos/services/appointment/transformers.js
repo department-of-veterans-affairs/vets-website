@@ -262,8 +262,8 @@ function setParticipant(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
       if (!isVideoVisit(appt)) {
-        const participants = [];
-        participants.push({
+        const participant = [];
+        participant.push({
           actor: {
             reference: `HealthcareService/var${appt.facilityId}_${
               appt.clinicId
@@ -275,14 +275,14 @@ function setParticipant(appt) {
         });
 
         if (appt.sta6aid) {
-          participants.push({
+          participant.push({
             actor: {
               reference: `Location/var${appt.sta6aid}`,
             },
           });
         }
 
-        return participants;
+        return participant;
       }
       return null;
     }
@@ -300,20 +300,39 @@ function setParticipant(appt) {
       return null;
     }
     case APPOINTMENT_TYPES.request: {
-      if (appt.facility) {
-        return [
-          {
-            actor: {
-              reference: `HealthcareService/var${
-                appt.facility.parentSiteCode
-              }_${appt.facility.facilityCode}`,
-              display: appt.friendlyLocationName || appt.facility?.name,
-            },
+      const participant = [
+        {
+          actor: {
+            reference: 'Patient/PATIENT_ID',
+            display:
+              appt.patient?.displayName ||
+              `${appt.patient?.firstName} ${appt.patient?.lastName}`,
+            telecom: [
+              {
+                system: 'phone',
+                value: appt.phoneNumber,
+              },
+              {
+                system: 'email',
+                value: appt.email,
+              },
+            ],
           },
-        ];
+        },
+      ];
+
+      if (appt.facility) {
+        participant.push({
+          actor: {
+            reference: `HealthcareService/var${appt.facility.parentSiteCode}_${
+              appt.facility.facilityCode
+            }`,
+            display: appt.friendlyLocationName || appt.facility?.name,
+          },
+        });
       }
 
-      return null;
+      return participant;
     }
     default:
       return null;
@@ -471,7 +490,6 @@ export function transformPendingAppointments(requests) {
         isCommunityCare: isCC,
         dateOptions: getRequestDateOptions(appt),
         bestTimeToCall: appt.bestTimetoCall,
-        patientPhone: appt.phoneNumber,
       },
     };
   });
