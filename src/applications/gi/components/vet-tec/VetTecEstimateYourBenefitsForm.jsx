@@ -28,27 +28,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       tuitionFees: selectedProgram.tuitionAmount,
       scholarships: 0,
       programName: selectedProgramName,
+      inputUpdated: false,
     };
     this.setProgramFields(this.props.selectedProgram);
   }
-
-  disableUpdateBenefits = () => {
-    const {
-      vetTecTuitionFees,
-      vetTecProgramName,
-      vetTecScholarships,
-    } = this.props.inputs;
-
-    const { tuitionFees, programName, scholarships } = this.state;
-
-    return (
-      formatDollarAmount(vetTecTuitionFees) ===
-        formatDollarAmount(tuitionFees) &&
-      vetTecProgramName === programName &&
-      formatDollarAmount(vetTecScholarships) ===
-        formatDollarAmount(scholarships)
-    );
-  };
 
   getProgramByName = programName =>
     this.props.institution.programs.find(
@@ -94,6 +77,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
 
   updateBenefitsOnClick = event => {
     event.preventDefault();
+    this.setState({ inputUpdated: false });
     this.setProgramFields(this.state.programName);
     focusElement('.estimated-benefits-header');
   };
@@ -129,6 +113,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         value={formatDollarAmount(this.state.scholarships)}
         onChange={e =>
           this.setState({
+            inputUpdated: true,
             scholarships: removeNonNumberCharacters(e.target.value),
           })
         }
@@ -164,6 +149,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         value={formatDollarAmount(this.state.tuitionFees)}
         onChange={e =>
           this.setState({
+            inputUpdated: true,
             tuitionFees: removeNonNumberCharacters(e.target.value),
           })
         }
@@ -187,7 +173,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         name="approvedPrograms"
         options={options}
         value={this.state.programName}
-        onChange={e => this.handleApprovedProgramsChange(e)}
+        onChange={e => {
+          this.setState({ inputUpdated: true });
+          this.handleApprovedProgramsChange(e);
+        }}
       />
     ) : (
       <Dropdown
@@ -196,7 +185,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         alt="Choose the training program you'd like to attend"
         options={options}
         value={this.state.programName}
-        onChange={e => this.handleApprovedProgramsChange(e)}
+        onChange={e => {
+          this.setState({ inputUpdated: true });
+          this.handleApprovedProgramsChange(e);
+        }}
         visible
       />
     );
@@ -213,7 +205,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           type="button"
           className="vads-u-margin-top--2p5"
           onClick={this.updateBenefitsOnClick}
-          disabled={this.disableUpdateBenefits()}
+          disabled={!this.state.inputUpdated}
         >
           Update benefits
         </button>

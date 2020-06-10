@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
@@ -36,5 +37,9 @@ const EmailInformationSection = ({ className }) => (
     </AlertBox>
   </div>
 );
+
+EmailInformationSection.propTypes = {
+  className: PropTypes.string,
+};
 
 export default EmailInformationSection;

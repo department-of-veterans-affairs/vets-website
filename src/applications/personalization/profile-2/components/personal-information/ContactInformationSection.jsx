@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
@@ -21,5 +22,9 @@ const ContactInformationSection = ({ className }) => (
     </AdditionalInfo>
   </div>
 );
+
+ContactInformationSection.propTypes = {
+  className: PropTypes.string,
+};
 
 export default ContactInformationSection;

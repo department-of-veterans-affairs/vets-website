@@ -11,7 +11,7 @@ export default function App({ location, children }) {
         {/* this will get updated when this route is added */}
         <a href="/health-care">Health care</a>
         <span className="vads-u-color--black">
-          Order hearing aid batteries and accessories
+          <strong>Order hearing aid batteries and accessories</strong>
         </span>
       </Breadcrumbs>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

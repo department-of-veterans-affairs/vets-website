@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -51,6 +52,12 @@ const GenderAndDOBSection = ({ gender, dob, className }) => (
     </AdditionalInfo>
   </div>
 );
+
+GenderAndDOBSection.propTypes = {
+  className: PropTypes.string,
+  gender: PropTypes.string.isRequired,
+  dob: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = state => ({
   gender: state.vaProfile?.personalInformation?.gender,

@@ -369,7 +369,7 @@ class ReviewCardField extends React.Component {
               <div>
                 <button
                   id={this.props.name}
-                  className="usa-button vads-u-font-weight--bold"
+                  className="usa-button vads-u-font-weight--bold vads-u-width--auto"
                   onChange={() =>
                     this.onChange('currentAddress', this.props.name)
                   }
@@ -395,7 +395,7 @@ class ReviewCardField extends React.Component {
                 />
                 <label
                   className={classnames({
-                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0': true,
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
                     'vads-u-color--white':
                       this.props.name === this.props.currentAddress,
                     'vads-u-background-color--white vads-u-color--primary':
