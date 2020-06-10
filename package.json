@@ -246,7 +246,7 @@
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@mapbox/mapbox-sdk": "^0.10.0",
-    "blob-polyfill": "^2.0.20171115",
+    "blob-polyfill": "^4.0.20200601",
     "camelcase-keys-recursive": "^0.8.3",
     "classlist-polyfill": "^1.0.3",
     "classnames": "^2.2.6",
