@@ -251,11 +251,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/drc.asp",
-    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/fdc/index.asp",
     "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
   },

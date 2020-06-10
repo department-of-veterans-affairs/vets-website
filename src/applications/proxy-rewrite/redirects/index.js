@@ -6,7 +6,7 @@ import crossDomainRedirects from './crossDomainRedirects.json';
  * Redirect to a www.va.gov page if we're on a page that's being
  * replaced
  */
-export default function redirectIfNecessary(currentWindow) {
+function redirectIfNecessary(currentWindow) {
   const matchedRedirect = crossDomainRedirects.find(
     redirect =>
       redirect.domain.replace('www.', '').toLowerCase() ===
@@ -22,3 +22,19 @@ export default function redirectIfNecessary(currentWindow) {
     }`;
   }
 }
+
+function localRedirectIfNecessary() {
+  const target = new URLSearchParams(window.location.search).get('target');
+  const matchedRedirect = crossDomainRedirects.find(
+    redirect => `https://${redirect.domain}${redirect.src}` === target,
+  );
+
+  if (matchedRedirect) {
+    // eslint-disable-next-line no-param-reassign
+    window.location.href = `${environment.BASE_URL}${matchedRedirect.dest}`;
+  }
+}
+
+export default (environment.isLocalhost()
+  ? localRedirectIfNecessary
+  : redirectIfNecessary);

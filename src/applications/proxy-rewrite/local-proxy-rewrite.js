@@ -14,13 +14,15 @@ function injectLocalBundle() {
 
   return async (req, res, next) => {
     const {
-      query: { target: vaGovUrl },
+      query: { target },
     } = req;
 
-    if (!vaGovUrl) {
+    if (!target) {
       next();
       return;
     }
+
+    const vaGovUrl = decodeURIComponent(target);
 
     if (!vaGovCache[vaGovUrl]) {
       const vaPageResponse = await fetch(vaGovUrl);
@@ -59,9 +61,14 @@ function fallbackToTeamSiteServer(buildOptions) {
   };
 }
 
+function errorHandler(error, req, res, next) {
+  res.json(error);
+}
+
 function setupLocalProxyRewrite(devServer, buildOptions) {
   devServer.use(injectLocalBundle());
   devServer.use(fallbackToTeamSiteServer(buildOptions));
+  devServer.use(errorHandler);
 }
 
 module.exports = setupLocalProxyRewrite;

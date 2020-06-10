@@ -34,6 +34,8 @@ IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
 IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
 IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
 
+IS_BRANCH_FOR_CREATING_CROSS_DOMAIN_REDIRECTS = env.BRANCH_NAME.startsWith('redirects')
+
 DOCKER_ARGS = "-v ${WORKSPACE}/vets-website:/application -v ${WORKSPACE}/vagov-content:/vagov-content"
 IMAGE_TAG = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 DOCKER_TAG = "vets-website:" + IMAGE_TAG
