@@ -6,6 +6,7 @@ import {
   CANCELLED_APPOINTMENT_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  PURPOSE_TEXT,
   VIDEO_TYPES,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
@@ -195,6 +196,46 @@ function getAppointmentDuration(appt) {
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
+function getPurposeOfVisit(appt) {
+  switch (getAppointmentType(appt)) {
+    case APPOINTMENT_TYPES.ccRequest:
+      return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
+        ?.short;
+    case APPOINTMENT_TYPES.request:
+      return PURPOSE_TEXT.find(
+        purpose => purpose.serviceName === appt.purposeOfVisit,
+      )?.short;
+    default:
+      return appt.purposeOfVisit;
+  }
+}
+
+function getRequestDateOptions(appt) {
+  const format = 'MM/DD/YYYY';
+  return [
+    {
+      date: moment(appt.optionDate1, format),
+      optionTime: appt.optionTime1,
+    },
+    {
+      date: moment(appt.optionDate2, format),
+      optionTime: appt.optionTime2,
+    },
+    {
+      date: moment(appt.optionDate3, format),
+      optionTime: appt.optionTime3,
+    },
+  ]
+    .filter(o => o.date.isValid())
+    .sort((a, b) => {
+      if (a.date.isSame(b.date)) {
+        return a.optionTime === 'AM' ? -1 : 1;
+      }
+
+      return a.date.isBefore(b.date) ? -1 : 1;
+    });
+}
+
 /**
  * Builds participant and contained arrays for FHIR Appointment object which usually
  * contain Location (Facility) and HealthcareService (Clinic) or video conference info
@@ -203,8 +244,36 @@ function getAppointmentDuration(appt) {
  * @returns {Array} Array of participants of FHIR appointment
  */
 function setParticipant(appt) {
-  if (!isVideoVisit(appt)) {
-    if (isCommunityCare(appt)) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.vaAppointment: {
+      if (!isVideoVisit(appt)) {
+        const participants = [];
+        participants.push({
+          actor: {
+            reference: `HealthcareService/var${appt.facilityId}_${
+              appt.clinicId
+            }`,
+            display:
+              appt.clinicFriendlyName ||
+              appt.vdsAppointments?.[0]?.clinic?.name,
+          },
+        });
+
+        if (appt.sta6aid) {
+          participants.push({
+            actor: {
+              reference: `Location/var${appt.sta6aid}`,
+            },
+          });
+        }
+
+        return participants;
+      }
+      return null;
+    }
+    case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
         return [
           {
@@ -217,89 +286,90 @@ function setParticipant(appt) {
       }
       return null;
     }
+    case APPOINTMENT_TYPES.request: {
+      if (appt.facility) {
+        return [
+          {
+            actor: {
+              reference: `HealthcareService/var${
+                appt.facility.parentSiteCode
+              }_${appt.facility.facilityCode}`,
+              display: appt.friendlyLocationName || appt.facility?.name,
+            },
+          },
+        ];
+      }
 
-    const participants = [
-      {
-        actor: {
-          reference: `HealthcareService/var${appt.facilityId}_${appt.clinicId}`,
-          display:
-            appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
-        },
-      },
-    ];
-
-    if (appt.sta6aid) {
-      participants.push({
-        actor: {
-          reference: `Location/var${appt.sta6aid}`,
-        },
-      });
+      return null;
     }
-
-    return participants;
+    default:
+      return null;
   }
-
-  return null;
 }
 
 /**
- * Builds contained array and populates with video conference info
+ * Builds contained array and populates with video conference info and facility info if available
  *
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of contained objects of FHIR appointment containing video conference info
  */
 function setContained(appt) {
-  if (isVideoVisit(appt)) {
-    return [
-      {
-        resourceType: 'HealthcareService',
-        id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
-        type: [
+  switch (getAppointmentType(appt)) {
+    case APPOINTMENT_TYPES.vaAppointment: {
+      if (isVideoVisit(appt)) {
+        return [
           {
-            text: 'Patient Virtual Meeting Room',
-          },
-        ],
-        location: {
-          reference: `Location/var${appt.facilityId}`,
-        },
-        telecom: [
-          {
-            system: 'url',
-            value: getVideoVisitLink(appt),
-            period: {
-              start: getMomentConfirmedDate(appt).format(),
+            resourceType: 'HealthcareService',
+            id: `HealthcareService/var${appt.vvsAppointments[0].id}`,
+            type: [
+              {
+                text: 'Patient Virtual Meeting Room',
+              },
+            ],
+            location: {
+              reference: `Location/var${appt.facilityId}`,
             },
+            telecom: [
+              {
+                system: 'url',
+                value: getVideoVisitLink(appt),
+                period: {
+                  start: getMomentConfirmedDate(appt).format(),
+                },
+              },
+            ],
           },
-        ],
-      },
-    ];
-  }
+        ];
+      }
 
-  if (isCommunityCare(appt)) {
-    const address = appt.address;
+      return null;
+    }
+    case APPOINTMENT_TYPES.ccAppointment: {
+      const address = appt.address;
 
-    return [
-      {
-        actor: {
-          name: appt.providerPractice,
-          address: {
-            line: [address?.street],
-            city: address?.city,
-            state: address?.state,
-            postalCode: address?.zipCode,
-          },
-          telecom: [
-            {
-              system: 'phone',
-              value: appt.providerPhone,
+      return [
+        {
+          actor: {
+            name: appt.providerPractice,
+            address: {
+              line: [address?.street],
+              city: address?.city,
+              state: address?.state,
+              postalCode: address?.zipCode,
             },
-          ],
+            telecom: [
+              {
+                system: 'phone',
+                value: appt.providerPhone,
+              },
+            ],
+          },
         },
-      },
-    ];
+      ];
+    }
+    default:
+      return null;
   }
-
-  return null;
 }
 
 /**
@@ -315,8 +385,7 @@ function setLegacyVAR(appt) {
 }
 
 /**
- * Transforms /facilities/va/vha_983 to
- * /Location/var983
+ * Transforms VAR appointment to FHIR appointment resource
  *
  * @export
  * @param {Array} appointments An array of appointments from the VA facilities api
@@ -350,6 +419,46 @@ export function transformConfirmedAppointments(appointments) {
         videoType,
         isCommunityCare: isCC,
         timeZone: isCC ? appt.timeZone : null,
+      },
+    };
+  });
+}
+
+/**
+ * Transforms VAR appointment request to FHIR appointment resource
+ *
+ * @export
+ * @param {Array} appointments An array of appointments from the VA facilities api
+ * @returns {Array} An array of FHIR Appointment resource
+ */
+export function transformPendingAppointments(requests) {
+  return requests.map(appt => {
+    const isCC = isCommunityCare(appt);
+
+    if (isCC) {
+      // CC requests to be handled in separate PR
+      return appt;
+    }
+
+    return {
+      resourceType: 'Appointment',
+      id: `var${appt.id}`,
+      status: getStatus(appt),
+      minutesDuration: 60,
+      type: {
+        coding: [{ code: appt.appointmentType }],
+      },
+      reason: getPurposeOfVisit(appt),
+      participant: setParticipant(appt),
+      contained: setContained(appt),
+      legacyVAR: setLegacyVAR(appt),
+      vaos: {
+        isPastAppointment: false,
+        appointmentType: getAppointmentType(appt),
+        isCommunityCare: isCC,
+        dateOptions: getRequestDateOptions(appt),
+        bestTimeToCall: appt.bestTimeToCall,
+        patientPhone: appt.phoneNumber,
       },
     };
   });

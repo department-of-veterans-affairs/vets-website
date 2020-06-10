@@ -8,7 +8,10 @@ import {
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../../utils/constants';
-import { transformConfirmedAppointments } from '../../../services/appointment/transformers';
+import {
+  transformConfirmedAppointments,
+  transformPendingAppointments,
+} from '../../../services/appointment/transformers';
 
 const appt = {
   id: '22cdc6741c00ac67b6cbf6b972d084c0',
@@ -123,6 +126,58 @@ const videoAppt = {
       ],
     },
   ],
+};
+
+const now = moment();
+
+const vaRequest = {
+  id: '8a4829dc7281184e017285000ab700cf',
+  type: 'appointment_requests',
+  facility: {
+    type: null,
+    address: null,
+    name: 'CHYSHR-Cheyenne VA Medical Center',
+    facilityCode: '983',
+    state: 'WY',
+    city: 'Cheyenne',
+    parentSiteCode: '983',
+  },
+  patient: {
+    inpatient: false,
+    textMessagingAllowed: false,
+  },
+  lastUpdatedAt: null,
+  createdDate: '06/05/2020 09:01:11',
+  appointmentDate: '06/17/2020',
+  appointmentTime: 'AM',
+  optionDate1: now,
+  optionTime1: 'PM',
+  optionDate2: now,
+  optionTime2: 'AM',
+  optionDate3: moment().add(1, 'days'),
+  optionTime3: 'PM',
+  status: 'Booked',
+  appointmentType: 'Primary Care',
+  visitType: 'Office Visit',
+  reasonForVisit: null,
+  email: 'aarathi.poldass@va.gov',
+  textMessagingAllowed: false,
+  phoneNumber: '(999) 999-9999',
+  purposeOfVisit: 'New Issue',
+  providerId: '0',
+  secondRequest: false,
+  secondRequestSubmitted: false,
+  bestTimetoCall: ['Morning'],
+  hasVeteranNewMessage: true,
+  hasProviderNewMessage: false,
+  providerSeenAppointmentRequest: true,
+  requestedPhoneCall: false,
+  bookedApptDateTime: '06/17/2020 14:00:00',
+  typeOfCareId: '323',
+  friendlyLocationName: 'CHYSHR-Cheyenne VA Medical Center',
+  ccAppointmentRequest: null,
+  date: '2020-06-05T09:01:11.000+0000',
+  assigningAuthority: 'ICN',
 };
 
 describe('VAOS Appointment transformer', () => {
@@ -331,6 +386,60 @@ describe('VAOS Appointment transformer', () => {
           },
         ])[0];
         expect(gfeData.vaos.videoType).to.equal(VIDEO_TYPES.gfe);
+      });
+    });
+
+    describe('VA Request', () => {
+      const data = transformPendingAppointments([vaRequest])[0];
+
+      it('should set resourceType', () => {
+        expect(data.resourceType).to.equal('Appointment');
+      });
+
+      it('should set id', () => {
+        expect(data.id).to.equal('var8a4829dc7281184e017285000ab700cf');
+      });
+
+      it('should set status to "pending"', () => {
+        expect(data.status).to.equal(APPOINTMENT_STATUS.pending);
+      });
+
+      it('should set minutesDuration', () => {
+        expect(data.minutesDuration).to.equal(60);
+      });
+
+      it('should set reason', () => {
+        expect(data.reason).to.equal('New issue');
+      });
+
+      it('should set facility as Location in participants', () => {
+        expect(data.participant[0].actor.reference).to.equal(
+          'HealthcareService/var983_983',
+        );
+        expect(data.participant[0].actor.display).to.equal(
+          'CHYSHR-Cheyenne VA Medical Center',
+        );
+      });
+
+      it('should return vaos.isPastAppointment', () => {
+        expect(data.vaos.isPastAppointment).to.equal(false);
+      });
+
+      it('should return vaos.isCommunityCare', () => {
+        expect(data.vaos.isCommunityCare).to.equal(false);
+      });
+
+      it('should return vaos.appointmentType', () => {
+        expect(data.vaos.appointmentType).to.equal(APPOINTMENT_TYPES.request);
+      });
+
+      it('should not return vaos.videoType', () => {
+        expect(data.vaos.videoType).to.equal(undefined);
+      });
+
+      it('should set dateOptions', () => {
+        expect(data.vaos.dateOptions[0].optionTime).to.equal('AM');
+        expect(data.vaos.dateOptions.length).to.equal(3);
       });
     });
 
