@@ -62,8 +62,6 @@ export const AccountSecurityContent = ({
     });
   }
 
-  console.log('This is mhvAccount', mhvAccount);
-
   return (
     <>
       {!isIdentityVerified && <IdentityNotVerified />}
