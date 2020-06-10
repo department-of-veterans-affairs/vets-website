@@ -5,23 +5,23 @@ import FormQuestion from './FormQuestion';
 import sinon from 'sinon';
 
 let mockQuestion;
-let mockScrollNext;
 let mockRecordStart;
 let mockOptionsConfig;
 let mockSetQuestionValue;
+let mockclearQuestionValues;
 
 beforeEach(() => {
   mockQuestion = {
     id: 'sample1',
     text: 'this is question sample1 text',
   };
-  mockScrollNext = () => {};
   mockRecordStart = () => {};
   mockOptionsConfig = [
     { optionValue: 'yes', optionText: 'Yes' },
     { optionValue: 'no', optionText: 'No' },
   ];
   mockSetQuestionValue = () => {};
+  mockclearQuestionValues = () => {};
 });
 
 describe('coronavirus-screener', () => {
@@ -30,10 +30,10 @@ describe('coronavirus-screener', () => {
       const wrapper = shallow(
         <FormQuestion
           question={mockQuestion}
-          scrollNext={mockScrollNext}
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={mockSetQuestionValue}
+          clearQuestionValues={mockclearQuestionValues}
         />,
       );
       expect(wrapper.find('h2').text()).to.equal(mockQuestion.text);
@@ -43,10 +43,10 @@ describe('coronavirus-screener', () => {
       const wrapper = shallow(
         <FormQuestion
           question={mockQuestion}
-          scrollNext={mockScrollNext}
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={mockSetQuestionValue}
+          clearQuestionValues={mockclearQuestionValues}
         />,
       );
       expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(2);
@@ -58,10 +58,10 @@ describe('coronavirus-screener', () => {
       const wrapper = shallow(
         <FormQuestion
           question={mockQuestion}
-          scrollNext={mockScrollNext}
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={mockSetQuestionValue}
+          clearQuestionValues={mockclearQuestionValues}
         />,
       );
       expect(wrapper.find('.usa-button')).to.have.lengthOf(1);
@@ -81,10 +81,10 @@ describe('coronavirus-screener', () => {
       const wrapper = shallow(
         <FormQuestion
           question={mockQuestion}
-          scrollNext={mockScrollNext}
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={setQuestionValueSpy}
+          clearQuestionValues={mockclearQuestionValues}
         />,
       );
 

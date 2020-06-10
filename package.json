@@ -205,7 +205,7 @@
     "prettier": "^1.14.3",
     "puppeteer": "^3.3.0",
     "quick_check": "^0.7.0",
-    "react-test-renderer": "^16.7.0",
+    "react-test-renderer": "^16.13.1",
     "recursive-readdir": "^2.2.2",
     "recursive-uncache": "^0.1.1",
     "request": "^2.79.0",
