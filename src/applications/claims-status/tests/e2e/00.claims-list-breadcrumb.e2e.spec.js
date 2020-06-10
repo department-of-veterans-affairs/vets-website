@@ -35,10 +35,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.resizeWindow(375, 667);
   client.waitForElementVisible('.va-nav-breadcrumbs-list', Timeouts.normal);
 
-  // This first test fails in non-headless testing because the browser doesn't
-  // resize down to 375px; it sticks at 500px, and the only way to make it
-  // smaller is to manually toggle the device toolbar and make it responsive or
-  // set the device to iPhone 6/7/8
+  // This first test fails in non-headless e2e testing because the browser
+  // doesn't resize down to 375px; it sticks at 500px, and the only way to make
+  // it smaller is to manually toggle the device toolbar and make it responsive
+  // or set the device to iPhone 6/7/8
   client.expect
     .element('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
     .to.have.css('display')
