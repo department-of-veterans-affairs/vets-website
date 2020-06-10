@@ -1,15 +1,15 @@
-// import fullSchema from 'vets-json-schema/dist/21-1900-schema.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
+import { veteranInformation } from './chapters/veteran-information';
 
-// const { } = fullSchema.definitions;
+import { serviceHistory, serviceFlags } from './chapters/military-history';
 
-const formFields = {
-  firstName: 'firstName',
-};
+import { workInformation } from './chapters/work-information';
+
+import { educationInformation } from './chapters/education-information';
+
+import { disabilityInformation } from './chapters/disability-information';
 
 const formConfig = {
   urlPrefix: '/',
@@ -22,31 +22,70 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for Vocational Rehabilitation.',
-    noAuth: 'Please sign in again to continue your application for Vocational Rehabilitation.',
+    noAuth:
+      'Please sign in again to continue your application for Vocational Rehabilitation.',
   },
   title: '28-1900 Vocational Rehabilitation',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Personal Information',
+    veteranInformation: {
+      title: 'Veteran Information',
       pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
-          uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
+        basicInformation: {
+          path: 'veteran-information',
+          title: 'Veteran Information',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+      },
+    },
+    serviceHistory: {
+      title: 'Military History',
+      pages: {
+        serviceHistory: {
+          path: 'service-history',
+          title: 'Service History',
+          uiSchema: serviceHistory.uiSchema,
+          schema: serviceHistory.schema,
+        },
+        serviceFlags: {
+          path: 'service-type',
+          title: 'Service Type',
+          uiSchema: serviceFlags.uiSchema,
+          schema: serviceFlags.schema,
+        },
+      },
+    },
+    workInformation: {
+      title: 'Work Information',
+      pages: {
+        workInformation: {
+          path: 'work-information',
+          title: 'Work Information',
+          uiSchema: workInformation.uiSchema,
+          schema: workInformation.schema,
+        },
+      },
+    },
+    educationInformation: {
+      title: 'Education Information',
+      pages: {
+        educationInformation: {
+          path: 'education-information',
+          title: 'Education Information',
+          uiSchema: educationInformation.uiSchema,
+          schema: educationInformation.schema,
+        },
+      },
+    },
+    disabilityInformation: {
+      title: 'Disability Information',
+      pages: {
+        disabilityInformation: {
+          path: 'disability-information',
+          title: 'Disability Information',
+          uiSchema: disabilityInformation.uiSchema,
+          schema: disabilityInformation.schema,
         },
       },
     },
