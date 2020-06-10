@@ -222,7 +222,7 @@ const IntroductionPage = ({ route, router }) => {
         Start your Application
       </button>
       <div className="omb-info--container vads-u-padding-left--0">
-        <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
+        <OMBInfo resBurden={15} ombNumber="2900-0091" expDate="09/30/2021" />
       </div>
     </div>
   );

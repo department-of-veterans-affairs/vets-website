@@ -73,6 +73,19 @@ const hasSecondaryCaregiverTwo = formData =>
     secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
   ] === true;
 
+const requireInsuranceName = formData => {
+  const require = {
+    [primaryCaregiverFields.otherHealthInsuranceName]:
+      primaryCaregiverUI.otherHealthInsuranceNameUI,
+  };
+
+  const dontRequire = {};
+
+  const shouldRequire = formData.otherHealthInsurance === true;
+
+  return shouldRequire ? require : dontRequire;
+};
+
 /* Chapters
  * 1 - Vet/Service Member (required)
  * 2 - Primary Family Caregiver (required)
@@ -329,6 +342,7 @@ const formConfig = {
               primaryCaregiverUI.champvaEnrolledUI,
             [primaryCaregiverFields.otherHealthInsurance]:
               primaryCaregiverUI.otherHealthInsuranceUI,
+            // optionally require
             [primaryCaregiverFields.otherHealthInsuranceName]:
               primaryCaregiverUI.otherHealthInsuranceNameUI,
           },
@@ -545,7 +559,7 @@ const formConfig = {
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: {
             'ui:description': SecondaryCaregiverInfo({
-              pathTitle: contactInfoTitle,
+              pageTitle: contactInfoTitle,
             }),
             // secondaryTwo UI
             [secondaryCaregiverFields.secondaryTwo
