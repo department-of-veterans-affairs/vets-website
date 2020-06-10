@@ -16,7 +16,7 @@ describe('Find Yellow Ribbon Page <FindYellowRibbonPage>', () => {
       'Find out if your school participates in the Yellow Ribbon Program.',
     );
     expect(text).to.include(
-      'Search for schools participating in the current academic year by one or all of the terms below.',
+      'Search for schools participating in the current academic year, ',
     );
 
     tree.unmount();

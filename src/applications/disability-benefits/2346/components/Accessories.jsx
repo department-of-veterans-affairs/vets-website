@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HEARING_AID_ACCESSORIES } from '../constants';
+import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
@@ -33,7 +33,7 @@ class Accessories extends Component {
     const { supplies, selectedProducts, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === HEARING_AID_ACCESSORIES,
+      supply => supply.productGroup === ACCESSORIES,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
     const haveAccessoriesBeenOrderedInLastFiveMonths =
@@ -264,7 +264,7 @@ Accessories.propTypes = {
       deviceName: PropTypes.string,
       productName: PropTypes.string,
       productGroup: PropTypes.string.isRequired,
-      productId: PropTypes.string.isRequired,
+      productId: PropTypes.number.isRequired,
       availableForReorder: PropTypes.bool,
       lastOrderDate: PropTypes.string.isRequired,
       nextAvailabilityDate: PropTypes.string.isRequired,
@@ -274,7 +274,7 @@ Accessories.propTypes = {
   ),
   selectedProducts: PropTypes.arrayOf(
     PropTypes.shape({
-      productId: PropTypes.string,
+      productId: PropTypes.number,
     }),
   ),
   eligibility: PropTypes.object,
