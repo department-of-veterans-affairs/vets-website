@@ -16,11 +16,6 @@ export const ssoKeepAliveEndpoint = () => {
   return `https://${envPrefix}eauth.va.gov/keepalive`;
 };
 
-function inboundSSOe() {
-  // TODO: check to see if inbound ssoe is enabled
-  return false;
-}
-
 function sessionTypeUrl(
   type = '',
   version = 'v0',
@@ -42,7 +37,7 @@ function sessionTypeUrl(
     }
   }
 
-  if (version === 'v1' && (getForceAuth() || !inboundSSOe())) {
+  if (version === 'v1' && getForceAuth()) {
     searchParams.append('force', 'true');
   }
 
