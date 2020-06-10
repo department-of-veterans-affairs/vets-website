@@ -57,6 +57,9 @@ module.exports = {
     accessibility: {
       filter: './src/platform/site-wide/tests/sitemap/*.spec.js',
     },
+    redirects: {
+      filter: './src/applications/proxy-rewrite/redirects.e2e.spec.js'
+    },
     wcag2a: {
       globals: {
         rules: ['section508', 'wcag2a'],

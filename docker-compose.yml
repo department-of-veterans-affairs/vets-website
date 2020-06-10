@@ -14,6 +14,20 @@ services:
       - 3001
       - 3000
     command: ./script/run-docker-nightwatch.sh
+  yada:
+    image: vets-website:${IMAGE_TAG:-latest}
+    build:
+      context: .
+    volumes:
+      - .:/application
+    environment:
+      WEB_HOST: 'vets-website'
+      WEB_PORT: 3001
+      API_HOST: 'vets-website'
+    expose:
+      - 3001
+      - 3000
+    command: ./script/run-nightwatch-redirects.sh
   selenium-chrome:
     image: selenium/standalone-chrome:3.14.0-francium
     links:

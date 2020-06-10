@@ -24,7 +24,7 @@ node('vetsgov-general-purpose') {
   if (IS_BRANCH_FOR_CREATING_CROSS_DOMAIN_REDIRECTS) {
     stage('Test Redirects') {
       dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        sh "cd /application && npm run test:redirects"
+        sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p redirects up -d && docker-compose -p redirects run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod yada --no-color run nightwatch:docker -- --env=redirects"
       }
     }
   }
