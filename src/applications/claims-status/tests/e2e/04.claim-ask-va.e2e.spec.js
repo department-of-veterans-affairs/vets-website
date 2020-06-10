@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Auth = require('platform/testing/e2e/auth');
 const DisabilityHelpers = require('./claims-status-helpers');
-const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
@@ -26,7 +26,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // go to files tab
   client
     .click('.va-tabs li:nth-child(2) > a')
-    .waitForElementVisible('.file-request-list-item', Timeouts.normal);
+    .waitForElementVisible('.file-request-list-item', Timeouts.normal)
+    .axeCheck('.main');
 
   // alert is visible
   client.expect.element('.claims-alert-status').to.be.visible;
@@ -40,7 +41,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     // I have no idea why this pause is required, but it sure is
     .pause(2000)
     .click('.claims-alert-status a')
-    .waitForElementPresent('.usa-button-secondary', Timeouts.normal);
+    .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
+    .axeCheck('.main');
 
   // click on disabled button
   client.click('.main .usa-button-primary').pause(500);
@@ -57,7 +59,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // should have gone back to status page
   client.assert.urlContains('status');
 
-  client.waitForElementVisible('.usa-alert-success', Timeouts.normal);
+  client
+    .waitForElementVisible('.usa-alert-success', Timeouts.normal)
+    .axeCheck('.main');
 
   client.end();
 });
