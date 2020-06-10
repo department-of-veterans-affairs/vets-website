@@ -11,6 +11,8 @@ import { educationInformation } from './chapters/education-information';
 
 import { disabilityInformation } from './chapters/disability-information';
 
+import { documentUpload } from './chapters/documnent-upload';
+
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
@@ -86,6 +88,17 @@ const formConfig = {
           title: 'Disability Information',
           uiSchema: disabilityInformation.uiSchema,
           schema: disabilityInformation.schema,
+        },
+      },
+    },
+    documentUpload: {
+      title: 'Document Upload',
+      pages: {
+        document: {
+          path: 'document-upload',
+          title: 'Document Upload',
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
       },
     },
