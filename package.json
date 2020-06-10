@@ -143,7 +143,7 @@
     "cheerio": "^1.0.0-rc.3",
     "chokidar": "^3.3.1",
     "choma": "^1.1.0",
-    "chromedriver": "^2.38.1",
+    "chromedriver": "^83.0.0",
     "cli-table": "^0.3.1",
     "command-line-args": "^3.0.1",
     "command-line-usage": "^6.1.0",
