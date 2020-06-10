@@ -124,7 +124,9 @@ class VetTecApprovedProgramsList extends React.Component {
     return this.programs().map((program, index) => {
       return (
         <div key={`${index}-list`}>
-          {index > 0 && <hr aria-hidden="true" />}
+          {index > 0 && (
+            <hr className="vads-u-margin-y--2" aria-hidden="true" />
+          )}
           {this.programDescription(program, 'program-description')}
           <div className="program-length">
             <b>Length: </b>
