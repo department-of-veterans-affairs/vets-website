@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -109,6 +111,12 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3, routes }) => {
       </div>
     </nav>
   );
+};
+
+ProfileSideNav.propTypes = {
+  isLOA3: PropTypes.bool.isRequired,
+  isSideNavOpen: PropTypes.bool.isRequired,
+  closeSideNav: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
