@@ -24,7 +24,7 @@ node('vetsgov-general-purpose') {
   if (IS_BRANCH_FOR_CREATING_CROSS_DOMAIN_REDIRECTS) {
     stage('Test Redirects') {
       dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        sh "cd /application && npm test:redirects"
+        sh "cd /application && npm run test:redirects"
       }
     }
   }
