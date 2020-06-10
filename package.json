@@ -194,7 +194,7 @@
     "mocker-api": "^2.1.0",
     "moment-timezone": "^0.5.27",
     "morgan": "^1.10.0",
-    "nightwatch": "^0.9.16",
+    "nightwatch": "0.9.21",
     "node-fetch": "^2.1.1",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.13.1",
