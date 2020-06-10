@@ -3298,9 +3298,10 @@ camel-case@^4.1.1:
     pascal-case "^3.1.1"
     tslib "^1.10.0"
 
-camelcase-keys-recursive@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/camelcase-keys-recursive/-/camelcase-keys-recursive-0.8.2.tgz#06df121fbff46cd890350072cdff5657396f7d3a"
+camelcase-keys-recursive@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/camelcase-keys-recursive/-/camelcase-keys-recursive-0.8.3.tgz#4fe7f152a87ca93878feb631737a1884ee4bbfd4"
+  integrity sha512-mUDaRXeXX6jLxRU6LP9zQ2aux0y3UIpNJizzCzcXRDtnxu+O6i1msIYp3bUBicQU0nzIggHCGkjOKcub1Wxciw==
   dependencies:
     map-obj "^1.0.0"
 
