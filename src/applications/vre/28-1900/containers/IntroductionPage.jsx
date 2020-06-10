@@ -13,15 +13,15 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="chapter31" />
-        <p>Equal to VA Form 28-1900 (chapter31).</p>
+        <FormTitle title="28-1900 Vocational Rehabilitation" />
+        <p>Equal to VA Form 21-1900 (28-1900 Vocational Rehabilitation).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
         >
-          Please complete the 28-1900 form to apply for Vocational Rehabilitation.
+          Please complete the 21-1900 form to apply for Vocational Rehabilitation.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for Vocational Rehabilitation.</h4>
         <div className="process schemaform-process">
@@ -73,7 +73,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={30} ombNumber="28-1900" expDate="12/31/2021" />
+          <OMBInfo resBurden={30} ombNumber="21-1900" expDate="12/31/2021" />
         </div>
       </div>
     );
