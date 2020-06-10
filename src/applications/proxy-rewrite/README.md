@@ -12,7 +12,7 @@ This works by -
 Because we're dependent on the DOM of webpages outside of our source code, local development is somewhat tricky. However, to make this easier, you can run the watch task with a flag indicating that `proxy-rewrite` development, which will ultimately serve as a local proxy. The reason this behavior is not enabled by default is that we don't want to hit the production servers unless we have to, which is the case for TeamSite development.
 
 ```
-npm run watch -- --local-proxy-rewrite
+yarn watch --env.entry proxy-rewrite --env.local-proxy-rewrite
 ```
 
 Next, navigate to localhost, but passing a VA.gov domain via a `target` query parameter -
