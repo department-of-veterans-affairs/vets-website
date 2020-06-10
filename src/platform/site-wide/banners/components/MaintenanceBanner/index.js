@@ -44,15 +44,18 @@ export class MaintenanceBanner extends Component {
   derivePostContent = () => {
     const { startsAt, expiresAt } = this.props;
 
+    const startsAtET = startsAt.clone().subtract(4, 'hours');
+    const expiresAtET = expiresAt.clone().subtract(4, 'hours');
+
     if (startsAt.isSame(expiresAt, 'day')) {
       return (
         <>
           <p>
-            <strong>Date:</strong> {startsAt.format('dddd MMMM D, YYYY')}
+            <strong>Date:</strong> {startsAtET.format('dddd MMMM D, YYYY')}
           </p>
           <p>
-            <strong>Start/End time:</strong> {startsAt.format('h:mm a')} to{' '}
-            {expiresAt.format('h:mm a')}
+            <strong>Start/End time:</strong> {startsAtET.format('h:mm a')} to{' '}
+            {expiresAtET.format('h:mm a')} ET
           </p>
         </>
       );
@@ -62,11 +65,11 @@ export class MaintenanceBanner extends Component {
       <>
         <p>
           <strong>Start:</strong>{' '}
-          {startsAt.format('dddd MMMM D, YYYY, [at] h:mm a')}
+          {startsAtET.format('dddd MMMM D, YYYY, [at] h:mm a')} ET
         </p>
         <p>
           <strong>End:</strong>{' '}
-          {expiresAt.format('dddd MMMM D, YYYY, [at] h:mm a')}
+          {expiresAtET.format('dddd MMMM D, YYYY, [at] h:mm a')} ET
         </p>
       </>
     );
