@@ -266,7 +266,7 @@
     "js-yaml": "^3.14.0",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
-    "leaflet-control-geocoder": "^1.5.1",
+    "leaflet-control-geocoder": "^1.13.0",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.15",
     "metalsmith": "^2.1.0",
