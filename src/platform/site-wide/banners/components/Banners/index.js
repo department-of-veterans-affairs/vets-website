@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import HomepageBanner from '../HomepageBanner';
 import MaintenanceBanner from '../MaintenanceBanner';
+import './styles.scss';
 
 export const Banners = ({
   homepageBannerContent,

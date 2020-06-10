@@ -55,7 +55,13 @@ export class HomepageBanner extends Component {
       <div
         className={classnames(
           'usa-alert-full-width',
-          `usa-alert-full-width-${type}`,
+          'vads-u-border-top--5px',
+          'medium-screen:vads-u-border-top--10px',
+          'homepage-banner',
+          {
+            'vads-u-border-color--warning-message': type !== 'error',
+            'vads-u-border-color--secondary': type === 'error',
+          },
         )}
         data-e2e-id="homepage-banner"
       >
