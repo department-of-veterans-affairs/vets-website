@@ -1,20 +1,14 @@
 import React from 'react';
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+
+import { formatDateRange } from '../utils';
 
 export default function EducationTrainingField({ formData }) {
   const { name, dates } = formData;
-  let from = '';
-  let to = '';
-  if (dates) {
-    from = formatReviewDate(dates.from);
-    to = formatReviewDate(dates.to);
-  }
 
   return (
     <div>
-      <strong>{name}</strong>
-      <br />
-      {from} &mdash; {to}
+      <strong>{name || ''}</strong>
+      <p>{formatDateRange(dates)}</p>
     </div>
   );
 }

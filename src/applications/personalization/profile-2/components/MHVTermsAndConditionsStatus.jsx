@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -57,6 +58,16 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
     );
   }
   return null;
+};
+
+MHVTermsAndConditionsStatus.propTypes = {
+  mhvAccount: PropTypes.shape({
+    accountLevel: PropTypes.string,
+    accountState: PropTypes.string,
+    errors: PropTypes.array,
+    loading: PropTypes.bool,
+    termsAndConditionsAccepted: PropTypes.bool.isRequired,
+  }),
 };
 
 /**

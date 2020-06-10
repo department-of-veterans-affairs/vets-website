@@ -107,7 +107,7 @@ class EstimateYourBenefitsForm extends React.Component {
     } = this.props.inputs;
     if (
       this.props.eligibility.giBillChapter === '33' &&
-      extension === 'other' &&
+      this.props.inputs.beneficiaryLocationQuestion === 'other' &&
       !classesOutsideUS &&
       (beneficiaryZIPError || beneficiaryZIP.length !== 5)
     ) {

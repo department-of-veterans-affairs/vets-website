@@ -10,6 +10,8 @@ import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
+import titleCase from 'platform/utilities/data/titleCase';
+
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import disability526Manifest from 'applications/disability-benefits/526EZ/manifest.json';
@@ -38,6 +40,7 @@ import {
   TYPO_THRESHOLD,
   itfStatuses,
   NULL_CONDITION_STRING,
+  DATE_FORMAT,
 } from './constants';
 
 /**
@@ -69,6 +72,19 @@ export const srSubstitute = (srIgnored, substitutionText) => (
     <span className="sr-only">{substitutionText}</span>
   </span>
 );
+
+export const formatDate = (date, format = DATE_FORMAT) => {
+  const m = moment(date);
+  return m.isValid() ? m.format(format) : null;
+};
+
+export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
+  dateRange?.from || dateRange?.to
+    ? `${formatDate(dateRange.from, format)} to ${formatDate(
+        dateRange.to,
+        format,
+      )}`
+    : null;
 
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
@@ -135,7 +151,7 @@ export const ReservesGuardDescription = ({ formData }) => {
   return (
     <div>
       Please tell us more about your {serviceBranch} service that ended on{' '}
-      {moment(to).format('MMMM DD, YYYY')}.
+      {formatDate(to)}.
     </div>
   );
 };
@@ -692,10 +708,7 @@ export const getPOWValidationMessage = servicePeriodDateRanges => (
     The dates you enter must be within one of the service periods you entered.
     <ul>
       {servicePeriodDateRanges.map((range, index) => (
-        <li key={index}>
-          {moment(range.from).format('MMM DD, YYYY')} —{' '}
-          {moment(range.to).format('MMM DD, YYYY')}
-        </li>
+        <li key={index}>{formatDateRange(range)}</li>
       ))}
     </ul>
   </span>
