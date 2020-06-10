@@ -13,11 +13,11 @@ import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies, date } = fullSchema.definitions;
+const { email, date, supplies } = fullSchema.definitions;
 const { currentAddress } = frontEndSchema.definitions;
 
 const {
-  emailField,
+  vetEmailField,
   confirmationEmailField,
   suppliesField,
   permAddressField,
@@ -166,7 +166,7 @@ const formConfig = {
           uiSchema: {
             [permAddressField]: permanentAddressUI,
             [tempAddressField]: temporaryAddressUI,
-            [emailField]: emailUI,
+            [vetEmailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
             [currentAddressField]: currentAddressUI,
           },
@@ -175,7 +175,7 @@ const formConfig = {
             properties: {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
-              [emailField]: email,
+              [vetEmailField]: email,
               [confirmationEmailField]: email,
               [currentAddressField]: currentAddress,
             },
