@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import FormSaved from 'platform/forms/save-in-progress/FormSaved';
-
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
+import FormSaved from 'platform/forms/save-in-progress/FormSaved';
+
+import { formatDate } from '../utils';
+
 const FormSavedPage = props => {
-  const itfExpirationDate = moment(props.itf.currentITF.expirationDate).format(
-    'M/D/YYYY',
-  );
+  const date = props.itf?.currentITF?.expirationDate;
+  const itfExpirationDate = date ? formatDate(date) : 'Unknown';
   const expirationMessage = (
     <Fragment>
       <p className="expires-container">

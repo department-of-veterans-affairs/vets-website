@@ -11,8 +11,8 @@ const fakeStore = {
           {
             deviceName: 'OMEGAX d3241',
             productName: 'ZA1239',
-            productGroup: 'hearing aid batteries',
-            productId: '1',
+            productGroup: 'BATTERIES',
+            productId: 1,
             availableForReorder: true,
             lastOrderDate: '2020-05-30',
             nextAvailabilityDate: '2020-01-01',
@@ -21,8 +21,8 @@ const fakeStore = {
           },
           {
             productName: 'fake name 1',
-            productGroup: 'hearing aid batteries',
-            productId: '4',
+            productGroup: 'BATTERIES',
+            productId: 4,
             availableForReorder: true,
             lastOrderDate: '2020-04-18',
             nextAvailabilityDate: '2019-12-15',
@@ -31,7 +31,7 @@ const fakeStore = {
             prescribedDate: '2019-10-12',
           },
         ],
-        selectedProducts: [{ productId: '1' }],
+        selectedProducts: [{ productId: 1 }],
         eligibility: {
           batteries: true,
         },
@@ -50,8 +50,8 @@ const fakeStoreNoEligibility5Months = {
           {
             deviceName: 'OMEGAX d3241',
             productName: 'ZA1239',
-            productGroup: 'hearing aid batteries',
-            productId: '1',
+            productGroup: 'BATTERIES',
+            productId: 1,
             availableForReorder: true,
             lastOrderDate: '2020-01-01',
             nextAvailabilityDate: '2020-01-01',
@@ -78,8 +78,8 @@ const fakeStoreNoEligibility2Years = {
           {
             deviceName: 'OMEGAX d3241',
             productName: 'ZA1239',
-            productGroup: 'hearing aid batteries',
-            productId: '1',
+            productGroup: 'BATTERIES',
+            productId: 1,
             availableForReorder: false,
             lastOrderDate: '2016-01-01',
             nextAvailabilityDate: '2099-01-01',

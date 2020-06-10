@@ -338,25 +338,27 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <a
-                className={editLink}
+              <button
+                className={`${editLink} va-button-link`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
+                type="button"
               >
                 Edit {title.toLowerCase()}
-              </a>
+              </button>
             )}
           {!volatileData &&
             !street &&
             !city &&
             !country && (
-              <a
-                className={editLink}
+              <button
+                className={`${editLink} va-button-link`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
+                type="button"
               >
                 Add a {title.toLowerCase()}
-              </a>
+              </button>
             )}
           {isTempAddressMissing &&
             street &&
