@@ -1,5 +1,6 @@
 import moment from '../../utils/moment-tz';
 
+import titleCase from 'platform/utilities/data/titleCase';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -185,7 +186,7 @@ function getVideoVisitLink(appt) {
  * Returns appointment duration in minutes. The default is 60 minutes.
  *
  * @param {Object} appt VAR appointment object
- * @returns
+ * @returns {Number} appointment duration in minutes
  */
 function getAppointmentDuration(appt) {
   const appointmentLength = parseInt(
@@ -196,6 +197,12 @@ function getAppointmentDuration(appt) {
   return isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
+/**
+ * Gets a purpose of visit that matches our array of purpose constant
+ *
+ * @param {Object} appt VAR appointment object
+ * @returns {String} purpose of visit string
+ */
 function getPurposeOfVisit(appt) {
   switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.ccRequest:
@@ -210,6 +217,12 @@ function getPurposeOfVisit(appt) {
   }
 }
 
+/**
+ * Returns formatted user selected Date, AM/PM date options in an array
+ *
+ * @param {Object} appt VAR appointment object
+ * @returns {Array} returns formatted date options
+ */
 function getRequestDateOptions(appt) {
   const format = 'MM/DD/YYYY';
   return [
@@ -457,7 +470,7 @@ export function transformPendingAppointments(requests) {
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
         dateOptions: getRequestDateOptions(appt),
-        bestTimeToCall: appt.bestTimeToCall,
+        bestTimeToCall: appt.bestTimetoCall,
         patientPhone: appt.phoneNumber,
       },
     };

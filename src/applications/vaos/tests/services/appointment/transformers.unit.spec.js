@@ -441,6 +441,10 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.dateOptions[0].optionTime).to.equal('AM');
         expect(data.vaos.dateOptions.length).to.equal(3);
       });
+
+      it('should set bestTimeToCall', () => {
+        expect(data.vaos.bestTimeToCall).to.deep.equal(['Morning']);
+      });
     });
 
     describe('isPastAppointment', () => {
