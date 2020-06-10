@@ -9,7 +9,6 @@ export default function FormQuestion({
   optionsConfig,
   setQuestionValue,
   clearQuestionValues,
-  visible,
 }) {
   function handleClick(event) {
     recordStart(question.id);
@@ -37,11 +36,7 @@ export default function FormQuestion({
   ));
 
   return (
-    <div
-      className="feature"
-      id={`question-${question.id}`}
-      style={visible ? {} : { display: 'none' }}
-    >
+    <div className="feature" id={`question-${question.id}`}>
       <h2>{question.text}</h2>
       {options}
     </div>
