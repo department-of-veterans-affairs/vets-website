@@ -1,15 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import { AppDeletedAlert } from '../../../components/connected-apps/AppDeletedAlert';
 
 describe('<AppDeletedAlert>', () => {
   it('renders correctly', () => {
-    const wrapper = shallow(<AppDeletedAlert />);
+    const wrapper = mount(<AppDeletedAlert />);
     const text = wrapper.text();
 
-    expect(text).to.equal('This app has been disconnected');
+    expect(text).to.include('This app has been disconnected');
 
     wrapper.unmount();
   });
