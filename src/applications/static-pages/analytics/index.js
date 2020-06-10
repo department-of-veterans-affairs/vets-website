@@ -1,5 +1,3 @@
-import environment from 'platform/utilities/environment';
-
 import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
@@ -22,16 +20,18 @@ PAGE_EVENT_LISTENERS.set('/', [addHomepageBannerListeners]);
 
 function attachAnalytics() {
   try {
-    const specialListeners = PAGE_EVENT_LISTENERS.get(document.location.pathname);
+    const specialListeners = PAGE_EVENT_LISTENERS.get(
+      document.location.pathname,
+    );
 
     if (specialListeners) {
-      specialListeners?.forEach(f => f());
+      specialListeners.forEach(f => f());
     }
 
     // Global listeners
     addTeaserListeners();
     addButtonLinkListeners();
-  } catch(error) {
+  } catch (error) {
     // Catch any error that might occur while trying to attach listeners.
   }
 }
