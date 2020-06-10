@@ -99,12 +99,17 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = () => {
-    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
-    const zipcode = this.props.inputs.beneficiaryZIP;
+    const {
+      beneficiaryZIPError,
+      beneficiaryZIP,
+      extension,
+      classesOutsideUS,
+    } = this.props.inputs;
     if (
       this.props.eligibility.giBillChapter === '33' &&
       this.props.inputs.beneficiaryLocationQuestion === 'other' &&
-      (beneficiaryZIPError || zipcode.length !== 5)
+      !classesOutsideUS &&
+      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
