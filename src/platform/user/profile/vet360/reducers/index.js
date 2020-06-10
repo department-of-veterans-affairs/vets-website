@@ -41,6 +41,7 @@ const initialAddressValidationState = {
 };
 
 const initialState = {
+  hasUnsavedEdits: false,
   modal: null,
   modalData: null,
   formFields: {},
@@ -111,6 +112,7 @@ export default function vet360(state = initialState, action) {
             transactionId: action.transaction.data.attributes.transactionId,
           },
         },
+        hasUnsavedEdits: false,
       };
     }
 
@@ -207,7 +209,7 @@ export default function vet360(state = initialState, action) {
         ...state.formFields,
         [action.field]: action.newState,
       };
-      return { ...state, formFields };
+      return { ...state, formFields, hasUnsavedEdits: true };
     }
 
     case OPEN_MODAL:
