@@ -1,5 +1,4 @@
 import { join, sep } from 'path';
-
 import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
@@ -146,7 +145,7 @@ const processPage = () => {
   cy.location('pathname', COMMAND_OPTIONS).then(pathname => {
     if (pathname.endsWith('review-and-submit')) {
       performPageActions(pathname, false);
-      cy.findByLabelText(/accept/i).click();
+      // cy.findByLabelText(/accept/i).click();
       cy.findByText(/submit/i, { selector: 'button' }).click();
 
       // The form should end up at the confirmation page after submitting.
