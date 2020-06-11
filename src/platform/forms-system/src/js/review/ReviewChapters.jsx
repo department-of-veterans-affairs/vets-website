@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
+import recordEvent from 'platform/monitoring/record-event';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
@@ -32,8 +33,18 @@ class ReviewChapters extends React.Component {
   handleToggleChapter({ name, open, pageKeys }) {
     if (open) {
       this.props.closeReviewChapter(name, pageKeys);
+      if (this.props.form.formId === '22-1995') {
+        recordEvent({
+          event: 'nav-accordion-collapse',
+        });
+      }
     } else {
       this.props.openReviewChapter(name);
+      if (this.props.form.formId === '22-1995') {
+        recordEvent({
+          event: 'nav-accordion-expand',
+        });
+      }
       this.scrollToChapter(name);
     }
   }
