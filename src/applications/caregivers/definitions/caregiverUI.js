@@ -97,9 +97,6 @@ export default {
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
-      'ui:options': {
-        hideOnReview: true,
-      },
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',
