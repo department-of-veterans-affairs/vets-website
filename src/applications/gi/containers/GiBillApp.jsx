@@ -13,7 +13,6 @@ import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 import ServiceError from '../components/ServiceError';
 import Covid19Banner from '../components/heading/Covid19Banner';
-import environment from 'platform/utilities/environment';
 
 const Disclaimer = () => (
   <div className="row disclaimer">
