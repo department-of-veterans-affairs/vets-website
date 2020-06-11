@@ -4,9 +4,9 @@ import reducer from '../../../components/connected-apps/reducers/connectedApps';
 import {
   DELETED_APP_ALERT_DISMISSED,
   DELETING_CONNECTED_APP,
-  ERROR_CONNECTED_APPS,
+  ERROR_LOADING_CONNECTED_APPS,
   ERROR_DELETING_CONNECTED_APP,
-  FINISHED_CONNECTED_APPS,
+  FINISHED_LOADING_CONNECTED_APPS,
   FINISHED_DELETING_CONNECTED_APP,
   LOADING_CONNECTED_APPS,
 } from '../../../components/connected-apps/actions';
@@ -34,8 +34,8 @@ describe('Connected Apps reducer', () => {
     });
   });
 
-  it('handles the action type FINISHED_CONNECTED_APPS', () => {
-    const action = { data: ['hello'], type: FINISHED_CONNECTED_APPS };
+  it('handles the action type FINISHED_LOADING_CONNECTED_APPS', () => {
+    const action = { data: ['hello'], type: FINISHED_LOADING_CONNECTED_APPS };
     const state = reducer(undefined, action);
     expect(state).to.be.deep.equal({
       apps: ['hello'],
@@ -45,8 +45,8 @@ describe('Connected Apps reducer', () => {
     });
   });
 
-  it('handles the action type ERROR_CONNECTED_APPS', () => {
-    const action = { errors: ['hello'], type: ERROR_CONNECTED_APPS };
+  it('handles the action type ERROR_LOADING_CONNECTED_APPS', () => {
+    const action = { errors: ['hello'], type: ERROR_LOADING_CONNECTED_APPS };
     const state = reducer(undefined, action);
     expect(state).to.be.deep.equal({
       apps: [],
