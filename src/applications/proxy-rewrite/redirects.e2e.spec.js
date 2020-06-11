@@ -6,15 +6,16 @@ const redirects = require('./redirects/crossDomainRedirects.json');
 
 const teamSiteProxy = require('./teamsite-proxy');
 
+const teamSiteProxyUrl = `http://${teamSiteProxy.host}:${teamSiteProxy.port}`;
+
 function runTest(browser) {
   for (const redirect of redirects) {
     const { domain, src, dest } = redirect;
 
-    const fullUrl = `https://${domain}${src}`;
-    const target = encodeURIComponent(fullUrl);
-    const localInjectedTeamSitePageUrl = `${teamSiteProxy.host}:${
-      teamSiteProxy.port
-    }/?target=${target}`;
+    const teamSiteDomain = `https://${domain}${src}`;
+    const localInjectedTeamSitePageUrl = `${teamSiteProxyUrl}/?target=${encodeURIComponent(
+      teamSiteDomain,
+    )}`;
 
     browser
       .url(localInjectedTeamSitePageUrl)

@@ -7,7 +7,7 @@ const BUCKETS = require('../../site/constants/buckets');
 const ENVIRONMENTS = require('../../site/constants/environments');
 const HOSTNAMES = require('../../site/constants/hostnames');
 
-const PROXY_REWRITE_HOST = pocess.env.PROXY_REWRITE_HOST || 'localhost:3001';
+const VETS_WEBSITE_URL = process.env.VETS_WEBSITE_URL || 'localhost:3001';
 const TEAMSITE_PROXY_HOST = process.env.TEAMSITE_PROXY_PORT || 'localhost';
 const TEAMSITE_PROXY_PORT = process.env.TEAMSITE_PROXY_HOST || 3500;
 
@@ -28,7 +28,7 @@ async function downloadAsset(req, res) {
     req.path.startsWith(localPath),
   );
   if (existsLocally) {
-    const proxied = await fetch(`http://${PROXY_REWRITE_HOST}${req.path}`);
+    const proxied = await fetch(`http://${VETS_WEBSITE_URL}${req.path}`);
     const extension = path.extname(req.path);
 
     if (CONTENT_TYPES[extension]) {
