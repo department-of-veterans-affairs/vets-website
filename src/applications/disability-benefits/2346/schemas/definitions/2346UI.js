@@ -2,8 +2,7 @@ import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
 import AddressViewField from '../../components/AddressViewField';
 import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageAccessories from '../../components/ReviewPageAccessories';
-import ReviewPageBatteries from '../../components/ReviewPageBatteries';
+import ReviewPageSupplies from '../../components/ReviewPageSupplies';
 import { schemaFields } from '../../constants';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
@@ -156,7 +155,7 @@ export default {
         'You can only order each hearing aid battery and accessory once every 5 months.',
       'ui:field': 'StringField',
       'ui:widget': BatteriesAndAccessories,
-      'ui:reviewWidget': ReviewPageBatteries,
+      'ui:reviewWidget': ReviewPageSupplies,
       'ui:options': {
         keepInPageOnReview: true,
       },

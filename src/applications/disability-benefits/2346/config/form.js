@@ -43,8 +43,7 @@ const formChapterTitles = {
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping address',
-  addAccessoriesPage: 'Add accessories to your order',
-  addBatteriesPage: 'Add batteries to your order',
+  addSuppliesPage: 'Add supplies to your order',
 };
 
 const addressSchema = buildAddressSchema(true);
@@ -182,9 +181,9 @@ const formConfig = {
     selectSuppliesChapter: {
       title: formChapterTitles.selectSupplies,
       pages: {
-        [formPageTitlesLookup.addBatteriesPage]: {
-          path: 'batteries',
-          title: formPageTitlesLookup.addBatteriesPage,
+        [formPageTitlesLookup.addSuppliesPage]: {
+          path: 'supplies',
+          title: formPageTitlesLookup.addSuppliesPage,
           schema: {
             type: 'object',
             properties: {

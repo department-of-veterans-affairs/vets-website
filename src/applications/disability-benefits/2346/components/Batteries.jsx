@@ -66,9 +66,6 @@ class Batteries extends Component {
       <div className="battery-page">
         {areBatterySuppliesEligible && (
           <>
-            <h3 className="vads-u-font-size--h4">
-              Select the hearing aids that need batteries
-            </h3>
             <p>
               You&apos;ll be sent a 6-month supply of batteries for each device
               you choose below. You can only order batteries for each device
@@ -82,6 +79,9 @@ class Batteries extends Component {
               </a>{' '}
               or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
+            <h3 className="vads-u-font-size--h4">
+              Select the hearing aids that need batteries
+            </h3>
           </>
         )}
         {haveBatteriesBeenOrderedInLastFiveMonths &&
