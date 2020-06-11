@@ -47,7 +47,9 @@ Render an `<input>` element to the DOM.
 
 **Default for schema types:** `string`, `number`
 
-**Example: `string`**
+<details>
+<summary>Example: <code>string</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -57,8 +59,11 @@ const schema = {
 };
 ```
 ![TextWidget example](images/textwidget-string.png)
+</details>
 
-**Example: `number`**
+<details>
+<summary>Example: <code>number</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -68,6 +73,7 @@ const schema = {
 };
 ```
 ![TextWidget example](images/textwidget-number.png)
+</details>
 
 ### `uiSchema` options
 #### `ui:options`
@@ -77,7 +83,9 @@ const schema = {
 Set the [`autocomplete`](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
 on the `<input>` DOM element.
 
-**Example:**
+<details>
+<summary>Example</summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -94,10 +102,13 @@ const uiSchema = {
   },
 };
 ```
+
 Produces the following HTML:
+
 ```html
 <input autocomplete="on" type="text" id="root_field1" name="root_field1" value="">
 ```
+</details>
 
 ##### `inputType`
 **Type:** `string`
@@ -111,7 +122,9 @@ for a list of available types.
 > better to use [`'ui:widget': 'email'`](#emailwidget) and [`'ui:widget':
 > 'date'`](#datewidget) respectively.
 
-**Example:**
+<details>
+<summary>Example</summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -129,13 +142,16 @@ const uiSchema = {
 };
 ```
 ![TextWidget example](images/textwidget-inputtype.png)
+</details>
 
 ##### `widgetClassNames`
 **Type:** `string`
 
 Specify the class names for the `<input>` DOM element.
 
-**Example:**
+<details>
+<summary>Example/summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -153,6 +169,7 @@ const uiSchema = {
 };
 ```
 ![TextWidget example](images/textwidget-widgetclassnames.png)
+</details>
 
 ### `schema` options
 
@@ -162,7 +179,9 @@ const uiSchema = {
 
 Set the `maxlength` on the `<intput>` DOM element.
 
-**Example:**
+<details>
+<summary>Example/summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -175,6 +194,7 @@ const schema = {
 };
 ```
 ![TextWidget example](images/textwidget-maxlength.png)
+</details>
 
 ## `TextareaWidget`
 **`ui:widget` key:** `textarea`
@@ -189,7 +209,9 @@ Render "Yes" and "No" radio buttons. Selecting "Yes" sets the field data to
 
 **Default for schema types:** None
 
-**Example:**
+<details>
+<summary>Example/summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -205,6 +227,7 @@ const uiSchema = {
 };
 ```
 ![YesNoWidget example](images/yesnowidget.png)
+</details>
 
 ### `uiSchema` options
 #### `ui:options`
@@ -221,7 +244,9 @@ const uiSchema = {
 
 Change the labels for the "Yes" and "No" options.
 
-**Example:**
+<details>
+<summary>Example/summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -243,6 +268,7 @@ const uiSchema = {
 };
 ```
 ![YesNoWidget example](images/yesnowidget-labels.png)
+</details>
 
 ##### `yesNoReverse`
 **Type:** `boolean`
@@ -250,7 +276,9 @@ const uiSchema = {
 If `yesNoReverse` is `true`, selecting "Yes" sets the field data to `false`, and
 "No" sets it to `true`,
 
-**Example:**
+<details>
+<summary>Example/summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -267,10 +295,14 @@ const uiSchema = {
 };
 ```
 ![YesNoWidget example](images/yesnowidget-yesnoreverse.png)
+</details>
 
 To get an idea of when this would be appropriate, see the following example from
 the 21-526EZ All Claims form:
-**Example:**
+
+<details>
+<summary>Example/summary>
+
 ```jsx
 const waiveTrainingPayDescription = (
   <p>
@@ -310,3 +342,4 @@ const uiSchema = {
 ```
 
 ![YesNoWidget example](images/yesnowidget-yesnoreverse-2.png)
+</details>
