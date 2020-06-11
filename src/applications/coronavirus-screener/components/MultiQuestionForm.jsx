@@ -27,7 +27,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
         if (completed === false) {
           recordEvent({
             event: 'covid-screening-tool-result-displayed',
-            'screening-tool-result': formState.result,
+            'screening-tool-result': formState.status,
             'time-to-complete': moment().unix() - formState.startTime,
           });
           completed = true;
