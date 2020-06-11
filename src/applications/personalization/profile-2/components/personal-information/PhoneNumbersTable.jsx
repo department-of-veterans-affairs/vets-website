@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import HomePhone from 'vet360/components/VAPHomePhone';
 import WorkPhone from 'vet360/components/VAPWorkPhone';
 import MobilePhone from 'vet360/components/VAPMobilePhone';
@@ -32,5 +32,9 @@ const PhoneNumbersTable = ({ className }) => (
     className={className}
   />
 );
+
+PhoneNumbersTable.propTypes = {
+  className: PropTypes.string,
+};
 
 export default PhoneNumbersTable;

@@ -8,6 +8,11 @@ import { isChapterFieldRequired } from './helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp.jsx';
+
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -52,20 +57,12 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
-function prefillTransformer(pages, formData, metadata) {
-  console.log('the pages are ');
-  console.log(pages);
-
-  console.log('The formData is ');
-  console.log(formData);
-}
-
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/21-686c`,
+  submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
