@@ -279,7 +279,7 @@
     "metalsmith-navigation": "^0.2.9",
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-sitemap": "^1.0.0",
-    "moment": "^2.26.0",
+    "moment": "^2.20.1",
     "moment-timezone": "^0.5.27",
     "number-to-words": "^1.2.4",
     "prop-types": "^15.6.1",
