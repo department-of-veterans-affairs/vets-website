@@ -1,7 +1,8 @@
 #!/bin/bash
 
-export TEAMSITE_PROXY_HOST=0.0.0.0
-export TEAMSITE_PROXY_PORT=3500
+export PROXY_REWRITE_HOST="0.0.0.0"
+export TEAMSITE_PROXY_HOST="0.0.0.0"
+export TEAMSITE_PROXY_PORT="3500"
 
 node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=0.0.0.0 &
 node src/platform/testing/e2e/mockapi.js --host=0.0.0.0 --port=3000 &
