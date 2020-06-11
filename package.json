@@ -274,7 +274,7 @@
     "metalsmith-collections": "^0.9.0",
     "metalsmith-filenames": "^1.0.0",
     "metalsmith-in-place": "^1.4.4",
-    "metalsmith-layouts": "^1.6.5",
+    "metalsmith-layouts": "^2.3.1",
     "metalsmith-markdownit": "^0.4.0",
     "metalsmith-navigation": "^0.2.9",
     "metalsmith-permalinks": "^0.5.0",
