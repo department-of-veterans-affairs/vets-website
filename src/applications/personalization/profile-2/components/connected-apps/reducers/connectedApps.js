@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
         }
         return app;
       });
-      return { ...state, apps };
+      return { ...state, apps, errors: [] };
     }
 
     case ERROR_DELETING_CONNECTED_APP: {
