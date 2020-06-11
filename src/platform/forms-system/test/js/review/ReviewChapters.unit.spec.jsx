@@ -102,6 +102,7 @@ describe('Schemaform review: ReviewChapters', () => {
     const tree = mount(
       <ReviewChapters
         chapters={chapters}
+        form={{ formId: '22-1995' }}
         closeReviewChapter={closeReviewChapter}
         openReviewChapter={openReviewChapter}
         pageList={pageList}
