@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HEARING_AID_BATTERIES } from '../constants';
+import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
@@ -35,7 +35,7 @@ class Batteries extends Component {
     const { supplies, selectedProducts, eligibility } = this.props;
     const currentDate = moment();
     const batterySupplies = supplies.filter(
-      batterySupply => batterySupply.productGroup === HEARING_AID_BATTERIES,
+      batterySupply => batterySupply.productGroup === BATTERIES,
     );
     const areBatterySuppliesEligible = eligibility.batteries;
     const haveBatteriesBeenOrderedInLastFiveMonths =
@@ -66,22 +66,21 @@ class Batteries extends Component {
       <div className="battery-page">
         {areBatterySuppliesEligible && (
           <>
-            <h3 className="vads-u-font-size--h4">
-              Select the hearing aids that need batteries
-            </h3>
             <p>
-              You&apos;ll be sent a 6-month supply of batteries for each device
-              you choose below. You can only order batteries for each device
-              once every 5 months.
+              You&apos;ll be sent a 6-month supply of each item added to your
+              order. You can only order each item once every 5 months.
             </p>
             <p>
-              If you need unavailable batteries sooner, call the DLC Customer
-              Service Section at{' '}
+              If you need unavailable items sooner or don’t see the item you
+              need, call the DLC Customer Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
                 303-273-6200
               </a>{' '}
               or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
+            <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2p5">
+              Select the hearing aids that need batteries
+            </h3>
           </>
         )}
         {haveBatteriesBeenOrderedInLastFiveMonths &&
@@ -212,7 +211,7 @@ class Batteries extends Component {
               ) : (
                 <div className="vads-u-max-width--293">
                   <input
-                    name={batterySupply.productId}
+                    id={batterySupply.productId}
                     className="vads-u-margin-left--0 vads-u-max-width--293"
                     type="checkbox"
                     onChange={e =>
@@ -239,7 +238,7 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see my hearing aid?">
+          <AdditionalInfo triggerText="What if I don't see my device?">
             <p>
               You may not see your hearing aid device if you haven’t placed an
               order for resupply items within the last 2 years. If you need to
@@ -280,7 +279,7 @@ Batteries.propTypes = {
       deviceName: PropTypes.string,
       productName: PropTypes.string,
       productGroup: PropTypes.string.isRequired,
-      productId: PropTypes.string.isRequired,
+      productId: PropTypes.number.isRequired,
       availableForReorder: PropTypes.bool,
       lastOrderDate: PropTypes.string.isRequired,
       nextAvailabilityDate: PropTypes.string.isRequired,
@@ -291,7 +290,7 @@ Batteries.propTypes = {
   ),
   selectedProducts: PropTypes.arrayOf(
     PropTypes.shape({
-      productId: PropTypes.string,
+      productId: PropTypes.number,
     }),
   ),
   formData: PropTypes.object,

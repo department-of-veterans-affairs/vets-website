@@ -338,25 +338,27 @@ class ReviewCardField extends React.Component {
             street &&
             city &&
             country && (
-              <a
-                className={editLink}
+              <button
+                className={`${editLink} va-button-link`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
+                type="button"
               >
                 Edit {title.toLowerCase()}
-              </a>
+              </button>
             )}
           {!volatileData &&
             !street &&
             !city &&
             !country && (
-              <a
-                className={editLink}
+              <button
+                className={`${editLink} va-button-link`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
+                type="button"
               >
                 Add a {title.toLowerCase()}
-              </a>
+              </button>
             )}
           {isTempAddressMissing &&
             street &&
@@ -365,7 +367,7 @@ class ReviewCardField extends React.Component {
               <div>
                 <button
                   id={this.props.name}
-                  className="usa-button vads-u-font-weight--bold"
+                  className="usa-button vads-u-font-weight--bold vads-u-width--auto"
                   onChange={() =>
                     this.onChange('currentAddress', this.props.name)
                   }
@@ -391,7 +393,7 @@ class ReviewCardField extends React.Component {
                 />
                 <label
                   className={classnames({
-                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0': true,
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
                     'vads-u-color--white':
                       this.props.name === this.props.currentAddress,
                     'vads-u-background-color--white vads-u-color--primary':
@@ -494,18 +496,18 @@ class ReviewCardField extends React.Component {
     const pageDescription = (
       <>
         <h3 className="vads-u-font-size--h4">Shipping address</h3>
-        <dd className="vads-u-margin-top--2">
+        <div className="vads-u-margin-top--2">
           <p>
             We'll ship your order to the address below. Orders typically arrive
             within 7 to 10 business days.
           </p>
-        </dd>
-        <p className="vads-u-font-weight--bold">
-          Select the address where you'd like to send your order:{' '}
-          <span className="vads-u-font-weight--normal schemaform-required-span">
-            (*Required)
-          </span>
-        </p>
+          <p className="vads-u-font-weight--bold">
+            Select the address where you'd like to send your order:{' '}
+            <span className="vads-u-font-weight--normal schemaform-required-span">
+              (*Required)
+            </span>
+          </p>
+        </div>
       </>
     );
     const description = this.getDescription();

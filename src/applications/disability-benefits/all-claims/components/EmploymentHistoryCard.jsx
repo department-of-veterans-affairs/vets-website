@@ -1,16 +1,14 @@
 import React from 'react';
 
+import { formatDateRange } from '../utils';
+
 export default ({ formData }) => {
-  const { dates, name } = formData;
-  const hasDate = dates.from || dates.to;
+  const { name, dates } = formData;
+
   return (
     <div>
       <h5>{name}</h5>
-      {hasDate && (
-        <p>
-          {dates.from} &mdash; {dates.to}
-        </p>
-      )}
+      <p>{formatDateRange(dates)}</p>
     </div>
   );
 };
