@@ -7,7 +7,7 @@ import { ConnectedAppDeleteModal } from '../../../components/connected-apps/Conn
 describe('<ConnectedAppDeleteModal>', () => {
   it('renders correctly when not deleting', () => {
     const defaultProps = {
-      appName: 'hello',
+      title: 'hello',
       deleting: false,
       modalOpen: true,
       onCloseModal: () => {},
@@ -30,7 +30,7 @@ describe('<ConnectedAppDeleteModal>', () => {
 
   it('renders correctly when deleting', () => {
     const defaultProps = {
-      appName: 'hello',
+      title: 'hello',
       deleting: true,
       modalOpen: true,
       onCloseModal: () => {},
@@ -53,7 +53,7 @@ describe('<ConnectedAppDeleteModal>', () => {
 
   it('does not render when modal is closed', () => {
     const defaultProps = {
-      appName: 'hello',
+      title: 'hello',
       deleting: true,
       modalOpen: false,
       onCloseModal: () => {},
