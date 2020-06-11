@@ -121,6 +121,7 @@
     "@department-of-veterans-affairs/generator-vets-website": "^3.3.5",
     "@octokit/rest": "^16.43.1",
     "@sentry/browser": "^5.4.0",
+    "@testing-library/react": "^10.2.1",
     "ajv": "^6.12.2",
     "append-query": "2.0.1",
     "ascii-table": "^0.0.9",

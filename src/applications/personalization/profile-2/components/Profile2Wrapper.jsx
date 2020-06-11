@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { isWideScreen } from 'platform/utilities/accessibility/index';
 
@@ -8,7 +8,8 @@ import ProfileHeader from './ProfileHeader';
 import ProfileSideNav from './ProfileSideNav';
 import MobileMenuTrigger from './MobileMenuTrigger';
 
-const Profile2 = ({ children, location, routes }) => {
+const Profile2 = ({ children, routes }) => {
+  const location = useLocation();
   const createBreadCrumbAttributes = () => {
     const activeLocation = location?.pathname;
     const activeRoute = routes.find(route => route.path === activeLocation);
@@ -20,16 +21,18 @@ const Profile2 = ({ children, location, routes }) => {
 
   // We do not want to display 'Profile' on the mobile personal-information route
   const onPersonalInformationMobile =
-    location?.pathname === '/personal-information' && !isWideScreen();
+    activeLocation === '/profile/personal-information' && !isWideScreen();
 
   return (
     <>
       {/* Breadcrumbs */}
-      <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
-        <a href="/">Home</a>
-        {!onPersonalInformationMobile && <Link to="/">Your profile</Link>}
-        <a href={activeLocation}>{activeRouteName}</a>
-      </Breadcrumbs>
+      <div data-testid="breadcrumbs">
+        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+          <a href="/">Home</a>
+          {!onPersonalInformationMobile && <Link to="/">Your profile</Link>}
+          <a href={activeLocation}>{activeRouteName}</a>
+        </Breadcrumbs>
+      </div>
 
       <MobileMenuTrigger />
 
