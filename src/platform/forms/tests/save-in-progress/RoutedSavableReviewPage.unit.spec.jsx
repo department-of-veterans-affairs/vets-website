@@ -189,7 +189,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     tree.unmount();
   });
 
-  it('should render error messages', () => {});
+  it.skip('should render error messages', () => {});
 
   describe('downtime banner', () => {
     let tree;
