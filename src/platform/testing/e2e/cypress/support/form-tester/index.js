@@ -450,6 +450,9 @@ const testForm = testConfig => {
     // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
+      // Dismiss any announcements.
+      window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
+
       cy.wrap(arrayPages).as('arrayPages');
 
       // Save a couple of seconds by definitively responding with
@@ -481,6 +484,7 @@ const testForm = testConfig => {
 
         it('fills the form', () => {
           cy.visit(rootUrl).injectAxe();
+
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
             .then(processPage);
