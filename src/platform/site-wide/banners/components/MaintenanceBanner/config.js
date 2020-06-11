@@ -22,5 +22,7 @@ export default {
     "We’re working on VA.gov right now. If you have trouble signing in or using tools, check back after we're finished. Thank you for your patience.",
   warnStartsAt: startsAt.clone().subtract(12, 'hours'),
   warnTitle: 'Upcoming site maintenance',
-  warnContent: `We’ll be doing some work on VA.gov. The maintenance will last ${hours} hour(s). During that time, you won’t be able to sign in or use tools.`,
+  warnContent: `We’ll be doing some work on VA.gov. The maintenance will last ${hours} hour${
+    hours > 1 ? 's' : ''
+  }. During that time, you won’t be able to sign in or use tools.`,
 };
