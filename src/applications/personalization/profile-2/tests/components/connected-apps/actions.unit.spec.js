@@ -19,8 +19,8 @@ describe('Connected Apps actions', () => {
 
       const secondCallAction = dispatch.secondCall.args[0];
       expect(secondCallAction.type).to.be.oneOf([
-        actions.FINISHED_CONNECTED_APPS,
-        actions.ERROR_CONNECTED_APPS,
+        actions.FINISHED_LOADING_CONNECTED_APPS,
+        actions.ERROR_LOADING_CONNECTED_APPS,
       ]);
     });
   });

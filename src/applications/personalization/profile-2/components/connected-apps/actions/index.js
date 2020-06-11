@@ -5,8 +5,10 @@ export * from 'platform/user/profile/actions';
 import environment from 'platform/utilities/environment';
 
 export const LOADING_CONNECTED_APPS = 'connected-apps/LOADING_CONNECTED_APPS';
-export const FINISHED_CONNECTED_APPS = 'connected-apps/FINISHED_CONNECTED_APPS';
-export const ERROR_CONNECTED_APPS = 'connected-apps/ERROR_CONNECTED_APPS';
+export const FINISHED_LOADING_CONNECTED_APPS =
+  'connected-apps/FINISHED_LOADING_CONNECTED_APPS';
+export const ERROR_LOADING_CONNECTED_APPS =
+  'connected-apps/ERROR_LOADING_CONNECTED_APPS';
 export const DELETING_CONNECTED_APP = 'connected-apps/DELETING_CONNECTED_APP';
 export const ERROR_DELETING_CONNECTED_APP =
   'connected-apps/ERROR_DELETING_CONNECTED_APP';
@@ -27,15 +29,19 @@ export function loadConnectedApps(mockRequest) {
     if (environment.isLocalhost() || mockRequest) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({
-        type: FINISHED_CONNECTED_APPS,
+        type: FINISHED_LOADING_CONNECTED_APPS,
         data: mockConnectedApps,
       });
       return;
     }
 
     apiRequest(grantsUrl)
-      .then(({ data }) => dispatch({ type: FINISHED_CONNECTED_APPS, data }))
-      .catch(({ errors }) => dispatch({ type: ERROR_CONNECTED_APPS, errors }));
+      .then(({ data }) =>
+        dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data }),
+      )
+      .catch(({ errors }) =>
+        dispatch({ type: ERROR_LOADING_CONNECTED_APPS, errors }),
+      );
   };
 }
 

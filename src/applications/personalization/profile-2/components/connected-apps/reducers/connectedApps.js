@@ -1,7 +1,7 @@
 import {
   LOADING_CONNECTED_APPS,
-  FINISHED_CONNECTED_APPS,
-  ERROR_CONNECTED_APPS,
+  FINISHED_LOADING_CONNECTED_APPS,
+  ERROR_LOADING_CONNECTED_APPS,
   DELETING_CONNECTED_APP,
   ERROR_DELETING_CONNECTED_APP,
   FINISHED_DELETING_CONNECTED_APP,
@@ -20,10 +20,10 @@ export default (state = initialState, action) => {
     case LOADING_CONNECTED_APPS:
       return { ...state, loading: true };
 
-    case FINISHED_CONNECTED_APPS:
+    case FINISHED_LOADING_CONNECTED_APPS:
       return { ...state, apps: action.data, loading: false, errors: [] };
 
-    case ERROR_CONNECTED_APPS:
+    case ERROR_LOADING_CONNECTED_APPS:
       return { ...state, loading: false, errors: action.errors };
 
     case DELETING_CONNECTED_APP: {
