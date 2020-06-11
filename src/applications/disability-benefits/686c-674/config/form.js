@@ -5,6 +5,8 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp.jsx';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -52,20 +54,12 @@ import {
   studentNetworthInformation,
 } from './chapters/674';
 
-function prefillTransformer(pages, formData, metadata) {
-  console.log('the pages are ');
-  console.log(pages);
-
-  console.log('The formData is ');
-  console.log(formData);
-}
-
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/21-686c`,
+  submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   trackingPrefix: 'disability-21-686c',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -74,14 +68,15 @@ const formConfig = {
   version: migrations.length,
   migrations,
   prefillEnabled: true,
-  prefillTransformer,
-  verifyRequiredPrefill: true,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'New 686',
+  title: 'Add or remove dependents from your VA benefits',
+  subTitle: 'VA Form 21-686c (and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
@@ -385,16 +380,14 @@ const formConfig = {
           schema: studentLastTerm.schema,
         },
         studentIncomeInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-income-information',
           uiSchema: studentIncomeInformation.uiSchema,
           schema: studentIncomeInformation.schema,
         },
         studentNetworthInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          depends: () => false,
           title: 'Information needed to add a student 18 to 23 years old',
           path: 'report-674-student-networth-information',
           uiSchema: studentNetworthInformation.uiSchema,
