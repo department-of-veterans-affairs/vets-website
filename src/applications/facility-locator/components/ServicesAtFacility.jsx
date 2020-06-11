@@ -137,7 +137,12 @@ class ServicesAtFacility extends Component {
         </div>
 
         <div className="mb2">
-          <ul>{services.health.map(s => this.renderService(s))}</ul>
+          <ul>
+            {services.health.map(
+              s =>
+                s.sl1 ? this.renderService(s.sl1[0]) : this.renderService(s),
+            )}
+          </ul>
         </div>
       </div>
     );
