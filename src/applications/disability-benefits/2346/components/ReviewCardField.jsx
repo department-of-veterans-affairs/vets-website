@@ -90,6 +90,12 @@ class ReviewCardField extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.state.editing) {
+      this.editTitle.current.focus();
+    }
+  }
+
   onChange = (field, data) => {
     const newData = set(field, data, this.props.data);
     return this.props.setData(newData);
@@ -216,11 +222,13 @@ class ReviewCardField extends React.Component {
       formContext.reviewMode &&
       // volatileData is for arrays, which displays separate blocks
       uiSchema['ui:options']?.volatileData;
-    title.focus();
+
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4 className={titleClasses}>Edit {title.toLowerCase()}</h4>
+          <h4 className={titleClasses} ref={this.editTitle}>
+            Edit {title.toLowerCase()}
+          </h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
@@ -342,6 +350,7 @@ class ReviewCardField extends React.Component {
             country && (
               <button
                 className={`${editLink} va-button-link`}
+                aria-label={`Edit ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
                 type="button"
@@ -355,6 +364,7 @@ class ReviewCardField extends React.Component {
             !country && (
               <button
                 className={`${editLink} va-button-link`}
+                aria-label={`Add a ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
                 type="button"
