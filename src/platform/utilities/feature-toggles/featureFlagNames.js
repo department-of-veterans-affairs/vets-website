@@ -3,7 +3,7 @@ export default Object.freeze({
   dashboardShowCovid19Alert: 'dashboardShowCovid19Alert',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
-  facilityLocatorFeUsev1: 'facilityLocatorFeUsev1',
+  facilityLocatorFeUseV1: 'facilityLocatorFeUseV1',
   profileShowProfile2: 'profile_show_profile_2.0',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
   vaOnlineScheduling: 'vaOnlineScheduling',
