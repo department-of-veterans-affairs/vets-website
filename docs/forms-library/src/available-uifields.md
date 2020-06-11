@@ -49,7 +49,9 @@ This is the default field for `type: 'object'` schemas.
 Describe the fields in more detail than a title can convey. Often, objects will
 have a `ui:description` without a `ui:title`.
 
-**Example: `string`**
+<details>
+<summary>Example: <code>string</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -66,7 +68,9 @@ const uiSchema = {
   },
 };
 ```
+
 ![ui:description example](images/objectfield-uidescription-string.png)
+</details>
 
 **React component props:**
 - `formContext`: `object`
@@ -78,7 +82,9 @@ const uiSchema = {
 - `options`: `object`
   - The entire `ui:options` object used by the `ObjectField`
 
-**Example: React component**
+<details>
+<summary>Example: React component</summary>
+
 ```jsx
 const CustomDescription = ({ formData, options }) => (
   <div>
@@ -107,6 +113,7 @@ const uiSchema = {
 };
 ```
 ![ui:description example](images/objectfield-uidescription-react.png)
+</details>
 
 #### `ui:options`
 <!-- TODO: Describe this--why it's a separate section in uiSchema -->
@@ -117,7 +124,9 @@ const uiSchema = {
 Show some fields only if the field referenced by `expandUnder` is truthy.
 `expandUnder` must be the name of a field on the page.
 
-**Example:**
+<details>
+<summary>Example</summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -158,6 +167,7 @@ const uiSchema = {
 
 ![expandUnder unexpanded](images/objectfield-expandunder-unexpanded.png)
 ![expandUnder expanded](images/objectfield-expandunder-expanded.png)
+</details>
 
 ##### `expandUnderClassNames`
 **Type:** `string`
@@ -167,7 +177,9 @@ Apply an HTML class to the expanded fields.
 > **Note:** This must be put on the **target** of `expandUnder`, not the fields to
 > be expanded.
 
-**Example:**
+<details>
+<summary>Example</summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -193,6 +205,7 @@ const uiSchema = {
 ```
 
 ![expandUnderClassNames example](images/objectfield-expandunderclassnames.png)
+</details>
 
 ##### `showFieldLabel`
 **Type:** `bool`, `string` (`'label'` is the only meaningful string)
@@ -210,7 +223,9 @@ In the following examples, take note of two things:
 - What the `ui:title`'s DOM element is
   - `legend` vs `label`
 
-**Example: `false` or `undefined`**
+<details>
+<summary>Example: <code>false</code> or <code>undefined</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -225,8 +240,11 @@ const uiSchema = {
 };
 ```
 ![showFieldLabel example](images/objectfield-showfieldlabel-false.png)
+</details>
 
-**Example: `true`**
+<details>
+<summary>Example: <code>true</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -245,8 +263,11 @@ const uiSchema = {
 ```
 ![showFieldLabel example](images/objectfield-showfieldlabel-true.png)
 ![showFieldLabel example](images/objectfield-showfieldlabel-true-legend.png)
+</details>
 
-**Example: `'label'`**
+<details>
+<summary>Example: <code>'label'</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -264,11 +285,15 @@ const uiSchema = {
 };
 ```
 ![showFieldLabel example](images/objectfield-showfieldlabel-label.png)
+</details>
 
 ##### `classNames`
 **Type:** `string`
 
 Apply class names to the container DOM element for the object.
+
+<details>
+<summary>Example</summary>
 
 ```js
 const schema = {
@@ -287,12 +312,16 @@ const uiSchema = {
 };
 ```
 ![classNames example](images/objectfield-classnames.png)
+</details>
 
 #### `ui:order`
 **Type: `string[]`**
 
 Reorder the fields by passing an array of field names in the order they should
 show up in your form.
+
+<details>
+<summary>Example</summary>
 
 ```js
 const schema = {
@@ -309,13 +338,16 @@ const uiSchema = {
 ```
 
 ![ui:order example](images/objectfield-uiorder.png)
+</details>
 
 #### `ui:title`
 **Type:** `string`, React component
 
 Display a title for the whole object.
 
-**Example: `string`**
+<details>
+<summary>Example: <code>string</code></summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -333,6 +365,7 @@ const uiSchema = {
 ```
 
 ![ui:title example](images/objectfield-uititle-string.png)
+</details>
 
 **React component props:**
 - `id`: `string`
@@ -348,7 +381,9 @@ const uiSchema = {
 - `required`: `bool`
   - Whether the field is required or not
 
-**Example: React component**
+<details>
+<summary>Example: React component</summary>
+
 ```jsx
 const CustomTitleComponent = ({ id, formData, required }) => (
   <h2 id={id}>
@@ -372,6 +407,7 @@ const uiSchema = {
 };
 ```
 ![ui:title example](images/objectfield-uititle-react.png)
+</details>
 
 ### `schema` options
 While most UI configuration is held in the `uiSchema`, the `ObjectField` has a
@@ -401,7 +437,9 @@ Used by `hideIf`?
 When `ui:hidden` is added to the `schema` (**NOT** `uiSchema`) for an object's
 property, it's not rendered in the form.
 
-**Example**
+<details>
+<summary>Example</summary>
+
 ```js
 const schema = {
   type: 'object',
@@ -416,6 +454,7 @@ const schema = {
 ```
 
 ![ui:hidden example](images/objectfield-uihidden.png)
+</details>
 
 ## `ReviewCardField`
 
