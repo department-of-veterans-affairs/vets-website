@@ -73,19 +73,6 @@ const hasSecondaryCaregiverTwo = formData =>
     secondaryCaregiverFields.secondaryOne.hasSecondaryCaregiverTwoView
   ] === true;
 
-const requireInsuranceName = formData => {
-  const require = {
-    [primaryCaregiverFields.otherHealthInsuranceName]:
-      primaryCaregiverUI.otherHealthInsuranceNameUI,
-  };
-
-  const dontRequire = {};
-
-  const shouldRequire = formData.otherHealthInsurance === true;
-
-  return shouldRequire ? require : dontRequire;
-};
-
 /* Chapters
  * 1 - Vet/Service Member (required)
  * 2 - Primary Family Caregiver (required)
