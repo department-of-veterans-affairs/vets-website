@@ -71,19 +71,6 @@ class Accessories extends Component {
             <h3 className="vads-u-font-size--h4">
               Select the hearing aid accessories you need
             </h3>
-            <p>
-              You'll be sent a 6-month supply for each accessory you choose
-              below. You can only order each hearing aid accessory once every 5
-              months.
-            </p>
-            <p>
-              If you need unavailable items sooner, call the DLC Customer
-              Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-            </p>
           </>
         )}
         {!haveAccessoriesBeenOrderedInLastFiveMonths &&

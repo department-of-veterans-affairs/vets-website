@@ -57,35 +57,43 @@ export class SchoolLocations extends React.Component {
     return <a href={`${facilityCode}${query}`}>{name}</a>;
   };
 
-  handleViewAllClicked = () => {
-    this.setState({
+  handleViewAllClicked = async () => {
+    const previousRowCount = this.state.viewableRowCount;
+    await this.setState({
       viewableRowCount: this.state.totalRowCount,
       viewAll: true,
     });
+    this.setFocusToSchoolNameCell(previousRowCount);
   };
 
-  handleViewLessClicked = () => {
+  handleViewLessClicked = async () => {
     if (this.props.onViewLess) {
       this.props.onViewLess();
     }
-    this.setState({
+    await this.setState({
       viewableRowCount: this.state.initialRowCount,
       viewAll: false,
     });
+    this.setFocusToSchoolNameCell(0);
   };
 
-  showMoreClicked = () => {
+  showMoreClicked = async () => {
+    const previousRowCount = this.state.viewableRowCount;
     const remainingRowCount =
       this.state.totalRowCount - this.state.viewableRowCount;
-    if (remainingRowCount >= NEXT_ROWS_VIEWABLE) {
-      this.setState({
-        viewableRowCount: this.state.viewableRowCount + NEXT_ROWS_VIEWABLE,
-      });
-    } else {
-      this.setState({
-        viewableRowCount: this.state.viewableRowCount + remainingRowCount,
-      });
-    }
+    const newViewableRowCount =
+      remainingRowCount >= NEXT_ROWS_VIEWABLE
+        ? this.state.viewableRowCount + NEXT_ROWS_VIEWABLE
+        : this.state.viewableRowCount + remainingRowCount;
+    await this.setState({
+      viewableRowCount: newViewableRowCount,
+    });
+    this.setFocusToSchoolNameCell(previousRowCount);
+  };
+
+  // Necessary so screen reader users are aware that the school locations table has changed.
+  setFocusToSchoolNameCell = elementIndex => {
+    document.getElementsByClassName('school-name-cell')[elementIndex].focus();
   };
 
   schoolLocationTableInfo = (city, state, country, zip) => {
@@ -123,7 +131,9 @@ export class SchoolLocations extends React.Component {
     );
     return (
       <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
-        <td>{nameLabel}</td>
+        <td tabIndex="-1" className="school-name-cell">
+          {nameLabel}
+        </td>
         <td className={'location-cell'}>
           {this.schoolLocationTableInfo(
             physicalCity,

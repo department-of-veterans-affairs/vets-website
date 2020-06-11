@@ -566,11 +566,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/add-dependents.asp",
-    "dest": "/disability/add-remove-dependent/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/gibill/education_programs.asp",
     "dest": "/education/"
   },

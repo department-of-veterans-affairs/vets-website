@@ -47,8 +47,7 @@ const formChapterTitles = {
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping address',
-  addAccessoriesPage: 'Add accessories to your order',
-  addBatteriesPage: 'Add batteries to your order',
+  addSuppliesPage: 'Add supplies to your order',
 };
 
 const asyncReturn = (returnValue, error, delay = 300) =>
@@ -199,9 +198,9 @@ const formConfig = {
     selectSuppliesChapter: {
       title: formChapterTitles.selectSupplies,
       pages: {
-        [formPageTitlesLookup.addBatteriesPage]: {
-          path: 'batteries',
-          title: formPageTitlesLookup.addBatteriesPage,
+        [formPageTitlesLookup.addSuppliesPage]: {
+          path: 'supplies',
+          title: formPageTitlesLookup.addSuppliesPage,
           schema: {
             type: 'object',
             properties: {
@@ -210,19 +209,6 @@ const formConfig = {
           },
           uiSchema: {
             [suppliesField]: batteriesUI,
-          },
-        },
-        [formPageTitlesLookup.addAccessoriesPage]: {
-          path: 'accessories',
-          title: formPageTitlesLookup.addAccessoriesPage,
-          schema: {
-            type: 'object',
-            properties: {
-              [suppliesField]: supplies,
-            },
-          },
-          uiSchema: {
-            [suppliesField]: accessoriesUI,
           },
         },
       },

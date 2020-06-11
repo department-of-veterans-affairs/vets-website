@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Element } from 'react-scroll';
 import moment from 'moment';
 import classnames from 'classnames';
+import { scrollerTo } from '../lib';
 
 const Incomplete = () => <div>Please answer all the questions above.</div>;
 
@@ -9,8 +10,11 @@ function Complete({ children }) {
   return (
     <div>
       {children}
-      <h3>Valid for:</h3>
-      <h3>{moment().format('dddd, MMMM D, h:mm a')}</h3>
+      <div className="covid-screener-date">
+        <h2 className="vads-u-font-size--h4">Valid for</h2>
+        <h3>{moment().format('dddd')}</h3>
+        <h4>{moment().format('MMM D, h:mm a')}</h4>
+      </div>
       <div className="vads-u-font-size--h3">
         <p>
           Please show this screen to the staff member at the facility entrance.
@@ -34,7 +38,16 @@ const MoreScreening = () => (
   </Complete>
 );
 
-export default function FormResult({ scrollIndex, formState }) {
+export default function FormResult({ formState }) {
+  const scrollElementName = 'multi-question-form-result-scroll-element';
+
+  useEffect(() => {
+    // only scroll when form is complete
+    if (formState.status !== 'incomplete') {
+      scrollerTo(scrollElementName);
+    }
+  });
+
   const resultList = {
     pass: {
       content: <Pass />,
@@ -60,7 +73,7 @@ export default function FormResult({ scrollIndex, formState }) {
         `covid-screener-results-${resultList[formState.status].class}`,
       )}
     >
-      <Element name={`multi-question-form-${scrollIndex}-scroll-element`} />
+      <Element name={scrollElementName} />
       <div>{resultContent}</div>
     </div>
   );
