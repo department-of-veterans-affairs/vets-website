@@ -7,7 +7,8 @@ import Scroll from 'react-scroll';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
-import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
+// import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
+import SubmitController from 'platform/forms/containers/review/SubmitController';
 
 import CallHRC from '../../static-data/CallHRC';
 import DowntimeNotification, {
@@ -152,12 +153,7 @@ class RoutedSavableReviewPage extends React.Component {
           render={this.renderDowntime}
           dependencies={downtimeDependencies}
         >
-          <SubmitController
-            formConfig={formConfig}
-            pageList={pageList}
-            path={path}
-            renderErrorMessage={this.renderErrorMessage}
-          />
+          <SubmitController renderErrorMessage={this.renderErrorMessage} />
         </DowntimeNotification>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}

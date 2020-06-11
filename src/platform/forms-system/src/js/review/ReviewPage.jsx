@@ -6,8 +6,8 @@ import { withRouter } from 'react-router';
 
 import { focusElement } from '../utilities/ui';
 import ReviewChapters from '../review/ReviewChapters';
-import SubmitController from '../review/SubmitController';
-
+// import SubmitController from '../review/SubmitController';
+import SubmitController from 'platform/forms/containers/review/SubmitController';
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
@@ -33,15 +33,15 @@ class ReviewPage extends React.Component {
     return (
       <div>
         <ReviewChapters formConfig={formConfig} pageList={pageList} />
-        <SubmitController
-          formConfig={formConfig}
-          pageList={pageList}
-          path={path}
-        />
+        <SubmitController />
       </div>
     );
   }
 }
+
+          // formConfig={formConfig}
+          // pageList={pageList}
+          // path={path}
 
 function mapStateToProps(state, ownProps) {
   const route = ownProps.route;
