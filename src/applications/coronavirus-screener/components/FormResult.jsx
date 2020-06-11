@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Element } from 'react-scroll';
 import moment from 'moment';
 import classnames from 'classnames';
+import { scrollerTo } from '../lib';
 
 const Incomplete = () => <div>Please answer all the questions above.</div>;
 
@@ -37,7 +38,16 @@ const MoreScreening = () => (
   </Complete>
 );
 
-export default function FormResult({ scrollIndex, formState }) {
+export default function FormResult({ formState }) {
+  const scrollElementName = 'multi-question-form-result-scroll-element';
+
+  useEffect(() => {
+    // only scroll when form is complete
+    if (formState.status !== 'incomplete') {
+      scrollerTo(scrollElementName);
+    }
+  });
+
   const resultList = {
     pass: {
       content: <Pass />,
@@ -63,7 +73,7 @@ export default function FormResult({ scrollIndex, formState }) {
         `covid-screener-results-${resultList[formState.status].class}`,
       )}
     >
-      <Element name={`multi-question-form-${scrollIndex}-scroll-element`} />
+      <Element name={scrollElementName} />
       <div>{resultContent}</div>
     </div>
   );

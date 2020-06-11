@@ -31,7 +31,8 @@ class ReceiveTextMessages extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  /* eslint-disable camelcase */
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.transaction) {
       this.setState({ lastTransaction: nextProps.transaction });
       if (!this.props.transaction) {

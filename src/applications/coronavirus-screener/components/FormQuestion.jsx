@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
+import { Element } from 'react-scroll';
+import { scrollerTo } from '../lib';
 
 export default function FormQuestion({
   question,
-  scrollNext,
   recordStart,
   optionsConfig,
   setQuestionValue,
   clearQuestionValues,
 }) {
+  const scrollElementName = `multi-question-form-${question.id}-scroll-element`;
+
   function handleClick(event) {
     recordStart(question.id);
     setQuestionValue({ event, questionId: question.id });
     if (question.clearValues ?? false) {
       clearQuestionValues(question.id);
     }
-    scrollNext();
   }
+
+  useEffect(() => {
+    // do not scroll for first question
+    if (question.startQuestion !== true) {
+      scrollerTo(scrollElementName);
+    }
+  });
 
   const options = optionsConfig.map((option, index) => (
     <button
@@ -37,6 +46,7 @@ export default function FormQuestion({
 
   return (
     <div className="feature" id={`question-${question.id}`}>
+      <Element name={scrollElementName} />
       <h2>{question.text}</h2>
       {options}
     </div>
