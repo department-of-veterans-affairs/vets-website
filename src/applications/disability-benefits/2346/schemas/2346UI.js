@@ -138,7 +138,7 @@ export default {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const emailMatcher = () => formData.email === fieldData;
+            const emailMatcher = () => formData.vetEmail === fieldData;
             const doesEmailMatch = emailMatcher();
             if (!doesEmailMatch) {
               errors.addError(
