@@ -4941,6 +4941,14 @@ cypress-axe@^0.8.1:
   resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-0.8.1.tgz#ddb37dca6570c0642dda2388daf678e83b3e8d3f"
   integrity sha512-hX48+r5n7Ns7CHkn601Ag0JiCG1vby5+g7QhlP8X+mkiVYpTLpXAPiiaKFj9QTTCdZSI5+0UqwIxA+ShTsr5tA==
 
+cypress-multi-reporters@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/cypress-multi-reporters/-/cypress-multi-reporters-1.4.0.tgz#5f1d0484a20959cfe782f1bf65ad16c6ad804da7"
+  integrity sha512-CjpQduW43KVzY45hhKC/qf8MSebRpx6JyEz6py8F+0GrYS8rE5TZ8wXv9dPUs/PaT6w+dR8KIgLSMr967Om7iA==
+  dependencies:
+    debug "^4.1.1"
+    lodash "^4.17.15"
+
 cypress-plugin-tab@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/cypress-plugin-tab/-/cypress-plugin-tab-1.0.5.tgz#a40714148104004bb05ed62b1bf46bb544f8eb4a"
