@@ -10,60 +10,58 @@ import { signInServiceName as signInServiceNameSelector } from 'platform/user/au
 
 import ProfileInfoTable from '../ProfileInfoTable';
 
-class EmailInformationSection extends Component {
-  render() {
-    let link;
-    let buttonText;
+const EmailInformationSection = ({ className, signInServiceName }) => {
+  let link;
+  let buttonText;
 
-    if (this.props.signInServiceName === 'idme') {
-      link = 'https://wallet.id.me/settings';
-      buttonText = 'ID.me';
-    }
-
-    if (this.props.signInServiceName === 'dslogon') {
-      link = 'https://myaccess.dmdc.osd.mil/identitymanagement';
-      buttonText = 'DS Logon';
-    }
-
-    if (this.props.signInServiceName === 'mhv') {
-      link = 'https://www.myhealth.va.gov';
-      buttonText = 'My HealtheVet';
-    }
-
-    return (
-      <div className={this.props.className}>
-        <ProfileInfoTable
-          title="Contact email address"
-          fieldName="emailAddress"
-          data={[
-            {
-              value: (
-                <>
-                  <p className="vads-u-margin-top--0">
-                    This is the email we’ll use to contact you.
-                  </p>
-                  <p>
-                    To update the email you use to sign in, go to the website
-                    where you manage your log in information.
-                  </p>
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    Update email address on {buttonText}
-                  </a>
-                </>
-              ),
-            },
-            {
-              title: 'Contact email address',
-              value: <Email />,
-            },
-          ]}
-          list
-          className="vads-u-margin-y--4"
-        />
-      </div>
-    );
+  if (signInServiceName === 'idme') {
+    link = 'https://wallet.id.me/settings';
+    buttonText = 'ID.me';
   }
-}
+
+  if (signInServiceName === 'dslogon') {
+    link = 'https://myaccess.dmdc.osd.mil/identitymanagement';
+    buttonText = 'DS Logon';
+  }
+
+  if (signInServiceName === 'mhv') {
+    link = 'https://www.myhealth.va.gov';
+    buttonText = 'My HealtheVet';
+  }
+
+  return (
+    <div className={className}>
+      <ProfileInfoTable
+        title="Contact email address"
+        fieldName="emailAddress"
+        data={[
+          {
+            value: (
+              <>
+                <p className="vads-u-margin-top--0">
+                  This is the email we’ll use to contact you.
+                </p>
+                <p>
+                  To update the email you use to sign in, go to the website
+                  where you manage your log in information.
+                </p>
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  Update email address on {buttonText}
+                </a>
+              </>
+            ),
+          },
+          {
+            title: 'Contact email address',
+            value: <Email />,
+          },
+        ]}
+        list
+        className="vads-u-margin-y--4"
+      />
+    </div>
+  );
+};
 
 EmailInformationSection.propTypes = {
   className: PropTypes.string,
