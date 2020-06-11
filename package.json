@@ -169,7 +169,7 @@
     "eslint-plugin-sonarjs": "^0.5.0",
     "eslint-plugin-unicorn": "^20.0.0",
     "eslint-plugin-va": "./script/eslint-plugin-va",
-    "exports-loader": "^0.6.3",
+    "exports-loader": "^1.0.0",
     "express-history-api-fallback": "^2.0.0",
     "extract-text-webpack-plugin": "next",
     "file-loader": "^1.1.11",
