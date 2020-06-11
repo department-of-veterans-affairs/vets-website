@@ -1,6 +1,7 @@
+const express = require('express');
 const fetch = require('node-fetch');
-const fs = require('fs-extra');
 const path = require('path');
+const cors = require('cors');
 
 const BUCKETS = require('../../../site/constants/buckets');
 const ENVIRONMENTS = require('../../../site/constants/environments');
@@ -71,4 +72,12 @@ function setupProxy() {
   };
 }
 
-module.exports = setupProxy;
+const app = express();
+
+app.use(cors());
+app.use(setupProxy());
+
+app.listen('3500', () => {
+  // eslint-disable-next-line no-console
+  console.log(`Mock API server listening on port 3500`);
+});
