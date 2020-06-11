@@ -21,7 +21,8 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Application"
         >
-          Please complete the 21-1900 form to apply for Vocational Rehabilitation.
+          Please complete the 21-1900 form to apply for Vocational
+          Rehabilitation.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for Vocational Rehabilitation.</h4>
         <div className="process schemaform-process">
