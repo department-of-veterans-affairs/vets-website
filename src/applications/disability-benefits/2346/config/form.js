@@ -195,19 +195,6 @@ const formConfig = {
             [suppliesField]: batteriesUI,
           },
         },
-        [formPageTitlesLookup.addAccessoriesPage]: {
-          path: 'accessories',
-          title: formPageTitlesLookup.addAccessoriesPage,
-          schema: {
-            type: 'object',
-            properties: {
-              [suppliesField]: supplies,
-            },
-          },
-          uiSchema: {
-            [suppliesField]: accessoriesUI,
-          },
-        },
       },
     },
   },

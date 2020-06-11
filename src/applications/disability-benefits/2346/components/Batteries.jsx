@@ -239,7 +239,7 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see my hearing aid?">
+          <AdditionalInfo triggerText="What if I don't see my device?">
             <p>
               You may not see your hearing aid device if you haven’t placed an
               order for resupply items within the last 2 years. If you need to
