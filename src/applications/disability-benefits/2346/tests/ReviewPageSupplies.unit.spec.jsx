@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import ReviewPageBatteries from '../components/ReviewPageBatteries';
+import ReviewPageSupplies from '../components/ReviewPageSupplies';
 
 describe('ReviewPageAccessories', () => {
   const fakeStore = {
@@ -57,50 +57,42 @@ describe('ReviewPageAccessories', () => {
     subscribe: () => {},
     dispatch: () => {},
   };
-  it('should render ReviewPageBatteries', () => {
-    const reviewPageBatteries = mount(
-      <ReviewPageBatteries store={fakeStore} />,
-    );
-    expect(reviewPageBatteries).not.to.be.undefined;
-    reviewPageBatteries.unmount();
+  it('should render reviewPageSupplies', () => {
+    const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
+    expect(reviewPageSupplies).not.to.be.undefined;
+    reviewPageSupplies.unmount();
   });
 
   it('verify accessories selected countt', () => {
-    const reviewPageBatteries = mount(
-      <ReviewPageBatteries store={fakeStore} />,
-    );
+    const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
     expect(
-      reviewPageBatteries
+      reviewPageSupplies
         .find('span')
         .at(1)
         .text(),
     ).to.equal('(1 out of 1 selected)');
-    reviewPageBatteries.unmount();
+    reviewPageSupplies.unmount();
   });
 
   it('verify batteries heading content', () => {
-    const reviewPageBatteries = mount(
-      <ReviewPageBatteries store={fakeStore} />,
-    );
+    const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
     expect(
-      reviewPageBatteries
+      reviewPageSupplies
         .find('h5')
         .at(0)
         .text(),
     ).to.equal('OMEGAX d3241');
-    reviewPageBatteries.unmount();
+    reviewPageSupplies.unmount();
   });
 
   it('verify batteries quantity content', () => {
-    const reviewPageBatteries = mount(
-      <ReviewPageBatteries store={fakeStore} />,
-    );
+    const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
     expect(
-      reviewPageBatteries
+      reviewPageSupplies
         .find('span')
         .at(2)
         .text(),
     ).to.equal('ZA1239 batteries (Quantity: 60)');
-    reviewPageBatteries.unmount();
+    reviewPageSupplies.unmount();
   });
 });
