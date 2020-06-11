@@ -10,13 +10,13 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     pathname: '/testing/0',
   };
 
-  it('should render save links and downtime component', () => {
-    const setData = sinon.spy();
-    const onSubmit = sinon.spy();
-    const router = {
+  const getProps = () => ({
+    setData: sinon.spy(),
+    onSubmit: sinon.spy(),
+    router: {
       push: sinon.spy(),
-    };
-    const route = {
+    },
+    route: {
       path: 'testPage',
       pageList: [
         {
@@ -31,6 +31,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         },
       ],
       formConfig: {
+        downtime: {},
         chapters: {
           chapter1: {
             pages: {
@@ -46,8 +47,8 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
           },
         },
       },
-    };
-    const form = {
+    },
+    form: {
       disableSave: false,
       submission: {
         hasAttemptedSubmit: false,
@@ -61,17 +62,43 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       data: {
         privacyAgreementAccepted: true,
       },
-    };
-
-    const user = {
+    },
+    user: {
       profile: {
         savedForms: [],
       },
       login: {
         currentlyLoggedIn: true,
       },
-    };
+    },
+  });
 
+  it('should render ReviewChapters', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        router={router}
+        setData={setData}
+        openChapters={[]}
+        form={form}
+        user={user}
+        onSubmit={onSubmit}
+        setEditMode={f => f}
+        setPrivacyAgreement={f => f}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        path={route.path}
+        location={location}
+      />,
+    );
+
+    expect(tree.find('withRouter(Connect(ReviewChapters))').exists()).to.be
+      .true;
+    tree.unmount();
+  });
+
+  it('should render save links and downtime component', () => {
+    const { router, setData, form, user, onSubmit, route } = getProps();
     const tree = shallow(
       <RoutedSavableReviewPage
         router={router}
@@ -162,71 +189,12 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     tree.unmount();
   });
 
+  it('should render error messages', () => {});
+
   describe('downtime banner', () => {
-    const setData = sinon.spy();
-    const onSubmit = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
-    const route = {
-      path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page',
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage',
-        },
-        {
-          path: 'next-page',
-        },
-      ],
-      formConfig: {
-        downtime: {},
-        chapters: {
-          chapter1: {
-            pages: {
-              page1: {
-                schema: {},
-              },
-            },
-          },
-          chapter2: {
-            pages: {
-              page2: {},
-            },
-          },
-        },
-      },
-    };
-    const form = {
-      disableSave: false,
-      submission: {
-        hasAttemptedSubmit: false,
-      },
-      page1: {
-        schema: {},
-      },
-      page2: {
-        schema: {},
-      },
-      data: {
-        privacyAgreementAccepted: true,
-      },
-    };
-
-    const user = {
-      profile: {
-        savedForms: [],
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
     let tree;
     beforeEach(() => {
+      const { router, setData, form, user, onSubmit, route } = getProps();
       tree = shallow(
         <RoutedSavableReviewPage
           router={router}
