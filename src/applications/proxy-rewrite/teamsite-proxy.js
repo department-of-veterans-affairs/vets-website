@@ -2,48 +2,38 @@ const express = require('express');
 const fetch = require('node-fetch');
 const path = require('path');
 const cors = require('cors');
-const commandLineArgs = require('command-line-args');
 
-const BUCKETS = require('../../../site/constants/buckets');
-const ENVIRONMENTS = require('../../../site/constants/environments');
-const HOSTNAMES = require('../../../site/constants/hostnames');
+const BUCKETS = require('../../site/constants/buckets');
+const ENVIRONMENTS = require('../../site/constants/environments');
+const HOSTNAMES = require('../../site/constants/hostnames');
+
+const TEAMSITE_PROXY_PORT = process.env.TEAMSITE_PROXY_HOST || 3500;
+const TEAMSITE_PROXY_HOST = process.env.TEAMSITE_PROXY_PORT || 'localhost';
+
+const PROXY_REWRITE_HOST = 'localhost:3001';
 
 const PROD_BUCKET = BUCKETS[ENVIRONMENTS.VAGOVPROD];
 const PROD_DOMAIN = `https://${HOSTNAMES[ENVIRONMENTS.VAGOVPROD]}`;
 const PROD_BUCKET_REGEX = new RegExp(PROD_BUCKET.replace(/\./g, '\\.'), 'g');
 
-const OPTIONS_DEFINITIONS = [
-  {
-    name: 'webpack-server-hostname',
-    type: String,
-    defaultValue: 'http://localhost:3001',
-  },
-  { name: 'port', type: String, defaultValue: '3500' },
-  { name: 'host', type: String, defaultValue: 'localhost' },
-];
-
-const COMMAND_ARGS = commandLineArgs(OPTIONS_DEFINITIONS);
-
-const contentTypes = {
+const CONTENT_TYPES = {
   '.json': 'application/json',
   '.css': 'text/css',
   '.js': 'application/javascript',
 };
 
-const localPaths = ['/generated/', '/fonts/'];
+const PROXY_REWRITE_ASSET_PATHS = ['/generated/', '/fonts/'];
 
 async function downloadAsset(req, res) {
-  const existsLocally = localPaths.some(localPath =>
+  const existsLocally = PROXY_REWRITE_ASSET_PATHS.some(localPath =>
     req.path.startsWith(localPath),
   );
   if (existsLocally) {
-    const proxied = await fetch(
-      `${COMMAND_ARGS['webpack-server-hostname']}${req.path}`,
-    );
+    const proxied = await fetch(`http://${PROXY_REWRITE_HOST}${req.path}`);
     const extension = path.extname(req.path);
 
-    if (contentTypes[extension]) {
-      res.set('Content-Type', contentTypes[extension]);
+    if (CONTENT_TYPES[extension]) {
+      res.set('Content-Type', CONTENT_TYPES[extension]);
     }
 
     if (['.js', '.json', '.css'].includes(extension)) {
@@ -88,9 +78,15 @@ app.use((error, req, res) => {
   res.json({ error });
 });
 
+module.exports = {
+  app,
+  port: TEAMSITE_PROXY_PORT,
+  host: TEAMSITE_PROXY_HOST,
+};
+
 if (require.main === module) {
-  app.listen(COMMAND_ARGS.port, COMMAND_ARGS.host, () => {
+  app.listen(TEAMSITE_PROXY_PORT, TEAMSITE_PROXY_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`TeamSite listening on port ${COMMAND_ARGS.port}`);
+    console.log(`TeamSite listening on port ${TEAMSITE_PROXY_PORT}`);
   });
 }
