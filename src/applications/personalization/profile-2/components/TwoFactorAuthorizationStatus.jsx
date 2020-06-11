@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { mfa } from 'platform/user/authentication/utilities';
@@ -34,6 +35,11 @@ const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled, useSSOe }) => {
       </p>
     </>
   );
+};
+
+TwoFactorAuthorizationStatus.propTypes = {
+  isMultifactorEnabled: PropTypes.bool.isRequired,
+  useSSOe: PropTypes.bool.isRequired,
 };
 
 export default TwoFactorAuthorizationStatus;

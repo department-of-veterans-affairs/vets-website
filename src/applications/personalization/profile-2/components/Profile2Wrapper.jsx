@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import { isWideScreen } from 'platform/utilities/accessibility/index';
@@ -46,6 +47,20 @@ const Profile2 = ({ children, location, routes }) => {
       </div>
     </>
   );
+};
+
+Profile2.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      component: PropTypes.func.isRequired,
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+      requiresLOA3: PropTypes.bool.isRequired,
+      requiresMVI: PropTypes.bool.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Profile2;
