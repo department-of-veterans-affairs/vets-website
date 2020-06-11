@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const activeDutyNotice = (
-  <p>
+  <p className="vads-u-background-color--white vads-u-color--gray-dark">
     VET TEC is available only to Veterans. If you’re an active-duty service
     member, please consider applying for VET TEC when you’re no longer on active
     duty.

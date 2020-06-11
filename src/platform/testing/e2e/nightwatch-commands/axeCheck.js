@@ -13,9 +13,14 @@ const axeExceptions = {
         node.html.startsWith('<select') ||
         // radios labels overlap the input
         node.html.startsWith('<label') ||
+        // added exception - specifically set white bg & dark fg colors
+        // See src/applications/edu-benefits/0994/content/militaryService.jsx
+        node.html.includes(
+          'vads-u-background-color--white vads-u-color--gray-dark',
+        ) ||
         // no idea why for these next 2
-        node.html.startsWith('<legend') // ||
-        // node.html.includes('schemaform-required-span')
+        node.html.startsWith('<legend') ||
+        node.html.includes('schemaform-required-span')
       ) {
         return false;
       }
