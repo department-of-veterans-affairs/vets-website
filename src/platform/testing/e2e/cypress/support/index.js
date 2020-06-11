@@ -4,10 +4,15 @@ import 'cypress-plugin-tab';
 
 import './commands';
 
-// Workaround to allow Cypress to intercept requests made with the Fetch API.
-// This forces fetch to fall back to the polyfill, which can get intercepted.
-// https://github.com/cypress-io/cypress/issues/95
 Cypress.on('window:before:load', window => {
-  // eslint-disable-next-line no-param-reassign
-  delete window.fetch;
+  // Workaround to allow Cypress to intercept requests made with the Fetch API.
+  // This forces fetch to fall back to the polyfill, which can get intercepted.
+  // https://github.com/cypress-io/cypress/issues/95
+  delete window.fetch; // eslint-disable-line no-param-reassign
+
+  // Hide Foresee overlay.
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = '.__acs { display: none !important; }';
+  document.head.appendChild(style);
 });
