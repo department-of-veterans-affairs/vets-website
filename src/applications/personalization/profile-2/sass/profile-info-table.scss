@@ -6,10 +6,6 @@ $corner-size: 4px;
     border-top-right-radius: $corner-size;
   }
 
-  ol {
-    padding: 0;
-  }
-
   // there is a bug that prevents setting an overall 1px border with a 0px
   // top-border override using the utility classes. And applying three utility
   // classes - one each for left, right, and bottom - felt like the wrong kind
