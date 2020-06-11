@@ -24,11 +24,6 @@ class EmailInformationSection extends Component {
       link = 'https://myaccess.dmdc.osd.mil/identitymanagement';
       buttonText = 'DS Logon';
     }
-EmailInformationSection.propTypes = {
-  className: PropTypes.string,
-};
-
-export default EmailInformationSection;
 
     if (this.props.signInServiceName === 'mhv') {
       link = 'https://www.myhealth.va.gov';
@@ -69,6 +64,11 @@ export default EmailInformationSection;
     );
   }
 }
+
+EmailInformationSection.propTypes = {
+  className: PropTypes.string,
+  signInServiceName: PropTypes.string.isRequired,
+};
 
 export const mapStateToProps = state => ({
   signInServiceName: signInServiceNameSelector(state),
