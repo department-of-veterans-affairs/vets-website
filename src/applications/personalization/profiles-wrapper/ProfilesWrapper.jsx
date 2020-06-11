@@ -1,10 +1,9 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Profile2Wrapper from 'applications/personalization/profile-2/components/Profile2Wrapper';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Profile2Router from 'applications/personalization/profile-2/components/Profile2Router';
 import ProfileOneWrapper from 'applications/personalization/profile360/containers/VAProfileApp';
 import { PROFILE_VERSION } from 'applications/personalization/profile-2/constants';
-import routes from 'applications/personalization/profile-2/routes';
 
 import {
   isInMVI as isInMVISelector,
@@ -14,67 +13,25 @@ import {
 import localStorage from 'platform/utilities/storage/localStorage';
 import { selectShowProfile2 } from 'applications/personalization/profile-2/selectors';
 
-const LoadingPage = <Profile2Wrapper>Loading...</Profile2Wrapper>;
+const LoadingPage = () => (
+  <div className="vads-u-margin-y--5">
+    <LoadingIndicator setFocus message="Loading your information..." />
+  </div>
+);
 
 const ProfilesWrapper = ({ showProfile1, isLOA1, isLOA3, isInMVI }) => {
   // On initial render, both isLOA props are false.
   // We need to make sure the proper redirect is hit,
   // so we show a loading state till one value is true.
   if (!isLOA1 && !isLOA3) {
-    return (
-      <BrowserRouter>
-        <Suspense fallback={LoadingPage}>
-          <Profile2Wrapper />
-        </Suspense>
-      </BrowserRouter>
-    );
+    return <LoadingPage />;
   }
 
   if (showProfile1) {
     return <ProfileOneWrapper />;
   }
 
-  return (
-    <BrowserRouter>
-      <Suspense fallback={LoadingPage}>
-        <Switch>
-          {routes.map(route => {
-            if ((route.requiresLOA3 && !isLOA3) || !isInMVI) {
-              return (
-                <Redirect
-                  from={route.path}
-                  key="/profile/account-security"
-                  to="/profile/account-security"
-                />
-              );
-            }
-
-            const Component = route.component;
-
-            return (
-              <Route
-                component={props => (
-                  <Profile2Wrapper {...props}>
-                    <Component />
-                  </Profile2Wrapper>
-                )}
-                exact
-                key={route.path}
-                path={route.path}
-              />
-            );
-          })}
-
-          <Redirect
-            exact
-            from="/profile"
-            key="/profile/personal-information"
-            to="/profile/personal-information"
-          />
-        </Switch>
-      </Suspense>
-    </BrowserRouter>
-  );
+  return <Profile2Router isLOA3={isLOA3} isInMVI={isInMVI} />;
 };
 
 const mapStateToProps = state => {

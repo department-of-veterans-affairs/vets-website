@@ -83,111 +83,76 @@
     padding-top: 1em;
   }
 
-  h1:focus,
-  h2:focus,
-  h3:focus {
+  h1:focus {
     outline: none;
   }
+  nav {
+    margin-left: 0.5rem;
+  }
+}
+@media (max-width: 481px) {
+  .about-this-tool-mobile {
+    padding-left: 20px;
+  }
+}
 
-  @media (max-width: 481px) {
-    .about-this-tool-mobile {
-      padding-left: 20px;
-    }
+.gibct-legend {
+  margin-top: 1rem;
+  display: block;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  max-width: 46rem;
+  padding-bottom: 0;
+}
+
+/*
+ * These styles override our overly broad accordion styles
+ */
+.learn-more-button {
+  background-image: none !important;
+  font-weight: inherit !important;
+}
+
+.gids-radio-buttons {
+  position: relative;
+  @include media($small-screen) {
+    display: flex;
+  }
+  padding-left: .50rem;
+}
+
+.program-description {
+  margin-top: 1.0rem;
+  margin-bottom: 1.0rem;
+  label {
+    margin-left: 1.7rem;
+  }
+}
+
+.gids-radio-buttons-input {
+  width: 40px;
+}
+
+.section-item {
+  padding-bottom: 0.188em;
+  padding-top: 0.188em;
+
+  .section-button {
+    border: 2px solid #AEB0B5 !important;
+    margin: 0px;
   }
 
-  .gibct-legend {
-    margin-top: 1rem;
-    display: block;
-    font-weight: inherit;
-    font-size: inherit;
-    color: inherit;
-    line-height: inherit;
-    max-width: 46rem;
-    padding-bottom: 0;
+  .section-button-span {
+    padding-right: 2rem;
   }
 
-  /*
-   * These styles override our overly broad accordion styles
-   */
-  .learn-more-button {
-    background-image: none !important;
-    font-weight: inherit !important;
+  .section-content {
+    max-width: 25em;
   }
 
-  .gids-radio-buttons {
-    position: relative;
-    @include media($small-screen) {
-      display: flex;
-    }
-    padding-left: .50rem;
-  }
-
-  .program-description {
-    margin-top: 1.0rem;
-    margin-bottom: 1.0rem;
-    label {
-      margin-left: 1.7rem;
-    }
-  }
-
-  .form-expanding-group-open {
-    border-left: none;
-  }
-
-  .gids-radio-buttons-input {
-    width: 40px;
-  }
-
-  .vet-tec-programs-table {
-    .name-col {
-      width: 70%;
-    }
-    .hours-col {
-      width: 15%;
-    }
-    .tuition-col {
-      width: 15%;
-    }
-    thead {
-      tr {
-        th {
-          border-top: 0;
-          border-right: 0;
-          border-left: 0;
-        }
-      }
-    }
-    tr {
-      th {
-        border-right: 0;
-        border-left: 0;
-      }
-      td {
-        border-right: 0;
-        border-left: 0;
-      }
-    }
-  }
-
-  .section-item {
-    padding-bottom: 0.188em;
-    padding-top: 0.188em;
-
-    .section-button {
-      border: 2px solid #AEB0B5 !important;
-      margin: 0px;
-    }
-
-    .section-button-span {
-      padding-right: 2rem;
-    }
-
-    .section-content {
-      max-width: 25em;
-    }
-
-    .section-content[aria-hidden="false"] {
-      margin-bottom: 0.625em;
-    }
+  .section-content[aria-hidden="false"] {
+    margin-bottom: 0.625em;
   }
 }

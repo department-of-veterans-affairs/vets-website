@@ -15,10 +15,10 @@ export const FindYellowRibbonPage = () => (
         {/* Pre-form content */}
         <p className="vads-l-col--12 medium-screen:vads-l-col--7">
           Find out if your school participates in the Yellow Ribbon Program. If
-          you already have Post-9/11 GI Bill benefits, the Yellow Ribbon Program
-          can help you pay for tuition for an associate or higher degree. The
-          amount of money you get varies by school, degree type, and the
-          academic program you're enrolled in.
+          you already have Post-9/11 GI Bill benefits, this program may help you
+          pay for tuition for a degree or training program at a college or other
+          institution of higher learning. The amount of money you get varies by
+          school, degree type, and the academic program you&apos;re enrolled in.
         </p>
 
         <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
@@ -44,8 +44,8 @@ export const FindYellowRibbonPage = () => (
         </ul>
 
         <p>
-          Search for schools participating in the current academic year by one
-          or all of the terms below.
+          Search for schools participating in the current academic year, August
+          2019 through July 2020.
         </p>
       </div>
 

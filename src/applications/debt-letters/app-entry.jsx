@@ -1,7 +1,7 @@
 import React from 'react';
 import 'platform/polyfills';
 import './sass/debt-letters.scss';
-import DebtLettersWrapper from './components/DebtLettersWrapper';
+import routes from './routes';
 
 import startApp from 'platform/startup';
 
@@ -10,7 +10,7 @@ import manifest from './manifest.json';
 
 startApp({
   url: manifest.rootUrl,
-  component: <DebtLettersWrapper />,
   reducer,
+  routes,
   entryName: manifest.entryName,
 });

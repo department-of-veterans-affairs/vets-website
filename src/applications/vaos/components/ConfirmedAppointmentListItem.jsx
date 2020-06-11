@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from '../utils/moment-tz';
 import { formatFacilityAddress } from '../utils/formatters';
-import { APPOINTMENT_STATUS } from '../utils/constants';
+import { APPOINTMENT_STATUS, PURPOSE_TEXT } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from './AddToCalendar';
 import VAFacilityLocation from './VAFacilityLocation';
@@ -11,7 +11,10 @@ import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from './AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
-import { getVARFacilityId } from '../services/appointment';
+import {
+  getVARFacilityId,
+  getVAAppointmentLocationId,
+} from '../services/appointment';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -40,6 +43,13 @@ export default function ConfirmedAppointmentListItem({
   const isInPersonVAAppointment =
     !appointment.vaos.videoType && !isCommunityCare;
   const isVideoAppointment = !!appointment.vaos.videoType;
+
+  const showInstructions =
+    isCommunityCare ||
+    (isInPersonVAAppointment &&
+      PURPOSE_TEXT.some(purpose =>
+        appointment?.comment?.startsWith(purpose.short),
+      ));
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -106,15 +116,22 @@ export default function ConfirmedAppointmentListItem({
           {isInPersonVAAppointment && (
             <VAFacilityLocation
               facility={facility}
+              facilityId={parseFakeFHIRId(
+                getVAAppointmentLocationId(appointment),
+              )}
               clinicName={appointment.participant[0].actor.display}
             />
           )}
         </div>
-        {isCommunityCare && (
-          <CommunityCareInstructions instructions={appointment.comment} />
-        )}
-        {isInPersonVAAppointment && (
-          <AppointmentInstructions instructions={appointment.comment} />
+        {showInstructions && (
+          <>
+            {isCommunityCare && (
+              <CommunityCareInstructions instructions={appointment.comment} />
+            )}
+            {isInPersonVAAppointment && (
+              <AppointmentInstructions instructions={appointment.comment} />
+            )}
+          </>
         )}
       </div>
 
@@ -123,12 +140,7 @@ export default function ConfirmedAppointmentListItem({
           <div className="vads-u-margin-top--2">
             <AddToCalendar
               summary={header}
-              description={
-                appointment.comment &&
-                (isInPersonVAAppointment || isCommunityCare)
-                  ? appointment.comment
-                  : ''
-              }
+              description={showInstructions ? appointment.comment : ''}
               location={location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}

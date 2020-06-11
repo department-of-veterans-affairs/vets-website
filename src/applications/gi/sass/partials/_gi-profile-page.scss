@@ -124,22 +124,23 @@
     }
 
     button {
-      margin: 0.5em 0;
+      margin: 0.75em 0 0 0;
       padding: 1rem 2rem;
-    }
-
-    .form-expanding-group-open {
-      margin-bottom: 3rem;
-      @media screen and (min-width: $small-screen) {
-        border-left: none;
-        padding-left: 0;
-      }
     }
 
     .calculator-result {
       h5 {
         padding: 0;
       }
+    }
+
+    li.section-item button.usa-accordion-button {
+      padding-right: 4rem;
+    }
+
+    .calculate-button:disabled {
+      color: $color-white;
+      background-color: $color-gray-lighter;
     }
   }
 

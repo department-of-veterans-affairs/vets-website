@@ -51,29 +51,24 @@ export default class VAPEditView extends React.Component {
     this.props.onSubmit(this.props.field.value);
   };
 
-  // TODO: delete this if possible
-  isInitialized = () =>
-    this.props.isInitialized ? this.props.isInitialized() : !!this.props.field;
-
   render() {
     const {
       onSubmit,
-      isInitialized,
       props: {
+        analyticsSectionName,
+        clearErrors,
+        deleteDisabled,
+        field,
         isEmpty,
         onCancel,
-        title,
-        clearErrors,
-        render,
         onDelete,
+        render,
+        title,
         transaction,
         transactionRequest,
-        analyticsSectionName,
-        deleteDisabled,
       },
     } = this;
 
-    const isFormReady = isInitialized();
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
     const error =
@@ -113,7 +108,7 @@ export default class VAPEditView extends React.Component {
             />
           </div>
         )}
-        {isFormReady && render(actionButtons, onSubmit)}
+        {!!field && render(actionButtons, onSubmit)}
       </>
     );
   }

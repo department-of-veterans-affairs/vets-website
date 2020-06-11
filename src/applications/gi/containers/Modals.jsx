@@ -147,7 +147,7 @@ export class Modals extends React.Component {
           providers in three installments based on the progress and success of
           their Veteran students.
         </p>
-        <p>
+        <div>
           Training providers receive:
           <ul>
             <li>
@@ -162,7 +162,7 @@ export class Modals extends React.Component {
               employment in their field of study
             </li>
           </ul>
-        </p>
+        </div>
       </Modal>
       <Modal
         onClose={this.props.hideModal}
@@ -926,24 +926,51 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('calcEnrolled')}
         >
           <h3>Enrollment status</h3>
-          <p>
-            Are you considered a full-time or part-time student by your school?
-            Students attending school less than full-time will get a pro-rated
-            monthly housing allowance. Students attending school exactly ½ time
-            or less won’t get a monthly housing allowance.
-          </p>
-          <p>
-            For more information about MHA increases or decreases, visit{' '}
-            <a
-              title="For more information about MHA increases or decreases click here"
-              href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              this page
-            </a>
-            .
-          </p>
+          {environment.isProduction() ? (
+            <div>
+              {' '}
+              <p>
+                Are you considered a full-time or part-time student by your
+                school? Students attending school less than full-time will get a
+                pro-rated monthly housing allowance. Students attending school
+                exactly ½ time or less won’t get a monthly housing allowance.
+              </p>
+              <p>
+                For more information about MHA increases or decreases, visit{' '}
+                <a
+                  title="For more information about MHA increases or decreases click here"
+                  href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  this page
+                </a>
+                .
+              </p>
+            </div>
+          ) : (
+            <div>
+              {' '}
+              <p>
+                Are you considered a full-time or part-time student by your
+                school? Students attending school less than full-time will get a
+                pro-rated monthly housing allowance. Students attending school
+                exactly ½ time or less won’t get a monthly housing allowance.
+              </p>
+              <p>
+                Learn more about{' '}
+                <a
+                  title="For more information about MHA increases or decreases click here"
+                  href="https://gibill.custhelp.va.gov/app/answers/detail/a_id/1480/kw/pro-rated%20monthly%20housing%20allowance"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  pro-rated housing allowance calculations
+                </a>
+                .
+              </p>
+            </div>
+          )}
         </Modal>
 
         <Modal
@@ -962,21 +989,46 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('calcKicker')}
         >
           <h3>Eligible for kicker bonus?</h3>
-          <p>
-            A kicker bonus or college fund is an additional incentive, paid for
-            by the Department of Defense, to extend a tour of duty or retain
-            highly skilled military personnel. The money is a bonus on top of
-            any GI Bill payments paid directly to the Veteran. To learn more,
-            visit{' '}
-            <a
-              href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              this page
-            </a>
-            .
-          </p>
+          {environment.isProduction() ? (
+            <p>
+              A kicker bonus or college fund is an additional incentive, paid
+              for by the Department of Defense, to extend a tour of duty or
+              retain highly skilled military personnel. The money is a bonus on
+              top of any GI Bill payments paid directly to the Veteran. To learn
+              more, visit{' '}
+              <a
+                href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page
+              </a>
+              .
+            </p>
+          ) : (
+            <div>
+              {' '}
+              <p>
+                A kicker bonus (also known as the “College Fund”) is an
+                additional incentive paid by an individual’s branch of service.
+                The kicker bonus may be offered to extend a tour of duty, retain
+                highly-skilled military personnel, or for other reasons the
+                branch of service determines. The money is on top of any GI Bill
+                payments paid directly to the Veteran.
+              </p>
+              <p>
+                Learn more about{' '}
+                <a
+                  href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  the GI Bill kicker bonus
+                </a>
+                .
+              </p>
+            </div>
+          )}
         </Modal>
 
         <Modal
@@ -1011,24 +1063,50 @@ export class Modals extends React.Component {
         <div className="align-left">
           <h3>Which GI Bill benefit do you want to use?</h3>
         </div>
-        <p>
-          You may be eligible for multiple types of education and training
-          programs. Different programs offer different benefits, so it’s
-          important to choose the program that will best meet your needs. Use
-          this tool to compare programs and schools.
-        </p>
-        <p>
-          For detailed information on eligibility requirements and general
-          program benefits, visit{' '}
-          <a
-            href="/education/eligibility/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            this page
-          </a>
-          .
-        </p>
+        {environment.isProduction() ? (
+          <div>
+            {' '}
+            <p>
+              You may be eligible for multiple types of education and training
+              programs. Different programs offer different benefits, so it’s
+              important to choose the program that will best meet your needs.
+              Use this tool to compare programs and schools.
+            </p>
+            <p>
+              For detailed information on eligibility requirements and general
+              program benefits, visit{' '}
+              <a
+                href="/education/eligibility/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page
+              </a>
+              .
+            </p>
+          </div>
+        ) : (
+          <div>
+            {' '}
+            <p>
+              You may be eligible for multiple types of education and training
+              programs. Different programs offer different benefits, so it’s
+              important to choose the program that will best meet your needs.
+              Use this tool to compare programs and schools.
+            </p>
+            <p>
+              Learn more about{' '}
+              <a
+                href="/education/eligibility/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GI Bill program benefits and eligibility requirements
+              </a>
+              .
+            </p>
+          </div>
+        )}
       </Modal>
 
       <Modal
@@ -1069,32 +1147,56 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
-        <p>
-          The{' '}
-          <a
-            title="Post-9/11 GI Bill"
-            href="../post911_gibill.asp"
-            id="anch_375"
-          >
-            Post-9/11 GI Bill
-          </a>{' '}
-          provides financial support for education and a housing allowance. To
-          qualify for this program, you must have served after September 10,
-          2001 for at least 90 days or, if you were discharged with a
-          service-connected disability, for at least 30 days. You also need to
-          have received an honorable discharge.
-        </p>
-        <p>
-          For detailed information about Cumulative Post-9/11 Service, visit{' '}
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            this page
-          </a>
-          .
-        </p>
+        {environment.isProduction() ? (
+          <div>
+            {' '}
+            <p>
+              The{' '}
+              <a
+                title="Post-9/11 GI Bill"
+                href="../post911_gibill.asp"
+                id="anch_375"
+              >
+                Post-9/11 GI Bill
+              </a>{' '}
+              provides financial support for education and a housing allowance.
+              To qualify for this program, you must have served after September
+              10, 2001 for at least 90 days or, if you were discharged with a
+              service-connected disability, for at least 30 days. You also need
+              to have received an honorable discharge.
+            </p>
+            <p>
+              For detailed information about Cumulative Post-9/11 Service, visit{' '}
+              <a
+                href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                this page
+              </a>
+              .
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p>
+              The{' '}
+              <a
+                href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Post-9/11 GI Bill
+              </a>{' '}
+              education benefits you receive depend on how much active duty
+              service you’ve completed since September 10, 2001. We calculate
+              the amount based on the total (cumulative) time you’ve spent on
+              active duty. If you’re a Purple Heart or Fry Scholarship
+              recipient, or have a service-connected discharge, you’ll receive
+              100% of the benefits.
+            </p>
+          </div>
+        )}
       </Modal>
 
       <Modal
@@ -1163,66 +1265,37 @@ export class Modals extends React.Component {
           doesn't find meaningful employment within 180 days.
         </p>
       </Modal>
-      {/* prod flag for bah-8187. Remove after approval. */}
-      {environment.isProduction() ? (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('cautionaryWarnings')}
-        >
-          <h3>Cautionary warnings</h3>
-          <p>
-            When Caution Flags are displayed for an institution, they indicate
-            VA or other federal agencies like the Department of Education or
-            Department of Defense have applied increased regulatory or legal
-            scrutiny to this program. Before enrolling in a program, VA
-            recommends potential students should consider these cautionary
-            warnings.
-          </p>
-          <p>
-            {' '}
-            To learn more about Caution Flags,{' '}
-            <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              visit the About this Tool page
-            </a>
-            .
-          </p>
-        </Modal>
-      ) : (
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('cautionaryWarnings')}
-        >
-          <h3>Cautionary warnings and school closings</h3>
-          <p>
-            VA applies caution flags when we, or another federal agency, have
-            increased regulatory or legal scrutiny of an educational program. We
-            recommend students consider these warnings before enrolling in
-            flagged programs.
-          </p>
-          <p>
-            When VA receives notice that a school or campus location will be
-            closing, we add a school closing flag to that profile. Once the
-            closing date passes, we remove the institution from the Comparison
-            Tool during the next system update.
-          </p>
-          <p>
-            {' '}
-            To learn more about caution flags,{' '}
-            <a
-              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              visit the About this Tool page
-            </a>
-            .
-          </p>
-        </Modal>
-      )}
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('cautionaryWarnings')}
+      >
+        <h3>Cautionary warnings and school closings</h3>
+        <p>
+          VA applies caution flags when we, or another federal agency, have
+          increased regulatory or legal scrutiny of an educational program. We
+          recommend students consider these warnings before enrolling in flagged
+          programs.
+        </p>
+        <p>
+          When VA receives notice that a school or campus location will be
+          closing, we add a school closing flag to that profile. Once the
+          closing date passes, we remove the institution from the Comparison
+          Tool during the next system update.
+        </p>
+        <p>
+          {' '}
+          To learn more about caution flags,{' '}
+          <a
+            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            visit the About this Tool page
+          </a>
+          .
+        </p>
+      </Modal>
     </span>
   );
   render() {

@@ -141,6 +141,27 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       .onClick();
     expect(cancelAppointment.called).to.be.true;
   });
+
+  it('should not show instructions if comment does not start with preset purpose text', () => {
+    const appt = {
+      ...appointment,
+      comment: 'some comment',
+    };
+
+    const component = mount(
+      <ConfirmedAppointmentListItem
+        showCancelButton
+        cancelAppointment={cancelAppointment}
+        appointment={appt}
+        facility={facility}
+      />,
+    );
+
+    expect(component.text()).not.to.contain('some comment');
+    expect(component.text()).not.to.contain('Instructions');
+
+    component.unmount();
+  });
 });
 
 describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () => {

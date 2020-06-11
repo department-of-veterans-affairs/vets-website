@@ -203,7 +203,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.facilityData.var442).to.equal(action.facilityData[0]);
   });
 
-  it('should set clinic mapping data when fetch succeeds', () => {
+  it('should set facility data when fetch succeeds', () => {
     const action = {
       type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
       facilityData: [
@@ -211,19 +211,10 @@ describe('VAOS reducer: appointments', () => {
           id: 'var442GA',
         },
       ],
-      clinicInstitutionList: [
-        {
-          locationIen: '455',
-          institutionCode: '442GA',
-          systemId: '442',
-        },
-      ],
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.systemClinicToFacilityMap['442_455']).to.equal(
-      action.facilityData[0],
-    );
+    expect(newState.facilityData.var442GA).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {
@@ -299,16 +290,31 @@ describe('VAOS reducer: appointments', () => {
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
       expect(newState.future[0].apiData).to.equal(action.apiData);
       expect(newState.future[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
+      expect(newState.cancelAppointmentStatusVaos400).to.equal(false);
     });
 
     it('should set status to failed', () => {
       const action = {
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error: false,
       };
       const newState = appointmentsReducer(initialState, action);
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.cancelAppointmentStatusVaos400).to.equal(false);
+    });
+
+    it('should set status to failed', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error: true,
+      };
+      const newState = appointmentsReducer(initialState, action);
+
+      expect(newState.showCancelModal).to.be.true;
+      expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.cancelAppointmentStatusVaos400).to.equal(true);
     });
 
     it('should close modal', () => {

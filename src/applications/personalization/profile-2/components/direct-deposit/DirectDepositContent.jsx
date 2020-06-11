@@ -42,44 +42,38 @@ export const DirectDepositContent = ({
   const editBankInfoButton = useRef();
   const [formData, setFormData] = useState({});
   const [showSaveSucceededAlert, setShowSaveSucceededAlert] = useState(false);
-  const previousUiState = usePrevious(directDepositUiState);
+  const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
+  const wasSavingBankInfo = usePrevious(directDepositUiState.isSaving);
 
   const isEditingBankInfo = directDepositUiState.isEditing;
+  const isSavingBankInfo = directDepositUiState.isSaving;
+  const saveError = directDepositUiState.responseError;
 
   // when we enter and exit edit mode...
   useEffect(
     () => {
-      // reset the bank info form when we enter edit mode
-      if (isEditingBankInfo) {
+      if (wasEditingBankInfo && !isEditingBankInfo) {
+        // clear the form data when exiting edit mode so it's blank when the
+        // edit form is shown again
         setFormData({});
-      }
-      // focus the edit button when we exit edit mode
-      if (isEditingBankInfo === false) {
+        // focus the edit button when we exit edit mode
         editBankInfoButton.current.focus();
       }
     },
-    [isEditingBankInfo],
+    [isEditingBankInfo, wasEditingBankInfo],
   );
 
   // show the user a success alert after their bank info has saved
   useEffect(
     () => {
-      if (
-        previousUiState?.isSaving &&
-        !directDepositUiState.isSaving &&
-        !directDepositUiState.responseError
-      ) {
+      if (wasSavingBankInfo && !isSavingBankInfo && !saveError) {
         setShowSaveSucceededAlert(true);
         setTimeout(() => {
           setShowSaveSucceededAlert(false);
         }, 6000);
       }
     },
-    [
-      previousUiState?.isSaving,
-      directDepositUiState.isSaving,
-      directDepositUiState.responseError,
-    ],
+    [wasSavingBankInfo, isSavingBankInfo, saveError],
   );
 
   const saveBankInfo = () => {
@@ -160,9 +154,9 @@ export const DirectDepositContent = ({
   const editingBankInfoContent = (
     <>
       <div id="errors" role="alert" aria-atomic="true">
-        {!!directDepositUiState.responseError && (
+        {!!saveError && (
           <PaymentInformationEditError
-            responseError={directDepositUiState.responseError}
+            responseError={saveError}
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
           />
         )}
@@ -258,10 +252,21 @@ export const DirectDepositContent = ({
 };
 
 DirectDepositContent.propTypes = {
-  directDepositAccount: PropTypes.object,
-  directDepositAccountInfo: PropTypes.object.isRequired,
+  isAuthorized: PropTypes.bool.isRequired,
+  directDepositAccountInfo: PropTypes.shape({
+    accountNumber: PropTypes.string.isRequired,
+    accountType: PropTypes.string.isRequired,
+    financialInstitutionName: PropTypes.string.isRequired,
+    financialInstitutionRoutingNumber: PropTypes.string.isRequired,
+  }),
   isDirectDepositSetUp: PropTypes.bool.isRequired,
-  directDepositUiState: PropTypes.object.isRequired,
+  directDepositUiState: PropTypes.shape({
+    isEditing: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    responseError: PropTypes.string,
+  }),
+  saveBankInformation: PropTypes.func.isRequired,
+  toggleEditState: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = state => ({

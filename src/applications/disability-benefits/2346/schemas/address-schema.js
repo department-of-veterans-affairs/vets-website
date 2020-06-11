@@ -79,8 +79,7 @@ const addressSchema = {
     },
     country: {
       type: 'string',
-      enum: countries.map(country => country.value),
-      enumNames: countries.map(country => country.label),
+      enum: countries.map(country => country.label),
     },
     street: {
       type: 'string',
@@ -174,18 +173,16 @@ export const addressUISchema = (
             const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               countryUI['ui:disabled'] = true;
-              countryFormData.country = USA.value;
+              countryFormData.country = USA.name;
               return {
-                enum: [USA.value],
-                enumNames: [USA.name],
-                default: USA.value,
+                enum: [USA.name],
+                default: USA.name,
               };
             }
             countryUI['ui:disabled'] = false;
             return {
               type: 'string',
-              enum: countries.map(country => country.value),
-              enumNames: countries.map(country => country.label),
+              enum: countries.map(country => country.label),
             };
           },
         },
@@ -242,7 +239,7 @@ export const addressUISchema = (
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
-            (countryName && countryName === USA.value) || livesOnMilitaryBase
+            (countryName && countryName === USA.name) || livesOnMilitaryBase
           );
         },
         'ui:title': 'State',
@@ -263,7 +260,7 @@ export const addressUISchema = (
               return false;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName && countryName !== USA.value;
+            return countryName && countryName !== USA.name;
           },
           hideOnReviewIfFalse: true,
           updateSchema: formData => {
@@ -292,7 +289,7 @@ export const addressUISchema = (
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const countryName = get(countryNamePath, formData);
-          return countryName && countryName !== USA.value;
+          return countryName && countryName !== USA.name;
         },
         'ui:options': {
           hideIf: (formData, index) => {
@@ -305,7 +302,7 @@ export const addressUISchema = (
               return true;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName === USA.value || !countryName;
+            return countryName === USA.name || !countryName;
           },
           hideOnReviewIfFalse: true,
         },
@@ -319,7 +316,7 @@ export const addressUISchema = (
           const livesOnMilitaryBase = get(livesOnMilitaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
           return (
-            (countryName && countryName === USA.value) ||
+            (countryName && countryName === USA.name) ||
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
@@ -343,7 +340,7 @@ export const addressUISchema = (
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               return false;
             }
-            return countryName && countryName !== USA.value;
+            return countryName && countryName !== USA.name;
           },
           hideOnReviewIfFalse: true,
         },
@@ -355,7 +352,7 @@ export const addressUISchema = (
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const countryName = get(countryNamePath, formData);
-          return countryName && countryName !== USA.value;
+          return countryName && countryName !== USA.name;
         },
         'ui:title': 'Please enter an international postal code',
         'ui:errorMessages': {
@@ -373,7 +370,7 @@ export const addressUISchema = (
               return true;
             }
             const countryName = get(countryNamePath, formData);
-            return countryName === USA.value || !countryName;
+            return countryName === USA.name || !countryName;
           },
           hideOnReviewIfFalse: true,
         },

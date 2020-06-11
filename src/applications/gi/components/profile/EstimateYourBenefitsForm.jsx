@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AlertBox from '../AlertBox';
+import _ from 'lodash';
+import { scroller } from 'react-scroll';
+import classNames from 'classnames';
 
+import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import {
@@ -12,16 +19,11 @@ import {
   handleInputFocusWithPotentialOverLap,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
-import { scroller } from 'react-scroll';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -32,6 +34,7 @@ class EstimateYourBenefitsForm extends React.Component {
       aboutYourSchoolExpanded: false,
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
+      inputUpdated: false,
     };
   }
 
@@ -86,6 +89,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
+      this.setState({ inputUpdated: true });
       this.props.onBeneficiaryZIPCodeChanged(event.value);
       this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
@@ -95,12 +99,17 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = () => {
-    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
-    const zipcode = this.props.inputs.beneficiaryZIP;
+    const {
+      beneficiaryZIPError,
+      beneficiaryZIP,
+      extension,
+      classesOutsideUS,
+    } = this.props.inputs;
     if (
       this.props.eligibility.giBillChapter === '33' &&
       this.props.inputs.beneficiaryLocationQuestion === 'other' &&
-      (beneficiaryZIPError || zipcode.length !== 5)
+      !classesOutsideUS &&
+      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
@@ -108,8 +117,14 @@ class EstimateYourBenefitsForm extends React.Component {
         focusElement('input[name=beneficiaryZIPCode]');
       }, 1);
     } else {
+      this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
     }
+  };
+
+  updateEligibility = e => {
+    this.setState({ inputUpdated: true });
+    this.props.eligibilityChange(e);
   };
 
   handleExtensionChange = event => {
@@ -144,12 +159,15 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
   };
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
     const { profile } = this.props;
+
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
     if (value === 'extension' || value === profile.attributes.name) {
@@ -183,15 +201,10 @@ class EstimateYourBenefitsForm extends React.Component {
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
   };
 
-  handleInternationalCheckboxFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      e.target.scrollIntoView();
-    }
-  };
-
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
+      this.setState({ inputUpdated: true });
       this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
@@ -199,6 +212,10 @@ class EstimateYourBenefitsForm extends React.Component {
     }
   };
 
+  /**
+   * Expands "Your benefits" section and collapses other sections
+   * @param expanded
+   */
   toggleYourBenefits = expanded => {
     this.setState({
       ...this.state,
@@ -216,6 +233,10 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Expands "About your school" section and collapses other sections
+   * @param expanded
+   */
   toggleAboutYourSchool = expanded => {
     this.setState({
       ...this.state,
@@ -231,6 +252,10 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Expands "Learning format and schedule" section and collapses other sections
+   * @param expanded
+   */
   toggleLearningFormatAndSchedule = expanded => {
     this.setState({
       ...this.state,
@@ -246,6 +271,10 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Expands "Scholarships and other funding" section and collapses other sections
+   * @param expanded
+   */
   toggleScholarshipsAndOtherFunding = expanded => {
     this.setState({
       ...this.state,
@@ -261,6 +290,13 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
+  /**
+   * Renders a learn more label with common props for this component being set
+   * @param text
+   * @param modal
+   * @param ariaLabel
+   * @returns {*}
+   */
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
@@ -270,26 +306,45 @@ class EstimateYourBenefitsForm extends React.Component {
       component: this,
     });
 
+  /**
+   * Displays question related to in-state
+   * to display inState institutionType needs to be PUBLIC
+   * to display tuition institutionType needs to not be OJT
+   * @returns {null|*}
+   */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
     return (
-      <RadioButtons
-        label="Are you an in-state student?"
-        name="inState"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
-        value={this.props.inputs.inState}
-        onChange={this.handleInputChange}
-        onFocus={this.handleEYBInputFocus}
-      />
+      <ExpandingGroup
+        open={
+          this.props.displayedInputs.tuition &&
+          this.props.inputs.inState === 'no'
+        }
+      >
+        <RadioButtons
+          label="Are you an in-state student?"
+          name="inState"
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
+          ]}
+          value={this.props.inputs.inState}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
+        />
+        {this.renderInStateTuition()}
+      </ExpandingGroup>
     );
   };
 
-  renderTuition = () => {
-    if (!this.props.displayedInputs.tuition) return null;
-
+  /**
+   * Displays question about how a much an institution's in-state tuition is
+   * @returns {*}
+   */
+  renderInStateTuition = () => {
     const inStateTuitionFeesId = 'inStateTuitionFees';
     const inStateFieldId = `${inStateTuitionFeesId}-fields`;
-    const inStateTuitionInput = this.props.inputs.inState === 'no' && (
+    return (
       <div id={inStateFieldId}>
         <label htmlFor={inStateTuitionFeesId}>
           {this.renderLearnMoreLabel({
@@ -300,6 +355,8 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           type="text"
+          inputMode="decimal"
+          pattern="[0-9]*"
           name={inStateTuitionFeesId}
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
@@ -308,12 +365,15 @@ class EstimateYourBenefitsForm extends React.Component {
         />
       </div>
     );
+  };
+
+  renderTuition = () => {
+    if (!this.props.displayedInputs.tuition) return null;
 
     const tuitionFeesId = 'tuitionFees';
     const tuitionFeesFieldId = `${tuitionFeesId}-field`;
     return (
       <div id={tuitionFeesFieldId}>
-        {inStateTuitionInput}
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
         </label>
@@ -322,6 +382,8 @@ class EstimateYourBenefitsForm extends React.Component {
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
         })}
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={tuitionFeesId}
           id={tuitionFeesId}
@@ -341,6 +403,8 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={booksFieldId}>
         <label htmlFor={booksId}>Books and supplies per year</label>
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={booksId}
           id={booksId}
@@ -374,8 +438,9 @@ class EstimateYourBenefitsForm extends React.Component {
     const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
     const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
     const yellowRibbonFieldId = 'yellowRibbonField';
+
     return (
-      <div>
+      <ExpandingGroup open={this.props.inputs.yellowRibbonRecipient === 'yes'}>
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
@@ -391,67 +456,64 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
-        {this.props.inputs.yellowRibbonRecipient === 'yes' ? (
-          <div>
-            <Dropdown
-              label="Degree Level"
-              name="yellowRibbonDegreeLevel"
-              alt="Degree Level"
-              hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
-              options={yellowRibbonDegreeLevelOptions}
-              visible={showYellowRibbonOptions}
-              value={this.props.inputs.yellowRibbonDegreeLevel}
+        <div>
+          <Dropdown
+            label="Degree Level"
+            name="yellowRibbonDegreeLevel"
+            alt="Degree Level"
+            hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
+            options={yellowRibbonDegreeLevelOptions}
+            visible={showYellowRibbonOptions}
+            value={this.props.inputs.yellowRibbonDegreeLevel}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
+          />
+          <Dropdown
+            label="Division or school"
+            name={'yellowRibbonDivision'}
+            alt="Division or school"
+            hideArrows={yellowRibbonDivisionOptions.length <= 1}
+            options={yellowRibbonDivisionOptions}
+            visible={showYellowRibbonDetails}
+            value={this.props.inputs.yellowRibbonDivision}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
+          />
+          <div id={yellowRibbonFieldId}>
+            <label htmlFor="yellowRibbonContributionAmount">
+              Yellow Ribbon amount from school per year
+            </label>
+            <input
+              inputMode="decimal"
+              pattern="[0-9]*"
+              id="yellowRibbonContributionAmount"
+              type="text"
+              name="yellowRibbonAmount"
+              value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
               onChange={this.handleInputChange}
-              onFocus={this.handleEYBInputFocus}
+              onFocus={this.handleEYBInputFocus.bind(this, yellowRibbonFieldId)}
             />
-            <Dropdown
-              label="Division or school"
-              name={'yellowRibbonDivision'}
-              alt="Division or school"
-              hideArrows={yellowRibbonDivisionOptions.length <= 1}
-              options={yellowRibbonDivisionOptions}
-              visible={showYellowRibbonDetails}
-              value={this.props.inputs.yellowRibbonDivision}
-              onChange={this.handleInputChange}
-              onFocus={this.handleEYBInputFocus}
-            />
-            <div id={yellowRibbonFieldId}>
-              <label htmlFor="yellowRibbonContributionAmount">
-                Yellow Ribbon amount from school per year
-              </label>
-              <input
-                id="yellowRibbonContributionAmount"
-                type="text"
-                name="yellowRibbonAmount"
-                value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-                onChange={this.handleInputChange}
-                onFocus={this.handleEYBInputFocus.bind(
-                  this,
-                  yellowRibbonFieldId,
-                )}
-              />
-            </div>
-            <AlertBox
-              isVisible={showYellowRibbonDetails}
-              key={this.props.inputs.yellowRibbonProgramIndex}
-              status="info"
-            >
-              <div>
-                Maximum amount per student:{' '}
-                <strong>
-                  {formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}
-                  /yr
-                </strong>
-                <br />
-                Number of students:{' '}
-                <strong>
-                  {this.props.inputs.yellowRibbonMaxNumberOfStudents}
-                </strong>
-              </div>
-            </AlertBox>
           </div>
-        ) : null}
-      </div>
+          <AlertBox
+            isVisible={showYellowRibbonDetails}
+            key={this.props.inputs.yellowRibbonProgramIndex}
+            status="info"
+          >
+            <div>
+              Maximum amount per student:{' '}
+              <strong>
+                {formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}
+                /yr
+              </strong>
+              <br />
+              Number of students:{' '}
+              <strong>
+                {this.props.inputs.yellowRibbonMaxNumberOfStudents}
+              </strong>
+            </div>
+          </AlertBox>
+        </div>
+      </ExpandingGroup>
     );
   };
 
@@ -469,7 +531,9 @@ class EstimateYourBenefitsForm extends React.Component {
           })}
         </label>
         <input
+          inputMode="decimal"
           type="text"
+          pattern="[0-9]*"
           name={scholarshipsId}
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
@@ -494,6 +558,8 @@ class EstimateYourBenefitsForm extends React.Component {
           })}
         </label>
         <input
+          inputMode="decimal"
+          pattern="[0-9]*"
           type="text"
           name={tuitionAssistId}
           id={tuitionAssistId}
@@ -542,95 +608,91 @@ class EstimateYourBenefitsForm extends React.Component {
     const value = shouldRenderEnrolled ? enrolledValue : enrolledOldValue;
 
     return (
-      <div>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Enrolled',
-            modal: 'calcEnrolled',
-            ariaLabel: ariaLabels.learnMore.calcEnrolled,
-          })}
-          name={name}
-          alt="Enrolled"
-          options={options}
-          visible
-          value={value}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-      </div>
+      <Dropdown
+        label={this.renderLearnMoreLabel({
+          text: 'Enrolled',
+          modal: 'calcEnrolled',
+          ariaLabel: ariaLabels.learnMore.calcEnrolled,
+        })}
+        name={name}
+        alt="Enrolled"
+        options={options}
+        visible
+        value={value}
+        onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
+      />
     );
   };
 
   renderCalendar = () => {
     if (!this.props.displayedInputs.calendar) return null;
 
-    let dependentDropdowns;
-
-    if (this.props.inputs.calendar === 'nontraditional') {
-      dependentDropdowns = (
-        <div>
-          <Dropdown
-            label="How many terms per year?"
-            name="numberNontradTerms"
-            alt="How many terms per year?"
-            options={[
-              { value: '3', label: 'Three' },
-              { value: '2', label: 'Two' },
-              { value: '1', label: 'One' },
-            ]}
-            visible
-            value={this.props.inputs.numberNontradTerms}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus}
-          />
-          <Dropdown
-            label="How long is each term?"
-            name="lengthNontradTerms"
-            alt="How long is each term?"
-            options={[
-              { value: '1', label: '1 month' },
-              { value: '2', label: '2 months' },
-              { value: '3', label: '3 months' },
-              { value: '4', label: '4 months' },
-              { value: '5', label: '5 months' },
-              { value: '6', label: '6 months' },
-              { value: '7', label: '7 months' },
-              { value: '8', label: '8 months' },
-              { value: '9', label: '9 months' },
-              { value: '10', label: '10 months' },
-              { value: '11', label: '11 months' },
-              { value: '12', label: '12 months' },
-            ]}
-            visible
-            value={this.props.inputs.lengthNontradTerms}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus}
-          />
-        </div>
-      );
-    }
-
-    return (
+    const dependentDropdowns = (
       <div>
         <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'School Calendar',
-            modal: 'calcSchoolCalendar',
-            ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
-          })}
-          name="calendar"
-          alt="School calendar"
+          label="How many terms per year?"
+          name="numberNontradTerms"
+          alt="How many terms per year?"
           options={[
-            { value: 'semesters', label: 'Semesters' },
-            { value: 'quarters', label: 'Quarters' },
-            { value: 'nontraditional', label: 'Non-Traditional' },
+            { value: '3', label: 'Three' },
+            { value: '2', label: 'Two' },
+            { value: '1', label: 'One' },
           ]}
           visible
-          value={this.props.inputs.calendar}
+          value={this.props.inputs.numberNontradTerms}
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
-        {dependentDropdowns}
+        <Dropdown
+          label="How long is each term?"
+          name="lengthNontradTerms"
+          alt="How long is each term?"
+          options={[
+            { value: '1', label: '1 month' },
+            { value: '2', label: '2 months' },
+            { value: '3', label: '3 months' },
+            { value: '4', label: '4 months' },
+            { value: '5', label: '5 months' },
+            { value: '6', label: '6 months' },
+            { value: '7', label: '7 months' },
+            { value: '8', label: '8 months' },
+            { value: '9', label: '9 months' },
+            { value: '10', label: '10 months' },
+            { value: '11', label: '11 months' },
+            { value: '12', label: '12 months' },
+          ]}
+          visible
+          value={this.props.inputs.lengthNontradTerms}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus}
+        />
+      </div>
+    );
+
+    return (
+      <div>
+        <ExpandingGroup open={this.props.inputs.calendar === 'nontraditional'}>
+          <Dropdown
+            label={this.renderLearnMoreLabel({
+              text: 'School Calendar',
+              modal: 'calcSchoolCalendar',
+              ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+            })}
+            name="calendar"
+            alt="School calendar"
+            options={[
+              { value: 'semesters', label: 'Semesters' },
+              { value: 'quarters', label: 'Quarters' },
+              { value: 'nontraditional', label: 'Non-Traditional' },
+            ]}
+            visible
+            value={this.props.inputs.calendar}
+            onChange={this.handleInputChange}
+            onFocus={this.handleEYBInputFocus}
+          />
+          {dependentDropdowns}
+        </ExpandingGroup>
       </div>
     );
   };
@@ -638,28 +700,26 @@ class EstimateYourBenefitsForm extends React.Component {
   renderKicker = () => {
     if (!this.props.displayedInputs.kicker) return null;
 
-    let amountInput;
-
-    if (this.props.inputs.kickerEligible === 'yes') {
-      const kickerAmountId = 'kickerAmount';
-      const kickerFieldId = `${kickerAmountId}-field`;
-      amountInput = (
-        <div id={kickerFieldId}>
-          <label htmlFor={kickerAmountId}>How much is your kicker?</label>
-          <input
-            type="text"
-            name={kickerAmountId}
-            id={kickerAmountId}
-            value={formatCurrency(this.props.inputs.kickerAmount)}
-            onChange={this.handleInputChange}
-            onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
-          />
-        </div>
-      );
-    }
+    const kickerAmountId = 'kickerAmount';
+    const kickerFieldId = `${kickerAmountId}-field`;
+    const amountInput = (
+      <div id={kickerFieldId}>
+        <label htmlFor={kickerAmountId}>How much is your kicker?</label>
+        <input
+          inputMode="decimal"
+          pattern="[0-9]*"
+          type="text"
+          name={kickerAmountId}
+          id={kickerAmountId}
+          value={formatCurrency(this.props.inputs.kickerAmount)}
+          onChange={this.handleInputChange}
+          onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
+        />
+      </div>
+    );
 
     return (
-      <div>
+      <ExpandingGroup open={this.props.inputs.kickerEligible === 'yes'}>
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
@@ -676,7 +736,7 @@ class EstimateYourBenefitsForm extends React.Component {
           onFocus={this.handleEYBInputFocus}
         />
         {amountInput}
-      </div>
+      </ExpandingGroup>
     );
   };
 
@@ -687,7 +747,7 @@ class EstimateYourBenefitsForm extends React.Component {
     const { profile, inputs } = this.props;
     const extensions = this.getExtensions();
 
-    let amountInput;
+    let zipcodeInput;
     let internationalCheckbox;
     let extensionSelector;
     let zipcodeLocation;
@@ -714,39 +774,41 @@ class EstimateYourBenefitsForm extends React.Component {
       zipcodeRadioOptions.push({ value: 'other', label: 'Other location' });
     }
 
-    if (inputs.beneficiaryLocationQuestion === 'extension') {
+    const displayExtensionSelector =
+      inputs.beneficiaryLocationQuestion === 'extension';
+    if (displayExtensionSelector) {
       extensionSelector = (
-        <div>
-          <Dropdown
-            label="Choose the location where you'll take your classes"
-            name="extension"
-            alt="Extension Location"
-            visible
-            options={extensionOptions}
-            value={inputs.extension}
-            onChange={this.handleExtensionChange}
-            onFocus={this.handleEYBInputFocus}
-          />
-        </div>
+        <Dropdown
+          label="Choose the location where you'll take your classes"
+          name="extension"
+          alt="Extension Location"
+          visible
+          options={extensionOptions}
+          value={inputs.extension}
+          onChange={this.handleExtensionChange}
+          onFocus={this.handleEYBInputFocus}
+        />
       );
     }
 
-    if (
+    const displayInternationalCheckbox =
       inputs.beneficiaryLocationQuestion === 'other' ||
       (inputs.beneficiaryLocationQuestion === 'extension' &&
-        inputs.extension === 'other')
-    ) {
+        inputs.extension === 'other');
+    const displayZipcode = !inputs.classesOutsideUS;
+
+    if (displayInternationalCheckbox) {
       const errorMessage = this.state.invalidZip;
 
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
-      if (!inputs.classesOutsideUS) {
+      if (displayZipcode) {
         const label = this.isCountryInternational()
           ? "If you're taking classes in the U.S., enter the location's postal code"
           : "Please enter the postal code where you'll take your classes";
 
-        amountInput = (
+        zipcodeInput = (
           <div name="beneficiary-zip-question">
             <ErrorableTextInput
               autoFocus
@@ -769,18 +831,15 @@ class EstimateYourBenefitsForm extends React.Component {
       }
 
       internationalCheckbox = (
-        <div>
-          <Checkbox
-            label={
-              "I'll be taking classes outside of the U.S. and U.S. territories"
-            }
-            onChange={this.handleHasClassesOutsideUSChange}
-            onFocus={this.handleInternationalCheckboxFocus}
-            checked={inputs.classesOutsideUS}
-            name={'classesOutsideUS'}
-            id={'classesOutsideUS'}
-          />
-        </div>
+        <Checkbox
+          label={
+            "I'll be taking classes outside of the U.S. and U.S. territories"
+          }
+          onChange={this.handleHasClassesOutsideUSChange}
+          checked={inputs.classesOutsideUS}
+          name={'classesOutsideUS'}
+          id={'classesOutsideUS'}
+        />
       );
     }
     const selectedValue = inputs.beneficiaryLocationQuestion
@@ -788,7 +847,9 @@ class EstimateYourBenefitsForm extends React.Component {
       : profile.attributes.name;
 
     return (
-      <div>
+      <ExpandingGroup
+        open={displayExtensionSelector || displayInternationalCheckbox}
+      >
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Where will you take the majority of your classes?',
@@ -801,42 +862,42 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
-        {extensionSelector}
-        {amountInput}
-        {zipcodeLocation}
-        {internationalCheckbox}
-      </div>
+        <div>
+          {extensionSelector}
+          {zipcodeInput}
+          {zipcodeLocation}
+          {internationalCheckbox}
+        </div>
+      </ExpandingGroup>
     );
   };
 
   renderBuyUp = () => {
     if (!this.props.displayedInputs.buyUp) return null;
 
-    let amountInput;
-
-    if (this.props.inputs.buyUp === 'yes') {
-      const buyUpAmountId = 'buyUpAmount';
-      const buyUpFieldId = `${buyUpAmountId}-field`;
-      amountInput = (
-        <div id={buyUpFieldId}>
-          <label htmlFor={buyUpAmountId}>
-            How much did you pay toward buy-up (up to $600)?
-          </label>
-          <input
-            type="text"
-            name={buyUpAmountId}
-            id={buyUpAmountId}
-            value={formatCurrency(this.props.inputs.buyUpAmount)}
-            onChange={this.handleInputChange}
-            onBlur={this.resetBuyUp}
-            onFocus={this.handleEYBInputFocus.bind(this, buyUpFieldId)}
-          />
-        </div>
-      );
-    }
+    const buyUpAmountId = 'buyUpAmount';
+    const buyUpFieldId = `${buyUpAmountId}-field`;
+    const amountInput = (
+      <div id={buyUpFieldId}>
+        <label htmlFor={buyUpAmountId}>
+          How much did you pay toward buy-up (up to $600)?
+        </label>
+        <input
+          inputMode="decimal"
+          pattern="[0-9]*"
+          type="text"
+          name={buyUpAmountId}
+          id={buyUpAmountId}
+          value={formatCurrency(this.props.inputs.buyUpAmount)}
+          onChange={this.handleInputChange}
+          onBlur={this.resetBuyUp}
+          onFocus={this.handleEYBInputFocus.bind(this, buyUpFieldId)}
+        />
+      </div>
+    );
 
     return (
-      <div>
+      <ExpandingGroup open={this.props.inputs.buyUp === 'yes'}>
         <RadioButtons
           label="Participate in buy-up program?"
           name="buyUp"
@@ -848,52 +909,50 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleInputChange}
         />
         {amountInput}
-      </div>
+      </ExpandingGroup>
     );
   };
 
   renderWorking = () => {
     if (!this.props.displayedInputs.working) return null;
     return (
-      <div>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Will be working',
-            modal: 'calcWorking',
-            ariaLabel: ariaLabels.learnMore.calcWorking,
-          })}
-          name="working"
-          alt="Will be working"
-          options={[
-            { value: '30', label: '30+ hrs / week' },
-            { value: '28', label: '28 hrs / week' },
-            { value: '26', label: '26 hrs / week' },
-            { value: '24', label: '24 hrs / week' },
-            { value: '22', label: '22 hrs / week' },
-            { value: '20', label: '20 hrs / week' },
-            { value: '18', label: '18 hrs / week' },
-            { value: '16', label: '16 hrs / week' },
-            { value: '14', label: '14 hrs / week' },
-            { value: '12', label: '12 hrs / week' },
-            { value: '10', label: '10 hrs / week' },
-            { value: '8', label: '8 hrs / week' },
-            { value: '6', label: '6 hrs / week' },
-            { value: '4', label: '4 hrs / week' },
-            { value: '2', label: '2 hrs / week' },
-          ]}
-          visible
-          value={this.props.inputs.working}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-      </div>
+      <Dropdown
+        label={this.renderLearnMoreLabel({
+          text: 'Will be working',
+          modal: 'calcWorking',
+          ariaLabel: ariaLabels.learnMore.calcWorking,
+        })}
+        name="working"
+        alt="Will be working"
+        options={[
+          { value: '30', label: '30+ hrs / week' },
+          { value: '28', label: '28 hrs / week' },
+          { value: '26', label: '26 hrs / week' },
+          { value: '24', label: '24 hrs / week' },
+          { value: '22', label: '22 hrs / week' },
+          { value: '20', label: '20 hrs / week' },
+          { value: '18', label: '18 hrs / week' },
+          { value: '16', label: '16 hrs / week' },
+          { value: '14', label: '14 hrs / week' },
+          { value: '12', label: '12 hrs / week' },
+          { value: '10', label: '10 hrs / week' },
+          { value: '8', label: '8 hrs / week' },
+          { value: '6', label: '6 hrs / week' },
+          { value: '4', label: '4 hrs / week' },
+          { value: '2', label: '2 hrs / week' },
+        ]}
+        visible
+        value={this.props.inputs.working}
+        onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
+      />
     );
   };
 
   renderOnlineClasses = () => (
     <OnlineClassesFilter
       onlineClasses={this.props.eligibility.onlineClasses}
-      onChange={this.props.eligibilityChange}
+      onChange={this.updateEligibility}
       showModal={this.props.showModal}
     />
   );
@@ -904,29 +963,24 @@ class EstimateYourBenefitsForm extends React.Component {
     }
 
     return (
-      <div>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text:
-              'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
-            modal: 'whenUsedGiBill',
-            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
-          })}
-          name="giBillBenefit"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.inputs.giBillBenefit}
-          onChange={this.handleInputChange}
-          onFocus={this.handleEYBInputFocus}
-        />
-      </div>
+      <RadioButtons
+        label={this.renderLearnMoreLabel({
+          text:
+            'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
+          modal: 'whenUsedGiBill',
+          ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
+        })}
+        name="giBillBenefit"
+        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
+        value={this.props.inputs.giBillBenefit}
+        onChange={this.handleInputChange}
+        onFocus={this.handleEYBInputFocus}
+      />
     );
   };
 
-  renderYourBenefits = () => {
-    const name = 'Your benefits';
+  renderMilitaryDetails = () => {
+    const name = 'Your military details';
     return (
       <AccordionItem
         button={name}
@@ -935,25 +989,32 @@ class EstimateYourBenefitsForm extends React.Component {
         expanded={this.state.yourBenefitsExpanded}
         onClick={this.toggleYourBenefits}
       >
-        <form>
+        <div>
           <BenefitsForm
-            eligibilityChange={this.props.eligibilityChange}
+            eligibilityChange={this.updateEligibility}
             {...this.props.eligibility}
             hideModal={this.props.hideModal}
             showModal={this.props.showModal}
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
-            onInputChange={this.props.calculatorInputChange}
             handleInputFocus={this.handleEYBInputFocus}
+            giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
-        </form>
+        </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
-  renderAboutYourSchool = () => {
+  renderSchoolCostsAndCalendar = () => {
     const {
       inState,
       tuition,
@@ -966,7 +1027,7 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!(inState || tuition || books || calendar || enrolled || enrolledOld))
       return null;
 
-    const name = 'About your school';
+    const name = 'School costs and calendar';
 
     return (
       <AccordionItem
@@ -983,12 +1044,21 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderCalendar()}
           {this.renderEnrolled()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
-  renderLearningFormatAndSchedule = () => {
-    const name = 'Learning format and schedule';
+  renderLearningFormat = isOjt => {
+    const name = isOjt
+      ? 'Learning format and schedule'
+      : 'Learning format and location';
     return (
       <AccordionItem
         button={name}
@@ -1002,11 +1072,18 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderExtensionBeneficiaryZIP()}
           {this.renderWorking()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
-  renderScholarshipsAndOtherFunding = () => {
+  renderScholarshipsAndOtherVAFunding = () => {
     const {
       yellowRibbon,
       tuitionAssist,
@@ -1016,7 +1093,7 @@ class EstimateYourBenefitsForm extends React.Component {
     } = this.props.displayedInputs;
     if (!(yellowRibbon || tuitionAssist || kicker || buyUp || scholarships))
       return null;
-    const name = 'Scholarships and other funding';
+    const name = 'Scholarships and other VA funding';
     return (
       <AccordionItem
         button={name}
@@ -1032,34 +1109,41 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderBuyUp()}
           {this.renderScholarships()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
   render() {
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const sectionCount = isOjt ? '3' : '4';
     const className = classNames(
       'estimate-your-benefits-form',
       'medium-5',
       'columns',
       'small-screen:vads-u-padding-right--0',
     );
+
     return (
       <div className={className}>
         <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-          Use the fields below to calculate your benefits:
+          The {sectionCount} sections below include questions that will refine
+          your benefits estimate. Use the fields in each section to make your
+          updates.
         </p>
         <ul className="vads-u-padding--0">
-          {this.renderYourBenefits()}
-          {this.renderAboutYourSchool()}
-          {this.renderLearningFormatAndSchedule()}
-          {this.renderScholarshipsAndOtherFunding()}
+          {this.renderMilitaryDetails()}
+          {this.renderSchoolCostsAndCalendar()}
+          {this.renderLearningFormat(isOjt)}
+          {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
-        <button
-          className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
-        >
-          Calculate benefits
-        </button>
       </div>
     );
   }
@@ -1076,6 +1160,7 @@ EstimateYourBenefitsForm.propTypes = {
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
   updateEstimatedBenefits: PropTypes.func.isRequired,
+  updateBenefitsButtonEnabled: PropTypes.bool,
 };
 
 export default EstimateYourBenefitsForm;

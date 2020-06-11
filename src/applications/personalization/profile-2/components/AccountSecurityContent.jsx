@@ -6,6 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
+  isInMVI as isInMVISelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
@@ -17,6 +18,7 @@ import {
 import ProfileInfoTable from './ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import IdentityNotVerified from './IdentityNotVerified';
+import NotInMVI from './NotInMVI';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from './EmailAddressNotification';
 import Verified from './Verified';
@@ -28,6 +30,7 @@ export const AccountSecurityContent = ({
   showMHVTermsAndConditions,
   useSSOe,
   signInServiceName,
+  isInMVI,
 }) => {
   const securitySections = [
     {
@@ -62,6 +65,7 @@ export const AccountSecurityContent = ({
   return (
     <>
       {!isIdentityVerified && <IdentityNotVerified />}
+      {!isInMVI && isIdentityVerified && <NotInMVI />}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
@@ -93,9 +97,17 @@ export const AccountSecurityContent = ({
 
 AccountSecurityContent.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
+  isInMVI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  mhvAccount: PropTypes.object,
+  mhvAccount: PropTypes.shape({
+    accountLevel: PropTypes.string,
+    accountState: PropTypes.string,
+    errors: PropTypes.array,
+    loading: PropTypes.bool,
+    termsAndConditionsAccepted: PropTypes.bool.isRequired,
+  }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
+  signInServiceName: PropTypes.string.isRequired,
   useSSOe: PropTypes.bool.isRequired,
 };
 
@@ -107,11 +119,12 @@ export const mapStateToProps = state => {
 
   return {
     isIdentityVerified: isLOA3Selector(state),
+    isInMVI: isInMVISelector(state),
     isMultifactorEnabled: isMultifactorEnabledSelector(state),
     mhvAccount,
     showMHVTermsAndConditions,
-    useSSOe: ssoeSelector(state),
     signInServiceName: signInServiceNameSelector(state),
+    useSSOe: ssoeSelector(state),
   };
 };
 
