@@ -48,7 +48,7 @@ const formPageTitlesLookup = {
 
 const addressSchema = buildAddressSchema(true);
 
-const asyncReturn = (returnValue, error, delay = 300) =>
+const asyncReturn = (returnValue, error, delay = 0) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       const shouldIReturnTrue = true;

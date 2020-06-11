@@ -64,11 +64,7 @@ const testConfig = createTestConfig(
       cy.login();
       cy.route('GET', '/v0/user', gregUserData);
       cy.route('GET', '/v0/in_progress_forms/MDOT', happyPathData);
-      cy.route({
-        method: 'POST',
-        url: '/v0/mdot/supplies',
-        status: 200,
-      });
+      cy.route('POST', '/v0/mdot/supplies', 200);
     },
   },
   manifest,
