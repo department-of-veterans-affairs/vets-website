@@ -67,9 +67,8 @@ class Batteries extends Component {
         {areBatterySuppliesEligible && (
           <>
             <p>
-              You&apos;ll be sent a 6-month supply of batteries for each device
-              you choose below. You can only order batteries for each device
-              once every 5 months.
+              You&apos;ll be sent a 6-month supply of each item added to your
+              order. You can only order each item once every 5 months.
             </p>
             <p>
               If you need unavailable batteries sooner, call the DLC Customer
@@ -79,7 +78,7 @@ class Batteries extends Component {
               </a>{' '}
               or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
-            <h3 className="vads-u-font-size--h4">
+            <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2">
               Select the hearing aids that need batteries
             </h3>
           </>
