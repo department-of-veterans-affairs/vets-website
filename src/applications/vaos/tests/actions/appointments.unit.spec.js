@@ -144,13 +144,12 @@ describe('VAOS actions: appointments', () => {
     );
   });
 
-  it('should fetch clinic institution mapping', async () => {
+  it('should fetch location data', async () => {
     const data = {
       data: [],
     };
     setFetchJSONResponse(global.fetch, data);
-    setFetchJSONResponse(global.fetch.onCall(3), clinicData);
-    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
+    setFetchJSONResponse(global.fetch.onCall(3), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
     const getState = () => ({
@@ -165,6 +164,11 @@ describe('VAOS actions: appointments', () => {
                   display: 'CHY OPT VAR1',
                 },
               },
+              {
+                actor: {
+                  reference: 'Location/var983',
+                },
+              },
             ],
             vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
           },
@@ -174,6 +178,11 @@ describe('VAOS actions: appointments', () => {
                 actor: {
                   reference: 'HealthcareService/var983_455',
                   display: 'CHY OPT VAR1',
+                },
+              },
+              {
+                actor: {
+                  reference: 'Location/var983GC',
                 },
               },
             ],
@@ -192,16 +201,8 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.thirdCall.args[0].type).to.eql(
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
-    expect(
-      dispatchSpy.thirdCall.args[0].clinicInstitutionList.some(
-        clinic => clinic.locationIen === '455',
-      ),
-    ).to.be.true;
 
-    expect(global.fetch.getCall(3).args[0]).to.contain(
-      'systems/983/clinic_institutions?clinic_ids[]=455',
-    );
-    expect(global.fetch.getCall(4).args[0]).to.contain('ids=vha_442');
+    expect(global.fetch.getCall(3).args[0]).to.contain('ids=vha_442');
   });
 
   it('should abort fetching clinics if more than 3 systems', async () => {
@@ -600,6 +601,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error: false,
       });
       const dataLayer = global.window.dataLayer;
 
@@ -615,6 +617,78 @@ describe('VAOS actions: appointments', () => {
         'error-key': undefined,
         appointmentType: undefined,
         facilityType: undefined,
+      });
+    });
+
+    it('should send fail action if cancel fails with vaos 400', async () => {
+      setFetchJSONFailure(global.fetch, { errors: [{ code: 'VAOS_400' }] });
+      const state = {
+        appointments: {
+          appointmentToCancel: {
+            resourceType: 'Appointment',
+            status: 'booked',
+            description: 'NO ACTION TAKEN/TODAY',
+            start: '2019-12-11T10:00:00-07:00',
+            minutesDuration: 60,
+            comment: 'Follow-up/Routine: Instructions',
+            participant: [
+              {
+                actor: {
+                  reference: 'HealthcareService/var983_455',
+                  display: 'C&P BEV AUDIO FTC1',
+                },
+              },
+            ],
+            contained: null,
+            legacyVAR: {
+              id: '17dd714287e151195b99164cc1a8e49a',
+              facilityId: '983',
+              clinicId: '455',
+              apiData: {
+                startDate: '2020-11-07T17:00:00Z',
+                clinicId: '455',
+                clinicFriendlyName: null,
+                facilityId: '983',
+                communityCare: false,
+                vdsAppointments: [
+                  {
+                    bookingNote: null,
+                    appointmentLength: '60',
+                    appointmentTime: '2020-11-07T17:00:00Z',
+                    clinic: {
+                      name: 'CHY OPT VAR1',
+                      askForCheckIn: false,
+                      facilityCode: '983',
+                    },
+                    type: 'REGULAR',
+                    currentStatus: 'NO ACTION TAKEN/TODAY',
+                  },
+                ],
+                vvsAppointments: [],
+                id: '17dd714287e151195b99164cc1a8e49a',
+              },
+            },
+            vaos: {
+              isPastAppointment: false,
+              appointmentType: 'vaAppointment',
+              videoType: null,
+              isCommunityCare: false,
+              timeZone: null,
+            },
+          },
+        },
+      };
+      const dispatch = sinon.spy();
+      const thunk = confirmCancelAppointment();
+
+      await thunk(dispatch, () => state);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        CANCEL_APPOINTMENT_CONFIRMED,
+      );
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+        isVaos400Error: true,
       });
     });
 

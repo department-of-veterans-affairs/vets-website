@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 
@@ -122,6 +123,15 @@ const MobileMenuTrigger = ({
 };
 
 export { MobileMenuTrigger };
+
+MobileMenuTrigger.propTypes = {
+  closeSideNav: PropTypes.func.isRequired,
+  focusTriggerButton: PropTypes.bool.isRequired,
+  isMenuTriggerPinned: PropTypes.bool.isRequired,
+  openSideNav: PropTypes.func.isRequired,
+  pinMenuTrigger: PropTypes.func.isRequired,
+  unpinMenuTrigger: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   isMenuTriggerPinned: selectIsMenuTriggerPinned(state),
