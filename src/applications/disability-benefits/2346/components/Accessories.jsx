@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HEARING_AID_ACCESSORIES } from '../constants';
+import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
@@ -33,7 +33,7 @@ class Accessories extends Component {
     const { supplies, selectedProducts, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === HEARING_AID_ACCESSORIES,
+      supply => supply.productGroup === ACCESSORIES,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
     const haveAccessoriesBeenOrderedInLastFiveMonths =
@@ -71,19 +71,6 @@ class Accessories extends Component {
             <h3 className="vads-u-font-size--h4">
               Select the hearing aid accessories you need
             </h3>
-            <p>
-              You'll be sent a 6-month supply for each accessory you choose
-              below. You can only order each hearing aid accessory once every 5
-              months.
-            </p>
-            <p>
-              If you need unavailable items sooner, call the DLC Customer
-              Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-            </p>
           </>
         )}
         {!haveAccessoriesBeenOrderedInLastFiveMonths &&
@@ -264,7 +251,7 @@ Accessories.propTypes = {
       deviceName: PropTypes.string,
       productName: PropTypes.string,
       productGroup: PropTypes.string.isRequired,
-      productId: PropTypes.string.isRequired,
+      productId: PropTypes.number.isRequired,
       availableForReorder: PropTypes.bool,
       lastOrderDate: PropTypes.string.isRequired,
       nextAvailabilityDate: PropTypes.string.isRequired,
@@ -274,7 +261,7 @@ Accessories.propTypes = {
   ),
   selectedProducts: PropTypes.arrayOf(
     PropTypes.shape({
-      productId: PropTypes.string,
+      productId: PropTypes.number,
     }),
   ),
   eligibility: PropTypes.object,

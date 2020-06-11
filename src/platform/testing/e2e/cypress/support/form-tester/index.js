@@ -262,7 +262,7 @@ Cypress.Commands.add('enterData', field => {
     case 'radio': {
       let value = field.data;
       // Use 'Y' / 'N' because of the yesNo widget.
-      if (typeof value === 'boolean') value = value ? 'Y' : 'N';
+      if (typeof field.data === 'boolean') value = field.data ? 'Y' : 'N';
       cy.get(`input[name="${field.key}"][value="${value}"]`).click();
       break;
     }
@@ -270,21 +270,29 @@ Cypress.Commands.add('enterData', field => {
     case 'date': {
       const [year, month, day] = field.data
         .split('-')
-        .map(dateComponent => parseInt(dateComponent, 10).toString());
+        .map(
+          dateComponent =>
+            isFinite(dateComponent)
+              ? parseInt(dateComponent, 10).toString()
+              : dateComponent,
+        );
 
-      cy.get(`#${field.key}Year`)
+      // Escape non-standard characters like dots and colons.
+      const baseSelector = Cypress.$.escapeSelector(field.key);
+
+      cy.get(`#${baseSelector}Year`)
         .clear()
         .type(year);
 
-      cy.get(`#${field.key}Month`).select(month);
+      cy.get(`#${baseSelector}Month`).select(month);
 
-      if (day !== 'XX') cy.get(`#${field.key}Day`).select(day);
+      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day);
 
       break;
     }
 
     case 'file': {
-      cy.get(`#${field.key}`)
+      cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
         .upload('example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
@@ -442,6 +450,9 @@ const testForm = testConfig => {
     // Aliases and the stub server reset before each test,
     // so those have to be set up _before each_ test.
     beforeEach(() => {
+      // Dismiss any announcements.
+      window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
+
       cy.wrap(arrayPages).as('arrayPages');
 
       // Save a couple of seconds by definitively responding with
@@ -473,6 +484,7 @@ const testForm = testConfig => {
 
         it('fills the form', () => {
           cy.visit(rootUrl).injectAxe();
+
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
             .then(processPage);

@@ -47,36 +47,6 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
-  e2e-test:
-    working_directory: ~/vets-website
-    docker:
-      - image: cypress/base:10.15.3
-    parallelism: 2
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/
-      - restore_cache:
-          keys:
-            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
-      - run:
-          name: Installed Dependencies
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
-      - run:
-          name: Make Test Results Folder
-          command: mkdir -p ./test-results
-      - run:
-          name: Run Cypress Tests
-          command: yarn cy:test:circle
-      - store_test_results:
-          path: ./test-results
-      - store_artifacts:
-          path: ./test-results
-      - store_artifacts:
-          path: ./cypress/videos
-      - store_artifacts:
-          path: ./cypress/screenshots
-
   security-audit:
     docker:
       - image: circleci/node:10.15.3
@@ -115,37 +85,6 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn build:webpack
-
-  build-e2e:
-    working_directory: ~/vets-website
-    docker:
-      - image: cypress/base:10.15.3
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install Dependencies
-          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
-      - save_cache:
-          key: yarn-packages-e2e-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-            - ~/.cache/Cypress
-      - run:
-          name: Install Sibling Repositories
-          command: yarn install-repos
-      - run:
-          name: Fetch the Latest Drupal Content
-          command: yarn fetch-drupal-cache
-      - run:
-          name: Build vets-website
-          command: yarn build
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - vets-website/build
 
   eslint-check:
     docker:
@@ -227,6 +166,71 @@ jobs:
           name: Check PR for icon additions
           command: npm run pr-check
 
+  build-e2e:
+    working_directory: ~/vets-website
+    docker:
+      - image: cypress/base:10.15.3
+    resource_class: large
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+      - save_cache:
+          key: yarn-packages-e2e-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+            - ~/.cache/Cypress
+      - run:
+          name: Install Sibling Repositories
+          command: yarn install-repos
+      - run:
+          name: Build apps
+          command: NODE_ENV=production yarn build:webpack --env.buildtype vagovprod
+      - run:
+          name: Build content
+          command: |
+            yarn fetch-drupal-cache --buildtype=vagovprod
+            NODE_ENV=production yarn build:content --buildtype vagovprod
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - vets-website/build
+
+  e2e-test:
+    working_directory: ~/vets-website
+    docker:
+      - image: cypress/base:10.15.3
+    resource_class: large
+    parallelism: 2
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys:
+            - yarn-packages-e2e-{{ checksum "yarn.lock" }}
+      - run:
+          name: Installed Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+      - run:
+          name: Make Test Results Folder
+          command: mkdir -p ./test-results
+      - run:
+          name: Run Cypress Tests
+          command: yarn cy:test:circle
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+      - store_artifacts:
+          path: ./cypress/videos
+      - store_artifacts:
+          path: ./cypress/screenshots
+
 workflows:
   version: 2
   flag-for-manual-review:
@@ -255,7 +259,7 @@ workflows:
             - unit-test
             - security-audit
       - e2e-test:
-          requires: 
+          requires:
             - build-e2e
   additional-linting:
     jobs:

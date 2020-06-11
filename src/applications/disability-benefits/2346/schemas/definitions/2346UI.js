@@ -1,14 +1,12 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
-import Accessories from '../../components/Accessories';
 import AddressViewField from '../../components/AddressViewField';
-import Batteries from '../../components/Batteries';
 import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageAccessories from '../../components/ReviewPageAccessories';
-import ReviewPageBatteries from '../../components/ReviewPageBatteries';
+import ReviewPageSupplies from '../../components/ReviewPageSupplies';
 import { schemaFields } from '../../constants';
 import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
+import BatteriesAndAccessories from '../../components/BatteriesAndAccessories';
 
 const { permAddressField, tempAddressField } = schemaFields;
 
@@ -152,20 +150,12 @@ export default {
       ],
     },
     batteriesUI: {
-      'ui:field': 'StringField',
-      'ui:widget': Batteries,
-      'ui:reviewWidget': ReviewPageBatteries,
-      'ui:options': {
-        keepInPageOnReview: true,
-      },
-    },
-    accessoriesUI: {
-      'ui:title': 'Select the hearing aid accessories you need.',
+      'ui:title': 'Select the hearing aid batteries and accessories you need.',
       'ui:description':
-        'You can only order each hearing aid accessory once every 5 months.',
+        'You can only order each hearing aid battery and accessory once every 5 months.',
       'ui:field': 'StringField',
-      'ui:widget': Accessories,
-      'ui:reviewWidget': ReviewPageAccessories,
+      'ui:widget': BatteriesAndAccessories,
+      'ui:reviewWidget': ReviewPageSupplies,
       'ui:options': {
         keepInPageOnReview: true,
       },

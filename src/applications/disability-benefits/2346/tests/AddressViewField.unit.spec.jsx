@@ -14,7 +14,7 @@ describe('AddressViewField', () => {
       street: 's1',
       street2: 's2',
       postalCode: '12345',
-      country: 'USA',
+      country: 'United States',
       state: 'state',
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
@@ -58,7 +58,7 @@ describe('AddressViewField', () => {
   it('should render all non-USA fields', () => {
     const formData = {
       ...baseData,
-      country: 'CAN',
+      country: 'Canada',
       street: 's1',
       street2: 's2',
       internationalPostalCode: '123456789',

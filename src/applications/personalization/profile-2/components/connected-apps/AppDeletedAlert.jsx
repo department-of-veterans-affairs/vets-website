@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -9,10 +10,10 @@ export const AppDeletedAlert = props => {
     focusElement('[data-focus-target]');
   }, []);
 
-  const { id, appName, dismissAlert } = props;
-  const alertMessage = `${appName} won’t be able to see any new information
+  const { id, title, dismissAlert } = props;
+  const alertMessage = `${title} won’t be able to see any new information
   about you from VA, but may still have access to information that was previously
-  shared. To remove any stored data, contact ${appName} and request permanent deletion`;
+  shared. To remove any stored data, contact ${title} and request permanent deletion`;
 
   return (
     <div tabIndex="-1" data-focus-target>
@@ -24,4 +25,10 @@ export const AppDeletedAlert = props => {
       />
     </div>
   );
+};
+
+AppDeletedAlert.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  dismissAlert: PropTypes.func.isRequired,
 };

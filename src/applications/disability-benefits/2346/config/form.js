@@ -13,11 +13,11 @@ import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
-const { email, supplies, date } = fullSchema.definitions;
+const { email, date, supplies } = fullSchema.definitions;
 const { currentAddress } = frontEndSchema.definitions;
 
 const {
-  emailField,
+  vetEmailField,
   confirmationEmailField,
   suppliesField,
   permAddressField,
@@ -43,8 +43,7 @@ const formChapterTitles = {
 const formPageTitlesLookup = {
   personalDetails: 'Personal Details',
   address: 'Shipping address',
-  addAccessoriesPage: 'Add accessories to your order',
-  addBatteriesPage: 'Add batteries to your order',
+  addSuppliesPage: 'Add supplies to your order',
 };
 
 const addressSchema = buildAddressSchema(true);
@@ -162,7 +161,7 @@ const formConfig = {
           uiSchema: {
             [permAddressField]: permanentAddressUI,
             [tempAddressField]: temporaryAddressUI,
-            [emailField]: emailUI,
+            [vetEmailField]: emailUI,
             [confirmationEmailField]: confirmationEmailUI,
             [currentAddressField]: currentAddressUI,
           },
@@ -171,7 +170,7 @@ const formConfig = {
             properties: {
               [permAddressField]: addressSchema,
               [tempAddressField]: addressSchema,
-              [emailField]: email,
+              [vetEmailField]: email,
               [confirmationEmailField]: email,
               [currentAddressField]: currentAddress,
             },
@@ -182,9 +181,9 @@ const formConfig = {
     selectSuppliesChapter: {
       title: formChapterTitles.selectSupplies,
       pages: {
-        [formPageTitlesLookup.addBatteriesPage]: {
-          path: 'batteries',
-          title: formPageTitlesLookup.addBatteriesPage,
+        [formPageTitlesLookup.addSuppliesPage]: {
+          path: 'supplies',
+          title: formPageTitlesLookup.addSuppliesPage,
           schema: {
             type: 'object',
             properties: {
@@ -193,19 +192,6 @@ const formConfig = {
           },
           uiSchema: {
             [suppliesField]: batteriesUI,
-          },
-        },
-        [formPageTitlesLookup.addAccessoriesPage]: {
-          path: 'accessories',
-          title: formPageTitlesLookup.addAccessoriesPage,
-          schema: {
-            type: 'object',
-            properties: {
-              [suppliesField]: supplies,
-            },
-          },
-          uiSchema: {
-            [suppliesField]: accessoriesUI,
           },
         },
       },

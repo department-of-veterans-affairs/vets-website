@@ -155,7 +155,6 @@ class ResultsList extends Component {
     const markers = MARKER_LETTERS.values();
     const sortedResults = results
       .map(result => {
-        const markerText = markers.next().value;
         const distance = currentLocation
           ? distBetween(
               currentLocation.latitude,
@@ -168,12 +167,17 @@ class ResultsList extends Component {
           ...result,
           distance,
           resultItem: true,
-          markerText,
           searchString,
         };
       })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance);
-
+      .sort((resultA, resultB) => resultA.distance - resultB.distance)
+      .map(result => {
+        const markerText = markers.next().value;
+        return {
+          ...result,
+          markerText,
+        };
+      });
     return (
       <div>
         <div>

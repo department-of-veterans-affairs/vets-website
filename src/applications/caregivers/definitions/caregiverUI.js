@@ -97,9 +97,6 @@ export default {
     hasSecondaryCaregiverOneUI: {
       'ui:title': 'Would you like to add a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
-      'ui:options': {
-        hideOnReview: true,
-      },
     },
     hasSecondaryCaregiverTwoUI: {
       'ui:title': ' ',
@@ -187,9 +184,9 @@ export default {
         <div className="vads-u-margin-y--1p5 vads-u-margin-bottom--2p5">
           <AdditionalInfo triggerText="Learn more about Medicare">
             Medicare is a federal health insurance program providing coverage
-            for people who are 65 years or older or who meet who meet special
-            criteria. Part A insurance covers hospital care, skilled nursing and
-            nursing home care, hospice, and home health services.
+            for people who are 65 years or older or who meet special criteria.
+            Part A insurance covers hospital care, skilled nursing and nursing
+            home care, hospice, and home health services.
           </AdditionalInfo>
         </div>
       ),
