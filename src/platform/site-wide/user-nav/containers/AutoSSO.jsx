@@ -46,6 +46,9 @@ const mapDispatchToProps = {
   checkKeepAlive,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AutoSSO);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AutoSSO);
 
 export { AutoSSO };
