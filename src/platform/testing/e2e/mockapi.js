@@ -17,6 +17,8 @@ const express = require('express');
 const winston = require('winston');
 const apiMocker = require('mocker-api');
 
+const teamSiteProxy = require('./teamsite-proxy');
+
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
@@ -145,6 +147,7 @@ if (options.responses) {
   }
 }
 
+app.use(teamSiteProxy());
 app.use(makeMockApiRouter(options));
 
 app.listen(options.port, options.host, () => {
