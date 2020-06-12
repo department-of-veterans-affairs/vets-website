@@ -46,6 +46,11 @@ module.exports = {
             '--window-size=1024,768',
           ],
         },
+        globals: {
+          PROXY_REWRITE_HOST: '0.0.0.0',
+          TEAMSITE_PROXY_HOST: '0.0.0.0',
+          TEAMSITE_PROXY_PORT: '3500',
+        },
       },
       selenium: {
         start_process: false,
