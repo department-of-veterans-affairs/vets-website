@@ -1,4 +1,3 @@
-const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
 
 function generateWebpackDevConfig(buildOptions) {
@@ -56,10 +55,6 @@ function generateWebpackDevConfig(buildOptions) {
         res.type('html');
         next();
       });
-
-      if (buildOptions['local-proxy-rewrite']) {
-        setupLocalProxyRewrite(app, buildOptions);
-      }
     },
   };
 }

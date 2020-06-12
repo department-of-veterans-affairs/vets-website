@@ -9,16 +9,20 @@ This works by -
 4. If the webpage is listed in the `proxy-rewrite-whitelist.json`, the site-wide components are rendered onto the page.
 
 ## Local Dev
-Because we're dependent on the DOM of webpages outside of our source code, local development is somewhat tricky. However, to make this easier, you can run the watch task with a flag indicating that `proxy-rewrite` development, which will ultimately serve as a local proxy. The reason this behavior is not enabled by default is that we don't want to hit the production servers unless we have to, which is the case for TeamSite development.
+Because we're dependent on the DOM of webpages outside of our source code, local development is somewhat tricky. However, to make this easier, you can start a local proxy, which will load a VA domain and replace the injection JS bundle with yours. The reason this behavior is not enabled by default is that we don't want to hit the production servers unless we have to, which is the case for TeamSite development.
 
-```
-npm run watch -- --local-proxy-rewrite
+```bash
+# In one terminal...
+node src/applications/proxy-rewrite/teamsite-proxy.js # -> Starts a proxy on localhost:3500
+
+# In another...
+yarn watch --env.entry proxy-rewrite
 ```
 
 Next, navigate to localhost, but passing a VA.gov domain via a `target` query parameter -
 
 ```
-http://localhost:3001/?target=https://www.va.gov/health/
+http://localhost:3500/?target=https://www.va.gov/health/
 ```
 
 `https://www.va.gov/health/` should load, but with your local `proxy-rewrite` bundle injected into the page. You can confirm this by checking you network requests or by adding an `alert` into your bundle entry.
