@@ -480,6 +480,14 @@ describe('VAOS Appointment transformer', () => {
       it('should set bestTimeToCall', () => {
         expect(data.legacyVAR.bestTimeToCall).to.deep.equal(['Morning']);
       });
+
+      it('should set express care reasonForVisit', () => {
+        const expressData = transformPendingAppointments([
+          { ...vaRequest, typeOfCareId: 'CR1', reasonForVisit: 'some reason' },
+        ]);
+
+        expect(expressData[0].reason).to.equal('some reason');
+      });
     });
 
     describe('isPastAppointment', () => {
