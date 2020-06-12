@@ -278,7 +278,7 @@ export const DirectDepositContent = ({
       <FraudVictimAlert />
       <AdditionalInformation />
       <ProfileInfoTable
-        title="Education Benefits"
+        title="Education benefits"
         data={educationBenefitsData()}
       />
     </>
