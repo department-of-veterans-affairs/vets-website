@@ -8,8 +8,8 @@ const ENVIRONMENTS = require('../../site/constants/environments');
 const HOSTNAMES = require('../../site/constants/hostnames');
 
 const VETS_WEBSITE_URL = process.env.VETS_WEBSITE_URL || 'localhost:3001';
-const TEAMSITE_PROXY_HOST = process.env.TEAMSITE_PROXY_PORT || 'localhost';
-const TEAMSITE_PROXY_PORT = process.env.TEAMSITE_PROXY_HOST || 3500;
+const TEAMSITE_PROXY_HOST = process.env.TEAMSITE_PROXY_HOST || 'localhost';
+const TEAMSITE_PROXY_PORT = process.env.TEAMSITE_PROXY_PORT || '3500';
 
 const PROD_BUCKET = BUCKETS[ENVIRONMENTS.VAGOVPROD];
 const PROD_DOMAIN = `https://${HOSTNAMES[ENVIRONMENTS.VAGOVPROD]}`;

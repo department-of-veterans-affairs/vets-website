@@ -39,7 +39,7 @@ function runTest(browser, failures) {
 }
 
 module.exports = E2eHelpers.createE2eTest(browser => {
-  browser.perform(done => {
+  return browser.perform(done => {
     const server = teamSiteProxy.app.listen(
       teamSiteProxy.port,
       teamSiteProxy.host,
@@ -48,15 +48,16 @@ module.exports = E2eHelpers.createE2eTest(browser => {
         runTest(browser, failures);
         browser.waitForElementPresent('body', Timeouts.normal, () => {
           server.close(() => {
+            done();
             if (failures.length > 0) {
               failures.unshift(`| Source | Destination | \n | --- | --- | `);
 
               const markdownReport = failures.join('\n');
               console.log(chalk.red(markdownReport));
 
-              throw new Error('There are failing redirects');
+              browser.verify.fail('There are failing redirects');
             }
-            done();
+            browser.end();
           });
         });
       },
