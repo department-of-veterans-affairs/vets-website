@@ -2,7 +2,7 @@
 const chalk = require('chalk');
 const E2eHelpers = require('../../platform/testing/e2e/helpers');
 const Timeouts = require('../../platform/testing/e2e/timeouts');
-const redirects = require('./redirects/crossDomainRedirects.json').slice(30);
+const redirects = require('./redirects/crossDomainRedirects.json');
 
 const teamSiteProxy = require('./teamsite-proxy');
 
