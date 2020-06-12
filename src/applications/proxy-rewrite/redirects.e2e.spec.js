@@ -30,11 +30,7 @@ function runTest(browser, failures) {
           browser.url(({ value: currentUrl }) => {
             if (!currentUrl.includes(dest)) {
               console.log(chalk.red(`Failed redirect! ${output}`));
-
-              failures.push({
-                redirect,
-                verbose: output,
-              });
+              failures.push(`| ${teamSiteDomain} | ${dest} |`);
             }
           });
         });
@@ -53,7 +49,13 @@ module.exports = E2eHelpers.createE2eTest(browser => {
         browser.waitForElementPresent('body', Timeouts.normal, () => {
           server.close(() => {
             if (failures.length > 0) {
-              throw JSON.stringify(failures);
+              failures.unshift(`| Source | Destination | `);
+              failures.unshift(`| --- | --- | `);
+
+              const markdownReport = failures.join('\n');
+              console.log(chalk.red(markdownReport));
+
+              throw new Error('There are failing redirects');
             }
             done();
           });
