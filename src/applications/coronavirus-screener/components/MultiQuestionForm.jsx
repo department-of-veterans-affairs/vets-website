@@ -112,15 +112,14 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     (question, index) =>
       (index === 0 ||
         Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
-        <div key={`question-${question.id}`}>
-          <FormQuestion
-            question={question}
-            recordStart={recordStart}
-            optionsConfig={defaultOptions}
-            setQuestionValue={setQuestionValue}
-            clearQuestionValues={clearQuestionValues}
-          />
-        </div>
+        <FormQuestion
+          question={question}
+          recordStart={recordStart}
+          optionsConfig={defaultOptions}
+          setQuestionValue={setQuestionValue}
+          clearQuestionValues={clearQuestionValues}
+          key={`question-${question.id}`}
+        />
       ),
   );
 
