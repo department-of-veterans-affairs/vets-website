@@ -263,11 +263,13 @@ const addressSchema = {
       type: 'string',
       minLength: 1,
       maxLength: 50,
+      pattern: '^.*\\S.*',
     },
     street2: {
       type: 'string',
       minLength: 1,
       maxLength: 50,
+      pattern: '^.*\\S.*',
     },
     city: {
       type: 'string',
