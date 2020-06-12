@@ -41,6 +41,7 @@ describe('coronavirus-screener', () => {
       // doesn't work
       // const firstQuestion = wrapper.find(firstQuestionId);
 
+      // works
       const firstQuestion = wrapper.render().find(firstQuestionId);
 
       expect(firstQuestion.find('h2').text()).to.equal(firstQuestionText);
