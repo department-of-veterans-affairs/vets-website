@@ -1,12 +1,11 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
-import AddressViewField from '../../components/AddressViewField';
-import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageSupplies from '../../components/ReviewPageSupplies';
-import { schemaFields } from '../../constants';
-import fullSchema from '../2346-schema.json';
-import { addressUISchema } from '../address-schema';
-import BatteriesAndAccessories from '../../components/BatteriesAndAccessories';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
+import AddressViewField from '../components/AddressViewField';
+import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
+import ReviewPageSupplies from '../components/ReviewPageSupplies';
+import { schemaFields } from '../constants';
+import { addressUISchema } from './address-schema';
 
 const { permanentAddress, temporaryAddress, viewCurrentAddress } = schemaFields;
 
@@ -19,22 +18,6 @@ const emailUIDescription = (
       email address.
     </p>
     <p className="vads-u-margin-bottom--1">Email address</p>
-  </>
-);
-
-const addressDescription = (
-  <>
-    <p>
-      Any updates you make here to your address will apply only to this
-      application.
-    </p>
-    <p>
-      To update your address for all of your VA accounts, you’ll need to go to
-      your profile page.{' '}
-      <a href="https://va.gov/profile">
-        View the address that's on file in your profile.
-      </a>
-    </p>
   </>
 );
 
@@ -51,12 +34,10 @@ export default {
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
-      'ui:subtitle': addressDescription,
-      'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
         hideOnReview: formData =>
-          formData.viewCurrentAddress !== 'permanentAddress',
+          formData['view:currentAddress'] !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
@@ -83,14 +64,12 @@ export default {
         return true;
       }),
       'ui:title': 'Temporary address',
-      'ui:subtitle': addressDescription,
-      'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
         startInEdit: formData =>
           Object.values(formData).every(prop => Boolean(prop)),
         hideOnReview: formData =>
-          formData.viewCurrentAddress !== 'temporaryAddress',
+          formData['view:currentAddress'] !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
@@ -138,7 +117,7 @@ export default {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const emailMatcher = () => formData.email === fieldData;
+            const emailMatcher = () => formData.vetEmail === fieldData;
             const doesEmailMatch = emailMatcher();
             if (!doesEmailMatch) {
               errors.addError(
