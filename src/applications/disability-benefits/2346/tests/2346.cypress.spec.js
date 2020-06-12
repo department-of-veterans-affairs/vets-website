@@ -22,8 +22,6 @@ const testConfig = createTestConfig(
 
     fixtures: {
       data: path.join(__dirname, 'data'),
-      // 'sample-file': path.join(__dirname, 'some-folder/some-file.json'),
-      // 'sample-folder': path.join(__dirname, 'other-folder'),
     },
 
     pageHooks: {
@@ -36,40 +34,26 @@ const testConfig = createTestConfig(
       },
 
       'veteran-information/addresses': () => {
-        cy.findAllByText(/Edit permanent address/i, { selector: 'button' })
+        cy.findAllByText('Edit permanent address', { selector: 'button' })
           .first()
           .click();
-        cy.get('#root_permanentAddress_country').select('Canada');
-        cy.get('#root_permanentAddress_province').type('Alberta');
-        cy.get('#root_permanentAddress_internationalPostalCode').type('T7N');
-        cy.findAllByText(/Save permanent address/i, { selector: 'button' })
-          .first()
-          .click();
+        cy.findByLabelText(/Country/i).select('Canada');
+        cy.findByLabelText(/Province/i).type('Alberta');
+        cy.findByLabelText(/International Postal Code/i).type('T7N');
+        cy.findByText(/Save permanent address/i).click();
+        // cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
+        cy.findByText(/Continue/i).click();
+      },
+
+      supplies: () => {
+        cy.get('#1').click();
+        cy.get('#3').click();
+        cy.get('#5').click();
         cy.findAllByText(/Continue/i, { selector: 'button' })
           .first()
           .click();
-        // cy.pause();
       },
-
-      // 'sub-page/do-stuff-before-filling': () => {
-      //   // The `@testData` alias is available in `pageHooks` and `setupPerTest`.
-      //   cy.get('@testData').then(testData => {
-      //     // if (testData.isSomethingTrue) doSomething();
-      //   });
-
-      //   // Fill out the rest of the page like normal.
-      //   cy.fillPage();
-
-      //   // Don't forget to click continue!
-      //   cy.findAllByText(/continue/i, { selector: 'button' })
-      //     .first()
-      //     .click();
-      // },
     },
-
-    // This will be derived from the manifest using `createTestConfig`,
-    // so it doesn't need to be explicitly included.
-    // rootUrl: '/some-form-app-url',
 
     setup: () => {
       cy.log('Logging something before starting tests.');
