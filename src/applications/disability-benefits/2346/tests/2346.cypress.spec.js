@@ -35,6 +35,22 @@ const testConfig = createTestConfig(
           .click();
       },
 
+      'veteran-information/addresses': () => {
+        cy.findAllByText(/Edit permanent address/i, { selector: 'button' })
+          .first()
+          .click();
+        cy.get('#root_permanentAddress_country').select('Canada');
+        cy.get('#root_permanentAddress_province').type('Alberta');
+        cy.get('#root_permanentAddress_internationalPostalCode').type('T7N');
+        cy.findAllByText(/Save permanent address/i, { selector: 'button' })
+          .first()
+          .click();
+        cy.findAllByText(/Continue/i, { selector: 'button' })
+          .first()
+          .click();
+        // cy.pause();
+      },
+
       // 'sub-page/do-stuff-before-filling': () => {
       //   // The `@testData` alias is available in `pageHooks` and `setupPerTest`.
       //   cy.get('@testData').then(testData => {
