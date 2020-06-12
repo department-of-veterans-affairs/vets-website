@@ -27,7 +27,7 @@ beforeEach(() => {
 
 describe('coronavirus-screener', () => {
   describe('MultiQuestionForm', () => {
-    it('outputs first question text', () => {
+    it('shows first question', () => {
       const wrapper = shallow(
         <MultiQuestionForm
           questions={mockQuestions}
@@ -38,11 +38,11 @@ describe('coronavirus-screener', () => {
       const firstQuestionId = `#question-${mockQuestions[0].id}`;
       const firstQuestionText = mockQuestions[0].text;
 
-      // doesn't work
-      // const firstQuestion = wrapper.find(firstQuestionId);
-
-      // works
-      const firstQuestion = wrapper.render().find(firstQuestionId);
+      const firstQuestion = wrapper
+        .children()
+        .first()
+        .dive()
+        .find(firstQuestionId);
 
       expect(firstQuestion.find('h2').text()).to.equal(firstQuestionText);
 
