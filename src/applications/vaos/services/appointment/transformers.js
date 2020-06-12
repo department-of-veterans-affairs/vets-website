@@ -9,6 +9,7 @@ import {
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   PURPOSE_TEXT,
   VIDEO_TYPES,
+  EXPRESS_CARE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 
@@ -209,6 +210,10 @@ function getPurposeOfVisit(appt) {
       return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
         ?.short;
     case APPOINTMENT_TYPES.request:
+      if (appt.typeOfCareId === EXPRESS_CARE) {
+        return appt.reasonForVisit;
+      }
+
       return PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.purposeOfVisit,
       )?.short;
@@ -218,35 +223,34 @@ function getPurposeOfVisit(appt) {
 }
 
 /**
- * Returns formatted user selected Date, AM/PM date options in an array
+ * Returns sorted user requested periods. For now we don't know how VSP will handle the
+ * AM/PM periods, so using 00:00:00.000Z to symbolize AM and 12:00:00.000Z to symbolize
+ * PM for now.
  *
  * @param {Object} appt VAR appointment object
  * @returns {Array} returns formatted date options
  */
-function getRequestDateOptions(appt) {
+function getRequestedPeriods(appt) {
+  const requestedPeriods = [];
   const format = 'MM/DD/YYYY';
-  return [
-    {
-      date: moment(appt.optionDate1, format),
-      optionTime: appt.optionTime1,
-    },
-    {
-      date: moment(appt.optionDate2, format),
-      optionTime: appt.optionTime2,
-    },
-    {
-      date: moment(appt.optionDate3, format),
-      optionTime: appt.optionTime3,
-    },
-  ]
-    .filter(o => o.date.isValid())
-    .sort((a, b) => {
-      if (a.date.isSame(b.date)) {
-        return a.optionTime === 'AM' ? -1 : 1;
-      }
+  for (let x = 1; x <= 3; x += 1) {
+    const optionTime = appt[`optionTime${x}`];
+    if (optionTime) {
+      const isAM = optionTime === 'AM';
+      requestedPeriods.push({
+        start: `${moment(appt[`optionDate${x}`], format).format(
+          'YYYY-MM-DD',
+        )}T${isAM ? '00:00:00.000Z' : `12:00:00.000Z`}`,
+        end: `${moment(appt[`optionDate${x}`], format).format('YYYY-MM-DD')}T${
+          isAM ? '11:59:99.999Z' : `23:59:99.999Z`
+        }`,
+      });
+    }
+  }
 
-      return a.date.isBefore(b.date) ? -1 : 1;
-    });
+  return requestedPeriods.sort(
+    (a, b) => (moment(a.start).isBefore(moment(b.start)) ? -1 : 1),
+  );
 }
 
 /**
@@ -329,9 +333,7 @@ function setParticipant(appt) {
       if (appt.facility) {
         participant.push({
           actor: {
-            reference: `HealthcareService/var${appt.facility.parentSiteCode}_${
-              appt.facility.facilityCode
-            }`,
+            reference: `Location/var${appt.facility.facilityCode}`,
             display: appt.friendlyLocationName || appt.facility?.name,
           },
         });
@@ -416,9 +418,15 @@ function setContained(appt) {
  * @returns {Object}
  */
 function setLegacyVAR(appt) {
-  return {
+  const legacyVar = {
     apiData: appt,
   };
+
+  if (getAppointmentType(appt) === APPOINTMENT_TYPES.request) {
+    legacyVar.bestTimeToCall = appt.bestTimetoCall;
+  }
+
+  return legacyVar;
 }
 
 /**
@@ -481,6 +489,7 @@ export function transformPendingAppointments(requests) {
       resourceType: 'Appointment',
       id: `var${appt.id}`,
       status: getStatus(appt),
+      requestedPeriod: getRequestedPeriods(appt),
       minutesDuration: 60,
       type: {
         coding: [{ code: appt.appointmentType }],
@@ -490,11 +499,10 @@ export function transformPendingAppointments(requests) {
       contained: setContained(appt),
       legacyVAR: setLegacyVAR(appt),
       vaos: {
-        isPastAppointment: false,
         appointmentType: getAppointmentType(appt),
         isCommunityCare: isCC,
-        dateOptions: getRequestDateOptions(appt),
-        bestTimeToCall: appt.bestTimetoCall,
+        isExpressCare: appt.typeOfCareId === EXPRESS_CARE,
+        isPastAppointment: false,
       },
     };
   });

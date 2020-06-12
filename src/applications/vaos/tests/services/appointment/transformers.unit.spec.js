@@ -129,6 +129,7 @@ const videoAppt = {
 };
 
 const now = moment();
+const tomorrow = moment().add(1, 'days');
 
 const vaRequest = {
   id: '8a4829dc7281184e017285000ab700cf',
@@ -151,12 +152,12 @@ const vaRequest = {
   createdDate: '06/05/2020 09:01:11',
   appointmentDate: '06/17/2020',
   appointmentTime: 'AM',
-  optionDate1: now,
+  optionDate1: tomorrow,
   optionTime1: 'PM',
-  optionDate2: now,
+  optionDate2: tomorrow,
   optionTime2: 'AM',
-  optionDate3: moment().add(1, 'days'),
-  optionTime3: 'PM',
+  optionDate3: now,
+  optionTime3: 'AM',
   status: 'Booked',
   appointmentType: 'Primary Care',
   visitType: 'Office Visit',
@@ -414,13 +415,11 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set facility as Location in participants', () => {
-        const healthcareActor = data.participant.filter(p =>
-          p.actor.reference.includes('HealthcareService'),
+        const locationActor = data.participant.filter(p =>
+          p.actor.reference.includes('Location'),
         )[0];
-        expect(healthcareActor.actor.reference).to.equal(
-          'HealthcareService/var983_983',
-        );
-        expect(healthcareActor.actor.display).to.equal(
+        expect(locationActor.actor.reference).to.equal('Location/var983');
+        expect(locationActor.actor.display).to.equal(
           'CHYSHR-Cheyenne VA Medical Center',
         );
       });
@@ -456,13 +455,30 @@ describe('VAOS Appointment transformer', () => {
         expect(data.vaos.videoType).to.equal(undefined);
       });
 
-      it('should set dateOptions', () => {
-        expect(data.vaos.dateOptions[0].optionTime).to.equal('AM');
-        expect(data.vaos.dateOptions.length).to.equal(3);
+      it('should set requestedPeriods', () => {
+        expect(data.requestedPeriod.length).to.equal(3);
+        expect(data.requestedPeriod[0].start).to.equal(
+          `${now.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        );
+        expect(data.requestedPeriod[0].end).to.equal(
+          `${now.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        );
+        expect(data.requestedPeriod[1].start).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        );
+        expect(data.requestedPeriod[1].end).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T11:59:99.999Z`,
+        );
+        expect(data.requestedPeriod[2].start).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T12:00:00.000Z`,
+        );
+        expect(data.requestedPeriod[2].end).to.equal(
+          `${tomorrow.format('YYYY-MM-DD')}T23:59:99.999Z`,
+        );
       });
 
       it('should set bestTimeToCall', () => {
-        expect(data.vaos.bestTimeToCall).to.deep.equal(['Morning']);
+        expect(data.legacyVAR.bestTimeToCall).to.deep.equal(['Morning']);
       });
     });
 
