@@ -11,26 +11,23 @@ import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
-    const { selectedProducts, formData } = this.props;
-    let updatedSelectedProducts;
+    const { order, formData } = this.props;
+    let updatedorder;
     if (checked) {
-      updatedSelectedProducts = [
-        ...selectedProducts,
-        { productId: supply.productId },
-      ];
+      updatedorder = [...order, { productId: supply.productId }];
     } else {
-      updatedSelectedProducts = selectedProducts.filter(
+      updatedorder = order.filter(
         selectedProduct => selectedProduct.productId !== supply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedProducts: updatedSelectedProducts,
+      order: updatedorder,
     };
     return this.props.setData(updatedFormData);
   };
   render() {
-    const { supplies, selectedProducts, eligibility } = this.props;
+    const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
       supply => supply.productGroup === ACCESSORIES,
@@ -52,7 +49,7 @@ class Accessories extends Component {
     const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
     const isAccessorySelected = accessoryProductId => {
-      const selectedProductIds = selectedProducts.map(
+      const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
       return selectedProductIds.includes(accessoryProductId);
@@ -241,7 +238,7 @@ class Accessories extends Component {
 Accessories.defaultProps = {
   formData: {},
   supplies: [],
-  selectedProducts: [],
+  order: [],
   eligibility: {},
 };
 
@@ -259,7 +256,7 @@ Accessories.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  selectedProducts: PropTypes.arrayOf(
+  order: PropTypes.arrayOf(
     PropTypes.shape({
       productId: PropTypes.number,
     }),
@@ -270,7 +267,7 @@ Accessories.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.data?.supplies,
   formData: state.form?.data,
-  selectedProducts: state.form?.data?.selectedProducts,
+  order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
 });
 
