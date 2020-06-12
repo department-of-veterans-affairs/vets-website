@@ -8,7 +8,7 @@ const teamSiteProxy = require('./teamsite-proxy');
 
 const teamSiteProxyUrl = `http://${teamSiteProxy.host}:${teamSiteProxy.port}`;
 
-function runTest(browser) {
+function runTest(browser, failures) {
   for (const redirect of redirects) {
     const { domain, src, dest } = redirect;
 
@@ -17,18 +17,27 @@ function runTest(browser) {
       teamSiteDomain,
     )}`;
 
+    const output = `Confirming redirect: "${localInjectedTeamSitePageUrl}" -> "${
+      E2eHelpers.baseUrl
+    }${dest}"...`;
+
     browser
       .url(localInjectedTeamSitePageUrl)
       .waitForElementVisible('body', Timeouts.normal, () => {
         browser.pause(Timeouts.slow, () => {
-          console.log(
-            chalk.yellow(
-              `Confirming redirect: "${localInjectedTeamSitePageUrl}" -> "${
-                E2eHelpers.baseUrl
-              }${dest}"...`,
-            ),
-          );
-          browser.assert.urlContains(dest);
+          console.log(chalk.yellow(output));
+          try {
+            browser.assert.urlContains(dest);
+          } catch (error) {
+            console.log(chalk.red(`Failed redirect! ${output}`));
+            console.log(chalk.red(error));
+
+            failures.push({
+              redirect,
+              verbose: output,
+              error,
+            });
+          }
         });
       });
   }
@@ -40,7 +49,9 @@ module.exports = E2eHelpers.createE2eTest(browser => {
       teamSiteProxy.port,
       teamSiteProxy.host,
       () => {
-        runTest(browser);
+        console.log(server);
+        const failures = [];
+        runTest(browser, failures);
         browser.waitForElementPresent('body', Timeouts.normal, () => {
           server.close(() => {
             done();

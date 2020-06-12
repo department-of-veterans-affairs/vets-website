@@ -23,39 +23,44 @@ const CONTENT_TYPES = {
 
 const PROXY_REWRITE_ASSET_PATHS = ['/generated/', '/fonts/'];
 
-async function downloadAsset(req, res) {
+function downloadAsset(req, res) {
   const existsLocally = PROXY_REWRITE_ASSET_PATHS.some(localPath =>
     req.path.startsWith(localPath),
   );
   if (existsLocally) {
-    const proxied = await fetch(`http://${VETS_WEBSITE_URL}${req.path}`);
-    const extension = path.extname(req.path);
+    fetch(`http://${VETS_WEBSITE_URL}${req.path}`).then(proxied => {
+      const extension = path.extname(req.path);
 
-    if (CONTENT_TYPES[extension]) {
-      res.set('Content-Type', CONTENT_TYPES[extension]);
-    }
+      if (CONTENT_TYPES[extension]) {
+        res.set('Content-Type', CONTENT_TYPES[extension]);
+      }
 
-    if (['.js', '.json', '.css'].includes(extension)) {
-      res.send(await proxied.text());
-    } else {
-      const blob = await proxied.arrayBuffer();
-      res.end(Buffer.from(blob));
-    }
+      if (['.js', '.json', '.css'].includes(extension)) {
+        proxied.text().then(text => {
+          res.send(text);
+        });
+      } else {
+        proxied.arrayBuffer().then(blob => {
+          res.end(Buffer.from(blob));
+        });
+      }
+    });
   } else {
     res.redirect(`${PROD_DOMAIN}${req.path}`);
   }
 }
 
-async function downloadTeamSiteHtmlPage(vaGovUrl, res) {
-  const vaPageResponse = await fetch(vaGovUrl);
-  let vaPageHtml = await vaPageResponse.text();
-
-  vaPageHtml = vaPageHtml.replace(PROD_BUCKET_REGEX, '');
-  res.send(vaPageHtml);
+function downloadTeamSiteHtmlPage(vaGovUrl, res) {
+  fetch(vaGovUrl)
+    .then(vaPageResponse => vaPageResponse.text())
+    .then(vaPageHtml => {
+      const useLocalInjection = vaPageHtml.replace(PROD_BUCKET_REGEX, '');
+      res.send(useLocalInjection);
+    });
 }
 
 function setupProxy() {
-  return async (req, res, next) => {
+  return (req, res, next) => {
     const {
       query: { target: vaGovUrl },
     } = req;
