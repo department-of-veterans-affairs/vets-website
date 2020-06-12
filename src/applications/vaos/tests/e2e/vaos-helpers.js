@@ -158,7 +158,7 @@ function showMoreTest(client) {
     .waitForElementVisible('.additional-info-content', Timeouts.slow)
     .pause(Timeouts.normal)
     .axeCheck('.main')
-    .assert.containsText('#tooltip-11 dd', 'Request 2 Message 1 Text');
+    .assert.containsText('.vaos_appts__message dd', 'Request 2 Message 1 Text');
 
   return client;
 }
