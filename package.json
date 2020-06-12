@@ -172,7 +172,7 @@
     "eslint-plugin-va": "./script/eslint-plugin-va",
     "express-history-api-fallback": "^2.0.0",
     "extract-text-webpack-plugin": "next",
-    "file-loader": "^1.1.11",
+    "file-loader": "^6.0.0",
     "find": "^0.3.0",
     "find-root": "^1.1.0",
     "fs-extra": "^7.0.0",
