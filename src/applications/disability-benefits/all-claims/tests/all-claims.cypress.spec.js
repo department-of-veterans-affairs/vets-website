@@ -76,6 +76,13 @@ const testConfig = createTestConfig(
         'fx:mocks/application-submit',
       );
 
+      // Stub submission status for immediate transition to confirmation page.
+      cy.route(
+        'GET',
+        '/v0/disability_compensation_form/submission_status/*',
+        '',
+      );
+
       // Pre-fill with the expected ratedDisabilities,
       // but without view:selected, since that's not pre-filled
       cy.get('@testData').then(data => {
