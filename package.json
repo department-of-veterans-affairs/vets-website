@@ -150,7 +150,7 @@
     "command-line-usage": "^6.1.0",
     "concurrently": "^5.1.0",
     "cors": "^2.7.1",
-    "css-loader": "^0.28.10",
+    "css-loader": "^3.5.3",
     "decompress": "^4.2.0",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",
