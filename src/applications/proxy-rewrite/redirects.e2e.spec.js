@@ -49,8 +49,7 @@ module.exports = E2eHelpers.createE2eTest(browser => {
         browser.waitForElementPresent('body', Timeouts.normal, () => {
           server.close(() => {
             if (failures.length > 0) {
-              failures.unshift(`| Source | Destination | `);
-              failures.unshift(`| --- | --- | `);
+              failures.unshift(`| Source | Destination | \n | --- | --- | `);
 
               const markdownReport = failures.join('\n');
               console.log(chalk.red(markdownReport));
