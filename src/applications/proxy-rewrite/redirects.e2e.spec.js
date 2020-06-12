@@ -2,7 +2,7 @@
 const chalk = require('chalk');
 const E2eHelpers = require('../../platform/testing/e2e/helpers');
 const Timeouts = require('../../platform/testing/e2e/timeouts');
-const redirects = require('./redirects/crossDomainRedirects.json');
+const redirects = require('./redirects/crossDomainRedirects.json').slice(30);
 
 const teamSiteProxy = require('./teamsite-proxy');
 
@@ -24,20 +24,19 @@ function runTest(browser, failures) {
     browser
       .url(localInjectedTeamSitePageUrl)
       .waitForElementVisible('body', Timeouts.normal, () => {
-        browser.pause(Timeouts.slow, () => {
+        browser.pause(Timeouts.normal, () => {
           console.log(chalk.yellow(output));
-          try {
-            browser.assert.urlContains(dest);
-          } catch (error) {
-            console.log(chalk.red(`Failed redirect! ${output}`));
-            console.log(chalk.red(error));
 
-            failures.push({
-              redirect,
-              verbose: output,
-              error,
-            });
-          }
+          browser.url(({ value: currentUrl }) => {
+            if (!currentUrl.includes(dest)) {
+              console.log(chalk.red(`Failed redirect! ${output}`));
+
+              failures.push({
+                redirect,
+                verbose: output,
+              });
+            }
+          });
         });
       });
   }
