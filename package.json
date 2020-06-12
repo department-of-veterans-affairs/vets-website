@@ -210,7 +210,7 @@
     "react-test-renderer": "^16.13.1",
     "recursive-readdir": "^2.2.2",
     "recursive-uncache": "^0.1.1",
-    "request": "^2.79.0",
+    "request": "^2.88.2",
     "sass-lint": "^1.10.2",
     "sass-loader": "^8.0.2",
     "saucelabs": "^1.4.0",
