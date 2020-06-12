@@ -67,12 +67,12 @@ const mapStateToProps = state => {
   const accessorySupplies = supplies?.filter(supply =>
     supply.productGroup?.includes('ACCESSORIES'),
   );
-  const selectedProducts = state.form?.data?.selectedProducts;
-  const productIdArray = selectedProducts?.map(product => product.productId);
+  const order = state.form?.data?.order;
+  const productIdArray = order?.map(product => product.productId);
   const selectedBatteryProductInfo = batterySupplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
-  const selectedAccessoryProductInfo = batterySupplies?.filter(supply =>
+  const selectedAccessoryProductInfo = accessorySupplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
 
