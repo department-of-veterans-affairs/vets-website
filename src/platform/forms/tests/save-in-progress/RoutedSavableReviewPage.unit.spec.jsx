@@ -3,7 +3,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
+// import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
+import RoutedSavableReviewPage from 'platform/forms/containers/review/RoutedSavableReviewPage';
 
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   const location = {

@@ -135,7 +135,6 @@ export function createRoutes(formConfig) {
     {
       path: 'review-and-submit',
       formConfig,
-      onEnter: () => console.log('review and submit page'),
       component: ReviewPage,
       pageList,
     },

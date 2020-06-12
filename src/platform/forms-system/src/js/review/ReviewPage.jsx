@@ -33,15 +33,15 @@ class ReviewPage extends React.Component {
     return (
       <div>
         <ReviewChapters formConfig={formConfig} pageList={pageList} />
-        <SubmitController />
+        <SubmitController
+          formConfig={formConfig}
+          pageList={pageList}
+          path={path}
+        />
       </div>
     );
   }
 }
-
-          // formConfig={formConfig}
-          // pageList={pageList}
-          // path={path}
 
 function mapStateToProps(state, ownProps) {
   const route = ownProps.route;

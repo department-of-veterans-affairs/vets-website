@@ -5,14 +5,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-// platform - forms components 
+// platform - forms components
 
-// platform - forms-system components 
+// platform - forms-system components
 import SubmitButtons from 'platform/forms-system/src/js/review/SubmitButtons';
 import { PreSubmitSection } from 'platform/forms-system/src/js/components/PreSubmitSection';
 import { isValidForm } from 'platform/forms-system/src/js/validation';
-import { createPageListByChapter, getActiveExpandedPages } from 'platform/forms-system/src/js/helpers';
-import { setPreSubmit, setSubmission, submitForm } from 'platform/forms-system/src/js/actions';
+import {
+  // createPageListByChapter,
+  getActiveExpandedPages,
+} from 'platform/forms-system/src/js/helpers';
+import {
+  setPreSubmit,
+  setSubmission,
+  submitForm,
+} from 'platform/forms-system/src/js/actions';
 
 // platform - monitoring
 import recordEvent from 'platform/monitoring/record-event';
@@ -119,7 +126,7 @@ class SubmitController extends React.Component {
   };
 
   render() {
-    const { form, renderErrorMessage } = this.props;
+    const { children, form, renderErrorMessage } = this.props;
     // Render inside SubmitButtons by using `preSubmitSection` so the alert is _above_ the submit button;
     // helps with accessibility
 
@@ -130,7 +137,9 @@ class SubmitController extends React.Component {
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
         preSubmitSection={this.RenderPreSubmitSection()}
-      />
+      >
+        {children}
+      </SubmitButtons>
     );
   }
 }
@@ -139,11 +148,8 @@ function mapStateToProps(state, ownProps) {
   const { formConfig, pageList, renderErrorMessage } = ownProps;
   const router = ownProps.router;
 
-  console.log('state: ', state);
-  console.log('ownProps: ', ownProps);
-
   const form = state.form;
-  const pagesByChapter = createPageListByChapter(formConfig);
+  // const pagesByChapter = createPageListByChapter(formConfig);
   const trackingPrefix = formConfig.trackingPrefix;
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
@@ -151,7 +157,7 @@ function mapStateToProps(state, ownProps) {
   return {
     form,
     formConfig,
-    pagesByChapter,
+    // pagesByChapter,
     pageList,
     renderErrorMessage,
     router,
@@ -170,7 +176,7 @@ const mapDispatchToProps = {
 SubmitController.propTypes = {
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
-  pagesByChapter: PropTypes.object.isRequired,
+  // pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   renderErrorMessage: PropTypes.func,
   router: PropTypes.object.isRequired,

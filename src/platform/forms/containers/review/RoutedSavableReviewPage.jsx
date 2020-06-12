@@ -1,30 +1,39 @@
+// libs
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
+import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
 
-import debounce from '../../utilities/data/debounce';
-
-import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
-import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
-
-import CallHRC from '../../static-data/CallHRC';
-import DowntimeNotification, {
-  externalServiceStatus,
-} from '../../monitoring/DowntimeNotification';
-import get from '../../utilities/data/get';
-import { focusElement } from '../../utilities/ui';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import SaveFormLink from './SaveFormLink';
-import SaveStatus from './SaveStatus';
+// platform - forms - actions
 import {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
-  saveErrors,
-} from './actions';
-import { getFormContext } from './selectors';
-import DowntimeMessage from './DowntimeMessage';
+} from 'platform/forms/save-in-progress/actions';
+
+// platform - forms components
+import ErrorMessage from 'platform/forms/components/review/ErrorMessage';
+
+// platform - forms containers
+import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
+import SubmitController from 'platform/forms/containers/review/SubmitController';
+
+// platform - forms-system components
+import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
+// import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
+
+// utils
+import debounce from 'platform/utilities/data/debounce';
+
+import DowntimeNotification, {
+  externalServiceStatus,
+} from 'platform/monitoring/DowntimeNotification';
+import get from 'platform/utilities/data/get';
+import { focusElement } from 'platform/utilities/ui';
+import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import SaveStatus from 'platform/forms/save-in-progress/SaveStatus';
+import { getFormContext } from 'platform/forms/save-in-progress/selectors';
+import DowntimeMessage from 'platform/forms/save-in-progress/DowntimeMessage';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -38,7 +47,15 @@ const scrollToTop = () => {
   );
 };
 
-class RoutedSavableReviewPage extends React.Component {
+const VALID_SUBMISSION_STATES = [
+  'submitPending',
+  'applicationSubmitted',
+  'clientError',
+  'throttledError',
+  'validationError',
+];
+
+class RoutedSavableReviewPage extends Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = debounce(1000, this.autoSave);
@@ -60,63 +77,6 @@ class RoutedSavableReviewPage extends React.Component {
     }
   };
 
-  renderErrorMessage = () => {
-    const { route, user, form, location, showLoginModal } = this.props;
-    const errorText = route.formConfig.errorText;
-    const savedStatus = form.savedStatus;
-
-    const saveLink = (
-      <SaveFormLink
-        locationPathname={location.pathname}
-        form={form}
-        user={user}
-        showLoginModal={showLoginModal}
-        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
-      >
-        Save your form
-      </SaveFormLink>
-    );
-
-    if (saveErrors.has(savedStatus)) {
-      return saveLink;
-    }
-
-    let InlineErrorComponent;
-    if (typeof errorText === 'function') {
-      InlineErrorComponent = errorText;
-    } else if (typeof errorText === 'string') {
-      InlineErrorComponent = () => <p>{errorText}</p>;
-    } else {
-      InlineErrorComponent = () => (
-        <p>
-          If it still doesn’t work, please <CallHRC />
-        </p>
-      );
-    }
-
-    return (
-      <div className="usa-alert usa-alert-error schemaform-failure-alert">
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>We’re sorry. We can't submit your form right now.</strong>
-          </p>
-          <p>
-            We’re working to fix the problem. Please make sure you’re connected
-            to the Internet, and then try saving your form again. {saveLink}.
-          </p>
-          {!user.login.currentlyLoggedIn && (
-            <p>
-              If you don’t have an account, you’ll have to start over. Try
-              submitting your form again tomorrow.
-            </p>
-          )}
-          <InlineErrorComponent />
-        </div>
-      </div>
-    );
-  };
-
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
@@ -135,6 +95,9 @@ class RoutedSavableReviewPage extends React.Component {
       location,
       pageList,
       path,
+      route,
+      showLoginModal,
+      toggleLoginModal,
       user,
     } = this.props;
 
@@ -156,22 +119,40 @@ class RoutedSavableReviewPage extends React.Component {
             formConfig={formConfig}
             pageList={pageList}
             path={path}
-            renderErrorMessage={this.renderErrorMessage}
-          />
+          >
+            <ErrorMessage
+              active={form?.submission?.status}
+              location={location}
+              form={form}
+              route={route}
+              showLoginModal={showLoginModal}
+              toggleLoginModal={toggleLoginModal}
+              user={user}
+            />
+          </SubmitController>
         </DowntimeNotification>
+        <ErrorMessage
+          active
+          location={location}
+          form={form}
+          route={route}
+          showLoginModal={showLoginModal}
+          toggleLoginModal={toggleLoginModal}
+          user={user}
+        />
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={this.props.showLoginModal}
-          toggleLoginModal={this.props.toggleLoginModal}
+          showLoginModal={showLoginModal}
+          toggleLoginModal={toggleLoginModal}
           form={form}
         />
         <SaveFormLink
           locationPathname={location.pathname}
           form={form}
           user={user}
-          showLoginModal={this.props.showLoginModal}
+          showLoginModal={showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
+          toggleLoginModal={toggleLoginModal}
         >
           {formConfig.finishLaterLinkText}
         </SaveFormLink>
@@ -208,7 +189,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
-  toggleLoginModal,
+  toggleLoginModal: toggleLoginModalAction,
 };
 
 RoutedSavableReviewPage.propTypes = {
