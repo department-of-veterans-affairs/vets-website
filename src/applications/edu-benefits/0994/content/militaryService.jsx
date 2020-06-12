@@ -1,7 +1,7 @@
 import React from 'react';
 
 // background & foreground class names added to indicate this paragraphs needs
-// an axe color contrast exception
+// an axeCheck color contrast exception
 export const activeDutyNotice = (
   <p className="vads-u-background-color--white vads-u-color--gray-dark">
     VET TEC is available only to Veterans. If you’re an active-duty service
