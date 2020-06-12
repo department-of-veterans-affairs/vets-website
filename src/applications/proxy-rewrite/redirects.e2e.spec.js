@@ -49,11 +49,13 @@ module.exports = E2eHelpers.createE2eTest(browser => {
       teamSiteProxy.port,
       teamSiteProxy.host,
       () => {
-        console.log(server);
         const failures = [];
         runTest(browser, failures);
         browser.waitForElementPresent('body', Timeouts.normal, () => {
           server.close(() => {
+            if (failures.length > 0) {
+              throw JSON.stringify(failures);
+            }
             done();
           });
         });
