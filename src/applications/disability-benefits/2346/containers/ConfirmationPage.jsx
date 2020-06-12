@@ -5,10 +5,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ConfirmationPage = ({
-  email,
+  vetEmail,
   submittedAt,
   selectedProductArray,
-  confirmationNumber,
   fullName,
   shippingAddress,
 }) => (
@@ -21,7 +20,7 @@ const ConfirmationPage = ({
       content={
         <p>
           We'll send you an email confirming your order to{' '}
-          <strong>{email}</strong>.
+          <strong>{vetEmail}</strong>.
         </p>
       }
       status="success"
@@ -68,10 +67,6 @@ const ConfirmationPage = ({
             {' '}
             {moment(submittedAt).format('MMM D, YYYY')}
           </p>
-          <p className="vads-u-margin--0">
-            <strong>Confirmation number</strong>
-          </p>
-          <p className="vads-u-margin-top--0">{confirmationNumber}</p>
         </section>
       }
       status="info"
@@ -100,34 +95,50 @@ const ConfirmationPage = ({
 );
 
 ConfirmationPage.propTypes = {
-  email: PropTypes.string.isRequired,
-  confirmationNumber: PropTypes.string.isRequired,
-  shippingAddress: PropTypes.object.isRequired,
+  confirmationPageData: PropTypes.shape({
+    fullName: PropTypes.shape({
+      first: PropTypes.string.isRequired,
+      middle: PropTypes.string,
+      last: PropTypes.string.isRequired,
+    }),
+    vetEmail: PropTypes.string.isRequired,
+    order: PropTypes.array.isRequired,
+    shippingAddress: PropTypes.object.isRequired,
+    supplies: PropTypes.array.isRequired,
+  }),
 };
 
 ConfirmationPage.defaultProps = {
-  email: '',
-  shippingAddress: {},
+  confirmationPageData: {
+    fullName: {
+      first: '',
+      last: '',
+    },
+    vetEmail: '',
+    order: [],
+    shippingAddress: {},
+    supplies: [],
+  },
 };
 
 const mapStateToProps = state => {
-  const supplies = state.form?.data?.supplies;
-  const selectedProducts = state.form?.data?.selectedProducts;
-  const productIdArray = selectedProducts?.map(product => product.productId);
+  const selectedAddress = state.form?.data['view:currentAddress'];
+  const shippingAddress = state.form?.data[selectedAddress];
+  const { fullName, vetEmail, order, supplies } = state.form?.data;
+  const productIdArray = order?.map(product => product.productId);
   const selectedProductArray = supplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
+
   // Temporary fallback until this is added to the API response
   const submittedAt = state.form?.submission?.submittedAt || moment();
 
   return {
     submittedAt,
-    email: state.form?.data?.email,
+    fullName,
+    vetEmail,
     selectedProductArray,
-    confirmationNumber:
-      state.form?.submission?.response?.attributes?.confirmationNumber,
-    fullName: state.form?.data?.fullName,
-    shippingAddress: state.form?.submission?.response?.shippingAddress,
+    shippingAddress,
   };
 };
 

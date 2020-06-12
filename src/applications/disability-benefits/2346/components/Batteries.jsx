@@ -11,28 +11,25 @@ import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
-    const { selectedProducts, formData } = this.props;
-    let updatedSelectedProducts;
+    const { order, formData } = this.props;
+    let updatedorder;
     if (checked) {
-      updatedSelectedProducts = [
-        ...selectedProducts,
-        { productId: batterySupply.productId },
-      ];
+      updatedorder = [...order, { productId: batterySupply.productId }];
     } else {
-      updatedSelectedProducts = selectedProducts.filter(
+      updatedorder = order.filter(
         selectedProduct =>
           selectedProduct.productId !== batterySupply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedProducts: updatedSelectedProducts,
+      order: updatedorder,
     };
     return this.props.setData(updatedFormData);
   };
 
   render() {
-    const { supplies, selectedProducts, eligibility } = this.props;
+    const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const batterySupplies = supplies.filter(
       batterySupply => batterySupply.productGroup === BATTERIES,
@@ -49,7 +46,7 @@ class Batteries extends Component {
         battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
       );
     const isBatterySelected = batteryProductId => {
-      const selectedProductIds = selectedProducts.map(
+      const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
       return selectedProductIds.includes(batteryProductId);
@@ -269,7 +266,7 @@ class Batteries extends Component {
 Batteries.defaultProps = {
   formData: {},
   supplies: [],
-  selectedProducts: [],
+  order: [],
   eligibility: {},
 };
 
@@ -288,7 +285,7 @@ Batteries.propTypes = {
       prescribedDate: PropTypes.string,
     }),
   ),
-  selectedProducts: PropTypes.arrayOf(
+  order: PropTypes.arrayOf(
     PropTypes.shape({
       productId: PropTypes.number,
     }),
@@ -300,7 +297,7 @@ Batteries.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.data?.supplies,
   formData: state.form?.data,
-  selectedProducts: state.form?.data?.selectedProducts,
+  order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
 });
 

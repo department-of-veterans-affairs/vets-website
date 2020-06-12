@@ -8,7 +8,7 @@ import fullSchema from '../2346-schema.json';
 import { addressUISchema } from '../address-schema';
 import BatteriesAndAccessories from '../../components/BatteriesAndAccessories';
 
-const { permAddressField, tempAddressField } = schemaFields;
+const { permanentAddress, temporaryAddress, viewCurrentAddress } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -47,7 +47,7 @@ export default {
     permanentAddressUI: {
       ...addressUISchema(
         true,
-        permAddressField,
+        permanentAddress,
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
@@ -56,11 +56,11 @@ export default {
       'ui:options': {
         viewComponent: AddressViewField,
         hideOnReview: formData =>
-          formData.currentAddress !== 'permanentAddress',
+          formData.viewCurrentAddress !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
-      ...addressUISchema(true, tempAddressField, formData => {
+      ...addressUISchema(true, temporaryAddress, formData => {
         const {
           street,
           city,
@@ -90,7 +90,7 @@ export default {
         startInEdit: formData =>
           Object.values(formData).every(prop => Boolean(prop)),
         hideOnReview: formData =>
-          formData.currentAddress !== 'temporaryAddress',
+          formData.viewCurrentAddress !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
