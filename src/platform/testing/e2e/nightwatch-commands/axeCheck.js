@@ -29,25 +29,19 @@ const contrastExceptions = [
 
 const axeExceptions = {
   // axe rule id: violation check
-  'color-contrast': violation => {
-    const validNodes = violation.nodes.filter(node => {
+  'color-contrast': violation =>
+    violation.nodes.filter(node => {
       // combine innerHTML + target selector array
       const data = `${node.html} ${node.target.join(',')}`;
       // return false;
       return !contrastExceptions.some(exception => data.includes(exception));
-    });
-    // console.log('contrast => ', JSON.stringify(validNodes))
-    return validNodes;
-  },
-  'label-content-name-mismatch': violation => {
-    const validNodes = violation.nodes.filter(node => {
+    }),
+  'label-content-name-mismatch': violation =>
+    violation.nodes.filter(node => {
       const href = node.getAttribute('href') || '';
       // ignore telephone links w/aria-label
       return !href.startsWith('tel:');
-    });
-    // console.log('label mismatch => ', JSON.stringify(validNodes))
-    return validNodes;
-  },
+    }),
 };
 
 const removeAxeExpections = violations => {
