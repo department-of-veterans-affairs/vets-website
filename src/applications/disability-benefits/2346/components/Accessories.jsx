@@ -12,17 +12,17 @@ import { ACCESSORIES } from '../constants';
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
     const { order, formData } = this.props;
-    let updatedorder;
+    let updatedOrder;
     if (checked) {
-      updatedorder = [...order, { productId: supply.productId }];
+      updatedOrder = [...order, { productId: supply.productId }];
     } else {
-      updatedorder = order.filter(
+      updatedOrder = order.filter(
         selectedProduct => selectedProduct.productId !== supply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      order: updatedorder,
+      order: updatedOrder,
     };
     return this.props.setData(updatedFormData);
   };
