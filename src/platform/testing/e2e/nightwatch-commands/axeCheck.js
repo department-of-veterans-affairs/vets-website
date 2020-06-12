@@ -22,6 +22,9 @@ const contrastExceptions = [
   'schemaform-required-span', // span
   'usa-alert-body', // span
   'usa-button-secondary', // button
+  // applications/vaos/tests/e2e/va-single-system.e2e.spec
+  // 79 characters remaining
+  'vads-u-font-style--italic',
 ];
 
 const axeExceptions = {
