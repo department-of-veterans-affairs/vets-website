@@ -90,7 +90,7 @@
     "sonarjs/no-small-switch": 2,
     "sonarjs/cognitive-complexity": [1, 50],
     "sonarjs/no-collapsible-if": 2,
-    "sonarjs/prefer-immediate-return": 2
+    "sonarjs/prefer-immediate-return": 2,
 
     /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
