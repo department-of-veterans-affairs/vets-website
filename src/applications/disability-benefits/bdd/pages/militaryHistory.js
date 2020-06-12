@@ -2,6 +2,8 @@ import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
+import separationLocations from '../content/separationLocations';
+
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 
 const dateRangeUISchema = dateRangeUI(
@@ -47,6 +49,11 @@ export const uiSchema = {
         },
       },
     },
+    separationLocation: {
+      'ui:title': 'Place of anticipated separation',
+      'ui:description':
+        'This is the location that you will separate from service.',
+    },
   },
 };
 
@@ -54,7 +61,7 @@ export const schema = {
   type: 'object',
   properties: {
     serviceInformation: {
-      required: ['servicePeriods'], // required in fullSchema
+      required: ['servicePeriods', 'separationLocation'], // required in fullSchema
       type: 'object',
       properties: {
         servicePeriods:
@@ -62,6 +69,15 @@ export const schema = {
         'view:militaryHistoryNote': {
           type: 'object',
           properties: {},
+        },
+        separationLocation: {
+          type: 'string',
+          enum: separationLocations.map(
+            separationLocation => separationLocation.code,
+          ),
+          enumNames: separationLocations.map(
+            separationLocation => separationLocation.description,
+          ),
         },
       },
     },
