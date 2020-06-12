@@ -174,6 +174,7 @@ export default function appointmentsReducer(state = initialState, action) {
         showCancelModal: true,
         future,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
+        cancelAppointmentStatusVaos400: false,
       };
     }
     case CANCEL_APPOINTMENT_CONFIRMED_FAILED:
@@ -181,6 +182,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         showCancelModal: true,
         cancelAppointmentStatus: FETCH_STATUS.failed,
+        cancelAppointmentStatusVaos400: action.isVaos400Error,
       };
     case CANCEL_APPOINTMENT_CLOSED:
       return {

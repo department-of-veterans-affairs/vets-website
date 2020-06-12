@@ -6,12 +6,12 @@ export const MDOT_API_CALL_INITIATED = 'MDOT_API_CALL_INITIATED';
 
 export const schemaFields = {
   fullName: 'vetFullName',
-  permAddressField: 'permanentAddress',
-  tempAddressField: 'temporaryAddress',
-  emailField: 'email',
-  confirmationEmailField: 'view:confirmationEmail',
+  permanentAddress: 'permanentAddress',
+  temporaryAddress: 'temporaryAddress',
+  vetEmail: 'vetEmail',
+  viewConfirmationEmail: 'view:confirmationEmail',
   suppliesField: 'supplies',
-  currentAddressField: 'currentAddress',
+  viewCurrentAddress: 'view:currentAddress',
 };
 
 export const militaryStates = states.USA.filter(
@@ -80,5 +80,5 @@ export const states50AndDC = [
   { label: 'Wyoming', value: 'WY' },
 ];
 
-export const HEARING_AID_ACCESSORIES = 'hearing aid accessories';
-export const HEARING_AID_BATTERIES = 'hearing aid batteries';
+export const ACCESSORIES = 'ACCESSORIES';
+export const BATTERIES = 'BATTERIES';

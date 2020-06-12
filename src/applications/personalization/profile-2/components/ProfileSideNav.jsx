@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -11,9 +13,8 @@ import {
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import { closeSideNav as closeSideNavAction } from '../actions';
 import { selectIsSideNavOpen } from '../selectors';
-import routes from '../routes';
 
-const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3 }) => {
+const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3, routes }) => {
   const closeButton = useRef(null);
   const lastMenuItem = useRef(null);
 
@@ -110,6 +111,12 @@ const ProfileSideNav = ({ closeSideNav, isSideNavOpen, isLOA3 }) => {
       </div>
     </nav>
   );
+};
+
+ProfileSideNav.propTypes = {
+  isLOA3: PropTypes.bool.isRequired,
+  isSideNavOpen: PropTypes.bool.isRequired,
+  closeSideNav: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

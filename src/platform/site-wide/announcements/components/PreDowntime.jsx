@@ -29,7 +29,8 @@ class PreDowntime extends Component {
     };
   }
 
-  componentWillMount() {
+  /* eslint-disable camelcase */
+  UNSAFE_componentWillMount() {
     // Set an interval to update the time.
     this.rerenderInterval = setInterval(
       () => this.updateMinutesRemaining(),

@@ -148,7 +148,7 @@ export const addressUISchema = (
 
   return (function returnAddressUI() {
     return {
-      'view:livesOnMilitaryBase': {
+      isMilitaryBase: {
         'ui:title':
           'I live on a United States military base outside of the United States',
         'ui:options': {
