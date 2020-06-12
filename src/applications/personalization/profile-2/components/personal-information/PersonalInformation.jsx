@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 
 import { focusElement } from 'platform/utilities/ui';
-
+import { handleDowntimeForSection } from 'applications/personalization/profile360/components/DowntimeBanner';
 import PersonalInformationContent from './PersonalInformationContent';
 
 const PersonalInformation = () => {
@@ -18,7 +21,13 @@ const PersonalInformation = () => {
       >
         Personal and contact information
       </h2>
-      <PersonalInformationContent />
+      <DowntimeNotification
+        appTitle="Personal and Contact Information"
+        render={handleDowntimeForSection('personal and contact')}
+        dependencies={[externalServices.mvi, externalServices.vet360]}
+      >
+        <PersonalInformationContent />
+      </DowntimeNotification>
     </>
   );
 };
