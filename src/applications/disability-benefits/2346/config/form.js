@@ -4,25 +4,24 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
+import { apiRequest } from '../../../../platform/utilities/api';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import frontEndSchema from '../schemas/2346-schema.json';
 import { buildAddressSchema } from '../schemas/address-schema';
 import UIDefinitions from '../schemas/definitions/2346UI';
 
 const { email, date, supplies } = fullSchema.definitions;
-const { currentAddress } = frontEndSchema.definitions;
 
 const {
-  vetEmailField,
-  confirmationEmailField,
+  vetEmail,
+  viewConfirmationEmail,
   suppliesField,
-  permAddressField,
-  tempAddressField,
-  currentAddressField,
+  permanentAddress,
+  temporaryAddress,
+  viewCurrentAddress,
 } = schemaFields;
 
 const {
@@ -61,16 +60,28 @@ const asyncReturn = (returnValue, error, delay = 0) =>
   });
 
 const submit = form => {
-  const submissionData = JSON.stringify(form.data);
+  const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.selectedProducts?.length;
-  const selectedAddress = form.data?.currentAddress;
-  let shippingAddress;
-  if (selectedAddress === 'permanentAddress') {
-    shippingAddress = form.data?.permanentAddress;
-  } else if (selectedAddress === 'temporaryAddress') {
-    shippingAddress = form.data?.temporaryAddress;
-  }
+  const { order } = form.data;
+  const useVeteranAddress = currentAddress === 'permanentAddress';
+  const useTemporaryAddress = currentAddress === 'temporaryAddress';
+  const payload = JSON.stringify({
+    currentAddress,
+    permanentAddress,
+    temporaryAddress,
+    vetEmail,
+    order,
+    useVeteranAddress,
+    useTemporaryAddress,
+  });
 
+  const options = {
+    body: JSON.stringify(payload),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   recordEvent({
     event: 'bam-2346a-submission',
     'bam-quantityOrdered': itemQuantities,
@@ -94,14 +105,7 @@ const submit = form => {
       return reject(error);
     });
 
-  return asyncReturn(
-    {
-      attributes: { confirmationNumber: '123123123' },
-      submissionData,
-      shippingAddress,
-    },
-    'this is an error message',
-  )
+  return apiRequest('/mdot/supplies', options)
     .then(onSuccess)
     .catch(onFailure);
 };
@@ -134,7 +138,6 @@ const formConfig = {
     supplies,
     date,
     addressSchema,
-    currentAddress,
   },
   chapters: {
     veteranInformationChapter: {
@@ -159,20 +162,24 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
           uiSchema: {
-            [permAddressField]: permanentAddressUI,
-            [tempAddressField]: temporaryAddressUI,
-            [vetEmailField]: emailUI,
-            [confirmationEmailField]: confirmationEmailUI,
-            [currentAddressField]: currentAddressUI,
+            [permanentAddress]: permanentAddressUI,
+            [temporaryAddress]: temporaryAddressUI,
+            [vetEmail]: emailUI,
+            [viewConfirmationEmail]: confirmationEmailUI,
+            [viewCurrentAddress]: currentAddressUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [permAddressField]: addressSchema,
-              [tempAddressField]: addressSchema,
-              [vetEmailField]: email,
-              [confirmationEmailField]: email,
-              [currentAddressField]: currentAddress,
+              [permanentAddress]: addressSchema,
+              [temporaryAddress]: addressSchema,
+              [vetEmail]: email,
+              [viewConfirmationEmail]: email,
+              [viewCurrentAddress]: {
+                type: 'string',
+                enum: ['permanentAddress', 'temporaryAddress'],
+                default: 'permanentAddress',
+              },
             },
           },
         },

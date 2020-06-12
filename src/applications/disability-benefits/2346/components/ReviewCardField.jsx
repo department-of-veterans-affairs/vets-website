@@ -250,7 +250,7 @@ class ReviewCardField extends React.Component {
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
         return (
-          this.props.name === this.props.currentAddress && (
+          this.props.name === this.props['view:currentAddress'] && (
             <ObjectField {...this.props} />
           )
         );
@@ -326,7 +326,7 @@ class ReviewCardField extends React.Component {
         className={classnames({
           'review-card vads-u-margin-bottom--2 vads-u-background-color--gray-lightest': true,
           'vads-u-border-color--primary vads-u-border--3px':
-            this.props.name === this.props.currentAddress,
+            this.props.name === this.props['view:currentAddress'],
         })}
       >
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
@@ -369,7 +369,7 @@ class ReviewCardField extends React.Component {
                   id={this.props.name}
                   className="usa-button vads-u-font-weight--bold vads-u-width--auto"
                   onChange={() =>
-                    this.onChange('currentAddress', this.props.name)
+                    this.onChange('view:currentAddress', this.props.name)
                   }
                   type="button"
                 >
@@ -386,18 +386,20 @@ class ReviewCardField extends React.Component {
                   id={this.props.name}
                   className="vads-u-margin-left--0 vads-u-max-width--293"
                   type="radio"
-                  checked={this.props.currentAddress === this.props.name}
+                  checked={
+                    this.props['view:currentAddress'] === this.props.name
+                  }
                   onChange={() =>
-                    this.onChange('currentAddress', this.props.name)
+                    this.onChange('view:currentAddress', this.props.name)
                   }
                 />
                 <label
                   className={classnames({
                     'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
                     'vads-u-color--white':
-                      this.props.name === this.props.currentAddress,
+                      this.props.name === this.props['view:currentAddress'],
                     'vads-u-background-color--white vads-u-color--primary':
-                      this.props.name !== this.props.currentAddress,
+                      this.props.name !== this.props['view:currentAddress'],
                   })}
                   htmlFor={this.props.name}
                 >
@@ -553,7 +555,7 @@ ReviewCardField.propTypes = {
 
 const mapStateToProps = state => ({
   data: state.form?.data,
-  currentAddress: state.form?.data?.currentAddress,
+  'view:currentAddress': state.form?.data['view:currentAddress'],
 });
 
 const mapDispatchToProps = {

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import ReviewPageSupplies from '../components/ReviewPageSupplies';
 
-describe('ReviewPageAccessories', () => {
+describe('ReviewPageSupplies', () => {
   const fakeStore = {
     getState: () => ({
       form: {
@@ -50,7 +50,7 @@ describe('ReviewPageAccessories', () => {
               quantity: 10,
             },
           ],
-          selectedProducts: [{ productId: 1 }],
+          order: [{ productId: 1 }, { productId: 3 }],
         },
       },
     }),
@@ -63,7 +63,7 @@ describe('ReviewPageAccessories', () => {
     reviewPageSupplies.unmount();
   });
 
-  it('verify accessories selected countt', () => {
+  it('verify accessories selected count', () => {
     const reviewPageSupplies = mount(<ReviewPageSupplies store={fakeStore} />);
     expect(
       reviewPageSupplies
