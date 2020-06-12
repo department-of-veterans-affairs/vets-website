@@ -2,6 +2,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
@@ -9,7 +10,6 @@ import IntroductionPage from '../components/IntroductionPage';
 import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import frontEndSchema from '../schemas/2346-schema.json';
 import UIDefinitions from '../schemas/2346UI';
 
 const {
@@ -18,15 +18,14 @@ const {
   supplies,
   addressWithIsMilitaryBase,
 } = fullSchema.definitions;
-const { currentAddress } = frontEndSchema.definitions;
 
 const {
-  vetEmailField,
-  confirmationEmailField,
+  vetEmail,
+  viewConfirmationEmail,
   suppliesField,
-  permAddressField,
-  tempAddressField,
-  currentAddressField,
+  permanentAddress,
+  temporaryAddress,
+  viewCurrentAddress,
 } = schemaFields;
 
 const {
@@ -62,17 +61,43 @@ const asyncReturn = (returnValue, error, delay = 300) =>
     }, delay);
   });
 
-const submit = form => {
-  const submissionData = JSON.stringify(form.data);
-  const itemQuantities = form.data?.selectedProducts?.length;
-  const selectedAddress = form.data?.currentAddress;
-  let shippingAddress;
-  if (selectedAddress === 'permanentAddress') {
-    shippingAddress = form.data?.permanentAddress;
-  } else if (selectedAddress === 'temporaryAddress') {
-    shippingAddress = form.data?.temporaryAddress;
-  }
+// We need to add this property so we can display the component within our address schema, underneath the checkbox for military bases.
+addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
+  type: 'string',
+};
 
+// the following two properties have to be added to our MDOT-schema.json.  Remove these props once they are added.
+addressWithIsMilitaryBase.properties.country = {
+  type: 'string',
+};
+
+addressWithIsMilitaryBase.properties.state = {
+  type: 'string',
+};
+
+const submit = form => {
+  const currentAddress = form.data['view:currentAddress'];
+  const itemQuantities = form.data?.selectedProducts?.length;
+  const { order } = form.data;
+  const useVeteranAddress = currentAddress === 'permanentAddress';
+  const useTemporaryAddress = currentAddress === 'temporaryAddress';
+  const payload = JSON.stringify({
+    currentAddress,
+    permanentAddress,
+    temporaryAddress,
+    vetEmail,
+    order,
+    useVeteranAddress,
+    useTemporaryAddress,
+  });
+
+  const options = {
+    body: JSON.stringify(payload),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   recordEvent({
     event: 'bam-2346a-submission',
     'bam-quantityOrdered': itemQuantities,
@@ -96,31 +121,9 @@ const submit = form => {
       return reject(error);
     });
 
-  return asyncReturn(
-    {
-      attributes: { confirmationNumber: '123123123' },
-      submissionData,
-      shippingAddress,
-    },
-    'this is an error message',
-  )
+  return apiRequest('/mdot/supplies', options)
     .then(onSuccess)
     .catch(onFailure);
-};
-
-// adding this property to display additional info component underneath isMilitaryBase field
-addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
-  type: 'object',
-  properties: {},
-};
-
-// the following are temporary additions until updated in vets-json-schema
-addressWithIsMilitaryBase.properties.country = {
-  type: 'string',
-};
-
-addressWithIsMilitaryBase.properties.state = {
-  type: 'string',
 };
 
 const formConfig = {
@@ -151,7 +154,6 @@ const formConfig = {
     supplies,
     date,
     addressWithIsMilitaryBase,
-    currentAddress,
   },
   chapters: {
     veteranInformationChapter: {
@@ -176,20 +178,24 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
           uiSchema: {
-            [permAddressField]: permanentAddressUI,
-            [tempAddressField]: temporaryAddressUI,
-            [vetEmailField]: emailUI,
-            [confirmationEmailField]: confirmationEmailUI,
-            [currentAddressField]: currentAddressUI,
+            [permanentAddress]: permanentAddressUI,
+            [temporaryAddress]: temporaryAddressUI,
+            [vetEmail]: emailUI,
+            [viewConfirmationEmail]: confirmationEmailUI,
+            [viewCurrentAddress]: currentAddressUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [permAddressField]: addressWithIsMilitaryBase,
-              [tempAddressField]: addressWithIsMilitaryBase,
-              [vetEmailField]: email,
-              [confirmationEmailField]: email,
-              [currentAddressField]: currentAddress,
+              [permanentAddress]: addressWithIsMilitaryBase,
+              [temporaryAddress]: addressWithIsMilitaryBase,
+              [vetEmail]: email,
+              [viewConfirmationEmail]: email,
+              [viewCurrentAddress]: {
+                type: 'string',
+                enum: ['permanentAddress', 'temporaryAddress'],
+                default: 'permanentAddress',
+              },
             },
           },
         },

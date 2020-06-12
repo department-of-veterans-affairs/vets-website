@@ -142,7 +142,7 @@
     "chai-as-promised": "^7.1.1",
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.3",
-    "chokidar": "^3.3.1",
+    "chokidar": "^3.4.0",
     "choma": "^1.1.0",
     "chromedriver": "^83.0.0",
     "cli-table": "^0.3.1",
@@ -177,7 +177,7 @@
     "find": "^0.3.0",
     "find-root": "^1.1.0",
     "fs-extra": "^7.0.0",
-    "glob": "^7.1.2",
+    "glob": "^7.1.6",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.9.0",
     "imports-loader": "^0.6.5",
@@ -233,7 +233,7 @@
     "webpack-manifest-plugin": "^2.2.0",
     "winston": "^2.2.0",
     "yeoman-generator": "^4.2.0",
-    "yo": "^3.1.0"
+    "yo": "^3.1.1"
   },
   "optionalDependencies": {},
   "engines": {
@@ -304,7 +304,7 @@
     "syswide-cas": "^5.3.0",
     "tar-fs": "^2.0.1",
     "tinyliquid": "^0.2.33",
-    "url-search-params": "^0.10.0",
+    "url-search-params": "^1.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c229c93e0549b82c78970dcdd184f2f8918c18e",

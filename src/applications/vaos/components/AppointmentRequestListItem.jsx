@@ -28,7 +28,7 @@ export default class AppointmentRequestListItem extends React.Component {
     const id = appointment.id;
     const showMore = !this.state.showMore;
 
-    if (showMore && !messages[id]) {
+    if (showMore && !messages[id] && !appointment.isExpressCare) {
       fetchMessages(id);
     }
 
@@ -100,23 +100,25 @@ export default class AppointmentRequestListItem extends React.Component {
               />
             )}
           </div>
-          <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                Preferred date and time
-              </dt>
-              <dd>
-                <ul className="usa-unstyled-list">
-                  {appointment.dateOptions.map((option, optionIndex) => (
-                    <li key={`${appointment.id}-option-${optionIndex}`}>
-                      {option.date.format('ddd, MMMM D, YYYY')}{' '}
-                      {TIME_TEXT[option.optionTime]}
-                    </li>
-                  ))}
-                </ul>
-              </dd>
-            </dl>
-          </div>
+          {!appointment.isExpressCare && (
+            <div className="vads-u-flex--1 vaos-u-word-break--break-word">
+              <dl className="vads-u-margin--0">
+                <dt className="vads-u-font-weight--bold">
+                  Preferred date and time
+                </dt>
+                <dd>
+                  <ul className="usa-unstyled-list">
+                    {appointment.dateOptions.map((option, optionIndex) => (
+                      <li key={`${appointment.id}-option-${optionIndex}`}>
+                        {option.date.format('ddd, MMMM D, YYYY')}{' '}
+                        {TIME_TEXT[option.optionTime]}
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </dl>
+            </div>
+          )}
         </div>
         <div className="vads-u-margin-top--2">
           <AdditionalInfo
@@ -125,12 +127,22 @@ export default class AppointmentRequestListItem extends React.Component {
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold">
-                    {appointment.purposeOfVisit}
-                  </dt>
-                  <dd>{firstMessage}</dd>
-                </dl>
+                {appointment.isExpressCare && (
+                  <dl className="vads-u-margin--0">
+                    <dt className="vads-u-font-weight--bold">
+                      Reason for appointment
+                    </dt>
+                    <dd>{appointment.reason}</dd>
+                  </dl>
+                )}
+                {!appointment.isExpressCare && (
+                  <dl className="vads-u-margin--0">
+                    <dt className="vads-u-font-weight--bold">
+                      {appointment.reason}
+                    </dt>
+                    <dd>{firstMessage}</dd>
+                  </dl>
+                )}
               </div>
               <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
                 <dl className="vads-u-margin--0">

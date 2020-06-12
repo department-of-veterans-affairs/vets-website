@@ -6,12 +6,12 @@ export const MDOT_API_CALL_INITIATED = 'MDOT_API_CALL_INITIATED';
 
 export const schemaFields = {
   fullName: 'vetFullName',
-  permAddressField: 'permanentAddress',
-  tempAddressField: 'temporaryAddress',
-  vetEmailField: 'vetEmail',
-  confirmationEmailField: 'view:confirmationEmail',
+  permanentAddress: 'permanentAddress',
+  temporaryAddress: 'temporaryAddress',
+  vetEmail: 'vetEmail',
+  viewConfirmationEmail: 'view:confirmationEmail',
   suppliesField: 'supplies',
-  currentAddressField: 'currentAddress',
+  viewCurrentAddress: 'view:currentAddress',
 };
 
 export const militaryStates = states.USA.filter(

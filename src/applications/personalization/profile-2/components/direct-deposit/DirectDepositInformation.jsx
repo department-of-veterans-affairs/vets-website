@@ -12,36 +12,7 @@ const recordProfileNavEvent = (customProps = {}) => {
 };
 
 const AdditionalInformation = () => (
-  <>
-    <div className="vads-u-margin-bottom--2">
-      <AdditionalInfo
-        triggerText="How do I change my direct deposit information for GI Bill and other education benefits?"
-        onClick={() =>
-          recordProfileNavEvent({
-            'profile-action': 'view-link',
-            'profile-section': 'how-to-change-direct-deposit',
-          })
-        }
-      >
-        <p>
-          You’ll need to sign in to the eBenefits website with your Premium DS
-          Logon account to change your direct deposit information for GI Bill
-          and other education benefits online.
-        </p>
-        <p>
-          If you don’t have a Premium DS Logon account, you can register for one
-          or upgrade your Basic account to Premium. Your MyHealtheVet or ID.me
-          credentials won’t work on eBenefits.
-        </p>
-        <EbenefitsLink path="ebenefits/about/feature?feature=direct-deposit-and-contact-information">
-          Go to eBenefits to change your information
-        </EbenefitsLink>
-        <br />
-        <a href="/change-direct-deposit/#are-there-other-ways-to-change">
-          Find out how to change your information by mail or phone
-        </a>
-      </AdditionalInfo>
-    </div>
+  <div className="vads-u-margin-bottom--4">
     <AdditionalInfo
       triggerText="What’s my bank’s routing number?"
       onClick={() =>
@@ -60,7 +31,7 @@ const AdditionalInformation = () => (
         account.
       </p>
     </AdditionalInfo>
-  </>
+  </div>
 );
 
 export default AdditionalInformation;

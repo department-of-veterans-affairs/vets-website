@@ -1,14 +1,13 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import AddressViewField from '../components/AddressViewField';
 import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
-import ReviewCardField from '../components/ReviewCardField';
 import ReviewPageSupplies from '../components/ReviewPageSupplies';
 import { schemaFields } from '../constants';
-import fullSchema from './2346-schema.json';
 import { addressUISchema } from './address-schema';
 
-const { permAddressField, tempAddressField } = schemaFields;
+const { permanentAddress, temporaryAddress, viewCurrentAddress } = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -22,22 +21,6 @@ const emailUIDescription = (
   </>
 );
 
-const addressDescription = (
-  <>
-    <p>
-      Any updates you make here to your address will apply only to this
-      application.
-    </p>
-    <p>
-      To update your address for all of your VA accounts, you’ll need to go to
-      your profile page.{' '}
-      <a href="https://va.gov/profile">
-        View the address that's on file in your profile.
-      </a>
-    </p>
-  </>
-);
-
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
@@ -47,20 +30,18 @@ export default {
     permanentAddressUI: {
       ...addressUISchema(
         true,
-        permAddressField,
+        permanentAddress,
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
-      'ui:subtitle': addressDescription,
-      'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
         hideOnReview: formData =>
-          formData.currentAddress !== 'permanentAddress',
+          formData['view:currentAddress'] !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
-      ...addressUISchema(true, tempAddressField, formData => {
+      ...addressUISchema(true, temporaryAddress, formData => {
         const {
           street,
           city,
@@ -83,14 +64,12 @@ export default {
         return true;
       }),
       'ui:title': 'Temporary address',
-      'ui:subtitle': addressDescription,
-      'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
         startInEdit: formData =>
           Object.values(formData).every(prop => Boolean(prop)),
         hideOnReview: formData =>
-          formData.currentAddress !== 'temporaryAddress',
+          formData['view:currentAddress'] !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
