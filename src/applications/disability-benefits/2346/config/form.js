@@ -43,7 +43,7 @@ const formChapterTitles = {
 };
 
 const formPageTitlesLookup = {
-  veteranInfo: 'Veteran Information',
+  veteranInfo: 'Veteran information',
   address: 'Shipping address',
   addSuppliesPage: 'Add supplies to your order',
 };
