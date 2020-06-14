@@ -14,7 +14,6 @@ const {
   date,
   supplies,
   addressWithIsMilitaryBase,
-  fullName,
 } = fullSchema.definitions;
 
 const {
