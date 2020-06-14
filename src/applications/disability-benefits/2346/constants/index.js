@@ -5,13 +5,14 @@ export const MDOT_RESET_ERRORS = 'MDOT_RESET_ERRORS';
 export const MDOT_API_CALL_INITIATED = 'MDOT_API_CALL_INITIATED';
 
 export const schemaFields = {
-  fullNameField: 'vetFullName',
+  fullNameField: 'fullName',
   permanentAddressField: 'permanentAddress',
   temporaryAddressField: 'temporaryAddress',
   vetEmailField: 'vetEmail',
   viewConfirmationEmailField: 'view:confirmationEmail',
   suppliesField: 'supplies',
   viewCurrentAddressField: 'view:currentAddress',
+  viewVeteranInfoField: 'view:veteranInfo',
 };
 
 export const militaryStates = states.USA.filter(

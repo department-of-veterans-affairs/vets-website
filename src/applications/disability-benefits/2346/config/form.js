@@ -1,13 +1,10 @@
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
-import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import UIDefinitions from '../schemas/2346UI';
@@ -17,6 +14,7 @@ const {
   date,
   supplies,
   addressWithIsMilitaryBase,
+  fullName,
 } = fullSchema.definitions;
 
 const {
@@ -27,6 +25,7 @@ const {
   permanentAddressField,
   temporaryAddressField,
   viewCurrentAddressField,
+  viewVeteranInfoField,
 } = schemaFields;
 
 const {
@@ -36,6 +35,7 @@ const {
   permanentAddressUI,
   temporaryAddressUI,
   currentAddressUI,
+  veteranInfoUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -44,7 +44,7 @@ const formChapterTitles = {
 };
 
 const formPageTitlesLookup = {
-  personalDetails: 'Personal Details',
+  veteranInfo: 'Veteran Information',
   address: 'Shipping address',
   addSuppliesPage: 'Add supplies to your order',
 };
@@ -158,23 +158,24 @@ const formConfig = {
     veteranInformationChapter: {
       title: formChapterTitles.veteranInformation,
       pages: {
-        [formPageTitlesLookup.personalDetails]: {
+        [formPageTitlesLookup.veteranInfo]: {
           path: 'veteran-information',
-          title: formPageTitlesLookup.personalDetails,
+          title: formPageTitlesLookup.veteranInfo,
           uiSchema: {
-            'ui:description': ({ formData }) => (
-              <PersonalInfoBox formData={formData} />
-            ),
-            [fullNameField]: fullNameUI,
+            [viewVeteranInfoField]: veteranInfoUI,
           },
           schema: {
-            required: [],
             type: 'object',
-            properties: {},
+            properties: {
+              [viewVeteranInfoField]: {
+                type: 'object',
+                properties: {},
+              },
+            },
           },
         },
         [formPageTitlesLookup.address]: {
-          path: 'veteran-information/addresses',
+          path: 'address',
           title: formPageTitlesLookup.address,
           uiSchema: {
             [permanentAddressField]: permanentAddressUI,

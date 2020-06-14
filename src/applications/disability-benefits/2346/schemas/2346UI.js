@@ -4,6 +4,7 @@ import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import AddressViewField from '../components/AddressViewField';
 import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
 import ReviewPageSupplies from '../components/ReviewPageSupplies';
+import VeteranInfoBox from '../components/VeteranInfoBox';
 import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
@@ -31,6 +32,30 @@ export default {
     hideTitle: false,
   },
   sharedUISchemas: {
+    veteranInfoUI: {
+      'ui:field': VeteranInfoBox,
+      first: {
+        'ui:title': 'First name',
+        'ui:errorMessages': {
+          required: 'Please enter a first name',
+        },
+      },
+      last: {
+        'ui:title': 'Last name',
+        'ui:errorMessages': {
+          required: 'Please enter a last name',
+        },
+      },
+      middle: {
+        'ui:title': 'Middle name',
+      },
+      suffix: {
+        'ui:title': 'Suffix',
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+        },
+      },
+    },
     permanentAddressUI: {
       ...addressUISchema(
         true,
