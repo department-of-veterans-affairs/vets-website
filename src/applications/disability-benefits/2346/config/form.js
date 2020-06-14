@@ -1,27 +1,30 @@
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
-import React from 'react';
-import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { apiRequest } from 'platform/utilities/api';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';
-import PersonalInfoBox from '../components/PersonalInfoBox';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { buildAddressSchema } from '../schemas/address-schema';
-import UIDefinitions from '../schemas/definitions/2346UI';
+import UIDefinitions from '../schemas/2346UI';
 
-const { email, date, supplies } = fullSchema.definitions;
+const {
+  email,
+  date,
+  supplies,
+  addressWithIsMilitaryBase,
+} = fullSchema.definitions;
 
 const {
   vetEmailField,
-  viewConfirmationEmail,
+  fullNameField,
+  viewConfirmationEmailField,
   suppliesField,
   permanentAddressField,
   temporaryAddressField,
-  viewCurrentAddress,
+  viewCurrentAddressField,
+  viewVeteranInfoField,
 } = schemaFields;
 
 const {
@@ -31,6 +34,7 @@ const {
   permanentAddressUI,
   temporaryAddressUI,
   currentAddressUI,
+  veteranInfoUI,
 } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
@@ -39,12 +43,10 @@ const formChapterTitles = {
 };
 
 const formPageTitlesLookup = {
-  personalDetails: 'Personal Details',
+  veteranInfo: 'Veteran information',
   address: 'Shipping address',
   addSuppliesPage: 'Add supplies to your order',
 };
-
-const addressSchema = buildAddressSchema(true);
 
 const asyncReturn = (returnValue, error, delay = 300) =>
   new Promise((resolve, reject) => {
@@ -57,6 +59,20 @@ const asyncReturn = (returnValue, error, delay = 300) =>
       }
     }, delay);
   });
+
+// We need to add this property so we can display the component within our address schema, underneath the checkbox for military bases.
+addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
+  type: 'string',
+};
+
+// the following two properties have to be added to our MDOT-schema.json.  Remove these props once they are added.
+addressWithIsMilitaryBase.properties.country = {
+  type: 'string',
+};
+
+addressWithIsMilitaryBase.properties.state = {
+  type: 'string',
+};
 
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
@@ -135,45 +151,46 @@ const formConfig = {
     email,
     supplies,
     date,
-    addressSchema,
+    addressWithIsMilitaryBase,
   },
   chapters: {
     veteranInformationChapter: {
       title: formChapterTitles.veteranInformation,
       pages: {
-        [formPageTitlesLookup.personalDetails]: {
+        [formPageTitlesLookup.veteranInfo]: {
           path: 'veteran-information',
-          title: formPageTitlesLookup.personalDetails,
+          title: formPageTitlesLookup.veteranInfo,
           uiSchema: {
-            'ui:description': ({ formData }) => (
-              <PersonalInfoBox formData={formData} />
-            ),
-            [schemaFields.fullName]: fullNameUI,
+            [viewVeteranInfoField]: veteranInfoUI,
           },
           schema: {
-            required: [],
             type: 'object',
-            properties: {},
+            properties: {
+              [viewVeteranInfoField]: {
+                type: 'object',
+                properties: {},
+              },
+            },
           },
         },
         [formPageTitlesLookup.address]: {
-          path: 'veteran-information/addresses',
+          path: 'address',
           title: formPageTitlesLookup.address,
           uiSchema: {
             [permanentAddressField]: permanentAddressUI,
             [temporaryAddressField]: temporaryAddressUI,
             [vetEmailField]: emailUI,
-            [viewConfirmationEmail]: confirmationEmailUI,
-            [viewCurrentAddress]: currentAddressUI,
+            [viewConfirmationEmailField]: confirmationEmailUI,
+            [viewCurrentAddressField]: currentAddressUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [permanentAddressField]: addressSchema,
-              [temporaryAddressField]: addressSchema,
+              [permanentAddressField]: addressWithIsMilitaryBase,
+              [temporaryAddressField]: addressWithIsMilitaryBase,
               [vetEmailField]: email,
-              [viewConfirmationEmail]: email,
-              [viewCurrentAddress]: {
+              [viewConfirmationEmailField]: email,
+              [viewCurrentAddressField]: {
                 type: 'string',
                 enum: ['permanentAddress', 'temporaryAddress'],
                 default: 'permanentAddress',
