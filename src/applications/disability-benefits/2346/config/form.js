@@ -20,19 +20,19 @@ const {
 } = fullSchema.definitions;
 
 const {
-  vetEmail,
-  viewConfirmationEmail,
+  vetEmailField,
+  fullNameField,
+  viewConfirmationEmailField,
   suppliesField,
-  permanentAddress,
-  temporaryAddress,
-  viewCurrentAddress,
+  permanentAddressField,
+  temporaryAddressField,
+  viewCurrentAddressField,
 } = schemaFields;
 
 const {
   emailUI,
   confirmationEmailUI,
-  batteriesUI,
-  accessoriesUI,
+  suppliesUI,
   permanentAddressUI,
   temporaryAddressUI,
   currentAddressUI,
@@ -78,18 +78,17 @@ addressWithIsMilitaryBase.properties.state = {
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.selectedProducts?.length;
-  const { order } = form.data;
+  const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
   const useVeteranAddress = currentAddress === 'permanentAddress';
   const useTemporaryAddress = currentAddress === 'temporaryAddress';
-  const payload = JSON.stringify({
-    currentAddress,
+  const payload = {
     permanentAddress,
     temporaryAddress,
     vetEmail,
     order,
     useVeteranAddress,
     useTemporaryAddress,
-  });
+  };
 
   const options = {
     body: JSON.stringify(payload),
@@ -166,7 +165,7 @@ const formConfig = {
             'ui:description': ({ formData }) => (
               <PersonalInfoBox formData={formData} />
             ),
-            [schemaFields.fullName]: fullNameUI,
+            [fullNameField]: fullNameUI,
           },
           schema: {
             required: [],
@@ -178,20 +177,20 @@ const formConfig = {
           path: 'veteran-information/addresses',
           title: formPageTitlesLookup.address,
           uiSchema: {
-            [permanentAddress]: permanentAddressUI,
-            [temporaryAddress]: temporaryAddressUI,
-            [vetEmail]: emailUI,
-            [viewConfirmationEmail]: confirmationEmailUI,
-            [viewCurrentAddress]: currentAddressUI,
+            [permanentAddressField]: permanentAddressUI,
+            [temporaryAddressField]: temporaryAddressUI,
+            [vetEmailField]: emailUI,
+            [viewConfirmationEmailField]: confirmationEmailUI,
+            [viewCurrentAddressField]: currentAddressUI,
           },
           schema: {
             type: 'object',
             properties: {
-              [permanentAddress]: addressWithIsMilitaryBase,
-              [temporaryAddress]: addressWithIsMilitaryBase,
-              [vetEmail]: email,
-              [viewConfirmationEmail]: email,
-              [viewCurrentAddress]: {
+              [permanentAddressField]: addressWithIsMilitaryBase,
+              [temporaryAddressField]: addressWithIsMilitaryBase,
+              [vetEmailField]: email,
+              [viewConfirmationEmailField]: email,
+              [viewCurrentAddressField]: {
                 type: 'string',
                 enum: ['permanentAddress', 'temporaryAddress'],
                 default: 'permanentAddress',
@@ -214,7 +213,7 @@ const formConfig = {
             },
           },
           uiSchema: {
-            [suppliesField]: batteriesUI,
+            [suppliesField]: suppliesUI,
           },
         },
       },

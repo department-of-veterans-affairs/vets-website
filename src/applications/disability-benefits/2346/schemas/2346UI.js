@@ -7,7 +7,11 @@ import ReviewPageSupplies from '../components/ReviewPageSupplies';
 import { schemaFields } from '../constants';
 import { addressUISchema } from './address-schema';
 
-const { permanentAddress, temporaryAddress, viewCurrentAddress } = schemaFields;
+const {
+  permanentAddressField,
+  temporaryAddressField,
+  viewCurrentAddressField,
+} = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -30,7 +34,7 @@ export default {
     permanentAddressUI: {
       ...addressUISchema(
         true,
-        permanentAddress,
+        permanentAddressField,
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
@@ -41,7 +45,7 @@ export default {
       },
     },
     temporaryAddressUI: {
-      ...addressUISchema(true, temporaryAddress, formData => {
+      ...addressUISchema(true, temporaryAddressField, formData => {
         const {
           street,
           city,
@@ -128,7 +132,7 @@ export default {
         },
       ],
     },
-    batteriesUI: {
+    suppliesUI: {
       'ui:title': 'Select the hearing aid batteries and accessories you need.',
       'ui:description':
         'You can only order each hearing aid battery and accessory once every 5 months.',
