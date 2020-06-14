@@ -109,6 +109,25 @@ module.exports = `
       entity {
         entityId
         ... on NodeHealthCareLocalHealthService {
+          title
+          fieldFacilityLocation {
+            entity {
+              ... on NodeHealthCareLocalFacility {
+                fieldAddress {
+                  addressLine1
+                  addressLine2
+                  additionalName
+                  administrativeArea
+                  postalCode
+                  locality
+                  organization
+                  dependentLocality
+                  countryCode
+                  sortingCode
+                }
+              }
+            }
+          }
           fieldAbout {
             entity {
               ${LOCATION_INFO}

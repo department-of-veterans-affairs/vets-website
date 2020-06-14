@@ -393,7 +393,7 @@ more.\r\n",
             {% for localService in localHealthServices %}
             {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
             {% if localHealthService != empty %}
-            {% include "src/site/facilities/facility_health_service.drupal.liquid" with healthService = localHealthService about = localService.entity.fieldAbout.entity localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
+            {% include "src/site/facilities/facility_health_service.drupal.liquid" with healthService = localHealthService abouts = localService.entity.fieldAbout localServiceDescription = localService.entity.fieldBody.processed fieldFacilityLocatorApiId = fieldFacilityLocatorApiId %}
             {% endif %}
             {% endfor %}
           </section>

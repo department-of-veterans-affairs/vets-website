@@ -17,7 +17,7 @@
 
                 {% if serviceTaxonomy.description.processed  %}<div>{{ serviceTaxonomy.description.processed }}</div>{% endif %}
 
-                {% if about %}
+                {% if abouts.0.entity %}
                     {% include "src/site/paragraphs/location_info.drupal.liquid" %}
                 {% else %}
                     <div>{{ localServiceDescription }}</div>

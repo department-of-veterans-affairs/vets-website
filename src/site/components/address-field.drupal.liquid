@@ -1,0 +1,19 @@
+{% if fieldTitle %}<p class="vads-u-margin-bottom--0">
+  <strong>{{ fieldTitle }}</strong></p>{% endif %}
+{% if fieldAddress.addressLine1 %}<p class="vads-u-margin-bottom--0">
+  {{ fieldAddress.addressLine1 }}</p>{% endif %}
+{% if fieldAddress.addressLine2 %}<p class="vads-u-margin-bottom--0">
+  {{ fieldAddress.addressLine2 }}</p>{% endif %}
+{% if fieldAddress.organization %}<p class="vads-u-margin-bottom--0">
+  {{ fieldAddress.organization }}</p>{% endif %}
+
+{% if fieldAddress.locality %}
+<p class="vads-u-margin-bottom--0">
+  {{ fieldAddress.locality }}{% if fieldAddress.administrativeArea %},
+  {{ fieldAddress.administrativeArea }}
+  {% endif %}
+  {% if fieldAddress.postalCode %}
+  &nbsp;{{ fieldAddress.postalCode }}
+  {% endif %}
+</p>
+{% endif %}

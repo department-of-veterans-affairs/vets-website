@@ -7,22 +7,20 @@ module.exports = `
     fieldPhoneNumbersParagraph {
       entity {
         ... on ParagraphPhoneNumbers {
+          fieldNumberType
+          fieldOptionalPhoneLabel
           fieldPhoneNumber
           fieldPhoneExtension
-          fieldFax
-          fieldSmsNumber
-          fieldTtyNumber
         }
       }
     }
     fieldAppointmentPhoneNumbers {
       entity {
         ... on ParagraphPhoneNumbers {
+          fieldNumberType
+          fieldOptionalPhoneLabel
           fieldPhoneNumber
           fieldPhoneExtension
-          fieldFax
-          fieldSmsNumber
-          fieldTtyNumber
         }
       }
     }
@@ -32,6 +30,7 @@ module.exports = `
         path
       }
     }
+    fieldUseFacilityAddress
     fieldAddress {
       addressLine1
       addressLine2

@@ -493,4 +493,10 @@ module.exports = function registerFilters() {
     }
     return day;
   };
+
+  liquid.filters.accessibleNumber = data =>
+    data
+      .split('')
+      .join(' ')
+      .replace(/ -/g, '.');
 };

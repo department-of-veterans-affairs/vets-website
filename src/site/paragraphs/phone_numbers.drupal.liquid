@@ -1,0 +1,19 @@
+{% for number in numbers %}
+{% assign numType = 'Phone' %}
+{% if number.entity.fieldNumberType == 'fax' %}
+{% assign numType = 'Fax' %}
+{% elseif number.entity.fieldNumberType == 'sms' %}
+{% assign numType = 'SMS' %}
+{% elseif number.entity.fieldNumberType == 'tty' %}
+{% assign numType = 'TTY' %}
+{% endif %}
+
+<p class="vads-u-margin-bottom--0">
+  <strong>{{numType}}: </strong><a
+    aria-label="{{ number.entity.fieldPhoneNumber | accessibleNumber }}{% if number.entity.fieldPhoneExtension %} extension: {{ number.entity.fieldPhoneExtension | accessibleNumber }}{% endif %}"
+    href="tel:{{ number.entity.fieldPhoneNumber }}{% if number.entity.fieldPhoneExtension %}p{{ number.entity.fieldPhoneExtension }}{% endif %}">
+    {{ number.entity.fieldPhoneNumber }}{% if number.entity.fieldPhoneExtension %}
+    x {{ number.entity.fieldPhoneExtension }}{% endif %}</a>
+  {% if number.entity.fieldOptionalPhoneLabel %}<span>{{ number.entity.fieldOptionalPhoneLabel }}</span>{% endif %}
+</p>
+{% endfor %}
