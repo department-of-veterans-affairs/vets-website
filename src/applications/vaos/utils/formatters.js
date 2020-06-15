@@ -54,5 +54,5 @@ export function lowerCase(str = '') {
 export function formatFacilityAddress(facility) {
   return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
     facility.address?.state
-  } ${facility.address.postalCode}`;
+  } ${facility.address?.postalCode}`;
 }

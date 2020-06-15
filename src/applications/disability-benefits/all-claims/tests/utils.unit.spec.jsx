@@ -30,6 +30,8 @@ import {
   servedAfter911,
   viewifyFields,
   activeServicePeriods,
+  formatDate,
+  formatDateRange,
 } from '../utils.jsx';
 
 describe('526 helpers', () => {
@@ -913,6 +915,32 @@ describe('526 v2 depends functions', () => {
     });
     it('should return false if no claim type is selected', () => {
       expect(increaseOnly(noneSelected)).to.be.false;
+    });
+  });
+
+  describe('format date & date range', () => {
+    it('should format dates with full month names', () => {
+      expect(formatDate(true)).to.be.null;
+      expect(formatDate('foobar')).to.be.null;
+      expect(formatDate('2020-02-31')).to.be.null;
+      expect(formatDate('2020-01-31')).to.equal('January 31, 2020');
+      expect(formatDate('2020-04-05')).to.equal('April 5, 2020');
+      expect(formatDate('2020-05-05')).to.equal('May 5, 2020');
+      expect(formatDate('2020-06-15')).to.equal('June 15, 2020');
+      expect(formatDate('2020-07-25')).to.equal('July 25, 2020');
+      expect(formatDate('2020-08-05')).to.equal('August 5, 2020');
+      expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
+    });
+    it('should format dates ranges', () => {
+      expect(
+        formatDateRange({ from: '2020-01-31', to: '2020-02-14' }),
+      ).to.equal('January 31, 2020 to February 14, 2020');
+      expect(
+        formatDateRange({ from: '2020-04-05', to: '2020-05-05' }),
+      ).to.equal('April 5, 2020 to May 5, 2020');
+      expect(
+        formatDateRange({ from: '2020-06-15', to: '2020-12-31' }),
+      ).to.equal('June 15, 2020 to December 31, 2020');
     });
   });
 });

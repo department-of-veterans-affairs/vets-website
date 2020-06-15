@@ -7,7 +7,7 @@ import VetTecEstimateYourBenefitsForm from '../../components/vet-tec/VetTecEstim
 const defaultProps = {
   inputs: {},
   displayedInputs: {},
-  onShowModal: () => {},
+  showModal: () => {},
   onInputChange: () => {},
   selectedProgram: 'Program Name 1',
   calculatorInputChange: () => {},
@@ -64,6 +64,35 @@ describe('<VetTecEstimateYourBenefitsForm>', () => {
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent['gibct-form-field']).to.eq('Scholarships Text Field');
     expect(recordedEvent['gibct-form-value']).to.eq(0);
+    wrapper.unmount();
+  });
+
+  it('"Update benefits" button is disabled without input change', () => {
+    const wrapper = mount(<VetTecEstimateYourBenefitsForm {...defaultProps} />);
+
+    expect(
+      wrapper
+        .find('.calculator-form button')
+        .at(2)
+        .prop('disabled'),
+    ).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('"Update benefits" button is enabled after input change', () => {
+    const wrapper = mount(<VetTecEstimateYourBenefitsForm {...defaultProps} />);
+
+    wrapper
+      .find('input[name="vetTecTuitionFees"]')
+      .at(0)
+      .simulate('change', '1');
+
+    expect(
+      wrapper
+        .find('.calculator-form button')
+        .at(2)
+        .prop('disabled'),
+    ).to.be.false;
     wrapper.unmount();
   });
 });

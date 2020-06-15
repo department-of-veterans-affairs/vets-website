@@ -19,6 +19,7 @@ jsconfig.json
 typings.json
 typings/
 coverage
+/cypress
 .nyc_output
 .yalc
 yalc.lock
@@ -39,4 +40,10 @@ all-links.csv
 # Track shared IDE config
 !.vscode/extensions.json
 !.vscode/launch.json
+
+# Ignore the hashed build files for comparison
+standaloneContentBuildHash.txt
+websiteContentBuildHash.txt
+
+
 

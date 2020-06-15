@@ -32,7 +32,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns('true');
     sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
     sandbox.stub(forceAuth, 'getForceAuth').returns(null);
-    const auto = sandbox.stub(authUtils, 'autoLogout');
+    const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.calledOnce(auto);
@@ -43,7 +43,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(true);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
     sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    const auto = sandbox.stub(authUtils, 'autoLogout');
+    const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.notCalled(auto);
@@ -54,7 +54,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(true);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(null);
     sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    const auto = sandbox.stub(authUtils, 'autoLogout');
+    const auto = sandbox.stub(authUtils, 'logout');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.notCalled(auto);
@@ -65,7 +65,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
     sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    const auto = sandbox.stub(authUtils, 'autoLogin');
+    const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.calledOnce(auto);
@@ -76,7 +76,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(false);
     sandbox.stub(forceAuth, 'getForceAuth').returns(undefined);
-    const auto = sandbox.stub(authUtils, 'autoLogin');
+    const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.notCalled(auto);
@@ -87,7 +87,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(profUtils, 'hasSession').returns(false);
     sandbox.stub(profUtils, 'hasSessionSSO').returns(true);
     sandbox.stub(forceAuth, 'getForceAuth').returns(true);
-    const auto = sandbox.stub(authUtils, 'autoLogin');
+    const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
     sandbox.restore();
     sinon.assert.notCalled(auto);
