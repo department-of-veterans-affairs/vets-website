@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import {
   clearAutocompleteSuggestions,
@@ -220,9 +219,7 @@ const mapDispatchToProps = {
   hideModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(LandingPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LandingPage);

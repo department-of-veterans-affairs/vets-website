@@ -11,34 +11,36 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
 
   if (mhvAccount.termsAndConditionsAccepted) {
     return (
-      <Verified>
-        <>
-          You’ve accepted the latest Terms and Conditions for Medical
-          Information.
-          <p className="vads-u-margin-bottom--0">
-            <a
-              href={termsAndConditionsUrl}
-              onClick={() =>
-                recordEvent({
-                  event: 'account-navigation',
-                  'account-action': 'view-link',
-                  'account-section': 'terms',
-                })
-              }
-            >
-              View terms and conditions for medical information
-            </a>
-          </p>
-        </>
-      </Verified>
+      <>
+        <Verified>
+          You’ve accepted the terms and conditions for using VA.gov health
+          tools.
+        </Verified>
+        <p className="vads-u-margin-bottom--0">
+          <a
+            href={termsAndConditionsUrl}
+            onClick={() =>
+              recordEvent({
+                event: 'account-navigation',
+                'account-action': 'view-link',
+                'account-section': 'terms',
+              })
+            }
+          >
+            View terms and conditions for medical information
+          </a>
+        </p>
+      </>
     );
   } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
     return (
       <>
         <p className="vads-u-margin--0">
-          To get started using our health tools, you’ll need to read and agree
-          to the Terms and Conditions for Medical Information. This will give us
-          your permission to show you your VA medical information on this site.
+          Before using our health tools, you’ll need to read and agree to the
+          terms and conditions for medical information. This will give us
+          permission to share your VA medical information with you. Once you do
+          this, you can use the tools to refill your VA prescriptions or
+          download your VA health records.
         </p>
         <p className="vads-u-margin-bottom--0">
           <a
@@ -51,7 +53,7 @@ const MHVTermsAndConditionsStatus = ({ mhvAccount }) => {
               })
             }
           >
-            Go to the Terms and Conditions for Health Tools
+            Go to the terms and conditions for medical information
           </a>
         </p>
       </>

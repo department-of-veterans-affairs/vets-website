@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Element } from 'react-scroll';
+
 import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getEnabledQuestions, checkFormStatus, scrollTo } from '../lib';
+import { getEnabledQuestions, checkFormStatus } from '../lib';
 
 export default function MultiQuestionForm({ questions, defaultOptions }) {
   const [formState, setFormState] = useState({
@@ -27,7 +27,7 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
         if (completed === false) {
           recordEvent({
             event: 'covid-screening-tool-result-displayed',
-            'screening-tool-result': formState.result,
+            'screening-tool-result': newStatus,
             'time-to-complete': moment().unix() - formState.startTime,
           });
           completed = true;
@@ -108,33 +108,25 @@ export default function MultiQuestionForm({ questions, defaultOptions }) {
     setQuestionState([...newQuestionState]);
   }
 
-  const formQuestions = enabledQuestions.map((question, index) => (
-    <div key={`question-${index}`}>
-      <Element name={`multi-question-form-${index}-scroll-element`} />
-      {(index === 0 ||
+  const formQuestions = enabledQuestions.map(
+    (question, index) =>
+      (index === 0 ||
         Object.hasOwnProperty.call(questionState[index - 1], 'value')) && (
         <FormQuestion
           question={question}
-          scrollNext={() =>
-            scrollTo(`multi-question-form-${index + 1}-scroll-element`)
-          }
           recordStart={recordStart}
           optionsConfig={defaultOptions}
           setQuestionValue={setQuestionValue}
           clearQuestionValues={clearQuestionValues}
+          key={`question-${question.id}`}
         />
-      )}
-    </div>
-  ));
+      ),
+  );
 
   return (
     <div>
       {formQuestions}
-      <FormResult
-        formState={formState}
-        setFormState={setFormState}
-        scrollIndex={enabledQuestions.length}
-      />
+      <FormResult formState={formState} />
     </div>
   );
 }
