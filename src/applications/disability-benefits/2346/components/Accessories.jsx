@@ -31,7 +31,7 @@ class Accessories extends Component {
     const currentDate = moment();
     const accessorySupplies = supplies
       .filter(supply => supply.productGroup === ACCESSORIES)
-      .filter(supply => currentDate.diff(supply.lastOrderDate, 'months') > 5)
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'days') / 31 > 5)
       .filter(supply => currentDate.diff(supply.lastOrderDate, 'years') < 2);
     const areAccessorySuppliesEligible = eligibility.accessories;
     const accessorySupplyAvailabilityDates = accessorySupplies.map(
@@ -98,7 +98,7 @@ class Accessories extends Component {
               </p>
             </>
           )}
-        {!accessorySupplies.length &&
+        {!accessorySupplies.length > 0 &&
           !areAccessorySuppliesEligible && (
             <AlertBox
               headline="You can't add accessories to your order at this time"
@@ -127,7 +127,7 @@ class Accessories extends Component {
               isVisible
             />
           )}
-        {!!accessorySupplies.length &&
+        {accessorySupplies.length > 0 &&
           accessorySupplies.map(accessorySupply => (
             <div
               key={accessorySupply.productId}
@@ -193,7 +193,7 @@ class Accessories extends Component {
               )}
             </div>
           ))}
-        {!!accessorySupplies.length && (
+        {accessorySupplies.length > 0 && (
           <AdditionalInfo triggerText="What if I don't see the accessories I need?">
             <p>
               You may not see the accessories you need if you haven't placed an

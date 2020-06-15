@@ -33,8 +33,8 @@ class Batteries extends Component {
     const currentDate = moment();
     const batterySupplies = supplies
       .filter(supply => supply.productGroup === BATTERIES)
-      .filter(supply => currentDate.diff(supply.lastOrderDate, 'months') > 5)
-      .filter(supply => currentDate.diff(supply.lastOrderDate, 'years') > 2);
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'days') / 31 > 5)
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'years') < 2);
     const areBatterySuppliesEligible = eligibility.batteries;
     const isBatterySelected = batteryProductId => {
       const selectedProductIds = order.map(
@@ -71,7 +71,7 @@ class Batteries extends Component {
             </h3>
           </>
         )}
-        {!!batterySupplies.length &&
+        {!batterySupplies.length > 0 &&
           !areBatterySuppliesEligible && (
             <>
               <AlertBox
@@ -149,7 +149,7 @@ class Batteries extends Component {
               isVisible
             />
           )}
-        {!!batterySupplies.length &&
+        {batterySupplies.length > 0 &&
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
@@ -223,7 +223,7 @@ class Batteries extends Component {
               )}
             </div>
           ))}
-        {!!batterySupplies.length && (
+        {batterySupplies.length > 0 && (
           <AdditionalInfo triggerText="What if I don't see my device?">
             <p>
               You may not see your hearing aid device if you haven’t placed an
