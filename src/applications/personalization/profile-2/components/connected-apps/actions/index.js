@@ -21,12 +21,12 @@ const grantsUrl = '/profile/connected_applications';
 
 import { mockConnectedApps } from 'applications/personalization/profile360/util/connected-apps.js';
 
-export function loadConnectedApps(mockRequest) {
+export function loadConnectedApps() {
   return async dispatch => {
     dispatch({ type: LOADING_CONNECTED_APPS });
 
     // Locally we cannot call the endpoint
-    if (environment.isLocalhost() || mockRequest) {
+    if (environment.isLocalhost()) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({
         type: FINISHED_LOADING_CONNECTED_APPS,
@@ -45,18 +45,18 @@ export function loadConnectedApps(mockRequest) {
   };
 }
 
-export function deleteConnectedApp(appId, mockRequest) {
+export function deleteConnectedApp(appId) {
   return async dispatch => {
     dispatch({ type: DELETING_CONNECTED_APP, appId });
 
     // Locally we cannot call the endpoint
-    if (environment.isLocalhost() || mockRequest) {
+    if (environment.isLocalhost()) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId });
       return;
     }
 
-    apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
+    await apiRequest(`${grantsUrl}/${appId}`, { method: 'DELETE' })
       .then(() => dispatch({ type: FINISHED_DELETING_CONNECTED_APP, appId }))
       .catch(({ errors }) =>
         dispatch({ type: ERROR_DELETING_CONNECTED_APP, appId, errors }),

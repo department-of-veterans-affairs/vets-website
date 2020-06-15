@@ -7,7 +7,6 @@ import * as actions from '../../../components/connected-apps/actions';
 
 describe('Connected Apps actions', () => {
   const appId = '1';
-  const mockRequest = true;
 
   describe('loadConnectedApps', () => {
     it('creates the correct action when the call succeeds', async () => {
@@ -47,9 +46,11 @@ describe('Connected Apps actions', () => {
   });
 
   describe('deleteConnectedApp', () => {
-    it('creates the correct action', async () => {
+    it('creates the correct action when the call succeeds', async () => {
+      const mockResponse = { data: 'data' };
       const dispatch = sinon.stub();
-      const thunk = await actions.deleteConnectedApp(appId, mockRequest);
+      mockApiRequest(mockResponse);
+      const thunk = await actions.deleteConnectedApp(appId);
       await thunk(dispatch);
 
       expect(
@@ -60,10 +61,27 @@ describe('Connected Apps actions', () => {
       ).to.be.true;
 
       const secondCallAction = dispatch.secondCall.args[0];
-      expect(secondCallAction.type).to.be.oneOf([
-        actions.FINISHED_DELETING_CONNECTED_APP,
-        actions.ERROR_DELETING_CONNECTED_APP,
-      ]);
+      expect(secondCallAction.type).to.be.equal(
+        actions.FINISHED_DELETING_CONNECTED_APP);
+    });
+
+    it('creates the correct action when the call fails', async () => {
+      const mockResponse = { errors: [{ code: '300' }] };
+      const dispatch = sinon.stub();
+      mockApiRequest(mockResponse, false);
+      const thunk = await actions.deleteConnectedApp(appId);
+      await thunk(dispatch);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          appId,
+          type: actions.DELETING_CONNECTED_APP,
+        }),
+      ).to.be.true;
+
+      const secondCallAction = dispatch.secondCall.args[0];
+      expect(secondCallAction.type).to.be.equal(
+        actions.ERROR_DELETING_CONNECTED_APP);
     });
   });
 
