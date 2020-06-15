@@ -38,7 +38,7 @@ const CalculatorResultRow = ({
       <div className="small-6 columns vads-u-text-align--right">
         {header ? (
           <div>
-            <h5>
+            <h5 aria-label={value}>
               {value}
               {screenReaderSpan}
             </h5>
