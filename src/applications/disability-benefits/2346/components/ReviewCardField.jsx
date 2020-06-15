@@ -349,7 +349,7 @@ class ReviewCardField extends React.Component {
             city &&
             country && (
               <button
-                className={`${editLink} va-button-link`}
+                className={`${editLink} va-button-link `}
                 aria-label={`Edit ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
@@ -363,7 +363,7 @@ class ReviewCardField extends React.Component {
             !city &&
             !country && (
               <button
-                className={`${editLink} va-button-link`}
+                className={`${editButton} usa-button-secondary vads-u-background-color--white`}
                 aria-label={`Add a ${title.toLowerCase()}`}
                 style={{ minWidth: '8rem' }}
                 onClick={this.startEditing}
