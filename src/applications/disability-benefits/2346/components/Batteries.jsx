@@ -31,20 +31,11 @@ class Batteries extends Component {
   render() {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
-    const batterySupplies = supplies.filter(
-      batterySupply => batterySupply.productGroup === BATTERIES,
-    );
+    const batterySupplies = supplies
+      .filter(supply => supply.productGroup === BATTERIES)
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'months') > 5)
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'years') > 2);
     const areBatterySuppliesEligible = eligibility.batteries;
-    const haveBatteriesBeenOrderedInLastFiveMonths =
-      batterySupplies.length > 0 &&
-      batterySupplies.every(
-        battery => currentDate.diff(battery.lastOrderDate, 'months') <= 5,
-      );
-    const haveBatteriesBeenOrderedInLastTwoYears =
-      batterySupplies.length > 0 &&
-      batterySupplies.every(
-        battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
-      );
     const isBatterySelected = batteryProductId => {
       const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
@@ -80,7 +71,7 @@ class Batteries extends Component {
             </h3>
           </>
         )}
-        {haveBatteriesBeenOrderedInLastFiveMonths &&
+        {!!batterySupplies.length &&
           !areBatterySuppliesEligible && (
             <>
               <AlertBox
@@ -123,8 +114,7 @@ class Batteries extends Component {
               </p>
             </>
           )}
-        {!haveBatteriesBeenOrderedInLastFiveMonths &&
-          !haveBatteriesBeenOrderedInLastTwoYears &&
+        {!batterySupplies.length > 0 &&
           !areBatterySuppliesEligible && (
             <AlertBox
               headline="Your batteries aren't available for online ordering"
@@ -159,8 +149,7 @@ class Batteries extends Component {
               isVisible
             />
           )}
-        {batterySupplies.length > 0 &&
-          haveBatteriesBeenOrderedInLastTwoYears &&
+        {!!batterySupplies.length &&
           batterySupplies.map(batterySupply => (
             <div
               key={batterySupply.productId}
@@ -234,7 +223,7 @@ class Batteries extends Component {
               )}
             </div>
           ))}
-        {batterySupplies.length > 0 && (
+        {!!batterySupplies.length && (
           <AdditionalInfo triggerText="What if I don't see my device?">
             <p>
               You may not see your hearing aid device if you haven’t placed an

@@ -29,20 +29,11 @@ class Accessories extends Component {
   render() {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
-    const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === ACCESSORIES,
-    );
+    const accessorySupplies = supplies
+      .filter(supply => supply.productGroup === ACCESSORIES)
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'months') > 5)
+      .filter(supply => currentDate.diff(supply.lastOrderDate, 'years') < 2);
     const areAccessorySuppliesEligible = eligibility.accessories;
-    const haveAccessoriesBeenOrderedInLastFiveMonths =
-      accessorySupplies.length > 0 &&
-      accessorySupplies.every(
-        accessory => currentDate.diff(accessory.lastOrderDate, 'months') <= 5,
-      );
-    const haveAccessoriesBeenOrderedInLastTwoYears =
-      accessorySupplies.length > 0 &&
-      accessorySupplies.every(
-        accessory => currentDate.diff(accessory.lastOrderDate, 'years') <= 2,
-      );
     const accessorySupplyAvailabilityDates = accessorySupplies.map(
       accessorySupply => accessorySupply.nextAvailabilityDate,
     );
@@ -70,8 +61,7 @@ class Accessories extends Component {
             </h3>
           </>
         )}
-        {!haveAccessoriesBeenOrderedInLastFiveMonths &&
-          haveAccessoriesBeenOrderedInLastTwoYears &&
+        {!accessorySupplies.length &&
           !areAccessorySuppliesEligible && (
             <>
               <AlertBox
@@ -108,8 +98,7 @@ class Accessories extends Component {
               </p>
             </>
           )}
-        {!haveAccessoriesBeenOrderedInLastTwoYears &&
-          !haveAccessoriesBeenOrderedInLastFiveMonths &&
+        {!accessorySupplies.length &&
           !areAccessorySuppliesEligible && (
             <AlertBox
               headline="You can't add accessories to your order at this time"
@@ -138,8 +127,7 @@ class Accessories extends Component {
               isVisible
             />
           )}
-        {accessorySupplies.length > 0 &&
-          haveAccessoriesBeenOrderedInLastTwoYears &&
+        {!!accessorySupplies.length &&
           accessorySupplies.map(accessorySupply => (
             <div
               key={accessorySupply.productId}
@@ -205,7 +193,7 @@ class Accessories extends Component {
               )}
             </div>
           ))}
-        {accessorySupplies.length > 0 && (
+        {!!accessorySupplies.length && (
           <AdditionalInfo triggerText="What if I don't see the accessories I need?">
             <p>
               You may not see the accessories you need if you haven't placed an
