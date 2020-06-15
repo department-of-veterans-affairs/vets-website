@@ -62,7 +62,7 @@ describe('Connected Apps actions', () => {
 
       const secondCallAction = dispatch.secondCall.args[0];
       expect(secondCallAction.type).to.equal(
-        actions.FINISHED_DELETING_CONNECTED_APPS,
+        actions.FINISHED_DELETING_CONNECTED_APP,
       );
     });
 
@@ -82,7 +82,7 @@ describe('Connected Apps actions', () => {
 
       const secondCallAction = dispatch.secondCall.args[0];
       expect(secondCallAction.type).to.equal(
-        actions.ERROR_DELETING_CONNECTED_APPS,
+        actions.ERROR_DELETING_CONNECTED_APP,
       );
     });
   });
