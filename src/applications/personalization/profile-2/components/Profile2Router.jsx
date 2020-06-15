@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -131,6 +132,18 @@ class Profile2Router extends Component {
     );
   }
 }
+
+Profile2Router.propTypes = {
+  user: PropTypes.object.isRequired,
+  showLoader: PropTypes.bool.isRequired,
+  shouldFetchDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldShowDirectDeposit: PropTypes.bool.isRequired,
+  fetchFullName: PropTypes.func.isRequired,
+  fetchMHVAccount: PropTypes.func.isRequired,
+  fetchMilitaryInformation: PropTypes.func.isRequired,
+  fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchPaymentInformation: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => {
   const isEvssAvailableSelector = createIsServiceAvailableSelector(

@@ -26,7 +26,7 @@ export const uiSchema = {
     'ui:description': DescriptionText,
   },
   'view:selectable686Options': {
-    'ui:title': 'What would you like to do?',
+    'ui:title': 'What would you like to do? Check all that apply.',
     'ui:options': { showFieldLabel: true },
     'ui:validations': [validateAtLeastOneSelected],
     addChild: {

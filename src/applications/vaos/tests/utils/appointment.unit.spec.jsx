@@ -353,13 +353,13 @@ describe('VAOS appointment helpers', () => {
         expect(appt.dateOptions.length).to.equal(3);
       });
     });
-    describe('purposeOfVisit', () => {
+    describe('reason', () => {
       it('should be set for community care appointment request', () => {
         const appt = transformRequest({
           ...ccData,
           purposeOfVisit: 'routine-follow-up',
         });
-        expect(appt.purposeOfVisit).to.equal('Follow-up/Routine');
+        expect(appt.reason).to.equal('Follow-up/Routine');
       });
 
       it('should be set for VA appointment request', () => {
@@ -367,7 +367,16 @@ describe('VAOS appointment helpers', () => {
           ...vaData,
           purposeOfVisit: 'Routine Follow-up',
         });
-        expect(appt.purposeOfVisit).to.equal('Follow-up/Routine');
+        expect(appt.reason).to.equal('Follow-up/Routine');
+      });
+      it('should be set from reasonForVisit for expresss care appointment request', () => {
+        const appt = transformRequest({
+          ...vaData,
+          typeOfCareId: 'CR1',
+          purposeOfVisit: 'Routine Follow-up',
+          reasonForVisit: 'Testing',
+        });
+        expect(appt.reason).to.equal('Testing');
       });
     });
   });

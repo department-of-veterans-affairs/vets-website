@@ -9,8 +9,6 @@ import {
   verify,
   logout,
   signup,
-  autoLogin,
-  autoLogout,
 } from '../../authentication/utilities';
 
 let oldSessionStorage;
@@ -95,6 +93,12 @@ describe('authentication URL helpers', () => {
     );
   });
 
+  it('should redirect for login with custom event', () => {
+    login('idme', 'v1', null, null, {}, 'custom-event');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+    expect(global.window.dataLayer[0].event).to.eq('custom-event');
+  });
+
   it('should redirect for logout', () => {
     logout();
     expect(global.window.location).to.include('/sessions/slo/new');
@@ -103,6 +107,12 @@ describe('authentication URL helpers', () => {
   it('should redirect for logout v1', () => {
     logout('v1');
     expect(global.window.location).to.include('/v1/sessions/slo/new');
+  });
+
+  it('should redirect for logout with custom event', () => {
+    logout('v1', 'custom-event');
+    expect(global.window.location).to.include('/v1/sessions/slo/new');
+    expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
   it('should redirect for MFA', () => {
@@ -123,17 +133,5 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
-  });
-
-  it('should redirect for SSO auto-login', () => {
-    autoLogin();
-    expect(global.window.location).to.include(
-      '/v1/sessions/idme/new?inbound=true',
-    );
-  });
-
-  it('should redirect for SSO auto-logout', () => {
-    autoLogout();
-    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 });

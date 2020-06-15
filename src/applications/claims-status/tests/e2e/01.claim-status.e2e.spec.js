@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Auth = require('platform/testing/e2e/auth');
 const DisabilityHelpers = require('./claims-status-helpers');
-const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
@@ -50,7 +50,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.expect.element('.claim-older-updates').to.be.present;
   client
     .click('li.list-one')
-    .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow)
+    .waitForElementNotPresent('li.list-one .claims-evidence', Timeouts.slow);
+
+  client
+    .elements('css selector', 'main button[aria-expanded="false"]', result =>
+      result.value.forEach(elm => client.elementIdClick(elm.ELEMENT)),
+    )
     .axeCheck('.main');
 
   // files needed

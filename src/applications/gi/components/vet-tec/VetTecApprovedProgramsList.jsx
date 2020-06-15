@@ -65,36 +65,46 @@ class VetTecApprovedProgramsList extends React.Component {
     }
   };
 
-  handleViewAllClicked = () => {
-    this.setState({
+  handleViewAllClicked = async () => {
+    const { displayAmount } = this.state;
+    await this.setState({
       displayAmount: this.props.programs.length,
       viewAll: true,
     });
+    this.setFocusToProgramNameCell(displayAmount);
   };
 
-  handleViewLessClicked = () => {
-    this.setState({
+  handleViewLessClicked = async () => {
+    await this.setState({
       displayAmount: DEFAULT_ROWS_VIEWABLE,
       viewAll: false,
     });
     this.handleAccordionFocus();
+    this.setFocusToProgramNameCell(0);
   };
 
-  handleShowMoreClicked = () => {
+  handleShowMoreClicked = async () => {
     const { programs } = this.props;
     const { displayAmount } = this.state;
-
     const remainingRowCount = programs.length - displayAmount;
     if (remainingRowCount > NEXT_ROWS_VIEWABLE) {
-      this.setState({
+      await this.setState({
         displayAmount: displayAmount + NEXT_ROWS_VIEWABLE,
       });
     } else {
-      this.setState({
+      await this.setState({
         displayAmount: programs.length,
         viewAll: true,
       });
     }
+    this.setFocusToProgramNameCell(displayAmount);
+  };
+
+  // Necessary so screen reader users are aware that the approved programs table has changed.
+  setFocusToProgramNameCell = elementIndex => {
+    document
+      .getElementsByClassName('program-description-header')
+      [elementIndex].focus();
   };
 
   renderProgramRows = () => {
@@ -102,8 +112,9 @@ class VetTecApprovedProgramsList extends React.Component {
       return (
         <tr key={`${index}-table`}>
           <th
+            tabIndex="-1"
             scope="row"
-            className="vads-u-padding-left--0 vads-l-grid-container"
+            className="vads-u-padding-left--0 vads-l-grid-container program-description-header"
           >
             <div className="program-description vads-l-row">
               {this.programDescription(program, 'vads-l-col--10')}
@@ -124,7 +135,9 @@ class VetTecApprovedProgramsList extends React.Component {
     return this.programs().map((program, index) => {
       return (
         <div key={`${index}-list`}>
-          {index > 0 && <hr aria-hidden="true" />}
+          {index > 0 && (
+            <hr className="vads-u-margin-y--2" aria-hidden="true" />
+          )}
           {this.programDescription(program, 'program-description')}
           <div className="program-length">
             <b>Length: </b>

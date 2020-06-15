@@ -69,7 +69,7 @@ function getPRbotComments() {
 function createReview(additions) {
   console.log(additions);
 
-  octokit.pulls.createReviewRequest({
+  octokit.pulls.requestReviewers({
     ...octokitDefaults,
     team_reviewers: ['frontend-review-group'],
   });
