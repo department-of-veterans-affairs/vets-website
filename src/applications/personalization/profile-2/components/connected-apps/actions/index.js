@@ -35,7 +35,7 @@ export function loadConnectedApps(mockRequest) {
       return;
     }
 
-    apiRequest(grantsUrl)
+    await apiRequest(grantsUrl)
       .then(({ data }) =>
         dispatch({ type: FINISHED_LOADING_CONNECTED_APPS, data }),
       )
