@@ -38,10 +38,14 @@ const CalculatorResultRow = ({
       <div className="small-6 columns vads-u-text-align--right">
         {header ? (
           <div>
-            <h5 aria-label={value}>
+            <p
+              className="vads-u-font-size--h5 vads-u-font-family--serif
+              vads-u-font-weight--bold eyb-value-header"
+              aria-label={value}
+            >
               {value}
               {screenReaderSpan}
-            </h5>
+            </p>
           </div>
         ) : (
           <div>{value}</div>

@@ -355,13 +355,13 @@
   }
 
   .eyb-button {
-    &.usa-accordion-button[aria-expanded='false'] {
-      background-image: url('/img/arrow-up.png');
-      background-image: url('/img/arrow-up.svg');
+    &.usa-accordion-button[aria-expanded="false"] {
+      background-image: url("/img/arrow-up.png");
+      background-image: url("/img/arrow-up.svg");
     }
-    &.usa-accordion-button[aria-expanded='true'] {
-      background-image: url('/img/arrow-down.png');
-      background-image: url('/img/arrow-down.svg');
+    &.usa-accordion-button[aria-expanded="true"] {
+      background-image: url("/img/arrow-down.png");
+      background-image: url("/img/arrow-down.svg");
     }
   }
 
@@ -435,5 +435,10 @@
 
   .secondary-sco-list {
     padding-left: 0;
+  }
+
+  .eyb-value-header {
+    margin-top: 22.5px;
+    margin-bottom: 7.5px;
   }
 }
