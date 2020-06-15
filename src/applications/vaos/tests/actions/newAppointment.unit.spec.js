@@ -1258,7 +1258,32 @@ describe('VAOS newAppointment actions', () => {
             // eslint-disable-next-line camelcase
             var983_323: [
               {
-                clinicId: '123',
+                id: 'var983_123',
+                resourceType: 'HealthcareService',
+                serviceName: 'CHY PC KILPATRICK',
+                characteristic: [
+                  {
+                    coding: {
+                      code: '983',
+                      userSelected: false,
+                    },
+                    text: 'institutionCode',
+                  },
+                  {
+                    coding: {
+                      display: 'CHYSHR-Cheyenne VA Medical Center',
+                      userSelected: false,
+                    },
+                    text: 'institutionName',
+                  },
+                  {
+                    coding: {
+                      display: 'Green Team Clinic1',
+                      userSelected: false,
+                    },
+                    text: 'clinicFriendlyLocationName',
+                  },
+                ],
               },
             ],
           },
@@ -1496,7 +1521,32 @@ describe('VAOS newAppointment actions', () => {
             // eslint-disable-next-line camelcase
             var983_323: [
               {
-                clinicId: '123',
+                id: 'var983_123',
+                resourceType: 'HealthcareService',
+                serviceName: 'CHY PC KILPATRICK',
+                characteristic: [
+                  {
+                    coding: {
+                      code: '983',
+                      userSelected: false,
+                    },
+                    text: 'institutionCode',
+                  },
+                  {
+                    coding: {
+                      display: 'CHYSHR-Cheyenne VA Medical Center',
+                      userSelected: false,
+                    },
+                    text: 'institutionName',
+                  },
+                  {
+                    coding: {
+                      display: 'Green Team Clinic1',
+                      userSelected: false,
+                    },
+                    text: 'clinicFriendlyLocationName',
+                  },
+                ],
               },
             ],
           },
@@ -1571,7 +1621,32 @@ describe('VAOS newAppointment actions', () => {
             // eslint-disable-next-line camelcase
             var983_323: [
               {
-                clinicId: '123',
+                id: 'var983_123',
+                resourceType: 'HealthcareService',
+                serviceName: 'CHY PC KILPATRICK',
+                characteristic: [
+                  {
+                    coding: {
+                      code: '983',
+                      userSelected: false,
+                    },
+                    text: 'institutionCode',
+                  },
+                  {
+                    coding: {
+                      display: 'CHYSHR-Cheyenne VA Medical Center',
+                      userSelected: false,
+                    },
+                    text: 'institutionName',
+                  },
+                  {
+                    coding: {
+                      display: 'Green Team Clinic1',
+                      userSelected: false,
+                    },
+                    text: 'clinicFriendlyLocationName',
+                  },
+                ],
               },
             ],
           },

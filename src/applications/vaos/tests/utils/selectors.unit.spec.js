@@ -223,7 +223,7 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             vaFacility: '688GB',
-            clinicId: 'var688GB_124',
+            clinicId: '124',
           },
           clinics: {
             '688GB_323': [
@@ -238,7 +238,9 @@ describe('VAOS selectors', () => {
         },
       };
       const clinic = getChosenClinicInfo(state);
-      expect(clinic.id).to.equal(state.newAppointment.data.clinicId);
+      expect(clinic.id.split('_')[1]).to.equal(
+        state.newAppointment.data.clinicId,
+      );
     });
   });
 

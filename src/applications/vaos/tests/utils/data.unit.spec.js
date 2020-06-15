@@ -518,7 +518,7 @@ describe('VAOS data transformation', () => {
             ],
           },
           preferredDate: '2019-12-02',
-          clinicId: 'var983_308',
+          clinicId: '308',
           vaParent: 'var983',
           vaFacility: 'var983',
           facilityType: 'vamc',
@@ -576,6 +576,30 @@ describe('VAOS data transformation', () => {
             {
               id: 'var983_308',
               resourceType: 'HealthcareService',
+              serviceName: 'CHY PC KILPATRICK',
+              characteristic: [
+                {
+                  coding: {
+                    code: '983',
+                    userSelected: false,
+                  },
+                  text: 'institutionCode',
+                },
+                {
+                  coding: {
+                    display: 'CHYSHR-Cheyenne VA Medical Center',
+                    userSelected: false,
+                  },
+                  text: 'institutionName',
+                },
+                {
+                  coding: {
+                    display: 'Green Team Clinic1',
+                    userSelected: false,
+                  },
+                  text: 'clinicFriendlyLocationName',
+                },
+              ],
             },
           ],
         },
@@ -584,8 +608,12 @@ describe('VAOS data transformation', () => {
     const data = transformFormToAppointment(state);
     expect(data).to.deep.equal({
       clinic: {
-        id: 'var983_308',
-        resourceType: 'HealthcareService',
+        siteCode: '983',
+        clinicId: '308',
+        clinicName: 'CHY PC KILPATRICK',
+        clinicFriendlyLocationName: 'Green Team Clinic1',
+        institutionName: 'CHYSHR-Cheyenne VA Medical Center',
+        institutionCode: '983',
       },
       desiredDate: '2019-12-02T00:00:00+00:00',
       dateTime: '2019-11-22T09:30:00+00:00',

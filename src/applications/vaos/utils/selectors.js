@@ -290,7 +290,7 @@ export function getChosenClinicInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
-      clinic => clinic.id === data.clinicId,
+      clinic => clinic.id.split('_')[1] === data.clinicId,
     ) || null
   );
 }
