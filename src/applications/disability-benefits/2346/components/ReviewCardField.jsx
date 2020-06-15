@@ -10,6 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -87,14 +88,27 @@ class ReviewCardField extends React.Component {
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
       oldData: props.formData,
+      permAddressWasUpdated: false,
+      tempAddressWasUpdated: false,
     };
   }
 
   componentDidUpdate() {
-    if (this.state.editing) {
-      this.editTitle.current.focus();
+    if (this.state.permAddressWasUpdated) {
+      focusElement('#permanentAddress');
+      this.updateAddressState();
+    } else if (this.state.tempAddressWasUpdated) {
+      focusElement('#temporaryAddress');
+      this.updateAddressState();
     }
   }
+
+  updateAddressState = () => {
+    this.setState({
+      permAddressWasUpdated: false,
+      tempAddressWasUpdated: false,
+    });
+  };
 
   onChange = (field, data) => {
     const newData = set(field, data, this.props.data);
@@ -495,11 +509,23 @@ class ReviewCardField extends React.Component {
       // Show validation errors
       this.props.formContext.onError();
     } else {
-      this.setState({
-        editing: false,
-        canCancel: true,
-        oldData: this.props.formData,
-      });
+      if (this.props.name === 'permanentAddress') {
+        this.setState({
+          editing: false,
+          canCancel: true,
+          oldData: this.props.formData,
+          permAddressWasUpdated: true,
+          tempAddressWasUpdated: false,
+        });
+      } else {
+        this.setState({
+          editing: false,
+          canCancel: true,
+          oldData: this.props.formData,
+          permAddressWasUpdated: false,
+          tempAddressWasUpdated: true,
+        });
+      }
       if (this.props.uiSchema.saveClickTrackEvent) {
         recordEvent(this.props.uiSchema.saveClickTrackEvent);
       }
