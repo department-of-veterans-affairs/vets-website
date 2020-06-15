@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
 
 const SignatureCheckbox = ({
-  fullName,
-  label,
   children,
+  fullName,
+  isRequired,
+  label,
   setSignature,
+  showError,
   signatures,
 }) => {
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const isSignatureComplete = isSigned && isChecked;
+  console.log('isSignatureComplete', isSignatureComplete);
 
   useEffect(
     () => {
-      if (!isSignatureComplete) {
-        setSignature({ ...signatures, [label]: isSignatureComplete });
-      }
+      setSignature({ ...signatures, [label]: isSignatureComplete });
     },
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isSignatureComplete],
+    [isSignatureComplete, fullName.first, fullName.last],
   );
 
   return (
@@ -31,14 +34,26 @@ const SignatureCheckbox = ({
         setIsSigned={setIsSigned}
         label={label}
         fullName={fullName}
+        required={isRequired}
       />
 
       <ErrorableCheckbox
         onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
+        required={isRequired}
       />
     </article>
   );
+};
+
+SignatureCheckbox.propTypes = {
+  children: PropTypes.any,
+  fullName: PropTypes.object.isRequired(),
+  isRequired: PropTypes.bool,
+  label: PropTypes.string.isRequired(),
+  setSignature: PropTypes.func.isRequired(),
+  showError: PropTypes.bool.isRequired(),
+  signatures: PropTypes.object.isRequired(),
 };
 
 export default SignatureCheckbox;
