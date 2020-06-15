@@ -3,6 +3,8 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import separationLocations from '../content/separationLocations';
+import { checkSeparationLocation } from '../validations';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 
@@ -49,11 +51,21 @@ export const uiSchema = {
         },
       },
     },
-    separationLocation: {
-      'ui:title': 'Place of anticipated separation',
-      'ui:description':
-        'This is the location that you will separate from service.',
-    },
+    separationLocation: autosuggest.uiSchema(
+      'Place of anticipated separation',
+      () =>
+        Promise.resolve().then(() =>
+          separationLocations.map(({ code, description }) => ({
+            id: code,
+            label: description,
+          })),
+        ),
+      {
+        'ui:description':
+          'This is the location that you will separate from service.',
+        'ui:validation': [checkSeparationLocation],
+      },
+    ),
   },
 };
 
@@ -70,15 +82,7 @@ export const schema = {
           type: 'object',
           properties: {},
         },
-        separationLocation: {
-          type: 'string',
-          enum: separationLocations.map(
-            separationLocation => separationLocation.code,
-          ),
-          enumNames: separationLocations.map(
-            separationLocation => separationLocation.description,
-          ),
-        },
+        separationLocation: autosuggest.schema,
       },
     },
   },
