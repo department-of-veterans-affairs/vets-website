@@ -23,7 +23,7 @@ describe('<ConnectedApp>', () => {
     expect(image.prop('src')).to.equal('logoURL');
 
     const text = wrapper.text();
-    expect(text).to.include('Random title');
+    expect(text).to.include(defaultProps.attributes.title);
     expect(text).to.include('Connected on ');
     expect(text).to.include('Disconnect');
 
