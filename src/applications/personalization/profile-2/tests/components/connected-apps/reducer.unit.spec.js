@@ -17,7 +17,6 @@ describe('Connected Apps reducer', () => {
     const state = reducer(undefined, action);
     expect(state).to.be.deep.equal({
       apps: [],
-      deleting: false,
       errors: [],
       loading: false,
     });
@@ -28,7 +27,6 @@ describe('Connected Apps reducer', () => {
     const state = reducer(undefined, action);
     expect(state).to.be.deep.equal({
       apps: [],
-      deleting: false,
       errors: [],
       loading: true,
     });
@@ -39,7 +37,6 @@ describe('Connected Apps reducer', () => {
     const state = reducer(undefined, action);
     expect(state).to.be.deep.equal({
       apps: ['hello'],
-      deleting: false,
       errors: [],
       loading: false,
     });
@@ -50,7 +47,6 @@ describe('Connected Apps reducer', () => {
     const state = reducer(undefined, action);
     expect(state).to.be.deep.equal({
       apps: [],
-      deleting: false,
       errors: ['hello'],
       loading: false,
     });
@@ -84,7 +80,6 @@ describe('Connected Apps reducer', () => {
         { id: '1', deleting: true, errors: [] },
         { id: '2', deleting: false, errors: [] },
       ],
-      deleting: false,
       errors: [],
       loading: false,
     };
@@ -94,7 +89,6 @@ describe('Connected Apps reducer', () => {
         { id: '1', deleting: false, errors: ['hello'] },
         { id: '2', deleting: false, errors: [] },
       ],
-      deleting: false,
       errors: [],
       loading: false,
     });
@@ -107,7 +101,6 @@ describe('Connected Apps reducer', () => {
         { id: '1', deleting: true, deleted: false },
         { id: '2', deleting: false, deleted: false },
       ],
-      deleting: false,
       errors: [],
       loading: false,
     };
@@ -117,7 +110,6 @@ describe('Connected Apps reducer', () => {
         { id: '1', deleting: false, deleted: true },
         { id: '2', deleting: false, deleted: false },
       ],
-      deleting: false,
       errors: [],
       loading: false,
     });
@@ -127,14 +119,12 @@ describe('Connected Apps reducer', () => {
     const action = { appId: '1', type: DELETED_APP_ALERT_DISMISSED };
     const prevState = {
       apps: [{ id: '1' }, { id: '2' }],
-      deleting: false,
       errors: [],
       loading: false,
     };
     const state = reducer(prevState, action);
     expect(state).to.be.deep.equal({
       apps: [{ id: '2' }],
-      deleting: false,
       errors: [],
       loading: false,
     });

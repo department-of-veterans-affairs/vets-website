@@ -10,7 +10,6 @@ import {
 
 const initialState = {
   apps: [],
-  deleting: false,
   errors: [],
   loading: false,
 };

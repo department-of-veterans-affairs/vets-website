@@ -61,8 +61,7 @@ describe('Connected Apps actions', () => {
       ).to.be.true;
 
       const secondCallAction = dispatch.secondCall.args[0];
-      expect(secondCallAction.type).to.be.equal(
-        actions.FINISHED_DELETING_CONNECTED_APP);
+      expect(secondCallAction.type).to.be.equal(actions.FINISHED_DELETING_CONNECTED_APP);
     });
 
     it('creates the correct action when the call fails', async () => {
@@ -80,8 +79,7 @@ describe('Connected Apps actions', () => {
       ).to.be.true;
 
       const secondCallAction = dispatch.secondCall.args[0];
-      expect(secondCallAction.type).to.be.equal(
-        actions.ERROR_DELETING_CONNECTED_APP);
+      expect(secondCallAction.type).to.be.equal(actions.ERROR_DELETING_CONNECTED_APP);
     });
   });
 
