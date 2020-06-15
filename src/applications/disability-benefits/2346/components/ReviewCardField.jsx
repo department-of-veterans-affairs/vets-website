@@ -94,12 +94,15 @@ class ReviewCardField extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.permAddressShouldBeFocused) {
+    if (this.state.permAddressShouldBeFocused && !this.state.editing) {
       focusElement('#permanentAddress');
       this.updateAddressState();
-    } else if (this.state.tempAddressShouldBeFocused) {
+    } else if (this.state.tempAddressShouldBeFocused && !this.state.editing) {
       focusElement('#temporaryAddress');
       this.updateAddressState();
+    }
+    if (this.state.editing) {
+      focusElement('.review-card--title');
     }
   }
 
