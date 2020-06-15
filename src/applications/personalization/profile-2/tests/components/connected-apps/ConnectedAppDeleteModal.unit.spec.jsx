@@ -21,16 +21,17 @@ describe('<ConnectedAppDeleteModal>', () => {
     expect(text).to.include(
       'hello won’t have access to new information about you from VA once you disconnect. This may impact the usefulness of the app.',
     );
-    expect(wrapper
-      .find('button')
-      .at(1)
-      .text()
+    expect(
+      wrapper
+        .find('button')
+        .at(1)
+        .text(),
     ).to.include('Cancel');
-
-    expect(wrapper
-      .find('button')
-      .at(2)
-      .text()
+    expect(
+      wrapper
+        .find('button')
+        .at(2)
+        .text(),
     ).to.include('Disconnect');
 
     expect(text).to.not.include('Processing update...');
