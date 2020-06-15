@@ -267,7 +267,10 @@ ApplicationStatus.propTypes = {
   }),
   stayAfterDelete: PropTypes.bool,
   showLearnMoreLink: PropTypes.bool,
-  formConfig: PropTypes.object,
+  formConfig: PropTypes.shape({
+    continueAppMessage: PropTypes.string,
+    startNewAppMessage: PropTypes.string,
+  }).isRequired,
 };
 
 ApplicationStatus.defaultProps = {

@@ -63,16 +63,19 @@ class FormStartControls extends React.Component {
   };
 
   render() {
+    // get access to the formConfig through this route
     const { formConfig } = this.props.routes[1];
     const startNewAppMessage =
       formConfig.startNewAppMessage || 'Start a new application';
+    const continueAppMessage =
+      formConfig.continueAppMessage || 'Continue your application';
     if (this.props.formSaved) {
       return (
         <div>
           {!this.props.isExpired && (
             <ProgressButton
               onButtonClick={this.handleLoadForm}
-              buttonText={startNewAppMessage}
+              buttonText={continueAppMessage}
               buttonClass="usa-button-primary no-text-transform"
             />
           )}

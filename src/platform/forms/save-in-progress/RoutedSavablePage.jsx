@@ -107,7 +107,9 @@ RoutedSavablePage.propTypes = {
     ),
   }),
   setData: PropTypes.func,
-  formConfig: PropTypes.object,
+  formConfig: PropTypes.shape({
+    finishLaterLinkText: PropTypes.string,
+  }).isRequired,
 };
 
 export default withRouter(

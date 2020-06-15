@@ -71,7 +71,9 @@ function SaveStatus({
 SaveStatus.propTypes = {
   form: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  formConfig: PropTypes.object,
+  formConfig: PropTypes.shape({
+    saveSuccessMessage: PropTypes.string,
+  }).isRequired,
 };
 
 export default SaveStatus;

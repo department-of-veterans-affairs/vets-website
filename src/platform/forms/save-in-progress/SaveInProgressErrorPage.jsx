@@ -180,7 +180,9 @@ SaveInProgressErrorPage.propTypes = {
   isStartingOver: PropTypes.bool.isRequired,
   // For SignInLink
   isLoggedIn: PropTypes.bool.isRequired,
-  formConfig: PropTypes.object,
+  formConfig: PropTypes.shape({
+    continueAppMessage: PropTypes.string,
+  }).isRequired,
 };
 
 const mapStateToProps = (store, ownProps) => ({
