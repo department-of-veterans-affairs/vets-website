@@ -15,7 +15,6 @@ const SignatureCheckbox = ({
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const isSignatureComplete = isSigned && isChecked;
-  console.log('isSignatureComplete', isSignatureComplete);
 
   useEffect(
     () => {
@@ -35,11 +34,13 @@ const SignatureCheckbox = ({
         label={label}
         fullName={fullName}
         required={isRequired}
+        showError={showError}
       />
 
       <ErrorableCheckbox
         onValueChange={value => setIsChecked(value)}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
+        errorMessage={showError && 'Must certify by checking box'}
         required={isRequired}
       />
     </article>
@@ -48,12 +49,12 @@ const SignatureCheckbox = ({
 
 SignatureCheckbox.propTypes = {
   children: PropTypes.any,
-  fullName: PropTypes.object.isRequired(),
+  fullName: PropTypes.object.isRequired,
   isRequired: PropTypes.bool,
-  label: PropTypes.string.isRequired(),
-  setSignature: PropTypes.func.isRequired(),
-  showError: PropTypes.bool.isRequired(),
-  signatures: PropTypes.object.isRequired(),
+  label: PropTypes.string.isRequired,
+  setSignature: PropTypes.func.isRequired,
+  showError: PropTypes.bool.isRequired,
+  signatures: PropTypes.object.isRequired,
 };
 
 export default SignatureCheckbox;
