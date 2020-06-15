@@ -1,14 +1,10 @@
 import separationLocations from './content/separationLocations';
 
 export const checkSeparationLocation = (errors, values = {}, formData) => {
+  const data = formData?.serviceInformation?.separationLocation?.label;
   const isValid =
-    (formData?.separationLocation &&
-      separationLocations.some(
-        ({ description }) => formData.separationLocation === description,
-      )) ||
-    false;
-
+    data && separationLocations.some(({ description }) => data === description);
   if (!isValid) {
-    errors.addError('Please select a location from the list');
+    errors.addError('Please select an option from the suggestions');
   }
 };
