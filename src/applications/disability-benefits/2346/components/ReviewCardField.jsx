@@ -88,16 +88,16 @@ class ReviewCardField extends React.Component {
       editing,
       canCancel: !editing, // If we start in the edit state, we can't cancel
       oldData: props.formData,
-      permAddressWasUpdated: false,
-      tempAddressWasUpdated: false,
+      permAddressShouldBeFocused: false,
+      tempAddressShouldBeFocused: false,
     };
   }
 
   componentDidUpdate() {
-    if (this.state.permAddressWasUpdated) {
+    if (this.state.permAddressShouldBeFocused) {
       focusElement('#permanentAddress');
       this.updateAddressState();
-    } else if (this.state.tempAddressWasUpdated) {
+    } else if (this.state.tempAddressShouldBeFocused) {
       focusElement('#temporaryAddress');
       this.updateAddressState();
     }
@@ -105,8 +105,8 @@ class ReviewCardField extends React.Component {
 
   updateAddressState = () => {
     this.setState({
-      permAddressWasUpdated: false,
-      tempAddressWasUpdated: false,
+      permAddressShouldBeFocused: false,
+      tempAddressShouldBeFocused: false,
     });
   };
 
@@ -468,6 +468,14 @@ class ReviewCardField extends React.Component {
     }
     this.props.onChange(this.state.oldData);
     this.setState({ editing: false });
+    if (this.props.name === 'temporaryAddress') {
+      const { street, city, country } = this.state.oldData;
+      const isTempAddressMissing = !street && !city && !country;
+      if (isTempAddressMissing)
+        this.setState({
+          permAddressShouldBeFocused: true,
+        });
+    }
   };
 
   /**
@@ -514,16 +522,16 @@ class ReviewCardField extends React.Component {
           editing: false,
           canCancel: true,
           oldData: this.props.formData,
-          permAddressWasUpdated: true,
-          tempAddressWasUpdated: false,
+          permAddressShouldBeFocused: true,
+          tempAddressShouldBeFocused: false,
         });
       } else {
         this.setState({
           editing: false,
           canCancel: true,
           oldData: this.props.formData,
-          permAddressWasUpdated: false,
-          tempAddressWasUpdated: true,
+          permAddressShouldBeFocused: false,
+          tempAddressShouldBeFocused: true,
         });
       }
       if (this.props.uiSchema.saveClickTrackEvent) {
