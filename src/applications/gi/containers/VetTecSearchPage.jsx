@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -325,9 +324,7 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(VetTecSearchPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VetTecSearchPage);

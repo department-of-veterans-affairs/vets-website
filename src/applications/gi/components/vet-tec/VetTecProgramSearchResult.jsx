@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import appendQuery from 'append-query';
 
 import environment from 'platform/utilities/environment';
 import {
@@ -42,10 +43,7 @@ function VetTecProgramSearchResult(props) {
         pathname: `/profile/${facilityCode}/${description}`,
         query: version ? { version } : {},
       }
-    : {
-        pathname: `/profile/${facilityCode}/${description}`,
-        search: version ? `?version=${version}` : '',
-      };
+    : appendQuery(`/profile/${facilityCode}/${description}`, { version });
 
   return (
     <div id={`search-result-${createId(id)}`} className="search-result">

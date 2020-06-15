@@ -1,14 +1,18 @@
 import { isValidEmail } from 'platform/forms/validations';
 import React from 'react';
-import AddressViewField from '../../components/AddressViewField';
-import ReviewCardField from '../../components/ReviewCardField';
-import ReviewPageSupplies from '../../components/ReviewPageSupplies';
-import { schemaFields } from '../../constants';
-import fullSchema from '../2346-schema.json';
-import { addressUISchema } from '../address-schema';
-import BatteriesAndAccessories from '../../components/BatteriesAndAccessories';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
+import AddressViewField from '../components/AddressViewField';
+import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
+import ReviewPageSupplies from '../components/ReviewPageSupplies';
+import VeteranInfoBox from '../components/VeteranInfoBox';
+import { schemaFields } from '../constants';
+import { addressUISchema } from './address-schema';
 
-const { permAddressField, tempAddressField } = schemaFields;
+const {
+  permanentAddressField,
+  temporaryAddressField,
+  viewCurrentAddressField,
+} = schemaFields;
 
 const emailUITitle = <h4>Email address</h4>;
 
@@ -22,45 +26,51 @@ const emailUIDescription = (
   </>
 );
 
-const addressDescription = (
-  <>
-    <p>
-      Any updates you make here to your address will apply only to this
-      application.
-    </p>
-    <p>
-      To update your address for all of your VA accounts, you’ll need to go to
-      your profile page.{' '}
-      <a href="https://va.gov/profile">
-        View the address that's on file in your profile.
-      </a>
-    </p>
-  </>
-);
-
 export default {
   'ui:title': fullSchema.title,
   'ui:options': {
     hideTitle: false,
   },
   sharedUISchemas: {
+    veteranInfoUI: {
+      'ui:field': VeteranInfoBox,
+      first: {
+        'ui:title': 'First name',
+        'ui:errorMessages': {
+          required: 'Please enter a first name',
+        },
+      },
+      last: {
+        'ui:title': 'Last name',
+        'ui:errorMessages': {
+          required: 'Please enter a last name',
+        },
+      },
+      middle: {
+        'ui:title': 'Middle name',
+      },
+      suffix: {
+        'ui:title': 'Suffix',
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+        },
+      },
+    },
     permanentAddressUI: {
       ...addressUISchema(
         true,
-        permAddressField,
+        permanentAddressField,
         formData => formData.permanentAddress,
       ),
       'ui:title': 'Permanent address',
-      'ui:subtitle': addressDescription,
-      'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
         hideOnReview: formData =>
-          formData.currentAddress !== 'permanentAddress',
+          formData['view:currentAddress'] !== 'permanentAddress',
       },
     },
     temporaryAddressUI: {
-      ...addressUISchema(true, tempAddressField, formData => {
+      ...addressUISchema(true, temporaryAddressField, formData => {
         const {
           street,
           city,
@@ -83,14 +93,12 @@ export default {
         return true;
       }),
       'ui:title': 'Temporary address',
-      'ui:subtitle': addressDescription,
-      'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: AddressViewField,
         startInEdit: formData =>
           Object.values(formData).every(prop => Boolean(prop)),
         hideOnReview: formData =>
-          formData.currentAddress !== 'temporaryAddress',
+          formData['view:currentAddress'] !== 'temporaryAddress',
       },
     },
     currentAddressUI: {
@@ -138,7 +146,7 @@ export default {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const emailMatcher = () => formData.email === fieldData;
+            const emailMatcher = () => formData.vetEmail === fieldData;
             const doesEmailMatch = emailMatcher();
             if (!doesEmailMatch) {
               errors.addError(
@@ -149,7 +157,7 @@ export default {
         },
       ],
     },
-    batteriesUI: {
+    suppliesUI: {
       'ui:title': 'Select the hearing aid batteries and accessories you need.',
       'ui:description':
         'You can only order each hearing aid battery and accessory once every 5 months.',

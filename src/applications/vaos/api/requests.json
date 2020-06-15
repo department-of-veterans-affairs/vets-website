@@ -576,14 +576,14 @@
           "assigningAuthority": "ICN"
         },
         "surrogateIdentifier": {},
-        "lastUpdatedDate": "12/16/2019 12:58:41",
-        "optionDate1": "12/16/2019",
+        "lastUpdatedDate": "12/16/2020 12:58:41",
+        "optionDate1": "12/16/2020",
         "optionTime1": "PM",
         "optionDate2": "No Date Selected",
         "optionTime2": "No Time Selected",
         "optionDate3": "No Date Selected",
         "optionTime3": "No Time Selected",
-        "status": "Booked",
+        "status": "Submitted",
         "appointmentType": "Express Care",
         "visitType": "Express Care",
         "facility": {
