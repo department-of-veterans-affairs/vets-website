@@ -85,9 +85,6 @@ class SubmitController extends React.Component {
     const { form, formConfig, showPreSubmitError } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
     const { CustomComponent } = preSubmit;
-    console.log('showPreSubmitError', showPreSubmitError);
-    console.log('preSubmit', preSubmit);
-    console.log('form.data', form.data);
 
     return (
       <>
