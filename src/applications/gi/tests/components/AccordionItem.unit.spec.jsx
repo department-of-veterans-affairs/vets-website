@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import AccordionItem from '../../components/AccordionItem';
 
@@ -16,7 +16,7 @@ describe('<AccordionItem>', () => {
   });
 
   it('should track accordion collapse', () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <AccordionItem expanded button={'test'}>
         <div />
       </AccordionItem>,
@@ -31,7 +31,7 @@ describe('<AccordionItem>', () => {
   });
 
   it('should track accordion expand', () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <AccordionItem expanded={false} button={'test'}>
         <div />
       </AccordionItem>,
