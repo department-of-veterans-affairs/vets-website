@@ -2,7 +2,7 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSession, hasSessionSSO } from '../../user/profile/utilities';
-import { autoLogin, autoLogout } from 'platform/user/authentication/utilities';
+import { login, logout } from 'platform/user/authentication/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';
 import liveKeepAlive from './keepAliveSSO';
 import { getForceAuth } from './forceAuth';
@@ -33,9 +33,9 @@ export async function checkAutoSession() {
     // explicitly check to see if the SSOe session is false, as it could also
     // be null if we failed to get a response from the SSOe server, in which
     // case we don't want to logout the user because we don't know
-    autoLogout();
+    logout('v1', 'sso-automatic-logout');
   } else if (!hasSession() && hasSessionSSO() && !getForceAuth()) {
-    autoLogin();
+    login('idme', 'v1', null, null, { inbound: 'true' }, 'sso-automatic-login');
   }
 }
 

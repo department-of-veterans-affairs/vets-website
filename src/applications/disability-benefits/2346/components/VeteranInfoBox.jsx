@@ -2,21 +2,23 @@ import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 
-const PersonalInfoBox = props => {
-  // Derive formData properties.
-  const first = props.formData?.fullName?.first || '';
-  const middle = props.formData?.fullName?.middle || '';
-  const last = props.formData?.fullName?.last || '';
-  const suffix = props.formData?.fullName?.suffix || '';
-  const gender = props.formData?.gender || '';
-  const dateOfBirth = props.formData?.dateOfBirth || '';
-  const ssnLastFour = props.formData?.ssnLastFour || '';
-
+const VeteranInfoBox = props => {
+  const {
+    first,
+    middle,
+    last,
+    suffix,
+    dateOfBirth,
+    gender,
+    ssnLastFour,
+  } = props;
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
     .join(' ')
     .toUpperCase();
+
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
@@ -46,17 +48,27 @@ const PersonalInfoBox = props => {
   );
 };
 
-PersonalInfoBox.propTypes = {
-  formData: PropTypes.shape({
-    fullName: PropTypes.shape({
-      first: PropTypes.string.isRequired,
-      last: PropTypes.string.isRequired,
-      middle: PropTypes.string,
-    }).isRequired,
-    gender: PropTypes.string.isRequired,
-    dateOfBirth: PropTypes.string.isRequired,
-    ssnLastFour: PropTypes.string.isRequired,
-  }).isRequired,
+VeteranInfoBox.propTypes = {
+  first: PropTypes.string.isRequired,
+  last: PropTypes.string.isRequired,
+  suffix: PropTypes.string,
+  middle: PropTypes.string,
+  gender: PropTypes.string.isRequired,
+  dateOfBirth: PropTypes.string.isRequired,
+  ssnLastFour: PropTypes.string.isRequired,
 };
 
-export default PersonalInfoBox;
+const mapStateToProps = state => ({
+  first: state.form?.data?.fullName?.first,
+  middle: state.form?.data?.fullName?.middle,
+  last: state.form?.data?.fullName?.last,
+  suffix: state.form?.data?.fullName?.suffix,
+  dateOfBirth: state.form?.data?.dateOfBirth,
+  gender: state.form?.data?.gender,
+  ssnLastFour: state.form?.data?.ssnLastFour,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(VeteranInfoBox);

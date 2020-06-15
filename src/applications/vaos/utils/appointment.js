@@ -11,6 +11,7 @@ import {
   PAST_APPOINTMENTS_HIDDEN_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
+  EXPRESS_CARE,
 } from './constants';
 
 import {
@@ -278,6 +279,10 @@ function getPurposeOfVisit(appt) {
       return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
         ?.short;
     case APPOINTMENT_TYPES.request:
+      if (appt.typeOfCareId === EXPRESS_CARE) {
+        return appt.reasonForVisit;
+      }
+
       return PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.purposeOfVisit,
       )?.short;
@@ -451,11 +456,12 @@ export function transformRequest(appointment) {
     apiData: appointment,
     id: appointment.id,
     isPastAppointment: false,
+    isExpressCare: appointment.typeOfCareId === EXPRESS_CARE,
     duration: 60,
     dateOptions: getRequestDateOptions(appointment),
     status: getAppointmentStatus(appointment),
     typeOfCare: appointment.appointmentType,
-    purposeOfVisit: getPurposeOfVisit(appointment),
+    reason: getPurposeOfVisit(appointment),
     facility: appointment.facility,
     facilityName:
       appointment.friendlyLocationName || appointment.facility?.name,

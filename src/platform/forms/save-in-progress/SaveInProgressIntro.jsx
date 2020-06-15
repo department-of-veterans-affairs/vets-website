@@ -129,7 +129,7 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const { buttonOnly, retentionPeriod } = this.props;
+      const { buttonOnly, retentionPeriod, startText } = this.props;
       alert = buttonOnly ? (
         <>
           <button className="usa-button-primary" onClick={this.openLoginModal}>
@@ -177,7 +177,7 @@ class SaveInProgressIntro extends React.Component {
                 className="usa-button-primary"
                 onClick={this.openLoginModal}
               >
-                Sign in to start your application
+                {startText || 'Sign in to start your application'}
               </button>
               {!this.props.hideUnauthedStartLink && (
                 <p>

@@ -4,18 +4,16 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { fetchPastAppointments } from '../actions/appointments';
-import { getVARFacilityId, getVARClinicId } from '../services/appointment';
+import { getVAAppointmentLocationId } from '../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import { vaosPastAppts } from '../utils/selectors';
-import { getPastAppointmentDateRangeOptions } from '../utils/appointment';
+import {
+  getRealFacilityId,
+  getPastAppointmentDateRangeOptions,
+} from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
-
-// Only use this when we need to pass data that comes back from one of our
-// services files to one of the older api functions
-function parseFakeFHIRId(id) {
-  return id ? id.replace('var', '') : id;
-}
+import { focusElement } from 'platform/utilities/ui';
 
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
@@ -41,6 +39,15 @@ export class PastAppointmentsList extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
+      this.props.appointments.pastStatus === FETCH_STATUS.succeeded
+    ) {
+      focusElement('#pastAppts');
+    }
+  }
+
   onDateRangeChange = index => {
     const selectedDateRange = this.dateRangeOptions[index];
 
@@ -53,7 +60,7 @@ export class PastAppointmentsList extends React.Component {
 
   render() {
     const { appointments } = this.props;
-    const { past, pastStatus, systemClinicToFacilityMap } = appointments;
+    const { past, pastStatus, facilityData } = appointments;
     let content;
 
     if (pastStatus === FETCH_STATUS.loading) {
@@ -76,10 +83,8 @@ export class PastAppointmentsList extends React.Component {
                       index={index}
                       appointment={appt}
                       facility={
-                        systemClinicToFacilityMap[
-                          `${parseFakeFHIRId(
-                            getVARFacilityId(appt),
-                          )}_${parseFakeFHIRId(getVARClinicId(appt))}`
+                        facilityData[
+                          getRealFacilityId(getVAAppointmentLocationId(appt))
                         ]
                       }
                     />
@@ -111,7 +116,9 @@ export class PastAppointmentsList extends React.Component {
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h3>Past appointments</h3>
+        <h3 tabIndex="-1" id="pastAppts">
+          Past appointments
+        </h3>
         <PastAppointmentsDateDropdown
           currentRange={appointments.pastSelectedIndex}
           onChange={this.onDateRangeChange}

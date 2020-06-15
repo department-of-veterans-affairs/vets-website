@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import { scroller } from 'react-scroll';
+import classNames from 'classnames';
 
+import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
+import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -13,21 +19,11 @@ import {
   handleInputFocusWithPotentialOverLap,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
-import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
-import { scroller } from 'react-scroll';
-import {
-  getScrollOptions,
-  focusElement,
-  scrollAndFocus,
-} from 'platform/utilities/ui';
-import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -38,6 +34,7 @@ class EstimateYourBenefitsForm extends React.Component {
       aboutYourSchoolExpanded: false,
       learningFormatAndScheduleExpanded: false,
       scholarshipsAndOtherFundingExpanded: false,
+      inputUpdated: false,
     };
   }
 
@@ -92,6 +89,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
+      this.setState({ inputUpdated: true });
       this.props.onBeneficiaryZIPCodeChanged(event.value);
       this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
@@ -101,12 +99,13 @@ class EstimateYourBenefitsForm extends React.Component {
   };
 
   handleCalculateBenefitsClick = () => {
-    const beneficiaryZIPError = this.props.inputs.beneficiaryZIPError;
-    const zipcode = this.props.inputs.beneficiaryZIP;
+    const { beneficiaryZIPError, beneficiaryZIP } = this.props.inputs;
+
     if (
       this.props.eligibility.giBillChapter === '33' &&
-      this.props.inputs.beneficiaryLocationQuestion === 'other' &&
-      (beneficiaryZIPError || zipcode.length !== 5)
+      this.displayExtensionBeneficiaryInternationalCheckbox() &&
+      this.displayExtensionBeneficiaryZipcode() &&
+      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
@@ -114,8 +113,14 @@ class EstimateYourBenefitsForm extends React.Component {
         focusElement('input[name=beneficiaryZIPCode]');
       }, 1);
     } else {
+      this.setState({ inputUpdated: false });
       this.props.updateEstimatedBenefits();
     }
+  };
+
+  updateEligibility = e => {
+    this.setState({ inputUpdated: true });
+    this.props.eligibilityChange(e);
   };
 
   handleExtensionChange = event => {
@@ -150,12 +155,15 @@ class EstimateYourBenefitsForm extends React.Component {
 
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
   };
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
     const { profile } = this.props;
+
+    this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
 
     if (value === 'extension' || value === profile.attributes.name) {
@@ -189,18 +197,10 @@ class EstimateYourBenefitsForm extends React.Component {
     handleInputFocusWithPotentialOverLap(fieldId, eybSheetFieldId);
   };
 
-  handleInternationalCheckboxFocus = e => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      const field = document.getElementById('classesOutsideUS');
-      if (field) {
-        scrollAndFocus(field);
-      }
-    }
-  };
-
   resetBuyUp = event => {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
+      this.setState({ inputUpdated: true });
       this.props.calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
@@ -736,6 +736,17 @@ class EstimateYourBenefitsForm extends React.Component {
     );
   };
 
+  displayExtensionBeneficiaryInternationalCheckbox = () => {
+    const { beneficiaryLocationQuestion, extension } = this.props.inputs;
+    return (
+      beneficiaryLocationQuestion === 'other' ||
+      (beneficiaryLocationQuestion === 'extension' && extension === 'other')
+    );
+  };
+
+  displayExtensionBeneficiaryZipcode = () =>
+    !this.props.inputs.classesOutsideUS;
+
   renderExtensionBeneficiaryZIP = () => {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
@@ -748,7 +759,7 @@ class EstimateYourBenefitsForm extends React.Component {
     let extensionSelector;
     let zipcodeLocation;
     let extensionOptions = [];
-    const zipcodeRadioOptions = [
+    const beneficiaryLocationQuestionOptions = [
       {
         value: profile.attributes.name,
         label: profile.attributes.name,
@@ -762,12 +773,15 @@ class EstimateYourBenefitsForm extends React.Component {
       });
       extensionOptions.push({ value: 'other', label: 'Other...' });
 
-      zipcodeRadioOptions.push({
+      beneficiaryLocationQuestionOptions.push({
         value: 'extension',
         label: 'An extension campus',
       });
     } else {
-      zipcodeRadioOptions.push({ value: 'other', label: 'Other location' });
+      beneficiaryLocationQuestionOptions.push({
+        value: 'other',
+        label: 'Other location',
+      });
     }
 
     const displayExtensionSelector =
@@ -787,19 +801,13 @@ class EstimateYourBenefitsForm extends React.Component {
       );
     }
 
-    const displayInternationalCheckbox =
-      inputs.beneficiaryLocationQuestion === 'other' ||
-      (inputs.beneficiaryLocationQuestion === 'extension' &&
-        inputs.extension === 'other');
-    const displayZipcode = !inputs.classesOutsideUS;
-
-    if (displayInternationalCheckbox) {
+    if (this.displayExtensionBeneficiaryInternationalCheckbox()) {
       const errorMessage = this.state.invalidZip;
 
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
-      if (displayZipcode) {
+      if (this.displayExtensionBeneficiaryZipcode()) {
         const label = this.isCountryInternational()
           ? "If you're taking classes in the U.S., enter the location's postal code"
           : "Please enter the postal code where you'll take your classes";
@@ -832,20 +840,22 @@ class EstimateYourBenefitsForm extends React.Component {
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={this.handleHasClassesOutsideUSChange}
-          onFocus={this.handleInternationalCheckboxFocus}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
           id={'classesOutsideUS'}
         />
       );
     }
-    const selectedValue = inputs.beneficiaryLocationQuestion
+    const selectedBeneficiaryLocationQuestion = inputs.beneficiaryLocationQuestion
       ? inputs.beneficiaryLocationQuestion
       : profile.attributes.name;
 
     return (
       <ExpandingGroup
-        open={displayExtensionSelector || displayInternationalCheckbox}
+        open={
+          displayExtensionSelector ||
+          this.displayExtensionBeneficiaryInternationalCheckbox()
+        }
       >
         <RadioButtons
           label={this.renderLearnMoreLabel({
@@ -854,8 +864,8 @@ class EstimateYourBenefitsForm extends React.Component {
             ariaLabel: ariaLabels.learnMore.majorityOfClasses,
           })}
           name="beneficiaryLocationQuestion"
-          options={zipcodeRadioOptions}
-          value={selectedValue}
+          options={beneficiaryLocationQuestionOptions}
+          value={selectedBeneficiaryLocationQuestion}
           onChange={this.handleInputChange}
           onFocus={this.handleEYBInputFocus}
         />
@@ -949,7 +959,7 @@ class EstimateYourBenefitsForm extends React.Component {
   renderOnlineClasses = () => (
     <OnlineClassesFilter
       onlineClasses={this.props.eligibility.onlineClasses}
-      onChange={this.props.eligibilityChange}
+      onChange={this.updateEligibility}
       showModal={this.props.showModal}
     />
   );
@@ -988,19 +998,25 @@ class EstimateYourBenefitsForm extends React.Component {
       >
         <div>
           <BenefitsForm
-            eligibilityChange={this.props.eligibilityChange}
+            eligibilityChange={this.updateEligibility}
             {...this.props.eligibility}
             hideModal={this.props.hideModal}
             showModal={this.props.showModal}
             inputs={this.props.inputs}
             displayedInputs={this.props.displayedInputs}
-            onInputChange={this.props.calculatorInputChange}
             handleInputFocus={this.handleEYBInputFocus}
             giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1035,13 +1051,18 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderCalendar()}
           {this.renderEnrolled()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
-  renderLearningFormat = () => {
-    const isOjt =
-      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+  renderLearningFormat = isOjt => {
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
@@ -1058,6 +1079,13 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderExtensionBeneficiaryZIP()}
           {this.renderWorking()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
@@ -1088,34 +1116,41 @@ class EstimateYourBenefitsForm extends React.Component {
           {this.renderBuyUp()}
           {this.renderScholarships()}
         </div>
+        <button
+          className="calculate-button"
+          onClick={this.handleCalculateBenefitsClick}
+          disabled={!this.state.inputUpdated}
+        >
+          Update benefits
+        </button>
       </AccordionItem>
     );
   };
 
   render() {
+    const isOjt =
+      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+    const sectionCount = isOjt ? '3' : '4';
     const className = classNames(
       'estimate-your-benefits-form',
       'medium-5',
       'columns',
       'small-screen:vads-u-padding-right--0',
     );
+
     return (
       <div className={className}>
         <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-          Use the fields below to calculate your benefits:
+          The {sectionCount} sections below include questions that will refine
+          your benefits estimate. Use the fields in each section to make your
+          updates.
         </p>
         <ul className="vads-u-padding--0">
           {this.renderMilitaryDetails()}
           {this.renderSchoolCostsAndCalendar()}
-          {this.renderLearningFormat()}
+          {this.renderLearningFormat(isOjt)}
           {this.renderScholarshipsAndOtherVAFunding()}
         </ul>
-        <button
-          className="calculate-button"
-          onClick={this.handleCalculateBenefitsClick}
-        >
-          Calculate benefits
-        </button>
       </div>
     );
   }
@@ -1132,6 +1167,7 @@ EstimateYourBenefitsForm.propTypes = {
   onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
   updateEstimatedBenefits: PropTypes.func.isRequired,
+  updateBenefitsButtonEnabled: PropTypes.bool,
 };
 
 export default EstimateYourBenefitsForm;

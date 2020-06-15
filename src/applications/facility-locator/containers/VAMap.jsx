@@ -38,6 +38,7 @@ import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import recordEvent from 'platform/monitoring/record-event';
+import { distBetween } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -444,8 +445,25 @@ class VAMap extends Component {
       }
     };
 
+    const currentLocation = this.props.currentQuery.position;
     const markers = MARKER_LETTERS.values();
-    const mapMarkers = results.map(r => {
+    const sortedResults = results
+      .map(r => {
+        const distance = currentLocation
+          ? distBetween(
+              currentLocation.latitude,
+              currentLocation.longitude,
+              r.attributes.lat,
+              r.attributes.long,
+            )
+          : null;
+        return {
+          ...r,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance);
+    const mapMarkers = sortedResults.map(r => {
       const iconProps = {
         key: r.id,
         position: [r.attributes.lat, r.attributes.long],

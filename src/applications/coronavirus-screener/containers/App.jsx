@@ -5,7 +5,7 @@ import { questions, defaultOptions } from '../config/questions';
 
 export default function App() {
   return (
-    <div>
+    <div className="covid-screener">
       <MetaTags>
         <meta name="robots" content="noindex" />
       </MetaTags>

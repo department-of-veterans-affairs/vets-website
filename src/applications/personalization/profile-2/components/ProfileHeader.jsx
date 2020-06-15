@@ -158,6 +158,7 @@ ProfileHeader.defaultProps = {
 };
 
 ProfileHeader.propTypes = {
+  showBadgeImage: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
