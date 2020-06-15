@@ -42,11 +42,22 @@ describe('<AutoSSO>', () => {
   it('should call setForceAuth if inbound ssoe is disabled', () => {
     const stub = sinon.stub(forceAuth, 'setForceAuth');
     Object.assign(props, {
-      userInboundSSOe: false,
+      useInboundSSOe: false,
     });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.calledOnce(stub);
+    wrapper.unmount();
+  });
+
+  it('should not call setForceAuth if the inbound ssoe flag is undefined', () => {
+    const stub = sinon.stub(forceAuth, 'setForceAuth');
+    Object.assign(props, {
+      useInboundSSOe: undefined,
+    });
+    const wrapper = shallow(<AutoSSO {...props} />);
+    stub.restore();
+    sinon.assert.notCalled(stub);
     wrapper.unmount();
   });
 
