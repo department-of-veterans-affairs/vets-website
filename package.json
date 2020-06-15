@@ -315,7 +315,7 @@
     "tar-fs": "^2.0.1",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^1.1.0",
-    "uswds": "1.6.10",
+    "uswds": "1.6.13",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c229c93e0549b82c78970dcdd184f2f8918c18e",
     "whatwg-fetch": "^2.0.3"
