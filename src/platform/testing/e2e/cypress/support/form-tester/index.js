@@ -1,4 +1,5 @@
 import { join, sep } from 'path';
+
 import get from 'platform/utilities/data/get';
 
 const ARRAY_ITEM_SELECTOR =
