@@ -11,28 +11,25 @@ import { BATTERIES } from '../constants';
 
 class Batteries extends Component {
   handleChecked = (checked, batterySupply) => {
-    const { selectedProducts, formData } = this.props;
-    let updatedSelectedProducts;
+    const { order, formData } = this.props;
+    let updatedorder;
     if (checked) {
-      updatedSelectedProducts = [
-        ...selectedProducts,
-        { productId: batterySupply.productId },
-      ];
+      updatedorder = [...order, { productId: batterySupply.productId }];
     } else {
-      updatedSelectedProducts = selectedProducts.filter(
+      updatedorder = order.filter(
         selectedProduct =>
           selectedProduct.productId !== batterySupply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedProducts: updatedSelectedProducts,
+      order: updatedorder,
     };
     return this.props.setData(updatedFormData);
   };
 
   render() {
-    const { supplies, selectedProducts, eligibility } = this.props;
+    const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const batterySupplies = supplies.filter(
       batterySupply => batterySupply.productGroup === BATTERIES,
@@ -49,7 +46,7 @@ class Batteries extends Component {
         battery => currentDate.diff(battery.lastOrderDate, 'years') <= 2,
       );
     const isBatterySelected = batteryProductId => {
-      const selectedProductIds = selectedProducts.map(
+      const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
       return selectedProductIds.includes(batteryProductId);
@@ -66,22 +63,21 @@ class Batteries extends Component {
       <div className="battery-page">
         {areBatterySuppliesEligible && (
           <>
-            <h3 className="vads-u-font-size--h4">
-              Select the hearing aids that need batteries
-            </h3>
             <p>
-              You&apos;ll be sent a 6-month supply of batteries for each device
-              you choose below. You can only order batteries for each device
-              once every 5 months.
+              You&apos;ll be sent a 6-month supply of each item added to your
+              order. You can only order each item once every 5 months.
             </p>
             <p>
-              If you need unavailable batteries sooner, call the DLC Customer
-              Service Section at{' '}
+              If you need unavailable items sooner or don’t see the item you
+              need, call the DLC Customer Service Section at{' '}
               <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
                 303-273-6200
               </a>{' '}
               or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
+            <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--2p5">
+              Select the hearing aids that need batteries
+            </h3>
           </>
         )}
         {haveBatteriesBeenOrderedInLastFiveMonths &&
@@ -239,7 +235,7 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see my hearing aid?">
+          <AdditionalInfo triggerText="What if I don't see my device?">
             <p>
               You may not see your hearing aid device if you haven’t placed an
               order for resupply items within the last 2 years. If you need to
@@ -270,7 +266,7 @@ class Batteries extends Component {
 Batteries.defaultProps = {
   formData: {},
   supplies: [],
-  selectedProducts: [],
+  order: [],
   eligibility: {},
 };
 
@@ -289,7 +285,7 @@ Batteries.propTypes = {
       prescribedDate: PropTypes.string,
     }),
   ),
-  selectedProducts: PropTypes.arrayOf(
+  order: PropTypes.arrayOf(
     PropTypes.shape({
       productId: PropTypes.number,
     }),
@@ -301,7 +297,7 @@ Batteries.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.data?.supplies,
   formData: state.form?.data,
-  selectedProducts: state.form?.data?.selectedProducts,
+  order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
 });
 

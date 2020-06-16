@@ -26,7 +26,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       facilityName: 'Some location',
       status: APPOINTMENT_STATUS.pending,
       bestTimetoCall: ['Morning'],
-      purposeOfVisit: 'Follow-up/Routine',
+      reason: 'Follow-up/Routine',
       facility: {
         city: 'Northampton',
         state: 'MA',
@@ -142,7 +142,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       facilityName: 'Some location',
       status: APPOINTMENT_STATUS.pending,
       bestTimetoCall: ['Morning'],
-      purposeOfVisit: 'Routine Follow-up',
+      reason: 'Routine Follow-up',
       facility: {
         city: 'Northampton',
         state: 'MA',

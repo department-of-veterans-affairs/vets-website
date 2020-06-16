@@ -1,10 +1,17 @@
 import moment from 'moment';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import separationLocations from '../content/separationLocations';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestField';
+import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
+import { checkSeparationLocation } from '../validations';
+import separationLocations from '../content/separationLocations';
+import {
+  SeparationLocationTitle,
+  SeparationLocationDescription,
+} from '../content/militaryHistory';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -49,10 +56,27 @@ export const uiSchema = {
         },
       },
     },
+    'view:separationLocation': {
+      'ui:title': SeparationLocationTitle,
+      'ui:description': SeparationLocationDescription,
+    },
+    // Not using autosuggest.uiSchema; validations not set?
     separationLocation: {
-      'ui:title': 'Place of anticipated separation',
-      'ui:description':
-        'This is the location that you will separate from service.',
+      'ui:title': 'Enter a location',
+      'ui:field': AutosuggestField,
+      'ui:required': () => true,
+      'ui:validations': [checkSeparationLocation],
+      'ui:options': {
+        showFieldLabel: 'label',
+        maxOptions: 20,
+        getOptions: () =>
+          Promise.resolve().then(() =>
+            separationLocations.map(({ code, description }) => ({
+              id: code,
+              label: description,
+            })),
+          ),
+      },
     },
   },
 };
@@ -70,15 +94,11 @@ export const schema = {
           type: 'object',
           properties: {},
         },
-        separationLocation: {
-          type: 'string',
-          enum: separationLocations.map(
-            separationLocation => separationLocation.code,
-          ),
-          enumNames: separationLocations.map(
-            separationLocation => separationLocation.description,
-          ),
+        'view:separationLocation': {
+          type: 'object',
+          properties: {},
         },
+        separationLocation: autosuggest.schema,
       },
     },
   },

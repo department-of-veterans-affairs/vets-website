@@ -90,14 +90,18 @@
   <a class="show-on-focus" href="#content">Skip to Content</a>
 
   {% if !noHeader %}
-  {% include "src/site/includes/top-nav.html" %}
+    {% include "src/site/includes/top-nav.html" %}
   {% endif %}
 
   {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
-  {% if homepage_banner and homepage_banner.visible %}
-    {% include "src/site/includes/homepage-banner.liquid" with banner = homepage_banner %}
-  {% endif %}
+  <div
+    data-widget-type="banners"
+    data-homepage-banner-content="{{ homepage_banner.content | escape }}"
+    data-homepage-banner-title="{{ homepage_banner.title | escape }}"
+    data-homepage-banner-type="{{ homepage_banner.type }}"
+    data-homepage-banner-visible="{{ homepage_banner.visible }}"
+  ></div>
 
   <script type="text/javascript">
   (function() {
