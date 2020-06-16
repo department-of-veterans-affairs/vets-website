@@ -95,6 +95,17 @@ export async function getEligibilityData(
 
   const results = await promiseAllFromObject(eligibilityChecks);
 
+  if (results.clinics?.length) {
+    // This sorting will be handled by the HealthcareService service once implemented
+    results.clinics = results.clinics.sort(
+      (a, b) =>
+        a.clinicFriendlyLocationName.toUpperCase() <
+        b.clinicFriendlyLocationName.toUpperCase()
+          ? -1
+          : 1,
+    );
+  }
+
   const eligibility = {
     ...results,
     hasMatchingClinics: !!results.clinics?.length,

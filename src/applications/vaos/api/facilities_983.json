@@ -1,6 +1,23 @@
 {
   "data": [
     {
+      "id": "983HK",
+      "type": "direct_scheduling_facility",
+      "attributes": {
+        "institutionCode": "983HK",
+        "city": "Cheyenne",
+        "stateAbbrev": "WY",
+        "authoritativeName": "CHYSHR-Wheatland VA Mobile Clinic",
+        "rootStationCode": "983",
+        "adminParent": false,
+        "parentStationCode": "983",
+        "requestSupported": true,
+        "directSchedulingSupported": true,
+        "expressTimes": null,
+        "institutionTimezone": "America/Denver"
+      }
+    },
+    {
       "id": "983",
       "type": "direct_scheduling_facility",
       "attributes": {
@@ -59,23 +76,6 @@
         "city": "Loveland",
         "stateAbbrev": "CO",
         "authoritativeName": "CHYSHR-Loveland VA Clinic",
-        "rootStationCode": "983",
-        "adminParent": false,
-        "parentStationCode": "983",
-        "requestSupported": true,
-        "directSchedulingSupported": true,
-        "expressTimes": null,
-        "institutionTimezone": "America/Denver"
-      }
-    },
-    {
-      "id": "983HK",
-      "type": "direct_scheduling_facility",
-      "attributes": {
-        "institutionCode": "983HK",
-        "city": "Cheyenne",
-        "stateAbbrev": "WY",
-        "authoritativeName": "CHYSHR-Wheatland VA Mobile Clinic",
         "rootStationCode": "983",
         "adminParent": false,
         "parentStationCode": "983",
