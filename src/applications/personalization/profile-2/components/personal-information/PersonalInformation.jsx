@@ -23,7 +23,7 @@ class PersonalInformation extends Component {
     return (
       <>
         <Prompt
-          message="You have unsaved changes, are you sure you want to leave?"
+          message="Are you sure you want to leave? If you leave, your in-progress work won't be saved."
           when={this.props.hasUnsavedEdits}
         />
         <h2
