@@ -7,8 +7,6 @@ Navigation side bar trigger
 Used to open or close the side bar navigation bar on mobile screens. Must be
 used in a template with navigation-sidebar.html
 
-{% endcomment %}
-{% if buildtype == 'vagovprod' %}
   <button type="button" class="va-btn-sidebarnav-trigger vads-u-width--full"
     aria-controls="va-detailpage-sidebar">
     <span>
@@ -16,31 +14,5 @@ used in a template with navigation-sidebar.html
       {% include "src/site/assets/img/arrow-right-white.svg" %}
     </span>
   </button>
+{% endcomment %}
 
-
-  <script type="text/javascript">
-    var mobileMediaQuery = window.matchMedia('(max-width: 767px)');
-    var element = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
-    var offset;
-
-    if (mobileMediaQuery.matches) {
-      offset = element.offsetTop;
-    }
-
-    window.addEventListener("resize", function () {
-      if (mobileMediaQuery.matches) {
-        offset = element.offsetTop;
-      }
-    }, false);
-
-    window.addEventListener("scroll", function () {
-      if (mobileMediaQuery.matches) {
-        if (offset < window.pageYOffset) {
-          element.classList.add("fixed-trigger");
-        } else {
-          element.classList.remove("fixed-trigger");
-        }
-      }
-    }, false);
-  </script>
-{% endif %}
