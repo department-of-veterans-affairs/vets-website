@@ -1,6 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .covid-screener {
+  h1 {
+    margin-top: 24px;
+  }
   h1,h2,h3,h4,h5,li,p {
     font-family: Source Sans Pro,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif !important;
   }
