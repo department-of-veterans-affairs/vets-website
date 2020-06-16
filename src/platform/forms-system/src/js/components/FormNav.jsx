@@ -1,6 +1,8 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import PropTypes from 'prop-types';
 import React from 'react';
 import shallowEqual from 'recompose/shallowEqual';
+import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 import {
   createFormPageList,
   createPageList,
@@ -44,7 +46,7 @@ export default class FormNav extends React.Component {
       // The review page is always part of our forms, but isn’t listed in chapter list
       chapterName =
         page.chapterKey === 'review'
-          ? formConfig.reviewPageTitle || 'Review Application'
+          ? formConfig.reviewPageTitle || REVIEW_APP_DEFAULT_MESSAGE
           : formConfig.chapters[page.chapterKey].title;
       if (typeof chapterName === 'function') {
         chapterName = chapterName();
@@ -76,3 +78,9 @@ export default class FormNav extends React.Component {
     );
   }
 }
+
+FormNav.propTypes = {
+  formConfig: PropTypes.shape({
+    reviewPageTitle: PropTypes.string,
+  }).isRequired,
+};

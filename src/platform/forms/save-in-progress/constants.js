@@ -1,0 +1,4 @@
+export const START_NEW_APP_DEFAULT_MESSAGE = 'Start a new application';
+export const CONTINUE_APP_DEFAULT_MESSAGE = 'Continue your application';
+export const APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE =
+  'Application has been saved.';

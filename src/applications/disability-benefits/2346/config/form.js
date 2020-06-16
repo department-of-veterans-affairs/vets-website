@@ -132,10 +132,6 @@ const formConfig = {
   verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  reviewPageTitle: 'Review order details',
-  saveSuccessMessage: 'Order has been saved.',
-  startNewAppMessage: 'Start a new order',
-  continueAppMessage: 'Continue your order',
   footerContent: FormFooter,
   getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
@@ -150,6 +146,10 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
     forbidden:
       'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+    reviewPageTitle: 'Review order details',
+    saveSuccessMessage: 'Order has been saved.',
+    startNewAppMessage: 'Start a new order',
+    continueAppMessage: 'Continue your order',
   },
   defaultDefinitions: {
     email,
