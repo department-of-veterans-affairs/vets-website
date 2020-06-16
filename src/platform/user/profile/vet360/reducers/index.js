@@ -224,17 +224,17 @@ export default function vet360(state = initialState, action) {
       };
 
       const modalName = state?.modal;
+      const initialFormFieldValues = state.initialFormState[modalName]?.value;
       let formFieldValues = formFields[modalName]?.value;
 
       formFieldValues = pickBy(formFieldValues, value => value !== undefined);
 
+      // eslint-disable-next-line no-restricted-syntax
       for (const key in formFieldValues) {
         if (key.startsWith('view')) {
           delete formFieldValues[key];
         }
       }
-
-      const initialFormFieldValues = state.initialFormState[modalName]?.value;
 
       const hasUnsavedEdits =
         !emptyInitialFormState &&
