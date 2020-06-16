@@ -161,8 +161,10 @@ function build(BUILD_OPTIONS) {
   // and layout().
   smith.use(
     emitToFiles(
+      BUILD_OPTIONS,
       path.resolve(__dirname, '../../../../build/', 'before-inPlace'),
     ),
+    'Emit debug files to build/before-inPlace',
   );
   smith.use(
     inPlace({ engine: 'liquid', pattern: '*.{md,html}' }),
@@ -221,7 +223,11 @@ function build(BUILD_OPTIONS) {
   );
 
   smith.use(
-    emitToFiles(path.resolve(__dirname, '../../../../build/', 'after-layouts')),
+    emitToFiles(
+      BUILD_OPTIONS,
+      path.resolve(__dirname, '../../../../build/', 'after-layouts'),
+    ),
+    'Emit debug files to build/after-layouts',
   );
 
   /*

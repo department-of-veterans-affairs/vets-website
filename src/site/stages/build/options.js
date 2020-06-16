@@ -55,6 +55,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'accessibility', type: Boolean, defaultValue: false },
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
+  { name: 'generate-files', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
