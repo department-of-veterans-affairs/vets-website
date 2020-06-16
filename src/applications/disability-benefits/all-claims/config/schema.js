@@ -822,6 +822,21 @@ const schema = {
       type: 'array',
       items: { $ref: '#/definitions/secondaryPtsdIncident' },
     },
+    serviceTreatmentRecordsAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+        },
+      },
+    },
     privateMedicalRecordAttachments: {
       type: 'array',
       items: {
