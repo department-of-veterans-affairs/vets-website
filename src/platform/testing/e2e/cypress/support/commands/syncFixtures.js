@@ -23,14 +23,12 @@ Cypress.Commands.add('syncFixtures', fixtures => {
       Cypress.Commands.overwrite(
         'route',
         (originalFn, method, url, response, options) => {
+          const regex = /^(fx:|fixture:)/;
+          const replaceFn = (_, match) => `${match}${dir}/`;
           const modifiedResponse =
             typeof response === 'string'
-              ? response.replace(
-                  /^(fx:|fixture:)/,
-                  (_, pattern) => `${pattern}${dir}/`,
-                )
+              ? response.replace(regex, replaceFn)
               : response;
-
           return originalFn(method, url, modifiedResponse, options);
         },
       );

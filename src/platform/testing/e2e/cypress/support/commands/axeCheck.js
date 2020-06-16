@@ -29,10 +29,7 @@ const processAxeCheckResults = violations => {
  * @param {string} [context] - Selector for the container element to aXe check.
  */
 Cypress.Commands.add('axeCheck', (context = 'main') => {
-  Cypress.log({
-    name: 'axeCheck',
-    message: '',
-  });
+  Cypress.log();
 
   const options = {
     includedImpacts: ['critical'],

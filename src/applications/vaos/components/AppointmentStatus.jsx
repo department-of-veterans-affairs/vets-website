@@ -48,7 +48,10 @@ export default function AppointmentStatus({
   return (
     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-y--2">
       <div className="vads-u-margin-right--1">
-        <i aria-hidden="true" className={`fas ${iconClass}`} />
+        <i
+          aria-hidden="true"
+          className={`fas ${iconClass} vads-u-line-height--4`}
+        />
       </div>
       <span className="vads-u-font-weight--bold vads-u-flex--1">
         <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">

@@ -1,0 +1,49 @@
+{% comment %}
+  https://github.com/department-of-veterans-affairs/va.gov-team/issues/9163
+  This is proof-of-concept for implementing schema.org into our Coronavirus response.
+  The extension is .liquid because if we used .json the quotes and other characters
+  would be replaced by HTML entities.
+{% endcomment %}
+
+{% if path == 'coronavirus-veteran-frequently-asked-questions' %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How will COVID-19 affect my VA health care and benefit services?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "&lt;p&gt;Visit our &lt;a href=&quot;https://www.va.gov/coronavirus-chatbot/&quot;&gt;coronavirus chatbot&lt;/a&gt; or &lt;a href=&quot;https://www.va.gov/coronavirus-veteran-frequently-asked-questions/&quot;&gt;frequently asked questions (FAQs)&lt;/a&gt; for up-to-date answers.&lt;/p&gt;"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my local VA health facility or regional office open?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "&lt;p&gt;Get the latest information about hours, services, and COVID-19 safety measures for &lt;a href=&quot;https://www.va.gov/find-locations&quot;&gt;VA locations&lt;/a&gt;.&lt;/p&gt;"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many COVID-19 patients have been tested or treated at VA facilities?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "&lt;p&gt;Review our &lt;a href=&quot;https://www.accesstocare.va.gov/Healthcare/COVID19NationalSummary&quot;&gt;COVID-19 national summary&lt;/a&gt; for data by state and VA facility.&lt;/p&gt;"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's VA doing to deal with COVID-19?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "&lt;p&gt;Learn&nbsp;about our &lt;a href=&quot;https://www.publichealth.va.gov/n-coronavirus/&quot;&gt;public health response&lt;/a&gt; to the coronavirus pandemic.&lt;/p&gt;"
+        }
+      }
+    ]
+  }
+</script>
+{% endif %}

@@ -54,7 +54,7 @@
     "va/proptypes-camel-cased": 2,
     "va/enzyme-unmount": 2,
     "va/use-resolved-path": [
-      0,
+      2,
       {
         "aliases": ["applications", "platform", "site", "vet360"]
       }
@@ -72,7 +72,7 @@
 
     /* || react plugin || */
     "react/no-multi-comp": 0, // Leave organization to code reviewer discretion.
-    "react/prefer-stateless-function": 0, // Leave statelessness to code reviewer discretion.
+    "react/prefer-stateless-function": 2,
     "react/jsx-key": 2,
     "react/jsx-pascal-case": 2,
     "react/jsx-no-duplicate-props": 2,
@@ -102,6 +102,9 @@
     "sonarjs/no-redundant-boolean": 2,
     "sonarjs/no-unused-collection": 2,
     "sonarjs/no-small-switch": 2,
+    "sonarjs/cognitive-complexity": [1, 50],
+    "sonarjs/no-collapsible-if": 2,
+    "sonarjs/prefer-immediate-return": 2,
 
     /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
