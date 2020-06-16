@@ -76,8 +76,7 @@ class LocatorApi {
    * Get all known services available from all CC Providers.
    */
   static getProviderSvcs() {
-    const url = `${api.baseUrl}/services`;
-
+    const url = `${api.baseUrlV0}/services`;
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
