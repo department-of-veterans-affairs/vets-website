@@ -118,6 +118,14 @@ function build(BUILD_OPTIONS) {
 
   smith.use(createReactPages(BUILD_OPTIONS), 'Create React pages');
   smith.use(getDrupalContent(BUILD_OPTIONS), 'Get Drupal content');
+  smith.use(
+    emitToFiles(
+      BUILD_OPTIONS,
+      path.resolve(__dirname, '../../../../build/', 'after-getDrupalContent'),
+      file => file.debug,
+    ),
+    'Emit Drupal debug data for each file',
+  );
   smith.use(addDrupalPrefix(BUILD_OPTIONS), 'Add Drupal Prefix');
   smith.use(
     createOutreachAssetsData(BUILD_OPTIONS),
@@ -159,13 +167,15 @@ function build(BUILD_OPTIONS) {
   // translating .md files which would allow inPlace() and markdown() to be moved under the
   // permalinks() and navigation() filters making the variable stores uniform between inPlace()
   // and layout().
-  smith.use(
-    emitToFiles(
-      BUILD_OPTIONS,
-      path.resolve(__dirname, '../../../../build/', 'before-inPlace'),
-    ),
-    'Emit debug files to build/before-inPlace',
-  );
+
+  // smith.use(
+  //   emitToFiles(
+  //     BUILD_OPTIONS,
+  //     path.resolve(__dirname, '../../../../build/', 'before-inPlace'),
+  //   ),
+  //   'Emit debug files to build/before-inPlace',
+  // );
+
   smith.use(
     inPlace({ engine: 'liquid', pattern: '*.{md,html}' }),
     'Plug the content into the templates',
@@ -226,8 +236,9 @@ function build(BUILD_OPTIONS) {
     emitToFiles(
       BUILD_OPTIONS,
       path.resolve(__dirname, '../../../../build/', 'after-layouts'),
+      file => file.contents,
     ),
-    'Emit debug files to build/after-layouts',
+    'Emit contents of files to build/after-layouts',
   );
 
   /*
