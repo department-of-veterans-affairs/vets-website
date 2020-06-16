@@ -42,6 +42,7 @@ const initialAddressValidationState = {
 
 const initialState = {
   hasUnsavedEdits: false,
+  initialFormState: {},
   modal: null,
   modalData: null,
   formFields: {},
@@ -205,15 +206,38 @@ export default function vet360(state = initialState, action) {
     }
 
     case UPDATE_PROFILE_FORM_FIELD: {
+      let updatedInitialFormState = {};
+
+      if (Object.keys(state.initialFormState).length === 0) {
+        console.log('Do I get logged?');
+        updatedInitialFormState = state.formFields;
+      }
+
+      console.log('This is initialFormState ', state.initialFormState);
+
+      // if (state.initialFormState === {}) {
+      console.log('This is formFields', state.formFields);
+      // }
+
       const formFields = {
         ...state.formFields,
         [action.field]: action.newState,
       };
-      return { ...state, formFields, hasUnsavedEdits: true };
+
+      return {
+        ...state,
+        formFields,
+        hasUnsavedEdits: true,
+        initialFormState: updatedInitialFormState,
+      };
     }
 
     case OPEN_MODAL:
-      return { ...state, modal: action.modal, modalData: action.modalData };
+      return {
+        ...state,
+        modal: action.modal,
+        modalData: action.modalData,
+      };
 
     case ADDRESS_VALIDATION_INITIALIZE:
       return {
