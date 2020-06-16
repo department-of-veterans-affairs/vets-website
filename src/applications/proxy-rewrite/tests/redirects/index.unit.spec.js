@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { expect } from 'chai';
 
 import redirectIfNecessary from '../../redirects';
@@ -33,14 +32,6 @@ describe('Redirect replaced pages', () => {
 });
 
 describe('Validate crossDomainRedirects.json', () => {
-  // This string is technically the prod S3 bucket domain plus the path to this JavaScript bundle
-  // generated via Webpack so we can technically derive this from shared constants.
-  // However, it's hardcoded into TeamSite bundles as this URL, so hardcoding it instead adds that extra
-  // validation in case one of the constants changed one day.
-
-  const REDIRECT_ENTRY_SCRIPT =
-    'https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/proxy-rewrite.entry.js';
-
   const redirectsBySource = redirects.reduce((grouped, redirect) => {
     const fullPath = `https://${redirect.domain}${redirect.src}`;
     const items = grouped[fullPath] || [];
@@ -60,16 +51,6 @@ describe('Validate crossDomainRedirects.json', () => {
       expect(destinations.length).to.be.equal(1);
       const destUrl = new URL(destinations[0], 'https://www.va.gov');
       expect(destinations[0]).to.be.equal(destUrl.pathname);
-    });
-
-    it(`${fullSource} contains the proxy-rewrite JavaScript bundle`, async () => {
-      const response = await fetch(fullSource);
-      const pageContents = await response.text();
-      const redirectEntryIncluded = pageContents.includes(
-        REDIRECT_ENTRY_SCRIPT,
-      );
-
-      expect(redirectEntryIncluded).to.be.true;
     });
   });
 });
