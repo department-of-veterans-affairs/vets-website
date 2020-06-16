@@ -94,7 +94,7 @@ class AccordionItem extends React.Component {
       <li className={liClassName} id={this.id}>
         {this.renderHeader()}
         <div
-          id={this.id}
+          id={`${this.id}-content`}
           className={contentClassName}
           aria-hidden={!expanded}
           hidden={!expanded}
