@@ -18,6 +18,7 @@ import {
 import { disabilityIsSelected, hasGuardOrReservePeriod } from './utils';
 
 import disabilityLabels from './content/disabilityLabels';
+import separationLocations from '../bdd/content/separationLocations';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -232,6 +233,23 @@ export function filterServicePeriods(formData) {
   // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
   const clonedData = _.cloneDeep(formData);
   delete clonedData.serviceInformation.reservesNationalGuardService;
+  return clonedData;
+}
+
+export function transformSeparationLocation(formData) {
+  const separationLocationCode =
+    formData.serviceInformation?.separationLocation;
+  if (!separationLocationCode) {
+    return formData;
+  }
+
+  const clonedData = _.cloneDeep(formData);
+  clonedData.serviceInformation.separationLocation = {
+    separationLocationCode,
+    separationLocationName: separationLocations.find(
+      separationLocation => separationLocation.code === separationLocationCode,
+    )?.description,
+  };
   return clonedData;
 }
 
@@ -574,6 +592,7 @@ export function transform(formConfig, form) {
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
+    transformSeparationLocation,
     removeExtraData, // Removed data EVSS does't want
     addPOWSpecialIssues,
     addPTSDCause,
