@@ -92,6 +92,12 @@ const helpSections = [
         type: Boolean,
         description: 'Lint HTML files for plain language.',
       },
+      {
+        name: 'generate-files',
+        type: Boolean,
+        description:
+          'Emit files for debugging with the Metalsmith emitToFiles plugin during the build pipeline.',
+      },
     ],
   },
 ];
