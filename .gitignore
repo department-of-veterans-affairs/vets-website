@@ -37,10 +37,13 @@ all-links.csv
 .tern-port
 *.iml
 
+# Track shared IDE config
+!.vscode/extensions.json
+!.vscode/launch.json
+
 # Ignore the hashed build files for comparison
 standaloneContentBuildHash.txt
 websiteContentBuildHash.txt
 
-# Track recommended extensions
-!.vscode/extensions.json
+
 
