@@ -352,7 +352,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <input
           type="text"
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           name={inStateTuitionFeesId}
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
@@ -379,7 +379,7 @@ class EstimateYourBenefitsForm extends React.Component {
         })}
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={tuitionFeesId}
           id={tuitionFeesId}
@@ -400,7 +400,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <label htmlFor={booksId}>Books and supplies per year</label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={booksId}
           id={booksId}
@@ -481,7 +481,7 @@ class EstimateYourBenefitsForm extends React.Component {
             </label>
             <input
               inputMode="decimal"
-              pattern="[0-9]*"
+              pattern="(\d*\d+)(?=\,)"
               id="yellowRibbonContributionAmount"
               type="text"
               name="yellowRibbonAmount"
@@ -529,7 +529,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <input
           inputMode="decimal"
           type="text"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           name={scholarshipsId}
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
@@ -555,7 +555,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={tuitionAssistId}
           id={tuitionAssistId}
@@ -703,7 +703,7 @@ class EstimateYourBenefitsForm extends React.Component {
         <label htmlFor={kickerAmountId}>How much is your kicker?</label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={kickerAmountId}
           id={kickerAmountId}
@@ -891,7 +891,7 @@ class EstimateYourBenefitsForm extends React.Component {
         </label>
         <input
           inputMode="decimal"
-          pattern="[0-9]*"
+          pattern="(\d*\d+)(?=\,)"
           type="text"
           name={buyUpAmountId}
           id={buyUpAmountId}
