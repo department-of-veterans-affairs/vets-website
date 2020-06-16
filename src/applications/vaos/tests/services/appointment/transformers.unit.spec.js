@@ -73,6 +73,7 @@ const videoAppt = {
       type: 'REGULAR',
       bookingNotes: 'T+90 Testing',
       instructionsOther: false,
+      instructionsTitle: 'Medication Review',
       patients: [
         {
           name: { firstName: 'JUDY', lastName: 'MORRISON' },
@@ -275,7 +276,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set comment', () => {
-        expect(data.comment).to.equal('T+90 Testing');
+        expect(data.comment).to.equal('Medication Review');
       });
 
       it('should not set clinic as HealthcareService', () => {
