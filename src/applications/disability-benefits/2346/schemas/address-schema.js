@@ -320,7 +320,7 @@ export const addressUISchema = (
 ) => {
   // As mentioned above, there are certain fields that depend on the values of other fields when using updateSchema, replaceSchema, and hideIf.
   // The two constants below are paths used to retrieve the values in those other fields.
-  const livesOnMilitaryBasePath = `${path}${MILITARY_BASE_PATH}`;
+  const livesOnMilitaryBasePath = `${path}.${MILITARY_BASE_PATH}`;
   const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
 
   const addressDescription = (
