@@ -521,7 +521,7 @@ describe('VAOS newAppointment actions', () => {
       },
       newAppointment: {
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: '502',
         },
         pages: {},
         systemsStatus: FETCH_STATUS.notStarted,
@@ -545,7 +545,7 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           ...defaultState.newAppointment,
           facilities: {
-            '323_var983': facilities983Parsed,
+            '502_var983': facilities983Parsed,
           },
           data: {
             ...defaultState.newAppointment.data,
@@ -573,7 +573,7 @@ describe('VAOS newAppointment actions', () => {
         set(
           'newAppointment.facilities',
           {
-            '323_var983': facilities983Parsed,
+            '502_var983': facilities983Parsed,
           },
           defaultState,
         );
@@ -688,16 +688,16 @@ describe('VAOS newAppointment actions', () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           attributes: {
-            durationInMonths: 0,
-            hasVisitedInPastMonths: false,
+            numberOfRequests: 0,
+            requestLimit: 0,
           },
         },
       });
       setFetchJSONResponse(global.fetch.onCall(1), {
         data: {
           attributes: {
-            numberOfRequests: 0,
-            requestLimit: 0,
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
           },
         },
       });
@@ -725,7 +725,7 @@ describe('VAOS newAppointment actions', () => {
             vaParent: 'var983',
           },
           facilities: {
-            '323_var983': facilities983Parsed,
+            '502_var983': facilities983Parsed,
           },
         },
       };
@@ -779,7 +779,7 @@ describe('VAOS newAppointment actions', () => {
           },
           facilities: {
             // This is an unexpected data type that causes an error
-            '323_var983': {},
+            '502_var983': {},
           },
         },
       };
@@ -1317,7 +1317,9 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send fail action if request fails', async () => {
-      setFetchJSONFailure(global.fetch, { data: { attributes: {} } });
+      setFetchJSONFailure(global.fetch, {
+        data: { attributes: {} },
+      });
       const router = {
         push: sinon.spy(),
       };
@@ -1377,6 +1379,89 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(false);
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-request-submission-failed',
+        flow: 'va-request',
+        'health-TypeOfCare': 'Primary care',
+        'health-ReasonForAppointment': 'routine-follow-up',
+      });
+      expect(global.window.dataLayer[2]).to.deep.equal({
+        flow: undefined,
+        'health-TypeOfCare': undefined,
+        'health-ReasonForAppointment': undefined,
+        'error-key': undefined,
+        appointmentType: undefined,
+        facilityType: undefined,
+      });
+      expect(router.push.called).to.be.false;
+    });
+
+    it('should set isVaos400Error if request fails with VAOS_400', async () => {
+      setFetchJSONFailure(global.fetch, {
+        data: { attributes: {} },
+        errors: [{ code: 'VAOS_400' }],
+      });
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+            facilityType: 'vamc',
+            vaParent: 'var983',
+            vaFacility: 'var983',
+            calendarData: {
+              selectedDates: [],
+            },
+            reasonForAppointment: 'routine-follow-up',
+            reasonAdditionalInfo: 'test',
+            bestTimeToCall: [],
+          },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+              address: {},
+            },
+          ],
+          facilities: {
+            '323_var983': [
+              {
+                id: 'var983',
+                identifier: [
+                  {
+                    system: VHA_FHIR_ID,
+                    value: '983',
+                  },
+                ],
+                name: 'CHYSHR-Cheyenne VA Medical Center',
+                address: {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
+                legacyVAR: {
+                  institutionTimezone: 'America/Denver',
+                },
+              },
+            ],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(true);
       expect(global.window.dataLayer[1]).to.deep.equal({
         event: 'vaos-request-submission-failed',
         flow: 'va-request',
@@ -1395,7 +1480,9 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send fail action if direct schedule fails', async () => {
-      setFetchJSONFailure(global.fetch, { data: { attributes: {} } });
+      setFetchJSONFailure(global.fetch, {
+        data: { attributes: {} },
+      });
       const router = {
         push: sinon.spy(),
       };
@@ -1462,6 +1549,82 @@ describe('VAOS newAppointment actions', () => {
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(false);
+      expect(router.push.called).to.be.false;
+    });
+
+    it('should set isVaos400Error if error code is VAOS_400', async () => {
+      setFetchJSONFailure(global.fetch, {
+        data: { attributes: {} },
+        errors: [{ code: 'VAOS_400' }],
+      });
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          flowType: FLOW_TYPES.DIRECT,
+          clinics: {
+            // eslint-disable-next-line camelcase
+            var983_323: [
+              {
+                clinicId: '123',
+              },
+            ],
+          },
+          facilities: {
+            '323_var983': [
+              {
+                id: 'var983',
+                legacyVAR: {},
+              },
+            ],
+          },
+          parentFacilities: [
+            {
+              id: 'var983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+              address: {},
+            },
+          ],
+          availableSlots: [
+            {
+              start: '2019-01-01T04:00:00',
+              end: '2019-01-01T04:20:00',
+            },
+          ],
+          data: {
+            vaParent: 'var983',
+            vaFacility: 'var983',
+            typeOfCareId: '323',
+            clinicId: '123',
+            facilityType: 'vamc',
+            calendarData: {
+              selectedDates: [
+                {
+                  date: '2019-01-01',
+                  datetime: '2019-01-01T04:00:00',
+                },
+              ],
+            },
+            reasonForAppointment: 'routine-follow-up',
+            bestTimeToCall: [],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(dispatch.secondCall.args[0].isVaos400Error).to.equal(true);
       expect(router.push.called).to.be.false;
     });
   });

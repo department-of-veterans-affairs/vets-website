@@ -37,6 +37,10 @@ ul.original-disability-list {
   }
 }
 
+.progress-box .va-growable button {
+  max-height: 2.3em;
+}
+
 // Bring the text of an element nested in a <label> up to the same line as the check box
 .form-checkbox input[type="checkbox"] + label {
   div {

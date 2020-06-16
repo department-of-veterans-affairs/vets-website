@@ -7,33 +7,30 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HEARING_AID_ACCESSORIES } from '../constants';
+import { ACCESSORIES } from '../constants';
 
 class Accessories extends Component {
   handleChecked = (checked, supply) => {
-    const { selectedProducts, formData } = this.props;
-    let updatedSelectedProducts;
+    const { order, formData } = this.props;
+    let updatedOrder;
     if (checked) {
-      updatedSelectedProducts = [
-        ...selectedProducts,
-        { productId: supply.productId },
-      ];
+      updatedOrder = [...order, { productId: supply.productId }];
     } else {
-      updatedSelectedProducts = selectedProducts.filter(
+      updatedOrder = order.filter(
         selectedProduct => selectedProduct.productId !== supply.productId,
       );
     }
     const updatedFormData = {
       ...formData,
-      selectedProducts: updatedSelectedProducts,
+      order: updatedOrder,
     };
     return this.props.setData(updatedFormData);
   };
   render() {
-    const { supplies, selectedProducts, eligibility } = this.props;
+    const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === HEARING_AID_ACCESSORIES,
+      supply => supply.productGroup === ACCESSORIES,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
     const haveAccessoriesBeenOrderedInLastFiveMonths =
@@ -52,7 +49,7 @@ class Accessories extends Component {
     const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
     const isAccessorySelected = accessoryProductId => {
-      const selectedProductIds = selectedProducts.map(
+      const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
       return selectedProductIds.includes(accessoryProductId);
@@ -71,19 +68,6 @@ class Accessories extends Component {
             <h3 className="vads-u-font-size--h4">
               Select the hearing aid accessories you need
             </h3>
-            <p>
-              You'll be sent a 6-month supply for each accessory you choose
-              below. You can only order each hearing aid accessory once every 5
-              months.
-            </p>
-            <p>
-              If you need unavailable items sooner, call the DLC Customer
-              Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-            </p>
           </>
         )}
         {!haveAccessoriesBeenOrderedInLastFiveMonths &&
@@ -257,7 +241,7 @@ class Accessories extends Component {
 Accessories.defaultProps = {
   formData: {},
   supplies: [],
-  selectedProducts: [],
+  order: [],
   eligibility: {},
 };
 
@@ -267,7 +251,7 @@ Accessories.propTypes = {
       deviceName: PropTypes.string,
       productName: PropTypes.string,
       productGroup: PropTypes.string.isRequired,
-      productId: PropTypes.string.isRequired,
+      productId: PropTypes.number.isRequired,
       availableForReorder: PropTypes.bool,
       lastOrderDate: PropTypes.string.isRequired,
       nextAvailabilityDate: PropTypes.string.isRequired,
@@ -275,9 +259,9 @@ Accessories.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  selectedProducts: PropTypes.arrayOf(
+  order: PropTypes.arrayOf(
     PropTypes.shape({
-      productId: PropTypes.string,
+      productId: PropTypes.number,
     }),
   ),
   eligibility: PropTypes.object,
@@ -286,7 +270,7 @@ Accessories.propTypes = {
 const mapStateToProps = state => ({
   supplies: state.form?.data?.supplies,
   formData: state.form?.data,
-  selectedProducts: state.form?.data?.selectedProducts,
+  order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
 });
 

@@ -13,6 +13,7 @@ import {
 } from '../utils/appointment';
 import ConfirmedAppointmentListItem from './ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import { focusElement } from 'platform/utilities/ui';
 
 export class PastAppointmentsList extends React.Component {
   constructor(props) {
@@ -35,6 +36,15 @@ export class PastAppointmentsList extends React.Component {
         selectedDateRange.endDate,
         appointments.pastSelectedIndex,
       );
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.appointments.pastStatus === FETCH_STATUS.loading &&
+      this.props.appointments.pastStatus === FETCH_STATUS.succeeded
+    ) {
+      focusElement('#pastAppts');
     }
   }
 
@@ -106,7 +116,9 @@ export class PastAppointmentsList extends React.Component {
 
     return (
       <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-        <h3>Past appointments</h3>
+        <h3 tabIndex="-1" id="pastAppts">
+          Past appointments
+        </h3>
         <PastAppointmentsDateDropdown
           currentRange={appointments.pastSelectedIndex}
           onChange={this.onDateRangeChange}

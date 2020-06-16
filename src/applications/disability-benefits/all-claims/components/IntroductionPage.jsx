@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/formation-react/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -105,7 +108,7 @@ class IntroductionPage extends React.Component {
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
                 nearest regional office, please call{' '}
-                <a href="tel:18008271000">800-827-1000</a>.
+                <Telephone contact={CONTACTS.VA_BENEFITS} />.
               </p>
               <p>
                 An accredited representative, like a Veterans Service Officer
