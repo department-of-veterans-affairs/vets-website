@@ -19,7 +19,7 @@ import {
   ADDRESS_VALIDATION_UPDATE,
 } from '../actions';
 
-import { union, keys, isEqual, reduce, pickBy } from 'lodash';
+import { isEqual, pickBy } from 'lodash';
 
 import { isFailedTransaction } from '../util/transactions';
 
@@ -226,8 +226,6 @@ export default function vet360(state = initialState, action) {
       const modalName = state?.modal;
       let formFieldValues = formFields[modalName]?.value;
 
-      console.log('Before', formFieldValues);
-
       formFieldValues = pickBy(formFieldValues, value => value !== undefined);
 
       for (const key in formFieldValues) {
@@ -236,18 +234,11 @@ export default function vet360(state = initialState, action) {
         }
       }
 
-      // console.log('After', formFieldValues);
-
       const initialFormFieldValues = state.initialFormState[modalName]?.value;
-
-      // console.log('This is form field values', formFieldValues);
-      // console.log('This is initial form field values', initialFormFieldValues);
 
       const hasUnsavedEdits =
         !emptyInitialFormState &&
-        isEqual(formFieldValues, initialFormFieldValues);
-
-      console.log(isEqual(formFieldValues, initialFormFieldValues));
+        !isEqual(formFieldValues, initialFormFieldValues);
 
       return {
         ...state,
