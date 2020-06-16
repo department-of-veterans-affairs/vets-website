@@ -25,7 +25,7 @@ export default function WelcomeVAOSModal({ dismiss }) {
         feedback link at the bottom of the page in the tool.
       </p>
       <button type="button" onClick={dismiss}>
-        Continue to your VA appointments
+        Go to your VA appointments
       </button>
     </Modal>
   );
