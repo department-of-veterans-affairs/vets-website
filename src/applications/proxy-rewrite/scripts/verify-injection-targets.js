@@ -1,3 +1,10 @@
+/**
+ * This script processes all of the domains listed in proxy-rewrite-whitelist.json
+ * and the pages listed in crossDomainRedirects.json to verify that those pages
+ * do contain the JavaScript bundle "proxy-rewrite", which means in fact we can
+ * inject our header/footer or perform a redirect.
+ */
+
 /* eslint-disable no-console */
 
 const fetch = require('node-fetch');
@@ -13,14 +20,14 @@ const redirects = require('../redirects/crossDomainRedirects.json');
 // However, it's hardcoded into TeamSite bundles as this URL, so hardcoding it instead adds that extra
 // validation in case one of the constants changed one day.
 
-const REDIRECT_ENTRY_SCRIPT =
+const INJECTION_ENTRY_SCRIPT =
   'https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/proxy-rewrite.entry.js';
 
 async function verifyPageContainsProxyRewrite(page, failures) {
   try {
     const response = await fetch(page);
     const pageContents = await response.text();
-    const redirectEntryIncluded = pageContents.includes(REDIRECT_ENTRY_SCRIPT);
+    const redirectEntryIncluded = pageContents.includes(INJECTION_ENTRY_SCRIPT);
 
     if (redirectEntryIncluded) {
       console.log(chalk.blue(`${page} contains the proxy-rewrite script`));
@@ -56,6 +63,7 @@ async function main() {
       'The following pages either do not contain the proxy-rewrite script or could not be verified',
     );
     console.log(failures.join('\n'));
+    process.exitCode = 1;
   }
 }
 
