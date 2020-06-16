@@ -53,10 +53,9 @@ async function main() {
 
   const failures = [];
 
-  for (const page of pages) {
-    // eslint-disable-next-line no-await-in-loop
-    await verifyPageContainsProxyRewrite(page, failures);
-  }
+  await Promise.all(
+    pages.map(page => verifyPageContainsProxyRewrite(page, failures)),
+  );
 
   if (failures.length > 0) {
     console.log(
