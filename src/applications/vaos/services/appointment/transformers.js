@@ -248,9 +248,7 @@ function getRequestedPeriods(appt) {
     }
   }
 
-  return requestedPeriods.sort(
-    (a, b) => (moment(a.start).isBefore(moment(b.start)) ? -1 : 1),
-  );
+  return requestedPeriods.sort((a, b) => (a.start < b.start ? -1 : 1));
 }
 
 /**
