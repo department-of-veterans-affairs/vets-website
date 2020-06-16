@@ -340,7 +340,7 @@ export function transformConfirmedAppointments(appointments) {
       comment:
         appt.instructionsToVeteran ||
         appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes,
+        appt.vvsAppointments?.[0]?.instructionsTitle,
       participant: setParticipant(appt),
       contained: setContained(appt),
       legacyVAR: setLegacyVAR(appt),

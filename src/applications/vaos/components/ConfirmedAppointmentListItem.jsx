@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../utils/moment-tz';
 import { formatFacilityAddress } from '../utils/formatters';
@@ -15,6 +15,11 @@ import {
   getVARFacilityId,
   getVAAppointmentLocationId,
 } from '../services/appointment';
+import AdditionalInfoRow from './AdditionalInfoRow';
+import {
+  MedicationReviewInstructions,
+  VideoVisitInstructions,
+} from './VideoInstructions';
 
 // Only use this when we need to pass data that comes back from one of our
 // services files to one of the older api functions
@@ -37,6 +42,7 @@ export default function ConfirmedAppointmentListItem({
   showCancelButton,
   facility,
 }) {
+  const [showMoreOpen, setShowMoreOpen] = useState(false);
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
@@ -137,7 +143,19 @@ export default function ConfirmedAppointmentListItem({
 
       {!cancelled &&
         !isPastAppointment && (
-          <div className="vads-u-margin-top--2">
+          <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
+            {isVideoAppointment &&
+              appointment.description && (
+                <AdditionalInfoRow
+                  open={showMoreOpen}
+                  triggerText="Prepare for video visit"
+                  onClick={() => setShowMoreOpen(!showMoreOpen)}
+                >
+                  <VideoVisitInstructions
+                    instructionsType={appointment.description}
+                  />
+                </AdditionalInfoRow>
+              )}
             <AddToCalendar
               summary={header}
               description={showInstructions ? appointment.comment : ''}
@@ -159,6 +177,7 @@ export default function ConfirmedAppointmentListItem({
                 </span>
               </button>
             )}
+            <div className="vaos-flex-break" />
           </div>
         )}
     </li>

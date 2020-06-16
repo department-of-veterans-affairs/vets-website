@@ -509,6 +509,7 @@
             "type": "REGULAR",
             "bookingNotes": "Follow-up/Routine: asfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasf",
             "instructionsOther": false,
+            "instructionsTitle": "Medication Review",
             "patients": [
               {
                 "name": { "firstName": "JUDY", "lastName": "MORRISON" },
