@@ -96,17 +96,29 @@ class ReviewCardField extends React.Component {
   componentDidUpdate() {
     if (this.state.permAddressShouldBeFocused && !this.state.editing) {
       focusElement('#permanentAddress');
-      this.updateAddressState();
+      this.resetAddressFocus();
     } else if (this.state.tempAddressShouldBeFocused && !this.state.editing) {
       focusElement('#temporaryAddress');
-      this.updateAddressState();
+      this.resetAddressFocus();
     }
-    if (this.state.editing) {
-      focusElement('.review-card--title');
+    if (
+      this.state.permAddressShouldBeFocused &&
+      this.state.editing &&
+      this.props.name === 'permanentAddress'
+    ) {
+      focusElement('#permanentAddress-editTitle');
+      this.resetAddressFocus();
+    } else if (
+      this.state.tempAddressShouldBeFocused &&
+      this.state.editing &&
+      this.props.name === 'temporaryAddress'
+    ) {
+      focusElement('#temporaryAddress-editTitle');
+      this.resetAddressFocus();
     }
   }
 
-  updateAddressState = () => {
+  resetAddressFocus = () => {
     this.setState({
       permAddressShouldBeFocused: false,
       tempAddressShouldBeFocused: false,
@@ -243,7 +255,7 @@ class ReviewCardField extends React.Component {
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <h4 className={titleClasses} ref={this.editTitle}>
+          <h4 className={titleClasses} id={`${this.props.name}-editTitle`}>
             Edit {title.toLowerCase()}
           </h4>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
@@ -394,16 +406,27 @@ class ReviewCardField extends React.Component {
             city &&
             country && (
               <div>
-                <button
+                <input
                   id={this.props.name}
-                  className="usa-button vads-u-font-weight--bold vads-u-width--auto"
+                  type="radio"
+                  className="vads-u-font-weight--bold vads-u-width--auto"
                   onChange={() =>
                     this.onChange('view:currentAddress', this.props.name)
                   }
-                  type="button"
+                  checked
+                />
+                <label
+                  className={classnames({
+                    'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-margin-bottom--0 vads-u-width--auto': true,
+                    'vads-u-color--white':
+                      this.props.name === this.props['view:currentAddress'],
+                    'vads-u-background-color--white vads-u-color--primary':
+                      this.props.name !== this.props['view:currentAddress'],
+                  })}
+                  htmlFor={this.props.name}
                 >
                   Send my order to this address
-                </button>
+                </label>
               </div>
             )}
           {!isTempAddressMissing &&
@@ -474,10 +497,19 @@ class ReviewCardField extends React.Component {
     if (this.props.name === 'temporaryAddress') {
       const { street, city, country } = this.state.oldData;
       const isTempAddressMissing = !street && !city && !country;
-      if (isTempAddressMissing)
+      if (isTempAddressMissing) {
         this.setState({
           permAddressShouldBeFocused: true,
         });
+      } else {
+        this.setState({
+          tempAddressShouldBeFocused: true,
+        });
+      }
+    } else if (this.props.name === 'permanentAddress') {
+      this.setState({
+        permAddressShouldBeFocused: true,
+      });
     }
   };
 
