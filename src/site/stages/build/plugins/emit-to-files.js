@@ -2,17 +2,21 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const emitToFiles = (buildOptions, directory) =>
+const stringify = data => JSON.stringify(data, null, 2);
+
+const emitToFiles = (buildOptions, directory, getData = stringify) =>
   buildOptions['generate-files']
-    ? () => {}
-    : files => {
+    ? files => {
         fs.emptyDirSync(directory);
 
         Object.keys(files).forEach(filePath => {
           const p = path.join(directory, filePath);
           console.log(`Writing file to ${p}`);
-          fs.outputFileSync(p, files[filePath].contents.toString('utf-8'));
+          fs.outputFileSync(p, getData(files[filePath]));
         });
+      }
+    : () => {
+        console.log('Skipping...');
       };
 
 module.exports = emitToFiles;
