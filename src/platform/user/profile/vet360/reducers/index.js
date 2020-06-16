@@ -19,6 +19,8 @@ import {
   ADDRESS_VALIDATION_UPDATE,
 } from '../actions';
 
+import { union, keys, isEqual, reduce, pickBy } from 'lodash';
+
 import { isFailedTransaction } from '../util/transactions';
 
 const initialAddressValidationState = {
@@ -113,6 +115,7 @@ export default function vet360(state = initialState, action) {
             transactionId: action.transaction.data.attributes.transactionId,
           },
         },
+        initialFormState: {},
         hasUnsavedEdits: false,
       };
     }
@@ -208,7 +211,10 @@ export default function vet360(state = initialState, action) {
     case UPDATE_PROFILE_FORM_FIELD: {
       let initialFormState = state.initialFormState || {};
 
-      if (Object.keys(state.initialFormState).length === 0) {
+      const emptyInitialFormState =
+        Object.keys(state.initialFormState).length === 0;
+
+      if (emptyInitialFormState) {
         initialFormState = state.formFields;
       }
 
@@ -217,10 +223,36 @@ export default function vet360(state = initialState, action) {
         [action.field]: action.newState,
       };
 
+      const modalName = state?.modal;
+      let formFieldValues = formFields[modalName]?.value;
+
+      console.log('Before', formFieldValues);
+
+      formFieldValues = pickBy(formFieldValues, value => value !== undefined);
+
+      for (const key in formFieldValues) {
+        if (key.startsWith('view')) {
+          delete formFieldValues[key];
+        }
+      }
+
+      // console.log('After', formFieldValues);
+
+      const initialFormFieldValues = state.initialFormState[modalName]?.value;
+
+      // console.log('This is form field values', formFieldValues);
+      // console.log('This is initial form field values', initialFormFieldValues);
+
+      const hasUnsavedEdits =
+        !emptyInitialFormState &&
+        isEqual(formFieldValues, initialFormFieldValues);
+
+      console.log(isEqual(formFieldValues, initialFormFieldValues));
+
       return {
         ...state,
         formFields,
-        hasUnsavedEdits: true,
+        hasUnsavedEdits,
         initialFormState,
       };
     }

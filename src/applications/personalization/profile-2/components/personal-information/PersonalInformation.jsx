@@ -8,10 +8,6 @@ import { focusElement } from 'platform/utilities/ui';
 import PersonalInformationContent from './PersonalInformationContent';
 
 class PersonalInformation extends Component {
-  static propTypes = {
-    hasUnsavedEdits: PropTypes.bool.isRequired,
-  };
-
   componentDidUpdate() {
     // Show alert when navigating away.
     if (this.props.hasUnsavedEdits) {
@@ -42,6 +38,10 @@ class PersonalInformation extends Component {
     );
   }
 }
+
+PersonalInformation.propTypes = {
+  hasUnsavedEdits: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = state => ({
   hasUnsavedEdits: state.vet360.hasUnsavedEdits,
