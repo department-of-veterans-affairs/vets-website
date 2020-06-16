@@ -280,8 +280,6 @@ class ReviewCardField extends React.Component {
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
-      'vads-u-padding-top--3',
-      'vads-u-padding-x--3',
       'vads-u-padding-bottom--2',
     ].join(' ');
     const titleClasses = [
@@ -293,10 +291,6 @@ class ReviewCardField extends React.Component {
       'review-card--body',
       'vads-u-border-color--gray-lightest',
       'vads-u-border--2px',
-      /* Remove the top border because it looks like it just extends the header */
-      'vads-u-padding-x--3',
-      'vads-u-margin-bottom--1',
-      'vads-u-padding-bottom--3',
     ].join(' ');
     const editLink = [
       'vads-c-link',
@@ -329,10 +323,27 @@ class ReviewCardField extends React.Component {
             this.props.name === this.props['view:currentAddress'],
         })}
       >
-        <div className={headerClasses} style={{ minHeight: '5rem' }}>
+        <div
+          className={classnames({
+            [`${headerClasses}`]: true,
+            'vads-u-padding-top--21 vads-u-padding-x--21':
+              this.props.name === this.props['view:currentAddress'],
+            'vads-u-padding-top--3 vads-u-padding-x--3':
+              this.props.name !== this.props['view:currentAddress'],
+          })}
+          style={{ minHeight: '5rem' }}
+        >
           <h4 className={titleClasses}>{title}</h4>
         </div>
-        <div className={bodyClasses}>
+        <div
+          className={classnames({
+            [`${bodyClasses}`]: true,
+            'vads-u-padding-x--21 vads-u-padding-bottom--21':
+              this.props.name === this.props['view:currentAddress'],
+            'vads-u-padding-x--3 vads-u-padding-bottom--3':
+              this.props.name !== this.props['view:currentAddress'],
+          })}
+        >
           <ViewComponent formData={this.props.formData} />
           {!volatileData &&
             street &&
