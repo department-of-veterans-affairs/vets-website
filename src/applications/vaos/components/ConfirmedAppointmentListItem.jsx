@@ -17,7 +17,7 @@ import {
 } from '../services/appointment';
 import AdditionalInfoRow from './AdditionalInfoRow';
 import {
-  MedicationReviewInstructions,
+  getVideoInstructionText,
   VideoVisitInstructions,
 } from './VideoInstructions';
 
@@ -56,6 +56,13 @@ export default function ConfirmedAppointmentListItem({
       PURPOSE_TEXT.some(purpose =>
         appointment?.comment?.startsWith(purpose.short),
       ));
+
+  let instructionText;
+  if (showInstructions) {
+    instructionText = appointment.comment;
+  } else if (isVideoAppointment && appointment.comment) {
+    instructionText = getVideoInstructionText(appointment.comment);
+  }
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -145,20 +152,20 @@ export default function ConfirmedAppointmentListItem({
         !isPastAppointment && (
           <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
             {isVideoAppointment &&
-              appointment.description && (
+              appointment.comment && (
                 <AdditionalInfoRow
                   open={showMoreOpen}
                   triggerText="Prepare for video visit"
                   onClick={() => setShowMoreOpen(!showMoreOpen)}
                 >
                   <VideoVisitInstructions
-                    instructionsType={appointment.description}
+                    instructionsType={appointment.comment}
                   />
                 </AdditionalInfoRow>
               )}
             <AddToCalendar
               summary={header}
-              description={showInstructions ? appointment.comment : ''}
+              description={instructionText}
               location={location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}

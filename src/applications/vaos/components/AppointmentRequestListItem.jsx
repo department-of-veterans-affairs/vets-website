@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import ListBestTimeToCall from './ListBestTimeToCall';
 import { sentenceCase } from '../utils/formatters';
@@ -10,6 +9,7 @@ import { APPOINTMENT_STATUS, TIME_TEXT } from '../utils/constants';
 import AppointmentStatus from './AppointmentStatus';
 import VAFacilityLocation from './VAFacilityLocation';
 import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
+import AdditionalInfoRow from './AdditionalInfoRow';
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -120,8 +120,10 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
           )}
         </div>
-        <div className="vads-u-margin-top--2">
-          <AdditionalInfo
+        <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
+          <AdditionalInfoRow
+            id={appointment.id}
+            open={showMore}
             triggerText={showMore ? 'Show less' : 'Show more'}
             onClick={this.toggleShowMore}
           >
@@ -163,11 +165,9 @@ export default class AppointmentRequestListItem extends React.Component {
                 </dl>
               </div>
             </div>
-          </AdditionalInfo>
-        </div>
-        {showCancelButton &&
-          !cancelled && (
-            <div className="vads-u-margin-top--2">
+          </AdditionalInfoRow>
+          {showCancelButton &&
+            !cancelled && (
               <button
                 className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
                 onClick={() => cancelAppointment(appointment)}
@@ -175,8 +175,9 @@ export default class AppointmentRequestListItem extends React.Component {
               >
                 Cancel appointment
               </button>
-            </div>
-          )}
+            )}
+          <div className="vaos-flex-break" />
+        </div>
       </li>
     );
   }

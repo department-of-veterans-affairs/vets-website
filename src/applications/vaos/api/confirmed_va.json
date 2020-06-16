@@ -655,6 +655,7 @@
             "type": "REGULAR",
             "bookingNotes": "T+90 Testing",
             "instructionsOther": false,
+            "instructionsTitle": "Video Visit Preparation",
             "patients": [
               {
                 "name": { "firstName": "JUDY", "lastName": "MORRISON" },
