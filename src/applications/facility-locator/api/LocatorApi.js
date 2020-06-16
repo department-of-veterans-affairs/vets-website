@@ -63,7 +63,7 @@ class LocatorApi {
    * @param {string} id The ID of the CC Provider
    */
   static fetchProviderDetail(id) {
-    const url = `${api.baseUrl}/ccp/${id}`;
+    const url = `${api.baseUrlV0}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
