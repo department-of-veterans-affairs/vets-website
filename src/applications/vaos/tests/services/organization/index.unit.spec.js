@@ -32,7 +32,7 @@ describe('VAOS Organization service', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/vaos/v0/facilities?facility_codes[]=983&facility_codes[]=984',
       );
-      expect(data[0].identifier[0].value).to.equal(facilitiesParsed[1].id);
+      expect(data[0].identifier[0].value).to.equal(facilitiesParsed[0].id);
     });
 
     it('should sort by name', async () => {

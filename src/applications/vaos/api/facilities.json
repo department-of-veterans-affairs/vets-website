@@ -1,19 +1,6 @@
 {
   "data": [
     {
-      "id": "983A6",
-      "type": "facility",
-      "attributes": {
-        "institutionCode": "983A6",
-        "city": "Jackson",
-        "stateAbbrev": "WY",
-        "authoritativeName": "Five Digit Station ID Medical Center",
-        "rootStationCode": "983",
-        "adminParent": true,
-        "parentStationCode": "983A6"
-      }
-    },
-    {
       "id": "983",
       "type": "facility",
       "attributes": {
@@ -37,6 +24,19 @@
         "rootStationCode": "984",
         "adminParent": true,
         "parentStationCode": "984"
+      }
+    },
+    {
+      "id": "983A6",
+      "type": "facility",
+      "attributes": {
+        "institutionCode": "983A6",
+        "city": "Jackson",
+        "stateAbbrev": "WY",
+        "authoritativeName": "Five Digit Station ID Medical Center",
+        "rootStationCode": "983",
+        "adminParent": true,
+        "parentStationCode": "983A6"
       }
     }
   ]
