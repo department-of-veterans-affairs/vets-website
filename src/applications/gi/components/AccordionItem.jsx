@@ -42,7 +42,7 @@ class AccordionItem extends React.Component {
 
     const type = this.props.section ? 'section' : 'accordion';
     recordEvent({
-      event: expanded ? `nav-${type}-collapse` : `nav-${type}-expand`,
+      event: expanded ? `nav-${type}-expand` : `nav-${type}-collapse`,
     });
   };
 
