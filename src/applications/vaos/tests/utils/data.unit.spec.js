@@ -518,7 +518,7 @@ describe('VAOS data transformation', () => {
             ],
           },
           preferredDate: '2019-12-02',
-          clinicId: '308',
+          clinicId: 'var983_308',
           vaParent: 'var983',
           vaFacility: 'var983',
           facilityType: 'vamc',

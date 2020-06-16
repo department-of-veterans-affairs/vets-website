@@ -1319,7 +1319,7 @@ describe('VAOS newAppointment actions', () => {
             vaParent: 'var983',
             vaFacility: 'var983',
             typeOfCareId: '323',
-            clinicId: '123',
+            clinicId: 'var983_123',
             facilityType: 'vamc',
             calendarData: {
               selectedDates: [
@@ -1680,7 +1680,7 @@ describe('VAOS newAppointment actions', () => {
             vaParent: 'var983',
             vaFacility: 'var983',
             typeOfCareId: '323',
-            clinicId: '123',
+            clinicId: 'var983_123',
             facilityType: 'vamc',
             calendarData: {
               selectedDates: [
