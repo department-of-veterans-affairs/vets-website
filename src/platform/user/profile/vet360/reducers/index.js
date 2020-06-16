@@ -206,18 +206,11 @@ export default function vet360(state = initialState, action) {
     }
 
     case UPDATE_PROFILE_FORM_FIELD: {
-      let updatedInitialFormState = {};
+      let initialFormState = state.initialFormState || {};
 
       if (Object.keys(state.initialFormState).length === 0) {
-        console.log('Do I get logged?');
-        updatedInitialFormState = state.formFields;
+        initialFormState = state.formFields;
       }
-
-      console.log('This is initialFormState ', state.initialFormState);
-
-      // if (state.initialFormState === {}) {
-      console.log('This is formFields', state.formFields);
-      // }
 
       const formFields = {
         ...state.formFields,
@@ -228,7 +221,7 @@ export default function vet360(state = initialState, action) {
         ...state,
         formFields,
         hasUnsavedEdits: true,
-        initialFormState: updatedInitialFormState,
+        initialFormState,
       };
     }
 
