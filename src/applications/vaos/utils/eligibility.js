@@ -97,13 +97,11 @@ export async function getEligibilityData(
 
   if (results.clinics?.length) {
     // This sorting will be handled by the HealthcareService service once implemented
-    results.clinics = results.clinics.sort(
-      (a, b) =>
-        a.clinicFriendlyLocationName.toUpperCase() <
-        b.clinicFriendlyLocationName.toUpperCase()
-          ? -1
-          : 1,
-    );
+    results.clinics = results.clinics.sort((a, b) => {
+      const aName = a.clinicFriendlyLocationName || a.clinicName;
+      const bName = b.clinicFriendlyLocationName || b.clinicName;
+      return aName.toUpperCase() < bName.toUpperCase() ? -1 : 1;
+    });
   }
 
   const eligibility = {
