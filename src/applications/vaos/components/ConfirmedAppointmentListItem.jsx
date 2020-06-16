@@ -154,6 +154,7 @@ export default function ConfirmedAppointmentListItem({
             {isVideoAppointment &&
               appointment.comment && (
                 <AdditionalInfoRow
+                  id={appointment.id}
                   open={showMoreOpen}
                   triggerText="Prepare for video visit"
                   onClick={() => setShowMoreOpen(!showMoreOpen)}
