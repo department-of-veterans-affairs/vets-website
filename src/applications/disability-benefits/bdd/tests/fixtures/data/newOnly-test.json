@@ -57,7 +57,8 @@
           }
         }
       ],
-      "view:militaryHistoryNote": {}
+      "view:militaryHistoryNote": {},
+      "separationLocation": "Cannon AFB"
     },
     "newDisabilities": [
       {

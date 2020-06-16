@@ -212,7 +212,8 @@
           }
         }
       ],
-      "view:militaryHistoryNote": {}
+      "view:militaryHistoryNote": {},
+      "separationLocation": "ANG Hub"
     },
     "servedInCombatZonePost911": true,
     "view:selectablePtsdTypes": {},

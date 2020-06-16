@@ -62,7 +62,8 @@
           }
         }
       ],
-      "view:militaryHistoryNote": {}
+      "view:militaryHistoryNote": {},
+      "separationLocation": "Fort Hood"
     },
     "servedInCombatZonePost911": false,
     "view:selectablePtsdTypes": {},

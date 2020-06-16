@@ -490,7 +490,8 @@
           }
         }
       ],
-      "view:militaryHistoryNote": {}
+      "view:militaryHistoryNote": {},
+      "separationLocation": "Bamberg, Germany"
     },
     "servedInCombatZonePost911": false,
     "view:hasAlternateName": false,

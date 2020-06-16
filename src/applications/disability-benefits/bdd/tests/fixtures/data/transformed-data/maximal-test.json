@@ -109,7 +109,8 @@
           "serviceBranch": "Air National Guard",
           "dateRange": { "from": "2015-01-01", "to": "2017-05-13" }
         }
-      ]
+      ],
+      "separationLocation": "Andersen AFB - Air Force / Guam"
     },
     "servedInCombatZonePost911": true,
     "newPrimaryDisabilities": [

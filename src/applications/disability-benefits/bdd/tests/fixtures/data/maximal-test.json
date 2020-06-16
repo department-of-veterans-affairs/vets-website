@@ -262,7 +262,8 @@
           }
         }
       ],
-      "view:militaryHistoryNote": {}
+      "view:militaryHistoryNote": {},
+      "separationLocation": "Andersen AFB - Air Force / Guam"
     },
     "servedInCombatZonePost911": true,
     "view:selectablePtsdTypes": {},

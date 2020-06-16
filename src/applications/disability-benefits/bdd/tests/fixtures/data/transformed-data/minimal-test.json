@@ -40,7 +40,8 @@
           "serviceBranch": "Air Force Reserve",
           "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
         }
-      ]
+      ],
+      "separationLocation": "Fort Hood"
     },
     "servedInCombatZonePost911": false,
     "standardClaim": false
