@@ -6,3 +6,6 @@ export const facilityLocatorShowCommunityCares = state =>
 
 export const facilitiesPpmsSuppressPharmacies = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressPharmacies];
+
+export const facilityLocatorFeUseV1 = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorFeUseV1];
