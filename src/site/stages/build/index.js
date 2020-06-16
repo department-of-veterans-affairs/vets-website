@@ -42,6 +42,7 @@ const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const updateExternalLinks = require('./plugins/update-external-links');
 const updateRobots = require('./plugins/update-robots');
+const emitToFiles = require('./plugins/emit-to-files');
 
 /**
  * Immediately copies the Webpack build output to a directory outside of
@@ -159,6 +160,11 @@ function build(BUILD_OPTIONS) {
   // permalinks() and navigation() filters making the variable stores uniform between inPlace()
   // and layout().
   smith.use(
+    emitToFiles(
+      path.resolve(__dirname, '../../../../build/', 'before-inPlace'),
+    ),
+  );
+  smith.use(
     inPlace({ engine: 'liquid', pattern: '*.{md,html}' }),
     'Plug the content into the templates',
   );
@@ -212,6 +218,10 @@ function build(BUILD_OPTIONS) {
       pattern: '**/*.{md,html}',
     }),
     'Apply layouts',
+  );
+
+  smith.use(
+    emitToFiles(path.resolve(__dirname, '../../../../build/', 'after-layouts')),
   );
 
   /*
