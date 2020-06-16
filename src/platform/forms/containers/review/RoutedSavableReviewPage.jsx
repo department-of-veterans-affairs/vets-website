@@ -8,11 +8,13 @@ import { withRouter } from 'react-router';
 // platform - forms - actions
 import {
   autoSaveForm,
-  saveAndRedirectToReturnUrl,
+  saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction,
+  saveErrors,
 } from 'platform/forms/save-in-progress/actions';
 
 // platform - forms components
 import ErrorMessage from 'platform/forms/components/review/ErrorMessage';
+import FailureAlert from 'platform/forms/components/common/alerts/FailureAlert';
 
 // platform - forms containers
 import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
@@ -34,6 +36,7 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 import SaveStatus from 'platform/forms/save-in-progress/SaveStatus';
 import { getFormContext } from 'platform/forms/save-in-progress/selectors';
 import DowntimeMessage from 'platform/forms/save-in-progress/DowntimeMessage';
+// import FailureAlert from '../../components/common/alerts/FailureAlert';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -47,6 +50,7 @@ const scrollToTop = () => {
   );
 };
 
+// TODO: rename variable when we revisit all submission states.
 const VALID_SUBMISSION_STATES = [
   'submitPending',
   'applicationSubmitted',
@@ -87,6 +91,17 @@ class RoutedSavableReviewPage extends Component {
     return children;
   };
 
+  hasErrorMessage = () => {
+    const { form } = this.props;
+
+    const submissionStatus = form?.submission?.status;
+
+    return (
+      submissionStatus &&
+      !VALID_SUBMISSION_STATES.includes(submissionStatus)
+    );
+  };
+
   render() {
     const {
       form,
@@ -96,12 +111,15 @@ class RoutedSavableReviewPage extends Component {
       pageList,
       path,
       route,
+      saveAndRedirectToReturnUrl,
       showLoginModal,
       toggleLoginModal,
       user,
     } = this.props;
 
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
+    const hasSavedErrors = saveErrors?.has(form?.savedStatus);
+
     return (
       <div>
         <ReviewChapters
@@ -121,25 +139,28 @@ class RoutedSavableReviewPage extends Component {
             path={path}
           >
             <ErrorMessage
-              active={form?.submission?.status}
+              active={this.hasErrorMessage()}
               location={location}
               form={form}
               route={route}
               showLoginModal={showLoginModal}
               toggleLoginModal={toggleLoginModal}
               user={user}
-            />
+            >
+              <FailureAlert
+                errorText={route?.formConfig?.errorText}
+                form={form}
+                hasSavedErrors={hasSavedErrors}
+                isLoggedIn={user?.login?.currentlyLoggedIn}
+                locationPathname={location?.pathname}
+                saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+                showLoginModal={showLoginModal}
+                toggleLoginModal={toggleLoginModal}
+                user={user}
+              />
+            </ErrorMessage>
           </SubmitController>
         </DowntimeNotification>
-        <ErrorMessage
-          active
-          location={location}
-          form={form}
-          route={route}
-          showLoginModal={showLoginModal}
-          toggleLoginModal={toggleLoginModal}
-          user={user}
-        />
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={showLoginModal}
@@ -151,7 +172,7 @@ class RoutedSavableReviewPage extends Component {
           form={form}
           user={user}
           showLoginModal={showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+          saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
           toggleLoginModal={toggleLoginModal}
         >
           {formConfig.finishLaterLinkText}
@@ -188,7 +209,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   autoSaveForm,
-  saveAndRedirectToReturnUrl,
+  saveAndRedirectToReturnUrl: saveAndRedirectToReturnUrlAction,
   toggleLoginModal: toggleLoginModalAction,
 };
 
