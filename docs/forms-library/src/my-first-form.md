@@ -48,6 +48,8 @@ yo @department-of-veterans-affairs/vets-website
 
 This will take you through a few questions as follows - 
 
-|  Question | Answer type | Sample Answer |
-|-----------|-------------|---------------|
-| What's the name of your application? | String | 'My Form' |
+|  Question | Answer type | Sample Answer | Notes |
+|-----------|-------------|---------------|-------|
+| What's the name of your application? | String | 'My Form' | This is used as the 'appName' and can be changed at any time |
+| What folder in `src/applications/` should your app live in? | String | 'new-form' | This is the folder inside `src/applications` you want your form to live in. This can be an existing folder if needed, just put the name of the existing folder if it is.
+| What should be the name of your app's entry bundle? | String | 'newForm' | This is used as the name of the entry file by React when it builds your form's HTML, CSS and JavaScript. It can be changed later if needed. |
