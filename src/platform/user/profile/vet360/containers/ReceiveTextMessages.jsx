@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { selectProfile } from 'platform/user/selectors';
+import {
+  selectProfile,
+  selectVet360MobilePhone,
+} from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
@@ -122,17 +125,11 @@ export function mapStateToProps(state, ownProps) {
   const hasError = !!isFailedTransaction(transaction);
   const isPending = !!isPendingTransaction(transaction);
   const profileState = selectProfile(state);
-  const isEmpty = !profileState.vet360.mobilePhone;
-  const isTextable =
-    !isEmpty &&
-    profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
+  const mobilePhone = selectVet360MobilePhone(state);
+  const isTextable = mobilePhone?.phoneType === VET360.PHONE_TYPE.mobilePhone;
   const isVerified = profileState.verified;
   const hideCheckbox =
-    isEmpty ||
-    !isTextable ||
-    !isEnrolledInVAHealthCare(state) ||
-    hasError ||
-    isPending;
+    !isTextable || !isEnrolledInVAHealthCare(state) || hasError || isPending;
   const transactionSuccess =
     state.vet360.transactionStatus ===
     VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
