@@ -250,6 +250,7 @@ export default function vet360(state = initialState, action) {
         modal: action.modal,
         modalData: action.modalData,
         hasUnsavedEdits: false,
+        initialFormFields: {},
       };
 
     case ADDRESS_VALIDATION_INITIALIZE:
