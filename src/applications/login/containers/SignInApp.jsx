@@ -8,6 +8,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
+import { AutoSSO } from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
 
@@ -65,6 +66,7 @@ class SignInPage extends React.Component {
 
     return (
       <main className="login">
+        <AutoSSO />
         <div className="container">
           <div className="row">
             {loggedOut && <LogoutAlert />}
