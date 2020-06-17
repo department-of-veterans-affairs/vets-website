@@ -97,8 +97,7 @@ class RoutedSavableReviewPage extends Component {
     const submissionStatus = form?.submission?.status;
 
     return (
-      submissionStatus &&
-      !VALID_SUBMISSION_STATES.includes(submissionStatus)
+      submissionStatus && !VALID_SUBMISSION_STATES.includes(submissionStatus)
     );
   };
 

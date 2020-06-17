@@ -1,5 +1,5 @@
 // libs
-import React from 'react';
+import React, { Component } from 'react';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,8 +7,11 @@ import { withRouter } from 'react-router';
 
 // platform - forms components
 
+// platform - forms containers
+import SubmitButtons from 'platform/forms/containers/review/SubmitButtons';
+
 // platform - forms-system components
-import SubmitButtons from 'platform/forms-system/src/js/review/SubmitButtons';
+// import SubmitButtons from 'platform/forms-system/src/js/review/SubmitButtons';
 import { PreSubmitSection } from 'platform/forms-system/src/js/components/PreSubmitSection';
 import { isValidForm } from 'platform/forms-system/src/js/validation';
 import {
@@ -24,7 +27,8 @@ import {
 // platform - monitoring
 import recordEvent from 'platform/monitoring/record-event';
 
-class SubmitController extends React.Component {
+// TODO: rename to something more descriptive.
+class SubmitController extends Component {
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
     const nextStatus = nextProps.form.submission.status;
