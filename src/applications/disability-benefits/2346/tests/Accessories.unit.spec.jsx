@@ -187,7 +187,7 @@ describe('Accessories', () => {
     const wrapper = mount(
       <Accessories store={fakeStoreNoEligibility5Months} />,
     );
-    expect(wrapper.find('AlertBox').length).to.equal(3);
+    expect(wrapper.find('.usa-alert-heading').length).to.equal(3);
     wrapper.unmount();
   });
   it('should display an alert box if the Veteran is not eligible to order accessories and has not ordered in the last 2 years', () => {
