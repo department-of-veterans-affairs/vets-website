@@ -17,6 +17,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible(vaAvatarMatcher, 45000)
     .assert.containsText(webchatBubbleContent, 'Before we get started')
     .click(covid19PreventionButton)
+    .assert.attributeEquals(covid19PreventionButton, 'disabled', 'true')
     .useXpath()
     .waitForElementVisible(responseBubble, Timeouts.normal)
     .assert.containsText(
