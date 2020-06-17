@@ -27,17 +27,22 @@
 
         {% include "src/site/paragraphs/phone_numbers.drupal.liquid" with numbers = about.fieldPhoneNumbersParagraph %}
 
+        {% if about.fieldLocationHours %}
         <p class="vads-u-margin-bottom--0">
         <h4>Clinical Hours </h4>
         <ul class="va-c-facility-hours-list">
-            {% for hours in about.fieldLocationHours%}
-            <li><strong>{{ hours.day | numToDay }}: </strong>
+            {% for hours in about.fieldLocationHours %}
+            <li>{% if hours.day %}<strong>{{ hours.day | numToDay }}:
+                </strong>{% endif %}
+                {% if hours.starthours > -1 and hours.endhours > -1 %}
                 {{hours.starthours | militaryTimeConvertor }} -
                 {{hours.endhours | militaryTimeConvertor }}
+                {% endif %}
                 {% if hours.comment %}{{ hours.comment }}{% endif %}</li>
             {% endfor %}
         </ul>
         </p>
+        {% endif %}
 
     </div>
     <h3>Appointments</h3>
