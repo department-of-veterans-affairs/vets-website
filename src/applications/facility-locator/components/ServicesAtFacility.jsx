@@ -201,18 +201,7 @@ class ServicesAtFacility extends Component {
           <AlertBox isVisible status="warning" content={alertContent} />
         </div>
 
-<<<<<<< HEAD
-        <div className="mb2">
-          <ul>
-            {services.health.map(
-              s =>
-                s.sl1 ? this.renderService(s.sl1[0]) : this.renderService(s),
-            )}
-          </ul>
-        </div>
-=======
         <div className="mb2">{this.renderOperations()}</div>
->>>>>>> VAVFS-9237: Adding json services endpoint for drupal data, and component handling.
       </div>
     );
   }

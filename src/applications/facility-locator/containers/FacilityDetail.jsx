@@ -15,15 +15,9 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
-<<<<<<< HEAD
 import { facilityLocatorFeUseV1 } from '../utils/selectors';
-=======
-import { facilityServiceStatus } from '../config';
-
->>>>>>> VAVFS-9237: Adding json services endpoint for drupal data, and component handling.
 
 class FacilityDetail extends Component {
-
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     const { useAPIv1 } = this.props;
@@ -41,11 +35,10 @@ class FacilityDetail extends Component {
       prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
 
     if (justLoaded) {
-
       this.__previousDocTitle = document.title;
       document.title = `${
         this.props.facility.attributes.name
-        } | Veterans Affairs`;
+      } | Veterans Affairs`;
     }
   }
 
